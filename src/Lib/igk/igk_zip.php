@@ -97,9 +97,10 @@ function igk_zip_delete($file, $entry, $close=1){
  * @param mixed $zip zip resource create with ZipArchive
  * @param string $folder destination folder
  * @param mixed $regex ignore regex
+ * @param ?bool allow_hidden_dir allow hidden directory against regex
  * @return void|array entries files
  */
-function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=null){
+function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=null, $allow_hidden_dir=true){
     if(!$zip)
         return;
     $q=0;
@@ -112,12 +113,17 @@ function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=nul
         }
         $hdir=opendir($q);
         if(is_resource($hdir)){
+            $v_hasregex = ($regex !== null);
             while($d=readdir($hdir)){
                 $f=$q."/".$d;
-                if(($d == ".") || ($d == "..") || (($d[0]=='.') && is_dir($f)) || is_link($f)){
-                    continue;
+                if( (!$v_isfolder = ($d == ".") || ($d == "..")) || ($v_is_dir = (($d[0]=='.') && is_dir($f)) ) || is_link($f)){
+                    // + ingore dir start start with '.'
+                    if ($v_isfolder || !($v_is_dir && $allow_hidden_dir)){
+                        
+                        continue;
+                    } 
                 }
-                if(($regex !== null) && preg_match($regex, $f)){
+                if($v_hasregex && preg_match($regex, $f)){
                     continue;
                 }
                 igk_is_debug() && Logger::print('Add : '.$f); 

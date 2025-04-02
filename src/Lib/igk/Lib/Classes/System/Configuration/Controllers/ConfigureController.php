@@ -1166,8 +1166,8 @@ EOF;
             $bar = $frm->addActionBar()->setStyle("margin: auto; display: flex; justify-content: space-between; ");
             $bar->addButton("connect", 1)->setClass("bmc-raise igk-winui-bmc-button")->Content = __("Connect");
             $bar->addABtn(igk_io_baseuri())->setClass("igk-pull-right")->Content = __("Back to {0}", IGKValidator::IsIpAddress(igk_server()->SERVER_NAME) ? __("Home") :  igk_sys_domain_name());
-            $root->div()->setAttribute("style", "font-size:0.8em; text-align:center")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
-            $root->div()->setClass("alignc")->addIGKCopyright();
+            $root->div()->setClass('info')->setAttribute("style", "font-size:0.8em; text-align:center")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
+            $root->footer()->setClass("footer alignc posab loc_l loc_b loc_r text-d-small")->addIGKCopyright();
             if (1 || igk_configs()->config_webauthn_required) {
                 $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
                 $frm->clearchilds();
@@ -1231,13 +1231,14 @@ EOF;
                 function () {
                     $admin_bg = IGKResourceUriResolver::getInstance()->resolve(IGK_LIB_DIR . "/Data/R/img/login_bg.jpg");
                     if ($admin_bg) {
-?><img src="<?= $admin_bg ?>" alt="admin background" class="posfix cnf-bg" style="z-index:-101; top: 0px; " /><?php
-                                                                                                            }
-                                                                                                        },
-                                                                                                        null
-                                                                                                    );
-                                                                                                    $baseuri = igk_io_baseuri();
-                                                                                                    $out = <<<EOF
+?><img src="<?= $admin_bg ?>" alt="admin background" class="posfix cnf-bg" style="z-index:-101; top: 0px; " />
+<?php
+                    }
+                },
+                null
+            );
+            $baseuri = igk_io_baseuri();
+            $out = <<<EOF
 <script type="text/javascript">if (window.ns_igk) window.ns_igk.winui.fn.close_all_frames();</script>
 <div id="connectionTag" class="igk-cnf-connexion-div google-Roboto">
 <div  style="max-width:300px;  position:relative; color:white;  display:inline-block;" >
@@ -1268,680 +1269,680 @@ EOF;
 	<div id="igk_cpv"></div>
 </div>
 EOF;
-                                                                                                    $dv = $frm->div();
-                                                                                                    $g = $dv->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode;
-                                                                                                    $g->load($out);
-                                                                                                    $i = $g->getElementById("id_board");
-                                                                                                    $c = $g->getElementById("igk_cpv");
-                                                                                                    $notz = $g->getElementById("notify-z");
-                                                                                                    if ($notz) {
-                                                                                                        $not = igk_notifyctrl("connexion:frame");
-                                                                                                        $notz->addNotifyHost("connexion:frame");
-                                                                                                    }
-                                                                                                    if (!is_object($i)) {
-                                                                                                        igk_die("/!\ not an object \$i. getElementById failed to retrieve id_board.");
-                                                                                                    }
-                                                                                                }
-                                                                                                if (!$android) {
-                                                                                                    $d = $bfrm->div()->setClass("mobilescreen dispn");
-                                                                                                    $d->div()->addSectionTitle(4)->Content = __("Login Form");
-                                                                                                    $dv = $d->div();
-                                                                                                    $form = $dv->addForm();
-                                                                                                    $form["action"] = $this->getUri("connectToConfig");
-                                                                                                    $form["method"] = "POST";
-                                                                                                    $form["class"] = "login-form";
-                                                                                                    $form->addObData(function () {
-                                                                                                        igk_html_form_init();
-                                                                                                    }, null);
-                                                                                                    $form->addFields([
-                                                                                                        "clAdmLogin" => ["type" => "text", "required" => 1, "label_text" => __("Login"),  "placeholder" => __('Admin login'), "attribs" => []],
-                                                                                                        "clAdmPwd" => ["type" => "password", "required" => 1, "label_text" => __("Password"), "placeholder" => __('Admin password'), "attribs" => []]
-                                                                                                    ]);
-                                                                                                    $acbar = $form->addActionBar();
-                                                                                                    $acbar->addSubmit("btn.submit", __("connect"));
-                                                                                                    $d->div()->Content = IGK_COPYRIGHT;
-                                                                                                }
-                                                                                                if ($c)
-                                                                                                    $c->Content = IGK_COPYRIGHT;
-                                                                                                return $bfrm;
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            protected function initTargetNode(): HtmlNode
-                                                                                            {
-                                                                                                $this->setParam(IGK_KEY_CSS_NOCLEAR, 1);
-                                                                                                $node = new HtmlConfigPageNode;
-                                                                                                //  if (igk_environment()->isDev())
-                                                                                                // $node->div()->Content = __FILE__.":".__FUNCTION__ . ": Ini Node ;";
-                                                                                                $v_cnf = igk_create_node("div")->setAttributes(array("class" => "igk-cnf-frame"));
-                                                                                                $v_cnf->add($this->getConfigMenuNode());
-                                                                                                $v_cnf->add($this->getConfigNode());
-                                                                                                $this->setConfigFrame($v_cnf);
-                                                                                                // $node->add($v_cnf); 
-                                                                                                return $node;
-                                                                                            }
-                                                                                            public function webauthn_create_get()
-                                                                                            {
-                                                                                                igk_server()->method('POST') || igk_die('not a valid request');
-                                                                                                igk_json(json_encode([
-                                                                                                    'publicKey' => [
-                                                                                                        'challenge' => 'loooqsdf'
-                                                                                                    ]
-                                                                                                ]));
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="f"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $f
-                                                                                             */
-                                                                                            public function IsFunctionExposed($f)
-                                                                                            {
-                                                                                                if (igk_is_conf_connected()) {
-                                                                                                    return ControllerExtension::IsFunctionExposed($this, $f);
-                                                                                                }
-                                                                                                return in_array(strtolower($f), [
-                                                                                                    'connecttoconfig',
-                                                                                                    'webauthn_create_get'
-                                                                                                ]);
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="redirect" default="true"></param>
-                                                                                            ///<param name="detroysession" default="true"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $redirect the default value is true
-                                                                                             * @param mixed $detroysession the default value is true
-                                                                                             */
-                                                                                            public function logout($redirect = true, $detroysession = true)
-                                                                                            {
-                                                                                                if ($this->getIsConnected()) {
-                                                                                                    $this->setConfigUser(null);
-                                                                                                    $this->setSelectedConfigCtrl(null);
-                                                                                                }
-                                                                                                if ($detroysession) {
-                                                                                                    igk_session_destroy();
-                                                                                                }
-                                                                                                if ($redirect) {
-                                                                                                    igk_navtocurrent();
-                                                                                                }
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            protected function onConfigSettingChanged()
-                                                                                            {
-                                                                                                if ($this->m_configSettingChangedEvent != null)
-                                                                                                    $this->m_configSettingChangedEvent->Call($this, null);
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            protected function onConfigUserChanged()
-                                                                                            {
-                                                                                                igk_hook(IGK_CONF_USER_CHANGE_EVENT, ["ctrl" => $this]);
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="msg"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $msg
-                                                                                             */
-                                                                                            public function onHandleSessionEvent($msg)
-                                                                                            {
-                                                                                                switch ($msg) {
-                                                                                                    case IGK_ENV_SETTING_CHANGED:
-                                                                                                        $this->checkConfigDataChanged(null);
-                                                                                                        break;
-                                                                                                }
-                                                                                            }
-                                                                                            ///<summary>preview referer result</summary>
-                                                                                            /**
-                                                                                             * preview referer result
-                                                                                             */
-                                                                                            public function preview_result_ajx()
-                                                                                            {
-                                                                                                $d = igk_create_node();
-                                                                                                if ($uri = igk_server()->HTTP_REFERER) {
-                                                                                                    $s = igk_curl_post_uri($uri);
-                                                                                                    if ($s) {
-                                                                                                        $t = HtmlReader::Load($s);
-                                                                                                        $head = igk_getv($t->getElementsByTagName("head"), 0);
-                                                                                                        $body = igk_getv($t->getElementsByTagName("body"), 0);
-                                                                                                        $tl = igk_getv($head->getElementsByTagName("title"), 0);
-                                                                                                        $d->div()->setClass("fcl-blue igk-title-5")->Content = $tl ? $tl->getInnerHtml() : "NoTitle";
-                                                                                                        $dv = $d->div();
-                                                                                                        if ($body) {
-                                                                                                            $dv->Content = igk_html_render_text_node($body);
-                                                                                                        } else {
-                                                                                                            $dv->Content = "body is null";
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        $d->content = "failed to send uri: " . $uri;
-                                                                                                    }
-                                                                                                    igk_ajx_notify_dialog("Page Result Preview", $d);
-                                                                                                }
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="navigate" default="true"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $navigate the default value is true
-                                                                                             */
-                                                                                            public function reconnect($navigate = true)
-                                                                                            {
-                                                                                                $this->ClearSessionAndReconnect($navigate);
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="ctrl"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $ctrl
-                                                                                             */
-                                                                                            public function registerConfig($ctrl)
-                                                                                            {
-                                                                                                $c = $this->getParam("m_confctrls", array());
-                                                                                                $c[$ctrl->getName()] = $ctrl;
-                                                                                            }
-                                                                                            ///<summary> override register Hook</summary>
-                                                                                            /**
-                                                                                             *  override register Hook
-                                                                                             */
-                                                                                            protected function registerHook()
-                                                                                            {
-                                                                                                igk_reg_hook(IGKEvents::HOOK_PAGEFOLDER_CHANGED, function () {
-                                                                                                    $this->_cnfPageFolderChanged($this, null);
-                                                                                                });
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="uri"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $uri
-                                                                                             */
-                                                                                            public function reloadConfig($uri)
-                                                                                            {
-                                                                                                $tab = igk_getquery_args($uri);
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="obj"></param>
-                                                                                            ///<param name="method" default="null"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $obj
-                                                                                             * @param mixed $method the default value is null
-                                                                                             */
-                                                                                            public function removeConfigSettingChangedEventt($obj, $method = null)
-                                                                                            {
-                                                                                                igk_die(__METHOD__ . " Obselete");
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="obj"></param>
-                                                                                            ///<param name="method" default="null"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $obj
-                                                                                             * @param mixed $method the default value is null
-                                                                                             * @deprecated
-                                                                                             */
-                                                                                            public function removeConfigUserChangedEvent($obj, $method = null)
-                                                                                            {
-                                                                                                igk_die(__METHOD__ . " Obselete");
-                                                                                            }
-                                                                                            ///<summary>reset configuration setting</summary>
-                                                                                            /**
-                                                                                             * reset configuration setting
-                                                                                             * @return void 
-                                                                                             * @throws IGKException 
-                                                                                             */
-                                                                                            public function resetconfig()
-                                                                                            {
-                                                                                                if (igk_qr_confirm()) {
-                                                                                                    $f = igk_io_basedatadir("/configure");
-                                                                                                    @unlink($f);
-                                                                                                    igk_getctrl(IGK_MYSQL_DB_CTRL)->initSDb(false);
-                                                                                                    $this->reconnect();
-                                                                                                } else {
-                                                                                                    $frame = igk_frame_add_confirm($this, "frame_reset_config", $this->getUri("resetconfig"));
-                                                                                                    $frame->Form->Div->Content = __("msg.confirmResetConfig");
-                                                                                                }
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="value"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $value
-                                                                                             */
-                                                                                            public function setConfigFrame($value)
-                                                                                            {
-                                                                                                $this->setEnvParam("configFrame", $value);
-                                                                                                return $this;
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="v"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $v
-                                                                                             */
-                                                                                            private function setConfigUser($v)
-                                                                                            {
-                                                                                                if ($this->getConfigUser() !== $v) {
-                                                                                                    $this->setParam(self::CFG_USER, $v);
-                                                                                                    $this->onConfigUserChanged();
-                                                                                                }
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="v"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $v
-                                                                                             */
-                                                                                            public function setConfigView($v)
-                                                                                            {
-                                                                                                $this->getConfigSettings()->ConfigView = $v;
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            ///<param name="p" default="null"></param>
-                                                                                            ///<param name="stored"></param>
-                                                                                            /**
-                                                                                             * 
-                                                                                             * @param mixed $p the default value is null
-                                                                                             * @param mixed $stored the default value is 0
-                                                                                             */
-                                                                                            public function setpage($p = null, $stored = 0)
-                                                                                            {
-                                                                                                $key = "cnf://no_reload";
-                                                                                                if (igk_get_env($key)) {
-                                                                                                    return;
-                                                                                                }
-                                                                                                if ($stored) {
-                                                                                                    igk_set_env($key, 1);
-                                                                                                }
-                                                                                                $_cv = $this->getConfigView();
-                                                                                                if (!empty($p)) {
-                                                                                                    if ($_cv != $p) {
-                                                                                                        $this->setParam("cnf://no_recallview", 1);
-                                                                                                    }
-                                                                                                    $this->setConfigView($p);
-                                                                                                } else {
-                                                                                                    $this->setConfigView(IGK_DEFAULT_VIEW);
-                                                                                                }
-                                                                                                $p = $this->getConfigView();
-                                                                                                $cnf_n = $this->getConfigNode();
-                                                                                                if ($cnf_n === null) {
-                                                                                                    $cnf_n = igk_create_node("div");
-                                                                                                    $this->ConfigNode = $cnf_n;
-                                                                                                }
-                                                                                                $cnf_n->clearChilds();
-                                                                                                $cnf_n->notifyhost(); //igk_notify_sethost($cnf_n->div()); 
-                                                                                                $args = ["ctrl" => $this, "app" => igk_app()];
-                                                                                                switch ($p) {
-                                                                                                    case "configurationmenusetting":
-                                                                                                        $this->SelectedConfigCtrl = null;
-                                                                                                        $this->_selectMenu("ConfigurationMenuSetting", "IGKConfigCtrl::setpage");
-                                                                                                        $div = $cnf_n->div();
-                                                                                                        $this->_view_ConfigMenuSetting($div);
-                                                                                                        break;
-                                                                                                    case "phpinfo":
-                                                                                                        $this->_selectMenu("phpinfo", "IGKConfigCtrl::setpage");
-                                                                                                        $cnf_n->h1()->Content = __("PHPInfo");
-                                                                                                        $cnf_n->div()
-                                                                                                            ->setClass("igk-cnf-php-info-container")
-                                                                                                            ->ajxuriloader($this->getUri("getphpinfo"));
-                                                                                                        break;
-                                                                                                    case "serverinfo":
-                                                                                                        $this->_selectMenu("serverinfo", "IGKConfigCtrl::setpage");
-                                                                                                        extract($args);
-                                                                                                        if ($f = $this->getViewFile("config.server_info.phtml")) {
-                                                                                                            @include($f);
-                                                                                                        }
-                                                                                                        break;
-                                                                                                    case IGK_DEFAULT_VIEW:
-                                                                                                        extract($args);
-                                                                                                        if (is_file($f = $this->getViewFile("config.default_page.phtml"))) {
-                                                                                                            include($f);
-                                                                                                        } else {
-                                                                                                            igk_dev_wln_e("missing defaut page.... " . $f);
-                                                                                                        }
-                                                                                                        igk_set_env($key, 1);
-                                                                                                        break;
-                                                                                                    default:
-                                                                                                        igk_dev_wln_e("no page. handle");
-                                                                                                        break;
-                                                                                                }
-                                                                                            }
-                                                                                            ///set selected menu config
-                                                                                            ///$ctrl = selected config controller
-                                                                                            ///$menuname = menu name
-                                                                                            ///$context = from context. info
-                                                                                            /**
-                                                                                             */
-                                                                                            public function setSelectedConfigCtrl($ctrl, $fromContext = null)
-                                                                                            {
-                                                                                                $_select = $this->getSelectedConfigCtrl();
-                                                                                                if ($_select !== $ctrl) {
-                                                                                                    $this->getConfigSettings()->SelectedController = $ctrl ? $ctrl->getName() : null;
-                                                                                                    if ($ctrl && ($cp = $ctrl->getConfigPage())) {
-                                                                                                        $this->_loadSystemConfig();
-                                                                                                        $this->_selectMenu($cp, ConfigureController::class);
-                                                                                                    }
-                                                                                                }
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function show_configuration_menu_setting()
-                                                                                            {
-                                                                                                $this->SelectedConfigCtrl = null;
-                                                                                                $this->setpage("configurationmenusetting", 1);
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function show_phpinfo()
-                                                                                            {
-                                                                                                $this->SelectedConfigCtrl = null;
-                                                                                                $this->setpage("phpinfo", 1);
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function show_serverinfo()
-                                                                                            {
-                                                                                                $this->SelectedConfigCtrl = null;
-                                                                                                $this->setpage("serverinfo", 1);
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function showConfig()
-                                                                                            {
-                                                                                                $this->View();
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function startconfig()
-                                                                                            {
-                                                                                                $q = base64_decode(igk_getr("q"));
-                                                                                                $ajx = igk_getr("ajx");
-                                                                                                $tab = igk_getquery_args($q);
-                                                                                                $u = (object)array("clLogin" => $tab["u"], "clPwd" => $tab["pwd"]);
-                                                                                                $v = $this->check_connect($u);
-                                                                                                if ($v) {
-                                                                                                    $this->initTargetNode();
-                                                                                                    $this->setConfigUser(igk_sys_create_user($u));
-                                                                                                    $ctrl = igk_getctrl(igk_getv($tab, "selectedCtrl", IGK_CONF_CTRL));
-                                                                                                    $p = igk_getv($tab, "selectPage", IGK_DEFAULT_VIEW);
-                                                                                                    if ($ctrl) {
-                                                                                                        $ctrl->showConfig();
-                                                                                                    } else {
-                                                                                                        $this->ShowConfig();
-                                                                                                    }
-                                                                                                    if (igk_getr("navigate", 1)) {
-                                                                                                        if (!$ajx) {
-                                                                                                            $uri = igk_io_baseuri(igk_getv(explode('?', igk_getv($tab, "baseUri", igk_io_baseuri())), 0));
-                                                                                                            igk_navto($uri);
-                                                                                                            igk_exit();
-                                                                                                        } else {
-                                                                                                            if ($ctrl) {
-                                                                                                                $ctrl->TargetNode->renderAJX();
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    igk_notifyctrl()->addErrorr("err.failedtoconnect");
-                                                                                                }
-                                                                                                igk_navtocurrent();
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function test_send_mail()
-                                                                                            {
-                                                                                                $this->_send_notification_mail();
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function update_adminpwd()
-                                                                                            {
-                                                                                                $d = igk_getr("passadmin");
-                                                                                                if ($d && (strlen($d) >= IGK_MAX_CONFIG_PWD_LENGHT)) {
-                                                                                                    igk_configs()->admin_pwd = md5($d);
-                                                                                                    igk_save_config();
-                                                                                                    igk_resetr();
-                                                                                                    igk_notifyctrl(__FUNCTION__)->addSuccessr("msg.pwdupdated");
-                                                                                                } else {
-                                                                                                    igk_notifyctrl(__FUNCTION__)->addErrorr("e.adminpwdnotupdated");
-                                                                                                }
-                                                                                                $this->View();
-                                                                                                igk_navtocurrent("/#adminpwd-form");
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function update_default_tagname()
-                                                                                            {
-                                                                                                $s = igk_getr("cldefault_node_tagname", "div");
-                                                                                                if (!empty($s))
-                                                                                                    igk_configs()->app_default_controller_tag_name = $s;
-                                                                                                igk_save_config();
-                                                                                                igk_resetr();
-                                                                                                $this->View();
-                                                                                                igk_notifyctrl()->setNotifyHost(null);
-                                                                                                igk_notifyctrl()->addMsgr("msg.ConfigOptionsUpdated");
-                                                                                                igk_navtocurrent();
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * 
-                                                                                             */
-                                                                                            public function update_defaultlang()
-                                                                                            {
-                                                                                                $app = igk_app();
-                                                                                                $cnf = $app->getConfigs();
-                                                                                                $cnf->default_lang = igk_getr("cldefaultLang", "Fr");
-                                                                                                igk_save_config();
-                                                                                                igk_notifyctrl()->addMsgr("msg.update_defaultlang");
-                                                                                                $this->View();
-                                                                                                igk_navtocurrent('?l=' . $cnf->default_lang);
-                                                                                            }
-                                                                                            public function getCtrlFile($path)
-                                                                                            {
-                                                                                                if (igk_realpath($path) == $path)
-                                                                                                    return $path;
-                                                                                                return igk_dir(IGK_LIB_DIR . DIRECTORY_SEPARATOR . $path);
-                                                                                            }
-                                                                                            public function getStylesDir()
-                                                                                            {
-                                                                                                return igk_dir(IGK_LIB_DIR . "/Styles");
-                                                                                            }
-                                                                                            ///<summary>update domain configuration settings</summary>
-                                                                                            /**
-                                                                                             * update domain configuration settings
-                                                                                             */
-                                                                                            public function update_domain_setting()
-                                                                                            {
-                                                                                                $d = igk_getr("website_domain", IGK_DOMAIN);
-                                                                                                $title = igk_getr("website_title");
-                                                                                                $prefix = igk_getr("website_prefix");
-                                                                                                $app = igk_app();
-                                                                                                if ($d && strlen($d) && igk_is_domain_name($d)) {
-                                                                                                    $app->getConfigs()->website_domain = $d;
-                                                                                                    //IGKSubDomainManager::StoreBaseDomain($this, $d);
-                                                                                                }
-                                                                                                $app->getConfigs()->website_title = $title;
-                                                                                                $app->getConfigs()->website_prefix = $prefix;
-                                                                                                $app->getConfigs()->website_adminmail = igk_getr("website_adminmail", null);
-                                                                                                $app->getConfigs()->company_name = igk_getr("company_name");
-                                                                                                igk_io_save_file_as_utf8_wbom(igk_io_applicationdatadir() . "/domain.conf", $d, true);
-                                                                                                if (igk_save_config()) {
-                                                                                                    igk_notifyctrl()->addSuccessr("msg.settingupdate");
-                                                                                                } else {
-                                                                                                    igk_notifyctrl()->addError(__("failed to store configuration"));
-                                                                                                }
-                                                                                                $this->View();
-                                                                                                igk_navtocurrent();
-                                                                                            }
-                                                                                            ///<summary>get configuration extra data</summary>
-                                                                                            /**
-                                                                                             * get configuration extra data
-                                                                                             * @return array 
-                                                                                             */
-                                                                                            private static function GetConfigEntryData()
-                                                                                            {
-                                                                                                $v_conf_path = igk_server()->getConfigurationPath();
-                                                                                                $s = "^{$v_conf_path}(/:lang)?(" . IGK_REG_ACTION_METH_OPTIONS . ")?";
-                                                                                                $uri = igk_io_request_uri();
-                                                                                                $b = igk_sys_ac_create_pattern(null, $uri, $s);
-                                                                                                if ($b->matche($uri)) {
-                                                                                                    return $b->getQueryParams();
-                                                                                                }
-                                                                                                return [];
-                                                                                            }
-                                                                                            ///<summary>base configuration view</summary>
-                                                                                            /**
-                                                                                             * base configuration view
-                                                                                             */
-                                                                                            public function View(): BaseController
-                                                                                            {
-                                                                                                if (!$this->getIsVisible() || igk_get_env(IGK_KEY_VIEW_FORCED)) {
-                                                                                                    return $this;
-                                                                                                }
-                                                                                                $data = $this->getEnvParam("CNFDATA") ?? self::GetConfigEntryData();
-                                                                                                if (isset($data["lang"]) && !empty($data["lang"])) {
-                                                                                                    igk_ctrl_change_lang($this, $data);
-                                                                                                }
-                                                                                                $this->setEnvParam("cnf_query_options", $data);
-                                                                                                if (($t = $this->getTargetNode()) == null) {
-                                                                                                    igk_die("target node for config not initialized");
-                                                                                                }
-                                                                                                if (is_string($t)) {
-                                                                                                    igk_die("bad for " . get_class($this));
-                                                                                                }
-                                                                                                $menuctrl = igk_getctrl(IGK_MENU_CTRL);
-                                                                                                $app = igk_app();
-                                                                                                $bbox = $app->getDoc()->getBody()->getBodyBox();
-                                                                                                $bbox->clearChilds();
-                                                                                                switch ($app->CurrentPageFolder) {
-                                                                                                    case IGK_CONFIG_MODE:
-                                                                                                        $s = "-igk-client-page +igk-cnf-body +google-Roboto";
-                                                                                                        if (igk_is_conf_connected()) {
-                                                                                                            $s .= " dashboard";
-                                                                                                        }
-                                                                                                        igk_environment()->no_cache = 1;
-                                                                                                        $app->getDoc()->getBody()->setClass($s);
-                                                                                                        $bbox->add($t);
-                                                                                                        igk_app()->settings->appInfo->store("config", 1);
-                                                                                                        break;
-                                                                                                    default:
-                                                                                                        $app->getDoc()->getBody()["class"] = "+igk-client-page -igk-cnf-body -google-Roboto";
-                                                                                                        igk_app()->settings->appInfo->store("config", null);
-                                                                                                        return $this;
-                                                                                                }
-                                                                                                $t->clearChilds();
-                                                                                                if ($this->getIsAvailable()) {
-                                                                                                    if (igk_agent_isie() && igk_agent_ieversion() < 7) {
-                                                                                                        $this->__NoIE6supportView();
-                                                                                                        return $this;
-                                                                                                    }
-                                                                                                    // + | -------------------------------------------------------------
-                                                                                                    // + | include configuration style
-                                                                                                    // + |
-                                                                                                    if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
-                                                                                                        // add - in temp file will make base theme to renderering on configuration 
-                                                                                                        $doc = $app->getDoc();
-                                                                                                        $coredef = $doc->getTheme(false);
-                                                                                                        // + | disable flag to set 
-                                                                                                        $gdef = $coredef->getDef();
-                                                                                                        $gdef->setStyleFlag(IGKCssDefaultStyle::ST_NO_THEME_RENDERING_FLAG,  true);
-                                                                                                        $gdef->setStyleFlag('page', 'configs');
-                                                                                                        $theme = $app->getDoc()->getTheme();
-                                                                                                        $theme->addTempFile($f);
-                                                                                                    }
-                                                                                                    if (!$this->getIsConnected()) {
-                                                                                                        // $v_conf_path = igk_io_basedir().igk_server()->getConfigurationPath();
-                                                                                                        $v_conf_path = igk_io_baseuri() . igk_server()->getConfigurationPath();
-                                                                                                        igk_io_protect_request($v_conf_path);
-                                                                                                        $cnode = $this->initConnexionNode();
-                                                                                                        $t->addNotifyHost();
-                                                                                                        $t["class"] = "+con-start";
-                                                                                                        $t->add($cnode);
-                                                                                                        $this->setEnvParam(self::CONNEXION_FRAME, $cnode);
-                                                                                                    } else {
-                                                                                                        $menuctrl->setConfigParentView($this->getConfigMenuNode());
-                                                                                                        $cnode = $this->getEnvParam(self::CONNEXION_FRAME);
-                                                                                                        if ($cnode) {
-                                                                                                            igk_html_rm($cnode, true);
-                                                                                                            $this->setEnvParam(self::CONNEXION_FRAME, null);
-                                                                                                        }
-                                                                                                        $this->setEnvParam(IGK_KEY_CSS_NOCLEAR, 1);
-                                                                                                        $this->_include_view_file("config.layout");
-                                                                                                        $this->setEnvParam(IGK_KEY_CSS_NOCLEAR, 0);
-                                                                                                        $v_cctrl = $this->getSelectedConfigCtrl();
-                                                                                                        if (is_null($v_cctrl)) {
-                                                                                                            $this->setpage();
-                                                                                                        } else {
-                                                                                                            if (igk_get_env("sys://config/selectedview") !== $v_cctrl) {
-                                                                                                                $tab = $this->getEnvParam("cnf_query_options");
-                                                                                                                $g = igk_pattern_view_extract($v_cctrl, $tab, 1);
-                                                                                                                $v_cctrl->regSystemVars(array_merge(isset($g["c"]) ? [$g["c"]] : [], is_array($v_t = igk_getv($g, "param")) ? $v_t : []), igk_getv($g, "query_options"));
-                                                                                                                $v_cctrl->showConfig();
-                                                                                                            }
-                                                                                                        }
-                                                                                                    }
-                                                                                                }
-                                                                                                $this->_onViewComplete();
-                                                                                                return $this;
-                                                                                            }
-                                                                                            ///<summary></summary>
-                                                                                            /**
-                                                                                             * view logs
-                                                                                             */
-                                                                                            public function viewLogs()
-                                                                                            {
-                                                                                                $log = igk_ilog_file();
-                                                                                                $d = igk_create_xmlnode("div");
-                                                                                                $html = igk_create_notagnode();
-                                                                                                $d["class"] = "logview";
-                                                                                                $d["style"] = "max-height:420px; overflow:auto";
-                                                                                                $d->add($html);
-                                                                                                if (file_exists($log)) {
-                                                                                                    $tab = explode(IGK_LF, igk_io_read_allfile($log));
-                                                                                                    $dv = $d->add("div");
-                                                                                                    foreach ($tab as $line) {
-                                                                                                        $dv->li()->Content = $line;
-                                                                                                    }
-                                                                                                } else {
-                                                                                                    $html->panelbox()->setClass("igk-danger")->Content = __("No log found");
-                                                                                                }
-                                                                                                if (igk_is_ajx_demand()) {
-                                                                                                    igk_ajx_panel_dialog(__("logs"), $d);
-                                                                                                    igk_exit();
-                                                                                                }
-                                                                                                return $d;
-                                                                                            }
-                                                                                            public function runcron()
-                                                                                            {
-                                                                                                if (!igk_is_conf_connected()) {
-                                                                                                    throw new NotAllowedRequestException();
-                                                                                                }
-                                                                                                $job = new CronJob();
-                                                                                                $c = $job->execute();
-                                                                                                igk_notifyctrl("run:cron")->addMsg("cron executed", $c);
-                                                                                                igk_navto_referer();
-                                                                                            }
-                                                                                        }
+            $dv = $frm->div();
+            $g = $dv->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode;
+            $g->load($out);
+            $i = $g->getElementById("id_board");
+            $c = $g->getElementById("igk_cpv");
+            $notz = $g->getElementById("notify-z");
+            if ($notz) {
+                $not = igk_notifyctrl("connexion:frame");
+                $notz->addNotifyHost("connexion:frame");
+            }
+            if (!is_object($i)) {
+                igk_die("/!\ not an object \$i. getElementById failed to retrieve id_board.");
+            }
+        }
+        if (!$android) {
+            $d = $bfrm->div()->setClass("mobilescreen dispn");
+            $d->div()->addSectionTitle(4)->Content = __("Login Form");
+            $dv = $d->div();
+            $form = $dv->addForm();
+            $form["action"] = $this->getUri("connectToConfig");
+            $form["method"] = "POST";
+            $form["class"] = "login-form";
+            $form->addObData(function () {
+                igk_html_form_init();
+            }, null);
+            $form->addFields([
+                "clAdmLogin" => ["type" => "text", "required" => 1, "label_text" => __("Login"),  "placeholder" => __('Admin login'), "attribs" => []],
+                "clAdmPwd" => ["type" => "password", "required" => 1, "label_text" => __("Password"), "placeholder" => __('Admin password'), "attribs" => []]
+            ]);
+            $acbar = $form->addActionBar();
+            $acbar->addSubmit("btn.submit", __("connect"));
+            $d->div()->Content = IGK_COPYRIGHT;
+        }
+        if ($c)
+            $c->Content = IGK_COPYRIGHT;
+        return $bfrm;
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    protected function initTargetNode(): HtmlNode
+    {
+        $this->setParam(IGK_KEY_CSS_NOCLEAR, 1);
+        $node = new HtmlConfigPageNode;
+        //  if (igk_environment()->isDev())
+        // $node->div()->Content = __FILE__.":".__FUNCTION__ . ": Ini Node ;";
+        $v_cnf = igk_create_node("div")->setAttributes(array("class" => "igk-cnf-frame"));
+        $v_cnf->add($this->getConfigMenuNode());
+        $v_cnf->add($this->getConfigNode());
+        $this->setConfigFrame($v_cnf);
+        // $node->add($v_cnf); 
+        return $node;
+    }
+    public function webauthn_create_get()
+    {
+        igk_server()->method('POST') || igk_die('not a valid request');
+        igk_json(json_encode([
+            'publicKey' => [
+                'challenge' => 'loooqsdf'
+            ]
+        ]));
+    }
+    ///<summary></summary>
+    ///<param name="f"></param>
+    /**
+     * 
+     * @param mixed $f
+     */
+    public function IsFunctionExposed($f)
+    {
+        if (igk_is_conf_connected()) {
+            return ControllerExtension::IsFunctionExposed($this, $f);
+        }
+        return in_array(strtolower($f), [
+            'connecttoconfig',
+            'webauthn_create_get'
+        ]);
+    }
+    ///<summary></summary>
+    ///<param name="redirect" default="true"></param>
+    ///<param name="detroysession" default="true"></param>
+    /**
+     * 
+     * @param mixed $redirect the default value is true
+     * @param mixed $detroysession the default value is true
+     */
+    public function logout($redirect = true, $detroysession = true)
+    {
+        if ($this->getIsConnected()) {
+            $this->setConfigUser(null);
+            $this->setSelectedConfigCtrl(null);
+        }
+        if ($detroysession) {
+            igk_session_destroy();
+        }
+        if ($redirect) {
+            igk_navtocurrent();
+        }
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    protected function onConfigSettingChanged()
+    {
+        if ($this->m_configSettingChangedEvent != null)
+            $this->m_configSettingChangedEvent->Call($this, null);
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    protected function onConfigUserChanged()
+    {
+        igk_hook(IGK_CONF_USER_CHANGE_EVENT, ["ctrl" => $this]);
+    }
+    ///<summary></summary>
+    ///<param name="msg"></param>
+    /**
+     * 
+     * @param mixed $msg
+     */
+    public function onHandleSessionEvent($msg)
+    {
+        switch ($msg) {
+            case IGK_ENV_SETTING_CHANGED:
+                $this->checkConfigDataChanged(null);
+                break;
+        }
+    }
+    ///<summary>preview referer result</summary>
+    /**
+     * preview referer result
+     */
+    public function preview_result_ajx()
+    {
+        $d = igk_create_node();
+        if ($uri = igk_server()->HTTP_REFERER) {
+            $s = igk_curl_post_uri($uri);
+            if ($s) {
+                $t = HtmlReader::Load($s);
+                $head = igk_getv($t->getElementsByTagName("head"), 0);
+                $body = igk_getv($t->getElementsByTagName("body"), 0);
+                $tl = igk_getv($head->getElementsByTagName("title"), 0);
+                $d->div()->setClass("fcl-blue igk-title-5")->Content = $tl ? $tl->getInnerHtml() : "NoTitle";
+                $dv = $d->div();
+                if ($body) {
+                    $dv->Content = igk_html_render_text_node($body);
+                } else {
+                    $dv->Content = "body is null";
+                }
+            } else {
+                $d->content = "failed to send uri: " . $uri;
+            }
+            igk_ajx_notify_dialog("Page Result Preview", $d);
+        }
+    }
+    ///<summary></summary>
+    ///<param name="navigate" default="true"></param>
+    /**
+     * 
+     * @param mixed $navigate the default value is true
+     */
+    public function reconnect($navigate = true)
+    {
+        $this->ClearSessionAndReconnect($navigate);
+    }
+    ///<summary></summary>
+    ///<param name="ctrl"></param>
+    /**
+     * 
+     * @param mixed $ctrl
+     */
+    public function registerConfig($ctrl)
+    {
+        $c = $this->getParam("m_confctrls", array());
+        $c[$ctrl->getName()] = $ctrl;
+    }
+    ///<summary> override register Hook</summary>
+    /**
+     *  override register Hook
+     */
+    protected function registerHook()
+    {
+        igk_reg_hook(IGKEvents::HOOK_PAGEFOLDER_CHANGED, function () {
+            $this->_cnfPageFolderChanged($this, null);
+        });
+    }
+    ///<summary></summary>
+    ///<param name="uri"></param>
+    /**
+     * 
+     * @param mixed $uri
+     */
+    public function reloadConfig($uri)
+    {
+        $tab = igk_getquery_args($uri);
+    }
+    ///<summary></summary>
+    ///<param name="obj"></param>
+    ///<param name="method" default="null"></param>
+    /**
+     * 
+     * @param mixed $obj
+     * @param mixed $method the default value is null
+     */
+    public function removeConfigSettingChangedEventt($obj, $method = null)
+    {
+        igk_die(__METHOD__ . " Obselete");
+    }
+    ///<summary></summary>
+    ///<param name="obj"></param>
+    ///<param name="method" default="null"></param>
+    /**
+     * 
+     * @param mixed $obj
+     * @param mixed $method the default value is null
+     * @deprecated
+     */
+    public function removeConfigUserChangedEvent($obj, $method = null)
+    {
+        igk_die(__METHOD__ . " Obselete");
+    }
+    ///<summary>reset configuration setting</summary>
+    /**
+     * reset configuration setting
+     * @return void 
+     * @throws IGKException 
+     */
+    public function resetconfig()
+    {
+        if (igk_qr_confirm()) {
+            $f = igk_io_basedatadir("/configure");
+            @unlink($f);
+            igk_getctrl(IGK_MYSQL_DB_CTRL)->initSDb(false);
+            $this->reconnect();
+        } else {
+            $frame = igk_frame_add_confirm($this, "frame_reset_config", $this->getUri("resetconfig"));
+            $frame->Form->Div->Content = __("msg.confirmResetConfig");
+        }
+    }
+    ///<summary></summary>
+    ///<param name="value"></param>
+    /**
+     * 
+     * @param mixed $value
+     */
+    public function setConfigFrame($value)
+    {
+        $this->setEnvParam("configFrame", $value);
+        return $this;
+    }
+    ///<summary></summary>
+    ///<param name="v"></param>
+    /**
+     * 
+     * @param mixed $v
+     */
+    private function setConfigUser($v)
+    {
+        if ($this->getConfigUser() !== $v) {
+            $this->setParam(self::CFG_USER, $v);
+            $this->onConfigUserChanged();
+        }
+    }
+    ///<summary></summary>
+    ///<param name="v"></param>
+    /**
+     * 
+     * @param mixed $v
+     */
+    public function setConfigView($v)
+    {
+        $this->getConfigSettings()->ConfigView = $v;
+    }
+    ///<summary></summary>
+    ///<param name="p" default="null"></param>
+    ///<param name="stored"></param>
+    /**
+     * 
+     * @param mixed $p the default value is null
+     * @param mixed $stored the default value is 0
+     */
+    public function setpage($p = null, $stored = 0)
+    {
+        $key = "cnf://no_reload";
+        if (igk_get_env($key)) {
+            return;
+        }
+        if ($stored) {
+            igk_set_env($key, 1);
+        }
+        $_cv = $this->getConfigView();
+        if (!empty($p)) {
+            if ($_cv != $p) {
+                $this->setParam("cnf://no_recallview", 1);
+            }
+            $this->setConfigView($p);
+        } else {
+            $this->setConfigView(IGK_DEFAULT_VIEW);
+        }
+        $p = $this->getConfigView();
+        $cnf_n = $this->getConfigNode();
+        if ($cnf_n === null) {
+            $cnf_n = igk_create_node("div");
+            $this->ConfigNode = $cnf_n;
+        }
+        $cnf_n->clearChilds();
+        $cnf_n->notifyhost(); //igk_notify_sethost($cnf_n->div()); 
+        $args = ["ctrl" => $this, "app" => igk_app()];
+        switch ($p) {
+            case "configurationmenusetting":
+                $this->SelectedConfigCtrl = null;
+                $this->_selectMenu("ConfigurationMenuSetting", "IGKConfigCtrl::setpage");
+                $div = $cnf_n->div();
+                $this->_view_ConfigMenuSetting($div);
+                break;
+            case "phpinfo":
+                $this->_selectMenu("phpinfo", "IGKConfigCtrl::setpage");
+                $cnf_n->h1()->Content = __("PHPInfo");
+                $cnf_n->div()
+                    ->setClass("igk-cnf-php-info-container")
+                    ->ajxuriloader($this->getUri("getphpinfo"));
+                break;
+            case "serverinfo":
+                $this->_selectMenu("serverinfo", "IGKConfigCtrl::setpage");
+                extract($args);
+                if ($f = $this->getViewFile("config.server_info.phtml")) {
+                    @include($f);
+                }
+                break;
+            case IGK_DEFAULT_VIEW:
+                extract($args);
+                if (is_file($f = $this->getViewFile("config.default_page.phtml"))) {
+                    include($f);
+                } else {
+                    igk_dev_wln_e("missing defaut page.... " . $f);
+                }
+                igk_set_env($key, 1);
+                break;
+            default:
+                igk_dev_wln_e("no page. handle");
+                break;
+        }
+    }
+    ///set selected menu config
+    ///$ctrl = selected config controller
+    ///$menuname = menu name
+    ///$context = from context. info
+    /**
+     */
+    public function setSelectedConfigCtrl($ctrl, $fromContext = null)
+    {
+        $_select = $this->getSelectedConfigCtrl();
+        if ($_select !== $ctrl) {
+            $this->getConfigSettings()->SelectedController = $ctrl ? $ctrl->getName() : null;
+            if ($ctrl && ($cp = $ctrl->getConfigPage())) {
+                $this->_loadSystemConfig();
+                $this->_selectMenu($cp, ConfigureController::class);
+            }
+        }
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function show_configuration_menu_setting()
+    {
+        $this->SelectedConfigCtrl = null;
+        $this->setpage("configurationmenusetting", 1);
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function show_phpinfo()
+    {
+        $this->SelectedConfigCtrl = null;
+        $this->setpage("phpinfo", 1);
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function show_serverinfo()
+    {
+        $this->SelectedConfigCtrl = null;
+        $this->setpage("serverinfo", 1);
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function showConfig()
+    {
+        $this->View();
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function startconfig()
+    {
+        $q = base64_decode(igk_getr("q"));
+        $ajx = igk_getr("ajx");
+        $tab = igk_getquery_args($q);
+        $u = (object)array("clLogin" => $tab["u"], "clPwd" => $tab["pwd"]);
+        $v = $this->check_connect($u);
+        if ($v) {
+            $this->initTargetNode();
+            $this->setConfigUser(igk_sys_create_user($u));
+            $ctrl = igk_getctrl(igk_getv($tab, "selectedCtrl", IGK_CONF_CTRL));
+            $p = igk_getv($tab, "selectPage", IGK_DEFAULT_VIEW);
+            if ($ctrl) {
+                $ctrl->showConfig();
+            } else {
+                $this->ShowConfig();
+            }
+            if (igk_getr("navigate", 1)) {
+                if (!$ajx) {
+                    $uri = igk_io_baseuri(igk_getv(explode('?', igk_getv($tab, "baseUri", igk_io_baseuri())), 0));
+                    igk_navto($uri);
+                    igk_exit();
+                } else {
+                    if ($ctrl) {
+                        $ctrl->TargetNode->renderAJX();
+                    }
+                }
+            }
+        } else {
+            igk_notifyctrl()->addErrorr("err.failedtoconnect");
+        }
+        igk_navtocurrent();
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function test_send_mail()
+    {
+        $this->_send_notification_mail();
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function update_adminpwd()
+    {
+        $d = igk_getr("passadmin");
+        if ($d && (strlen($d) >= IGK_MAX_CONFIG_PWD_LENGHT)) {
+            igk_configs()->admin_pwd = md5($d);
+            igk_save_config();
+            igk_resetr();
+            igk_notifyctrl(__FUNCTION__)->addSuccessr("msg.pwdupdated");
+        } else {
+            igk_notifyctrl(__FUNCTION__)->addErrorr("e.adminpwdnotupdated");
+        }
+        $this->View();
+        igk_navtocurrent("/#adminpwd-form");
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function update_default_tagname()
+    {
+        $s = igk_getr("cldefault_node_tagname", "div");
+        if (!empty($s))
+            igk_configs()->app_default_controller_tag_name = $s;
+        igk_save_config();
+        igk_resetr();
+        $this->View();
+        igk_notifyctrl()->setNotifyHost(null);
+        igk_notifyctrl()->addMsgr("msg.ConfigOptionsUpdated");
+        igk_navtocurrent();
+    }
+    ///<summary></summary>
+    /**
+     * 
+     */
+    public function update_defaultlang()
+    {
+        $app = igk_app();
+        $cnf = $app->getConfigs();
+        $cnf->default_lang = igk_getr("cldefaultLang", "Fr");
+        igk_save_config();
+        igk_notifyctrl()->addMsgr("msg.update_defaultlang");
+        $this->View();
+        igk_navtocurrent('?l=' . $cnf->default_lang);
+    }
+    public function getCtrlFile($path)
+    {
+        if (igk_realpath($path) == $path)
+            return $path;
+        return igk_dir(IGK_LIB_DIR . DIRECTORY_SEPARATOR . $path);
+    }
+    public function getStylesDir()
+    {
+        return igk_dir(IGK_LIB_DIR . "/Styles");
+    }
+    ///<summary>update domain configuration settings</summary>
+    /**
+     * update domain configuration settings
+     */
+    public function update_domain_setting()
+    {
+        $d = igk_getr("website_domain", IGK_DOMAIN);
+        $title = igk_getr("website_title");
+        $prefix = igk_getr("website_prefix");
+        $app = igk_app();
+        if ($d && strlen($d) && igk_is_domain_name($d)) {
+            $app->getConfigs()->website_domain = $d;
+            //IGKSubDomainManager::StoreBaseDomain($this, $d);
+        }
+        $app->getConfigs()->website_title = $title;
+        $app->getConfigs()->website_prefix = $prefix;
+        $app->getConfigs()->website_adminmail = igk_getr("website_adminmail", null);
+        $app->getConfigs()->company_name = igk_getr("company_name");
+        igk_io_save_file_as_utf8_wbom(igk_io_applicationdatadir() . "/domain.conf", $d, true);
+        if (igk_save_config()) {
+            igk_notifyctrl()->addSuccessr("msg.settingupdate");
+        } else {
+            igk_notifyctrl()->addError(__("failed to store configuration"));
+        }
+        $this->View();
+        igk_navtocurrent();
+    }
+    ///<summary>get configuration extra data</summary>
+    /**
+     * get configuration extra data
+     * @return array 
+     */
+    private static function GetConfigEntryData()
+    {
+        $v_conf_path = igk_server()->getConfigurationPath();
+        $s = "^{$v_conf_path}(/:lang)?(" . IGK_REG_ACTION_METH_OPTIONS . ")?";
+        $uri = igk_io_request_uri();
+        $b = igk_sys_ac_create_pattern(null, $uri, $s);
+        if ($b->matche($uri)) {
+            return $b->getQueryParams();
+        }
+        return [];
+    }
+    ///<summary>base configuration view</summary>
+    /**
+     * base configuration view
+     */
+    public function View(): BaseController
+    {
+        if (!$this->getIsVisible() || igk_get_env(IGK_KEY_VIEW_FORCED)) {
+            return $this;
+        }
+        $data = $this->getEnvParam("CNFDATA") ?? self::GetConfigEntryData();
+        if (isset($data["lang"]) && !empty($data["lang"])) {
+            igk_ctrl_change_lang($this, $data);
+        }
+        $this->setEnvParam("cnf_query_options", $data);
+        if (($t = $this->getTargetNode()) == null) {
+            igk_die("target node for config not initialized");
+        }
+        if (is_string($t)) {
+            igk_die("bad for " . get_class($this));
+        }
+        $menuctrl = igk_getctrl(IGK_MENU_CTRL);
+        $app = igk_app();
+        $bbox = $app->getDoc()->getBody()->getBodyBox();
+        $bbox->clearChilds();
+        switch ($app->CurrentPageFolder) {
+            case IGK_CONFIG_MODE:
+                $s = "-igk-client-page +igk-cnf-body +google-Roboto";
+                if (igk_is_conf_connected()) {
+                    $s .= " dashboard";
+                }
+                igk_environment()->no_cache = 1;
+                $app->getDoc()->getBody()->setClass($s);
+                $bbox->add($t);
+                igk_app()->settings->appInfo->store("config", 1);
+                break;
+            default:
+                $app->getDoc()->getBody()["class"] = "+igk-client-page -igk-cnf-body -google-Roboto";
+                igk_app()->settings->appInfo->store("config", null);
+                return $this;
+        }
+        $t->clearChilds();
+        if ($this->getIsAvailable()) {
+            if (igk_agent_isie() && igk_agent_ieversion() < 7) {
+                $this->__NoIE6supportView();
+                return $this;
+            }
+            // + | -------------------------------------------------------------
+            // + | include configuration style
+            // + |
+            if ($f = igk_realpath($this->getStylesDir() . "/config.pcss")) {
+                // add - in temp file will make base theme to renderering on configuration 
+                $doc = $app->getDoc();
+                $coredef = $doc->getTheme(false);
+                // + | disable flag to set 
+                $gdef = $coredef->getDef();
+                $gdef->setStyleFlag(IGKCssDefaultStyle::ST_NO_THEME_RENDERING_FLAG,  true);
+                $gdef->setStyleFlag('page', 'configs');
+                $theme = $app->getDoc()->getTheme();
+                $theme->addTempFile($f);
+            }
+            if (!$this->getIsConnected()) {
+                // $v_conf_path = igk_io_basedir().igk_server()->getConfigurationPath();
+                $v_conf_path = igk_io_baseuri() . igk_server()->getConfigurationPath();
+                igk_io_protect_request($v_conf_path);
+                $cnode = $this->initConnexionNode();
+                $t->addNotifyHost();
+                $t["class"] = "+con-start";
+                $t->add($cnode);
+                $this->setEnvParam(self::CONNEXION_FRAME, $cnode);
+            } else {
+                $menuctrl->setConfigParentView($this->getConfigMenuNode());
+                $cnode = $this->getEnvParam(self::CONNEXION_FRAME);
+                if ($cnode) {
+                    igk_html_rm($cnode, true);
+                    $this->setEnvParam(self::CONNEXION_FRAME, null);
+                }
+                $this->setEnvParam(IGK_KEY_CSS_NOCLEAR, 1);
+                $this->_include_view_file("config.layout");
+                $this->setEnvParam(IGK_KEY_CSS_NOCLEAR, 0);
+                $v_cctrl = $this->getSelectedConfigCtrl();
+                if (is_null($v_cctrl)) {
+                    $this->setpage();
+                } else {
+                    if (igk_get_env("sys://config/selectedview") !== $v_cctrl) {
+                        $tab = $this->getEnvParam("cnf_query_options");
+                        $g = igk_pattern_view_extract($v_cctrl, $tab, 1);
+                        $v_cctrl->regSystemVars(array_merge(isset($g["c"]) ? [$g["c"]] : [], is_array($v_t = igk_getv($g, "param")) ? $v_t : []), igk_getv($g, "query_options"));
+                        $v_cctrl->showConfig();
+                    }
+                }
+            }
+        }
+        $this->_onViewComplete();
+        return $this;
+    }
+    ///<summary></summary>
+    /**
+     * view logs
+     */
+    public function viewLogs()
+    {
+        $log = igk_ilog_file();
+        $d = igk_create_xmlnode("div");
+        $html = igk_create_notagnode();
+        $d["class"] = "logview";
+        $d["style"] = "max-height:420px; overflow:auto";
+        $d->add($html);
+        if (file_exists($log)) {
+            $tab = explode(IGK_LF, igk_io_read_allfile($log));
+            $dv = $d->add("div");
+            foreach ($tab as $line) {
+                $dv->li()->Content = $line;
+            }
+        } else {
+            $html->panelbox()->setClass("igk-danger")->Content = __("No log found");
+        }
+        if (igk_is_ajx_demand()) {
+            igk_ajx_panel_dialog(__("logs"), $d);
+            igk_exit();
+        }
+        return $d;
+    }
+    public function runcron()
+    {
+        if (!igk_is_conf_connected()) {
+            throw new NotAllowedRequestException();
+        }
+        $job = new CronJob();
+        $c = $job->execute();
+        igk_notifyctrl("run:cron")->addMsg("cron executed", $c);
+        igk_navto_referer();
+    }
+}

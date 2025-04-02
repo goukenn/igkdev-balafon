@@ -26,7 +26,8 @@ class ZipCoreCommand extends AppExecCommand{
         "--no-test"=>"flag: disable test",
         "--no-test-file"=>"flag: disable file lint test",
         "--phpunit"=>"flag: run phpunit on core",
-        "--core-test-suite"=>"suite test to run"
+        "--core-test-suite"=>"suite test to run",
+        '--verbose'=>'flag: display actions'
     ];
 
     public function exec($command, $path=null){
@@ -38,6 +39,7 @@ class ZipCoreCommand extends AppExecCommand{
         $no_file_check = property_exists($command->options, "--no-test-file");
         $no_check = property_exists($command->options, "--no-test");
         $v_punit = property_exists($command->options, "--phpunit");
+        $v_verbose = property_exists($command->options, "--verbose");
 
         igk_set_timeout(0);
        
@@ -78,7 +80,7 @@ class ZipCoreCommand extends AppExecCommand{
             $path = $dir. "/balafon.".$version.$ext;
         }
         Logger::info("run zip ......");
-        if (igk_sys_zip_core($path, $incVersion)){
+        if (igk_sys_zip_core($path, $incVersion, $v_verbose)){
             Logger::print("out file : ".$path);
             Logger::success("zip complete");
         }

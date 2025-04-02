@@ -24074,9 +24074,11 @@ function igk_sys_viewctrl($name)
 /**
  * zip core library
  * @param string $tfile path where to store
+ * @param bool $incVersion increment version
+ * @param bool $verbose increment version
  * @return bool true if succeed
  */
-function igk_sys_zip_core(string $tfile, $incVersion = false)
+function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose=false)
 {
     if (!class_exists(ZipArchive::class, false))
         return false;
@@ -24100,6 +24102,7 @@ function igk_sys_zip_core(string $tfile, $incVersion = false)
         if ($files) {
             foreach ($files as $k) {
                 $manifest->add("file")->setAttribute("entry", $k);
+                $verbose && Logger::print('add: '.$k);
             }
         }
         return @$zip->close();
