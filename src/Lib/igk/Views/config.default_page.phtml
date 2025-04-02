@@ -145,12 +145,14 @@ $frm->addBtn("btn.updateadminpwd", __("Update"));
 
 // renew
 
-if (igk_configs()->config_webauthn_required) {
+if (igk_configs()->webauthn_required || igk_configs()->webauthn_serie_key) {
     $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
 
 $tbox = $box->addPanelBox()->setClass('wa-credentials')->setStyle('display:none');
 if (igk_configs()->webauth_serie_key) {
     $tbox->addBtn("btn.updateadminpwd", __("Renew WebAuthentication"))->setClass('renew-webauth-btn');
+} else {
+    $tbox->addBtn("btn.updateadminpwd", __("Create WebAuthentication"))->setClass('renew-webauth-btn');
 }
 $tbox->script()->content = $js_loader->content();
 $uri = igk_getconfigwebpagectrl()->getUri('webauthn-create-register');

@@ -1360,11 +1360,11 @@ EOF;
         igk_is_conf_connected() && igk_die('misconfiguration');
         ($webauth = $this->_initWebAuthn()) || igk_die('failed to load webauthn library');
         $data = (object)json_decode(igk_io_get_uploaded_data(false));
-        $o = null;
+        $o = [];
         ($deseri_data = igk_configs()->webauthn_serie_key) && 
             ($deseri_data = unserialize(base64_decode($deseri_data)));
         if (!$deseri_data){
-            igk_json(['error'=>true, 'notice'=>'misconfiguration deserie']);
+            igk_json(json_encode(['error'=>true, 'notice'=>'misconfiguration deserie']));
         }
         switch($data->action){
             case 'get';
