@@ -145,7 +145,7 @@ $frm->addBtn("btn.updateadminpwd", __("Update"));
 
 // renew
 
-if (igk_configs()->webauthn_required || igk_configs()->webauthn_serie_key) {
+if (igk_configs()->webauthn || igk_configs()->webauthn_required || igk_configs()->webauthn_serie_key) {
     $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
 
 $tbox = $box->addPanelBox()->setClass('wa-credentials')->setStyle('display:none');
