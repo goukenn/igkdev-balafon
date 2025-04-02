@@ -3881,7 +3881,7 @@
     // ---------------------------------------------------------------------------------------------------	
     (function () {
         function __init() {
-            igk.initpowered(this.o);
+            igk.initpowered(this.o); 
         }
         igk.winui.initClassControl("igk-powered", __init, {
             desc: "manage powered message"
@@ -5524,19 +5524,6 @@
             this.remove();
         });
     })();
-    // (function () {
-    // igk-ajx-replace-ciblibk : used to replace ajx cibling context
-    // igk:data = data used to select the replacing zone
-    // igk.winui.initClassControl('igk-ajx-replace-source', function () {
-    // var o = this.getHtml();
-    // var f = this.o.firstChild;
-    // var d = this.getAttribute("igk:data");
-    // $igk(d).each_all(function(){
-    // this.insetBefore(
-    // });
-    // this.remove();
-    // });
-    // })();
     // popup menu guide
     (function () {
         var doc_e = 0; // get if reg doc event for closing

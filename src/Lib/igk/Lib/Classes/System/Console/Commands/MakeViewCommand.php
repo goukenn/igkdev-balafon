@@ -87,7 +87,7 @@ class MakeViewCommand extends AppExecCommand{
                 ->defs($src)
                 ->docs("view entry point")
                 ->file($fname)
-                ->desc(implode("\n",["", " @view: ".igk_io_basenamewithoutext($viewname)]));
+                ->desc(implode("\n",["", " @view: ".igk_io_remove_ext($viewname)]));
                 igk_io_w2file( $file,  $builder->render());
             }else {
                 $src = '';

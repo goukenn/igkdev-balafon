@@ -1949,32 +1949,70 @@ Name:balafon.js
         return typeof (window.ResizeObserver) != 'undefined';
     };
 
+    /**
+     * initialize powered message view 
+     * @param {initialize}
+     */
     function igk_init_powered(n) {
+        const ln = $igk(n);
+        const bfirst = $igk('body').first();
+        let t = bfirst.qselect('.igk-parentscroll[igk-type=controller]').first() || 
+            bfirst.qselect('.igk-powered-viewer').first() ||
+            bfirst.qselect('.igk-parentscroll').first();
+        if (t) {
+            function _resizeInvoke() {
+                let alignl = ln.supportClass('alignl');
+                let offw = t.width() - t.o.clientWidth; 
+                if (!alignl) {
+                    ln.setCss({
+                        display: 'inline-block',
+                        left:null,
+                        right: 'calc(100vw - ' + (t.width() - offw)+ 'px)'
+                    });
+                } else {
+                    ln.setCss({
+                        //display: 'inline-block',
+                        left: '0px',
+                        right: 'auto'
+                    });
+                }
+            }
+            // controller node is a parent scroll items 
+            is_observe() && (new ResizeObserver(_resizeInvoke)).observe(t.o);        
+            ln.setCss({
+                position: 'fixed',
+                display: 'inline-block'
+            });
+            _resizeInvoke();
+            let bottom = t.getComputedStyle('padding-bottom');
+            let height = ln.getComputedStyle('height');
+            console.log({bottom, height});
+
+            t.setCss({paddingBottom: 'calc('+bottom +' + '+ height+')'});
+        }
+        // console.log('init powered ', n, t);
         // get parent node
-        // var node = n || window.igk.getParentScriptByTagName('div');
-        var node = $igk(n || window.igk.getParentScriptByTagName('div'));
-        igk.ready(function () {
-            var q = $igk(".igk-powered-viewer").last();
-            if (!q) {
-                q = $igk('body').first().qselect('[igk-type=controller]');
-                let h = q.getHeight();
-                let p = q.getoffsetParent();
-                q = null;
-            }
-
-
-            if (q) {
-                // is_observe() && (new ResizeObserver(_resizing)).observe(q.o);
-                // node.setCss({
-                //     "position": "sticky",
-                //     "bottom": "0px",
-                //     "top": "calc(100vh - " + node.getHeight() + "px)",
-                //     "left": "calc(100% - 130px)",
-                //     "width": "130px",
-                // });
-                // q.add(node);
-            }
-        });
+        // var node = $igk(n || window.igk.getParentScriptByTagName('div'));
+        // igk.ready(function () {
+        //     var q = $igk(".igk-powered-viewer").last();
+        //     if (!q) {
+        //         q = $igk('body').first().qselect('[igk-type=controller]');
+        //         let h = q.getHeight();
+        //         let p = q.getoffsetParent();
+        //         q = null;
+        //     }
+        //     if (q) {
+        // is_observe() && (new ResizeObserver(_resizing)).observe(q.o);
+        // node.setCss({
+        //     "position": "sticky",
+        //     "bottom": "0px",
+        //     "top": "calc(100vh - " + node.getHeight() + "px)",
+        //     "left": "calc(100% - 130px)",
+        //     "width": "130px",
+        // });
+        // q.add(node);
+        //     }
+        // });
     };
 
     function igk_powered_manager(node, ciblingnode) {
@@ -5302,11 +5340,11 @@ Name:balafon.js
                 return $igk(v_sl);
             }
             var v_root_chain = pattern.split('>');
-            if (v_root_chain.length>1){
+            if (v_root_chain.length > 1) {
                 let c = document.querySelectorAll(pattern);
-                c.forEach(i=>{
-                    v_sl.push(i); 
-                }); 
+                c.forEach(i => {
+                    v_sl.push(i);
+                });
                 return $igk(v_sl);
             }
 

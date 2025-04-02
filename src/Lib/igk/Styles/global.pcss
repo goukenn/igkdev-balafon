@@ -59,7 +59,11 @@ $def[".box-center"] = "{sys:posab} top:50%; left:50%; [transform:translate(-50%,
 $def[".igk-text-c"] ="text-align:center !important; vertical-align: middle !important;";
 
 $def[".ztop"] ="z-index: 9000;";
-$def[".zback"] ="z-index: -9000;";
+$def[".zback"] ="z-index: -9000;"; 
+$def[".fitvh"] = "height: 100vh;";
+$def['.fitvw'] = 'width: 100vw;';
+
+
 $def[".fitw"] ="width:100%;";
 $def[".fitw-i"] ="width:100% !important;";
 $def[".fitw-a"] = "width:auto !important;";
@@ -120,8 +124,7 @@ $def[".marg-a"]="margin:auto;";
 $def[".padd-a"]="padding:0.5em;";
 
 $def[".center-box"] = "position:relative; margin: 0px auto; top: 50%; left:0%;[transform: translate(0%, -50%)]";
-$def[".fitvh"] = "height: 100vh;";
-$def[".fitvw"] = "width: 100vh;";
+
 
 $def[".no-wrap"] = "white-space: nowrap !important; ";
 $def['.pre-line'] = 'white-space: pre-line;';
@@ -452,9 +455,7 @@ foreach ($tab as $k) {
     }
 }
 igk_theme_screen_mark("only", "display:initial;");
-unset($v, $k,$c);
-
-
+unset($v, $k,$c); 
 
 $def["p.pre-line"] = "white-space: pre-line;";
 

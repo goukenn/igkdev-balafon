@@ -12,7 +12,7 @@ use IGK\Tests\BaseTestCase;
 
 abstract class ControllerBaseTestCase extends BaseTestCase{
     protected $controller;
-
+    // FOR PHP+8 disable construct of 
     public function __construct(?BaseController $ctrl = null){
         parent::__construct();
         if ($ctrl === null){
@@ -21,8 +21,7 @@ abstract class ControllerBaseTestCase extends BaseTestCase{
             }
         }else{
             $this->controller = $ctrl;
-        } 
-       
+        }  
     }
     /**
      * handle request and return a request response

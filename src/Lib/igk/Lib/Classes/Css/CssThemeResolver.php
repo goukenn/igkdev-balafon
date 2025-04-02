@@ -359,18 +359,21 @@ class CssThemeResolver
         //function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
         function ($value) use (&$chainColors, $v_designmode) { 
             $resolved = & $this->themeResolved;
+            // if (strstr($value, 'rgba')){
+            //     Fix color model
+            // }
             // detect color function or var prop
-            if (preg_match("/\s*(?P<name>(rgb(a)|var|hsl))\s*\(/i", $value,$data)){
+            if (preg_match("/\s*(?P<name>(rgb(a)?|var|hsl))\s*\(/i", $value,$data)){
                 if ($data["name"]=="var"){
                     $p = explode(',', rtrim(substr($value, strpos($value,"(") +1), ')'));
                     $root = & $this->theme->getRootReference();
-                    $root[trim($p[0])] = trim(igk_getv($p, 1, "transparent"));
-                    
-                }
-                return $value;
+                    $root[trim($p[0])] = trim(igk_getv($p, 1, "transparent")); 
+                } 
+                if (!preg_match('/^[a-z\\- ]+,/i', $value))
+                    return $value;
             }
 
-            $tab = explode(',', $value);
+            $tab = explode(',', $value, 2);
             $v = trim($tab[0]);
             if ($this->resolver && ($s = $this->resolver->resolveColor($v))){
                 $resolved = true;
@@ -663,8 +666,7 @@ class CssThemeResolver
         return trim($ncl);
     }
 
-    protected function _get_bgcl($ncl, bool $themeexport){
-        // igk_css_get_bgcl($ncl, $gtheme, $systheme),
+    protected function _get_bgcl($ncl, bool $themeexport){        
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
     }
     protected function _get_fcl($value, $resolved=false){   
