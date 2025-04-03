@@ -58,7 +58,7 @@ if (!function_exists('igk_environment')) {
  *  @endcode exit
  */
 function igk_exit(int $close = 1, int $status = 0)
-{ 
+{
     if (igk_environment()->isAJXDemand) {
         igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, []);
         igk_environment()->isAJXDemand = null;
@@ -1690,7 +1690,7 @@ function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = nul
     $sdir = is_dir($dir) ? $dir : igk_dir(igk_realpath($dir));
     if (empty($sdir)) {
         return null;
-    } 
+    }
     // IGK\System\Diagnostics\Benchmark::mark(__FUNCTION__);
     $v_env = igk_environment();
     $dir = $sdir;
@@ -1699,19 +1699,19 @@ function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = nul
     if (!$excludedir)
         $excludedir = array();
     $m = &$excludedir;
-    $v_env->set($excluded_key,  $m); 
-    return igk_loadlib_dirs($dir, $ext, $excludedir); 
+    $v_env->set($excluded_key,  $m);
+    return igk_loadlib_dirs($dir, $ext, $excludedir);
 }
 /**
  * @var string $dirs list of root directory 
  */
-function igk_loadlib_dirs(string $dir, string $ext = ".php", &$excludedir = null, $project=true)
+function igk_loadlib_dirs(string $dir, string $ext = ".php", &$excludedir = null, $project = true)
 {
     $files = [];
     $loadeds = [];
-    $root = true; 
+    $root = true;
     $ln = null;
-    $extensions = explode("|", $ext); 
+    $extensions = explode("|", $ext);
     $dirs = [$dir];
     while (igk_count($dirs) > 0) {
         $dir = array_shift($dirs);
@@ -1750,8 +1750,8 @@ function igk_loadlib_dirs(string $dir, string $ext = ".php", &$excludedir = null
                 if (isset($loadeds[$file]) || preg_match("/\[.+\]/", igk_io_basenamewithoutext($fdir)))
                     continue;
                 $t_ext = igk_io_path_ext($file);
-                if (!in_array('.'.$t_ext, $extensions))
-                    continue; 
+                if (!in_array('.' . $t_ext, $extensions))
+                    continue;
                 include_once($file);
                 $files[] = igk_uri($file);
                 $loadeds[$file] = 1;
@@ -1806,14 +1806,15 @@ if (!function_exists('igk_getr')) {
         return igk_get_tab_value($_REQUEST, $key, $value);
     }
 }
-if (!function_exists('igk_getr_post')){
+if (!function_exists('igk_getr_post')) {
     /**
      * retrive post only parameter
      * @param mixed $key 
      * @param mixed $value 
      * @return mixed 
      */
-    function igk_getr_post($key, $value=null){
+    function igk_getr_post($key, $value = null)
+    {
         return igk_get_tab_value($_POST, $key, $value);
     }
 }
@@ -2187,24 +2188,24 @@ function igk_get_script_code($file, $start_line, $end_line = null)
  */
 function igk_default_ignore_lib($dir = null)
 {
-    $tk =  
-    [
-        IGK_LIB_FOLDER => 1,
-        IGK_CONF_FOLDER => 1,
-        IGK_DATA_FOLDER => 1,
-        IGK_VIEW_FOLDER => 1,
-        IGK_CONTENT_FOLDER => 1,
-        IGK_SCRIPT_FOLDER => 1,
-        IGK_STYLE_FOLDER => 1,
-        IGK_ARTICLES_FOLDER => 1,
-        IGK_CGI_BIN_FOLDER => 1,
-        IGK_TESTS_FOLDER => 1,
-        IGK_GIT_FOLDER => 1,
-        IGK_NODE_MODULE_FOLDER => 1,
-        '.vscode' => 1,
-        'command-scripts' => 1,
-        'command-bin' => 1
-    ];
+    $tk =
+        [
+            IGK_LIB_FOLDER => 1,
+            IGK_CONF_FOLDER => 1,
+            IGK_DATA_FOLDER => 1,
+            IGK_VIEW_FOLDER => 1,
+            IGK_CONTENT_FOLDER => 1,
+            IGK_SCRIPT_FOLDER => 1,
+            IGK_STYLE_FOLDER => 1,
+            IGK_ARTICLES_FOLDER => 1,
+            IGK_CGI_BIN_FOLDER => 1,
+            IGK_TESTS_FOLDER => 1,
+            IGK_GIT_FOLDER => 1,
+            IGK_NODE_MODULE_FOLDER => 1,
+            '.vscode' => 1,
+            'command-scripts' => 1,
+            'command-bin' => 1
+        ];
     if ($dir) {
         $keys = array_keys($tk);
         foreach ($keys as $m) {
@@ -2414,7 +2415,7 @@ function igk_set_header(int $code, $message = "", $headers = [])
     }
 
     igk_clear_header_list();
-    $v_secure = igk_configs()->force_secure_redirection;
+    // $v_secure = igk_configs()->force_secure_redirection;
     $msg = igk_get_header_status($code);
     $txt = "Status: {$code} $msg";
     if (!$fcall) {
@@ -2426,6 +2427,22 @@ function igk_set_header(int $code, $message = "", $headers = [])
             // + |  
             header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
             header('X-Content-Type-Options: nosniff');
+            $sess_id = session_id();
+            if ($sess_id) {
+                $sess_name = session_name();
+                $domain = igk_get_cookie_domain();
+                // $is_renew = igk_app()->getApplication()->getLibrary()->session->isRenew();
+                // + | --------------------------------------------------------------------
+                // + | attach new cookies - session if no present
+                // + |                
+                if (!preg_match('/\\b'.$sess_name.'\\b/', igk_getv($h, 'COOKIE', '')) || (igk_getv($_COOKIE, $sess_name)!==$sess_id)){
+                    $r = 'Set-Cookie: ' . igk_sys_cookies_build([$sess_name => $sess_id . '; path=/; HttpOnly; domain='.$domain.';']);
+                    if (igk_server()->is_secure()) {
+                        $r .= 'Secure;';
+                    }
+                    header($r);
+                }
+            }
         }
     } else {
         header($txt, 1, $code);
@@ -2435,7 +2452,7 @@ function igk_set_header(int $code, $message = "", $headers = [])
         // + | replace with setup header 
         foreach ($headers as $m => $k) {
             header($k, !is_numeric($m));
-        } 
+        }
     }
     // +| the last one set the code status
     header($msg, 1, $code);
@@ -2622,15 +2639,16 @@ if (!function_exists('igk_current_ctrl')) {
 }
 
 
-if (!function_exists('igk_sys_lib_filename')){
+if (!function_exists('igk_sys_lib_filename')) {
     /**
      * in production just return a collapsed file name
      * @param string $file 
      * @return string 
      * @throws IGKException 
      */
-    function igk_sys_lib_filename(string $file):string{
-        if (igk_environment()->isOPS()){
+    function igk_sys_lib_filename(string $file): string
+    {
+        if (igk_environment()->isOPS()) {
             return igk_io_collapse_path($file);
         }
         return $file;

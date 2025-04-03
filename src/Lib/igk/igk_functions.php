@@ -2166,11 +2166,9 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
     $renderer->doc = $doc;
     $renderer->doc_id = $doc_id;
     $renderer->theme = $doc->getTheme();
-    $m = $renderer->output();
-    if ($m) {
-        igk_do_response($m);
-        igk_exit();
-    }
+    ($m = $renderer->output()) || igk_die('missing balafon css output');    
+    // for css response 
+    igk_do_response($m);    
 }
 ///<summary></summary>
 ///<param name="callback"></param>

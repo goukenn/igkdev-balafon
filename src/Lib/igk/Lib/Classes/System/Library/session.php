@@ -156,6 +156,7 @@ class session extends \IGKLibraryBase
         ini_set("session.cookie_secure", igk_sys_srv_is_secure());
         ini_set("session.cookie_httponly", 1);
         ini_set("session.cookie_samesite", "strict");
+        // ini_set('session.cookie_lifetime', 4600);
         //+ $idstorage= trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName]: trim(igk_getr($cookieName)));
         //+ check if the session is passed prio to cookie value.
         //+ 2020 Edge and chrome on Mac no need for session_id https://www.php.net/manual/en/function.session-id.php
@@ -182,7 +183,7 @@ class session extends \IGKLibraryBase
             if ($set_loc) {
                 session_set_cookie_params(10, "/", $opts["domain"], igk_sys_srv_is_secure(), true);
             }
-        }
+        }        
         $b = session_start();
         return $b;
     }

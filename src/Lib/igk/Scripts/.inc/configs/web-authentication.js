@@ -3,10 +3,7 @@
 (function () {
     const primaryFetchConfig = {
         credentials: 'include',
-        headers: {
-            'cache':'no-cache',
-            'pragma':'no-cache',
-            'cache-control':'no-cache',
+        headers: { 
             'Content-Type': 'application/json'
         }
     };
