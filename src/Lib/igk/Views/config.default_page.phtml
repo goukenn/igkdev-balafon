@@ -158,7 +158,7 @@ if (igk_configs()->webauth_serie_key) {
 $tbox->script()->content = $js_loader->content();
 $uri = igk_uri(Path::CombineAndFlattenPath( igk_io_baseuri(),  igk_getconfigwebpagectrl()->getUri('webauthn-create-register')));
 
-igk_wln_e(__FILE__.":".__LINE__ , "the uri ", $uri);
+// igk_wln_e(__FILE__.":".__LINE__ , "the uri ", $uri);
 $tbox->script()->content = <<<JS
 (function(){
     const p = \$igk('.wa-credentials').first(); 

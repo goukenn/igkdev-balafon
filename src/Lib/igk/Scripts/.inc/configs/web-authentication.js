@@ -1,6 +1,12 @@
 // @ts-nocheck
 'use strict';
 (function () {
+    const primaryFetchConfig = {
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    };
     function bufferTo64(buffer) {
         let s = '';
         let u = new Uint8Array(buffer);
@@ -21,7 +27,6 @@
                     continue;
                 }
                 const is_array_buffer = v instanceof ArrayBuffer;
-
                 if (!is_array_buffer && (typeof (v) == 'object')) {
                     d.n[h] = {};
                     q.push({ n: d.n[h], p: v });
@@ -61,7 +66,6 @@
                     }
                 }
             }
-
             return o;
         }
     };
@@ -78,24 +82,19 @@
         let v_ref_challenge = _getRandomEID();
         // document.cookie = 'webauth-challenge=' + bufferTo64(v_ref_challenge); "; httpOnly; path=/";
         return new Uint8Array(v_ref_challenge);
-    };
-
-  
+    }; 
     async function _registerUser(uri) {
-        const challenge = _initChallenge();
-
-
+        const challenge = _initChallenge();  
         const registerUser = await (async function () {
             let p = uri ? await fetch(uri, {
                 method: 'POST',
                 body: JSON.stringify({ action: 'create', challenge: bufferTo64(challenge) }),
-                credentials: 'include'
-            }).then(a => {if (a.status==200){ return  a.json() } throw new Error('invalid response'); })
+                ...primaryFetchConfig
+            }).then(a => { if (a.status == 200) { return a.json() } throw new Error('invalid response'); })
                 .then(m => bufferUtils.bta(m))
                 .catch(e => {
                     console.error("error", e);
                 }) : null;
-
             let _default = (p ? p.publicKey : null) || {
                 // required members 
                 challenge: challenge,
@@ -109,7 +108,6 @@
                 pubKeyCredParams: [
                     { type: 'public-key', alg: -7 }
                     // {type: 'public-key', alg:-257}
-
                 ],
                 // optional parameter ,
                 // authenticatorSelection:{
@@ -138,11 +136,10 @@
                         // send and store information to server 
                         const _new = bufferUtils.serveData(credentials);
                         _new.transport = credentials.response.getTransports ? credentials.response.getTransports() : [];
-
                         const response = await fetch(uri, {
                             method: 'POST',
                             body: JSON.stringify({ credentials: _new, action: 'store' }),
-                            credentials: 'include'
+                            ...primaryFetchConfig
                         }).then(o => {
                             return o.json();
                         }).then(data => {
@@ -156,8 +153,7 @@
                     console.error('create credential failed.', e);
                 }
             }
-        } 
-
+        }
     });
 })();
 (async function () {
@@ -172,12 +168,12 @@
             const options = (resolve ? await (async () => {
                 const config = await fetch(resolve, {
                     method: 'POST',
-                    body: JSON.stringify({'action':'create'}),
-                    credentials: 'include'
+                    body: JSON.stringify({ 'action': 'create' }),
+                    ...primaryFetchConfig
                 }).then(o => o.json()).then(data => bufferUtils.bta(data));
                 return config;
             })() : null) || { publicKey: { challenge: new Uint8Array([12]) } };
-            if (options==null){
+            if (options == null) {
                 console.log('missing webauth get settings');
                 return;
             }
@@ -185,20 +181,19 @@
                 const credentials = await navigator.credentials.get({
                     publicKey: options.publicKey
                 });
-                const _topass = { credentials: bufferUtils.serveData(credentials), action:'get' };
-                const _response = await fetch(resolve,{
+                const _topass = { credentials: bufferUtils.serveData(credentials), action: 'get' };
+                const _response = await fetch(resolve, {
                     method: 'POST',
-                    credentials: 'include',
-                    body: JSON.stringify(_topass)
-                } ).then(
-                    o=>o.json()
-                ).catch(e=>{
+                    body: JSON.stringify(_topass),
+                    ...primaryFetchConfig
+                }).then(
+                    o => o.json()
+                ).catch(e => {
                     console.log("error");
                 });
-            } catch(e){
+            } catch (e) {
                 console.error('error: ', e);
             }
         });
     });
 })();
-
