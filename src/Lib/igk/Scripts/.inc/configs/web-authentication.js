@@ -82,9 +82,9 @@
         let v_ref_challenge = _getRandomEID();
         // document.cookie = 'webauth-challenge=' + bufferTo64(v_ref_challenge); "; httpOnly; path=/";
         return new Uint8Array(v_ref_challenge);
-    }; 
+    };
     async function _registerUser(uri) {
-        const challenge = _initChallenge();  
+        const challenge = _initChallenge();
         const registerUser = await (async function () {
             let p = uri ? await fetch(uri, {
                 method: 'POST',
@@ -155,45 +155,47 @@
             }
         }
     });
-})();
-(async function () {
-    /**
-     * @var mixed igk
-     */
-    // @ts-ignore
-    igk.winui.initClassControl('webauthn-signin-btn', function () {
-        const resolve = this.getAttribute('data-webauthn-resolve');
-        const { bufferUtils } = igk.auth.webAuthn;
-        this.on('click', async function () {
-            const options = (resolve ? await (async () => {
-                const config = await fetch(resolve, {
-                    method: 'POST',
-                    body: JSON.stringify({ 'action': 'create' }),
-                    ...primaryFetchConfig
-                }).then(o => o.json()).then(data => bufferUtils.bta(data));
-                return config;
-            })() : null) || { publicKey: { challenge: new Uint8Array([12]) } };
-            if (options == null) {
-                console.log('missing webauth get settings');
-                return;
-            }
-            try {
-                const credentials = await navigator.credentials.get({
-                    publicKey: options.publicKey
-                });
-                const _topass = { credentials: bufferUtils.serveData(credentials), action: 'get' };
-                const _response = await fetch(resolve, {
-                    method: 'POST',
-                    body: JSON.stringify(_topass),
-                    ...primaryFetchConfig
-                }).then(
-                    o => o.json()
-                ).catch(e => {
-                    console.log("error");
-                });
-            } catch (e) {
-                console.error('error: ', e);
-            }
+
+
+    (async function () {
+        /**
+         * @var mixed igk
+         */
+        // @ts-ignore
+        igk.winui.initClassControl('webauthn-signin-btn', function () {
+            const resolve = this.getAttribute('data-webauthn-resolve');
+            const { bufferUtils } = igk.auth.webAuthn;
+            this.on('click', async function () {
+                const options = (resolve ? await (async () => {
+                    const config = await fetch(resolve, {
+                        method: 'POST',
+                        body: JSON.stringify({ 'action': 'create' }),
+                        ...primaryFetchConfig
+                    }).then(o => o.json()).then(data => bufferUtils.bta(data));
+                    return config;
+                })() : null) || { publicKey: { challenge: new Uint8Array([12]) } };
+                if (options == null) {
+                    console.log('missing webauth get settings');
+                    return;
+                }
+                try {
+                    const credentials = await navigator.credentials.get({
+                        publicKey: options.publicKey
+                    });
+                    const _topass = { credentials: bufferUtils.serveData(credentials), action: 'get' };
+                    const _response = await fetch(resolve, {
+                        method: 'POST',
+                        body: JSON.stringify(_topass),
+                        ...primaryFetchConfig
+                    }).then(
+                        o => o.json()
+                    ).catch(e => {
+                        console.log("error");
+                    });
+                } catch (e) {
+                    console.error('error: ', e);
+                }
+            });
         });
-    });
+    })();
 })();
