@@ -1390,7 +1390,8 @@ EOF;
                 $challenge = igk_app()->session->webauthn_authenication_challenge;
                 $data = igk_getv($data, 'credentials');
                 if (empty($challenge)){
-                    igk_json(['error'=>true, 'msg'=>'missing challenge - on signin'], RequestResponseCode::BadRequest);
+                    // igk_json(['error'=>true, 'msg'=>'missing challenge - on signin'], RequestResponseCode::BadRequest);
+                    igk_die("challenge is empty");
                 }
                 if ($webauth->processGet(
                     base64_decode(igk_getv($data->response, 'clientDataJSON')),
