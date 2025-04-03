@@ -20,6 +20,7 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\NotAllowedRequestException;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\InlineScriptLoader;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\IViewLayoutLoader;
@@ -1388,6 +1389,9 @@ EOF;
             case 'get';
                 $challenge = igk_app()->session->webauthn_authenication_challenge;
                 $data = igk_getv($data, 'credentials');
+                if (empty($challenge)){
+                    igk_json(['error'=>true, 'msg'=>'missing challenge - on signin'], RequestResponseCode::BadRequest);
+                }
                 if ($webauth->processGet(
                     base64_decode(igk_getv($data->response, 'clientDataJSON')),
                     base64_decode(igk_getv($data->response, 'authenticatorData')),
@@ -1439,6 +1443,11 @@ EOF;
                 $credentials = (object)$data->credentials;
                 $challenge = $sess->webauthn_cpanel_challenge;
                 $sess->webauthn_cpanel_challenge = null;
+                if (empty($challenge)){
+                    igk_json(['error'=>true, 'msg'=>'missing challenge - on create']);
+                }
+
+
                 $toseridata = $webauth->processCreate(
                     base64_decode(igk_getv($credentials->response, 'clientDataJSON')),
                     base64_decode(igk_getv($credentials->response, 'attestationObject')),
