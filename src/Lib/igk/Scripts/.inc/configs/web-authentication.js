@@ -147,15 +147,18 @@
                             return o.json();
                         }).then(data => {
                             if (data.error) {
-                                console.error('failed : ' + data.msg)
-                                // igk.notify('registration failed.');
+                                console.error('failed : ' + data.msg);
+                                return null;
                             }
-                        });
+                            return data;
+                        }); 
+                        return response;
                     }
                 } catch (e) {
                     console.error('create credential failed.', e);
                 }
             }
+            return null;
         }
     });
 

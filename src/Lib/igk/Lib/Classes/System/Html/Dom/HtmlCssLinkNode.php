@@ -53,8 +53,8 @@ class HtmlCssLinkNode extends HtmlNode{
     }
     ///<summary>Represente activate function</summary>
     ///<param name="name"></param>
-    public function activate($name){
-        $this->ln->activate($name);
+    public function activate($name, $condition_key=null){
+        $this->ln->activate($name, $condition_key);
         return $this;
     }
     ///<summary></summary>

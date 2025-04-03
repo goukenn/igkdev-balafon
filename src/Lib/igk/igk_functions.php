@@ -17209,7 +17209,10 @@ function igk_map_array_to_str($tab, $usekey = true)
                     $m .= '"' . $k . '"=>';
                 }
             }
-            if (is_numeric($v)) {
+            if (is_bool($v)){
+                $m .= igk_parsebool($v);
+            }
+            else if (is_numeric($v)) {
                 $m .= $v;
             } else if (is_string($v)) {
                 $m .= '"' . $v . '"';

@@ -43,7 +43,7 @@ class CssMinifier
         $patterns[] = $container->match("\\s+", 'skip')->last();
         $patterns[] = $container->match('\\s*(?:-)?(?:([0-9]+)?\.)?([0-9]+)(px|em|%|s|ms|rem|pt|pica|vh|vw|deg|rad|grad)?', 'dimension')->last(); // 
         $patterns[] = $container->match("\\s*(\/|\+|-|%|\*|>|~)\\s*", 'operator')->last(); // ignore multispace 
-        $patterns[] = $container->begin("(\"|')", '\\1')->last(); 
+        $patterns[] = $container->begin("(\"|')", '\\1', 'string-litteral')->last(); 
         $g = $container->begin('{', '}', 'block')->last();
 
         $patterns[] = $g;
@@ -117,6 +117,10 @@ class CssMinifier
                     case 'block': // block for child
                     case 'speudo-class':
                         // + | just load data 
+                        break;
+                    case 'string-litteral':
+                        // + | 
+                        $g->value = sprintf("'%s'", igk_str_remove_quote($g->value));
                         break;
                     default:
                         $g->value = '';

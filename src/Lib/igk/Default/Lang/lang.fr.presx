@@ -1730,3 +1730,7 @@ $l['lb.cldeactivate_at'] = "Désactiver";
 $l['lb.provider'] = "Fournisseur - Social";
 $l['password changed'] = "Mot de passe modifié";
 
+
+$l['WebAuthRequirement'] = 'authentification web requise';
+$l['Create WebAuthentication'] = 'Enregistrer votre clef de sécurité.';
+$l['Renew WebAuthentication'] = 'Renouveller votre clef de sécurité.';

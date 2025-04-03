@@ -540,10 +540,19 @@ class HtmlNode extends HtmlItemBase
         }
         return parent::getCanRenderTag();
     }
-
-    public function activate($n)
+    /**
+     * 
+     * @param mixed $n 
+     * @return $this 
+     * @throws IGKException 
+     */
+    public function activate($n, $activate_condition=null)
     {
-        $this->m_attributes->activate($n);
+        // igk_wln_e("activate....", $activate_condition);
+        if (is_null($activate_condition) || $activate_condition){
+            $this->m_attributes->activate($n);
+        }
+
         return $this;
     }
     public function deactivate($n)

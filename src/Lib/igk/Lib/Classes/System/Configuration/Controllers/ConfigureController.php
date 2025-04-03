@@ -1200,7 +1200,7 @@ EOF;
                         }])
 
                     ));
-                if(igk_environment()->isDev()){
+                if (igk_environment()->isDev()) {
                     $v_uri = igk_uri(Path::CombineAndFlattenPath(igk_io_baseuri(), $this->getUri('webauthn-create-register')));
                     $frm->button('btn-register', __('register web authentication'))->on('click', 'igk.auth.webAuthn.register("' . $v_uri . '"); return false;');
                 }
@@ -1351,9 +1351,10 @@ EOF;
         // $node->add($v_cnf); 
         return $node;
     }
-    private function _initWebAuthn(): ?WebAuthn{
-       if (class_exists(WebAuthn::class))
-            return new WebAuthn(igk_resources_gets('manager') .' - (CPanel)', igk_sys_domain_name()); 
+    private function _initWebAuthn(): ?WebAuthn
+    {
+        if (class_exists(WebAuthn::class))
+            return new WebAuthn(igk_resources_gets('manager') . ' - (CPanel)', igk_sys_domain_name());
         return null;
     }
     /**
@@ -1362,13 +1363,14 @@ EOF;
      * @throws Exception 
      * @throws IGKException 
      */
-    public function toggle_webauth_requirement(){
+    public function toggle_webauth_requirement()
+    {
         igk_server()->method('POST') || igk_die('not a valid request');
-        igk_is_conf_connected() && igk_die('misconfiguration');
+        !igk_is_conf_connected() && igk_die('misconfiguration conf connexion request');
         $cnf = igk_configs();
-        $cnf->webauthn_required = $cnf->webauthn_required;
+        $cnf->webauthn_required = !$cnf->webauthn_required;
         $cnf->saveData();
-        igk_json(['success'=>true]);
+        igk_json(['success' => true]);
     }
     public function webauthn_create_get()
     {
@@ -1377,40 +1379,40 @@ EOF;
         ($webauth = $this->_initWebAuthn()) || igk_die('failed to load webauthn library');
         $data = (object)json_decode(igk_io_get_uploaded_data(false));
         $o = [];
-        ($deseri_data = igk_configs()->webauthn_serie_key) && 
+        ($deseri_data = igk_configs()->webauthn_serie_key) &&
             ($deseri_data = unserialize(base64_decode($deseri_data)));
-        if (!$deseri_data){
-            igk_json(json_encode(['error'=>true, 'notice'=>'misconfiguration deserie']));
+        if (!$deseri_data) {
+            igk_json(json_encode(['error' => true, 'notice' => 'misconfiguration deserie']));
         }
-        switch($data->action){
+        switch ($data->action) {
             case 'get';
-            $challenge = igk_app()->session->webauthn_authenication_challenge;
-            $data = igk_getv($data, 'credentials');
-            if ($webauth->processGet(
-                base64_decode(igk_getv($data->response, 'clientDataJSON')),
-                base64_decode(igk_getv($data->response, 'authenticatorData')),
-                base64_decode(igk_getv($data->response, 'signature')),
-                $deseri_data->credentialPublicKey,
-                $challenge
-            )){
-            igk_app()->session->webauthn_authenication_challenge = null;
-            // grand callback
-            $this->setConfigUser(igk_sys_create_user(['login'=>'webauth', 'pwd'=>hash('sha256', time().'security'), 'at'=>date('Ymd His')]));
-            $o = ['error'=>false, 'msg'=>'successfully connected'];
-            } else {
-                $o = ['error'=>true, 'msg'=>'request was unsuccessful'];
-            }
-            break;
+                $challenge = igk_app()->session->webauthn_authenication_challenge;
+                $data = igk_getv($data, 'credentials');
+                if ($webauth->processGet(
+                    base64_decode(igk_getv($data->response, 'clientDataJSON')),
+                    base64_decode(igk_getv($data->response, 'authenticatorData')),
+                    base64_decode(igk_getv($data->response, 'signature')),
+                    $deseri_data->credentialPublicKey,
+                    $challenge
+                )) {
+                    igk_app()->session->webauthn_authenication_challenge = null;
+                    // grand callback
+                    $this->setConfigUser(igk_sys_create_user(['login' => 'webauth', 'pwd' => hash('sha256', time() . 'security'), 'at' => date('Ymd His')]));
+                    $o = ['error' => false, 'msg' => 'successfully connected'];
+                } else {
+                    $o = ['error' => true, 'msg' => 'request was unsuccessful'];
+                }
+                break;
             case 'create':
-                    $args = $webauth->getGetArgs(
-                        $deseri_data->credentialId,
-                        20
-                    );
-                    igk_app()->session->webauthn_authenication_challenge = $webauth->getChallenge();
-                    $o = $args;
+                $args = $webauth->getGetArgs(
+                    $deseri_data->credentialId,
+                    20
+                );
+                igk_app()->session->webauthn_authenication_challenge = $webauth->getChallenge();
+                $o = $args;
                 break;
         }
-        igk_json(json_encode( $o) );
+        igk_json(json_encode($o));
     }
     /**
      * configuration controller 
@@ -1419,16 +1421,17 @@ EOF;
      * @throws WebAuthnException 
      * @throws IGKException 
      */
-    public function webauthn_create_register(){
+    public function webauthn_create_register()
+    {
         igk_server()->method('POST') || igk_die('not a valid request');
         ($webauth = $this->_initWebAuthn()) || igk_die('failed to load webauthn library');
         $data = (object)json_decode(igk_io_get_uploaded_data(false), true);
         $out  = [];
         $conf = igk_configs();
         $sess = igk_app()->session;
-        switch($data->action){
+        switch ($data->action) {
             case 'create':
-                $d = $webauth->getCreateArgs($conf->admin_login, $conf->admin_login,'Administrator');
+                $d = $webauth->getCreateArgs($conf->admin_login, $conf->admin_login, 'Administrator');
                 $out = $d;
                 $sess->webauthn_cpanel_challenge = $webauth->getChallenge();
                 break;
@@ -1440,7 +1443,9 @@ EOF;
                     base64_decode(igk_getv($credentials->response, 'clientDataJSON')),
                     base64_decode(igk_getv($credentials->response, 'attestationObject')),
                     $challenge,
-                    true, true, false
+                    true,
+                    true,
+                    false
                 );
                 $conf->webauthn_serie_key = base64_encode(serialize($toseridata));
                 $conf->saveData();
@@ -2063,5 +2068,63 @@ EOF;
         $c = $job->execute();
         igk_notifyctrl("run:cron")->addMsg("cron executed", $c);
         igk_navto_referer();
+    }
+
+    /**
+     * 
+     * @param mixed $box 
+     * @return void 
+     * @throws IGKException 
+     */
+    protected function webauth_view_config($box)
+    {
+        igk_display_error(true);
+        $v_cnf = igk_configs();
+        if ($v_cnf->webauthn || igk_configs()->webauthn_required || igk_configs()->webauthn_serie_key) {
+            $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
+            $tbox = $box->addPanelBox()->setClass('wa-credentials')->setStyle('display:none');
+            if ($v_cnf->webauthn_serie_key) {
+                $tbox->addBtn("btn.webauthn-renew", __("Renew WebAuthentication"))->setClass('webauthn-btn');
+            } else {
+                $tbox->addBtn("btn.webauthn-create", __("Create WebAuthentication"))->setClass('webauthn-btn');
+            }
+            $tbox->script()->content = $js_loader->content();
+            $v_confctrl = igk_getconfigwebpagectrl();
+            $uri = igk_uri(Path::CombineAndFlattenPath(igk_io_baseuri(),  $v_confctrl->getUri('webauthn-create-register')));
+            $v_toggle_uri = igk_uri(Path::CombineAndFlattenPath(igk_io_baseuri(),  $v_confctrl->getUri('toggle-webauth-requirement')));
+
+            $d = $tbox->row()->col('fitw no-overflow')->div()->setClass('line-conf fitw dispflex flex-justify-sb no-overflow');
+            $s = 'cbox_webauth_requirement';
+            $d->label($s)->Content = __('WebAuthRequirement');
+            $d->addToggleStateButton($s, "on", $v_cnf->webauthn_required)
+                ->setClass("dispib")
+                ->on('change', 'igk.ajx.post("' . $v_toggle_uri . '"); return false;');
+
+            // $chb_webauthn = $tbox->checkbox('cbox_webauth_requirement')->on('change', 'igk.ajx.post("' . $v_toggle_uri . '"); return false;')
+            //     ->setAttribute('value', false)
+            //     ->activate('checked', $v_cnf->webauthn_required);
+
+            // $chb_webauthn->label('cbox_webauth_requirement')->setContent(__('Toggle WebAuthRequirement'));
+            // igk_wln_e(__FILE__.":".__LINE__ , "the uri ", $uri);
+            $tbox->script()->content = <<<JS
+(function(){
+    const p = \$igk('.wa-credentials').first(); 
+    igk.ready(function(){
+    if (navigator.credentials){
+        p.setCss({display:null});
+    }else{return;}
+\$igk('.webauthn-btn').each_all(function(){
+    this.on('click', async ()=>{
+        let s= await igk.auth.webAuthn.register("{$uri}");
+        console.log(s);
+        if (s && (s.error==false)){
+            document.location.reload();
+        }
+    });
+});
+});
+})();
+JS;
+        }
     }
 }

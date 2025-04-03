@@ -145,42 +145,9 @@ $frm->addBr();
 $frm->addBtn("btn.updateadminpwd", __("Update"));
 
 // renew
+$this->webauth_view_config($box);
+// igk_wln_e(__FILE__.":".__LINE__ , get_class($this));
 
-if (igk_configs()->webauthn || igk_configs()->webauthn_required || igk_configs()->webauthn_serie_key) {
-    $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
-
-$tbox = $box->addPanelBox()->setClass('wa-credentials')->setStyle('display:none');
-if (igk_configs()->webauth_serie_key) {
-    $tbox->addBtn("btn.updateadminpwd", __("Renew WebAuthentication"))->setClass('renew-webauth-btn');
-} else {
-    $tbox->addBtn("btn.updateadminpwd", __("Create WebAuthentication"))->setClass('renew-webauth-btn');
-}
-$tbox->script()->content = $js_loader->content();
-$v_confctrl = igk_getconfigwebpagectrl();
-$uri = igk_uri(Path::CombineAndFlattenPath( igk_io_baseuri(),  $v_confctrl->getUri('webauthn-create-register')));
-$v_toggle_uri = igk_uri(Path::CombineAndFlattenPath( igk_io_baseuri(),  $v_confctrl->getUri('toggle-webauth-requirement')));
-
-$tbox->checkbox('cbox_webauth_requirement')->on('click', 'igk.ajx.post("'.$v_toggle_uri.'")')
-->setAttribute('value', igk_configs()->webauth_serie_key)
-->setContent('Toggle WebAuthRequirement');
-// igk_wln_e(__FILE__.":".__LINE__ , "the uri ", $uri);
-$tbox->script()->content = <<<JS
-(function(){
-    const p = \$igk('.wa-credentials').first(); 
-    igk.ready(function(){
-    if (navigator.credentials){
-        p.setCss({display:null});
-    }else{return;}
-\$igk('.renew-webauth-btn').each_all(function(){
-    this.on('click', async ()=>{
-        await igk.auth.webAuthn.register("{$uri}")
-    });
-});
-});
-})();
-JS;
-
-}
 
 
 $frm = $box->addPanelBox()->addForm();
@@ -220,7 +187,7 @@ foreach ($tab as $s => $kt) {
     $div = $ul->li()->setClass("igk-col fitw")->div();
     $t = $kt["t"];
     $v = $kt["v"];
-    $div->addLabel()->setAttribute("for", $s)->Content = __("lb." . $t);
+    $div->label($s)->Content = __("lb." . $t);
     $div->addToggleStateButton($s, "on", $v)->setClass("dispib"); //->setAttribute("onchange", "ns_igk.ajx.get('{$u}&cache='+ns_igk.geti(event.target.checked),null,ns_igk.ajx.fn.no); return false;");
 
 }
