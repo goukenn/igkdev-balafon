@@ -76,9 +76,11 @@
     };
     function _initChallenge() {
         let v_ref_challenge = _getRandomEID();
-        document.cookie = 'webauth-challenge=' + v_ref_challenge; "; httpOnly; path=/";
+        // document.cookie = 'webauth-challenge=' + bufferTo64(v_ref_challenge); "; httpOnly; path=/";
         return new Uint8Array(v_ref_challenge);
     };
+
+  
     async function _registerUser(uri) {
         const challenge = _initChallenge();
 
@@ -86,7 +88,8 @@
         const registerUser = await (async function () {
             let p = uri ? await fetch(uri, {
                 method: 'POST',
-                body: JSON.stringify({ action: 'create', challenge: bufferTo64(challenge) })
+                body: JSON.stringify({ action: 'create', challenge: bufferTo64(challenge) }),
+                credentials: 'include'
             }).then(a => a.json())
                 .then(m => bufferUtils.bta(m))
                 .catch(e => {
@@ -153,10 +156,7 @@
                     console.error('create credential failed.', e);
                 }
             }
-        },
-        async signin(uri){
-            
-        }
+        } 
 
     });
 })();

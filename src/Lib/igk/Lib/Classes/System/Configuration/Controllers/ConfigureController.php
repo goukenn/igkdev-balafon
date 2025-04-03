@@ -4,6 +4,7 @@
 // @desc:  Configuration Controller page  
 namespace IGK\System\Configuration\Controllers;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\OwnViewCtrl;
@@ -32,6 +33,7 @@ use IGKSubDomainManager;
 use IGKHostParam;
 use IGKValidator;
 use lbuchs\WebAuthn\WebAuthn;
+use lbuchs\WebAuthn\WebAuthnException;
 
 use function igk_resources_gets as __;
 ///<summary>used to manage config manager</summary>
@@ -1396,6 +1398,13 @@ EOF;
         }
         igk_json(json_encode( $o) );
     }
+    /**
+     * configuration controller 
+     * @return void 
+     * @throws Exception 
+     * @throws WebAuthnException 
+     * @throws IGKException 
+     */
     public function webauthn_create_register(){
         igk_server()->method('POST') || igk_die('not a valid request');
         ($webauth = $this->_initWebAuthn()) || igk_die('failed to load webauthn library');
