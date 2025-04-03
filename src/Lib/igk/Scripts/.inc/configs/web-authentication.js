@@ -90,7 +90,7 @@
                 method: 'POST',
                 body: JSON.stringify({ action: 'create', challenge: bufferTo64(challenge) }),
                 credentials: 'include'
-            }).then(a => a.json())
+            }).then(a => {if (a.status==200){ return  a.json() } throw new Error('invalid response'); })
                 .then(m => bufferUtils.bta(m))
                 .catch(e => {
                     console.error("error", e);
