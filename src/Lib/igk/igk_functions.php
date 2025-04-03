@@ -16067,9 +16067,11 @@ function igk_is_srv_request()
 }
 ///<summary>get if the current request is a thumnail request</summary>
 /**
- * get if the current request is a thumnail request
+ * get if the current request is a thumbnail request
+ * check for thumbnail request 
+ * @return boolean
  */
-function igk_is_thumbnail_request()
+function igk_is_thumbnail_request(): bool
 {
     return !isset($_SERVER["HTTP_COOKIE"]) && (igk_server()->HTTP_CACHE_CONTROL == "no-cache") && (igk_server()->HTTP_PRAGMA == "no-cache");
 }
@@ -22423,15 +22425,16 @@ function igk_sys_config_view($file)
         igk_exit();
     }
     try {
-        if (igk_is_thumbnail_request()) {
-            $d = igk_create_node("thumbNailDocument", null, array($file));
-            if ($wb = igk_sys_getconfig("website_title")) {
-                $wb = "- [ {$wb} ] ";
-            }
-            $d->Title = __("Configuration Page") . $wb;
-            $d->renderAJX();
-            igk_exit();
-        }
+        // if (igk_is_thumbnail_request()) {
+        //     $d = igk_create_node("thumbNailDocument", null, array($file));
+        //     if ($wb = igk_sys_getconfig("website_title")) {
+        //         $wb = "- [ {$wb} ] ";
+        //     }
+        //     $d->Title = __("ThumbnailDocument CPanel") . $wb;
+        //     $d->body()->div()->Content = 'Thumbnail request ------';
+        //     $d->renderAJX();
+        //     igk_exit();
+        // }
         if ($igk->Session->getParam("igk_wizeinstall") || (igk_server_is_local() && igk_getr("wizeinstall") == 1)) {
             igk_header_no_cache();
             $c = igk_getctrl(IGK_CONF_CTRL);
