@@ -4,6 +4,9 @@
     const primaryFetchConfig = {
         credentials: 'include',
         headers: {
+            'cache':'no-cache',
+            'pragma':'no-cache',
+            'cache-control':'no-cache',
             'Content-Type': 'application/json'
         }
     };
@@ -84,7 +87,7 @@
         return new Uint8Array(v_ref_challenge);
     };
     async function _registerUser(uri) {
-        const challenge = _initChallenge();
+        const challenge = _initChallenge(); 
         const registerUser = await (async function () {
             let p = uri ? await fetch(uri, {
                 method: 'POST',
@@ -127,7 +130,7 @@
          * 
          * @param {string} uri 
          */
-        async register(uri) {
+        async register(uri) { 
             const registerUser = await _registerUser(uri);
             if (registerUser) {
                 try {
@@ -189,7 +192,9 @@
                         ...primaryFetchConfig
                     }).then(
                         o => o.json()
-                    ).catch(e => {
+                    ).then(d=>{
+                        document.location.reload();
+                    }).catch(e => {
                         console.log("error");
                     });
                 } catch (e) {

@@ -1201,8 +1201,8 @@ EOF;
 
                     ));
                 if(igk_environment()->isDev()){
-                    $v_uri = $this->getUri('webauthn-create-register');
-                    $frm->button('btn-register', __('register web authentication'))->on('click', 'igk.auth.webAuthn.register("' . $v_uri . '")');
+                    $v_uri = igk_uri(Path::CombineAndFlattenPath(igk_io_baseuri(), $this->getUri('webauthn-create-register')));
+                    $frm->button('btn-register', __('register web authentication'))->on('click', 'igk.auth.webAuthn.register("' . $v_uri . '"); return false;');
                 }
                 $frm->script()->content = $js_loader->content();
                 $frm->noscript()->content = 'JS is required for authentication - Authentication required';
@@ -1355,6 +1355,20 @@ EOF;
        if (class_exists(WebAuthn::class))
             return new WebAuthn(igk_resources_gets('manager') .' - (CPanel)', igk_sys_domain_name()); 
         return null;
+    }
+    /**
+     * toggle web authorisation requirement success
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public function toggle_webauth_requirement(){
+        igk_server()->method('POST') || igk_die('not a valid request');
+        igk_is_conf_connected() && igk_die('misconfiguration');
+        $cnf = igk_configs();
+        $cnf->webauthn_required = $cnf->webauthn_required;
+        $cnf->saveData();
+        igk_json(['success'=>true]);
     }
     public function webauthn_create_get()
     {

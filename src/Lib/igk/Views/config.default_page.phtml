@@ -160,7 +160,7 @@ $v_confctrl = igk_getconfigwebpagectrl();
 $uri = igk_uri(Path::CombineAndFlattenPath( igk_io_baseuri(),  $v_confctrl->getUri('webauthn-create-register')));
 $v_toggle_uri = igk_uri(Path::CombineAndFlattenPath( igk_io_baseuri(),  $v_confctrl->getUri('toggle-webauth-requirement')));
 
-$tbox->checkbox()->on('click', 'igk.ajx.post("'.$v_toggle_uri.'")')
+$tbox->checkbox('cbox_webauth_requirement')->on('click', 'igk.ajx.post("'.$v_toggle_uri.'")')
 ->setAttribute('value', igk_configs()->webauth_serie_key)
 ->setContent('Toggle WebAuthRequirement');
 // igk_wln_e(__FILE__.":".__LINE__ , "the uri ", $uri);

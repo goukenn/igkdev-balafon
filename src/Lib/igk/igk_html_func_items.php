@@ -1333,11 +1333,13 @@ if (!function_exists("igk_html_node_centerbox")) {
 	}
 }
 if (!function_exists("igk_html_node_checkbox")) {
-	///<summary>function </summary>
+	///<summary>create a web checkbox </summary>
 	/**
-	 * function __desc__
+	 * create a web checkbox
+	 * @param string $id id that identify the checkbox
+	 * @param mixed $value value that need to referer the when checkbox is active
 	 */
-	function igk_html_node_checkbox($id, $value = null)
+	function igk_html_node_checkbox(string $id, $value = null)
 	{
 		$n = igk_create_node('input');
 		$n["type"] = "checkbox";
