@@ -755,8 +755,8 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
                     $igk->CurrentPage = $p;
                 }
             }
-            if (igk_getr("l", null) != null) {
-                R::ChangeLang(igk_getr("l"));
+            if (!is_null($lang = igk_getr("l", null))) {
+                R::ChangeLang($lang);
             }
             if (igk_getr("history", 0) == 1) {
                 igk_debug_wln("notice:form history");
@@ -777,6 +777,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             if ($l) {
                 R::ChangeLang(igk_getv($args, "l"));
                 unset($args["l"]);
+
             }
         }
         $arg = igk_io_arg_from($f);

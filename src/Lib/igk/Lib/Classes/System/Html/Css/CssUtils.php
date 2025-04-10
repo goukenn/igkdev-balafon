@@ -41,6 +41,22 @@ abstract class CssUtils
 {
     private static $sm_treated_colors = [];
     const CSS_DESC_TITLE = 'Balafon Css Theme';
+
+    /**
+     * get code block definition 
+     * @param mixed $definition 
+     * @return mixed 
+     */
+    public static function BlockDefinition($definition){
+        if (is_array($definition)){
+            $sb = new StringBuilder;
+            foreach($definition as $k=>$v){
+                $sb->append(sprintf('%s{%s}', $k, $v));
+            }
+            $definition = $sb.'';
+        }
+        return $definition;
+    }
     /**
      * merge styles definition 
      * @param mixed ...$args 
@@ -668,6 +684,8 @@ abstract class CssUtils
     {
         if (count($tab) > 0)
             return implode(";", array_map(function ($v, $k) {
+                if (is_numeric($k))
+                    return $v;
                 return sprintf('%s:%s', $k, $v);
             }, $tab, array_keys($tab))) . ";";
     }

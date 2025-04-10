@@ -6,7 +6,7 @@
 
 namespace IGK\System\Configuration;
 
-
+use IGK\System\Html\XML\XmlConfigurationNode;
 
 /**
  * class factory for configuration
@@ -33,7 +33,7 @@ class SysConfigExpressionFactory{
         igk_environment()->unsetInArray(self::KEY, $prefix);
     }
     public static function GetRegisterRegex(){
-        $s = ["sys","app"];
+        $s = [XmlConfigurationNode::SYS_CONFIG, XmlConfigurationNode::APP_CONFIG];
         if (is_array($t = igk_environment()->get(self::KEY))){
             $s = array_unique(array_merge($s, array_keys($t)));
         }

@@ -34,7 +34,7 @@ class CSSContext{
         return "";
     }
     public function SetClassDef($def, $classStyle, $medias=null, $type=null){
-        if ($type!=null && $type!="sys"){
+        if ($type!=null && $type!= 'sys'){
             throw new IGKException("Only sys is allowed for media type", 500);
         }
         if ($medias==null){

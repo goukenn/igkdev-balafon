@@ -255,7 +255,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 return true;
             } else {
                 $_error = __CLASS__ . "::Error : SERVER RESOURCE # ";
-                igk_notify_error($_error, "sys");
+                igk_notify_error($_error, 'sys');
                 $error = igk_db_last_connect_error();
                 $this->m_lastError = $error;
             }

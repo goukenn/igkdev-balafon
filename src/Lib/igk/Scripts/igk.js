@@ -1123,7 +1123,7 @@ Name:balafon.js
     }
     // >@ get new value number
     function igk_getNumber(value, cibling, property) {
-        var ex = /(((-{0,1})[0-9]+(\.[0-9]+){0,1})(px|em|%){0,1})$/;
+        var ex = /(((-{0,1})[0-9]+(\.[0-9]+){0,1})(px|em|ch|%){0,1})$/;
         var t = ex.exec(value);
         if (t) {
             if (t[5]) {
@@ -1141,22 +1141,32 @@ Name:balafon.js
                         break;
                     case "%":
                         break;
+                    case 'ch':
+                        // + | size of the 'O' in the font size 
+                        break;
                 }
             }
             return parseFloat(t[2]);
         }
         return 0;
     }
-
+    /**
+     * retrieve in value
+     * @param {*} value 
+     * @returns 
+     */
     function igk_getInt(value) {
-        var t = /((-{0,1})[0-9]+(\.[0-9]+){0,1})(px|em|%)*$/.exec(value);
-        if (t)
+        var t = /((-{0,1})[0-9]+(\.[0-9]+){0,1})(px|em|%|ch)*$/.exec(value);
+        if (t){
+            if (arguments.length>1)
+                arguments[1].unit = t[0];
             return parseInt(t[1]);
+        }
         return 0;
     }
 
     function igk_getUnit(value) {
-        var t = /([0-9]+(\.[0-9]+){0,1})(px|em|pt|cm|mm|rem|%)*$/.exec(value);
+        var t = /([0-9]+(\.[0-9]+){0,1})(px|em|pt|cm|mm|rem|%|ch|vh|vw)*$/.exec(value);
         if (t) {
             if (typeof (t[3]) == igk.constants.undef) {
                 return "px";
@@ -1166,6 +1176,13 @@ Name:balafon.js
         return "";
     }
 
+    /**
+     * retrieve pixel unit value
+     * @param {*} value 
+     * @param {*} cibling 
+     * @param {*} property 
+     * @returns 
+     */
     function igk_getPixel(value, cibling, property) {
         switch (value) {
             case "auto":
@@ -1176,7 +1193,7 @@ Name:balafon.js
                 }
                 break;
             default:
-                var ex = /(((-{0,1})[0-9]+(\.[0-9]+){0,1})(px|em|%){0,1})$/;
+                var ex = /(((-{0,1})[0-9]+(\.[0-9]+){0,1})(px|em|%|ch){0,1})$/;
                 var t = ex.exec(value);
                 if (t) {
                     var d = parseFloat(t[2]);
@@ -1956,13 +1973,29 @@ Name:balafon.js
     function igk_init_powered(n) {
         const ln = $igk(n);
         const bfirst = $igk('body').first();
+        let scrollingTimeout = null;
+        let scrolling = false;
         let t = bfirst.qselect('.igk-parentscroll[igk-type=controller]').first() ||
             bfirst.qselect('.igk-powered-viewer').first() ||
             bfirst.qselect('.igk-parentscroll').first();
         if (t) {
+            async function _updateBottomSize(offw){
+                let bottom = t.getComputedStyle('padding-bottom');
+                let height = ln.getComputedStyle('height');
+                if (offw>0){
+                    t.setCss({ paddingBottom: 'calc(' + bottom + ' + ' + height + ')' });
+                }  
+            };
             function _resizeInvoke() {
+                
                 let alignl = ln.supportClass('alignl');
                 let offw = t.width() - t.o.clientWidth;
+
+                
+                if( (offw==0) && scrolling ){
+                    offw=11; // macos - width size view that autoshow/hidde
+                } 
+                // console.log({height, offw, target: t.o});  
                 if (!alignl) {
                     ln.setCss({
                         display: 'inline-block',
@@ -1983,36 +2016,30 @@ Name:balafon.js
                 position: 'fixed',
                 display: 'inline-block'
             });
+            let tacTimeout = null;
+            async function acTimeout(){
+                _resizeInvoke();
+            };
+            t.on('scroll', async function(){
+                // +| note: do update on the main thread to avoid scrolling effect warning
+                 scrolling = true;
+                clearTimeout(scrollingTimeout);
+                clearTimeout(acTimeout);
+                tacTimeout = setTimeout(acTimeout, 20);
+                scrollingTimeout = setTimeout(async function(){ 
+                    scrolling = false;
+                    _resizeInvoke();
+                }, 2000);
+            });
             _resizeInvoke();
-            let bottom = t.getComputedStyle('padding-bottom');
-            let height = ln.getComputedStyle('height');
-            t.setCss({ paddingBottom: 'calc(' + bottom + ' + ' + height + ')' });
         }
-        // console.log('init powered ', n, t);
-        // get parent node
-        // var node = $igk(n || window.igk.getParentScriptByTagName('div'));
-        // igk.ready(function () {
-        //     var q = $igk(".igk-powered-viewer").last();
-        //     if (!q) {
-        //         q = $igk('body').first().qselect('[igk-type=controller]');
-        //         let h = q.getHeight();
-        //         let p = q.getoffsetParent();
-        //         q = null;
-        //     }
-        //     if (q) {
-        // is_observe() && (new ResizeObserver(_resizing)).observe(q.o);
-        // node.setCss({
-        //     "position": "sticky",
-        //     "bottom": "0px",
-        //     "top": "calc(100vh - " + node.getHeight() + "px)",
-        //     "left": "calc(100% - 130px)",
-        //     "width": "130px",
-        // });
-        // q.add(node);
-        //     }
-        // });
     };
-
+    /**
+     * init powered manager node
+     * @param {*} node 
+     * @param {*} ciblingnode 
+     * @returns 
+     */
     function igk_powered_manager(node, ciblingnode) {
         if (!node) return;
 
@@ -2082,9 +2109,13 @@ Name:balafon.js
         }
         return o;
     };
-    // initialize object
-    // @n: source object
-    // @d: default object
+    /**
+     * initialize object
+     * @param {*} n init object
+     * @param {*} d initialize default object
+     * @returns 
+     * node activateFields
+     */ 
     function igk_initobj(n, d) {
         if (!n)
             return d;
@@ -3136,8 +3167,13 @@ Name:balafon.js
         igk_defineProperty(this, "tagName", { get: function () { return this.ctag } });
         igk_defineProperty(this, "IsExtension", { get: function () { return true; } });
         this.__proto__ = __igk_nodeProperty.prototype;
-    }
+    };
     var __prop = __igk_nodeProperty.prototype;
+
+    function _get_computeded_number(n, p){
+        var h = n.getComputedStyle(p);
+        return igk.getNumber(h, n.o, p);
+    };
     igk_appendProp(__prop, {
         setConfig: function (k, v) {
             this.getConf()[k] = v;
@@ -3428,6 +3464,13 @@ Name:balafon.js
             }
             return this;
         },
+        /**
+         * on event helper
+         * @param {string} method 
+         * @param {*} func 
+         * @param {bool} useCapture 
+         * @returns 
+         */
         on: function (method, func, useCapture) {
             /**
             // sample: target.on('click', func) ; shortcut to reg_event
@@ -3549,16 +3592,41 @@ Name:balafon.js
             }
             return this;
         },
-        height: function () {
-            var h = this.getComputedStyle("height");
-            return igk.getNumber(h, this.o, "height");
+        /**
+         * calculate the height
+         * @returns {number}
+         */
+        height: function(){
+            return _get_computeded_number(this, 'height'); 
         },
-        width: function () {
-            var h = this.getComputedStyle("width");
-            return igk.getNumber(h, this.o, "width");
+        /**
+         * calculate the width 
+         * @returns {number}
+         */
+        width: function(){
+            return _get_computeded_number(this, 'width'); 
         },
         hasHCroll() {
             return (this.o.scrollTopMax || (this.o.scrollHeight - this.o.offsetHeight)) > 0;
+        },
+        /**
+         * retrieve node offsetparent
+         * @returns 
+         */
+        getScrollParent(){
+            function getoffsetParent(p){
+                while(p){
+                    if ((p.scrollHeight > p.clientHeight) || 
+                    (p.scrollWidth > p.clientWidth)){
+                        return p;
+                    }
+                    p = p.offsetParent;
+                }
+                return null;
+            }
+            let c = getoffsetParent(this.o.offsetParent);
+            if (c) return $igk(c);
+            return null;
         },
         setCssAssert: function (c, p) // conditional css property
         {
@@ -4841,6 +4909,10 @@ Name:balafon.js
         };
     };
     // return true is item is visible in screen display
+    /**
+     * true if item is visible in screen display viewport
+     * @returns {bool}
+     */
     __prop.getisVisible = function () {
         var j = this;
         if (!j.getpresentOnDocument()) {
@@ -5147,7 +5219,7 @@ Name:balafon.js
                 try {
                     _out = window.external.notify(igk.JSON.convertToString(_json));
                 } catch (ex) {
-                    igk.winui.notify.showMsg("<div class=\"igk-notify-danger\">Execption : External JS Notify [" + method +
+                    igk.winui.notify.showMsg("<div class=\"igk-notify-danger\">Execption: External JS Notify [" + method +
                         "] not invoked <br /> " + ex + "</div");
                 }
                 return _out;
@@ -5161,7 +5233,7 @@ Name:balafon.js
                         _out = fc(_json); //"{method:"+method+", param:\""+ params+"\"}");
                     }
                 } catch (ex) {
-                    igk.winui.notify.showMsg("<div class=\"igk-notify-danger\">Execption : External JS Notify [" + method +
+                    igk.winui.notify.showMsg("<div class=\"igk-notify-danger\">Execption: External JS Notify [" + method +
                         "] not invoked <br /> " + ex + "</div");
                 }
             } else {
@@ -5246,6 +5318,23 @@ Name:balafon.js
         appendProperties: igk_appendProp,
         defineProperty: igk_defineProperty,
         extendProperty: igk_extendProperty,
+        /**
+         * use to activate fields and filter 
+         * @param {*} data data to activate
+         * @param {*} definition filter definition 
+         * @returns 
+         */
+        activateField: function (data, definition) {
+            const r = {};
+            for (let i in definition) {
+                if (i in data) {
+                    r[i] = data[i];
+                } else {
+                    r[i] = definition[i];
+                }
+            };
+            return r;
+        },
         setProperty: function (o, n, v) {
             /**
              * define chain properties
@@ -5334,7 +5423,20 @@ Name:balafon.js
             // + | selection in igk			
             var b = null;
             var v_sl = new igk.selector();
-            if (!item || (pattern == null) || (pattern.length == 0) || /['`\[\]]/.exec(pattern)) {
+            if (!item || (pattern == null) || ((pattern = pattern.trim()) && pattern.length == 0) || /['`\[\]]/.exec(pattern)) {
+                return $igk(v_sl);
+            }
+
+            if (/^>/.test(pattern) && (pattern != '>>')) {
+                let cp = pattern;
+                while (cp[0] == '>') {
+                    cp = cp.substring(1);
+                }
+                item.childNodes.forEach((a) => {
+                    if (a.matches(cp)) {
+                        v_sl.push(a);
+                    }
+                });
                 return $igk(v_sl);
             }
             if (pattern.indexOf('>>') == -1) {
@@ -5638,8 +5740,6 @@ Name:balafon.js
             // sys call by system
             function _async_call(e, document, i) {
                 //@i : name of the measurement function for 'warning duration violation' raise in chrome
-                // console.log("function : "+i);
-                // if (i=="f5")
                 setTimeout(function () {
                     e.apply(document, [i]);
                 }, 10);
@@ -5792,7 +5892,9 @@ Name:balafon.js
                         // correct object expected in ie 8
                         if (typeof (args) == IGK_UNDEF)
                             args = [];
-                        for (var i = 0; i < this.getCount(); i++) {
+                        const count = this.getCount();
+                        args.unshift({count});
+                        for (var i = 0; i < count; i++) {
                             func.apply($igk(m_items[i]), args);
                         }
                     }
@@ -8526,6 +8628,14 @@ Name:balafon.js
         return this.eventRegister.getMethod(method);
     };
 
+    /**
+     * 
+     * @param {*} item 
+     * @param {*} method 
+     * @param {*} func 
+     * @param {*} useCapture 
+     * @returns 
+     */
     function igk_winui_reg_system_event(item, method, func, useCapture) {
         if (item == null)
             return !1;
@@ -9336,7 +9446,8 @@ Name:balafon.js
         function _captureId(id) {
             return id || (igk.navigator.isChrome() ? 1 : 0);
         }
-        // mouse capture definition : chrome do not implement capture specification
+        // mouse capture definition
+        // chrome do not implement capture specification
         igk.system.createNS("igk.winui.mouseCapture", {
             getCapture: function () { //return the current capture object reference
                 return m_capture;
@@ -12203,174 +12314,6 @@ Name:balafon.js
     // for igk.css compatibility utility
     createNS("igk", {
         css: new (function () {
-            // var props = {};
-            // var domProp = null;
-            // var vendors = ['webkit', 'ms', 'o'];
-            // function getchars(x) {
-            // 	var t = [];
-            // 	for (var i = 0; i < x.length; i++)
-            // 		t.push(x[i]);
-            // 	return t;
-            // }
-            // function getstring(ch) {
-            // 	var t = "";
-            // 	for (var i = 0; i < ch.length; i++)
-            // 		t += ch[i];
-            // 	return t;
-            // }
-            // function __setProperty(item, properties) {
-            // 	var _navsupport = igk.navigator.isIE();
-            // 	if (item && item.style && properties) {
-            // 		for (var i in properties) {
-            // 			try {
-            // 				if (i.startsWith("--")) {
-            // 					//ie 11 not supporting custom data on css								
-            // 					item.style.setProperty(i, properties[i]);
-            // 					if (!_navsupport)
-            // 						continue;
-            // 				}// else
-            // 				item.style[i] = properties[i];
-            // 			}
-            // 			catch (ex) {
-            // 				// boxSizing cause error					
-            // 			}
-            // 		}
-            // 	}
-            // 	else {
-            // 		console.debug('[BJS] -/!\v properties ' + item + ' not defined');
-            // 	}
-            // }
-            // // load dummy css style properties
-            // var xdum = igk.createNode("div", igk.namespaces.xhtml);
-            // var dum = xdum.o;
-            // var l = false;
-            // if (dum.style) {
-            // 	for (var i in dum.style) {
-            // 		if (typeof (dum.style[i]) != IGK_FUNC) {
-            // 			switch (i) {
-            // 				case 'cssText':
-            // 				case 'length':
-            // 				case 'parentRule':
-            // 					continue;
-            // 			}
-            // 			// 
-            // 			// firefox implement some property with - symbol ignore them
-            // 			// 
-            // 			if (i.indexOf('-') != -1)
-            // 				continue;
-            // 			props[(i + '').toLowerCase()] = i;
-            // 			l = !0;
-            // 		}
-            // 	}
-            // }
-            // // delete(dum);
-            // // load css from dummy style resolving the safary error
-            // if (!l && window.getComputedStyle) {
-            // 	var txt = window.getComputedStyle(dum).cssText;
-            // 	if (txt) {
-            // 		var tab = txt.split(';');
-            // 		for (var i = 0; i < tab.length; i++) {
-            // 			var s = tab[i].split(':')[0]; // first word
-            // 			var d = getchars(s);
-            // 			var index = 1;
-            // 			if (s[0] == '-') {
-            // 				index = 2;
-            // 			}
-            // 			else {
-            // 				// replace all next segment width uppercase layer
-            // 			}
-            // 			while (index > 0) {
-            // 				index = s.indexOf('-', index);
-            // 				if (index == -1)
-            // 					break;
-            // 				if (index + 1 < s.length) {
-            // 					d[index + 1] = (s[index + 1] + '').toUpperCase();
-            // 				}
-            // 				index++;
-            // 			}
-            // 			s = getstring(d).replace(/( |\-)/g, "");
-            // 			if (typeof (props[s.toLowerCase()]) == IGK_UNDEF)
-            // 				props[s.toLowerCase()] = s;
-            // 		}
-            // 	}
-            // }
-            // // animation and transition
-            // var e = ['animation', 'transition'];
-            // var v = vendors;
-            // // checking global prop
-            // for (var i = 0; i < v.length; i++) {
-            // 	for (var j = 0; j < e.length; j++) {
-            // 		var s = (v[i] + e[j]).toLowerCase();
-            // 		if ((typeof (props[s]) == IGK_UNDEF) && props[s + "delay"]) {
-            // 			props[s] = v[i] + e[j][0].toUpperCase() + e[j].substring(1);
-            // 		}
-            // 	}
-            // }
-            // function __getStyleValue(stylelist, n) {
-            // 	switch (n.toLowerCase()) {
-            // 		case "transition":
-            // 			var s = stylelist[n];
-            // 			if (!igk.isUndef(s) && s.length > 0) // you specify a transition. get by chrome
-            // 				return s;
-            // 			// other navigation join property style
-            // 			var v_p = ['property', 'duration', 'timing-function', 'delay'];
-            // 			var v_v = vendors;
-            // 			var v_k = "";
-            // 			var v_prop = {
-            // 				toString: function () {
-            // 					var t = v_prop.property;
-            // 					var di = v_prop.duration;
-            // 					var tf = v_prop["timing-function"];
-            // 					var dl = v_prop.delay;
-            // 					var s = "";
-            // 					if (!igk.isUndef(t)) {
-            // 						for (var i = 0; i < t.length; i++) {
-            // 							if (i > 0) {
-            // 								s += ',';
-            // 							}
-            // 							s += t[i] + " " + di[i] + " " +
-            // 								tf[i] + " " +
-            // 								dl[i]
-            // 								;
-            // 						}
-            // 					}
-            // 					return s;
-            // 				}
-            // 			};
-            // 			var v_t = 0;
-            // 			var v_splitcsss_pattern = "([^,(]+(\\(.+?\\))?)[\\s,]*";
-            // 			// for standard
-            // 			for (var i = 0; i < v_p.length; i++) {
-            // 				v_k = n + "-" + v_p[i];
-            // 				if ((i == 0) && (typeof (stylelist[v_k]) != igk.constants.undef))
-            // 					v_t = 1;
-            // 				if (!v_t)
-            // 					break;
-            // 				s += ((i > 0) ? " | " : "") + stylelist[v_k];
-            // 				v_prop[v_p[i]] = igk.system.regex.split(v_splitcsss_pattern, stylelist[v_k]);
-            // 			}
-            // 			if (!v_t) {
-            // 				// find througth specification
-            // 				v_t = 0;
-            // 				for (var j = 0; j < v_v.length; j++) {
-            // 					v_prop[v_v[j]] = {};
-            // 					if (v_t)
-            // 						s += "|";
-            // 					for (var i = 0; i < v_p.length; i++) {
-            // 						v_k = v_v[j] + n + "-" + v_p[i];
-            // 						s += stylelist[v_k];
-            // 						if (!igk.isUndef(stylelist[v_k])) // style found ..
-            // 							v_prop[v_p[i]] = igk.system.regex.split(v_splitcsss_pattern, stylelist[v_k]);
-            // 					}
-            // 					v_t = 1;
-            // 				}
-            // 			}
-            // 			return v_prop.toString();
-            // 			break;
-            // 		default:
-            // 			return stylelist[n];
-            // 	}
-            // }
             // css utility properties
             igk.appendProperties(this, {
                 getProperties: function () {
@@ -12452,33 +12395,6 @@ Name:balafon.js
                 // 	// setting real value
                 // 	__setProperty(item, k);
                 // },
-                // setProperties: function (item, properties) {
-                // 	if ((item == null) || (!item.style)) {
-                // 		return;
-                // 	}
-                // 	var k = {};
-                // 	var n = null;
-                // 	var v = null;
-                // 	for (var ni in properties) {
-                // 		if (typeof (ni) != 'string')
-                // 			continue;
-                // 		if (ni.startsWith("--")) {
-                // 			k[ni] = properties[ni];
-                // 			continue;
-                // 		}
-                // 		v = properties[ni];
-                // 		if (igk.css.isItemSupport(['webkit' + ni])) {
-                // 			n = props[('webkit' + ni).toLowerCase()];
-                // 			if (n)
-                // 				k[n] = v;
-                // 		}
-                // 		else if (igk.css.isItemSupport([ni])) {
-                // 			n = props[ni.toLowerCase()];
-                // 			if (n) {
-                // 				k[n] = v;
-                // 			}
-                // 		}
-                // 	}
                 // 	// setting real value		
                 // 	__setProperty(item, k);
                 // },
@@ -12798,7 +12714,7 @@ Name:balafon.js
             var dir = igk.system.io.getlocationdir(igk.getScriptLocation());
             if (!dir || (dir[0] != '/'))
                 return;
-            // console.log('script location :', igk.getScriptLocation());
+
             var loc = igk.resources.getLangLocation(dir, _lang);
             if (igk.resources.lang[_lang]) {
                 init_res(igk.resources.lang[_lang], loc);

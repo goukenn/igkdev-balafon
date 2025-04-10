@@ -36,8 +36,8 @@ trait ScriptTrait
     public static function GetCoreScriptDirs()
     {
         return  [
-            [IGK_LIB_DIR . "/" . IGK_SCRIPT_FOLDER, "igk"],
-            [IGK_LIB_DIR . "/Ext", "sys"],
+            [IGK_LIB_DIR . "/" . IGK_SCRIPT_FOLDER, 'igk'],
+            [IGK_LIB_DIR . "/Ext", 'sys'],
         ];
     }
     /**

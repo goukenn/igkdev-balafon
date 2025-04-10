@@ -9,15 +9,17 @@
 // @url: https://www.igkdev.com
 
 use IGK\Css\CssSupport;
+use IGK\Css\ICssAnimation;
 use IGK\Css\ICssStyleContainer;
 use IGK\System\Exceptions\CssParserException;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\IO\StringBuilder;
 
 /**
  * media management 
  * @package 
  */
-final class IGKMedia implements ArrayAccess, ICssStyleContainer
+final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
 {
     use IGK\System\Polyfill\IGKMediaArrayAccessTrait;
     const CUSTOM_COLOR = 0x1;
@@ -26,12 +28,26 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
     const FONT_THEME = 0x3;
     const MEDIA_ID = 0x0;
     const PROPERTIES_THEME = 0x4;
+    const ANIMATIONS = 0x06;
     private $_;
     ///<summary>.ctr media </summary>
     public function __construct($type, $name)
     {
         $this->_ = array();
         $this->_[self::MEDIA_ID] = $type . ":" . $name;
+    }
+    /**
+     * register animation 
+     * @param string $name 
+     * @param mixed $definition 
+     * @return mixed 
+     */
+    public function animation(string $name, $definition) {
+        $d = CssUtils::BlockDefinition($definition);
+        if (!isset($this->_[self::ANIMATIONS])){
+            $this->_[self::ANIMATIONS] = [];
+        }
+        $this->_[self::ANIMATIONS][$name] = sprintf('@keyframes %s{%s}', $name, $d);
     }
 
     public static function Clone(IGKMedia $media)
@@ -98,7 +114,8 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
             self::DEFAULT_THEME => "def",
             self::CUSTOM_COLOR => "color",
             self::FILES_THEME => "file",
-            self::FONT_THEME => "font"
+            self::FONT_THEME => "font",
+            self::ANIMATIONS => 'anims'
         ] as $t => $n) {
             $out[$n] = igk_getv($this->_, $t);
         }
@@ -120,7 +137,8 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
             self::CUSTOM_COLOR => "color",
             self::FILES_THEME => "file",
             self::FONT_THEME => "font",
-            self::PROPERTIES_THEME => 'props'
+            self::PROPERTIES_THEME => 'props',
+            self::ANIMATIONS=>'anims'
         ] as $t => $n) {
 
             if (is_array($g = igk_getv($data, $n))) {
@@ -208,6 +226,12 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
                     }
                 }
             }
+        } 
+        if ($anims = igk_getv($this->_, self::ANIMATIONS)){
+            // igk_wln_e(__FILE__.":".__LINE__ , "load aminations.....");
+            ksort($anims);
+            $o.= implode('', $anims);
+
         }
 
         $o .= $this->getPropertiesCssDef($theme, $systheme, $minfile, $themeexport);
@@ -226,8 +250,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
                 if (is_object($v)) {
                     $v = $v->getDefinition();
                     continue;
-                }
-
+                } 
                 $kv = trim(igk_css_treat($v, $themeexport, $theme, $systheme));
                 $sb->append($k . ':' . $kv . ';');
             }

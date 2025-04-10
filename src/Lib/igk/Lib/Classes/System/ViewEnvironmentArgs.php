@@ -12,6 +12,7 @@ use ArrayAccess;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Helper\StringUtility;
+use IGK\Helper\ViewHelper;
 use IGK\System\Html\HtmlNodeBuilder;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException; 
@@ -187,6 +188,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var ?int
      */
     var $responseCode;
+
+    /**
+     * initialize with the current view file directory 
+     * @var mixed
+     */
+    var $_dir_;
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -222,6 +229,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $session = igk_app()->getSession(); 
         $base_uri = $controller::uri('/');
         $builder = $builder ?? $t ? new HtmlNodeBuilder($t) : null;
+        $_dir_ = ViewHelper::Dir() ?? dirname($file);        
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

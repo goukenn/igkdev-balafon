@@ -659,8 +659,6 @@ EOF;
             $k = $this->getDomainUriAction();
             $pattern = igk_pattern_matcher_get_pattern($k);
             $p = igk_pattern_get_matches($pattern, $page[0], array_merge(["lang"], igk_str_get_pattern_keys($k)));
-            // extract(igk_pattern_view_extract($this, $p, 1));
-            // igk_ctrl_change_lang($this, $p);
         } else {
             unset($u->ctrl);
             $page = explode("?", $u->uri);

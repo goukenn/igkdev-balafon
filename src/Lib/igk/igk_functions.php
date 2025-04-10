@@ -66,11 +66,13 @@ use function igk_resources_gets as __;
 use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
 use IGK\Server;
+use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Console\Commands\SitemapGeneratorCommand;
 use IGK\System\Console\Commands\Sync\SyncProjectSettings;
 use IGK\System\Console\Logger;
 use IGK\System\Core\IProxyDataArgs;
 use IGK\System\DataArgs;
+use IGK\System\Html\CallableConstants;
 use IGK\System\Html\Dom\HtmlCoreJSScriptsNode;
 use IGK\System\Html\Dom\SvgListNode;
 use IGK\System\Html\HtmlLoadingContext;
@@ -3454,7 +3456,7 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
     while (($c = preg_match_all($reg2, $v, $match))) {
         for ($i = 0; $i < $c; $i++) {
             $v_m = $match[0][$i];
-            $type = $match['name'][$i];
+            // $type = $match['name'][$i];
             if (isset($chain[$v_m])) {
                 igk_die("looping resolution : " . $v_m . " for [" . $src . "]");
                 return $v;
@@ -3466,11 +3468,13 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
                     $v = str_replace($v_m, igk_css_treat($theme, $theme[$v_n], $systheme), $v);
                 } else {
                     $rtab = explode(':', $v_n);
+                    $splitter = '/(\s*[;,]\s*|[;,]|\s+)/';
                     if (count($rtab) >= 2) {
                         $v_from = strtolower(trim($rtab[0]));
                         switch ($v_from) {
                             case \IGK\Css\CssThemeResolver::ATTR_G_RESOLV_MODE:
-                                $v_nn = explode(',', trim($rtab[1]));
+                                $v_nn = preg_split($splitter, trim($rtab[1]));
+                                //$v_nn = explode(',', trim($rtab[1]));   
                                 $sk = IGK_STR_EMPTY;
                                 foreach ($v_nn as $r) {
                                     $g = trim($r);
@@ -3483,7 +3487,8 @@ function igk_css_treat_bracket($v, $theme, $systheme = null, $gtheme = null, $do
                                 break;
                         }
                     } else {
-                        $v_nn = explode(',', trim($v_n));
+                        $v_nn = preg_split($splitter, trim($v_n));
+                        // $v_nn = explode(',', trim($v_n));
                         $sk = IGK_STR_EMPTY;
                         $rv = IGK_STR_EMPTY;
                         foreach ($v_nn as $r) {
@@ -3781,9 +3786,32 @@ function igk_ctrl_bind_css_file(\IGK\Controllers\BaseController $ctrl, \IGK\Syst
 function igk_ctrl_change_lang($ctrl, $p)
 {
     $lang = igk_getv($p, 'lang');
+    $set = false;
     if ($lang) {
         if (R::ChangeLang($lang)) {
             $ctrl->setEnvParam(BaseController::IGK_ENV_PARAM_LANGCHANGE_KEY, 1);
+            $set=true;
+        }
+        else {
+            $set = $lang==R::GetCurrentLang();
+        }
+    }
+    if (!$set){
+        $_headers = getallheaders();
+        $locale = igk_app()->session->lang; // session locale
+     
+
+        if (!$locale  && ($l = igk_getv($_headers, 'Accept-Language'))) {
+            $g = explode(',', explode(';', $l, 2)[0]);
+            $c = R::GetCurrentLang();
+            if (!in_array($c, $g)) {
+                foreach ($g as $lang) {
+                    if (R::SupportLang($lang)) {
+                        R::ChangeLang($lang);
+                        break;
+                    }
+                }
+            }
         }
     }
     unset($lang);
@@ -3852,7 +3880,7 @@ function igk_ctrl_get_app_uri($ctrn, $path = null)
  * @param mixed $type system type
  * @param mixed $port port request
  */
-function igk_ctrl_get_cmd_uri(BaseController $ctrl, $u = null, $type = 'sys', $port = null)
+function igk_ctrl_get_cmd_uri(BaseController $ctrl, $u = null, $type = SystemUriActionController::AC_SYS_URI, $port = null)
 {
     return \IGK\Helper\UriHelper::GetCmdAction($ctrl, $u, $type, $port);
 }
@@ -23371,7 +23399,7 @@ function igk_sys_powered_node()
     $d["igk-no-contextmenu"] = "1";
     $s = igk_app()->getConfigs()->powered_message;
     $d->Content = !empty($s) ? $s : __("Powered by") . " <a href=\"" . IGK_WEB_SITE . "\" >IGKDEV</a> ";
-    $d->setCallback("getIsVisible", "igk_sys_powered_view_callback");
+    $d->setCallback(CallableConstants::IS_VISIBLE_METHOD, "igk_sys_powered_view_callback");
     return $d;
 }
 ///<summary></summary>

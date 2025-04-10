@@ -16,4 +16,7 @@ abstract class CallableConstants{
      * (node, options):boolean
      */
     const CALLABLE_ACCEPT_RENDER = 'AcceptRender';
+    const IS_VISIBLE_METHOD = 'getIsVisible';
+    const SET_URI_METHOD ='setUri';
+    const CAN_RENDER_TAG_METHOD = 'getCanRenderTag';
 }

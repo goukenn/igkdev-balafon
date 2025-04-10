@@ -817,16 +817,34 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $this;
     }
+    /**
+     * get the base uri
+     * @return mixed 
+     */
     public function getBaseUri()
     {
         return $this->m_baseuri;
     }
+    /**
+     * set the base uri 
+     * @param mixed $baseuri 
+     * @return $this 
+     */
     public function setBaseUri($baseuri)
     {
         $this->m_baseuri = $baseuri;
         return $this;
     }
-
+    /**
+     * set view port definition 
+     * @param string $portdefinition 
+     * @return $this 
+     * @throws Exception 
+     */
+    public function setViewport(string $portdefinition){
+        $this->getMetas()->setAttribute(HtmlMetaManager::META_VIEWPORT,'content', $portdefinition);
+        return $this;
+    }
     ///<summary></summary>
     ///<param name="name"></param>
     ///<return refout="true"></return>

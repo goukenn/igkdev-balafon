@@ -1116,8 +1116,8 @@ if (!function_exists("igk_html_node_blocknode")) {
 	function igk_html_node_blocknode()
 	{
 		$n = igk_create_xmlnode("igk-block-viewitem");
-		$n->setCallback("getIsVisible", "return \$this->HasChilds ;");
-		$n->setCallback('getCanRenderTag', "return false;");
+		$n->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->HasChilds ;");
+		$n->setCallback(CallableConstants::CAN_RENDER_TAG_METHOD, "return false;");
 		return $n;
 	}
 }
@@ -1581,8 +1581,8 @@ if (!function_exists("igk_html_node_conditionalnode")) {
 	function igk_html_node_conditionalnode($conditioncallback)
 	{
 		$n = igk_create_node(__FUNCTION__);
-		$n->setCallback('getCanRenderTag', "return false;");
-		$n->setCallback("getIsVisible", "igk_html_visibleConditionalNode");
+		$n->setCallback(CallableConstants::CAN_RENDER_TAG_METHOD, "return false;");
+		$n->setCallback(CallableConstants::IS_VISIBLE_METHOD, "igk_html_visibleConditionalNode");
 		return $n;
 	}
 }
@@ -1648,7 +1648,7 @@ if (!function_exists("igk_html_node_cookiewarning")) {
 		$n["igk-domain-ewarn"] = "local.com.ewarn";
 		$n->Content = __("By using this site, you agree with cookies usage. you can erase or stop them in your navigation parameters." . "<a href=\"" . $warnurl . "\">" . __("For more infos") . "</a>");
 		$n->div()->setClass("close")->addABtn("#")->Content = igk_svg_use("drop");
-		$n->setCallback("IsVisible", "return igk_get_global_cookie(\"local.com.warn\", 0)!=0;");
+		$n->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return igk_get_global_cookie(\"local.com.warn\", 0)!=0;");
 		return $n;
 	}
 }
@@ -3073,7 +3073,7 @@ if (!function_exists("igk_html_node_jsclonenode")) {
 		$n = igk_create_node("igk-js-clone-node");
 		$n["igk-js-cn"] = new IGKValueListener($n, 'getTargetId');
 		$n->setParam("self::targetnode", $node);
-		$n->setCallback('getCanRenderTag', "return true;");
+		$n->setCallback(CallableConstants::CAN_RENDER_TAG_METHOD, "return true;");
 		$n->setCallback("getTargetId", "return \$this->getParam('self::targetnode'); ");
 		return $n;
 	}
@@ -3255,7 +3255,7 @@ if (!function_exists("igk_html_node_labelinput")) {
 	function igk_html_node_labelinput($id, $text, $type = "text", $value = null, $attributes = null, $require = false, $description = null)
 	{
 		$o = igk_create_notagnode(); //igk:label-input");
-		$o->setCallback('getCanRenderTag', "return false;");
+		$o->setCallback(CallableConstants::CAN_RENDER_TAG_METHOD, "return false;");
 		$o->setCallback("getinput", "return \$this->input;");
 
 		$i = $o->add("label");
@@ -5433,8 +5433,8 @@ if (!function_exists("igk_html_node_webmasternode")) {
 	function igk_html_node_webmasternode()
 	{
 		$n = igk_create_node("webmaster-node");
-		$n->setCallback('getCanRenderTag', "return false;");
-		$n->setCallback("getIsVisible", "igk_html_callback_is_webmaster");
+		$n->setCallback(CallableConstants::CAN_RENDER_TAG_METHOD, "return false;");
+		$n->setCallback(CallableConstants::IS_VISIBLE_METHOD, "igk_html_callback_is_webmaster");
 		return $n;
 	}
 }

@@ -784,9 +784,7 @@ define('IGK_END_COMMENT', "*/");
 define('IGK_IPV4_REGEX', "/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}(:[0-9]+)?$/i");
 define('IGK_CSS_TREAT_REGEX', '/\[\s*(?P<name>[\w\-]+)\s*:\s*(?P<value>([a-zA-Z0-9_,\/\\\.\- \(\)%:\#\!]+|[^\]]+))\s*\](?P<stop>(\s*(,|;)))?/i');
 define('IGK_CSS_TREAT_REGEX_2', '/\{\s*(?P<name>(sys)\s*:\s*[\w:;\-_,\!\s%]+)\s*\}\s*(;)*/i');
-// define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\((sys)?:(?P<name>([a-z0-9_\-\.]+))\)\s*/i");
 //add ; on selection 
-// define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([a-z0-9_\-\.]+))\)\s*;?/i");
 define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([^\)]+))\)\s*;?/i");
 define('IGK_SUBDOMAIN_URI_NAME_REGEX', "/^(?P<name>[\.\-_0-9a-z]+)\.([^\.]+)\.([^\.]+)$/i");
 define('IGK_ALL_REGEX', "/(.)*/i");

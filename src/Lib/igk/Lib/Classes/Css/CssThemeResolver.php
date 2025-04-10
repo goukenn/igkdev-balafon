@@ -77,6 +77,7 @@ class CssThemeResolver
     const ATTR_SYS_BCL = 'sysbcl';
 
     const ATTR_G_RESOLV_MODE = 'sys';
+    const ATTR_G_THEME_RESOLV_MODE = 'th';
 
     /**
      * treat theme value
@@ -165,8 +166,9 @@ class CssThemeResolver
                         case self::ATTR_G_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
                             $rv = $systheme->$deftheme[$name];
+                            // igk_wln_e(__FILE__.":".__LINE__ , 'loading....');
                             break;
-                        case "th":
+                        case self::ATTR_G_THEME_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
                             $rv = $theme->$deftheme[$name];
                             break;
@@ -185,7 +187,9 @@ class CssThemeResolver
             $vresolv = 0;
             $qlist = [$v];
             $roots = [];
-            while ($g = array_pop($qlist)) {
+            while (count($qlist)>0) {
+                $g = array_pop($qlist);
+                if (!$g) continue;
                 $rtv = null;
                 $pos = 0;
                 if (is_array($g)) {

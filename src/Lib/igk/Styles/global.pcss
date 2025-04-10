@@ -138,6 +138,8 @@ $def[".no-padding"] = "padding:0px !important;";
 $def[".no-decoration"] ="text-decoration:none !important;";
 $def[".no-repeat"] = "background-repeat:no-repeat;";
 $def[".no-overflow"] = "overflow:hidden;";
+$def['.no-overflow-x'] = "overflow-x: hidden;";
+$def['.no-overflow-y'] = "overflow-y: hidden;";
 $def[".no-style"] = "text-decoration:none; list-style-type:none; border:none;";
 $def[".no-visible"] = "visibility: hidden;";
 $theme->supports('resize:none')->set('.no-resize', 'resize:none;');
@@ -386,7 +388,7 @@ $def[".fit-page-h"] = "height: 100vh";
 
 
 $def[".igk-horizontal-separator"]="{sys:dispb} height:1px;  [bgcl:--igk-bgcl-hsep] border-bottom: 1px solid [cl:igk-hsep-light, #eee]; margin-bottom:10px";
-$def[".igk-powered"] = "display:block; position:fixed; background-color: [cl:poweredBgColor,#222]; color:[cl:poweredColor, white]; bottom:0px; z-index: 10000; font-size:12px; right:0px; border-radius:4px 0px 0px 0px; padding:4px 0px 0px 16px; ";
+$def[".igk-powered"] = "display:block; position:fixed; background-color: [cl:poweredBgColor,#222]; color:[cl:poweredColor, white]; bottom:0px; z-index: 10000; font-size:12px; right:0px; border-radius:4px 0px 0px 0px; padding:4px 0px 0px 16px; [trans: all .2s ease]";
 $def[".igk-powered a"] = "color:white;";
 $def[".igk-powered a:visited,.igk-powered a:hover"] = "color:white;";
 $def[".igk-notify.igk-notify-danger .error-code"] = "background-color:#eee; color:#555; padding:10px;";

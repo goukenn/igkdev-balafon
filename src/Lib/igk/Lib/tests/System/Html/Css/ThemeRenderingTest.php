@@ -65,7 +65,6 @@ class ThemeRenderingTest extends BaseTestCase{
 
     public function test_cssrendering_treatbranket(){
         $theme = new HtmlDocTheme(null, 'test');
-        // $theme['.basic'] = '{sys:dispib, alignc}; [bgcl:--fillcolor]'; 
         $theme->def[".igk-progressbar"] = "{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444]; height:16px;";
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('.igk-progressbar{background-color:progressBarBackgroundColor;height:16px;}', $s);
@@ -191,6 +190,25 @@ class ThemeRenderingTest extends BaseTestCase{
         $this->assertTrue(
             false !== strpos($s, "html[data-theme='dark']")
         );
+    }
+
+
+    function test_csstreatment_treatglobal_theme(){
+        $th = new HtmlDocTheme(null);
+        $sth = new HtmlDocTheme(null);
+        $sth['.dispib'] = 'display:inline-block;';
+        $sth['.no-float'] = 'clear:both;';
+
+        $r = igk_css_treat_bracket('{sys:dispib,no-float}', $th, $sth);
+        $this->assertEquals('display:inline-block;clear:both;', $r);
+
+
+        $r = igk_css_treat_bracket('{sys:dispib no-float}', $th, $sth);
+        $this->assertEquals('display:inline-block;clear:both;', $r);
+
+        $r = igk_css_treat_bracket('{sys:dispib; no-float}', $th, $sth);
+        $this->assertEquals('display:inline-block;clear:both;', $r);
+
     }
 }
 

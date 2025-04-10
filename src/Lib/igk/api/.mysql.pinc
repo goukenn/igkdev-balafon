@@ -13,6 +13,7 @@ use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Resources\R;
 use IGK\System\Database\MySQL\DataAdapter;
+use IGK\System\Html\CallableConstants;
 
 use function igk_resources_gets as __;
 ///used to get relation </summary>
@@ -247,8 +248,8 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
 
     $rep=igk_create_node("data_response");
     $err=$rep->add("error-message");
-    $err->setCallback("getIsVisible", "return \$this->ChildCount>0;");
-    $notused=$rep->add("TableNotUsed")->setCallback("getIsVisible", "return \$this->ChildCount>0;");
+    $err->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
+    $notused=$rep->add("TableNotUsed")->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
     $ubind=array_fill_keys(array_keys($tdb), 1);
     $tcount=0;
     foreach($tconfig as $k=>$v){
@@ -347,7 +348,7 @@ function igk_api_mysql_ctrl_gen_schema($api, $ctrlname){
     $n=igk_html_node_noTagNode();
     $rep->add($n);
     $e=$rep->add("Entries");
-    $e->setCallback("getIsVisible", "return \$this->ChildCount>0;");
+    $e->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
     $c=igk_getctrl($ctrlname);
     $tables=igk_db_get_ctrl_tables($c);
     if($c->Db->connect()){
@@ -454,9 +455,9 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
     $msg=$rep->add("warning-message");
     $err=$rep->add("error-message");
     $not=$rep->add("notice-message");
-    $msg->setCallback("getIsVisible", "return \$this->ChildCount>0;");
-    $not->setCallback("getIsVisible", "return \$this->ChildCount>0;");
-    $err->setCallback("getIsVisible", "return \$this->ChildCount>0;");
+    $msg->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
+    $not->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
+    $err->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
     $tables=array();
     $count=0; 
     foreach($ctrl as $v){

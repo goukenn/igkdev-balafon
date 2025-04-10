@@ -1352,7 +1352,7 @@ EOF;
         // $node->add($v_cnf); 
         return $node;
     }
-    private function _initWebAuthn(): ?WebAuthn
+    protected function _initWebAuthn(): ?WebAuthn
     {
         if (class_exists(WebAuthn::class))
             return new WebAuthn(igk_resources_gets('manager') . ' - (CPanel)', igk_sys_domain_name());

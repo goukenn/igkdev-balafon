@@ -79,8 +79,7 @@
         return r;
     };
     function _initChallenge() {
-        let v_ref_challenge = _getRandomEID();
-        // document.cookie = 'webauth-challenge=' + bufferTo64(v_ref_challenge); "; httpOnly; path=/";
+        let v_ref_challenge = _getRandomEID();        
         return new Uint8Array(v_ref_challenge);
     };
     async function _registerUser(uri) {

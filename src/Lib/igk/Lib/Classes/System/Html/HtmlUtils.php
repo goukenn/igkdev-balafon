@@ -41,7 +41,19 @@ require_once IGK_LIB_DIR . "/igk_html_func_items.php";
  */
 abstract class HtmlUtils extends DomNodeBase
 {
-
+    /**
+     * convert to json data attribute
+     * @param mixed $data 
+     * @return null|string|false 
+     */
+    public static function JSonDataAttributes($data)
+    {
+        if (is_null($data)) return null;
+        if (is_string($data)){
+            return $data;
+        }
+        return json_encode($data);
+    }
     public static function Init($n, $data)
     {
         return HtmlNodeBuilder::Init($n, $data);

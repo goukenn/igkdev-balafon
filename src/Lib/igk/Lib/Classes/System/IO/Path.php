@@ -316,7 +316,7 @@ class Path
         if ($o = realpath($path)) {
             return $o;
         } else {
-            //check if contains
+            // + | check 
             $found = 0;
             while (($pos = strpos($path, "../", $offset)) !== false) {
                 $found = 1;

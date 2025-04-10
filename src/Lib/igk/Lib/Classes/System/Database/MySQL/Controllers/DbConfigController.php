@@ -523,7 +523,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
      */
     private function __canEditDb(string $db)
     {
-        return !in_array($db, ["mysql", DataAdapter::DB_INFORMATION_SCHEMA, "performance_schema", "sys"]);
+        return !in_array($db, ["mysql", DataAdapter::DB_INFORMATION_SCHEMA, "performance_schema", 'sys']);
     }
     ///$c target node
     /**
@@ -1201,7 +1201,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                     }
                     foreach ($ge->Columns as $d) {
                         if (!isset($tbinfo[$d->name])) {
-                            igk_set_error("sys", "data table columns not match", 0xDB0001);
+                            igk_set_error('sys', "data table columns not match", 0xDB0001);
                             return 0;
                         }
                         $o->{$d->name} = null;

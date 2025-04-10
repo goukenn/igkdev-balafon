@@ -399,6 +399,8 @@ class HtmlRenderer
             if ($i instanceof IHtmlRederingCallback)
                 $i->afterRenderCallback($options, ['output' => &$s]);
         }
+
+        $options->child_renderCount = $child_render;
         return $s; // leave space after
     }
     public static function MailThemeRendering(HtmlItemBase $item, &$attribs = [],  $options = null)

@@ -337,6 +337,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     ///<summary>set is visible and maintain chain</summary>
     /**
      * set is visible and maintain chain
+     * @var ?bool $value
      */
     public function setIsVisible($value)
     {
@@ -750,7 +751,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
     ///<param name="o" ref="true"></param>
     /**
-     * 
+     * calling eval callback
      * @param string $name
      * @param mixed * $o reference object to pass 
      */
@@ -783,7 +784,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 if (func_num_args() > 2) {
                     $t = array($this);
                     $t = array_merge($t, igk_getv(array_slice(func_get_args(), 2), 0));
+                    $this->setCallback($name, null); // backup  
                     $o = call_user_func_array($b, $t);
+                    $this->setCallback($name, $b); // restore callback
                     return true;
                 } else {
                     $o = $b($this);
@@ -1451,7 +1454,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     ///<param name="n"></param>
     ///<param name="callable"></param>
     /**
-     * regist callback 
+     * register callback function for dynamic node mecanism
      * @param string|'' $n callback name 
      * @param callable|string $callable callable to call. expression to evaluate 
      */

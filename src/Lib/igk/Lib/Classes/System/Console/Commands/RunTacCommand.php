@@ -21,7 +21,7 @@ class RunTacCommand extends AppExecCommand{
 
     var $command = "--run:tac";
 
-    var $category = "sys";
+    var $category = 'sys';
 
     var $desc = "terminal action command";
 

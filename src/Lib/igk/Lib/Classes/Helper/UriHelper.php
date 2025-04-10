@@ -8,6 +8,7 @@
 namespace IGK\Helper;
 
 use IGK\Controllers\BaseController;
+use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGKException;
 
 abstract class UriHelper{
@@ -20,7 +21,7 @@ abstract class UriHelper{
      * @param mixed $port 
      * @return string 
      */
-    public static function GetCmdAction(BaseController $ctrl, $u = null, $type = 'sys', $port = null){
+    public static function GetCmdAction(BaseController $ctrl, $u = null, $type = SystemUriActionController::AC_SYS_URI, $port = null){
         if ($port)
             $port = ":" . $port;
         return igk_io_baseuri() . $port . "/!@{$type}//{$ctrl->getName()}/{$u}";

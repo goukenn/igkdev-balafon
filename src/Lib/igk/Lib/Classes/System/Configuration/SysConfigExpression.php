@@ -19,7 +19,7 @@ class SysConfigExpression implements IHtmlGetValue{
      * entry tag
      * @var string
      */
-    protected $tag= "sys";
+    protected $tag= 'sys';
 
     public function __construct($expression)
     {

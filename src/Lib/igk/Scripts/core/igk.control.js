@@ -1176,6 +1176,9 @@
             return null;
         }
 
+        /**
+         * 
+         */
         function _initTransitionProperties(t, list) {
             t = $igk(t);
             if (typeof (list) == 'string') {
