@@ -42,6 +42,9 @@ trait ModelTableConstantTrait{
      * @return void 
      */
     public static function InitData(){
+        /**
+         * @var mixed|string $cl
+         */
         $fc = Database::InsertExtraFieldsMethod;
         $cl = static::class;
         $model = $cl::$model;

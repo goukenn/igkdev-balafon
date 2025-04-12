@@ -631,6 +631,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $tv = 0;
         $prefix = $this->prefix;
         $css_minifier = new CssMinifier;
+        $v_trim_chars = " \n\r\t\v\0;";
         if ($attr = $def->getAttributes()) {
             foreach ($attr as $k => $v) {
                 if (empty($v))
@@ -641,7 +642,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                     $tv = $tv || !empty(trim($s));
                     continue;
                 }
-                $kv = trim($builder->treatThemeValue($v, $themeexport));
+                $kv = $builder->treatThemeValue(trim($v,$v_trim_chars), $themeexport);
                 if (!empty($kv)) {
                     if ($prefix) {
                         $k = str_replace('.', '.' . $prefix, $k);

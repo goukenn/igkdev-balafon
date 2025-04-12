@@ -7,6 +7,7 @@ namespace IGK\System\Database;
 use Exception;
 use IGK\Database\DbExpression;
 use IGK\Database\DbQueryCondition;
+use IGKException;
 
 ///<summary></summary>
 /**
@@ -67,10 +68,14 @@ class DbQuerySelectColumnBuilder{
             }
             $v = igk_getv($conditions, $k);
             if ($cl->clIsUnique){
-                if (is_null($v) && !$cl->clNotNull ){
-                    igk_wln('condition : ', $conditions);
-                    throw new Exception('null value not allowed for : '. $k);
+                if(is_null($v) && $cl->clNotNull){
+                    $v='';
                 }
+                // if (is_null($v) && !$cl->clNotNull ){
+                //     $v='';
+                    // igk_debug_wln('condition : ', $conditions);
+                    //throw new IGKException('null value not allowed for : '. $k);
+                // }
                 $i->addUnique($k, $v); 
             }
             if ($cl->clIsUniqueColumnMember){

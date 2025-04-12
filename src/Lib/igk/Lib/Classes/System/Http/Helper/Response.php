@@ -40,7 +40,14 @@ class Response{
         $verb = $verb ?? igk_server()->REQUEST_METHOD ?? 'options';
         $_req = Request::getInstance();  
         $_cnf = igk_configs(); 
-        return [
+        $_vtc = [];
+        $sess_id = session_id();
+        $sess_name = session_name();
+        if ($sess_id && !isset($_COOKIE[$sess_name])){
+            $_vtc[] = 'Set-Cookie: '.igk_sys_cookies_build([$sess_name=>session_id().'; HttpOnly; path=/; domain='.igk_get_cookie_domain().'; Partitioned=true; Secure;']);
+        }
+  
+        return array_merge($_vtc, [
             "Content-Type: text/html",            
             "Access-Control-Allow-Origin: ".$_cnf->get("access-control-allow-origin", $_req->getHeader()->origin), //, "*"),
             "Access-Control-Allow-Methods: ".$_cnf->get("access-control-allow-methods", "DELETE, PUT, GET, POST, STORE"),            
@@ -52,7 +59,7 @@ class Response{
                     )
             ),
             "Access-Control-Allow-Credentials: ".$_cnf->get("access-control-allow-credentials", "true")
-        ]; 
+        ]); 
     }
 
     /**

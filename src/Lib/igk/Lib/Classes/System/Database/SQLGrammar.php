@@ -630,6 +630,7 @@ class SQLGrammar implements IDbQueryGrammar
         // $clkey =  $db ? "%s.%s" : "%s";
         $clkey = "%s(%s)";
         $tbname =   $this->joinTableName($table, $db);
+        
         $link = $this->joinTableName($column_info->clLinkType, $db);
         $link_column =  getv($column_info, "clLinkColumn", self::FD_ID);
 

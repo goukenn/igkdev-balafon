@@ -130,6 +130,9 @@ $def[".no-wrap"] = "white-space: nowrap !important; ";
 $def['.pre-line'] = 'white-space: pre-line;';
 $def['.pre-wrap'] = 'white-space: pre-wrap;';
 $def['.pre-break'] = 'white-space: break-spaces;';
+// + | --------------------------------------------------------------------
+// + | disable properties
+// + |
 
 $def[".no-border"] = $def[".no-bdr"]  = "border:none !important;";
 $def[".no-background"] = "background-color:transparent !important;";
@@ -142,6 +145,7 @@ $def['.no-overflow-x'] = "overflow-x: hidden;";
 $def['.no-overflow-y'] = "overflow-y: hidden;";
 $def[".no-style"] = "text-decoration:none; list-style-type:none; border:none;";
 $def[".no-visible"] = "visibility: hidden;";
+$def[".no-pointer-events"] = "pointer-events: none;";
 $theme->supports('resize:none')->set('.no-resize', 'resize:none;');
 // $def[".no-resize"] = "resize:none;";
 $def[".no-focus"] = "text-decoration:none; border:none; outline:0;";
@@ -150,8 +154,7 @@ $def[".no-contextmenu"] = "[resolv:user-select: none;] /*disable context menu*/"
 $def[".no-drag"] = "[resolv:user-select: none;]";
 $def[".no-outline"]="outline:none !important; outline-style:none;";
 // + | disable flex-shrink on item 
-$def[".no-shrink"] = 'flex-shrink: 0;';
-
+$def[".no-shrink"] = 'flex-shrink: 0;'; 
 $def[".no-appearance"]="[resolv:appearance:none;]";
 
 $def[".no-scrollbar::-webkit-scrollbar"] = "display:none;";
@@ -159,11 +162,13 @@ $theme->supports('scrollbar-width:none')->set(
     ".no-scrollbar", "scrollbar-width:none; -ms-overflow-style:none;"
 );
 // $def[".no-scrollbar"] = "scrollbar-width:none; -ms-overflow-style:none;";
-$def[".no-cursor"] = "cursor: none;";
-
+$def[".no-cursor"] = "cursor: none;"; 
 // + | disable speudo class entry on item .no-speudo
 $def['.no-speudo-a:before'] = 
 $def['.no-speudo-a:after'] =  "display:none;";
+
+
+
 
 
 $def[".overflow"] = "overflow: auto;";
@@ -268,6 +273,12 @@ $def[".flex-nowrap"] = "flex-wrap: nowrap;";
 
 $def[".flex-grow"] = "flex-grow: 1;";
 $def[".flex-fill > *"] = "flex-grow: 1;";
+ 
+foreach([1, 2 , 4, 6] as $k){
+    $_a = (((1/$k)) * 100);
+    $def['.flex-basis-'.$k] = "flex-basis: ".($_a)."%;";
+    $def['.flex-grow-'.$k] = "flex-grow: ".($_a/100).";";
+}
 
 $def['.flex.center'] = 'justify-content: center; align-items: center; text-align: center; height: 100%;';
 $def[".no-opacity"] = "opacity:0;";
@@ -477,3 +488,5 @@ $def['.igk-powered'] = 'padding:8px 10px;';
 
 $def['.text-small'] = 'font-size: 0.7em';
 $def['.text-d-small'] = 'font-size: 0.7rem';
+
+$def['igk-img'] = 'display: inline-block';

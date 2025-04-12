@@ -155,6 +155,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @var string
      */
     private $m_dir;
+
+    private $m_status;
     /**
      * store global themes
      * @var mixed
@@ -333,6 +335,22 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     public function getTempTheme()
     {
         return $this->m_privatetheme;
+    }
+    /**
+     * get document responset status 
+     * @return ?int 
+     */
+    public function getResponseStatus():?int{
+        return $this->m_status;
+    }
+    /**
+     * set document responset status
+     * @param null|int $code 
+     * @return void 
+     */
+    public function setResponseStatus(?int $code ){
+        $this->m_status = $code; 
+        return $this;
     }
     ///<summary>get document theme</summary>
     /**

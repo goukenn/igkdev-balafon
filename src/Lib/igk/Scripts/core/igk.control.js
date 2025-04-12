@@ -6642,41 +6642,7 @@
         igk.winui.registerEventHandler("igkTouchStart", __mobile_device_event("igkTouchStart", "touchstart"));
         igk.winui.registerEventHandler("igkTouchMove", __mobile_device_event("igkTouchMove", "touchmove"));
         igk.winui.registerEventHandler("igkTouchEnd", __mobile_device_event("igkTouchEnd", "touchend"));
-        // {
-        // reg_event: function(item,func,useCapture){
-        // var c={n:'igkTouchStart',index: 0,i: item,h: 0,"func":func,bind: function(evt){
-        // if(evt.type=="touchend"){
-        // evt.preventDefault();
-        // evt.stopPropagation();
-        // c.h=1;
-        // }
-        // else if(c.h==1){
-        // c.h=0;
-        // return;
-        // }
-        // c.func.apply(item,[evt]);
-        // }};
-        // c.index=m_eventDatas[c.n] ? m_eventDatas[c.n].length : 0;
-        // _regEventData(c.n,c); 
-        // if($igk(item).istouchable())
-        // {			
-        // igk.winui.reg_system_event(item,"touchstart",c.bind,useCapture);
-        // }		
-        // return item;// null;// igk.winui.reg_system_event(item,"click",c.bind,useCapture);
-        // },
-        // unreg_event: function(item,func,useCapture){
-        // var c=_getEventData("igkTouchStart",item,func);
-        // var o=null;
-        // if(c){
-        // if($igk(item).istouchable())
-        // {			
-        // o = igk.winui.unreg_system_event(item,"touchstart",c.bind);
-        // }		
-        // // var o=igk.winui.unreg_system_event(item,"click",c.bind);				
-        // return o;
-        // }
-        // }		
-        // });
+        
         if (typeof (c.o.onmouseenter) == "undefined") { // for safari browser usage
             igk.winui.registerEventHandler("mouseenter", {
                 reg_event: function (item, func, useCapture) { // mousenter				

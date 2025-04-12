@@ -79,8 +79,6 @@ class session extends \IGKLibraryBase
                 session_id(null);
                 $this->m_new_session_id = $new_id; 
             }
-
-
             return true;
         }
         $v_uri = igk_io_request_uri();
@@ -155,7 +153,11 @@ class session extends \IGKLibraryBase
         //+ | security fix
         ini_set("session.cookie_secure", igk_sys_srv_is_secure());
         ini_set("session.cookie_httponly", 1);
-        ini_set("session.cookie_samesite", "strict");
+        // ini_set("session.cookie_samesite", "strict"); // 'None'|'Lax'|'Strict'
+        ini_set("session.cookie_samesite", "None"); // 'None'|'Lax'|'Strict'
+        // + | 
+        // ini_set("session.cookie_partitioned", 1); 
+
         // ini_set('session.cookie_lifetime', 4600);
         //+ $idstorage= trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName]: trim(igk_getr($cookieName)));
         //+ check if the session is passed prio to cookie value.

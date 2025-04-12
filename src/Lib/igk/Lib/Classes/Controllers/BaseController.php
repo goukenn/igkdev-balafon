@@ -482,7 +482,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             set_include_path($bckdir);
             $out = ob_get_contents();
 
-            if (($level=  ob_get_level())==0){
+            if (($level = ob_get_level())==0){
                 igk_wln_e("missing.... level ", $level, $file);
             }
             ob_end_clean();
@@ -511,6 +511,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             }
             throw $ex;
         }
+ 
         return $response;
     }
 
@@ -942,7 +943,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $this->regSystemVars($args, $options);
             $this->View();
             if ($bck)
-                $this->getTargetNode($bck);
+                $this->getTargetNode($bck); 
         }
     }
 

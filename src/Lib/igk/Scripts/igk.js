@@ -1553,7 +1553,7 @@ Name:balafon.js
             var v_tab = new Array();
             // copy items
             for (var s = 0; s < v_timg.length; s++) {
-                v_tab[s] = v_timg[s];
+                v_tab[s] = v_timg[s]; 
             }
             var v_img = null;
             var v_div = null;
@@ -1589,18 +1589,23 @@ Name:balafon.js
                 let w = v_tab[i].getAttribute('width');
                 let h = v_tab[i].getAttribute('height');
                 if (w || h) {
-                    $igk(v_tab[i]).setCss({
-                        width: w ? w + 'px' : undefined,
-                        height: h ? h + 'px' : undefined
-                    });
-                    console.log('define size for place holder.', w, h);
+                    // $igk(v_tab[i]).setCss({
+                    //     width: w ? w + 'px' : undefined,
+                    //     height: h ? h + 'px' : undefined
+                    // }); 
                 }
                 var src = v_tab[i].getAttribute("src");
                 if (src) {
                     v_host = $igk(document.createElement("span"));
                     v_host.addClass("igk-img-host");
                     v_cimg = document.createElement("img");
+                    if (w || h){
+                        v_cimg.setAttribute('width', w);
+                        v_cimg.setAttribute('height', h);
+                    }
                     v_cimg.source = v_tab[i];
+                    // v_cimg.setAttribute('crossorigin', 'anonymous');
+                    // v_cimg.crossOrigin='anonymous';
                     v_cimg.src = src;
                     v_host.o.appendChild(v_cimg);
                     if (/^data:/.test(src)) {
@@ -10592,7 +10597,7 @@ Name:balafon.js
                     m_ajxhe = p;
                 },
                 bindExtraData: function (exdata) { // bind extra data that will be used for ajx request
-                    //object property or null 
+                    // + |object property or null 
                     m_exajxdata = exdata;
                 },
                 setHeader: function (xhr) {
@@ -10774,6 +10779,10 @@ Name:balafon.js
                     if ((xhr == null) || (xhr.readyState + "" == igk.constants.undef)) {
                         throw ("No Ajax Support");
                     }
+                    if (monitorlistener){
+                        const { withCredentials } = monitorlistener;
+                        xhr.withCredentials = withCredentials;
+                    }
                     this.xhr = xhr;
                     this.saveState = false;
                     this.uri = null;
@@ -10781,7 +10790,8 @@ Name:balafon.js
                     this.method = "GET";
                     this.synchronize = false;
                     this.noBlob = false; // true to disable file auto download
-                    this.setResponseMethod = function (method) { // instructions de traitement de la réponse 
+                    this.setResponseMethod = function (method) { 
+                        // + trait response
                         var q = this;
                         if (method) {
                             switch (typeof (method)) {
@@ -10836,6 +10846,7 @@ Name:balafon.js
                             this.xhr.onloadstart = monitorlistener.loadstart;
                             this.xhr.onloadend = monitorlistener.loadend;
                             this.xhr.onprogress = monitorlistener.loadprogress;
+                            this.xhr.withCredentials = monitorlistener.withCredentials; 
                         }
                         this.xhr.send(postargs);
                     };
@@ -10864,9 +10875,9 @@ Name:balafon.js
                     igk.ajx.setHeader(ajx.xhr);
                     ajx.xhr.setRequestHeader("SOAPACTION", action);
                     // if (headers) {
-                    // for (var i in headers) {
-                    // ajx.xhr.setRequestHeader(i, headers[i]);
-                    // }
+                    //      for (var i in headers) {
+                    //      ajx.xhr.setRequestHeader(i, headers[i]);
+                    //      }
                     // }
                     var v_params = ""; // params to send 		
                     for (var i in param) {

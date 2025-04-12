@@ -292,7 +292,7 @@ abstract class DbSchemas
     }
     /**
      * table reference helper 
-     * @param string $tablename table real name
+     * @param string $tablename table real name 
      * @param null|BaseController $ctrl 
      * @return mixed 
      * @throws IGKException 
@@ -385,12 +385,12 @@ abstract class DbSchemas
 
 
 
-function observe_schemas()
-{
-    return 8;
-    if ($tab = array_values(DbSchemas::$sm_schemas)) {
-        $r = $tab[0]['definition']->tables['tbigk_mailinglists'];
+// function observe_schemas()
+// {
+//     return 8;
+    // if ($tab = array_values(DbSchemas::$sm_schemas)) {
+    //     $r = $tab[0]['definition']->tables['tbigk_mailinglists'];
 
-        return $r;
-    }
-}
+    //     return $r;
+    // }
+// }

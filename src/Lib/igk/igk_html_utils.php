@@ -1577,7 +1577,7 @@ if (!function_exists('igk_html_host')) {
                     $n($p);
                 else if ($n instanceof HtmlItemBase) {
                     $p->add($n);
-                } else if (is_string($n)) {
+                } else if (is_string($n) || is_numeric($n)) {
                     $p->text($n);
                 } else if (is_array($n)) {
                     if ($attr = igk_getv($n, $tk = '+@')) {

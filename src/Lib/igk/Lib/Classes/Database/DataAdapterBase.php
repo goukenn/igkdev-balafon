@@ -80,7 +80,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
         return in_array($type, static::$LENGTHDATA);
     }
 
-
+    /**
+     * create alter table 
+     * @param null|array $options 
+     * @return string 
+     */
     public function createAlterTableFormat(?array $options=null):string{       
         return "ALTER TABLE %s ADD %sFOREIGN KEY (%s) REFERENCES %s ON DELETE RESTRICT ON UPDATE RESTRICT;";
     }

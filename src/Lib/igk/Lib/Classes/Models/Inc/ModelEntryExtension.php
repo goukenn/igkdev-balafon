@@ -197,7 +197,7 @@ abstract class ModelEntryExtension
     
         $tconditions = $info ? DbQuerySelectColumnBuilder::Build($info, $condition, true) : $condition;
 
-        if (empty($tconditions) || !($row = $model->select_row($tconditions))) {
+        if (empty($tconditions) || !($row = $model->select_row($tconditions,null, false, false))) {
             if ($extra) {
                 $condition = (object)$condition;
                 foreach ($extra as $k => $v) {
@@ -412,10 +412,9 @@ abstract class ModelEntryExtension
      * @return object|null 
      * @throws IGKException 
      */
-    public static function select_row(ModelBase $model, $conditions, $options = null, $autoclose = false)
+    public static function select_row(ModelBase $model, $conditions, $options = null, $autoclose = false, $strict = true)
     {
         $cl = get_class($model);
-
         if (is_numeric($conditions)) {
             $conditions = [$model->getPrimaryKey() => $conditions];
         } else if ($conditions) {
@@ -431,7 +430,7 @@ abstract class ModelEntryExtension
         $r = $ad->select($model->getTable(), $conditions, $options, $autoclose);
         // $r = $model->select_all($conditions, $options, $autoclose);
 
-        if ($r && $r->getRowCount() == 1) {
+        if ($r && (($count = $r->getRowCount()) == 1) || (!$strict && ($count > 1))){
             $g = $r->getRowAtIndex(0);
             $g->{"sys:table"} = $model->getTable();
             return new $cl($g->to_array(), 0, true);

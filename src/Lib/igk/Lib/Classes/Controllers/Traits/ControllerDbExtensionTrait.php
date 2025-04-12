@@ -5,10 +5,13 @@
 namespace IGK\Controllers\Traits;
 
 use IGK\Controllers\BaseController;
+use IGK\Database\DbSchemas;
 use IGK\Database\DbSchemasConstants;
 use IGK\Helper\DbUtilityHelper;
+use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
 use IGK\System\Database\ColumnMigrationInjector;
+use IGK\System\Database\DbUtils;
 use IGK\System\Database\MigrationHandler;
 use IGKEvents;
 
@@ -128,9 +131,16 @@ trait ControllerDbExtensionTrait{
         if (!$ad->exist_column($table, $info->clName)) {
             if ($query = $ad->grammar->add_column($table, $info, $after)) {
                 if ($ad->sendQuery($query)) {
+                    // + | auto resolve column link type 
+                    $bck = null;
                     if ($info->clLinkType) {
+                        DbUtils::ResolveColumnLink($info, $ctrl, $bck);
+                       
                         $query_link = $ad->grammar->add_foreign_key($table, $info);
                         $ad->sendQuery($query_link);
+                        if ($bck){
+                            $info->clLinkColumn = $bck;
+                        }
                     }
                     //
                     return true;

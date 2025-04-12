@@ -22,6 +22,7 @@ use ZipArchive;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IToArray;
+use Symfony\Component\HttpClient\Chunk\InformationalChunk;
 use Symfony\Component\Translation\Loader\CsvFileLoader;
 
 use function igk_resources_gets as __;
@@ -261,6 +262,26 @@ class MySQLCommand extends AppExecCommand
             }
         }
         return -1;
+    }
+    public function action_drop_foreign_key($command, string $tablename , string $key_name){
+        // query: SELECT * FROM `TABLE_CONSTRAINTS` WHERE `CONSTRAINT_NAME`='{$key_name}';
+        $query = 'ALTER TABLE `'.$tablename.'` DROP FOREIGN KEY '.$key_name;
+        if ($db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)){
+            if ($db->connect()){
+                try{
+                     $db->sendQuery($query);
+                     Logger::success('drop foreign key');
+                     return 0;
+                } 
+                catch (\Exception $ex){
+                    Logger::danger($ex->getMessage());
+                    return -1;
+                } finally {
+                    $db->close();
+                }
+            }
+        } 
+
     }
     /**
      * 

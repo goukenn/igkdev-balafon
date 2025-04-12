@@ -1042,7 +1042,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (igk_environment()->is('DEV')) {
             igk_wln(__FILE__ . ":" . __LINE__,  get_class($this));
             igk_trace();
-            igk_die("call_expression not allowed. " . $name);
+            igk_die("<b>call_expression not allowed. <font color=\"red\">" . $name."</font></b>");
         }
     }
     public function getHasAttributes()

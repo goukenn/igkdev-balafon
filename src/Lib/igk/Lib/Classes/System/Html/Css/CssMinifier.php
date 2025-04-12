@@ -17,6 +17,7 @@ use IGK\System\Text\RegexMatcherContainer;
 class CssMinifier
 {
     const CSS_PROPS = "\\b(?:--|[a-zA-Z]+)[a-zA-Z\-0-9]*\\b";
+    const CSS_PROVIDER_PROPS = "-(webkit|moz|ms|o)-[a-zA-Z\-0-9]+\\b";
     /**
      * leave comment
      * @var ?bool
@@ -32,8 +33,9 @@ class CssMinifier
         $patterns[] = $container->begin("\\s*\/\*", '\*\/\\s*', 'comment')->last(); // ignore comment 
         $patterns[] = $container->match(':(active|any-link|autofill|blank|checked|current|default|defined|dir|disabled|empty|enabled|first(-(child|of-type))?|focus|focus-visible|focus-within|fullscreen|future|has|host|host|host-context|hover|indeterminate|in-range|invalid|is|lang|last-child|last-of-type|left|link|local-link|modal|not|nth-child|nth-last-child|nth-last-of-type|nth-of-type|only-child|only-of-type|optional|out-of-range|past|paused|picture-in-picture|placeholder-shown|playing|read-only|read-write|required|right|root|scope|state|target|target-within|user-invalid|valid|visited|where)\\b', 'speudo-class')->last(); // 
         $patterns[] = $container->match('\\s*\\b(and|or|not|only)\\b\\s*', 'operator-litteral')->last(); // 
-        $patterns[] = $container->match('\\s*\\b(var|min|max|rgb(a)?|hsl)\\b(\\s*)(?=\\()', 'method-name')->last(); // 
+        $patterns[] = $container->match('\\s*\\b(var|min|max|linear-gradient|color|translate(X|Y)?|scale|rotate|rgb(a)?|hsl|calc)\\b(\\s*)(?=\\()', 'method-name')->last(); // 
 
+        $patterns[] = $container->match(self::CSS_PROVIDER_PROPS, 'property')->last(); // 
         $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); // 
         // priority to skip space
         $patterns[] = $container->match("\\s+(?=\\}|\\{)", 'skip-space')->last();

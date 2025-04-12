@@ -468,6 +468,9 @@ class FormBuilder
                     igk_die(implode('', [__CLASS__, "object not allowed"]));
                 }
             }
+            else if (is_string($v)){
+                $v = ['value'=>$v];
+            }
             if (($cpos = strrpos($k, "[]")) !== false) {
                 // + | --------------------------------------------------------------------
                 // + | FORM FIELD DEFINITION

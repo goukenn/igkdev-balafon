@@ -312,6 +312,16 @@ class HtmlNode extends HtmlItemBase
         return $this;
     }
     /**
+     * set defined variable 
+     * @param mixed $width 
+     * @param mixed $height 
+     * @return $this 
+     */
+    public function setSize($width, $height){
+        $this->setAttributes(get_defined_vars());
+        return $this;
+    }
+    /**
      * clear class
      * @return $this 
      */

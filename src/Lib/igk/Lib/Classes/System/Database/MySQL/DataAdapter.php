@@ -344,9 +344,10 @@ IDataDriverCharsetSupport
     function dropForeignKeys($keys, int $type = 0)
     {
         $type = igk_getv([1 => 'UNIQUE'], $type, 'FOREIGN KEY');
+        $drop_query_format = "SELECT * FROM %s.TABLE_CONSTRAINTS where ";
         $db = $this->getDbName();
         foreach ($keys as $table) {
-            $q = sprintf("SELECT * FROM %s.TABLE_CONSTRAINTS where ", self::DB_INFORMATION_SCHEMA);
+            $q = sprintf($drop_query_format, self::DB_INFORMATION_SCHEMA);
             $q .= "TABLE_NAME='" . $table . "'";
             $q .= "AND CONSTRAINT_SCHEMA='" . $db . "' ";
             $q .= "AND CONSTRAINT_TYPE='" . $type . "';";

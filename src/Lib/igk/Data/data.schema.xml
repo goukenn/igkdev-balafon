@@ -99,8 +99,8 @@
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
 			clType="Int"></Column>
 
-		<Column clLinkType="%prefix%groups" clName="clGroup_Id" clNotNull="True" clType="Int"></Column>
-		<Column clLinkType="%prefix%authorizations" clName="clAuth_Id" clNotNull="True" clType="Int"></Column>
+		<Column clLinkType="%prefix%groups" clName="clGroup_Id" clNotNull="True" clType="Int" clIsUniqueColumnMember="true"></Column>
+		<Column clLinkType="%prefix%authorizations" clName="clAuth_Id" clNotNull="True" clType="Int" clIsUniqueColumnMember="true"></Column>
 		<Column clDescription="Grant access depending on the authorization usage" clEnumValues="0,1"
 			clName="clGrant" clNotNull="True" clType="Enum"></Column>
 	</DataDefinition>

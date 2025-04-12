@@ -723,10 +723,12 @@ EOF;
             igk_ajx_replace_node($tn, "#" . $tn["id"]);
         } else {
             $ctx = $this->getEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY);
+            // + | render document view  
             if ($ctx == "docview") {
                 igk_app()->getDoc()->renderAJX();
             } else {
                 $doc->getBody()->getBodyBox()->clearChilds()->add($tn);
+                
                 HtmlRenderer::RenderDocument($doc, 0, $this);
             }
         }

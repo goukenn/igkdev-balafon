@@ -735,7 +735,7 @@ abstract class ControllerExtension
                             $v_count++;
                         }
                     } catch (Exception $ex) {
-                        Logger::danger(sprintf("some error : %s", $ex->getMessage()));
+                        Logger::danger(sprintf("db - migrate error : %s", $ex->getMessage()));
                         igk_ilog("some rerror:  " . $ex->getMessage());
                         igk_ilog("last query :  " . get_class($ex));
                         igk_ilog("index :  " . $v_count);

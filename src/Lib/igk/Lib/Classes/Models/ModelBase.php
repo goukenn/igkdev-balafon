@@ -25,7 +25,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static bool drop() macros function drop table - function
  * @method static bool createTable() macros function create table if not exists
  * @method static bool delete(null|array|object $condition) macros function delete table's entries
- * @method static ?static select_row($condition, $options=null) macros function : select single row
+ * @method static ?static select_row($condition, $options=null, $autoclose = false, $strict = true) macros function : select single row
  * @method static void beginTransaction() macros function
  * @method static object|null cacheIsRow() macros function
  * @method static static|null cacheRow($conditions) macros function get a cached row. for this running instance. not it throws and error if rows not found
@@ -60,7 +60,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static void select_row_query() macros function
  * @method static \IGK\Database\IDbQueryFetchResult select_fetch(?array $conditions[], array? $options[]) macros function return a fetch result
  * @method static string table() macros function
- * @method static null|IIGKQueryResult update() macros function
+ * @method static null|IIGKQueryResult update(array $values, $condition=null) macros function
  * @method static void updateOrCreateIfNotExists() macros function
  * @method static void registerMacro($macroName, Callable|array $callable) register macros
  * @method static \IGK\System\Database\Factories\FactoryBase factory(int $number, ?string $class_name = null, ...$args=null) macros function create a factory object for seeding \

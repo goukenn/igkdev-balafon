@@ -34,7 +34,6 @@ use function igk_resources_gets as __;
 /**
  * view context helper class 
  * @package
- * @method string File() get current view file 
  * @method IGKHtmlDoc Doc() get current document
  * @method HtmlNode TargetNode() get current target node
  */
@@ -413,7 +412,7 @@ class ViewHelper
         $ctrl->{ControllerParams::REPLACE_URI} = false;
     }
     /**
-     * get include file
+     * retrive the included view file
      * @return string
      */
     public static function File()

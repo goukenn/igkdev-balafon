@@ -80,6 +80,7 @@ use IGK\System\Html\HtmlLoadingContextOptions;
 use IGK\System\Html\HtmlNodeTagExplosionDefinition;
 use IGK\System\Html\HtmlRenderingContext;
 use IGK\System\Http\Cookies;
+use IGK\System\Http\Helper\Response;
 use IGK\System\Http\RequestHandler;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\WebResponse;
@@ -366,8 +367,17 @@ function igk_ajx_replace_node($n, $target = null, $hash = null, $render = true)
     $c["target"] = $target;
     $c["hash"] = $hash;
     $c->addNode($n);
-    if ($render)
-        $c->renderAJX();
+    if ($render){
+        // + | add handling cores if fecth mode is coers
+        $v_h = null;
+        $headers = getallheaders();
+        if (igk_getv($headers, 'Sec-Fetch-Site') == 'cross-site'){
+            $v_h = Response::GetHeaderOptions(igk_server()->REQUEST_METHOD);
+        }
+        $response = new WebResponse($c, 200, $v_h);
+        igk_do_response($response);
+        // $c->renderAJX();
+    }
     return $c;
 }
 ///<summary></summary>
@@ -800,8 +810,8 @@ function igk_cache_array_content($m, $fc = null)
 ///<summary></summary>
 ///<param name="o"></param>
 /**
- * helper: check for cache expire helper
- * @param mixed $o time
+ * helper: check for cache expire
+ * @param mixed|{date:string, duration:int} $o time
  */
 function igk_cache_expired($o)
 {
@@ -25367,9 +25377,15 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
         }
         if (!$fc) {
             if (is_array($v_tab = igk_get_env($fs . "/{$v_errkey}"))) {
-                $fc = igk_getv($v_tab, 404);
-                $params = array(implode("/", $params));
+                $code = RequestResponseCode::NotFound;
+                $fc = igk_getv($v_tab, $code);
+                $params = array(implode("/", $params), $code);
                 array_unshift($params, null);
+                if ($doc = ViewHelper::CurrentDocument()){
+                    $doc->setResponseStatus($code);  
+                 } else{
+                    igk_header_cache_output();
+                }
             }
         }
     } else {
@@ -25386,9 +25402,7 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
     if (is_null($fc) && ($fc = igk_get_env($fs . "/" . IGKViewActionsConstants::HANDLE_DEFAULT))) {
         $action = IGKViewActionsConstants::HANDLE_DEFAULT;
         array_unshift($params, null);
-    }
-
-
+    } 
     if ($fc) {
         igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $action);
         $ht = array_slice($params, 1);

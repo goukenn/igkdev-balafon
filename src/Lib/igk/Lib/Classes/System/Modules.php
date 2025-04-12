@@ -14,7 +14,7 @@ namespace IGK\System;
 * @author C.A.D. BONDJE DOUE
 * @type {}
 */
-class Modules{
+abstract class Modules{
     public static function __callStatic($name, $arguments){
         return str_replace("_", "\\", $name);
     }

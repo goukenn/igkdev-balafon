@@ -17,6 +17,7 @@ use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Rendering\IHtmlRederingCallback;
 use IGK\System\Http\IHeaderResponse;
+use IGK\System\Http\RequestResponseCode;
 use IGKApp;
 use IGKException;
 use IGKHtmlDoc;
@@ -131,11 +132,11 @@ class HtmlRenderer
     public static function OutputDocument(IGKHtmldoc $doc)
     {
         $headers = [];
+        $code = $doc->getResponseStatus() ?? RequestResponseCode::Ok ;
         if ($doc instanceof IHeaderResponse) {
             $headers = array_merge($headers, $doc->getResponseHeaders() ?? []);
         }
-        //igk_dev_wln_e(__FILE__.":".__LINE__,  "data ", $headers);
-        $response = new \IGK\System\Http\WebResponse($doc, 200, $headers);
+        $response = new \IGK\System\Http\WebResponse($doc, $code, $headers);
         $response->cache = !igk_environment()->no_cache && igk_configs()->allow_page_cache;
         $response->output();
     }

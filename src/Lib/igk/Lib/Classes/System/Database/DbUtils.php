@@ -12,6 +12,7 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbConstants;
+use IGK\Database\DbSchemas;
 use IGK\Database\IDbColumnInfo;
 use IGK\Models\ModelBase;
 use IGK\System\Caches\DBCaches;
@@ -61,6 +62,37 @@ class DbUtils
         }
         return $c->clIsDumpField;
     }
+    /**
+     * resolve column link table name 
+     * @param mixed $info 
+     * @param mixed $ctrl 
+     * @param mixed &$bck old table link
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function ResolveColumnLink($info, $ctrl, & $bck){
+        $newCl = null;
+        $k = $info->clLinkColumn;
+        $ctabinfo = DbSchemas::GetTableColumnInfo($info->clLinkType);
+        if ($k && !isset($ctabinfo[$k])){
+            if (($toinfo = DBCaches::GetTableInfo($info->clLinkType, $ctrl)) && ($prefix = $toinfo->prefix)){
+                $prefix = $toinfo->prefix;
+                $v = sprintf('%s%s', $prefix, $k);
+                if (isset($ctabinfo[$v])){ 
+                    $bck = $k;
+                    $newCl = $v;
+                }
+                $info->clLinkColumn = $newCl;
+            } 
+        } 
+    }
+    /**
+     * 
+     * @param mixed $a 
+     * @param mixed $b 
+     * @return int 
+     */
     public static function OrderController($a, $b)
     {
         if (get_class($a) == \IGK\Controllers\SysDbController::class) {

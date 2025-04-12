@@ -198,7 +198,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]"
         if (igk_environment()->isDev()){
             echo  PHP_EOL."/* Exception : ".$ex->getMessage(). " */\n";
         }
-        echo "body{background-color: red !important;} body:after{content:'error to display';}";
+        echo "body{background-color: yellow !important;} body:after{content:'error to display';}";
     }
     igk_exit();
 }

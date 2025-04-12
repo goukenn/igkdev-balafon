@@ -69,7 +69,10 @@ abstract class CssUtils
         }
         $m = StringUtility::DEFAULT_TRIM_CHAR . ';';
         $l =  implode(';', array_map(function ($c) use ($m) {
-            return rtrim($c, $m);
+            if (is_array($c)){
+                $c = self::GlueArrayDefinition($c); 
+            }
+            return rtrim($c ?? '', $m);
         }, array_filter($args)));
         return $l;
     }
@@ -183,6 +186,15 @@ abstract class CssUtils
         $style[$file] = 1;
         $doc->setEnvParam($key, $style);
     }
+    /**
+     * 
+     * @param mixed $vsystheme 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function InitSysTheme($vsystheme)
     {
         $vsystheme->def->Clear();
@@ -208,7 +220,7 @@ abstract class CssUtils
                 }
             }
         }
-        $g = implode(";", array_unique($lfile));
+        $g = implode(';', array_unique($lfile));
         $g = str_replace(IGK_LIB_DIR, "%lib%", $g);
         $vsystheme->def->setFiles($g);
     }
@@ -997,6 +1009,14 @@ abstract class CssUtils
     {
         self::Include($file, $ctrl, $theme);
         return $theme->getDef();
+    }
+    /**
+     * helper: get css class name 
+     * @param BaseController $ctrl 
+     * @return string 
+     */
+    public static function GetCssClassName(BaseController $ctrl){
+        return strtolower(igk_css_str2class_name($ctrl->getName()));
     }
     /**
      * include pcss binding files
