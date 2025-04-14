@@ -1295,7 +1295,7 @@ class SQLGrammar implements IDbQueryGrammar
                 return strtoupper($pos) . "('" . $driver->escape_string($value) . "')";
             }
         }
-        $os = $value;
+        // $os = $value;
         $value = $driver->getDataValue($value, $tinf);
         if (is_object($value) || is_array($value)) {
             igk_dev_wln_e(__FILE__ . ":" . __LINE__, "not valid data ", $tinf->clName,  $value);

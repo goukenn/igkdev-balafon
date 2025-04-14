@@ -574,6 +574,12 @@ IDataDriverCharsetSupport
                     $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
                 }
             }
+            if (strtolower($type)=='text'){
+                if (json_decode($value)){
+                    $value = str_replace("\r", "", $value);
+                    $value = implode('\\\\n', explode('\\n', $value));
+                }
+            }
         }
         return $value;
     }
