@@ -5,6 +5,8 @@
 // @date: 20230207 14:38:38
 // @desc: install project script 
 
+use IGK\Controllers\BaseController;
+
 error_reporting(-1);
 ini_set('display_errors', 1);
 
@@ -16,6 +18,18 @@ if ($token != igk_getr('token')) {
 class ProjectInstaller
 {
     private $m_bdir;
+    private $m_controller;
+    /**
+     * installer from base directorie project 
+     * @return BaseController 
+     */
+    public function getController(): ?BaseController{
+        if (is_null($this->m_controller)){
+            $this->m_controller = igk_controller_from_dir($this->m_bdir) ?? 
+                igk_die('missing controller at '.$this->m_bdir);
+        }
+        return $this->m_controller;
+    }
     public function __construct(string $project_dir)
     {
         $this->m_bdir = $project_dir;

@@ -2654,3 +2654,19 @@ if (!function_exists('igk_sys_lib_filename')) {
         return $file;
     }
 }
+
+if (!function_exists('igk_controller_from_dir')) {
+    /**
+     * retrieve the first controller that binded in declared directory 
+     */
+    function igk_controller_from_dir(string $dir)
+    {
+        $c = igk_sys_get_projects_controllers();
+        foreach ($c as $ctrl) {
+            if ($ctrl->getDeclaredDir() == $dir) {
+                return $ctrl;
+            }
+        }
+        return null;
+    }
+}
