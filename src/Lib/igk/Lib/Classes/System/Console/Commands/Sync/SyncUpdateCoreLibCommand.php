@@ -25,7 +25,9 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
     var $options = [
         "--force" => "flag: force, do not check library before sync",
         "--core-test-suite"=>"core test-suite to check. default is set in ".IGK_BALAFON_CONFIG,
-        "--install-site"=>"flag: install site if complete"
+        "--install-site"=>"flag: install site if complete",
+        '--no-subdomain'=>'flag: disable subdomain',
+        '--no-webconfig'=>'disable web configuration'
     ];
     public function exec($command)
     {
@@ -80,6 +82,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
 
         $src = PHPScriptBuilderUtility::MergeSource(
             IGK_LIB_CLASSES_DIR . "/IGKBacktickHelperCommandTrait.php",
+            IGK_LIB_DIR . "/Inc/core/installer-core-function.pinc",
             IGK_LIB_DIR . "/Inc/core/class.InstallerResponse.pinc",
             IGK_LIB_DIR . "/Inc/core/installer.helper.pinc",
             IGK_LIB_DIR . "/Inc/core/install.script.pinc"
@@ -104,6 +107,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
 
         unlink($temp_file);
         unlink($script_install);
+        // igk_exit();
         $response = null;
         $response = igk_curl_post_uri(
             $uri . "/install.php",
@@ -140,7 +144,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
                 if (property_exists($command->options, "--install-site")){
                     $exec_command = new SyncInstallSiteCommand;
                     $new_command = self::CreateOptionsCommandFrom($command,[ 
-                        "--no-subdomai"=>igk_getv($command->options, "--no-subdomai"),
+                        "--no-subdomain"=>igk_getv($command->options, "--no-subdomain"),
                         "--no-webconfig"=>igk_getv($command->options, "--no-webconfig") 
                         // "--admin-login" =>"set configuration login",
                         // "--admin-pwd"   =>"set configuration login",

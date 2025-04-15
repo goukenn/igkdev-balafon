@@ -37,3 +37,84 @@ if (!function_exists("igk_getr")) {
     }
 }
  
+
+
+if (!function_exists("igk_count")) {
+    function igk_count($n)
+    {
+        return count($n);
+    }
+}
+
+if (!function_exists("igk_dir")) {
+    function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
+    {
+        if ($dir === null) {
+            return $dir;
+        }
+        $d = $separator;
+        $out = IGK_STR_EMPTY;
+        if (ord($d) == 92) {
+            $out = preg_replace("/\//", '\\', $dir);
+            $out = str_replace("\\", "\\", $out);
+        } else {
+            $d = "/[\\\\]/";
+            $out = preg_replace($d, '/', $dir);
+            $out = str_replace("//", "/", $out);
+        }
+        return $out;
+    }
+}
+if (!function_exists("igk_io_rmdir")) {
+    function igk_io_rmdir($dir, $recursive = true, $callback = null)
+    {
+        if (!is_dir($dir))
+            return false;
+        $pdir = array($dir);
+        $kdir = array($dir);
+        $d = 1;
+        while ($dir = array_pop($pdir)) {
+            $hdir = opendir($dir);
+            if (!$hdir)
+                return false;
+            while (($f = readdir($hdir))) {
+                if (($f == ".") || ($f == ".."))
+                    continue;
+                $v = igk_dir($dir . "/" . $f);
+
+                if ($callback && !$callback($v)) {
+                    continue;
+                }
+                if (is_link($v)) {
+                    @unlink($v);
+                    continue;
+                }
+                if (is_dir($v)) {
+                    if ($recursive) {
+                        array_push($pdir, $v);
+                        array_push($kdir, $v);
+                    } else {
+                        $d = 0;
+                        break;
+                    }
+                } else if (is_file($v) || is_link($v)) {
+                    if ($recursive)
+                        unlink($v);
+                    else {
+                        $d = 0;
+                        break;
+                    }
+                }
+            }
+            closedir($hdir);
+        }
+        while ($d && ($dir = array_pop($kdir))) {
+            if (is_link($dir)) {
+                unlink($dir);
+            } else {
+                @rmdir($dir);
+            }
+        }
+        return igk_count($kdir) == 0;
+    }
+}
