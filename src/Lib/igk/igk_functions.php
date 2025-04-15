@@ -6949,7 +6949,7 @@ function igk_elog($msg, $tag = null)
 {
     $f = "";
     if (!($f = igk_const("IGK_LOG_ERROR_FILE")))
-        $f = igk_dir(igk_io_sys_datadir() . "/Logs/.error." . date("Y-m-d") . ".log");
+        $f = igk_dir(igk_io_sys_datadir() . "/Logs/.error." . date("Y-m-d") . IGK_LOG_FILE_EXT);
     igk_log($msg, $f, $tag);
 }
 ///<summary></summary>

@@ -49,6 +49,7 @@ namespace IGK\System\Configuration;
 * @property bool $globaltheme
 * @property bool $help_uri
 * @property bool $informAccessConnection
+* @property ?string $LogFile custom log file 
 * @property bool $mail_admin
 * @property bool $mail_authtype
 * @property bool $mail_contact

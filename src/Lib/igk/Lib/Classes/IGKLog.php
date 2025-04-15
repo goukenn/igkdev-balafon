@@ -181,17 +181,26 @@ final class IGKLog extends IGKObject
     }
     ///<summary></summary>
     /**
-     * 
+     * get writing log file 
+     * @return string
      */
     public function getLogFile()
     {  
         return igk_getv(igk_configs(), "LogFile") ?? $this->getDefaultLogFile(); 
     }
-    public function getDefaultLogFile(){
-        return igk_io_cachedir()."/Data/Logs/.global." . igk_environment()->getToDay() . ".log"; 
+    /**
+     * get default log file
+     * @return string 
+     */
+    public function getDefaultLogFile():string{
+        return igk_io_cachedir()."/Data/Logs/.global." . igk_environment()->getToDay() . IGK_LOG_FILE_EXT; 
     }
-    public function getDefaultErrorLogFile(){
-        return igk_io_cachedir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . ".log"; 
+    /**
+     * get default log file
+     * @return string 
+     */
+    public function getDefaultErrorLogFile():string{
+        return igk_io_cachedir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . IGK_LOG_FILE_EXT; 
     }
     ///<summary></summary>
     ///<param name="msg"></param>

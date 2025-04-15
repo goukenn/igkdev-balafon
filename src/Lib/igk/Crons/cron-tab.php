@@ -78,6 +78,9 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
         $this->library("zip");
         $this->library("mysql");
         $this->library("curl");
+
+
+        
     }
     /**
      * just start application engine
@@ -96,6 +99,8 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
         if (!igk_configs()->get(self::CNF_NO_CRON_LOGGER)) {
             Logger::SetLogger($this);
         }
+
+        igk_configs()->LogFile = __DIR__.'/cron-log'.IGK_LOG_FILE_EXT;
     }
 }
 
@@ -111,8 +116,8 @@ ApplicationFactory::Register("crontab", cronApp::class);
 \IGK\System\Console\BalafonApplication::InitAndTreatArgument($argv);
 
 $app = ApplicationLoader::Boot("crontab");
-$status = $app->run(__FILE__, false);
-
+$status = $app->run(__FILE__, false); 
+  
 $projects = igk_sys_get_projects_controllers();
 
 // run_run cron setting
@@ -168,3 +173,4 @@ if ($crons) {
     }
 }
 igk_wln_e("cronjob complete : " . date('Y-m-d H:i:s'));
+igk_exit(1, 0);

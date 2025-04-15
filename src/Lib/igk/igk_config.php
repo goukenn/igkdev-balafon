@@ -474,6 +474,7 @@ defined('IGK_DEFAULT_CACHE_FOLDER_MASK') || define('IGK_DEFAULT_CACHE_FOLDER_MAS
 defined('IGK_DEFAULT_FILE_MASK') || define('IGK_DEFAULT_FILE_MASK', '0775');
 define('IGK_LF', "\n");
 define('IGK_CLF', "\r\n");
+define('IGK_LOG_FILE_EXT', '.log');
 define('IGK_THEMES_FOLDER','themes');
 define('IGK_DATA_FOLDER', 'Data');
 define('IGK_CONF_FOLDER', 'Configs');
