@@ -2502,7 +2502,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                 $this->setParam('ctrl', get_class($ctrl));
 
                 $group = $target->actiongroup();
-                $group->setClass('mysql');
+                $group->setClass('db');
                 $group->input('btn', 'button', __('initdb'))
                     ->on('click', igk_js_post_frame($this->getUri("db-initdb-controller")));
 
@@ -2511,7 +2511,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
 
                 
                 $group = $target->actiongroup();
-                $group->setClass('mysql');
+                $group->setClass('db mysql');
                 $group->input('btn', 'button', __('mysql - migrate'))
                     ->on('click', igk_js_post_frame($this->getUri("db-migrate-controller")));
                 $group->input('btn', 'button', __('mysql - resetdb'))

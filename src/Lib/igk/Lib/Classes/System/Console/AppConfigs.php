@@ -6,6 +6,12 @@
 
 
 namespace IGK\System\Console;
+
+use Exception;
+use IGK\Helper\IO;
+use IGK\System\Configuration\XPathConfig;
+use IGKException;
+
 use function readline;
 
 class AppConfigs
@@ -116,5 +122,43 @@ class AppConfigs
             }
         }
         return $s;
+    }
+
+    /**
+     * load configuration file
+     * @param string $configFile 
+     * @return XPathConfig 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function LoadConfigurationFile(string $configFile){
+        $wd = dirname($configFile);
+        $c = igk_conf_load_file($configFile, "balafon");
+        $configs = new XPathConfig($c);
+        $c = $configs->get("env");
+        if ($c) {
+            if (!is_array($c))
+                $c = [$c];
+            foreach ($c as $env) {
+                defined($env->name) || define(
+                    $env->name,
+                    preg_match("/_DIR$/", $env->name) ? IO::ResolvPathConstant($wd, $env->value) :
+                        $env->value
+                );
+            }
+        }
+        return $configs;
+    }
+    /**
+     * replace environment config;
+     * @param mixed $config 
+     * @return void 
+     */
+    public static function InitEnvironment($config){
+        foreach(['IGK_MYSQL_DB_SERVER'=>'db_server'] as $k=>$v){
+            if ($env = getenv($k)){
+                $config->{$v} = $env;
+            }
+        }
     }
 }

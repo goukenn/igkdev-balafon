@@ -1,0 +1,39 @@
+<?php
+
+// file: installer-core-function.pinc
+
+if (!function_exists('igk_io_flatpath')) {
+    function igk_io_flatpath(string $path)
+    {
+        $skip = 0;
+        $rpath = [];
+        while ($tp = $path) {
+            if (($path = dirname($path)) == $tp)
+                break;
+            $ts = basename($tp);
+            if ('.' == $ts) {
+                continue;
+            }
+            if ('..' == $ts) {
+                $skip++;
+            } else {
+                if ($skip == 0) {
+                    array_unshift($rpath, $ts);
+                } else
+                    $skip--;
+            } 
+        }
+        return $path .implode(DIRECTORY_SEPARATOR, $rpath);
+    }
+}
+
+if (!function_exists("igk_getr")) {
+    function igk_getr($n, $default = null)
+    {
+        if (isset($_REQUEST[$n])) {
+            return $_REQUEST[$n];
+        }
+        return $default;
+    }
+}
+ 

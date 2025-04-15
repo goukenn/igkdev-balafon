@@ -59,9 +59,10 @@ final class IGKCaches
         }
         list($uri, $zip) = self::CacheUri(); 
         $expires = 50000; 
-        if (!IGKCaches::page_filesystem()->expired($uri, $expires)) {
+        $fs = IGKCaches::page_filesystem();
+        if (!$fs->expired($uri, $expires)) {
             // igk_wln_e("load from cache");
-            $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
+            $file = $fs->getCacheFilePath($uri);
             $response = new WebFileResponse($file, "text/html");
             $response->zip = $zip;
             $response->cache_output(igk_configs()->get("cache_output", $expires));

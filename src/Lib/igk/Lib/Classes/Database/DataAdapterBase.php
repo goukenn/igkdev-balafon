@@ -599,7 +599,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
             return false;
         }
         $b = igk_environment()->get("db_adapters"); 
-        if(0 && file_exists($fc)){
+        if(file_exists($fc)){
             foreach(explode(IGK_LF, igk_io_read_allfile($fc)) as $k){
                 if(empty(trim($k)))
                     continue;

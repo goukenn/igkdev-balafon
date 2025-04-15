@@ -9,6 +9,10 @@ namespace IGK\System\Console;
 
 class ConsoleLoggerOffscreen implements IConsoleLogger{
     private $parent;
+
+    public function offscreen() { 
+        return null;
+    }
     private function getApp(){
         return $this->parent->app;
     }

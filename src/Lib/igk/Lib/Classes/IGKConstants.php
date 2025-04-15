@@ -58,6 +58,8 @@ final class IGKConstants{
 
     const DEFAULT_THEME_STYLE = 'default.pcss';
     const ANNOTATION_SUFFIX = 'Annotation';
+
+    const SESS_LIVING_TIME = 172800;
     
     /**
      * get the core version 

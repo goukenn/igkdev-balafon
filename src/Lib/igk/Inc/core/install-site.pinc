@@ -7,15 +7,7 @@ use IGK\Helper\IO;
 ini_set('display_errors', 1);
 error_reporting(-1);
 
-if (!function_exists("igk_getr")) {
-    function igk_getr($n, $default = null)
-    {
-        if (isset($_REQUEST[$n])) {
-            return $_REQUEST[$n];
-        }
-        return $default;
-    }
-}
+
 
 if (!function_exists("igk_install_site")) {
     function igk_install_site($corelib, $entryfile, $args, $exit = true, $production = true)
@@ -70,7 +62,7 @@ if (!function_exists("igk_install_site")) {
          */
         $app = ApplicationLoader::Boot("balafon");
 
-        $command = $app->getPrimaryCommand();
+        $command = $app->getPrimaryCommand($argv);
 
         //-----------------------------------------------------------------------------
         // + | handle default

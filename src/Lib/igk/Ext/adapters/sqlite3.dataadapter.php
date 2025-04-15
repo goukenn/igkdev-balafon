@@ -895,12 +895,12 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
                             }
                         }
                         if($cl_count > 1){
-                            $info->clUniqueColumnMember=$uc_index++;
+                            $info->clIsUniqueColumnMember=$uc_index++;
                             foreach(array_keys((array)$info) as $rmm=>$rtt){
-                                if($rtt == "clUniqueColumnMember")
+                                if($rtt == 'clIsUniqueColumnMember')
                                     continue;
                                 $clinfo->$rtt->is_UniqueColumnMember=1;
-                                $clinfo->$rtt->cl_member_index=(empty($clinfo->$rtt->cl_member_index) ? $info->clUniqueColumnMember: $clinfo->$rtt->cl_member_index."-".$info->clUniqueColumnMember);
+                                $clinfo->$rtt->cl_member_index=(empty($clinfo->$rtt->cl_member_index) ? $info->clIsUniqueColumnMember: $clinfo->$rtt->cl_member_index."-".$info->clIsUniqueColumnMember);
                             }
                         }
                         else{

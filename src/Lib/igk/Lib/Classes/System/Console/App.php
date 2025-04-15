@@ -12,9 +12,11 @@ use Closure;
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Console\Commands\InitCommand;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKAppType;
 use IGKException;
+use ReflectionException;
 use stdClass;
 use Throwable;
 
@@ -120,7 +122,6 @@ class App
             if (!($error = error_get_last())) {
                 IO::RmDir($wdir);
             } else {
-                // igk_environment()->isDev() && print_r($error);
                 error_clear_last();
             }
         });
@@ -171,9 +172,9 @@ class App
         $app->command = $command;
         $tab = array_slice(igk_server()->argv, 1);
         // + | before execute a command move the working directory to server PWD
-        if (isset($_SERVER['IGK_COMMAND_PWD'])) {
-            chdir($_SERVER['IGK_COMMAND_PWD']);
-            unset($_SERVER['IGK_COMMAND_PWD']);
+        if (isset($_SERVER[$v_c = 'IGK_COMMAND_PWD'])) {
+            chdir($_SERVER[$v_c]);
+            unset($_SERVER[$v_c]);
         }
         return self::Exec($app, $tab);
     }
@@ -328,6 +329,13 @@ class App
         if ($show_help)
             $app->showHelp();
     }
+    /**
+     * 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected function boot()
     {
         igk_hook("console::app_boot", $this);

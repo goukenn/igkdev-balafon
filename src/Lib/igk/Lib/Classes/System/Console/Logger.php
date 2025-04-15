@@ -82,7 +82,9 @@ class Logger{
             $l = Logger::GetColorizer();
             if ($name!='print'){
                 Logger::SetColorizer(null); 
-                self::$sm_logger->offscreen()->$name(...$arguments);
+                if ($offscreen = self::$sm_logger->offscreen()){
+                    $offscreen->$name(...$arguments);
+                }
             }
             else{
                 self::$sm_logger->$name(...$arguments);

@@ -124,7 +124,7 @@ abstract class DbCommandHelper
                 !property_exists($command->options, '-db_pwd') &&
                 ($env = getenv('IGK_MYSQL_DB_PWD'))
             ) {
-                $cnf->db_name = $env;
+                $cnf->db_pwd = $env;
             }
             if (
                 !property_exists($command->options, '-db_charset') &&

@@ -1237,7 +1237,7 @@ function igk_sys_env_production()
 /**
  *  utility function to get server name
  */
-function igk_server_name()
+function igk_server_name():?string
 {
     return igk_server()->SERVER_NAME;
 }

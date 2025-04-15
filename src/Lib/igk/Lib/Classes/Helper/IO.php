@@ -9,6 +9,7 @@ namespace IGK\Helper;
 use Exception;
 use GPBMetadata\Google\Firestore\V1Beta1\Write;
 use IGK\Helper\StringUtility as IGKString;
+use IGK\Helper\Traits\IOPathCheckerTrait;
 use IGK\Helper\Traits\IOSearchFileTrait;
 use IGK\Resources\R;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -26,6 +27,7 @@ use function igk_resources_gets as __;
 class IO
 {
     use IOSearchFileTrait;
+    use IOPathCheckerTrait;
 
     /**
      * get mimetype from buffer 
@@ -1105,20 +1107,7 @@ class IO
     {
         $uri = igk_dir($uri);
         return file_exists($uri) && ($uri == igk_realpath($uri));
-    }
-    /**
-     * check if path is root path 
-     * @param string $path 
-     * @return bool 
-     */
-    public static function IsRootPath(string $path): bool
-    {
-        $_ISUNIX = in_array(strtolower(PHP_OS), ['linux', 'darwin']);
-        if ($_ISUNIX) {
-            return igk_str_startwith($path, '/');
-        }
-        return preg_match("/[a-z]:(\\|\/)/i", $path);
-    }
+    } 
     ///<summary></summary>
     ///<param name="dir"></param>
     /**

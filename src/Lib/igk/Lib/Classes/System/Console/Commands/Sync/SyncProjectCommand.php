@@ -356,7 +356,8 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         Logger::info("archive : " . $file);
         if ($sb = $this->_getInstallScript($token, $archive)) {
             $script_install = igk_io_sys_tempnam("blf_project");
-            igk_io_w2file($script_install, $sb);
+            igk_io_w2file($script_install, $sb.'');
+    
             self::SyncAndInstall(
                 $h,
                 basename($controller->getDeclaredDir()),
@@ -387,6 +388,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         return self::GetScriptInstall(
             [  
                 IGK_LIB_CLASSES_DIR . "/IGKBacktickHelperCommandTrait.php",
+                'installer-core-function.pinc',
                 "installer-helper.pinc", // entry helper
                 "installer.helper.pinc", // intaller helper class 
                 'install.project.script.pinc'

@@ -556,7 +556,7 @@ class ApplicationLoader
         if (!defined('IGK_MODULE_DIR')) {
             define('IGK_MODULE_DIR',constant($l) . "/" . IGK_MODULE_FOLDER);
         }
-        if (defined('IGK_SESS_DIR') && (is_dir(IGK_SESS_DIR) || IO::CreateDir(IGK_SESS_DIR))) {
+        if (defined('IGK_SESS_DIR') && (is_dir(IGK_SESS_DIR) || IO::CreateDir(IGK_SESS_DIR))) {            
             ini_set("session.save_path", IGK_SESS_DIR);
         }
     }

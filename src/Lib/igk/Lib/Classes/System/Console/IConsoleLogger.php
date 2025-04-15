@@ -13,4 +13,9 @@ interface IConsoleLogger{
     function warn($msg);
     function success($msg);
     function danger($msg);
+    /**
+     * represent offscreen 
+     * @return mixed 
+     */
+    function offscreen();
 }

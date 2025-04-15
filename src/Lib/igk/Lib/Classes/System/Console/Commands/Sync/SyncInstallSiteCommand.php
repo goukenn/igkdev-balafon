@@ -47,7 +47,10 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
             return false;
         }
 
-        $install_source = self::GetScriptInstall(['install-site.pinc'], $token);
+        $install_source = self::GetScriptInstall([
+            'installer-core-function.pinc',
+            'install-site.pinc'
+        ], $token);
 
      //igk_wln_e($install_source);
 

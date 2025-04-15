@@ -149,6 +149,8 @@ class IGKEvents extends IGKObject
     const HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN = 'MiddleWareAction:/CheckAccessToken';
     
     const VIEWCOMPLETE = 0x1;
+
+    const HOOK_CRUNJOB = 'on_do_cronjob';
     private $m_methods;
     private $m_name;
     private $m_owner;

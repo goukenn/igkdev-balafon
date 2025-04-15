@@ -7,15 +7,15 @@
 // @param: $corelib 
 
 
-if (!function_exists("igk_getr")) {
-    function igk_getr($n, $default = null)
-    {
-        if (isset($_REQUEST[$n])) {
-            return $_REQUEST[$n];
-        }
-        return $default;
-    }
-}
+// if (!function_exists("igk_getr")) {
+//     function igk_getr($n, $default = null)
+//     {
+//         if (isset($_REQUEST[$n])) {
+//             return $_REQUEST[$n];
+//         }
+//         return $default;
+//     }
+// }
 if (!function_exists("igk_count")) {
     function igk_count($n)
     {
@@ -95,10 +95,14 @@ if (!function_exists("igk_io_rmdir")) {
         return igk_count($kdir) == 0;
     }
 }
+
+
+
+
 //#{{@Inc(installer-helper.pinc)}}
 //#{{@Inc(class.InstallerResponse.pinc)}}
- 
- 
+
+
 
 defined("IGK_BL") || define("IGK_BL", "<br />\n");
 defined("IGK_STR_EMPTY") || define("IGK_STR_EMPTY", "");
@@ -130,7 +134,7 @@ if (!file_exists($corelib)) {
 
 $install_dir = igk_getr("install_dir");
 
- 
+
 if ($install_dir)
     $install_dir = implode("/", array_filter([$home == '/' ? null : $home, trim($install_dir, "/")]));
 else
@@ -180,10 +184,9 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
         $cid .= "-1";
     }
     $o = rename($tmp_name, $opath = dirname($tmp_name) . "/" . $cid . ".zip");
- 
 } else {
     if (!is_dir($install_dir) && !@mkdir($install_dir, 0775, true)) {
-        echo "try to create directory : ".getcwd() . " vs " .$install_dir;
+        echo "try to create directory : " . getcwd() . " vs " . $install_dir;
         exit;
         $response->die("failed created dir: " . $install_dir, 500);
     }

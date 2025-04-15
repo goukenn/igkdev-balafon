@@ -320,19 +320,19 @@
 			clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
 		<Column clDescription="Batch Running" clName="migration_batch" clType="Int"></Column>
 	</DataDefinition>
-	<DataDefinition Description="Store cron job" TableName="%prefix%crons">
-		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+	<DataDefinition Description="Store cron job" TableName="%prefix%crons" Prefix="crons_">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="id" clNotNull="True"
 			clType="Int" clTypeLength="11"></Column>
 
-		<Column clName="crons_name" clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
-		<Column clDefault="0" clName="crons_process" clNotNull="True" clType="VarChar"
+		<Column clName="name" clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
+		<Column clDefault="0" clName="process" clNotNull="True" clType="VarChar"
 			clTypeLength="1"></Column>
-		<Column clName="crons_script" clNotNull="True" clType="Text" clTypeLength="60"></Column>
-		<Column clName="crons_options" clNotNull="True" clType="JSON" clTypeLength="60"></Column>
-		<Column clName="crons_class" clType="Text"></Column>
-		<Column clDefault="CURRENT_TIMESTAMP" clName="crons_create_at" clNotNull="True"
+		<Column clName="script" clNotNull="True" clType="Text" clTypeLength="60"></Column>
+		<Column clName="options" clNotNull="True" clType="JSON" clTypeLength="60"></Column>
+		<Column clName="class" clType="Text"></Column>
+		<Column clDefault="CURRENT_TIMESTAMP" clName="create_at" clNotNull="True"
 			clType="DateTime"></Column>
-		<Column clDefault="CURRENT_TIMESTAMP" clName="crons_update_at" clType="DateTime"></Column>
+		<Column clDefault="CURRENT_TIMESTAMP" clName="update_at" clType="DateTime"></Column>
 	</DataDefinition>
 	<DataDefinition Description="Store migrations" TableName="%prefix%logginattempts">
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"

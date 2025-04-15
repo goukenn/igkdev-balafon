@@ -13,12 +13,14 @@ use IGK\Controllers\ControllerTask;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
+use IGK\Helper\Traits\IOPathCheckerTrait;
 use IGK\Models\Users;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Commands\ServerCommandHelper;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlCtrlNode;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlRenderer;
@@ -33,6 +35,7 @@ use IGKConstants;
 use IGKEnvironment;
 use IGKException;
 use IGKModuleListMigration;
+use ReflectionException;
 use stdClass;
 use Throwable;
 use function igk_resources_gets as __;
@@ -42,11 +45,12 @@ use function igk_resources_gets as __;
 // + |  --set-env: set environment definition
 // + |  --set-server: set server Global value
 
-
+require_once IGK_LIB_CLASSES_DIR. "/Helper/Traits/IOPathCheckerTrait.php";
 
 /** @package  */
 class BalafonApplication extends IGKApplicationBase
 {
+    use IOPathCheckerTrait;
     /**
      * store command
      * @var mixed
@@ -155,16 +159,7 @@ class BalafonApplication extends IGKApplicationBase
         }
         return $a;
     }
-    /**
-     * resolv path constan helper
-     * @param mixed $dir 
-     * @param mixed $value 
-     * @return null|string 
-     */
-    private static function ResolvPathConstant($dir, $value)
-    {
-        return IO::ResolvPathConstant($dir, $value);
-    }
+   
     /**
      * get top level configuration files
      * @param string $bdir 
@@ -202,27 +197,13 @@ class BalafonApplication extends IGKApplicationBase
         // + | INIT SERVER INFO 
         // + |        
         igk_server()->SERVER_NAME = $_SERVER["SERVER_NAME"] = igk_getv($_ENV, 'IGK_SERVER_NAME', "BalafonCLI");
-        igk_server()->REMOTE_ADDR = $_SERVER["REMOTE_ADDR"] = "0.0.0.0";
+        igk_server()->REMOTE_ADDR = $_SERVER["REMOTE_ADDR"] = '0.0.0.0';
 
         $configFile = self::GetTopLevelConfigFile($bdir);
 
         try {
             if (!empty($configFile) && file_exists($configFile)) {
-                $wd = dirname($configFile);
-                $c = igk_conf_load_file($configFile, "balafon");
-                $this->configs = new XPathConfig($c);
-                $c = $this->configs->get("env");
-                if ($c) {
-                    if (!is_array($c))
-                        $c = [$c];
-                    foreach ($c as $env) {
-                        defined($env->name) || define(
-                            $env->name,
-                            preg_match("/_DIR$/", $env->name) ? self::ResolvPathConstant($wd, $env->value) :
-                                $env->value
-                        );
-                    }
-                }
+                $this->configs = AppConfigs::LoadConfigurationFile($configFile);  
             } else {
                 $this->configs = new XPathConfig((object)[]);
                 // + | tempory environment loading 
@@ -263,13 +244,22 @@ class BalafonApplication extends IGKApplicationBase
         $this->library("zip");
         $this->library("mysql");
         $this->library("curl");
-
         if (extension_loaded("gd")) {
             $this->library("gd");
         }
         igk_hook("console::app_cli_bootstrap", $this);
     }
 
+    /**
+     * 
+     * @param string $entryfile 
+     * @param int $render 
+     * @return mixed 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function run(string $entryfile, $render = 1)
     {
         // + | --------------------------------------------------------------------------
@@ -290,7 +280,7 @@ class BalafonApplication extends IGKApplicationBase
      * return primary command array
      * @return array
      */
-    public function getPrimaryCommand(): array
+    public function getPrimaryCommand(array $argv): array
     {
         // + |--------------------------------------------------------
         // + | balafon primary command
@@ -323,6 +313,9 @@ class BalafonApplication extends IGKApplicationBase
 
                         foreach ($tab as $k => $v) {
                             if (!$pattern ||  preg_match("/$pattern/i", $k)) {
+                                if (is_array($v)){
+                                    $v = json_encode($v, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+                                }
                                 Logger::print($command->app::gets(App::BLUE, $k) . "=" . $v);
                             }
                         }
@@ -658,7 +651,19 @@ class BalafonApplication extends IGKApplicationBase
                 }
             }, ["desc" => "show help or activate help option for a command"], "info"],
         ];
+        $this->initCommand($command, $argv);
         return $command;
+    }
+    protected function initCommand(array $command, array $argv){
+        if (in_array("--debug", $argv)) {
+            $fc = $command["--debug"][0];
+            $fc([], $command);
+        }
+        if (in_array('--report-error', $argv)){
+            // activate error reporting
+            ini_set('display_errors', 1);
+            error_reporting(-1); 
+        }  
     }
 
     public static function BindCommandUser($command, ?BaseController $ctrl = null)
@@ -690,5 +695,105 @@ class BalafonApplication extends IGKApplicationBase
     public function getWorkingDir()
     {
         return $this->basePath;
+    }
+
+    /**
+     * initialize and treat argument
+     * @param mixed &$argv 
+     * @return void 
+     */
+    public static function InitAndTreatArgument(& $argv){
+      
+        (function (&$argv) {
+            require_once IGK_LIB_DIR.'/Lib/'.IGK_CLASSES_FOLDER.'/IGKConstants.php';
+            // start by filtering
+            if(!isset($_SERVER['PWD'])){
+                $cwd = getcwd();
+                $rf = igk_getv($_SERVER, 'SCRIPT_FILENAME');
+                if (!self::IsRootPath($rf)){
+                    $rf = Path::CombineAndFlattenPath($cwd, $rf);
+                } 
+                $fc_local = false;
+                while(!$fc_local && $rf){
+                    $tf = $rf;
+                    if ($tf == ($rf = dirname($rf))){
+                        // for both UNIX and WINDOW
+                        break;
+                    }
+                    $v_conf = $rf.DIRECTORY_SEPARATOR.AppConfigs::ConfigurationFileName;
+                    if (file_exists($v_conf)){
+                        $fc_local = true;
+                        $cwd = $rf;
+                        break;
+                    }
+                }             
+                // resolv util sites found . 
+                $_SERVER['PWD'] = $cwd;
+                chdir($cwd);
+            }
+            $cwd = $_SERVER['PWD']; 
+            $r = array_map(BalafonApplication::class. "::FilterArgs", $argv);
+            $argv = array_filter($r, function($i){ return !is_null($i); });
+            $proj_conf = '/'.IGKConstants::PROJECT_CONF_FILE;
+            $mod_conf = '/'.IGKConstants::MODULE_CONF_FILE;
+            $_filter = false;
+            if ($cwd != ($rcwd = getcwd())){
+                $_SERVER['PWD'] = $rcwd;
+                $_filter = true;
+            } 
+            foreach (
+                [
+                    $proj_conf => [BalafonApplication::class, 'InitProject'],
+                    $mod_conf => [BalafonApplication::class, 'InitModule']
+                ] as $k => $callable
+            ) {
+                if (file_exists($cf = $_SERVER['PWD'] . $k)) {
+                    $v_pdir = dirname($cf);
+                    if ($conf = json_decode(file_get_contents($cf))) {
+                         // + | change workbench current working directory 
+                        $wb = igk_conf_get($conf, "workbench/cwd") ?? getenv('IGK_WORKING_DIR');
+                        if ($wb && is_dir($wb)) {
+                            chdir($wb);
+                        } else if ($wb) {
+                            fwrite(STDERR, "missing configured worked directory");
+                        }
+                        $callable($v_pdir, $conf, $argv);
+                        set_include_path($v_pdir . ':' . get_include_path());
+                        return;
+                    }
+                }
+            }
+            // + | --------------------------------------------------------------------
+            // + | so working dir fallback
+            // + | 
+            if (!$_filter && ($wdir = getenv('IGK_WORKING_DIR')) && ($wdir != $_SERVER['PWD'])){
+                if (is_dir($wdir)){ 
+                    // add include path to path separator
+                    set_include_path(get_include_path().PATH_SEPARATOR.$cwd);
+                    $_SERVER['PWD'] = $wdir;
+                    chdir($wdir);
+                    $_SERVER['IGK_COMMAND_PWD'] = $cwd;
+                }
+            } 
+            // + | no reach fallback
+            if (file_exists($cf = $_SERVER['PWD'] . "/balafon.config.json")) {
+                $v_pdir = dirname($cf);
+                if ($conf = json_decode(file_get_contents($cf))) {
+                    // + | change workbench current working directory 
+                    $wb = igk_conf_get($conf, "workbench/cwd") ?? getenv('IGK_WORKING_DIR');
+                    if ($wb && is_dir($wb)) {
+                        chdir($wb);
+                    } else if ($wb) {
+                        fwrite(STDERR, "missing configured worked directory");
+                    }
+                    if (!preg_match("/--controller:/", implode(' ', $argv))) {
+                        $controller = igk_conf_get($conf, 'controller') ?? igk_sys_detect_project_controller($v_pdir);
+                        if ($controller)
+                            $argv[] = "--controller:" . $controller;
+                    }
+                    set_include_path($v_pdir .PATH_SEPARATOR. get_include_path());
+                }
+            }
+        })($argv);
     }
 }

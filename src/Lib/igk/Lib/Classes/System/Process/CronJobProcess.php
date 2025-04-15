@@ -77,6 +77,7 @@ class CronJobProcess{
      * @return bool 
      */
     public static function RunFile(){
+        (func_num_args()!=2) && igk_die('missing required argument. expected 2');
         extract(func_get_arg(1));
         return include(func_get_arg(0));
     }

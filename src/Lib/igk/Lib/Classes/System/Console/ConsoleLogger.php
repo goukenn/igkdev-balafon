@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: ConsoleLogger.php
 // @date: 20220803 13:48:57
-// @desc: 
+// @desc: primary console logger
 
 
 namespace IGK\System\Console;
@@ -36,6 +36,11 @@ class ConsoleLogger implements IConsoleLogger{
     public function log($msg){
         $this->app->print($msg);
     }
+    /**
+     * 
+     * @param mixed $msg 
+     * @return void 
+     */
     public function print($msg){
         $this->app->print($msg);
     }

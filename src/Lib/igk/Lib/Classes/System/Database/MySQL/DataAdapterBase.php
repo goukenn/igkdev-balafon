@@ -193,7 +193,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
                 );
             } else {                
                 if (igk_environment()->isDev()){                       
-                    igk_ilog("no db adapter available: " . igk_env_count(__METHOD__).
+                    igk_ilog("no db adapter available / failed to connect: " . igk_env_count(__METHOD__).
                         (version_compare(IGKConstants::CorePHPVersion() , "7.3", "<=")
                         ?" connection failed : check mysql_native_password vs caching_sha2_password" : "")
                     );
