@@ -98,9 +98,8 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
         AppConfigs::InitEnvironment(igk_configs());
         if (!igk_configs()->get(self::CNF_NO_CRON_LOGGER)) {
             Logger::SetLogger($this);
-        }
-
-        igk_configs()->LogFile = __DIR__.'/cron-log'.IGK_LOG_FILE_EXT;
+        } 
+        igk_configs()->LogFile = igk_io_cachedir().'/crons/cron-tab'.IGK_LOG_FILE_EXT; 
     }
 }
 
