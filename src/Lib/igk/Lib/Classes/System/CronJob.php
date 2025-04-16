@@ -137,12 +137,12 @@ class CronJob
                                 $arg = $d['@params'];
                             }
                             try {
-                                $start = igk_start_time('cron_exec');
+                                igk_start_time('cron_exec');
                                 $status = call_user_func_array([$cl, $fc], [(object)[
                                     'args' => $arg,
                                     'last-execution' => igk_getv($d, '@last-execution')
                                 ]]);
-                                $l = igk_execute_time('cron_exec', $start);
+                                $l = igk_execute_time('cron_exec');
 
                                 if ($status == CronExecutionStatus::SKIP) {
                                     continue;
