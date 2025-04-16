@@ -79,17 +79,7 @@ trait NewsLetterRegisterTrait{
                     $ctrl->getConfig('mail_title')
                 )){
                     return true;
-                }
-                // CronJobProcess::Register("mail", "mail.register.php", (object)[
-                //     "title"=>"registration",
-                //     "msg"=>"welcome to , local.com<br /><p>please <a href=\"".$uri."\">click here to actived </a> your new letter</p>".
-                //     "Unregister use this linked <a href=\"".$un_reguri."\">Unregister</a>",
-                //     "msg-fr"=>null,
-                //     "msg-nl"=>null,
-                //     "email"=>$mail,
-                //     "activate_uri"=>$uri,
-                //     "unregister_uri"=>$un_reguri,
-                // ], $this->getController());
+                }      
             }
         }
         return false;

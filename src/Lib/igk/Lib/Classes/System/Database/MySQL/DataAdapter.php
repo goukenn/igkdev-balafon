@@ -575,6 +575,7 @@ IDataDriverCharsetSupport
                 }
             }
             if (strtolower($type)=='text'){
+                // + | check that text is a valid json string
                 if (json_decode($value)){
                     $value = str_replace("\r", "", $value);
                     $value = implode('\\\\n', explode('\\n', $value));

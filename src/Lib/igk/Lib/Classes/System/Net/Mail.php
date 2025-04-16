@@ -48,23 +48,10 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     private $m_tocc;
     private $m_useAuth;
     private $m_user;
-    private $text_charset = "iso-8859-1";
-    /**
-     * title to send
-     * @var ?string
-     */
-    private $m_fromTitle;
+    private $text_charset = "iso-8859-1"; 
 
+    var $Base64Encoding = true; 
 
-    var $Base64Encoding = true;
-    public function getFromTitle()
-    {
-        return $this->m_fromTitle;
-    }
-    public function setFromTitle(?string $title)
-    {
-        $this->m_fromTitle = $title;
-    }
     public function getErrorMsg()
     {
         return $this->ErrorMsg;
@@ -127,8 +114,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         $mail->From = $from ?? igk_configs()->get("mail_contact");
         $mail->HtmlCharset = self::UTF8_CHARSET;
         $mail->TextCharset = self::UTF8_CHARSET;
-        $mail->setReplyTo($reply);
-        $mail->setFromTitle($fromTitle);
+        $mail->setReplyTo($reply); 
         if ($type != 'text/html') {
             $mail->setTextMsg($message);
         }
@@ -277,10 +263,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
             if ($from) {
                 if (!preg_match("/(\"(?<title>.*)\")?\<(?P<from>[^\^]+)\>/", $from, $t_tab)) {
                     $from = " <" . trim($from) . ">";
-                } else {
-                    if (empty($this->m_fromTitle)) {
-                        $this->m_fromTitle = $t_tab['title'];
-                    }
+                } else {                   
                     $from = '<' . $t_tab['from'] . '>';
                 }
             } else {
@@ -307,10 +290,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
                 return false;
             }
             $t  = "";
-            if ($this->m_fromTitle) {
-                $t = 'From: "' . $this->m_fromTitle . '" ' . $from . $lf;
-            }
-
             fwrite($socket, $t . 'Subject: ' . $subject . $lf . 'To: <' . implode('>, <', $this->m_to) . '>' . $lf . $headers . "\r\n\r\n" . $message . $lf);
             fwrite($socket, "\r\n.\r\n");
             igk_debug_wln("END mail.");
@@ -758,12 +737,17 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     ///<summary></summary>
     ///<param name="value"></param>
     /**
+     * set from .
+     * "title" <mail@mail.com> | mail@mail.com
      * 
-     * @param mixed $value
+     * @param string $value
      */
     public function setFrom($value)
     {
         $this->m_from = $value;
+    }
+    public function setFormTitle(string $title, string $mail){
+        $this->setFrom(sprintf("\"%s\" <%s>", $title, $mail));
     }
     ///<summary></summary>
     ///<param name="v"></param>

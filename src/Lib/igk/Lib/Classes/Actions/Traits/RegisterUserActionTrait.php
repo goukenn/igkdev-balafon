@@ -155,11 +155,11 @@ trait RegisterUserActionTrait
         
         $v_reg_info = CronJobProcess::Register("mail", "mail.register.php", $info = (object)[
             "to" => $user->clLogin,
+            "email" => $login,
             "title" => __("Registration"),
             "msg" => $this->getRegistrationMailMessage($user, $uri), 
             "msg-fr" => null,
             "msg-nl" => null,
-            "email" => $login,
             "activate_uri" => $uri,
             "unregister_uri" => $unreg_uri,
             "fromTitle" => ""
