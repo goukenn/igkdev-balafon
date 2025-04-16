@@ -148,7 +148,9 @@ if (in_array('--querydebug', $argv))
 if (in_array('--debug', $argv))
     igk_debug(true);
 
-class_alias(\IGK\System\Cron\CommandHelper::class, 'CommandHelper');
+if (!class_exists('CommandHelper', false))
+    class_alias(\IGK\System\Cron\CommandHelper::class, 'CommandHelper');
+ 
 // get cron job request 
 $crons = Crons::select_all();
 CronJob::ExecuteCronList($crons, 'handle_cron_script', __FILE__); 
