@@ -115,6 +115,8 @@ class CronJob
      */
     public static function ExecuteCronList(array $crons, callable $handle_cron_script, ?string $exclude_fs = null)
     {
+        class_alias(\IGK\System\Cron\CommandHelper::class, 'CommandHelper');
+        
         $dir = IGK_LIB_DIR.'/Crons';
         $exclude_fs = $exclude_fs ?? IGK_LIB_DIR.'/cron-tab.php';
         $json_db_flag = JSON_UNESCAPED_SLASHES;
