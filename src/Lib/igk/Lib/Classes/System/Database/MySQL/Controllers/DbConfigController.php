@@ -733,6 +733,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $frm["igk-ajx-form-no-autoreset"] = 1;
         $frm["igk-ajx-form-target"] = "#query-s-r";
         $row = $frm->row();
+        $row['class']= 'dispflex';
         $row->col("igk-col-12-9")->div()->addTextArea()->setId("clQuery")->setClass("igk-form-control fitw-i")->setStyle("height:150px")
             ->Content = igk_getr('clQuery') ?? "Select * From `table` ";
         $ul = $row->col("igk-col-12-3")->div()->setId("query_helper")->ul();
@@ -742,7 +743,9 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 $g = $r->getColumns();
                 $clname = $g[0]->name;
                 $ul->loop($r->getRows())->host(function ($n, $i) use ($clname) {
-                    $n->li()->a("#")->on("click", "\$igk('#clQuery').first().o.value = 'SELECT * from `'+this.o.innerHTML+'`';")->content = $i->{$clname};
+                    $n->li()->a("#")
+                    ->setStyle('padding: 5px 12px;')
+                    ->on("click", "\$igk('#clQuery').first().o.value = 'SELECT * from `'+this.o.innerHTML+'`'; return false;")->content = $i->{$clname};
                 });
                 $ul->setStyle("max-height: 150px; overflow-x:clip; overflow-y:auto;");
             }
