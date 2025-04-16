@@ -524,3 +524,34 @@ $root['--igk-conf-login-form-bgcl'] = '';
 
 
 $def['.igk-svg-host svg'] = 'width: 152px; height:152px; aspect-ration: 4 / 3; fill:indigo; accent: yellow;';
+
+ 
+
+$ls = explode('|', 'default|disable|success|danger|warning|info');
+$fs = [] ;
+$colors = [
+    'default'=>'inherit',
+    'disable'=>'#444',
+    'success'=>'#eee',
+    'danger'=>'#eee',
+    'info'=>'#444',
+    'warning'=>'#eee',
+];
+$bgcolors = [
+    'default'=>'transparent',
+    'disable'=>'#6A7282',
+    'success'=>'#5EA50A',
+    'danger'=>'#FF2056',
+    'info'=>'#FFDF20',
+    'warning'=>'#1347E6',
+];
+foreach ($ls as $value) {
+    $def[$l = '.igk-'.$value] = 'color:var(--igk-'.$value.'-color, '. igk_getv($colors, $value) 
+    .'); background-color:var(--igk-'.$value.'-bg-color, '. igk_getv($bgcolors, $value) .');';
+    $fs[] = $l;
+} 
+
+
+$def['input.clsubmit'] = '';
+$def['.igk-action-group input.clsubmit'] = '{sys:clsubmit igk-btn-default} padding: 6px 12px; font-size:1rem !important; line-height:1 !important;';
+$def['.igk-action-group .igk-btn:hover'] = 'color: #222';

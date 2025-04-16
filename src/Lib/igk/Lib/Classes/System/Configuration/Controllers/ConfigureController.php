@@ -1139,7 +1139,7 @@ EOF;
             $doc->setHeaderColor("#040816");
             $root = $bfrm->div()->setClass("disptable fit")->div();
             $root->setclass("disptabc alignm fitw");
-            $root->img(IGK_LIB_DIR . "/Data/R/img/login_bg.jpg")->setClass("posfix loc_t")->setStyle("");
+            $root->img(IGK_LIB_DIR . "/Data/R/img/login_bg.jpg")->setClass("posfix loc_t no-selection")->setStyle("");
             $dv = $root->div();
             $dv["class"] = "igk-adm-login-form";
             $frm = $dv->addBMCShape()->div()->addForm()->setClass("dispb");
@@ -2076,7 +2076,7 @@ EOF;
         }
         $job = new CronJob();
         $c = $job->execute();
-        igk_notifyctrl("run:cron")->addMsg("cron executed", $c);
+        igk_notifyctrl("run:cron")->addSuccess("cron executed");
         igk_navto_referer();
     }
 

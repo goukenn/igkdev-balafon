@@ -12,8 +12,8 @@ use IGK\System\Configuration\Controllers\ConfigureLayout;
 
 use function igk_resources_gets as __;
 
-igk_require_module(igk\Google::class, null, 0, 0); 
-igk_require_module(igk\bootstrap::class, null,0, 0);
+igk_require_module('igk\\Google', null, 0, 0); 
+igk_require_module('igk\\bootstrap', null,0, 0);
 
 if (function_exists('igk_google_addfont')){
     igk_google_addfont($doc, "Roboto"); 

@@ -205,20 +205,23 @@ $fx = $box->addPanelBox();
 $frm = $fx->addForm();
 $frm["action"] = $ctrl->getUri("resetconfig");
 $frm["class"] = "dispib btn-form";
-$frm->getBox()->actiongroup()->addBtn("btn_resetconfig", R::ngets("btn.resetconfig"));
+$frm->getBox()->actiongroup()->addBtn("btn_resetconfig", R::ngets("btn.resetconfig"))
+->setClass('igk-btn btn');
 $frm = $fx->addForm();
 $frm["action"] = $ctrl->getUri("conf_runCtrlConfig");
 $frm["class"] = "dispib btn-form";
-$frm->getBox()->actiongroup()->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"));
+$frm->getBox()->actiongroup()->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"))
+->setClass('igk-btn btn');
 $dv = $fx->div()->setClass("btn-form igk-action-group");
 $v_conf_path = igk_server()->getConfigurationSettingPath();
-$dv->addABtn(igk_io_baseuri() . $v_conf_path)->setclass("clsubmit igk-btn-default dispib")->Content = __("General Configuration");
+$btn_style = 'clsubmit igk-btn-default';
+$dv->abtn(igk_io_baseuri() . $v_conf_path)
+    ->setclass($btn_style)->Content = __("General Configuration");
 if (Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()) {
-    $dv->add('a')->setClass("clsubmit igk-btn igk-btn-default dispib")->setAttribute("href", $ctrl->getUri("clearcache"))
-        //->setAttribute("onclick", "javascript: ns_igk.ajx.get(this.href+'&ajx=1', null,{src:this,complete:function(xhr){ ns_igk.ajx.fn.prepend_to(xhr,this.src.parentNode); }});  return false;")
+    $dv->abtn($ctrl->getUri("clearcache"))
+        ->setClass($btn_style )
         ->Content = __("Clear cache");
-
-    $dv->abtn($ctrl->getUri("runcron"))->setClass("clsubmit igk-btn-default")->Content = __("Run Cron");
+    $dv->abtn($ctrl->getUri("runcron"))->setClass($btn_style)->Content = __("Run Cron");
 }
 
 $fx->div()->toast_notify("run:cron");

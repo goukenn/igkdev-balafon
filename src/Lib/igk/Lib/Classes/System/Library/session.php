@@ -23,7 +23,7 @@ use IGKSessionFileSaveHandler;
 class session extends \IGKLibraryBase
 {
     /**
-     * 
+     * bind new session id 
      * @var ?string
      */
     private $m_new_session_id;
@@ -32,7 +32,7 @@ class session extends \IGKLibraryBase
      * is renew session id 
      * @return bool 
      */
-    public function isRenew(){
+    public function isRenew():bool{
         return !is_null($this->m_new_session_id);
     }
 
@@ -155,8 +155,9 @@ class session extends \IGKLibraryBase
         ini_set("session.cookie_httponly", 1);
         // ini_set("session.cookie_samesite", "strict"); // 'None'|'Lax'|'Strict'
         ini_set("session.cookie_samesite", "None"); // 'None'|'Lax'|'Strict'
-        // + | 
-        // ini_set("session.cookie_partitioned", 1); 
+        // init cookie path 
+        // ini_set('session.cookie_path', '/');  
+        // + |  
 
         // ini_set('session.cookie_lifetime', 4600);
         //+ $idstorage= trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName]: trim(igk_getr($cookieName)));

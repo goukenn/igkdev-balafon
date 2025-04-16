@@ -23,7 +23,7 @@ class ConfigureLayout{
     public function configBar($n){
         $n->setClass("+dispflex +flex-space-between flex-alignc");
         $n->div()->setClass("logo svg-fit posab")->Content = igk_svg_use("balafon_logo");
-        $n->h1()->Content = __("BALAFON &gt; CPANEL");
+        $n->h1()->setClass('flex-grow-1')->Content = __("BALAFON &gt; CPANEL");
         $n->div()->setClass('flex-grow-1')->setStyle("margin-right:10px")->Content= __("Welcome, {0}", igk_configs()->admin_login);
     }
     public function __toString(){

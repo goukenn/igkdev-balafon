@@ -32,7 +32,7 @@ use ReflectionFunction;
 use function igk_resources_gets as __;
 
 
-require_once  IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
 
 ///<summary>represent html utility </summary>

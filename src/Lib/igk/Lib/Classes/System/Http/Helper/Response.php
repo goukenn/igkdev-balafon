@@ -44,7 +44,8 @@ class Response{
         $sess_id = session_id();
         $sess_name = session_name();
         if ($sess_id && !isset($_COOKIE[$sess_name])){
-            $_vtc[] = 'Set-Cookie: '.igk_sys_cookies_build([$sess_name=>session_id().'; HttpOnly; path=/; domain='.igk_get_cookie_domain().'; Partitioned=true; Secure;']);
+            $_vtc[] = 'Set-Cookie: '.igk_sys_cookies_build([$sess_name=>session_id().'; HttpOnly; path=/; domain='.igk_get_cookie_domain().'; Secure;']);
+            // $_vtc[] = 'Set-Cookie: '.igk_sys_cookies_build([$sess_name=>session_id().'; HttpOnly; path=/; domain='.igk_get_cookie_domain().'; Partitioned=true; Secure;']);
         }
   
         return array_merge($_vtc, [

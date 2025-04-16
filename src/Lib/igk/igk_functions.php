@@ -388,6 +388,7 @@ function igk_ajx_replace_node($n, $target = null, $hash = null, $render = true)
  */
 function igk_ajx_replace_uri($uri)
 {
+    require_once IGK_LIB_DIR . "/igk_html_func_items.php";
     $n = igk_html_node_jsreplaceuri($uri);
     $n->renderAJX();
     return $n;
@@ -6596,7 +6597,7 @@ function igk_dispatch_message($source, $c, $params)
     ), null, igk_get_platform_header_array()));
     if ($bck) {
         igk_bind_session_id($bck["sess_id"]);
-        session_start();
+        @session_start();
         $_SESSION = $bck["sess"];
     }
 }
@@ -7805,7 +7806,7 @@ function igk_get_all_sessions()
                 } else {
                     unset($_SESSION[$sess_key]);
                     igk_bind_session_id($id);
-                    session_start();
+                    @session_start();
                     $app = $_SESSION[$sess_key];
                     igk_sess_write_close();
                     unset($_SESSION[$sess_key]);
@@ -7824,7 +7825,7 @@ function igk_get_all_sessions()
     }
     unset($_SESSION[$sess_key]);
     igk_bind_session_id($ssid);
-    session_start();
+    @session_start();
     $_SESSION[$sess_key] = $v_capp;
     return $dt;
 }
@@ -13845,7 +13846,7 @@ function igk_invoke_in_session($sid, $callback)
 {
     $app = igk_app();
     igk_bind_session_id($sid);
-    session_start();
+    @session_start();
     $o = $callback($app);
     igk_sess_write_close();
     return $o;
@@ -22494,6 +22495,15 @@ function igk_sys_config_view($file)
             $doc->Favicon = new IGKHtmlRelativeUriValueAttribute(IGK_LIB_DIR . "/Default/R/Img/cfavicon.ico");
             igk_set_session_redirection(null);
             igk_header_no_cache();
+            // + | enable config session 
+            // $renew = igk_app()->getApplication()->getLibrary()->session->isRenew();
+            // $sess_id = session_id();
+            // $sess_name = session_name();
+            // if ($renew || ($sess_id && !isset($_COOKIE[$sess_name]))){
+            // //    header('Set-Cookie: '.igk_sys_cookies_build([$sess_name=>$sess_id.'; HttpOnly; path=/; domain='.
+            // //    igk_get_cookie_domain().'; Partitioned=true; Secure;']));
+            // igk_wln('bind');
+            // }
             HtmlRenderer::RenderDocument($doc, false, $cnf);
         } else {
             igk_do_response(WebResponse::Create('Configs: Misconfiguration', 500));

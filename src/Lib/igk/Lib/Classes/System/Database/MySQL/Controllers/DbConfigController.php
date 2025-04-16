@@ -40,6 +40,7 @@ use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\RequestHandler;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\Number;
 use IGKCSVDataAdapter;
 use IGKEvents;
@@ -747,7 +748,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             }
 
             $acb = $frm->addActionBar();
-            $acb->addInput("btn.send", "submit", __("btn.send"))->setClass("-clsubmit +igk-btn igk-btn-default");
+            $acb->addInput("btn.send", "submit", __('Execute'))->setClass("-clsubmit +igk-btn igk-btn-default");
         } catch (TypeError $error) {
             $ul->panelbox()->setclass('igk-danger')->Content = __("failed to get tables from MySQL database");
         }
@@ -969,7 +970,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                             continue;
                         }
                         ///TODO: SELECT
-                        $query = $mysql->getGrammar()->createSelectQuery($v_tbname);
+                        $query = $mysql->getGrammar()->createSelectQuery($v_tbname, null);
                         $r = $mysql->sendQuery($query);
                         if ($r) {
                             $out .= $v_tbname . IGK_LF;
@@ -2406,7 +2407,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
      * 
      */
     public function View(): BaseController
-    {
+    {   
         if (igk_is_ajx_demand()) {
             $p = igk_getr("v", null);
             if (!empty($p)) {
@@ -2417,9 +2418,10 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                     // $this->setFlag("tabview", $p);
                     call_user_func_array(array($this, $f), array($t));
                     $t->obdata(function () use ($p) {
-                        igk_ajx_replace_uri(igk_io_request_uri_path() . "#!p=" . $p);
+                        // replece uri 
+                        igk_ajx_replace_uri(igk_io_baseuri().igk_io_request_uri_path() . "?p=" . $p);
                     });
-                    igk_do_response($t); //->renderAJX();
+                    igk_do_response($t); 
                 } else {
                     igk_set_header(RequestResponseCode::NotFound);
                     igk_wln_e(__("no function to found!", $p));

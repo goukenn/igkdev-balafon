@@ -248,7 +248,7 @@ final class IGKSubDomainManager extends IGKObject{
         $ip_server = IGKValidator::IsIPAddress($srv);
         if(($srv !== "localhost") && !$ip_server && ($srv !== $domain) && (preg_match("/(www)?\.".$domain."$/i", $srv) || self::AcceptDomain($domain, $srv))){
             $rdomain=defined("IGK_COOKIE_DOMAIN") ? igk_const("IGK_COOKIE_DOMAIN") : self::Resolv($domain);
-            ini_set("session.cookie_domain", ".".$rdomain);
+            ini_set('session.cookie_domain', ".".$rdomain);
             self::$sm_isSubDomain=true;
             self::$sm_subDomainName=self::GetSubDomain();
         }
@@ -264,7 +264,7 @@ final class IGKSubDomainManager extends IGKObject{
             if(!empty($bdir=igk_io_rootbasedir())){
                 $_path=$bdir;
             }
-            ini_set("session.cookie_domain", ($srv == "localhost") ? null: $srv);
+            ini_set('session.cookie_domain', ($srv == "localhost") ? null: $srv);
             ini_set("session.cookie_path", $_path);
         }
     }

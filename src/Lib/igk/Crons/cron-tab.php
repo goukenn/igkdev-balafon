@@ -11,6 +11,8 @@ use IGK\System\Console\ConsoleLogger;
 use IGK\System\Console\IConsoleLogger;
 use IGK\System\Console\Logger;
 use IGK\System\Cron\CronExecutionStatus;
+use IGK\System\Cron\CronScriptHandler;
+use IGK\System\CronJob;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Path;
 use IGK\System\Process\CronJobProcess;
@@ -22,7 +24,7 @@ error_reporting(-1);
 ini_set('display_errors', 1);
 require_once __DIR__ . "/../igk.environment.loading.php";
 
-
+require_once IGK_LIB_CLASSES_DIR.'/System/Cron/CronScriptHandler.php';
 
 
 
@@ -112,25 +114,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     }
 }
 
-/**
- * cron script handler 
- * @package 
- */
-class CronScriptHandler
-{
-    var $file;
-    var $args;
-    var $status;
-    /**
-     * argument to handler 
-     * @return int status code  
-     */
-    public function handle()
-    {
-        extract($this->args = func_get_arg(1));
-        return include $this->file = func_get_arg(0);
-    }
-}
+
 /**
  * handle cron script
  * @return void 
@@ -140,7 +124,7 @@ function handle_cron_script()
     $s = new CronScriptHandler;
     return call_user_func_array([$s, 'handle'], func_get_args());
 }
-
+ 
 
 unset($_SERVER['PWD']);
 ignore_user_abort(false);
@@ -167,77 +151,6 @@ if (in_array('--debug', $argv))
 class_alias(\IGK\System\Cron\CommandHelper::class, 'CommandHelper');
 // get cron job request 
 $crons = Crons::select_all();
-$json_db_flag = JSON_UNESCAPED_SLASHES;
-if ($crons) {
-    while (count($crons) > 0) {
-        $row = array_shift($crons);
-        if ($row->process == 0) {
-            $status = -1;
-            $scr = $row->script;
-            if (preg_match('/^\\w+@\\w+$/', $scr)) {
-                list($cl, $fc) = igk_extract(explode('@', $scr, 2), '0|1');
-                if (class_exists($cl) && method_exists($cl, $fc)) {
-                    $arg = $d = json_decode($row->options ?? '[]', true) ?? [];
-                    //$start = $start[0] + ($start[1] /1000);
-                    unset($d['(@error)']);
-                    if (isset($d['@params'])) {
-                        $arg = $d['@params'];
-                    }
-                    try {
-                        $start = igk_start_time('cron_exec');
-                        $status = call_user_func_array([$cl, $fc], [(object)[
-                            'args' => $arg,
-                            'last-execution' => igk_getv($d, '@last-execution')
-                        ]]);
-                        $l = igk_execute_time('cron_exec', $start);
-
-                        if ($status == CronExecutionStatus::SKIP) {
-                            continue;
-                        }
-                        $response = ['@params' => $arg, 'duration' => $l . 's'];
-                        if ($status == CronExecutionStatus::RESTART) {
-                            $response['@last-execution'] = igk_date_now();
-                        }
-                        $row->options = json_encode($response);
-                        $row->process = $status;
-                    } catch (\Exception $ex) {
-                        $d['(@error)'] = $ex->getMessage(); 
-                        $row->options = json_encode($d);
-                    }
-                }
-            } else {
-                if (file_exists($fs =  __DIR__ . '/' . $scr) && (__FILE__ != $fs)) {
-                    try {
-                        $arg = $d =  json_decode($row->options ?? '[]', true) ?? [];
-                        if (key_exists('@params', $d)){
-                            $d = $d['@params'];
-                        }
-                        igk_start_time($key_time = 'cron_file');
-                        $g = handle_cron_script($fs, $d);
-                        $time = igk_execute_time($key_time);
-                        if ($g == CronExecutionStatus::SKIP) {
-                            continue;
-                        }
-                        $row->process = $g;
-                        $row->options = json_encode([
-                            '@params'=>$d,
-                            '@at'=>date('Ymd His'),
-                            'duration'=>$time.'s'
-                        ], $json_db_flag);
-                        $status = 0;
-                    } catch (\IGKException $ex) {
-                        $d['(@error)'] = $ex->getMessage(); 
-                        $row->options = json_encode($d); 
-                    }
-                } else {
-                    continue;
-                }
-            }
-            $row->status = $status;
-            $row->update_at = null;
-            $row->save();
-        }
-    }
-}
+CronJob::ExecuteCronList($crons, 'handle_cron_script', __FILE__); 
 igk_wln_e("cronjob complete : " . date('Y-m-d H:i:s'));
 igk_exit(1, 0);
