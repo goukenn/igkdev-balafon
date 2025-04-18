@@ -7,13 +7,16 @@
 
 namespace IGK\System\Html\Dom;
 
+use Exception;
 use IGK\Core\Traits\ScriptTrait;
 use IGK\Helper\IO;
+use IGK\System\Console\Logger;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
+use IGK\System\Text\RegexMatcherContainer;
 use IGKCaches;
 use IGKException;
 use IGKResourceUriResolver;
@@ -269,6 +272,8 @@ class HtmlScriptLoader
      */
     public static function ImportContentAsModule(string $content): string
     {
+        $content = self::RemoveGlobalExportFromContent($content);
+
         return implode("\n", [
             'function(){',
             'const module = {};',
@@ -276,6 +281,54 @@ class HtmlScriptLoader
             'return {default: module.exports, ...module.exports};',
             '}'
         ]);
+    }
+    /**
+     * 
+     * @param string $content 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function RemoveGlobalExportFromContent(string $content)
+    {
+
+
+        $ctx = new RegexMatcherContainer;
+        $brank = $ctx->begin('\{', '\}', 'brank')->last();
+        $comment = $ctx->begin('\/\*', '\*\/', 'multiline-comment')->last();
+        $func = $ctx->begin('\(', '\)', 'function')->last();
+        $string = $ctx->appendStringDetection()->last();
+        $export = $ctx->begin("\\bexport\\b", "(?<=;|})|;", "skip")->last();
+        $func->patterns = [
+            $func,
+            $string,
+            $brank
+        ];
+        $brank->patterns = [
+            $func,
+            $string,
+            $brank
+        ];
+        $export->patterns = [
+            $brank,
+            $func,
+            $string,
+            $comment
+        ];
+        $src = $content;
+        $offset = 0;
+        $loffset = 0;
+        $ostr = '';
+        while ($g = $ctx->detect($src, $offset)) {
+            if ($e = $ctx->end($g, $src, $offset)) {
+                if (is_null($e->parentInfo) && ($e->tokenID == 'skip')) {       
+                        $ostr .= substr($src, $loffset, $e->from - $loffset);
+                        $loffset = $e->to;  
+                }
+            }
+        }
+        $ostr .= substr($src, $loffset);
+        return $ostr;
     }
     /**
      * system loading accept regex 

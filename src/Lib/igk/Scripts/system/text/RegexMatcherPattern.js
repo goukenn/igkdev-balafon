@@ -1,6 +1,8 @@
 'use strict';
 
 (function(){ 
+
+    // console.log('1 - log regex matcher pattern');
     class RegexMatcherPattern{
         type;
         container;
@@ -21,8 +23,6 @@
             return 'RegexMatcherPattern';
         }
     }
-
-
     igk.system.createNS('igk.system.text',{
         RegexMatcherPattern
     });

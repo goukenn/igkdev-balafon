@@ -71,7 +71,21 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->m_noIFrame = $value;
         return $this;
     }
+    /**
+     * set website icons 
+     * @var string $href reference
+     * @var string expected type 
+     * */ 
+    public function setWebSiteIcon(string $href, $type='png'){
+        if (is_null($this->m_site_icon)){
+            $ln = $this->head()->link();
+            $ln['rel'] = 'website icon';
+            $ln['type'] = $type;
+        }
 
+        $ln['href'] = $href;
+        return $this;
+    }
 
     public function getnoFontInstall()
     {

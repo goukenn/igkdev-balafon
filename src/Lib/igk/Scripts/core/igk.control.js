@@ -721,6 +721,53 @@
             return new RegExp('((' + r + ')code)', 'i');
         })(m_types);
 
+        const treatHtmlSource = {
+            /**
+             * treat inline regex container
+             * @param {*} src 
+             * @param {*} RegexContainer 
+             * @returns 
+             */
+            php(src, RegexContainer){
+                let o='', g=null,loffset = 0, closed_tag = 0, regex = new RegexContainer();
+                src = src.replaceAll('&amp;','&')
+                    .replaceAll('&gt;', '>')
+                    .replaceAll('&lt;', '<');
+                regex.begin('<!--\\?(php|=)', '(:\/){0,1}--(:\\?){0,1}>');
+                // regex.begin('<!--\\?(php|=)', '\/--(\\?){0,1}>');
+                const options = {offset:0}; 
+                while(g = regex.detect(src, options)){
+                    let e = regex.end(g); 
+                    if (e){
+                        if (e.isContinue)
+                            continue;
+                        if (closed_tag){
+                            o +='?>';
+                        }
+                        o+= src.substring(loffset, e.from)
+                        let te = e.value;
+                        o+= te.replace(/^<!--\?php/, '<?php')
+                        .replace(/^<!--\?=/, '<?=')
+                        .replace(/(?:\/){0,1}-->$/, '')
+                        .replace(/\/--\?>$/, '');
+                        loffset = e.to;
+                        closed_tag = true;
+                        if (e.missingEnd){
+                            // terminate but missing end
+                            loffset = e.from+te.length;
+                        }
+                    } 
+                }
+                if (loffset < src.length){
+                    if (closed_tag){
+                         o += '?>';
+                    }
+                    o += src.substring(loffset);
+                }
+                return o;
+            }
+        };
+
         function __init_code_area() {
             var q = this;
             if (!q) {
@@ -742,9 +789,16 @@
                     c = 'php';
                 }
             } 
-            var s = q.o.textContent.trim(); 
+            let ts = q.o.innerHTML;
+            let {RegexContainer } = igk.system.text;
+            if (RegexContainer){
+                if (c in treatHtmlSource){
+                 ts = treatHtmlSource[c].apply(null, [ts, RegexContainer]);
+                }
+            }
+            var s = ts || q.o.textContent.trim(); 
             var t = s.split('\n');
-
+            s = s.replaceAll('<', '&lt;').replaceAll('>','&gt;');
             // return;
             // clear node
             q.setHtml("");
@@ -881,6 +935,14 @@
             }
             return ch;
         };
+        /**
+         * present for html rendering
+         * @param {*} s 
+         * @returns 
+         */
+        function present(s){
+            return s.replaceAll('&', '&amp;').replaceAll('>','&gt;').replaceAll('<','&lt;');
+        }
 
         function igk_php_eval() { // php evaluation code
             igk_e.apply(this);
@@ -949,7 +1011,9 @@
                                     break;
                                 case '/': // for comment
                                     if ((inf.pos + 1 < inf.ln) && (inf.s[inf.pos + 1] == "/")) {
-                                        sp.add("span").addClass("cm").setHtml(ch + inf.s.substr(inf.pos + 1));
+                                        sp.add("span").addClass("cm").setHtml(
+                                            present(ch + inf.s.substr(inf.pos + 1))
+                                        );
                                         inf.read = 0;
                                     } else
                                         sp.add("span").addClass("pc").setHtml("/");

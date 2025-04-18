@@ -9,7 +9,15 @@ namespace IGK\System\Console;
 
 use IGK\System\Shell\OsShell;
 
+/**
+ * 
+ * @package IGK\System\Console
+ */
 class BalafonCommand{
+    /**
+     * primary 
+     * @return void 
+     */
     protected function __construct()
     {
         

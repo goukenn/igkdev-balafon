@@ -4753,8 +4753,18 @@ Name:balafon.js
                 return s;
             }
         },
+        /**
+         * create and append new element 
+         * @param {*} tagname 
+         * @returns 
+         */
         appendNChild: function (tagname) {
-            var item = this.createElement(tagname);
+
+            const e = igk.system.getNS('igk.system.html.dom.createElement');
+            let item = null;
+            if (e && e.support){
+                item = e(tagname).root;
+            } else{  item = this.createElement(tagname); }
             this.appendChild(item);
             return item;
         },
@@ -5081,6 +5091,10 @@ Name:balafon.js
         // + | store environment global flags.
         env: { flags: {} },
         createNode: function (tag, ns) {
+            let e = igk.system.getNS('igk.system.html.dom.createElement');
+            if (e && e.support){ 
+                return __igk(e(tag, ns).root);
+            }
             if (!tag)
                 return 0;
             if (ns && document.createElementNS)
@@ -8940,7 +8954,7 @@ Name:balafon.js
         function __key_press(evt) {
             switch (evt.keyCode) {
                 case 27: // escape	
-                    console.debug("pop dialog");
+                    // console.debug("pop dialog");
                     var q = m_dlgx.pop();
                     if (q)
                         __hide_dialog(q);
@@ -12257,7 +12271,7 @@ Name:balafon.js
     createNS('igk.ctrl', {
         bindPreloadDocument: __registerHtmlPreloadDocumentCallBack
     });
-    createNS("igk.ctrl.utils", {
+    createNS('igk.ctrl.utils', {
         check_all: igk_check_all
     });
 

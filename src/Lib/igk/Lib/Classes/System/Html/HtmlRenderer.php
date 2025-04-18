@@ -15,6 +15,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\Html\Rendering\IHtmlRederingCallback;
 use IGK\System\Http\IHeaderResponse;
 use IGK\System\Http\RequestResponseCode;
@@ -300,6 +301,9 @@ class HtmlRenderer
                     }
                 }
                 if ($options->Source !== $i) {
+                    if (is_string($i)){
+                        $i = new HtmlTextNode($i);
+                    }
                     if (!isset($reflect[$cl = get_class($i)])) {
                         $reflect[$cl] = HtmlItemBase::class != (new ReflectionMethod($i, self::render_method))->getDeclaringClass()->name;
                     }

@@ -22011,36 +22011,7 @@ function igk_svg_callable_list($n, $m)
         __FILE__ . ":" . __LINE__,
         "loading ......." . __FUNCTION__ . " deprecated"
     );
-    // $c = $m->getParam("sys://svg/lists");
-    // $g = $m->getParam("sys://svg/file");
-    // if ((!$c || igk_count($c) == 0) || !$g) {
-    //     return 0;
-    // }
-    // $o = "";
-    // if ($g) {
-    //     foreach (array_keys($c) as $k) {
-    //         $v = igk_getv($g, $k);
-    //         if (($v === null) || empty($v)) {
-    //             continue;
-    //         }
-    //         $f = igk_io_expand_path($v);
-    //         if (!file_exists($f)) {
-    //             $f = igk_realpath(igk_io_basedir() . "/{$v}");
-    //         }
-    //         if (empty($f)) {
-    //             if (!igk_sys_env_production()) {
-    //                 igk_wln_e("svg : {$k} not found, from {$f} in {$v}");
-    //             }
-    //             continue;
-    //         }
-    //         $o .= "<" . $k . ">";
-    //         $o .= igk_svg_content(igk_io_read_allfile($f));
-    //         $o .= "</" . $k . ">";
-    //     }
-    //     $n->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode->text($o);
-    // }
-    // $m->setParam("sys://svg/lists", null);
-    return 1;
+   return 1;
 }
 ///<summary>trim all unnecessary content</summary>
 ///<param name="s"> content to treat</param>

@@ -40,7 +40,16 @@ class OsShell {
         } 
         return call_user_func_array([$cl, $n], $args);
     }
+    /**
+     * execute command
+     * @param mixed $command 
+     * @return string|false 
+     */
     public static function Exec($command){ 
-        return exec($command);
+        $c = exec($command, $output, $retcode);
+        if (!$retcode){
+            return implode("\n", $output);
+        }
+        return '/!\error '.$c;
     } 
 }

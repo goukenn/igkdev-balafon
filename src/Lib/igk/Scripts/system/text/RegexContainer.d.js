@@ -1,12 +1,13 @@
 'use strict';
 // common js for regex definition 
 (function () {
+
+    // console.log('2 - load container');
     const BEGIN_END = 'begin/end';
     const BEGIN_WHILE = 'begin/while';
     const MATCH = 'match';
     const REF_INCLUDE = 'include';
     const TREAT_OPT_REGEX = "^\\(\\?\\b(?<add>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\\b(:\\b(?<remove>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\\b)?\\)";
-
     function _endWhileUpdateInfo(event, e, src) {
         e.to = event.pos - 1;
         e.value = src.substring(e.from, e.to);
@@ -57,7 +58,6 @@
             return [line.slice(idx), idx, nidx != -1 ? line.slice(idx, nidx + idx) : null];
         }
     }
-
     /**
      * update indice offset
      * @param {*} g 
@@ -67,15 +67,16 @@
         g.index += offset;
         if ('indices' in g) {
             g.indices?.map(function (a) {
+                if (a !== undefined){
                 a[0] += offset;
                 a[1] += offset;
+                }
             });
         }
     }
     // + | ------------------------------------------------------------------------
     // + | treat regex expression 
     // + | 
-
     /**
      * treatet pattern regex 
      * @param {string} regex 
@@ -84,7 +85,6 @@
     function treatRegex(regex) {
         return removeBracketChar(removeOption(regex));
     }
-
     /**
      * remove brank expression . 
      * @param {*} src 
@@ -116,7 +116,6 @@
                 }
             } else
                 is_escaped = false;
-
         }
         if (stop) {
             src = src.substring(0, _start_offset) + src.substring(offset);
@@ -162,8 +161,6 @@
         }
         return regex;
     }
-
-
     /**
  * check that next line is empty
  * @param {string} line 
@@ -189,25 +186,21 @@
         }
         return false;
     };
-
-
     const initRegexContainer = function ({ RegexDetectionInfo, RegexMatcherPattern }) {
         const igk = (() => {
             const { igk } = globalThis;
             return igk || {}
         })();
 
-
-
-
+        // console.log('initize ', { RegexMatcherPattern } );
         /**
-      * @typedef IRegexDetectInfo
-      * @property {string} source source of detection
-      * @property {string} line detect subline
-      * @property {Array} matchs list of match
-      * @property {number} offset offset
-      * @property {*} resolutions regex resolution list
-      */
+          * @typedef IRegexDetectInfo
+          * @property {string} source source of detection
+          * @property {string} line detect subline
+          * @property {Array} matchs list of match
+          * @property {number} offset offset
+          * @property {*} resolutions regex resolution list
+          */
         /**
          * @typedef IRegexDetectResult
          * @property {*} match match result 
@@ -265,7 +258,8 @@
          */
         const _NS = {
             RegexDetectionInfo,
-            RegexMatcherPattern
+            RegexMatcherPattern,
+            initialize: '_init_'
         };
         /**
          * 
@@ -399,7 +393,6 @@
                 _postUpdateValue(postUpdateListener, stub, { src, from: e.to, to: index, pattern });
             }
         };
-
         /**
         * treat get options
         * @param {String} b check string
@@ -467,7 +460,6 @@
                     }
                 }
             }
-
             while (treat.length > 0) {
                 const [p, line, ofset] = treat.shift();
                 let c = p.exec(line);
@@ -478,13 +470,12 @@
                         matchs.push(inf);
                     }
                     else {
-                        if (c.index < matchs[0].index) {
+                        if (c.index < matchs[0].offset) {
                             matchs[0] = inf;
                         }
                     }
                 }
             }
-
         };
         /**
          * handle pattterns 
@@ -815,7 +806,6 @@
              * @var {String?}
              */
             scopeName;
-
             /**
              * injection selector
              * @var {String?}
@@ -825,7 +815,6 @@
              * @var {(value: string, [option]: Any)=>string}
              */
             prefixListener;
-
             /**
              * @var {undefined|(value:string, {from:number, to:number, pattern})=>null}
              */
@@ -866,8 +855,8 @@
                     }
                 }
             }
-
             #_createRegexMatcherPattern() {
+                const { RegexMatcherPattern } = _NS;
                 let l = null;
                 if (this.createRegexMatcherListener) {
                     l = this.createRegexMatcherListener();
@@ -887,13 +876,12 @@
                 const { RegexMatcherPattern } = _NS;
                 const createMatcherPattern = () => this.#_createRegexMatcherPattern();
                 let inf = createMatcherPattern();
-
                 inf.type = BEGIN_END;
                 inf.begin = start;
                 inf.end = end;
                 inf.tokenID = tokenID;
                 inf.name = name;
-                inf.patterns = patterns ? _treatLoadPattern(patterns, { createMatcherPattern }) : null;
+                inf.patterns = patterns && Array.isArray(patterns) ? _treatLoadPattern(patterns, { createMatcherPattern }) : null;
                 if (refId) {
                     var cp = new RefIncludePattern(refId);
                     this.repository[refId] = inf;
@@ -971,7 +959,10 @@
                     detectResult: g,
                     begin: null,
                     end: null,
-                    src: null
+                    src: null,
+                    missingEnd: undefined,
+                    isContinue: undefined
+
                 };
                 Object.defineProperty(q, 'tokenID', { value: pattern.tokenID, writable: false, configurable: false });
                 Object.defineProperty(q, 'parent', { value: parent, writable: false, configurable: false });
@@ -1063,7 +1054,6 @@
                             g.isContinue = true;
                             const _while = pattern.while;
                             const { end } = pattern;
-
                             let matchs = [];
                             let line = src.slice(offset);
                             let m = null; // end match 
@@ -1089,7 +1079,6 @@
                             //     v_skip = true;
                             //     return;
                             // }
-
                             if (pattern.type == BEGIN_END) {
                                 if (end && !endRegex) {
                                     g.endRegex = _endMatch(end, match, value);
@@ -1168,7 +1157,6 @@
                                     _v_line_event.pos += offset;
                                     _v_line_event.end += offset;
                                 }
-
                                 if (m) {
                                     if (end_while) {
                                         e.endWhile = TreatCaptures(end_while, m, src, {
@@ -1178,9 +1166,8 @@
                                     }
                                     //if (!v_matchPatterns) {
                                     _preUpdateValue(e, src, e.to, m.index, q.prefixListener, 'pre-while');
-                                   
                                     if (_v_line_event) {
-                                        _postUpdateValueLogic(e, _v_line_event.pos-1, src, q.postUpdateListener, pattern);
+                                        _postUpdateValueLogic(e, _v_line_event.pos - 1, src, q.postUpdateListener, pattern);
                                         ({ offset } = _endWhileUpdateInfo(_v_line_event, e, src));
                                     } else {
                                         e.to = m.index + m[0].length;
@@ -1193,13 +1180,12 @@
                                 } else {
                                     // + | missing end
                                     if (_v_line_event) {
-                                        _postUpdateValueLogic(e, _v_line_event.pos-1, src, q.postUpdateListener, pattern);
+                                        _postUpdateValueLogic(e, _v_line_event.pos - 1, src, q.postUpdateListener, pattern);
                                         ({ offset } = _endWhileUpdateInfo(_v_line_event, e, src));
                                     } else {
                                         if (_next_line_exists) {
                                             // move to next line 
                                             _postUpdateValueLogic(e, _next_line_exists.index, src, q.postUpdateListener, pattern);
-
                                             e.to = _next_line_exists.index;
                                             e.value = src.substring(e.from, e.to);
                                             offset = e.to;
@@ -1209,7 +1195,7 @@
                                             e.to = offset = src.length;
                                         }
                                     }
-                                } 
+                                }
                             }
                             break;
                     }
@@ -1355,16 +1341,11 @@
         }
         _NS.RegexMatcherPattern = RegexMatcherPattern;
         if (typeof (igk?.system) !== 'undefined') {
-            const _NS = igk.system.createNS("igk.system.text", {
-                RegexContainer
+            igk.system.createNS("igk.system.text", {
+                RegexContainer,
+                RegexMatcherPattern
             });
         }
-        // export {
-        //     RegexContainer
-        // };
-        // module.exports = {
-        //     RegexContainer
-        // }
         return {
             RegexContainer
         }
@@ -1385,4 +1366,3 @@
         igk.appendProperties(_NS, _export);
     }
 })();
-

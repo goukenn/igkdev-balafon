@@ -1,5 +1,4 @@
 'use strict';
-(function(){
 class RegexDetectionInfo{
     /**
      * 
@@ -28,6 +27,7 @@ class RegexDetectionInfo{
      */
     nextDetection;
 };
+(function(){
 const __exports = { 
     RegexDetectionInfo
 };
@@ -39,6 +39,10 @@ const _NS = ((q, a) => { a = a.split('.'); while (q && (a.length > 0)) { q = q[a
     (globalThis, 'igk.system.text');
 if (_NS) {
     igk.appendProperties(_NS, __exports);
-}
-
+} 
 })();
+
+// comment to disable on top level module declaration
+ export {
+     RegexDetectionInfo
+ }

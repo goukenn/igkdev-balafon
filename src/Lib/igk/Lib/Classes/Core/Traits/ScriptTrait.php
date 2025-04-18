@@ -66,18 +66,58 @@ trait ScriptTrait
         $exclude_dir = igk_sys_js_exclude_dir();
         $allowHiddenFile = $manager ? $manager->allowHiddenFile : false;
         $references = [];
-        $resolverfc = function ($f) use (&$s, &$tag, &$references, $lf, $manager, $allowHiddenFile) {
+        $sources = []; //sources to load 
+        // $buildSource = function()use(& $sources, $lf, & $references){
+        //     $s = '';
+        //     foreach($sources as $f=>$i){
+        //         if (!$i) continue;
+        //         $s .= "// " . igk_io_collapse_path($f) . $lf;
+        //         $ts = file_get_contents($f);
+        //         $ts = self::TreatJSSource($f, $ts, $references);
+        //     }
+        //     return $s;
+        // };
+        $_autoloads_dir = [];
+        $resolverfc = function ($f) use (&$s, &$tag, &$references, $lf, $manager, $allowHiddenFile, & $sources, & $_autoloads_dir) {
             if (!$allowHiddenFile && (strpos(basename($f), ".") === 0)) {
                 return;
-            } 
+            }
             $ext = Path::GetExtension($f);
             switch (($ext)) {
-                case ".js";
-                    $s .= "// " . igk_io_collapse_path($f) . $lf;
-                    $ts = file_get_contents($f);
-                    $ts = self::TreatJSSource($f, $ts, $references);
-                    //treat source file             
-                    $s .= $ts . $lf;
+                case ".js":
+                    if (isset($sources[$f])){
+                        return;
+                    }
+                    if (!isset($_autoloads_dir[$dir = dirname($f)])){
+
+                        $_autoloads_dir[$dir] = 1;
+                        if (file_exists($fjson = $dir.'/__autoload.json')){
+                            $r = json_decode(file_get_contents($fjson), true);
+                            $rg = igk_extract_obj($r, 'required|ignore');
+                            $_autoloads_dir[$dir] = $rg; 
+                        }
+                    }
+                    $rg = $_autoloads_dir[$dir];
+                    $b_name = basename($f);
+                    if (is_object($rg) && in_array($b_name, $rg->ignore ?? [])){
+                        return;
+                    }
+                    if (is_object($rg) && ($required = igk_getv($rg->required, $b_name))){
+                        foreach($required as $tf){
+                            $tff = Path::CombineAndFlattenPath($dir, $tf);
+                            // $sources[] = 'console.log("loading '.$tff.' ");';
+                            if (($f != $tff) && !isset($sources[$tff])){
+                                $sources[$tff] = self::TreatJSSource($tff, file_get_contents($tff), $references);
+                            }
+                        }
+                    } 
+
+                    $sources[$f] = 
+                    // $s .= "// " . igk_io_collapse_path($f) . $lf;
+                    // $ts = file_get_contents($f);
+                    self::TreatJSSource($f, file_get_contents($f), $references);
+                    // //treat source file             
+                    // $s .= $ts . $lf;
                     break;
                 default:
                     if ($manager instanceof IAssetManager) {
@@ -94,21 +134,33 @@ trait ScriptTrait
             }
             $s = "";
         }
-        if (is_null($manager) && ($references)){
-            
+
+        // - merge source 
+
+        if (is_null($manager) && ($references)) {
+
             $sb = new StringBuilder;
             $r = 0;
-            $sb->appendLine('(function(){'); 
-            foreach($references as $id=>$s){
-                $sb->append(sprintf('__module_refs['.$r.']=%s;', HtmlScriptLoader::ImportContentAsModule( file_get_contents($id))));
+            $sb->appendLine('(function(){');
+            foreach ($references as $id => $s) {
+                $sb->append(sprintf('__module_refs[' . $r . ']=%s;', HtmlScriptLoader::ImportContentAsModule(
+                    file_get_contents($id),
+                    $references
+                )));
+                unset($sources[$id]);
                 $r++;
             }
+            $out .= implode("\n", $sources);
             $sb->appendLine('})();');
-            $out = $sb.''.$out;
-            
+            $out = $sb . '' . $out;
         }
 
+        // . bundler treatment
+        $out = self::TreatBundlerSource($out);
         return $out;
+    }
+    public static function TreatBundlerSource(string $src){
+        return $src;   
     }
     /**
      * reate js source
@@ -120,12 +172,8 @@ trait ScriptTrait
      * @throws Exception 
      */
     static function TreatJSSource(string $file, $src, &$reference = [])
-    { 
+    {
         $dir = dirname($file);
-        // $debug = basename($file) == 'RegexContainer.js';
-        // if (!$debug) {
-        //     return $src;
-        // }
         $jscontainer = new RegexMatcherContainer;
         $offset = 0;
         $l = $jscontainer->begin('(await\\b\s*)?import\s*\(', '\)(\s*;)?', 'import-resolution')->last();
@@ -139,10 +187,10 @@ trait ScriptTrait
         $l = $jscontainer->begin('(’)', '\\1', 'litteral-import');
 
         $url = null;
-    
+
         while ($g = $jscontainer->detect($src, $offset)) {
             if ($e = $jscontainer->end($g, $src, $offset)) {
-              
+
                 switch ($e->tokenID) {
                     case 'import.url':
                         $l = trim($e->value, '"\'');
@@ -166,9 +214,9 @@ trait ScriptTrait
 
                             // }
                             $ts = sprintf('__module_refs[%s].apply(window);', $inx);
-                            $src = $gm . $ts . substr($src, $e->to); 
+                            $src = $gm . $ts . substr($src, $e->to);
                             $offset = $e->from + strlen($ts) + 1;
-                            $url = null; 
+                            $url = null;
                         }
                         break;
                 }
