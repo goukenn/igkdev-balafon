@@ -35,6 +35,16 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     const BEGIN_WHILE_TYPE = 'begin/while';
     const MATCH_TYPE = 'match';
     const INCLUDE = 'include';
+
+
+    private $m_last;
+
+    // var $type;
+    /**
+     * auto store created pattern
+     * @var bool
+     */
+    var $autoStore = true;
     /**
      * 
      * @var ?IRegexMatchPatternStateListener
@@ -89,6 +99,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     public function last()
     {
+        if (!is_null($this->m_last)){
+            return $this->m_last;
+        }
         $c = count($this->m_matcher);
         return $c > 0 ? igk_getv($this->m_matcher, $c - 1) : null;
     }
@@ -141,12 +154,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * do end operation 
      * @param RegexTreatMatchInfo $info object info class 
      * @param string $source 
-     * @param int &$offset 
+     * @param int &$offset must pass and offset to select the proper info 
      * @return object|RegexMatcherCapture|void 
      * @throws Exception 
      */
-    public function end($info, string $source, int &$offset = 0)
-    {
+    public function end($info, string $source, int &$offset)
+    {       
         $e = $this->_treatEnd($info, $source, $offset);
         if ($e) {
             // + | --------------------------------------------------------------------
@@ -306,6 +319,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         $v_tcaptures = $this->_treatEndCaptures($info, $v_tvalue, $tab);
                         return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                             $this,
+                            'match'=>$info->match,
                             'tokenID' => igk_getv($k, 'tokenID'),
                             'from' => $info->pos,
                             'to' => $n,
@@ -385,6 +399,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     // - for match result
                     return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                         'tokenID' => $k['tokenID'],
+                        'match'=>$info->match,
                         'from' => $info->pos,
                         'to' => $n,
                         'value' => $src, // real value 
@@ -516,7 +531,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 'value' => '',
                 'beginCaptures' => $l->captures,
                 'endCaptures' => $l->captures,
-                'parentInfo' => $info
+                'parentInfo' => $info,
+                'match'=>$k
             ]);
         } else {
             // capture continue capture to childs 
@@ -530,7 +546,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 'value' =>  null,
                 'beginCaptures' => $info->captures,
                 'endCaptures' => null,
-                'parentInfo' => $info
+                'parentInfo' => $info,
+                'match'=>$k
             ]);
         }
         $v_continue = true;
@@ -549,6 +566,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $k = $info->match;
         return Activator::CreateNewInstance(RegexMatcherCapture::class, [
             $this,
+            'match'=>$info->match,
             'tokenID' => $k['tokenID'],
             'from' => $info->pos,
             'to' => $n,
@@ -894,7 +912,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         if ($refid) {
             $this->m_references[$refid] = $inf;
         }
-        $this->m_matcher[] = $inf;
+        $this->m_last = $inf;
+        if ($this->autoStore){
+            $this->m_matcher[] = $inf;
+        }
         return $this;
     }
     public function while(string $expression, ?string $end = null, ?string $tokenID = null, ?string $refid = null, ?array $patterns = null)
@@ -934,7 +955,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         if ($refid) {
             $this->m_references[$refid] = $inf;
         }
-        $this->m_matcher[] = $inf;
+        $this->m_last = $inf;
+        if ($this->autoStore)
+            $this->m_matcher[] = $inf;
         return $this;
     }
     /**
@@ -1354,5 +1377,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $rv = $tv;
         }
         return $rv;
+    }
+
+    public function createPattern(array $args){
+        return Activator::CreateNewInstance( RegexMatcherPattern::class, array_merge([$this],$args) );
     }
 }

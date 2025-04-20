@@ -279,6 +279,35 @@ if (!function_exists('igk_getv')) {
     }
 }
 
+if (!function_exists('igk_getchainv')) {
+    /**
+     * retrieve first value key chain 
+     * @param mixed $n 
+     * @param string $keys 
+     * @param mixed $default 
+     * @return mixed|mixed 
+     * @throws Exception 
+     */
+    function igk_getchainv($n, string $keys, $default = null)
+    {
+        if (is_null($n) || !(is_array($n) || is_object($n))) {
+            return $default;
+        }
+        $r = explode('|', $keys);
+        while (count($r) > 0) {
+            $q = array_shift($r);
+            if (is_array($n) && !key_exists($q, $n)) {
+                continue;
+            }
+            if (is_object($n) && !property_exists($n, $q)) {
+                continue;
+            }
+            return igk_getv($n, $q, $default);
+        }
+        return $default;
+    }
+}
+
 if (!function_exists('igk_in')) {
     /**
      * check for key presence in object or array
@@ -2490,7 +2519,7 @@ function igk_get_allheaders()
 ///<summary>Represente igk_get_header_status function</summary>
 ///<param name="code"></param>
 /**
- * Represente igk_get_header_status function
+ * Represent igk_get_header_status function
  * @param mixed $code 
  */
 function igk_get_header_status($code)

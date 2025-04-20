@@ -4,7 +4,7 @@
 // @date: 20240816 08:05:07
 namespace IGK\System;
 
-use IGKConstants;
+use IGK\Constants;
 
 ///<summary></summary>
 /**
@@ -14,7 +14,7 @@ use IGKConstants;
 */
 class ConfigurationFile{
     const DEFAULT_MAINJS = 'default.js';
-    const CONFIG_FILE = IGKConstants::PROJECT_CONF_FILE;
+    const CONFIG_FILE = Constants::PROJECT_CONF_FILE;
     /**
      * name of the project 
      */

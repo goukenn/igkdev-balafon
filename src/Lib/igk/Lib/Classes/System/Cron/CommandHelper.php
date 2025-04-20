@@ -6,7 +6,7 @@ namespace IGK\System\Cron;
 
 use Cron\CronExpression;
 use IGK\System\Console\Commands\ClearSessionCommand;
-use IGKConstants;
+use IGK\Constants;
 
 ///<summary></summary>
 /**
@@ -22,7 +22,7 @@ class CommandHelper{
 
             $cmd = new ClearSessionCommand;
             $cmd->expired_duration = igk_getv($e->args, 'duration') ??  
-                igk_configs()->get('session_living', IGKConstants::SESS_LIVING_TIME);
+                igk_configs()->get('session_living', Constants::SESS_LIVING_TIME);
             $cmd->exec(null);
             if ($cmd->skip){
                 return CronExecutionStatus::SKIP;

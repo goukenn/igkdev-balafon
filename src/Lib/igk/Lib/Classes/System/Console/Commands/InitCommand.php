@@ -9,6 +9,7 @@ namespace IGK\System\Console\Commands;
 
 use Exception;
 use Error;
+use IGK\Constants;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppCommandConstant;
 use IGK\System\Console\AppExecCommand;
@@ -16,9 +17,7 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 
 use IGK\System\EntryClassResolution;
-use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\IO\Path;
-use IGKConstants;
+use IGK\System\Exceptions\ArgumentTypeNotValidException; 
 use IGKException;
 use ReflectionException;
 
@@ -30,7 +29,7 @@ class InitCommand extends AppExecCommand
 
     var $desc  = "initialize balafon command cache";
 
-    const BASECLASS_COMMAND = IGKConstants::BASECLASS_COMMAND;
+    const BASECLASS_COMMAND = Constants::BASECLASS_COMMAND;
 
     /**
      * 

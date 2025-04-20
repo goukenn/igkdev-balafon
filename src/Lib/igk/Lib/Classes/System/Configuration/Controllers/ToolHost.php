@@ -9,20 +9,20 @@ namespace  IGK\System\Configuration\Controllers;
 
 ///<summary>Represente class: IGKToolHost</summary>
 /**
-* Represente IGKToolHost class
+* Represent IGKToolHost class
 */
 class ToolHost{
     private $_tools;
     ///<summary>Represente __construct function</summary>
     /**
-    * Represente __construct function
+    * Represent __construct function
     */
     public function __construct($tab){
         $this->_tools=$tab;
     }
     ///<summary>Represente getTools function</summary>
     /**
-    * Represente getTools function
+    * Represent getTools function
     */
     public function getTools(){
         return $this->_tools;
@@ -30,7 +30,7 @@ class ToolHost{
     ///<summary>Represente register function</summary>
     ///<param name="ctrl"></param>
     /**
-    * Represente register function
+    * Represent register function
     * @param  $ctrl
     */
     public function register($ctrl){

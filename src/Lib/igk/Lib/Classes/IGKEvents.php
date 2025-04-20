@@ -147,6 +147,8 @@ class IGKEvents extends IGKObject
     const COMMAND_HELP_HOOK = 'command:help';
     const HOOK_MIDDLEWARE_ACTION = 'MiddleWareAction';
     const HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN = 'MiddleWareAction:/CheckAccessToken';
+
+    const HOOK_ON_MODULE_ADDED = 'command:/module/added';
     
     const VIEWCOMPLETE = 0x1;
 

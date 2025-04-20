@@ -10,7 +10,7 @@ use IGK\System\Templates\BindingExpressionReader;
 // @description: 
 // @copyright: igkdev © 2021///<summary>Represente class: IGKHtmlExpressionNodeItem</summary>
 /**
-* Represente IGKHtmlExpressionNodeItem class
+* Represent IGKHtmlExpressionNodeItem class
 */
 class HtmlExpressionNode extends HtmlNode{
     var $ctrl;

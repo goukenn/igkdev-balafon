@@ -736,7 +736,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     public function getNameSpace()
     {
-        return IGKConstants::NAMESPACE;
+        return Constants::NAMESPACE;
     }
     ///<summary></summary>
     /**

@@ -260,7 +260,7 @@ function igk_pop_article_chain()
 function igk_push_article_chain(string $f, $context = null)
 {
     $key = IGKEnvironmentConstants::ARTICLE_CHAIN_CONTEXT;
-    $raw_var = IGKConstants::RAW_VAR;
+    $raw_var = Constants::RAW_VAR;
     $ctx =  $context;
     $b = igk_get_env($key);
     if ( (!is_null($context)) && (!$b || (count($b) == 0))) {        

@@ -25,7 +25,7 @@ interface IIGKActionResult{
  
 ///<summary>Represente interface: IIGKController</summary>
 /**
-* Represente IIGKController interface
+* Represent IIGKController interface
 */
 interface IIGKController{
     ///<summary></summary>
@@ -55,7 +55,7 @@ interface IIGKViewController{
 }
 ///<summary>Represente interface: IIGKControllerInitListener</summary>
 /**
-* Represente IIGKControllerInitListener interface
+* Represent IIGKControllerInitListener interface
 */
 interface IIGKControllerInitListener{
     ///<summary></summary>
@@ -77,7 +77,7 @@ interface IIGKControllerInitListener{
 }
 ///<summary>Represente interface: IIGKCssCtrlHost</summary>
 /**
-* Represente IIGKCssCtrlHost interface
+* Represent IIGKCssCtrlHost interface
 */
 interface IIGKCssCtrlHost{
     ///<summary></summary>
@@ -95,7 +95,7 @@ interface IIGKCssCtrlHost{
 }
 ///<summary>Represente interface: IIGKCtrlDirManagement</summary>
 /**
-* Represente IIGKCtrlDirManagement interface
+* Represent IIGKCtrlDirManagement interface
 */
 interface IIGKCtrlDirManagement{
     ///<summary></summary>
@@ -131,7 +131,7 @@ interface IIGKCtrlDirManagement{
 }
 ///<summary>Represente interface: IIGKDataAdapter</summary>
 /**
-* Represente IIGKDataAdapter interface
+* Represent IIGKDataAdapter interface
 */
 interface IIGKDataAdapter{
     ///<summary></summary>
@@ -148,12 +148,12 @@ interface IIGKDataAdapter{
 }
 ///<summary>Represente interface: IIGKDataTable</summary>
 /**
-* Represente IIGKDataTable interface
+* Represent IIGKDataTable interface
 */
 interface IIGKDataTable{}
 ///<summary>Represente interface: IIGKDbUtility</summary>
 /**
-* Represente IIGKDbUtility interface
+* Represent IIGKDbUtility interface
 */
 interface IIGKDbUtility{
     ///<summary></summary>
@@ -304,7 +304,7 @@ interface IIGKFormBuilderEngine{
 }
 ///<summary>Represente interface: IIGKFrameController</summary>
 /**
-* Represente IIGKFrameController interface
+* Represent IIGKFrameController interface
 */
 interface IIGKFrameController{
     ///<summary></summary>
@@ -321,7 +321,7 @@ interface IIGKFrameController{
 }
 ///<summary>Represente interface: IIGKHtmlComponent</summary>
 /**
-* Represente IIGKHtmlComponent interface
+* Represent IIGKHtmlComponent interface
 */
 interface IIGKHtmlComponent{
     ///<summary></summary>
@@ -372,7 +372,7 @@ interface IIGKHtmlCookieItem{
 
 ///<summary>Represente interface: IIGKHtmlLoadContent</summary>
 /**
-* Represente IIGKHtmlLoadContent interface
+* Represent IIGKHtmlLoadContent interface
 */
 interface IIGKHtmlLoadContent {
     ///<summary></summary>
@@ -403,7 +403,7 @@ interface IIGKHtmlLoadContent {
 }
 ///<summary>Represente interface: IIGKHtmlUriItem</summary>
 /**
-* Represente IIGKHtmlUriItem interface
+* Represent IIGKHtmlUriItem interface
 */
 interface IIGKHtmlUriItem{
     ///<summary></summary>
@@ -424,7 +424,7 @@ interface IIGKListener{
 }
 ///<summary>Represente interface: IIGKMailAttachmentContainer</summary>
 /**
-* Represente IIGKMailAttachmentContainer interface
+* Represent IIGKMailAttachmentContainer interface
 */
 interface IIGKMailAttachmentContainer{
     ///<summary></summary>
@@ -528,7 +528,7 @@ interface IIGKNotifyMessage {
 }
 ///<summary>Represente interface: IIGKParamHostService</summary>
 /**
-* Represente IIGKParamHostService interface
+* Represent IIGKParamHostService interface
 */
 interface IIGKParamHostService{
     ///<summary></summary>
@@ -562,7 +562,7 @@ interface IIGKParamHostService{
 }
 ///<summary>Represente interface: IIGKParentDocumentHost</summary>
 /**
-* Represente IIGKParentDocumentHost interface
+* Represent IIGKParentDocumentHost interface
 */
 interface IIGKParentDocumentHost{
     ///<summary></summary>
@@ -605,7 +605,7 @@ interface IIGKQueryResult{
 }
 ///<summary>Represente interface: IIGKSystemUser</summary>
 /**
-* Represente IIGKSystemUser interface
+* Represent IIGKSystemUser interface
 */
 interface IIGKSystemUser {
     ///<summary></summary>
@@ -616,7 +616,7 @@ interface IIGKSystemUser {
 }
 ///<summary>Represente interface: IIGKUriActionListener</summary>
 /**
-* Represente IIGKUriActionListener interface
+* Represent IIGKUriActionListener interface
 */
 interface IIGKUriActionListener{
     ///<summary></summary>
@@ -638,7 +638,7 @@ interface IIGKUriActionListener{
 }
 ///<summary>Represente interface: IIGKUriActionRegistrableController</summary>
 /**
-* Represente IIGKUriActionRegistrableController interface
+* Represent IIGKUriActionRegistrableController interface
 */
 interface IIGKUriActionRegistrableController{
     ///<summary></summary>
@@ -659,7 +659,7 @@ interface IIGKUriActionRegistrableController{
 }
 ///<summary>Represente interface: IIGKUserController</summary>
 /**
-* Represente IIGKUserController interface
+* Represent IIGKUserController interface
 */
 interface IIGKUserController{
     ///<summary></summary>
@@ -675,7 +675,7 @@ interface IIGKUserController{
 }
 ///<summary>Represente interface: IIGKWebAdministrativeCtrl</summary>
 /**
-* Represente IIGKWebAdministrativeCtrl interface
+* Represent IIGKWebAdministrativeCtrl interface
 */
 interface IIGKWebAdministrativeCtrl {
     ///<summary></summary>
@@ -686,7 +686,7 @@ interface IIGKWebAdministrativeCtrl {
 }
 ///<summary>Represente interface: IIGKWebPageChildCtrontroller</summary>
 /**
-* Represente IIGKWebPageChildCtrontroller interface
+* Represent IIGKWebPageChildCtrontroller interface
 */
 interface IIGKWebPageChildCtrontroller{
     ///<summary></summary>
@@ -748,7 +748,7 @@ interface IIGKdbManager {
 // }
 ///<summary>Represente interface: IIGKDataController</summary>
 /**
-* Represente IIGKDataController interface
+* Represent IIGKDataController interface
 */
 interface IIGKDataController extends IIGKController {
     ///<summary></summary>
@@ -769,7 +769,7 @@ interface IIGKDataController extends IIGKController {
 }
 ///<summary>Represente interface: IIGKWebController</summary>
 /**
-* Represente IIGKWebController interface
+* Represent IIGKWebController interface
 */
 interface IIGKWebController extends IIGKController {
     ///<summary></summary>
@@ -801,7 +801,7 @@ interface IIGKGetValue{
 }
 ///<summary>Represente interface: IIGKQueryConditionalExpression</summary>
 /**
-* Represente IIGKQueryConditionalExpression interface
+* Represent IIGKQueryConditionalExpression interface
 */
 interface IIGKQueryConditionalExpression extends IIGKGetValue {
     ///<summary></summary>
@@ -828,7 +828,7 @@ interface IIGKQueryConditionalExpression extends IIGKGetValue {
 }
 ///<summary>Represente interface: IIGKWebPageController</summary>
 /**
-* Represente IIGKWebPageController interface
+* Represent IIGKWebPageController interface
 */
 interface IIGKWebPageController{
     ///<summary></summary>

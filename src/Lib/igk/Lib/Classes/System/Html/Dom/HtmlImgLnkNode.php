@@ -10,7 +10,7 @@ namespace IGK\System\Html\Dom;
 use IGK\Resources\R;
 
 /**
-* Represente IGKHtmlImgLnkItem class
+* Represent IGKHtmlImgLnkItem class
 */
 final class HtmlImgLnkNode extends HtmlANode{
     private $m_img;

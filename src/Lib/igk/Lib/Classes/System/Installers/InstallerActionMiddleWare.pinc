@@ -21,7 +21,7 @@ use function igk_resources_gets as __;
 
 ///<summary>Represente class: BalaffonInstallerMiddelWare</summary>
 /**
- * Represente BalaffonInstallerMiddelWare class
+ * Represent BalaffonInstallerMiddelWare class
  */
 class BalafonInstallerMiddelWare extends InstallerActionMiddleWare
 {
@@ -56,7 +56,7 @@ class BalafonInstallerMiddelWare extends InstallerActionMiddleWare
 }
 ///<summary>Represente class: ClearCacheMiddleWare</summary>
 /**
- * Represente ClearCacheMiddleWare class
+ * Represent ClearCacheMiddleWare class
  */
 class ClearCacheMiddleWare extends InstallerActionMiddleWare
 {
@@ -86,7 +86,7 @@ class ClearCacheMiddleWare extends InstallerActionMiddleWare
 }
 ///<summary>Represente class: ErrorHandleMiddleWare</summary>
 /**
- * Represente ErrorHandleMiddleWare class
+ * Represent ErrorHandleMiddleWare class
  */
 class ErrorHandleMiddleWare extends InstallerActionMiddleWare
 {
@@ -105,7 +105,7 @@ class ErrorHandleMiddleWare extends InstallerActionMiddleWare
 }
 ///<summary>Represente class: ExtractLibaryMiddleWare</summary>
 /**
- * Represente ExtractLibaryMiddleWare class
+ * Represent ExtractLibaryMiddleWare class
  */
 class ExtractLibaryMiddleWare extends InstallerActionMiddleWare
 {
@@ -192,7 +192,7 @@ class ExtractLibaryMiddleWare extends InstallerActionMiddleWare
 }
 ///<summary>Represente class: FailedMiddleWare</summary>
 /**
- * Represente FailedMiddleWare class
+ * Represent FailedMiddleWare class
  */
 class FailedMiddleWare extends InstallerActionMiddleWare
 {
@@ -207,7 +207,7 @@ class FailedMiddleWare extends InstallerActionMiddleWare
 }
 ///<summary>Represente class: InstallerEventMessageMiddleWare</summary>
 /**
- * Represente InstallerEventMessageMiddleWare class
+ * Represent InstallerEventMessageMiddleWare class
  */
 class InstallerEventMessageMiddleWare extends InstallerActionMiddleWare
 {
@@ -304,7 +304,7 @@ class MaintenaceLibMiddleWare extends InstallerActionMiddleWare
 }
 ///<summary>Represente class: RenameLibaryMiddleWare</summary>
 /**
- * Represente RenameLibaryMiddleWare class
+ * Represent RenameLibaryMiddleWare class
  */
 class RenameLibaryMiddleWare extends InstallerActionMiddleWare
 {

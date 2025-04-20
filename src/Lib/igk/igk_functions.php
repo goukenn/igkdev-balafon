@@ -19,6 +19,7 @@ use IGK\System\IO\Path;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\Cache\SystemFileCache as IGKSysCache;
+use IGK\Constants;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Controllers\ControllerTypeBase;
@@ -419,7 +420,7 @@ function igk_ajx_toast($msg, $classtype = null, $noclose = 0)
 ///<param name="target" default="'body'"></param>
 ///<param name="type" default="'get'"></param>
 /**
- * Represente igk_ajx_update function
+ * Represent igk_ajx_update function
  * @param mixed $uri 
  * @param mixed $target 
  * @param mixed $type 
@@ -661,7 +662,7 @@ function igk_assert_die($cond, $msg)
 ///<summary>Represente igk_assoc_keys function</summary>
 ///<param name="n"></param>
 /**
- * Represente igk_assoc_keys function
+ * Represent igk_assoc_keys function
  * @param mixed $n 
  */
 function igk_assoc_keys($n)
@@ -735,7 +736,7 @@ function igk_bind_host_css_style_file(string $file, ICssResourceResolver $doc, $
 ///<summary>Represente igk_bind_session_id function</summary>
 ///<param name="id"></param>
 /**
- * Represente igk_bind_session_id function
+ * Represent igk_bind_session_id function
  * @param mixed $id 
  */
 function igk_bind_session_id($id)
@@ -744,7 +745,7 @@ function igk_bind_session_id($id)
 }
 ///<summary>Represente igk_bind_sitemap function</summary>
 /**
- * Represente igk_bind_sitemap function
+ * Represent igk_bind_sitemap function
  */
 function igk_bind_sitemap()
 {
@@ -774,7 +775,7 @@ function igk_bind_sitemap()
 ///<summary>Represente igk_ca_edit_article function</summary>
 ///<param name="file"></param>
 /**
- * Represente igk_ca_edit_article function
+ * Represent igk_ca_edit_article function
  * @param mixed $file 
  */
 function igk_ca_edit_article($file)
@@ -800,7 +801,7 @@ function igk_cache()
 ///<param name="m"></param>
 ///<param name="fc" default="null"></param>
 /**
- * Represente igk_cache_array_content function
+ * Represent igk_cache_array_content function
  * @param mixed $m 
  * @param mixed $fc 
  */
@@ -891,7 +892,7 @@ function igk_cache_gen_cache(string $sourcedir, string $cachedir, $mergescript =
 ///<param name="className"></param>
 ///<param name="ctrl" type="BaseController"></param>
 /**
- * Represente igk_cache_get_ctrl_info function
+ * Represent igk_cache_get_ctrl_info function
  * @param mixed $className 
  * @param BaseController $ctrl 
  */
@@ -921,7 +922,7 @@ function igk_cache_handle($uri = null)
 ///<param name="cfile"></param>
 ///<param name="mergescallback"></param>
 /**
- * Represente igk_cache_js_callback function
+ * Represent igk_cache_js_callback function
  * @param mixed $file 
  * @param mixed $cfile 
  * @param mixed $mergescallback 
@@ -1015,7 +1016,7 @@ function igk_check_ie_version($v = 11)
 }
 ///<summary>Represente igk_clean_globals function</summary>
 /**
- * Represente igk_clean_globals function
+ * Represent igk_clean_globals function
  */
 function igk_clean_globals()
 {
@@ -1682,7 +1683,7 @@ function igk_create_session_instance($n, $callback)
 }
 ///<summary>Represente igk_create_view_builder_option function</summary>
 /**
- * Represente igk_create_view_builder_option function
+ * Represent igk_create_view_builder_option function
  */
 function igk_create_view_builder_option()
 {
@@ -1820,7 +1821,7 @@ function igk_create_node_with_package($args = null)
 }
 ///<summary>Represente igk_create_notagnode function</summary>
 /**
- * Represente igk_create_notagnode function
+ * Represent igk_create_notagnode function
  */
 function igk_create_notagnode()
 {
@@ -1939,7 +1940,7 @@ function igk_createxml_config_data($data)
 ///<param name="tagName"></param>
 ///<param name="docType" default="null"></param>
 /**
- * Represente igk_createxml_document function
+ * Represent igk_createxml_document function
  * @param 77  $tagName
  * @param 77  $docType the default value is null
  */
@@ -4346,7 +4347,7 @@ function igk_db_copy_row(&$src, $dataobj, $erase = 1)
 ///<param name="conditions" default="null"></param>
 ///<param name="adapter" default="IGK_MYSQL_DATAADAPTER"></param>
 /**
- * Represente igk_db_count_rows function
+ * Represent igk_db_count_rows function
  * @param mixed $table 
  * @param mixed $conditions 
  * @param mixed $adapter 
@@ -4549,7 +4550,7 @@ function igk_db_ctrl_datatable_info_key($ctrl, $table)
 }
 ///<summary>Represente igk_db_current_data_adapter function</summary>
 /**
- * Represente igk_db_current_data_adapter function
+ * Represent igk_db_current_data_adapter function
  */
 function igk_db_current_data_adapter()
 {
@@ -4561,7 +4562,7 @@ function igk_db_current_data_adapter()
 }
 ///<summary>Represente igk_db_current_data_driver function</summary>
 /**
- * Represente igk_db_current_data_driver function
+ * Represent igk_db_current_data_driver function
  */
 function igk_db_current_data_driver()
 {
@@ -4919,7 +4920,7 @@ function igk_db_get_error()
 ///<param name="name"></param>
 ///<param name="ctrl" default="null"></param>
 /**
- * Represente igk_db_get_model_class_name function
+ * Represent igk_db_get_model_class_name function
  * @param mixed $name 
  * @param mixed $ctrl 
  */
@@ -5353,7 +5354,7 @@ function igk_db_load_data_schemas($file, $ctrl = null, $resolvname = true, $oper
 ///<param name="ctrl" default="null"></param>
 ///<param name="resolvname" default="true"></param>
 /**
- * Represente igk_db_load_data_schemas_node function
+ * Represent igk_db_load_data_schemas_node function
  * @param mixed $d 
  * @param mixed $ctrl 
  * @param mixed $resolvname 
@@ -6156,7 +6157,7 @@ function igk_db_user_groups($u)
 ///<param name="table"></param>
 ///<param name="name" default="c"></param>
 /**
- * Represente igk_db_util_init_row_script function
+ * Represent igk_db_util_init_row_script function
  * @param mixed $table 
  * @param mixed $name 
  * @deprecated
@@ -6180,7 +6181,7 @@ function igk_db_util_init_row_script($table, $name = "c")
 ///<param name="max" default="-1"></param>
 ///<param name="target" default="null"></param>
 /**
- * Represente igk_db_view_result_node function
+ * Represent igk_db_view_result_node function
  * @param mixed $result 
  * @param mixed $uri 
  * @param mixed $selected 
@@ -6367,7 +6368,7 @@ function igk_debug_wln_a_i($condition, $tag, $msg)
 }
 ///<summary>Represente igk_debug_wln_e function</summary>
 /**
- * Represente igk_debug_wln_e function
+ * Represent igk_debug_wln_e function
  */
 function igk_debug_wln_e()
 {
@@ -6541,7 +6542,7 @@ function igk_die_format($msg)
 ///<summary>Represente igk_die_m function</summary>
 ///<param name="m"></param>
 /**
- * Represente igk_die_m function
+ * Represent igk_die_m function
  * @param mixed $m 
  */
 function igk_die_m($m)
@@ -6551,7 +6552,7 @@ function igk_die_m($m)
 ///<summary>Represente igk_die_notimplement function</summary>
 ///<param name="methodName"></param>
 /**
- * Represente igk_die_notimplement function
+ * Represent igk_die_notimplement function
  * @param mixed $methodName 
  */
 function igk_die_notimplement($methodName)
@@ -6989,7 +6990,7 @@ function igk_env_count_reset($k)
 ///<summary>Represente igk_env_file function</summary>
 ///<param name="file"></param>
 /**
- * Represente igk_env_file function
+ * Represent igk_env_file function
  * @param mixed $file 
  */
 function igk_env_file($file)
@@ -7427,7 +7428,7 @@ function igk_foreach($i, $callback)
 ///<summary>Represente igk_form_input_type function</summary>
 ///<param name="type"></param>
 /**
- * Represente igk_form_input_type function
+ * Represent igk_form_input_type function
  * @param mixed $type 
  */
 function igk_form_input_type($type)
@@ -7736,7 +7737,7 @@ function igk_get_all_default_pagectrl()
 ///<summary>Represente igk_get_all_session_file_infos function</summary>
 ///<param name="max" default="null"></param>
 /**
- * Represente igk_get_all_session_file_infos function
+ * Represent igk_get_all_session_file_infos function
  * @param mixed $max 
  */
 function igk_get_all_session_file_infos($max = null)
@@ -7750,7 +7751,7 @@ function igk_get_all_session_file_infos($max = null)
         if (preg_match("/^" . $prefix . "/i", basename($k))) {
             $id = substr(basename($k), strlen($prefix));
             $sess[$id] = (object)["file" => $k, "size" => IO::GetFileSize(filesize($k)), "createtime" => date(
-                \IGKConstants::MYSQL_DATETIME_FORMAT,
+                Constants::MYSQL_DATETIME_FORMAT,
                 filemtime($k)
             )];
         }
@@ -7762,7 +7763,7 @@ function igk_get_all_session_file_infos($max = null)
 }
 ///<summary>Represente igk_get_all_session_files function</summary>
 /**
- * Represente igk_get_all_session_files function
+ * Represent igk_get_all_session_files function
  */
 function igk_get_all_session_files()
 {
@@ -8137,7 +8138,7 @@ function igk_get_component_uri($node, $func)
 ///<summary>Represente igk_get_component_uri_key function</summary>
 ///<param name="guid"></param>
 /**
- * Represente igk_get_component_uri_key function
+ * Represent igk_get_component_uri_key function
  * @param mixed $guid 
  */
 function igk_get_component_uri_key($guid)
@@ -8179,7 +8180,7 @@ function igk_get_contents($ctrl, $type, $params = null)
 ///<param name="arg" default="null"></param>
 ///<param name="reset" default="0"></param>
 /**
- * Represente igk_get_context_args function
+ * Represent igk_get_context_args function
  * @param mixed $arg 
  * @param mixed $reset 
  */
@@ -8360,7 +8361,7 @@ function igk_get_data_adapter($controllerOrAdpaterName, $throwException = false)
  */
 function igk_get_default_style()
 {
-    return igk_io_read_allfile(Path::Combine(IGK_LIB_DIR, "/Default/" . IGK_STYLE_FOLDER, IGKConstants::DEFAULT_THEME_STYLE));
+    return igk_io_read_allfile(Path::Combine(IGK_LIB_DIR, "/Default/" . IGK_STYLE_FOLDER, Constants::DEFAULT_THEME_STYLE));
 }
 ///<summary>get default view content</summary>
 /**
@@ -9395,7 +9396,7 @@ function igk_get_robj($callbackfilter = null, $replace = 0, $request = null)
 ///<param name="replace" default="0"></param>
 ///<param name="request" default="null"></param>
 /**
- * Represente igk_get_robjs function
+ * Represent igk_get_robjs function
  * @param mixed $list 
  * @param mixed $replace 
  * @param mixed $request 
@@ -9553,7 +9554,7 @@ function igk_get_session_event_handler()
 }
 ///<summary>Represente igk_get_session_prefix function</summary>
 /**
- * Represente igk_get_session_prefix function
+ * Represent igk_get_session_prefix function
  */
 function igk_get_session_prefix()
 {
@@ -9773,7 +9774,7 @@ function igk_get_view_args()
 }
 ///<summary>Represente igk_get_viewfile function</summary>
 /**
- * Represente igk_get_viewfile function
+ * Represent igk_get_viewfile function
  */
 function igk_get_viewfile()
 {
@@ -10148,7 +10149,7 @@ function igk_getr_kv($values, $tab = null)
 ///<param name="n"></param>
 ///<param name="default" default="null"></param>
 /**
- * Represente igk_getre function
+ * Represent igk_getre function
  * @param mixed $n 
  * @param mixed $default 
  */
@@ -10218,7 +10219,7 @@ function igk_gettsv($d, $n, $def = null)
 ///<param name="item"></param>
 ///<param name="keys"></param>
 /**
- * Represente igk_getv_fallback function
+ * Represent igk_getv_fallback function
  * @param mixed $item 
  * @param mixed $keys 
  */
@@ -11609,7 +11610,7 @@ function igk_html_endbinding($value)
 }
 ///<summary>Represente igk_html_engine_parent_node function</summary>
 /**
- * Represente igk_html_engine_parent_node function
+ * Represent igk_html_engine_parent_node function
  */
 function igk_html_engine_parent_node()
 {
@@ -11621,7 +11622,7 @@ function igk_html_engine_parent_node()
 }
 ///<summary>Represente igk_html_engine_parent_pop_node function</summary>
 /**
- * Represente igk_html_engine_parent_pop_node function
+ * Represent igk_html_engine_parent_pop_node function
  */
 function igk_html_engine_parent_pop_node()
 {
@@ -11630,7 +11631,7 @@ function igk_html_engine_parent_pop_node()
 ///<summary>Represente igk_html_engine_parent_push_node function</summary>
 ///<param name="n"></param>
 /**
- * Represente igk_html_engine_parent_push_node function
+ * Represent igk_html_engine_parent_push_node function
  * @param mixed $n 
  */
 function igk_html_engine_parent_push_node($n)
@@ -11644,7 +11645,7 @@ function igk_html_engine_parent_push_node($n)
 ///<param name="entityflag" default="ENT_NOQUOTES"></param>
 ///<param name="encoding" default="UTF-8"></param>
 /**
- * Represente igk_html_escape_tag function
+ * Represent igk_html_escape_tag function
  * @param mixed $s 
  * @param mixed $offset 
  * @param mixed $strict 
@@ -11999,7 +12000,7 @@ function igk_html_get_depth_indent($src, &$options = null)
 ///<summary>Represente igk_html_get_document_class function</summary>
 ///<param name="doc"></param>
 /**
- * Represente igk_html_get_document_class function
+ * Represent igk_html_get_document_class function
  * @param mixed $doc 
  */
 function igk_html_get_document_class($doc)
@@ -12449,7 +12450,7 @@ function igk_html_is_skipped($autoreset = true)
 ///<summary>Represente igk_html_parent_result function</summary>
 ///<param name="r"></param>
 /**
- * Represente igk_html_parent_result function
+ * Represent igk_html_parent_result function
  * @param mixed $r 
  */
 function igk_html_parent_result($r)
@@ -12695,7 +12696,7 @@ function igk_html_reg_component_demo($ns, $callback)
 ///<summary>Represente igk_html_reg_component_package function</summary>
 ///<param name="component" default="null"></param>
 /**
- * Represente igk_html_reg_component_package function
+ * Represent igk_html_reg_component_package function
  * @param mixed $component 
  */
 function igk_html_reg_component_package($component = null) {}
@@ -12715,7 +12716,7 @@ function igk_html_render_all($n)
 ///<param name="option"></param>
 ///<param name="node"></param>
 /**
- * Represente igk_html_render_append_item function
+ * Represent igk_html_render_append_item function
  * @param mixed $option 
  * @param mixed $node 
  */
@@ -12860,7 +12861,7 @@ function igk_html_select($node, $expression)
 ///<param name="doc"></param>
 ///<param name="classname"></param>
 /**
- * Represente igk_html_set_document_class function
+ * Represent igk_html_set_document_class function
  * @param mixed $doc 
  * @param mixed $classname 
  */
@@ -13517,7 +13518,7 @@ function igk_include_view($ctrl, $target, $file, $args = null, $create = false)
 ///<param name="ctrl"></param>
 ///<param name="file"></param>
 /**
- * Represente igk_include_view_file function
+ * Represent igk_include_view_file function
  * @param mixed $ctrl 
  * @param mixed $file 
  */
@@ -13632,7 +13633,7 @@ function igk_init_access($dirname = null)
 ///<summary>Represente igk_init_context_array_diff function</summary>
 ///<param name="args"></param>
 /**
- * Represente igk_init_context_array_diff function
+ * Represent igk_init_context_array_diff function
  * @param mixed $args 
  */
 function igk_init_context_array_diff($args)
@@ -13664,7 +13665,7 @@ function igk_init_controller(IIGKControllerInitListener $listener)
     $listener->addSource(IGK_CONTENT_FOLDER . "/.htaccess", $denyaccess);
     $listener->addSource(IGK_LIB_FOLDER . "/.htaccess", $denyaccess);
     $listener->addSource(IGK_CONF_FOLDER . "/.htaccess", $denyaccess);
-    $listener->addSource(IGK_STYLE_FOLDER . "/" . IGKConstants::DEFAULT_THEME_STYLE, igk_get_default_style(), false);
+    $listener->addSource(IGK_STYLE_FOLDER . "/" . Constants::DEFAULT_THEME_STYLE, igk_get_default_style(), false);
 }
 ///<summary>init html basic method</summary>
 /**
@@ -13915,7 +13916,7 @@ function igk_invoke_script($f, $args = null)
 }
 ///<summary>Represente igk_invoke_session_event function</summary>
 /**
- * Represente igk_invoke_session_event function
+ * Represent igk_invoke_session_event function
  */
 function igk_invoke_session_event() {}
 ///<summary>from wordpress template edition</summary>
@@ -15003,7 +15004,7 @@ function igk_io_is_subdomain_uri($uri = null)
 ///<summary>Represente igk_io_joinpath function</summary>
 ///<param name="args"></param>
 /**
- * Represente igk_io_joinpath function
+ * Represent igk_io_joinpath function
  * @param mixed $args 
  */
 function igk_io_joinpath(...$args)
@@ -15119,7 +15120,7 @@ function igk_io_moveuploadedfiletodatafolder($name, $dir, $pattern = "pics_%d%")
 }
 ///<summary>Represente igk_io_packagesdir function</summary>
 /**
- * Represente igk_io_packagesdir function
+ * Represent igk_io_packagesdir function
  */
 function igk_io_packagesdir()
 {
@@ -15571,7 +15572,7 @@ function igk_io_savecontentfromtextarea($file, $content, $overwrite = true)
 ///<summary>Represente igk_io_scandir function</summary>
 ///<param name="dir"></param>
 /**
- * Represente igk_io_scandir function
+ * Represent igk_io_scandir function
  * @param mixed $dir 
  */
 function igk_io_scandir($dir)
@@ -15701,7 +15702,7 @@ function igk_io_store_uploaded_file($file)
 }
 ///<summary>Represente igk_io_sys_classes_dir function</summary>
 /**
- * Represente igk_io_sys_classes_dir function
+ * Represent igk_io_sys_classes_dir function
  */
 function igk_io_sys_classes_dir()
 {
@@ -15719,7 +15720,7 @@ function igk_io_sys_tempnam($prefix)
 }
 ///<summary>Represente igk_io_sys_test_classes_dir function</summary>
 /**
- * Represente igk_io_sys_test_classes_dir function
+ * Represent igk_io_sys_test_classes_dir function
  */
 function igk_io_sys_test_classes_dir()
 {
@@ -15857,7 +15858,7 @@ function igk_is_ajx_demand()
 }
 ///<summary>Represente igk_is_ajx_form_request function</summary>
 /**
- * Represente igk_is_ajx_form_request function
+ * Represent igk_is_ajx_form_request function
  */
 function igk_is_ajx_form_request()
 {
@@ -15909,7 +15910,7 @@ function igk_is_class_instance_of($n, $class)
 ///<param name="o"></param>
 ///<param name="cl"></param>
 /**
- * Represente igk_is_class_subclass_of function
+ * Represent igk_is_class_subclass_of function
  * @param mixed $object object to check 
  * @param mixed $cl 
  */
@@ -16125,7 +16126,7 @@ function igk_is_uri_demand($uri)
 ///<summary>Represente igk_is_valid_module_info function</summary>
 ///<param name="obj"></param>
 /**
- * Represente igk_is_valid_module_info function
+ * Represent igk_is_valid_module_info function
  * @param mixed $obj 
  */
 function igk_is_valid_module_info($obj)
@@ -16394,7 +16395,7 @@ function igk_js_init()
 ///<param name="msg"></param>
 ///<param name="attrib" default="1"></param>
 /**
- * Represente igk_js_inline_text function
+ * Represent igk_js_inline_text function
  * @param mixed $msg 
  * @param mixed $attrib 
  */
@@ -16848,7 +16849,7 @@ function igk_json_expression($exp, $strict = true)
 }
 ///<summary>Represente igk_json_expression_error function</summary>
 /**
- * Represente igk_json_expression_error function
+ * Represent igk_json_expression_error function
  */
 function igk_json_expression_error()
 {
@@ -16966,7 +16967,7 @@ function igk_load_class($classname)
 ///<summary>Represente igk_load_classes function</summary>
 ///<param name="tab" default="[[]"></param>
 /**
- * Represente igk_load_classes function
+ * Represent igk_load_classes function
  * @param mixed $tab 
  */
 function igk_load_classes($tab = [])
@@ -17173,7 +17174,7 @@ function igk_mail_noreply_address()
 }
 ///<summary>Represente igk_mail_option function</summary>
 /**
- * Represente igk_mail_option function
+ * Represent igk_mail_option function
  * @return \IGK\System\Net\Mail\MailRendererOptions
  */
 function igk_mail_option()
@@ -17233,7 +17234,7 @@ function igk_mail_stylesheet()
 ///<summary>Represente igk_map_array_to_str function</summary>
 ///<param name="tab"></param>
 /**
- * Represente igk_map_array_to_str function
+ * Represent igk_map_array_to_str function
  * @param mixed $tab 
  */
 function igk_map_array_to_str($tab, $usekey = true)
@@ -18615,7 +18616,7 @@ function igk_reg_component($id, $s)
 ///<param name="attr"></param>
 ///<param name="callback"></param>
 /**
- * Represente igk_reg_component_ajx function
+ * Represent igk_reg_component_ajx function
  * @param mixed $n 
  * @param mixed $attr 
  * @param mixed $callback 
@@ -19185,7 +19186,7 @@ function igk_regtowebpage($ctrl)
 ///<param name="class"></param>
 ///<param name="filter" default="IS_PUBLIC"></param>
 /**
- * Represente igk_relection_get_properties_keys function
+ * Represent igk_relection_get_properties_keys function
  * @param mixed $class 
  * @param mixed $filter 
  */
@@ -19964,7 +19965,7 @@ function igk_show_exception($ex, $file = null, $line = null, $title = null)
 ///<param name="callers"></param>
 ///<param name="depth" default="0"></param>
 /**
- * Represente igk_show_exception_trace function
+ * Represent igk_show_exception_trace function
  * @param mixed $callers 
  * @param mixed $depth 
  */
@@ -20173,7 +20174,7 @@ function igk_sql_data_type($t)
 ///<param name="start"></param>
 ///<param name="end"></param>
 /**
- * Represente igk_src_code function
+ * Represent igk_src_code function
  * @param mixed $src 
  * @param mixed $start 
  * @param mixed $end 
@@ -20197,7 +20198,7 @@ function igk_start_time($name = null)
 ///<param name="name"></param>
 ///<param name="callback" type="callable"></param>
 /**
- * Represente igk_start_time_process function
+ * Represent igk_start_time_process function
  * @param mixed $name 
  * @param callable $callback 
  */
@@ -20353,7 +20354,7 @@ function igk_str_escape_tag($s)
 ///<param name="entityflag" default="ENT_NOQUOTES"></param>
 ///<param name="encoding" default="UTF-8"></param>
 /**
- * Represente igk_str_escape_tag_replace function
+ * Represent igk_str_escape_tag_replace function
  * @param mixed $s 
  * @param mixed $offset 
  * @param mixed $tab 
@@ -20592,7 +20593,7 @@ function igk_str_ns($n)
 ///<param name="c" ref="true"></param>
 ///<param name="removequote" default="0"></param>
 /**
- * Represente igk_str_pipe_args function
+ * Represent igk_str_pipe_args function
  * @param mixed $src 
  * @param mixed $c 
  * @param mixed $removequote 
@@ -21768,7 +21769,7 @@ function igk_str_split_string($splitchr, $str)
 ///<param name="str"></param>
 ///<param name="pattern"></param>
 /**
- * Represente igk_str_startwith function
+ * Represent igk_str_startwith function
  * @param string $str string to search in
  * @param string $pattern pattern to search
  */
@@ -21939,7 +21940,7 @@ function igk_svg_bind_callable_list($n, $m)
 ///<param name="name"></param>
 ///<param name="context" default="null"></param>
 /**
- * Represente igk_svg_bind_name function
+ * Represent igk_svg_bind_name function
  * @param mixed $name 
  * @param mixed $context 
  */
@@ -22221,7 +22222,7 @@ function igk_sys_authorize($authname, $authCtrl = null)
 ///<param name="doc"></param>
 ///<param name="debug" default="false"></param>
 /**
- * Represente igk_sys_balafon_js function
+ * Represent igk_sys_balafon_js function
  * @param mixed $controller 
  * @param mixed $debug 
  * @param mixed $minify minify on generation 
@@ -23163,7 +23164,7 @@ function igk_sys_is_action($name)
 ///<param name="authname"></param>
 ///<param name="user" default="null"></param>
 /**
- * Represente igk_sys_is_auth function
+ * Represent igk_sys_is_auth function
  * @param mixed $authname 
  * @param mixed $user 
  */
@@ -23659,7 +23660,7 @@ function igk_sys_root_user($u)
 ///<summary>Represente igk_sys_setting function</summary>
 ///<param name="key"></param>
 /**
- * Represente igk_sys_setting function
+ * Represent igk_sys_setting function
  * @param mixed $key 
  */
 function igk_sys_setting($key)
@@ -24137,7 +24138,7 @@ function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose=false)
 ///<param name="path"></param>
 ///<param name="author" default="IGK_AUTHOR"></param>
 /**
- * Represente igk_sys_zip_project function
+ * Represent igk_sys_zip_project function
  * @param string|BaseController $controller name
  * @param mixed $path where to store
  * @param mixed $author default author setting
@@ -24389,7 +24390,7 @@ function igk_trace_function($level = 1)
 ///<param name="tag" default="IGK"></param>
 ///<param name="level" default="2"></param>
 /**
- * Represente igk_trace_log function
+ * Represent igk_trace_log function
  * @param mixed $message 
  * @param mixed $tag 
  * @param mixed $level 
@@ -25194,7 +25195,7 @@ function igk_verbose_wln($msg)
 }
 ///<summary>Represente igk_view_action_path function</summary>
 /**
- * Represente igk_view_action_path function
+ * Represent igk_view_action_path function
  */
 function igk_view_action_path()
 {
@@ -25263,7 +25264,7 @@ function igk_view_bindfile($f, $bindinginfo, $target, $exit = 1)
 ///<param name="file"></param>
 ///<param name="option"></param>
 /**
- * Represente igk_view_builder_extra function
+ * Represent igk_view_builder_extra function
  * @param mixed $file 
  * @param mixed $option 
  */
@@ -25787,7 +25788,7 @@ function igk_xml_is_validname($n)
 ///<param name="data"></param>
 ///<param name="attrib_style" default="false"></param>
 /**
- * Represente igk_xml_obj_2_xml function
+ * Represent igk_xml_obj_2_xml function
  * @param mixed $node 
  * @param mixed $data 
  * @param mixed $attrib_style 
@@ -26168,7 +26169,7 @@ function igk_xml_render($name, $object, $setting = null)
 ///<param name="e" default="UTF-8"></param>
 ///<param name="standalone" default="yes"></param>
 /**
- * Represente igk_xml_text function
+ * Represent igk_xml_text function
  * @param mixed $data 
  * @param mixed $version 
  * @param mixed $e 

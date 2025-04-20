@@ -8,7 +8,7 @@ namespace IGK\System\Html\Dom;
  
 ///<summary>Represente class: IGKHtmlAJXReplacementNode</summary>
 /**
-* Represente IGKHtmlAJXReplacementNode class
+* Represent IGKHtmlAJXReplacementNode class
 */
 final class HtmlAJXReplacementNode extends HtmlNode{
     private $m_nodes;

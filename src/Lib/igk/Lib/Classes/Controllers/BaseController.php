@@ -39,7 +39,7 @@ use IGK\System\Uri;
 use IGK\System\ViewDataArgs;
 use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\IViewLayoutLoader;
-use IGKConstants;
+use IGK\Constants;
 use IGKEnvironment;
 use IGKEvents;
 use IGKException;
@@ -656,10 +656,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function getPrimaryCssFile()
     {
-        if ($prima_file = $this->getConfig("PrimaryStyle", IGKConstants::DEFAULT_THEME_STYLE)){
+        if ($prima_file = $this->getConfig("PrimaryStyle", Constants::DEFAULT_THEME_STYLE)){
             return Path::Combine($this->getStylesDir(), $prima_file);
         }
-        return implode("/", [$this->getStylesDir(), IGKConstants::DEFAULT_THEME_STYLE]); 
+        return implode("/", [$this->getStylesDir(), Constants::DEFAULT_THEME_STYLE]); 
     }
     ///<summary></summary>
     /**
@@ -1020,7 +1020,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             return;
         }
         $load = 1;
-        $config_file = Path::Combine( $this->getDeclaredDir(), IGKConstants::PROJECT_CONF_FILE);
+        $config_file = Path::Combine( $this->getDeclaredDir(), Constants::PROJECT_CONF_FILE);
         if ($data = json_decode(file_get_contents($config_file))){
             $required = (array)igk_conf_get($data,'required');
             $required && ApplicationModuleHelper::ImportRequiredModule($required, $this);

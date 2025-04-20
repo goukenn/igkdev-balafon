@@ -10,13 +10,13 @@
 
 ///<summary>Represente namespace: IGKApi</summary>
 /**
-* Represente IGKApi namespace
+* Represent IGKApi namespace
 */
 namespace IGKApi;
 // DIRECT RENDERINGuse IGK\Helper\IO as IGKIO;
 ///<summary>Represente class: UtilityActions</summary>
 /**
-* Represente UtilityActions class
+* Represent UtilityActions class
 */
 class UtilityActions{
     var $ctrl;

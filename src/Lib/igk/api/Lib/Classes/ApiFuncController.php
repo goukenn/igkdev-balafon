@@ -10,7 +10,7 @@ use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 
 /**
-* Represente IGKApiFunctionCtrl class
+* Represent IGKApiFunctionCtrl class
 */
 final class ApiFunctionController extends ApplicationController {
     const LIBNAME=IGK_API_MYSQLPINC;

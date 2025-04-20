@@ -23,7 +23,7 @@ final class SessionManagerController extends ConfigControllerBase{
     }
     ///<summary>Represente clearall function</summary>
     /**
-    * Represente clearall function
+    * Represent clearall function
     */
     public function clearall_ajx(){
         igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); session_destroy();
@@ -37,7 +37,7 @@ final class SessionManagerController extends ConfigControllerBase{
     }
     ///<summary>Represente drop function</summary>
     /**
-    * Represente drop function
+    * Represent drop function
     */
     public function drop(){
         $i=igk_getr("i");
@@ -60,7 +60,7 @@ final class SessionManagerController extends ConfigControllerBase{
     }
     ///<summary>Represente getConfigPage function</summary>
     /**
-    * Represente getConfigPage function
+    * Represent getConfigPage function
     */
     public function getConfigPage(){
         return "session";
@@ -74,7 +74,7 @@ final class SessionManagerController extends ConfigControllerBase{
     }
     ///<summary>Represente View function</summary>
     /**
-    * Represente View function
+    * Represent View function
     */
     public function View():BaseController {
         $t=$this->getTargetNode()->clearChilds()->addPanelBox();

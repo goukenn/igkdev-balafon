@@ -10,7 +10,7 @@
 
 ///<summary>Represente namespace: IGK\Core\Ext\Google</summary>
 /**
-* Represente IGK\Core\Ext\Google namespace
+* Represent IGK\Core\Ext\Google namespace
 */
 namespace IGK\Core\Ext\Google;
 // DIRECT RENDERING///<summary>use for google package</summary>

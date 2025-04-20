@@ -19,7 +19,7 @@ use function igk_getv as getv;
 
 ///<summary>IGKDataAdapter driver</summary>
 /**
-* Represente IGKDataAdapter class
+* Represent IGKDataAdapter class
 */
 abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     // + | register user

@@ -11,7 +11,7 @@ use IGKValueListener;
 
 ///<summary>Represente class: IGKHtmlNotifyDialogBoxItem</summary>
 /**
-* Represente IGKHtmlNotifyDialogBoxItem class
+* Represent IGKHtmlNotifyDialogBoxItem class
 */
 final class HtmlNotifyDialogBoxItem extends HtmlNode {
     private $m_Message;

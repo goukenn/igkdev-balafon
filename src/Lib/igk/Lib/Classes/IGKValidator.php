@@ -8,6 +8,7 @@
 
 ///<summary>Represente class: IGKValidator</summary>
 
+use IGK\Constants;
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\FormFieldInfo;
 use IGK\System\Html\Forms\Validations\FormFieldValidationInfo;
@@ -20,7 +21,7 @@ use IGK\System\Html\IFormFields;
 use function igk_resources_gets as __;
 
 /**
- * Represente IGKValidator class
+ * Represent IGKValidator class
  */
 final class IGKValidator extends IGKObject
 {
@@ -189,7 +190,7 @@ final class IGKValidator extends IGKObject
      */
     public static function IsGUID(?string $v = null)
     {
-        return !is_null($v) && (strlen($v) == IGKConstants::GUID_LENGTH) && preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
+        return !is_null($v) && (strlen($v) == Constants::GUID_LENGTH) && preg_match("/^\{[0-9a-f\-]+\}$/i", $v);
     }
     /**
      * check password validity confirmation

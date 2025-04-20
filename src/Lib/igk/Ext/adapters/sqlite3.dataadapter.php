@@ -1208,7 +1208,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
 // 29-05-2022 remove SQL3Config manager
 // ///<summary>Represente class: IGKSQl3DbConfigCtrl</summary>
 // /**
-// * Represente IGKSQl3DbConfigCtrl class
+// * Represent IGKSQl3DbConfigCtrl class
 // */
 // class IGKSQl3DbConfigCtrl extends ConfigControllerBase{
 //     ///<summary></summary>
@@ -1239,7 +1239,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
 
 ///<summary>Represente class: sql3literesult</summary>
 /**
-* Represente sql3literesult class
+* Represent sql3literesult class
 */
 
 // class sql3literesult{

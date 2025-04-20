@@ -192,7 +192,7 @@ final class IGKCaches
     }
     private function _init_ctrl_filesystem_caches(BaseController $ctrl)
     {
-        return self::__init_cache(igk_io_cachedir() . igk_uri("/storage/ctrl/".hash(IGKConstants::FILE_PATH_HASH_ALGO,
+        return self::__init_cache(igk_io_cachedir() . igk_uri("/storage/ctrl/".hash(Constants::FILE_PATH_HASH_ALGO,
          $ctrl->name('cache'))));
     }
     /**

@@ -14,7 +14,7 @@ use IGK\System\IO\StringBuilder;
 
 ///<summary>Represente class: IGKInstallSiteTool</summary>
 /**
-* Represente IGKInstallSiteTool class
+* Represent IGKInstallSiteTool class
 */
 class IGKInstallSiteTool extends ToolControllerBase{
     ///<summary></summary>

@@ -8,6 +8,7 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Constants;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
@@ -128,7 +129,7 @@ class IGKResourceUriResolver
      * get resource base path
      */
     private function _getResPath($path):?string{
-        if ($g = preg_match($rgx = \IGKConstants::PATH_VAR_DETECT_MODEL_REGEX, $path, $tab)){
+        if ($g = preg_match($rgx = Constants::PATH_VAR_DETECT_MODEL_REGEX, $path, $tab)){
             $s = preg_replace($rgx, '', $path);
             $n = $tab['name'];
             return Path::Combine(IGK_RES_FOLDER, igk_getv([

@@ -15,7 +15,7 @@ use IGK\System\Services\IBalafonApplicationMiddlewareService;
 
 ///<summary>Represente class: IGKBalafonApplicationMiddlewareManager</summary>
 /**
-* Represente IGKBalafonApplicationMiddlewareManager class
+* Represent IGKBalafonApplicationMiddlewareManager class
 */
 class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddlewareService{
     use ArrayAccessSelfTrait;

@@ -13,7 +13,7 @@ use IGK\System\Html\HtmlUtils;
 use IGKValueListener;
 
 /**
-* Represente HtmlSearchNode class
+* Represent HtmlSearchNode class
 */
 final class HtmlSearchNode extends HtmlNode {
     private $m_AJX;

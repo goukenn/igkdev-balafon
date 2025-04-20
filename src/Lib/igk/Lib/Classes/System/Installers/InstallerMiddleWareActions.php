@@ -7,7 +7,7 @@
 namespace IGK\System\Installers;
 
 use function igk_resources_gets as __;
-///<summary>Installer middel ware storage</summary>
+///<summary>Installer middleware storage</summary>
 /**
 * Installer middel ware storage
 */
@@ -16,6 +16,7 @@ class InstallerMiddleWareActions{
     var $BaseDir;
     var $CacheDir;
     var $LibDir;
+    var $Success;
     /**
      * install directory
      * @var ?string

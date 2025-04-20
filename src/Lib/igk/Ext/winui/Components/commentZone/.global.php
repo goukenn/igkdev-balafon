@@ -94,7 +94,7 @@ function igk_comment_init($a,$b,$c){
 	if (igk_is_ajx_demand()){
 		igk_close_session();
 	}
-	$path = Path::Combine($CF->getStylesDir(), IGKConstants::DEFAULT_THEME_STYLE);
+	$path = Path::Combine($CF->getStylesDir(), ConstantsULT_THEME_STYLE);
 	igk_css_bind_wuistyle_file($c->Document, $path);
 	igk_js_bind_wuiscript($c->Document, $CF, ".commentZone.js", $a);
 	return 1;

@@ -10,7 +10,7 @@
 use IGK\System\Configuration\ConfigData;
 use function igk_resources_gets as __; 
 /**
-* Represente IGKAppConfig class
+* Represent IGKAppConfig class
 * @property \IGK\System\Configuration\ConfigData $Data get property data
 * @property bool $BootStrap
 * @property bool $BootStrap.Enabled

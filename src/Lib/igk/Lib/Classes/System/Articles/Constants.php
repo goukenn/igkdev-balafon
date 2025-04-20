@@ -11,5 +11,5 @@ namespace IGK\System\Articles;
 * @package IGK\System\Articles
 */
 class Constants{
-    const RAW = \IGKConstants::RAW_VAR;
+    const RAW = Constants::RAW_VAR;
 }

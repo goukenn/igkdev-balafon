@@ -16,7 +16,7 @@ use IGK\System\Database\SQLGrammar;
 use IGK\System\IO\CSV\Helper\CSVHelper;
 
 /**
-* Represente IGKCSVDataAdapter class
+* Represent IGKCSVDataAdapter class
 */
 final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_ctrl;

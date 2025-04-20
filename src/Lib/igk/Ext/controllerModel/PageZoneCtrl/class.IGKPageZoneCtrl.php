@@ -10,7 +10,7 @@
 
 ///<summary>Represente class: IGKPageZoneCtrl</summary>
 /**
-* Represente IGKPageZoneCtrl class
+* Represent IGKPageZoneCtrl class
 */
 abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
     private $m_viewZone;

@@ -15,7 +15,7 @@ use function igk_resources_gets as __;
 
 ///<summary>Represente class: SuccessMiddleWare</summary>
 /**
-* Represente SuccessMiddleWare class
+* Represent SuccessMiddleWare class
 */
 final class SuccessMiddleWare extends InstallerActionMiddleWare{
 

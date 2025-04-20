@@ -10,7 +10,7 @@ use \IGKObject;
 
 ///<summary>Represente class: IGKMySQLTimeManager</summary>
 /**
-* Represente IGKMySQLTimeManager class
+* Represent IGKMySQLTimeManager class
 */
 final class IGKMySQLTimeManager extends IGKObject{
     var $ad;

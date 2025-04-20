@@ -7,6 +7,7 @@
 namespace IGK\System\IO;
 
 use Exception;
+use IGK\Constants;
 use IGK\Helper\StringUtility as str_helper;
 use IGK\Helper\IO;
 use IGKException; 
@@ -586,7 +587,7 @@ class Path
     public static function DetectPathMode(string $path): ?string
     {
         $p = igk_io_collapse_path($path);
-        if (preg_match(\IGKConstants::PATH_VAR_DETECT_MODEL_REGEX, $p, $tab)) {
+        if (preg_match(Constants::PATH_VAR_DETECT_MODEL_REGEX, $p, $tab)) {
             return $tab['name'];
         }
         return null;

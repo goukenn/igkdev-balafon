@@ -19,7 +19,8 @@ use IGK\System\ConfigurationFile;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Modules\Helpers\Utility as modUtility;
 use IGK\Tests\BaseTestCase;
-use IGKConstants;
+use IGK\Constants;
+use IGKEvents;
 
 use function igk_resources_gets as __; 
  
@@ -47,11 +48,9 @@ class MakeModuleCommand extends AppCommand{
 
             $dir = igk_uri(igk_get_module_dir()."/".$name);
             $force = property_exists($command->options, "--force"); 
-            if (is_dir($dir) && is_file($dir."/".ApplicationModuleController::CONF_MODULE)){
-
-                    Logger::danger(__("Module already exist"));
-                    return -1;
-               
+            if (is_dir($dir) && is_file($dir."/".ApplicationModuleController::CONF_MODULE)){ 
+                Logger::danger(__("Module already exist"));
+                return -1; 
             }
             IO::CreateDir($dir."/".IGK_VIEW_FOLDER);
             IO::CreateDir($dir."/".IGK_STYLE_FOLDER);
@@ -94,7 +93,7 @@ class MakeModuleCommand extends AppCommand{
                 igk_io_w2file($file, $builder->render());
             };
             $bind[$dir."/.global.php"] = Utility::TouchFileCallback("<?php \n", false); 
-            $bind[$dir."/".IGK_STYLE_FOLDER."/".IGKConstants::DEFAULT_THEME_STYLE] = Utility::TouchFileCallback("<?php \n"); 
+            $bind[$dir."/".IGK_STYLE_FOLDER."/".Constants::DEFAULT_THEME_STYLE] = Utility::TouchFileCallback("<?php \n"); 
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/".ConfigurationFile::DEFAULT_MAINJS] = Utility::TouchFileCallback("// default entry script \n"); 
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/default.bjs"] = Utility::TouchFileCallback("// default entry to be merge script \n"); 
 
@@ -223,6 +222,7 @@ class MakeModuleCommand extends AppCommand{
             Logger::info('reset module caches...');
             \IGK\System\Modules\ModuleManager::ResetModuleCache();
             Logger::info("Location: ".$dir);  
+            igk_hook(IGKEvents::HOOK_ON_MODULE_ADDED,['module'=>$name]);
             Logger::success(__("done"));
         };
     

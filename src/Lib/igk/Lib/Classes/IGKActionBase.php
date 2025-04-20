@@ -27,7 +27,7 @@ use IGK\System\Http\Traits\HeaderOptionResponseTrait;
 use IGK\System\Traits\InjectableTrait;
 
 /**
- * Represente view's action definition
+ * Represent view's action definition
  */
 abstract class IGKActionBase implements IActionProcessor
 {

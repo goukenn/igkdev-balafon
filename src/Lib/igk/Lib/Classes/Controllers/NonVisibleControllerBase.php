@@ -12,7 +12,7 @@ use IGKException;
 
 ///<summary>Represente class: NonVisibleControllerBase</summary>
 /**
-* Represente NonVisibleControllerBase class
+* Represent NonVisibleControllerBase class
 */
 abstract class NonVisibleControllerBase extends BaseController {
     use NoDbActiveControllerTrait;

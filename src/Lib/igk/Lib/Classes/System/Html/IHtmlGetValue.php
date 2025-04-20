@@ -8,7 +8,7 @@ namespace IGK\System\Html;
 
 ///<summary>Represente interface: IHtmlGetValue</summary>
 /**
-* Represente IHtmlGetValue interface
+* Represent IHtmlGetValue interface
 */
 interface IHtmlGetValue {
     ///<summary></summary>

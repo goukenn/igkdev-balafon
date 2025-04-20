@@ -12,11 +12,12 @@ use ReflectionClass;
 
 ///<summary>Represente class: IGKBalafonMiddleware</summary>
 /**
-* Represente IGKBalafonMiddleware class
+* Represent IGKBalafonMiddleware class
 */
 abstract class BalafonMiddleware{
     private $_next;
     private static $sm_manager;
+    var $chainFlag;
     ///<summary></summary>
     /**
     * 

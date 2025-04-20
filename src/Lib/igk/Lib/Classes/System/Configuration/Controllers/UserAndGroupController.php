@@ -11,16 +11,19 @@ use IGK\Helper\NotifyHelper;
 use IGK\Helper\StringUtility;
 use IGK\Helper\SysUtils;
 use IGK\Models\Authorizations;
+use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
 use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
+use IGK\System\Html\Forms\Validations\FormValidation;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Http\WebResponse;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Views;
 use IGKEvents;
+use PhpMyAdmin\ConfigStorage\UserGroups as ConfigStorageUserGroups;
 
 use function igk_resources_gets as __;
 
@@ -90,7 +93,7 @@ class UserAndGroupController extends ConfigControllerBase{
     ///<param name="groupname"></param>
     ///<param name="n"></param>
     /**
-    * Represente addAuthToGroup function
+    * Represent addAuthToGroup function
     * @param  $groupname
     * @param  $n
     */
@@ -107,14 +110,15 @@ class UserAndGroupController extends ConfigControllerBase{
         if(!$auth)
             return false;
         $b=array("clGroup_Id"=>$gid->clId, "clAuth_Id"=>$auth->clId);
-        $h=igk_db_table_select_where(IGK_TB_GROUPAUTHS, $b, $this);
+        $h= Authorizations::select_all($b);
         $s=0;
         if(!$h || ($h->RowCount == 0)){
-            $obj=igk_db_create_row(IGK_TB_GROUPAUTHS);
+            $obj= Groupauthorizations::createEmptyRow();//  igk_db_create_row(IGK_TB_GROUPAUTHS);
             $obj->clGroup_Id=$gid->clId;
             $obj->clAuth_Id=$auth->clId;
             $obj->clGrant=1;
-            $s=igk_db_insert_if_not_exists($this, IGK_TB_GROUPAUTHS, $obj);
+            Groupauthorizations::insertIfNotExists($obj->to_array());
+            // $s=igk_db_insert_if_not_exists($this, IGK_TB_GROUPAUTHS, $obj);
         }
         $ad->close();
         return $s;
@@ -123,36 +127,22 @@ class UserAndGroupController extends ConfigControllerBase{
     ///<param name="groupname"></param>
     ///<param name="u"></param>
     /**
-    * Represente addUserToGroup function
+    * Represent addUserToGroup function
     * @param  $groupname
     * @param  $u
     */
     public function addUserToGroup($groupname, $u){
         if(empty($groupname) || !$u)
             return false;
-        $ad=igk_get_data_adapter($this);
-        if(!$ad->connect()){
-            return false;
-        }
-        $gid=igk_db_table_select_where(IGK_TB_GROUPS, array(IGK_FD_NAME=>$groupname), $this)->getRowAtIndex(0);
+      
+        $gid = Groups::select_row([IGK_FD_NAME=>$groupname]);
         if($gid == null){
-            $gid=igk_db_create_row(IGK_TB_GROUPS);
-            $gid->clName=$groupname;
-            if(igk_db_insert($this, IGK_TB_GROUPS, $gid)){
-                $gid->clId=$ad->getlastId();
-            }
-            else{
-                $ad->close();
+            if(!Groups::insert([Groups::FD_CL_NAME=>$groupname])){
                 return false;
-            }
+            } 
         }
         $b=array(IGK_FD_USER_ID=>$u->clId, IGK_FD_GROUP_ID=>$gid->clId);
-        $h=igk_db_table_select_where(IGK_TB_USERGROUPS, $b, $this);
-        $s=0;
-        if(!$h || ($h->RowCount == 0)){
-            $s=igk_db_insert_if_not_exists($this, IGK_TB_USERGROUPS, $b);
-        }
-        $ad->close();
+        $s = Usergroups::select_all($b); 
         return $s;
     }
      ///<summary>return an array of authorisation that this user support</summary>
@@ -205,7 +195,7 @@ class UserAndGroupController extends ConfigControllerBase{
         $conditions = null;
         if($n == null){
             $field = $this->getAddGroupFields();
-            $v = \IGK\System\Html\Forms\FormValidation::ValidateFormFields($field);            
+            $v =  FormValidation::ValidateFormFields($field);            
             if($v){
                 $conditions = array(IGK_FD_NAME=>$v->clName);
             }             
@@ -229,7 +219,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
     ///<summary>Represente group_add_group_ajx function</summary>
     /**
-    * Represente group_add_group_ajx function
+    * Represent group_add_group_ajx function
     */
     public function group_add_group_ajx(){
         $fields = $this->getAddGroupFields();
@@ -246,14 +236,14 @@ class UserAndGroupController extends ConfigControllerBase{
     }
     ///<summary>Represente group_add_userto_group function</summary>
     /**
-    * Represente group_add_userto_group function
+    * Represent group_add_userto_group function
     */
     public function group_add_userto_group(){
         $obj=igk_get_robj();
-        if(igk_db_insert_if_not_exists($this, IGK_TB_USERGROUPS, array(
+        if(Usergroups::insertIfNotExists([
             IGK_FD_USER_ID=>$obj->clUser_Id,
             IGK_FD_GROUP_ID=>$obj->clGroup_Id
-        ))){
+        ])){
             igk_notifyctrl()->addMsgr("msg.group.association.success");
         }
         else{
@@ -263,7 +253,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
     ///<summary>Represente group_default_view function</summary>
     /**
-    * Represente group_default_view function
+    * Represent group_default_view function
     */
     public function group_default_view(){
         $this->CurrentView=null;
@@ -304,7 +294,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
     ///<summary>Represente group_remove_user function</summary>
     /**
-    * Represente group_remove_user function
+    * Represent group_remove_user function
     */
     public function group_remove_user(){
         igk_db_delete($this, IGK_TB_USERGROUPS, igk_getr("clId"));
@@ -312,7 +302,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
     ///<summary>Represente group_view_auth function</summary>
     /**
-    * Represente group_view_auth function
+    * Represent group_view_auth function
     */
     public function group_view_auth(){
         $this->CurrentView="viewauth";
@@ -372,7 +362,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
     ///<summary>Represente registerHook function</summary>
     /**
-    * Represente registerHook function
+    * Represent registerHook function
     */
     protected function registerHook(){
         igk_reg_hook(IGKEvents::HOOK_DB_DATA_ENTRY, function($hook){

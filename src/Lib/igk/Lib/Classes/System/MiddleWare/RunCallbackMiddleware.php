@@ -11,7 +11,7 @@ namespace IGK\System\Middlewares;
 
 ///<summary>Represente class: IGKRunCallbackMiddleware</summary>
 /**
-* Represente IGKRunCallbackMiddleware class
+* Represent IGKRunCallbackMiddleware class
 */
 class RunCallbackMiddleware extends BalafonMiddleware{
     private $callback;

@@ -35,7 +35,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Project\Configurations\ConfigurationPropertyInfo;
 use IGK\System\Services\IMakeProjectServiceProvider;
-use IGKConstants;
+use IGK\Constants;
 use IGKEvents;
 
 use function igk_resources_gets as __;
@@ -603,7 +603,7 @@ EOF;
             igk_io_w2file($file, $builder->render());
         };
 
-        $bind[$dir . "/".IGKConstants::PROJECT_CONF_FILE] = function ($file) use ($options) {
+        $bind[$dir . "/".Constants::PROJECT_CONF_FILE] = function ($file) use ($options) {
             $config = new BalafonConfiguration;
             $config->name = ($options ? igk_conf_get($options, 'config/clAppName') ?? igk_conf_get($options, 'controller'): null)
             ?? igk_create_guid();

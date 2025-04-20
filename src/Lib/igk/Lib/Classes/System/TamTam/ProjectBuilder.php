@@ -10,7 +10,7 @@ use IGK\Helper\IO;
 use IGK\System\Configuration\ProjectSettings;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
-use IGKConstants;
+use IGK\Constants;
 
 ///<summary></summary>
 /**
@@ -27,6 +27,8 @@ class ProjectBuilder{
      */
     var $configFile;
 
+    const BUILDER_ENTRY_CLASS='System\\Build\\ProjectBuilder';
+
     public function __construct(){
         igk_reg_hook(ProjectBuilderEvents::AFTER_BUILD, [$this, 'afterBuild']);
         igk_reg_hook(ProjectBuilderEvents::BUILD, [$this, 'build']);
@@ -35,7 +37,7 @@ class ProjectBuilder{
     public function build($e){
         extract($e->args);
 
-        if ($cl = $ctrl->resolveClass(\System\Build\ProjectBuilder::class)){
+        if ($cl = $ctrl->resolveClass(self::BUILDER_ENTRY_CLASS)){
             Logger::warning(sprintf('missing project build for %', $ctrl));
         }
         $v_required = (array)igk_conf_get($builder->setting, 'required');
@@ -81,7 +83,7 @@ class ProjectBuilder{
         if (is_dir($c = $ctrl->getDeclaredDir()."/.Caches")){
             IO::CleanDir($c);
         } 
-        $cnf = $this->configFile ?? IGKConstants::PROJECT_CONF_FILE;
+        $cnf = $this->configFile ?? Constants::PROJECT_CONF_FILE;
         if (file_exists($config_file = Path::Combine($install_dir, $cnf))){
             if ($data = json_decode(file_get_contents($config_file))){
                 $cl = $this->getSettingValidationDataClass();                

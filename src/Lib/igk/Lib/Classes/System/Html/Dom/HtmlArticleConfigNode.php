@@ -14,7 +14,7 @@ use IGKViewMode;
 
 ///<summary>Represente class: IGKHtmlArticleConfigNode</summary>
 /**
-* Represente IGKHtmlArticleConfigNode class
+* Represent IGKHtmlArticleConfigNode class
 */
 final class HtmlArticleConfigNode extends HtmlNode{
     private $m_ctrl;

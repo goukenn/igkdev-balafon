@@ -24,7 +24,7 @@ use ReflectionException;
 use Throwable;
 
 /**
- * Represente DbQueryDriver class
+ * Represent DbQueryDriver class
  */
 abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
 {

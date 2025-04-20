@@ -15,7 +15,7 @@ use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* Represente IGKAppleIconCtrl class
+* Represent IGKAppleIconCtrl class
 */
 abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     ///<summary></summary>

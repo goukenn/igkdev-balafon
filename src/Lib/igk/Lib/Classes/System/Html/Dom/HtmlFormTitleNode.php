@@ -10,7 +10,7 @@ namespace IGK\System\Html\Dom;
 
 ///<summary>Represente class: IGKHTmlFormTitle</summary>
 /**
-* Represente IGKHTmlFormTitle class
+* Represent IGKHTmlFormTitle class
 */
 final class HtmlFormTitleNode extends HtmlNode{
     ///<summary></summary>

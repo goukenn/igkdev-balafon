@@ -14,6 +14,7 @@ use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\Helper\Traits\IOPathCheckerTrait;
+use IGK\Constants;
 use IGK\Models\Users;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
@@ -30,8 +31,7 @@ use IGK\System\SystemUserProfile;
 use IGK\System\ViewEnvironmentArgs;
 use IGKApp;
 use IGKApplicationBase;
-use IGKAppType;
-use IGKConstants;
+use IGKAppType; 
 use IGKEnvironment;
 use IGKException;
 use IGKModuleListMigration;
@@ -235,7 +235,7 @@ class BalafonApplication extends IGKApplicationBase
         }
         // + | load balafon commands ... 
         igk_loadlib(dirname(__FILE__) . "/Commands");
-        date_default_timezone_set(IGKConstants::DEFAULT_TIME_ZONE);
+        date_default_timezone_set(Constants::DEFAULT_TIME_ZONE);
         // IGKApp::InitSingle(); 
         if (defined('IGK_DOCUMENT_ROOT'))
             igk_server()->IGK_DOCUMENT_ROOT = realpath(constant('IGK_DOCUMENT_ROOT'));
@@ -705,7 +705,7 @@ class BalafonApplication extends IGKApplicationBase
     public static function InitAndTreatArgument(& $argv){
       
         (function (&$argv) {
-            require_once IGK_LIB_DIR.'/Lib/'.IGK_CLASSES_FOLDER.'/IGKConstants.php';
+            require_once IGK_LIB_DIR.'/Lib/'.IGK_CLASSES_FOLDER.'/Constants.php';
             // start by filtering
             if(!isset($_SERVER['PWD'])){
                 $cwd = getcwd();
@@ -734,8 +734,8 @@ class BalafonApplication extends IGKApplicationBase
             $cwd = $_SERVER['PWD']; 
             $r = array_map(BalafonApplication::class. "::FilterArgs", $argv);
             $argv = array_filter($r, function($i){ return !is_null($i); });
-            $proj_conf = '/'.IGKConstants::PROJECT_CONF_FILE;
-            $mod_conf = '/'.IGKConstants::MODULE_CONF_FILE;
+            $proj_conf = '/'.Constants::PROJECT_CONF_FILE;
+            $mod_conf = '/'.Constants::MODULE_CONF_FILE;
             $_filter = false;
             if ($cwd != ($rcwd = getcwd())){
                 $_SERVER['PWD'] = $rcwd;

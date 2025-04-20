@@ -4,6 +4,7 @@
 // @date: 20250401 14:37:42
 namespace IGK\System\IO;
 
+use IGK\System\Html\IHtmlGetValue;
 use IGKException;
 
 
@@ -13,11 +14,19 @@ use IGKException;
 * @package IGK\System\IO
 * @author C.A.D. BONDJE DOUE
 */
-class InlineScriptLoader{
+class InlineScriptLoader implements IHtmlGetValue{
     protected $file;
     public function __construct(string $file){
         file_exists($file) || igk_die('missing file '.igk_sys_lib_filename($file));
         $this->file = $file;
+    }
+    /**
+     * get value on requirement 
+     * @param mixed $options 
+     * @return string 
+     */
+    public function getValue($options = null) { 
+        return $this->content();
     }
     public function content():string{
         if (igk_environment()->isDev()){

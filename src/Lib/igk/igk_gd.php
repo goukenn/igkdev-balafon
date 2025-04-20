@@ -65,7 +65,7 @@ function igk_gd_resize_proportional($src, $w, $h, $type = 1, $compression = 0, b
 }
 ///<summary>Represente class: IGKGD</summary>
 /**
- * Represente IGKGD class
+ * Represent IGKGD class
  */
 class IGKGD
 {

@@ -26,7 +26,7 @@ abstract class ControllerTypeBase extends BaseController{
         $r="<?php\n/**\n* ".igk_html_eval_article("{$viewcomment}\n\$t->clearChilds();\nigk_html_article(\$this , \"default\", \$t);\n", 
             [
                 "author"=>igk_sys_getconfig("developer", IGK_AUTHOR), 
-                "date"=>date(\IGKConstants::MYSQL_DATETIME_FORMAT), 
+                "date"=>date(Constants::MYSQL_DATETIME_FORMAT), 
                 "version"=>1.0 ,
                 "desc"=>"",
             ]);

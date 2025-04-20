@@ -105,7 +105,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
             $u->priority()->Content = "0.5";
         }        
         $s = $map->render($options);
-        if (false===XSDValidator::ValidateSourceUri($s, \IGKConstants::SITEMAP_VALIDATOR)){
+        if (false===XSDValidator::ValidateSourceUri($s, Constants::SITEMAP_VALIDATOR)){
             $error[] = "not a good validator";            
             return -1;
         }
@@ -147,7 +147,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
             $u->lastmod()->Content = $mod; 
         }        
         $s = $map->render($options);     
-        if (XSDValidator::ValidateSourceUri($s, \IGKConstants::SITEMAP_INDEX_VALIDATOR) === false){
+        if (XSDValidator::ValidateSourceUri($s, Constants::SITEMAP_INDEX_VALIDATOR) === false){
             $error[] = "not a good validator";            
             return -1;
         }

@@ -10,7 +10,7 @@ use Exception;
 
 ///<summary>Represente class: InstallerActionMiddleWare</summary>
 /**
-* Represente InstallerActionMiddleWare class
+* Represent InstallerActionMiddleWare class
 */
 class InstallerActionMiddleWare implements IMiddleWareAction{
     private $_next;

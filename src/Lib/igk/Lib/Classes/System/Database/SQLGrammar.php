@@ -1242,11 +1242,11 @@ class SQLGrammar implements IDbQueryGrammar
                     switch (strtolower($tinf->clType)) {
                         case "datetime":
                         case "timespan":
-                            return "'" . $driver->escape_string(date(\IGKConstants::MYSQL_DATETIME_FORMAT)) . "'";
+                            return "'" . $driver->escape_string(date(Constants::MYSQL_DATETIME_FORMAT)) . "'";
                         case "date":
-                            return "'" . $driver->escape_string(date(\IGKConstants::MYSQL_DATE_FORMAT)) . "'";
+                            return "'" . $driver->escape_string(date(Constants::MYSQL_DATE_FORMAT)) . "'";
                         case "time":
-                            return "'" . $driver->escape_string(date(\IGKConstants::MYSQL_TIME_FORMAT)) . "'";
+                            return "'" . $driver->escape_string(date(Constants::MYSQL_TIME_FORMAT)) . "'";
                     }
                 }
                 if ($value === 'NULL') {

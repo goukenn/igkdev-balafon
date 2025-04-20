@@ -5,7 +5,7 @@
 namespace IGK\System\WinUI;
 
 use IGK\Controllers\BaseController;
-use IGKConstants;
+use IGK\Constants;
 
 ///<summary></summary>
 /**
@@ -21,7 +21,7 @@ class ViewLayout{
      * default theme file 
      * @var ?string
      */
-    var $defaultThemeStyle = IGKConstants::DEFAULT_THEME_STYLE;
+    var $defaultThemeStyle = Constants::DEFAULT_THEME_STYLE;
 
     /**
      * get base controller 

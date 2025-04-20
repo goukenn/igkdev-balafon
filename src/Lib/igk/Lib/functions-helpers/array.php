@@ -260,7 +260,7 @@ if (!function_exists("igk_array_log_print")) {
     ///<summary>Represente igk_array_log_print function</summary>
     ///<param name="tab" type="array"></param>
     /**
-     * Represente igk_array_log_print function
+     * Represent igk_array_log_print function
      * @param array $tab 
      */
     function igk_array_log_print(array $tab)

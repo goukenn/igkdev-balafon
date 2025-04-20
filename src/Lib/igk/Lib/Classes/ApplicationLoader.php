@@ -549,7 +549,7 @@ class ApplicationLoader
                 define("IGK_MODULE_DIR", $dir);
         }
         if (!defined($l = 'IGK_PACKAGE_DIR')) {
-            define($l ,!empty($dir= $srv->IGK_PACKAGE_DIR) && is_dir($dir) ? 
+            define('IGK_PACKAGE_DIR' ,!empty($dir= $srv->IGK_PACKAGE_DIR) && is_dir($dir) ? 
             $dir: (IGK_APP_DIR . "/" . IGK_PACKAGES_FOLDER));
         }
 

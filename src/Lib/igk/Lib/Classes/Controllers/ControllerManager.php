@@ -7,6 +7,7 @@
 
 namespace IGK\Controllers;
 
+use IGK\Constants;
 use IGK\Helper\IO;
 use IGK\Resources\R;
 use IGKControllerManagerObject;
@@ -17,6 +18,7 @@ use IGKControllerTypeManager;
 * Controller used to manage controllers
 */
 final class ControllerManager extends NonVisibleControllerBase {
+
     ///<summary>add a controller from request</summary>
     /**
     * add a controller from request
@@ -100,7 +102,7 @@ final class ControllerManager extends NonVisibleControllerBase {
             $t[IGK_CTRL_CNF_USE_DATASCHEMA]=igk_getr(IGK_CTRL_CNF_USE_DATASCHEMA);
             $t["clAppName"] = igk_getr("clAppName");
             $o = call_user_func_array(array($type, "SetAdditionalConfigInfo"), array(& $t));
-            if($type == IGKDefaultPageController::class){
+            if($type ==  Constants::DEFAUTL_PAGE_CONTROLLER_CLASS ){
                 igk_io_save_file_as_utf8($folder."/".IGK_SCRIPT_FOLDER."/default.js", self::GetDefaultScript($n));
             }
             $file_name=$folder."/class.".$n.".php";
@@ -125,7 +127,7 @@ final class ControllerManager extends NonVisibleControllerBase {
                     igk_ilog("InitEnvironment failed for ".$cl, __METHOD__);
                 }
             }
-            IGKControllerManagerObject::getInstance()->initCtrl($cl, 1);
+            static::getInstance()->initCtrl($cl, 1);
             unset($cl);
             $ctrl=igk_getctrl($n);
             $nodefaultarticle=igk_getr("nodefaultarticle", 0);
@@ -150,7 +152,7 @@ final class ControllerManager extends NonVisibleControllerBase {
     ///<param name="extends"></param>
     ///<param name="webparent" default="null"></param>
     /**
-    * Represente GetDefaultClassContent function
+    * Represent GetDefaultClassContent function
     * @param  $name
     * @param  $extends
     * @param  $webparent the default value is null
@@ -232,7 +234,7 @@ EOF;
     ///<summary>Represente GetDefaultScript function</summary>
     ///<param name="n"></param>
     /**
-    * Represente GetDefaultScript function
+    * Represent GetDefaultScript function
     * @param  $n
     */
     private static function GetDefaultScript($n){
@@ -246,7 +248,7 @@ OEF;
     }
     ///<summary>Represente getName function</summary>
     /**
-    * Represente getName function
+    * Represent getName function
     */
     public function getName(){
         return IGK_CTRL_MANAGER;
@@ -254,7 +256,7 @@ OEF;
     ///<summary>Represente IsFunctionExposed function</summary>
     ///<param name="name"></param>
     /**
-    * Represente IsFunctionExposed function
+    * Represent IsFunctionExposed function
     * @param  $name
     */
     public function IsFunctionExposed($name){
@@ -263,7 +265,7 @@ OEF;
     ///<summary>Represente removeCtrl function</summary>
     ///<param name="n" default="null"></param>
     /**
-    * Represente removeCtrl function
+    * Represent removeCtrl function
     * @param  $n the default value is null
     */
     public function removeCtrl($n=null){
@@ -275,7 +277,7 @@ OEF;
                 $cl=get_class($ctrl);
                 if($cl){
                     
-                    $i=IGKControllerManagerObject::getInstance(); 
+                    $i=static::getInstance(); 
                     if ($r=is_string($n) ? $i->dropControllerByName($n): $i->dropController($n)){
                         // reset controller cache
                         \IGK\Helper\SysUtils::ClearCache();

@@ -20,7 +20,7 @@ class ScriptLoader implements IDocumentScriptLoader{
     ///<param name="controller"></param>
     ///<param name="cachetarget"></param>
     /**
-    * Represente __construct function
+    * Represent __construct function
     * @param  $controller
     * @param  $cachetarget
     */

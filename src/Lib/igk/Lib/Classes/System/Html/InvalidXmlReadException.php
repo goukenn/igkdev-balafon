@@ -10,7 +10,7 @@ use IGKException;
 
 ///<summary>Represente class: IGKInvalidXmlReadException</summary>
 /**
-* Represente IGKInvalidXmlReadException class
+* Represent IGKInvalidXmlReadException class
 */
 class InvalidXmlReadException extends IGKException{
     var $offset;

@@ -12,7 +12,7 @@ use ArrayAccess;
 
 ///<summary>Represente interface: IIGKBalafonApplicationMiddlewareService</summary>
 /**
-* Represente IIGKBalafonApplicationMiddlewareService interface
+* Represent IIGKBalafonApplicationMiddlewareService interface
 */
 interface IBalafonApplicationMiddlewareService extends ArrayAccess{
     ///<summary></summary>

@@ -13,7 +13,7 @@ use IGKObject;
 
 ///<summary>Represente class: IGKLangExpression</summary>
 /**
-* Represente IGKLangExpression class
+* Represent IGKLangExpression class
 */
 final class IGKLangExpression extends IGKObject implements IHtmlGetValue {
     private $m_keys;

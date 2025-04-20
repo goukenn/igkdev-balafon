@@ -20,7 +20,7 @@ use function igk_resources_gets as __;
 
 ///<summary>Represente class: IGKSQLDataAdapter</summary>
 /**
-* Represente IGKSQLDataAdapter class
+* Represent IGKSQLDataAdapter class
 */
 abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCreator, IDbSendQueryListenerSupport{
     const DB_INFORMATION_SCHEMA = "information_schema";

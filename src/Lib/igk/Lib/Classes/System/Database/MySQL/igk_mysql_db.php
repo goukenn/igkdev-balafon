@@ -6,6 +6,7 @@
 // @file: igk_mysql_db.php
 
 use IGK\Database\DbQueryDriver;
+use IGK\Constants;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGK\System\Console\Logger;
 
@@ -431,7 +432,7 @@ if (IGK_MSQLi_DB_AdapterFunc) {
     define("IGK_MYSQL_USAGE", "MySQLi");
 } else
     define("IGK_MYSQL_USAGE", "MySQL");
-define("IGK_MYSQL_DATETIME_FORMAT", \IGKConstants::MYSQL_DATETIME_FORMAT);
+define("IGK_MYSQL_DATETIME_FORMAT", Constants::MYSQL_DATETIME_FORMAT);
 define("IGK_MYSQL_TIME_FORMAT", IGK_MYSQL_DATETIME_FORMAT);
 define("IGK_MYSQL_DATE_FORMAT", "Y-m-d");
 DbQueryDriver::Init(function (&$conf) {

@@ -814,7 +814,7 @@ function igk_api_mysql_get_table_definition($api, $row, $table_n, $mysql, $tinfo
 }
 ///<summary>Represente class: IGKMySQLUtilityConstant</summary>
 /**
-* Represente IGKMySQLUtilityConstant class
+* Represent IGKMySQLUtilityConstant class
 */
 class IGKMySQLUtilityConstant{
     const VERSION="2.2";

@@ -15,7 +15,7 @@ use IGK\System\Database\MySQL\Controllers\MySQLDataController;
 use IGK\System\Database\NoDbConnection;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\NotImplementException;
-use IGKConstants;
+use IGK\Constants;
 
 // if (!defined(__FILE__)){
 
@@ -24,7 +24,7 @@ use IGKConstants;
 
 ///<summary>Represente class: DataAdapterBase</summary>
 /**
- * Represente DataAdapterBase class
+ * Represent DataAdapterBase class
  */
 abstract class DataAdapterBase extends SQLDataAdapter
 {
@@ -194,7 +194,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
             } else {                
                 if (igk_environment()->isDev()){                       
                     igk_ilog("no db adapter available / failed to connect: " . igk_env_count(__METHOD__).
-                        (version_compare(IGKConstants::CorePHPVersion() , "7.3", "<=")
+                        (version_compare(Constants::CorePHPVersion() , "7.3", "<=")
                         ?" connection failed : check mysql_native_password vs caching_sha2_password" : "")
                     );
                 }   

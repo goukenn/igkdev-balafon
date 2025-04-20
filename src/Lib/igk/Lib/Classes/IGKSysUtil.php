@@ -6,6 +6,7 @@
 
 ///<summary> System utility class </summary>
 
+use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
@@ -48,7 +49,7 @@ abstract class IGKSysUtil
     public static function GetModelTypeName(string $defined_table_name, ?BaseController $ctrl = null): string
     {
         $_NS = "";
-        $defined_table_name = preg_replace(IGKConstants::MODEL_TABLE_REGEX, "", $defined_table_name);
+        $defined_table_name = preg_replace(Constants::MODEL_TABLE_REGEX, "", $defined_table_name);
         if ($ctrl) {
             $_NS = $ctrl::ns(EntryClassResolution::Models) . "\\";
         }
@@ -266,7 +267,7 @@ abstract class IGKSysUtil
      */
     public static function DBGetTableName(string $table, ?BaseController $ctrl = null)
     { 
-        $v = IGKConstants::MODEL_TABLE_REGEX;
+        $v = Constants::MODEL_TABLE_REGEX;
         $t = preg_replace_callback(
             $v,
             function ($m) use ($ctrl) {

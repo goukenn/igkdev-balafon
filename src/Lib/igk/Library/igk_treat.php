@@ -161,7 +161,7 @@ function igk_treat_source($source, $callback, $tab=null, & $options=null){
 }
 ///<summary>Represente class: IGKProtectHtmlField</summary>
 /**
-* Represente IGKProtectHtmlField class
+* Represent IGKProtectHtmlField class
 */
 class IGKProtectHtmlField{
     private $engines;

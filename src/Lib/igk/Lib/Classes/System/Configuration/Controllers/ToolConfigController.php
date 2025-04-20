@@ -15,7 +15,7 @@ use \IGK\System\Configuration\Controllers\ToolHost;
 use function igk_resources_gets as __; 
 ///<summary>Represente class: IGKToolsCtrl</summary>
 /**
-* Represente IGKToolsCtrl class
+* Represent IGKToolsCtrl class
 */
 final class ToolConfigController extends ConfigControllerBase {
     public function getName(){
@@ -23,7 +23,7 @@ final class ToolConfigController extends ConfigControllerBase {
     }
     ///<summary>Represente getConfigPage function</summary>
     /**
-    * Represente getConfigPage function
+    * Represent getConfigPage function
     */
     public function getConfigPage(){
         return "toolctrl";
@@ -41,7 +41,7 @@ final class ToolConfigController extends ConfigControllerBase {
     ///<summary>Represente getm_tools function</summary>
     ///<return refout="true"></return>
     /**
-    * Represente getm_tools function
+    * Represent getm_tools function
     * @return *
     */
     public function getm_tools(){
@@ -56,7 +56,7 @@ final class ToolConfigController extends ConfigControllerBase {
     ///<summary>Represente RegisterTool function</summary>
     ///<param name="ctrl"></param>
     /**
-    * Represente RegisterTool function
+    * Represent RegisterTool function
     * @param  $ctrl
     */
     public function RegisterTool($ctrl){ 
@@ -66,7 +66,7 @@ final class ToolConfigController extends ConfigControllerBase {
     }
     ///<summary>Represente View function</summary>
     /**
-    * Represente View function
+    * Represent View function
     */
     public function View():BaseController{ 
         $t=$this->getTargetNode();
@@ -106,7 +106,7 @@ final class ToolConfigController extends ConfigControllerBase {
     
     ///<summary>Represente view_tools_ajx function</summary>
     /**
-    * Represente view_tools_ajx function
+    * Represent view_tools_ajx function
     */
     public function view_tools_ajx(){
         $this->View();

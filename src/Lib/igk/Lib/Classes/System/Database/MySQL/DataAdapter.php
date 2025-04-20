@@ -571,7 +571,7 @@ IDataDriverCharsetSupport
                 if (preg_match("/^date$/i", $type)) {
                     $value = date("Y-m-d", strtotime($value));
                 } else if (preg_match("/^datetime$/i", $type) && $tinf->clNotNull) {
-                    $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
+                    $value = date(Constants::MYSQL_DATETIME_FORMAT, strtotime($value));
                 }
             }
             if (strtolower($type)=='text'){

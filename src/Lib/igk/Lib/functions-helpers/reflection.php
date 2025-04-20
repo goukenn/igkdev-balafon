@@ -45,7 +45,7 @@ function igk_reflection_class_extends($objOrClassName, string $name)
 ///<summary>Represente igk_reflection_class_hierachi function</summary>
 ///<param name="type" type="ReflectionClass"></param>
 /**
- * Represente igk_reflection_class_hierachi function
+ * Represent igk_reflection_class_hierachi function
  * @param ReflectionClass $type 
  */
 function igk_reflection_class_hierachi(ReflectionClass $type)

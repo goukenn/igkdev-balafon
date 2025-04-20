@@ -32,7 +32,7 @@ use IGK\System\Database\Helper\DbUtility;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Traits\MacrosConstant;
-use IGKConstants;
+use IGK\Constants;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
@@ -1020,7 +1020,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                     continue;
                 }
                 $name = substr($c, 0, -4);
-                if ($name == IGKConstants::ENTRY_BASE_MODEL_CLASS)
+                if ($name == Constants::ENTRY_BASE_MODEL_CLASS)
                     continue;
                 include_once($file);
                 $cl = $ns . "\\" . $name;

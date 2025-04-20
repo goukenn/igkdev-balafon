@@ -44,14 +44,14 @@ class AuthorisationController extends ConfigControllerBase{
     }
      ///<summary>Represente getConfigCategory function</summary>
     /**
-    * Represente getConfigCategory function
+    * Represent getConfigCategory function
     */
     public function getConfigCategory(){
         return "administration";
     }
     ///<summary>Represente getConfigPage function</summary>
     /**
-    * Represente getConfigPage function
+    * Represent getConfigPage function
     */
     public function getConfigPage(){
         return "auth";
@@ -72,7 +72,7 @@ class AuthorisationController extends ConfigControllerBase{
     ///<summary>Represente _auth_options function</summary>
     ///<param name="frm"></param>
     /**
-    * Represente _auth_options function
+    * Represent _auth_options function
     * @param  $frm
     */
     private function _auth_options($frm){
@@ -83,7 +83,7 @@ class AuthorisationController extends ConfigControllerBase{
     ///<param name="q"></param>
     ///<param name="t"></param>
     /**
-    * Represente _isAuth function
+    * Represent _isAuth function
     * @param  $q
     * @param  $t
     */
@@ -116,7 +116,7 @@ class AuthorisationController extends ConfigControllerBase{
     // }
     ///<summary>Represente auth function</summary>
     /**
-    * Represente auth function
+    * Represent auth function
     */
     public function auth(){ 
         $r = igk_create_notagnode();
@@ -153,7 +153,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
     ///<summary>Represente auth_add_authorisation_ajx function</summary>
     /**
-    * Represente auth_add_authorisation_ajx function
+    * Represent auth_add_authorisation_ajx function
     */
     public function auth_add_authorisation_ajx(){
         if(igk_qr_confirm()){
@@ -182,7 +182,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
     ///<summary>Represente auth_add_group_ajx function</summary>
     /**
-    * Represente auth_add_group_ajx function
+    * Represent auth_add_group_ajx function
     */
     public function auth_add_group_ajx(){
         $id=igk_getr("clId");
@@ -260,7 +260,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
     ///<summary>Represente auth_delete_authorisation_ajx function</summary>
     /**
-    * Represente auth_delete_authorisation_ajx function
+    * Represent auth_delete_authorisation_ajx function
     */
     public function auth_delete_authorisation_ajx(){
         $id=igk_getr("clId");
@@ -279,7 +279,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
     ///<summary>Represente auth_edit_frame_ajx function</summary>
     /**
-    * Represente auth_edit_frame_ajx function
+    * Represent auth_edit_frame_ajx function
     */
     public function auth_edit_frame_ajx(){
         $id=igk_getr("clId");
@@ -341,7 +341,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
     ///<summary>Represente auth_remove_group_ajx function</summary>
     /**
-    * Represente auth_remove_group_ajx function
+    * Represent auth_remove_group_ajx function
     */
     public function auth_remove_group_ajx(){
         if(igk_qr_confirm()){
@@ -368,7 +368,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
     ///<summary>Represente checkauth function</summary>
     /**
-    * Represente checkauth function
+    * Represent checkauth function
     */
     public function checkauth(){
         $d=igk_create_node("div");
@@ -419,7 +419,7 @@ class AuthorisationController extends ConfigControllerBase{
     
     ///<summary>Represente getDataTableName function</summary>
     /**
-    * Represente getDataTableName function
+    * Represent getDataTableName function
     */
     public function getDataTableName(): ?string{
         return Groupauthorizations::table(); 
@@ -430,7 +430,7 @@ class AuthorisationController extends ConfigControllerBase{
     ///<param name="authTable" default="IGK_TB_AUTHORISATIONS"></param>
     ///<param name="userGroupTable" default="IGK_TB_GROUPAUTHS"></param>
     /**
-    * Represente IsUserAuthorized function
+    * Represent IsUserAuthorized function
     * @param  $s
     * @param  $actionName
     * @param  $authTable the default value is IGK_TB_AUTHORISATIONS
@@ -446,7 +446,7 @@ class AuthorisationController extends ConfigControllerBase{
    
     ///<summary>Represente View function</summary>
     /**
-    * Represente View function
+    * Represent View function
     */
     public function View():BaseController{ 
         $t = $this->getTargetNode();

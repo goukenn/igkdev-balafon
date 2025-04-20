@@ -10,7 +10,7 @@ namespace IGK\System\Database\MySQL;
 use Exception;
 use IGK\Database\DbQueryDriver as DatabaseDbQueryDriver;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGKConstants;
+use IGK\Constants;
 use IGKException;
 use ReflectionException;
 
@@ -50,7 +50,7 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
      * @throws IGKException possibility of no default type zone
      */
     protected function initialize($resource): bool {
-        $time_zone = igk_configs()->get('date_time_zone', IGKConstants::DEFAULT_TIME_ZONE);
+        $time_zone = igk_configs()->get('date_time_zone', Constants::DEFAULT_TIME_ZONE);
         $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $resource);
         if($t && (igk_db_num_rows($t) == 1)){
             if (!empty($time_zone)){

@@ -19,7 +19,7 @@ use IGK\System\Exceptions\NotImplementException;
  
 
 /**
- * Represente IGKLog class
+ * Represent IGKLog class
  */
 final class IGKLog extends IGKObject
 { 

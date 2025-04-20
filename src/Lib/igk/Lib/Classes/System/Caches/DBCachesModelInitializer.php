@@ -17,7 +17,7 @@ use IGK\System\Database\DbUtils;
 use IGK\System\Database\Helper\DbUtility;
 use IGK\System\Database\JoinTableOp;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGKConstants;
+use IGK\Constants;
 use IGKException;
 use IGKSysUtil;
 

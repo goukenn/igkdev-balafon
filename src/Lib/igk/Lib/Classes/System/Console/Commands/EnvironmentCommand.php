@@ -10,7 +10,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
-use IGKConstants;
+use IGK\Constants;
 
 ///<summary></summary>
 /**
@@ -65,7 +65,7 @@ class EnvironmentCommand extends AppExecCommand{
 		} 
 		$def->config = $cnf; 
 		if ($ctrl){
-			$cnf = $ctrl->getDeclaredDir()."/". IGKConstants::PROJECT_CONF_FILE;
+			$cnf = $ctrl->getDeclaredDir()."/". Constants::PROJECT_CONF_FILE;
 			if (file_exists($cnf)){
 				$def->project = json_decode(file_get_contents($cnf));
 

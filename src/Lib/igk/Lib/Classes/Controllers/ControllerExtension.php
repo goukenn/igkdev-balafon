@@ -63,7 +63,7 @@ use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\ViewLayout;
-use IGKConstants;
+use IGK\Constants;
 use IGKEnvironment;
 use IGKEvents;
 use IGKModuleListMigration;
@@ -316,7 +316,7 @@ abstract class ControllerExtension
     {
         //expose asset folder and script
         $resolver = IGKResourceUriResolver::getInstance();
-        if (!$dirs && is_file($file = ($dec = $ctrl->getDeclaredDir()) . "/" . IGKConstants::PROJECT_CONF_FILE)) {
+        if (!$dirs && is_file($file = ($dec = $ctrl->getDeclaredDir()) . "/" . Constants::PROJECT_CONF_FILE)) {
             if ($g = json_decode(file_get_contents($file))) {
                 $inf = Activator::CreateNewInstance(ProjectConfiguration::class, $g);
                 if ($inf instanceof ProjectConfiguration) {
@@ -1378,7 +1378,7 @@ abstract class ControllerExtension
             $user = $ctrl->getUser()->model();
             $uid = $user->clId;
             $bclLastLogin = $user->clLastLogin;
-            $user->clLastLogin = date(\IGKConstants::MYSQL_DATETIME_FORMAT);
+            $user->clLastLogin = date(Constants::MYSQL_DATETIME_FORMAT);
             $user->save();
             $server = igk_server();
             igk_hook(IGKEvents::HOOK_USER_LOGIN, [
@@ -1748,7 +1748,7 @@ abstract class ControllerExtension
     {
         $cl = $action_class_name;
         if (!class_exists($cl) || !is_subclass_of($cl, ActionBase::class)) {
-            if (!($cl = self::resolveClass($controller, \IGKConstants::NS_ACTION_ENTRY . "/$cl"))) {
+            if (!($cl = self::resolveClass($controller, Constants::NS_ACTION_ENTRY . "/$cl"))) {
                 return null;
             }
             !is_subclass_of($cl, ActionBase::class) && igk_die("not an action class");
@@ -1822,7 +1822,7 @@ abstract class ControllerExtension
 
         $s = "<?php" . IGK_LF;
         $s .= "// Balafon : generated db constants file" . IGK_LF;
-        $s .= "// date: " . date(\IGKConstants::MYSQL_DATETIME_FORMAT) . IGK_LF;
+        $s .= "// date: " . date(Constants::MYSQL_DATETIME_FORMAT) . IGK_LF;
         // generate class constants definition
         $cl = igk_uri(get_class($controller));
         $ns = dirname($cl);

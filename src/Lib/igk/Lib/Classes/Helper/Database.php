@@ -19,7 +19,7 @@ use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\StringBuilder;
-use IGKConstants;
+use IGK\Constants;
 use IGKEvents;
 use IGKException;
 use IGKType;
@@ -120,7 +120,7 @@ class Database
             igk_die('failed to resolve model');
         }
         $s = null;
-        $path = IGKConstants::NS_MACROS_CLASS . '\\' .
+        $path = Constants::NS_MACROS_CLASS . '\\' .
             ucfirst(basename(igk_uri(get_class($instance)))) . 'Macros';
         $s = $instance->getController()->resolveClass($path);
 
@@ -203,7 +203,7 @@ class Database
      */
     public static function GetCleanTableName(string $table, ?BaseController $controller = null)
     {
-        $v = IGKConstants::MODEL_TABLE_REGEX;
+        $v = Constants::MODEL_TABLE_REGEX;
         $t = preg_replace_callback(
             $v,
             function ($m) use ($controller) {

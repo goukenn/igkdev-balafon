@@ -193,7 +193,7 @@ function igk_html_add_title($node, $title)
  */
 function igk_html_app_page_title($ctrl, $title)
 {
-    return IGKLangKey::GetValueKeys(IGKConstants::STR_PAGE_TITLE, array(
+    return IGKLangKey::GetValueKeys(ConstantsTR_PAGE_TITLE, array(
         __($title),
         is_string($ctrl) ? $ctrl : $ctrl->AppTitle
     ));

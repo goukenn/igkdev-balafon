@@ -9,7 +9,7 @@ namespace IGK\System\Database;
 
 ///<summary>Represente class: IGKNoDbConnection</summary>
 /**
-* Represente IGKNoDbConnection class
+* Represent IGKNoDbConnection class
 */
 class NoDbConnection{
     var $db_name;

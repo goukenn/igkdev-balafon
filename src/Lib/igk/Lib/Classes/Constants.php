@@ -1,18 +1,19 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @filename: IGKConstants.php
+// @filename: Constants.php
 // @date: 20220803 13:48:54
 // @desc: 
 
+namespace IGK;
 
-///<summary>Represente class: IGKConstants</summary>
+///<summary>Represente class: Constants</summary>
 
 use IGK\System\EntryClassResolution;
 
 /**
-* Represente IGKConstants class
+* Represent Balafon's global constants
 */
-final class IGKConstants{
+final class Constants{
     const NAMESPACE="http://schema.igkdev.com";
     const STR_PAGE_TITLE="{0} - [ {1} ]";
     const MYSQL_DATETIME_FORMAT = "Y-m-d H:i:s";
@@ -60,6 +61,9 @@ final class IGKConstants{
     const ANNOTATION_SUFFIX = 'Annotation';
 
     const SESS_LIVING_TIME = 172800;
+
+
+    const DEFAUTL_PAGE_CONTROLLER_CLASS='IGKDefaultPageController';
     
     /**
      * get the core version 

@@ -10,7 +10,7 @@ use IGK\Helper\StringUtility;
 use IGK\System\IAnnotation;
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
-use IGKConstants;
+use IGK\Constants;
 
 ///<summary></summary>
 /**
@@ -119,7 +119,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @return null|string 
      */
     public static function GetExistingClass(string $class_name): ?string{
-        foreach(['',IGKConstants::ANNOTATION_SUFFIX] as $suffix){
+        foreach(['',Constants::ANNOTATION_SUFFIX] as $suffix){
             if (class_exists($cl = $class_name.$suffix)){
                 return $cl;
             }

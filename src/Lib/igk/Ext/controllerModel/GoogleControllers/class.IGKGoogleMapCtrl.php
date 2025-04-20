@@ -14,7 +14,7 @@ use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* Represente IGKGoogleMapCtrl class
+* Represent IGKGoogleMapCtrl class
 */
 abstract class IGKGoogleMapCtrl extends \IGK\Controllers\ControllerTypeBase {
     ///<summary></summary>

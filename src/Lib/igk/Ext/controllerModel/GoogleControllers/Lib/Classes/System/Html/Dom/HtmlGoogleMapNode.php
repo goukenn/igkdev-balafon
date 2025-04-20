@@ -10,7 +10,7 @@
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* Represente IGKHtmlGoogleMapNodeItem class
+* Represent IGKHtmlGoogleMapNodeItem class
 */
 final class HtmlGoogleMapNode extends HtmlNode{
     private $m_key;

@@ -8,12 +8,12 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Configuration\ProjectInfo;
 use IGK\System\Configuration\ProjectConfiguration;
 use IGK\Helper\Activator;
+use IGK\Constants;
 use IGK\System\Composer\ComposerPackage;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
-use IGK\System\Npm\JsonPackage;
-use IGKConstants;
+use IGK\System\Npm\JsonPackage; 
 
 ///<summary></summary>
 /**
@@ -29,7 +29,7 @@ class ProjectInfoCommand extends AppExecCommand
 		'--logo' => 'flag: render only svg logo',
 	];
 	var $category = "project";
-	const CNF_FILE = IGKConstants::PROJECT_CONF_FILE;
+	const CNF_FILE = Constants::PROJECT_CONF_FILE;
 
 	public function exec($command, string $controller = null)
 	{

@@ -8,20 +8,25 @@
 // @mail: bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+/**
+ * @var mixed $t
+ */
+
+use IGK\api\ApiVersion;
+
 ///<summary>Represente class: IGKAPIInfo</summary>
 /**
-* Represente IGKAPIInfo class
+* Represent IGKAPIInfo class
 */
-class IGKAPIInfo{
-    const VERSION="3.1";
-}
+require_once IGK_LIB_DIR.'/api/Lib/Classes/ApiVersion.php';
+ 
 igk_google_addfont($doc, "Roboto");
 $doc->Title="Api - [".IGK_PLATEFORM_NAME."]";
 $t->clearChilds();
 $t["class"]="google-Roboto";
 $dv=$t->div();
 $dv["style"]="padding:2em";
-$dv->addSectionTitle(5)->Content="BALAFON <span>Api version <span>".IGKAPIInfo::VERSION."</span></span>";
+$dv->addSectionTitle(5)->Content="BALAFON <span>Api version <span>".ApiVersion::VERSION."</span></span>";
 $c=$t->div();
 $c=$c->container();
 if(igk_is_conf_connected()){

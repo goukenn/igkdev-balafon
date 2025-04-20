@@ -15,7 +15,7 @@ use IGK\System\Database\MySQL\DataAdapter;
 use IGK\System\Html\Dom\HtmlNode; 
 
 /**
-* Represente IGKMySQLDataCtrl class
+* Represent IGKMySQLDataCtrl class
 */
 class MySQLDataController extends BaseController{
     use NoDbActiveControllerTrait;
@@ -122,7 +122,9 @@ class MySQLDataController extends BaseController{
     * @param string $node response node
     */
     public static function DropTable($adapter, $tbname, $dbname, $node=null){
-  
+        /**
+         * @var mixed $node
+         */
         if(is_array($tbname)){
 
             $tablelist=array();
@@ -143,7 +145,7 @@ class MySQLDataController extends BaseController{
                 ){
                     if($node)
                         $node->addNotifyBox("danger")->Content="Table ".$ktbname. " not deleted ".igk_mysql_db_error();
-                    $r=false;
+                    // $r=false;
                 }
             }
             $adapter->restoreRelationChecking();

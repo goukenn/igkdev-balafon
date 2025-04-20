@@ -19,6 +19,11 @@ namespace IGK\System\Text;
 */
 class RegexMatcherCapture implements IRegexCaptureInfo{
     /**
+     * source matching
+     * @var mixed
+     */
+    var $match;
+    /**
      * the value
      * @var mixed
      */
@@ -92,5 +97,16 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     }
     public function getisRootCaptured():bool{
         return $this->getisRoot() && !isset($this->trailingEnd);
+    }
+    /**
+     * check if end
+     * @return bool 
+     */
+    public function getisEnd(){
+        $m = $this->match;
+        if ($m->type == 'match'){
+            return true;
+        }
+        return !is_null($this->endCaptures);
     }
 }

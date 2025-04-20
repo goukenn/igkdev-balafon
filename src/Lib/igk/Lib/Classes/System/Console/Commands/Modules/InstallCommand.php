@@ -6,12 +6,12 @@ namespace IGK\System\Console\Commands\Modules;
 
 use IGK\Helper\Activator;
 use IGK\Helper\IO;
+use IGK\Constants;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Installers\ModuleInstaller;
 use IGK\System\IO\Path;
-use IGK\System\Modules\ModuleManager;
-use IGKConstants;
+use IGK\System\Modules\ModuleManager; 
 
 ///<summary></summary>
 /**
@@ -20,7 +20,7 @@ use IGKConstants;
 */
 class InstallCommand extends AppExecCommand{
 	var $command='--module:install';
-	const URL = IGKConstants::MODULE_PACKAGE_LIST_URI;
+	const URL = Constants::MODULE_PACKAGE_LIST_URI;
 	var $desc='install module package info';
 	/* var $options=[]; */
 	var $category = 'module';

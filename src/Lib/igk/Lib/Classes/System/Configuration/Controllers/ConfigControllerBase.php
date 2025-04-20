@@ -25,7 +25,7 @@ use function igk_resources_gets as __;
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigController.php";
 
 /**
- * Represente ConfigControllerBase class
+ * Represent ConfigControllerBase class
  */
 abstract class ConfigControllerBase extends BaseController implements IConfigController
 {

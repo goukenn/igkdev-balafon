@@ -13,7 +13,7 @@ use IGK\System\Database\Helper\DbUtility;
 use IGK\System\Database\JoinTableOp;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
-use IGKConstants;
+use IGK\Constants;
 
 ///<summary></summary>
 /**
@@ -199,7 +199,7 @@ class InitClassBuilder
             $php_doc .= "@method static ?self Add(" . $t_args . ") add entry helper\n";
             $php_doc .= "@method static ?self AddIfNotExists(" . $t_args . ") add entry if not exists. check for unique column.\n";
         }
-        if ($macros_cl = $ctrl->resolveClass(IGKConstants::NS_MACROS_CLASS . '\\' . $name . 'Macros')) {
+        if ($macros_cl = $ctrl->resolveClass(Constants::NS_MACROS_CLASS . '\\' . $name . 'Macros')) {
             $m = Database::GetPhpDocMacrosDefintionToInjectFromMacroClass($macros_cl);
             $php_doc .= $m;
         }

@@ -7,7 +7,7 @@
 
 ///<summary>Represente class: IGKSQLiteConnectionManager</summary>
 /**
-* Represente IGKSQLiteConnectionManager class
+* Represent IGKSQLiteConnectionManager class
 */
 class IGKSQLiteConnectionManager{
     var $Sql;

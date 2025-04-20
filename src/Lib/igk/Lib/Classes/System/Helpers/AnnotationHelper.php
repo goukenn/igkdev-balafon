@@ -5,11 +5,10 @@
 namespace IGK\System\Helpers;
 
 use Exception;
-use IGK\System\Annotations\AnnotationBase;
+use IGK\Constants; 
 use IGK\System\Annotations\PhpDocBlocReader;
 use IGK\System\IAnnotation;
-use IGK\System\IO\StringBuilder;
-use IGKConstants;
+use IGK\System\IO\StringBuilder; 
 use IGKException;
 use ReflectionMethod;
 use ReflectionProperty;
@@ -140,7 +139,7 @@ final class AnnotationHelper
     public static function GetUses(string $class_name)
     {
         $v_update_class = function(& $v_uses, $n){
-            // sfx = IGKConstants::ANNOTATION_SUFFIX;
+            // sfx = Constants::ANNOTATION_SUFFIX;
             // if (is_subclass_of($n, AnnotationBase::class) && igk_str_endwith($n, $sfx)){
             //     $v_uses[$n] = igk_str_rm_last(basename(igk_uri($n)), $sfx);
             // }
@@ -299,7 +298,7 @@ final class AnnotationHelper
      */
     public static function ResolveClassType($class_name, $uses){
         $tab = [$class_name];
-        $v_Suffix = IGKConstants::ANNOTATION_SUFFIX;
+        $v_Suffix = Constants::ANNOTATION_SUFFIX;
         if (!igk_str_endwith($class_name, $v_Suffix)){
             $tab[] = $class_name.$v_Suffix;
         }

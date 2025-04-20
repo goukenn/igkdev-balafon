@@ -11,7 +11,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlScriptNode;
 
 /**
-* Represente IGKHtmlScriptManager class
+* Represent IGKHtmlScriptManager class
 */
 final class IGKHtmlScriptManager extends IGKObject {
     const DOC_FLAG=3;

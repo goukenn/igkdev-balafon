@@ -6,8 +6,12 @@
 
 namespace IGK\System\Installers;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
+use IGKException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use ReflectionException;
 
 use function igk_resources_gets as __; 
 
@@ -16,18 +20,29 @@ require_once(__DIR__."/InstallerActionMiddleWare.pinc");
 class BalafonProjectInstaller extends BalafonInstaller{
     protected $controller;
     protected $zipcore = false;
+    /**
+     * 
+     * @param InstallerMiddleWareActions $service 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
     protected function init_installer(InstallerMiddleWareActions $service){
         $c = igk_getr("controller");
         $key=self::INSTALLER_KEY;
         $this->controller = igk_getctrl($c, false) ?? die("controller not found:$c");
-
-     
-
-        $service->CoreZip = $this->zipfile; // igk_app()->session->getParam($key);
+        // disable warning
+        /**
+         * @var mixed
+         */
+        $srv = $service;
         $service->LibDir =  IGK_LIB_DIR;
-        $service->controller = $this->controller;
-        $service->project_name = igk_str_snake(basename(igk_dir(get_class($this->controller))));
-        $service->intall_dir =  $this->controller->getDeclaredDir(); 
+        $srv->CoreZip = $this->zipfile; // igk_app()->session->getParam($key);
+        $srv->controller = $this->controller;
+        $srv->project_name = igk_str_snake(basename(igk_dir(get_class($this->controller))));
+        $srv->intall_dir =  $this->controller->getDeclaredDir(); 
         
         //igk_ilog("init project installer: ".$this->zipfile);
         $service->add(new BalafonInstallerMiddelWare());
@@ -118,7 +133,7 @@ class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
 
 ///<summary>Represente class: RenameLibaryMiddleWare</summary>
 /**
-* Represente RenameLibaryMiddleWare class
+* Represent RenameLibaryMiddleWare class
 */
 class RenameProjectMiddleWare extends InstallerActionMiddleWare{
     ///<summary></summary>

@@ -15,7 +15,7 @@ use IGK\XML\XMLNodeType;
 
 ///<summary>Represente class: IGKHtmlXmlViewerItem</summary>
 /**
-* Represente IGKHtmlXmlViewerItem class
+* Represent IGKHtmlXmlViewerItem class
 */
 final class HtmlXmlViewerNode extends HtmlNode {
     private $m_cdata;
