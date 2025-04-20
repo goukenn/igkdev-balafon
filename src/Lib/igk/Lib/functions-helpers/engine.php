@@ -5,6 +5,7 @@
 ///<param name="s">parameter to convert</param>
 ///<param name="context">context object that will parameter to convert</param>
 
+use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\System\DataArgs;
 use IGK\System\Html\Dom\HtmlItemBase;
