@@ -5953,3 +5953,17 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlHeaderLinkHost.php";
 require_once IGK_LIB_DIR . "/igk_html_utils.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Helpers/factory-helper.funcs.php";
+
+if (!function_exists('igk_html_node_balafonlogo')) {
+    /**
+     * node that contant balafon logo
+     * @param string $name 
+     * @return HtmlNoTagNode 
+     */
+    function igk_html_node_balafonlogo(string $name='balafon_logo'):HtmlNoTagNode
+    {
+        $n = igk_create_notagnode();
+        $n->usesvg($name);
+        return $n;
+    }
+}

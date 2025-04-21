@@ -35,6 +35,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
         $uri = $setting["site_uri"];
         $pdir = $setting["public_dir"];
         $sb = self::GetScriptInstall([
+            'installer-core-function.pinc',
             "installer-helper.pinc",
             "sync.command.pinc"
         ], $token, "remove session");
@@ -65,7 +66,8 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             Logger::print("response: ");
             Logger::print($output);
         } else {
-            Logger::danger("failed to exec"); 
+            $st = igk_curl_status();
+            Logger::danger("something bad happend. failed to exec ". $st); 
         }
         unlink($script_install);
         Logger::info('remove script');

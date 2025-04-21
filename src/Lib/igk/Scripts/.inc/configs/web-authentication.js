@@ -82,6 +82,9 @@
         let v_ref_challenge = _getRandomEID();        
         return new Uint8Array(v_ref_challenge);
     };
+    /**
+     * @param {string} uri
+     */
     async function _registerUser(uri) {
         const challenge = _initChallenge(); 
         const registerUser = await (async function () {
@@ -180,21 +183,21 @@
                     console.log('missing webauth get settings');
                     return;
                 }
-                try {
+                try { 
                     const credentials = await navigator.credentials.get({
                         publicKey: options.publicKey
-                    });
+                    }); 
                     const _topass = { credentials: bufferUtils.serveData(credentials), action: 'get' };
                     const _response = await fetch(resolve, {
                         method: 'POST',
                         body: JSON.stringify(_topass),
                         ...primaryFetchConfig
                     }).then(
-                        o => o.json()
+                        o => { if (o.status == 200) return o.json(); throw new Error(o.status); }
                     ).then(d=>{
                         document.location.reload();
                     }).catch(e => {
-                        console.log("error");
+                        console.error("error");
                     });
                 } catch (e) {
                     console.error('error: ', e);

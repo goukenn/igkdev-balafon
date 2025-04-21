@@ -117,8 +117,8 @@ $module_path = "";
 $zip_out_dirname = igk_getr('project_entry');
 $v_chome = rtrim($home, '/');
 $corelib_dir = $v_chome . igk_getr('app_dir') . '/Lib/igk';
-$install_dir = $v_chome . "/" . ltrim(igk_getr('install_dir'), '/');
-$project_dir = rtrim($install_dir, "/") . "/" . ltrim(igk_getr('project_folder'), '/');
+$install_dir = $v_chome . "/" . ltrim(igk_getr('install_dir') ?? '', '/');
+$project_dir = rtrim($install_dir, "/") . "/" . ltrim(igk_getr('project_folder') ?? '', '/');
 $tempzip = null;
 $v_sys_tempdir = $install_dir . "/__temp";
 $v_projectInstaller = new ProjectInstaller($project_dir);
@@ -128,7 +128,7 @@ $project_name = igk_getr('project_name');
 
 $v_projectInstaller->projectName = $project_name;
 $v_projectInstaller->balafon = $balafon;
-$v_projectInstaller->siteRootDir = rtrim($v_chome, '/').'/'.ltrim(igk_getr('home_dir'),'/');
+$v_projectInstaller->siteRootDir = rtrim($v_chome, '/').'/'.ltrim(igk_getr('home_dir', ''),'/');
 
 
 function post_install(&$postinstall, $f, $v_projectInstaller)

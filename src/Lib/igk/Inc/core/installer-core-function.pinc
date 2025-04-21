@@ -1,6 +1,11 @@
 <?php
 
 // file: installer-core-function.pinc
+defined('IGK_STR_EMPTY') || define('IGK_STR_EMPTY','');
+error_reporting(-1);
+ini_set('display_errors', 1);
+
+
 
 if (!function_exists('igk_io_flatpath')) {
     function igk_io_flatpath(string $path)

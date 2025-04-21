@@ -5,6 +5,7 @@
 // @date: 20220729 14:31:53
 // @desc: install module script
 
+
 if (!function_exists("igk_getr")) {
     function igk_getr($n, $default = null)
     {

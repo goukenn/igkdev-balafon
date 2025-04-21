@@ -5,6 +5,7 @@
 namespace IGK\System\Configuration\Controllers;
 
 use Exception;
+use Google\Service\ToolResults\Execution;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\OwnViewCtrl;
@@ -787,7 +788,7 @@ EOF;
      */
     public function connectToConfig($u = null, $pwd = null, $redirect = true)
     {
-        igk_ilog('try connectToConfig');
+        // igk_ilog('try connectToConfig');
         $adm = null;
         $adm_pwd = null;
         $is_connected = $this->getIsConnected();
@@ -1185,6 +1186,7 @@ EOF;
 
 
             if (igk_configs()->webauthn_required) {
+                // + | inject web-authentication connection - 
                 $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
                 $frm->clearchilds();
                 $frm['class'] = '+webauthn-signin';
@@ -1373,13 +1375,20 @@ EOF;
         $cnf->saveData();
         igk_json(['success' => true]);
     }
+    /**
+     * authenticate with webauthn
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws WebAuthnException 
+     */
     public function webauthn_create_get()
     {
         igk_server()->method('POST') || igk_die('not a valid request');
         igk_is_conf_connected() && igk_die('misconfiguration');
         ($webauth = $this->_initWebAuthn()) || igk_die('failed to load webauthn library');
         $data = (object)json_decode(igk_io_get_uploaded_data(false));
-        $o = [];
+        $status=200; $o = [];
         ($deseri_data = igk_configs()->webauthn_serie_key) &&
             ($deseri_data = unserialize(base64_decode($deseri_data)));
         if (!$deseri_data) {
@@ -1389,23 +1398,31 @@ EOF;
             case 'get';
                 $challenge = igk_app()->session->webauthn_authenication_challenge;
                 $data = igk_getv($data, 'credentials');
-                if (empty($challenge)){
+                if (empty($challenge)) {
                     // igk_json(['error'=>true, 'msg'=>'missing challenge - on signin'], RequestResponseCode::BadRequest);
                     igk_die("challenge is empty");
                 }
-                if ($webauth->processGet(
-                    base64_decode(igk_getv($data->response, 'clientDataJSON')),
-                    base64_decode(igk_getv($data->response, 'authenticatorData')),
-                    base64_decode(igk_getv($data->response, 'signature')),
-                    $deseri_data->credentialPublicKey,
-                    $challenge
-                )) {
-                    igk_app()->session->webauthn_authenication_challenge = null;
-                    // grand callback
-                    $this->setConfigUser(igk_sys_create_user(['login' => 'webauth', 'pwd' => hash('sha256', time() . 'security'), 'at' => date('Ymd His')]));
-                    $o = ['error' => false, 'msg' => 'successfully connected'];
-                } else {
-                    $o = ['error' => true, 'msg' => 'request was unsuccessful'];
+                try {
+                    if ($webauth->processGet(
+                        base64_decode(igk_getv($data->response, 'clientDataJSON')),
+                        base64_decode(igk_getv($data->response, 'authenticatorData')),
+                        base64_decode(igk_getv($data->response, 'signature')),
+                        $deseri_data->credentialPublicKey,
+                        $challenge,
+                        null,
+                        true,
+                        true // + | add verification user 
+                    )) {
+                        igk_app()->session->webauthn_authenication_challenge = null;
+                        // grand callback
+                        $this->setConfigUser(igk_sys_create_user(['login' => 'webauth', 'pwd' => hash('sha256', time() . 'security'), 'at' => date('Ymd His')]));
+                        $o = ['error' => false, 'msg' => 'successfully connected'];
+                    } else {
+                        $o = ['error' => true, 'msg' => 'request was unsuccessful'];
+                    }
+                } catch (\Exception $ex) {
+                    $o = ['error' => true, 'msg' => $ex->getMessage()];
+                    $status = RequestResponseCode::Unauthorized;
                 }
                 break;
             case 'create':
@@ -1417,7 +1434,7 @@ EOF;
                 $o = $args;
                 break;
         }
-        igk_json(json_encode($o));
+        igk_json(json_encode($o), $status);
     }
     /**
      * configuration controller 
@@ -1444,8 +1461,8 @@ EOF;
                 $credentials = (object)$data->credentials;
                 $challenge = $sess->webauthn_cpanel_challenge;
                 $sess->webauthn_cpanel_challenge = null;
-                if (empty($challenge)){
-                    igk_json(['error'=>true, 'msg'=>'missing challenge - on create']);
+                if (empty($challenge)) {
+                    igk_json(['error' => true, 'msg' => 'missing challenge - on create']);
                 }
 
 

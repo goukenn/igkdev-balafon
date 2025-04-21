@@ -20262,6 +20262,15 @@ function igk_str_empty($t)
 {
     return strlen($t) === 0;
 }
+
+/**
+ * helper: is trim empty 
+ */
+function igk_str_is_trim_empty(string $str): bool{    
+    return (strlen(trim($str))===0); 
+}
+
+
 if (!function_exists('igk_str_transform_linefeed')) {
     /**
      * tranform \n|\r|\t string to litteral expression. if \\n leave at is
