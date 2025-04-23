@@ -126,8 +126,8 @@ class BalafonApplication extends IGKApplicationBase
                 $_SERVER[$v_envkey] = $g;
                 igk_server()->prepareServerInfo();
                 igk_server()->ENVIRONMENT = $g;
-                $nev = igk_server()->ENVIRONMENT;
-                $ops = igk_environment()->isOPS();
+                // $nev = igk_server()->ENVIRONMENT;
+                // $ops = igk_environment()->isOPS();
             }
             return null;
         }

@@ -65,8 +65,8 @@ class Request implements IInjectable, IContentSecurityProvider
         return $d;
     }
     /**
-     * 
-     * @return mixed 
+     * retrieve up loaded data
+     * @return ?string 
      */
     public function getUploadedData(){
         if (!$this->prepared){
@@ -175,7 +175,7 @@ class Request implements IInjectable, IContentSecurityProvider
         if (!$dfile || !file_exists($dfile)){
             // // igk_ilog("entry request file is missing.");
             // igk_trace(); 
-            igk_die("Misconfiguration: Entry request is missing". $dfile ." - RequestURI : {$b} " .'\n');
+            igk_die("Misconfiguration: Entry request is missing [". $dfile ."] - RequestURI : {$b} " .'\n');
         }
         $t = IGKString::Uri(dirname($file));
         $s = $b;

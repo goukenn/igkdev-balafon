@@ -22,7 +22,7 @@ class MakeViewCommand extends AppExecCommand{
     var $desc  = "make new project's view";
     var $options = [
         "--controller:controller"=>"set controller to use",
-        "--action"=>"enable action",
+        "--action"=>"flag: enable action",
         "--dir"=>"enable view dir",
         "--force"=>"flag:force  file creation ",
         "--scaffold:[scaffoldtype]"=>"type of view to generate. default is null. or builder"
@@ -105,8 +105,7 @@ class MakeViewCommand extends AppExecCommand{
         Logger::print("-");
         Logger::info("Make new Balafon's PROJECT view");
         Logger::print("-\n");
-        Logger::print("Usage : ". App::Gets(App::GREEN, $this->command). " controller name [options]" );
-        Logger::print("\n\n");
+        parent::help(); 
     }
     public function getInitViewContent(string $viewname, ?string $type=null):string{
         if ($type){

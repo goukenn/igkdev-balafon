@@ -1,3 +1,6 @@
+// @ts-nocheck
+'use strict';
+
 (function() {
     var i = document.scripts[document.scripts.length - 2];
     if (typeof(i.text) == "undefined") {
@@ -20,7 +23,7 @@
     }
     // after loading core script 
     function __initScript(i) {
-        let s = i.text.trim().substring(2);
+        let r=null,s = i.text.trim().substring(2);        
         if (r = loadXml("<data>" + s + "</data>")) {
             if (r.lastChild) {
                 var b = r.lastChild.textContent;
@@ -32,24 +35,10 @@
                     // + | handling error 
                     console.error('Error:igk-winui-balafon-js-inc : ' + e.message);
                     console.log('inline script: ', e.lineNumber + ":" + e.columnNumber);
-                    window.__igk_var_script_error = b;
-                    var line = b;
-                    if (line){
-                        console.log(line.substr(Math.min(0, e.columnNumber-10),40)); 
-                    }
-
-                    // console.debug('message: ' + e.message, e.lineNumber + ":" + e.columnNumber);
-                    // // view message rule
-                    // var tab = b.split("\n");
-                    // var msg = ";";
-                    // if (tab.length < e.lineNumber) {
-                    //     var o = Math.max(0, e.columnNumber - 10);
-                    //     msg = b.substring(o, o + 40);
-                    // } else {
-                    //     msg = tab[e.lineNumber].substr(Math.max(e.columnNumber - 10, 0), 20);
-                    // }
-                    // console.error('source ... : \n' + msg);
-
+                    window.__igk_var_script_error = b;                    
+                    if (b){
+                        console.log(b.substring(Math.min(0, e.columnNumber-100),200)); 
+                    } 
                 }
             }
         } else {

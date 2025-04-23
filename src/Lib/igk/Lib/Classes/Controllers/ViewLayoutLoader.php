@@ -123,15 +123,16 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader{
      */
     public function include(string $file, ?array $args = null){
  
-        $response = null;
+        $v_dir = $response = null;
         $ctrl =  $this->controller;  
         $this->controller->setExtraArgs(["layout"=>$this]);
         $v_main = $this->isMainLayout($file) || $this->getLayoutIsSingleView($file); 
-        $v_no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view;
+        $v_no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view 
+            || \getenv('IGK_ENV_NO_AUTOCACHEVIEW');
         $args["doc"]->title =  $this->title  ?? $this->getPageTitle(__("title.{$args['fname']}"));
-        
-        $v_header = $this->_resolveContextFile($this->header, dirname($file));
-        $v_footer = $this->_resolveContextFile($this->footer, dirname($file));
+        $v_dir = dirname($file);
+        $v_header = $this->_resolveContextFile($this->header, $v_dir);
+        $v_footer = $this->_resolveContextFile($this->footer, $v_dir);
 
         
         if (!$v_main &&  $this->exists($v_header)){

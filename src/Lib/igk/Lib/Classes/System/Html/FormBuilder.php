@@ -115,6 +115,9 @@ class FormBuilder
 
         $clprop->add("data");
 
+        /**
+         * load attributes defnitions
+         */
         $load_attr = function ($v, &$o) use ($get_attr_key,  $clprop) {
             $clprop->clear();
             $key = $get_attr_key($v);
@@ -231,6 +234,9 @@ class FormBuilder
             $_is_required = isset($v["required"]) ? $v["required"] : 0;
 
             $label_text = ucfirst(igk_getv($v, "label_text", __($k)));
+            $bind_class_name = igk_getv($v, 'class_name');
+            // igk_wln_e( __FILE__.":".__LINE__ 
+            // , $v);
             if (!$this->isHtmlType($_type) && is_subclass_of($_type, FormBuilderItemAbstractType::class)) {
                 $v_ctype = new $_type();
                 $v_ctype->setName($k);
@@ -246,6 +252,13 @@ class FormBuilder
             if ($v_error){
                 $class_style .= ' igk-danger';
             }
+            if ($bind_class_name){
+                $class_style .= ' '.$bind_class_name;
+            } else{
+                // class name 
+                $class_style .= ' '.igk_css_str2class_name(strtolower($k));
+            }
+
             if ($_is_div) {
                 $o .= "<" . $tag . " ";
                 if ($_is_required) {
@@ -363,6 +376,9 @@ class FormBuilder
                         $keys[] = 'checked';
                     }
                     $tattrib = ["name" => $k];
+                    if($v_autocomplete = igk_getv($v, 'autocomplete')){
+                        $tattrib['autocomplete'] = $v_autocomplete;
+                    }
 
                     if ($_type== formTypes::File) {
 

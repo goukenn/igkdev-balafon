@@ -884,6 +884,11 @@ $def["code[lang='php'] span.s"] = "color: #FF5D83;";
 $def["code[lang='php'] span.cm "] = "color: #005C00; ";
 $def["code[lang='php'] span.v "] = " color:#6B214F;";
 $def["code[lang='php'] span.pc"] = " color:#4a8;	font-weight:900; ";
+
+// + | --------------------------------------------------------------------
+// + | flex positionning
+// + |
+
 $def[".igk-flex-container"] = "display: flex;";
 $def[".igk-flex-container.dir-c"] = "flex-direction: column;";
 $def[".igk-flex-container.dir-rc"] = "flex-direction: column-reverse;";
@@ -902,6 +907,16 @@ $def[".igk-flex-container.align-s"] = "align-items: flex-start;";
 $def[".igk-flex-container.align-e"] = "align-items: flex-end;";
 $def[".igk-flex-container.align-b"] = "align-items: baseline;";
 $def[".igk-flex-container.align-stretch"] = "align-items: stretch;";
+
+
+// binding flex positioning
+foreach(['baseline', 'end', 'center','start','normal','stretch'] as $a){
+    $def['.flex-'.$a] = 'justify-content: '.$a.';';
+    $def['.flex-cross-'.$a] = 'align-items: '.$a.';';
+}
+
+
+
 $def[".igk-winui-more-view"] = "cursor: pointer;";
 $def[".igk-winui-more-view.igk-hide ~ *"] = "display: none !important;";
 $def[".igk-code"] = "font-family: 'consolas', sans-serif; font-size:8pt; background-color:[cl:codeBgColor, #eee]; " . "border-radius:4px;" . "padding:4px; ";
@@ -1043,7 +1058,7 @@ $def[".igk-code.code-php .cm"] = "color: #167d16; ";
 $def[".igk-code.code-php .s"] = "color: #c10000; ";
 $def[".igk-code.code-php .w.r"] = "color: #602795; ";
 $def[".igk-code.code-php .pc + .w "] = "color: var(--igk-code-php-method-cl,  #023c60); font-weight: bold;";
-$def[".igk-code.code-php .num "] = "color: blue";
+ 
 $def[".igk-code.code-php span.litteral"] = "font-style: italic; font-weight:200; [fcl:codeLitteralColor, #19668c]";
 
 
@@ -1218,14 +1233,15 @@ $def['.igk-btn.margin-i'] = 'margin:inherit';
 // + | --------------------------------------------------------------------
 // + | Padding definition
 // + |
-foreach([2,4,8, 16,20,24,48] as $k){
+$dimensions = [2,4,8,16,20,24,32,48,50,100]; 
+foreach($dimensions as $k){
     $def['.pad-'.$k] = 'padding:'.$k.'px;';
 }
 // + | --------------------------------------------------------------------
 // + | size definition
 // + |
 
-foreach([16,24,32,48,64] as $k){
+foreach($dimensions as $k){
     $def['.size-'.$k] = 'width:'.$k.'px; height:'.$k.'px;';
 }
  

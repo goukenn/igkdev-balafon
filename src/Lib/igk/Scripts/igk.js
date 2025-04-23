@@ -6004,7 +6004,15 @@ Name:balafon.js
         },
         getNumber: igk_getNumber, // expose get number function
         getUnit: igk_getUnit, // expose get unit
-        getPixel: igk_getPixel // igk.getPixel
+        getPixel: igk_getPixel, // igk.getPixel
+        getNumberLength(v){
+            if (typeof(v)== 'string'){
+                if (/(\d+(\.\d+)?)(px|%|pt|pica|ch|in)?/.test(v)){
+                    return v;
+                }
+            }
+            return 0;
+        }
         // toString: function(){
         // return "namespace:igk";
         // }// end tostring

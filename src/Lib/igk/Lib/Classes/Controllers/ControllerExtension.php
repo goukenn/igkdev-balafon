@@ -1555,8 +1555,8 @@ abstract class ControllerExtension
     {
         igk_app_is_uri_demand($ctrl, __FUNCTION__);
         $user = $ctrl->getUser();
-        igk_getctrl(IGK_USER_CTRL)->logout();
         if ($user) {
+            igk_getctrl(IGK_USER_CTRL)->logout();
             $server = igk_server();
             igk_hook(IGKEvents::HOOK_USER_LOGOUT, [
                 "user" => $user,

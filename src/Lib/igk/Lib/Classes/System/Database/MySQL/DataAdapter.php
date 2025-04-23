@@ -9,6 +9,7 @@ namespace IGK\System\Database\MySQL;
 
 use Error;
 use Exception;
+use IGK\Constants;
 use IGK\Database\DbColumnInfo;
 use IGK\System\Database\MySQL\DataAdapterBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;

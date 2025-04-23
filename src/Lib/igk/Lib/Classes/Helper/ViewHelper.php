@@ -481,8 +481,11 @@ class ViewHelper
      */
     public static function GetViewArgs(?string $param=null,$default=null){
         $t = self::GetViewContextArgs();
-        if (!is_null($param) && $t ){
-            return igk_getv($t, $param, $default);
+        if (!is_null($param)){
+            if ($t ){
+                return igk_getv($t, $param, $default);
+            }
+            return $default;
         }
         return $t ?? [];
     } 

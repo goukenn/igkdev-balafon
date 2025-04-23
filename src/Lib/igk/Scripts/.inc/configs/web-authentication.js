@@ -110,13 +110,7 @@
                 pubKeyCredParams: [
                     { type: 'public-key', alg: -7 }
                     // {type: 'public-key', alg:-257}
-                ],
-                // optional parameter ,
-                // authenticatorSelection:{
-                //     authenticatorAttachment: "platform",
-                //     requireResidentKey: false,
-                //     userVerification : 'required'
-                // },
+                ],  
                 timeout: 60000
             }; return _default;
         })();

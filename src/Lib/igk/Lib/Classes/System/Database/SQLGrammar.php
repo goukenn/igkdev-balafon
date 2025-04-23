@@ -20,6 +20,7 @@ use function igk_resources_gets as __;
 use function PHPUnit\Framework\isNull;
 
 use Exception;
+use IGK\Constants;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbExpression;
 use IGK\Database\DbLitteralExpression;
@@ -586,7 +587,7 @@ class SQLGrammar implements IDbQueryGrammar
         if ($desc) {
             $query .= " COMMENT='" . $this->m_driver->escape_string($desc) . "' ";
         }
-        $query = sprintf($driver->getCreateTableFormat(["checkTable" => 1]), $query);
+        $query = sprintf($driver->getCreateTableFormat(["checkTable" => 1]), trim($query));
         // $query = rtrim($query) . ";";
         igk_ilog($query, null, 0, false);
         return $query;

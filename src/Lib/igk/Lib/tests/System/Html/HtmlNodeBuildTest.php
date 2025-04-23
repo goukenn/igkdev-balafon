@@ -301,15 +301,15 @@ namespace IGK\Tests\System\Html {
     
 }
 
-namespace {
-    function igk_html_node_same($p)
-    {
-        igk_wln_e("try create ..... ", $p);
-    }
-    if (!function_exists('igk_html_node_contact_block')) {
-        function igk_html_node_contact_block($p)
-        {
-            igk_wln_e("try create ..... " . __FUNCTION__, $p);
-        }
-    }
-}
+// namespace {
+//     function igk_html_node_same($p)
+//     {
+//         igk_wln_e("try create ..... ", $p);
+//     }
+//     if (!function_exists('igk_html_node_contact_block')) {
+//         function igk_html_node_contact_block($p)
+//         {
+//             igk_wln_e("try create ..... " . __FUNCTION__, $p);
+//         }
+//     }
+// }

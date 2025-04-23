@@ -10,8 +10,7 @@ namespace IGK\System\Configuration;
 class CoreGeneration
 {
     public function GetTestRequireAutoload()
-    {
-        // 'require_once $_ENV["IGK_APP_DIR"]."/Lib/igk/Lib/Tests/autoload.php";'
+    { 
         $doc = <<<'EOF'
 require_once (function ($name) {
     // init environment   

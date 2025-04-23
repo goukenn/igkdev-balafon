@@ -10,6 +10,12 @@
         ];
         return p;
     }
+    /**
+     * createElement
+     * @param {string} tagExpression 
+     * @param {string|undefined} namespace 
+     * @returns 
+     */
     function createElement(tagExpression, namespace) {
         const { RegexContainer } = igk.system.text;
         let regex = new RegexContainer();
@@ -162,9 +168,8 @@
          * @param {undefined|string} namespace 
          */
         createElement(tagExpression, namespace) {
-            const { RegexContainer } = igk.system.text;
-            if (!RegexContainer) {
-                console.log('try create ', tagExpression);
+            const { RegexContainer, RegexMatcherPattern } = igk.system.text;
+            if (!RegexContainer || !RegexMatcherPattern) { 
                 return null;
             }
             return createElement(tagExpression, namespace);
@@ -172,8 +177,10 @@
     });
     Object.defineProperty(_JS.createElement, 'support', {
         get() {
-            const { RegexContainer } = igk.system.text;
-            return !!RegexContainer;
+            const { RegexContainer, RegexMatcherPattern, RegexDetectionInfo } = igk.system.text;
+            let s = (typeof(RegexContainer)!='undefined') && (typeof(RegexMatcherPattern) != 'undefined') && (typeof(RegexDetectionInfo)!= 'undefined');
+            // console.log('support ?', {s,RegexContainer, RegexMatcherPattern, RegexDetectionInfo});
+            return s;
         }
     });
 

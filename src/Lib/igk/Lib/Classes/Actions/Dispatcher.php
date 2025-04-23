@@ -129,7 +129,9 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             && (!(new ReflectionMethod($v_host, $name))->isStatic())
             && ($fc = Closure::fromCallable([$v_host, $name])->bindTo($v_host))
         ) {
-            $v_host->getController()->{ControllerParams::REPLACE_URI} = true;
+            // initialize replace uri 
+            $v_host->getController()->{ControllerParams::REPLACE_URI} = 
+            $v_host->defaultEntryMethod != $name;
             $targs = array_merge([$fc], $arguments);
             return self::__callStatic(self::DISPATCH_METHOD, $targs);
         } else {

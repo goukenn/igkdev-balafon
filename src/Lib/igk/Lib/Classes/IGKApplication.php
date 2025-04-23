@@ -24,7 +24,7 @@ abstract class IGKApplication extends IGKApplicationBase{
         $app = ApplicationLoader::Boot($type, $bootoptions);       
         // configure the create application 
         if ($app && $boot){
-            //call before return
+            // + | callback before return the application instance 
             $boot($app);
         }
         return $app;

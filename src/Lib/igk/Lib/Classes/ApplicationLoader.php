@@ -474,6 +474,9 @@ class ApplicationLoader
         // + | -----------------------------------------------------
         // + | return the application 
         // + |  
+        if (function_exists('igk_boot_request_environment')){
+            call_user_func_array('igk_boot_request_environment', [$app]);
+        } 
         return $app;
     }
     /**

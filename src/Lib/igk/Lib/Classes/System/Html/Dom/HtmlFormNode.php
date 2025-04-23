@@ -64,7 +64,10 @@ final class HtmlFormNode extends HtmlNode
         if (($action == '.') && (ViewHelper::InViewContext())) {
             $ctrl = ViewHelper::CurrentCtrl();
             $fname = ViewHelper::GetViewArgs('fname');
-            $action = $ctrl::uri($fname);
+            if(is_array($fname)){
+                igk_die("dkjf");
+            }
+            $action = $fname ? $ctrl::uri($fname) : 'index';
         }
         $this->method = $method;
         $this->action = $action;

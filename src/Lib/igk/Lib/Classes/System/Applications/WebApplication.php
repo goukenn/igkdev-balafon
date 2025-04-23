@@ -302,11 +302,9 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         // igk_environment()->isOPS() && $render && IGKCaches::HandleCache();
         try {
             $uri=igk_io_fullrequesturi();
-            // if(igk_io_handle_system_command($uri)){
-            //     igk_exit();
-            // } 
+       
             RequestHandler::HandleRequestUri($uri, $this, true, $file, $render);
-           // $this->handleRequest($file, $render);
+ 
             if ($render) {
                 HtmlRenderer::RenderDocument(igk_app()->getDoc());       
                 igk_exit();

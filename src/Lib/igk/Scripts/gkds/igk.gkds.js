@@ -2,7 +2,11 @@
 
 "use strict";
 (function() {
-    var m_offscreen = igk.createNode('canvas'); //create a offscreen canvas
+    let offscreen = null, m_offscreen;
+    function _initOffScreen(){
+        m_offscreen = igk.createNode('canvas'); //create a offscreen canvas
+        _initOffScreen = !0;
+    }
     function _eval(src, apply, arg){
         return (new Function(src)).apply(apply, arg);
     };
@@ -1004,6 +1008,9 @@
     igk.ready(function() {
         var e = $igk("igk:gkds");
         e.each(function() {
+            if (offscreen==null){
+                _initOffScreen();
+            }
             var src = this.getAttribute("src");
             if (src) {
                 var div = igk.createNode("canvas");

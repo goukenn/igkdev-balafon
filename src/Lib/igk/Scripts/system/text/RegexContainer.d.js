@@ -257,8 +257,8 @@
          * @property {Array} matchs
          */
         const _NS = {
-            RegexDetectionInfo,
-            RegexMatcherPattern,
+            // RegexDetectionInfo,
+            // RegexMatcherPattern,
             initialize: '_init_'
         };
         /**
@@ -856,10 +856,20 @@
                 }
             }
             #_createRegexMatcherPattern() {
-                const { RegexMatcherPattern } = _NS;
+                const { RegexContainer, RegexMatcherPattern } = igk.system.text;
                 let l = null;
                 if (this.createRegexMatcherListener) {
                     l = this.createRegexMatcherListener();
+                }
+                if (!l){ 
+                    if (!RegexMatcherPattern){
+                        console.log('the container ', { 
+                            RegexContainer, RegexMatcherPattern, condition: !RegexContainer || !RegexMatcherPattern 
+                        } 
+                        );
+                        console.error('missing RegexMatcherPattern');
+                        return null;
+                    }
                 }
                 return l || new RegexMatcherPattern();
             }
@@ -873,7 +883,7 @@
              * @param {String?} [name]
              */
             begin(start, end, tokenID, refId, patterns, name) {
-                const { RegexMatcherPattern } = _NS;
+                const { RegexMatcherPattern } = igk.system.text;
                 const createMatcherPattern = () => this.#_createRegexMatcherPattern();
                 let inf = createMatcherPattern();
                 inf.type = BEGIN_END;
@@ -1277,7 +1287,7 @@
              * @returns {false|null|undefined|IRegexDetectResult}
              */
             detect(source, options = null) {
-                const { RegexDetectionInfo } = _NS;
+                const { RegexDetectionInfo } = igk.system.text;
                 if (Array.isArray(source)) {
                     throw new Error("source is array. not allowed");
                 }
@@ -1340,6 +1350,7 @@
             }
         }
         _NS.RegexMatcherPattern = RegexMatcherPattern;
+        _NS.RegexContainer = RegexContainer;
         if (typeof (igk?.system) !== 'undefined') {
             igk.system.createNS("igk.system.text", {
                 RegexContainer,

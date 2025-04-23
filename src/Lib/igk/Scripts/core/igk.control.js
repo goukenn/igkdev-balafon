@@ -744,7 +744,7 @@
                         if (closed_tag){
                             o +='?>';
                         }
-                        o+= src.substring(loffset, e.from)
+                        o+= src.substring(loffset, e.from);
                         let te = e.value;
                         o+= te.replace(/^<!--\?php/, '<?php')
                         .replace(/^<!--\?=/, '<?=')
@@ -1144,8 +1144,8 @@
         var domProp = null;
         var vendors = ['webkit', 'ms', 'o'];
         var corecss = "balafon.css";
-        var r = igk.createNode('div');
-        var dev = igk.createNode('div');
+        var r = $igk(document.createElement('div'));
+        var dev = $igk(document.createElement('div'));
         var dum = null;
         var rule = null;
         var m_chtheme = null; // will store the changed theme for dynamic theme changing purpose

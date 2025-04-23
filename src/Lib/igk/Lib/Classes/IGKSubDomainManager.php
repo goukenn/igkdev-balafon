@@ -214,7 +214,7 @@ final class IGKSubDomainManager extends IGKObject{
     * 
     */
     public static function GetSubDomain(){
-        $srv=igk_server_name();
+        $srv=igk_server_name() ?? '';
         if(preg_match("/^(www\.)/i", $srv)){
             $srv=substr($srv, 4);
         }
