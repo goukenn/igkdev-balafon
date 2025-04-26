@@ -2287,6 +2287,26 @@ Name:balafon.js
     createNS("igk.attribute", {
         setAttribute: __igksetAttribute
     });
+    createNS('igk.system.log', {
+        createLog(tag){
+            const log = {
+                tagname: tag,
+            };
+            ['error','log', 'warn', 'info'].forEach(element => {
+                log[element] = function(){
+                    const c = arguments;
+                    if (typeof(c[0]) =='string'){
+                        c[0] = '['+log.tagname+'] - '+c[0];
+                    } else{
+                        if (Array.isArray(c))
+                            c.unshift('['+log.tagname+'] - ');
+                    } 
+                    console[element].apply(null, c);
+                }
+            });
+            return log;
+        }
+    })
     // export navite io functions
     createNS("igk.system.io", {
         getdir: igk_getdir,
@@ -12841,15 +12861,24 @@ Name:balafon.js
         }
     };
     igk_winui_reg_event(document, "readystatechange", __global_ready);
-
+    const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
     function __bindbalafonjs() { // bind balafon js data type
         var q = this.o;
-        var src = '"use strict"; (function(){' + q.innerHTML + '}).apply(this);';
+        let src = q.innerHTML;
+        // + | TASK: add async support on 
+        let async = this.o.hasAttribute('async') ? 'async' : ''; 
+        src = '\'use strict\'; ('+async+' function(){' + src + '}).apply(this);'; 
         try {
             var _bck = m_scriptNode;
             m_scriptNode = this.o;
-            (new Function(src)).apply(this);
-            m_scriptNode = _bck;
+            if (async.length>0){
+                 (new AsyncFunction(src)).apply(this).then(o=>{                    
+                    m_scriptNode = _bck;
+                 });
+            } else {
+                 (new Function(src)).apply(this);
+                 m_scriptNode = _bck;
+            }
         } catch (e) {
             console.debug(src);
             console.error(e);

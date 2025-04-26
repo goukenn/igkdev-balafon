@@ -13,6 +13,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Dom\HtmlNode;
 use IGKException;
 use ReflectionException;
 use IGK\System\Html\Forms\FormBuilderComponentTypes as formTypes;
@@ -155,7 +156,7 @@ class FormBuilder
             if ($v instanceof IFormInternalIDSupport) {
                 $v_k_id = $v->getInternalId();
             }
-            if ($v instanceof IFormFieldValidationStoreError){
+            if ($v instanceof IFormFieldValidationStoreError) {
                 $v_error = $v->getError();
             }
             if (!is_array($v)) {
@@ -249,14 +250,14 @@ class FormBuilder
             }
             $_is_div = !preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type);
             $class_style = 'igk-form-group ' . $_type;
-            if ($v_error){
+            if ($v_error) {
                 $class_style .= ' igk-danger';
             }
-            if ($bind_class_name){
-                $class_style .= ' '.$bind_class_name;
-            } else{
+            if ($bind_class_name) {
+                $class_style .= ' ' . $bind_class_name;
+            } else {
                 // class name 
-                $class_style .= ' '.igk_css_str2class_name(strtolower($k));
+                $class_style .= ' ' . igk_css_str2class_name(strtolower($k));
             }
 
             if ($_is_div) {
@@ -270,187 +271,197 @@ class FormBuilder
 
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
                 $g = HtmlUtils::GetFilteredAttributeString("label", array_merge([
-                    'class' => "igk-form-label" . ($v_error ? ' igk-text-danger error': '')
+                    'class' => "igk-form-label" . ($v_error ? ' igk-text-danger error' : '')
                 ], igk_getv($v, 'label_attribs') ?? []));
                 $c_id = ($t_id) ? "for='{$t_id}'" : "";
                 $o .= "<label {$c_id}$g>" . $label_text . "</label>";
             }
-            switch ($_type) {
-                case formTypes::Fieldset:
-                    break;
-                case formTypes::Textarea:
-                    $o .= "<textarea{$_name}{$_id} ";
-                    if (isset($v["placeholder"])) {
-                        $o .= " placeholder=\"{$v["placeholder"]}\" ";
-                    }
-                    $load_attr($v, $o);
-                    if ($_is_required) {
-                        $o .= " required=\"true\" ";
-                    }
-                    $o = rtrim($o) . ">{$_value}</textarea>";
-                    break;
-                case formTypes::RadioGroup:
-                    $o .= '<' . $tag . ' style="display:inline-block;">';
-                    foreach ($v["data"] as $kk => $vv) {
-                        $o .= '<span >' . __($kk) . '</span><input type="radio" name="' . $k . '"' . $_id . ' value="' . $vv . '" />';
-                    }
-                    $o .= "</{$tag}>";
-                    break;
+            // + | component 
+            if ($component = igk_getv($v, 'component')) {
+                // priority 
+                if ($component instanceof HtmlNode)
+                    $o .= $component->render();
+                else if (is_string($o)) {
+                    $o .= $o;
+                } 
+            } else {
 
-                case formTypes::Datalist:
-                    if (empty($_id)) {
-                        $_id = " id=\"{$k}\"";
-                    }
-                    $o .= "<datalist" . $_id;
-                    $load_attr($v, $o);
-                    $o .= ">";
-                    if (isset($v["data"]) && is_array($_tab = $v["data"])) {
-                        foreach ($_tab as $row) {
-                            $o .= "<option ";
-                            $o .= "value=\"{$row['i']}\" ";
-                            $o .= ">";
-                            $o .= isset($row["t"]) ? __($row["t"]) : "";
-                            $o .= "</option>";
+                switch ($_type) {
+                    case formTypes::Fieldset:
+                        break;
+                    case formTypes::Textarea:
+                        $o .= "<textarea{$_name}{$_id} ";
+                        if (isset($v["placeholder"])) {
+                            $o .= " placeholder=\"{$v["placeholder"]}\" ";
                         }
-                    }
-                    $o .= "</datalist>";
-                    break;
-                case formTypes::Select:
-                    $k_data = "";
-                    $bas = isset($v["selected"]) ? $v["selected"] : null;
-                    $m_data = null;
-                    if (isset($v["data"]) && is_string($m_data = $v["data"])) {
-                        $k_data = "data=\"" . $m_data . "\" ";
-                    }
-                    $_id = ' id="' . $t_id . '"';
-                    // if ($bas){
-                    //     $k_data.= "selected=\"{$bas}\" ";
-                    // }
-                    $o .= "<select" . $_name . $_id . $k_data . " ";
-                    $load_attr($v, $o);
-                    $o .= ">";
-                    if ($_allow_empty) {
-                        $o .= "<option ";
-                        $o .= "value=\"{$_empty_value}\"></option>";
-                    }
-                    $_tab = $this->_getSelectDataOptions($v_k_id, is_array($m_data) ? $m_data : null);
-                    if ($_tab) {
-                        usort($_tab, [self::class, '_SelectSortBySorkByText']);
-                        foreach ($_tab as $row) {
-                            $o .= "<option ";
-                            $o .= "value=\"{$row['i']}\" ";
-                            if ((isset($bas) && ($bas == $row['i'])) || (igk_getv($row, 'selected'))) {
-                                $o .= "selected ";
-                            }
-                            if (isset($row['data-tip'])) {
-                                $o .= "data-tip=\"" . $row['data-tip'] . "\" ";
-                            }
-                            $o .= ">";
-                            $o .= $row["t"];
-                            $o .= "</option>";
+                        $load_attr($v, $o);
+                        if ($_is_required) {
+                            $o .= " required=\"true\" ";
                         }
-                    }
-                    $o .= "</select>";
-                    break;
+                        $o = rtrim($o) . ">{$_value}</textarea>";
+                        break;
+                    case formTypes::RadioGroup:
+                        $o .= '<' . $tag . ' style="display:inline-block;">';
+                        foreach ($v["data"] as $kk => $vv) {
+                            $o .= '<span >' . __($kk) . '</span><input type="radio" name="' . $k . '"' . $_id . ' value="' . $vv . '" />';
+                        }
+                        $o .= "</{$tag}>";
+                        break;
 
-                case formTypes::Text:
-                case formTypes::Hidden:
-                case formTypes::Password:
-                case formTypes::File:
-                default:
-                    $_activate = [];
-                    // $_vt = "";
-                    if (!empty($_value) || ($_value == "0")) {
-                        $v['value'] = $_value;
-                    }
-                    // $_vt = "value=\"{$_value}\"";
-                    $_otype = igk_getv($ResolvType, $_type, "text");
-                    $def_type = igk_getv($ResolvClass, $_type, $_type);
-                    if ($v_error){
-                        $def_type .= ' +igk-danger';
-                    }
-                    $o .= "<input";
-                    $keys = ['id', 'value', 'maxLength', 'pattern', 'placeholder'];
-                    if ($no_place_holder = in_array($_type, ['checkbox', 'radio'])) {
-                        array_pop($keys);
-                        $keys[] = 'checked';
-                    }
-                    $tattrib = ["name" => $k];
-                    if($v_autocomplete = igk_getv($v, 'autocomplete')){
-                        $tattrib['autocomplete'] = $v_autocomplete;
-                    }
+                    case formTypes::Datalist:
+                        if (empty($_id)) {
+                            $_id = " id=\"{$k}\"";
+                        }
+                        $o .= "<datalist" . $_id;
+                        $load_attr($v, $o);
+                        $o .= ">";
+                        if (isset($v["data"]) && is_array($_tab = $v["data"])) {
+                            foreach ($_tab as $row) {
+                                $o .= "<option ";
+                                $o .= "value=\"{$row['i']}\" ";
+                                $o .= ">";
+                                $o .= isset($row["t"]) ? __($row["t"]) : "";
+                                $o .= "</option>";
+                            }
+                        }
+                        $o .= "</datalist>";
+                        break;
+                    case formTypes::Select:
+                        $k_data = "";
+                        $bas = isset($v["selected"]) ? $v["selected"] : null;
+                        $m_data = null;
+                        if (isset($v["data"]) && is_string($m_data = $v["data"])) {
+                            $k_data = "data=\"" . $m_data . "\" ";
+                        }
+                        $_id = ' id="' . $t_id . '"';
+                        // if ($bas){
+                        //     $k_data.= "selected=\"{$bas}\" ";
+                        // }
+                        $o .= "<select" . $_name . $_id . $k_data . " ";
+                        $load_attr($v, $o);
+                        $o .= ">";
+                        if ($_allow_empty) {
+                            $o .= "<option ";
+                            $o .= "value=\"{$_empty_value}\"></option>";
+                        }
+                        $_tab = $this->_getSelectDataOptions($v_k_id, is_array($m_data) ? $m_data : null);
+                        if ($_tab) {
+                            usort($_tab, [self::class, '_SelectSortBySorkByText']);
+                            foreach ($_tab as $row) {
+                                $o .= "<option ";
+                                $o .= "value=\"{$row['i']}\" ";
+                                if ((isset($bas) && ($bas == $row['i'])) || (igk_getv($row, 'selected'))) {
+                                    $o .= "selected ";
+                                }
+                                if (isset($row['data-tip'])) {
+                                    $o .= "data-tip=\"" . $row['data-tip'] . "\" ";
+                                }
+                                $o .= ">";
+                                $o .= $row["t"];
+                                $o .= "</option>";
+                            }
+                        }
+                        $o .= "</select>";
+                        break;
 
-                    if ($_type== formTypes::File) {
+                    case formTypes::Text:
+                    case formTypes::Hidden:
+                    case formTypes::Password:
+                    case formTypes::File:
+                    default:
+                        $_activate = [];
+                        // $_vt = "";
+                        if (!empty($_value) || ($_value == "0")) {
+                            $v['value'] = $_value;
+                        }
+                        // $_vt = "value=\"{$_value}\"";
+                        $_otype = igk_getv($ResolvType, $_type, "text");
+                        $def_type = igk_getv($ResolvClass, $_type, $_type);
+                        if ($v_error) {
+                            $def_type .= ' +igk-danger';
+                        }
+                        $o .= "<input";
+                        $keys = ['id', 'value', 'maxLength', 'pattern', 'placeholder'];
+                        if ($no_place_holder = in_array($_type, ['checkbox', 'radio'])) {
+                            array_pop($keys);
+                            $keys[] = 'checked';
+                        }
+                        $tattrib = ["name" => $k];
+                        if ($v_autocomplete = igk_getv($v, 'autocomplete')) {
+                            $tattrib['autocomplete'] = $v_autocomplete;
+                        }
 
-                        // + | --------------------------------------------------------------------
-                        // + | treat file type
+                        if ($_type == formTypes::File) {
+
+                            // + | --------------------------------------------------------------------
+                            // + | treat file type
+                            // + |
+
+                            if ($accept = igk_getv($v, 'accept')) {
+                                $tattrib['accept'] = $accept;
+                            }
+                            if ($_a = igk_getv($v, 'maxSize')) {
+                                $v['maxLength'] =  Number::MemoryToBytes($_a);
+                            }
+                            if ($_a = igk_getv($v, 'multiple')) {
+                                $_activate[] = 'multiple';
+                                $name = $tattrib['name'];
+                                if (igk_str_endwith($name, '[]') === false) {
+                                    $tattrib['name'] .= '[]';
+                                }
+                            }
+                        }
+
+
+                        foreach ($keys as $kk) {
+                            $tattrib[strtolower($kk)] = igk_getv($v, $kk);
+                        }
+                        $v_place_holder = igk_getv($tattrib, 'placeholder');
+                        if (!$no_place_holder && empty($v_place_holder)) {
+                            $tattrib['placeholder'] = __($k);
+                        } else {
+                            // + | translate placeholder
+                            $tattrib['placeholder'] = $v_place_holder ? __($v_place_holder) : __($k);
+                        }
+                        if (isset($v["attribs"]))
+                            $tattrib["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
+                        else {
+                            $tattrib["class"] = $def_type;
+                        }
+                        // + | -------------------------------------------------
+                        // + | filter attribs
                         // + |
-
-                        if ($accept = igk_getv($v, 'accept')) {
-                            $tattrib['accept'] = $accept;
+                        unset($v["attribs"]["class"]);
+                        if ($p = igk_getv($v, 'attribs')) {
+                            $tattrib = array_merge($tattrib, $p ?? []);
                         }
-                        if ($_a = igk_getv($v, 'maxSize')) {
-                            $v['maxLength'] =  Number::MemoryToBytes($_a); 
+
+                        $jp = [
+                            "type" => $_otype,
+                            "id" => $t_id,
+                            "value" => $_value,
+                        ] + $tattrib;
+                        $attrib = new HtmlFilterAttributeArray($jp);
+                        //$attrib["class"] = $v["attribs"]["class"];
+                        if ($_is_required) {
+                            $attrib["required"] = 1;
                         }
-                        if ($_a = igk_getv($v, 'multiple')) {
-                            $_activate[] = 'multiple';
-                            $name = $tattrib['name'];
-                            if (igk_str_endwith($name, '[]')===false){
-                                $tattrib['name'] .='[]';
-                            }
+                        $attrib = HtmlUtils::PrefilterAttribute("input", $attrib);
+                        $o .= ' ' . HtmlRenderer::GetAttributeArrayToString($attrib);
+                        if ($_activate) {
+                            $o .= ' ' . implode(" ", $_activate);
                         }
-                    }
+                        $o .= "/>";
 
-
-                    foreach ($keys as $kk) {
-                        $tattrib[strtolower($kk)] = igk_getv($v, $kk);
-                    }
-                    $v_place_holder = igk_getv($tattrib, 'placeholder'); 
-                    if (!$no_place_holder && empty($v_place_holder)) {
-                        $tattrib['placeholder'] = __($k);
-                    } else {
-                        // + | translate placeholder
-                        $tattrib['placeholder'] = $v_place_holder ? __($v_place_holder) : __($k); 
-                    }
-                    if (isset($v["attribs"]))
-                        $tattrib["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
-                    else {
-                        $tattrib["class"] = $def_type;
-                    }
-                    // + | -------------------------------------------------
-                    // + | filter attribs
-                    // + |
-                    unset($v["attribs"]["class"]);
-                    if ($p = igk_getv($v, 'attribs')) {
-                        $tattrib = array_merge($tattrib, $p ?? []);
-                    }
-
-                    $jp = [
-                        "type" => $_otype,
-                        "id" => $t_id,
-                        "value" => $_value,
-                    ] + $tattrib;
-                    $attrib = new HtmlFilterAttributeArray($jp);
-                    //$attrib["class"] = $v["attribs"]["class"];
-                    if ($_is_required) {
-                        $attrib["required"] = 1;
-                    }
-                    $attrib = HtmlUtils::PrefilterAttribute("input", $attrib);
-                    $o .= ' ' . HtmlRenderer::GetAttributeArrayToString($attrib);
-                    if ($_activate){
-                        $o .= ' '.implode(" ", $_activate);
-
-                    }
-                    $o .= "/>";
-
-                    if (isset($v["tips"])) {
-                        $o .= '<div class="tips">' . $v["tips"] . '</div>';
-                    }
-                    unset($_activate);
-                    break;
+                        if (isset($v["tips"])) {
+                            $o .= '<div class="tips">' . $v["tips"] . '</div>';
+                        }
+                        unset($_activate);
+                        break;
+                }
             }
-            if ($v_error){
-                $o.= '<div class="error-tip">'.__($v_error).'</div>';
+            if ($v_error) {
+                $o .= '<div class="error-tip">' . __($v_error) . '</div>';
             }
             if ($_is_div) {
                 $o .= "</{$tag}>";
@@ -458,7 +469,7 @@ class FormBuilder
         };
         $fieldset = 0;
         $error = null;
-        foreach ($formFields as $k => $v) { 
+        foreach ($formFields as $k => $v) {
             if (is_integer($k)) {
                 if ($v == "-") {
                     // add separator
@@ -483,9 +494,8 @@ class FormBuilder
                     // igk_wln($k, $v);
                     igk_die(implode('', [__CLASS__, "object not allowed"]));
                 }
-            }
-            else if (is_string($v)){
-                $v = ['value'=>$v];
+            } else if (is_string($v)) {
+                $v = ['value' => $v];
             }
             if (($cpos = strrpos($k, "[]")) !== false) {
                 // + | --------------------------------------------------------------------
@@ -526,7 +536,7 @@ class FormBuilder
                 continue;
             }
 
-          
+
 
             $bindValue($o, $fieldset, $k, $v);
         }
@@ -631,7 +641,7 @@ class FormBuilder
         // if ($_closed) {
         //     $o .= "</button>";
         // } else {
-            $o .= '/>';
+        $o .= '/>';
         // }
     }
 
@@ -655,7 +665,7 @@ class FormBuilder
         // if ($_closed) {
         //     $o .= "</button>";
         // } else {
-            $o .= '/>';
+        $o .= '/>';
         // }
     }
     /**

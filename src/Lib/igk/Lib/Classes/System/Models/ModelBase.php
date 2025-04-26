@@ -193,7 +193,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     protected $display = "clName";
 
     /**
-     * model controller
+     * model controller class name 
      * @var string
      */
     protected $controller = SysDbController::class;
@@ -470,8 +470,9 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     protected function _initialize($raw = null, $mock = 0, $unset = false)
     {
         $t =  $this->getTable();
+        $ctrl = $this->getController();
         $tableReference = null;
-        $v_inf = DBCaches::GetColumnInfo($t, $this->getController(), $tableReference);
+        $v_inf = DBCaches::GetColumnInfo($t, $ctrl, $tableReference);
 
         $this->raw = $raw && ($raw instanceof static) ? $raw : $this->createRow();
         if (!$this->raw && !$mock) {
@@ -631,10 +632,20 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         }
         return null;
     }
+    /**
+     * get table info controller 
+     * @return null|BaseController 
+     * @throws IGKException 
+     */
     protected function getTableInfoController()
     {
         return igk_getctrl($this->controller ?? SysDbController::class);
     }
+    /**
+     * 
+     * @return null|BaseController|void 
+     * @throws IGKException 
+     */
     public function getController()
     {
         if (!empty($this->controller))

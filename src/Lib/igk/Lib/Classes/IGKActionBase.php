@@ -442,17 +442,18 @@ abstract class IGKActionBase implements IActionProcessor
             $env->set(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
             $env->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
             $env->set(IGKEnvironment::VIEW_ACTION_PARAMS, $args);
-            $verbs = [''];
+            $verbs = ['']; 
+            $skip_check = $object->skipVerbCheck($actionMethod);
             try {
 
                 if ($verb = igk_server()->REQUEST_METHOD) {
-                    if (preg_match("/(.)_(" . Route::SUPPORT_VERBS . ")$/i", $actionMethod)
+                    if (!$skip_check && preg_match("/(.)_(" . Route::SUPPORT_VERBS . ")$/i", $actionMethod)
                         // && (!preg_match("/_($verb)$/i", $actionMethod))
                     ) {
                         throw new NotAllowedRequestException(null, "blf_explicit_verb: explicit verbs not allowed missmatch");
                     }
                     $verbs[] = '_'.strtolower($verb);
-                    // unset($verb);
+                    
                 }
                 $_is_middelwire = $object instanceof MiddlewireActionBase;
                 if ($_is_middelwire) {

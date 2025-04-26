@@ -22,10 +22,28 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      */
     var $id;
 
+    /**
+     * the place holder to display . if not specified will use the id
+     * @var mixed
+     */
     var $placeholder;
 
+    /**
+     * autocomplete attribute for fields
+     * @var string|'off'
+     */
+    var $autocomplete;
+
+    /**
+     * text to display
+     * @var null|string
+     */
     var $label_text;
 
+    /**
+     * field default value 
+     * @var mixed
+     */
     var $default;
 
     /**
@@ -40,6 +58,11 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      */
     var $allowNull;
 
+    /**
+     * component to use to render component
+     * @var mixed
+     */
+    var $component;
     /**
      * internal identification in case of use in form builder
      * @var ?string

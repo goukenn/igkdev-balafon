@@ -17,6 +17,7 @@ use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Database\DatabaseInitializer;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\SchemaMigrationInfo;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
 use IGKEvents;
@@ -31,6 +32,9 @@ use ReflectionException;
  */
 class DBCaches
 {
+    /**
+     * base name of schema definition to store 
+     */
     const CACHE_FILE_NAME = '.data-schema.definition.cache';
 
     private static $sm_instance;
@@ -84,10 +88,13 @@ class DBCaches
     {
         return self::getInstance()->m_db_init_request;
     }
-
+    /**
+     * retrieve the full cache directory 
+     * @return string 
+     */
     public static function GetCacheFile()
     {
-        return igk_io_cachedir() . '/' . self::CACHE_FILE_NAME;
+        return igk_io_cachedir() . DIRECTORY_SEPARATOR . self::CACHE_FILE_NAME;
     }
 
     /**
@@ -481,7 +488,9 @@ class DBCaches
             }
             $ad = $cl->getDataAdapterName();
             $m = self::_UnsetPropertiesDefinition((array)$m);
-            $cl_name = get_class($cl);
+            $cl_name = self::GetClassKeyEntryDefinition($cl);
+
+         
             if (!isset($g->m_serie[$ad]))
                 $g->m_serie[$ad] = [];
             if (!isset($g->m_serie[$ad][$cl_name])) {
@@ -498,6 +507,20 @@ class DBCaches
             ]
         )));
         igk_io_w2file(self::GetCacheFile(), $src);  
+    }
+
+    public static function GetClassKeyEntryDefinition(BaseController $controller){
+
+        if ($controller instanceof ApplicationModuleController){
+            $cl_name = "#ref-module(".$controller->getName().")";
+        }
+        else if (method_exists($controller,$fc= EntryClassResolution::ControllerReferenceInjectorMethod)){
+            $injector = $controller::$fc();
+            $cl_name = $injector->serializeController($controller);
+        }
+        else 
+            $cl_name = get_class($controller);
+        return $cl_name;
     }
 
     /**

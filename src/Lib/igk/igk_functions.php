@@ -14678,9 +14678,14 @@ function igk_io_get_uploaded_data(bool $usefaker = true)
     if ($usefaker && ($input = igk_environment()->RequestFakeJsonInput())) {
         return $input->getRaw();
     }
+    if ($usefaker && ($input = igk_server()->IGK_PHP_INPUT_DATA)){
+        return $input;
+    }
+
     $fin = fopen('php://input', "r");
     if (!$fin)
         return 0;
+    fseek($fin, 0, SEEK_SET);
     $buffsize = 4096;
     $s = "";
     while (($c = fread($fin, $buffsize))) {

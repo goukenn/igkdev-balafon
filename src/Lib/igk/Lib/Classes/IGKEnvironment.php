@@ -7,6 +7,7 @@
 
 
 use IGK\Controllers\BaseController;
+use IGK\EnvironmentUniqueReferences;
 use IGK\IGKEnvironmentServices;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Resources\R;
@@ -889,6 +890,18 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         if (!($r instanceof IGKEnvironmentServices)){
             $r = new IGKEnvironmentServices;
             igk_environment()->services = $r;
+        }
+        return $r;
+    }
+    /**
+     * use to bind references in global environment definition. each referenc may be a guid 
+     * @return void 
+     */
+    public function getuniqueReferences(){
+        $r = $this->references;
+        if (is_null($r)){
+            $r = new EnvironmentUniqueReferences();
+            $this->references =$r;
         }
         return $r;
     }

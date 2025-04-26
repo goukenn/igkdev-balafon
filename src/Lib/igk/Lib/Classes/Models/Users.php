@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Users.php
-// @date: 20250401 08:17:33
+// @date: 20250425 16:20:35
 namespace IGK\Models;
 
 
@@ -26,8 +26,8 @@ use IGK\Models\ModelBase;
 * @property string $google_user_id
 * @property string $provider provider name
 * @property string $fb_user_id
-* @property string $auth_2fa_key store 2fa key
-* @property string $webauthn_public_key authentication with web auth API public key.
+* @property string $auth_2fa_key store otp password key
+* @property string $webauthn_public_key preferred webauthn authentication.
 * @property string|datetime $clDate ="CURRENT_TIMESTAMP" registration date
 * @property string|datetime $clLastLogin last login
 * @property int|?\IGK\Models\Users $clParent_Id Parent of this account

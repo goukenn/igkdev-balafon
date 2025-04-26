@@ -60,6 +60,17 @@ class IGKUserInfo extends IGKObject implements IToArray{
     public function fullname(){
         return igk_user_fullname($this);
     }
+    /**
+     * display user info
+     * @return mixed 
+     * @throws Exception 
+     */
+    public function display():string{
+        if (strlen(trim( $s = $this->fullname())) == 0){
+            $s = $this->clLogin;
+        }
+        return $s;
+    }
     ///get all available authorisation for this user
     public function getAuths(){ 
         if($this->clId){

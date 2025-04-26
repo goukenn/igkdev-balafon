@@ -75,6 +75,13 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return $this->m_host;
     }
+    public function skipVerbCheck(string $action_name){
+        $h = $this->getHost();
+        if (method_exists($h, $fc = ucfirst(__FUNCTION__))){
+            return call_user_func_array([get_class($h), $fc], [$h, $action_name]);
+        }
+        return false;
+    }
     /**
      * 
      * @param callable $fc 
@@ -288,14 +295,14 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 ViewHelper::Inc($fservice, ['ctrl' => $ctrl]) : null;
             }
         }
-
+        $v_inject = false;
         foreach ($parameters as $k) {
             $arg = igk_getv($args, $i);
             $c = $arg;
 
             if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
-                if ($type == 'string') {
-                    $targs[] = $c;
+                if ($type == 'string') {   
+                    $targs[] = $v_inject ? '': $c;
                     $i++;
                     continue;
                 }
@@ -308,8 +315,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     }
                 }
                 // + | get inject table class printer service
-
-
                 if (!IGKType::IsPrimaryType($type) && is_subclass_of($type, IInjectable::class) && $services && isset($services[$type])) {
                     $rtype = $services[$type];
                     $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);
@@ -320,7 +325,8 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
 
                 if (!$v_primary && class_exists($type)) {
                     if (is_subclass_of($type, IInjectable::class)) {
-                        $targs[] = self::_GetInjectable($type, $args);                        
+                        $targs[] = self::_GetInjectable($type, $args);   
+                        $v_inject = true;                     
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));

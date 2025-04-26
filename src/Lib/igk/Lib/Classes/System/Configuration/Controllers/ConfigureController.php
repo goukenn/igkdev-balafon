@@ -1187,7 +1187,7 @@ EOF;
 
             if (igk_configs()->webauthn_required) {
                 // + | inject web-authentication connection - 
-                $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
+                $js_loader = $this->_getInlineJSLoade();
                 $frm->clearchilds();
                 $frm['class'] = '+webauthn-signin';
                 $frm->button('btn-sign')->setClass('webauthn-signin-btn')
@@ -1390,7 +1390,7 @@ EOF;
         $data = (object)json_decode(igk_io_get_uploaded_data(false));
         $status=200; $o = [];
         ($deseri_data = igk_configs()->webauthn_serie_key) &&
-            ($deseri_data = unserialize(base64_decode($deseri_data)));
+        ($deseri_data = unserialize(base64_decode($deseri_data)));
         if (!$deseri_data) {
             igk_json(json_encode(['error' => true, 'notice' => 'misconfiguration deserie']));
         }
@@ -2096,7 +2096,9 @@ EOF;
         igk_notifyctrl("run:cron")->addSuccess("cron executed");
         igk_navto_referer();
     }
-
+    private function _getInlineJSLoade(){
+        return  new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
+    }
     /**
      * 
      * @param mixed $box 
@@ -2108,7 +2110,7 @@ EOF;
         igk_display_error(true);
         $v_cnf = igk_configs();
         if ($v_cnf->webauthn || igk_configs()->webauthn_required || igk_configs()->webauthn_serie_key) {
-            $js_loader = new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
+            $js_loader = $this->_getInlineJSLoade();
             $tbox = $box->addPanelBox()->setClass('wa-credentials')->setStyle('display:none');
             if ($v_cnf->webauthn_serie_key) {
                 $tbox->addBtn("btn.webauthn-renew", __("Renew WebAuthentication"))->setClass('webauthn-btn');

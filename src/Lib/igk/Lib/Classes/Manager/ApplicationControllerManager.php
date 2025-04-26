@@ -7,7 +7,10 @@
 
 namespace IGK\Manager;
 
+use Doctrine\Inflector\Rules\Patterns;
 use IGK\ApplicationLoader;
+use IGK\Constants;
+use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
 use IGK\Resources\R;
@@ -19,6 +22,8 @@ use IGK\Helper\StringUtility as str;
 use IGK\Helper\SysUtils;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Http\RequestResponseCode;
+use IGK\System\Text\RegexMatcherContainer;
+use IGK\System\Text\RegexMatcherUtility;
 
 /**
  * manage controller between session
@@ -28,6 +33,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
 {
     private $m_app;
     const INIT_METHOD = "initComplete";
+    const REF_MODULE_TOKEN_IDENTIFIER='ref-module';
 
     private $m_controllers = [];
     /**
@@ -43,7 +49,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
 
     public function getRegistratedNamedController(string $name): ?BaseController
     {
-        return SysUtils::GetControllerByName($name, false); 
+        return SysUtils::GetControllerByName($name, false);
     }
 
     public function registerNamedController(string $name, BaseController $controller)
@@ -71,6 +77,14 @@ class ApplicationControllerManager implements IApplicationControllerManager
      */
     public function getController($n, bool $throwex = true): ?BaseController
     {
+        static $resolved;
+        if (is_null($resolved)){
+            $resolved = [];
+        }
+        if (key_exists($n, $resolved)){
+            return $resolved[$n];
+        }
+
         if (is_string($n) && $this->m_default_controller && (get_class($this->m_default_controller) === $n)) {
             return $this->m_default_controller;
         }
@@ -88,16 +102,27 @@ class ApplicationControllerManager implements IApplicationControllerManager
             $resolv_controler = array_merge($resolv_controler, $env_controller); // array_combine(array_keys($jump), array_values($jump)));
         }
         $cl = igk_getv($resolv_controler, $n);
+        $is_s = is_string($n) ;
         if ($cl) {
             $ctrl = new $cl();
-            $this->register($ctrl);
-            return $ctrl;
-        }
-        if (is_string($n) && class_exists($n) && is_subclass_of($n, BaseController::class)) {
+        } else if ($is_s && class_exists($n) && is_subclass_of($n, BaseController::class)) {
+            if (($n == ApplicationModuleController::class) || is_subclass_of($n, ApplicationModuleController::class)) {
+                // secial case - require to retrieve module
+                throw new \IGKException('module controller can\'t be instancied');
+            }
             $ctrl = new $n();
-            $this->register($ctrl);
+        } else if ($is_s){
+            $ctrl = self::RetrieveControllerFromReference($n); 
+            if ($ctrl){
+                $resolved[$n] = $ctrl;
+            }
             return $ctrl;
         }
+        if ($ctrl) {
+            $this->register($ctrl);
+            return $ctrl;
+        }  
+
         if ($throwex) {
             throw new ControllerNotFoundException($n);
         }
@@ -147,7 +172,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
         // + | --------------------------------------------------------------------
         // + | CALL init complete took too long
         // + |
-        
+
         $c = get_class($controller);
         if ($this->notPresent($controller)) {
             $cl = get_class($controller);
@@ -157,13 +182,13 @@ class ApplicationControllerManager implements IApplicationControllerManager
             ApplicationLoader::getInstance()->registerClass(
                 igk_reflection_getdeclared_filename($cl),
                 $cl
-            ); 
-            BaseController::Invoke($controller, self::INIT_METHOD, [__METHOD__]);            
+            );
+            BaseController::Invoke($controller, self::INIT_METHOD, [__METHOD__]);
             return true;
         }
         return false;
     }
- 
+
 
     ///<summary>use to invoke system controller method</summary>
     ///<return>the selected uri</return>
@@ -285,7 +310,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
         $callbackfilter = null;
         if (igk_count($tab) > 0) {
             foreach ($tab as $v) {
-                if ((get_class($v) === __PHP_Incomplete_Class::class) ||
+                if ((get_class($v) === \__PHP_Incomplete_Class::class) ||
                     RootControllerBase::IsSystemController($v) || RootControllerBase::IsIncludedController($v) ||
                     !RootControllerBase::Invoke($v, "getCanModify") ||
                     ($callbackfilter && !$callbackfilter($v))
@@ -308,5 +333,54 @@ class ApplicationControllerManager implements IApplicationControllerManager
     public function InvokePattern($pattern)
     {
         return $this->InvokeUri($pattern->value, 1, $pattern);
+    }
+
+    /**
+     * 
+     * @param string $reference 
+     * @return void 
+     */
+    static function RetrieveControllerFromReference(string $reference)
+    {
+        $reference = trim($reference, '. ');
+
+        $regex = new RegexMatcherContainer;
+        $cp = $regex->begin('#ref-module\\s*\(', '\)', 'ref-module')->last();
+
+        $stringLitteral = [
+            'begin'=>"('|\")",
+            'end'=>'\\1',
+            'name'=>'refname',
+            'patterns'=>[
+                [
+                    "match"=>"\\\\."
+                ]
+            ]
+        ];
+
+        $cp->patterns = [
+            [
+                'name' => 'refname',
+                'match' => '(?i)[a-z][a-z0-9\\.\\/\\\\]+\\b',
+            ],
+            $stringLitteral
+        ];
+        $pos = 0;
+        $v = '';
+        while ($g = $regex->detect($reference, $pos)) {
+            if ($e = $regex->end($g, $reference, $pos)) {
+                if (($e->tokenID == self::REF_MODULE_TOKEN_IDENTIFIER ) && (strlen(trim($v)) > 0)){
+                    $v = str_replace('.', '\\', $v);  
+                    if ($module = igk_get_module($v)){
+                        return $module;
+                    }
+                    throw new \IGKException('reference module not found or not loaded');
+                }
+                if ($e->match->name =='refname'){
+                    $v = igk_str_remove_quote($e->value); 
+                }
+            }
+        }
+        return null;
     }
 }

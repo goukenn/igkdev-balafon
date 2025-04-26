@@ -269,22 +269,39 @@ final class IGKModuleListMigration extends BaseController implements
         }
         return true;
     }
-    private static function invokeExtension($method, $navigate = false, $force = false)
+    /**
+     * 
+     * @param mixed $method 
+     * @param bool $navigate 
+     * @param bool $force 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    private static function _InvokeExtension($method, $navigate = false, $force = false, ?array $modules = null)
     {
         self::$sm_instance = new self();
-        $v_modules = self::_GetModules();
+        $v_modules = $modules ?? self::_GetModules();
         if (($fc = BaseController::getMacro($method)) && $v_modules) {
 
             foreach ($v_modules as $l) {
-                Logger::info(" module db .... [ " . $method . ' ] > ' . $l->getName());
+                $n = $l->getName();
+                Logger::info(" module db .... [ " . $method . ' ] > ' . $n);
                 self::$sm_instance->m_host = $l;
                 $fc(self::$sm_instance, $navigate, $force);
                 // ControllerExtension::migrate($l);
                 self::$sm_instance->m_host = $l;
+                Logger::info('call migrate');
                 ControllerExtension::migrate(self::$sm_instance );
             }
         }
     }
+    /**
+     * override 
+     * @param mixed $n 
+     * @param mixed $argument 
+     * @return mixed|void 
+     */
     public function __call($n, $argument)
     {
         if ($this->m_host) {
@@ -332,7 +349,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
     public static function dropDb($navigate = 1, $force = 0)
     {
-        self::invokeExtension(__FUNCTION__, $navigate, $force);
+        self::_InvokeExtension(__FUNCTION__, $navigate, $force);
     }
     /**
      * initialize module database 
@@ -344,7 +361,10 @@ final class IGKModuleListMigration extends BaseController implements
      */
     public static function initDb($force = true)
     {
-        self::invokeExtension(__FUNCTION__, $force);
+        self::_InvokeExtension(__FUNCTION__, $force);
+    }
+    public static function InitDbModule(bool $force, array $modules){
+        self::_InvokeExtension('initDb', false, $force, $modules);
     }
     /**
      * no table definition for migration

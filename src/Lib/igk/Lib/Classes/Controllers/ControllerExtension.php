@@ -957,13 +957,20 @@ abstract class ControllerExtension
         return $sb->render();
     }
 
+    public static function GetNamespace(BaseController $ctrl, string $path){
+        if ($ctrl instanceof ApplicationModuleController){
+            return igk_ns_name(Path::CombineAndFlattenPath($ctrl->getEntryNamespace(), $path));
+        }
+        return $ctrl::ns($path);
+    }
+
     public static function InitDataInitialization(BaseController $ctrl, $force = false)
     {
         //init database models
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/InitData.php";
         if (!file_exists($c)) {
-            $ns = $ctrl::ns("Database");
+            $ns = ControllerExtension::GetNamespace($ctrl, 'Database') ; 
             $builder = new PHPScriptBuilder();
             $builder->type("class")
                 ->name("InitData")
@@ -974,7 +981,7 @@ abstract class ControllerExtension
                 ->defs(implode(
                     "\n",
                     [
-                        "public static function Init(" . basename($cl) . " \$controller){",
+                        "public static function Init(" . basename(igk_uri($cl)) . " \$controller){",
                         "\t// + | itialize your data base",
                         "}"
                     ]

@@ -135,6 +135,8 @@ class IGKEvents extends IGKObject
     const FILTER_POST_CREATE_ELEMENT = "post_filter_node";
     const FILTER_CONFIG_MENU = 'filter_config_menu';
 
+    const FILTER_AUTH_TYPE = 'filter_user_auth_type';
+
     /**
      * build command event
      */

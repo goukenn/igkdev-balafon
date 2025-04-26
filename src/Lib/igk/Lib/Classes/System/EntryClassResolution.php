@@ -53,5 +53,10 @@ abstract class EntryClassResolution{
     // + | suffix
     // + |
     const ImportMappingSuffix = 'ImportMapping';
+
+    /**
+     * reference injector method 
+     */
+    const ControllerReferenceInjectorMethod = 'didReferenceInjector';
     
 }

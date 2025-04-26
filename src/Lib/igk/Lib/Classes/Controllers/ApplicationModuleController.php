@@ -36,7 +36,7 @@ final class ApplicationModuleController extends BaseController{
     private $m_src;             // source code 
     private $m_initializer;     // used to extend module class properties
     private $m_configs;         // configuration 
-    private $mm_fclist;
+ 
     var $boot;
     /**
      * get application module configuration value
@@ -162,7 +162,7 @@ final class ApplicationModuleController extends BaseController{
     public function __construct(string $dir){
         parent::__construct();
         $this->m_dir=IO::GetDir($dir);
-        $this->mm_fclist=array(); 
+        $this->m_fclist=array(); 
         // $tf = $dir."/Lib/".self::;
         // $c=realpath($tf);
         // if(!file_exists($c)){
@@ -526,7 +526,11 @@ final class ApplicationModuleController extends BaseController{
     {        
         if(igk_environment()->isDev() && ($name=== ControllerMethods::register_autoload)){       
             igk_ilog("module app - invoke static method not allowed - ".$name);         
-        }
+        } 
+        // if (method_exists(ControllerExtension::class, $name)){
+            
+        //     call_user_func_array([ControllerExtension::class, $name], $arguments);
+        // }
         return null; 
     }
     public function exposeAssets(){
@@ -550,8 +554,19 @@ final class ApplicationModuleController extends BaseController{
     public function getUseDataSchema():bool{ 
         return true;
     }
+    /**
+     * retrieve db schema file 
+     * @return string 
+     * @throws IGKException 
+     */
     public function getDataSchemaFile(){
         return ControllerExtension::getDataSchemaFile($this);
+    }
+    public function initDbFromSchemas(){
+        return ControllerExtension::initDbFromSchemas($this);
+    }
+    public function loadDataAndNewEntriesFromSchemas(){
+        return ControllerExtension::loadDataAndNewEntriesFromSchemas($this);
     }
     /**
      * all module can participate to init db by default

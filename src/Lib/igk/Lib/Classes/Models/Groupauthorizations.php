@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Groupauthorizations.php
-// @date: 20250401 08:17:33
+// @date: 20250425 16:20:35
 namespace IGK\Models;
 
 
@@ -40,4 +40,11 @@ class Groupauthorizations extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%groupauthorizations";
+	protected $unique_columns = array (
+	  0 => 
+	  array (
+	    0 => 'clGroup_Id',
+	    1 => 'clAuth_Id',
+	  ),
+	);
 }
