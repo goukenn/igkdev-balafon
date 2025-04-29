@@ -8,20 +8,26 @@
 // + | 
 // + |
 
-(function(){
+(function () {
     $v_referer = null;
-    if (isset($_SERVER['HTTP_REFERER'])){
+    if (isset($_SERVER['HTTP_REFERER'])) {
         $v_referer = $_SERVER['HTTP_REFERER'];
     }
     $v_uri = $_SERVER['REQUEST_URI'];
     $v_method = $_SERVER['REQUEST_METHOD'];
 
     $command = (object)[
-        'uri'=>$v_uri,
-        'method'=>$v_method,
-        'referer'=>$v_referer,
+        'uri' => $v_uri,
+        'method' => $v_method,
+        'referer' => $v_referer,
     ];
-
-    
-
+    if (!empty($command->referer)){
+        $c = hash('crc32b', $command->referer);
+        if (file_exists($file = igk_io_cachedir().'/storage/css/'.$c.'.css')){
+            igk_header_set_contenttype('css');
+            igk_header_cache_output();
+            readfile($file);
+            igk_exit();
+        }
+    }
 })();

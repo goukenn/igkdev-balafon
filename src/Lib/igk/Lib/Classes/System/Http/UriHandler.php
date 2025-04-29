@@ -14,6 +14,7 @@ use IGKException;
 use IGKSubDomainManager;
 
 require_once __DIR__ . "/BaseUriHandler.php";
+require_once IGK_LIB_CLASSES_DIR.'/ApplicationLoader.php';
 /**
  * uri handler 
  * @package IGK\System\Http
@@ -110,8 +111,8 @@ class UriHandler extends BaseUriHandler
     }
 
     public function _caching_style(){
-        // ApplicationLoader::getInstance()->initCacheSystem();
-        // include IGK_LIB_DIR.'/igk_serve_static.php';
+        ApplicationLoader::InitConstants(); 
+        include IGK_LIB_DIR.'/igk_serve_static.php';
         // $cache_file = '';
         // if ($cache_file){
         //     header('Content-Type: text/css');

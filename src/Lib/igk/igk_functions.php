@@ -716,7 +716,7 @@ function igk_bind_host_css_style($doc)
  */
 function igk_bind_host_css_style_file(string $file, ICssResourceResolver $doc, $host, bool $themeexport)
 {
-    $bvtheme = new HtmlDocTheme($doc->Parent, "temp://files");
+    $bvtheme = new HtmlDocTheme($doc->Parent, 'temp://files',false);
     $out = "";
     $sys = $doc->SysTheme;
     igkOb::Start();
@@ -2180,8 +2180,21 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     $renderer->doc = $doc;
     $renderer->doc_id = $doc_id;
     $renderer->theme = $doc->getTheme();
-    ($m = $renderer->output()) || igk_die('missing balafon css output');    
-    // for css response 
+    ($m = $renderer->output()) || igk_die('missing balafon css output'); 
+    if ($m  && (igk_environment()->isOPS() && igk_configs()->auto_cache_css)){
+        if ($referer = igk_server()->HTTP_REFERER){
+            // + | CACHE CSS RENDERING
+            $m->cache = false;
+            ob_start();   
+            $m->render();
+            $s = ob_get_clean();  
+            igk_io_w2file(igk_io_cachedir().'/storage/css/'.hash('crc32b', $referer).'.css', $s); 
+            header(implode('', $m->headers));            
+            echo $s;
+            igk_exit();
+        }
+    }   
+    // + | for css response 
     igk_do_response($m);    
 }
 ///<summary></summary>
@@ -3030,7 +3043,7 @@ function igk_css_load_theme($th = null)
 function igk_css_ob_get_tempfile($f, &$from = null)
 {
     $doc = igk_app()->getDoc();
-    $vtemp = new HtmlDocTheme($doc, "theme://inline/tempfiles");
+    $vtemp = new HtmlDocTheme($doc, 'theme://inline/tempfiles', false);
     igk_set_env(IGK_CSS_TEMP_FILES_KEY, 1);
     IGKOb::Start();
     igk_css_bind_file($vtemp, null, $f, $vtemp);

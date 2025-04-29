@@ -412,9 +412,13 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $this->m_istemp = $type === false;
         $this->_initialize();
     }
-    public static function CreateTemporaryTheme($id)
+    /**
+    * create tempory theme - no save in session
+    * @param string $id
+    **/
+    public static function CreateTemporaryTheme(string $id): HtmlDocTheme
     {
-        $c = new HtmlDocTheme(null, $id);
+        $c = new HtmlDocTheme(null, $id, false);
         $c->m_istemp = true;
         return $c;
     }
@@ -642,7 +646,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                     $tv = $tv || !empty(trim($s));
                     continue;
                 }
-                $kv = $builder->treatThemeValue(trim($v,$v_trim_chars), $themeexport);
+                $kv = $builder->treatThemeValue(trim($v, $v_trim_chars), $themeexport);
                 if (!empty($kv)) {
                     if ($prefix) {
                         $k = str_replace('.', '.' . $prefix, $k);
@@ -771,7 +775,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
 
         $docs = null;
         $themes = null;
-        $uri = igk_io_request_uri();
 
         if (!$this->m_istemp && $app_info) {
 
@@ -807,7 +810,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $this->m_mediasid = array();
         $this->Append = $this->add("AppendCss");
         $this->_initMedia($this->m_id);
-        // $this->_root_def= $this->def;
     }
     // private $_root_def;
     // public function check(){
@@ -1403,10 +1405,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         //     igk_die(__METHOD__ . " offset is file");
         // }
         $def = &$this->getDef();
-        if (is_array($value) && !is_null($key)){
+        if (is_array($value) && !is_null($key)) {
             $value = CssUtils::GlueArrayDefinition($value);
         }
-        if (is_null($key)) { 
+        if (is_null($key)) {
             if (is_null($value)) {
                 unset($def[0]);
                 return;
@@ -1578,15 +1580,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $f = ($file == null) ? igk_io_syspath(IGK_RES_FOLDER . "/Themes/" . $this->Name . "." . IGK_DEFAULT_VIEW_EXT) : $file;
         $out = IGK_STR_EMPTY;
         $out .= "<?php" . IGK_LF;
-        $out .= <<<EOF
-// Theme Media creation
-// Name : {$this->Name}
-\$cl = get_class(\$this);
-if (\$cl != 'HtmlDocTheme')
-{
-	igk_die("this file can be only included in HtmlDocTheme context");
-}
-EOF;
+        $out .= implode("\n", [
+            '// Theme Media creation',
+            "// Name : {$this->Name}",
+            '$cl = get_class(\$this);',
+            'if ($cl != \'HtmlDocTheme\')',
+            '{',
+            'igk_die("this file can be only included in HtmlDocTheme context");',
+            '}'
+        ]);
         $out .= $this->getDeclaration();
         $out .= IGK_START_COMMENT . "media properties " . IGK_END_COMMENT . IGK_LF;
         foreach ($this->m_medias as $k => $v) {
@@ -1600,6 +1602,7 @@ EOF;
     }
     ///protected the access to allow parent or child call via calluser func
     /**
+
      */
     protected function setdef(?IGKCssDefaultStyle $v)
     {

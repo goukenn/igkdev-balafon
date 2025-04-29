@@ -86,14 +86,14 @@ class WebResponse extends RequestResponse{
         ob_start();   
         $this->render();
         $s = ob_get_clean();  
-        $v_zip = $zip = 0; 
+        $zip = 0; 
         if ($cache){ 
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
             // + |
             list($uri, $zip) = IGKCaches::CacheUri();                      
             $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);  
-            $zip = $zip && $v_zip;
+            $zip = $zip;  
             if ($zip){
                 if (ob_get_level()){
                     ob_end_clean();

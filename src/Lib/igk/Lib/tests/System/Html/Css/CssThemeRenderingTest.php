@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 */
 class CssThemeRenderingTest extends BaseTestCase{
     public function test_csstheme_minify_content_rendering(){
-        $d = new HtmlDocTheme(null, 'testing');
+        $d = new HtmlDocTheme(null, 'testing', false);
         $d[] = 'body:after{content:""; background-color:red;}';
         $rep = $d->get_css_def(true, true);
         $this->assertEquals('body:after{content:\'\';background-color:red;}', $rep);

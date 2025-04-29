@@ -59,7 +59,7 @@ class ErrorRequestResponse extends RequestResponse{
         
     }
     public function getErrorStyle(){        
-        $theme = new HtmlDocTheme(null, -1);
+        $theme = new HtmlDocTheme(null, -1, false);
         $theme["*, html, body"] = "margin:0px; padding:0px;";
         $theme->bindFile(IGK_LIB_DIR."/Styles/error_request.pcss");
         return $theme->get_css_def();
