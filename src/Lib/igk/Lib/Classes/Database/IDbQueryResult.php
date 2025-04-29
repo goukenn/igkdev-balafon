@@ -36,5 +36,12 @@ interface IDbQueryResult extends IToArray{
      * @return bool 
      */
     function success(): bool;
+
+    /**
+     * get query row at index
+     * @param int $index 
+     * @return mixed 
+     */
+    function getRowAtIndex(int $index);
   
 }

@@ -173,7 +173,7 @@ abstract class RootControllerBase extends IGKObject{
 		}	
         // + | invoke controller extension method
 		array_unshift($arguments, $c); 
-        if (method_exists(ControllerExtension::class, $name)){
+        if (method_exists(ControllerExtension::class, $name)){           
 		    return ControllerExtension::$name(...$arguments); 
         } else {
             if (igk_environment()->isDev()){

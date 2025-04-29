@@ -478,11 +478,14 @@ abstract class ControllerExtension
      * @return null|string 
      * @throws IGKException 
      */
-    public static function uri(BaseController $ctrl, ?string $name_uri = "")
+    public static function uri(BaseController $ctrl, ?string $name_uri = Constants::BASE_VIEW_URI )
     {
         $v_uri = $name_uri ?? '';
-        if (strpos($v_uri, '@/') === 0) {
-            $v_uri = ltrim($v_uri, '@');
+        if (strpos($v_uri, Constants::BASE_VIEW_URI) === 0) {
+            if (Constants::BASE_VIEW_URI=='@/')
+                $v_uri = ltrim($v_uri, '@');
+            else 
+                $v_uri = substr($v_uri, strpos($v_uri, '/'));
         }
         return $ctrl->getAppUri($v_uri ?? '');
     }
@@ -618,7 +621,7 @@ abstract class ControllerExtension
      * @param mixed $name array|string
      * @return array|string|null  array if name is array string name or null
      */
-    public static function name(BaseController $ctrl, $name)
+    public static function name(BaseController $ctrl, ?string $name='')
     {
         if (is_string($name) || is_null($name)) {
             return implode("/", array_filter([get_class($ctrl), $name]));
@@ -2402,8 +2405,6 @@ abstract class ControllerExtension
      */
     public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null): ?string
     {
-
-
         // + | --------------------------------------------------------------------
         // + | detect action to call - base on request name and params
         // + |
@@ -2441,7 +2442,7 @@ abstract class ControllerExtension
         }
         $p = null; //  "previous callback failed";
         $level = 1;  // level for arguments detection
-        $postfix = 'Action';
+        $postfix = EntryClassResolution::ActionClassSuffix;
         $targs = explode("/", ltrim($search_name, '/'));
         $margs = array_slice($targs, 1);
         while (count($targs) > 0) {

@@ -223,7 +223,7 @@ class BalafonApplication extends IGKApplicationBase
             igk_wln_e("boostrap-application error : .... " . $ex->getMessage());
         }
         defined('IGK_APP_DIR') || define("IGK_APP_DIR", igk_getv($_SERVER,'IGK_APP_DIR', $wd));
-        defined('IGK_BASE_DIR') || define("IGK_BASE_DIR", $wd);
+        defined('IGK_BASE_DIR') || define('IGK_BASE_DIR', $wd);
         // setup the log folder
         if (!defined('IGK_LOG_FILE') && ($logFolder = $this->configs->logFolder)) {
             if (is_dir($logFolder)) {

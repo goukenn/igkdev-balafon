@@ -374,7 +374,9 @@ class ApplicationControllerManager implements IApplicationControllerManager
                     if ($module = igk_get_module($v)){
                         return $module;
                     }
-                    throw new \IGKException('reference module not found or not loaded');
+                    $check = igk_get_module('igk\\authentications\\WebAuthn');
+
+                    throw new \IGKException('reference module not found or not loaded '.$v. ' ===? check is null '.(is_null($check)));
                 }
                 if ($e->match->name =='refname'){
                     $v = igk_str_remove_quote($e->value); 

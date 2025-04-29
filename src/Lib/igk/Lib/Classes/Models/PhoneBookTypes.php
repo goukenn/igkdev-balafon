@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookTypes.php
-// @date: 20250425 16:20:36
+// @date: 20250427 09:36:39
 namespace IGK\Models;
 
 

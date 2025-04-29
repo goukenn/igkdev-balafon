@@ -239,7 +239,7 @@ abstract class ModelEntryExtension
      * insert if not exists
      * @param ModelBase $model 
      * @param null|array $conditions 
-     * @param null|array $options with extra field to insert model if not found
+     * @param null|array $options with 'extra' field to insert model if not found
      * @param bool update true to send a select query with the last inserted id 
      * @return null|false|ModelBase - null for contains items false missing 
      * @throws IGKException 
@@ -257,6 +257,7 @@ abstract class ModelEntryExtension
         if ($count==0){
             if ($tab = !$options ? [] : igk_getv($options, "extra")) {
                 $conditions = array_merge($conditions, $tab);
+                $conditions = DbUtility::TreatSelectCondition($columns, $conditions, $prefix); 
             }
             $row = self::insert($model, $conditions, $update);
         } else {
@@ -279,6 +280,21 @@ abstract class ModelEntryExtension
         }
         $p = $model->getPrimaryKey();
         return $model::update($condition, [$p => $row->{$p}]);
+    }
+    /**
+     * extension to set auto increment 
+     * @param ModelBase $model 
+     * @param int $value 
+     * @return void 
+     * @throws IGKException 
+     */
+    public static function setAutoIncrement(ModelBase $model, $value=1){
+        if ($ad = $model->getDataAdapter()){
+            /**
+             * @var mixed $ad
+             */
+            $ad->resetAutoIncrement($model->getTable(), $value);
+        }
     }
     public static function beginTransaction(ModelBase $model)
     {
@@ -542,6 +558,9 @@ abstract class ModelEntryExtension
         } else {
             $conditions = [$_pm => $model->{$_pm}];
         }
+        $def = $model->getTableInfo();
+        $columns = $model->getTableColumnInfo();
+        $conditions = DbUtility::TreatSelectCondition($columns, $conditions, $def->prefix); 
         return $driver->delete($model->getTable(), $conditions);
     }
     /**

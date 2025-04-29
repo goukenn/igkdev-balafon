@@ -8,6 +8,7 @@
 
 use IGK\Controllers\BaseController;
 use IGK\Database\IDbArrayResult;
+use IGK\Helper\Activator;
 use IGK\Helper\BalafonJSHelper;
 use IGK\Helper\ViewHelper;
 use IGK\Models\ModelBase;
@@ -43,6 +44,7 @@ use IGK\System\Html\IFormFieldContainer;
 use IGK\System\Html\IFormFields;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\XML\XmlNode;
+use IGK\System\Http\Mail\MailPreviewNode;
 use IGK\System\Number;
 use IGK\System\Services\LoginServiceEvents;
 
@@ -1792,6 +1794,8 @@ if (!function_exists("igk_html_node_dataschema")) {
 if (!function_exists("igk_html_node_dbTableView")) {
 	/**
 	 * create table view node
+	 * @param mixed db results
+	 * @param mixed $theader 
 	 */
 	function igk_html_node_dbTableView($tabResult, $theader = null, $header_prefix = "header.")
 	{
@@ -1834,14 +1838,26 @@ if (!function_exists("igk_html_node_dbTableView")) {
 						}
 						$_lheader = $theader;
 					}
-					foreach ($_lheader as $k) {
+					foreach ($_lheader as $k=>$v) {
 						if (empty($k)) {
 							$header[] = $k;
 							$header_node->th()->nbsp();
 							continue;
 						}
-						$header[$k] = $k;
-						$header_node->th()->Content = $is_def ? $k : __($header_prefix . $k);
+						if (is_array($v)){
+							if (($ctr = Activator::CreateNewInstance(\IGK\System\Html\Components\DbTableViewHeaderInfo::class, $v))
+								instanceof  \IGK\System\Html\Components\DbTableViewHeaderInfo){
+								if (is_numeric($k)){
+									$k = $ctr->key;
+								}
+								$header[$k] = $r->title_label ?? $k;
+								$header_node->th()->Content =  $ctr->title_label;
+							}	
+
+						} else {
+							$header[$k] = $k;
+							$header_node->th()->Content = $is_def ? $k : __($header_prefix . $k);
+						}
 					}
 				}
 				$c = $table->tr();
@@ -1867,6 +1883,7 @@ if (!function_exists("igk_html_node_dbTableView")) {
 					}
 				}
 			}
+			return $table;
 		}
 		return $n;
 	}
@@ -5965,5 +5982,39 @@ if (!function_exists('igk_html_node_balafonlogo')) {
         $n = igk_create_notagnode();
         $n->usesvg($name);
         return $n;
+    }
+}
+if (!function_exists('igk_html_node_spacer')) {
+    /**
+     * create a spacer container with content 
+     * @param string $_content
+     * @param ?string $extra_class_definition additional class to subscribe 
+     * @return HtmlNoTagNode 
+     */
+    function igk_html_node_spacer($_content, ?string $extra_class_definition=null):HtmlNoTagNode
+    {
+        $n = igk_create_notagnode();
+        $n['class']='spacer-container';
+		$t = $n->div()->setClass('spacer');
+		if(!$extra_class_definition)
+			$t['class'] = $extra_class_definition;
+		if ($_content instanceof HtmlItemBase){
+			$t->add($_content);
+		} else {
+			$t->content = $_content;
+		}
+        return $n;
+    }
+}
+
+
+if (!function_exists('igk_html_node_mailpreview')) {
+	/**
+	 * helper: create an mail preview node component
+	 * @return MailPreviewNode 
+	 */
+    function igk_html_node_mailpreview()
+    {
+        return new \IGK\System\Http\Mail\MailPreviewNode();
     }
 }

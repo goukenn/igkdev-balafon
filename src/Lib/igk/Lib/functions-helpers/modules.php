@@ -232,19 +232,24 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
     if ($mod = $v_init->get($path)) {
         return $mod;
     }
-    $dir = igk_dir(igk_get_module_dir() . "/{$path}");
-    if (!file_exists($dir))
-        return null;
+    $v_mod_dir = igk_get_module_dir();
+    $dir = null;
+    if (($s = IO::ResolveDirRealPath($v_mod_dir, igk_dir($path)))){
+        $dir = $s;
+    } else{
+        return false;
+    }
+    $path = substr($dir, strlen($v_mod_dir)+1);
     // + | require to protect to case sensitive path
-    $sdir = IO::GetUnixPath($dir, true);
-    if (igk_environment()->isOPS()) {
-        if (empty($sdir)) {
-            $sdir = $dir; //realpath($dir);
-        }
-    }
-    if (empty($dir)) {
-        return null;
-    }
+    // $sdir = IO::GetUnixPath($dir, true);
+    // if (igk_environment()->isOPS()) {
+    //     if (empty($sdir)) {
+    //         $sdir = $dir; //realpath($dir);
+    //     }
+    // }
+    // if (empty($dir)) {
+    //     return null;
+    // }
     $ob = new \IGK\Controllers\ApplicationModuleController($dir, $path);
     if ($initialize) {
         $dc = igk_ctrl_current_doc();

@@ -181,7 +181,8 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         return self::GetScriptInstall(
             [
                 'installer-core-function.pinc',
-                'install.module.script.pinc'], $token, $name);      
+                'install.module.script.pinc'
+            ], $token, $name);      
     }
     protected function removeCache($ftp, $app_dir)
     {

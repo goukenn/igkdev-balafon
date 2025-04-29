@@ -122,9 +122,8 @@ class Path
     }
     public function prepareData()
     {
-        if (!defined('IGK_BASE_DIR')){
-            igk_trace();
-            igk_wln_e('please setup IGK_BASE_DIR before.');
+        if (!defined('IGK_BASE_DIR')){            
+            igk_dev_wln_e(__FILE__.":".__LINE__ , 'please setup IGK_BASE_DIR before.');
         }
         $v_is_webapp = igk_is_webapp();
         $this->app_dir = str_helper::Uri(IGK_APP_DIR);

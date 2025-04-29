@@ -252,7 +252,7 @@ class HtmlScriptLoader
         if ($production && !empty($out)) {
             $pif = [
                 igk_js_minify($out),
-                $firstEval ? igk_js_minify(file_get_contents(IGK_LIB_DIR . "/Inc/js/eval.js")) : "if (igk && igk.js && igk.js.initEmbededScript) igk.js.initEmbededScript()"
+                $firstEval ? igk_js_minify(file_get_contents(IGK_LIB_DIR . "/Inc/js/eval.js")) : "if ( !(typeof(igk) > 'u') && igk.js && igk.js.initEmbededScript) igk.js.initEmbededScript()"
             ];
             $out = $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[" . $pif[0] . "]]>\n</script>" . $lf;
             $out .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n" . $pif[1] . "\n</script>" . $lf;

@@ -11,12 +11,13 @@
 ///<summary>represent a communication controller base</summary>
 
 use IGK\Controllers\ApplicationController;
+use IGK\System\Http\AcceptMimeTypes;
 
 /**
 * represent a communication controller base
 */
 abstract class IGKCommunicationServerCtrl extends ApplicationController{
-    const HTTP_ACCEPT="text/event-stream";
+    const HTTP_ACCEPT= AcceptMimeTypes::EventStream;
     ///<summary></summary>
     /**
     * 

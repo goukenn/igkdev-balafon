@@ -46,7 +46,7 @@
         }
     }
     __initScript(i);
-    if (typeof igk != undefined) {
+    if (typeof(igk) != 'undefined'){
         igk.system.createNS("igk.js", {
             initEmbededScript() {
                 let i = document.scripts[document.scripts.length - 2];

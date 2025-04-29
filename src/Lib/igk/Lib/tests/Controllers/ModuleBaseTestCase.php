@@ -20,8 +20,8 @@ abstract class ModuleBaseTestCase extends BaseTestCase{
     public static function setUpBeforeClass(): void{
         // gk_require_module(__NAMESPACE__); 
     } 
-    public function __construct(){
-        parent::__construct();
+    public function setUp():void{
+        parent::setUp();
         if ($c = igk_getv($_ENV, "IGK_TEST_MODULE")){
             $this->controller = igk_getctrl($c);
         }else{

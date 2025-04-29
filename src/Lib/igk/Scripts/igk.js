@@ -2306,7 +2306,7 @@ Name:balafon.js
             });
             return log;
         }
-    })
+    });
     // export navite io functions
     createNS("igk.system.io", {
         getdir: igk_getdir,

@@ -24,7 +24,7 @@ if (!defined("IGK_LIB_DIR")){
 spl_autoload_register(ApplicationLoader::TestClassesLoaderCallback());
 // + | ---------------------------------------------------------------------------------------------------
 // + | initilize constants
-foreach(["IGK_APP_DIR", "IGK_SESS_DIR", "IGK_BASE_DIR", "IGK_TEST_MODULE", "IGK_TEST_CONTROLER"] as $k){
+foreach(["IGK_APP_DIR", "IGK_SESS_DIR", 'IGK_BASE_DIR', "IGK_TEST_MODULE", "IGK_TEST_CONTROLER"] as $k){
     if (!defined($k)){
         if (($appdir = igk_getv($_ENV, $k)) && is_dir($appdir)){
             define($k, realpath($appdir));   

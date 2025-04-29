@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <?xml-model href="./Schemas/db-schemas.xsd"?>
+<?xml-model href="https://igkdev.com/schemas/balafon.db.schemas.xsd"?>
 <data-schemas>
 	<Entries>
 		<Rows For="%prefix%user_info_types">
@@ -419,6 +419,20 @@
 			clLinkType="%prefix%phoneBookTypes" clName="rcphbp_TypeId" clNotNull="1"></Column>
 		<GenColumn name="updateTime" prefix="rcphbp_"></GenColumn>
 	</DataDefinition>
+
+	<!-- pooling service -->
+	<DataDefinition Description="Pooling process" Prefix="pproc_"
+		TableName="%prefix%pooling_process">
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="id" clType="Int"></Column>
+		<Column clName="name" clNotNull clType="Guid"></Column>
+		<Column clName="pid" clNotNull></Column>
+		<Column clName="ip" clType="text" ></Column>
+		<Column clName="session_id" clType='text' ></Column>
+		<Column clName="data" clType='json' ></Column>
+		<Column clName="description" clType="text" ></Column>
+		<GenColumn name="updateTime" ></GenColumn>
+	</DataDefinition>
+
 	<!-- END: PHONE BOOKS -->
 
 	<Migrations>

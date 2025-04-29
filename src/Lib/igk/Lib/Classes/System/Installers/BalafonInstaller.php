@@ -10,6 +10,7 @@
 namespace IGK\System\Installers;
 
 use IGK\Controllers\SystemController;
+use IGK\System\Http\AcceptMimeTypes;
 use IIGKActionResult;
 use Throwable;
 
@@ -65,7 +66,7 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         $zfile = igk_app()->session->getParam(self::INSTALLER_KEY);
         igk_ilog("the update file : ".$zfile);
 
-        if ((igk_server()->HTTP_ACCEPT != "text/event-stream") && !igk_is_ajx_demand()) {
+        if (igk_server()->eventStreamRequest() && !igk_is_ajx_demand()) {
             igk_set_header(500, "update not allowed");
             igk_exit();
         }
@@ -76,12 +77,13 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         $base_dir = $this->_get_dir("basedir", igk_io_basedir());
        
         require_once(dirname(__FILE__) . "/InstallerActionMiddleWare.pinc");
-        if (igk_server()->HTTP_ACCEPT == "text/event-stream") {
-            header("Content-Type: text/event-stream");
+        $mime_type = AcceptMimeTypes::EventStream;
+        if (igk_server()->eventStreamRequest()) {
+            header("Content-Type: ".$mime_type);
             header("Cache-Control: no-cache");
         } else {
             if (igk_server_is_local() || igk_is_conf_connected()) {
-                igk_server()->HTTP_ACCEPT = "text/event-stream";
+                igk_server()->HTTP_ACCEPT = $mime_type;
             } else {
                 igk_set_header(500);
                 igk_wln_e("misconfiguration - accept only request from local server");

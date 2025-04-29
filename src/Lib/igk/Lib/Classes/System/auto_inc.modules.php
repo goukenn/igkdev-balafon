@@ -83,8 +83,7 @@ namespace IGK\System;
 * @method static string igk_tools_webscrapper() name of igk/tools/webscrapper
 * @method static string igk_TypeScript() name of igk/TypeScript
 * @method static string igk_vscode() name of igk/vscode
-* @method static string igk_vscode_extension() name of igk/vscode/extension
-* @method static string igk_Webauthn() name of igk/Webauthn
+* @method static string igk_vscode_extension() name of igk/vscode/extension 
 * @method static string igk_webpack() name of igk/webpack
 * @method static string igk_webpushNotification() name of igk/webpushNotification
 * @method static string igk_wordpress_helper() name of igk/wordpress/helper

@@ -373,7 +373,7 @@ EOF;
             $ts->add("directory")->Content = "./Lib/Tests";
             $env = $n->php();
             // INSTALL PROJECT BASE PATH SETTING
-            $env->add("env")->setAttributes(["name" => "IGK_BASE_DIR", "value" => IGK_BASE_DIR]);
+            $env->add("env")->setAttributes(["name" => 'IGK_BASE_DIR', "value" => IGK_BASE_DIR]);
             $env->add("env")->setAttributes(["name" => "IGK_APP_DIR", "value" => IGK_APP_DIR]);
             // PROJECT CONTROLLER
             $env->add("env")->setAttributes(["name" => "IGK_TEST_CONTROLER", "value" => $fullClassName]);

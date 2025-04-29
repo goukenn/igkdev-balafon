@@ -61,13 +61,13 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         // - | 
         if (!igk_environment()->isDev()) {
            //
-            header_remove(null); 
+           header_remove(null); 
         }   
         // + | before init application dispatch to uri handler         
         IGKApp::Init();
         // + | must setup application before call the facade 
         $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
-        isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this);
+        isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this , $loader);
         
         // enable benchmark        
         Benchmark::Activate(
@@ -79,7 +79,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/translation.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/db.php';
 
-   
+      
    
         // bootstrap web application
         // + initialize library
@@ -89,12 +89,12 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $this->library("zip");
         $this->library("gd");
         $this->library("curl");
-        if ($loader){
+        if ($loader){ 
             $loader(); 
             if (!file_exists(igk_io_applicationdir()."/Data/configure")){          
                 igk_initenv(igk_io_applicationdir(), igk_app());
             }
-        }
+        } 
         igk_reg_hook(IGKEvents::HOOK_CACHE_RES_CREATED, function ($e) {
             $fdir = igk_io_cacheddist_jsdir();
             $dir = igk_getv($e->args, 'dir');

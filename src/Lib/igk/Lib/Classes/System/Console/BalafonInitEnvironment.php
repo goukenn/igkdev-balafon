@@ -35,7 +35,7 @@ class BalafonInitEnvironment{
 
             $init_data->env()->setAttributes(["name" => "IGK_BASE_URI", "value" => "//localhost"]);
             $init_data->env()->setAttributes(["name" => "IGK_DOCUMENT_ROOT", "value" => $public_dir]);
-            $init_data->env()->setAttributes(["name" => "IGK_BASE_DIR", "value" => $public_dir]);
+            $init_data->env()->setAttributes(["name" => 'IGK_BASE_DIR', "value" => $public_dir]);
             $init_data->env()->setAttributes(["name" => "IGK_APP_DIR", "value" => $app_dir]);
             $sapp_dir = $app_dir == "./" ? "" : $app_dir;
             $init_data->env()->setAttributes(["name" => "IGK_PROJECT_DIR", "value" => $sapp_dir . "/Projects"]);

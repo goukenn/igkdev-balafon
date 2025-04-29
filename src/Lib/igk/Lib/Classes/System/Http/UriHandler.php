@@ -36,7 +36,25 @@ class UriHandler extends BaseUriHandler
             "/favicon.ico" => [$this, '_favicon'],
             "/sitemap.xml" => [$this, "_sitemap"],
             "/sitemap" => [$this, "_sitemap"],
+            "/assets/Styles/balafon.css" => [$this, '_caching_style'],
         ];
+    }
+    /**
+     * match an keys 
+     * @param string $uri 
+     * @param mixed &$key 
+     * @return bool 
+     */
+    function match(string $uri, & $key = null):bool{
+        $t = array_values($this->m_routes);
+        while(count($t)>0){
+            $s =array_shift($t);
+            if (preg_match('#'.$s.'#i', $uri)){
+                $key = $s;
+                return true;
+            }
+        }
+        return false;
     }
     /**
      * facade the favicon 
@@ -89,5 +107,16 @@ class UriHandler extends BaseUriHandler
         // + | --------------------------------------------------------------------
         // + | leave site map for handling by Project
         // + | 
+    }
+
+    public function _caching_style(){
+        // ApplicationLoader::getInstance()->initCacheSystem();
+        // include IGK_LIB_DIR.'/igk_serve_static.php';
+        // $cache_file = '';
+        // if ($cache_file){
+        //     header('Content-Type: text/css');
+        //     readfile(igk_io_cachedir().'/storage/css/f44fd05b4d4853357fde48e1fbbbb14869d26be2.css.cache');
+        //     igk_exit();
+        // }
     }
 }

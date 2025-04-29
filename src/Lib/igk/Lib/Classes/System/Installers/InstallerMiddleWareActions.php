@@ -6,6 +6,8 @@
 
 namespace IGK\System\Installers;
 
+use IGK\System\Http\AcceptMimeTypes;
+
 use function igk_resources_gets as __;
 ///<summary>Installer middleware storage</summary>
 /**
@@ -69,10 +71,11 @@ class InstallerMiddleWareActions{
     }
     ///<summary></summary>
     /**
-    * 
+     * is event stream request
+    * @return bool
     */
-    public function isEventStream(){
-        return igk_server()->HTTP_ACCEPT == "text/event-stream";
+    public function isEventStream():bool{
+        return igk_server()->eventStreamRequest();
     }
     ///<summary></summary>
     /**

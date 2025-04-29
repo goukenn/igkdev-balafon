@@ -1266,6 +1266,13 @@ $def['.width-a'] = "width:auto;";
 $def['.height-a'] = "height:auto;";
 $def['.dispflex.alignc'] = 'justify-content: center; align-items: center;';
 
+// spacer 
+$def['.igk-spacer-container'] = '';
+$def['.spacer:before'] = 
+$def['.spacer:after'] = '{sys:dispb} content: " ";align-self:center; flex-grow: 1;';
+$def['.spacer.line-style:before'] = 
+$def['.spacer.line-style:after'] =  'height:1px; border-bottom: 1px solid #3338;'; 
+
 
 include_once __DIR__.'/winui/session.pcss';
 include_once __DIR__.'/winui/controls.pcss';

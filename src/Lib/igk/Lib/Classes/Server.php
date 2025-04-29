@@ -6,6 +6,7 @@
 namespace IGK;
 use IGK\Helper\StringUtility;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
+use IGK\System\Http\AcceptMimeTypes;
 use IGK\System\IToArray; 
 use IGK\System\Security\Web\HeaderAccessObject; 
 ///<summary>represent server management </summary>
@@ -169,6 +170,9 @@ final class Server implements IToArray{
             self::$sm_server = new self();
         }
         return self::$sm_server;
+    }
+    public function eventStreamRequest(){
+        return $this->HTTP_ACCEPT == AcceptMimeTypes::EventStream;
     }
     ///<summary></summary>
     ///<param name="file"></param>

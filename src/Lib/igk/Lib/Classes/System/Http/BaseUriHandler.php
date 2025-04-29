@@ -24,6 +24,12 @@ abstract class BaseUriHandler
     {
         return [];
     }
+    /**
+     * 
+     * @param string $uri 
+     * @param null|IGKApplicationBase $application 
+     * @return void 
+     */
     public static function Handle(string $uri, ?IGKApplicationBase $application =null )
     {
         $g = new static;

@@ -106,6 +106,7 @@ function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=nul
     $q=0;
     $tab=is_array($dir) ? $dir: array($dir);
     $files = [];
+    
     while(count($tab)>0){
         $q=array_pop($tab);
         if (!$q){
@@ -116,7 +117,9 @@ function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=nul
             $v_hasregex = ($regex !== null);
             while($d=readdir($hdir)){
                 $f=$q."/".$d;
-                if( (!$v_isfolder = ($d == ".") || ($d == "..")) || ($v_is_dir = (($d[0]=='.') && is_dir($f)) ) || is_link($f)){
+                $v_isfolder = false;
+                $v_is_dir = false;
+                if( (($v_isfolder = ($d == ".") || ($d == ".."))) || ($v_is_dir = (($d[0]=='.') && is_dir($f)) ) || is_link($f)){
                     // + ingore dir start start with '.'
                     if ($v_isfolder || !($v_is_dir && $allow_hidden_dir)){
                         

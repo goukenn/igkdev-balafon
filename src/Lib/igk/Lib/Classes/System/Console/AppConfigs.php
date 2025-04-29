@@ -33,7 +33,7 @@ class AppConfigs
         }
         foreach ([
             "IGK_DOCUMENT_ROOT",
-            "IGK_BASE_DIR",
+            'IGK_BASE_DIR',
             "IGK_PROJECT_DIR",
             "IGK_APP_DIR",
             "IGK_PACKAGE_DIR",

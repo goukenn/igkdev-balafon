@@ -17,6 +17,7 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerEnvParams; 
 use IGK\Helper\ActionHelper; 
 use IGK\Helper\ViewHelper;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ActionNotFoundException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\NotAllowedRequestException;
@@ -443,7 +444,13 @@ abstract class IGKActionBase implements IActionProcessor
             $env->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
             $env->set(IGKEnvironment::VIEW_ACTION_PARAMS, $args);
             $verbs = ['']; 
-            $skip_check = $object->skipVerbCheck($actionMethod);
+            $skip_check = false; 
+            $v_host = $object instanceof IActionProcessor ? $object->getHost() : null;
+            $v_is_dispatcher = $object instanceof Dispatcher;
+
+            if ($v_is_dispatcher){
+                $skip_check = $object->skipVerbCheck($actionMethod);
+            }
             try {
 
                 if ($verb = igk_server()->REQUEST_METHOD) {
@@ -459,13 +466,14 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($_is_middelwire) {
                     $c =  $object->__call($actionMethod, $args);
                 } else {
-                    $host = $object->getHost();
+                    // + | target host 
+                    $v_thost = $v_host ?? $object; 
                     $baseActionName = $actionMethod;
                     while(count($verbs)>0){
                         $c = array_pop($verbs);
-                        if (method_exists($host, $fc = $actionMethod.$c)) {
+                        if (method_exists($v_thost, $fc = $actionMethod.$c)) {
                             $actionMethod = $fc;
-                            ActionHelper::BindRequestArgs($host, $actionMethod, $args);
+                            ActionHelper::BindRequestArgs($v_thost, $actionMethod, $args);
                             break;
                         }
                     }
@@ -479,24 +487,26 @@ abstract class IGKActionBase implements IActionProcessor
                         } 
                     }
                     // set default configuration parameters
-
-                    $object->setBaseActionName($baseActionName);
-                    $c = $object->invoke($actionMethod, ...$args);
+                    if ($v_is_dispatcher){
+                        $object->setBaseActionName($baseActionName);
+                        $c = $object->invoke($actionMethod, ...$args);
+                    } else {
+                        $c = call_user_func_array([$object, $actionMethod], $args);
+                    }
                 }
                 // + | bind action response
                 $object->getController()->{ControllerEnvParams::ActionViewResponse} = $c;
-
-                $_host = $object->getHost();
+                
                 // + | --------------------------------------------------------------------
                 // + | FORCE REDIRECTION BEFORE RENDER
                 // + |
-                if (!empty($_host->redirect)){ 
-                    igk_navto($_host->redirect);
+                if ($v_host && !empty($v_host->redirect)){ 
+                    igk_navto($v_host->redirect);
                 }
                 // + | --------------------------------------------------------------------
                 // + | CHECK EXIT FOR DO RESPONSE   
                 // + |      
-                if ($exit || ($_host->_handleResponse($c))) { 
+                if ($exit || ($v_host->_handleResponse($c))) { 
                     return igk_do_response($c);
                 }
             } catch (IGK\System\Http\RequestException $ex) {
@@ -559,6 +569,19 @@ abstract class IGKActionBase implements IActionProcessor
     {
         $this->get_notify($target_name)->success($msg);
     }
+
+     /**
+     * retrieve base uri attached to this controller's action 
+     * @return string 
+     */
+    protected function getActionUri(){
+        $action_ns = igk_uri($this->getController()->getEntryNamespace().'/'. EntryClassResolution::Actions);
+        $uri = '@/'.lcfirst(ltrim(igk_str_rm_start( igk_str_rm_last($uri = igk_uri(static::class), 
+            EntryClassResolution::ActionClassSuffix), $action_ns), '/'));
+        $g = $this->getController()::uri($uri);           
+        return $g;
+    }
+    
 
     /**
      * index action entry point

@@ -95,7 +95,7 @@ class ApplicationLoader
         $this->_context = $context;
         register_shutdown_function(function () {
             // igk_wln("shut down --- ",$this->_changed, $this->_included); 
-            if (!defined("IGK_BASE_DIR") || defined('IGK_NO_LIB_CACHE')) {
+            if (!defined('IGK_BASE_DIR') || defined('IGK_NO_LIB_CACHE')) {
                 return;
             }
             if ($this->_changed) {
@@ -455,7 +455,8 @@ class ApplicationLoader
         ($app = ApplicationFactory::Create($type)) || igk_die("failed to create application: " . $type);
         if ($boot) {
             $boot = false;
-            try {
+            try { 
+
                 $app->bootstrap($bootoptions, function () use ($app, &$boot) {
                     self::$sm_instance->bootApp($app);
                     $boot = true;
@@ -489,7 +490,6 @@ class ApplicationLoader
      */
     public function bootApp($app)
     {
-
         if (self::$sm_instance->_resolvConstant()) {
             igk_hook(IGKEvents::HOOK_APP_BOOT, [$app]);
         }
@@ -519,6 +519,11 @@ class ApplicationLoader
         }
         return true;
     }
+    public function initCacheSystem(){
+        if ($this === self::getInstance()){
+            self::InitConstants();
+        }
+    }
     /**
      * init application constants 
      * @return void 
@@ -531,14 +536,14 @@ class ApplicationLoader
         // + |-----------------------------------------------------------------------
         // + | mandatory constants protected base constant
         // + |         
-        $bdir = defined("IGK_BASE_DIR") ? IGK_BASE_DIR : getcwd();
+        $bdir = defined('IGK_BASE_DIR') ? IGK_BASE_DIR : getcwd();
         $app_dir_key = 'IGK_APP_DIR';
         if (!defined($app_dir_key)) {
             $dir = !empty($dir = $srv->IGK_APP_DIR) && is_dir($dir) ? $dir : $bdir;
             define($app_dir_key, $dir);
         }
         if (!defined('IGK_BASE_DIR')) {
-            define("IGK_BASE_DIR", $bdir);
+            define('IGK_BASE_DIR', $bdir);
         }
         // + | -------------------------------------------------
         // + | load environment 

@@ -168,7 +168,7 @@ class MakeModuleCommand extends AppCommand{
                 $ts["name"] = "projects";
                 $ts->add("directory")->Content = "./Lib/Tests";
                 $env = $n->php();
-                $env->add("env")->setAttributes(["name" => "IGK_BASE_DIR", "value" => IGK_BASE_DIR]);
+                $env->add("env")->setAttributes(["name" => 'IGK_BASE_DIR', "value" => IGK_BASE_DIR]);
                 $env->add("env")->setAttributes(["name" => "IGK_APP_DIR", "value" => IGK_APP_DIR]);
                 $env->add("env")->setAttributes(["name" => "IGK_TEST_MODULE", "value" => $name]);
                 igk_io_w2file($file, $n->render((object)["Indent"=>true]));

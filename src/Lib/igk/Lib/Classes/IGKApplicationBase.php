@@ -26,6 +26,12 @@ abstract class IGKApplicationBase{
 
     protected $no_init_environment;
 
+    /**
+     * retrieve entry file
+     * @var mixed
+     */
+    protected $_entry_file;
+
     public function __get($n){
         if (method_exists($this, $fc="get".ucfirst($n))){
             return $this->$fc();
@@ -116,5 +122,8 @@ abstract class IGKApplicationBase{
     public function __debugInfo()
     {
         return [];
+    }
+    public function getEntryFile(){
+        return $this->_entry_file;
     }
 }

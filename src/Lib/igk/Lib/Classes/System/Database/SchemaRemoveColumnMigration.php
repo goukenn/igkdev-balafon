@@ -24,7 +24,11 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
     public function up(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
-        $ctrl::db_rm_column($tb, $this->column);
+        if (method_exists($ctrl, 'db_rm_column')){
+            $ctrl->db_rm_column($tb, $this->column);
+        }else{
+            $ctrl::db_rm_column($tb, $this->column);
+        }
     }
     public function down(){ 
         $c_info = $this->columnInfo;

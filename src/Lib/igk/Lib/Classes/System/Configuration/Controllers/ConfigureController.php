@@ -2128,13 +2128,7 @@ EOF;
             $d->addToggleStateButton($s, "on", $v_cnf->webauthn_required)
                 ->setClass("dispib")
                 ->on('change', 'igk.ajx.post("' . $v_toggle_uri . '"); return false;');
-
-            // $chb_webauthn = $tbox->checkbox('cbox_webauth_requirement')->on('change', 'igk.ajx.post("' . $v_toggle_uri . '"); return false;')
-            //     ->setAttribute('value', false)
-            //     ->activate('checked', $v_cnf->webauthn_required);
-
-            // $chb_webauthn->label('cbox_webauth_requirement')->setContent(__('Toggle WebAuthRequirement'));
-            // igk_wln_e(__FILE__.":".__LINE__ , "the uri ", $uri);
+ 
             $tbox->script()->content = <<<JS
 (function(){
     const p = \$igk('.wa-credentials').first(); 
@@ -2144,8 +2138,7 @@ EOF;
     }else{return;}
 \$igk('.webauthn-btn').each_all(function(){
     this.on('click', async ()=>{
-        let s= await igk.auth.webAuthn.register("{$uri}");
-        console.log(s);
+        let s= await igk.auth.webAuthn.register("{$uri}"); 
         if (s && (s.error==false)){
             document.location.reload();
         }

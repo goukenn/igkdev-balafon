@@ -650,13 +650,22 @@ IDataDriverCharsetSupport
         }
         return $this->sendQuery($query, false);
     }
+    /**
+     * reset auo increment is empty 
+     * @param mixed $table 
+     * @param int $value 
+     * @return IDbQueryResult|iterable|null|bool 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     public function resetAutoIncrement($table, $value = 1)
     {
         $table =  igk_db_escape_string($table);
         $query = "SELECT Count(*) as count FROM `{$table}`";
         $value = max($value, 1);
-        if (($r = $this->sendQuery($query)) && ($r->getRowCount() == 0)) {
-            return $this->sendQuery("ALTER `{$table}` AUTO_INCREMENT {$value}");
+        if (($r = $this->sendQuery($query)) && ($r->getRowAtIndex(0)['count'] == 0)) {
+            return $this->sendQuery("ALTER TABLE `{$table}` AUTO_INCREMENT={$value}");
         }
         return false;
     }
@@ -669,7 +678,8 @@ IDataDriverCharsetSupport
     public function clearTable($tbname)
     {
         $tbname = igk_mysql_db_tbname($tbname);
-        return $this->sendQuery("TRUNCATE `" . $tbname . "` ;")->Success && $this->sendQuery("ALTER TABLE `" . $tbname . "` AUTO_INCREMENT =1;")->Success;
+        return $this->sendQuery("TRUNCATE `" . $tbname . "` ;")->Success && 
+        $this->sendQuery("ALTER TABLE `" . $tbname . "` AUTO_INCREMENT =1;")->Success;
     }
     ///<summary></summary>
     ///<param name="dbname"></param>

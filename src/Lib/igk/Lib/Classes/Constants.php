@@ -15,6 +15,7 @@ use IGK\System\EntryClassResolution;
 */
 final class Constants{
     const NAMESPACE="http://schema.igkdev.com";
+    const BASE_VIEW_URI='@/';
     const STR_PAGE_TITLE="{0} - [ {1} ]";
     const MYSQL_DATETIME_FORMAT = "Y-m-d H:i:s";
     const MYSQL_DATE_FORMAT = "Y-m-d";

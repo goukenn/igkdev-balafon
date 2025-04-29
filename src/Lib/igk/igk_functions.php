@@ -2049,7 +2049,7 @@ function igk_css($text)
 /**
  * @param mixed $dir base directory 
  */
-function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
+function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null)
 {
     // + |
     // + | ENTRY DYNAMIC CSS
@@ -2081,8 +2081,8 @@ function igk_css_balafon_index($dir, $debug = null, ?bool $minfile = null)
         igk_wl("/*Request from cache*/");
         return;
     }
-    if (!defined("IGK_BASE_DIR")) {
-        define("IGK_BASE_DIR", $dir);
+    if (!defined('IGK_BASE_DIR')) {
+        define('IGK_BASE_DIR', $dir);
     }
     if (!defined("IGK_INIT") && empty($sess_id)) {
         $app = IGKApplication::Boot('css');
@@ -7183,7 +7183,7 @@ function igk_ewln($msg)
  */
 function igk_execute_time($name = null, $time = null)
 {
-    $t = igk_get_env("sys://env/starttime" . ($name ? "/{$name}" : ""), 0);
+    $t = igk_get_env('sys://env/starttime' . ($name ? "/{$name}" : ""), 0);
     return (float)($time ?? microtime(true)) - (float)$t;
 }
 
@@ -13562,7 +13562,7 @@ function igk_include_view_file($ctrl, $file, $no_cache = false)
     } else {
         $_f = $cache->getCacheFilePath($file);
         $_bindfc = BalafonCacheViewCompiler::GetBindViewCompilerHandler($ctrl);
-        if (1 || $cache->cacheExpired($file)) {
+        if ($cache->cacheExpired($file)) {
             // + | ---------------------------------------------------------------
             // + | Build cache view from article file 
             // + | 
@@ -16819,10 +16819,16 @@ function igk_js_winui_init_history($t, $cn, $page = IGK_HOME, $src = IGK_BALAFON
  * @param mixed $msg message to json
  * @param mixed $exit 
  */
-function igk_json($msg, $code = 200)
+function igk_json($msg, $code = RequestResponseCode::Ok)
 {
     $rep = new JsonResponse($msg, $code);
     return igk_do_response($rep);
+}
+/**
+ * do json error 
+ */
+function igk_json_error(string $msg, int $code = RequestResponseCode::BadRequest){
+    igk_json(['error'=>true, 'message'=>$msg], $code);
 }
 ///<summary>parse expression. multi json object expression</summary>
 ///<param name="exp">param or semi column expression</param>

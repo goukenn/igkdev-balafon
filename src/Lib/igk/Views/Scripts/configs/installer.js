@@ -1,3 +1,5 @@
+// @ts-nocheck
+'use strict';
 (function(){
 if (typeof(igk) == "undefined")
 	return;

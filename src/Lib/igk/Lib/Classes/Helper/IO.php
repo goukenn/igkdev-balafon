@@ -54,6 +54,32 @@ class IO
         }
         return null;
     }
+    /**
+     * 
+     * @param string $basedir 
+     * @param string $path 
+     * @return mixed 
+     * @throws IGKException 
+     */
+    public static function ResolveDirRealPath(string $basedir, string $path)
+    { 
+        $found = true;
+        $segments = explode(DIRECTORY_SEPARATOR, $path);
+        while (count($segments) > 0) {
+            $q = array_shift($segments);
+            $c = IO::GetDirs($basedir, '/' . $q . '$/i', false);
+            if ($c) {
+                $basedir = $c[0];
+            } else {
+                $found = false;
+                break;
+            }
+        }
+        if ($found){
+            return $basedir;
+        }
+        return null;
+    }
 
     /**
      * clean directory
@@ -741,14 +767,14 @@ class IO
                 return preg_match($match, $f);
             };
         } else if ($iscallable) {
-            $_include_match = function ($f, $type='file') use ($match, &$excludedir) {
+            $_include_match = function ($f, $type = 'file') use ($match, &$excludedir) {
                 return $match($f, $excludedir, $type);
             };
         }
         $is_excludir_array = is_array($excludedir);
         while (count($dirs) > 0) {
             $q = array_pop($dirs);
-            if (isset($excludedir[$q])){
+            if (isset($excludedir[$q])) {
                 continue;
             }
             // use scan dir to order
@@ -760,7 +786,7 @@ class IO
                 $mdata = 0;
                 if (!is_dir($f)) {
                     if ($_include_match) {
-                        if ($_include_match($f)){
+                        if ($_include_match($f)) {
                             if ($mdata == -1) {
                                 continue;
                             }
@@ -770,14 +796,14 @@ class IO
                             $v_out[] = $f;
                         } else {
                             // 
-                            if (isset($excludedir[$q])){
+                            if (isset($excludedir[$q])) {
                                 break;
                             }
                         }
                     }
                 } else {
-                    if ($_include_match && !$_include_match($f, 'dir')){                        
-                        if (isset($excludedir[$f])){
+                    if ($_include_match && !$_include_match($f, 'dir')) {
+                        if (isset($excludedir[$f])) {
                             continue;
                         }
                     }
@@ -1107,7 +1133,7 @@ class IO
     {
         $uri = igk_dir($uri);
         return file_exists($uri) && ($uri == igk_realpath($uri));
-    } 
+    }
     ///<summary></summary>
     ///<param name="dir"></param>
     /**

@@ -52,4 +52,11 @@ class OsShell {
         }
         return '/!\error '.$c;
     } 
+    public static function Kill($pid){
+        if (igk_environment()->isUnix()){
+            return `kill {$pid}`;
+        }else{
+            return `taskkill /PID {$pid}`;
+        }
+    }
 }

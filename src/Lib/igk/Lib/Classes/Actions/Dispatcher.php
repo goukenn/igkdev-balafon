@@ -57,7 +57,11 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         $this->m_host = $host;
     }
-
+    /**
+     * 
+     * @param string $actionName 
+     * @return void 
+     */
     public function setBaseActionName(string $actionName)
     {
         $this->m_host->baseActionName = $actionName;

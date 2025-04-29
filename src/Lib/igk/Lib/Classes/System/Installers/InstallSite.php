@@ -137,7 +137,7 @@ class InstallSite
             $ts["name"] = "projects";
             $ts->add("directory")->Content = "{$c_app}/Projects";
             $penv = $php_xml->add("php");
-            $penv->add("env")->setAttributes(["name" => "IGK_BASE_DIR", "value" => $c_public]);
+            $penv->add("env")->setAttributes(["name" => 'IGK_BASE_DIR', "value" => $c_public]);
             $penv->add("env")->setAttributes(["name" => "IGK_APP_DIR", "value" => $c_app]);
             ob_start();
             $xml_options =  (object)["xmldefinition" => 1, "noheader" => 1, "Indent" => 1, "Context" => HtmlContext::XML];

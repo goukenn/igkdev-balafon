@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Users.php
-// @date: 20250425 16:20:35
+// @date: 20250427 09:36:39
 namespace IGK\Models;
 
 
@@ -27,7 +27,6 @@ use IGK\Models\ModelBase;
 * @property string $provider provider name
 * @property string $fb_user_id
 * @property string $auth_2fa_key store otp password key
-* @property string $webauthn_public_key preferred webauthn authentication.
 * @property string|datetime $clDate ="CURRENT_TIMESTAMP" registration date
 * @property string|datetime $clLastLogin last login
 * @property int|?\IGK\Models\Users $clParent_Id Parent of this account
@@ -50,7 +49,6 @@ use IGK\Models\ModelBase;
 * @method static string FD_PROVIDER() - `provider` full column name 
 * @method static string FD_FB_USER_ID() - `fb_user_id` full column name 
 * @method static string FD_AUTH_FA_KEY() - `auth_2fa_key` full column name 
-* @method static string FD_WEBAUTHN_PUBLIC_KEY() - `webauthn_public_key` full column name 
 * @method static string FD_CL_DATE() - `clDate` full column name 
 * @method static string FD_CL_LAST_LOGIN() - `clLastLogin` full column name 
 * @method static string FD_CL_PARENT_ID() - `clParent_Id` full column name 
@@ -60,8 +58,8 @@ use IGK\Models\ModelBase;
 * @method static string FD_CL_DEACTIVATE_AT() - `clDeactivate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
-* @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, string $webauthn_public_key, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
-* @method static ?self AddIfNotExists(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, string $webauthn_public_key, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
+* @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry helper
+* @method static ?self AddIfNotExists(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * @method static array CreateUserApiResponseData() macros function
 * @method static void activate() macros function
 * @method static void addPhoneBookEntry($type,$value) macros function
@@ -91,7 +89,6 @@ class Users extends ModelBase{
 	const FD_PROVIDER="provider";
 	const FD_FB_USER_ID="fb_user_id";
 	const FD_AUTH_FA_KEY="auth_2fa_key";
-	const FD_WEBAUTHN_PUBLIC_KEY="webauthn_public_key";
 	const FD_CL_DATE="clDate";
 	const FD_CL_LAST_LOGIN="clLastLogin";
 	const FD_CL_PARENT_ID="clParent_Id";

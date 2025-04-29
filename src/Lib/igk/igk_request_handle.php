@@ -188,7 +188,8 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_MET
 IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]", function($m=null){
     
      if(defined("IGK_FORCSS"))
-        return;   
+        return; 
+ 
     defined("IGK_FORCSS") || define("IGK_FORCSS", 1);
     defined("IGK_NO_WEB") || define("IGK_NO_WEB", 1); 
     try{        
@@ -198,7 +199,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]"
         if (igk_environment()->isDev()){
             echo  PHP_EOL."/* Exception : ".$ex->getMessage(). " */\n";
         }
-        echo "body{background-color: yellow !important;} body:after{content:'error to display';}";
+        echo "body{background-color: yellow !important;} body:before{content:'contains error to display';}";
     }
     igk_exit();
 }

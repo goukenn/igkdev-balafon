@@ -577,7 +577,8 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     }
     ///<summary></summary>
     /**
-     * 
+     * get title
+     * @return ?string
      */
     public function getTitle()
     {
@@ -623,11 +624,12 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         }
         return $out;
     }
-    ///<summary></summary>
+    ///<summary>send mail after configuration </summary>
     /**
-     * 
+     * send mail after configuration 
+     * @return boolean
      */
-    public function sendMail()
+    public function sendMail():bool
     {
         $boundary = igk_new_id();
         $to = $this->getToString();
@@ -746,7 +748,13 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_from = $value;
     }
-    public function setFormTitle(string $title, string $mail){
+    /**
+     * set from title
+     * @param string $title 
+     * @param string $mail 
+     * @return void 
+     */
+    public function setFromTitle(string $title, string $mail){
         $this->setFrom(sprintf("\"%s\" <%s>", $title, $mail));
     }
     ///<summary></summary>
@@ -857,8 +865,8 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     ///<summary></summary>
     ///<param name="value"></param>
     /**
-     * 
-     * @param mixed $value
+     * set title
+     * @param ?string $value
      */
     public function setTitle($value)
     {

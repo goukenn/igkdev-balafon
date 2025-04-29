@@ -7,13 +7,15 @@
 
 namespace IGK\System\Html\Dom;
 
-use IGK\System\Html\HtmlUtils;
-use IGK\System\Html\IHtmlGetValue;
 
+/**
+ * 
+ * @package IGK\System\Html\Dom
+ */
 class HtmlBodyMainScript extends HtmlScriptNode{
     static $item;
     private $m_scripts = [];
-///<summary>add inline script to bodymain  script</summary>
+    ///<summary>add inline script to bodymain  script</summary>
     ///<return>index of this script</return>
     public function addScript($key, $script){
         if(!isset($this->m_scripts[$key])){            
@@ -64,17 +66,27 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     function __construct(){
         parent::__construct();
         $this["class"] = "igk-mbody-script";
+        // avoid defering on script
+        $this->activate('defer');
     }
      
     protected function _getRenderingChildren($options = null)
     {
-        return [ 
+        return array_filter([ 
             new HtmlBodyInitDocumentNode(),
-            new SourceScriptRenderer($this->m_scripts)
-        ];
+            count($this->m_scripts)>0 ? new SourceScriptRenderer($this->m_scripts) : null
+        ]);
+    }
+    protected function _acceptRender($options = null): bool
+    {        
+        return count($this->m_scripts)>0;
     }
 }  
-class SourceScriptRenderer extends HtmlNode{
+/**
+ * 
+ * @package IGK\System\Html\Dom
+ */
+final class SourceScriptRenderer extends HtmlNode{
     private $m_scripts;
 
     public function __construct($scripts)
