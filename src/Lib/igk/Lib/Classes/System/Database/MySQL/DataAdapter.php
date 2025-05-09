@@ -36,8 +36,9 @@ use function igk_getv as getv;
 /**
  * MySQL Data Adapter 
  */
-class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver,
-IDataDriverCharsetSupport
+class DataAdapter extends DataAdapterBase implements
+    IDbRetrieveColumnInfoDriver,
+    IDataDriverCharsetSupport
 {
     private $queryListener;
     private static $_initAdapter;
@@ -48,12 +49,38 @@ IDataDriverCharsetSupport
     const DB_INFORMATION_SCHEMA = 'information_schema';
 
     /**
+     * 
+     * @param string $table 
+     * @return mixed 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public function dropAllUniqueContraints(string $table)
+    {
+        $tb = '`' . self::DB_INFORMATION_SCHEMA . '`.`TABLE_CONSTRAINTS`';
+        $dbname = $this->getDbName();
+        $query = "SELECT * FROM {$tb} WHERE `TABLE_SCHEMA`='{$dbname}' AND `TABLE_NAME`='{$table}' AND `CONSTRAINT_TYPE`='UNIQUE';";
+
+        if ($r = $this->sendQuery($query)) {
+
+            foreach ($r->getRows() as $r) {
+                $tn = $r->CONSTRAINT_NAME;
+                $query = sprintf('ALTER TABLE `%s` DROP INDEX `%s`;', $table, $tn);
+                $g = $this->sendQuery($query);
+            }
+        }
+
+        return $r;
+    }
+    /**
      * expression of column charset
      * @param string $charset 
      * @return ?string
      */
-    public function queryColumnCharset(string $charset): ?string{
-        if (in_array($charset, ['utf8mb4'])){
+    public function queryColumnCharset(string $charset): ?string
+    {
+        if (in_array($charset, ['utf8mb4'])) {
             return sprintf('CHARSET %s ', $charset);
         }
         return null;
@@ -304,7 +331,7 @@ IDataDriverCharsetSupport
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
         $v_tkey_column_usage = self::DB_INFORMATION_SCHEMA . '.KEY_COLUMN_USAGE';
-         
+
         // + | get reverse foreign keys 
         $query = sprintf(
             implode('', [
@@ -526,14 +553,14 @@ IDataDriverCharsetSupport
                 "user" => $cnf->db_user,
                 "pwd" => $cnf->db_pwd,
                 "port" => $cnf->db_port,
-                "charset"=>$cnf->db_charset
+                "charset" => $cnf->db_charset
             ],  $error);
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
                 Logger::danger("DB_ERROR: " . $error);
                 $s = new NoDbConnection();
             } else {
-                $s->setAdapter($this); 
+                $s->setAdapter($this);
             }
             return $s;
         }
@@ -575,9 +602,9 @@ IDataDriverCharsetSupport
                     $value = date(Constants::MYSQL_DATETIME_FORMAT, strtotime($value));
                 }
             }
-            if (strtolower($type)=='text'){
+            if (strtolower($type) == 'text') {
                 // + | check that text is a valid json string
-                if (json_decode($value)){
+                if (json_decode($value)) {
                     $value = str_replace("\r", "", $value);
                     $value = implode('\\\\n', explode('\\n', $value));
                 }
@@ -678,8 +705,8 @@ IDataDriverCharsetSupport
     public function clearTable($tbname)
     {
         $tbname = igk_mysql_db_tbname($tbname);
-        return $this->sendQuery("TRUNCATE `" . $tbname . "` ;")->Success && 
-        $this->sendQuery("ALTER TABLE `" . $tbname . "` AUTO_INCREMENT =1;")->Success;
+        return $this->sendQuery("TRUNCATE `" . $tbname . "` ;")->Success &&
+            $this->sendQuery("ALTER TABLE `" . $tbname . "` AUTO_INCREMENT =1;")->Success;
     }
     ///<summary></summary>
     ///<param name="dbname"></param>
@@ -705,14 +732,15 @@ IDataDriverCharsetSupport
      * @param mixed $columninfoArray
      * @param mixed $entries the default value is null
      * @param mixed $desc the default value is null
+     * @param string $dbname the default value is null
      */
-    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $options = null)
+    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $dbname = null, ?string $prefix=null)
     {
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
 
             if (!($this->tableExists($tablename, false))) {
                 igk_ilog('db try to create table > ' . $tablename);
-                $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $options);
+                $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $dbname, $prefix);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);

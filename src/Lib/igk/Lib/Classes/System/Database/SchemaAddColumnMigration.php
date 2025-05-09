@@ -68,8 +68,8 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         }
         if ($after)
             $after = Database::AutoPrefixColumn($after, $prefix);
-        
 
+        $changed = false;
         foreach($this->columns as $cl){
             if (is_null($cl->clName)){
                 continue;
@@ -79,14 +79,20 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             $ctrl->db_add_column($tb, $cl, $after);
             if ($cl->clIsIndex){
                 $ctrl->db_add_index($tb, $cl->clName);
-            }
-             
+            } 
             if ($after){ // continue after
                 $after = $cl->clName;
             }
-           // $cl->clName = $hb;
+            $changed = $changed || $cl->clIsUniqueColumnMember;
+        }
+        if ($migListerner = $this->getMigrationInfoListener()){
+            $migListerner->regDefTableChanged($tb);
         }
     }
+    /**
+     * 
+     * @return void 
+     */
     public function down(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);

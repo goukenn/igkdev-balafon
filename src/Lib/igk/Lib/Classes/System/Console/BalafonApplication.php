@@ -564,10 +564,7 @@ class BalafonApplication extends IGKApplicationBase
                                                 '%s:%s',
                                                 $ex->getFile(),
                                                 $ex->getLine()
-                                            ) .
-                                            "\n" .
-                                            igk_getv($trace, 'file'),
-                                        igk_getv($trace, 'line'),
+                                            )
                                     ])
                             );
                             return false;

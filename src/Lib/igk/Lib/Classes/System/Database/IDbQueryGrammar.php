@@ -49,6 +49,10 @@ interface IDbQueryGrammar extends IGrammar {
 
     /**
      * 
+     * @param string $table table name
+     * @param mixed $column_info column information 
+     * @param mixed $nk key name
+     * @param ?string $db db name
      * @return mixed 
      */
     function add_foreign_key(string $table, $column_info, $nk = null, $db = null);

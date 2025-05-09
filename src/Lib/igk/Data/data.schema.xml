@@ -378,14 +378,13 @@
 	<DataDefinition Description="Phone books" Prefix="rcphb_" TableName="%prefix%phoneBooks">
 		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphb_Id" clType="Int"></Column>
 
-		<Column clIsUnique="False" clIsUniqueColumnMember="True" clLinkColumn="rcphbe_Guid"
+		<Column clIsUnique="False" clLinkColumn="rcphbe_Guid"
 			clLinkType="%prefix%phoneBookEntries" clName="rcphb_EntryGuid" clNotNull="True"
 			clType="Guid"></Column>
-		<Column clIsUniqueColumnMember="True" clLinkColumn="rcphbt_Id"
-			clLinkType="%prefix%phoneBookTypes" clName="rcphb_Type" clNotNull="1"></Column>
-		<Column clIsUniqueColumnMember="True" clName="rcphb_Value" clNotNull="1" clType="VarChar"
-			clTypeLength="255"></Column>
-		<GenColumn name="updateTime" prefix="rcphb_"></GenColumn>
+		<Column clLinkColumn="rcphbt_Id"
+			clLinkType="%prefix%phoneBookTypes" clName="Type" clNotNull="1"></Column>
+		<Column clName="Value" clNotNull clType="Text"></Column>
+		<GenColumn name="updateTime" ></GenColumn>
 	</DataDefinition>
 
 	<DataDefinition Description="Phone book's type" Prefix="rcphbt_"
@@ -398,11 +397,10 @@
 
 	<DataDefinition Description="Store book entries" Prefix="rcphbe_"
 		TableName="%prefix%phoneBookEntries">
-		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphbe_Id" clType="Int"></Column>
-
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphbe_Id" clType="Int"></Column> 
 		<Column clIsUnique="True" clName="rcphbe_Guid" clNotNull="1" clType="Guid"></Column>
 		<GenColumn name="updateTime" ></GenColumn>
-	</DataDefinition>
+	</DataDefinition> 
 
 	<DataDefinition Description="User's preferences " Prefix="rcphbp_"
 		TableName="%prefix%phoneBookPreferences">
@@ -748,6 +746,18 @@
 				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="loglogs_Update_At"
 					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
 			</changeColumn>
+		</Migration>
+
+
+		<Migration>
+			<addColumn table="%prefix%phoneBookEntries" after="Guid"> 
+				<Column clName="user_guid" clType="GUID" clNotNull="false" clLinkType="%sysprefix%users" clLinkColumn="clGuid" clIsUnique="false"></Column> 
+			</addColumn>
+			<addColumn table="%prefix%phoneBooks" after="Value"> 
+				<Column clIsUniqueColumnMember="True" clLinkColumn="Id"
+						clLinkType="%prefix%phoneBookTypes" clName="Type" clNotNull="1" clColumnMemberIndex="1"></Column>
+				<Column clName="is_preferred" clType="BOOLEAN" clIsUniqueColumnMember clColumnMemberIndex="1"></Column> 
+			</addColumn>
 		</Migration>
 	</Migrations>
 </data-schemas>

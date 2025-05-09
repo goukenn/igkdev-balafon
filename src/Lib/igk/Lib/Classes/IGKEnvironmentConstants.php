@@ -63,4 +63,7 @@ abstract class IGKEnvironmentConstants{
 
 
      const CtrlEnvParamModules = 'modules';
+
+
+     const COMPONENT_PACKAGE_KEY = 'sys://components/packages';
 }

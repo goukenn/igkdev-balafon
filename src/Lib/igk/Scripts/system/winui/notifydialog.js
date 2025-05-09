@@ -68,7 +68,6 @@
             }
         },
         showMsg: function(msg, type, nc, settings) {
-
             // msg : content message
             // type : of the content notification
             // nc: close button

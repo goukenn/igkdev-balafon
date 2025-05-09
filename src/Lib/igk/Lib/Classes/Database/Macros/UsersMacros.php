@@ -120,22 +120,22 @@ abstract class UsersMacros
             $r->save();
         }
 
-        $t = PhoneBookTypes::GetCache(PhoneBookTypes::FD_RCPHBT_NAME, $type);
+        $t = PhoneBookTypes::GetCache(PhoneBookTypes::FD_NAME, $type);
         if (!$t) {
             return false;
         }
         $success = false;
         if (empty($value)) {
             PhoneBooks::delete([
-                PhoneBooks::FD_RCPHB_ENTRY_GUID => $guid,
-                PhoneBooks::FD_RCPHB_TYPE => $t->rcphbt_Id,
+                PhoneBooks::FD_ENTRY_GUID => $guid,
+                PhoneBooks::FD_TYPE => $t->rcphbt_Id,
             ]);
         } else {
             PhoneBooks::beginTransaction();
             if ($g = PhoneBooks::createIfNotExists([
-                PhoneBooks::FD_RCPHB_ENTRY_GUID => $guid,
-                PhoneBooks::FD_RCPHB_TYPE => $t->rcphbt_Id,
-                PhoneBooks::FD_RCPHB_VALUE => $value,
+                PhoneBooks::FD_ENTRY_GUID => $guid,
+                PhoneBooks::FD_TYPE => $t->rcphbt_Id,
+                PhoneBooks::FD_VALUE => $value,
             ])) {
                 if (!$r) {
                     $success  = $g && PhoneBookUserAssociations::create([
@@ -195,11 +195,11 @@ abstract class UsersMacros
             PhoneBooks::prepare()
                 ->join_left(
                     PhoneBookTypes::table(),
-                    PhoneBooks::FD_RCPHB_TYPE . '=' . PhoneBookTypes::FD_RCPHBT_ID
+                    PhoneBooks::FD_TYPE . '=' . PhoneBookTypes::FD_ID
                 )
                 ->where([
-                    PhoneBooks::FD_RCPHB_ENTRY_GUID => $g->usrphb_PhoneBookEntryGuid,
-                    PhoneBookTypes::FD_RCPHBT_NAME => $type
+                    PhoneBooks::FD_ENTRY_GUID => $g->usrphb_PhoneBookEntryGuid,
+                    PhoneBookTypes::FD_NAME => $type
                 ])
                 ->execute(true, [
                     "@callback" => function ($a) use (&$response) {

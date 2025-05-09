@@ -24,8 +24,10 @@ use IGK\Constants;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbExpression;
 use IGK\Database\DbLitteralExpression;
+use IGK\Database\DbSchemas;
 use IGK\Database\IDataDriver;
 use IGK\Database\IDbColumnInfo;
+use IGK\Helper\Database;
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
 use IGK\System\Console\Logger;
@@ -267,6 +269,16 @@ class SQLGrammar implements IDbQueryGrammar
             );
         }
     }
+
+    /**
+     * - 
+     * @var IGK\System\Database\SplitColumnMemberRereference
+     */
+    public static function SplitColumnMemberRereference(string $d){
+        return array_filter(array_map('trim', preg_split('/,|-/', $d)), function($a){
+            return strlen($a)>0;
+        });
+    }
     /**
      * resolv sql type
      * @param mixed $t 
@@ -288,6 +300,7 @@ class SQLGrammar implements IDbQueryGrammar
             "json" => "JSON",
             "datetime" => "datetime",
             "timestamp" => "timestamp",
+            'boolean'=>'tinyint'
         ], $t = strtolower($t), $t);
     }
     public static function fallbackType($t, $adapter)
@@ -364,7 +377,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
-    public function createTablequery(string $tablename, array $columninfo, $desc = null, $options = null)
+    public function createTablequery(string $tablename, array $columninfo, $desc = null, $options = null, ?string $prefix=null)
     {
         $driver = $this->m_driver;
         $query = '';
@@ -515,7 +528,7 @@ class SQLGrammar implements IDbQueryGrammar
                     $v_unique_columns_index = '' . $v->clColumnMemberIndex;
                 }
                 //  if ($v_unique_columns_index) {
-                $tindex = explode("-", $v_unique_columns_index);
+                $tindex = self::SplitColumnMemberRereference($v_unique_columns_index);
                 $indexes = array();
                 foreach ($tindex as $kindex) {
                     if (!is_numeric($kindex) || isset($indexes[$kindex]))
@@ -524,7 +537,8 @@ class SQLGrammar implements IDbQueryGrammar
                     $ck = 'unique_' . $kindex;
                     $bf = "";
                     if (!isset($uniques[$ck])) {
-                        $bf .= "UNIQUE KEY `UC_" . $ck . "_index`(`" . $v_name . "`";
+                        $ts =  Database::AutoPrefixColumn("UC_" . $ck . "_index", $prefix );
+                        $bf .= "UNIQUE KEY `" . $ts . "`(`" . $v_name . "`";
                     } else {
                         $bf = $uniques[$ck];
                         $bf .= ",`" . $v_name . "`";
@@ -532,13 +546,13 @@ class SQLGrammar implements IDbQueryGrammar
                     $uniques[$ck] = $bf;
                 }
             }
-            if ($v->clIsPrimary && !isset($tinf[$primkey])) {
+            if ($v->clIsPrimary && !isset($tinf[$primkey])){
                 if (!empty($primary))
                     $primary .= ",";
                 $primary .= "" . $driver->escape_table_column($v_name) . "";
             }
             if ($v->clIsIndex || $v->clLinkType) {
-                ///TODO : fix key definition 
+                /// TODO : fix key definition 
                 $v_nk = $v_name;
                 if ($v->clLinkType) {
                     // + | --------------------------------------------------------------------
@@ -631,8 +645,8 @@ class SQLGrammar implements IDbQueryGrammar
         // $clkey =  $db ? "%s.%s" : "%s";
         $clkey = "%s(%s)";
         $tbname =   $this->joinTableName($table, $db);
-        
-        $link = $this->joinTableName($column_info->clLinkType, $db);
+        $cl = $column_info->clLinkType;
+        $link = $this->joinTableName($cl, $db);
         $link_column =  getv($column_info, "clLinkColumn", self::FD_ID);
 
         $query = sprintf(
@@ -651,7 +665,7 @@ class SQLGrammar implements IDbQueryGrammar
         return $query;
     }
     /**
-     * joint table tbame
+     * joint table table's name
      * @param string $table 
      * @param null|string $db 
      * @param null|string $column 
@@ -691,6 +705,19 @@ class SQLGrammar implements IDbQueryGrammar
         $q .= "(" . $column . ");";
         return $q;
     }
+    /**
+     * query unique  unit key
+     * @param string $table 
+     * @param array $columns 
+     * @return string 
+     */
+    public function addUnique(string $table, $columns, ?string $id=null){
+        $id = $id ? sprintf('`%s`', $this->m_driver->escape_string($id)) : null;
+        return sprintf('ALTER TABLE `%s` ADD UNIQUE %s(`%s`);', $table,$id, implode('`,`', $columns));
+    }
+    public function dropAllUniqueContraints(string $table){
+        
+    }
     private function _get_column_list($column)
     {
 
@@ -728,7 +755,7 @@ class SQLGrammar implements IDbQueryGrammar
      */
     public function add_column(string $table, $info, ?string $after = null)
     {
-        Logger::warn('try add column : ' . $table . ' :-> ' . $info->clName);
+        Logger::warn('try add column: ' . $table . ' :-> ' . $info->clName);
         $v_clname = $this->m_driver->escape_string($info->clName);
         $v_clname = $this->m_driver->escape_string($info->clName);
 
@@ -1489,7 +1516,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param mixed $adapter  
      * @return mixed 
      */
-    public static function GetCondString($driver, $tab, $operator = 'AND', $primaryKey = IGK_FD_ID)
+    public static function GetCondString($driver, $tab, $operator = 'AND', $primaryKey = IGK_FD_ID, $tableInfo = null)
     {
         $query = "";
         $t = 0;
@@ -1548,7 +1575,7 @@ class SQLGrammar implements IDbQueryGrammar
                         continue;
                     }
 
-                    if ($r = $adapter->getObjValue($v)) {
+                    if ($r = $adapter->getObjValue($v, $k, $tableInfo)) {
                         if ($t == 1)
                             $query .= " $op ";
 

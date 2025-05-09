@@ -8331,11 +8331,11 @@ function igk_get_current_base_uri($dir = null, $secured = false)
 }
 ///<summary></summary>
 /**
- * 
+ * retrieve current pagage 
  */
 function igk_get_current_package()
 {
-    $key = "sys://components/packages";
+    $key = Constants::COMPONENT_PACKAGE_KEY;
     $n = igk_get_env("sys://components/currentpackage");
     if ($n)
         return ($t = igk_getv(igk_get_env($key), $n)) ? $t["callback"] : null;
@@ -12712,7 +12712,9 @@ function igk_html_reg_component_demo($ns, $callback)
  * Represent igk_html_reg_component_package function
  * @param mixed $component 
  */
-function igk_html_reg_component_package($component = null) {}
+function igk_html_reg_component_package($component = null) {
+    throw new \IGKException('not implement');
+}
 ///<summary></summary>
 ///<param name="n"></param>
 /**
@@ -18653,18 +18655,21 @@ function igk_reg_component_ajx($n, $attr, $callback)
 }
 ///<summary>only to register a autodection package</summary>
 /**
- * only to register a autodection package
+ * only to register. auto detection package
+ * @param ?string $packagename namespace package
+ * @param callback $callback use to register package
+ * @param ?string $desc description
  */
-function igk_reg_component_package($packagename = null, $callback = null)
+function igk_reg_component_package(?string $packagename = null, $callback = null, ?string $desc=null)
 {
-    $key = "sys://components/packages";
+    $key = Constants::COMPONENT_PACKAGE_KEY;
     $t = igk_get_env($key) ?? array();
     if (empty($packagename))
         return $t;
     $k = strtolower($packagename);
     if (isset($t[$k]))
         igk_die("[{$packagename}]" . " component package already register.");
-    $t[$k] = array("name" => $packagename, "callback" => $callback, "init" => 0);
+    $t[$k] = array("name" => $packagename, "callback" => $callback, "init" => 0, "chain_callback"=>[], "desc"=>$desc);
     $m = &$t;
     igk_set_env($key, $m);
 }
@@ -18788,7 +18793,7 @@ function igk_reg_handle_file_request($s)
 }
 ///<summary> use to register html custom component</summary>
 /**
- *  use to register html custom component
+ *  use to register html custom component to namespace
  */
 function igk_reg_html_component($name, $callback, $ns = "igk")
 {
@@ -18801,7 +18806,7 @@ function igk_reg_html_component($name, $callback, $ns = "igk")
         unset($package[$ns]["components"][$name]);
     } else
         $package[$ns]["components"][$name] = $callback;
-    igk_set_env("sys://components/packages", $package);
+    igk_set_env(Constants::COMPONENT_PACKAGE_KEY, $package);
 }
 ///<summary></summary>
 ///<param name="callback"></param>
@@ -24688,12 +24693,12 @@ function igk_uri_unsanitize($v)
 ///<summary></summary>
 ///<param name="packagename"></param>
 /**
- * 
+ * force use of package 
  * @param mixed $packagename 
  */
 function igk_use_component_package($packagename)
 {
-    $key = "sys://components/packages";
+    $key = Constants::COMPONENT_PACKAGE_KEY;
     $tab = igk_get_env($key);
     $n = strtolower($packagename);
     if (!$tab || !($t = igk_getv($tab, $n)))

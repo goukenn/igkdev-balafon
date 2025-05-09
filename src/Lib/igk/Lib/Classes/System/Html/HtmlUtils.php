@@ -49,7 +49,7 @@ abstract class HtmlUtils extends DomNodeBase
     public static function JSonDataAttributes($data)
     {
         if (is_null($data)) return null;
-        if (is_string($data)){
+        if (is_string($data)) {
             return $data;
         }
         return json_encode($data);
@@ -81,7 +81,7 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function ExplodeTag(string $tagname, $context = null): array
     {
-        return HtmlNodeTagExplosionDefinition::ExplodeTag($tagname, $context);       
+        return HtmlNodeTagExplosionDefinition::ExplodeTag($tagname, $context);
     }
 
     /**
@@ -836,8 +836,8 @@ abstract class HtmlUtils extends DomNodeBase
                 }
                 return null;
             };
-        $package = igk_reg_component_package();
         if (($pos = strpos($name, ":")) !== false) {
+            $package = igk_reg_component_package();
             $g = substr($name, 0, $pos);
             $n = substr($name, $pos + 1);
             if (isset($package[$g])) {
@@ -852,8 +852,17 @@ abstract class HtmlUtils extends DomNodeBase
                 if ($creator == null) {
                     $creator = array();
                 }
-                $creator[$name] = $fc;
-                $ng = call_user_func_array($fc, array_merge(array($name), array_slice(func_get_args(), 1)));
+                $creator[$name] = function()use ($fc, $n){
+                    $args = func_get_args();
+                    array_shift($args);
+                    array_unshift($args, $n);
+                    return call_user_func_array($fc, $args);
+                };
+                $arg = array_slice(func_get_args(), 1);
+                if ($arg && is_array($arg[0])){
+                    $arg = $arg[0];
+                }
+                $ng = call_user_func_array($fc, array_merge(array($n), $arg));
                 return $ng;
             }
         }
@@ -867,19 +876,24 @@ abstract class HtmlUtils extends DomNodeBase
             $s = new ReflectionFunction($fc);
             $v_rp = $s->getNumberOfRequiredParameters();
             $initiator[$name] = [
-                "type" => "function", "name" => $name, "callback" => $fc, "count" => 1, "requireArgs" => $v_rp, "invoke" => function ($inf, $args) use ($initcallback) {
+                "type" => "function",
+                "name" => $name,
+                "callback" => $fc,
+                "count" => 1,
+                "requireArgs" => $v_rp,
+                "invoke" => function ($inf, $args) use ($initcallback) {
                     $tb = is_array($args) ? $args : array();
                     $v_pcount = igk_count($tb);
                     $v_rp = $inf["requireArgs"];
                     $name = $inf["name"];
                     $c = null;
                     $fc = $inf["callback"];
-                    if ($v_pcount >= $v_rp){
+                    if ($v_pcount >= $v_rp) {
                         $p = igk_html_parent_node();
                         $c = call_user_func_array($fc, $tb);
-                        if ($p && ($p===$c)){                         
+                        if ($p && ($p === $c)) {
                             return $p;
-                        }                        
+                        }
                         if ($c) {
                             if ($initcallback) {
                                 $initcallback($c, array("type" => IGK_COMPONENT_TYPE_FUNCTION, "name" => $fc));
@@ -893,7 +907,7 @@ abstract class HtmlUtils extends DomNodeBase
                                     "args" => $tb
                                 ]));
                             }
-                            
+
                             self::FilterNode($c,  [
                                 "node" => $c,
                                 "tagname" => $name,
@@ -914,7 +928,11 @@ abstract class HtmlUtils extends DomNodeBase
             $c = $fc($initiator[$name], $args);
         } else {
             $initiator[$name] = [
-                "type" => "fallback", "name" => $name, "count" => 1, "context" => $context, "invoke" => function ($inf, $args) {
+                "type" => "fallback",
+                "name" => $name,
+                "count" => 1,
+                "context" => $context,
+                "invoke" => function ($inf, $args) {
                     $name = $inf["name"];
                     $context = $inf["context"];
                     if ($context == HtmlContext::Html) {
@@ -1014,10 +1032,11 @@ abstract class HtmlUtils extends DomNodeBase
      * @param bool $header 
      * @return void 
      */
-    public static function BindRow($table, $rows, $header=false){
+    public static function BindRow($table, $rows, $header = false)
+    {
         $tr = $table->tr();
         foreach ($rows as $r) {
-            $m = $header ? $tr->th() : $tr->td(); 
+            $m = $header ? $tr->th() : $tr->td();
             $m->Content = $r;
         }
     }

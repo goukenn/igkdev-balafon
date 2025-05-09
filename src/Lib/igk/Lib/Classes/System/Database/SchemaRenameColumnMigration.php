@@ -26,9 +26,9 @@ class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
         list($column,$new_name) = igk_extract($this, 'column|new_name');
         $tb = igk_db_get_table_name($table, $ctrl);
         $v_renamed = $ctrl::db_rename_column($tb, $column, $new_name);
-        if ($v_renamed instanceof BooleanQueryResult ){
+        //if ($v_renamed instanceof BooleanQueryResult ){
             // possibiliy to remove column from schema list 
-            if ($v_renamed->success()){ 
+            //if ($v_renamed->success()){ 
                 // contains db the remove column 
                 // $clinfo = DbSchemas::GetTableColumnInfo($tb, $ctrl);
                 // $p = array_keys((array)$clinfo);
@@ -36,8 +36,8 @@ class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
                 //     // possibility the column was the same 
                 //     igk_wln(__FILE__.":".__LINE__ , $table." : same data :::: ", $column, $new_name, );
                 // }
-            }
-        }
+            //}
+        //}
         Logger::warn("rename column - ".$table." ".$column ." > ". $new_name);
         igk_hook(IGKEvents::HOOK_DB_RENAME_COLUMN, ['column'=>$column, "name"=>$new_name /*, "table"=>$table*/]);
     }

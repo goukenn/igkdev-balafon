@@ -83,7 +83,7 @@ class MySQLDataController extends BaseController{
     ///<param name="dbname"></param>
     ///<param name="qregex"></param>
     /**
-    * 
+    * drop all constraint
     * @param mixed $adapt
     * @param mixed $dbname
     * @param mixed $qregex

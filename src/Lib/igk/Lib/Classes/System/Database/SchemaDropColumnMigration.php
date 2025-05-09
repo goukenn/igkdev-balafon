@@ -32,9 +32,7 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $cl = DbSchemas::GetTableColumnInfo($tb, $ctrl);
         $inf = igk_getv($cl, $this->column);
-        $this->m_cl = $inf;
-
-        // $ctrl->db_add_column($tb, $cl);
+        $this->m_cl = $inf; 
     }
     /**
      * get column info

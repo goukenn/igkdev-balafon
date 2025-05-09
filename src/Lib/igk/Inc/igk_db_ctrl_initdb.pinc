@@ -31,12 +31,12 @@ $fcname = "initDb";
 igk_set_env("sys://db/constraint_key", $controller->getInitDbConstraintKey());
 // Logger::print("init db: ".get_class($controller));
 if (!$controller->getUseDataSchema()) {
-    Logger::info("init from db function ...");
+    Logger::info("- init from db function ...");
     $controller::initDbFromFunctions();
     $response = true;
 } else {
 
-    Logger::info("init from db schemas ...");
+    Logger::info("- init from db schemas ...");
     $bck = igk_get_env(IGK_ENV_DB_INIT_CTRL);
     igk_set_env(IGK_ENV_DB_INIT_CTRL, $controller);
    
@@ -62,7 +62,7 @@ if (!$controller->getUseDataSchema()) {
         igk_set_env(IGK_ENV_DB_INIT_CTRL, $bck);
         $response = true;
     } else {
-        Logger::warn('no tables found in schemas definition');
+        Logger::warn('- no tables found in schemas definition');
     }
 }
  

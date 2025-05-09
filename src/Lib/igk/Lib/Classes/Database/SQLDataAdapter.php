@@ -7,6 +7,7 @@
 
 namespace IGK\Database;
 
+use Exception;
 use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Database\IDbSendQueryListenerSupport;
 use IGK\System\Database\SQLGrammar;
@@ -281,9 +282,23 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         } 
         return null;
     }
-    public function getObjValue($value){
+    /**
+     * 
+     * @param mixed $value 
+     * @param  $for 
+     * @param mixed $value 
+     * @return mixed 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public function getObjValue($value, ?string $for=null, $tableInfo = null){
         
         if ($value instanceof \IGK\Models\ModelBase){
+            if ($for && $tableInfo){
+                $clinfo = igk_getv($tableInfo, $for);
+                $tk = $clinfo->clLinkColumn ?? IGK_FD_ID;
+                return $value->{$tk};
+            }
             return $value->id();
         } 
         if(igk_reflection_class_implement($value, IHtmlGetValue::class)){

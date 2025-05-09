@@ -5809,6 +5809,11 @@
             });
         });
 
+        /**
+         * init method with event
+         * @param {string} ms event name
+         * @returns 
+         */
         function _initmethod(ms) {
             return function (m, n) {
                 if (n == null) {
@@ -6337,80 +6342,22 @@
     })();
 
    
-    // igk.ctrl.bindAttribManager("igk-js-bind-select-to",function(n,v){
-    // var s=null;
-    // var q=this;
-    // var qv=q.getAttribute('value');
-    // if(igk.system.string.startWith(v,"#"))
-    // {
-    // s=$igk(v);
-    // if(s){
-    // s.select("option").each(function(){
-    // copy
-    // q.appendChild(this.clone());
-    // continue execution
-    // return !0;
-    // });
-    // }
-    // }
-    // else{
-    // var s = igk.JSON.parse(v);	
-    // if(s && s.id){
-    // if(s.allowempty){
-    // var opt=igk.createNode("option");
-    // opt.setAttribute("value",typeof(s.emptyvalue) !=igk.constants.undef ? s.emptyvalue : null);
-    // q.appendChild(opt);
-    // }
-    // var select=s.selected;
-    // var tag=s.tag ? s.tag : 'option';
-    // var present=false;
-    // s=$igk(s.id).select(tag)
-    // .each(function(){
-    // copy
-    // var r=null;
-    // if(tag !='option')
-    // {
-    // r=igk.createNode("option");
-    // r.copyAttributes(this);
-    // r.setHtml(this.o.innerHTML);
-    // }
-    // else 
-    // r=this.clone();
-    // var vv=r.getAttribute('value');
-    // if(vv==select){
-    // r.setAttribute('selected','true');
-    // }
-    // if(tag !='option')
-    // r.o.tagName="option";
-    // q.appendChild(r);
-    // present |=(vv==qv);
-    // continue execution
-    // return !0;
-    // });
-    // if((qv!=null) && !present){
-    // var r=igk.createNode("option");
-    // r.setAttribute('value',qv);
-    // r.setHtml(qv);
-    // q.appendChild(r);
-    // }
-    // }
-    // }
-    // });
     // handler for touch events
     (function () {
         var m = [];
         var c = igk.createNode("div");
+        const _e='click';
 
         function __disable_func(evt) {
             evt.preventDefault();
         }
         // override the click event functions register function for click or touch screen
-        igk.winui.registerEventHandler("click", {
+        igk.winui.registerEventHandler(_e, {
             reg_event: function (item, func, useCapture) { // click host handler				
-                return igk.winui.reg_system_event(item, "click", func, useCapture);
+                return igk.winui.reg_system_event(item, _e, func, useCapture);
             },
             unreg_event: function (item, func) {
-                return igk.winui.unreg_system_event(item, "click", func);
+                return igk.winui.unreg_system_event(item, _e, func);
             }
         });
 
@@ -7122,7 +7069,7 @@
                 }
             }
 
-            function __init() {
+            function __init() { 
                 var self = this;
                 var r = this.getAttribute("igk-ajx-form");
                 var r_obj = r && (r != '1') ? igk.JSON.parse(r) : null;

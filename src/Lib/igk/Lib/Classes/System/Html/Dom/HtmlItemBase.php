@@ -1106,9 +1106,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         return $this->getTempFlag("creationargs");
     }
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $attributes 
+     * create a web node 
+     * @param mixed|string $n 
+     * @param mixed|array $attributes 
      * @param mixed $indexOrArgs 
      * @return mixed 
      * @throws IGKException 

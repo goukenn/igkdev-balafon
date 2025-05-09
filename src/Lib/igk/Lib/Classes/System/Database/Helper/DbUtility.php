@@ -24,6 +24,17 @@ use IGKSysUtil;
 abstract class DbUtility
 {
 
+    public static function TreatColumnsCondition(& $conditions, $columns){
+        if (!$conditions)return;
+        foreach($conditions as $k=>$v){
+            if ($v instanceof ModelBase){
+                if (($clinfo = igk_getv($columns, $k)) && ($clinfo->clLinkType)){
+                    $cl = $clinfo->clLinkColumn ?? IGK_FD_ID;
+                    $conditions[$k] = $v->{$cl};
+                }
+            }
+        }
+    }
     /**
      * prefix the column name with data value
      * @param string $columnName 
@@ -259,6 +270,12 @@ abstract class DbUtility
                 continue;
             }
             $tv = igk_getv($condition, $v->clName);
+
+            if ($tv instanceof ModelBase){
+                $clinfo = $v->clLinkColumn;
+                $tv = $tv->{$clinfo};
+
+            }  
             if ($v->clIsUnique) {
                 if (!is_null($tv) || $v->clNotNull){                    
                     $tab[$k]=$tv;
@@ -269,7 +286,7 @@ abstract class DbUtility
                 if (!isset($unique_columns[$idx]))
                     $unique_columns[$idx] = [];
                 if (!is_null($tv) || $v->clNotNull){                    
-                    $unique_columns[$idx][$k] = igk_getv($condition, $v->clName);
+                    $unique_columns[$idx][$k] = $tv; 
                 }
             }
         }

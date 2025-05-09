@@ -13,9 +13,11 @@ use IGK\System\WinUI\LayoutRules;
 class InitData extends InitBase{
 	public static function Init(ControllersSysDbController $controller){ 
 
+		// + | init phone books type 
 		foreach(PhonebookTypeNames::GetConstants() as $v){
 			PhoneBookTypes::insertIfNotExists([
-				PhoneBookTypes::FD_NAME => $v
+				PhoneBookTypes::FD_NAME => $v,
+				PhoneBookTypes::FD_CARDINALITY=>0
 			]);
 		}
 		// init layout rules 

@@ -9,6 +9,7 @@ namespace IGK;
 ///<summary>Represente class: Constants</summary>
 
 use IGK\System\EntryClassResolution;
+use IGKEnvironment;
 
 /**
 * Represent Balafon's global constants
@@ -65,6 +66,9 @@ final class Constants{
 
 
     const DEFAUTL_PAGE_CONTROLLER_CLASS='IGKDefaultPageController';
+
+    // environment
+    const COMPONENT_PACKAGE_KEY = IGKEnvironment::COMPONENT_PACKAGE_KEY; 
     
     /**
      * get the core version 

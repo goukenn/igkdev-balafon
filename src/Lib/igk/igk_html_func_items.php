@@ -5977,11 +5977,11 @@ if (!function_exists('igk_html_node_balafonlogo')) {
      * @param string $name 
      * @return HtmlNoTagNode 
      */
-    function igk_html_node_balafonlogo(string $name='balafon_logo'):HtmlNoTagNode
+    function igk_html_node_balafonlogo(string $name='balafon_logo')
     {
         $n = igk_create_notagnode();
-        $n->usesvg($name);
-        return $n;
+        return $n->usesvg($name);
+        //return $n;
     }
 }
 if (!function_exists('igk_html_node_spacer')) {
@@ -6016,5 +6016,18 @@ if (!function_exists('igk_html_node_mailpreview')) {
     function igk_html_node_mailpreview()
     {
         return new \IGK\System\Http\Mail\MailPreviewNode();
+    }
+}
+
+
+if (!function_exists('igk_html_node_dotwaiter')) {
+    function igk_html_node_dotwaiter()
+    {
+        $n = igk_create_node('div');
+        $n['class'] = 'igk-dotwaiter';
+        $n->div()->setClass('dot');
+        $n->div()->setClass('dot');
+        $n->div()->setClass('dot');
+        return $n;
     }
 }

@@ -312,7 +312,7 @@ class Database
                 $n = sprintf('`%s`.%s', $dbname, $adapter->escape_table_name($n));
             }
 
-            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName)) {
+            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName, $v->prefix)) {
                 igk_push_env("db_init_schema", sprintf("failed to create  : %s", $n));
                 igk_ilog("failed to create " . $n);
             } else {
@@ -321,7 +321,7 @@ class Database
                 }
             }
         }
-        $adapter->endInitDb();
+        $adapter->endInitDb($tb);
         if ($v_foreignConstraints) {
             array_map(function ($i) use ($adapter, $ctrl) {
                 list($tbname, $a) = $i;

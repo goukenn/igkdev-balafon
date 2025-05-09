@@ -13,6 +13,10 @@ final class IGKCSVQueryResult extends IGKQueryResult{
     ///<summary></summary>
     private function __construct(){    }
 
+    public function getRowAtIndex(int $index) { 
+        return igk_getv($this->m_rows, $index);
+    }
+
     public function success(): bool { 
         return true;
     }

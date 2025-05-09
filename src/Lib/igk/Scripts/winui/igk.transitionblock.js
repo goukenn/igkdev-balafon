@@ -1,13 +1,13 @@
 "use strict";
-
+// @component: igk-transitionblock
 (function(){
-
-
+/**
+ * handle animation 
+ * @param {*} q 
+ */
 function animateHandle(q){
-	var d = function(e){
-		// console.debug("scrolling...");
+	var d = function(e){		
 		if (this.getisVisible()){
-			// console.debug("starrt animate");
 			q.addClass("animate");
 		}
 	};
@@ -31,27 +31,14 @@ function animateHandle(q){
 	});
 };
 
-// \$igk(".trans-block").each_all(function(){
-	// // console.debug("init trans-block");
-	// if(this.getisVisible()){
-		// this.addClass("animate");
-	// }else{
-		// // console.debug(t);
-		// new animateHandle(this);
-	// }
-	// // console.debug("is visible : "+ this.getisVisible());
-// });
-// console.debug("done");
+ 
 igk.winui.initClassControl("igk-transitionblock", function(){
 	if (this.getisVisible()){
 		this.addClass("animate");
 	}else{
 		new animateHandle(this);
-	}
-	
-	
-});
-
+	} 
+}); 
 
 })();
 

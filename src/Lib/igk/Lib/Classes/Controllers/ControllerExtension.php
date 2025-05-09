@@ -737,6 +737,8 @@ abstract class ControllerExtension
                             $t->migrationListener = null;
                             $v_count++;
                         }
+                        $listener->didMigrationComplete();
+
                     } catch (Exception $ex) {
                         Logger::danger(sprintf("db - migrate error : %s", $ex->getMessage()));
                         igk_ilog("some rerror:  " . $ex->getMessage());
@@ -1993,8 +1995,8 @@ abstract class ControllerExtension
                 $obj->RelationsDef = $data->relations;
                 $obj->Migrations = $data->migrations;
                 $obj->Version = $data->version;
-
                 foreach ($data->tables as $n => $t) {
+                    $c = null;
                     // Passing entries to return object
                     if (isset($t->entries)) {
                         if ($c = $t->entries) {

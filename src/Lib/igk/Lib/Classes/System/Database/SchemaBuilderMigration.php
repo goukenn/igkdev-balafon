@@ -50,6 +50,10 @@ class SchemaBuilderMigration{
         }
         throw new IGKException("schema builder not allowed : $cl::".$name);
     } 
+    /**
+     * 
+     * @return bool 
+     */
     public function upgrade(){
         if (!$this->items)return false;
         foreach($this->items as $c){

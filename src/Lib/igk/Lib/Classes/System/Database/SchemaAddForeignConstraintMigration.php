@@ -9,7 +9,10 @@ namespace IGK\System\Database;
 
 use IGK\Helper\Activator;
 use IGK\System\Database\SchemaMigrationItemBase;
-
+/**
+ * add foreign constraint 
+ * @package IGK\System\Database
+ */
 class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "from", "on", "columns", 'foreignKeyName']; 
 

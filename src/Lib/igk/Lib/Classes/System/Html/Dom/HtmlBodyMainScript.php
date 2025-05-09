@@ -78,8 +78,10 @@ class HtmlBodyMainScript extends HtmlScriptNode{
         ]);
     }
     protected function _acceptRender($options = null): bool
-    {        
-        return count($this->m_scripts)>0;
+    {      
+        // $r = count($this->m_scripts)>0;
+        // igk_wln_e(__FILE__.":".__LINE__ , 'main script ', $r);  
+        return true; 
     }
 }  
 /**

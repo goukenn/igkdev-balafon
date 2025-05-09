@@ -7,6 +7,7 @@
 
 namespace IGK\Database;
 
+use IGK\Helper\Database;
 use IGK\System\Console\Logger;
 use IGK\System\Database\IDbQueryGrammar;
 use IGK\System\Database\IDbSendQueryListener;
@@ -165,10 +166,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
     }
     /**
      * end db init info
+     * @param array $tb loaded info definition 
      * @return void 
      * @throws IGKException 
      */
-    public function endInitDb(){
+    public function endInitDb(array $tb){
         if (is_null($this->m_relations)){            
             igk_dev_wln_e(__FILE__.":".__LINE__, "please call beginInitDb first");
         }
@@ -182,7 +184,15 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver {
                     $c->clLinkType = igk_db_get_table_name($c->clLinkType, $ctrl);
                     if ($c->clLinkConstraintName){
                         $c->clLinkConstraintName = igk_db_get_table_name($c->clLinkConstraintName, $ctrl);
-                    }                    
+                    }  
+                    if($c->clLinkType){
+                        $tt = igk_getv($tb, $c->clLinkType);
+
+                        $prefix = $tt->prefix;
+                        $c->clLinkColumn = Database::AutoPrefixColumn( $c->clLinkColumn, $prefix);
+                    }
+                    
+
                     $query = $_grammar->add_foreign_key( $tbname, $c);
                     if (is_null($query)){
                         igk_ilog("can't create foreign key. possibility on constraint name exists");

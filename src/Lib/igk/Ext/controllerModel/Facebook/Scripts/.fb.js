@@ -6,7 +6,7 @@
 
     var _lib = igk.system.createNS("igk.lib");
     if (typeof(FB) != 'undefined') {
-        console.debug("already " + FB);
+        // console.debug("already " + FB);
         // FB.init();	
         FB.XFBML.parse();
         return;

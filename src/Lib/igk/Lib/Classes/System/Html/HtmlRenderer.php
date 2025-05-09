@@ -253,6 +253,7 @@ class HtmlRenderer
         $filter = $options->filterListener;
         $close_ln = '';
         $child_render = 0;
+        $v_renderingNSContext = [];
         while ((count($tab) > 0) && !$options->Stop) {
             if (!($q = array_pop($tab))) {
                 // |+ filter null items 
@@ -376,6 +377,10 @@ class HtmlRenderer
                     array_push($tab, $q);
                     $childs = array_reverse($childs);
                     $tab = array_merge($tab, $childs);
+
+                    if ($options->NamespaceContext && ($i === $options->NamespaceSource)){
+                        array_push($v_renderingNSContext,$options->NamespaceContext );
+                    }
                     continue;
                 }
             } else {
@@ -403,6 +408,10 @@ class HtmlRenderer
             }
             if ($i instanceof IHtmlRederingCallback)
                 $i->afterRenderCallback($options, ['output' => &$s]);
+            if ($options->NamespaceContext && ($i === $options->NamespaceSource)){
+                array_pop($v_renderingNSContext);
+                $options->NamespaceContext = $v_renderingNSContext ? igk_array_peek_last($v_renderingNSContext) : null;
+            }
         }
 
         $options->child_renderCount = $child_render;

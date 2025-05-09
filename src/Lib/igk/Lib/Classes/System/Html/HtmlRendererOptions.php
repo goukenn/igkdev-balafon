@@ -8,14 +8,34 @@ use IGKException;
 
 ///<summary></summary>
 /**
- * 
+ * html rendering option 
  * @package IGK\System\Html
  */
 class HtmlRendererOptions
 {
+    /**
+     * get or set the rendering source 
+     * @var mixed
+     */
     var $Source;
 
+    /**
+     * get or set line feed separatror 
+     * @var string
+     */
     var $LF = "";
+
+    /**
+     * store current namespace context
+     * @var mixed
+     */
+    var $NamespaceContext;
+
+    /**
+     * namespace target sournce owner
+     * @var mixed
+     */
+    var $NamespaceSource;
 
     /**
      * engine use to render 

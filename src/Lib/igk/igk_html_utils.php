@@ -4,6 +4,7 @@
 // @desc: Content html helper functions 
 // @filename: igk_html_utils.php  
 
+use IGK\Constants;
 use IGK\Helper\Activator;
 use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
@@ -89,7 +90,14 @@ function igk_html_reg_class($name, $class)
     igk_set_env("html://class", $B);
     return $B;
 }
-function igk_html_reg_method($name, $funcName, $callable)
+/**
+ * 
+ * @param mixed $name 
+ * @param mixed $funcName 
+ * @param mixed $callable 
+ * @return mixed 
+ */
+function igk_html_reg_method(string $name, $funcName, $callable)
 {
     $key = "html://methods";
     $B = igk_environment()->get($key);
@@ -100,6 +108,13 @@ function igk_html_reg_method($name, $funcName, $callable)
     igk_set_env($key, $B);
     return $B;
 }
+/**
+ * get method
+ * @param mixed $name 
+ * @param mixed $method 
+ * @return mixed 
+ * @throws Exception 
+ */
 function igk_html_get_method($name, $method)
 {
     $c = igk_environment()->get("html://methods");
@@ -193,7 +208,7 @@ function igk_html_add_title($node, $title)
  */
 function igk_html_app_page_title($ctrl, $title)
 {
-    return IGKLangKey::GetValueKeys(ConstantsTR_PAGE_TITLE, array(
+    return IGKLangKey::GetValueKeys(Constants::STR_PAGE_TITLE, array(
         __($title),
         is_string($ctrl) ? $ctrl : $ctrl->AppTitle
     ));

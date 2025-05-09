@@ -208,6 +208,36 @@ trait ControllerDbExtensionTrait{
             return  $ad->sendQuery($query);
         }
     }
+
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param string $table 
+     * @param mixed $column 
+     * @return mixed|void 
+     */
+    public static function db_add_unique(BaseController $ctrl, string $table, $columns, ?string $id=null){
+        $ad = self::getDataAdapter($ctrl);  
+        $query = $ad->grammar->addUnique($table, $columns, $id);
+        if ($query){
+            return  $ad->sendQuery($query);
+        }
+    }
+
+    /**
+     * drop uniques
+     * @param BaseController $ctrl 
+     * @param string $table 
+     * @return mixed|void 
+     */
+    public static function db_drop_uniques(BaseController $ctrl, string $table){
+        $ad = self::getDataAdapter($ctrl);  
+        return $ad->dropAllUniqueContraints($table);
+ 
+    }
+
+
+
     public static function db_drop_index(BaseController $ctrl, string $table, $column){
         $ad = self::getDataAdapter($ctrl);  
         $query = $ad->grammar->drop_index($table, $column);

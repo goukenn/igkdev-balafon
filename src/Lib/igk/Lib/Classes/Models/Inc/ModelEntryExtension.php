@@ -230,7 +230,7 @@ abstract class ModelEntryExtension
         $r= $model->getDataAdapter()->selectCount($model::table(), $condition);
         if ($r instanceof IDbQueryResult){ 
             $row = igk_getv($r->getRows(), 0);
-            $s = $row['count'];//->count; //DbConstants::COUNT_ALL_COLUMNS];
+            $s = $row['count'];
             return intval($s);
         }
         return -1;
@@ -259,6 +259,8 @@ abstract class ModelEntryExtension
                 $conditions = array_merge($conditions, $tab);
                 $conditions = DbUtility::TreatSelectCondition($columns, $conditions, $prefix); 
             }
+
+            DbUtility::TreatColumnsCondition($conditions, $columns);
             $row = self::insert($model, $conditions, $update);
         } else {
             if ($count==1){
