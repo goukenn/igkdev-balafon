@@ -32,7 +32,8 @@ trait ClassAndStyleOffsetTrait{
             unset($this->m_attributes[$k]);
         } else {
             switch ($k) {
-                case "class":
+                case 'class':
+                case 'className':
                     if ($v === null) {
                         unset($this->m_attributes[$k]);
                     } else {
@@ -43,7 +44,7 @@ trait ClassAndStyleOffsetTrait{
                         $cl->add($v);
                     }
                     break;
-                case "style":
+                case 'style':
                     if (!($cl = igk_getv($this->m_attributes, $k))) {
                         $cl = new HtmlStyleValueAttribute($this);
                     }

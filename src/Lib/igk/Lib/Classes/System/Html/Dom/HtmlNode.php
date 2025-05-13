@@ -308,7 +308,7 @@ class HtmlNode extends HtmlItemBase
      */
     public function setClass($value)
     {
-        $this["class"] = $value;
+        $this['class'] = $value;
         return $this;
     }
     /**
@@ -416,7 +416,7 @@ class HtmlNode extends HtmlItemBase
     }
     public function __construct(?string $tagname = null)
     {
-        parent::__construct();
+        parent::__construct($tagname);
         if ($tagname !== null){ 
             $this->tagname = $tagname;
         }

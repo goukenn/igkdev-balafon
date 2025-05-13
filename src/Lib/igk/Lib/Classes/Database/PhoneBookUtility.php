@@ -5,6 +5,7 @@
 namespace IGK\Database;
 
 use Exception;
+use IGK\Database\Constants\PhoneBookTypeNames;
 use IGK\Models\PhoneBookEntries;
 use IGK\Models\PhoneBooks;
 use IGK\Models\PhoneBookTypes;
@@ -21,6 +22,46 @@ use IGKException;
  */
 class PhoneBookUtility
 {
+
+    /**
+     * search for pattern 
+     * @param string $pattern 
+     * @return mixed 
+     */
+    public static function Search(string $pattern){
+        // search for tel and pattern
+        $ids = [];
+        foreach([
+            PhoneBookTypeNames::PHT_NAME,
+            PhoneBookTypeNames::PHT_TEL,
+            PhoneBookTypeNames::PHT_PHONE,
+            PhoneBookTypeNames::PHT_GSM,
+            PhoneBookTypeNames::PHT_FIRSTNAME,
+            PhoneBookTypeNames::PHT_LASTNAME,
+            PhoneBookTypeNames::PHT_ALIAS,
+        ] as $k){
+            $ids[] = PhoneBookTypes::GetCache(PhoneBookTypes::FD_NAME, $k)->{PhoneBookTypes::FD_ID};
+        }
+        array_unique($ids);        
+        $tpatter = '';
+        $conditions = ['!!'.PhoneBooks::FD_TYPE=>$ids];
+        if (false !== strpos($pattern, ' ')){
+            // contains 
+            $tpatter = array_map(function($a){return igk_str_surround($a, '%'); }, explode(' ', $pattern));
+            array_unshift($tpatter, igk_str_surround($pattern, '%'));
+            $tc = [];
+            foreach($tpatter as $v){
+                $tc[] = ['@@'.PhoneBooks::FD_VALUE, $v];
+            }
+            $qcond = (object)['type'=>'merge', 'list'=>$tc, 'operand'=>'OR'];            
+            $conditions[] = $qcond;
+        } else{
+            $tpatter = igk_str_surround($pattern, '%');
+            $conditions['@@'.PhoneBooks::FD_VALUE]=$tpatter;
+        }
+
+        return PhoneBooks::select_all($conditions, ['Distinct'=>true, 'Columns'=>[PhoneBooks::FD_ENTRY_GUID]]);
+    }
     /**
      * 
      * @param string $type 
@@ -104,7 +145,7 @@ class PhoneBookUtility
             list($fullname, $name, $tel, $email,$birthdate, $organisation, $url) = 
             igk_extract($c, 'FN|N|TEL|EMAIL|BDAY|ORG|URL');
             $v_tpnames = explode(';', $name ?? '');
-            list($firstname, $lastname) = $v_tpnames;
+            list($firstname, $lastname) = igk_extract($v_tpnames,'0|1');
 
             $data = [];
             foreach (['firstname', 'lastname', 'tel', 'email', 'birthdate','organisation', 'url'] as $r) {

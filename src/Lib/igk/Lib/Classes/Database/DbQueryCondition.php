@@ -13,7 +13,7 @@ use Exception;
 */
 class DbQueryCondition{
     private $row;
-    private $data;
+    private $m_data;
     var $operand = 'AND';
     /**
      * association query array 
@@ -21,17 +21,19 @@ class DbQueryCondition{
      * @return void 
      */
     public function set(?array $data){
-        $this->data = $data;
+        $this->m_data = $data;
     }
     /**
      * 
-     * @param mixed $obj 
+     * @param mixed $obj row definition property
+     * @param 'OR'|'AND' $operand tag 
      * @return void 
      */
-    public function __construct($obj)
+    public function __construct($obj, $operand='AND')
     {
         $this->row = $obj;
-        $this->data = [];
+        $this->m_data = [];
+        $this->operand = $operand;
     }
     public function __get($n){
         return igk_getv($this->row, $n);
@@ -39,7 +41,7 @@ class DbQueryCondition{
     public function __set($n, $v){ 
         $pk = ltrim($n, "@!<=>");
         if (property_exists($this->row, $pk)){
-            $this->data[$n] = $v;
+            $this->m_data[$n] = $v;
         } else {
             if (igk_environment()->isDev()){
                 igk_die("property ".$pk . " not found");
@@ -48,7 +50,7 @@ class DbQueryCondition{
         $this->row->$n = $v;
     }
     public function to_array(){
-        return $this->data;
+        return $this->m_data;
     }
     /**
      * everery method call set the property 
@@ -62,9 +64,14 @@ class DbQueryCondition{
         return $this;
     }
 
+    /**
+     * 
+     * @param array $list 
+     * @return static 
+     */
     public static function Create(array $list){
         $s = new static((object)array_fill_keys (array_keys($list), null));
-        $s->data = $list; 
+        $s->m_data = $list; 
         return $s;
     }
 }

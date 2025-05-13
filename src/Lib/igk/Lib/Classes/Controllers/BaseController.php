@@ -413,7 +413,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             'ctrl' => $this,
             'file' => $file
         ]);
-        $action_handler = null;
+        $action = $action_handler = null;
         try {
             // + | binding environment 
             $this->_config_entries($fname);
@@ -426,6 +426,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 if ($i && ($redirect = $i->redirect ?? igk_getr('redirect'))) {
                     igk_navto($redirect);
                 }
+                $action = $i;
             } catch (\Exception $ex) {
                 // + | handler failed or thro an exception. 
                 // + | method no present
@@ -453,6 +454,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $viewargs['data'] = $this->_getViewDataArgs();
             $viewargs['user'] = $this->getUser();
             $viewargs['action_handler'] = $action_handler;
+            $viewargs['action'] = $action;
             igk_set_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS, $viewargs);
             ob_start();
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());

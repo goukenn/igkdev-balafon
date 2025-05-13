@@ -2145,9 +2145,9 @@ if (!function_exists("igk_html_node_divcontainer")) {
 	}
 }
 if (!function_exists("igk_html_node_dl")) {
-	///<summary>function </summary>
+	///<summary>helper: create a Document list node</summary>
 	/**
-	 * function __desc__
+	 * helper: create a Document list node 
 	 */
 	function igk_html_node_dl()
 	{

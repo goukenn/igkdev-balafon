@@ -3104,11 +3104,17 @@ Name:balafon.js
             hscrollHeight: function () { return this.o.offsetHeight - this.o.clientHeight; },
             hasVScrollBar: function () { // has vertical scrollbar
                 var h = this.igk.getHeight();
+                if (this.o.scrollHeight > this.o.clientHeight){
+                    return true;
+                }
                 // return (this.o.clientHeight > 0) && (this.o.scrollHeight > h);
                 return (this.o.clientHeight > 0) && (this.o.offsetHeight > h);
             },
             hasHScrollBar: function () { // has horizontal scrollbar
                 var w = this.igk.getWidth();
+                 if (this.o.scrollWidth > this.o.clientWidth){
+                    return true;
+                }
                 // return (this.o.clientWidth > 0) && (this.o.scrollWidth > w);
                 return (this.o.clientWidth > 0) && (this.o.offsetWidth > w);
             }
@@ -5240,8 +5246,7 @@ Name:balafon.js
             });
         },
         canInvoke: function () {
-            return (window.external) && (('notify' in window.external) || (typeof (window.external.callFunc) != igk.constants.undef));
-            // return ('notify' in window.external) || window.external && (typeof (window.external.callFunc) != igk.constants.undef);
+            return (window.external) && (('notify' in window.external) || (typeof (window.external.callFunc) != igk.constants.undef));            
         },
         invoke: function (method, params) { // used to invoke external script function	
             var n = 0;
@@ -7232,6 +7237,13 @@ Name:balafon.js
     });
     // web utility functions
     createNS("igk.web", {
+        /**
+         * set cookie definition 
+         * @param {string} name 
+         * @param {*} value 
+         * @param {*} exdays 
+         * @param {*} path 
+         */
         setcookies: function (name, value, exdays, path) {
             var exdate = new Date();
             if (exdays)
@@ -7242,6 +7254,11 @@ Name:balafon.js
                 c_value += "; Path=" + path;
             document.cookie = name + "=" + c_value;
         },
+        /**
+         * retrieve cookie
+         * @param {string} name 
+         * @returns 
+         */
         getcookies: function (name) {
             var c_value = document.cookie;
             var c_start = c_value.indexOf(" " + name + "=");
@@ -7260,9 +7277,16 @@ Name:balafon.js
             }
             return c_value;
         },
+        /**
+         * clear all cookie
+         */
         clearcookies: function () {
             document.cookie = null;
         },
+        /**
+         * remove cookie
+         * @param {string} name 
+         */
         rmcookies: function (name) {
             var s = document.cookie + "";
             var i = s.indexOf(name);
@@ -12365,7 +12389,7 @@ Name:balafon.js
         }
     });
     // for igk.css compatibility utility
-    createNS("igk", {
+    createNS("igk", { 
         css: new (function () {
             // css utility properties
             igk.appendProperties(this, {
@@ -12495,7 +12519,8 @@ Name:balafon.js
             });
             return this;
         })()
-    });
+    }); 
+    //Object.defineProperty(igk.constants, 'data_options', { get(){return 'data-options'}});
 
     function _is_integer(n) {
         return parseInt(n) + "" == n + "";

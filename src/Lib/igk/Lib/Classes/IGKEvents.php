@@ -20,6 +20,11 @@ class IGKEvents extends IGKObject
 
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
     const HOOK_SESS_START = "sys_session_start";
+
+    /**
+     * reset uset authentications 
+     */
+    const HOOK_USER_RESET_AUTH = 'sys://user/reset_auth';
     
     // + | --------------------------------------------------------------------
     // + | Application constant 

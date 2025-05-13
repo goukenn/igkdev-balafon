@@ -89,6 +89,15 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $this->library("zip");
         $this->library("gd");
         $this->library("curl");
+
+        // + | init registratation domain
+        igk_reg_component_package('web', function(string $n){
+            return new \IGK\System\Html\Dom\HtmlNode($n);
+        });
+        igk_reg_component_package('xml', function(string $n){
+            return new  \IGK\System\Html\XML\XmlNode($n);
+        });
+
         if ($loader){ 
             $loader(); 
             if (!file_exists(igk_io_applicationdir()."/Data/configure")){          

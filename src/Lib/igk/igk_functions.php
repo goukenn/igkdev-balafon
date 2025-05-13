@@ -7033,8 +7033,9 @@ function igk_env_set_replace_view($target)
 ///<summary>function igk_error</summary>
 ///<param name="code"></param>
 /**
- * function igk_error
- * @param mixed $code 
+ * get system error definitions 
+ * @param int $code 
+ * @return ?string
  */
 function igk_error($code)
 {

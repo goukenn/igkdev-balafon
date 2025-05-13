@@ -23,8 +23,7 @@ class MailNode extends MailNodeBase
         $this->m_render_options = $options;
         $this->m_resolver = $resolver;
     }
-    public function setClass($value)
-    {
+    public function setClass($value){
         // no class preview
     }
     private function _get_style($v)

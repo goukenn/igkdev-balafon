@@ -17,6 +17,7 @@ use IGK\System\Html\Dom\HtmlCssClassValueAttribute as DomHtmlCssClassValueAttrib
 use IGK\System\Html\HtmlAttributeExpression;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\IDomHtmlCssClassValueAttribute;
+use IGK\System\Text\RegexMatcherContainer;
 use IGKApp;
 use IGKEvents;
 use IGKException;
@@ -27,6 +28,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     private $m_classes, $m_expressions;
     private $m_listener; 
     private static $sm_regClass = null;
+    private $_treat_ClassName;
 
     /**
      * 
@@ -221,8 +223,14 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
             $tab = $cl;
             $class = implode(" ", $cl);
-        } else
+        } else{
+            // + treat $class definition 
+            if (strpos($class, '.')!== false){
+                ($g = $this->_treat_ClassName)  || ($g = $this->_treat_ClassName  = self::ClassDefinitionTreatment());
+                $class = $g($class);
+            }
             $tab = explode(" ", $class);
+        }
         if ($tab) {
             if (count($tab) == 1) {
                 $this->_add($class);
@@ -232,6 +240,31 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
                 }
             }
         }
+    }
+    static function ClassDefinitionTreatment(){
+        $r = new RegexMatcherContainer;
+        $r->match('(?i)\.([\\w+\\-\\\\]+)\\b', 'word');
+        return function($c)use($r){
+            $pos = 0;
+            $o = [];
+            $v = '';
+            $offset = 0;
+            while($g = $r->detect($c, $pos)){
+                if ($e = $r->end($g, $c, $pos)){
+                    
+                    $v = substr($c, $offset, $e->from-$offset);
+                    if (!empty($v)){
+                        $o[] = $v;
+                    }
+                    $offset=$e->to;
+                    $o[] = $e->beginCaptures[1][0];
+                }
+            }
+            if (!empty($v = trim(substr($c, $offset)))){
+                $o[] = $v;
+            }
+            return implode(' ', $o);
+        };
     }
     ///<summary>clear classes_name storage</summary>
     /**

@@ -172,10 +172,16 @@ class ViewEnvironmentArgs implements ArrayAccess{
     var $data;
 
     /**
-     * get or set the action handler
+     * get or set the action handler class
      * @var mixed
      */
     var $action_handler;
+
+    /**
+     * get current action instance
+     * @var mixed
+     */
+    var $action;
 
     /**
      * session data
