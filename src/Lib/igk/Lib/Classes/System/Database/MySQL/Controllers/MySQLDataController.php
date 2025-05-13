@@ -33,9 +33,8 @@ class MySQLDataController extends BaseController{
     */
     public function drop_all_tables(){
         $d=igk_get_data_adapter($this);
-        $node=null;
-        igk_trace();
-        igk_wln_e("trop all table....");
+        $node=null; 
+        igk_ilog("drop all tables ....");
         if($d->connect()){
             $node=igk_create_node("div");
             $r=$d->sendQuery("SHOW TABLES");

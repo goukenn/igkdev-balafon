@@ -2133,6 +2133,10 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
 
         $ad = igk_get_data_adapter($this, true);
         if ($ad) {
+             $mod = igk_get_modules();
+            foreach(array_keys($mod) as $c){
+                igk_require_module($c, null, false);
+            }
             igk_set_env("sys://Db/NODBSELECT", 1);
             $ad->initForInitDb();
             if (!$ad->connect()) {

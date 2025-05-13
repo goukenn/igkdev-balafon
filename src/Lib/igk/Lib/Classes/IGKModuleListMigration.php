@@ -49,20 +49,20 @@ final class IGKModuleListMigration extends BaseController implements
     private $m_loaded = [];
     private $m_definition;
     private $m_initializer;
-    private function __construct()
-    {
-    }
+    private function __construct() {}
     /**
      * 
      * @return void 
      */
-    public function useAsInstance(){
-        if (self::$sm_instance === $this){
+    public function useAsInstance()
+    {
+        if (self::$sm_instance === $this) {
             return;
         }
         self::$sm_instance = $this;
     }
-    public function reset(){
+    public function reset()
+    {
         self::$sm_instance = null;
     }
     /**
@@ -78,9 +78,9 @@ final class IGKModuleListMigration extends BaseController implements
         if ($this->m_host->getUseDataSchema()) {
             $file = $this->m_host->getDataSchemaFile();
             if (file_exists($file)) {
-                if (igk_is_debug()){
-                Logger::warn('migrate list ..... ' . $this->m_host->getName());
-                Logger::info($file);
+                if (igk_is_debug()) {
+                    Logger::warn('migrate list ..... ' . $this->m_host->getName());
+                    Logger::info($file);
                 }
                 $data = igk_db_load_data_schemas($file, $this, true, DbSchemasConstants::Migrate);
                 if ($mig = igk_getv($data, 'migrations')) {
@@ -93,7 +93,7 @@ final class IGKModuleListMigration extends BaseController implements
                     }
                 }
             }
-        }      
+        }
     }
     public function db_add_column(string $table, $columnInfo, ?string $after = null)
     {
@@ -102,7 +102,8 @@ final class IGKModuleListMigration extends BaseController implements
             $ctrl->db_add_column($table, $columnInfo, $after);
         };
     }
-    public function db_rm_column(string $table, $columnInfo){
+    public function db_rm_column(string $table, $columnInfo)
+    {
         if (DBCaches::ResolvAndInitDbTableCacheInfo($table, $tbinfo)) {
             $ctrl = $tbinfo->controller;
             $ctrl->db_rm_column($table, $columnInfo);
@@ -133,7 +134,8 @@ final class IGKModuleListMigration extends BaseController implements
      * module need to implement this method to inject database with host as static function 
      * @return mixed 
      */
-    public function injectBaseModel(){
+    public function injectBaseModel()
+    {
 
         if ($this->m_host && method_exists($this->m_host, __FUNCTION__)) {
             return call_user_func_array([$this->m_host, __FUNCTION__], []);
@@ -158,7 +160,7 @@ final class IGKModuleListMigration extends BaseController implements
         return $this->m_host;
     }
 
- 
+
     /**
      * schema migration list 
      * @param array $list 
@@ -190,9 +192,13 @@ final class IGKModuleListMigration extends BaseController implements
     static function _GetModules()
     {
         if (is_null(self::$sm_list)) {
-            self::$sm_list = array_map(function ($a) {
-                return igk_get_module($a->name);
-            },  igk_get_modules() ?? []);
+            self::$sm_list = array_filter(array_map(function ($a) {
+                if ($mod = igk_get_module($a->name)){
+                    return $mod;
+                } else {
+                    igk_ilog('missing module '.$a->name);
+                }
+            },  igk_get_modules() ?? []));
         }
         return self::$sm_list;
     }
@@ -212,9 +218,9 @@ final class IGKModuleListMigration extends BaseController implements
     public static function ns(string $path = '')
     {
         $sm = self::$sm_instance;
-        if ($sm){
+        if ($sm) {
             return ControllerExtension::ns($sm->m_host, $path);
-        } else{
+        } else {
             igk_die("can't get namespace : instance not created");
         }
     }
@@ -265,7 +271,7 @@ final class IGKModuleListMigration extends BaseController implements
             $fc(self::$sm_instance, $navigate, $force);
 
             self::$sm_instance->m_host = $l;
-            ControllerExtension::migrate(self::$sm_instance );
+            ControllerExtension::migrate(self::$sm_instance);
         }
         return true;
     }
@@ -292,7 +298,7 @@ final class IGKModuleListMigration extends BaseController implements
                 // ControllerExtension::migrate($l);
                 self::$sm_instance->m_host = $l;
                 Logger::info('call migrate');
-                ControllerExtension::migrate(self::$sm_instance );
+                ControllerExtension::migrate(self::$sm_instance);
             }
         }
     }
@@ -344,9 +350,7 @@ final class IGKModuleListMigration extends BaseController implements
     {
         return true;
     }
-    public function register_autoload()
-    {
-    }
+    public function register_autoload() {}
     public static function dropDb($navigate = 1, $force = 0)
     {
         self::_InvokeExtension(__FUNCTION__, $navigate, $force);
@@ -363,7 +367,8 @@ final class IGKModuleListMigration extends BaseController implements
     {
         self::_InvokeExtension(__FUNCTION__, $force);
     }
-    public static function InitDbModule(bool $force, array $modules){
+    public static function InitDbModule(bool $force, array $modules)
+    {
         self::_InvokeExtension('initDb', false, $force, $modules);
     }
     /**
@@ -413,13 +418,19 @@ final class IGKModuleListMigration extends BaseController implements
         self::$sm_instance = new self();
         $v_modules = self::_GetModules();
         if ($v_modules)
-            foreach ($v_modules as $t) {
-                self::$sm_instance->m_host = $t;
-                $c = new MigrationHandler($t);
-                $c->down();
-                if (file_exists($file = $t->getDataSchemaFile())) {
-                    igk_db_load_data_schemas($file, self::$sm_instance, true, DbSchemasConstants::Downgrade);
+            $idx = 0;
+            foreach ($v_modules as $s=>$t) {
+                if ($t instanceof BaseController) {
+                    self::$sm_instance->m_host = $t;
+                    $c = new MigrationHandler($t);
+                    $c->down();
+                    if (file_exists($file = $t->getDataSchemaFile())) {
+                        igk_db_load_data_schemas($file, self::$sm_instance, true, DbSchemasConstants::Downgrade);
+                    }
+                } else {
+                    igk_json(['error'=>'missing modules info at '.$idx. ' : '.$s]);
                 }
+                $idx++;
             }
     }
     public static function getDataSchemaFile()
@@ -505,7 +516,8 @@ final class IGKModuleListMigration extends BaseController implements
      * init module list 
      * @return static
      */
-    public static function InitModuleList(){
+    public static function InitModuleList()
+    {
         $modules = igk_get_modules();
         $list = array_filter(array_map(function ($c, $k) {
             if ($mod = igk_get_module($k)) {

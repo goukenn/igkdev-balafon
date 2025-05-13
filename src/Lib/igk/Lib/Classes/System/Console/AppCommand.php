@@ -137,8 +137,8 @@ abstract class AppCommand {
             if (file_exists($file = AppCommandConstant::GetCacheFile())){
                 
                 $list = include($file);
-                $mod = igk_get_modules();
                 // - init module
+                $mod = igk_get_modules();
                 foreach($mod as $c => $v){
                     igk_require_module($c, null, false);
                 }

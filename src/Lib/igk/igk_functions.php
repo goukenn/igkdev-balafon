@@ -24891,13 +24891,13 @@ function igk_user_info(string $inf, $uid = null)
 }
 ///<summary>check if password require ok</summary>
 /**
- * check if password require ok
+ * check if password require and is a valid system password
  */
 function igk_user_pwd_required($pwd, $repwd)
 {
     if (!$pwd || !$repwd || ($pwd != $repwd)) {
         return false;
-    }
+    } 
     return IGKValidator::IsValidPwd($pwd);
 }
 ///<summary>set environment param to users</summary>

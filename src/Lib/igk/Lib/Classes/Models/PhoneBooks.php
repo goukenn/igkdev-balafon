@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBooks.php
-// @date: 20250507 09:59:52
+// @date: 20250514 00:15:07
 namespace IGK\Models;
 
 
@@ -55,18 +55,10 @@ class PhoneBooks extends ModelBase{
 	*/
 	protected $refId = "rcphb_Id";
 	protected $unique_columns = array (
-	  0 => 
-	  array (
-	    0 => 'rcphb_EntryGuid',
-	    1 => 'rcphb_Value',
-	  ),
-	  '0,1' => 
-	  array (
-	    0 => 'rcphb_Type',
-	  ),
 	  1 => 
 	  array (
-	    0 => 'rcphb_is_preferred',
+	    0 => 'rcphb_Type',
+	    1 => 'rcphb_is_preferred',
 	  ),
 	);
 }

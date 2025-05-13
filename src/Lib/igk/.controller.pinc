@@ -42,7 +42,7 @@ return [
     IGK_CTRL_MANAGER => \IGK\Controllers\ControllerManager::class,
     IGK_MAIL_CTRL=>\IGK\System\Net\MailConfigController::class,
     IGK_TOOLS_CTRL=>\IGK\System\Configuration\Controllers\ToolConfigController::class,
-    MODULE_CNF_CTRL=>\ModuleConfigurationController::class,
+    MODULE_CNF_CTRL=>\igk\Ext\Controllers\ModuleConfigurationController::class,
 
     // "{913FC762-B3A1-9ADB-17F9-97DE7DD3271F}"=>\igkdev\app\JobSearch\JobSearchController::class,
 
