@@ -1,7 +1,9 @@
 <?php
 //
 
- 
+ ini_set('display_errors',1);
+error_reporting(-1); 
+
 if (!class_exists('Logger')){
     /**
      * define global sync Logger - to die with reponse
@@ -17,14 +19,14 @@ if (!class_exists('Logger')){
         }
     }
 }
-if (basename(__FILE__)!='sync-node-package.pinc'){
+if (basename(__FILE__)!='sync-npm-package.php'){
     unlink(__FILE__);
+    $response->die('missing injections.'.basename(__FILE__));
 }
 $command = (object)['options'=>[]];
 $args = igk_getr('args');
 
-ini_set('display_errors',1);
-error_reporting(-1);
+
  
 if (!$args){
     Logger::danger("missing args::::");
@@ -52,9 +54,8 @@ if (in_array($c = $args[0], ['yarn', 'npm', 'exec'])){
     $cmd = $yarn .' ' .implode(" ", $args);
 } else if($npm = `{$search} npm` ) {
     $cmd = $npm .' '.implode(" ", $args);
-} else {
-    echo "end ....";
-    Logger::danger("missing yarn or npm");        
+} else { 
+   $response->die("missing yarn or npm");        
     return -1;
 }
 $g = $c =  null; 
@@ -67,4 +68,3 @@ $response->response(json_encode([
     "cmd"=>$cmd    
 ], JSON_UNESCAPED_SLASHES));
 exit;
-

@@ -67,11 +67,11 @@ class IO
         $segments = explode(DIRECTORY_SEPARATOR, $path);
         while (count($segments) > 0) {
             $q = array_shift($segments);
-            $c = IO::GetDirs($basedir, '/' . $q . '$/i', false);
+            $c = IO::GetDirs($basedir, '/\\b' . $q . '$/i', false);
             if ($c) {
                 $basedir = $c[0];
             } else {
-                $found = false;
+                $found = false; 
                 break;
             }
         }

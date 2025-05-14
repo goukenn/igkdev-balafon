@@ -278,6 +278,8 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         Logger::info("response");
         if ($response){
             Logger::print($response);
+        } else {
+            Logger::danger(igk_curl_status());
         }
     }
     public function getHelpOptions(){

@@ -33,7 +33,7 @@ if (!function_exists('igk_current_module')) {
                 if (isset($modules[$n])) {
                     return $modules[$n];
                 }
-                $tab = igk_get_modules(); 
+                $tab = igk_get_modules();
                 ksort($tab, SORT_FLAG_CASE | SORT_STRING);
                 foreach (array_keys($tab) as $k) {
                     if (strpos($n, $k) !== false) {
@@ -57,13 +57,14 @@ function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
     return igk_require_module($modulename, $init, $loadall, 0);
 }
 
-if (!function_exists('igk_get_loaded_modules')){
+if (!function_exists('igk_get_loaded_modules')) {
 
     /**
      * get loaded required modules 
      * @return mixed 
      */
-    function igk_get_loaded_modules(){
+    function igk_get_loaded_modules()
+    {
         $modules = igk_environment()->require_modules();
         return $modules;
     }
@@ -103,11 +104,11 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             $gdoc = $mod->getEnvParam($v_init_doc_method);
             if (is_null($gdoc)) {
                 $doc = ViewHelper::CurrentDocument();
-                igk_module_init_doc($mod, $doc); 
+                igk_module_init_doc($mod, $doc);
             }
         }
         return $mod;
-    } 
+    }
     $dir = igk_dir(igk_get_module_dir() . "/{$modulename}");
     if (!file_exists($dir)) {
         if ($die) {
@@ -118,6 +119,7 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             );
             throw new \IGKException(__FUNCTION__ . "::module <b>{$modulename}</b> missing " . igk_io_collapse_path($dir), 500);
         }
+        igk_die('missing localation ' . $dir);
         return null;
     }
 
@@ -195,9 +197,29 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
     // + | ::file : used to store list of file to  
     if (igk_count($f) > 0) {
         $g["::files"][$mkey] = $f;
-    } 
-    igk_bind_module($mod, $name);
+    }
+    if (!$mod) {
+        igk_die('missing localation 2222::: ' . $dir . ' ? ' . file_exists($dir) . ' -- ' . $modulename);
+    } else {
+        igk_bind_module($mod, $name);
+    }
     return $mod;
+}
+function igk_module_inject_all()
+{
+    $mod = igk_get_modules();
+    $count = 0;
+    $ts = [];
+    $failed = [];
+    foreach (array_keys($mod) as $c) {
+        if ($mod_c = igk_require_module($c, null, false)) {
+            $count++;
+            $ts[] = $c;
+        } else {
+            $failed[] = $c;
+        }
+    }
+    return compact('ts', 'failed');
 }
 /**
  * 
@@ -205,13 +227,13 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
  * @param null|string $name 
  * @return void 
  */
-function igk_bind_module($mod, ?string $name = null, ?BaseController $controller=null)
+function igk_bind_module($mod, ?string $name = null, ?BaseController $controller = null)
 {
     $v_key = IGKEnvironmentConstants::CtrlEnvParamModules;
     if ($ctrl = $controller ?? \IGK\Helper\ViewHelper::CurrentCtrl()) {
         $g = $ctrl->getEnvParam($v_key) ?? [];
         $g[$name] = $mod;
-        $ctrl->setEnvParam($v_key, $g); 
+        $ctrl->setEnvParam($v_key, $g);
     }
 }
 
@@ -234,12 +256,13 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
     }
     $v_mod_dir = igk_get_module_dir();
     $dir = null;
-    if (($s = IO::ResolveDirRealPath($v_mod_dir, igk_dir($path)))){
+
+    if (($s = IO::ResolveDirRealPath($v_mod_dir, igk_dir($path)))) {
         $dir = $s;
-    } else{
+    } else {
         return false;
     }
-    $path = substr($dir, strlen($v_mod_dir)+1);
+    $path = substr($dir, strlen($v_mod_dir) + 1);
     // + | require to protect to case sensitive path
     // $sdir = IO::GetUnixPath($dir, true);
     // if (igk_environment()->isOPS()) {
@@ -254,7 +277,7 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
     if ($initialize) {
         $dc = igk_ctrl_current_doc();
         if (!$init && (method_exists($ob, $v_meth) || $ob->supportMethod($v_meth)) && $dc) {
-            igk_module_init_doc($ob, $dc);  
+            igk_module_init_doc($ob, $dc);
         } else if ($init) {
             $init($ob, $dc);
         }
@@ -265,15 +288,16 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
 
 
 // because initDoc only need to be call on view loading only once to initialize the document 
-function igk_module_init_doc(ApplicationModuleController $module, $doc){
-    $mod = & igk_environment()->require_modules();
+function igk_module_init_doc(ApplicationModuleController $module, $doc)
+{
+    $mod = &igk_environment()->require_modules();
     $v_k = '::initDoc';
-    if (!isset($mod[$v_k])){
+    if (!isset($mod[$v_k])) {
         $mod[$v_k] = [];
     }
     $nk = strtolower($module->getName());
-    if (!isset($mod[$v_k][$nk])){ 
-        call_user_func_array([$module, $fc = 'initDoc'], [$doc]); 
+    if (!isset($mod[$v_k][$nk])) {
+        call_user_func_array([$module, $fc = 'initDoc'], [$doc]);
         $mod[$v_k][$nk] = 1;
         $module->setEnvParam($fc, $doc);
     }

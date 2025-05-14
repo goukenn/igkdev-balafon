@@ -230,12 +230,12 @@ class ViewEnvironmentArgs implements ArrayAccess{
         // $doc->title = igk_configs()->website_title();
         $ob_level = ob_get_level();
         $controller->_get_extra_args($file);
-        if (!isset($layout))
-            $layout = $controller->getViewLoader(); 
         $session = igk_app()->getSession(); 
         $base_uri = $controller::uri('/');
         $builder = $builder ?? $t ? new HtmlNodeBuilder($t) : null;
         $_dir_ = ViewHelper::Dir() ?? dirname($file);        
+        if (!isset($layout))
+            $layout = $controller->getViewLoader($fname); 
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

@@ -12892,7 +12892,7 @@ Name:balafon.js
         let src = q.innerHTML;
         // + | TASK: add async support on 
         let async = this.o.hasAttribute('async') ? 'async' : ''; 
-        src = '\'use strict\'; ('+async+' function(){' + src + '}).apply(this);'; 
+        src = ['\'use strict\'; ('+async+' function(){' , src , '}).apply(this);'].join("\n"); 
         try {
             var _bck = m_scriptNode;
             m_scriptNode = this.o;

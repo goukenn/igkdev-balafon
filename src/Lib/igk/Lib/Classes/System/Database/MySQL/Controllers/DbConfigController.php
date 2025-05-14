@@ -156,7 +156,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 if ($r && ($r->count > 20)) {
                     $q .= " Limit 1, 20";
                 }
-                igk_ilog('query: '.$q);
+                igk_ilog('query: ' . $q);
                 $data = $mysql->sendQuery($q);
             }
         }
@@ -187,7 +187,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 $dv->renderAJX();
             } else {
                 if ($error = $mysql->getError()) {
-                    igk_ilog("SQLError: ".json_encode($error));
+                    igk_ilog("SQLError: " . json_encode($error));
                 } else {
                     igk_ilog("no data found");
                 }
@@ -698,7 +698,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 "dbServer" => ["attribs" => ["class" => "igk-form-control required", "placeholder" => __("Server"), "value" => $cnf->db_server]],
                 "dbUser" =>   ["attribs" => ["class" => "igk-form-control", "placeholder" => __("user"), "value" => $cnf->db_user]],
                 "dbPasswd" => ["type" => "password", "attribs" => [
-                    "class" => "igk-form-control", "placeholder" => __("password"),
+                    "class" => "igk-form-control",
+                    "placeholder" => __("password"),
                     "autocomplete" => 'off',
                     "value" => null
                 ]],
@@ -733,7 +734,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $frm["igk-ajx-form-no-autoreset"] = 1;
         $frm["igk-ajx-form-target"] = "#query-s-r";
         $row = $frm->row();
-        $row['class']= 'dispflex';
+        $row['class'] = 'dispflex';
         $row->col("igk-col-12-9")->div()->addTextArea()->setId("clQuery")->setClass("igk-form-control fitw-i")->setStyle("height:150px")
             ->Content = igk_getr('clQuery') ?? "Select * From `table` ";
         $ul = $row->col("igk-col-12-3")->div()->setId("query_helper")->ul();
@@ -744,8 +745,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 $clname = $g[0]->name;
                 $ul->loop($r->getRows())->host(function ($n, $i) use ($clname) {
                     $n->li()->a("#")
-                    ->setStyle('padding: 5px 12px;')
-                    ->on("click", "\$igk('#clQuery').first().o.value = 'SELECT * from `'+this.o.innerHTML+'`'; return false;")->content = $i->{$clname};
+                        ->setStyle('padding: 5px 12px;')
+                        ->on("click", "\$igk('#clQuery').first().o.value = 'SELECT * from `'+this.o.innerHTML+'`'; return false;")->content = $i->{$clname};
                 });
                 $ul->setStyle("max-height: 150px; overflow-x:clip; overflow-y:auto;");
             }
@@ -774,7 +775,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $bar->addABtn($this->getUri("gotophpmyadmin"))->Content = __("btn.phpmyadmin");
         }
         $frm->fields([
-            'confirm'=>['type'=>'hidden','value'=>0]
+            'confirm' => ['type' => 'hidden', 'value' => 0]
         ])->cref()->ajx();
 
 
@@ -798,27 +799,27 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
 
         $bar->script()->Content = igk_ob_get_func(function () {
 ?>
-(function(){
-function confirmBeforeInitSystemDatabase(e){
-if (e){
-e.preventDefault();
-$igk('.initdb-dialog').first().showDialog();
-$igk('.initdb-dialog').first().toggleClass('dispn'); 
-return false;
-}
-}
-igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
-}
-)();
+            (function(){
+            function confirmBeforeInitSystemDatabase(e){
+            if (e){
+            e.preventDefault();
+            $igk('.initdb-dialog').first().showDialog();
+            $igk('.initdb-dialog').first().toggleClass('dispn');
+            return false;
+            }
+            }
+            igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
+            }
+            )();
 <?php
         });
 
-        $pan->host(function($o){
+        $pan->host(function ($o) {
             $form = igk_create_node('form');
             $form['action'] = $this->getUri("pinitSDb");
             $form['class'] = 'google-Roboto';
             $form->fields([
-                'clean'=>['type'=>'checkbox', 'value'=>1]
+                'clean' => ['type' => 'checkbox', 'value' => 1]
             ]);
             $form->cref()->ajx()->confirm();
             $form['igk-ajx-form-complete'] = 'igk.winui.controls.panelDialog.close()';
@@ -827,11 +828,11 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             $dv = $a->div();
             $dv->submit('btn.init', __('Init'))->setClass("igk-btn igk-primary posr");
             //$dv->spinner()->content = igk_svg_use('drop');
-        
+
             $a->div()->button('btn.cancel')->setValue(__('cancel'))
-            ->setClass("igk-btn igk-form-control")
-            ->on('click', 'igk.winui.controls.panelDialog.close()');
-            $dialog = igk_ajx_panel_dialog(__('Initialize database'), $form, 'drop', function($dialog){
+                ->setClass("igk-btn igk-form-control")
+                ->on('click', 'igk.winui.controls.panelDialog.close()');
+            $dialog = igk_ajx_panel_dialog(__('Initialize database'), $form, 'drop', function ($dialog) {
                 $dialog['class'] = 'initdb-dialog google-Roboto dispn';
             }, false);
             $o->add($dialog);
@@ -909,7 +910,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             // + | --------------------------------------------------------------------
             // + | pause to se report
             // + |
-            igk_ilog('migrate response : success. '.$r); 
+            igk_ilog('migrate response : success. ' . $r);
             $this->notifyctrl()->success(__("database migrate"));
         }
         return igk_navtocurrent();
@@ -1030,7 +1031,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             $type = "igk-success";
             $ad->close();
         } else {
-            if ($msg = igk_db_get_error()){
+            if ($msg = igk_db_get_error()) {
                 if (igk_environment()->isDev()) {
                     $con .= "Error message : " . $msg;
                 }
@@ -1148,7 +1149,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                 $str = igk_zip_unzip_filecontent($v_file,  $n = igk_io_basenamewithoutext($v_file));
             } else {
                 $str = igk_io_read_allfile($v_file);
-            } 
+            }
             $h = explode("\0", $str);
             $table = null;
             $definition = null;
@@ -1699,10 +1700,10 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                         $o->$k = igk_getv($v, $ii);
                 }
             }
-            $info = DbSchemas::GetTableColumnInfo($table); 
+            $info = DbSchemas::GetTableColumnInfo($table);
             $adapter->connect($dbname);
             $adapter->update($table, $o, array($s => $n), $info);
-            $adapter->close(); 
+            $adapter->close();
         }
         if (!$ext) {
             $this->db_viewtableentries($dbname, $table);
@@ -1892,7 +1893,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
      */
     public function dropTablesRegex($ctrl, $exp)
     {
-        \IGK\Helper\Database::DropTableFromRegex($ctrl, $exp);      
+        \IGK\Helper\Database::DropTableFromRegex($ctrl, $exp);
     }
     ///<summary></summary>
     /**
@@ -2133,10 +2134,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
 
         $ad = igk_get_data_adapter($this, true);
         if ($ad) {
-             $mod = igk_get_modules();
-            foreach(array_keys($mod) as $c){
-                igk_require_module($c, null, false);
-            }
+
             igk_set_env("sys://Db/NODBSELECT", 1);
             $ad->initForInitDb();
             if (!$ad->connect()) {
@@ -2216,24 +2214,20 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
      * reset entire database init db.
      * clean all databases. with clean request args 
      */
-    function pinitSDb($nav = true, $clean=null)
+    function pinitSDb($nav = true, $clean = null)
     {
         if (!igk_is_conf_connected()) {
             igk_set_header(403);
             igk_navtocurrent();
-        } 
-        require_once IGK_LIB_DIR."/igk_html_utils.php";
+        }
+        require_once IGK_LIB_DIR . "/igk_html_utils.php";
         $success = 1;
         $is_ajx = igk_is_ajx_demand();
-        $not = $this->notifyctrl(); 
-
-       
-
+        $not = $this->notifyctrl();
         set_time_limit(0);
+
         igk_set_env(__FUNCTION__, 1);
-        igk_notification_reset(IGKEvents::HOOK_DB_INIT_ENTRIES);
-        IO::RmDir(IGK_APP_DIR . "/Caches/db");
-        DBCaches::Reset();
+
 
         if (igk_environment()->isOPS()) {
             if (!igk_qr_confirm()) {
@@ -2242,9 +2236,14 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             }
         }
 
+        igk_module_inject_all();
+        igk_notification_reset(IGKEvents::HOOK_DB_INIT_ENTRIES);
+        IO::RmDir(IGK_APP_DIR . "/Caches/db");
+        DBCaches::Reset();
+
         $db = $this->getDataAdapter();
 
-        $clean = $clean ?? igk_getr('clean') ?? false; 
+        $clean = $clean ?? igk_getr('clean') ?? false;
         if ($db->connect()) {
             $command = new ResetDbCommand;
             if ($command->globalResetDatabase(true, false, $clean)) {
@@ -2256,24 +2255,24 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             // $db->createTable('atom', [new DbColumnInfo(['clName'=>'clId']), new DbColumnInfo(['clName'=>'job'])]);
             // $db->insert('atom', ['clId'=>45, 'job'=>82]);
             $db->close();
-        } 
-        
+        }
+
         if ($nav && !$is_ajx) {
             igk_close_session();
             igk_ob_clean();
             igk_navtocurrent();
         }
-        if ($is_ajx){            
-            $msg = $not->getMessages();            
-            $msg = igk_html_tag("ul", implode("", array_map(function($a){
+        if ($is_ajx) {
+            $msg = $not->getMessages();
+            $msg = igk_html_tag("ul", implode("", array_map(function ($a) {
                 return igk_html_tag('li', $a);
             }, $msg)));
-            if (!empty($msg)){
-                igk_ajx_toast($msg, $success ? 'igk-success' : 'igk_danger' );
+            if (!empty($msg)) {
+                igk_ajx_toast($msg, $success ? 'igk-success' : 'igk_danger');
             }
-            $not->clear();      
+            $not->clear();
             igk_close_session();
-            igk_exit();      
+            igk_exit();
         }
     }
     ///<summary></summary>
@@ -2414,7 +2413,7 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
      * 
      */
     public function View(): BaseController
-    {   
+    {
         if (igk_is_ajx_demand()) {
             $p = igk_getr("v", null);
             if (!empty($p)) {
@@ -2426,9 +2425,9 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                     call_user_func_array(array($this, $f), array($t));
                     $t->obdata(function () use ($p) {
                         // replece uri 
-                        igk_ajx_replace_uri(igk_io_baseuri().igk_io_request_uri_path() . "?p=" . $p);
+                        igk_ajx_replace_uri(igk_io_baseuri() . igk_io_request_uri_path() . "?p=" . $p);
                     });
-                    igk_do_response($t); 
+                    igk_do_response($t);
                 } else {
                     igk_set_header(RequestResponseCode::NotFound);
                     igk_wln_e(__("no function to found!", $p));
@@ -2516,22 +2515,21 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
                     ->on('click', igk_js_post_frame($this->getUri("db-initdb-controller")));
 
 
-                if (($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)){
+                if (($ctrl->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)) {
 
-                
-                $group = $target->actiongroup();
-                $group->setClass('db mysql');
-                $group->input('btn', 'button', __('mysql - migrate'))
-                    ->on('click', igk_js_post_frame($this->getUri("db-migrate-controller")));
-                $group->input('btn', 'button', __('mysql - resetdb'))
-                    ->on('click', igk_js_post_frame($this->getUri("db-resetdb-controller")));
 
-                $group->input('btn', 'button', __('mysql - backup'))
-                    ->on('click', igk_js_post_frame($this->getUri("db-backup-controller")));
+                    $group = $target->actiongroup();
+                    $group->setClass('db mysql');
+                    $group->input('btn', 'button', __('mysql - migrate'))
+                        ->on('click', igk_js_post_frame($this->getUri("db-migrate-controller")));
+                    $group->input('btn', 'button', __('mysql - resetdb'))
+                        ->on('click', igk_js_post_frame($this->getUri("db-resetdb-controller")));
 
-                $group->input('btn', 'button', __('mysql - dropdb'))
-                    ->on('click', igk_js_post_frame($this->getUri("db-dropdb-controller")));
+                    $group->input('btn', 'button', __('mysql - backup'))
+                        ->on('click', igk_js_post_frame($this->getUri("db-backup-controller")));
 
+                    $group->input('btn', 'button', __('mysql - dropdb'))
+                        ->on('click', igk_js_post_frame($this->getUri("db-dropdb-controller")));
                 }
             } else
                 $this->setParam('ctrl', null);
@@ -2566,7 +2564,8 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             'reset db failed'
         );
     }
-    public function db_initdb_controller(){
+    public function db_initdb_controller()
+    {
         $ctrl = $this->_db_check_command(__FUNCTION__);
         NotifyHelper::Notify(
             __FUNCTION__,
@@ -2575,10 +2574,11 @@ igk.system.createNS('igk.ctrl.db.configs',{confirmBeforeInitSystemDatabase});
             'failed to drop tables'
         );
     }
-    private function _initdb_engine($ctrl){
+    private function _initdb_engine($ctrl)
+    {
         igk_ilog('initdb_engine');
         $ctrl->initDb(true);
-        igk_ilog('check data? '.Database::InitData($ctrl));
+        igk_ilog('check data? ' . Database::InitData($ctrl));
         return 1;
     }
     public function db_dropdb_controller()

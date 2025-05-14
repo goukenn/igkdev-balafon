@@ -1558,6 +1558,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * 
      * @param mixed $value
      * @param mixed $autoindex the default value is false
+     * @return static
      */
     public function setIndex($value, $autoindex = false)
     {
@@ -1573,13 +1574,13 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (!$autoindex) {
             $this->setAutoIndex(-1);
         }
+        return $this;
     }
     ///<summary></summary>
     /**
-     * 
+     * get index flag 
      */
-    public function getIndex()
-    {
+    public function getIndex(){
         return $this->getFlag(IGK_ZINDEX_FLAG);
     }
     ///<summary></summary>

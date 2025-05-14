@@ -297,11 +297,14 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * create view loader 
      * @return IViewLayoutLoader
      */
-    protected function createViewLoader(): ?IViewLayoutLoader
-    {
-        if (ViewHelper::CurrentCtrl() === $this) {
+    protected function createViewLoader(?string $fname=null): ?IViewLayoutLoader
+    {   
+        $ctrl = ViewHelper::CurrentCtrl();
+        if ($ctrl === $this) {
+            $n = $fname ?? ViewHelper::GetViewArgs("fname");
             //by default create a layout per view 
-            if ($n = ViewHelper::GetViewArgs("fname")) {
+            if ($n){
+                $n = ViewHelper::TreatViewNameForClassDefinition($n); 
                 $p = "/WinUI/Views/" . ucfirst($n) . "ViewLoader";
                 if (($cl = $this->resolveClass($p)) && is_subclass_of($cl, IViewLayoutLoader::class)) {
                     return new $cl($this);
@@ -317,12 +320,12 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    protected function getViewLoader()
+    protected function getViewLoader(?string $fname=null)
     {
-        if ($l = $this->getEnvParam(ControllerEnvParams::ViewLoader)) {
+        if ($l = $this->getEnvParam(ControllerEnvParams::ViewLoader)) {            
             return $l;
         }
-        $l = $this->createViewLoader();
+        $l = $this->createViewLoader($fname);
         !$l && igk_die("failed to create view loader");
         $this->setEnvParam(ControllerEnvParams::ViewLoader, $l);
         return $l;

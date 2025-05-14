@@ -68,7 +68,12 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         return implode("/", [IGK_LIB_DIR, IGK_DATA_FOLDER, IGK_SCHEMA_FILENAME]);
     }
-    protected function createViewLoader(): ?IViewLayoutLoader
+    /**
+     * bypass view loader for configuration 
+     * @param null|string $fname 
+     * @return IViewLayoutLoader 
+     */
+    protected function createViewLoader(?string $fname=null): ?IViewLayoutLoader
     {
         return new ConfigurationPageViewLoader($this);
     }

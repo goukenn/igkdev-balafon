@@ -23,6 +23,8 @@ class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
      */
     protected function getMergedScripts(){
         return [
+            IGK_LIB_DIR."/Inc/core/installer-core-function.pinc",
+            IGK_LIB_DIR."/Inc/core/class.InstallerResponse.pinc", 
             IGK_LIB_DIR."/Inc/core/installer-helper.pinc",
 			IGK_LIB_CLASSES_DIR."/System/Shell/OsShell.php",
             IGK_LIB_DIR."/Inc/core/sync-node-package.pinc",   
@@ -34,7 +36,7 @@ class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
 	/* var $category; */
 	public function exec($command, ...$args) { 
 		$this->syncScriptCommand($command, 'sync-npm-package.php', ['args'=>$args]);	
-        Logger::success(":complete");
+        Logger::success("complete");
 
 	}
 }
