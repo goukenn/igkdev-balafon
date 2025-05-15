@@ -24798,7 +24798,7 @@ function igk_user_connectas($login)
  */
 function igk_user_fullname($u)
 {
-    if (!empty(trim($t = igk_getv($u, "clDisplay")))) {
+    if (!empty(trim($t = igk_getv($u, 'clDisplay') ?? ''))){
         return $t;
     }
     return igk_getv($u, "clFirstName") . " " . igk_getv($u, "clLastName");
