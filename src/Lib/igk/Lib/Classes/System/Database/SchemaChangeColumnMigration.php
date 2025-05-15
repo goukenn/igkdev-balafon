@@ -73,8 +73,9 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             if($link = $cinfo->clLinkColumn){
                 $ltab = $mig->getTableSchemaFileDefinition($cinfo->clLinkType);
 
-
-                    $link = Database::AutoPrefixColumn( $link, $ltab->prefix); 
+                if ($prefix = igk_getv($ltab, 'prefix', '')){
+                    $link = Database::AutoPrefixColumn( $link, $prefix); 
+                }
                 $cinfo->clLinkColumn = $link;
             }
             $v_column = Database::AutoPrefixColumn($v_column, $v_prefix);

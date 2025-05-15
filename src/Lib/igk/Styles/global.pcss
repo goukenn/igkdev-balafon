@@ -60,8 +60,14 @@ $def[".box-center"] = "{sys:posab} top:50%; left:50%; [transform:translate(-50%,
 
 $def[".igk-text-c"] ="text-align:center !important; vertical-align: middle !important;";
 
+// + | z-index prop
+foreach([5,10,20,100] as $i){
+	$def['.z-'.$i] = 'z-index: '.$i;
+}
 $def[".ztop"] ="z-index: 9000;";
 $def[".zback"] ="z-index: -9000;"; 
+
+
 $def[".fitvh"] = "height: 100vh;";
 $def['.fitvw'] = 'width: 100vw;';
 

@@ -38,6 +38,7 @@ use IGK\System\ViewDataArgs;
 use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGK\Constants;
+use IGK\System\EntryClassResolution;
 use IGKEnvironment;
 use IGKEvents;
 use IGKException;
@@ -305,7 +306,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             //by default create a layout per view 
             if ($n){
                 $n = ViewHelper::TreatViewNameForClassDefinition($n); 
-                $p = "/WinUI/Views/" . ucfirst($n) . "ViewLoader";
+                $p = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, ucfirst($n));
                 if (($cl = $this->resolveClass($p)) && is_subclass_of($cl, IViewLayoutLoader::class)) {
                     return new $cl($this);
                 }

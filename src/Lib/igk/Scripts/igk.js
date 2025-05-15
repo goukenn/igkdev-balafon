@@ -435,12 +435,12 @@ Name:balafon.js
                 for (var i = offset; i < m_items.length; i++) {
                     var p = m_items[i];
                     switch (p[0]) {
-                        case ".":
+                        case '.':
                             if (!igk_item_match_class(p.substring(1), item)) {
                                 return !1;
                             }
                             break;
-                        case "#":
+                        case '#':
                             if (item.id != p.substring(1)) {
                                 return !1;
                             }
@@ -453,6 +453,12 @@ Name:balafon.js
                 }
                 return !0;
             },
+            /**
+             * 
+             * @param {*} selector 
+             * @param {*} item 
+             * @returns 
+             */
             select: function (selector, item) { // select in expression
                 if (!item)
                     return null;
@@ -484,17 +490,22 @@ Name:balafon.js
                     v_it = null;
                     pk = m_items[j];
                     switch (pk[0]) {
-                        case ".": // select by class	
-                        case "#": // select by id							
+                        case '.': // select by class	
+                        case '#': // select by id							
                             __select(pk);
                             continue;
                         case ' ': // select 
-                            while ((pk = pk.substring(1)) && (pk[0] == ' ')) { }
+                            while ((pk = pk.substring(1)) && (pk[0] == ' ')) { 
+
+                            }
                             if (pk) {
                                 depth = !0;
                                 __select(pk);
                                 depth = false;
                             }
+                            break;
+                        case '[':
+                            console.log('css read attribute not implement');
                             break;
                         case "$":
                             console.debug("is dollar error. not implement");
@@ -964,11 +975,12 @@ Name:balafon.js
                 });
                 return tn;
             };
-            for (var f = 0 <= a.indexOf(".") ? a.split(".") : [a], h = 0; h < f.length; h++) {
+            const sep = '.';
+            for (var f = 0 <= a.indexOf(sep) ? a.split(sep) : [a], h = 0; h < f.length; h++) {
                 i = f[h];
                 ps = ns;
                 if (h > 0)
-                    ns += ".";
+                    ns += sep;
                 ns += i;
                 (!(i in win) || (typeof (win[i]) == 'undefine') || b(win[i])) && (win[i] = __igksysNameSpace(ns, ps));
                 win = win[i];
@@ -998,7 +1010,7 @@ Name:balafon.js
     function igk_get_namespace(n, prop) {
         if (typeof (n) != 'string')
             return null;
-        var t = n.split(".");
+        var t = n.split('.');
         var def = prop || window;
         var win = def[t[0]];
         if (win) {
@@ -1079,15 +1091,16 @@ Name:balafon.js
         var ns = "";
         var a = name;
         var t = window;
+        const sep = '.';
         // init
-        for (var win = t, f = (0 <= a.indexOf(".")) ? a.split(".") : [a], h = 0; h < f.length; h++) {
+        for (var win = t, f = (0 <= a.indexOf(sep)) ? a.split(sep) : [a], h = 0; h < f.length; h++) {
             if (!f[h]) {
                 func = null;
                 break;
             }
             i = f[h];
             if (h > 0)
-                ns += ".";
+                ns += sep;
             ns += i;
             win = win[i];
             if (!win) { func = null; break; } else
@@ -3539,6 +3552,10 @@ Name:balafon.js
                 return !0;
             }
         },
+        /**
+         * retrieve node current selector
+         * @returns string
+         */
         getCssSelector: function () { // get style node selection
             var o = 0;
             var cl = 0;
@@ -3549,11 +3566,15 @@ Name:balafon.js
             if (cl) {
                 var t = cl.split(" ");
                 for (var k = 0; k < t.length; k++) {
-                    o += "." + t[k];
+                    o += '.' + t[k];
                 }
             }
             return o;
         },
+        /**
+         * get css value
+         * @returns 
+         */
         getCssValue: function () {
             var o = "";
             var v, d;
@@ -5387,7 +5408,7 @@ Name:balafon.js
              * n: name "."
              * v: value to define
              */
-            var t = n.split(".");
+            var t = n.split('.');
             var win = o;
             if (win) {
                 let k = t.pop();
@@ -5464,13 +5485,13 @@ Name:balafon.js
             return $igk(v_sl);
         },
         select: function (item, pattern) {
-            // + | selection in igk			
+            // + | selection in igk		
             var b = null;
-            var v_sl = new igk.selector();
-            if (!item || (pattern == null) || ((pattern = pattern.trim()) && pattern.length == 0) || /['`\[\]]/.exec(pattern)) {
-                return $igk(v_sl);
+            let v_s = !1;
+            var v_sl = new igk.selector(); 
+            if (!item || (pattern == null) || ((pattern = pattern.trim()) && pattern.length == 0) || (v_s = /['`\[\]]/.exec(pattern))) {
+                return v_s ? this.qselect(item, pattern) : $igk(v_sl);
             }
-
             if (/^>/.test(pattern) && (pattern != '>>')) {
                 let cp = pattern;
                 while (cp[0] == '>') {
@@ -5690,11 +5711,7 @@ Name:balafon.js
                         }
                     }
                 }
-            }
-            // if(fid){
-            // if(v_sl.getCount()==0)
-            // return null;
-            // }	
+            } 
             return $igk(v_sl);
         },
         load: function (func) { // load function
@@ -6151,7 +6168,7 @@ Name:balafon.js
                 return !1;
             },
             registerStatic: function (ns, name, func) {
-                var fname = ns.namespace + "." + name;
+                var fname = [ns.namespace, name].join('.');
                 if (m_staticReg[fname]) {
                     return;
                 }
@@ -7547,7 +7564,7 @@ Name:balafon.js
                 //bind properties that apply to 
                 igk.appendProperties(this, {
                     getTypeFullName: function () {
-                        return ns.fullname + "." + tn;
+                        return ns.fullname + '.' + tn;
                     },
                     getType: function () {
                         return tn;
@@ -7555,13 +7572,7 @@ Name:balafon.js
                     isInstanceOf: function (t) {
                         return igk.system.isInherit(this, t);
                     }
-                });
-                // this.getTypeFullName = function () {
-                // return ns.fullname + "." + tn;
-                // };
-                // this.isInstanceOf = function (t) {
-                // return this instanceof t;
-                // };
+                }); 
             };
             fc.Name = tn;
             //igk extra info
@@ -8886,7 +8897,7 @@ Name:balafon.js
                     if (igk_item_match_class(b[i].n, c)) {
                         fc.apply($igk(c));
                     } else
-                        $igk(c).select("." + b[i].n).each(function () {
+                        $igk(c).select('.' + b[i].n).each(function () {
                             fc.apply(this);
                             return !0;
                         });

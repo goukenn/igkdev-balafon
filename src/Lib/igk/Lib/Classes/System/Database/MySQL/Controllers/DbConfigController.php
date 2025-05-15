@@ -27,7 +27,9 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGK\System\Configuration\Controllers\ControllerAndArticlesController;
+use IGK\System\Console\BalafonApplication;
 use IGK\System\Console\Commands\ResetDbCommand;
+use IGK\System\Console\Logger;
 use IGK\System\Database\DbUtils;
 use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MySQL\BooleanQueryResult;
@@ -46,6 +48,7 @@ use IGKCSVDataAdapter;
 use IGKEvents;
 use IGKException;
 use IGKLog;
+use IGKModuleListMigration;
 use IIGKDataAdapter;
 use mysqli;
 use ReflectionException;
@@ -901,6 +904,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     public function pMigrate()
     {
         if (igk_is_conf_connected()) {
+            igk_module_inject_all();
             $c = new \IGK\System\Console\Commands\MysqlCommand();
             ob_start();
             $o = $c->exec((object)[
@@ -2235,11 +2239,12 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 igk_exit();
             }
         }
+        
 
-        igk_module_inject_all();
         igk_notification_reset(IGKEvents::HOOK_DB_INIT_ENTRIES);
         IO::RmDir(IGK_APP_DIR . "/Caches/db");
         DBCaches::Reset();
+        igk_module_inject_all();
 
         $db = $this->getDataAdapter();
 
@@ -2247,13 +2252,23 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         if ($db->connect()) {
             $command = new ResetDbCommand;
             if ($command->globalResetDatabase(true, false, $clean)) {
+              	if ($m = IGKModuleListMigration::CreateModulesMigration()) {
+                    igk_ilog('migrate .... ');                    
+                        BalafonApplication::BindCommandController($m, null);
+                        $cl = get_class($m);
+                        if ($m->getCanInitDb()) {
+                            Logger::info("init-db: " . $cl);			
+                            $m::initDb($force);
+                            Logger::success("complete: " . $cl);
+                        } else {
+                            Logger::warn("can't initdb of " . $cl);
+                        }                
+                }
                 $not->success(__("MYSQL Db init complete"));
             } else {
                 $not->danger(__("something bad append"));
                 $success = 0;
-            }
-            // $db->createTable('atom', [new DbColumnInfo(['clName'=>'clId']), new DbColumnInfo(['clName'=>'job'])]);
-            // $db->insert('atom', ['clId'=>45, 'job'=>82]);
+            } 
             $db->close();
         }
 

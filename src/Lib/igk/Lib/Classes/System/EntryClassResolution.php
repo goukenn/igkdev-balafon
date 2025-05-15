@@ -36,7 +36,7 @@ abstract class EntryClassResolution{
 
     const WinUI_ViewLayout = '/WinUI/ViewLayout';
     const WinUI_Form_Validation = '/WinUI/FormValidations';
-    const WinUI_ViewLayoutFormat = '/WinUI/Views/%sLayout';
+    const WinUI_ViewLayoutFormat = '/WinUI/Views/%sViewLoader';
 
     const SysSyncProject = 'System\Console\Commands\SyncProject';
     const ProjectProfilesClass = 'Profiles';

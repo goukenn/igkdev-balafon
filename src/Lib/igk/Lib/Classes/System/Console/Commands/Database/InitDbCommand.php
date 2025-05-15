@@ -4,6 +4,7 @@
 // @date: 20230703 12:55:25
 namespace IGK\System\Console\Commands\Database;
 
+use Exception;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\SysUtils;
 use IGK\Models\Users;
@@ -11,6 +12,7 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\BalafonApplication;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
+use IGKException;
 use IGKModuleListMigration;
 use L81Controller;
 
@@ -30,6 +32,14 @@ class InitDbCommand extends AppExecCommand{
 	var $category = "db";
 	var $usage = '[controller] [options]';
 
+	/**
+	 * 
+	 * @param mixed $command 
+	 * @param null|string $ctrl 
+	 * @return int 
+	 * @throws Exception 
+	 * @throws IGKException 
+	 */
 	public function exec($command, ?string $ctrl = null) { 
 		$c = null;
 		DbCommandHelper::Init($command);

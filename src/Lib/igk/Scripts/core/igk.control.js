@@ -5467,7 +5467,9 @@
                     var tn = j.tagName.toLowerCase();
                     if (!(tn in m_item)) {
                         m_item[tn] = $igk(j).select("svg").first();
-                        // console.log('init list ');
+                        // + | remove marked title
+                        m_item[tn].qselect('title').each_all(function (){ this.remove()});
+                        
                     }
                 }
             }
