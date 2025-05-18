@@ -25,6 +25,7 @@ class MakeViewCommand extends AppExecCommand{
         "--action"=>"flag: enable action",
         "--dir"=>"enable view dir",
         "--force"=>"flag:force  file creation ",
+        '--no-cache-clear'=>'flag:no clearing cache',
         "--scaffold:[scaffoldtype]"=>"type of view to generate. default is null. or builder"
     ]; 
     var $usage = "controller viewname | viewname [options]";
@@ -52,6 +53,7 @@ class MakeViewCommand extends AppExecCommand{
         $author = $this->getAuthor($command);
         $action = property_exists($command->options, "--action");
         $is_dir = property_exists($command->options, "--dir");
+        $no_cache_clear = property_exists($command->options, "--no-cache-clear");
         $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
             Logger::danger("controller $controller not found");
@@ -98,7 +100,9 @@ class MakeViewCommand extends AppExecCommand{
             }
         };
         ConsoleUtility::MakeFiles($bind, $command, $force);
-        \IGK\Helper\SysUtils::ClearCache(); 
+        if (!$no_cache_clear){
+            \IGK\Helper\SysUtils::ClearCache(); 
+        }
         Logger::success("done\n");
     }
     public function help(){ 

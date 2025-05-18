@@ -157,6 +157,8 @@ class IGKEvents extends IGKObject
 
     const HOOK_ON_MODULE_ADDED = 'command:/module/added';
     
+
+    const HOOK_USER_AUTHENTICATE = 'sys:/user/authenticate';
     const VIEWCOMPLETE = 0x1;
 
     const HOOK_CRUNJOB = 'on_do_cronjob';

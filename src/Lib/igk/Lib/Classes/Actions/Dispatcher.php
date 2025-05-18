@@ -199,78 +199,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             return $args;
         }
         $targs = [];
-        self::_GetInjectedParameters($targs, $parameters, $args);
-
-        // $injectors = InjectorProvider::GetInjectors();
-        // $ctrl = ViewHelper::CurrentCtrl();
-        // $i = 0;
-        // $services = null;
-        // if ($ctrl) {
-        //     // + | --------------------------------------------------------------------
-        //     // + | resolving services for injection
-        //     // + |            
-        //     $services = file_exists($fservice = $ctrl->configFile('services')) ?
-        //         ViewHelper::Inc($fservice, ['ctrl' => $ctrl]) : null;
-        // }
-
-        // foreach ($parameters as $k) {
-        //     $arg = igk_getv($args, $i);
-        //     $c = $arg;
-
-        //     if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
-        //         if ($type == 'string') {
-        //             $targs[] = $c;
-        //             $i++;
-        //             continue;
-        //         }
-        //         if ($type == "array") {
-        //             $c = $c ? explode(',', $c) : []; // implode(",", $args[$i]);                                    
-        //         } else {
-        //             $pattern = igk_getv(self::$sm_matches, $type, ".+");
-        //             if (is_string($c) && $c && !preg_match_all("#^" . $pattern . "$#", $c)) {
-        //                 throw new ArgumentTypeNotValidException($i);
-        //             }
-        //         }
-        //         // + | get inject table class printer service
-
-
-        //         if (!IGKType::IsPrimaryType($type) && is_subclass_of($type, IInjectable::class) && $services && isset($services[$type])) {
-        //             $rtype = $services[$type];
-        //             $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);
-        //             continue;
-        //         }
-
-        //         $v_primary = IGKType::IsPrimaryType($type);
-
-        //         if (!$v_primary && class_exists($type)) {
-
-        //             if (is_subclass_of($type, IInjectable::class)) {
-        //                 $targs[] = self::_GetInjectable($type, $args);
-        //                 continue;
-        //             }
-        //             $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));
-        //             if ($j &&  ($c = $j->resolv($arg, $p))) {
-        //                 $targs[] = $c;
-        //                 continue;
-        //             }
-        //         } else if ($v_primary && is_null($c)) {
-        //             if ($k->isDefaultValueAvailable()) {
-        //                 $c =  $k->getDefaultValue();
-        //             } else {
-        //                 $c = preg_match("/(int|float|double|decimal)/i", $type) ? 0 : $c;
-        //             }
-        //         }
-        //     } else {
-        //         if ($arg === null && $k->isDefaultValueAvailable()) {
-        //             $c = $k->getDefaultValue();
-        //         }
-        //     }
-        //     $targs[] = $c;
-        //     $i++;
-        // }
-        // if ($i < count($args)) {
-        //     $targs = array_merge($targs, array_slice($args, $i));
-        // }
+        self::_GetInjectedParameters($targs, $parameters, $args); 
         return $targs;
     }
     /**
@@ -334,7 +263,15 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));
-                    if ($j &&  ($c = $j->resolve($arg, $p))) {
+                    $j_allow_null =  $k->allowsNull();
+                    if($j && (is_null($arg) && $j_allow_null))
+                    {
+                        $targs[] = null;
+                        $i++;
+                        continue;
+                    }
+                    if ($j && ($c = $j->resolve($arg, $p))){ 
+                        
                         $targs[] = $c;
                         $i++;
                         continue;

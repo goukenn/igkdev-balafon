@@ -48,9 +48,7 @@ class CssParser implements ArrayAccess
 
     var $lineFeed = '';
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
     /**
      * get json definition
      * @return string|false 
@@ -136,7 +134,7 @@ class CssParser implements ArrayAccess
                             $def = &$media->def;
                             break;
                         // case 'charset': // options\
-                            // break;
+                        // break;
                         case 'media':
                             // read @media definition 
                             $s = $pos;
@@ -202,11 +200,11 @@ class CssParser implements ArrayAccess
                                 $gv = '';
                                 if ($v_tpos !== false) {
                                     $g = trim(substr($content, $s, $pos - $s));
-                                    $gv = substr($content, $pos, $v_tpos-$pos);
+                                    $gv = substr($content, $pos, $v_tpos - $pos);
                                     $pos = $v_tpos;
                                 }
                                 if ($mode == 0) {
-                                    $def[] = new CssOptions($g .".".$gv);
+                                    $def[] = new CssOptions($g . "." . $gv);
                                 }
                             } else {
                                 //+ skip reading until branked end.
@@ -228,7 +226,7 @@ class CssParser implements ArrayAccess
                 case '/':
                     // + detect comment 
                     $lpos = $pos + 1;
-                    if ($lpos < $len) { 
+                    if ($lpos < $len) {
                         if ($content[$lpos] == '*') {
                             $s = $pos;
                             $pos = strpos($content, '*/', $pos + 1);
@@ -257,7 +255,7 @@ class CssParser implements ArrayAccess
                                 $ch = '';
                             }
                         } else {
-                            $rv .= $ch; 
+                            $rv .= $ch;
                         }
                     }
                     break;
@@ -311,11 +309,11 @@ class CssParser implements ArrayAccess
                 case ';':
                     if (empty($rv = trim($rv)) && (strlen($rv) == 0)) {
                         if ($mode == 0) {
-                            igk_die("[cssparser] - name is empty." . json_encode(compact("rv", "content" )));
+                            igk_die("[cssparser] - name is empty." . json_encode(compact("rv", "content")));
                         }
                     }
                     if ($name) {
-                        $value = $rv; 
+                        $value = $rv;
                         if ($mode == 0) {
                             $def[$name] = $value;
                         } else {
@@ -329,8 +327,8 @@ class CssParser implements ArrayAccess
                     }
                     break;
                 case "'":
-                case '"': 
-                    $rv .= igk_str_read_brank($content, $pos, $ch, $ch);  
+                case '"':
+                    $rv .= igk_str_read_brank($content, $pos, $ch, $ch);
                     break;
                 case '}':
 
@@ -535,7 +533,7 @@ class CssParser implements ArrayAccess
         }
         if (!is_null($g = $this["bottom"])) {
             $b = $g;
-        }else if (!is_null($g = $this["height"])) {
+        } else if (!is_null($g = $this["height"])) {
             $b = $g;
         }
         return [$t, $r, $b, $l];
@@ -567,12 +565,12 @@ class CssParser implements ArrayAccess
         }
 
         foreach (["left", "top", "right", "bottom"] as $k) {
-      
+
             if ($w = $this["border-" . $k . "-width"]) {
-                $res[$k]['width'] = $w; 
+                $res[$k]['width'] = $w;
             }
             if ($c = $this["border-" . $k . "-color"]) {
-                $res[$k]['color'] = $c; 
+                $res[$k]['color'] = $c;
             }
             // if ($gp) {
             //     $res[$k] = (object)$gp;
@@ -657,7 +655,37 @@ class CssParser implements ArrayAccess
         }
         return igk_getv($root,  $name);
     }
-
+    protected function treatExtratProperty(&$rdef)
+    {
+        if ($size = igk_getv($rdef, 'size')) {
+            $tab = explode(' ', $size, 2);
+            $c = count($tab);
+            if ($c < 2) {
+                $tab[1] = $tab[0];
+            }
+            $rdef['width'] = $tab[0];
+            $rdef['height'] = $tab[1];
+            unset($rdef['size']);
+        }
+        if ($size = igk_getv($rdef, 'location')) {
+            $tab = explode(' ', $size, 2);
+            $c = count($tab);
+            if ($c < 2) {
+                $tab[1] = $tab[0];
+            }
+            $rdef['left'] = $tab[0];
+            $rdef['top'] = $tab[1];
+            unset($rdef['location']);
+        }
+         if ($s = igk_getv($rdef, 'x')) {           
+            $rdef['left'] = $s; 
+            unset($rdef['x']);
+        }
+         if ($s = igk_getv($rdef, 'y')) {           
+            $rdef['top'] = $s; 
+            unset($rdef['y']);
+        }
+    }
     /**
      * render document 
      * @return null|string 
@@ -667,25 +695,28 @@ class CssParser implements ArrayAccess
         $sb = new StringBuilder;
         $rdef = $this->m_definition;
         $lf = $this->lineFeed;
-        if ($rdef){
+        if ($rdef) {
+            // treat defintion list 
+
+            $this->treatExtratProperty($rdef);
             ksort($rdef);
-        
+
             foreach ($rdef as $k => $v) {
                 if ($v instanceof ICssDefinition) {
                     $sb->append($v->getDefinition($lf));
                 } else {
                     if (is_array($v)) {
-                        $sb->append($k . "{".$lf);
+                        $sb->append($k . "{" . $lf);
                         foreach ($v as $l => $m) {
-                            $sb->append(sprintf("%s:%s;", $l, $m).$lf);
+                            $sb->append(sprintf("%s:%s;", $l, $m) . $lf);
                         }
-                        $sb->append("}".$lf);
+                        $sb->append("}" . $lf);
                     } else {
-                        if (is_numeric($k)){
-                            $sb->append(sprintf("%s;", $v).$lf); 
-                        }else{
-                            $sb->append(sprintf("%s:%s;", $k, $v).$lf); 
-                        } 
+                        if (is_numeric($k)) {
+                            $sb->append(sprintf("%s;", $v) . $lf);
+                        } else {
+                            $sb->append(sprintf("%s:%s;", $k, $v) . $lf);
+                        }
                     }
                 }
             }

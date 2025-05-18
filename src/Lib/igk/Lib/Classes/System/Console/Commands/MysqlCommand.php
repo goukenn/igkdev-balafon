@@ -263,6 +263,7 @@ class MySQLCommand extends AppExecCommand
         }
         return -1;
     }
+ 
     public function action_drop_foreign_key($command, string $tablename , string $key_name){
         // query: SELECT * FROM `TABLE_CONSTRAINTS` WHERE `CONSTRAINT_NAME`='{$key_name}';
         $query = 'ALTER TABLE `'.$tablename.'` DROP FOREIGN KEY '.$key_name;

@@ -15,9 +15,10 @@ use Traversable;
  */
 class FieldBuilder implements IteratorAggregate
 {
-
-    const LengthFields =  ['text', 'password','textarea'];
-
+    /**
+     * field that support length 
+     */
+    const LengthFields =  ['text', 'password', 'textarea'];
     private $m_data = [];
 
     /**
@@ -136,7 +137,7 @@ class FieldBuilder implements IteratorAggregate
     public function textarea(string $name, ?array $attribs = null)
     {
         $this->m_current = $this->_add($name, $attribs);
-        $this->m_current["type"] = 'textarea';
+        $this->m_current["type"] = FormBuilderComponentTypes::Textarea;
         return $this;
     }
 

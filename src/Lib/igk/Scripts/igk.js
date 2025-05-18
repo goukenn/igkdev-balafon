@@ -495,7 +495,7 @@ Name:balafon.js
                             __select(pk);
                             continue;
                         case ' ': // select 
-                            while ((pk = pk.substring(1)) && (pk[0] == ' ')) { 
+                            while ((pk = pk.substring(1)) && (pk[0] == ' ')) {
 
                             }
                             if (pk) {
@@ -1170,8 +1170,8 @@ Name:balafon.js
      */
     function igk_getInt(value) {
         var t = /((-{0,1})[0-9]+(\.[0-9]+){0,1})(px|em|%|ch)*$/.exec(value);
-        if (t){
-            if (arguments.length>1)
+        if (t) {
+            if (arguments.length > 1)
                 arguments[1].unit = t[0];
             return parseInt(t[1]);
         }
@@ -1566,7 +1566,7 @@ Name:balafon.js
             var v_tab = new Array();
             // copy items
             for (var s = 0; s < v_timg.length; s++) {
-                v_tab[s] = v_timg[s]; 
+                v_tab[s] = v_timg[s];
             }
             var v_img = null;
             var v_div = null;
@@ -1612,7 +1612,7 @@ Name:balafon.js
                     v_host = $igk(document.createElement("span"));
                     v_host.addClass("igk-img-host");
                     v_cimg = document.createElement("img");
-                    if (w || h){
+                    if (w || h) {
                         v_cimg.setAttribute('width', w);
                         v_cimg.setAttribute('height', h);
                     }
@@ -1997,22 +1997,22 @@ Name:balafon.js
             bfirst.qselect('.igk-powered-viewer').first() ||
             bfirst.qselect('.igk-parentscroll').first();
         if (t) {
-            async function _updateBottomSize(offw){
+            async function _updateBottomSize(offw) {
                 let bottom = t.getComputedStyle('padding-bottom');
                 let height = ln.getComputedStyle('height');
-                if (offw>0){
+                if (offw > 0) {
                     t.setCss({ paddingBottom: 'calc(' + bottom + ' + ' + height + ')' });
-                }  
+                }
             };
             function _resizeInvoke() {
-                
+
                 let alignl = ln.supportClass('alignl');
                 let offw = t.width() - t.o.clientWidth;
 
-                
-                if( (offw==0) && scrolling ){
-                    offw=11; // macos - width size view that autoshow/hidde
-                } 
+
+                if ((offw == 0) && scrolling) {
+                    offw = 11; // macos - width size view that autoshow/hidde
+                }
                 // console.log({height, offw, target: t.o});  
                 if (!alignl) {
                     ln.setCss({
@@ -2035,16 +2035,16 @@ Name:balafon.js
                 display: 'inline-block'
             });
             let tacTimeout = null;
-            async function acTimeout(){
+            async function acTimeout() {
                 _resizeInvoke();
             };
-            t.on('scroll', async function(){
+            t.on('scroll', async function () {
                 // +| note: do update on the main thread to avoid scrolling effect warning
-                 scrolling = true;
+                scrolling = true;
                 clearTimeout(scrollingTimeout);
                 clearTimeout(acTimeout);
                 tacTimeout = setTimeout(acTimeout, 20);
-                scrollingTimeout = setTimeout(async function(){ 
+                scrollingTimeout = setTimeout(async function () {
                     scrolling = false;
                     _resizeInvoke();
                 }, 2000);
@@ -2133,7 +2133,7 @@ Name:balafon.js
      * @param {*} d initialize default object
      * @returns 
      * node activateFields
-     */ 
+     */
     function igk_initobj(n, d) {
         if (!n)
             return d;
@@ -2301,19 +2301,19 @@ Name:balafon.js
         setAttribute: __igksetAttribute
     });
     createNS('igk.system.log', {
-        createLog(tag){
+        createLog(tag) {
             const log = {
                 tagname: tag,
             };
-            ['error','log', 'warn', 'info'].forEach(element => {
-                log[element] = function(){
+            ['error', 'log', 'warn', 'info'].forEach(element => {
+                log[element] = function () {
                     const c = arguments;
-                    if (typeof(c[0]) =='string'){
-                        c[0] = '['+log.tagname+'] - '+c[0];
-                    } else{
+                    if (typeof (c[0]) == 'string') {
+                        c[0] = '[' + log.tagname + '] - ' + c[0];
+                    } else {
                         if (Array.isArray(c))
-                            c.unshift('['+log.tagname+'] - ');
-                    } 
+                            c.unshift('[' + log.tagname + '] - ');
+                    }
                     console[element].apply(null, c);
                 }
             });
@@ -3117,7 +3117,7 @@ Name:balafon.js
             hscrollHeight: function () { return this.o.offsetHeight - this.o.clientHeight; },
             hasVScrollBar: function () { // has vertical scrollbar
                 var h = this.igk.getHeight();
-                if (this.o.scrollHeight > this.o.clientHeight){
+                if (this.o.scrollHeight > this.o.clientHeight) {
                     return true;
                 }
                 // return (this.o.clientHeight > 0) && (this.o.scrollHeight > h);
@@ -3125,7 +3125,7 @@ Name:balafon.js
             },
             hasHScrollBar: function () { // has horizontal scrollbar
                 var w = this.igk.getWidth();
-                 if (this.o.scrollWidth > this.o.clientWidth){
+                if (this.o.scrollWidth > this.o.clientWidth) {
                     return true;
                 }
                 // return (this.o.clientWidth > 0) && (this.o.scrollWidth > w);
@@ -3214,7 +3214,7 @@ Name:balafon.js
     };
     var __prop = __igk_nodeProperty.prototype;
 
-    function _get_computeded_number(n, p){
+    function _get_computeded_number(n, p) {
         var h = n.getComputedStyle(p);
         return igk.getNumber(h, n.o, p);
     };
@@ -3648,15 +3648,15 @@ Name:balafon.js
          * calculate the height
          * @returns {number}
          */
-        height: function(){
-            return _get_computeded_number(this, 'height'); 
+        height: function () {
+            return _get_computeded_number(this, 'height');
         },
         /**
          * calculate the width 
          * @returns {number}
          */
-        width: function(){
-            return _get_computeded_number(this, 'width'); 
+        width: function () {
+            return _get_computeded_number(this, 'width');
         },
         hasHCroll() {
             return (this.o.scrollTopMax || (this.o.scrollHeight - this.o.offsetHeight)) > 0;
@@ -3665,11 +3665,11 @@ Name:balafon.js
          * retrieve node offsetparent
          * @returns 
          */
-        getScrollParent(){
-            function getoffsetParent(p){
-                while(p){
-                    if ((p.scrollHeight > p.clientHeight) || 
-                    (p.scrollWidth > p.clientWidth)){
+        getScrollParent() {
+            function getoffsetParent(p) {
+                while (p) {
+                    if ((p.scrollHeight > p.clientHeight) ||
+                        (p.scrollWidth > p.clientWidth)) {
                         return p;
                     }
                     p = p.offsetParent;
@@ -4552,6 +4552,11 @@ Name:balafon.js
                 igk.css.setTransitionDuration(this, time);
             return this;
         },
+        /**
+         * replace with a copy of the node 
+         * @param {*} t 
+         * @returns 
+         */
         replaceWith(t) {
             // t:target node or text
             // desc: replace content of the current nodes list by t. t 
@@ -4809,9 +4814,9 @@ Name:balafon.js
 
             const e = igk.system.getNS('igk.system.html.dom.createElement');
             let item = null;
-            if (e && e.support){
+            if (e && e.support) {
                 item = e(tagname).root;
-            } else{  item = this.createElement(tagname); }
+            } else { item = this.createElement(tagname); }
             this.appendChild(item);
             return item;
         },
@@ -5139,7 +5144,7 @@ Name:balafon.js
         env: { flags: {} },
         createNode: function (tag, ns) {
             let e = igk.system.getNS('igk.system.html.dom.createElement');
-            if (e && e.support){ 
+            if (e && e.support) {
                 return __igk(e(tag, ns).root);
             }
             if (!tag)
@@ -5166,8 +5171,8 @@ Name:balafon.js
             return null;
         },
         createComponent: function (classname) {
-            // create a control class component
-            // usage sample : igk.createComponent("igk-ajx-uri-loader")
+            // + | create a control class component
+            // + | usage sample : igk.createComponent("igk-ajx-uri-loader")
             // component must be first registrated with igk.winui.initClassControl
             var lst = igk.winui.getClassList();
             var g = lst[classname];
@@ -5267,7 +5272,7 @@ Name:balafon.js
             });
         },
         canInvoke: function () {
-            return (window.external) && (('notify' in window.external) || (typeof (window.external.callFunc) != igk.constants.undef));            
+            return (window.external) && (('notify' in window.external) || (typeof (window.external.callFunc) != igk.constants.undef));
         },
         invoke: function (method, params) { // used to invoke external script function	
             var n = 0;
@@ -5488,7 +5493,7 @@ Name:balafon.js
             // + | selection in igk		
             var b = null;
             let v_s = !1;
-            var v_sl = new igk.selector(); 
+            var v_sl = new igk.selector();
             if (!item || (pattern == null) || ((pattern = pattern.trim()) && pattern.length == 0) || (v_s = /['`\[\]]/.exec(pattern))) {
                 return v_s ? this.qselect(item, pattern) : $igk(v_sl);
             }
@@ -5711,7 +5716,7 @@ Name:balafon.js
                         }
                     }
                 }
-            } 
+            }
             return $igk(v_sl);
         },
         load: function (func) { // load function
@@ -5954,7 +5959,7 @@ Name:balafon.js
                         if (typeof (args) == IGK_UNDEF)
                             args = [];
                         const count = this.getCount();
-                        args.unshift({count});
+                        args.unshift({ count });
                         for (var i = 0; i < count; i++) {
                             func.apply($igk(m_items[i]), args);
                         }
@@ -6047,9 +6052,9 @@ Name:balafon.js
         getNumber: igk_getNumber, // expose get number function
         getUnit: igk_getUnit, // expose get unit
         getPixel: igk_getPixel, // igk.getPixel
-        getNumberLength(v){
-            if (typeof(v)== 'string'){
-                if (/(\d+(\.\d+)?)(px|%|pt|pica|ch|in)?/.test(v)){
+        getNumberLength(v) {
+            if (typeof (v) == 'string') {
+                if (/(\d+(\.\d+)?)(px|%|pt|pica|ch|in)?/.test(v)) {
                     return v;
                 }
             }
@@ -7572,7 +7577,7 @@ Name:balafon.js
                     isInstanceOf: function (t) {
                         return igk.system.isInherit(this, t);
                     }
-                }); 
+                });
             };
             fc.Name = tn;
             //igk extra info
@@ -10670,6 +10675,35 @@ Name:balafon.js
                 initializer: null
             };
             createNS("igk.ajx", {
+                /**
+                 * replace with html content 
+                 * */
+                replaceNodeWithHtmlResponse(q, t) {
+                    let s = igk.createNode('dummy');
+                    s.setHtml(t);
+                    let rp = false;
+                    let _next = q;
+                    let _p = $igk(q.o.parentNode);
+                    let _c = s.o.childNodes.length;
+                    while (s.o.childNodes.length > 0) {
+                        let tq = s.o.childNodes[0];
+                        if (_next.nextSibling) {
+                            _p.o.insertBefore(tq, _next.nextSibling);
+                        } else {
+                            _p.o.appendChild(tq);
+                        }
+                        if (!rp) {
+                            q.remove()
+                        }
+                        _next = tq;
+                        rp = true;
+                        _c--;
+                        if (_c < 0) {
+                            break;
+                        }
+                    }
+                    _p.init();
+                },
                 bindHeader: function (p) { //bind properties to next ajx header
                     m_ajxhe = p;
                 },
@@ -10719,8 +10753,10 @@ Name:balafon.js
                             igk_preload_image(n); // preload n
                             // igk_eval_all_script(n);					
                             var ct = $igk(n).select("script");
+                            const _loaded = {};
                             ct.each(function () {
-                                var _t = this.getAttribute("type");
+                                var _t = this.getAttribute('type');
+                                let _ids = this.getAttribute('id');
                                 if (_t == 'text/balafonjs') {
                                     __bindbalafonjs.apply(this);
                                 } else {
@@ -10856,7 +10892,7 @@ Name:balafon.js
                     if ((xhr == null) || (xhr.readyState + "" == igk.constants.undef)) {
                         throw ("No Ajax Support");
                     }
-                    if (monitorlistener){
+                    if (monitorlistener) {
                         const { withCredentials } = monitorlistener;
                         xhr.withCredentials = withCredentials;
                     }
@@ -10867,7 +10903,7 @@ Name:balafon.js
                     this.method = "GET";
                     this.synchronize = false;
                     this.noBlob = false; // true to disable file auto download
-                    this.setResponseMethod = function (method) { 
+                    this.setResponseMethod = function (method) {
                         // + trait response
                         var q = this;
                         if (method) {
@@ -10923,7 +10959,7 @@ Name:balafon.js
                             this.xhr.onloadstart = monitorlistener.loadstart;
                             this.xhr.onloadend = monitorlistener.loadend;
                             this.xhr.onprogress = monitorlistener.loadprogress;
-                            this.xhr.withCredentials = monitorlistener.withCredentials; 
+                            this.xhr.withCredentials = monitorlistener.withCredentials;
                         }
                         this.xhr.send(postargs);
                     };
@@ -12400,7 +12436,7 @@ Name:balafon.js
         }
     });
     // for igk.css compatibility utility
-    createNS("igk", { 
+    createNS("igk", {
         css: new (function () {
             // css utility properties
             igk.appendProperties(this, {
@@ -12530,7 +12566,7 @@ Name:balafon.js
             });
             return this;
         })()
-    }); 
+    });
     //Object.defineProperty(igk.constants, 'data_options', { get(){return 'data-options'}});
 
     function _is_integer(n) {
@@ -12897,23 +12933,32 @@ Name:balafon.js
         }
     };
     igk_winui_reg_event(document, "readystatechange", __global_ready);
-    const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
+    const AsyncFunction = Object.getPrototypeOf(async function () { }).constructor;
+    const _loaded = {};
     function __bindbalafonjs() { // bind balafon js data type
+        let _ids = this.getAttribute('id');
+        if (_ids) {
+            if (_ids in _loaded) {
+                // + | console.log(_ids + ' already loaded');
+                return;
+            };
+            _loaded[_ids] = 1;
+        }
         var q = this.o;
         let src = q.innerHTML;
         // + | TASK: add async support on 
-        let async = this.o.hasAttribute('async') ? 'async' : ''; 
-        src = ['\'use strict\'; ('+async+' function(){' , src , '}).apply(this);'].join("\n"); 
+        let async = this.o.hasAttribute('async') ? 'async' : '';
+        src = ['\'use strict\'; (' + async + ' function(){', src, '}).apply(this);'].join("\n");
         try {
             var _bck = m_scriptNode;
             m_scriptNode = this.o;
-            if (async.length>0){
-                 (new AsyncFunction(src)).apply(this).then(o=>{                    
+            if (async.length > 0) {
+                (new AsyncFunction(src)).apply(this).then(o => {
                     m_scriptNode = _bck;
-                 });
+                });
             } else {
-                 (new Function(src)).apply(this);
-                 m_scriptNode = _bck;
+                (new Function(src)).apply(this);
+                m_scriptNode = _bck;
             }
         } catch (e) {
             console.debug(src);

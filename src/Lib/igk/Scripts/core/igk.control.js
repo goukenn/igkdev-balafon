@@ -5984,7 +5984,7 @@
                     igk.ajx.post({
                         uri: lnk,
                         param: JSON.stringify(data),
-                        contentType: "application/json"
+                        contentType: 'application/json'
                     },
                         null, null);
                 }

@@ -950,7 +950,7 @@ $def["ul.debug-panel > li"] = "float:left;";
 igk_set_env("sys://globalcolor", 1);
 igk_set_env("sys://globalcolor", 0);
 
-foreach ([4, 10, 16, 20, 30, 48] as $pad) {
+foreach ([4, 8, 10, 16, 20, 24, 30, 32, 48] as $pad) {
     $def[".pad-" . $pad] = "padding: {$pad}px;";
     $def[".marg-" . $pad] = "margin: {$pad}px;";
     $def[".pad-b-" . $pad] = "padding-bottom: {$pad}px;";
@@ -962,6 +962,8 @@ foreach ([4, 10, 16, 20, 30, 48] as $pad) {
     $def[".marg-l-" . $pad] = "margin-left: {$pad}px;";
     $def[".marg-r-" . $pad] = "margin-right: {$pad}px;";
     $def[".gap-" . $pad] = "gap: {$pad}px;";
+    // round-corner
+    $def['.rc-'.$pad] = 'border-radius: '.$pad.'px;';
 }
 $def[".igk-font-title-1"] = "font-family: 'Roboto', 'Helvetica', 'Arial' , sans-serif; font-size: 3em;font-weight: 200;";
 $def[".clcheckbox"] = "margin-right:{$pad_size};";
@@ -1134,9 +1136,7 @@ $root['--igk-panelBoxBackgroundColor'] = '#233233';
 // + Material design definitions
 // + ----------------------------------------------------------------------------------------
 
-foreach (["2" => "8px"] as $k => $v) {
-    $def[".pad-" . $k] = "padding: " . $v . ";";
-}
+ 
 foreach (["2" => "8px", "4"=>"16px"] as $k => $v) {
     $def[".mar-b-" . $k] = "margin-bottom: " . $v . ";";
 }
