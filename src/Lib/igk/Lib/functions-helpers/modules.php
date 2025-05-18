@@ -112,6 +112,7 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
     $dir = igk_dir(igk_get_module_dir() . "/{$modulename}");
     if (!file_exists($dir)) {
         if ($die) {
+            igk_trace();
             igk_dev_wln_e(
                 __FILE__ . ":" . __LINE__,
                 "module missing : ",

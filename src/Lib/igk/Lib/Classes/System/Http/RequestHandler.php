@@ -384,7 +384,7 @@ class RequestHandler
             }
         }
         $page = $uri;
-        if ($defctrl !== null) {
+        if ($defctrl !== null) { 
             if ($defctrl->handle_redirection_uri($page)) {
                 igk_exit();
             }

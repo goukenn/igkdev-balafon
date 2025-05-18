@@ -49,7 +49,11 @@ class ApplicationModuleHelper
     public static function ImportRequiredModule(array $required_conf, BaseController $ctrl)
     {
         // + | load build requirement
-        array_map(function ($n) use ($ctrl, $required_conf) {
+        // array_map(function ($n) use ($ctrl, $required_conf) {
+        foreach($required_conf as $k=>$n){
+            if (!is_numeric($k)){
+                $n = $k;
+            }
             if (empty($n)) return;
             $module = igk_require_module($n);
             if ($module && $module->supportMethod(\IGK\Controllers\ApplicationModuleController::INIT_METHOD)) {
@@ -62,7 +66,8 @@ class ApplicationModuleHelper
                     });
                 }
             }
-        }, array_keys($required_conf));
+        }
+        // , array_keys($required_conf));
     }
     /**
      * get module required info

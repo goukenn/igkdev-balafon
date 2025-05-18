@@ -247,8 +247,7 @@ define('IGK_USER_SETTING', 0xE00);
 //+ define('IGK_DOC_TITLE_FLAG', '1');
 //+ define('IGK_DOC_TYPE_FLAG', '1');
 //+ define('IGK_DOMAINBASEDIR_SESS_PARAM', '1');
-//+ define('IGK_ENV', '1');
-//+ define('IGK_ENV_PARAM_LANGCHANGE_KEY', '1'); 
+//+ define('IGK_ENV', '1'); 
 //+ define('IGK_ERROR_OP_NOT_ALLOWED', '1');
 //+ define('IGK_ERROR_REQUEST_NOT_FROM_BALAFON_SERVER', '1');
 //+ define('IGK_ERR_FILE_NOT_SUPPORTED', '1');
@@ -666,6 +665,7 @@ define('IGK_TEMPLATE_EXTENSIONS', ".template");
 define('IGK_ARTICLE_TEMPLATE_REGEX', "/\.(template|html|phtml)$/");
 define('IGK_ALLOWED_EXTENSIONS', IGK_PIC_EXTENSIONS . ";.avi;.mov;.flv;");
 define('IGK_HTML_SPACE', IGK_HTML_WHITESPACE);
+// +| default view entry 
 define('IGK_DEFAULT', 'default');
 define('IGK_DEFAULT_VIEW_EXT', 'phtml');
 define('IGK_DEFAULT_STYLE_EXT', 'pcss');

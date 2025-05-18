@@ -3807,19 +3807,23 @@ function igk_ctrl_bind_css_file(\IGK\Controllers\BaseController $ctrl, \IGK\Syst
 ///<summary> controller request to change the lang</summary>
 /**
  *  controller request to change the lang
+ * @param BaseController $ctrl
+ * @param mixed $p
  */
-function igk_ctrl_change_lang($ctrl, $p)
+function igk_ctrl_change_lang(BaseController $ctrl, $p)
 {
     $lang = igk_getv($p, 'lang');
     $set = false;
     if ($lang) {
-        if (R::ChangeLang($lang)) {
+        if (R::ChangeLang($lang)){
+            echo 'changing....';
             $ctrl->setEnvParam(BaseController::IGK_ENV_PARAM_LANGCHANGE_KEY, 1);
             $set=true;
         }
         else {
             $set = $lang==R::GetCurrentLang();
         }
+        $ctrl->setEnvParam(BaseController::IGK_ENV_PARAM_SETUP_LANG, true); 
     }
     if (!$set){
         $_headers = getallheaders();
@@ -18145,15 +18149,13 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
         $view_handler = igk_view_handler_info();
         $viewdir = $ctrl->getViewDir();
         $dir = $viewdir . "/" . $c;
-        // igk_trace();
-        // $exts = explode("|", IGK_VIEW_FILE_EXT_REGEX);
-        // igk_wln("extension....", $exts, $view_handler );
+   
         if (is_dir($dir)) {
             if (is_string($param)) {
                 $param = !empty($param) ? array($param) : array();
             }
-            $ext_regex = $view_handler->pattern; //"/\." . IGK_VIEW_FILE_EXT_REGEX . "$/";
-            $exts = $view_handler->list; //"/\." . IGK_VIEW_FILE_EXT_REGEX . "$/";
+            $ext_regex = $view_handler->pattern;  
+            $exts = $view_handler->list;  
             $found = false;
             $cargs = [];
             while (!$found && (count($param) > 0)) {

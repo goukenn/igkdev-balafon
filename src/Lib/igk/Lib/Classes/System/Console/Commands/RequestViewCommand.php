@@ -131,6 +131,9 @@ class RequestViewCommand extends AppExecCommand
         $_SERVER['REQUEST_URI'] = $g->getRequestUri();
         $_SERVER['QUERY_STRING'] = $g->getQuery();
         igk_server()->prepareServerInfo();
-        $ctrl->setCurrentView($path);
+        $tview = array_filter(explode("/", $path));
+        $view = array_shift($tview);
+        $args =$tview;
+        $ctrl->setCurrentView($view, true, null, $args);
     }
 }

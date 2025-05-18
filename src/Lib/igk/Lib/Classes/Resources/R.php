@@ -114,7 +114,7 @@ final class R extends IGKObject {
     * @param mixed $lang the default value is "fr"
     */
     public static function ChangeLang($lang="fr"){
-       
+ 
         $app=igk_app();
         $v=self::getInstance();
         if(igk_get_env($key="flag:".__FUNCTION__))

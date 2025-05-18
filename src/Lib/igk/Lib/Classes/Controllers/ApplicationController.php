@@ -716,11 +716,14 @@ EOF;
             }
         }
  
-        // + | NAVIGATE TO CURRENT VIEW
+        // + | NAVIGATE TO CURRENT VIEW 
         $this->setCurrentView($c, true, null, $param, $query_options);         
         $this->resetCurrentView(null);
         if (igk_is_ajx_demand()) {
-            igk_ajx_replace_node($tn, "#" . $tn["id"]);
+            if (is_null($tn["id"]) || $tn->getRenderOnly()){
+                $tn->renderAJX();
+            }else 
+                igk_ajx_replace_node($tn, "#" . $tn["id"]);
         } else {
             $ctx = $this->getEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY);
             // + | render document view  

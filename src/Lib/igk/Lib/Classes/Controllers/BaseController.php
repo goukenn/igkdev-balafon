@@ -148,6 +148,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     const CURRENT_VIEW = IGK_CURRENT_CTRL_VIEW;
     const ENV_PARAM_USER_SETTINGS = 0x200;
     const IGK_ENV_PARAM_LANGCHANGE_KEY = "langchanged";
+    const IGK_ENV_PARAM_SETUP_LANG = "ctrl://setup_lang_in_request";
     const MAIN_VIEW = 9;
     const PAGE_VIEW_FLAG = 4;
     const PARAMS_FLAG = 7;
@@ -207,12 +208,18 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $v_handle = false;
         $f = "";
         $v = $this->getCurrentView() ?? igk_die("current view is null. " . get_class($this));
-        if (empty($v)) {
-            igk_die('empty view not allowed');
-        }
         $c = strtolower(igk_getr("c", ""));
+        // igk_wln_e(__FILE__.":".__LINE__ , 'current view= '.$v, $params);
+
         if ($c == strtolower($this->getName())) {
+            // + | override the views
             $v = igk_getr("v", $v);
+        }
+        if (empty($v)) {
+            if (!$ctrl->getEnvParam(BaseController::IGK_ENV_PARAM_SETUP_LANG)){
+                igk_die('empty view not allowed');
+            }
+            $v = IGK_DEFAULT; 
         }
         $meth_exits = method_exists($this, $meth = $v);
         if (($meth_exits && $this->IsFuncUriAvailable($meth)) || (isset($params) && method_exists($this, $meth = IGK_DEFAULT_VIEW))) {
@@ -233,6 +240,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         // + | -------------------------------------------------------
         // + | no method exists in controller and view file not exists
         // + |
+
         if (
             !$meth_exits && ($allowed_view = $this->_isAllowedView($v)) &&
             !file_exists($f = ($this->getViewFile($v, 0, $params)))
@@ -259,7 +267,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             } else {
                 $f = $find;
             }
-        }
+        } 
         if ($allowed_view && file_exists($f)) {
             try {
                 // + | -------------------------------------------             
@@ -405,6 +413,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected final function _include_view(string $file)
     {
+
         $response = null;
         $this->_include_func_helpers();
         $this->_include_constants();
@@ -785,21 +794,37 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * resolve view files and update parameters
      * @param string $view extension
      * @param string $checkfile _exist
-     * @param ?array $param extra view extension
+     * @param ?array $param params to pass to view 
      * @param string &extra view extension
      * @return string view file path
      */
-    public function getViewFile(string $view, $checkfile = 1, &$param = null)
+    public function getViewFile(string $view, $checkfile = 1, &$param = null, $ajx_demand=null)
     {
+        $detect = function ($f, $d, $exts){
+            while(count($exts)>0){
+                $ex = array_shift($exts);
+                if (is_file($cf = Path::Combine($f, $d.'.'.$ex))){
+                    return $cf;
+                }
+            }
+            return false;
+        };
         $extension = IGK_DEFAULT_VIEW_EXT;
         $_viewdir = $this->getViewDir();
+        $ajx_demand = igk_is_ajx_demand();
+        if ($e = igk_getv(array_slice(func_get_args(), 3), 0))
+            $extension = $e;
+        $exts = [
+            $extension
+        ];
+        if ($ajx_demand){
+            array_unshift($exts, "ajx.".$extension);
+        }
         if ($param === null) {
             $param = [];
         } else if (!is_array($param)) {
             $param = [$param];
-        }
-        if ($e = igk_getv(array_slice(func_get_args(), 3), 0))
-            $extension = $e;
+        }        
         if (empty($view))
             $view = IGK_DEFAULT_VIEW;
         else if ($rp = realpath($view)) {
@@ -809,15 +834,35 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             }
         }
         $f = igk_uri(rtrim(Path::Combine($_viewdir, $view), '/'));
+        // + | igk_wln_e(__FILE__.":".__LINE__ ,  $view, $exts);
         // + | get fname to UNIX PATH
         $f = IO::GetUnixPath("/" . $view, false, $_viewdir) ?? $f;
         if (is_dir($f)) {
+            // + | is ajx file detection or not 
+            while(count($param)>0){
+                $d = $param[0];
+                
+                if ($cf = $detect($f, $d, $exts)){
+                    $f = $cf;
+                    array_shift($param);
+                    return $f;
+                } else {
+                    if (is_dir($dd =  Path::Combine($f, $d))){
+                        $f = $dd;
+                        array_shift($param);
+                        continue;
+                    }
+                    break;
+                }
+            }
             //+ | from directory handle ViewContext by extension 
             if ($cf = FileHandler::ResolveFile($f, 'default', FileHandler::FILE_CONTEXT_VIEW)) {
                 return $cf;
             }
+            
+            
             //window allow dir and file with the same name
-            if (is_file($cf = $f . "/" . IGK_DEFAULT_VIEW_FILE)) {
+            if (is_file($cf = $detect($f, IGK_DEFAULT, $exts))) { //  $f . "/" . IGK_DEFAULT_VIEW_FILE)) {
                 return $cf;
             } else {
                 // add extension
@@ -826,7 +871,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                     return $f;
                 }
             }
+           
         }
+    
+
         $v_cf = ViewHelper::ResolveViewFile($_viewdir, $view, $f, $checkfile, $param);
         return $v_cf;
     }
@@ -975,7 +1023,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         if ($t) {
             $t->setIsVisible($v_available);
             if ($v_available) {
-                $this->_initView();
+                $this->_initView(); 
                 $this->_renderViewFile();
             }
         } else {
@@ -998,6 +1046,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $config_file = Path::Combine($this->getDeclaredDir(), Constants::PROJECT_CONF_FILE);
         if ($data = json_decode(file_get_contents($config_file))) {
             $required = (array)igk_conf_get($data, 'required');
+        
             $required && ApplicationModuleHelper::ImportRequiredModule($required, $this);
             if ($required) {
                 $load = $required;
