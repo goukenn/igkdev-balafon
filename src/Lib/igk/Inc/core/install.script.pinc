@@ -60,8 +60,10 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
     // + | backupd - lib
     // + | 
     $tmp_name = tempnam($install_dir . "/../", "bck." . basename($install_dir));
-    $archive = new \ZipArchive();
-    if ($archive->open($tmp_name, ZipArchive::CREATE)) {
+    $archive = new ZipArchive();
+    if ($archive->open($tmp_name,ZipArchive::OVERWRITE)) {
+    // $archive = new \ZipArchive();
+    // if ($archive->open($tmp_name, ZipArchive::CREATE)) {
         $thdir = [$install_dir];
         $ln = strlen($install_dir);
         while (count($thdir) > 0) {
