@@ -320,6 +320,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 }
             }
         }
+        igk_die('not selected .....'.$ctrl);
         return new ViewLayoutLoader($this);
     }
     /**
