@@ -68,9 +68,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         $this->footer =  $this->controller->getViewDir() . "/.footer.pinc";
         if (method_exists($this->controller, "menuFilter")) {
             igk_reg_hook("filter-menu-item", [$this->controller, "menuFilter"]);
-        }
-        igk_trace();
-        igk_exit();
+        } 
     }
     /**
      * get location location 
