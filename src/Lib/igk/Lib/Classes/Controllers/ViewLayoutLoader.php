@@ -60,14 +60,8 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
     /**
      * const activate the main layout param
      */
-    const MAIN_LAYOUT_PARAM = "@MainLayout";
-
-    public function __construct(BaseController $controller)
-    {
-        parent::__construct($controller);
-        igk_trace();
-        igk_exit();
-    }
+    const MAIN_LAYOUT_PARAM = "@MainLayout"; 
+  
     protected function initialize()
     {
         $this->header =  $this->controller->getViewDir() . "/.header.pinc";
@@ -75,6 +69,8 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         if (method_exists($this->controller, "menuFilter")) {
             igk_reg_hook("filter-menu-item", [$this->controller, "menuFilter"]);
         }
+        igk_trace();
+        igk_exit();
     }
     /**
      * get location location 
