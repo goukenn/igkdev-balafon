@@ -130,6 +130,10 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         ftp_close($h);
         if (($status = igk_curl_status()) == 200) {
             $rep = json_decode($response);
+            if (false===$rep){
+                Logger::error($response);
+                igk_exit(-1);
+            }
             if (igk_is_debug()){
                 Logger::info("curl response:\n");
                 echo json_encode($rep, JSON_PRETTY_PRINT| JSON_UNESCAPED_SLASHES), PHP_EOL;
