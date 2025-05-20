@@ -49,7 +49,7 @@ class InstallerHelper
             list($v,$m) = array_slice(explode('.', PHP_VERSION), 0, 2);
             $core = $v.'.'.$m;
             $f = sprintf('/usr/local/php%s/bin/php', $core);
-            if (igk_io_file_exists($f)){
+            if (file_exists($f)){
                 return $f;
             }
 

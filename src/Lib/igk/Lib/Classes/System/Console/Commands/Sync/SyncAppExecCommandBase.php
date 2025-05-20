@@ -170,7 +170,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         $v_bdir = IGK_LIB_DIR . "/Inc/core/";
         if (is_array($script)){
             $tab = array_filter(array_map(function($a)use($v_bdir){
-                if (igk_io_file_exists($f = $a) || is_file($f = $v_bdir.$a)){
+                if (igk_io_cache_file_exists($f = $a) || is_file($f = $v_bdir.$a)){
                     return $f;
                 }
                 return null;
@@ -181,7 +181,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
          
         }else{
             $file  = $v_bdir.$script;
-            if (!igk_io_file_exists($file)){
+            if (!igk_io_cache_file_exists($file)){
                 return false;
             }
             $src = file_get_contents($file);            

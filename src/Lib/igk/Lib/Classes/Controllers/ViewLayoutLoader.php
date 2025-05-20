@@ -65,6 +65,8 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
     public function __construct(BaseController $controller)
     {
         parent::__construct($controller);
+        igk_trace();
+        igk_exit();
     }
     protected function initialize()
     {

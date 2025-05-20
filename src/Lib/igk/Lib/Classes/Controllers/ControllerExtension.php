@@ -116,7 +116,7 @@ abstract class ControllerExtension
         $n = $fname;
         $cl = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, $n);
 
-
+        igk_die(implode("\n", [$cl, __FILE__.":".__LINE__ , 'view layout loading']));
 
 
         $view_layout = $ctrl->resolveClass(EntryClassResolution::WinUI_ViewLayout) ?? ViewLayout::class;
