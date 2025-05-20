@@ -40,7 +40,7 @@ if (!class_exists(ZipArchive::class)) {
 if (!class_exists(SimpleXMLElement::class)) {
     $response->die("zip simple xml element not present", 500);
 }
-if (!igk_io_file_exists($corelib)) {
+if (!file_exists($corelib)) {
     $response->die("missing archive", 500);
 }
 

@@ -59,10 +59,10 @@ class InstallerHelper
 
             if (isset($tab[$core])){
                 $f = $tab[$core];
-                if (igk_io_file_exists($f))
+                if (file_exists($f))
                     return $f;
             }
-            if (igk_io_file_exists($f = dirname($php_ini).'/bin/php')){
+            if (file_exists($f = dirname($php_ini).'/bin/php')){
                 return $f;
             }
         }
