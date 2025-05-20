@@ -36,7 +36,7 @@ abstract class HtmlNodeFilterBase{
         }
         $dir = static::FilterDir(); 
 
-        if (file_exists($file = StringUtility::Dir($dir.$cn."Filter.php"))){
+        if (igk_io_file_exists($file = StringUtility::Dir($dir.$cn."Filter.php"), true)){
             require_once($file);
         } 
 

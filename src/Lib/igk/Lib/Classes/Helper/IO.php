@@ -48,7 +48,7 @@ class IO
         $df = dirname($file) . "/" . igk_io_basenamewithoutext($file, $ext);
         while (count($extensions) > 0) {
             $q = "." . trim(array_shift($extensions), '.');
-            if (file_exists($file = $df . $q)) {
+            if (igk_io_file_exists($file = $df . $q)) {
                 return $file;
             }
         }
@@ -213,14 +213,16 @@ class IO
         }
         return $p;
     }
-
+    /**
+     * 
+     */
     public static function GetArticleInDir($dir, $name)
     {
         if ($dir == null) {
             $dir = IGK_LIB_DIR . "/" . IGK_ARTICLES_FOLDER;
         }
         $f = $dir . "/" . $name;
-        if (file_exists($f))
+        if (igk_io_cache_file_exists($f))
             return $f;
         $s = IGK_ARTICLE_TEMPLATE_REGEX;
         if (preg_match($s, $name)) {
@@ -230,7 +232,7 @@ class IO
         foreach (["." . $lang, ""] as $lg) {
             foreach (["phtml", 'html'] as $v) {
                 $f = igk_dir($dir . "/{$name}{$lg}.{$v}");
-                if (file_exists($f))
+                if (igk_io_cache_file_exists($f))
                     return $f;
             }
         }
@@ -518,7 +520,7 @@ class IO
         $v_iscurrent = ($bdir == $cdir);
         if ($v_iscurrent) {
             if ($mustexists) {
-                if (file_exists($dir))
+                if (igk_io_file_exists($dir))
                     $dir = igk_realpath($dir);
                 $d = self::GetBaseDirRelativePath($dir);
             } else {
@@ -1132,7 +1134,7 @@ class IO
     public static function IsAbsolutePath($uri)
     {
         $uri = igk_dir($uri);
-        return file_exists($uri) && ($uri == igk_realpath($uri));
+        return igk_io_file_exists($uri) && ($uri == igk_realpath($uri));
     }
     ///<summary></summary>
     ///<param name="dir"></param>
@@ -1207,7 +1209,7 @@ class IO
      */
     public static function ReadFile($f, $offset, $ln)
     {
-        if (!file_exists($f))
+        if (!igk_io_file_exists($f))
             return null;
         $fsize = filesize($f);
         $ln = min($ln, $fsize - $offset);

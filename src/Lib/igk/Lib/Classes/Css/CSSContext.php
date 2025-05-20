@@ -29,7 +29,7 @@ class CSSContext{
     }   
     public function Resolv($file){
         $c = $this->ctrl->getDataDir().$file;
-        if (file_exists($c))
+        if (igk_io_file_exists($c))
             return IGKResourceUriResolver::getInstance()->resolve($c);
         return "";
     }

@@ -778,7 +778,7 @@ JS;
     {
         $this->setParam("ctrl:ca_tabInfo", null);
         $f = igk_getctrl($this->SelectedController)->getDataSchemaFile();
-        if (file_exists($f))
+        if (igk_io_file_exists($f))
             @unlink($f);
         igk_wl($this->ca_getTableInfo()->render());
     }
@@ -800,7 +800,7 @@ JS;
     public function ca_db_drop_db_file_ajx()
     {
         $f = igk_getctrl($this->SelectedController)->getDataSchemaFile();
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             unlink($f);
             $this->View();
             igk_frame_close("add_edit_db_frame");
@@ -815,7 +815,7 @@ JS;
         if (($ctrl == null) || !isset($n))
             return null;
         $f = igk_dir(igk_getctrl($ctrl)->getViewDir() . "/" . $n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             igk_download_file(basename($f), $f);
             igk_exit();
         }
@@ -827,7 +827,7 @@ JS;
         $ctrl = ($c = igk_getr("ctrlid", null)) ? igk_getctrl($c) : $this->SelectedController;
         $f = igk_realpath($n);
         $_FRAMENAME = "frame_" . __FUNCTION__;
-        if (!file_exists($f)) {
+        if (!igk_io_file_exists($f)) {
             if (($ctrl == null) || !isset($n)) {
                 igk_notifyctrl()->addErrorr("err.nocontroller.selected");
                 igk_notifyctrl()->TargetNode->renderAJX();
@@ -836,7 +836,7 @@ JS;
             }
             $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
         }
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             if (igk_qr_confirm()) {
                 unlink($f);
                 $this->View();
@@ -931,9 +931,9 @@ JS;
         if (($ctrl == null) || !isset($n))
             return null;
         $f = igk_dir(igk_getctrl($ctrl)->getViewDir() . "/" . $n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             if (igk_qr_confirm()) {
-                if (file_exists($f))
+                if (igk_io_file_exists($f))
                     unlink($f);
                 $this->View();
                 if (igk_is_ajx_demand()) {
@@ -977,8 +977,8 @@ JS;
         $f = base64_decode(igk_getr("fn"));
         $ctrlid = $ctrlid ?? igk_getr("ctrlid");
         $ctrl = igk_getctrl($ctrlid);
-        $f = file_exists($f) ? $f : $ctrl->getArticle($f);
-        if (file_exists($f)) {
+        $f = igk_io_file_exists($f) ? $f : $ctrl->getArticle($f);
+        if (igk_io_file_exists($f)) {
             $str = igk_io_read_allfile($f);
             $t = igk_create_node("div");
             $t->div()->Content = "Path: " . igk_io_basepath(igk_io_basedir($f));
@@ -1013,13 +1013,13 @@ JS;
         $ctrl = igk_getctrl($ctrlid ? $ctrlid : igk_getr("ctrlid"), false);
         $n = $name ? $name : igk_getr("n");
         $f = igk_realpath(base64_decode($n));
-        if (!file_exists($f)) {
+        if (!igk_io_file_exists($f)) {
             if (($ctrl == null) || !isset($n))
                 return null;
             if ($mode == 0)
                 $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         }
-        if ($force || file_exists($f)) {
+        if ($force || igk_io_file_exists($f)) {
             $articleid = $this->_getarticleid();
             $frame = igk_html_frame($this, "frame_edit_article", $ajx == 1 ? null : "#" . $articleid);
             $frame->clearChilds();
@@ -1045,7 +1045,7 @@ JS;
     {
         $q = igk_getr("q");
         $h = igk_uri(IGK_APP_DIR . base64_decode($q));
-        if (file_exists($h)) {
+        if (igk_io_file_exists($h)) {
             if (igk_server()->method("POST")) {
                 if (igk_getr("btn_save")) {
                     igk_header_set_contenttype("txt");
@@ -1097,7 +1097,7 @@ JS;
             $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         else
             $f = base64_decode($n);
-        if ($force || file_exists($f)) {
+        if ($force || igk_io_file_exists($f)) {
             $str = IO::ReadAllText($f);
             $frm = igk_create_node('form');
             $frm["action"] = $this->getUri("ca_update_articlewtiny_f");
@@ -1130,7 +1130,7 @@ JS;
             $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         else
             $f = base64_decode($n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $articleid = $this->_getarticleid();
             $frame = igk_html_frame($this, "frame_edit_article", $ajx == 1 ? null : "#" . $articleid);
             $frame->clearChilds();
@@ -1161,7 +1161,7 @@ JS;
         if ($ctrl == null)
             return null;
         $f = igk_dir($ctrl->getDeclaredFileName());
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $frame = igk_create_node("div");
             $frame->clearChilds();
             $frame->Title = __("title.editctrl", basename($f));
@@ -1317,7 +1317,7 @@ JS;
         $a["onclick"] = igk_js_ajx_post_auri($this->getUri("ca_ClearTableList_ajx"), "window.igk.ctrl.ca_updatetable");
         $frm->addInput("btn.update", "submit", __("Update"));
         $f = $ctrl->getDataSchemaFile();
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $frm->addInput("btn.update", "button", __("btn.dropdb"))->setAttribute("onclick", igk_js_ajx_post_auri("ca_db_drop_db_file_ajx"));
         }
         igk_wl($frame->render());
@@ -1340,7 +1340,7 @@ JS;
         if (($ctrl == null) || !isset($n))
             return null;
         $f = igk_dir($ctrl->getViewDir() . "/" . $n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $frame = igk_html_frame($this, "frame_edit_view", "#" . $this->_getviewid());
             $frame->clearChilds();
             $frame->Title = __("title.editview_1", basename($f));
@@ -1442,7 +1442,7 @@ JS;
         }
         $tr->add("th")->Content = IGK_HTML_SPACE;
         if ($table == null) {
-            if (file_exists($ctrl->getDataSchemaFile())) {
+            if (igk_io_file_exists($ctrl->getDataSchemaFile())) {
                 $tab = $ctrl->getDataTableInfo();
                 foreach ($tab as $k) {
                     $tb->add($this->ca_getFieldInfo($k));
@@ -1677,7 +1677,7 @@ JS;
     {
         // igk_dev_wln('write info tab');
         $t = igk_create_node("div")->setClass("igk-tab-container");
-        if (file_exists($file = $this->getViewFile("tab." . $view, 0))) {
+        if (igk_io_file_exists($file = $this->getViewFile("tab." . $view, 0))) {
             $this->loader->view($file, ["t" => $t, "viewid" => $this->_getviewid(), "s_ctrl" => igk_getctrl($this->SelectedController), "articleid" => $this->_getarticleid()]);
             $this->setParam("tab:editresult", $view);
         } else {
@@ -1694,7 +1694,7 @@ JS;
         if (($ctrl == null) || !isset($n))
             return null;
         $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             igk_download_file(basename($f), $f);
             igk_navtocurrent();
             igk_exit();
@@ -1709,7 +1709,7 @@ JS;
             return null;
         $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
         $_FRAMENAME = "frame_drop_article_confirmation";
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             if (igk_qr_confirm()) {
                 unlink($f);
                 igk_wln_e("drop article");
@@ -1908,7 +1908,7 @@ JS;
         $id = igk_getr("clctrl");
         $ctrl = igk_getctrl($id, false);
         $n = igk_getr("n");
-        if ($n && !file_exists($f) && $ctrl) {
+        if ($n && !igk_io_file_exists($f) && $ctrl) {
             $f = $ctrl->getArticle($n);
         }
         if (!empty($f)) {

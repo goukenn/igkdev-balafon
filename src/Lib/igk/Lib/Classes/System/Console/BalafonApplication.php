@@ -169,7 +169,7 @@ class BalafonApplication extends IGKApplicationBase
     {
         /// TASK : GET TOP LEVEL CONFIG FILE
         while (!empty($bdir)) {
-            if (file_exists($configFile = $bdir . "/" . AppConfigs::ConfigurationFileName)) {
+            if (igk_io_file_exists($configFile = $bdir . "/" . AppConfigs::ConfigurationFileName)) {
                 return $configFile;
             }
             $b = $bdir;
@@ -202,7 +202,7 @@ class BalafonApplication extends IGKApplicationBase
         $configFile = self::GetTopLevelConfigFile($bdir);
 
         try {
-            if (!empty($configFile) && file_exists($configFile)) {
+            if (!empty($configFile) && igk_io_file_exists($configFile)) {
                 $this->configs = AppConfigs::LoadConfigurationFile($configFile);  
             } else {
                 $this->configs = new XPathConfig((object)[]);
@@ -398,7 +398,7 @@ class BalafonApplication extends IGKApplicationBase
                 function () {
                     $dir = igk_io_basedir();
                     Logger::info("maintenance site " . $dir);
-                    if (file_exists($file = $dir . "/" . \IGK\Helper\MaintenanceHelper::lockFile)) {
+                    if (igk_io_file_exists($file = $dir . "/" . \IGK\Helper\MaintenanceHelper::lockFile)) {
                         Logger::info("unlock site ...");
                         // in maintenace mode
                         \IGK\Helper\MaintenanceHelper::UnlockSite($dir);
@@ -406,7 +406,7 @@ class BalafonApplication extends IGKApplicationBase
                         // @unlink($dir."/index.php");
                         // @rename($dir."/.lock.index.php", $dir."/index.php");
                         // @rename($dir."/.lock.htaccess", $dir."/.htaccess");
-                        file_exists($file) && @unlink($file);
+                        igk_io_file_exists($file) && @unlink($file);
                     } else {
                         // put in maintence mode
                         Logger::info("lock site ...");
@@ -718,7 +718,7 @@ class BalafonApplication extends IGKApplicationBase
                         break;
                     }
                     $v_conf = $rf.DIRECTORY_SEPARATOR.AppConfigs::ConfigurationFileName;
-                    if (file_exists($v_conf)){
+                    if (igk_io_file_exists($v_conf)){
                         $fc_local = true;
                         $cwd = $rf;
                         break;
@@ -744,7 +744,7 @@ class BalafonApplication extends IGKApplicationBase
                     $mod_conf => [BalafonApplication::class, 'InitModule']
                 ] as $k => $callable
             ) {
-                if (file_exists($cf = $_SERVER['PWD'] . $k)) {
+                if (igk_io_file_exists($cf = $_SERVER['PWD'] . $k)) {
                     $v_pdir = dirname($cf);
                     if ($conf = json_decode(file_get_contents($cf))) {
                          // + | change workbench current working directory 
@@ -773,7 +773,7 @@ class BalafonApplication extends IGKApplicationBase
                 }
             } 
             // + | no reach fallback
-            if (file_exists($cf = $_SERVER['PWD'] . "/balafon.config.json")) {
+            if (igk_io_file_exists($cf = $_SERVER['PWD'] . "/balafon.config.json")) {
                 $v_pdir = dirname($cf);
                 if ($conf = json_decode(file_get_contents($cf))) {
                     // + | change workbench current working directory 

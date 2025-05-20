@@ -62,7 +62,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
         if ($file===null){ 
             $file = $ctrl::getDataSchemaFile();
         }
-        if (!$file || !file_exists($file)){
+        if (!$file || !igk_io_file_exists($file)){
             Logger::danger("data schema file not found");
             return -1;
         }

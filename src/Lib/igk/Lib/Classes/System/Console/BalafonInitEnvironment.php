@@ -17,7 +17,7 @@ class BalafonInitEnvironment{
         Logger::info("--init");
         $file = getcwd() . "/" . AppConfigs::ConfigurationFileName;
         $options = igk_getv($command, "options") ?? new stdClass();
-        if (file_exists($file) && !property_exists($options, "--force")) {
+        if (igk_io_file_exists($file) && !property_exists($options, "--force")) {
             Logger::danger("Balafon already initialized configuration.");
             return;
         }
@@ -47,7 +47,7 @@ class BalafonInitEnvironment{
 
             igk_io_createdir($app_dir);
             igk_io_createdir($public_dir);
-            if (!file_exists($lib = $app_dir . "/Lib/igk")) {
+            if (!igk_io_file_exists($lib = $app_dir . "/Lib/igk")) {
                 igk_io_createdir(dirname($lib));
                 symlink(IGK_LIB_DIR, $lib);
             }

@@ -110,7 +110,7 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
         return $mod;
     }
     $dir = igk_dir(igk_get_module_dir() . "/{$modulename}");
-    if (!file_exists($dir)) {
+    if (!igk_io_file_exists($dir, true)) {
         if ($die) {
             igk_trace();
             igk_dev_wln_e(
@@ -178,7 +178,7 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             function ($c, &$excludedir = null) use ($ext_regex, $dir) {
                 $fdir = dirname($c);
                 if ($dir != $dir) {
-                    if (file_exists($fdir . DIRECTORY_SEPARATOR . ApplicationModuleController::CONF_MODULE) || ($excludedir && isset($excludedir[$dir]))) {
+                    if (igk_io_file_exists($fdir . DIRECTORY_SEPARATOR . ApplicationModuleController::CONF_MODULE, true) || ($excludedir && isset($excludedir[$dir]))) {
                         return -1;
                     }
                 }
@@ -200,7 +200,7 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
         $g["::files"][$mkey] = $f;
     }
     if (!$mod) {
-        igk_die('missing localation 2222::: ' . $dir . ' ? ' . file_exists($dir) . ' -- ' . $modulename);
+        igk_die('missing location 2222::: ' . $dir . ' ? ' . file_exists($dir) . ' -- ' . $modulename);
     } else {
         igk_bind_module($mod, $name);
     }

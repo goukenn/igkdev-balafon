@@ -506,7 +506,7 @@ final class ConfigureController extends BaseController implements IConfigControl
                     igk_zip_folder($bckdir . "/Lib.zip", igk_io_basedir() . "/Lib", "Lib");
                     igk_zip_unzip($f, $odir);
                     $cf = igk_io_basedir("__lib.def");
-                    if (file_exists($cf))
+                    if (igk_io_file_exists($cf))
                         unlink($cf);
                     \IGK\Helper\SysUtils::ClearCache();
                     //IGKSubDomainManager::StoreBaseDomain($this, $bDomain);
@@ -548,9 +548,9 @@ final class ConfigureController extends BaseController implements IConfigControl
             $rep->loadArray(array("uri" => $u, "datalength" => strlen($f), "tmp_name" => $fn));
             igk_io_save_file_as_utf8_wbom($fn, $f, true);
             $c = false;
-            if (file_exists($fn)) {
+            if (igk_io_file_exists($fn)) {
                 $c = $this->conf_install_platform($fn, null);
-                if (file_exists($fn))
+                if (igk_io_file_exists($fn))
                     unlink($fn);
                 $rep->loadArray(array("status" => $c));
             } else {
@@ -660,7 +660,7 @@ final class ConfigureController extends BaseController implements IConfigControl
             ->setClass("cnf-setting-tab");
         $mod = igk_get_modules();
         foreach ($mod as $c) {
-            if (file_exists($fc = igk_get_module($c->name)->getDeclaredDir() . "/.settings.pinc")) {
+            if (igk_io_file_exists($fc = igk_get_module($c->name)->getDeclaredDir() . "/.settings.pinc")) {
                 include_once($fc);
             }
         }
@@ -2076,7 +2076,7 @@ EOF;
         $d["class"] = "logview";
         $d["style"] = "max-height:420px; overflow:auto";
         $d->add($html);
-        if (file_exists($log)) {
+        if (igk_io_file_exists($log)) {
             $tab = explode(IGK_LF, igk_io_read_allfile($log));
             $dv = $d->add("div");
             foreach ($tab as $line) {

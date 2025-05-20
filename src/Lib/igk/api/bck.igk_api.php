@@ -165,7 +165,7 @@ final class ApiFunctionController extends ApplicationController {
         }
         else{
             $file=IO::GetDir(dirname(__FILE__)."/.mysql.inc");
-            if(file_exists($file)){
+            if(igk_io_file_exists($file)){
                 include_once($file);
             }
             $f="igk_api_mysql_".str_replace("-", "_", $cmd);
@@ -252,7 +252,7 @@ final class ApiFunctionController extends ApplicationController {
             $this->ConfigCtrl->connect($u, $pwd, false);
         }
         if($this->ConfigCtrl->IsConnected){
-            session_start();
+            @session_start();
             $q=base64_decode(igk_getr("q"));
             igk_resetr();
             igk_loadr($q);

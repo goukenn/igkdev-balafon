@@ -25,7 +25,7 @@ final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
         $service = $this->getServiceInfo();        
         $f = implode("/", [$service->Listener->LibDir, IGK_DATA_FOLDER, "config.xml"]);
         
-        if (file_exists($f)){
+        if (igk_io_file_exists($f)){
             $this->m_config = tempnam(sys_get_temp_dir(), "igk");
             copy($f, $this->m_config);
             igk_reg_hook(SuccessMiddleWare::EVENT, function()use($f){  

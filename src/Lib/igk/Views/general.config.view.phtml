@@ -14,7 +14,7 @@ use function igk_resources_gets as __;
 $doc->Title=__("Global configurations");
 $theme = $doc->getTheme();
 $theme->addTempFile($ctrl->getStylesDir()."/conf.setting.pcss");
-if(file_exists($ftfile=IGK_LIB_DIR."/Default/R/Fonts/global.ttf")){
+if(igk_io_file_exists($ftfile=IGK_LIB_DIR."/Default/R/Fonts/global.ttf")){
     $theme->addFont("global", $ftfile);
 }
 unset($ftfile);

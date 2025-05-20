@@ -52,7 +52,7 @@ class BackupTablesCommand extends AppExecCommand
 			foreach (array_keys($tables) as $t) {
 				$outfile = $path . '/' . $t . '.json';
 				if ($restore_mode) {
-					if (file_exists($outfile)&&($model = $tables[$t]->model())) {
+					if (igk_io_file_exists($outfile)&&($model = $tables[$t]->model())) {
 						if ($_is_debug) {
 							$_log->info('restore: ' . $outfile);
 						}	

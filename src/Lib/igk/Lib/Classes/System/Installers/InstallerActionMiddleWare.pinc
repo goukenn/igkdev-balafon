@@ -136,7 +136,7 @@ class ExtractLibaryMiddleWare extends InstallerActionMiddleWare
     public function invoke()
     {
         $service = $this->getServiceInfo();
-        if (!file_exists($zip = $service->Listener->CoreZip)) {
+        if (!igk_io_file_exists($zip = $service->Listener->CoreZip)) {
             $service->Listener->write("missing zip file");
             return;
         }

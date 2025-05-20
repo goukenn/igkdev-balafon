@@ -50,7 +50,7 @@ EOF;
         // JSON PACKAGE
 
         $file = igk_glue("/", $installdir, "package.json");
-        if (!file_exists($file)){
+        if (!igk_io_file_exists($file)){
             $js_data = (object)[
                 "private"=>true,
                 "scripts"=>(object)[

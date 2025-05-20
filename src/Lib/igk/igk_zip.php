@@ -78,7 +78,7 @@ function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
 ///<param name="entry"></param>
 ///<param name="close" default="1"></param>
 function igk_zip_delete($file, $entry, $close=1){
-    if(!file_exists($file))
+    if(!igk_io_file_exists($file))
         return 0;
     $zip=new ZipArchive();
     if($zip->open($file, ZIPARCHIVE::CREATE)!==true){
@@ -160,14 +160,14 @@ function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=nul
 function igk_zip_excludedir(string $dir, string $outf,string $exclude_pattern){
     $files=igk_io_getfiles($dir);
     $zip=new ZipArchive();
-    if(file_exists($outf))
+    if(igk_io_file_exists($outf))
         unlink($outf);
     $count=0;
     if($zip->open($outf, ZIPARCHIVE::CREATE) === true){
         $ln=strlen($dir) + 1;
         $tdir=array();
         foreach($files as $v){
-            if(!file_exists($v) || preg_match($exclude_pattern, $v)){
+            if(!igk_io_file_exists($v) || preg_match($exclude_pattern, $v)){
                 continue;
             }
             $count++;

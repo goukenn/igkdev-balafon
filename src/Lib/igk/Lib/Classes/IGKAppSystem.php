@@ -25,7 +25,7 @@ class IGKAppSystem
         if (!IGKApp::IsInit()){
             return false;
         }        
-        return file_exists(self::_GetConfigFile());
+        return igk_io_file_exists(self::_GetConfigFile());
     }
     private static function _GetConfigFile(){
         $path = Path::getInstance();
@@ -56,7 +56,7 @@ class IGKAppSystem
         $app_dir = igk_io_applicationdir();
         $confFILE = self::_GetConfigFile(); 
  
-        if (!(defined('IGK_INIT') && IGK_INIT) && file_exists($confFILE)) {
+        if (!(defined('IGK_INIT') && IGK_INIT) && igk_io_file_exists($confFILE)) {
             foreach ([igk_io_cachedir(), igk_io_basedir() . "/" . IGK_RES_FOLDER] as $cdir) {
                 !is_dir($cdir) && IO::Createdir($cdir);
             }
@@ -76,7 +76,7 @@ class IGKAppSystem
         closedir($hdir);
         igk_environment()->set(IGKEnvironment::INIT_APP, 1);
         $idx = $path->getBaseDir() . "/index.php";
-        if (!file_exists($idx)) {
+        if (!igk_io_file_exists($idx)) {
             $indexsrc = igk_getbaseindex_src(IGK_LIB_FILE);
             igk_io_save_file_as_utf8($idx, $indexsrc);
         }
@@ -107,7 +107,7 @@ class IGKAppSystem
         $old = umask(0);
         $is_primary = ($app_dir == $dirname);
         $v_access = dirname($idx) . "/.htaccess";
-        if (!file_exists($v_access)) {
+        if (!igk_io_file_exists($v_access)) {
 
             igk_io_save_file_as_utf8($v_access, igk_getbase_access(
                 $dirname

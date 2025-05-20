@@ -4,7 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-
+use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\LoadArticleException;
 use IGK\System\IO\FileSystem;
@@ -111,7 +111,7 @@ final class IGKCaches
     {
         list($uri, $zip) = self::CacheUri($controller, $requestUri);
         $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
-        return file_exists($file);
+        return igk_io_file_exists($file,true);
     }
     public static function __callStatic($name, $args)
     {
@@ -121,9 +121,7 @@ final class IGKCaches
         }
         //+ init article to writes
         if (method_exists($i, $fc = "_init_{$name}_caches")) {
-            $o = $i->{$fc}(...$args);
-            // dynamic property is deprecated 
-            // $i->{$name} = $o;
+            ($o = $i->{$fc}(...$args)) ?? igk_die('failed to init cached');             
             $i->m_storage[$name] = $o;
             return $o;
         }
@@ -226,7 +224,7 @@ final class IGKCaches
     public static function CheckCaches($files, int $mtime, & $file = null):bool
     {
         foreach ($files as $f) {
-            if (!file_exists($f))
+            if (!igk_io_file_exists($f, true))
                 continue;
             if (filemtime($f) > $mtime) {
                 $file = $f;

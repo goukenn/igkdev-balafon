@@ -215,7 +215,7 @@ class MakeModuleCommand extends AppCommand{
                 );           
             }  
             foreach($bind as $path=>$callback){
-                if ($force || !file_exists($path)){
+                if ($force || !igk_io_file_exists($path)){
                     $callback($path, $command, $name); 
                 }
             }

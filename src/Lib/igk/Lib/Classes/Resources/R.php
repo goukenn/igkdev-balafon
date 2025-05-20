@@ -16,6 +16,7 @@ use IGK\Resources\IGKLangResDictionary;
 use IGK\System\Console\Logger;
 use IGKAppType; 
 use IGK\System\Html\HtmlReader;
+use IGK\System\IO\FileSystem;
 use IGKException; 
 use IGKUserAgent;
 
@@ -186,6 +187,7 @@ final class R extends IGKObject {
         if($v){
             return $v->getImgUri($name, $check, $path);
         } 
+        return null;
     }
     ///<summary></summary>
     ///<param name="name"></param>
@@ -351,25 +353,28 @@ EOF;
         else{
             foreach($files as $c){
                 $sfile=igk_dir($gdir."/".$c);
-                if((!file_exists($sfile)) && !file_exists($sfile=self::GetCurrentLang().IGK_LANG_FILE_EXTENSION)){
+                if((!igk_io_file_exists($sfile)) && !igk_io_file_exists($sfile=self::GetCurrentLang().IGK_LANG_FILE_EXTENSION)){
                     continue;
                 }
                 $tfile []=$sfile;
             }
         } 
         while($f=array_shift($tfile)){
-            if(file_exists($f) && !isset($_instance->m_langFiles[$f])){
+            if(self::Exists($f) && !isset($_instance->m_langFiles[$f])){
                 $v->langRes->load($f);
                 $_instance->m_langFiles[$f]=1;
             }
             else{
                 $lang=igk_dir($gdir."/".R::GetCurrentLang().".xml");
-                if(file_exists($lang)){
+                if(self::Exists($lang)){
                     R::LoadLangFileXml($lang);
                     $_instance->m_langFiles[$f]=1;
                 }
             }
         }
+    }
+    static function Exists(string $file){
+        return FileSystem::Exists($file);
     }
     ///<summary></summary>
     /**
@@ -384,7 +389,7 @@ EOF;
         $v->langRes=new IGKLangResDictionary();
         $v->m_langloaded=false;        
         $f=$v->GetCurrentLangPath();
-        if(file_exists($f)){
+        if(self::Exists($f)){
             $v->langRes->load($f);     
         }
         else{
@@ -406,7 +411,7 @@ EOF;
     * @param mixed $file
     */
     public static function LoadLangFiles($file){
-        if(file_exists($file)){
+        if(igk_io_file_exists($file)){
             $v=self::getInstance();
             $l=$v->langRes;
             include($file);
@@ -422,7 +427,7 @@ EOF;
     * @param mixed $override the default value is true
     */
     public static function LoadLangFileXml($file, $override=true){
-        if(!file_exists($file))
+        if(!igk_io_file_exists($file))
             return;
         $t=HtmlReader::LoadFile($file);
         $h=igk_getv($t->getElementsByTagName("resources"), 0);
@@ -576,7 +581,7 @@ EOF;
         }
         $file=$instance->GetCurrentLangPath();
         if(igk_io_w2file($file, $out, true)){
-            igk_sys_regchange("LangChanged", $v->m_langChangedDate);
+            igk_sys_regchange("LangChanged", $instance->m_langChangedDate);
             $instance->OnLangChangedEvent(null);
             return true;
         }

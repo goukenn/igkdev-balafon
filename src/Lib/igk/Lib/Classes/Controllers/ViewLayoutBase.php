@@ -50,6 +50,6 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
      * @return bool 
      */
     protected function exists($file){
-        return !empty($file) && file_exists($file);
+        return !empty($file) && igk_io_file_exists($file, true);
     }
 }

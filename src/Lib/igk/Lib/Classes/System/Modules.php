@@ -4,9 +4,9 @@
 // @date: 20241016 15:36:17
 namespace IGK\System;
 
-if (file_exists(__DIR__.'/auto_inc.modules.php'))
+if (@file_exists(__DIR__.'/auto_inc.modules.php'))
 {
-require_once(__DIR__.'/auto_inc.modules.php');
+    require_once(__DIR__.'/auto_inc.modules.php');
 } else{
     interface auto_load_IModuleDefinition{
     }

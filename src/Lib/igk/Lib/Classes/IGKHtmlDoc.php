@@ -641,6 +641,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $kfile = $file = array_shift($uris);
         if (is_file($file)) {
             $kfile = IGKResourceUriResolver::getInstance()->resolve($file);
+          
         }
 
         if (isset($t->temp[$kfile])) {
@@ -660,7 +661,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         $sc = $this->m_head->addScript($file);
         $t->temp[$kfile] = $sc;
-        $sc->setIsTemp($t);
+        $sc->setIsTemp($t); 
         return $sc;
     }
     ///<summary>add tempory file to temp document. must be called out of rendering context.the file will be requested with link in the header.</summary>

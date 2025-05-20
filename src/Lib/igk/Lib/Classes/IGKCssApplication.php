@@ -37,7 +37,7 @@ class IGKCssApplication extends IGKApplicationBase
      * @return mixed 
      */
     public function run(string $entryfile, $render = 1) {      
-        igk_setting()->no_init_controller = file_exists(SystemUriActionController::GetCacheFile()); 
+        igk_setting()->no_init_controller = igk_io_file_exists(SystemUriActionController::GetCacheFile()); 
     }
     
 }

@@ -33,13 +33,13 @@ class DummyService implements \IGK\IService{
 
     public function init(): bool {
         $fc = igk_configs()->get("ovh.ovhconfig");
-        if ($fc && file_exists($fc)){
+        if ($fc && igk_io_file_exists($fc)){
             return true;
         }
         //check if 
         //found the 
         $base = Path::LocalPath(igk_io_basedir());
-        while(! ($found = file_exists($fc = $base."/.ovhconfig"))){
+        while(! ($found = igk_io_file_exists($fc = $base."/.ovhconfig"))){
             if ($base == ($c=dirname($base))){
                 break;
             }
@@ -49,6 +49,7 @@ class DummyService implements \IGK\IService{
             igk_configs()->{"ovh.ovhconfig"} = $fc;            
             return true;
         }
+        return false;
      }
 
 }

@@ -67,7 +67,7 @@ final class CacheConfigs
     {
         if (self::$sm_instance == null) {
             $i = self::$sm_instance = new self();
-            if (file_exists($file = $i->getCacheFile())) {
+            if (igk_io_file_exists($file = $i->getCacheFile(), true)) {
                 if ((($g = unserialize(file_get_contents($file))) !== false) && is_array($g)) {
                     $i->config_times = $g[0];
                     $i->cacheOptions = $g[1];

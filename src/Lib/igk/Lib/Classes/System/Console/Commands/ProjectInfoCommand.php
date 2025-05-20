@@ -45,7 +45,7 @@ class ProjectInfoCommand extends AppExecCommand
 			IGK_LIB_DIR . '/Data/R/svg/favicon.svg'];
 			while(count($tf)>0){
 				$f = array_shift($tf);
-				if (file_exists($f)) {
+				if (igk_io_file_exists($f)) {
 					readfile($f);
 					break;
 				}

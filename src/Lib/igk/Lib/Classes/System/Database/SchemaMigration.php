@@ -362,13 +362,24 @@ class SchemaMigration
         while (count($files) > 0) {
             $f = $argument = array_shift($files);
             if (!$f) continue;
+            
+            $tc = [$f,  $p->getDataDir() . "/" . $argument . ".db-schema.xml" ,  $p->getDataSchemaFile($argument)];
+            $f = null;
+            while(count($tc)>0){
+                $f = array_shift($tc);
+                if(!igk_io_cache_file_exists($f)){
+                    $f=null;
+                } else {
+                    break;
+                }
+            }
 
-            if (
-                file_exists($f) ||
-                ($p  && (file_exists($f = $p->getDataDir() . "/" . $argument . ".db-schema.xml") ||
-                    file_exists($f = $p->getDataSchemaFile($argument))
-                )
-                )
+            if ($f
+                //  ||
+                // ($p  && (igk_io_file_exists($f = $p->getDataDir() . "/" . $argument . ".db-schema.xml") ||
+                //     igk_io_file_exists($f = $p->getDataSchemaFile($argument))
+                // )
+                // )
             ) {
                 if (isset($load_schema[$f])) {
                     continue;

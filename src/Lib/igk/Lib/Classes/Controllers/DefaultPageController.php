@@ -80,7 +80,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
                     call_user_func_array(array($this, $c), $p);
                 }
                 else{
-                    if(file_exists($f=$this->getViewFile($c))){
+                    if(igk_io_file_exists($f=$this->getViewFile($c))){
                         $g=substr($f, strlen($this->getViewDir()) + 1);
                         if(!preg_match("#^". $c."#", $g) || ((($ext=igk_io_path_ext($c)) != $c) && !preg_match("/phtml$/", $ext))){
                             array_unshift($p, $c);
@@ -100,7 +100,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
             $v_c=0;
             if(preg_match("/(\.(".IGK_VIEW_FILE_EXT_REGEX."))?$/i", $c)){
                 $f=$this->getViewFile($c);
-                if(file_exists($f)){
+                if(igk_io_file_exists($f)){
                     $this->getView($c, false, $p, $q);
                     $v_c=1;
                 }
@@ -137,7 +137,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
                         igk_exit();
                     }
                     $f=$this->getDeclaredDir()."/Contents/404.php";
-                    if(file_exists($f)){
+                    if(igk_io_file_exists($f)){
                         include($f);
                         igk_exit();
                     }
@@ -228,7 +228,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     ///<param name="doc"></param>
     protected function initDocument($doc){
         $f=$this->getDataDir()."/".IGK_RES_FOLDER."/Img/favicon.ico";
-        if(file_exists($f)){
+        if(igk_io_file_exists($f)){
             $p=igk_io_basepath($f);
             $doc->Favicon=new IGKHtmlRelativeUriValueAttribute($p);
         }
@@ -296,7 +296,7 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     ///<summary></summary>
     public function restoreCtrl(){
         $f=$this->getDeclaredDir()."/.".$this->Name.".bck.zip";
-        if(file_exists($f)){
+        if(igk_io_file_exists($f)){
             igk_zip_unzip($f, $this->getDeclaredDir());
             $this->View();
             unlink($f);

@@ -298,7 +298,7 @@ abstract class RootControllerBase extends IGKObject{
     * @param mixed $row row used info to eval expression
     */
     public function getArticleContent($name, $evalExpression=true, $row=null){
-        if(file_exists($f=$name) || file_exists($f=$this->getArticle($name))){
+        if(igk_io_file_exists($f=$name) || igk_io_file_exists($f=$this->getArticle($name))){
             $out=IGK_STR_EMPTY;
             $out=igk_io_read_allfile($f);
             if($evalExpression){

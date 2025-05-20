@@ -91,7 +91,7 @@ class DbDumpCommand extends AppExecCommand{
         // + |
         if ($v_inject){
             $file = $ctrl->getDataSchemaFile();
-            if (file_exists($file)){
+            if (igk_io_file_exists($file)){
                 $doc= HtmlReader::LoadFile($file);   
                 $schema = igk_getv($doc->getElementsByTagName(IGK_SCHEMA_TAGNAME), 0);
                 $v_entries = $schema->getElementsByTagName(DbSchemas::ENTRIES_TAG);

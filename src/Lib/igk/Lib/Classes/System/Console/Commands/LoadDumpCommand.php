@@ -24,7 +24,7 @@ class LoadDumpCommand extends AppExecCommand{
      */
     public function exec($command, $file=null) { 
 
-        if (empty($file) || !file_exists($file)){
+        if (empty($file) || !igk_io_file_exists($file)){
             Logger::danger("Json file required");
             return -1;
         }

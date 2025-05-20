@@ -99,7 +99,7 @@ class InitCommand extends AppExecCommand
                 $cmod = igk_get_module($k);
                 $ns = $cmod->config("entry_NS");
                 $dir = $cmod->getDeclaredDir() . "/.commands.php";
-                if (file_exists($dir)) {
+                if (igk_io_file_exists($dir)) {
                     igk_is_debug() && Logger::info("try include - ".$dir);
                     if (is_array($td = include($dir))) {
                         $commands_list = array_merge($commands_list, $td);

@@ -23,7 +23,7 @@ class FixLangCommand extends AppExecCommand{
     public function exec($command, $path=null)
     { 
         Logger::info("fix lang file");
-        if (file_exists($f = realpath($path))){
+        if (igk_io_file_exists($f = realpath($path))){
             $ext = igk_io_path_ext($f);
             if ('.'.$ext!= IGK_LANG_FILE_EXTENSION){
                 return -1;

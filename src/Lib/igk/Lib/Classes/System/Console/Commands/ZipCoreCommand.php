@@ -74,7 +74,7 @@ class ZipCoreCommand extends AppExecCommand{
             $path = rtrim($path, "/").$fname;
         }
         $incVersion = null;        
-        if (file_exists($path)){
+        if (igk_io_file_exists($path)){
             $dir = dirname ($path);
             $version = IO::CheckFileVersion($path); 
             $path = $dir. "/balafon.".$version.$ext;

@@ -456,7 +456,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $attach = new MailAttachement();
         $attach->Link = $file;
-        $attach->Content = file_exists($file) ? IO::ReadAllText($file) : null;
+        $attach->Content = igk_io_file_exists($file) ? IO::ReadAllText($file) : null;
         $attach->ContentType = $contentType;
         $attach->Type = "Uri";
         $attach->CID = $cid;

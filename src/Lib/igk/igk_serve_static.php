@@ -23,7 +23,7 @@
     ];
     if (!empty($command->referer)){
         $c = hash('crc32b', $command->referer);
-        if (file_exists($file = igk_io_cachedir().'/storage/css/'.$c.'.css')){
+        if (igk_io_file_exists($file = igk_io_cachedir().'/storage/css/'.$c.'.css')){
             igk_header_set_contenttype('css');
             igk_header_cache_output();
             readfile($file);

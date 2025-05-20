@@ -19,7 +19,7 @@ if (!function_exists("igk_install_site")) {
         $_SERVER["argc"] = $argc;
         unset($_SERVER["REQUEST_URI"]);
 
-        if (!file_exists($corelib)){
+        if (!igk_io_file_exists($corelib)){
             error_log('missing core file', $corelib);
             return false;
         }
@@ -143,7 +143,7 @@ $v_blf_cmd = "{$install_dir}/bin/balafon";
 
 
 
-if (file_exists($v_blf_cmd)) {
+if (igk_io_file_exists($v_blf_cmd)) {
     @chmod($v_blf_cmd, 0775);
 
     // + | install with balafon command

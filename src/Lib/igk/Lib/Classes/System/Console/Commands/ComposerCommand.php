@@ -24,7 +24,7 @@ class ComposerCommand extends AppExecCommand{
 		if (empty($composer = OsShell::where("composer.phar"))){
 			$composer = $packages."/composer.phar";
 		}
-		if (!$composer || !file_exists($composer))
+		if (!$composer || !igk_io_file_exists($composer))
 		{
 			Logger::danger("missing composer.phar");
 			return -1;

@@ -26,7 +26,7 @@ class MakeRolesCommand extends AppExecCommand{
 
 		$path = $ctrl->getConfigsDir();
 		$l = Path::Combine($path, 'profiles.php');
-		if (file_exists($l)){
+		if (igk_io_file_exists($l)){
 			Logger::info('file already exists : '.$l);
 			return -2;
 		}

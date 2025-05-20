@@ -25,7 +25,7 @@ class ExtractClassCommand extends AppExecCommand
 		if (is_null($file)) {
 			igk_die('required file');
 		}
-		$data = json_decode(file_exists($file) ? file_get_contents($file) : $file);
+		$data = json_decode(igk_io_file_exists($file) ? file_get_contents($file) : $file);
 		if (is_array($data) && is_numeric($path)) {
 			$data = $data[$path];
 		} else {

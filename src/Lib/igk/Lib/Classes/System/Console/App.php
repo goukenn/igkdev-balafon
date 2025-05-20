@@ -134,7 +134,7 @@ class App
         Logger::SetLogger(new ConsoleLogger($app));
         $app->boot();
 
-        if (!file_exists($fc = AppCommandConstant::GetCacheFile())) {
+        if (!igk_io_cache_file_exists($fc = AppCommandConstant::GetCacheFile())) {
             Logger::warn("balafon - missing cache ".$fc);
             $v_cmd = self::CreateCommand($app);
             $cmd = new InitCommand();

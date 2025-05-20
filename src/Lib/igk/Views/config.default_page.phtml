@@ -60,7 +60,7 @@ $ul->li()->Content = "GIT: " . "<a href=\"" . IGK_GIT_URL . "\" target=\"__blank
 $frm = $box->addForm();
 $frm["action"] = $ctrl->getUri("conf_install_platform");
 $frm["class"] = "dispn";
-$frm["enctype"] = "multipart/form-data";
+$frm["enctype"] = IGK_HTML_ENCTYPE;
 $i = $frm->addInput("clFile", "file");
 $i["accept"] = ".zip";
 $lang = json_encode([

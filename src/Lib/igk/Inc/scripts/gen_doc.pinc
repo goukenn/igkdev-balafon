@@ -70,7 +70,7 @@ $fc=function($itc, $itif){
     igk_exit();
 };
 $f=$_SERVER["argv"][1];
-if(file_exists($f)){
+if(igk_io_file_exists($f)){
     $itc=count(get_declared_classes());
     $itif=count(get_declared_interfaces());
     $s=file_get_contents($f);

@@ -29,7 +29,7 @@ abstract class ProjectDefaultAction extends ActionBase{
    
     protected function manifest_json(){
         $dir = $this->ctrl->getDeclaredDir();
-        if (file_exists($fname = ($dir."/manifest.json"))){ 
+        if (igk_io_file_exists($fname = ($dir."/manifest.json"))){ 
             $response = new WebResponse($str=file_get_contents($fname)); 
             $response->headers = [
                 "Content-Type:".MimeType::FromExtension("json"),

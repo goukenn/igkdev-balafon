@@ -77,7 +77,7 @@ final class IGKModuleListMigration extends BaseController implements
     {
         if ($this->m_host->getUseDataSchema()) {
             $file = $this->m_host->getDataSchemaFile();
-            if (file_exists($file)) {
+            if (igk_io_file_exists($file)) {
                 if (igk_is_debug()) {
                     Logger::warn('migrate list ..... ' . $this->m_host->getName());
                     Logger::info($file);
@@ -424,7 +424,7 @@ final class IGKModuleListMigration extends BaseController implements
                     self::$sm_instance->m_host = $t;
                     $c = new MigrationHandler($t);
                     $c->down();
-                    if (file_exists($file = $t->getDataSchemaFile())) {
+                    if (igk_io_file_exists($file = $t->getDataSchemaFile())) {
                         igk_db_load_data_schemas($file, self::$sm_instance, true, DbSchemasConstants::Downgrade);
                     }
                 } else {
@@ -453,7 +453,7 @@ final class IGKModuleListMigration extends BaseController implements
                 continue;
             }
             $adname = $t->getDataAdapterName();
-            if (file_exists($file = $t->getDataSchemaFile())) {
+            if (igk_io_cache_file_exists($file = $t->getDataSchemaFile())) {
                 $this->m_host = $t;
                 $initializer->loadSchemaDefinition(
                     $file,

@@ -28,7 +28,7 @@ final class IGKCssComponentStyle extends IGKObject{
     }
     ///<summary>create a register file</summary>
     public function regFile($file, $host=null){
-        if(!file_exists($file))
+        if(!igk_io_file_exists($file))
             return null;
         if(isset($this->m_loadedStyles[$file])){
             $ct=igk_html_node_clonenode($this->m_loadedStyles[$file]);

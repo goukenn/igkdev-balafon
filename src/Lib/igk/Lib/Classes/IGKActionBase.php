@@ -405,7 +405,7 @@ abstract class IGKActionBase implements IActionProcessor
         // + | --------------------------------------------------------------------
         // + | by default in ajx context and not null 
         // + |
-        return ((igk_is_ajx_demand() || igk_server()->accept('json')) && !is_null($response)) 
+        return ((igk_is_ajx_demand() || igk_server()->accept('json')) && !is_null($response) && $this->handleExit) 
         || ($response instanceof RequestResponse);
     }
     /**
@@ -506,6 +506,7 @@ abstract class IGKActionBase implements IActionProcessor
                 // + | --------------------------------------------------------------------
                 // + | CHECK EXIT FOR DO RESPONSE   
                 // + |      
+                $v_host->handleExit = $exit;
                 if ($exit || ($v_host->_handleResponse($c))) { 
                     return igk_do_response($c);
                 }
@@ -529,7 +530,7 @@ abstract class IGKActionBase implements IActionProcessor
     protected function handleError($code, ...$params)
     {
         $c = $this->getController();
-        if ($c && ($f = $c::getErrorViewFile($code)) && file_exists($f)) {
+        if ($c && ($f = $c::getErrorViewFile($code)) && igk_io_file_exists($f)) {
             return $c::viewError($code);
         } 
         igk_dev_wln_e(__FILE__ . ":" . __LINE__,  "No handle error: ", compact("code", "f", "params"));

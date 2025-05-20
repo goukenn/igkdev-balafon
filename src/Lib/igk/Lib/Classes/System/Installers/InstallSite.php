@@ -57,7 +57,7 @@ class InstallSite
         $core = IGK_LIB_FILE;
         $src = rtrim($folder, "/");
         $is_dev = ($environment=='development');
-        if (file_exists($src) && !igk_getv($options, "force")) {
+        if (igk_io_file_exists($src) && !igk_getv($options, "force")) {
             Logger::danger("directory exists.");
             return false;
         }
@@ -86,7 +86,7 @@ class InstallSite
             igk_io_createdir($src . "/temp");
             igk_io_createdir($src . "/crons");
             igk_io_createdir($src . "/tests");
-            if ($is_dev  && !file_exists($gitignore = $folder . "/.gitignore")){
+            if ($is_dev  && !igk_io_file_exists($gitignore = $folder . "/.gitignore")){
                 $configs = [
                     "**/.vscode/**",
                     "**/node_modules/**",
@@ -121,7 +121,7 @@ class InstallSite
                 "   passingTests: false",
                 "   failingTests: false",
                 "phpunit:",
-                "   binaryPath: " . (file_exists($tf = igk_io_packagesdir() . "/vendor/bin/phpunit") ? $tf : ""),
+                "   binaryPath: " . (igk_io_file_exists($tf = igk_io_packagesdir() . "/vendor/bin/phpunit") ? $tf : ""),
                 "   arguments: --stop-on-failure --colors=always --testdox --bootstrap {$c_app}/Lib/igk/Lib/tests/autoload.php {$c_app}/Projects/",
             ]));
 
@@ -153,7 +153,7 @@ class InstallSite
         // + | chain lib directory 
         // + |
         
-        if (!is_link($lnk = $app_folder . "/Lib/igk") && !file_exists($lnk)) {
+        if (!is_link($lnk = $app_folder . "/Lib/igk") && !igk_io_file_exists($lnk)) {
             igk_io_createdir(dirname($lnk));
             // + | relative path is important. some directory no allow reading link resources.
             // $v_tlib = igk_io_get_relativepath(dirname($core).'/', $lnk);
@@ -295,7 +295,7 @@ EOF
         // + | generate configuration 
         // + |
         if (!$is_primary){
-            if (!file_exists($file = $folder."/".AppConfigs::ConfigurationFileName)){
+            if (!igk_io_file_exists($file = $folder."/".AppConfigs::ConfigurationFileName)){
                 // + | -----------------------------------------------------------------------------------
                 // + | generate configuration file  
                 // + | 
@@ -309,7 +309,7 @@ EOF
         // + | generate balafon shortcut 
         // + |
         if (!$is_primary){
-            if (file_exists($f = $app_folder."/Lib/igk/bin/balafon")){
+            if (igk_io_file_exists($f = $app_folder."/Lib/igk/bin/balafon")){
                 $t = $src."/../balafon";
                 if (!is_file($t)){
                     Logger::info('create balafon symbolic link...');

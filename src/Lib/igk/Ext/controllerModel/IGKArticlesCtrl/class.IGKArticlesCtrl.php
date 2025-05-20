@@ -17,7 +17,7 @@ abstract class IGKAtriclesCtrlBase extends \IGK\Controllers\ControllerTypeBase
 	///<summary>bind primary articles</summary>
 	public function bindArticle($ctrl, $name, $target, $row){
 		$f = $this->getArticle($name);
-		if (file_exists($f)){
+		if (igk_io_file_exists($f)){
 			igk_html_binddata($ctrl, $target, $f, $row);
 		}
 	}

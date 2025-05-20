@@ -103,7 +103,7 @@ final class ApiFunctionController extends ApplicationController {
             igk_nav_session();
         };
         $file=IO::GetDir(dirname(__FILE__)."/.ctrl.inc");
-        if(file_exists($file)){
+        if(igk_io_file_exists($file)){
             include_once($file);
         }
         if(isset($_data[$cmd])){
@@ -131,7 +131,7 @@ final class ApiFunctionController extends ApplicationController {
          */
 
         $file = self::LIBNAME;
-        if(file_exists($file)){
+        if(igk_io_file_exists($file)){
             include_once($file);
         }
         $args=array_slice(func_get_args(), 1);
@@ -568,7 +568,7 @@ final class ApiFunctionController extends ApplicationController {
             $this->ConfigCtrl->connect($u, $pwd, false);
         }
         if($this->ConfigCtrl->IsConnected){
-            session_start();
+            @session_start();
             $q=base64_decode(igk_getr("q"));
             igk_resetr();
             igk_loadr($q);

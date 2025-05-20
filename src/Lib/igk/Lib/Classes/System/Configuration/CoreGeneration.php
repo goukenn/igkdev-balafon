@@ -38,7 +38,7 @@ require_once (function ($name) {
         if (function_exists('simplexml_load_file')) {
             $tconfigFile = null;
             while (!empty($bdir)) {
-                if (file_exists($configFile = $bdir . "/%%balafon_config_file%%")) {
+                if (igk_io_file_exists($configFile = $bdir . "/%%balafon_config_file%%")) {
                     $tconfigFile = $configFile;
                     break;
                 }

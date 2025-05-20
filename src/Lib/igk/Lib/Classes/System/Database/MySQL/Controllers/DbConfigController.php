@@ -703,7 +703,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
                 "dbPasswd" => ["type" => "password", "attribs" => [
                     "class" => "igk-form-control",
                     "placeholder" => __("password"),
-                    "autocomplete" => 'off',
+                    "autocomplete" => 'new-password',
                     "value" => null
                 ]],
                 "dbName" =>   ["attribs" => ["class" => "igk-form-control", "placeholder" => __("dbname"), "value" => $cnf->db_name]],
@@ -1144,7 +1144,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         $r = igk_io_applicationdir() . "/" . IGK_BACKUP_FOLDER . "/" . $file;
         $v_file = igk_io_basedir($r);
         $result = false;
-        if (file_exists($v_file)) {
+        if (igk_io_file_exists($v_file)) {
             $str = "";
             if (igk_io_path_ext($v_file) == "zip") {
                 if (igk_app()->getApplication()->lib("zip") == false) {
@@ -1839,7 +1839,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     {
         $v_file = igk_getr("file");
         $v_f = igk_io_applicationdir() . "/" . IGK_BACKUP_FOLDER . "/" . $v_file;
-        if (file_exists($v_f)) {
+        if (igk_io_file_exists($v_f)) {
             igk_download_file(basename($v_f), $v_f);
         } else {
             igk_notifyctrl()->addError("file not present");
@@ -2350,7 +2350,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         // $tab= & $this->getLoadTables();
         // $tab = []; 
         // $f=$this->getCacheFile();
-        // if(file_exists($f))
+        // if(igk_io_file_exists($f))
         //     @unlink($f);
         // igk_env_count(__FUNCTION__);
     }

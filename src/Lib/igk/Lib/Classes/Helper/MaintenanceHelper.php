@@ -17,13 +17,13 @@ class MaintenanceHelper
     const lockFile = ".maintenance.lock"; 
     public static function LockSite(string $bdir)
     {
-        if (file_exists($lock = $bdir . "/".self::lockFile)) {
+        if (igk_io_file_exists($lock = $bdir . "/".self::lockFile)) {
             return;
         }
         igk_io_w2file($lock, '1');
         $rnlist = [$bdir . "/index.php" => $bdir . "/.lock.index.php", $bdir . "/.htaccess" => $bdir . "/.lock.htaccess",];
         foreach ($rnlist as $k => $v) {
-            if (file_exists($k)){
+            if (igk_io_file_exists($k)){
                 @rename($k, $v);
             }
         }
@@ -48,20 +48,20 @@ EOF
      */
     public static function UnlockSite(string $bdir)
     {
-        if (!file_exists($lock = $bdir ."/".self::lockFile)) {
+        if (!igk_io_file_exists($lock = $bdir ."/".self::lockFile)) {
             return;
         }
         @unlink($bdir . "/index.php");
         @unlink($bdir . "/.htaccess");
         $restore = [$bdir . "/.lock.index.php" => $bdir . "/index.php", $bdir . "/.lock.htaccess" => $bdir . "/.htaccess"];
         foreach ($restore as $k => $v) {
-            if (file_exists($k)) {
+            if (igk_io_file_exists($k)) {
                 @rename($k, $v);
             }
         }
 
         $is_primary = dirname(igk_io_applicationdir()) == igk_io_basedir();
-        if (!file_exists($index = $bdir . "/index.php")){
+        if (!igk_io_file_exists($index = $bdir . "/index.php")){
             // install index file ...
             igk_io_w2file(
                 $index,
@@ -73,7 +73,7 @@ EOF
             );
         }
 
-        if (!file_exists($h = $bdir . "/.htaccess")){
+        if (!igk_io_file_exists($h = $bdir . "/.htaccess")){
             // install index file ...
             igk_io_w2file(
                 $h,

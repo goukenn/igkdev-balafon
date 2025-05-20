@@ -16,7 +16,7 @@ use function igk_resources_gets as __;
 final class UnlinkZipMiddleWare extends InstallerActionMiddleWare{
     public function invoke(){
         $srv=$this->getServiceInfo()->Listener;
-        if ($srv->fromUpload && file_exists($srv->CoreZip)){
+        if ($srv->fromUpload && igk_io_file_exists($srv->CoreZip)){
             $srv->write("unlink corezip");
             @unlink($srv->CoreZip);
         } 

@@ -14,7 +14,7 @@ use IGKException;
 use IGKSubDomainManager;
 
 require_once __DIR__ . "/BaseUriHandler.php";
-require_once IGK_LIB_CLASSES_DIR.'/ApplicationLoader.php';
+require_once IGK_LIB_CLASSES_DIR . '/ApplicationLoader.php';
 /**
  * uri handler 
  * @package IGK\System\Http
@@ -46,11 +46,12 @@ class UriHandler extends BaseUriHandler
      * @param mixed &$key 
      * @return bool 
      */
-    function match(string $uri, & $key = null):bool{
+    function match(string $uri, &$key = null): bool
+    {
         $t = array_values($this->m_routes);
-        while(count($t)>0){
-            $s =array_shift($t);
-            if (preg_match('#'.$s.'#i', $uri)){
+        while (count($t) > 0) {
+            $s = array_shift($t);
+            if (preg_match('#' . $s . '#i', $uri)) {
                 $key = $s;
                 return true;
             }
@@ -84,9 +85,9 @@ class UriHandler extends BaseUriHandler
         ApplicationLoader::InitConstants();
         IGKSubDomainManager::Init();
         $_is_sub = IGKSubDomainManager::IsSubDomain();
-        if (!$_is_sub) { 
+        if (!$_is_sub) {
             $file = igk_io_cachedir() . "/.sitemap.cache";
-            if (file_exists($file)) {
+            if (igk_io_file_exists($file)) {
                 header("Content-Type: application/xml");
                 echo file_get_contents($file);
                 igk_exit();
@@ -104,20 +105,30 @@ class UriHandler extends BaseUriHandler
                 }
             }
             igk_exit();
-        } 
+        }
         // + | --------------------------------------------------------------------
         // + | leave site map for handling by Project
         // + | 
     }
 
-    public function _caching_style(){
-        ApplicationLoader::InitConstants(); 
-        include IGK_LIB_DIR.'/igk_serve_static.php';
-        // $cache_file = '';
-        // if ($cache_file){
-        //     header('Content-Type: text/css');
-        //     readfile(igk_io_cachedir().'/storage/css/f44fd05b4d4853357fde48e1fbbbb14869d26be2.css.cache');
-        //     igk_exit();
-        // }
+    /**
+     * init caching style
+     * @return void 
+     * @throws IGKException 
+     */
+    public function _caching_style()
+    {
+        ApplicationLoader::InitConstants();
+        include IGK_LIB_DIR . '/igk_serve_static.php';
+    }
+
+    public static function Handle(string $uri, $app = null)
+    {
+        $l = igk_getv(parse_url($uri), 'path');
+        if ('/assets/Styles/balafon.css' == $l) {
+            igk_environment()->NoLoadAction = true;
+            $uri = $l;
+        }
+        return parent::Handle($uri, $app);
     }
 }

@@ -15,7 +15,7 @@ class FileSystem extends CoreFileSystem{
  
 
     public function __construct(string $dir){
-        if (!file_exists($dir)){
+        if (!self::Exists($dir)){
             throw new ArgumentNotValidException("dir");
         }
         $this->path = $dir;
@@ -26,8 +26,8 @@ class FileSystem extends CoreFileSystem{
      * @param string $path 
      * @return bool 
      */
-    public static function Exists(string $path):bool{
-        return file_exists($path);
+    public static function Exists(string $path):bool{ 
+        return igk_io_file_exists($path, true);
     }
     /**
      * return FileSystem helper
@@ -35,7 +35,7 @@ class FileSystem extends CoreFileSystem{
      * @return FileSystem|null 
      */
     public static function Create(string $path){
-        if (file_exists($path)){
+        if (igk_io_file_exists($path, true)){
             return new static($path);
         }
         return null;
@@ -75,7 +75,7 @@ class FileSystem extends CoreFileSystem{
      */
     public function cacheExpired(string $path, ?string $ext=".php"){
         $p = filemtime($path);
-        if (file_exists($file = $this->getCacheFilePath($path, $ext))){
+        if (igk_io_file_exists($file = $this->getCacheFilePath($path, $ext), true)){
             return filemtime($file) < $p;
         }
         return true;
@@ -92,7 +92,7 @@ class FileSystem extends CoreFileSystem{
     public function checkNotExpired(string $realpath_to_check, string $caching_name, $ext='.php'){
         $p = filemtime($realpath_to_check);  
         $vn = $this->getCacheFilePath($caching_name, $ext);
-        if (file_exists($vn)){
+        if (igk_io_file_exists($vn)){
             return filemtime($vn) > $p;
         }
         return false;

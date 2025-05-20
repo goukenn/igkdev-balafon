@@ -44,12 +44,14 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     private static function _RegActions(SystemUriActionController $controller){
         if (self::$sm_actions === null){
             // @unlink(self::GetCacheFile());
-            if (file_exists($file = self::GetCacheFile())){
+            if (igk_io_file_exists($file = self::GetCacheFile(), true)){
                 $tab = unserialize(file_get_contents($file));
                 self::$sm_routes = $tab["routes"];
                 self::$sm_actions = $tab["actions"];
                 if (empty(self::$sm_actions)){
-                    self::$sm_actions = self::InitActionList($controller, self::$sm_routes, true);
+                    $no_action_loading = igk_environment()->NoLoadAction;
+                    if (!$no_action_loading)
+                        self::$sm_actions = self::InitActionList($controller, self::$sm_routes, true); 
                 } 
             }
             else {
@@ -368,7 +370,7 @@ final class SystemUriActionController extends ConfigControllerBase implements II
             $uri=substr($uri, 7);
             $q=parse_url($uri);
             $f=igk_io_basedir($q["path"]);
-            if(file_exists($f)){
+            if(igk_io_file_exists($f)){
                 igk_header_content_file($f);
                 include($f);
             }

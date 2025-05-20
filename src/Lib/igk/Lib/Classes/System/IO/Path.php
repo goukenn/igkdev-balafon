@@ -66,12 +66,12 @@ class Path
      */
     public static function GetExistingFile(&$path, array $extension = []): bool
     {
-        if (file_exists($path)) {
+        if (igk_io_file_exists($path)) {
             return true;
         }
         while (count($extension) > 0) {
             $q = array_shift($extension);
-            if (file_exists($g = $path . $q)) {
+            if (igk_io_file_exists($g = $path . $q)) {
                 $path = $g;
                 return true;
             }
@@ -188,7 +188,14 @@ class Path
      */
     public function getStyleUri()
     {
-        return $this->baseuri($this->css_path);
+        $d = $this->css_path;
+        $t = explode('?', $d,2);
+        $d = array_shift($t); 
+        $u = [$this->baseuri($d)]; 
+        if ($t){
+            $u[] = $t[0];
+        }
+        return implode('?', $u); 
     }
     /**
      * retrieve setup system app directory
@@ -247,7 +254,7 @@ class Path
             return $bdir;
         $l = igk_dir($bdir);
         $_r = null;
-        if (file_exists($dir) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
+        if (igk_io_file_exists($dir, true) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
             $rpath = self::GetRelativePath($hdir, $l);
             $_r = ($rpath) ? igk_dir($l . DIRECTORY_SEPARATOR . $rpath) : $dir;
         } else {
@@ -603,7 +610,7 @@ class Path
         }
         if (($p = realpath($path))===false){
             $t = array_filter(array_map(function($n)use($path){
-                if (file_exists($f = self::CombineAndFlattenPath($n, $path))){
+                if (igk_io_file_exists($f = self::CombineAndFlattenPath($n, $path))){
                     return $f;
                 }
                 return null;

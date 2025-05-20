@@ -99,8 +99,9 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         });
 
         if ($loader){ 
+            
             $loader(); 
-            if (!file_exists(igk_io_applicationdir()."/Data/configure")){          
+            if (!igk_io_file_exists(igk_io_applicationdir()."/Data/configure", true)){          
                 igk_initenv(igk_io_applicationdir(), igk_app());
             }
         } 
@@ -108,7 +109,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             $fdir = igk_io_cacheddist_jsdir();
             $dir = igk_getv($e->args, 'dir');
             $access = $fdir . "/.htaccess";
-            if (!file_exists($access)) {
+            if (!igk_io_file_exists($access)) {
                 IO::CreateDir(dirname($access));
                 igk_io_w2file($access, implode("\n", array(
                     "allow from all",
@@ -188,7 +189,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $access_file = ["/Lib/igk/igk_init.php"];
         $ch = "";
         $_start_index = key_exists("PHP_SELF", $_SERVER) && ($ch = $_SERVER["PHP_SELF"]) && in_array($ch, ["/", "/" . basename($file)]);
-        if (!$_start_index && file_exists($f =  dirname($file) . $ch) && !is_dir($f)) {
+        if (!$_start_index && igk_io_file_exists($f =  dirname($file) . $ch) && !is_dir($f)) {
             $ext = igk_io_path_ext(basename($f));
             if ($ext == "php") {
                 include($f);
@@ -258,7 +259,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
                 });
             }
             if (!defined("IGK_REDIRECT_ACCCESS") && in_array($path_info, $access_file)) {
-                if (file_exists($cfile = igk_uri(dirname(dirname(IGK_LIB_DIR)) . $path_info))) {
+                if (igk_io_file_exists($cfile = igk_uri(dirname(dirname(IGK_LIB_DIR)) . $path_info))) {
                     define("IGK_REDIRECT_ACCCESS", 1);
                     $_SERVER["SCRIPT_FILENAME"] = igk_str_rm_last(igk_server()->DOCUMENT_ROOT, "/") . dirname(igk_server()->SCRIPT_NAME) . $path_info;
                     $srv->prepareServerInfo();

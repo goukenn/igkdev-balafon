@@ -79,7 +79,7 @@ abstract class PageControllerBase extends ControllerTypeBase
         if($settings)
             return $settings;
         $udir=$this->getUserDir();
-        if(file_exists($file=$this->getUserSettingFile()) && ($g=igk_conf_load_file($file, IGK_CNF_TAG))){
+        if(igk_io_file_exists($file=$this->getUserSettingFile()) && ($g=igk_conf_load_file($file, IGK_CNF_TAG))){
             $settings=igk_createObjStorage((array)$g);
         }
         else
@@ -102,7 +102,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     ///<summary>override this to handle page</summary>
     protected function handleView($view){
         $f=$this->getViewFile($view);
-        if(file_exists($f) && method_exists($this, "renderDefaultDoc")){
+        if(igk_io_file_exists($f) && method_exists($this, "renderDefaultDoc")){
             $this->renderDefaultDoc($view, null, true);
             igk_exit();
             return 1;

@@ -407,7 +407,7 @@ class CssConverter{
                         $name = basename($g);
                         $dir = dirname($g);
                         foreach(['', '_'] as $f){
-                            if (file_exists($tf = $dir."/".$f.$name.".scss")){
+                            if (igk_io_file_exists($tf = $dir."/".$f.$name.".scss")){
                                 $gt = self::ParseFormSCSS($tf);
                                 // + | copy data
                                 $this->_copyData($gt);

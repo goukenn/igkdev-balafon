@@ -360,7 +360,7 @@ class JSon
 
                         $d = dirname($v_reflect->getFileName());
                         $path = Path::Combine($d, $type.".php");
-                        if (file_exists($path)){
+                        if (igk_io_file_exists($path)){
                             include_once($path);
                             return igk_ns_name($NS."\\".$type);
                         }

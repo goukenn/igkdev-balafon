@@ -132,7 +132,7 @@ class Loader implements IResponse {
 
         if (empty($f= realpath($file)))
             $f = $this->m_controller->getArticle($file);
-        if(!file_exists($f)){
+        if(!igk_io_file_exists($f)){
             return false;
         }       
         $n = IGKCaches::Compile2($this->m_controller, IGKCaches::article_filesystem(), $f, $raw, $render);      
@@ -149,11 +149,11 @@ class Loader implements IResponse {
     /**
     * check an resolve view file
     */
-    public function file_exists($view){
+    public function igk_io_file_exists($view){
         $f=stream_resolve_include_path($view);
         if(!empty($f))
             return $f;
-        if(file_exists($view))
+        if(igk_io_file_exists($view))
             return realpath($view);
         if(!empty($c=$this->m_controller->getViewFile($view))){
             return $c;
@@ -237,15 +237,15 @@ class Loader implements IResponse {
         if (!$cfile){
             return $this;
         }
-        if(file_exists($f=$cfile)){
+        if(igk_io_file_exists($f=$cfile)){
             $file=$f;
         }
         else{
-            if(!file_exists($file)){
+            if(!igk_io_file_exists($file)){
                 $file=dirname(__FILE__)."/Views/".$file.".".IGK_DEFAULT_VIEW_EXT;
             }
         }
-        if(!file_exists($file))
+        if(!igk_io_file_exists($file))
              return $this; 
 
         $this->loader_load_files[$file] = $file;
@@ -318,7 +318,7 @@ class Loader implements IResponse {
      * @return void 
      */
     public function include(string $file, $viewargs=null){ 
-        if (file_exists($file)){
+        if (igk_io_file_exists($file)){
             $fc = Closure::fromCallable(function($file, $args){
                 if ($args)
                     extract($args);  

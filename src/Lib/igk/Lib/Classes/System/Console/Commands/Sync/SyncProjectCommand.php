@@ -72,7 +72,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         while(count($rf)>0){
             $q = array_shift($rf);
             if (!$q)continue;
-            if (file_exists($f = $dir."/".$q) || file_exists($f = $q)){
+            if (igk_io_file_exists($f = $dir."/".$q) || igk_io_file_exists($f = $q)){
                $files[] = $f;
             }   
         }
@@ -204,7 +204,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     $cdir = [];
                     $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();
                     // + | check 
-                    if (file_exists($fc = Path::Combine($pdir, '.balafon-sync.project.json'))) {
+                    if (igk_io_file_exists($fc = Path::Combine($pdir, '.balafon-sync.project.json'))) {
                         $g = SyncProjectSettings::Load(json_decode(file_get_contents($fc)));
                         if ($g->ignoredirs) {
                             $v_ignores =  array_fill_keys($g->ignoredirs, 1);

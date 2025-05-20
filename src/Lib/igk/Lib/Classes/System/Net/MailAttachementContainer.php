@@ -37,7 +37,7 @@ final class MailAttachementContainer extends IGKObject implements IIGKMailAttach
     ///<param name="contentType" default="IGK_CT_PLAIN_TEXT"></param>
     ///<param name="cid" default="null"></param>
     public function attachFile($file, $contentType=IGK_CT_PLAIN_TEXT, $cid=null){
-        if(!file_exists($file))
+        if(!igk_io_file_exists($file))
             return null;
         $attach=new MailAttachement();
         $attach->Link=$file;

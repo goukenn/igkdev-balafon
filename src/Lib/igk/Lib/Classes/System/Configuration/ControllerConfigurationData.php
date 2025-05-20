@@ -130,7 +130,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
                 return true;
             }, ARRAY_FILTER_USE_BOTH);
         };
-        if(!is_null($f) && file_exists($f)){
+        if(!is_null($f) && igk_io_file_exists($f, true)){
             
             igk_environment()->task = 'load-config: '.$f;
             igk_environment()->loading_context =  HtmlContext::XML;

@@ -92,7 +92,7 @@ abstract class ExceptionUtils
             $corejs = '<script language="javascript" type="text/javascript" src="' . $balafon_js . '"></script>';
         }
         $style_link = "";
-        if (file_exists($d = igk_io_resourcesdir() . "/Fonts/google/Roboto100,200,400,700,900.css")) {
+        if (igk_io_cache_file_exists($d = igk_io_resourcesdir() . "/Fonts/google/Roboto100,200,400,700,900.css")) {
             $style_link .= "<!-- style link  -->";
             $style_link .= "<link rel=\"stylesheet\" href='" . igk_uri(igk_io_baseuri() . "/" . igk_io_baserelativepath($d)) . "'/>";
             $style_link .= "<!-- end:style link  -->";

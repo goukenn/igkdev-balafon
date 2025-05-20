@@ -158,7 +158,7 @@ abstract class AppCommand {
                             if(!is_string($b)){
                                 igk_die("failed: ". json_encode($b));
                             }
-                            // if (file_exists(
+                            // if (igk_io_file_exists(
                                 $b = igk_io_expand_path($b);
                             //  )){
                                 include($b);
@@ -268,7 +268,7 @@ abstract class AppCommand {
      */
     public static function Generate($command, array $bind, ...$extra){    
         foreach($bind as $path=>$callback){
-            if (!file_exists($path)){
+            if (!igk_io_file_exists($path)){
                 $callback($path, $command, ...$extra); 
             }
         }       

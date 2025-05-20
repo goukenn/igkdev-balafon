@@ -22,7 +22,7 @@ abstract class CronJobProcessProviderBase{
         $options= $this->treat($options);
         if ($ctrl!=null){
             if (!($ctrl = igk_getctrl($ctrl,false)) || 
-                !file_exists($file = $ctrl::classdir()."/CGI/Crons/".$name.".php")
+                !igk_io_file_exists($file = $ctrl::classdir()."/CGI/Crons/".$name.".php")
                 ){            
                 return false;
             }
@@ -34,7 +34,7 @@ abstract class CronJobProcessProviderBase{
             return $fc($ctrl, $file, $options);            
         }
         $dir = igk_io_sys_classes_dir();
-        if (file_exists($file = $dir ."/CGI/Crons/".$name.".php")){
+        if (igk_io_file_exists($file = $dir ."/CGI/Crons/".$name.".php")){
             $fc=function(){
                 extract((array) func_get_arg(1));
                 return include(func_get_arg(0));

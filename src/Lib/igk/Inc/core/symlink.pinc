@@ -12,7 +12,7 @@ $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
 $app_dir."/Lib/igk/igk_framework.php";
 $target = $home."/".ltrim(igk_getr("target") ?? "", "/");
 $dir = $home."/".ltrim(igk_getr("dir") ?? "", "/");
-if (!file_exists($target)){
+if (!igk_io_file_exists($target)){
     $response->die("target is missing ".$target, 500);
 }
 if (igk_getr('force')){

@@ -562,7 +562,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $v_cacherequire = igk_sys_cache_require();
             $tb = array();
             foreach ($s as $k => $v) {
-                if (file_exists($k)) {
+                if (igk_io_file_exists($k)) {
                     // $rk = igk_realpath($k);
                     if ($v_cacherequire) {
                         $tb[] = "./" . igk_uri(igk_io_basepath($k));
@@ -920,7 +920,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      */
     public function addTempFile($file)
     {
-        if (!file_exists($file))
+        if (!igk_io_cache_file_exists($file))
             return !1;
         $v_tfiles = &$this->m_def->getTempFiles();
         if (($g = igk_io_collapse_path($file)) && !in_array($g, $v_tfiles)) {
@@ -936,7 +936,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      */
     public function addInlineStyle($host, string $f)
     {
-        if (!file_exists($f))
+        if (!igk_io_file_exists($f))
             return false;
         $ckey = self::INLINE_STYLE_KEY;
         $tab = $this->getParam($ckey);
@@ -991,12 +991,12 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                 if (is_object($v)) {
                     foreach ($v->Fonts as  $n) {
                         $f = igk_io_basedir($n->File);
-                        if (file_exists($f))
+                        if (igk_io_file_exists($f))
                             @unlink($f);
                     }
                 } else {
                     $f = igk_io_basedir($v);
-                    if (file_exists($f))
+                    if (igk_io_file_exists($f))
                         @unlink($f);
                 }
             }
@@ -1364,7 +1364,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      */
     public function LoadThemeFromFile($file)
     {
-        if (file_exists($file)) {
+        if (igk_io_file_exists($file)) {
             include($file);
         }
     }
@@ -1523,7 +1523,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             }
             if (is_string($f)) {
                 $f = igk_io_currentrelativepath($f);
-                if (file_exists($f) && (unlink($f))) {
+                if (igk_io_file_exists($f) && (unlink($f))) {
                     igk_notifyctrl()->addMsg(__("msg.fontfile.removed"));
                 }
                 $this->ft[$name] = null;

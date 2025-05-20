@@ -34,7 +34,7 @@ final class HtmlFormNode extends HtmlNode
      */
     public function multipart()
     {
-        $this['enctype'] = 'multipart/form-data';
+        $this['enctype'] = IGK_HTML_ENCTYPE;
         return $this;
     }
     ///<summary></summary>

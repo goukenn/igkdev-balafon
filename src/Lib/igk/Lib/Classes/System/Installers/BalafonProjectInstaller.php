@@ -103,7 +103,7 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
         if (empty($core_zip)){
             return;
         }
-        if(!file_exists($zip=$core_zip)){
+        if(!igk_io_file_exists($zip=$core_zip)){
             return;
 		}
         if(!igk_zip_unzip(igk_uri($zip), dirname($dir), "#^".$project_name."#")){

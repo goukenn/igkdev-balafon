@@ -255,7 +255,7 @@ class FormValidation
         $cl = DefaultValidator::class;
         if ($type !== null) {
             $m = StringUtility::CamelClassName($type . "_Validator");
-            if (file_exists($file = __DIR__ . "/{$m}.php")) {
+            if (igk_io_file_exists($file = __DIR__ . "/{$m}.php")) {
                 require_once $file;
             }
             $m = __NAMESPACE__ . "\\" . $m;

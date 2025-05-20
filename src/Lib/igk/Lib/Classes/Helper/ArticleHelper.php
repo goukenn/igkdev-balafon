@@ -27,7 +27,7 @@ class ArticleHelper{
         while(count($g)){
             $ctrl = array_shift($g);
             $farticle = $ctrl->getArticle($article);
-            if (!file_exists($farticle)){
+            if (!igk_io_file_exists($farticle)){
                 $farticle = null;
                 continue;
             }

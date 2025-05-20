@@ -18,7 +18,7 @@ class ServiceController extends NonVisibleControllerBase{
         $services = igk_app()->session->getServices();
         if ($services){
             foreach($services as $v){
-                if (file_exists($fc = igk_io_expand_path($v))){
+                if (igk_io_file_exists($fc = igk_io_expand_path($v))){
                     require_once $fc;
                 }
             }

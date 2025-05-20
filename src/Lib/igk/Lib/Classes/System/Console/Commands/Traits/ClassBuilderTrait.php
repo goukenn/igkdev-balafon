@@ -52,7 +52,7 @@ trait ClassBuilderTrait{
                 $fname .= ".php";
             }
             $file = $dir . "/" . $fname;
-        if (!file_exists($file) || $force) {
+        if (!igk_io_file_exists($file) || $force) {
             $name = igk_str_ns(igk_io_basenamewithoutext($file));
             $author = $this->getAuthor($command);
             $builder = new PHPScriptBuilder();

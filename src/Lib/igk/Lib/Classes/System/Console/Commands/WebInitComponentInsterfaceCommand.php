@@ -18,7 +18,6 @@ use ReflectionFunction;
 //     var $command = "--web:init-component";
 //     var $desc = "init component file interface helper";
 //     var $category = "web";
-
 //     public function exec($command)
 //     { 
 //         $doc = new \IGK\System\IO\File\Php\PhpInterfaceDocument([PhpHelper::class, "HtmlComponentDocumention"]);

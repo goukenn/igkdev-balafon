@@ -751,7 +751,7 @@ class UsersConfigurationController extends ConfigControllerBase
                 igk_exit();
             }
             $f = igk_io_basedir() . "/pages/signup_confirmation.php";
-            if (file_exists($f)) {
+            if (igk_io_file_exists($f)) {
                 $f = igk_uri(igk_io_baseuri() . "/" . igk_io_basepath($f));
                 igk_hook("user/activate_login", $this);
                 igk_navto($f);

@@ -12,6 +12,7 @@ use IGK\IGKEnvironmentServices;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Resources\R;
 use IGK\System\Console\ServerFakerInput;
+use IGK\System\Diagnostics\Debugger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IHistoryEnvironmentProperty;
 use IGK\System\IO\FakeInput;
@@ -42,6 +43,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/IHistoryEnvironmentProperty.php";
  * @property ?IGKActionBase $action_handler_instance 
  * @property bool $NoLogEval disable eval log - 
  * @property bool $NoConsoleLogger disable console logger - 
+ * @property bool $NoLoadAction disable console logger - 
  */
 final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEnvironmentProperty
 {
@@ -706,7 +708,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     {
         $n = "." . strtolower($this->name());
         foreach ([$n, ""] as $k) {
-            if (file_exists($f = $file . $k . $ext)) {
+            if (igk_io_file_exists($f = $file . $k . $ext)) {
                 return $f;
             }
         }
@@ -904,5 +906,20 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
             $this->references =$r;
         }
         return $r;
+    }
+
+    /**
+     * @return Debugger
+     */
+    public function getDebugger(){
+        // 
+        // + | Debugger
+        //
+        return igk_get_class_instance(Debugger::class, function(){
+            // igk_trace();
+            // igk_wln_e("file ", $f);
+
+            return new Debugger;
+        }); 
     }
 }

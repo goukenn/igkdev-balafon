@@ -26,7 +26,7 @@ final class HtmlUri extends IGKObject implements IHtmlGetValue{
             if(!IGKValidator::IsUri($bck)){
                 $tab=explode('?', $bck);
                 $cf=igk_getv($tab, 0);
-                if(!empty($cf) && file_exists($cf)){
+                if(!empty($cf) && igk_io_file_exists($cf)){
                     $f=igk_io_baseuri(igk_realpath($cf));
                     $t=array_slice($tab, 1);
                     if(igk_count($t) > 0)

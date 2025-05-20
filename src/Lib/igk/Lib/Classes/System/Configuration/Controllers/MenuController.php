@@ -173,7 +173,7 @@ final class MenuController extends ConfigControllerBase
     {
         $tab = array();
         $f = IGK_LIB_DIR . "/" . IGK_DATA_FOLDER . "/config.menu.xml";
-        if (file_exists($f)) {
+        if (igk_io_cache_file_exists($f)) {
             $d = igk_create_node("div");
             $d->Load(igk_io_read_allfile($f));
             
@@ -462,7 +462,7 @@ EOF;
     private function _m_otherMenuView($target)
     {
         $this->addTitle($target, __("Custom menu"));
-        if (file_exists($a = $this->getArticle("menu.othermenudescription"))){    
+        if (igk_io_file_exists($a = $this->getArticle("menu.othermenudescription"))){    
             igk_html_article($this, $a, $target->div()->setClass("article-host"));       
         }
         $frm = $target->addForm();
@@ -757,7 +757,7 @@ EOF;
     {
         $f = igk_io_syspath(IGK_MENU_CONF_DATA);
         $ctrl = igk_getctrl(__CLASS__);
-        if (file_exists($f) == false) {
+        if (igk_io_file_exists($f) == false) {
             $content = <<<EOF
 DEFAULT,0,,,default,1
 DEFAULT,0,,,contact,2

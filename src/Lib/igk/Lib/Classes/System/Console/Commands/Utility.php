@@ -63,7 +63,7 @@ abstract class Utility{
     public static function MakeBindFiles($command, $bind, $is_force=false):bool{
         $gen =false;
         foreach($bind as $n=>$c){
-            if ($is_force || !file_exists($n)){
+            if ($is_force || !igk_io_cache_file_exists($n)){
                 $gen = true;
                 if ($c instanceof Closure)
                     $c($n, $command);

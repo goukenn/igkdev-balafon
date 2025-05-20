@@ -8,6 +8,8 @@
 ///<summary>Represente class: IGKAppConfig</summary>
 
 use IGK\System\Configuration\ConfigData;
+use IGK\System\IO\FileSystem;
+
 use function igk_resources_gets as __; 
 /**
 * Represent IGKAppConfig class
@@ -118,12 +120,17 @@ final class IGKAppConfig extends IGKObject {
         $fullpath = null;
         $b = igk_io_basenamewithoutext($file);
         $dir = dirname(igk_io_syspath($file));
+        $v_load = false;
         foreach(["", ".".igk_environment()->name()] as $f){
             $n = $dir."/".$b.$f.".php"; 
-            if (file_exists($n = $dir."/".$b.$f.".php")){        
-                $fullpath=$n;
-                IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries);      
+            if (FileSystem::Exists($n)){        
+                $fullpath=$n; 
+                IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries, true, empty($f));      
+                $v_load = true; 
             } 
+        }
+        if (!$v_load){
+           $this->m_configEntries = array_merge([],include(IGK_LIB_DIR."/.setting.global.pinc"));
         }
  
         // + | load extra configuration files
@@ -138,16 +145,15 @@ final class IGKAppConfig extends IGKObject {
         if ($preload_configs){
             $dir = dirname($fullpath); 
             foreach ($preload_configs as $value) {
-                if (file_exists($file = $dir."/configs.".$value.".php")){                     
+                if (FileSystem::Exists($file = $dir."/configs.".$value.".php")){                     
                     $data = [];
                     IGK\System\Configuration\ConfigUtils::LoadData($file, $data);      
                     $extra = array_merge($extra, $data);
-                    //igk_wln_e("prelead....", $preload_configs, $this->m_configEntries + $extra);
                 };
             }
         }      
         $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries, $extra);
-        // gk_wln_e("finish", $this->m_datas)   ;
+ 
         date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels"));         
       
     }
@@ -158,21 +164,14 @@ final class IGKAppConfig extends IGKObject {
     private function _updateCache(){
         $f=igk_io_syspath(IGK_CACHE_DATAFILE);
         if($this->Data->cache_loaded_file){
-            if(file_exists($f))
-                @unlink($f);
+            @unlink($f);
             igk_notifyctrl()->addMsg(__("Cache file stored"));
         }
-        else{
-            if(file_exists($f)){
-                $c=@unlink($f);
-                $t=@unlink(self::_LibCacheFile());
-                igk_notifyctrl()->addMsg(__("Unlink file: {0}", basename($f)));
-            }
+        else{ 
+            @unlink($f); 
+            igk_notifyctrl()->addMsg(__("Unlink file: {0}", basename($f))); 
         }
-    }
-    private static function _LibCacheFile(){
-        die(__METHOD__);
-    }
+    } 
     ///<summary></summary>
     ///<param name="obj"></param>
     ///<param name="arg"></param>

@@ -330,7 +330,7 @@ implements IDatabaseHost
             igk_exit();
         }
         $f = $this->getDataSchemaFile();
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $s = HtmlReader::LoadFile($f);
             $s->renderXML();
         } else {
@@ -1034,7 +1034,7 @@ EOF;
     {
         igk_dev_wln_e(__FILE__ . "." . __LINE__, "RenderError document");
         $f = igk_io_baseDir("Pages/error_404.html");
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             include($f);
         } else {
             $d = $this->getAppDocument();

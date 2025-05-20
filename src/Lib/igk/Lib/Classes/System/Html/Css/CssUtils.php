@@ -202,7 +202,7 @@ abstract class CssUtils
         $d = $vsystheme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
         $d = $vsystheme->reg_media("(max-width:700px)");
         $v_cache_file = igk_dir(IGK_LIB_DIR . "/.Cache/.css.cache");
-        if (file_exists($v_cache_file)) {
+        if (igk_io_file_exists($v_cache_file, true)) {
             igk_css_include_cache($v_cache_file, $lfile);
         } else {
             $lfile = array_filter(explode(";", $vsystheme->getDef()->getFiles() ?? ""));
@@ -1109,7 +1109,7 @@ abstract class CssUtils
         // + | fix list of theme file accorging to cibling styles file
         foreach (['', $rf . '.'] as $tf) {
             $f = $v_dir . "/" . $tf . $theme_name . CssConstants::THEME_FILE_EXT;;
-            if (file_exists($f)) {
+            if (igk_io_file_exists($f, true)) {
                 igk_include_if_exists(
                     $f,
                     $args

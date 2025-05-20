@@ -10,7 +10,7 @@ use IGK\Helper\StringUtility;
 require __DIR__ . "/igk_framework.php";
 require_once IGK_LIB_CLASSES_DIR . "/Helper/StringUtility.php";
 $b = StringUtility::Dir(__DIR__ . "/bin/balafon");
-if (!file_exists($b)) {
+if (!igk_io_file_exists($b)) {
     die("balafon not found");
 }
 $conf_path = '/Configs';
@@ -23,7 +23,7 @@ if (!igk_is_function_disable("shell_exec")) {
     $install_dir = realpath(getcwd() . "/../../");
     $index = $install_dir . "/index.php";
     $code = 0;
-    if (!file_exists($index)) {
+    if (!igk_io_file_exists($index)) {
         // echo "init configuration : $b \n";
         // echo "--".shell_exec($b ." --init --noconfig --wdir:".getcwd());
         error_log("install site : \n");

@@ -10,6 +10,10 @@
 
 use IGK\Helper\IO;
 
+/**
+ * session file handler 
+ * @package 
+ */
 class IGKSessionFileSaveHandler{
     var $savePath, $sessName;
     ///<summary>.ctr</summary>
@@ -26,8 +30,8 @@ class IGKSessionFileSaveHandler{
     ///<summary></summary>
     ///<param name="id"></param>
     public function destroy($id){
-        if(file_exists($f=$this->_getFile($id))){
-            unlink($f);
+        if($f=$this->_getFile($id)){
+            @unlink($f);
         }
         return true;
     }
@@ -36,7 +40,7 @@ class IGKSessionFileSaveHandler{
     public function gc($maxlifetime){
         foreach(glob($this->savePath.DIRECTORY_SEPARATOR.IGK_SESSION_FILE_PREFIX."*") as $v){
             if(filemtime($v) + $maxlifetime < time() && file_exists($v)){
-                unlink($v);
+                @unlink($v);
             }
         }
     }

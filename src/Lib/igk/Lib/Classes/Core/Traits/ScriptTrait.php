@@ -91,7 +91,7 @@ trait ScriptTrait
                     if (!isset($_autoloads_dir[$dir = dirname($f)])){
 
                         $_autoloads_dir[$dir] = 1;
-                        if (file_exists($fjson = $dir.'/__autoload.json')){
+                        if (igk_io_file_exists($fjson = $dir.'/__autoload.json')){
                             $r = json_decode(file_get_contents($fjson), true);
                             $rg = igk_extract_obj($r, 'required|ignore');
                             $_autoloads_dir[$dir] = $rg; 
@@ -196,7 +196,7 @@ trait ScriptTrait
                         $l = trim($e->value, '"\'');
                         if (!IGKValidator::IsUri($l)) {
                             $cf = Path::CombineAndFlattenPath($dir,  $l);
-                            if (file_exists($cf)) {
+                            if (igk_io_file_exists($cf)) {
                                 $url = $cf;
                             }
                         }

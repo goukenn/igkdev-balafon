@@ -432,7 +432,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     */
     public function selectAllFile($tbname){
         $f=igk_io_applicationdatadir()."/".$tbname.".csv";
-        if(file_exists($f)){
+        if(igk_io_file_exists($f)){
             $r=IGKCSVQueryResult::CreateEmptyResult();
             $r->AppendEntries(self::LoadData($f), $this->m_ctrl->getDataTableInfo());
             return $r;

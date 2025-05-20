@@ -49,7 +49,7 @@ class InstallerHelper
             list($v,$m) = array_slice(explode('.', PHP_VERSION), 0, 2);
             $core = $v.'.'.$m;
             $f = sprintf('/usr/local/php%s/bin/php', $core);
-            if (file_exists($f)){
+            if (igk_io_file_exists($f)){
                 return $f;
             }
 
@@ -59,10 +59,10 @@ class InstallerHelper
 
             if (isset($tab[$core])){
                 $f = $tab[$core];
-                if (file_exists($f))
+                if (igk_io_file_exists($f))
                     return $f;
             }
-            if (file_exists($f = dirname($php_ini).'/bin/php')){
+            if (igk_io_file_exists($f = dirname($php_ini).'/bin/php')){
                 return $f;
             }
         }

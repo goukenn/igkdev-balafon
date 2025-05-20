@@ -61,7 +61,7 @@ class InitClassBuilder
         $gc = 0;
         $extends = implode("\\", array_filter([$ns, "Models\\ModelBase"]));
         $c = $ctrl->getClassesDir() . "/Models/";
-        if (($name != "ModelBase") && file_exists($c . "/ModelBase.php")) {
+        if (($name != "ModelBase") && igk_io_file_exists($c . "/ModelBase.php")) {
             $uses[] =  implode("\\", array_filter([$ns, "Models\\ModelBase"]));
             $gc = 1;
         } else {

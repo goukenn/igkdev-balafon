@@ -120,7 +120,7 @@ class MakeClassCommand extends AppExecCommand
     {
         while (count($extensions) > 0) {
             $q = array_shift($extensions);
-            if (file_exists($cf = $path . $q)) {
+            if (igk_io_file_exists($cf = $path . $q)) {
                 return $cf;
             }
         }

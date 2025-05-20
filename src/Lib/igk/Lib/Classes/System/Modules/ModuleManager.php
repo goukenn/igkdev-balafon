@@ -173,7 +173,7 @@ class ModuleManager
     public static function Bootstrap()
     { 
         $boot_cache = igk_io_cachedir()."/.modules.boot.cache";
-        if (file_exists($boot_cache)){
+        if (igk_io_file_exists($boot_cache)){
             if (($seri = unserialize(file_get_contents($boot_cache)))!==false){
                 foreach($seri as $k){
                     self::_BootModule($k);
@@ -183,7 +183,7 @@ class ModuleManager
         }
 
         $f = ApplicationModules::GetCacheFile();
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $tab = (array)json_decode(file_get_contents($f));
         } else {
             $tab = self::GetInstalledModules();

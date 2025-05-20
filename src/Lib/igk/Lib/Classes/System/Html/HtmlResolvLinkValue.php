@@ -16,7 +16,7 @@ class HtmlResolvLinkValue extends HtmlAttributeValue implements IHtmlGetValue {
             if ( IGKValidator::IsUri($lnk)){
                 return $lnk;
             }
-            if (file_exists($lnk)){
+            if (igk_io_file_exists($lnk, true)){
                 return IGKResourceUriResolver::getInstance()->resolve($lnk);
             }
         }

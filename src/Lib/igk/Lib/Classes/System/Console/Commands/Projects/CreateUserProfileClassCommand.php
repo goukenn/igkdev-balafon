@@ -74,7 +74,7 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		};
 		
 		$c = Path::Combine($ctrl->getClassesDir(), EntryClassResolution::ProjectProfilesClass.'.php');
-		if (!file_exists($c)){
+		if (!igk_io_file_exists($c)){
 			$bind[$c] = function($file)use($ctrl){
 				$c = new PHPScriptBuilder;
 				$c->type('class')
@@ -88,7 +88,7 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		}
 		$c = Path::Combine($ctrl->getClassesDir(), EntryClassResolution::AuthorizationClass.'.php');
 		
-		if (!file_exists($c)){
+		if (!igk_io_file_exists($c)){
 			$bind[$c] = function($file)use($ctrl){
 				$c = new PHPScriptBuilder;
 				$c->type('class')

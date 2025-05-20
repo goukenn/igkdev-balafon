@@ -148,9 +148,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             $t = $ctrl->getTargetNode();
             $t['id'] = null;
             $t['igk-type'] = 'ajx-view'; 
-        }
-
-
+        } 
         if (!$v_main &&  $v_header &&  $this->exists($v_header)) {
             igk_include_view_file($this->controller, $v_header, true, $args);
         }
@@ -165,7 +163,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
     private function _resolveContextFile($file, $bdir)
     {
         $g = array_values(array_filter(explode($this->controller->getViewDir(), $file, 2)));
-        if (file_exists($f = $bdir . $g[0])) {
+        if (igk_io_file_exists($f = $bdir . $g[0], true)) {
             return $f;
         }
         return $file;

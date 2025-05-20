@@ -21,7 +21,7 @@ abstract class CssClassNameDetectorUtils{
      * @return mixed|void 
      */
     public static function DetectFromFile(CssClassNameDetector $detector, string $filename, & $references = null){
-        if (!file_exists($filename)){
+        if (!igk_io_file_exists($filename)){
             return false;
         }
         $ext = igk_io_path_ext($filename);

@@ -20,7 +20,7 @@ trait ModelInitDbExtensionTrait{
      */
     public static function initEntriesFromJsonDataFile(ModelBase $model, string $path, $extraData=null){
         $count = 0;
-        if (file_exists ($file = $path) || file_exists ($file = $model->getController()->getDataDir().'/Database/'.$path)){
+        if (igk_io_file_exists ($file = $path) || igk_io_file_exists ($file = $model->getController()->getDataDir().'/Database/'.$path)){
             if ($data  = json_decode(file_get_contents($file))){
                 foreach($data as $e){
                     $r = (array)$e;

@@ -103,13 +103,13 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
                 $service->LibDir = igk_server()->LIB_DIR;
                 $service->CoreZip = igk_server()->CORE_ZIP;
                 $service->installDir = $install_dir;
-                if (!file_exists($service->CoreZip)) {
+                if (!igk_io_file_exists($service->CoreZip)) {
                     igk_flush_write($r ? "ok" : "failed", "finish");
                     igk_flush_data();
                     igk_exit();
                 }
             } else {
-                if (!empty($zfile) && file_exists($zfile)) {
+                if (!empty($zfile) && igk_io_file_exists($zfile)) {
                     $service->CoreZip = $zfile;
                     $service->BaseDir = $base_dir;
                     $service->LibDir = IGK_LIB_DIR;
@@ -167,7 +167,7 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         igk_sess_write_close(); 
         igk_io_store_ajx_uploaded_data(dirname($file), basename($file));
         $size = 0;
-        if (file_exists($file)  && (($size = @filesize($file)) == 0)) {
+        if (igk_io_file_exists($file)  && (($size = @filesize($file)) == 0)) {
             igk_ilog(static::class . ":no data to store : " . $file);
             igk_set_header(500, "file not set");
         } else {

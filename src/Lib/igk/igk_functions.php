@@ -760,7 +760,7 @@ function igk_bind_sitemap()
             // + | Render xml file 
             $uri = $ctrl->getAppUri();
             $hash = sha1($uri);
-            if (file_exists($file = $ctrl->getDeclaredDir() . "/.Caches/.{$hash}.sitemap.cache")) {
+            if (igk_io_file_exists($file = $ctrl->getDeclaredDir() . "/.Caches/.{$hash}.sitemap.cache")) {
                 header("Content-Type: application/xml");
                 include($file);
                 igk_exit();
@@ -802,10 +802,10 @@ function igk_cache()
 ///<param name="fc" default="null"></param>
 /**
  * Represent igk_cache_array_content function
- * @param mixed $m 
+ * @param string $m 
  * @param mixed $fc 
  */
-function igk_cache_array_content($m, $fc = null)
+function igk_cache_array_content(string $m, $fc = null)
 {
     return \IGK\System\IO\File\PHPScriptBuilderUtility::GetArrayReturn($m, $fc);
 }
@@ -910,7 +910,7 @@ function igk_cache_handle($uri = null)
     if ($uri == null)
         $uri = igk_server()->REQUEST_URI;
     $fs = IGKCaches::page_filesystem();
-    if (file_exists($file = $fs->getCacheFilePath($uri))) {
+    if (igk_io_file_exists($file = $fs->getCacheFilePath($uri))) {
         ob_start();
         readfile($file);
         (new IGK\System\Http\WebResponse(ob_get_clean()))->output();
@@ -1627,7 +1627,7 @@ function igk_create_module($path)
     if (isset($g[$path]))
         return 0;
     $dir = IGK_LIB_DIR . "/Modules/{$path}";
-    if (file_exists($dir)) {
+    if (igk_io_file_exists($dir)) {
         return 0;
     }
     if (!IO::CreateDir($dir))
@@ -2226,7 +2226,7 @@ function igk_css_bind_file(HtmlDocTheme $theme, ?BaseController $ctrl, ?string $
         $file = Path::Combine($ctrl->getStylesDir(), $layout->defaultThemeStyle);
         $autoload = true;
     }
-    if (!file_exists($file)) {
+    if (!igk_io_file_exists($file, true)) {
         igk_ilog('Bind file failed ' . $file);
         return;
     }
@@ -2272,7 +2272,7 @@ function igk_css_bind_sys_global_files($theme = null, $bindfile = 1)
     $theme = $theme ?? $systheme ?? igk_die("can't bind global files");
     $tab = igk_get_env(IGK_ENV_CSS_GLOBAL_CONF_FILES) ?? array();
     foreach (array_keys($tab) as $d) {
-        if (file_exists($d)) {
+        if (igk_io_file_exists($d)) {
             igk_css_bind_file($theme, null, $d);
         }
     }
@@ -2298,7 +2298,7 @@ function igk_css_bind_theme_file(IGKHtmlDoc $doc, $th, $files)
         $tab = explode('|', $d);
         list($file, $ctrl) = igk_count($tab) >= 2 ? $tab : [$tab[0], null];
 
-        if (!isset($v_lfiles[$file]) && !empty($d) && file_exists($file)) {
+        if (!isset($v_lfiles[$file]) && !empty($d) && igk_io_file_exists($file)) {
             if ($ctrl) {
                 $ctrl = igk_getctrl($ctrl, false);
             }
@@ -2325,7 +2325,7 @@ function igk_css_bind_theme_files(HtmlDocTheme $theme, ?string $files = null)
         if (strpos($d, '|') === false)
             $d .= "|";
         list($file, $ctrl) = explode('|', $d);
-        if (file_exists($file)) {
+        if (igk_io_file_exists($file, true)) {
             $ctrl = !empty($ctrl) ? igk_getctrl($ctrl, false) : null;
             igk_css_bind_file($theme, $ctrl, $file);
         } else {
@@ -2345,7 +2345,7 @@ function igk_css_bind_wuistyle($document, $ctrl, $type)
     // }
     // igk_wln("document : , ", $document);
     $f = igk_realpath($ctrl->getStylesDir() . '/' . $type . '.' . IGK_DEFAULT_STYLE_EXT);
-    if (!file_exists($f))
+    if (!igk_io_cache_file_exists($f))
         return 0;
     igk_css_bind_wuistyle_file($document, $f);
     return 1;
@@ -2565,7 +2565,7 @@ function igk_css_get_fontdef($name, $definition, $lineseparator = IGK_STR_EMPTY)
     if ($name && $definition) {
         if (is_string($v)) {
             $fdd = $v;
-            if (file_exists($fdd)) {
+            if (igk_io_file_exists($fdd)) {
                 $fresolv = IGKResourceUriResolver::getInstance()->resolve($fdd);
                 $format = "truetype";
                 $f .= "font-family: \"" . $name . "\"; ";
@@ -2591,11 +2591,11 @@ function igk_css_get_fontdef($name, $definition, $lineseparator = IGK_STR_EMPTY)
                     }
                     $ok = 0;
                     $fdd = "";
-                    if (file_exists($t->File)) {
+                    if (igk_io_file_exists($t->File)) {
                         $ok = 1;
                         $fdd = igk_io_basepath($t->File);
                     } else {
-                        $fdd = ($ok = file_exists(igk_io_syspath($t->File))) ? $t->File : null;
+                        $fdd = ($ok = igk_io_file_exists(igk_io_syspath($t->File))) ? $t->File : null;
                     }
                     if ($ok) {
                         $f .= "src: url('" . igk_io_baseuri() . "/" . igk_uri($fdd) . "') format(\"{$t->format}\");";
@@ -3020,7 +3020,7 @@ function igk_css_load_theme($th = null)
     $r = 0;
     foreach ($env_path as $d) {
         $f = igk_dir($d . "/" . IGK_RES_FOLDER . "/Themes/{$gt}.theme");
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f, true)) {
             $r = 1;
             break;
         }
@@ -3136,7 +3136,7 @@ function igk_css_reg_global_style_file(
             return;
         }
     }
-    if (file_exists($s) && preg_match("/(pgcss|css|pcss)/", igk_io_path_ext($s))) {
+    if (igk_io_file_exists($s) && preg_match("/(pgcss|css|pcss)/", igk_io_path_ext($s))) {
         $tkey = IGK_ENV_CSS_GLOBAL_CONF_FILES;
         $tab = igk_get_env($tkey, array());
         $tab[$s] = 1;
@@ -3209,7 +3209,7 @@ function igk_css_reg_reset($theme = null)
  */
 function igk_css_reg_svg_symbol_files($file)
 {
-    if (!file_exists($file))
+    if (!igk_io_file_exists($file))
         return;
     igk_app()->getDoc()->getSysTheme()->def->regSymbol($file);
 }
@@ -3329,7 +3329,7 @@ function igk_css_render_balafon_style(IGKHtmlDoc $doc, bool $no_systheme = false
     $t = ($doc === null) || igk_configs()->UseCssCache;
     igk_set_env(__FUNCTION__, 1);
     if ($t) {
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $o .= IO::ReadAllText($f);
         } else {
             $o = "/*balafon: doc or no-cache available*/" . IGK_LF;
@@ -3949,7 +3949,7 @@ function igk_ctrl_include_content($ctrl, $file, $t, $params, $source = null, $di
         if ($dir == null)
             $dir = dirname($file);
         $f = $dir . "/{$c}.phtml";
-        if (($f != $file) && file_exists($f)) {
+        if (($f != $file) && igk_io_file_exists($f)) {
             $dt = array_slice($params, 1);
             igk_ctrl_include_view_file($ctrl, $source, $t->div(), $f, $dt);
         } else {
@@ -4060,7 +4060,7 @@ function igk_ctrl_private_folder($ctrl, $u)
 function igk_ctrl_render_doc($ctrl, $view, $param = null, $exit = 1)
 {
     $f = $ctrl->getViewFile($view);
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         $ctrl->getView($view, false, $param);
         igk_render_node($ctrl->getTargetNode(), igk_get_document($ctrl, true));
         if ($exit)
@@ -4098,7 +4098,7 @@ function igk_ctrl_view($ctrl, $targetnode, $requestedview = IGK_DEFAULT_VIEW, $p
         $ctrl->setCurrentView($requestedview, true, null, $params);
     } else {
         $f = $ctrl->getViewFile($requestedview);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             igk_set_env(IGK_ENV_CTRL_VIEW, $viewmode);
             $ctrl->getView($requestedview, false, $params);
         }
@@ -4162,7 +4162,7 @@ function igk_ctrl_zone($filepath)
  */
 function igk_ctrl_zone_init($filepath)
 {
-    if (!file_exists($filepath))
+    if (!igk_io_file_exists($filepath, true))
         return null;
     $b = igk_get_env("sys://ctrl/zone/files");
     if (!$b) {
@@ -5292,7 +5292,7 @@ function igk_db_init_dataschema($ctrl, $dataschema, $adapter)
  */
 function igk_db_load_data_and_entries_schemas($file, $ctrl = null)
 {
-    if (file_exists($file)) {
+    if (igk_io_file_exists($file)) {
         $d = HtmlReader::LoadXMLFile($file);
         return igk_db_load_data_and_entries_schemas_node($d, $ctrl);
     }
@@ -5340,7 +5340,7 @@ function igk_db_load_data_and_entries_schemas_node($d, $ctrl = null)
 function igk_db_load_data_entries_schemas($file, $ctrl)
 {
     $tab = array();
-    if (file_exists($file)) {
+    if (igk_io_file_exists($file)) {
         $d = HtmlReader::LoadXMLFile($file);
         $n = igk_getv($d->getElementsByTagName(IGK_SCHEMA_TAGNAME), 0);
         $n = $n ? igk_getv($n->getElementsByTagName(IGK_ENTRIES_TAGNAME), 0) : null;
@@ -6429,7 +6429,7 @@ function igk_debuggerview($die = true)
 function igk_delete_module($path)
 {
     $dir = igk_get_module_dir() . "/{$path}";
-    if (!file_exists($dir)) {
+    if (!igk_io_file_exists($dir)) {
         return 0;
     }
     $r = 1;
@@ -6700,7 +6700,7 @@ function igk_doc_add_ie_meta_compatibility($doc)
  */
 function igk_doc_add_lib_script($doc, $script, $tag, $global = true)
 {
-    if (file_exists($script))
+    if (igk_io_file_exists($script))
         return $doc->addScript($script, $tag, $global);
     return null;
 }
@@ -6717,7 +6717,7 @@ function igk_doc_add_tempscript($doc, $script, $onlyonce = 1, $attr = null)
             return $c[$script];
         $js = igk_create_notagnode();
         $o = null;
-        if (file_exists($script)) {
+        if (igk_io_file_exists($script)) {
             $o = $js->script()->setContent(igk_io_read_allfile($script));
             $o->deactivate("defer");
         } else {
@@ -6784,7 +6784,7 @@ function igk_doc_load_temp_script($doc, $folder, $tag = null, $strict = 0)
         else
             igk_die("tagname is required");
         if ($is_prod) {
-            if ($folder && !file_exists($cachegen = $cachedir . "/.cache")) {
+            if ($folder && !igk_io_file_exists($cachegen = $cachedir . "/.cache")) {
                 igk_cache_gen_cache($folder, $cachedir, $mergescript);
                 igk_io_w2file($cachegen, json_encode((object)array("date" => date("Ymd"), "tag" => $tag)));
                 igk_hook(IGKEvents::HOOK_CACHE_RES_CREATED, [
@@ -6807,7 +6807,7 @@ function igk_doc_load_temp_script($doc, $folder, $tag = null, $strict = 0)
             } else
                 $uid = (($tag) ? ($tag . "-") : '') . uniqid();
             $f = igk_uri(igk_io_cacheddist_jsdir() . "/{$uid}.js");
-            if (file_exists($f)) {
+            if (igk_io_file_exists($f)) {
                 $doc->addTempScript($f, 1)->activate("defer");
             } else {
                 $u = "!@res/Scripts/" . $uid;
@@ -6885,7 +6885,7 @@ function igk_download_content($name, $size, $content, $mimeType = null, $encodin
  */
 function igk_download_file($name, $filename, $mimeType = null, $encoding = "binary", $exit = 1)
 {
-    if (file_exists($filename)) {
+    if (igk_io_file_exists($filename)) {
         $size = @filesize($filename);
         igk_download_content($name, $size, IO::ReadAllText($filename), $mimeType, $encoding, $exit);
     }
@@ -7081,12 +7081,12 @@ function igk_error_def_error($msg, $code, $msg_key)
 function igk_error_page404($msg)
 {
     $file = IGK_LIB_DIR . "/Views/error/404.phtml";
-    if (file_exists($file)) {
+    if (igk_io_file_exists($file)) {
         $title = "Error - " . IGKErrors::ConfigMisConfiguration;
         $headers = "";
         $trace_css = "";
         $buri = igk_io_baseuri();
-        if (file_exists($d = igk_io_resourcesdir() . "/Fonts/google/Roboto100,200,400,700,900.css")) {
+        if (igk_io_file_exists($d = igk_io_resourcesdir() . "/Fonts/google/Roboto100,200,400,700,900.css")) {
             $headers .= "<link rel=\"stylesheet\" href='" . igk_uri(igk_io_baseuri() . "/" . igk_io_baserelativepath($d)) . "'/>";
             $trace_css .= "body h1{ font-family: 'Roboto', arial, sans-serif; font-weight: 100; }";
         } else {
@@ -7332,7 +7332,7 @@ function igk_file_chmod($dirorfile, $mode, $recursif = false)
                 $f = igk_dir($dirorfile . "/" . $r);
                 if (is_dir($f)) {
                     $out = igk_file_chmod($f, $mode, $recursif) && $out;
-                } else if (file_exists($f)) {
+                } else if (igk_io_file_exists($f)) {
                     if (!@chmod($f, $mode))
                         $out = false;
                 }
@@ -8925,7 +8925,7 @@ function igk_get_image_uri($options, $src)
         $r = new HtmlNode("img");
         if ($options->Attachement) {
             $d = null;
-            if (file_exists($lnk)) {
+            if (igk_io_file_exists($lnk)) {
                 $d = $options->Attachement->attachFile(igk_realpath($lnk), "images/pictures", null);
             } else {
                 $q = igk_curl_post_uri($lnk);
@@ -8951,7 +8951,7 @@ function igk_get_image_uri($options, $src)
             $s = $k;
         } else {
             $f = igk_getv(explode("?", $lnk), 0);
-            if (file_exists($f)) {
+            if (igk_io_file_exists($f)) {
                 $rf = igk_realpath($f);
                 if (igk_is_ajx_demand()) {
                     $s = igk_io_baseuri() . "/" . igk_uri(igk_io_basepath($rf));
@@ -8961,7 +8961,7 @@ function igk_get_image_uri($options, $src)
             } else {
                 $s = "";
                 $bf = igk_uri(igk_io_currentrelativepath($f));
-                if (!file_exists($bf)) {
+                if (!igk_io_file_exists($bf)) {
                     $bf = null;
                 }
                 $s = $bf;
@@ -10507,7 +10507,7 @@ function igk_html_add_balafonjsscriptfile($doc, $file, $temp = 0)
     $b = null;
     if (isset($g[$file])) {
         $b = $g[$file];
-    } else if (file_exists($file)) {
+    } else if (igk_io_file_exists($file)) {
         $b = igk_create_node("balafonJS");
         if ($temp) {
             $host->add(new HtmlSingleNodeViewerNode($b, igk_create_func_callback("igk_rm_balafonscriptfile_callback", array("file" => $file, "doc" => $doc))));
@@ -10551,7 +10551,7 @@ function igk_html_add_doc_script($doc, $file, $temp = 0)
     $b = null;
     if (isset($g[$file])) {
         $b = $g[$file];
-    } else if (file_exists($file)) {
+    } else if (igk_io_file_exists($file)) {
         $b = igk_create_node("script");
         if ($temp) {
             $host->add(new HtmlSingleNodeViewerNode($b, igk_create_func_callback("igk_rm_balafonscriptfile_callback", array("file" => $file, "doc" => $doc))));
@@ -10605,7 +10605,7 @@ function igk_html_article_bck(BaseController $ctrl, $name, $target, $data = null
     $f = $name;
     $n = null;
     $d = dirname($name);
-    if (!file_exists($f)) {
+    if (!igk_io_file_exists($f)) {
         if (!empty($d) && ($d != ".") && is_dir($d) || (strpos($d, igk_io_basedir()) === 0)) {
             $f = $ctrl->getArticleInDir(basename($name), $d);
             if (!is_dir($d) && !IO::CreateDir($d)) {
@@ -10613,13 +10613,13 @@ function igk_html_article_bck(BaseController $ctrl, $name, $target, $data = null
                 return;
             }
         } else {
-            if (!file_exists($name) && ($ctrl != null))
+            if (!igk_io_file_exists($name) && ($ctrl != null))
                 $f = $ctrl->getArticle($name);
             else
                 return;
         }
     }
-    if ($forcecreation && !file_exists($f)) {
+    if ($forcecreation && !igk_io_file_exists($f)) {
         igk_io_save_file_as_utf8_wbom($f, IGK_STR_EMPTY, true);
     }
     if (($target == null) && ($tagname == null)) {
@@ -10653,7 +10653,7 @@ function igk_html_article(BaseController $ctrl, $name, $target, ?array $data = n
     $f = $name;
     $n = null;
     $d = dirname($name);
-    if (!file_exists($f)) {
+    if (!igk_io_cache_file_exists($f)) {
         if (!empty($d) && ($d != ".") && is_dir($d) || (strpos($d, igk_io_basedir()) === 0)) {
             $f = $ctrl->getArticleInDir(basename($name), $d);
             if (!is_dir($d) && !IO::CreateDir($d)) {
@@ -10661,13 +10661,13 @@ function igk_html_article(BaseController $ctrl, $name, $target, ?array $data = n
                 return;
             }
         } else {
-            if (!file_exists($name) && ($ctrl != null))
+            if (!igk_io_cache_file_exists($name) && ($ctrl != null))
                 $f = $ctrl->getArticle($name);
             else
                 return;
         }
     }
-    if ($forcecreation && !file_exists($f)) {
+    if ($forcecreation && !igk_io_cache_file_exists($f)) {
         igk_io_save_file_as_utf8_wbom($f, IGK_STR_EMPTY, true);
     }
     if (($target == null) && ($tagname == null)) {
@@ -10691,7 +10691,7 @@ function igk_html_article(BaseController $ctrl, $name, $target, ?array $data = n
     }
     $ldcontext = igk_createloading_context($ctrl, $data);
     $ldcontext->engineNode = $n;
-    if (!is_dir($f) && file_exists($f) && ($content = igk_io_read_allfile($f))) {
+    if (!is_dir($f) && igk_io_cache_file_exists($f) && ($content = igk_io_read_allfile($f))) {
         igk_html_article_bind_content(
             $n,
             $content,
@@ -10927,10 +10927,10 @@ function igk_html_bind_target($ctrl, $targetnode, $textcontent, $entries = null)
 function igk_html_binddata($ctrl, $targetnode, $templateArticleName, $entries = null, $rendertarget = true, $createIfNoExists = true, $showAdminOption = 1)
 {
     $d = igk_create_node("div");
-    if (!file_exists($templateArticleName)) {
+    if (!igk_io_file_exists($templateArticleName)) {
         if ($ctrl)
             $templateArticleName = $ctrl->getArticle($templateArticleName);
-        if (!file_exists($templateArticleName)) {
+        if (!igk_io_file_exists($templateArticleName)) {
             if (!$createIfNoExists)
                 return;
             IO::WriteToFileAsUTF8WBOM($templateArticleName, "", true);
@@ -11333,7 +11333,7 @@ function igk_html_ctrl_view_config($ctrl, $target, $titlekey, $descfile = null)
 {
     $box = $target->addPanelBox();
     igk_html_add_title($box, $titlekey);
-    if ($descfile && file_exists($f = $ctrl->getArticle($descfile))) {
+    if ($descfile && igk_io_cache_file_exists($f = $ctrl->getArticle($descfile))) {
         igk_html_article($ctrl, $f, $box->div());
     }
     return $box;
@@ -12161,13 +12161,13 @@ function igk_html_get_system_uri($link, $option = null, $webapp = null)
                 return igk_io_baseuri() . "/" . $path;
             }
         }
-        if (file_exists(Path::Combine($bdir, $link))) {
+        if (igk_io_file_exists(Path::Combine($bdir, $link))) {
             return $link;
         }
 
         $s = "";
         $k = explode("?", $link);
-        if (file_exists($k[0])) {
+        if (igk_io_file_exists($k[0])) {
             $s = igk_io_basepath($k[0]);
 
             if (count($k) > 1)
@@ -12797,7 +12797,7 @@ function igk_html_reset_func_param()
 function igk_html_resolv_img_uri($path)
 {
     $f = igk_io_currentrelativepath($path);
-    if (!empty($f) && file_exists($f)) {
+    if (!empty($f) && igk_io_file_exists($f)) {
         $r = igk_realpath($f);
         $s = igk_io_basepath($f);
         if ($s == $r) {
@@ -13208,7 +13208,7 @@ function igk_html_use($p)
         $presets = [];
     if (!isset($presets[$p])) {
         $f = IGK_LIB_DIR . '/Data/presets/' . $p . '.html';
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $presets[$p] = file_get_contents($f);
         }
     }
@@ -13336,7 +13336,7 @@ function igk_in_article($ctrl, $name, $target, $tagname = null)
     if ($target == null)
         igk_die("igk_in_article::target is null");
     $f = $ctrl->getArticle($name);
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         $uri = igk_io_baseuri() . "/" . igk_io_basepath($f);
         if ($tagname == null) {
             $target->Load(igk_io_read_allfile($f));
@@ -13377,7 +13377,7 @@ function igk_include($file, $params = null, $target = null)
         $fc = function () use ($args, $file) {
             $args["context"] = "igk_include::callback";
             extract($args);
-            if (file_exists($file)) {
+            if (igk_io_file_exists($file)) {
                 return include($file);
             }
         };
@@ -13386,7 +13386,7 @@ function igk_include($file, $params = null, $target = null)
     } else {
         $args["context"] = "igk_include::inline";
         extract($args);
-        if (file_exists($file)) {
+        if (igk_io_file_exists($file)) {
             return include($file);
         }
     }
@@ -13394,11 +13394,10 @@ function igk_include($file, $params = null, $target = null)
 ///<summary>include file</summary>
 /**
  * include file
+ * @param string $file file to include 
  */
-function igk_include_file($file, $args = null)
+function igk_include_file(string $file, $args = null)
 {
-    if (!file_exists($file))
-        return;
     if ($args) {
         foreach ($args as $k => $v) {
             $$k = &$args[$k];
@@ -13413,7 +13412,7 @@ function igk_include_file($file, $args = null)
  */
 function igk_include_if_exists()
 {
-    if (!file_exists(func_get_arg(0)))
+    if (!igk_io_file_exists(func_get_arg(0), true))
         return null;
     if ((func_num_args() > 1) && func_get_arg(1))
         extract(func_get_arg(1));
@@ -13444,7 +13443,7 @@ function igk_include_on_global($f, $g = null)
  */
 function igk_include_script($file, $namespace = null, $extra = null)
 {
-    if (is_string($file) && !file_exists($file))
+    if (is_string($file) && !igk_io_file_exists($file))
         return;
     $n = "";
     $l = igk_get_env("sys://include/init") ?? igk_init_include();
@@ -13517,7 +13516,7 @@ function igk_include_utils()
  */
 function igk_include_view($ctrl, $target, $file, $args = null, $create = false)
 {
-    if ($f = file_exists($file) ? $file : $ctrl->getViewFile($file)) {
+    if ($f = igk_io_file_exists($file) ? $file : $ctrl->getViewFile($file)) {
         $s_args = igk_get_view_args();
         if ($s_args && !igk_is_included_view($f)) {
             $id = spl_object_hash($ctrl);
@@ -13925,7 +13924,7 @@ function igk_invoke_pipe($name, $value, $options = null)
 function igk_invoke_script($f, $args = null)
 {
     $f = igk_dir($f);
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         $o = igk_get_path_exec(igk_io_path_ext($f)) . " " . $f;
         if ($args)
             $o .= " " . $args;
@@ -13968,7 +13967,7 @@ function igk_io_access()
  */
 function igk_io_access_path($path)
 {
-    if (file_exists($path)) {
+    if (igk_io_file_exists($path, true)) {
         return igk_io_expand_path(igk_io_collapse_path($path));
     }
     return null;
@@ -13983,7 +13982,7 @@ function igk_io_access_path($path)
  */
 function igk_io_append_to_file($file, $data)
 {
-    $r = @fopen($file, file_exists($file) ? "a+" : "w+");
+    $r = @fopen($file, igk_io_file_exists($file) ? "a+" : "w+");
     if ($r) {
         fwrite($r, $data);
         fclose($r);
@@ -14434,7 +14433,7 @@ function igk_io_dirs($dir, $match = IGK_ALL_REGEX, $recursive = true, $ignoredna
  */
 function igk_io_dispatch_file($dir, $params, $callback = null, $cacheout = 3600)
 {
-    if ((igk_count($params) > 0) && (file_exists($f = $dir . "/" . implode("/", $params))) && (!$callback || $callback($f))) {
+    if ((igk_count($params) > 0) && (igk_io_file_exists($f = $dir . "/" . implode("/", $params))) && (!$callback || $callback($f))) {
         igk_header_content_file($f);
         igk_header_cache_output($cacheout);
         igk_zip_output(igk_io_read_allfile($f));
@@ -14631,7 +14630,7 @@ function igk_io_get_article_file($name, $dir, $lang = null)
         $file = $dir . "/" . $name;
     else {
         $file = $dir . "/" . $name . "." . strtolower($lang) . "." . IGK_DEFAULT_VIEW_EXT;
-        if (!file_exists($file) && file_exists($cf = $dir . "/" . $name . "." . IGK_DEFAULT_VIEW_EXT)) {
+        if (!igk_io_file_exists($file) && igk_io_file_exists($cf = $dir . "/" . $name . "." . IGK_DEFAULT_VIEW_EXT)) {
             $file = $cf;
         }
     }
@@ -14994,7 +14993,7 @@ function igk_io_is_ctrl_uri($uri = null, $file = 1, &$data = null)
  */
 function igk_io_is_file($f)
 {
-    return file_exists($f) && !is_dir($f);
+    return igk_io_file_exists($f) && !is_dir($f);
 }
 ///<summary> check if full path</summary>
 ///<remark>path mus exists</remark>
@@ -15070,7 +15069,7 @@ function igk_io_locate_view_file($ctrl, &$c, &$p)
                     $h .= "." . IGK_DEFAULT_VIEW_EXT;
                 }
             }
-            if (file_exists($d . "/" . $h)) {
+            if (igk_io_file_exists($d . "/" . $h)) {
                 $c = $c . "/" . $p;
                 $p = array();
             }
@@ -15087,7 +15086,7 @@ function igk_io_locate_view_file($ctrl, &$c, &$p)
                     if (!preg_match("/\." . IGK_VIEW_FILE_EXT_REGEX . "/i", $tfile)) {
                         $tfile .= "." . IGK_DEFAULT_VIEW_EXT;
                     }
-                    if (file_exists($tfile)) {
+                    if (igk_io_file_exists($tfile)) {
                         $cdir .= "/" . $d;
                         $ftype = 1;
                         $ctype++;
@@ -15129,7 +15128,7 @@ function igk_io_moveuploadedfiletodatafolder($name, $dir, $pattern = "pics_%d%")
     $img = igk_getv($_FILES, $name);
     if ($img) {
         if (IO::CreateDir($dir)) {
-            if (!file_exists($dir . "/.htaccess")) {
+            if (!igk_io_file_exists($dir . "/.htaccess")) {
                 IO::WriteToFile($dir . "/.htaccess", "allow from all");
             }
             for ($i = 0; $i < igk_count($img["name"]); $i++) {
@@ -15234,7 +15233,7 @@ function igk_io_query_request_uri()
  */
 function igk_io_read_header($f, $endpattern)
 {
-    if (!file_exists($f))
+    if (!igk_io_file_exists($f))
         return false;
     $hf = fopen($f, "r");
     $s = IGK_STR_EMPTY;
@@ -15287,7 +15286,7 @@ function igk_io_remove_bom($txt)
  */
 function igk_io_removeemptyline($file)
 {
-    if (!file_exists($file))
+    if (!igk_io_file_exists($file))
         return;
     $f = IO::ReadAllText($file);
     $o = igk_str_remove_empty_line($f);
@@ -15305,10 +15304,10 @@ function igk_io_render_res_file($dir, $query, $second = 3600)
         $ext = igk_getv(["ejson" => "json"], $ext, $ext);
         $rwf = igk_getr("rwf");
         $c1 = $dir . "/res." . $t . "." . $ext;
-        if (!file_exists($c1)) {
+        if (!igk_io_file_exists($c1)) {
             $c1 = igk_io_basedir() . dirname($query) . "/res." . $t . "." . $ext;
         }
-        if (file_exists($c1)) {
+        if (igk_io_file_exists($c1)) {
             igk_clear_header_list();
             igk_header_set_contenttype($ext);
             igk_header_cache_output($second);
@@ -15553,7 +15552,7 @@ function igk_io_save_posted_file($id, $folder, $callback)
     if (($f["error"] == 0) && igk_qr_confirm()) {
         if (IO::CreateDir($folder)) {
             $destination = igk_dir($folder . "/" . $f["name"]);
-            if (!file_exists($destination)) {
+            if (!igk_io_file_exists($destination)) {
                 if (!igk_io_move_uploaded_file($f["tmp_name"], $destination)) {
                     igk_notifyctrl()->addError("move upload file failed");
                 } else {
@@ -15760,7 +15759,7 @@ function igk_io_sys_test_classes_dir()
  */
 function igk_io_to_uri($f, $exist = 1)
 {
-    if (file_exists($f) || !$exist) {
+    if (igk_io_file_exists($f) || !$exist) {
         return "file:////" . igk_uri(igk_realpath($f));
     }
     return 0;
@@ -15818,7 +15817,7 @@ function igk_io_unix_path($p)
  */
 function igk_io_unlink($file)
 {
-    if (file_exists($file)) {
+    if (igk_io_file_exists($file)) {
         return @unlink($file);
     }
     return 0;
@@ -16321,7 +16320,7 @@ function igk_js_dist_scripts($files)
         }
     };
     foreach ($files as $file) {
-        if (!file_exists($file))
+        if (!igk_io_file_exists($file))
             continue;
         ob_start();
         $c = $mergescallback($file, igk_io_basepath($file));
@@ -16498,7 +16497,7 @@ function igk_js_load_script(IGKHtmlDoc $doc, $dirname, $tag = 'priv', $regtype =
 
     $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($dirname);
 
-    if (file_exists($cache_path)) {
+    if (igk_io_file_exists($cache_path)) {
         $data = include($cache_path);
         foreach ($data as $f => $tag) {
             $f = igk_io_expand_path($f);
@@ -16800,7 +16799,7 @@ function igk_js_push_history_ajx($uri, $data = null)
  */
 function igk_js_reg_global_script($u)
 {
-    if (file_exists($u)) {
+    if (igk_io_file_exists($u)) {
         $tab = igk_get_env(IGK_ENV_GLOBAL_SCRIPT_KEY, array());
         $tab[igk_realpath($u)] = 1;
         igk_set_env(IGK_ENV_GLOBAL_SCRIPT_KEY, $tab);
@@ -16972,7 +16971,7 @@ function igk_kill_all_sessions($exclude = null, &$outtab = null)
 function igk_kill_trace()
 {
     $file = igk_io_basedir() . "/Data/.trace";
-    if (file_exists($file))
+    if (igk_io_file_exists($file))
         unlink($file);
 }
 ///<summary></summary>
@@ -17018,7 +17017,7 @@ function igk_load_classes($tab = [])
                 $f = substr($f, 4);
             }
             foreach ($resolv_class as $version) {
-                if (file_exists($cf = igk_uri($cdir . "/" . $f . "{$version}.php")) || (!empty($version) && file_exists($cf = igk_uri($cdir . "/{$version}/" . $f . "php")))) {
+                if (igk_io_file_exists($cf = igk_uri($cdir . "/" . $f . "{$version}.php")) || (!empty($version) && igk_io_file_exists($cf = igk_uri($cdir . "/{$version}/" . $f . "php")))) {
                     require_once($cf);
                     if (!class_exists($n, false) && !interface_exists($n, false) && !trait_exists($n, false)) {
                         igk_trace();
@@ -17075,8 +17074,9 @@ function igk_log_append($file, $msg, $tag = IGK_LOG_SYS)
     if ($tag) {
         $s .= "[{$tag}] - ";
     }
+
     if ($query = igk_server()->REQUEST_URI)
-        $s .= " " . $query . " ";
+        $s .= " " . $query . " "; 
     igk_set_env("igk_log_var_dump", "text");
     if ($msg && is_array($msg) || is_object($msg)) {
         $msg = (function () use ($msg) {
@@ -17095,7 +17095,7 @@ function igk_log_append($file, $msg, $tag = IGK_LOG_SYS)
     }
     igk_set_env("igk_log_var_dump", null);
     $s .= $msg . "\r" . IGK_LF;
-    if (!file_exists($file)) {
+    if (!file_exists($file)) { // read file not caching
         igk_io_save_file_as_utf8_wbom($file, $s, true, 0775);
     } else {
         if ($r = @fopen($file, "a+")) {
@@ -17252,7 +17252,7 @@ function igk_mail_stylesheet()
     $s = HtmlNode::CreateWebNode("style");
     $s["type"] = "text/css";
     $f = igk_io_currentrelativepath(igk_sys_getconfig("mail_style_sheet", igk_io_basepath(igk_dir(IGK_LIB_DIR . "/Default/" . IGK_STYLE_FOLDER . "/mail.css"))));
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         $v_s = igk_str_remove_lines(IO::ReadAllText($f));
         $v_s = igk_css_treat($v_s, true, igk_app()->getDoc()->getTheme());
         $s->setContent($v_s);
@@ -17390,7 +17390,7 @@ function igk_navto($uri, ?int $headerStatus = null)
         else {
             $uri = "/" . ltrim($uri, '/');
         }
-    }
+    } 
     header("Location: " . $uri);
     igk_exit();
 }
@@ -18162,13 +18162,13 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
                 $path = implode("/", $param);
                 $file = igk_dir($dir . "/" . $path);
                 if (!is_dir($file)) {
-                    if (preg_match($ext_regex, $file) && file_exists($file)) {
+                    if (preg_match($ext_regex, $file) && igk_io_cache_file_exists($file)) {
                         $found = true;
                         $c .= "/" . $path;
                         $param = [];
                     } else {
                         foreach ($exts as $ext) {
-                            if (file_exists($cf = $file . $ext)) {
+                            if (igk_io_cache_file_exists($cf = $file . $ext)) {
                                 $c .= "/" . $path;
                                 $param = [];
                                 $found = true;
@@ -18178,7 +18178,7 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
                     }
                 } else {
                     $file = rtrim($file, "/");
-                    if (file_exists($cf = $file . "/" . IGK_DEFAULT_VIEW_FILE)) {
+                    if (igk_io_cache_file_exists($cf = $file . "/" . IGK_DEFAULT_VIEW_FILE)) {
                         $c .= rtrim("/" . $path, "/");
                         $param = [];
                         $found = true;
@@ -18252,7 +18252,7 @@ function igk_php_check_and_savescript($file, $content, &$error, &$code)
     $f = $file;
     $v_c = $content;
     $v_old = null;
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         $v_old = IO::ReadAllText($f);
     }
     igk_io_save_file_as_utf8($f, $v_c, true);
@@ -19197,7 +19197,7 @@ function igk_reglib($files)
 function igk_reglib_once($file)
 {
     $f = is_file($file) ? $file : igk_realpath($file);
-    if (!empty($f) && file_exists($f)) {
+    if (!empty($f) && igk_io_file_exists($f)) {
         require_once($f);
         igk_reglib(array(igk_uri($f) => igk_uri($f)));
     }
@@ -19341,7 +19341,7 @@ function igk_request_is($type)
  */
 function igk_res_img($ctrl, $resname)
 {
-    if (file_exists($f = igk_uri($ctrl->getResourcesDir() . "/Img/{$resname}"))) {
+    if (igk_io_file_exists($f = igk_uri($ctrl->getResourcesDir() . "/Img/{$resname}"))) {
         return $f;
     }
     return null;
@@ -19385,7 +19385,7 @@ function igk_resetr()
 /**
  * 
  * @param mixed $ctrl 
- * @param mixed $name 
+ * @param string $name 
  * @param mixed $alllanguage 
  */
 function igk_rm_article($ctrl, $name, $alllanguage = false)
@@ -19396,7 +19396,7 @@ function igk_rm_article($ctrl, $name, $alllanguage = false)
         if (!empty($d) && ($d != ".") && is_dir($d)) {
             $f = igk_io_getfiles($d, $exp, false);
         } else {
-            if (!file_exists($name)) {
+            if (!igk_io_file_exists($name)) {
                 $f = igk_io_getfiles($ctrl->getArticlesDir(), $exp, false);
             }
         }
@@ -19414,10 +19414,10 @@ function igk_rm_article($ctrl, $name, $alllanguage = false)
         if (!empty($d) && ($d != ".") && is_dir($d)) {
             $f = $ctrl->getArticleInDir(basename($name), $d);
         } else {
-            if (!file_exists($name))
+            if (!igk_io_file_exists($name))
                 $f = $ctrl->getArticle($name);
         }
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             unlink($f);
             return 1;
         }
@@ -19445,7 +19445,7 @@ function igk_rm_balafonscriptfile_callback($n, $doc)
 function igk_run_bg_script($f)
 {
     $v_rp = igk_get_run_script_path();
-    if (file_exists($v_rp)) {
+    if (igk_io_file_exists($v_rp)) {
         $offscreen = "";
         if (igk_server_is_linux())
             $offscreen = " 2>/dev/null > /dev/null  & ";
@@ -21966,7 +21966,7 @@ function igk_svg_bind_callable_list($n, $m)
     if ($list) {
         $o = '<igk:svg-list class="igk-svg-lst">';
         foreach ($list as $k => $v) {
-            if (!file_exists($v))
+            if (!igk_io_file_exists($v))
                 continue;
             $o .= "<" . $k . ">";
             $o .= igk_svg_content(igk_io_read_allfile($v));
@@ -22032,7 +22032,7 @@ function igk_svg_bindfile($name, $file)
 {
     $_vkey = "sys://svg/file";
     $source = igk_environment()->{IGK_SVG_REGNODE_KEY};
-    if ($source && file_exists($file)) {
+    if ($source && igk_io_file_exists($file)) {
         $f = $source->getParam($_vkey) ?? [];
         $f[$name] = $file;
         $source->setParam($_vkey, $f);
@@ -22134,7 +22134,7 @@ function igk_svg_register($doc, $name, $file)
 function igk_svg_register_icons($doc, $name = null, $dir = IGK_LIB_DIR . "/Data/R/svg/icons")
 {
     if (!empty($name)) {
-        if (file_exists($f = $dir . "/" . $name . ".svg")) {
+        if (igk_io_file_exists($f = $dir . "/" . $name . ".svg")) {
             igk_svg_register($doc, $name, $f);
             return;
         }
@@ -22221,7 +22221,7 @@ function igk_sys_add_cache_uri($muri, $file = null)
 {
     $f = IGK_APP_DIR . "/Caches/uri.cache";
     $t = array();
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         include($f);
     }
     $d = igk_date_now();
@@ -22274,7 +22274,7 @@ function igk_sys_balafon_js(?BaseController $controller = null, $debug = false, 
     $f = null;
     $encoding = igk_server()->HTTP_ACCEPT_ENCODING ?? '';
     $accept = array_map("trim", explode(',', $encoding));
-    if ($usecache && file_exists($f = $r . "/balafon.js")) {
+    if ($usecache && igk_io_file_exists($f = $r . "/balafon.js")) {
         $ctx = file_get_contents($f);
         if (!empty($ctx) && in_array("deflate", $accept)) {
             $src = @gzinflate($ctx);
@@ -22402,7 +22402,7 @@ function igk_sys_cache_request()
         $g = "/index.php" . substr($g, 1);
     }
     $g = igk_str_rm_last($g, "/");
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         $t = array();
         include($f);
         if (isset($t[$g])) {
@@ -22452,7 +22452,7 @@ function igk_sys_config_view($file)
         }
         igk_exit();
     }
-    if (!igk_get_env("sys://data/configsettings") && file_exists($f = igk_io_basedatadir("/configure"))) {
+    if (!igk_get_env("sys://data/configsettings") && igk_io_cache_file_exists($f = igk_io_basedatadir("/configure"))) {
         $g = igk_json_parse(igk_io_read_allfile($f));
         igk_set_env("sys://data/configsettings", $g);
         if ($g && igk_getv($g, "noConfig")) {
@@ -22909,7 +22909,7 @@ function igk_sys_getall_funclist($ctrl)
         return $funcs;
     $f = $ctrl->getDataDir() . "/.funclist.xml";
     $cl = get_class($ctrl);
-    if (file_exists($f) && ($s = HtmlReader::LoadFile($f))) {
+    if (igk_io_file_exists($f) && ($s = HtmlReader::LoadFile($f))) {
         $r = igk_getv($s->getElementsByTagName("func-list"), 0);
         if ($r) {
             foreach ($r->Childs as $v) {
@@ -22938,7 +22938,7 @@ function igk_sys_getfunclist($ctrl, $news = false, $funcrequest = null)
     $f = $ctrl->getDataDir() . "/.funclist.xml";
     $cl = get_class($ctrl);
     $rlist = array();
-    if (file_exists($f) && ($s = HtmlReader::LoadFile($f))) {
+    if (igk_io_file_exists($f) && ($s = HtmlReader::LoadFile($f))) {
         $r = igk_getv($s->getElementsByTagName("func-list"), 0);
         if ($r) {
             foreach ($r->getChilds() as $v) {
@@ -23002,7 +23002,7 @@ function igk_sys_handle_entry_file($dir)
     $ext = '';
     $e = 0;
     foreach ($tab as $k) {
-        if (file_exists($ext = $dir . "/" . trim($k))) {
+        if (igk_io_file_exists($ext = $dir . "/" . trim($k))) {
             $e = 1;
             break;
         }
@@ -23053,7 +23053,7 @@ function igk_sys_handle_request($uri)
     $args = explode('?', $uri);
     $furi = $args[0];
     $query = igk_getv($args, 1);
-    if (file_exists($f = IGK_APP_DIR . $furi) || (igk_phar_running() && file_exists($f = Phar::running() . $furi))) {
+    if (igk_io_file_exists($f = IGK_APP_DIR . $furi) || (igk_phar_running() && igk_io_file_exists($f = Phar::running() . $furi))) {
         if (is_dir($f)) {
             if ($uri[strlen($furi) - 1] != '/') {
                 igk_navto($furi . "/" . (empty($query) ? '' : '?' . $query));
@@ -23061,7 +23061,7 @@ function igk_sys_handle_request($uri)
             $ext = '';
             $e = 0;
             foreach ($g as $k) {
-                if (file_exists($ext = $f . "/" . $k)) {
+                if (igk_io_file_exists($ext = $f . "/" . $k)) {
                     $e = 1;
                     break;
                 }
@@ -23130,10 +23130,10 @@ function igk_sys_handle_res($query)
         $ext = igk_getv(["ejson" => "json"], $ext, $ext);
         $rwf = igk_getr("rwf");
         $c1 = dirname($rwf) . "/res." . $t . "." . $ext;
-        if (!file_exists($c1)) {
+        if (!igk_io_file_exists($c1)) {
             $c1 = igk_io_basedir() . dirname($query) . "/res." . $t . "." . $ext;
         }
-        if (file_exists($c1)) {
+        if (igk_io_file_exists($c1)) {
             igk_clear_header_list();
             igk_header_set_contenttype($ext);
             igk_zip_output(igk_io_read_allfile($c1));
@@ -23167,7 +23167,7 @@ function igk_sys_include_once($f)
 {
     $d = igk_trace_function(2);
     $f = dirname($d->file) . "/" . basename($f);
-    if (file_exists($f))
+    if (igk_io_file_exists($f))
         include_once($f);
 }
 ///<summary></summary>
@@ -23222,7 +23222,7 @@ function igk_sys_is_auth($authname, $user = null)
  */
 function igk_sys_is_htmlcaching()
 {
-    return file_exists(igk_io_cachedir() . "/" . IGK_CACHE_HTML);
+    return igk_io_cache_file_exists(igk_io_cachedir() . "/" . IGK_CACHE_HTML);
 }
 ///<summary></summary>
 ///<param name="page"></param>
@@ -23478,7 +23478,7 @@ function igk_sys_reg_componentname($tab)
         return array();
     });
     if (igk_count($ttab) == 0) {
-        if (file_exists(IGK_COMPONENT_NAMESFILE)) {
+        if (igk_io_file_exists(IGK_COMPONENT_NAMESFILE)) {
             $f = function (&$htab) {
                 include(IGK_COMPONENT_NAMESFILE);
             };
@@ -23561,7 +23561,7 @@ function igk_sys_reg_referencedir($src, $dir)
     $ttab = igk_get_env(IGK_ENV_COMPONENT_REFDIRS_KEY, function () {
         return array();
     });
-    if (file_exists($src))
+    if (igk_io_file_exists($src, true))
         $ttab[igk_realpath($src)] = $dir;
     igk_set_env(IGK_ENV_COMPONENT_REFDIRS_KEY, $ttab);
 }
@@ -23722,7 +23722,7 @@ function igk_sys_show_error_doc($code, $defctrl = null, $callback = null)
 {
     $defctrl = $defctrl ? $defctrl : igk_get_defaultwebpagectrl();
     if ($defctrl) {
-        if (file_exists($f = $defctrl::GetErrorView($code))) {
+        if (igk_io_file_exists($f = $defctrl::GetErrorView($code))) {
             $defctrl->setCurrentView($f, true, null, array("error" => $code, "uri" => igk_io_request_uri()));
             HtmlRenderer::RenderDocument();
         }
@@ -23732,7 +23732,7 @@ function igk_sys_show_error_doc($code, $defctrl = null, $callback = null)
     $codefile = $defctrl->getViewDir() . "/error/{$code}.phtml";
     $doc->Title = __("Error 404");
     $c_args = ["t" => $doc->body->getBodyBox()->add("div"), "fname" => "Error", "ctrl" => $defctrl];
-    if (file_exists($codefile)) {
+    if (igk_io_file_exists($codefile)) {
         extract($c_args);
         include($codefile);
     } else switch ($code) {
@@ -23891,7 +23891,7 @@ EOF;
             } else if (!ini_get("display_errors")) {
                 header("Content-Type: text/html");
                 $v_file = IGK_LIB_DIR . "/Views/error/exceptions.phtml";
-                if (file_exists($v_file)) {
+                if (igk_io_file_exists($v_file)) {
                     $fname = basename($v_file);
                     $source = __FUNCTION__;
                     $error_style = igk_io_baseuri() . "/Lib/igk/" . IGK_STYLE_FOLDER . "/errors.css";
@@ -24199,7 +24199,7 @@ function igk_sys_zip_project($controller, $path, $exclude_regex = null, $author 
 
     $ignore = $exclude_regex; //  ?? "/(\/(temp|node_modules))|\.(vscode|git(ignore)?|gkds|DS_Store)$/";
     $zip = new ZipArchive();
-    if (file_exists($path)) {
+    if (igk_io_file_exists($path)) {
         @unlink($path);
     }
     IO::CreateDir(dirname($path));
@@ -24451,7 +24451,7 @@ function igk_trace_log($message, $tag = "IGK", $level = 2)
 function igk_tracing()
 {
     $f = igk_io_basedir() . "/Data/.trace";
-    if (file_exists($f))
+    if (igk_io_file_exists($f))
         return true;
     return false;
 }
@@ -25260,7 +25260,7 @@ function igk_view_args($n = null, $default = null)
 function igk_view_article($ctrl, $name)
 {
     $f = $name;
-    if (!file_exists($f))
+    if (!igk_io_file_exists($f))
         $f = $ctrl->getArticle($f);
     $n = igk_html_node_notagnode();
     igk_html_article($ctrl, $f, $n);
@@ -25280,7 +25280,7 @@ function igk_view_article($ctrl, $name)
  */
 function igk_view_bindfile($f, $bindinginfo, $target, $exit = 1)
 {
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         igk_include($f, $bindinginfo, $target);
         if ($exit) {
             $target->renderAJX();
@@ -26439,7 +26439,7 @@ if (!function_exists('igk_load_env')) {
             $load = false;
             foreach ($mode as $m) {
                 $path = Path::Combine($dir, ".env") . ($m ? '.' . $m : '');
-                if (file_exists($path)) {
+                if (igk_io_file_exists($path)) {
                     $r = IniFile::LoadConfig($path);
                     $config = array_merge($r->to_array(), $config);
                     $load = true;

@@ -41,7 +41,7 @@ final class IGKHtmlScriptManager extends IGKObject {
                 foreach($this->m_scripts as $file=>$v){
                     $u = "";
                     $attr = "";
-                    if (file_exists($file)){
+                    if (igk_io_file_exists($file)){
                         $u = IGKResourceUriResolver::getInstance()->resolve($file);
                     } else {
                         $u = $file;

@@ -23,7 +23,7 @@ class SystemStorage extends Storage{
         return igk_io_combine($this->root_dir, $path); 
     }
     public function exists($path): bool { 
-        return file_exists($this->_full_path($path));
+        return igk_io_file_exists($this->_full_path($path));
     }   
 
     public function get($path): ?object { 

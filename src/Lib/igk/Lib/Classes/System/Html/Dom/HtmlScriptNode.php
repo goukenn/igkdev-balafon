@@ -106,7 +106,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * 
     */
     private function _iaccept(){
-        $this->setFlag(self::ACCEPT, !(!empty($this->link) && (!IGKValidator::IsUri($this->link) && !file_exists(igk_getv(explode("?", $this->link), 0)))));
+        $this->setFlag(self::ACCEPT, !(!empty($this->link) && (!IGKValidator::IsUri($this->link) && !igk_io_file_exists(igk_getv(explode("?", $this->link), 0), true))));
     }
     public function getCanAddChilds()
     {

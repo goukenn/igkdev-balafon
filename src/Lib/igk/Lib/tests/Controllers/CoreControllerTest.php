@@ -53,7 +53,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     public function test_view_args(){    
         $p = [];
         $def = $this->controller->declaredDir . "/Views/default.phtml";
-        if (file_exists($def))
+        if (igk_io_file_exists($def))
             @unlink($def); 
         $this->assertEquals(
             $this->controller->declaredDir . "/Views/default.phtml",

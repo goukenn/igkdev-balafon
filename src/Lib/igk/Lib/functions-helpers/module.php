@@ -8,7 +8,7 @@
  * @throws IGKException 
  */
 function igk_get_current_module_name(string $dir): ?string{
-    if (!file_exists($dir)){
+    if (!igk_io_file_exists($dir)){
         return null;
     }
     $modules = igk_get_modules();

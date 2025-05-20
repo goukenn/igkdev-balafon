@@ -17,7 +17,7 @@ use IGKException;
 class InlineScriptLoader implements IHtmlGetValue{
     protected $file;
     public function __construct(string $file){
-        file_exists($file) || igk_die('missing file '.igk_sys_lib_filename($file));
+        igk_io_file_exists($file, true) || igk_die('missing file '.igk_sys_lib_filename($file));
         $this->file = $file;
     }
     /**

@@ -254,9 +254,9 @@ class ApplicationControllerManager implements IApplicationControllerManager
             if (($f == IGK_EVALUATE_URI_FUNC) || $ctrl->IsFunctionExposed($f)) {
                 igk_app()->session->URI_AJX_CONTEXT = igk_is_ajx_demand() || str::EndWith($f, IGK_AJX_METHOD_SUFFIX) || (igk_getr("ajx") == 1);
                 $fd = null;
-                // if(($fd=$ctrl->getConstantFile()) && file_exists($fd))
+                // if(($fd=$ctrl->getConstantFile()) && igk_io_file_exists($fd))
                 //     include_once($fd);
-                if (($fd = $ctrl->getDbConstantFile()) && file_exists($fd))
+                if (($fd = $ctrl->getDbConstantFile()) && igk_io_file_exists($fd, true))
                     include_once($fd);
                 unset($fd);
                 igk_set_env(IGK_ENV_REQUEST_METHOD, strtolower(get_class($ctrl) . "::" . $f));

@@ -32,7 +32,7 @@ class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
             return $this->value;
         }
         $m = null;
-        if (file_exists($this->value)){
+        if (igk_io_file_exists($this->value)){
             $m =  IGKResourceUriResolver::getInstance()->resolve($this->value);
         }
         igk_wln_e("resolving .... ".$this->value);

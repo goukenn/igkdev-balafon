@@ -51,7 +51,7 @@ class FaviconCommand extends AppExecCommand
 			$src = "data:image/svg+xml;base64," . $src ;
 			return $src;
 		};
-		if (file_exists($file)) {
+		if (igk_io_file_exists($file)) {
 			$fcontent = file_get_contents($file);
 			$src = ''; 
 			switch($type)

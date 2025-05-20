@@ -272,7 +272,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     public function ClearCtrlCache()
     {
         $fc = self::FileCtrlCache();
-        if (file_exists($fc)) {
+        if (igk_io_file_exists($fc)) {
             unlink($fc);
         }
     }
@@ -288,7 +288,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $y = 14;
         $x = 0;
         $fname = igk_io_currentrelativepath(igk_get_uvar("CONFIG_SCHEMA_FONT"));
-        if (!file_exists($fname)) {
+        if (!igk_io_file_exists($fname)) {
             igk_exit();
         }
         $fsize = 14;
@@ -303,7 +303,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $y = 28;
         $s = IGKGD::Create($rect->width + 300 + (2 * $x), $rect->height + ($y));
         $s->Clear($cl);
-        if (file_exists($fname)) {
+        if (igk_io_file_exists($fname)) {
             foreach ($tb as  $v) {
                 if ($v->WebParentCtrl == null) {
                     $t = $this->renderController($s, $v, $fname, $fsize, $x, $y, Color::Black(), $rect->width + 150);
@@ -569,7 +569,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $fc = self::FileCtrlCache();
         if (
             !$no_cache &&
-            file_exists($fc)
+            igk_io_file_exists($fc)
         ) {
             // igk_ilog("load controller from cache: ".$fc);
             $caches = include($fc);
@@ -801,9 +801,9 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             if (($f == IGK_EVALUATE_URI_FUNC) || $ctrl->IsFunctionExposed($f)) {
                 igk_app()->session->URI_AJX_CONTEXT = igk_is_ajx_demand() || IGKString::EndWith($f, IGK_AJX_METHOD_SUFFIX) || (igk_getr("ajx") == 1);
                 $fd = null;
-                // if(($fd=$ctrl->getConstantFile()) && file_exists($fd))
+                // if(($fd=$ctrl->getConstantFile()) && igk_io_file_exists($fd))
                 //     include_once($fd);
-                if (($fd = $ctrl->getDbConstantFile()) && file_exists($fd))
+                if (($fd = $ctrl->getDbConstantFile()) && igk_io_file_exists($fd))
                     include_once($fd);
                 unset($fd);
                 igk_set_env(IGK_ENV_REQUEST_METHOD, strtolower(get_class($ctrl) . "::" . $f));
@@ -1057,7 +1057,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             $project_info = [];
         }
         if ($projects == null) {
-            if (file_exists($file = self::FileProjectCtrlCache())) {
+            if (igk_io_file_exists($file = self::FileProjectCtrlCache())) {
                 $projects = include($file);
             } else {
                 if (class_exists($n, false)) {

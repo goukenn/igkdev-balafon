@@ -68,7 +68,7 @@ abstract class CoreFileSystem{
      * @return bool 
      */
     public static function Exists(string $path):bool{
-        return file_exists($path);
+        return igk_io_file_exists($path);
     }
     /**
      * return FileSystem helper
@@ -76,7 +76,7 @@ abstract class CoreFileSystem{
      * @return static|null 
      */
     public static function Create(string $path){
-        if ((static::class != self::class) && file_exists($path)){
+        if ((static::class != self::class) && igk_io_file_exists($path)){
             $m = new static($path);
             return $m;
         }
@@ -116,7 +116,7 @@ abstract class CoreFileSystem{
      */
     public function cacheExpired(string $path){
         $p = filemtime($path);
-        if (file_exists($file = $this->getCacheFilePath($path))){
+        if (igk_io_file_exists($file = $this->getCacheFilePath($path))){
             return filemtime($file) < $p;
         }
         return true;
@@ -132,7 +132,7 @@ abstract class CoreFileSystem{
 //     public function checkNotExpired(string $realpath_to_check, string $caching_name, $ext='.php'){
 //         $p = filemtime($realpath_to_check);  
 //         $vn = $this->getCacheFilePath($caching_name, $ext);
-//         if (file_exists($vn)){
+//         if (igk_io_file_exists($vn)){
 //             return filemtime($vn) < $p;
 //         }
 //         return false;

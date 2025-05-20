@@ -585,7 +585,7 @@ class ApplicationLoader
             if (strpos($n, $ns = EntryClassResolution::IGK_TEST_NS ) === 0) {
                 $cl = substr($n, strlen($ns) + 1);
                 $f = $fix_path($dir . $cl . ".php");
-                if (file_exists($f)) {
+                if (igk_io_file_exists($f)) {
                     include($f);
                     if (!class_exists($n, false)) {
                         throw new \Exception("File exists but class not present");
@@ -605,7 +605,7 @@ class ApplicationLoader
         if (!isset($_loaded_[$filekey])){
             $_loaded_[$filekey ] = 1;
             foreach (['', '.php'] as $ext){
-                if (file_exists($filekey.$ext)){
+                if (igk_io_file_exists($filekey.$ext)){
                     require_once($filekey.$ext);
                     $_loaded_[$filekey] = $filekey.$ext;
                 }

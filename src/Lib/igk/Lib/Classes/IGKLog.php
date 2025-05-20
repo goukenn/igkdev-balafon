@@ -236,9 +236,9 @@ final class IGKLog extends IGKObject
             $message = "Array[" . $c . "]";
         }
         $r = null;
-        if (!file_exists($f) && !IO::CreateDir(dirname($f)))
+        if (!igk_io_file_exists($f) && !IO::CreateDir(dirname($f)))
             return;
-        $r = @fopen($f, file_exists($f) ? "a+" : "w+");
+        $r = @fopen($f, igk_io_file_exists($f) ? "a+" : "w+");
         if (is_array($message)) {
             IGKOb::Start();
             var_dump($message);

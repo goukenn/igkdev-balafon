@@ -194,9 +194,7 @@ igk_reg_template_bindingattributes("*for", function ($reader, $attr, $v, $contex
             $t->root_context = $context['root_context'];
             return [$t];
         }
-        extract(igk_to_array($context));
-
-        // return [$raw[0]]; 
+        extract(igk_to_array($context));  
         return @eval((function () {
             if (func_num_args() == 1)
                 return "return " . func_get_arg(0) . ";";

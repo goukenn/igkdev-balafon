@@ -79,7 +79,7 @@ class ViewCompileProcessCommandHandler{
             if (!$this->compiler->options->layout->{'@MainLayout'})
                 igk_die("import in -- @MainLayout required");
             $dir = $this->compiler->options->layout->viewDir;
-            if (file_exists($v_cfile = $dir."/".$file)){
+            if (igk_io_file_exists($v_cfile = $dir."/".$file)){
                 return "include '{$v_cfile}';\n";
             }
         }
@@ -91,7 +91,7 @@ class ViewCompileProcessCommandHandler{
          */
         public function importFile(string $file){   
             $dir = $this->compiler->options->layout->viewDir;
-            if (file_exists($v_cfile = $dir."/".$file)){
+            if (igk_io_file_exists($v_cfile = $dir."/".$file)){
                 $ext = ".cphtml";
                 // check for cached compiled view if not to compilation
                 $cache_file = IGKCaches::view()->getCacheFilePath($v_cfile, $ext);

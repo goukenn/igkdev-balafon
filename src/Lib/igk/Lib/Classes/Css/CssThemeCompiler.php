@@ -28,7 +28,7 @@ class CssThemeCompiler
      * global color pointer
      * @var mixed
      */
-    var $glc;
+    var $gcl;
 
     /**
      * 
@@ -107,7 +107,7 @@ class CssThemeCompiler
         $no_systheme = 0;
         $render_f = false;
         $lf = $minfile ? IGK_LF: "";
-        if ($css_cache && file_exists($cf)) {
+        if ($css_cache && igk_io_file_exists($cf, true)) {
             // + | check if one of included file changed
             $array = $theme->to_array();
             if (($data = unserialize(file_get_contents($cf)))!==false)
@@ -125,7 +125,7 @@ class CssThemeCompiler
                 } 
             }
 
-            if (!$must_recompile && file_exists($express_cf)) {
+            if (!$must_recompile && igk_io_file_exists($express_cf, true)) {
                 $src_sys = file_get_contents($express_cf);
             } else {
  

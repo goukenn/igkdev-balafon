@@ -77,7 +77,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
 
     public function bootstrap()
     {
-        if (file_exists($v_conffile = Path::Combine(getcwd(), AppConfigs::ConfigurationFileName))) {
+        if (igk_io_file_exists($v_conffile = Path::Combine(getcwd(), AppConfigs::ConfigurationFileName))) {
             $this->m_configs = AppConfigs::LoadConfigurationFile($v_conffile);
         }
         $this->library("zip");

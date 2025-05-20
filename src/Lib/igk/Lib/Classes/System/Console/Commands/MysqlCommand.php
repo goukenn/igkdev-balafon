@@ -128,7 +128,7 @@ class MySQLCommand extends AppExecCommand
                 case 'restore-dump':
                     Logger::info('restore mysql dump');
                     $file = igk_getv($command->options, '--file');
-                    if (empty($file) || !file_exists($file)) {
+                    if (empty($file) || !igk_io_file_exists($file)) {
                         Logger::danger('missing dump file');
                         return -201;
                     }

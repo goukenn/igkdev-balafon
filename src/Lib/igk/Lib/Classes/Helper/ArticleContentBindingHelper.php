@@ -42,7 +42,7 @@ class ArticleContentBindingHelper{
         }
         while(count($p)>0){
             $ctrl = array_shift($p);
-            if (file_exists($file = $ctrl->getArticle($article))){
+            if (igk_io_file_exists($file = $ctrl->getArticle($article))){
                 return $file;
             }
         }

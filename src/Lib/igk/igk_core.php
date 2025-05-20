@@ -506,10 +506,15 @@ if (!function_exists('igk_io_tempdir')) {
         return false;
     }
 }
-
+/**
+ * 
+ * @param mixed $f 
+ * @param mixed $args 
+ * @return string|null 
+ */
 function igk_io_get_script($f, $args = null)
 {
-    if (file_exists($f)) {
+    if (igk_io_file_exists($f)) {
         return "?>" . file_get_contents($f);
     }
     return null;
@@ -743,15 +748,17 @@ function igk_load_library($name)
     if (is_null($inUse)) {
         $inUse = array();
     }
-    $lib = IGK_LIB_DIR . "/Library/";
+    $lib = IGK_LIB_DIR . "/Library";
     $c = $lib . "/igk_" . $name . ".php";
     $ext = igk_io_path_ext(basename($name));
     if (empty($ext) || ($ext != ".php"))
         $ext = ".php";
-    if ((file_exists($c) || file_exists($c = $lib . "/" . $name . $ext)) && !isset($inUse[$c])) {
-        include_once($c);
-        $inUse[$c] = 1;
-        return 1;
+    foreach ([$c, $lib . "/" . $name . $ext] as $c) {
+        if (igk_io_file_exists($c, true) && !isset($inUse[$c])){
+            include_once($c);
+            $inUse[$c] = 1;
+            return 1;
+        }
     }
     return 0;
 }
@@ -923,11 +930,6 @@ function igk_bind_trace()
  */
 function igk_wln($msg = "")
 {
-
-
-    //if (file_exists(IGK_LIB_DIR.'/Inc/igk_trace.pinc')){
-    // include(IGK_LIB_DIR.'/Inc/igk_trace.pinc');
-    //}
     /// BIND TRACE IF - do not include file for speed 
     //  igk_trace();
     igk_bind_trace(3);
@@ -1047,7 +1049,7 @@ function igk_log_var_dump($tab, $lf = null)
  * @param mixed ...extra extra data
  */
 function igk_wln_e($msg = "", ...$extra)
-{
+{ 
     igk_environment()->set('TRACE_LEVEL', 3);
     call_user_func_array('igk_wln', func_get_args());
     igk_exit();
@@ -1266,7 +1268,7 @@ function igk_sys_env_production()
 /**
  *  utility function to get server name
  */
-function igk_server_name():?string
+function igk_server_name(): ?string
 {
     return igk_server()->SERVER_NAME;
 }
@@ -2464,8 +2466,8 @@ function igk_set_header(int $code, $message = "", $headers = [])
                 // + | --------------------------------------------------------------------
                 // + | attach new cookies - session if no present
                 // + |                
-                if (!preg_match('/\\b'.$sess_name.'\\b/', igk_getv($h, 'COOKIE', '')) || (igk_getv($_COOKIE, $sess_name)!==$sess_id)){
-                    $r = 'Set-Cookie: ' . igk_sys_cookies_build([$sess_name => $sess_id . '; path=/; HttpOnly; domain='.$domain.';']);
+                if (!preg_match('/\\b' . $sess_name . '\\b/', igk_getv($h, 'COOKIE', '')) || (igk_getv($_COOKIE, $sess_name) !== $sess_id)) {
+                    $r = 'Set-Cookie: ' . igk_sys_cookies_build([$sess_name => $sess_id . '; path=/; HttpOnly; domain=' . $domain . ';']);
                     if (igk_server()->is_secure()) {
                         $r .= 'Secure;';
                     }

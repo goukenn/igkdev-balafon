@@ -45,7 +45,7 @@ class IGKGoogleCssUri{
         $f=$this->m_file;
         if(empty($f))
             return null;
-        if(!file_exists($f)){
+        if(!igk_io_file_exists($f)){
             if(!igk_sys_env_production()){
                 return $this->m_uri;
             }

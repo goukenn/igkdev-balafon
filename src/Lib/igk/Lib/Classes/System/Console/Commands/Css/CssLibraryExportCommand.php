@@ -26,7 +26,7 @@ class CssLibraryExportCommand extends AppExecCommand{
 	 */
 	public function exec($command, ?string $filename=null) {
 		is_null($filename) && igk_die('missing filename');
-		if (!file_exists($filename)){
+		if (!igk_io_file_exists($filename)){
 			igk_die('missing file');
 		}
 		$tkeys = CssUtils::GetCssSelectorKeys(file_get_contents($filename));		

@@ -52,7 +52,7 @@ class ZipWpPluginCommand extends AppExecCommand{
        // igk_sys_zip_project($ctrl, $path, $author);
 
         // $g = $ctrl->getDeclaredDir();
-        if (file_exists($path)){
+        if (igk_io_file_exists($path)){
             @unlink($path);
         }
         $rgx = "/".$idx."(\/(temp|application))|\.(vscode|git(ignore)?|gkds|DS_Store)$/";

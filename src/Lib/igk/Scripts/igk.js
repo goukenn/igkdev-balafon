@@ -7264,9 +7264,9 @@ Name:balafon.js
          * @param {string} name 
          * @param {*} value 
          * @param {*} exdays 
-         * @param {*} path 
+         * @param {string|undefined} path 
          */
-        setcookies: function (name, value, exdays, path) {
+        setcookies: function (name, value, exdays, path, domain) {
             var exdate = new Date();
             if (exdays)
                 exdate.setDate(exdate.getDate() + exdays);
@@ -7274,6 +7274,11 @@ Name:balafon.js
             c_value += "; SameSite=Strict";
             if (path)
                 c_value += "; Path=" + path;
+            domain = domain || '.'+document.location.hostname;
+            if (domain){
+                c_value += '; Domain='+domain;
+            }
+            c_value += '; Secure';
             document.cookie = name + "=" + c_value;
         },
         /**

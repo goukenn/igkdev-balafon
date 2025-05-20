@@ -102,7 +102,7 @@ function igk_start_session($reset = 0)
             session_set_cookie_params(10, "/", $opts["domain"], igk_sys_srv_is_secure(), true);
         }
     }
-    $b = session_start();
+    $b = @session_start();
     return $b;
 }
 }

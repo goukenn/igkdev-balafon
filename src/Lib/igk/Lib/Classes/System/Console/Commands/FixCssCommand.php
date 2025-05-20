@@ -20,7 +20,7 @@ class FixCssCommand extends AppExecCommand{
     public function exec($command, $path=null, $ctrl=null)
     { 
         Logger::info("fix css file");
-        if (!empty($path) && file_exists($f = realpath($path))){
+        if (!empty($path) && igk_io_file_exists($f = realpath($path))){
             $ext = igk_io_path_ext($f);
             if ($ext!= IGK_DEFAULT_STYLE_EXT){
                 return -1;

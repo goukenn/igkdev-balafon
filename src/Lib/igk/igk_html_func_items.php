@@ -1270,7 +1270,7 @@ if (!function_exists("igk_html_node_cardid")) {
 		$n->setClass("igk-card-id");
 		if ($src) {
 			if (!IGKValidator::IsUri($src)) {
-				if (file_exists($src)) {
+				if (igk_io_file_exists($src)) {
 					$src = new IGKHtmlRelativeUriValueAttribute(igk_io_baseRelativeUri($src));
 				} else
 					$src = new IGKHtmlRelativeUriValueAttribute(igk_io_baseRelativeUri(dirname($ctrl->getDeclaredFileName()) . "/" . $src));
@@ -3158,7 +3158,7 @@ if (!function_exists("igk_html_node_jsscript")) {
 	 */
 	function igk_html_node_jsscript($file, $minify = false)
 	{
-		if (file_exists($file)) {
+		if (igk_io_file_exists($file)) {
 			$d = igk_create_node("script");
 			$s = file_get_contents($file);
 			// if($minify)
@@ -5324,7 +5324,7 @@ if (!function_exists("igk_html_node_view_code")) {
 	 */
 	function igk_html_node_view_code(string $file, int $startLine, int $endLine)
 	{
-		if (!file_exists($file)) {
+		if (!igk_io_file_exists($file)) {
 			return null;
 		}
 		$str = implode("\n", array_slice(explode("\n", file_get_contents($file)), $startLine, $endLine));

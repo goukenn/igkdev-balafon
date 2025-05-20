@@ -21,6 +21,8 @@ use IGK\System\Services\InjectorProvider;
 use IGK\Actions\ActionBase;
 use IGK\Controllers\ControllerParams;
 use IGK\Helper\ViewHelper;
+use IGK\Models\Injectors\ModelBaseInjector;
+use IGK\Models\Users;
 use IGK\System\Exceptions\OperationNotAllowedException;
 use IGKException;
 use IGKType;
@@ -192,14 +194,14 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args): array
+    public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args, $host=null): array
     {
         $parameters = $g->getParameters();
         if (count($parameters) == 0) {
             return $args;
         }
         $targs = [];
-        self::_GetInjectedParameters($targs, $parameters, $args); 
+        self::_GetInjectedParameters($targs, $parameters, $args, $host); 
         return $targs;
     }
     /**
@@ -224,7 +226,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             // + | resolving services for injection
             // + |            
             if ($fservice = $ctrl->configFile('services')){ 
-                $services = file_exists($fservice) ?
+                $services = igk_io_file_exists($fservice, true) ?
                 ViewHelper::Inc($fservice, ['ctrl' => $ctrl]) : null;
             }
         }
@@ -259,14 +261,23 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 if (!$v_primary && class_exists($type)) {
                     if (is_subclass_of($type, IInjectable::class)) {
                         $targs[] = self::_GetInjectable($type, $args);   
-                        $v_inject = true;                     
+                        $v_inject = true;    
+                        if (!$k->allowsNull())  {
+                            $i++;
+                        }               
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));
                     $j_allow_null =  $k->allowsNull();
                     if($j && (is_null($arg) && $j_allow_null))
                     {
-                        $targs[] = null;
+                        $c = null;
+                        if ($j instanceof ModelBaseInjector){
+                            if ($j->getModel() instanceof Users){
+                                ($u = $ctrl->getUser()) && ($c = $u->model());
+                            }
+                        }
+                        $targs[] = $c;
                         $i++;
                         continue;
                     }

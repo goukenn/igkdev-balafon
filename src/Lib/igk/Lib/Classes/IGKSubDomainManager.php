@@ -89,7 +89,7 @@ final class IGKSubDomainManager extends IGKObject{
             }  
             $v_save  = false;
             $tf = Path::getInstance()->getDataDir()."/subdomain.php";
-            if (file_exists($tf)){
+            if (igk_io_file_exists($tf)){
                 $b = include $tf;
                 if (isset($b[$subdomain])){
                     $ctrl_n = $b[$subdomain];

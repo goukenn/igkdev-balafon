@@ -84,7 +84,7 @@ class CronJob
         //             $r->update();
         //         } else {
         //             Logger::info("provider not found for : " . $r->crons_script);
-        //             if (file_exists($file = IGK_LIB_DIR . "/Crons/" . $r->crons_script)) {
+        //             if (igk_io_file_exists($file = IGK_LIB_DIR . "/Crons/" . $r->crons_script)) {
         //                 // 
         //                 Logger::info("execute: " . igk_io_collapse_path($file));
         //                 $options = json_decode($r->crons_options);
@@ -159,7 +159,7 @@ class CronJob
                             }
                         }
                     } else {
-                        if (file_exists($fs =  $dir . '/' . $scr) && ($exclude_fs != $fs)) {
+                        if (igk_io_file_exists($fs =  $dir . '/' . $scr) && ($exclude_fs != $fs)) {
                             try {
                                 $arg = $d =  json_decode($row->options ?? '[]', true) ?? [];
                                 if (key_exists('@params', $d)) {

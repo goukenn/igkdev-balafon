@@ -25,7 +25,7 @@ class DbInitManager{
     protected function initProfile(BaseController $controller){
         $tpro= null;
         $pro = $controller->configFile('profiles');
-        if ($pro && file_exists($pro)){
+        if ($pro && igk_io_file_exists($pro)){
             $tpro = include($pro);
         }
         if (!is_array($tpro))

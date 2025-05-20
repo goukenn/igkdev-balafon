@@ -64,7 +64,7 @@ final class SystemController extends NonVisibleControllerBase{
                     "igk-font-name"=>base64_encode($k),
                     "onclick"=>"javascript:window.igk.system.fonts.installFont(this, '{$uri}'); return false;"
                 ));
-                if(file_exists($f))
+                if(igk_io_file_exists($f))
                     $cdiv["style"] .= "color:#9A9A9A;";
                 else
                     $cdiv["style"] .= "color:#3A3A3A;";
@@ -79,7 +79,7 @@ final class SystemController extends NonVisibleControllerBase{
     ///<summary></summary>
     private function _getFontList(){
         $file=igk_sys_cgi_folder()."/cscgi/fontlist.cgi";
-        if(file_exists($file)){
+        if(igk_io_file_exists($file)){
             $count=0;
             $resolver=IGKResourceUriResolver::getInstance();
             $resolver->fulluri=1;

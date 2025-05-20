@@ -243,7 +243,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
 
         if (
             !$meth_exits && ($allowed_view = $this->_isAllowedView($v)) &&
-            !file_exists($f = ($this->getViewFile($v, 0, $params)))
+            !igk_io_file_exists($f = ($this->getViewFile($v, 0, $params)), true)
         ) {
             //
             $v_handle = "file";
@@ -268,7 +268,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 $f = $find;
             }
         } 
-        if ($allowed_view && file_exists($f)) {
+        if ($allowed_view && igk_io_file_exists($f, true)) {
             try {
                 // + | -------------------------------------------             
                 // + | bind view
@@ -348,7 +348,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    protected function handleAction(string $fname, array $params, &$handler = null)
+    protected function handleAction(string $fname, array $params, &$handler = null, $is_ajx = null, $is_view=null)
     {
         // igk_trace();
         // igk_wln_e(__FILE__.":".__LINE__ , "try action handler....", $fname, igk_view_args('query_options'));
@@ -356,15 +356,19 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         //+ | -----------------------------------------------------------------------------
         //+ | handle action: insert here a middleware to auto handle the view before include 
         //+ |   
+        $srv = igk_server();
+        $is_ajx = $is_ajx ?? (($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand());
+        $is_view = $is_view ?? igk_getr('view');
+
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
-            ($handler = $this->getActionHandler($fname, $rep = new ActionResolutionInfo, $params))
+            ($handler = $this->getActionHandler($fname, $rep = new ActionResolutionInfo, $params, $is_ajx))
         ) {
             $params = $rep->params ?? $params; // 
-            $srv = igk_server();
             $r =  ActionHelper::DoHandle($this, $handler, $fname, $params, $rep, [
                 'method' => $srv->REQUEST_METHOD,
-                'is_ajx' => ($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand(), // is_ajx
+                'is_ajx' => $is_ajx, //
+                'is_view'=> $is_view
             ]);
             return $r;
         }
@@ -373,7 +377,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         $conf = $this->configFile('views');
         $redirect_request = null;
-        if (file_exists($conf)) {
+        if (igk_io_file_exists($conf, true)) {
             $inc = function () {
                 return include(func_get_arg(0));
             };
@@ -420,6 +424,8 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         igk_reset_globalvars();
         $viewargs = (array)ViewEnvironmentArgs::CreateContextViewArgument($this, $file, __FUNCTION__);
         igk_set_env(IGKEnvironment::CURRENT_CTRL, $this);
+        if(empty($viewargs['layout']))
+            $viewargs['layout'] = $this->getViewLoader(($viewargs['fname']));
         igk_set_env(IGKEnvironment::CTRL_CONTEXT_VIEW_ARGS, $viewargs);
         extract($viewargs);
         igk_hook(IGKEvents::HOOK_INIT_INC_VIEW, [
@@ -431,6 +437,17 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             // + | binding environment 
             $this->_config_entries($fname);
             try {
+                $middle = $this->configFile('middlewares');
+                if ($middle && igk_io_cache_file_exists($middle)){
+                    $cm = include($middle);
+                    if ($fc = igk_getv($cm, '/'.$fname)){
+                        if (!$fc($fname, $this)){
+                            throw new \IGKException('not allowed', 500);
+                        }
+                    }
+                    //$r = $middle
+                }
+
                 $handle_response = $this->handleAction($fname, $params, $action_handler);
                 $i = igk_environment()->action_handler_instance;
                 if ($handle_response && igk_sys_support_trait($i, ApiActionTrait::class)) {
@@ -441,9 +458,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 }
                 $action = $i;
             } catch (\Exception $ex) {
-                // + | handler failed or thro an exception. 
+                // + | handler failed or throw an exception. 
                 // + | method no present
-                if (!file_exists($file)) {
+                if (!igk_io_cache_file_exists($file)) {
                     if (igk_environment()->isDev()) {
                         igk_set_header(500);
                         Logger::danger("[BLF] - error - " . $ex->getMessage());
@@ -527,9 +544,9 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function _include_constants()
     {
-        if (($f = $this->getConstantFile()) && file_exists($f))
+        if (($f = $this->getConstantFile()) && igk_io_file_exists($f, true))
             include_once($f);
-        if (($f = $this->getDbConstantFile()) && file_exists($f))
+        if (($f = $this->getDbConstantFile()) && igk_io_file_exists($f, true))
             include_once($f);
         unset($f);
     }
@@ -717,7 +734,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             igk_wln_e("configuration file is empty ", $cf, $this);
         }
         $c = new ControllerConfigurationData($this);
-        //if (file_exists($cf)) {
+        //if (igk_io_file_exists($cf)) {
         $c->initConfigSetting($this->_loadCtrlConfig());
         //}
         $tab[$cf] = $c;
@@ -1213,7 +1230,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $v = igk_dir($view != null ? $view : igk_getr("v", $view));
         $f = igk_realpath($v) === $v ? $v : $this->getViewFile($v);
         $this->regSystemVars(null);
-        if (file_exists($f) || ($forcecreation && igk_io_save_file_as_utf8($f, IGK_STR_EMPTY))) {
+        if (igk_io_file_exists($f) || ($forcecreation && igk_io_save_file_as_utf8($f, IGK_STR_EMPTY))) {
             $def = 0;
             if (($args !== null) && !empty($args)) {
                 $def++;
@@ -1257,8 +1274,8 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      */
     protected function _include_view_file(string $view, $args = null)
     {
-        $v_file = file_exists($view) ? $view : $this->getViewFile($view);
-        if (file_exists($v_file) === true) {
+        $v_file = igk_io_cache_file_exists($view) ? $view : $this->getViewFile($view);
+        if (igk_io_cache_file_exists($v_file) === true) {
             $d = null;
             if ($args !== null) {
                 $d = $this->getSystemVars();

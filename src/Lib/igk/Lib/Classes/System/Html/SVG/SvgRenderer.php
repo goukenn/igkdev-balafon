@@ -8,10 +8,15 @@
 
 namespace IGK\System\Html\SVG;
 
+use Exception;
 use IGK\Helper\IO;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\SvgListNode;
 use IGKEvents;
+use IGKException;
+use ReflectionException;
 
 /**
  * document page svg list renderer
@@ -32,7 +37,7 @@ class SvgRenderer{
             $f = self::GetSvgFolder();  
             while( $q = array_shift($f)){
                 $d = $q[0]; // directory                
-                if (file_exists( $file = $d."/".$name.".svg")){
+                if (igk_io_file_exists( $file = $d."/".$name.".svg", true)){
                     $class = $q[1];
                     return IO::GetDir($file);
                 } 
@@ -72,7 +77,7 @@ class SvgRenderer{
     public static function Exists($name){
         $f = self::GetSvgFolder();
         while( $d = array_shift($f)){
-            if (file_exists($d."/".$name)){
+            if (igk_io_file_exists($d."/".$name)){
                 return true;
             }
         }
@@ -91,6 +96,16 @@ class SvgRenderer{
             }
         }
     }
+    /**
+     * 
+     * @param mixed $e 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function RenderList($e){
         $options = igk_getv($e->args, "options"); 
         $is_dev = igk_environment()->isDev();

@@ -52,7 +52,7 @@ class ScriptLoader implements IDocumentScriptLoader{
         else{
             $cachedir=igk_io_cacheddist_jsdir();
             $file=$cachedir.$this->target;
-            if(!file_exists($file)){
+            if(!igk_io_file_exists($file)){
                 $out=igk_js_dist_scripts($files);
                 igk_io_w2file($file,  $out); 
             }

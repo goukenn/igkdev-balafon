@@ -104,8 +104,21 @@ abstract class ControllerExtension
     {
         return Path::Combine($ctrl->getDeclaredDir(), 'Configs/Lang');
     }
-    public static function getViewLayout(BaseController $ctrl)
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @return mixed|void 
+     * @throws Exception 
+     */
+    public static function getViewLayout(BaseController $ctrl, string $fname=null)
     {
+
+        $n = $fname;
+        $cl = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, $n);
+
+
+
+
         $view_layout = $ctrl->resolveClass(EntryClassResolution::WinUI_ViewLayout) ?? ViewLayout::class;
         if ($view_layout) {
             $v_key = $ctrl->getName() . '@' . __METHOD__;
@@ -149,7 +162,7 @@ abstract class ControllerExtension
     public static function viewContent(BaseController $ctrl, string $type, $params = null, bool $exit = false)
     {
         $f = $ctrl->getContentDir() . "/{$type}.php";
-        if (file_exists($f)) {
+        if (igk_io_cache_file_exists($f)) {
             $result = $ctrl::ViewInContext($f, $params);
             if (!$exit) {
                 return $result;
@@ -268,7 +281,7 @@ abstract class ControllerExtension
         // }
         $i = IGKResourceUriResolver::getInstance();
         foreach ($assets as $a) {
-            if (file_exists($g = Path::Combine($dir, $a))) {
+            if (igk_io_cache_file_exists($g = Path::Combine($dir, $a))) {
                 $i->resolve($g);
             }
         }
@@ -277,6 +290,7 @@ abstract class ControllerExtension
      * resolve asset path
      * @param BaseController $ctrl 
      * @param string $path 
+     * @param bool $exists check for file existance 
      * @return mixed 
      */
     public static function asset(BaseController $ctrl, ?string $path = null, bool $exists = true)
@@ -287,7 +301,7 @@ abstract class ControllerExtension
             $f = Path::Combine($f, $path);
         }
         if ($exists) {
-            if (!file_exists($f))
+            if (!igk_io_cache_file_exists($f, true))
                 return null;
             $t = $res_i->resolve($f);
             if (empty($t)) {
@@ -388,7 +402,7 @@ abstract class ControllerExtension
     public static function getIsViewExists(BaseController $ctrl, string $fname): bool
     {
         $c = $ctrl->getViewFile($fname);
-        return $c && file_exists($c);
+        return $c && igk_io_cache_file_exists($c);
     }
 
     /**
@@ -419,7 +433,7 @@ abstract class ControllerExtension
      */
     public static function getErrorViewFile(BaseController $controller, $code)
     {
-        if (file_exists($f = $controller->getViewDir() . "/.error/" . $code . IGK_VIEW_FILE_EXT)) {
+        if (igk_io_cache_file_exists($f = $controller->getViewDir() . "/.error/" . $code . IGK_VIEW_FILE_EXT)) {
             return $f;
         }
         return null;
@@ -433,7 +447,7 @@ abstract class ControllerExtension
     public static function asset_content(BaseController $ctrl, $path)
     {
         $f = implode("/", [$ctrl->getDataDir(), IGK_RES_FOLDER, $path]);
-        if (file_exists($f)) {
+        if (igk_io_cache_file_exists($f)) {
             return file_get_contents($f);
         }
     }
@@ -478,13 +492,13 @@ abstract class ControllerExtension
      * @return null|string 
      * @throws IGKException 
      */
-    public static function uri(BaseController $ctrl, ?string $name_uri = Constants::BASE_VIEW_URI )
+    public static function uri(BaseController $ctrl, ?string $name_uri = Constants::BASE_VIEW_URI)
     {
         $v_uri = $name_uri ?? '';
         if (strpos($v_uri, Constants::BASE_VIEW_URI) === 0) {
-            if (Constants::BASE_VIEW_URI=='@/')
+            if (Constants::BASE_VIEW_URI == '@/')
                 $v_uri = ltrim($v_uri, '@');
-            else 
+            else
                 $v_uri = substr($v_uri, strpos($v_uri, '/'));
         }
         return $ctrl->getAppUri($v_uri ?? '');
@@ -510,7 +524,7 @@ abstract class ControllerExtension
     {
         static $guid;
         if ($guid === null) {
-            if (!file_exists($file = $ctrl->getDataDir() . "/.id")) {
+            if (!igk_io_cache_file_exists($file = $ctrl->getDataDir() . "/.id")) {
                 $guid = igk_create_guid();
                 igk_io_w2file($file, $guid);
             } else {
@@ -621,7 +635,7 @@ abstract class ControllerExtension
      * @param mixed $name array|string
      * @return array|string|null  array if name is array string name or null
      */
-    public static function name(BaseController $ctrl, ?string $name='')
+    public static function name(BaseController $ctrl, ?string $name = '')
     {
         if (is_string($name) || is_null($name)) {
             return implode("/", array_filter([get_class($ctrl), $name]));
@@ -678,10 +692,10 @@ abstract class ControllerExtension
 
         //get all seed class and run theme        
         if (igk_is_null_or_empty($classname)) {
-            $classname = \Database\Seeds\DataBaseSeeder::class;
+            $classname = EntryClassResolution::DbSeederClass;
         } else {
             //try to resolv class 
-            if (file_exists($ctrl->classdir() . "/Database/Seeds/" . $classname . ".php")) {
+            if (igk_io_cache_file_exists($ctrl->classdir() . "/Database/Seeds/" . $classname . ".php")) {
                 $classname = "/Database/Seeds/" . $classname;
             } else {
                 // + | seeder not found
@@ -738,7 +752,6 @@ abstract class ControllerExtension
                             $v_count++;
                         }
                         $listener->didMigrationComplete();
-
                     } catch (Exception $ex) {
                         Logger::danger(sprintf("db - migrate error : %s", $ex->getMessage()));
                         igk_ilog("some rerror:  " . $ex->getMessage());
@@ -881,7 +894,7 @@ abstract class ControllerExtension
             $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
             $tb = $definitions;
             $base_f = igk_uri($c . "ModelBase.php");
-            if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
+            if (($core_model_base != $base_f) && (!igk_io_cache_file_exists($base_f) || $force)) {
                 Logger::info("generate base model : " . $base_f);
                 igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
             }
@@ -903,7 +916,7 @@ abstract class ControllerExtension
                     if (!empty($name)) {
                         $file = $c . $name . ".php";
                         $factory[] = $name;
-                        if (!$force && file_exists($file)) {
+                        if (!$force && igk_io_cache_file_exists($file)) {
                             continue;
                         }
                         if ($definitionHandler = $v->definitionResolver ?? $model_init) {
@@ -962,8 +975,9 @@ abstract class ControllerExtension
         return $sb->render();
     }
 
-    public static function GetNamespace(BaseController $ctrl, string $path){
-        if ($ctrl instanceof ApplicationModuleController){
+    public static function GetNamespace(BaseController $ctrl, string $path)
+    {
+        if ($ctrl instanceof ApplicationModuleController) {
             return igk_ns_name(Path::CombineAndFlattenPath($ctrl->getEntryNamespace(), $path));
         }
         return $ctrl::ns($path);
@@ -974,8 +988,8 @@ abstract class ControllerExtension
         //init database models
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/InitData.php";
-        if (!file_exists($c)) {
-            $ns = ControllerExtension::GetNamespace($ctrl, 'Database') ; 
+        if (!igk_io_cache_file_exists($c)) {
+            $ns = ControllerExtension::GetNamespace($ctrl, 'Database');
             $builder = new PHPScriptBuilder();
             $builder->type("class")
                 ->name("InitData")
@@ -1000,7 +1014,7 @@ abstract class ControllerExtension
         // $force = 1;
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/Seeds/DataBaseSeeder.php";
-        if (!file_exists($c)) {
+        if (!igk_io_cache_file_exists($c)) {
 
             $ns = $ctrl::ns("Database/Seeds");
             $builder = new PHPScriptBuilder();
@@ -1086,7 +1100,7 @@ abstract class ControllerExtension
         //init database models
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/Factories/FactoryBase.php";
-        if (!file_exists($c)) {
+        if (!igk_io_cache_file_exists($c)) {
             $ns = $ctrl::ns("Database/Factories");
             $builder = new PHPScriptBuilder();
             $builder->type("class")
@@ -1131,7 +1145,7 @@ abstract class ControllerExtension
                 $loader->registerLoading($ns . "\\Tests", $cldir);
             }
             $_auto_file = dirname($cldir) . "/autoload.php";
-            if (file_exists($_auto_file)) {
+            if (igk_io_cache_file_exists($_auto_file, true)) {
                 if (!igk_environment()->NO_PROJECT_AUTOLOAD) {
                     require_once($_auto_file);
                 } else {
@@ -1348,7 +1362,7 @@ abstract class ControllerExtension
         $v_view = __FUNCTION__;
         if (
             !igk_environment()->viewfile && igk_app_is_uri_demand($ctrl, $v_view)
-            && file_exists($file = $ctrl->getViewFile($v_view, false))
+            && igk_io_cache_file_exists($file = $ctrl->getViewFile($v_view, false))
             && (igk_io_basenamewithoutext($file) == $v_view)
         ) {
             $ctrl->loader->view($file, compact("u", "pwd", "nav"));
@@ -2103,7 +2117,7 @@ abstract class ControllerExtension
      */
     public static function loadRoute(BaseController $controller)
     {
-        if (file_exists($cf = $controller::configFile("routes"))) {
+        if (igk_io_cache_file_exists($cf = $controller::configFile("routes"))) {
             $inc = function () {
                 include_once(func_get_arg(0));
             };
@@ -2128,7 +2142,7 @@ abstract class ControllerExtension
      */
     public static function viewError(BaseController $controller, $code, $params = [])
     {
-        if (file_exists($f = $controller::getErrorViewFile($code))) {
+        if (igk_io_cache_file_exists($f = $controller::getErrorViewFile($code))) {
             $node = igk_create_node("div");
             $controller->setEnvParam(BaseController::NO_ACTION_FLAG, 1);
             $controller->regSystemVars(null);
@@ -2154,7 +2168,7 @@ abstract class ControllerExtension
      */
     public static function viewInContext(BaseController $controller, string $file, $params = null)
     {
-        if (realpath($file) || file_exists($file = $controller->getViewFile($file))) {
+        if (realpath($file) || igk_io_cache_file_exists($file = $controller->getViewFile($file))) {
             $bck = $controller->getSystemVars();
             if ($params) {
                 $controller->regSystemVars($params);
@@ -2313,7 +2327,7 @@ abstract class ControllerExtension
             if (!preg_match("/\.(" . IGK_DEFAULT_STYLE_EXT . "|css)$/", $f)) {
                 $f .= "." . IGK_DEFAULT_STYLE_EXT;
             }
-            if (file_exists($f)) {
+            if (igk_io_cache_file_exists($f)) {
                 $document->getTheme()->addTempFile($controller, $f);
                 $c++;
             }
@@ -2343,7 +2357,7 @@ abstract class ControllerExtension
             if (!preg_match("/\.(js)$/", $f)) {
                 $f .= ".js";
             }
-            if (file_exists($f)) {
+            if (igk_io_cache_file_exists($f)) {
                 $document->addTempScript($f);
                 $c++;
             }
@@ -2364,7 +2378,7 @@ abstract class ControllerExtension
             $args = $controller->getViewArgs();
         }
         foreach (["", ".pinc"] as $ext) {
-            if (file_exists($g = $cf . $ext)) {
+            if (igk_io_cache_file_exists($g = $cf . $ext)) {
                 return igk_include($g, $args);
             }
         }
@@ -2405,7 +2419,7 @@ abstract class ControllerExtension
      * @return ?ActionResolutionInfo action resolution info
      * @throws IGKException 
      */
-    public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null): ?string
+    public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null, ?bool $is_ajx = null): ?string
     {
         // + | --------------------------------------------------------------------
         // + | detect action to call - base on request name and params
@@ -2447,8 +2461,9 @@ abstract class ControllerExtension
         $postfix = EntryClassResolution::ActionClassSuffix;
         $targs = explode("/", ltrim($search_name, '/'));
         $margs = array_slice($targs, 1);
-        while (count($targs) > 0) {
+        while (($tc = count($targs)) > 0) {
             $r = array_shift($targs);
+            $v_last = (($tc - 1) == 0) && $is_ajx;
             $g = StringUtility::CamelClassName(ucfirst($r));
             if (is_numeric($g)) {
                 if ($fallback) {
@@ -2466,10 +2481,18 @@ abstract class ControllerExtension
                 }
                 array_shift($margs);
             }
-            $m .= $sep . $g;
+            $v_ajx_suffix = ($tc == 1) && preg_match("/\.ajx$/i", $r);
+            if ($v_last || $v_ajx_suffix) {
+                $rg = StringUtility::CamelClassName(ucfirst(igk_str_rm_last($r, '.ajx')));
+                $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $sep . $rg . $postfix]))), $level, $margs);
+            }
 
-            $m = ltrim($m, '\\');
-            $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix]))), $level, $margs);
+            if (!$v_ajx_suffix) {
+                $m .= $sep . $g;
+                $m = ltrim($m, '\\');
+                $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix]))), $level, $margs);
+            }
+
             $sep = "\\";
             $p = $g;
             $fallback = true;
@@ -2493,7 +2516,7 @@ abstract class ControllerExtension
                 $fcl = substr($cl, $sublen);
             }
             $f = igk_dir(implode("/", [$classdir, $fcl . ".php"]));
-            if (file_exists($f) && class_exists($cl)) {
+            if (igk_io_cache_file_exists($f, true) && class_exists($cl)) {
                 if (count($t) > 0) {
                     $responseData->level = $level;
                     $responseData->class = $cl;
@@ -2592,11 +2615,10 @@ HTML;
         if ($reload || !$e) {
             $file = Path::Combine($controller->getDeclaredDir(), ConfigurationFile::CONFIG_FILE);
             $e = null;
-            if (file_exists($file)) {
+            if (igk_io_cache_file_exists($file)) {
                 $ref = json_decode(file_get_contents($file));
                 $e = Activator::CreateNewInstance(ConfigurationFile::class, $ref);
             }
-
             $e && igk_environment()->set($v_key, $e);
         }
         return $e;

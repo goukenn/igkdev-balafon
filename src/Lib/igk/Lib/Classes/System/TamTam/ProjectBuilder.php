@@ -84,7 +84,7 @@ class ProjectBuilder{
             IO::CleanDir($c);
         } 
         $cnf = $this->configFile ?? Constants::PROJECT_CONF_FILE;
-        if (file_exists($config_file = Path::Combine($install_dir, $cnf))){
+        if (igk_io_file_exists($config_file = Path::Combine($install_dir, $cnf))){
             if ($data = json_decode(file_get_contents($config_file))){
                 $cl = $this->getSettingValidationDataClass();                
                 if ($cl && ($setting = $cl::ValidateData($data))){

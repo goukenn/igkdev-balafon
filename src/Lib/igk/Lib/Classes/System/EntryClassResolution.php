@@ -23,6 +23,7 @@ abstract class EntryClassResolution{
     const DbInitManager = 'Database\DbInitManager';
     const DbInitMacros = 'Database\InitMacros';
     const DbMigrations = 'Database\Migrations';
+    const DbSeederClass = "Database\\Seeds\\DataBaseSeeder";
 
     const ModelMappingNS = 'Database\Import';
 
@@ -36,7 +37,7 @@ abstract class EntryClassResolution{
 
     const WinUI_ViewLayout = '/WinUI/ViewLayout';
     const WinUI_Form_Validation = '/WinUI/FormValidations';
-    const WinUI_ViewLayoutFormat = '/WinUI/Views/%sViewLoader';
+    const WinUI_ViewLayoutFormat = '/WinUI/Views/%sLayoutLoader';
 
     const SysSyncProject = 'System\Console\Commands\SyncProject';
     const ProjectProfilesClass = 'Profiles';

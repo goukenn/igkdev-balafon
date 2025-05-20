@@ -51,7 +51,7 @@ final class SessionManagerController extends ConfigControllerBase{
         $file="";
         if(is_dir($d)){
 			$prefix = igk_get_session_prefix();
-            if(file_exists($file=$d."/".$prefix.$i)){
+            if(igk_io_file_exists($file=$d."/".$prefix.$i)){
                 unlink($file);
             }
         }

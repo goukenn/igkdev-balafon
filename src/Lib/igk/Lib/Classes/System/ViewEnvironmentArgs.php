@@ -234,8 +234,8 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $base_uri = $controller::uri('/');
         $builder = $builder ?? $t ? new HtmlNodeBuilder($t) : null;
         $_dir_ = ViewHelper::Dir() ?? dirname($file);        
-        if (!isset($layout))
-            $layout = $controller->getViewLoader($fname); 
+        // if (!isset($layout))
+        //     $layout = $controller->getViewLoader(trim($rname,"/")); 
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

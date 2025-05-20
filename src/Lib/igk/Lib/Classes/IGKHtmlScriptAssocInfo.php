@@ -21,7 +21,7 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
     ///<summary></summary>
     public function __serialize(){
         if(self::$sm_store){
-            if(!file_exists($cache=self::GetCacheFile())){
+            if(!igk_io_file_exists($cache=self::GetCacheFile())){
                 if(!($cdata=igk_get_env("sys://res_files"))){
                     $cdata=$this->data;
                 }

@@ -49,7 +49,7 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
         $cnf = self::CONF_FILE;
         $ctrl= self::GetController($controller, true);
         $force = property_exists($command->options, "--force");
-        if (file_exists($file = $ctrl->getDeclaredDir()."/". $cnf)){
+        if (igk_io_file_exists($file = $ctrl->getDeclaredDir()."/". $cnf)){
             if (!$force){
                 igk_die( sprintf(__("%s config file already exists"), $cnf));
             }

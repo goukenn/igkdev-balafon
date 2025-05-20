@@ -74,7 +74,7 @@ class IGKResourceUriResolver
                     $chain = igk_uri(IGK_RES_FOLDER . "/_cgi_/" . $n);
                     $o = igk_io_basedir($chain);
                     $dir = dirname($o);
-                    if (!file_exists($o)) {
+                    if (!igk_io_file_exists($o)) {
                         IO::CreateDir($dir, static::DEFAULT_MASK);
                         igk_io_symlink($rp, $o);
                     } else {
@@ -82,7 +82,7 @@ class IGKResourceUriResolver
                             igk_die(__("res failed shortcut"));
                         }
                     }
-                    if (!file_exists($file = $dir . "/.htaccess")) {
+                    if (!igk_io_file_exists($file = $dir . "/.htaccess")) {
                         igk_io_w2file($file, igk_io_read_allfile(IGK_LIB_DIR . "/Inc/default.cgi.htaccess"));
                     }
                     return $chain;
@@ -104,11 +104,11 @@ class IGKResourceUriResolver
 
         krsort($this->environment, SORT_REGULAR);
         $_access = implode("\n", ["allow from all", "AddType text/javascript js", "AddEncoding deflate js", "<IfModule mod_headers.c>", "Header set Cache-Control \"max-age=31536000\"", "</IfModule>",]);
-        if (!file_exists($c =  $public_asset. "/_chs_/dist/js/.htaccess")) {
-            igk_io_w2file($c, $_access);
+        if ($c =  $public_asset. "/_chs_/dist/js/.htaccess") {
+            igk_io_w2file($c, $_access, false);
         }
-        if (!file_exists($c =  $public_asset . "/dist/js/.htaccess")) {
-            igk_io_w2file($c, $_access);
+        if ($c =  $public_asset . "/dist/js/.htaccess") {
+            igk_io_w2file($c, $_access, false);
         }
     }
     private function __hashResPath($j, $n, $options){
@@ -186,6 +186,11 @@ class IGKResourceUriResolver
                 if (!igk_io_is_subdir($bdir, $path)) {
                     $rp = $acpath;
                 }
+                if (is_null($rp)){
+                    igk_wln_e(__FILE__.":".__LINE__ , "missing rp ".$path, $rp, realpath($path), 
+                    $acpath,
+                    igk_realpath($path));
+                }
                 return $this->resolveResource($rp, $fulluri).$query;
             }
         }
@@ -215,7 +220,7 @@ class IGKResourceUriResolver
         $v_res_path = $this->_getResPath($v_cpath);
         $v_bdir = igk_io_basedir();
         // create a symlink or 
-        if (!file_exists($fc = Path::Combine($v_bdir, $v_res_path))){
+        if (!igk_io_file_exists($fc = Path::Combine($v_bdir, $v_res_path), true)){
             // + | missing - create a link to 
             if (!igk_io_symlink($rp, $fc)) {
 

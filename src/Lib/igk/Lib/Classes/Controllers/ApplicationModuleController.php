@@ -165,7 +165,7 @@ final class ApplicationModuleController extends BaseController{
         $this->m_fclist=array(); 
         // $tf = $dir."/Lib/".self::;
         // $c=realpath($tf);
-        // if(!file_exists($c)){
+        // if(!igk_io_file_exists($c)){
         //     $configs=array();
         //     $this->_initconfig($configs);
         //     $o="<?php\n";
@@ -178,7 +178,7 @@ final class ApplicationModuleController extends BaseController{
         // } 
         $this->_initModuleClasses();
         $c=realpath($dir."/.module.pinc");
-        if(file_exists($c)){
+        if(igk_io_file_exists($c, true)){
             $this->_init($c);
         }  
     }
@@ -204,7 +204,7 @@ final class ApplicationModuleController extends BaseController{
                 if (!empty($entry_ns) && (strpos( strtolower($n), strtolower($entry_ns.'\\'))===0)){
                     // and matching start of the entry namespace
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
-                    if (file_exists($fc = igk_dir($libdir."/".$cl.".php"))){                         
+                    if (igk_io_file_exists($fc = igk_dir($libdir."/".$cl.".php"), true)){                         
                         include($fc);                        
                         if (!class_exists($n, false) && !interface_exists($n, false) && !trait_exists($n, false)){               
                             igk_die("file loaded but {$n}, interface or trait not exists");
@@ -215,7 +215,7 @@ final class ApplicationModuleController extends BaseController{
                         $pos = $entry_ns."\\Tests\\";
                         if (strpos($n, $pos)=== 0){ 
                             $cl = ltrim(substr($n, strlen($pos)), "\\");
-                            if (file_exists($fc = $this->getTestClassesDir()."/".$cl.".php")){
+                            if (igk_io_file_exists($fc = $this->getTestClassesDir()."/".$cl.".php", true)){
                                 include($fc);
                                 if (!class_exists($n, false) && !interface_exists($n, false)){               
                                     igk_die("file loaded but class $cl does not exists");
@@ -395,7 +395,7 @@ final class ApplicationModuleController extends BaseController{
         if(isset($_configs[$_hash])){
             return $_configs[$_hash];
         }
-        if(file_exists($c)){
+        if(igk_io_file_exists($c)){
             $c = realpath($this->m_dir."/Lib/.config.php");
             $config=array();
             include($c);

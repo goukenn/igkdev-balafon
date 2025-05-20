@@ -614,7 +614,7 @@ define('IGK_CSV_SEPARATORS', ",|.|\t|;");
 define('IGK_CSV_FIELD_SEPARATORS', "'|\"");
 define('IGK_HTML_WHITESPACE', "&nbsp;");
 define('IGK_HTML_CHAR_ZERO', "&#x30;");
-define('IGK_HTML_ENCTYPE', "multipart/form-data");
+define('IGK_HTML_ENCTYPE', 'multipart/form-data');
 define('IGK_MYSQL_DATAADAPTER', 'MYSQL');
 define('IGK_CSV_DATAADAPTER', 'CSV');
 define('IGK_CTRL_CONF_FILE', "config.xml");
@@ -827,28 +827,7 @@ define('IGK_ERR_FUNCNOTAVAILABLE', 65547);
 !defined('IGK_SYS_USER_LOGIN') &&  define('IGK_SYS_USER_LOGIN', "igk.system@igkdev.com");
 //
 define('IGK_ENV_GLOBAL_SCRIPT_KEY', "sys://globalscript");
-
-// $tab = get_defined_constants();
-// ksort($tab);
-// $flag = 0;
-// $c = 0;
-// $excludes = [
-// ,'IGK_LOCAL_DEBUGGING'
-// ,'IGK_NODESTROY_ON_FATAL'
-// ,'IGK_NO_TRACELOG'
-// ,'IGK_SYS_CONFIG_FILE'
-// ,'IGK_TRACE' 
-// 'IGK_WEBFRAMEWORK', 
-// 'IGK_DEFAULT_FILE_MASK'];
-
-// foreach($tab as $k=>$v){
-// if (in_array($k, $excludes))
-// continue;
-// if (is_numeric($v) && (strpos( $k, 'IGK_')===0) && (strpos( $k, 'IGK_ERR') === false) && (strpos( $k, 'IGK_CSS') === false)){
-// $c++;
-// echo "define('".$k."', ".$c.");<br />\n";
-// }
-// }
+ 
 
 defined('IGK_PWD_PREFIX') || define('IGK_PWD_PREFIX', "(!)8Zmb90-&");
 define('IGK_LIB_CLASSES_DIR', IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);

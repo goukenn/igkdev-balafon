@@ -58,7 +58,7 @@ abstract class IGKServiceController
         $doc->setParam("sys://designMode/off", 1);
         $doc->Title=R::ngets("title.app_2", $this->ServiceName, $this->App->Configs->website_title);
         // $doc->Favicon=new IGKHtmlRelativeUriValueAttribute(igk_io_baseRelativePath($this->getDataDir()."/R/Img/favicon.ico"));
-        if (file_exists($fav = $this->getDataDir()."/R/Img/favicon.ico"))
+        if (igk_io_file_exists($fav = $this->getDataDir()."/R/Img/favicon.ico"))
             igk_doc_set_favicon($doc, $fav); 
         igk_html_rm($this->TargetNode); 
         $this->_configureDocument($doc);   
@@ -185,7 +185,7 @@ abstract class IGKServiceController
         $g=new WsdlFile($n, igk_io_baseUri()."/".IGK_SERVICE_BASE_URI."/".$n, array("nsprefix"=>"igkns", "nsuri"=>"http://www.igkdev.com"));
         $g->initService($n, array("doc"=>$this->getServiceDescription()));
         $fc=$this->getDataDir()."/.funclist.xml";
-        if(file_exists($fc))
+        if(igk_io_file_exists($fc))
             @unlink($fc);
         $this->init_wsdl($g);
         $g->Save($b);
@@ -222,7 +222,7 @@ EOF;
             $r->addTh()->Content=__("Description");
             $cf=$this->getArticlesDir()."/".$method.".json";
             $store=0;
-            if(!file_exists($cf)){
+            if(!igk_io_file_exists($cf)){
                 $store=1;
                 $jdata=igk_createObj();
             }
@@ -284,7 +284,7 @@ EOF;
     public function getExtra($m){
         $n=igk_create_node("div");
         $f=$this->getArticlesDir()."/".$m.".json";
-        if(file_exists($f)){
+        if(igk_io_file_exists($f)){
             $n->addJSAExtern("openFile", igk_io_to_uri($f))->setClass("igk-btn igk-btn-default igk-active")->Content=R::ngets("btn.Edit");
         }
         $s=$n->render();
@@ -296,7 +296,7 @@ EOF;
         if(($s=realpath($n)) == $n)
             return $n;
         $g=IO::GetDir(dirname(__FILE__)."/".IGK_ARTICLES_FOLDER. "/".$n);
-        if(file_exists($g))
+        if(igk_io_file_exists($g))
             return $g;
         return null;
     }
@@ -306,7 +306,7 @@ EOF;
         if(realpath($n) == $n)
             return $n;
         $g=IO::GetDir(dirname(__FILE__)."/".IGK_VIEW_FOLDER. "/".$n);
-        if(file_exists($g))
+        if(igk_io_file_exists($g))
             return $g;
         return null;
     }
@@ -360,7 +360,7 @@ EOF;
         ini_set("soap.wsdl_cache_enabled", $this->Configs->clServiceDisableWSDLCache ? "0": "1");
         $header=igk_get_allheaders();
         $b=$this->getWsdlFile();
-        if(!file_exists($b)){
+        if(!igk_io_file_exists($b)){
             $this->generate_wsdl(); 
         }
         $this::register_autoload();
@@ -452,7 +452,7 @@ EOF;
     public function wsdl($a=null, $appxml=1){
         // igk_wln_e("l:::DATA");
         $b=$this->getWsdlFile();
-        if(($a && igk_is_conf_connected()) || !file_exists($b)){
+        if(($a && igk_is_conf_connected()) || !igk_io_file_exists($b)){
             $this->generate_wsdl($b);
             if(igk_getr("r") == 1){
                 igk_navto($this->getServiceUri());

@@ -110,7 +110,8 @@ class session extends \IGKLibraryBase
      */
     public static function SessionPath(string $session_id): string
     {
-        return  Path::Combine(session_save_path(), IGK_SESSION_FILE_PREFIX . $session_id);
+        $v_p = Path::Combine(session_save_path(), IGK_SESSION_FILE_PREFIX . $session_id); 
+        return $v_p;
     }
     /**
      * core start session
@@ -187,7 +188,7 @@ class session extends \IGKLibraryBase
                 session_set_cookie_params(10, "/", $opts["domain"], igk_sys_srv_is_secure(), true);
             }
         }        
-        $b = session_start();
+        $b = @session_start();
         return $b;
     }
     /**
@@ -198,7 +199,7 @@ class session extends \IGKLibraryBase
     public function restart(string $id)
     {
         session_id($id);
-        return session_start();
+        return @session_start();
     }
     /**
      * close the started session

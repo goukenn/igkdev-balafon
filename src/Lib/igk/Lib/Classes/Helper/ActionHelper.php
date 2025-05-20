@@ -515,6 +515,8 @@ abstract class ActionHelper
         $is_expected = ActionHelper::IsExpectedAction($controller, $fname, $handler_class_name);
         $is_ajx = ($options ? igk_getv($options, 'is_ajx') : null) ?? 
             (igk_server()->CONTENT_TYPE == "application/json") || igk_is_ajx_demand();
+        $is_exit = $is_ajx && !($options ? igk_getv($options, 'is_view') : null);
+
         $verb = ($options ? igk_getv($options, 'method') : null) ?? 
             strtolower(igk_server()->REQUEST_METHOD ?? 'get');
         $v_user = ($options ? igk_getv($options, 'user') : null);
@@ -616,16 +618,16 @@ abstract class ActionHelper
                     }
                 }
             }
-        }
+        } 
         $r = $handler_class_name::Handle(
             $controller,
             $fname,
             $handlerArgs,
-            $is_ajx,
+            $is_exit,
             true,
             $verb,
             $v_user
-        );
+        ); 
         Request::getInstance()->setJsonData($old_data);
         return $r;
     }

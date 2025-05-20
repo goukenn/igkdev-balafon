@@ -27,7 +27,7 @@ class SystemFileCache extends CommonCache{
         $t=3600;
         $expire=time() - $t;
         $el=IGK_LF;
-        if(!$force && file_exists($f) && (filemtime($f) > $expire)){
+        if(!$force && igk_io_file_exists($f) && (filemtime($f) > $expire)){
             return;        }
         $data=IGK_STR_EMPTY;
         $dir=IGK_LIB_DIR;
@@ -63,7 +63,7 @@ class SystemFileCache extends CommonCache{
         $date=igk_date_now();
         $out=implode("\n", ["<?php", "// Balafon lib cache - auto generate", "// @author: C.A.D. BONDJE DOUE", "// date : {$date}", "{$init}", "{$src}", !empty($data) ? 
         implode("\n", ["foreach([{$data}] as \$k){",
-            "if (file_exists(\$c = igk_io_expand_path(\$k))){", 
+            "if (igk_io_file_exists(\$c = igk_io_expand_path(\$k))){", 
             "    require_once(\$c);",
             "}", 
             "else die(\"Cache corruption. File not found: \".\$k);", "}"
@@ -75,13 +75,13 @@ class SystemFileCache extends CommonCache{
     }
      ///<summary>Represente CheckLibVersion function</summary>
      public static function CheckLibVersion(){
-        return (!file_exists($ver_file=igk_io_cachedir()."/.lib.version.cache")) || (IGK_VERSION != trim(file_get_contents($ver_file)));
+        return (!igk_io_file_exists($ver_file=igk_io_cachedir()."/.lib.version.cache", true)) || (IGK_VERSION != trim(file_get_contents($ver_file)));
     }
    ///<summary></summary>
    public static function LoadCacheLibFiles(){
         $f= self::CacheFile();
         $v= false;
-        if(!defined("IGK_NO_CACHE_LIB") && file_exists($f)){
+        if(!defined("IGK_NO_CACHE_LIB") && igk_io_file_exists($f, true)){
             //+ | clear lib cache
             if(self::CheckLibVersion()){
                 unlink($f);
@@ -100,8 +100,7 @@ class SystemFileCache extends CommonCache{
     }
     ///<summary>init cache folder hook</summary>
     public static function Init_CachedHook($e=null){
-        if(!file_exists($f=igk_io_cachedir()."/.htaccess")){
-            igk_io_w2file($f, "deny from all");
-        }
+        $f=igk_io_cachedir()."/.htaccess";
+        igk_io_w2file($f, "deny from all", false);
     }
 }

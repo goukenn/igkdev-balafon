@@ -138,7 +138,6 @@ class PhoneBookUtility
      */
     public static function ImportVCards($cards, ?Users $user = null)
     {
-
         foreach ($cards as $c) {
             $firstname = null;
             $lastname = null;
@@ -160,15 +159,39 @@ class PhoneBookUtility
     /**
      * get phone book entries
      * @param null|Users $users 
+     * @param mixed $limit
      * @return ?PhoneBookEntries[] 
+     * @return mixed 
      */
-    public static function GetPhoneEntries(?Users $user)
+    public static function GetPhoneEntries(?Users $user, $limit=null)
     {
         $conditions = [];
         if ($user) {
             $conditions[PhoneBookEntries::FD_USER_GUID] = $user->clGuid;
         }
-        $tab = PhoneBookEntries::select_all($conditions);
+        if (is_null($limit)){
+            return PhoneBookEntries::select_all($conditions);
+        }
+
+        $t1 = PhoneBookTypes::table();
+        $t2 = PhoneBooks::table();
+        $conditions[PhoneBookTypes::FD_NAME()]= PhoneBookTypeNames::PHT_NAME;
+        // $conditions[PhoneBookTypes::FD_NAME()]= PhoneBookTypeNames::PHT_NAME;
+        $options = [];
+        if ($limit){
+            $options['Limit'] = $limit;
+        }
+        $options['OrderBy'] = [PhoneBookTypes::FD_NAME().'|Asc'];
+        $options['Columns'] = PhoneBookEntries::queryColumns(); 
+        $tab = PhoneBookEntries::prepare()
+        ->with($t1 = PhoneBookTypes::table(), 'type')
+        ->with($t2 = PhoneBooks::table(), 'books')
+        ->join_left($t2, sprintf('%s=%s', PhoneBookEntries::FD_GUID(), PhoneBooks::FD_ENTRY_GUID()))
+        ->join_left($t1, sprintf('%s=%s', PhoneBookTypes::FD_ID(), PhoneBooks::FD_TYPE()))
+        ->columns(array_merge(PhoneBookEntries::queryColumns(),PhoneBooks::queryColumns()))
+        ->where($conditions) 
+        ->orderBy([ PhoneBooks::FD_VALUE().'|Asc', ])
+        ->execute(true, $options); 
         return $tab;
     }
     /**
@@ -254,5 +277,9 @@ class PhoneBookUtility
             }
         }
         return false;
+    }
+
+    public static function PhoneDetailList($entries){
+        
     }
 }

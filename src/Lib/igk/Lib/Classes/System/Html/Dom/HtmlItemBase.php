@@ -53,6 +53,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     const CALLBACK_SUFFIX = 'Params';
     const FLAG_INIT = IGK_NODETYPE_FLAG;
     const PREFILTER_ATTRIBUTE = 5;
+    const RENDER_ONLY = 6;
     /**
      * property flag container
      * @var array
@@ -78,6 +79,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public function getPrefilterAttribute(): ?IHtmlPrefilterAttribute
     {
         return $this->getParam(self::PREFILTER_ATTRIBUTE);
+    }
+    public function getRenderOnly(){
+        return $this->getParam(self::RENDER_ONLY);
     }
 
     /**
@@ -1321,8 +1325,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             if ($f)
                 return $f;
         }
-        $tb = explode(':', $name);
-        if (count($tb) == 1) {
+        $tb = explode(':', $name, 2);
+        if ((($tc = count($tb)) == 1)  || (($tc==2)&& ($tb[0]=='web'))){
+            if (($tc==2)&& ($tb[0]=='web')){
+                $name = $tb[1];
+            }
+
             // + | -------------------------------------------------------
             // + | concepts:html: create a simple tag name
             // + | 
@@ -1335,10 +1343,13 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         // + | passing complex tag t_:code as exemple must be handle by the default - tag 
         if ($tag_creating == $name) {
-            // detect try to create a tag - 
+            // detect try to create a tag -
+
+            igk_wln_e('create ....in ');
             igk_die(sprintf("not handle tag name [%s]", $name));
         }
         $tag_creating = $name;
+        
         $t = static::CreateWebNode(...func_get_args());
         $tag_creating = null;
         return null;

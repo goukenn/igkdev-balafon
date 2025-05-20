@@ -29,7 +29,7 @@ class MailAttachement extends IGKObject{
         if($this->Type == "Content")
             return $this->m_content ? chunk_split(base64_encode($this->m_content), 76, IGK_CLF) : null;
         $data="";
-        if(file_exists($this->Link))
+        if(igk_io_file_exists($this->Link))
             $data=igk_io_read_allfile($this->Link);
         return chunk_split(base64_encode($data), 76, IGK_CLF);
     }

@@ -256,7 +256,7 @@ final class SessionController extends BaseController{
         $sessid=igk_getv($_COOKIE, $cookie_name, session_id());
         $strCookie= $cookie_name.'='.$sessid.'; path='.igk_get_cookie_path();
         $f=igk_data_get_cron_file();
-        if(file_exists($f))
+        if(igk_io_file_exists($f))
             $tab=igk_json_parse(igk_io_read_allfile($f));
         else
             $tab[]=igk_io_baseuri().$this->getUri("RunCron&ctrl=baobabtv");

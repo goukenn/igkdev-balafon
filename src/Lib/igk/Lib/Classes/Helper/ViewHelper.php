@@ -325,7 +325,7 @@ class ViewHelper
             return include(func_get_arg(0));
         })->bindTo($ctrl);
         if (!is_file($file = func_get_arg(0))) {
-            file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: " . $file);
+            igk_io_file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: " . $file);
         }
         return $g($file, $_tab);
     }
@@ -358,8 +358,8 @@ class ViewHelper
      */
     public static function RequireOnce($file)
     {
-        if (!file_exists($file = func_get_arg(0))) {
-            file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: " . $file);
+        if (!igk_io_file_exists($file = func_get_arg(0))) {
+            igk_io_file_exists($file = self::GetView($file)) || igk_die("failed to resolv file: " . $file);
         }
         $ctrl = self::CurrentCtrl();
         $g = (function () {
@@ -618,13 +618,13 @@ class ViewHelper
                             return $rdir;
                         }
                         if (is_dir($rdir)) {
-                            if (file_exists($c = $rdir . "/" . IGK_DEFAULT_VIEW)) {
+                            if (igk_io_file_exists($c = $rdir . "/" . IGK_DEFAULT_VIEW)) {
                                 return $c;
                             }
                         }
                     }
                     if (($bname != IGK_DEFAULT_VIEW_FILE) && (
-                        file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
+                        igk_io_file_exists($c = $f . "/" . IGK_DEFAULT_VIEW_FILE))) {
                         if (!in_array($bname, [IGK_DEFAULT_VIEW])) {
                             array_unshift($param, array_pop($_views));
                         }

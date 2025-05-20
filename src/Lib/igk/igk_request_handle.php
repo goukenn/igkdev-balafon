@@ -52,7 +52,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER."/balafon.js[%q%]"
 
     $sf=igk_core_dist_jscache();
     $resolver=IGKResourceUriResolver::getInstance(); 
-    if(0 && file_exists($sf)){
+    if(0 && igk_io_file_exists($sf)){
         $resolver->resolve($sf);
         igk_header_set_contenttype("js");
         header("Content-Type: application/javascript; charset=UTF-8");   
@@ -104,7 +104,7 @@ IGKRoutes::Register("^/!@res/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_METH, function($
         igk_exit();
     }
     $load_js_res=is_dir($dir) && !$arg;
-    if(!$load_js_res && (count($arg) > 0) && file_exists($file=$dir."/".implode("/", $arg))){
+    if(!$load_js_res && (count($arg) > 0) && igk_io_file_exists($file=$dir."/".implode("/", $arg))){
         igk_render_resource($file);
         igk_exit();
     }
@@ -170,7 +170,7 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_SCRIPT_FOLDER.IGK_REG_ACTION_MET
         if($m=igk_server()->REQUEST_METHOD != "OPTIONS"){
             $arg=is_array($arg) ? igk_getv($arg, 0): $arg;
             $file=IGK_LIB_DIR."/Scripts/{$fc}";
-            if(file_exists($file)){
+            if(igk_io_file_exists($file)){
                 igk_io_render_res_file($file, $arg);
             }
             else{
@@ -189,7 +189,8 @@ IGKRoutes::Register("^/".IGK_RES_FOLDER."/".IGK_STYLE_FOLDER."/balafon.css[%q%]"
     
      if(defined("IGK_FORCSS"))
         return; 
- 
+
+
     defined("IGK_FORCSS") || define("IGK_FORCSS", 1);
     defined("IGK_NO_WEB") || define("IGK_NO_WEB", 1); 
     try{        
@@ -212,7 +213,7 @@ IGKRoutes::Register("^/!/lib/(:path+)[%q%]", function($path, $version=null){
     /// TASK : Allowed file extension from lib directory
     
     $allowed=preg_match("/\.(js|css|xml|txt|bmp|png|svg|jpeg|jpg|xsl|pdf|md)$/", $path);
-    if(file_exists($path) && $allowed){
+    if(igk_io_file_exists($path) && $allowed){
         igk_header_content_file($path);
         igk_header_cache_output();
         igk_zip_output(igk_io_read_allfile($path));
@@ -245,7 +246,7 @@ IGKRoutes::Register("^/robots.txt$", function(){
         // "Googlebot"])."/", $a))
         //     return 0;
         $f = implode(DIRECTORY_SEPARATOR,  [igk_io_sys_datadir(), "robots.txt"]);
-        if (file_exists($f)){
+        if (igk_io_file_exists($f)){
             include($f);
             igk_exit();
         } 

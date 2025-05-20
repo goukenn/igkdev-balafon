@@ -108,7 +108,7 @@ class HtmlScriptLoader
                 if (!isset($to_check_loading[$check_dir = dirname($f)])) {
                     $lib = $check_dir . '/__autoload.json';
                     $inf = (object)['required' => [], 'ignore' => []];
-                    if (file_exists($lib)) {
+                    if (igk_io_cache_file_exists($lib)) {
                         $jsdata = json_decode(file_get_contents($lib));
                         if ($jsdata) {
                             list($required, $ignore) = igk_extract($jsdata, 'required|ignore');
@@ -169,7 +169,7 @@ class HtmlScriptLoader
             };
         } else {
             $production_file = IGKCaches::js_filesystem()->getCacheFilePath($cachePath, ".js");
-            if (!$no_page_cache  && file_exists($production_file)) {
+            if (!$no_page_cache  && igk_io_file_exists($production_file)) {
                 return file_get_contents($production_file);
             }
 
@@ -203,7 +203,7 @@ class HtmlScriptLoader
             }
 
             $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq . $dir);
-            if (!$no_page_cache && file_exists($cache_path)) {
+            if (!$no_page_cache && igk_io_file_exists($cache_path, true)) {
                 ob_start();
                 include($cache_path);
                 $out .= ob_get_contents();

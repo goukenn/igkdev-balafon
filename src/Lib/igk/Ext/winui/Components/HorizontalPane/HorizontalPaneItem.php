@@ -107,7 +107,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	{
 		$f = $this->Folder . "/" . $this->ConfigFileName;
 
-		if (!file_exists($f))
+		if (!igk_io_file_exists($f))
 			return;
 		$div =  HtmlReader::LoadFile($f);
 		$d = igk_getv($div->getElementsByTagName("config"), 0);

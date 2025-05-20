@@ -168,7 +168,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
             if(!(is_dir($dir) && !IO::RmDir(igk_io_baserelativepath(self::TARGETDIR)))){
                 foreach($this->m_fileres as $v){
                     $f=igk_io_currentrelativepath($v);
-                    if(file_exists($f))
+                    if(igk_io_file_exists($f))
                         unlink($f);
                 }
                 $this->m_fileres=array();
@@ -189,7 +189,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         if(($id == null) || !isset($this->m_fileres[$id]))
             return;
         $f=igk_io_currentrelativepath($this->m_fileres[$id]);
-        if(file_exists($f)){
+        if(igk_io_file_exists($f)){
             if(unlink($f)){
                 unset($this->m_fileres[$id]);
                 $this->_storeData();
@@ -417,7 +417,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         foreach($v_ttab as $k){
             $v=$this->m_fileres[$k];
             $file=igk_io_currentrelativepath($v);
-            if(!file_exists($file)){
+            if(!igk_io_file_exists($file)){
                 unset($this->m_fileres[$k]);
                 $r=true;
                 $i++;
@@ -498,7 +498,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
                 $tr->addTd()->Content=$k;
                 $tr->addTd()->add("a", array("href"=>igk_js_post_frame($this->getUri("viewpic_ajx&name=".$k))))->Content=igk_dir($v);
                 $file=igk_io_currentrelativepath($v);
-                if(file_exists($file)){
+                if(igk_io_file_exists($file)){
                     $size=@filesize($file);
                     if($size === false){
                         $tr->addtd()->Content="?";
@@ -552,7 +552,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $n=($name == null) ? igk_getr("name", $name): $name;
         $f=igk_io_currentrelativepath(igk_getv($this->m_fileres, $n, IGK_STR_EMPTY));
         header("Content-type: image/png");
-        if(file_exists($f)){
+        if(igk_io_file_exists($f)){
             igk_wl(IO::ReadAllText($f));
         }
         else{

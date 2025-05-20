@@ -26,7 +26,7 @@ final class IGKGkdsFile extends IGKObject
 	private function __construct(){
 	}
 	public static function ParseToGD($filename, $index=0){
-		if (!defined("IGK_GD_SUPPORT") || !file_exists($filename))
+		if (!defined("IGK_GD_SUPPORT") || !igk_io_file_exists($filename))
 			return null;
 
 		$doc = HtmlReader::LoadFile($filename);

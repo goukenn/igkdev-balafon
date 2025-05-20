@@ -66,7 +66,7 @@ class EnvironmentCommand extends AppExecCommand{
 		$def->config = $cnf; 
 		if ($ctrl){
 			$cnf = $ctrl->getDeclaredDir()."/". Constants::PROJECT_CONF_FILE;
-			if (file_exists($cnf)){
+			if (igk_io_file_exists($cnf)){
 				$def->project = json_decode(file_get_contents($cnf));
 
 			}

@@ -70,7 +70,7 @@ final class PaletteController extends NonVisibleControllerBase {
     * @param mixed $fname
     */
     public function loadFile($fname){
-        if(!file_exists($fname))
+        if(!igk_io_file_exists($fname))
             return;
         $v_name=igk_io_basenamewithoutext($fname);
         $v_t=null;
@@ -118,7 +118,7 @@ final class PaletteController extends NonVisibleControllerBase {
     */
     public function RemovePalette($id){
         $s=$this->getPaletteDir()."/".$id.".gkpal";
-        if(file_exists($s)){
+        if(igk_io_file_exists($s)){
             unlink($s);
             $this->m_palettes=array();
             $this->loadPalette();

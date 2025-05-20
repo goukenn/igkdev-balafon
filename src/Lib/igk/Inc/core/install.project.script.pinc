@@ -163,7 +163,7 @@ function pre_install(&$postinstall, $f, $v_projectInstaller)
 }
 
 
-if (!file_exists($archive)) {
+if (!igk_io_file_exists($archive)) {
     $response->die(implode("\n", ["archive is not present: " . $archive, getcwd()]));
 }
 
@@ -224,7 +224,7 @@ if ($archive && is_file($archive) && $hzip->open($archive)) {
     $response->die("can't open archive", 501);
 }
 if (!$error) {
-    if (file_exists($pc = $project_dir . '/[pre-publish].php')) {
+    if (igk_io_file_exists($pc = $project_dir . '/[pre-publish].php')) {
         pre_install($preinstall, $pc, $v_projectInstaller);
     }
 
@@ -238,7 +238,7 @@ if (!$error) {
     if (is_dir($project_dir)) {
         // before remove temp project directory - keep leavedir.
         $leave_dirs = false;
-        if (file_exists($sync =  $project_dir . "/.balafon-sync.project.json")) {
+        if (igk_io_file_exists($sync =  $project_dir . "/.balafon-sync.project.json")) {
             $cp = (object)json_decode(file_get_contents($sync));
             $leave_dirs = isset($cp->leavedirs) ? $cp->leavedirs : null;
             $steps[] = '************* leave dirs **************';
@@ -287,7 +287,7 @@ if (!$error) {
                 $path = substr($fc, $ln);
                 $out = $project_dir . "/" . ltrim($path, "/");
 
-                if (file_exists($out)) {
+                if (igk_io_file_exists($out)) {
                     continue;
                 }
 
@@ -323,14 +323,14 @@ set_include_path(implode(PATH_SEPARATOR, [
 ]));
 putenv('PATH=' . implode(PATH_SEPARATOR, [$corelib_dir . "/bin", getenv('PATH')]));
 
-if (!$error && file_exists($pc = $project_dir . '/[post-publish].php')) {
+if (!$error && igk_io_file_exists($pc = $project_dir . '/[post-publish].php')) {
     post_install($postinstall, $pc, $v_projectInstaller);
 }
 // chmod($corelib_dir."/bin/balafon", 0777);
 
 
 
-if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) {
+if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && igk_io_file_exists($balafon)) {
     // TODO : update project
     $v_working_dir = igk_getr('working_dir') ?? InstallerHelper::LocateBaseDir($corelib_dir, 3); //.'/../../../../');
     $envs = [
@@ -364,7 +364,7 @@ if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) 
             $v_cmd, json_encode($r, JSON_UNESCAPED_SLASHES)]));
         }
     }
-    //echo 'v '. $v_working_dir. ' ; ' . file_exists($balafon) . PHP_EOL;
+    //echo 'v '. $v_working_dir. ' ; ' . igk_io_file_exists($balafon) . PHP_EOL;
     // update all relative action div
     $c = $pre."{$php_cmd} '{$balafon}' --project:list --debug --report-error 1>&1 2>&1; echo \"\n\"$?";
     $r = InstallerHelper::HandleBacktickCommand(`{$c}`);

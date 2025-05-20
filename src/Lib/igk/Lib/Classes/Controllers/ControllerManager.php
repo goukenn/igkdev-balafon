@@ -84,7 +84,7 @@ final class ControllerManager extends NonVisibleControllerBase {
             }
             $folder=igk_io_projectdir()."/".$p.$n;
             $file_name=$folder."/class.".$n.".php";
-            if(file_exists($file_name)){
+            if(igk_io_file_exists($file_name)){
                 $code |= 0x200;
                 return false;
             }

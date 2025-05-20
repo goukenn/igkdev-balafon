@@ -370,7 +370,13 @@ class QueryBuilder
     public function execute($throwOnError = true, $options = null, $autoclose = false)
     {
         $driver = $this->m_model->getDataAdapter();
-        if (!empty($query = $this->get_query()) && $driver->connect()) {
+        if ($options){
+            if ($limit = igk_getv($options, 'Limit')){
+                $this->limit($limit);
+                // is_array($options) ? \unset($options['Limit']): \unset($options->Limit);
+            }
+        }
+        if (!empty($query = $this->get_query()) && $driver->connect()) { 
             $n = $driver->getIsConnect() ? -1 : $driver->connect();
             $v_goptions = $options ?? $this->m_options;
             if (!empty($this->m_with)) {

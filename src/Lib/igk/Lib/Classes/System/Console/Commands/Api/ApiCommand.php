@@ -42,7 +42,7 @@ class ApiCommand extends AppExecCommand{
 				echo PHP_EOL;
 			}
 		};
-		if (file_exists($file = igk_io_cachedir().'/.api.routes.pinc') && 0){
+		if (igk_io_file_exists($file = igk_io_cachedir().'/.api.routes.pinc') && 0){
 			$routes = ViewHelper::Inc($file); 
 			$routes && $v_fc_showRoute($routes);
 			return;

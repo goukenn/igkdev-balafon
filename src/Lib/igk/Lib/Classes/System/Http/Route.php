@@ -82,7 +82,7 @@ class Route
      */
     public static function LoadConfig(BaseController $controller)
     {
-        if (file_exists($cf = $controller::configFile("routes"))) {
+        if (igk_io_file_exists($cf = $controller::configFile("routes"))) {
             self::$sm_controller = $controller;
             SysUtils::Include($cf, [
                 "ctrl" => $controller,

@@ -98,7 +98,7 @@ class RequestHandler
     {
         $this->context = ['type'=>'handle_route', 'uri' => $path];
         $route_file = \IGK\System\IO\Path::getInstance()->getDataDir() . "/routes.php";
-        if (!file_exists($route_file))
+        if (!igk_io_file_exists($route_file, true))
             return;
       
         if ($routes == null) {
@@ -108,8 +108,7 @@ class RequestHandler
             //
             include($route_file);
             $routes = Route::GetRoutes();
-        }
-     
+        } 
         $user = null;
         if (empty($routes))
             return;
@@ -230,9 +229,9 @@ class RequestHandler
                 igk_environment()->isAJXDemand = $v_isajx;
                 $app->Session->URI_AJX_CONTEXT = $v_isajx;
                 $fd = null;
-                if (($fd = $ctrl->getConstantFile()) && file_exists($fd))
+                if (($fd = $ctrl->getConstantFile()) && igk_io_cache_file_exists($fd))
                     include_once($fd);
-                if (($fd = $ctrl->getDbConstantFile()) && file_exists($fd))
+                if (($fd = $ctrl->getDbConstantFile()) && igk_io_cache_file_exists($fd))
                     include_once($fd);
                 unset($fd);
                 igk_environment()->set(IGK_ENV_REQUEST_METHOD, strtolower(get_class($ctrl) . "::" . $f));
@@ -402,7 +401,7 @@ class RequestHandler
             if (!($p = igk_get_defaultwebpagectrl())) {
                 igk_set_header(RequestResponseCode::NotFound);
                 $file = $file = igk_env_file(igk_io_applicationdir() . "/" . IGK_INC_FOLDER . "/error.404");
-                if ($file && file_exists($file)) {
+                if ($file && igk_io_file_exists($file)) {
                     include($file);
                 } else {
                     HtmlDefaultMainPage::getInstance()->setIsVisible(false);

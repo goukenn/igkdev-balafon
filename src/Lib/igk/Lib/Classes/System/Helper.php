@@ -20,7 +20,7 @@ abstract class Helper{
         else 
             $n.=".pinc";
         $cf = dirname($file)."/".$n;
-        if (file_exists($cf)){
+        if (igk_io_file_exists($cf)){
             include($cf);
             return true;
         }

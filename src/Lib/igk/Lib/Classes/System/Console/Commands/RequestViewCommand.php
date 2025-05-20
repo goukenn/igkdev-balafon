@@ -70,7 +70,7 @@ class RequestViewCommand extends AppExecCommand
         self::BindUserCommand($ctrl, $command);
         $render = property_exists($command->options, '--render');
         if ($json = igk_getv($command->options, '--json')) {
-            if (file_exists($json)) {
+            if (igk_io_file_exists($json)) {
                 $json = file_get_contents($json);
                 igk_environment()->FakerInput = new ServerFakerInput($json);
             } else {
@@ -129,7 +129,10 @@ class RequestViewCommand extends AppExecCommand
         $g = new Uri('bcl://request-command.local/'.$path);
         $path = $g->getPath();
         $_SERVER['REQUEST_URI'] = $g->getRequestUri();
-        $_SERVER['QUERY_STRING'] = $g->getQuery();
+        if ($query = $_SERVER['QUERY_STRING'] = $g->getQuery()){
+            parse_str($query, $_REQUEST); 
+        }
+
         igk_server()->prepareServerInfo();
         $tview = array_filter(explode("/", $path));
         $view = array_shift($tview);

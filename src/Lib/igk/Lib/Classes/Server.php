@@ -200,7 +200,7 @@ final class Server implements IToArray{
         return $this->REQUEST_METHOD == $type;
     }
     public function isMultipartFormData(){
-        return strpos($this->CONTENT_TYPE, "multipart/form-data") === 0;
+        return strpos($this->CONTENT_TYPE, IGK_HTML_ENCTYPE) === 0;
     }
     /**
      * @return ?string

@@ -99,7 +99,7 @@ class CurlHttpClient implements IHttpClient{
                 // get inline resource
                 $path = explode('?', Path::Combine(igk_io_basedir(), $url))[0];
 
-                if (file_exists($f = $path)){
+                if (igk_io_file_exists($f = $path)){
                     $response = file_get_contents($f);
                     $ext = igk_io_path_ext($f);
                     HttpUtility::GetContentTypeFromExtension($ext);

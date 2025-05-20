@@ -11,6 +11,8 @@
 use function igk_resources_gets as __;
 
 return [
+    'webauthn_required'=>0,
+    'webauthn_serie_key'=>null,
 'default_adm_pwd'=>null,
 'noWebConfiguration'=>null,
 'BootStrap.Enabled'=>0,
@@ -77,7 +79,7 @@ return [
 'force_single_controller_app'=>0,
 'site_dir'=>"/sites",
 'sitemap_xsl'=>"",
-'phpmyadmin_uri'=>"//localhot/phpmyadmin",
+'phpmyadmin_uri'=>"//localhost/phpmyadmin",
 'datetime_format'=>"d/m/Y Hi:s",
 // default lang support
 'support_lang'=>['fr','en','nl'],

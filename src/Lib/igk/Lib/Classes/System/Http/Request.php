@@ -172,7 +172,7 @@ class Request implements IInjectable, IContentSecurityProvider
             igk_die("request entry not allowed");
         } 
         $dfile = implode("/", [rtrim(igk_io_rootdir(),"/"), ltrim($file, "/")]);
-        if (!$dfile || !file_exists($dfile)){
+        if (!$dfile || !igk_io_file_exists($dfile,true)){
             // // igk_ilog("entry request file is missing.");
             // igk_trace(); 
             igk_die("Misconfiguration: Entry request is missing [". $dfile ."] - RequestURI : {$b} " .'\n');

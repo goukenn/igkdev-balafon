@@ -32,7 +32,7 @@ final class Helper{
     public static function GenerateModel(BaseController $ctrl, callable $callback, $force=false){
         $manifest = [];
         $file = $ctrl->getDataSchemaFile();
-        if (!file_exists($file)){
+        if (!igk_io_file_exists($file)){
             die("schema file not found.");
         }
         

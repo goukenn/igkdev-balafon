@@ -233,7 +233,7 @@ class DBCaches
     {
         $this->m_tableInfo = [];
         $this->m_init_cache = false;
-        if (file_exists($file = self::GetCacheFile()))
+        if (igk_io_file_exists($file = self::GetCacheFile()))
             @unlink($file);
         DbSchemas::ResetSchema();
     }

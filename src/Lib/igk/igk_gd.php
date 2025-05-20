@@ -231,7 +231,7 @@ class IGKGD
     }
     public static function CreateFromFile($filename)
     {
-        if (file_exists($filename) && function_exists("imagecreatefromstring")) {
+        if (igk_io_file_exists($filename) && function_exists("imagecreatefromstring")) {
             $g = imagecreatefromstring(file_get_contents($filename));
             if ($g) {
                 $w = -1;

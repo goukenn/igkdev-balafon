@@ -134,7 +134,7 @@ abstract class DbSchemas
      */
     public static function LoadSchema(string $file, ?BaseController $ctrl = null, $resolvname = true, $operation = DbSchemasConstants::Migrate)
     {
-        if (!file_exists($file)) {
+        if (!igk_io_cache_file_exists($file)) {
             return null;
         }
         $data = null;

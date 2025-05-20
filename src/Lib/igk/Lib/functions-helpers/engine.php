@@ -288,7 +288,7 @@ function igk_get_template_bindingattributes()
 {
     static $binding = null;
     if (!($o = igk_get_env($key = "sys://template/bindingProperties"))) {
-        if (($binding === null) && file_exists($file = IGK_LIB_DIR . "/Inc/igk_default_template_register.php")) {
+        if (($binding === null) && igk_io_file_exists($file = IGK_LIB_DIR . "/Inc/igk_default_template_register.php")) {
             include_once($file);
             $binding = 1;
             $o = igk_get_env($key);
