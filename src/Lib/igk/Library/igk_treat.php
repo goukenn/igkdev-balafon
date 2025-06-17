@@ -4,7 +4,7 @@
 // @copyright: igkdev © 2019
 // @license: Microsoft MIT License. For more informartion read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 defined("IGK_FRAMEWORK") || die("REQUIRE FRAMEWORK - No direct access allowed");

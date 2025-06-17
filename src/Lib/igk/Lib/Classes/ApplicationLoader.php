@@ -456,14 +456,13 @@ class ApplicationLoader
         if ($boot) {
             $boot = false;
             try { 
-
+                
                 $app->bootstrap($bootoptions, function () use ($app, &$boot) {
                     self::$sm_instance->bootApp($app);
                     $boot = true;
                 });
                 if (!$boot) {
-                    self::$sm_instance->bootApp($app);
-                    //igk_wln_e("not boot");
+                    self::$sm_instance->bootApp($app); 
                 }
             } catch (\Exception $ex) {
                 igk_show_exception($ex);
@@ -518,21 +517,15 @@ class ApplicationLoader
             // spl_autoload_register($initialize["spl_auto_loader"], true, true);
         }
         return true;
-    }
-    public function initCacheSystem(){
-        if ($this === self::getInstance()){
-            self::InitConstants();
-        }
-    }
+    } 
     /**
      * init application constants 
      * @return void 
      * @throws IGKException 
      */
     public static function InitConstants()
-    {
-        $srv = igk_server();
-        // igk_wln_e("bootstrap.... ", $boot );
+    {         
+        $srv = igk_server(); 
         // + |-----------------------------------------------------------------------
         // + | mandatory constants protected base constant
         // + |         

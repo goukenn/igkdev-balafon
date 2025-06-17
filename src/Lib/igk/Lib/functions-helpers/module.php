@@ -1,6 +1,26 @@
 <?php
 
+use IGK\Controllers\BaseController;
 
+/**
+ * controller define in a module
+ */
+function igk_sys_is_module_controller(BaseController $ctrl):bool{
+
+    $dir = $ctrl->getDeclaredDir(); 
+    if (get_class($ctrl)=='igk\\pay\\paypal\\paypalpaymentCtrl'){
+        igk_dev_wln_e(__FILE__.':'.__LINE__,  "try add .....");
+    } 
+    return igk_sys_is_path_in_module($dir);
+}
+/**
+ * check that a path is in module 
+ * @param string $path real path 
+ */
+function igk_sys_is_path_in_module(string $path):bool{
+    $mod = realpath(igk_get_module_dir());
+    return igk_str_startwith($path, $mod);
+}
 /**
  * get current module
  * @param string $dir directory to search

@@ -359,7 +359,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $srv = igk_server();
         $is_ajx = $is_ajx ?? (($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand());
         $is_view = $is_view ?? igk_getr('view');
-
+ 
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
             ($handler = $this->getActionHandler($fname, $rep = new ActionResolutionInfo, $params, $is_ajx))
@@ -1062,8 +1062,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $load = 1;
         $config_file = Path::Combine($this->getDeclaredDir(), Constants::PROJECT_CONF_FILE);
         if ($data = json_decode(file_get_contents($config_file))) {
-            $required = (array)igk_conf_get($data, 'required');
-        
+            $required = (array)igk_conf_get($data, 'required'); 
             $required && ApplicationModuleHelper::ImportRequiredModule($required, $this);
             if ($required) {
                 $load = $required;
@@ -1072,6 +1071,21 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $v_modules[$v_cl] = $load;
         igk_set_env($v_key, $v_modules);
         return $data;
+    }
+    /**
+     * get global project configuration settings
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws Exception 
+     */
+    protected function _globalConfigSettings(){
+        $config_file = Path::Combine($this->getDeclaredDir(), Constants::PROJECT_CONF_FILE);
+        if ($data = json_decode(file_get_contents($config_file))) {
+            return $data;
+        }
+        return null;      
     }
     protected function _createViewEnvArgs()
     {

@@ -75,6 +75,15 @@ class HeaderAccessObject{
         }
     }
     /**
+     * maybe passed in basic authentication service
+     * @return array 
+     */
+    public static function HandleBasicAuth(){
+        $user = igk_server()->PHP_AUTH_USER;
+        $pwd =  igk_server()->PHP_AUTH_PW;
+        return compact('user', 'pwd');
+    }
+    /**
      * get data 
      * @param mixed $data 
      * @return static 

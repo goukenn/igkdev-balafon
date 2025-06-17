@@ -43,7 +43,7 @@ trait ApplicationUserProfileTrait{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    protected function initUserFromSysUser(object $u): IUserProfile
+    protected function initUserFromSysUser(object $u): ?IUserProfile
     { 
         if (!$u || !$u->clGuid) {
             return null;

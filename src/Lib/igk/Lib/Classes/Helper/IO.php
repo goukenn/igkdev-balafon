@@ -615,7 +615,7 @@ class IO
     ///<summary></summary>
     ///<param name="folder"></param>
     /**
-     * 
+     * retrieve only file 
      * @param mixed $folder
      */
     public static function GetDirFileList($folder)
@@ -640,7 +640,7 @@ class IO
     ///<summary></summary>
     ///<param name="folder"></param>
     /**
-     * 
+     * retrieve only folder
      * @param mixed $folder
      */
     public static function GetDirList($folder)
@@ -657,6 +657,28 @@ class IO
                 if (is_dir($f)) {
                     $dirs[] = $f;
                 }
+            }
+            closedir($hdir);
+        }
+        return $dirs;
+    }
+    /**
+     * retrieve only list on current folder 
+     * @param mixed $folder 
+     * @return false|(string|string[])[] 
+     */
+    public static function GetList($folder)
+    {
+        if (!is_dir($folder))
+            return false;
+        $dirs = array();
+        $hdir = opendir($folder);
+        if ($hdir) {
+            while (($cdir = readdir($hdir))) {
+                if (($cdir == ".") || ($cdir == ".."))
+                    continue;
+                $f = self::GetDir($folder . "/" . $cdir);
+                $dirs[] = $f; 
             }
             closedir($hdir);
         }

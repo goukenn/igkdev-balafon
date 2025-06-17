@@ -31,7 +31,7 @@ class ProjectInfoCommand extends AppExecCommand
 	var $category = "project";
 	const CNF_FILE = Constants::PROJECT_CONF_FILE;
 
-	public function exec($command, string $controller = null)
+	public function exec($command, ?string $controller = null)
 	{
 		$ctrl = ($controller ? self::GetController($controller) : null) ?? die("missing controller");
 

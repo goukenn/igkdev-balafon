@@ -306,6 +306,11 @@ final class IGKValidator extends IGKObject
         $o = (object)$o;
         if (is_array($fields)) {
             foreach ($fields as $k => $v) {
+                if (is_numeric($k) && is_string($v) && !empty($v)){
+                    $kk = $v;
+                    $ro->$kk = igk_getv($o, $kk);
+                    continue;
+                }
                 $is_obj = is_object($v);
                 $v_validator = null;
                 $v_field_info = null;
@@ -317,13 +322,17 @@ final class IGKValidator extends IGKObject
                     $v_field_info->type = 'text';
                     $v_field_info->validator = $v;
                 } else if (((!$is_obj && is_array($v)) || !($v instanceof FormFieldValidationInfo))) {
+                    list($validator, $error)  = igk_extract($v, 'f|e');
                     $v_field_info = $v = Activator::CreateNewInstance(FormFieldInfo::class, $v);
-                    // create a FormFieldValidationInfo 
-                    $v = Activator::CreateNewInstance(FormFieldValidationInfo::class, $v);
+                    // create a FormFieldValidationInfo                     
+                    $tv = Activator::CreateNewInstance(FormFieldValidationInfo::class, $v);
                     // + | validate with field 
+                    $v = $tv;
+                    $v->validator = $validator;
                 }
                 if ($v instanceof FormFieldValidationInfo) {
-                    $v_validator = $v->validator ?? igk_die(sprintf(__('missing validator for %s'), $k)); // sprintf(__()))
+                   
+                    $v_validator = $v->validator ?? igk_die(sprintf(__('missing validator for [%s]'), $k)); // sprintf(__()))
                     if (is_string($v_validator)) {
                         //+ create a validator from class name
                         $v_validator = FormFieldValidatorBase::Factory($v_validator);

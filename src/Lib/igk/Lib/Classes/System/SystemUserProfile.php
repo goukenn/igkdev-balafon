@@ -14,6 +14,9 @@ use IGK\System\Database\IUserProfile;
  */
 abstract class SystemUserProfile implements IUserProfile
 { 
+    /**
+     * overriding constant to setup profile model class 
+     */
     const profileModelClass=null;
     const initProjectDbUserMethod = 'initProjectDbUser';
     /**
@@ -61,9 +64,9 @@ abstract class SystemUserProfile implements IUserProfile
     }
     /**
      * get the model class 
-     * @return Users 
+     * @return ?Users 
      */
-    public function model(): \IGK\Models\Users{
+    public function model(): ?\IGK\Models\Users{
         if (!($this->m_model)|| ($this->m_model->is_mock())){
             return null;
         }

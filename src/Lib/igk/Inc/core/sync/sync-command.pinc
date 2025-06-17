@@ -1,0 +1,50 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: sync-command.pinc
+// @date: 20250612 15:37:17
+// @desc: 
+ ini_set('display_error',1);
+ error_reporting(-1);
+ 
+$home = isset($_REQUEST['home_dir']) ? $_REQUEST['home_dir'] : '/';
+$corelib = isset($_REQUEST['corelib']) ? $_REQUEST['corelib'] : '/core/Lib/igk';
+$app_dir = isset($_REQUEST['app_dir']) ? $_REQUEST['app_dir'] : '../application';
+$v_chome = rtrim($home, '/');
+$corelib_dir = str_replace('//', '/',  rtrim(implode('/', array_filter([$v_chome ,  trim($app_dir ,'/'), 'Lib/igk'])), '/'));
+
+$cmd_arg = (isset($_REQUEST['cmd_arg']) ? $_REQUEST['cmd_arg'] : null) ?? [];
+// $cmd_arg = ['--version'];
+// if (is_link($corelib_dir)){
+//     @unlink($corelib_dir);
+// }
+// print_r($cmd_arg);
+if (!file_exists($corelib_dir)){
+    // echo "????? ".is_dir(dirname($corelib_dir)), PHP_EOL;
+    // echo "????? ".getcwd(), PHP_EOL;
+    // echo "????? ".$home, PHP_EOL;
+
+    $g = str_repeat('../', count(explode('/',$corelib_dir))-(count(explode('/', $home))+1));
+    // echo 'create links ==> '.$g.ltrim($corelib, '/') . ' -> '. $corelib_dir;
+    // file_put_contents(dirname($corelib_dir).'/home.txt', 'sample');
+    if (!@symlink( $g.ltrim($corelib, '/'), $corelib_dir)){
+        echo ' unable to create core link';
+        exit;
+    }
+}
+ 
+
+$balafon =  $corelib_dir . "/bin/balafon";
+$argv = array_merge([$balafon], $cmd_arg);
+$argc = count($argv); 
+//echo ' app_dir '.$app_dir . ' ? '.file_exists($balafon);
+///exit;
+chdir(dirname($app_dir));
+$balafon && (function($balafon, $argv, $argc){
+    $__igk_balafon_cmd_auto_clean = 1;    
+    $__igk_balafon_in_func = true;
+ 
+    ob_start();
+    $t = include($balafon);  
+    return $t=0;
+
+})($balafon, $argv, $argc);  

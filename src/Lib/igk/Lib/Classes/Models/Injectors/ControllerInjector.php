@@ -17,11 +17,20 @@ use IGK\System\IInjector;
  */
 class ControllerInjector implements IInjector{
     protected $controller;
-    public function __construct(BaseController $controller=null)
+    public function __construct(?BaseController $controller=null)
     {
         $this->controller = $controller;
     }
-    public function resolve($value, ?string $type=null){        
+    /**
+     * return according to the value
+     * @param mixed $value 
+     * @param null|string $type 
+     * @return mixed 
+     */
+    public function resolve($value, ?string $type=null){      
+        if ($value instanceof BaseController){
+            return $value;
+        }
         return $this->controller;        
     }
     public function __toString(){

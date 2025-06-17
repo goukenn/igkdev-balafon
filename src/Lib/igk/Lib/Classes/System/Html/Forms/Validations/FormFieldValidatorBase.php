@@ -16,7 +16,11 @@ use IGKException;
 */
 abstract class FormFieldValidatorBase implements IFormValidator{     
     const FIELD_INFO_PROPERTY = 'fieldInfo';
-
+    /**
+     * allow null
+     * @return ?bool 
+     */
+    protected $m_allowNull;
     /**
      * validate field 
      * @param mixed|FormValidationParam $value 
@@ -82,5 +86,10 @@ abstract class FormFieldValidatorBase implements IFormValidator{
             return $v_validator;
         }
         return null;
+    }
+
+    public function allowNull(bool $allowNull){
+        $this->m_allowNull = $allowNull;
+        return $this;
     }
 }

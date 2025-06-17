@@ -291,7 +291,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         $definition,
         $tableReferenceResolver,
         $operation = DbSchemasConstants::Migrate,
-        DatabaseInitializer $initializer = null
+        ?DatabaseInitializer $initializer = null
     ) {
         //$this->m_definition = $definition;
         $restore = false;

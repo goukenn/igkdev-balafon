@@ -4,7 +4,7 @@
 // @date: 20230129 12:28:57
 namespace IGK\System\Security\Web;
 
-use IGK\System\Html\Forms\PasswordValidator;
+use IGK\System\Html\Forms\Validations\PasswordValidator;
 
 use function igk_resources_gets as __;
 
@@ -32,7 +32,7 @@ class PasswordContentValidator extends MapContentValidatorBase
             $terror = true;
         } else {
             $pwd = new PasswordValidator;
-            if ($pwd->validate($value, null, null, $error) != $value){
+            if ($pwd->validate($value, null, $error) != $value){
                 $error[$key] = __('missing requirement');
                 $terror = true;
             }

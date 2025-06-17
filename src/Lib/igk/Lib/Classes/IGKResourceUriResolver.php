@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 use IGK\Constants;
@@ -66,7 +66,8 @@ class IGKResourceUriResolver
      */
     public function prepareEnvironment()
     {
-        $app_dir = igk_io_applicationdir();        
+        $app_dir = igk_io_applicationdir();    
+        $package_dir = igk_get_packages_dir();    
         $this->environment = array(
             IGK_LIB_DIR . "/cgi-bin" => (object)array(
                 "name" => "cgi-bin",
@@ -91,8 +92,8 @@ class IGKResourceUriResolver
             IGK_LIB_DIR => ResIdentifierConstants::LIBRARY,
             igk_get_module_dir() => ResIdentifierConstants::MODULE,
             igk_io_projectdir() => ResIdentifierConstants::PROJECT,
-            igk_get_packages_dir()."/node_modules" => ResIdentifierConstants::NODE_PACKAGE,
-            igk_get_packages_dir() => ResIdentifierConstants::PACKAGE,
+            $package_dir => ResIdentifierConstants::PACKAGE,
+            $package_dir.'/node_modules' => ResIdentifierConstants::NODE_PACKAGE,
             igk_io_cachedir() =>ResIdentifierConstants::CACHE
         );
         $public_asset = Path::getInstance()->getPublicAssetDir();
@@ -187,7 +188,7 @@ class IGKResourceUriResolver
                     $rp = $acpath;
                 }
                 if (is_null($rp)){
-                    igk_wln_e(__FILE__.":".__LINE__ , "missing rp ".$path, $rp, realpath($path), 
+                    igk_dev_wln_e(__FILE__.":".__LINE__ , "missing rp ".$path, $rp, realpath($path), 
                     $acpath,
                     igk_realpath($path));
                 }

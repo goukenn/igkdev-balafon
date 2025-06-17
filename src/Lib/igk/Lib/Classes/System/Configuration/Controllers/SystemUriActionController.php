@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 
@@ -41,6 +41,9 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         return igk_io_cachedir()."/".self::CACHE_FILE;
     }
    
+    /**
+     * 
+     */
     private static function _RegActions(SystemUriActionController $controller){
         if (self::$sm_actions === null){
             // @unlink(self::GetCacheFile());

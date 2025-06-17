@@ -25,7 +25,19 @@ class Request implements IInjectable, IContentSecurityProvider
     use ContentSecurityManagementTrait;
     const REQUEST_JSON_DATA_ENV_KEY = 'RequestFakeJsonInput';
     const FILES_FIELD = "\$files";
+    const ARRAY_RESPONSE_CODE = '@__response_code';
 
+    /**
+     * 
+     * @param mixed $args 
+     * @return string 
+     */
+    public static function glueActionRequestArgument($args){
+        return '/'.implode('/', array_filter(array_map(function($a){
+            if (is_string($a) || is_numeric($a))return $a;
+            return null;
+        }, $args)));
+    }
     /**
      * support form data file request
      * @param mixed $data 
@@ -268,17 +280,12 @@ class Request implements IInjectable, IContentSecurityProvider
     }
     /**
      * get query option
-     * @return mixed 
+     * @return mixed|IGK\System\Http\IQueryInfoOptions
      * @throws IGKException 
      */
     public function getQueryInfo(){
         if (is_null($this->m_query_info)){
             $inf = igk_io_query_info();
-            $v_eu = $inf->entryuri;
-            $pos = strpos($v_eu, ';');
-            $inf->options = $pos !== false ? 
-            igk_get_query_options(substr($inf->entryuri, $pos+1)) : [];
- 
             $this->m_query_info = $inf;
         }
         return $this->m_query_info;
@@ -314,4 +321,14 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return false;
     }   
+    /**
+     * create an error message data
+     * @param string $message 
+     * @return array 
+     */
+    public function error(string $message, ?int $code=null):array{
+        $t = ['error'=>true, 'message'=>$message];
+        $t[self::ARRAY_RESPONSE_CODE] = $code ?? RequestResponseCode::BadRequest;         
+        return $t;
+    }
 }

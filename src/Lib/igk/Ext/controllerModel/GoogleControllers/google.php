@@ -78,8 +78,10 @@ if (defined('GOOGLE_MODULE')) {
             $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);
         }
         $theme = igk_environment()->isOPS() ?
-            $doc->getInlineTheme() :
-            $doc->getTheme();
+            $doc->getInlineTheme() 
+            :
+            $doc->getTheme()
+            ;
         if ($theme)
             igk_google_css_setfont($theme->def, $family, $extra);
         IGKEvents::hook(GoogleEvents::init_component, "font");
@@ -304,7 +306,7 @@ if (defined('GOOGLE_MODULE')) {
         $family = igk_getv($tab, "family");
         $file = "";
 
-        if (($file = igk_google_filefromfamily($family)) && igk_io_file_exists($file)) {
+        if (($file = igk_google_filefromfamily($family)) && file_exists($file)) {
             return new IGKHtmlRelativeUriValueAttribute($file);
         }
         if ($e !== null) {
@@ -339,7 +341,7 @@ if (defined('GOOGLE_MODULE')) {
             $v_file = GOOGLE_SETTINGS_FILE;
             $s = null;
 
-            if (igk_io_file_exists($v_file)) {
+            if (file_exists($v_file)) {
                 $str = igk_io_read_allfile($v_file);
                 $s = igk_json_parse($str) ?? igk_createobj();
             }
@@ -612,14 +614,14 @@ EOF;
                 @igk_sess_write_close();
                 $fdir = igk_google_get_fontdir();
                 $file = igk_dir($fdir . $f);
-                if (igk_io_file_exists($file)) {
+                if (file_exists($file)) {
                     header("Content-Type:text/plain");
                     igk_header_content_file($f);
                     igk_wl(igk_io_read_allfile($file));
                     igk_exit();
                 }
                 $file = igk_dir($fdir . $u . ".xft");
-                if (igk_io_file_exists($file)) {
+                if (file_exists($file)) {
                     $g = igk_zip_unzip_entry($file, $f);
                     igk_header_content_file($f);
                     igk_wl($g);
@@ -668,11 +670,11 @@ EOF;
                     if ($family) {
                         if (($file = igk_google_filefromfamily($family))) {
 
-                            if (igk_io_file_exists($file) || igk_google_installfont($f, $sizes, $file)) {
+                            if (file_exists($file) || igk_google_installfont($f, $sizes, $file)) {
                                 $ref = igk_io_baserelativepath($file);
                                 $uri = igk_io_baseuri() . "/" . igk_uri($ref);
                                 $tf = igk_io_basedir() . "/" . $ref;
-                                if (igk_io_file_exists($tf)) {
+                                if (file_exists($tf)) {
                                     igk_navto($uri);
                                 } else {
                                     igk_set_header(RequestResponseCode::NotFound);

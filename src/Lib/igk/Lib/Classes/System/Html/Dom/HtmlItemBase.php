@@ -1275,7 +1275,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @param callable|null $creator 
      * @return mixed 
      */
-    public function load(string $source, $contextObj = null, callable $creator = null)
+    public function load(string $source, $contextObj = null, ?callable $creator = null)
     {
         return self::LoadInContext($this, $source, $contextObj ?? HtmlContext::Html, $creator);
     }
@@ -1289,7 +1289,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @param mixed $content source string to load
      * @param mixed|HtmlLoadingContextOptions $context context of the loading. mixed string or object
      */
-    public static function LoadInContext(HtmlItemBase $t, string $content, $context = null, callable $creator = null)
+    public static function LoadInContext(HtmlItemBase $t, string $content, $context = null, ?callable $creator = null)
     {
         if (is_null($creator)) {
             // creator that require a function class with loading creator implementation

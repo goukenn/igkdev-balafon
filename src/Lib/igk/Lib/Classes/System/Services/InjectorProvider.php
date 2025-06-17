@@ -52,7 +52,9 @@ class InjectorProvider{
             return new \IGK\Models\Injectors\ControllerInjector($type::ctrl());
         }
         if ($type == \IGK\Controllers\BaseController::class){
-            return new \IGK\Models\Injectors\ControllerInjector(ViewHelper::CurrentCtrl());
+            if ($c = ViewHelper::CurrentCtrl()){
+                return new \IGK\Models\Injectors\ControllerInjector($c); 
+            }            
         }
     }
 }

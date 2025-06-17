@@ -24,7 +24,7 @@ class InstallCommand extends AppExecCommand{
 	var $desc='install module package info';
 	/* var $options=[]; */
 	var $category = 'module';
-	public function exec($command, string $module_name = null) { 
+	public function exec($command, ?string $module_name = null) { 
 
 		empty($module_name) && igk_die('required module name');
  

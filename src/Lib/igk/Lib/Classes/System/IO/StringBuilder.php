@@ -32,7 +32,14 @@ class StringBuilder{
         } 
         $this->m_src = & $src;
     }
-    public function replaceWithFrom(string $text, int $offset, int $length=null){
+    /**
+     * 
+     * @param string $text 
+     * @param int $offset 
+     * @param null|int $length 
+     * @return $this 
+     */
+    public function replaceWithFrom(string $text, int $offset, ?int $length=null){
         $g = igk_str_rm($this->m_src, $offset, $length);
         $g = igk_str_insert($text, $g, $offset);
         $this->m_src = $g;

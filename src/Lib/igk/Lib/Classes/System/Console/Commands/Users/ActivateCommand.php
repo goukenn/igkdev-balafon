@@ -19,7 +19,7 @@ class ActivateCommand extends AppExecCommand{
 	/* var $options=[]; */
 	var $category = 'users';
 	var $usage = 'login'; 
-	public function exec($command, string $login = null) {
+	public function exec($command, ?string $login = null) { 
 		$login || igk_die("missing users");
 		$user = igk_get_user_bylogin($login) ?? igk_die("user not found");
 		$user->clStatus = 1;

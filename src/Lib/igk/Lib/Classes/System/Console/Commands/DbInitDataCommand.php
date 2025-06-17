@@ -23,7 +23,8 @@ class DbInitDataCommand extends AppExecCommand{
 	var $usage = 'controller [action_name] [options]';
 	public function exec($command, ?string $controller = null, ?string $action_name=null) {
 		is_null($controller) && igk_die('required controller');
-		$ctrl = self::GetController($controller);
+		($ctrl = self::GetController($controller)) ?? igk_die('missing controller');
+
 		 
 		$cl = $ctrl->resolveClass(EntryClassResolution::DbInitData) ?? igk_die('init data class is missing');
 

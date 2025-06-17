@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 use IGK\System\Html\Dom\HtmlItemAttribute;
@@ -19,7 +19,7 @@ final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
     private $m_lnk;
     ///<summary></summary>
     ///<param name="uri" default="null" type="string"></param>
-    public function __construct(string $uri=null){
+    public function __construct(?string $uri=null){
         $this->m_lnk=$uri;
     }
     ///<summary>display value</summary>

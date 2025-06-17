@@ -40,6 +40,7 @@ class MacrosHelper
                 'auth' => function ($auths, $strict = false) { 
                     /**
                      * @var \IGK\Models\Users $q 
+                     * @var mixed|string|string[] $auths
                      */
                     $q = $this;
                     return self::_CheckAuth($q, $auths, $strict);                    
@@ -74,13 +75,13 @@ class MacrosHelper
     }
 
     /**
-     * check user auth 
+     * check user's auth 
      * @param Users $user 
      * @param string|array $auths 
      * @param bool $strict 
      * @return bool 
      */
-    private static function _CheckAuth(\IGK\Models\Users $user, $auths, $strict= false):bool{
+    private static function _CheckAuth(\IGK\Models\Users $user, $auths, bool $strict= false):bool{
         /**
          * @var mixed $b
          */
@@ -101,7 +102,7 @@ class MacrosHelper
             if (!is_string($auths)) {
                 return false;
             }
-            $auths = [$auths];
+            $auths = explode('|', $auths); // [$auths];
         } 
         // $data = $q->to_array();
         if (($g = $q->{$key}) === null) {
@@ -116,26 +117,26 @@ class MacrosHelper
             } else 
                 return false;
         }
-        if (($is_auths = count($g) > 0)) {
+        if (($is_auth = count($g) > 0)) {
 
             if ($strict) {
-                while ($is_auths && ($auth = array_shift($auths))) {
+                while ($is_auth && ($auth = array_shift($auths))) {
                     // check all auths
-                    if (!($is_auths = in_array($auth, $g))) {
+                    if (!($is_auth = in_array($auth, $g))) {
                         break;
                     }
                 }
             } else {
-                $is_auths = false;
+                $is_auth = false;
                 while ($auth = array_shift($auths)) {
                     if (in_array($auth, $g)) {
-                        $is_auths = true;
+                        $is_auth = true;
                         break;
                     }
                 }
             }
         }
-        return $is_auths;
+        return $is_auth;
     }
 
     /**
@@ -152,7 +153,7 @@ class MacrosHelper
         $r = null; 
         // Users::delete($id);
         if (!empty($storage->clLogin) && ($r = Users::select_row([Users::FD_CL_LOGIN=>$storage->clLogin]))){
-            // user aleady exists
+            // + user aleady exists
             igk_hook(IGKEvents::HOOK_USER_EXISTS, [$r]);
             $r = Users::select_row(["clId"=>$r->clId]);
         } else {

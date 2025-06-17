@@ -142,7 +142,7 @@ class ViewHelper
      * @throws ContainerExceptionInterface 
      * @throws IGKException 
      */
-    public static function Home(string $path = null)
+    public static function Home(?string $path = null)
     {
         $dir = self::CurrentCtrl()->getViewDir();
         if ($path) {
@@ -378,6 +378,17 @@ class ViewHelper
     public static function BaseUriPath(BaseController $ctrl, string $fname): string
     {
         return (new Uri($ctrl::uri($fname)))->getPath();
+    }
+    /**
+     * reprensent base view uri
+     * @return string|void 
+     * @throws IGKException 
+     */
+    public static function BaseViewUri(){
+        if ($fname = self::GetViewArgs('fname')){
+            $c = self::CurrentCtrl();
+            return $c::uri($fname);
+        }
     }
     /**
      * load article 

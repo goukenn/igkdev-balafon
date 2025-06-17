@@ -16,7 +16,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
  * represent app - system - controller - public hook
  */
 class IGKEvents extends IGKObject
-{ 
+{
 
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
     const HOOK_SESS_START = "sys_session_start";
@@ -25,11 +25,11 @@ class IGKEvents extends IGKObject
      * reset uset authentications 
      */
     const HOOK_USER_RESET_AUTH = 'sys://user/reset_auth';
-    
+
     // + | --------------------------------------------------------------------
     // + | Application constant 
     // + |  
-    const HOOK_APP_SHUTDOWN = 'app_shutdown'; 
+    const HOOK_APP_SHUTDOWN = 'app_shutdown';
     const HOOK_APP_PRESENTATION = 0xa01;
     const HOOK_APP_BOOT = "sys://app_boot";
     const HOOK_APP_SETTING_RESET = "app_setting_reset";
@@ -38,7 +38,7 @@ class IGKEvents extends IGKObject
     // + | command event constant : 
     // + |
     const HOOK_COMMAND = 'sys_commnand';
-    
+
 
 
     const HOOK_INIT_APP = "init_app";
@@ -50,7 +50,7 @@ class IGKEvents extends IGKObject
     // + | --------------------------------------------------------------------
     // + | DB QUERY
     // + |
-    
+
     const HOOK_DB_DATA_ENTRY = "db_dataentry";
     const HOOK_DB_INIT_START = "db_init_start";
     const HOOK_DB_INIT_COMPLETE = "db_init_complete";
@@ -60,33 +60,38 @@ class IGKEvents extends IGKObject
     const HOOK_DB_CACHES_INITIALIZED = "db_cache_initialized";
     const HOOK_DB_INSERT = 'db_data_inserted';
 
-    const HOOK_HTML_BEFORE_RENDER_DOC="html_before_render_doc";
-    const HOOK_HTML_AFTER_RENDER_BODY="html_after_render_body";
+    const HOOK_HTML_BEFORE_RENDER_DOC = "html_before_render_doc";
+    const HOOK_HTML_AFTER_RENDER_BODY = "html_after_render_body";
     const HOOK_HTML_BODY = "html_body";
     const HOOK_HTML_FOOTER = "html_footer";
     const HOOK_HTML_HEAD = "html_head";
     const HOOK_HTML_META = "html_meta";
     const HOOK_HTML_PRE_FILTER_ATTRIBUTE = "html_prefilter_attribute";
     const HOOK_HTML_LOADING_CONTEXT_REGISTER = 'html_context_register';
-    
+
     const HOOK_PAGEFOLDER_CHANGED = "sys_pagefolder";
     const HOOK_SCRIPTS = "html_load_scripts";
     // + | --------------------------------------------------------------------
     // + | USER MANAGEMENT HOOK
     // + |
-    
+
     const HOOK_USER_ADDED = "sys_user_added";
     const HOOK_USER_EXISTS = "sys_user_exists";
     const HOOK_USER_LOGIN = "sys_user_login";
     const HOOK_USER_LOGOUT = "sys_user_logout";
     const HOOK_USER_ACTIVATED = "sys_user_status_changed";
-    const HOOK_USER_DELETE = "sys_user_delete";    
+    const HOOK_USER_DELETE = "sys_user_delete";
     // + | --------------------------------------------------------------------
     // + | DB HOOK
     // + |
     const HOOK_DB_START_DROP_TABLE = 'sys://db/startdroptable';
     const HOOK_DB_RENAME_COLUMN = 'sys://db/rename_column';
     const HOOK_DB_MIGRATE = 'sys://db/migrate'; // event: ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]
+
+
+    const HOOK_ACTION_WILL_DO_ACTION = 'sys://action/willDoAction';
+    const HOOK_ACTION_DO_ACTION = 'sys://action/doAction';
+    const HOOK_ACTION_DID_ACTION = 'sys://action/didDoAction';
 
     const HOOK_MK_LINK = "generateLink";
     const USER_PWD_CHANGED = "user pwd changed";
@@ -116,8 +121,9 @@ class IGKEvents extends IGKObject
 
     const P_SUBDOMAIN_PRIORITY = 0;
     const P_SESSION_PRIORITY = 100;
-    
-    public static function CreateHookOptions():IHookOptions{
+
+    public static function CreateHookOptions(): IHookOptions
+    {
         return new HookOptions();
     }
     /**
@@ -156,7 +162,7 @@ class IGKEvents extends IGKObject
     const HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN = 'MiddleWareAction:/CheckAccessToken';
 
     const HOOK_ON_MODULE_ADDED = 'command:/module/added';
-    
+
 
     const HOOK_USER_AUTHENTICATE = 'sys:/user/authenticate';
     const VIEWCOMPLETE = 0x1;
@@ -174,12 +180,13 @@ class IGKEvents extends IGKObject
      * @param mixed $callback 
      * @return void 
      */
-    public static function UnregComplete(string $hookKey, $callback){
-        $m = function($e)use($callback, & $m, $hookKey){
-            if ($callback($e) === false)return; 
+    public static function UnregComplete(string $hookKey, $callback)
+    {
+        $m = function ($e) use ($callback, &$m, $hookKey) {
+            if ($callback($e) === false) return;
             igk_unreg_hook($hookKey, $m);
         };
-        igk_reg_hook($hookKey,$m); 
+        igk_reg_hook($hookKey, $m);
     }
 
     ///<summary></summary>
@@ -366,9 +373,7 @@ class IGKEvents extends IGKObject
      * 
      * @param mixed $v
      */
-    public function setIsDebugging($v)
-    {
-    }
+    public function setIsDebugging($v) {}
 
     /**
      * register hooks
@@ -377,43 +382,43 @@ class IGKEvents extends IGKObject
      * @param int $priority 
      * @return void 
      */
-    public static function reg_hook(string $name, $callback, $priority = 10, $injectable=true)
+    public static function reg_hook(string $name, $callback, $priority = 10, $injectable = true)
     {
-        $hooks = & igk_environment()->createArray(self::ENV_KEY); 
+        $hooks = &igk_environment()->createArray(self::ENV_KEY);
         if (!isset($hooks[$name])) {
             $hooks[$name] = (object)array("list" => array(), "changed" => 1);
         }
         $hooks[$name]->list[] = (object)array(
-            "priority" => $priority, 
-            "callback" => $callback, 
-            "injectable"=> $injectable,
+            "priority" => $priority,
+            "callback" => $callback,
+            "injectable" => $injectable,
         );
-        $hooks[$name]->changed = 1;  
+        $hooks[$name]->changed = 1;
     }
 
     /**
-    * 
-    * @param mixed $name 
-    * @param array $args 
-    * @param ?\IGK\IHookOptions|array|object $options require IHoopOptions to bybass option behaviour
-    * @return mixed 
-    * @throws IGKException 
-    * @throws ArgumentTypeNotValidException 
-    * @throws ReflectionException 
-    */
+     * 
+     * @param mixed $name 
+     * @param array $args 
+     * @param ?\IGK\IHookOptions|array|object $options require IHoopOptions to bybass option behaviour
+     * @return mixed 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function hook($name, $args = array(), $options = null)
     {
         // + ----------------------------------------------------------------------
         // + | Default output 
         $def = null;
-        if (!is_null($options) && !($options instanceof IHookOptions)) { 
-             $def = igk_get_robjs("default|output|type", 0, (object)$options);
+        if (!is_null($options) && !($options instanceof IHookOptions)) {
+            $def = igk_get_robjs("default|output|type", 0, (object)$options);
         } else {
             $def = $options;
         }
         $hooks = igk_environment()->get(self::ENV_KEY);
         $tab = igk_getv($hooks, $name);
-        
+
         if ($tab) {
             $list = &$tab->list;
             if ($tab->changed) {
@@ -426,14 +431,34 @@ class IGKEvents extends IGKObject
                 });
                 $tab->changed = 0;
             }
-            $cargs = array((object)array("args" => $args, 
-            "hook"=>$name,
-            "handle" => 0, 
-            "lastoutput" => null, 
-            "output" => $def ? $def->output : null));
+            $cargs = array((object)array(
+                "args" => $args,
+                "hook" => $name,
+                "handle" => 0,
+                "lastoutput" => null,
+                "output" => $def ? $def->output : null
+            ));
             $count = 0;
+            $_invoke = function ($callback, $v, $cargs) {
+                $tcargs = $cargs;
+                if ($v->injectable) {
+                    $fc = is_array($callback) ? Closure::fromCallable($callback) : $callback;
+                    if (($fc instanceof \Closure) || is_string($fc)) { 
+                        $tcargs = Dispatcher::GetInjectArgs(new \ReflectionFunction($fc), $cargs);
+                    }
+                }
+                $cargs[0]->lastoutput = call_user_func_array($callback, $tcargs);
+            };
+
             foreach ($list as $v) {
-                if (!is_callable($v->callback)) {
+                if (!is_callable($v_c = $v->callback)) {
+                    if (is_string($v_c)) {
+                        $tab = explode('@', $v_c, 2);
+                        if ($r = is_callable($tab)) {
+                            $_invoke($tab, $v, $cargs);
+                            continue; 
+                        }
+                    }
                     if (is_object($v->callback)) {
                         $cargs[0]->lastoutput = igk_invoke_callback_obj(null, $v->callback, $cargs);
                     } else {
@@ -445,18 +470,19 @@ class IGKEvents extends IGKObject
                         );
                         continue;
                     }
-                } else{ 
-                    $tcargs = $cargs;
-                    if ($v->injectable ){
-                        $fc = is_array($v->callback) ? Closure::fromCallable($v->callback) : $v->callback;
-                        if (($fc instanceof \Closure ) || is_string($fc)){
-                            // if ($name=="LoginService"){
-                            //     igk_dev_wln("for login service");
-                            // }
-                            $tcargs = Dispatcher::GetInjectArgs( new \ReflectionFunction($fc), $cargs);
-                        }
-                    } 
-                    $cargs[0]->lastoutput = call_user_func_array($v->callback, $tcargs);
+                } else {
+                    $_invoke($v->callback, $v, $cargs);
+                    // $tcargs = $cargs;
+                    // if ($v->injectable) {
+                    //     $fc = is_array($v->callback) ? Closure::fromCallable($v->callback) : $v->callback;
+                    //     if (($fc instanceof \Closure) || is_string($fc)) {
+                    //         // if ($name=="LoginService"){
+                    //         //     igk_dev_wln("for login service");
+                    //         // }
+                    //         $tcargs = Dispatcher::GetInjectArgs(new \ReflectionFunction($fc), $cargs);
+                    //     }
+                    // }
+                    // $cargs[0]->lastoutput = call_user_func_array($v->callback, $tcargs);
                 }
                 if ($cargs[0]->handle) {
                     break;
@@ -475,27 +501,28 @@ class IGKEvents extends IGKObject
      * @param bool $all 
      * @return int 
      */
-    public static function unreg_hook($name, $callback, $all=true){
+    public static function unreg_hook($name, $callback, $all = true)
+    {
         $hooks = igk_environment()->createArray(self::ENV_KEY);
         if (!$hooks) {
             return 0;
         }
-        if (is_null($callback)){
+        if (is_null($callback)) {
             unset($hooks[$name]);
             return true;
         }
-        if (!isset($hooks[$name])){
+        if (!isset($hooks[$name])) {
             return false;
         }
-        if (!isset($hooks[$name]->list)){
+        if (!isset($hooks[$name]->list)) {
             $hooks[$name]->list = [];
         }
-        $tb = & $hooks[$name]->list;
-    
-        if ($all){
-            $c = 0;            
-            $tb = array_filter(array_map(function($v)use($callback, & $c){
-                if ($v->callback === $callback){
+        $tb = &$hooks[$name]->list;
+
+        if ($all) {
+            $c = 0;
+            $tb = array_filter(array_map(function ($v) use ($callback, &$c) {
+                if ($v->callback === $callback) {
                     $c++;
                     return null;
                 }
@@ -503,7 +530,7 @@ class IGKEvents extends IGKObject
             }, $tb));
             return $c;
         }
-    
+
         foreach ($tb as $k => $v) {
             if ($v->callback === $callback) {
                 unset($tb[$k]);

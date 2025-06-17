@@ -13,6 +13,7 @@ use IGK\Actions\ActionRequestValidator;
 use IGK\Actions\Dispatcher;
 use IGK\Actions\IActionProcessor;
 use IGK\Actions\MiddlewireActionBase;
+use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerEnvParams; 
 use IGK\Helper\ActionHelper; 
@@ -56,6 +57,10 @@ abstract class IGKActionBase implements IActionProcessor
 
     protected $defaultEntryMethod = 'index';
 
+    /**
+     * the view entry request 
+     * @var string
+     */
     protected $fname = '';
 
     private $m_validator;
@@ -93,12 +98,10 @@ abstract class IGKActionBase implements IActionProcessor
      * change the controller
      * @param null|BaseController $controller 
      * @return void 
+     * @deprecated
      */
-    public function setController(?BaseController $controller){        
-        if ($controller)
-            $this->initialize($controller);
-        $this->ctrl = $controller;
-
+    public function setController(?BaseController $controller){          
+        ($controller ? $this->initialize($controller) : $this->ctrl = null);
     }
     /**
      * get default entry method
@@ -111,7 +114,13 @@ abstract class IGKActionBase implements IActionProcessor
     {
         if (empty($this->notify_name)) {
             $this->notify_name = static::class;
-        }
+        } 
+    }
+    /**
+     * called before invoke - used to initialize 
+     * @return void 
+     */
+    protected function setup(){ 
     }
     /**
      * action processor host
@@ -121,7 +130,10 @@ abstract class IGKActionBase implements IActionProcessor
     {
         return $this;
     }
-
+    /**
+     * current app action 
+     * @return mixed 
+     */
     public static function CurrentAction()
     {
         return igk_environment()->get(IGKEnvironment::VIEW_CURRENT_ACTION);
@@ -176,9 +188,9 @@ abstract class IGKActionBase implements IActionProcessor
      * @param mixed $ctrl
      */
     protected function initialize(BaseController $ctrl)
-    {   
+    {    
         $this->ctrl = $ctrl;
-        $this->fname = ViewHelper::GetViewArgs('fname');
+        $this->fname = ViewHelper::GetViewArgs('fname', '');
         $traits = class_uses(static::class);
         
         foreach($traits as $f){
@@ -258,7 +270,10 @@ abstract class IGKActionBase implements IActionProcessor
         }
 
         $ctrl = $ctrl ? $ctrl : igk_ctrl_current_view_ctrl();
-        $this->initialize($ctrl);
+        // + | --------------------------------------------------------------------
+        // + | BLF: init and setup controller 
+        // + |
+        $this->initialize($ctrl)->setup();
         $b = $this->getActionProcessor();
         if (is_string($b)) {
             if (!class_exists($b)) {
@@ -316,8 +331,18 @@ abstract class IGKActionBase implements IActionProcessor
         } else if ($verb == "options") {
             \IGK\System\Http\Helper\Response::OptionResponse();
         }
+        if ($name != $this->defaultEntryMethod){
+            // + | dispatch to default view args method 
+            array_unshift($arguments, $name);
+            $name = $this->defaultEntryMethod;
+            if (($verb && method_exists($this, $fc=$name."_".$verb)) || method_exists($this, $fc = $name)) {
+                $rf = new ReflectionMethod($this, $fc);
+                $arguments = Dispatcher::GetInjectArgs($rf, $arguments);
+                return $this->$fc(...$arguments);
+            }
+        }
+
         $this->_handleMethodNotFound($name);
-      
         return false;
     }
     protected function _handleMethodNotFound($name){
@@ -508,6 +533,9 @@ abstract class IGKActionBase implements IActionProcessor
                 // + |      
                 $v_host->handleExit = $exit;
                 if ($exit || ($v_host->_handleResponse($c))) { 
+                    if (is_array($c) && !key_exists(Request::ARRAY_RESPONSE_CODE, $c)){
+                        $c[Request::ARRAY_RESPONSE_CODE] = $v_host->status;
+                    }
                     return igk_do_response($c);
                 }
             } catch (IGK\System\Http\RequestException $ex) {

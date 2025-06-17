@@ -90,7 +90,7 @@ class Authorization{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetGroupUsers(BaseController $controller, string $group, callable $builder=null){
+    public static function GetGroupUsers(BaseController $controller, string $group, ?callable $builder=null){
         $keyname = StringUtility::GetControllerKeyName($controller);
         $cl_uid = Users::column(Users::FD_CL_ID);
         $g = Groups::prepare()

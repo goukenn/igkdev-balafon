@@ -11,6 +11,7 @@ use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\Traits\DieRequestTrait;
 use IGKActionBase;
+use IGKUserInfo;
 
 abstract class ActionBase extends IGKActionBase{
     use DieRequestTrait;
@@ -24,6 +25,12 @@ abstract class ActionBase extends IGKActionBase{
         }
         $u = $this->getController()->getUser();
         if ($u instanceof IUserProfile){
+            return $u->model();
+        }
+        if ($u instanceof Users){
+            return $u;
+        }
+        if ($u instanceof IGKUserInfo){
             return $u->model();
         }
         return null;

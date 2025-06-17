@@ -553,10 +553,10 @@ if (!function_exists("igk_html_node_ajxa")) {
 	///<summary> represent an ajx link</summary>
 	///<param name="replacemode">the content mode . value (content|node)</param>
 	/**
-	 *  represent an ajx link
-	 * @param mixed $replacemodethe content mode . value (content|node)
+	 *  represent an ajx link. use to retrieve view from framework
+	 * @param mixed $replacemode the content mode . value (content|node)
 	 */
-	function igk_html_node_ajxa($lnk = null, $target = "", $replacemode = 'content', $method = "GET")
+	function igk_html_node_ajxa($lnk = null, string $target = "", string $replacemode = 'content', string $method = "GET")
 	{
 		$dn = new HtmlNode("a");
 		$dn->setAttribute("igk-ajx-lnk", 1);
@@ -3856,7 +3856,7 @@ if (!function_exists("igk_html_node_page")) {
 if (!function_exists("igk_html_node_pageCenterBox")) {
 	///<summary> center page document</summary>
 
-	function igk_html_node_pageCenterBox(callable $host = null)
+	function igk_html_node_pageCenterBox(?callable $host = null)
 	{
 		$box = null;
 		$_o = null;

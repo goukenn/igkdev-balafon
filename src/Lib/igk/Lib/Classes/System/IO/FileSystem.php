@@ -13,7 +13,11 @@ require_once __DIR__."/CoreFileSystem.php";
  */
 class FileSystem extends CoreFileSystem{  
  
-
+    /**
+     * default extension 
+     * @var mixed
+     */
+    var $default_extention;
     public function __construct(string $dir){
         if (!self::Exists($dir)){
             throw new ArgumentNotValidException("dir");
@@ -57,7 +61,10 @@ class FileSystem extends CoreFileSystem{
      * @param string $ext extension to add to path
      * @return string cache path
      */
-    public function getCacheFilePath(string $path, string $ext=".php"): string{
+    public function getCacheFilePath(string $path, ?string $ext=".php"): string{
+        if (is_null($ext)){
+            $ext = $this->default_extention ?? '.php';
+        }
         return implode(DIRECTORY_SEPARATOR, [$this->_getDir(), sha1($path).$ext]);
     }
     /**

@@ -62,11 +62,15 @@ class ObjectValidationMapper{
             else if ($g[0]=="*"){
                 $v_notquire = function(){return true;};
                 $g = null;
+            } else {
+                $v_notquire = function($tg)use($g){
+                    return in_array($tg, $g);
+                };
             }
         } 
         else{
             $v_notquire = function($i){
-                return !($this->m_not_required && key_exists($i, $this->m_not_required));
+                return ($this->m_not_required && (key_exists($i, $this->m_not_required) || in_array($i,$this->m_not_required) ));
             };
         }
        
@@ -86,7 +90,7 @@ class ObjectValidationMapper{
                 $num = false;
             }
             
-            $required =  !$v_notquire ($q); 
+            $required = !$v_notquire ($q); 
             
             if (!(!$num && is_callable($fc = $v_mapper[$q]))) {                
                 $fc = $defaultMapper;
@@ -96,7 +100,7 @@ class ObjectValidationMapper{
                     $fc->updateSetting(
                         igk_getv($this->m_defaultValues, $q),
                         $g? igk_getv($g, $q): null,
-                        false
+                        $fc->getAllowNullValue()
                     );
                 }
             }

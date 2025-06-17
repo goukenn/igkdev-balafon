@@ -149,6 +149,12 @@ abstract class CssUtils
     {
         return implode(" ", array_filter([CssEnvironment::GetInitClass($tagname), $default]));
     }
+    /**
+     * 
+     * @param BaseController $controller 
+     * @param null|string $ruri 
+     * @return null|string 
+     */
     public static function GetControllerSelectorClassNameFromRegisterURI(BaseController $controller, ?string $ruri = null): ?string
     {
         if (!empty($ruri)) {
@@ -383,7 +389,7 @@ abstract class CssUtils
      * @param bool $theme_export 
      * @return mixed 
      */
-    public static function RenderPrimaryTheme(HtmlDocTheme $a_theme, array $colors = null, $minfile = false, $theme_export = false)
+    public static function RenderPrimaryTheme(HtmlDocTheme $a_theme, ?array $colors = null, $minfile = false, $theme_export = false)
     {
         $s = '';
         $bck = $a_theme->getCl();
@@ -834,7 +840,7 @@ abstract class CssUtils
     /**
      * treat css detection 
      */
-    public static function TreatCssDefinition($v, $k, &$g, bool $is_primaryTheme, string $lk, array &$source_defs = null)
+    public static function TreatCssDefinition($v, $k, &$g, bool $is_primaryTheme, string $lk, ?array &$source_defs = null)
     {
         $v_ev = false;
         // + | ignore case 
@@ -884,6 +890,9 @@ abstract class CssUtils
         }, $lk));
         return $lk;
     }
+    /**
+     * init sys global document 
+     */
     public static function InitSysGlobal(\IGKHtmlDoc $doc)
     {
         $clear = 0;
@@ -1030,7 +1039,7 @@ abstract class CssUtils
     public static function Include(
         string $file,
         ?BaseController $ctrl = null,
-        HtmlDocTheme  $theme = null,
+        ?HtmlDocTheme  $theme = null,
         ?string $theme_name = null
     ) {
         $context = \IGK\Css\CSSContext::Init($ctrl, $theme);

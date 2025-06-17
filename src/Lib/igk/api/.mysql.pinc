@@ -5,10 +5,11 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Resources\R;
@@ -239,6 +240,7 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
     $tconfig = igk_api_mysql_get_config_data_schema($api, false, (object)array("check"=>1));
     if (!isset($tconfig["tbigk_users"])){
       
+        igk_wln($tconfig, igk_configs()->db_name, $api->getDataAdapter()->connect());
         igk_die("users's table not found");
     } 
  
@@ -460,6 +462,9 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
     $err->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
     $tables=array();
     $count=0; 
+    // inject system db controller 
+    array_unshift($ctrl, SysDbController::ctrl());
+
     foreach($ctrl as $v){
         if($v->getCanInitDb() && ($v->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)){
             $b = BaseController::Invoke($v, "getUseDataSchema");

@@ -151,20 +151,6 @@ class UserAndGroupController extends ConfigControllerBase{
     */
     public function getUserAuths($u){
         igk_die( __METHOD__." not implement");
-        // $ad=igk_get_data_adapter($this);
-        // if(!$ad->connect())
-        //     return null;
-        // $t=array();
-        // $c= Authorizations::select_row igk_db_table_select_where(IGK_TB_AUTHORISATIONS, null, $this);
-        // if($c && $c->Success){
-        //     foreach($c->Rows as $k=>$v){
-        //         if($u->IsAuthorize($v->clName)){
-        //             $t[$v->clId]=$v->clName;
-        //         }
-        //     }
-        // }
-        // $ad->close();
-        // return $t;
     }
     ///<summary>return an array of groups that this user is member of</summary>
     /**

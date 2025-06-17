@@ -255,7 +255,7 @@ class QueryBuilder
      * @param null|\callbable|Closure $filter 
      * @return $this 
      */
-    public function filter(callable $filter = null)
+    public function filter(?callable $filter = null)
     {
         $this->m_options[DbConstants::CALLBACK_OPTS] = $filter;
         return $this;
@@ -420,7 +420,7 @@ class QueryBuilder
      * @param string|null $property 
      * @return array[tablename, linkcolumn, source_table, require_property]
      */
-    private static function _GetLinks(array $ref, $ctrl, ?string $table = null, string $property = null)
+    private static function _GetLinks(array $ref, $ctrl, ?string $table = null, ?string $property = null)
     {
         return array_filter(array_map(function ($a) use ($ctrl, $table, $property) {
             if (!$a->clLinkType)

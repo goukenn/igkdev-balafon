@@ -87,7 +87,7 @@ EOF
     * @param mixed $content
     * @param mixed $context the default value is XML
     */
-    public function load($content, $context=HtmlContext::XML, callable $creator=null){
+    public function load($content, $context=HtmlContext::XML, ?callable $creator=null){
         if(empty($content))
             return;
         

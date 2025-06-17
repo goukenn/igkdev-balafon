@@ -25,7 +25,9 @@ use IGK\System\Traits\EnumeratesConstants;
 class CreateUserProfileClassCommand extends AppExecCommand{
 	var $command='--make:userprofile-class';
 	var $desc='scaffold file to enable project\'s controller user profile management'; 
-	/* var $options=[]; */
+	var $options=[
+		'--force'=>'flags used to reset '
+	];
 	var $category="make";
 	var $usage = 'controller [options]';
 	public function exec($command, ?string $controller=null) {
@@ -35,7 +37,7 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		$f = $ctrl::resolveClass($v_pname);
 
 		if ($f && class_exists($f)){
-			Logger::warn("profile class already exists");
+			Logger::warn(igk_logf("profile class already exists"));
 			return -1;
 		}
 		$file = Path::Combine($ctrl->getClassesDir(), $v_pname.'.php');
@@ -43,7 +45,7 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		$bind[$file]= function($file)use($ctrl, $v_pname){
 		$code = implode("\n",[ 
 			'protected function registerProfile() {',
-			'	/* Authorization::BindUserToGroup($this->getController(), $this->model(), Profiles::getDefaultProfile(); );*/',
+			'	/* Authorization::BindUserToGroup($this->getController(), $this->model(), Profiles::getDefaultProfile());*/',
 			'}'
 		]);
 		$parent = SystemUserProfile::class;
@@ -65,7 +67,7 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		igk_io_w2file($file, $src->render());
 		};
 
-		$bind[Path::Combine($ctrl->getDeclaredDir(), 'Configs/profile.php')] = function($file){
+		$bind[Path::Combine($ctrl->getDeclaredDir(), 'Configs/profiles.php')] = function($file){
 			$c = new PHPScriptBuilder;
 			$c->type('function')
 			->comment('profile definition settings')
@@ -108,8 +110,7 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		}
 
 
-		Utility::MakeBindFiles($command, $bind, true);
-		Logger::success("output: ".$file);
+		Utility::MakeBindFiles($command, $bind, property_exists($command->options ,'--force'));
 		Logger::success('done');
 
 	}

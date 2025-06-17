@@ -19,6 +19,11 @@ namespace IGK\System\Text;
 */
 class RegexMatcherCapture implements IRegexCaptureInfo{
     /**
+     * use internally to get the actual reference
+     * @var mixed
+     */
+    var $tag;
+    /**
      * source matching
      * @var mixed
      */
@@ -81,8 +86,8 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * real captured value
      * @var ?string
      */
-    var $sourceValue;
-
+    var $sourceValue; 
+  
     /**
      * extra option when match - and treat capture 
      * @var ?object
@@ -108,5 +113,15 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
             return true;
         }
         return !is_null($this->endCaptures);
+    }
+    /**
+     * get if is treated value
+     * @return bool 
+     */
+    public function getisTreatedValue(){
+        return $this->value != $this->sourceValue;
+    }
+    public function updateWith($data){
+        $this->parentInfo->value .= " ---- ";
     }
 }

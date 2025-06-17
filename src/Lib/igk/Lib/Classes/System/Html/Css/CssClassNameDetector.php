@@ -158,7 +158,7 @@ class CssClassNameDetector
      * @param array|null $references 
      * @throws Exception 
      */
-    public function resolv(string $src, array &$references = null)
+    public function resolv(string $src, ?array &$references = null)
     {
         $v_c_mkey = self::MEDIA_KEY;
         if ($dc = $this->getMatchRegex()) { 

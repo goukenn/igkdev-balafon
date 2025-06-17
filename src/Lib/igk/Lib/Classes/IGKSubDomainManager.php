@@ -50,8 +50,19 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return false;
     }
+    /**
+     * cached submains list from db store 
+     * @return string 
+     */
     private static function GetCacheFile(){
         return igk_io_cachedir()."/.domains.cache";
+    }
+    /**
+     * config file from data directory 
+     * @return string 
+     */
+    public static function GetConfigFile(){
+        return Path::getInstance()->getDataDir()."/subdomain.php";
     }
     ///<summary>get the domain controller or return false</summary>
     /**
@@ -88,7 +99,8 @@ final class IGKSubDomainManager extends IGKObject{
                 return igk_getctrl($row->clCtrl, false);
             }  
             $v_save  = false;
-            $tf = Path::getInstance()->getDataDir()."/subdomain.php";
+            $tf = self::GetConfigFile();
+
             if (igk_io_file_exists($tf)){
                 $b = include $tf;
                 if (isset($b[$subdomain])){

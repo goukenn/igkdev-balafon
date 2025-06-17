@@ -23,10 +23,9 @@ class ResponseHandler
      * @return mixed 
      * @throws IGKException 
      */
-    public function HandleReponse($r)
+    public function HandleReponse($r, $code = RequestResponseCode::Ok)
     {
         $e = 0;
-        $code = 200;
         if ($r instanceof IResponseData){
             $code = $r->getCode();
         }
@@ -41,6 +40,8 @@ class ResponseHandler
             $b->output();
             $e = 1;
         } else if (is_array($r) || is_object($r)) {
+            $code = igk_getv($r, $c_key = Request::ARRAY_RESPONSE_CODE) ?? $code;
+            igk_unset($r, $c_key);
             ob_get_level() &&  ob_clean();
             switch (igk_server()->CONTENT_TYPE) {
                 case 'application/xml':

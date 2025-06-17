@@ -7,6 +7,7 @@
 namespace IGK\System\Console\Commands;
 
 use Exception;
+use IGK\Constants;
 use IGK\Controllers\BaseController; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -77,7 +78,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @throws Exception 
      * @throws IGKException 
      */
-    public static function GenerateSiteMap(array $views, string $baseuri, array & $error = null){
+    public static function GenerateSiteMap(array $views, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,
             "header"=>(new XmlProcessor("xml"))->setAttributes(["version"=>"1.0"])->render()
@@ -124,7 +125,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GenerateSiteMapIndex(array $indexes, string $baseuri, array & $error = null){
+    public static function GenerateSiteMapIndex(array $indexes, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,
             "header"=>(new XmlProcessor("xml"))->setAttributes([

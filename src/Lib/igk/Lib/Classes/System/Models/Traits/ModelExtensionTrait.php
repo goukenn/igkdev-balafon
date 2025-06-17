@@ -87,7 +87,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function createFromCache(\IGK\Models\ModelBase $model, ?object $identifier, object $conditions=null);
+    public abstract static function createFromCache(\IGK\Models\ModelBase $model, ?object $identifier, ?object $conditions=null);
     /**
      * extension methods 
      */
@@ -115,7 +115,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function dump_export(\IGK\Models\ModelBase $model, array $data = null);
+    public abstract static function dump_export(\IGK\Models\ModelBase $model, ?array $data = null);
     /**
      * extension methods 
      */
@@ -127,15 +127,15 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function formFields(\IGK\Models\ModelBase $model, $edit = false, array $unsetKeys = null);
+    public abstract static function formFields(\IGK\Models\ModelBase $model, $edit = false, ?array $unsetKeys = null);
     /**
      * extension methods 
      */
-    public abstract static function formSelectData(\IGK\Models\ModelBase $model, $selected = null, callable $callback = null);
+    public abstract static function formSelectData(\IGK\Models\ModelBase $model, $selected = null, ?callable $callback = null);
     /**
      * extension methods 
      */
-    public abstract static function form_select_all(\IGK\Models\ModelBase $model, callable $filter = null, $condition = null, $options = null);
+    public abstract static function form_select_all(\IGK\Models\ModelBase $model, ?callable $filter = null, $condition = null, $options = null);
     /**
      * extension methods 
      */
@@ -163,11 +163,11 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function insertIfNotExists(\IGK\Models\ModelBase $model, array $conditions, array $options = null, $update = false);
+    public abstract static function insertIfNotExists(\IGK\Models\ModelBase $model, array $conditions, ?array $options = null, $update = false);
     /**
      * extension methods 
      */
-    public abstract static function insertOrUpdate(\IGK\Models\ModelBase $model, $condition, callable $updating = null);
+    public abstract static function insertOrUpdate(\IGK\Models\ModelBase $model, $condition, ?callable $updating = null);
     /**
      * extension methods 
      */
@@ -207,7 +207,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function queryColumns(\IGK\Models\ModelBase $model, array $filter = null, bool $useall = false);
+    public abstract static function queryColumns(\IGK\Models\ModelBase $model, ?array $filter = null, bool $useall = false);
     /**
      * extension methods 
      */
@@ -215,7 +215,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function query_condition(\IGK\Models\ModelBase $model, string $operand, array $field_key_values = null);
+    public abstract static function query_condition(\IGK\Models\ModelBase $model, string $operand, ?array $field_key_values = null);
     /**
      * extension methods 
      */
@@ -243,7 +243,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function select_fetch(\IGK\Models\ModelBase $model, array $condition = null, array $options = null);
+    public abstract static function select_fetch(\IGK\Models\ModelBase $model, ?array $condition = null, ?array $options = null);
     /**
      * extension methods 
      */
@@ -267,7 +267,7 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function table(\IGK\Models\ModelBase $model, string $column = null);
+    public abstract static function table(\IGK\Models\ModelBase $model, ?string $column = null);
     /**
      * extension methods 
      */
@@ -291,5 +291,5 @@ trait ModelExtensionTrait
     /**
      * extension methods 
      */
-    public abstract static function with(\IGK\Models\ModelBase $model, $modelUnion, string $propertyName = null);
+    public abstract static function with(\IGK\Models\ModelBase $model, $modelUnion, ?string $propertyName = null);
 }

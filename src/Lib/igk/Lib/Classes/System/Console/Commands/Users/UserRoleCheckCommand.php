@@ -21,7 +21,7 @@ class UserRoleCheckCommand extends AppExecCommand{
 	var $category = self::USER_CAT;
 	var $usage = 'login auth [ctrl] [options]';
 	// CarRentalController@ProposeCar
-	public function exec($command, string $user=null, string $auth=null, ?string $ctrl = null) {  
+	public function exec($command, ?string $user=null, ?string $auth=null, ?string $ctrl = null) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');		
 		if ($ctrl){
 			$ctrl = self::GetController($ctrl);

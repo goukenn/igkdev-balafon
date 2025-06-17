@@ -122,7 +122,7 @@ EOF
         $data = $file->parseData("cocacola,50001A2334,1.5");
         $mapper = [
             "name",
-            "codebar"=>function(?string $v, int $i=null){ return strtolower($v);},
+            "codebar"=>function(?string $v, ?int $i=null){ return strtolower($v);},
             "price"
         ];
         $this->assertEquals(

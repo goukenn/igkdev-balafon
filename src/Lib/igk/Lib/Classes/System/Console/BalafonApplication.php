@@ -254,7 +254,7 @@ class BalafonApplication extends IGKApplicationBase
      * 
      * @param string $entryfile 
      * @param int $render 
-     * @return mixed 
+     * @return string|int 
      * @throws Exception 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
@@ -613,6 +613,8 @@ class BalafonApplication extends IGKApplicationBase
                         Logger::print(App::version);
                         Logger::info("Author:");
                         echo IGK_AUTHOR . "\n";
+                         Logger::info("PHP_VERSION:");
+                        echo PHP_VERSION. "\n";
                         try {
 
                             if (defined('IGK_WORKING_DIR'))
@@ -629,7 +631,9 @@ class BalafonApplication extends IGKApplicationBase
                         } catch (\Exception $ex) {
                             echo "failed : " . $ex->getMessage();
                         }
-                        echo json_encode($info, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+                        Logger::warn('application info:');
+
+                        Logger::print(json_encode($info, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
                         return 0;
                     };
@@ -773,7 +777,7 @@ class BalafonApplication extends IGKApplicationBase
                 }
             } 
             // + | no reach fallback
-            if (igk_io_file_exists($cf = $_SERVER['PWD'] . "/balafon.config.json")) {
+            if (igk_io_file_exists($cf = $_SERVER['PWD'] . '/'. Constants::PROJECT_CONF_FILE)) {
                 $v_pdir = dirname($cf);
                 if ($conf = json_decode(file_get_contents($cf))) {
                     // + | change workbench current working directory 

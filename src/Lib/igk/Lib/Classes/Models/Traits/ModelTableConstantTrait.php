@@ -5,6 +5,7 @@
 namespace IGK\Models\Traits;
 
 use IGK\Helper\Database;
+use ReflectionClass;
 
 ///<summary></summary>
 /**
@@ -34,7 +35,9 @@ trait ModelTableConstantTrait{
          */
         /** eslint-disable */
         $cl = static::class;
-        return $cl::$model::GetCache($cl::$field_name, $value);
+        $model = igk_getv($cl_vars = get_class_vars($cl), 'model');
+        $fn = igk_getv($cl_vars, 'field_name');
+        return $model::GetCache($fn, $value);
     }
 
     /**
@@ -47,8 +50,10 @@ trait ModelTableConstantTrait{
          */
         $fc = Database::InsertExtraFieldsMethod;
         $cl = static::class;
-        $model = $cl::$model;
-        $fn = $cl::$field_name;
+        $tmodel = igk_getv($cl_vars = get_class_vars($cl), 'model') ?? igk_die(sprintf('missing required model.[%s]', static::class));
+        $tfn = igk_getv($cl_vars, 'field_name');
+        $model = $tmodel;// cl::$model;
+        $fn = $tfn; // cl::$field_name;
         $init_fields = method_exists(static::class, $fc);
         $v_constants = $cl::GetConstants();
         foreach($v_constants as $ut){

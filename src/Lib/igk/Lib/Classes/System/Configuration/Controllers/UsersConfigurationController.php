@@ -684,7 +684,7 @@ class UsersConfigurationController extends ConfigControllerBase
             $frm = igk_create_node("form");
             $frm["action"] = $this->getUri(__FUNCTION__);
             $frm["autocomplete"] = "off";
-            $frm->cref()->ajx(); // ["autocomplete"] = "off";
+            $frm->cref()->ajx();  
             $ul = $frm->add("ul");
             $frm->fields([
                 "clFirstName" => array("require" => 0),
@@ -927,7 +927,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * @throws ReflectionException 
      * @throws CrefNotValidException 
      */
-    public function changePassword(int $id = null)
+    public function changePassword(?int $id = null)
     {
 
         if (!igk_is_conf_connected()) {

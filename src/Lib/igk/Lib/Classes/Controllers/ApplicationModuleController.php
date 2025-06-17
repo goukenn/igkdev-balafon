@@ -589,4 +589,8 @@ final class ApplicationModuleController extends BaseController{
         $m = ControllerExtension::resolveClass($this, $name);
         return $m;
     }
+
+    public static function GetSettingKey(ApplicationModuleController $ctrl){
+        return sprintf('module://%s', trim($ctrl->getName(),'. '));
+    }
 }

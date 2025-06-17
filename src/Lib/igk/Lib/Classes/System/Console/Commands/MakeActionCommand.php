@@ -55,7 +55,7 @@ class MakeActionCommand extends AppExecCommand{
      * @var string $controller Controller
      * @var string $actionName the action to create 
      */
-    public function exec($command, string $controller=null, string $macroName=null){
+    public function exec($command, ?string $controller=null, ?string $macroName=null){
         if (is_null($macroName) && !empty($controller)){
             if (property_exists($command->options,"--controller")){
                 $ctrl = self::ResolveController($command, null, false) ?? igk_die("missing controller");

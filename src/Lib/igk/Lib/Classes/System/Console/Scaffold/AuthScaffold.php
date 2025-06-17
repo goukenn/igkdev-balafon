@@ -55,8 +55,7 @@ class AuthScaffold extends ScaffoldBase
          
         $bind[$viewdir . "/ServiceLogin.phtml"] = function ($file) use ($model) {
             $sb = new StringBuilder;
-            $sb->appendLine(implode('\n'[
-
+            $sb->appendLine(implode('\n', [
             ]));
             igk_io_w2file($file, self::GenerateViewTemplate($file, $sb.''));
         };

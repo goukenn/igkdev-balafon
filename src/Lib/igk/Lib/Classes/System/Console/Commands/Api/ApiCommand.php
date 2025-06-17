@@ -21,7 +21,7 @@ class ApiCommand extends AppExecCommand{
 	var $options=[];
 	var $category = 'api';
 	var $usage = 'action [options]';
-	public function exec($command, string $action=null) { 
+	public function exec($command, ?string $action=null) { 
 		empty($action) ?? igk_die('action is required');
 		if (method_exists($this,$fc = 'action_'.$action)){
 			$this->$fc($command);

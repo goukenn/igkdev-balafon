@@ -53,7 +53,7 @@ abstract class ActionHelper
      * @param callable|null $callable 
      * @return mixed 
      */
-    public static function DispatchToAction(string $method, string $action_class, array $arguments, callable $callable = null)
+    public static function DispatchToAction(string $method, string $action_class, array $arguments, ?callable $callable = null)
     {
         $verb = ["", '_' . strtolower(igk_server()->REQUEST_METHOD)];
         while (count($verb) > 0) {
@@ -276,7 +276,7 @@ abstract class ActionHelper
         ?string $from,
         string $title,
         string $msg,
-        array $options = null,
+        ?array $options = null,
         ?string $mail_title = null
     ) {
 
@@ -506,6 +506,8 @@ abstract class ActionHelper
      * @param string $handler_class_name 
      * @param mixed $fname 
      * @param mixed $params 
+     * @param mixed $rep 
+     * @param ?IActionDoHandleOptions|mixed $options 
      * @return mixed 
      * @throws IGKException 
      */

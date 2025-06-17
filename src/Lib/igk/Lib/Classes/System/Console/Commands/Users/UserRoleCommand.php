@@ -19,7 +19,7 @@ class UserRoleCommand extends AppExecCommand{
 
 	var $category = self::USER_CAT;
 
-	public function exec($command, string $user=null) {  
+	public function exec($command, ?string $user=null) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');		
 		$auths = $user->auths();
 		//$roles = $user::role();

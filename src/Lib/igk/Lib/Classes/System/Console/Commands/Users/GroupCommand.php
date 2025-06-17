@@ -21,7 +21,7 @@ class GroupCommand extends AppExecCommand{
 
 	var $category = self::USER_CAT;
 	var $usage = 'login [option]';
-	public function exec($command, string $login=null) {
+	public function exec($command, ?string $login=null) {
 		is_null($login) && igk_die('login required');
 
 		$user = igk_get_user_bylogin($login);

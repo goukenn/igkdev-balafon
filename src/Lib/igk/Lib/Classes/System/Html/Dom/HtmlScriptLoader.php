@@ -169,7 +169,7 @@ class HtmlScriptLoader
             };
         } else {
             $production_file = IGKCaches::js_filesystem()->getCacheFilePath($cachePath, ".js");
-            if (!$no_page_cache  && igk_io_file_exists($production_file)) {
+            if (!$no_page_cache  && file_exists($production_file)) {
                 return file_get_contents($production_file);
             }
 
@@ -202,8 +202,8 @@ class HtmlScriptLoader
                 continue;
             }
 
-            $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq . $dir);
-            if (!$no_page_cache && igk_io_file_exists($cache_path, true)) {
+            $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq . $dir, null);
+            if (!$no_page_cache && file_exists($cache_path)) {
                 ob_start();
                 include($cache_path);
                 $out .= ob_get_contents();
@@ -219,10 +219,7 @@ class HtmlScriptLoader
                 IO::GetFiles($dir, self::GetLoadingAssetRegex(), true, $exclude_dir, $resolverfc);
 
                 // store references 
-                if ($references) {
-
-
-
+                if ($references) { 
                     $sb = new StringBuilder;
                     $t = 'const a = __module_refs;';
                     $id = 0;

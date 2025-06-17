@@ -64,6 +64,10 @@ class HtmlBodyNode extends HtmlNode{
         return $this->m_bodyMainScript->addScript($key, $script);
     }
      
+    /**
+     * retrieve the body box 
+     * @return mixed 
+     */
     public function getBodyBox(){
         if ($this->m_bodybox ===null){
             $this->m_bodybox = new HtmlBodyBoxNode($this);

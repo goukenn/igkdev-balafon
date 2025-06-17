@@ -48,6 +48,7 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
         }
 
         $install_source = self::GetScriptInstall([
+            'exclude-site-core-function.pinc',
             'installer-core-function.pinc',
             'install-site.pinc'
         ], $token);
@@ -79,7 +80,7 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
         $no_subdomain = property_exists($command->options, '--no-subdomain');
         $no_webconfig = property_exists($command->options, '--no-webconfig');
 
-        Logger::info('sync public public folder');
+        Logger::info('sync public public folder...');
         SyncInitPublicCommand::InstallFolder($h, $pdir, $uri, $no_subdomain, $no_webconfig);
 
         if (!$is_base){

@@ -52,7 +52,7 @@ abstract class FormFieldHelper
      * @return mixed 
      * @throws Exception 
      */
-    public static function HandleFormRequest($sess_form_form, array $request_data = null, $obj = null)
+    public static function HandleFormRequest($sess_form_form, ?array $request_data = null, $obj = null)
     {
         if (!is_object($sess_form_form)) {
             throw new IGKException("must be and object");

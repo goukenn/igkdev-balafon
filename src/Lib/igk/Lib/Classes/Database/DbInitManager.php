@@ -28,6 +28,7 @@ class DbInitManager{
         if ($pro && igk_io_file_exists($pro)){
             $tpro = include($pro);
         }
+        igk_debug_wln('init profiles ....');
         if (!is_array($tpro))
             return;
         $roles = []; // mean groups

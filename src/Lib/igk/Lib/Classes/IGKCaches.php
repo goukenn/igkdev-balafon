@@ -24,7 +24,7 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
  */
 final class IGKCaches
 {
-    private $m_storage = [];
+    private $m_storage = []; 
     /**
      * @var IGKCaches caches
      */
@@ -208,7 +208,9 @@ final class IGKCaches
     }
     private function _init_js_filesystem_caches()
     {
-        return self::__init_cache(igk_io_cachedir() . "/storage/js");
+        $js = self::__init_cache(igk_io_cachedir() . "/storage/js");
+        $js->default_extention = '.js';
+        return $js;
     }
     private function _init_css_filesystem_caches()
     {

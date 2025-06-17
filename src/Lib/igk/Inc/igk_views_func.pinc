@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 igk_set_env("sys://".__FILE__."/args", get_defined_vars());

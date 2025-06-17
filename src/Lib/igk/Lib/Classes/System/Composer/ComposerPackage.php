@@ -14,11 +14,7 @@ use IGK\System\Composer\Traits\ComposerPackageFileTrait;
  * @package IGK\System\Composer
  */
 class ComposerPackage{
-    use ComposerPackageFileTrait;
-    
-
-
-
+    use ComposerPackageFileTrait; 
     /**
      * 
      * @param string $file 

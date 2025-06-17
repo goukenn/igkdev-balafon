@@ -17,7 +17,7 @@ class ViewListCommand extends AppExecCommand{
 	var $category = "view";
 	/* var $options=[]; */
 	/* var \$category; */
-	public function exec($command, string $controller = null) {
+	public function exec($command, ?string $controller = null) {
 		
 		$ctrl = ($controller ? self::GetController($controller) : null)?? die("missing controller");
 		array_map(function($f){

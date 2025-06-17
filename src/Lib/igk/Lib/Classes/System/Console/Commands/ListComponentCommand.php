@@ -8,7 +8,10 @@ use IGK\Helper\PhpHelper;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Regex\Replacement;
+use ReflectionException;
+use IGKException;
 use ReflectionFunction;
 
 ///<summary></summary>
@@ -32,7 +35,16 @@ class ListComponentCommand extends AppExecCommand
 		parent::showUsage();
 		Logger::info(sprintf('%s [pattern] [options]', $this->command));
 	}
-	public function exec($command, string $pattern=null)
+	/**
+	 * 
+	 * @param mixed $command 
+	 * @param string|null $pattern 
+	 * @return void 
+	 * @throws ReflectionException 
+	 * @throws IGKException 
+	 * @throws ArgumentTypeNotValidException 
+	 */
+	public function exec($command, ?string $pattern=null)
 	{
 		if (!is_null($pattern)){
 			$pattern = Replacement::RegexExpressionFromString($pattern);

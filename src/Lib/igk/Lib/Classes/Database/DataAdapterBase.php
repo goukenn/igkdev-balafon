@@ -449,7 +449,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @param string $options driver table options
      * @param bool
      */
-    public function createTable(string $tablename, $columninfoArray, $entries = null, string $desc = null, $options = null)
+    public function createTable(string $tablename, $columninfoArray, $entries = null, ?string $desc = null, $options = null)
     {
         return false;
     }
@@ -645,16 +645,19 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         $b = igk_environment()->get("db_adapters");
         if (igk_io_file_exists($fc, true)) {
-            foreach (explode(IGK_LF, igk_io_read_allfile($fc)) as $k) {
-                if (empty(trim($k)))
-                    continue;
-                $key = strtoupper($k);
-                if (preg_match_all($n, $key, $tab)) {
-                    $key = $tab["name"][0];
-                }
-                if (class_exists($k, false)) {
-                    self::$sm_regAdapter[$key] = new $k();
-                    self::$sm_regAdapter[$key]->m_name = $key;
+            $src = igk_io_read_allfile($fc);
+            if ($src) {
+                foreach (explode(IGK_LF, $src) as $k) {
+                    if (empty(trim($k)))
+                        continue;
+                    $key = strtoupper($k);
+                    if (preg_match_all($n, $key, $tab)) {
+                        $key = $tab["name"][0];
+                    }
+                    if (class_exists($k, false)) {
+                        self::$sm_regAdapter[$key] = new $k();
+                        self::$sm_regAdapter[$key]->m_name = $key;
+                    }
                 }
             }
             if ($b) { // resolv key name

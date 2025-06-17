@@ -96,6 +96,7 @@ Users::registerMacro("addUser", MacrosHelper::addUser2());
 Users::registerMacro("GetUserByLogin", function($login){
 $conditions = [];
 if (!IGKValidator::IsEmail($login)) {
+    // append login domain 
     $conditions[] = (object)["operand" => "OR", "conditions" => ["clLogin" => $login, "clLogin" => $login . "@" . igk_configs()->website_domain]];
 } else {
     $conditions["clLogin"] = $login;

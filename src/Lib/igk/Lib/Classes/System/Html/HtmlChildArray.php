@@ -37,7 +37,7 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
      * @param $callback 
      * @return void 
      */
-    public function sort(callable $callback = null){
+    public function sort(?callable $callback = null){
         usort($this->m_data, $callback ?? function ($a, $b){
             $ai= $a->getIndex() ?? 0;
             $bi= $b->getIndex() ?? 0;

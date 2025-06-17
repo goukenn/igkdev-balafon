@@ -4,10 +4,14 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
+use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Helper\ViewHelper;
 use IGK\Resources\R;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlNode;
@@ -301,7 +305,18 @@ EOF;
 			}
 		}
 	}
-	public static function InitComponent($doc, BaseController $ctrl=null){
+	/**
+	 * 
+	 * @param mixed $doc 
+	 * @param BaseController|null $ctrl 
+	 * @return void 
+	 * @throws IGKException 
+	 * @throws ArgumentTypeNotValidException 
+	 * @throws ReflectionException 
+	 * @throws EnvironmentArrayException 
+	 * @throws CssParserException 
+	 */
+	public static function InitComponent($doc, ?BaseController $ctrl=null){
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl(); 
 		$doc->addTempScript( __DIR__."/Scripts/igk.winui.horizontalScrollPane.js", ["v"=>IGK_VERSION])->activate('defer'); 
 		if (igk_environment()->isOPS()){ 

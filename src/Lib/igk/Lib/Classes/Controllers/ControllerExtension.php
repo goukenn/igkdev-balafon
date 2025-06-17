@@ -110,13 +110,13 @@ abstract class ControllerExtension
      * @return mixed|void 
      * @throws Exception 
      */
-    public static function getViewLayout(BaseController $ctrl, string $fname=null)
+    public static function getViewLayout(BaseController $ctrl, ?string $fname = null)
     {
 
         $n = $fname;
         $cl = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, $n);
 
-        igk_die(implode("\n", [$cl, __FILE__.":".__LINE__ , 'view layout loading']));
+        igk_die(implode("\n", [$cl, __FILE__ . ":" . __LINE__, 'view layout loading']));
 
 
         $view_layout = $ctrl->resolveClass(EntryClassResolution::WinUI_ViewLayout) ?? ViewLayout::class;
@@ -239,11 +239,12 @@ abstract class ControllerExtension
     /**
      * bind target node
      * @param HtmlNode $t
-     * @param mixed $fname
-     * @param mixed $css_def the default value is null
+     * @param ?string $fname
+     * @param ?string $css_def the default value is null
      */
-    public static function bindNodeClass(BaseController $ctrl, HtmlNode $t, $fname, $css_def = null)
+    public static function bindNodeClass(BaseController $ctrl, HtmlNode $t, string $fname, ?string $css_def = null)
     {
+
         $classdef = CssUtils::GetControllerSelectorClassNameFromRegisterURI($ctrl, $fname) . ($css_def ? " " . $css_def : "");
         if ($ctrl->getEnvParam(IGK_KEY_CSS_NOCLEAR) == 1)
             return;
@@ -656,7 +657,14 @@ abstract class ControllerExtension
      */
     public static function authName(BaseController $ctrl, string $name): string
     {
-        return StringUtility::AuthorizationPath($name, get_class($ctrl));
+        $cl = get_class($ctrl);
+        if (-1 !== strpos($name, '|')) {
+            $r = array_map(function ($a) use ($cl) {
+                return StringUtility::AuthorizationPath($a, $cl);
+            }, explode('|', $name));
+            return implode('|', $r);
+        }
+        return StringUtility::AuthorizationPath($name, $cl);
     }
 
     /**
@@ -866,7 +874,7 @@ abstract class ControllerExtension
         return $c;
     }
     /**
-     * initialize controller database models
+     * initialize controller's database models
      * @param BaseController $ctrl 
      * @param array $array of table definitions
      * @param bool $force 
@@ -894,7 +902,7 @@ abstract class ControllerExtension
             $core_model_base = igk_uri(IGK_LIB_CLASSES_DIR . "/Models/ModelBase.php");
             $tb = $definitions;
             $base_f = igk_uri($c . "ModelBase.php");
-            if (($core_model_base != $base_f) && (!igk_io_cache_file_exists($base_f) || $force)) {
+            if (($core_model_base != $base_f) && (!file_exists($base_f) || $force)) {
                 Logger::info("generate base model : " . $base_f);
                 igk_io_w2file($base_f, self::GetDefaultModelBaseSource($ctrl));
             }
@@ -916,7 +924,7 @@ abstract class ControllerExtension
                     if (!empty($name)) {
                         $file = $c . $name . ".php";
                         $factory[] = $name;
-                        if (!$force && igk_io_cache_file_exists($file)) {
+                        if (!$force && file_exists($file)) {
                             continue;
                         }
                         if ($definitionHandler = $v->definitionResolver ?? $model_init) {
@@ -1473,7 +1481,18 @@ abstract class ControllerExtension
     {
         return self::getErrorViewFile($ctrl, $code);
     }
-
+    public static function session(BaseController $ctrl)
+    {
+        $n = self::name($ctrl);
+        if (!isset(igk_app()->session->{$n})) {
+            $obj = null;
+            if ($cl = $ctrl::resolveClass("Session")) {
+                $obj = new $cl();
+            }
+            igk_app()->session->{$n} = $obj ?? (object)[];
+        }
+        return igk_app()->session->{$n};
+    }
     /**
      * get store user session
      * @param BaseController $controller 
@@ -1541,8 +1560,11 @@ abstract class ControllerExtension
             if ($u != null) {
                 // check existance of the user
                 if (!is_null($u_model::GetCache($fd_guid, $u->clGuid))) {
-                    $pu = $controller->initUserFromSysUser($u);
-                    $controller->userProfile = $pu;
+
+                    if (method_exists($controller,  EntryClassResolution::CTRL_METHOD_INIT_USER_FROM_SYSUSER)) {
+                        $pu = $controller->initUserFromSysUser($u);
+                        $controller->userProfile = $pu;
+                    }
                 } else {
                     $r = false;
                     if ($u) {
@@ -2461,10 +2483,12 @@ abstract class ControllerExtension
         $postfix = EntryClassResolution::ActionClassSuffix;
         $targs = explode("/", ltrim($search_name, '/'));
         $margs = array_slice($targs, 1);
+        $_it = 0;
         while (($tc = count($targs)) > 0) {
             $r = array_shift($targs);
             $v_last = (($tc - 1) == 0) && $is_ajx;
             $g = StringUtility::CamelClassName(ucfirst($r));
+            $_it++;
             if (is_numeric($g)) {
                 if ($fallback) {
                     break;
@@ -2498,7 +2522,16 @@ abstract class ControllerExtension
             $fallback = true;
             $level++;
         }
-
+        // + | append last
+        if ($p) {
+            // $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . $p . $postfix])));
+            // $fc_prepend($t, $l, $level - 1, $margs);
+            if (strtolower($p) != strtolower(IGK_DEFAULT_VIEW)) {
+                $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . ucfirst(IGK_DEFAULT_VIEW) . $postfix])));
+                $fc_prepend($t, $l, $level - 2, $margs);
+            }
+            array_shift($margs);
+        }
         if ($entry_default || ($name != IGK_DEFAULT_VIEW) && !$controller->getConfig("no_fallback_to_default_action")) {
             $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix])))] = -1;
         }

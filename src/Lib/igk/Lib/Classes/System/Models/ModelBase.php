@@ -971,6 +971,9 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if ($this->m_alias) {
             $keys = array_keys($this->m_alias);
             return array_combine($keys, array_map(function ($a) {
+                if (false !== strpos($a, '.')){
+                    $a = implode('.', array_slice(explode('.', $a), -1));
+                }
                 return igk_getv($this->raw, $a);
             }, $this->m_alias));
         }

@@ -11,7 +11,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 
 if (!function_exists('igk_current_module')) {
     /**
-     * retrive the current module according to execution
+     * retrive the current module according to context execution
      * @return mixed 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
@@ -86,7 +86,7 @@ if (!function_exists('igk_get_loaded_modules')) {
  * @throws ReflectionException 
  * @throws EnvironmentArrayException 
  */
-function igk_require_module(string $modulename, callable $init = null, $loadall = 1, $die = 1, $name = null)
+function igk_require_module(string $modulename, ?callable $init = null, $loadall = 1, $die = 1, $name = null)
 {
     $v_mod_key = IGKEnvironmentConstants::MODULES;
     $IGK_ENV = igk_environment();

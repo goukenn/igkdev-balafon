@@ -55,7 +55,8 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @throws ReflectionException 
      */
     public function bootstrap($bootoptions = null, ?callable $loader=null)
-    {
+    { 
+       
         // - |
         // - | clean previously set header - 
         // - | 
@@ -67,19 +68,34 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         IGKApp::Init();
         // + | must setup application before call the facade 
         $uri_handler = \IGK\System\Facades\Facade::GetFacade(\IGK\System\Http\UriHandler::class);
-        isset($_SERVER["REQUEST_URI"]) && $uri_handler && $uri_handler::Handle($_SERVER["REQUEST_URI"], $this , $loader);
-        
+  
+        if (isset($_SERVER["REQUEST_URI"]) && $uri_handler)
+            $uri_handler::Handle($_SERVER["REQUEST_URI"], $this, $loader);
+        else{
+            if ($loader){
+                $loader();
+            } 
+        }
+
         // enable benchmark        
         Benchmark::Activate(
             igk_environment()->isDev() && igk_getr(Benchmark::REQUEST_PARAM),
             ["dieOnError" => ini_get("display_errors")]
         );
+        \IGK\System\Http\UriHandler::HandlePublicDir(igk_getv(parse_url($_SERVER["REQUEST_URI"]), 'path'), getcwd());
+        // time : 17ms
         // resource management
         require_once IGK_LIB_CLASSES_DIR.'/Resources/R.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/translation.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/db.php';
 
-      
+        // + | init registratation domain
+        igk_reg_component_package('web', function(string $n){
+            return new \IGK\System\Html\Dom\HtmlNode($n);
+        });
+        igk_reg_component_package('xml', function(string $n){
+            return new  \IGK\System\Html\XML\XmlNode($n);
+        });
    
         // bootstrap web application
         // + initialize library
@@ -90,16 +106,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $this->library("gd");
         $this->library("curl");
 
-        // + | init registratation domain
-        igk_reg_component_package('web', function(string $n){
-            return new \IGK\System\Html\Dom\HtmlNode($n);
-        });
-        igk_reg_component_package('xml', function(string $n){
-            return new  \IGK\System\Html\XML\XmlNode($n);
-        });
-
-        if ($loader){ 
-            
+        if ($loader){             
             $loader(); 
             if (!igk_io_file_exists(igk_io_applicationdir()."/Data/configure", true)){          
                 igk_initenv(igk_io_applicationdir(), igk_app());
@@ -329,5 +336,14 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             igk_environment()->set("LastException",  "Error: " . $ex->getMessage());
             ExceptionUtils::ShowException($ex);
         }
+    }
+
+    public static function InitWebAppLibrary($app){
+        $app->library("subdomain");
+        $app->library("session");
+        $app->library("mysql");
+        $app->library("zip");
+        $app->library("gd");
+        $app->library("curl");
     }
 }

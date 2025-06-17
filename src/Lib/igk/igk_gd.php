@@ -31,21 +31,31 @@ define("IGK_GD_SUPPORT", 1);
  * @param mixed $type the default value is 1. 1 = png, other value is for jpeg
  * @param mixed $compression from 0-100 the default value is 0= no compression
  * @param bool $antialias activate or not antialize on image
+ * @param bool $cover activate or not antialize on image
  */
-function igk_gd_resize_proportional($src, $w, $h, $type = 1, $compression = 0, bool $antialias = false)
+function igk_gd_resize_proportional($src, $w, $h, $type = 1, $compression = 0, bool $antialias = false, $cover=false, $notransparent=null)
 {
+    $notransparent = $notransparent ?? (($type==1) && $cover);
     $ih = imagecreatefromstring($src);
     $W = imagesx($ih);
     $H = imagesy($ih);  
     $ex = $w / $W;
     $ey = $h / $H;
-    $ex = min($ex, $ey);
-    $x = intval(ceil(((-$W * $ex) + $w) / 2.0));
-    $y = intval(ceil(((-$H * $ex) + $h) / 2.0)); 
+    if (!$cover){
+        $ex = min($ex, $ey);
+        $x = intval(ceil(((-$W * $ex) + $w) / 2.0));
+        $y = intval(ceil(((-$H * $ex) + $h) / 2.0));
+    } else {
+        $ex = max($ex, $ey);
+        $x = intval(round(((-$W * $ex) + $w) / 2.0));
+        $y = intval(round(((-$H * $ex) + $h) / 2.0));
+    }
 
     $img = imagecreatetruecolor($w, $h);
     $black = imagecolorallocate($img, 0, 0, 0);
-    imagecolortransparent($img, $black);
+    if (!$notransparent){
+        imagecolortransparent($img, $black);
+    }
     imageantialias($img, $antialias);
 
     $sh = imagescale($ih, ceil($ex * $W), ceil($ex * $H));
@@ -475,7 +485,7 @@ class IGKGD
     ///<summary></summary>
     /**
      * output the image
-     * @param $type
+     * @param string|null|1| $type null
      */
     public function render($type = null, $quality = null)
     {

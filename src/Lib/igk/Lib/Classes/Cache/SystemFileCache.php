@@ -84,7 +84,7 @@ class SystemFileCache extends CommonCache{
         if(!defined("IGK_NO_CACHE_LIB") && igk_io_file_exists($f, true)){
             //+ | clear lib cache
             if(self::CheckLibVersion()){
-                unlink($f);
+                @unlink($f);
                 return $v;
             }
             try {

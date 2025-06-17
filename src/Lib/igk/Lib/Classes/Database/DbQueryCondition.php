@@ -15,6 +15,9 @@ class DbQueryCondition{
     private $row;
     private $m_data;
     var $operand = 'AND';
+
+    const OP_AND = 'AND';
+    const OP_OR = 'OR';
     /**
      * association query array 
      * @param array $data 
@@ -69,9 +72,10 @@ class DbQueryCondition{
      * @param array $list 
      * @return static 
      */
-    public static function Create(array $list){
+    public static function Create(array $list, $operand = self::OP_AND){
         $s = new static((object)array_fill_keys (array_keys($list), null));
         $s->m_data = $list; 
+        $s->operand = $operand;
         return $s;
     }
 }

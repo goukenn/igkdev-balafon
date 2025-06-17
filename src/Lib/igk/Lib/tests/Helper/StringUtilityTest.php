@@ -10,6 +10,7 @@ namespace IGK\Tests\Helper;
 
 use IGK\Helper\MenuUtils;
 use IGK\Helper\StringUtility;
+use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGK\Tests\BaseTestCase;
 
@@ -136,5 +137,37 @@ class StringUtilityTest extends BaseTestCase
         $s = ["security" => "sample", "action" => ["one", "info"]];
 
         $this->assertTrue($g == $s);
+    }
+    public function test_stringutility_read_arg_array(){
+        $src = "[\"BearerAuth\"]";
+        $g = StringUtility::ReadArgs($src);
+        $s = [['BearerAuth']];
+        $this->assertEquals(json_encode($g), json_encode($s)); 
+    }
+     public function test_stringutility_read_arg_array_2(){
+        $src = "['BearerAuth', \"basic'sample\"]"; 
+        $g = StringUtility::ReadArgs($src);
+        $s = [['BearerAuth', 'basic\'sample']];
+        $this->assertEquals(json_encode($g), json_encode($s)); 
+    }
+
+
+    public function test_stringutility_read_arg_constant(){
+        $src = "[BearerAuth]"; 
+        $g = StringUtility::ReadArgs($src);
+        $s = [['BearerAuth']];
+        $this->assertEquals(json_encode($g), json_encode($s)); 
+    }
+     public function test_stringutility_read_arg_constant_multiple(){
+        $src = "[BearerAuth, BasicAuth]"; 
+        $g = StringUtility::ReadArgs($src);
+        $s = [['BearerAuth', 'BasicAuth']];
+        $this->assertEquals(json_encode($g), json_encode($s)); 
+    }
+     public function test_stringutility_read_arg_constant_multiple_3(){
+        $src = "[BearerAuth . BasicAuth]"; 
+        $g = StringUtility::ReadArgs($src);
+        $s = [['BearerAuthBasicAuth']];
+        $this->assertEquals(json_encode($g), json_encode($s)); 
     }
 }

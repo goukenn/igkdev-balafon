@@ -209,7 +209,7 @@ abstract class ModelEntryExtension
         }
         return $row;
     }
-    public static function insertOrUpdate(ModelBase $model, $condition, callable $updating = null)
+    public static function insertOrUpdate(ModelBase $model, $condition, ?callable $updating = null)
     {
         if (!($row = $model->select_row($condition))) {
             return $model::create($condition);
@@ -342,7 +342,11 @@ abstract class ModelEntryExtension
         $tab = [];
         $driver = $model->getDataAdapter();
         if (!$driver){
-            igk_dev_wln_e('driver is null');
+            igk_dev_wln_e('[BLF] - driver is null '. json_encode(['model'=>get_class($model),  
+                'controller'=>get_class($model->getController()->getDataAdapter()),
+                igk_configs()->db_server,
+                igk_configs()->db_user,
+                igk_configs()->db_name]));
             return null;
         }
         $cl = get_class($model);
@@ -1706,7 +1710,7 @@ abstract class ModelEntryExtension
      * @return array 
      * @throws IGKException 
      */
-    public static function joinTableColumnOn(ModelBase $model, string $column_short_name, $call=null, string $type=null, $operand=JoinTableOp::EQUAL){
+    public static function joinTableColumnOn(ModelBase $model, string $column_short_name, $call=null, ?string $type=null, $operand=JoinTableOp::EQUAL){
         $cl = get_class($model);
 		$rt = $cl::column($column_short_name);
         $grammar = $model->getDataAdapter()->getGrammar();

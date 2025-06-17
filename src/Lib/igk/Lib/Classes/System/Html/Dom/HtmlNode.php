@@ -169,6 +169,7 @@ class HtmlNode extends HtmlItemBase
     const ARIA_LIST = "autocomplete|checked|disabled|expanded|haspopup|hidden|invalid|label|level|multiline|multiselectable|orientation|pressed|readonly|required|selected|sort|valuemax|valuemin|valuenow|valuetext|live|relevant|atomic|busy|dropeffect|dragged|activedescendant|controls|describedby|flowto|labelledby|owns|posinset|setsize";
     const NATIVE_ELEMENT = "text|loop";
     const LOOP_HOST_TAG = '@loop';
+    const FIELDS_HOST_TAG = '@fields';
     use HtmlNodeTrait;
     use ClassAndStyleOffsetTrait;
     use AccessibilityTrait;

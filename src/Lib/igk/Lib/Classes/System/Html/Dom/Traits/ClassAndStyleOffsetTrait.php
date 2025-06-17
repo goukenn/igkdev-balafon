@@ -31,9 +31,9 @@ trait ClassAndStyleOffsetTrait{
         if ($v === null) {
             unset($this->m_attributes[$k]);
         } else {
-            switch ($k) {
+            switch (strtolower($k)) {
                 case 'class':
-                case 'className':
+                case 'classname':
                     if ($v === null) {
                         unset($this->m_attributes[$k]);
                     } else {

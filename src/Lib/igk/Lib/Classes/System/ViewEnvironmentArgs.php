@@ -13,6 +13,7 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\HtmlNodeBuilder;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException; 
@@ -200,6 +201,26 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var mixed
      */
     var $_dir_;
+
+    /**
+     * global css definition 
+     * @var ?string
+     */
+    var $css_def;
+
+    /**
+     * 
+     * @var mixed
+     */
+    var $css_m;
+
+    /**
+     * current doc theme definition styles
+     * @var mixed
+     */
+    var $def;
+
+ 
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -233,8 +254,11 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $session = igk_app()->getSession(); 
         $base_uri = $controller::uri('/');
         $builder = $builder ?? $t ? new HtmlNodeBuilder($t) : null;
-        $_dir_ = ViewHelper::Dir() ?? dirname($file);        
-      
+        $_dir_ = ViewHelper::Dir() ?? dirname($file);    
+        if ($css_m = CssUtils::GetCssClassName($controller)){
+            $css_m = '.'.$css_m;
+        }
+        $def = $doc->getTheme();
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

@@ -20,7 +20,7 @@ class EmptySessionCommand extends AppExecCommand{
 	/* var $options=[]; */
 	/* var $category = ''; */
 	/* var $usage = ''; */
-	public function exec($command, string $sessionid =null) { 
+	public function exec($command, ?string $sessionid =null) { 
 		$sessionid || igk_die('required session id');
 		if (file_exists( $file = session::SessionPath($sessionid))){
 			igk_io_w2file($file, serialize(['igk'=>'']));

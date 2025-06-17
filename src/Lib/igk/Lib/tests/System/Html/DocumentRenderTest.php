@@ -138,7 +138,7 @@ $g = trim($v->getinnerHtml());
         $this->assertEquals(
             igk_io_baseuri($v_access),
             igk_html_get_system_uri($v_access, (object)["StandAlone"=>true, "Context"=>"XML"]),
-            "data: fulle paht not matching");
+            "data: fulle path not matching");
 
     }
 

@@ -95,7 +95,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
         if (method_exists($this ,  $fc = 'get'.ucfirst($n))){
             return $this->$fc(...$args);
         }
-        return $this->m_info->{'cl'.ucfirst($n)};
+        return $this->m_info->{IGK_FIELD_PREFIX.ucfirst($n)};
     }
     public function __get($n){
         return $this->m_info->$n;

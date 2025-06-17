@@ -1570,6 +1570,9 @@ class SQLGrammar implements IDbQueryGrammar
                         $query .= $v;
                         $t = 1;
                         continue;
+                    } else if (is_array($v) && (count($v)== 1) && !is_numeric(key($v))){
+                        $k = key($v);
+                        $v = $v[$k];
                     }
                 }
                 if (is_object($v)) {

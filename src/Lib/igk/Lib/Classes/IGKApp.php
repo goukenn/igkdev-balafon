@@ -8,9 +8,11 @@
 ///<summary> core application engine </summary>
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Manager\ApplicationControllerManager;
 use IGK\Manager\IApplicationControllerManager;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\HookHandler; 
 use IGK\System\IO\Path;
@@ -318,6 +320,9 @@ class IGKApp extends IGKObject
         \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.0015); 
         self::$sm_instance->m_initialized = true;
         IGKEvents::hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
+
+        // register system hooks
+        include IGK_LIB_DIR.'/Inc/igk_hooks.php'; 
     }
 
     /**

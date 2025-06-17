@@ -505,7 +505,7 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     /**
     * insert or update $obj
     */
-    public function insertOrUpdate($table, $condition, $obj, callable $callback=null){
+    public function insertOrUpdate($table, $condition, $obj, ?callable $callback=null){
         $_invoke=function($r) use ($table, $condition, $obj, $callback){
             if($r->RowCount == 1){
                 $row=$r->getRowAtIndex(0);

@@ -369,8 +369,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     * @return mixed|array controller parameters
     */
     public function & getRegisteredControllerParams($classname){
-        igk_trace();
-        igk_wln_e("data .... ");
         $g=null;
 		$t = & $this->getControllerParams();
 		if (isset($t[$classname]))
@@ -415,22 +413,7 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         igk_get_env("sys://session/redirecttask", $g);
         return $g;
     }
-    ///<summary></summary>
-    ///<param name="classname"></param>
-    ///<param name="tab" ref="true"></param>
-    /**
-    * 
-    * @param mixed $classname
-    * @param mixed * $tab
-    */
-    // public function registerControllerParams($classname, & $tab){
-	// 	$p = & $this->getControllerParams();
-	// 	$p[$classname] = & $tab;
-    // }
-	//  public function unregisterControllerParams($classname){
-	// 	$p = & $this->getControllerParams();
-	// 	unset($p[$classname]);
-    // }
+   
     ///<summary></summary>
     ///<param name="obj"></param>
     ///<param name="method"></param>
@@ -626,5 +609,25 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
             return session_id();
         }
         return -1;
+    }
+    /**
+     * retrieve value of key 
+     * @param string $key 
+     * @param mixed $default 
+     * @return mixed 
+     */
+    public function get(string $key, $default){
+        if (isset($this->$key)){
+            return $this->$key;
+        }
+        return $default;
+    }
+    /**
+     * get value and reset 
+     */
+    public function getr(string $key, $default){
+        $m = $this->get($key, $default);
+        $this->{$key} = null;
+        return $m;
     }
 }

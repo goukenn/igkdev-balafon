@@ -41,7 +41,13 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     }
 
     public function print($msg){
-        fwrite(STDERR, $msg."\n");
+        if (defined('STDERR')){
+            fwrite(\STDERR, $msg."\n");
+        } else {
+            $offscreen = igk_environment()->logoffscreen  ?? [];
+            $offscreen[] = $msg."\n";
+            igk_environment()->logoffscreen = $offscreen;
+        }
     }
 
 }

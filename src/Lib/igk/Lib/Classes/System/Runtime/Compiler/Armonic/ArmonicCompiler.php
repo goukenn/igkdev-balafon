@@ -476,7 +476,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $options->buffers[] = ["buffer" => &$options->buffer, "id" => $id];
         $options->buffer = &$buffer;
     }
-    protected function _popBuffer(ReadTokenOptions $options, string $id = null)
+    protected function _popBuffer(ReadTokenOptions $options, ?string $id = null)
     {
         if ($op = array_pop($options->buffers)) {
             $buff = &$op["buffer"];

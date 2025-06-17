@@ -21,7 +21,7 @@ if (!function_exists('__')){
         return igk_resources_gets(...$m);
     }
 }else {
-    require_once IGK_LIB_CLASSES_DIR.'/IGKTranslator';
+    require_once IGK_LIB_CLASSES_DIR.'/IGKTranslator.php';
 
     class translation extends IGKTranslator{
     }

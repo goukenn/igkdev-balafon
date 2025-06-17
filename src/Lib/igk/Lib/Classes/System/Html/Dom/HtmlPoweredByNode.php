@@ -5,14 +5,14 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 namespace IGK\System\Html\Dom;
 use function igk_resources_gets as __;
 
 use IGKApp;
-use IGKAppConfig;
+use IGKHtmlDoc;
 
 class HtmlPoweredByNode extends HtmlNode{
     protected $tagname = "div";
@@ -49,7 +49,7 @@ class HtmlPoweredByNode extends HtmlNode{
         }
         $doc = null;
         $options && ($doc = igk_getv($options, "Document"));
-        if ($doc && $doc->getNoPowered()){
+        if (($doc instanceof IGKHtmlDoc) && $doc->getNoPowered()){
             return false;
         }   
         return true;

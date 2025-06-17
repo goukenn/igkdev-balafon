@@ -60,6 +60,12 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      */
     var $security;
 
+    /**
+     * 
+     * @var ?bool auth enable strict definition  
+     */
+    var $strict_auth;
+
     public function getPropertyFilterListener(){
         return $this->m_propertyFilterListener;
     }

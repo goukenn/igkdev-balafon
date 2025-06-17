@@ -7,13 +7,14 @@ namespace IGK\System;
 
 ///<summary></summary>
 /**
-* expose class require system entries class resolutions 
-* @package IGK\System
-* @author C.A.D. BONDJE DOUE
-*/
-abstract class EntryClassResolution{
+ * expose class require system entries class resolutions 
+ * @package IGK\System
+ * @author C.A.D. BONDJE DOUE
+ */
+abstract class EntryClassResolution
+{
     const IGK_TEST_NS = 'IGK\Tests';
-    const IGK='IGK';
+    const IGK = 'IGK';
     const DbSchemaBuilder = 'Database\InitDbSchemaBuilder';
     const DbMacrosDisplay = 'Database\Macros\Display';
     const DbClassMapping = 'Database\Mapping';
@@ -34,6 +35,7 @@ abstract class EntryClassResolution{
     const Roles = 'Roles';
     const ActionDefaultAction = 'Actions\DefaultAction';
     const Actions = 'Actions';
+    const Profiles = 'Profiles';
 
     const WinUI_ViewLayout = '/WinUI/ViewLayout';
     const WinUI_Form_Validation = '/WinUI/FormValidations';
@@ -61,5 +63,10 @@ abstract class EntryClassResolution{
      * reference injector method 
      */
     const ControllerReferenceInjectorMethod = 'didReferenceInjector';
-    
+
+
+    // + | --------------------------------------------------------------------
+    // + | controller's method 
+    // + |
+    const CTRL_METHOD_INIT_USER_FROM_SYSUSER = 'initUserFromSysUser';
 }

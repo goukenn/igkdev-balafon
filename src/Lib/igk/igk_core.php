@@ -5,12 +5,13 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 defined("IGK_FRAMEWORK") || die("REQUIRE FRAMEWORK - No direct access allowed");
 
 use IGK\ApplicationLoader;
+use IGK\Constants;
 use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Http\RequestHandler;
@@ -338,6 +339,14 @@ if (!function_exists('igk_getv_nil')) {
         return empty($c = igk_getpv($array, array($key), $default)) ? null : $c;
     }
 }
+if (!function_exists('igk_unset')){
+    function igk_unset(& $o, $k){
+        if (is_array($o)) unset($o[$k]);
+        else if (is_object($o)){
+            unset($o->$k);
+        }
+    }
+}
 if (!function_exists('igk_getv_closure')) {
     /**
      * invoke from closure
@@ -391,7 +400,7 @@ if (!function_exists('igk_geto')) {
      * @param callable|null $callback 
      * @return mixed 
      */
-    function  igk_geto($ob, string $name, callable $callback = null)
+    function  igk_geto($ob, string $name, ?callable $callback = null)
     {
         $t = igk_getv($ob, $name);
         if (is_null($callback)) {
@@ -930,9 +939,9 @@ function igk_bind_trace()
  */
 function igk_wln($msg = "")
 {
-    /// BIND TRACE IF - do not include file for speed 
-    //  igk_trace();
-    igk_bind_trace(3);
+    // BIND TRACE IF - do not include file for speed 
+    // igk_trace();
+    // igk_bind_trace(3);
     if ((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_environment()->get(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)) {
         $lv = igk_environment()->get('TRACE_LEVEL', igk_environment()->get(IGK_ENV_TRACE_LEVEL, 2));
         $c = IGKException::GetCallingFunction($lv);
@@ -1394,6 +1403,16 @@ function igk_ilog($message, ?string $tag = null, $traceindex = 0, $dblog = true)
     }
     IGKLog::Append($message, $tag, $traceindex, $dblog);
 }
+/**
+ * format ilog tag message 
+ * @param mixed $message 
+ * @param null|string $tag 
+ * @return string 
+ */
+function igk_logf($message, ?string $tag=null){
+    $tag = $tag ?? Constants::LOG_TAG;
+    return sprintf('[%s] - %s', $tag, $message);
+}
 
 
 /**
@@ -1510,6 +1529,7 @@ function igk_sys_getconfig($name, $defaultvalue = null)
  */
 function igk_io_w2file($file, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK, $type = "w+")
 {
+   
     return File::Save($file, $content, $overwrite, $chmod, $type);
 }
 /**
@@ -1718,6 +1738,7 @@ function igk_sys_handle_uri($uri = null)
 function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = null): ?array
 {
     igk_debug_wln('load library ' . $dir);
+ 
     $sdir = is_dir($dir) ? $dir : igk_dir(igk_realpath($dir));
     if (empty($sdir)) {
         return null;
@@ -2380,7 +2401,7 @@ function igk_reg_global_setting($n, $d, $desc = null)
  * @param array $tab list of folder to load. if relative to dirname or absolute paht
  * @return array loaded files
  */
-function igk_load_env_files($dirname, $tab = [IGK_INC_FOLDER, IGK_PROJECTS_FOLDER])
+function igk_load_env_files(string $dirname, $tab = [IGK_INC_FOLDER, IGK_PROJECTS_FOLDER])
 {
     $t_files = array();
     igk_hook("sys://event/cachelibreload", array(null, (object)array("files" => &$t_files)));

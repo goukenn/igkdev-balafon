@@ -110,7 +110,6 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
             return;
         }
         $temp_dir = $this->getServiceInfo()->Listener->TempDir;
-        // igk_ilog("done.....remove temp dir".$temp_dir);
         IO::RmDir($temp_dir);
         $this->next();
     }

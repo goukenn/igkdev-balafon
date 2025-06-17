@@ -1,7 +1,6 @@
 <?php
 
-// file: installer-core-function.pinc
-defined('IGK_STR_EMPTY') || define('IGK_STR_EMPTY','');
+// file: installer-core-function.pinc 
 error_reporting(-1);
 ini_set('display_errors', 1);
 
@@ -44,21 +43,21 @@ if (!function_exists("igk_getr")) {
  
 
 
-if (!function_exists("igk_count")) {
+if (!in_array('igk_count', $exclude_cores ?? [])  && !function_exists("igk_count")) {
     function igk_count($n)
     {
         return count($n);
     }
 }
 
-if (!function_exists("igk_dir")) {
+if (!in_array('igk_dir', $exclude_cores ?? []) &&  !function_exists("igk_dir")) {
     function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
     {
         if ($dir === null) {
             return $dir;
         }
         $d = $separator;
-        $out = IGK_STR_EMPTY;
+        $out = '';
         if (ord($d) == 92) {
             $out = preg_replace("/\//", '\\', $dir);
             $out = str_replace("\\", "\\", $out);
@@ -70,7 +69,7 @@ if (!function_exists("igk_dir")) {
         return $out;
     }
 }
-if (!function_exists("igk_io_rmdir")) {
+if (!in_array('igk_io_rmdir', $exclude_cores ?? []) && !function_exists("igk_io_rmdir")) {
     function igk_io_rmdir($dir, $recursive = true, $callback = null)
     {
         if (!is_dir($dir))

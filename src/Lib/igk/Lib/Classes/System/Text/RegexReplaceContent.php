@@ -39,6 +39,8 @@ class RegexReplaceContent{
                     $output.= substr($source, $v_coffset, $e->from-$v_coffset);
                     $output.= $v_rp($e, $this->info);
                     $v_coffset = $e->to;
+                } else {
+                    igk_die("replace no implement - for sub context");
                 }
             }
         }

@@ -1996,7 +1996,11 @@ Name:balafon.js
         let t = bfirst.qselect('.igk-parentscroll[igk-type=controller]').first() ||
             bfirst.qselect('.igk-powered-viewer').first() ||
             bfirst.qselect('.igk-parentscroll').first();
+
+        Object.defineProperty(ln, 'parentScroll', {get(){return t; }});
+        
         if (t) {
+            
             async function _updateBottomSize(offw) {
                 let bottom = t.getComputedStyle('padding-bottom');
                 let height = ln.getComputedStyle('height');
@@ -2007,26 +2011,29 @@ Name:balafon.js
             function _resizeInvoke() {
 
                 let alignl = ln.supportClass('alignl');
-                let offw = t.width() - t.o.clientWidth;
-
+                let offw = Math.round(t.width() - t.o.clientWidth);
+                let def = null;
 
                 if ((offw == 0) && scrolling) {
                     offw = 11; // macos - width size view that autoshow/hidde
-                }
+                } 
                 // console.log({height, offw, target: t.o});  
                 if (!alignl) {
-                    ln.setCss({
+                    def = {
                         display: 'inline-block',
                         left: null,
-                        right: 'calc(100vw - ' + (t.width() - offw) + 'px)'
-                    });
+                        //right: 'calc(100vw - ' + (t.width() - offw) + 'px)'
+                        right: 'calc(' + (offw) + 'px)'
+                        // right: (-t.o.offsetLeft + t.width())+'px'
+                    };
                 } else {
-                    ln.setCss({
+                    $def = {
                         //display: 'inline-block',
                         left: '0px',
                         right: 'auto'
-                    });
-                }
+                    };
+                } 
+                ln.setCss(def);
             }
             // controller node is a parent scroll items 
             is_observe() && (new ResizeObserver(_resizeInvoke)).observe(t.o);
@@ -2089,9 +2096,8 @@ Name:balafon.js
                     var _q = $igk(s).add("div").addClass("posab fitw fith").setHtml("height:info");
                     var h = s.offsetHeight - _q.o.offsetHeight;
                     _q.remove();
-                    animprop.bottom = (h + 2) + "px";
-                    // animprop.bottom="16px";
-                }
+                    animprop.bottom = (h + 2) + "px"; 
+                } 
                 $igk(node).animate(animprop, animinfo);
             }
             var v_self = this;
@@ -2113,7 +2119,7 @@ Name:balafon.js
         } else {
             console.debug("/!\\ parent cibling not found");
         }
-    }
+    };
 
     function igk_getdir(uri) {
         if (uri == null)
@@ -10682,6 +10688,8 @@ Name:balafon.js
             createNS("igk.ajx", {
                 /**
                  * replace with html content 
+                 * @var {*} q node to replace
+                 * @var {*} t text response 
                  * */
                 replaceNodeWithHtmlResponse(q, t) {
                     let s = igk.createNode('dummy');

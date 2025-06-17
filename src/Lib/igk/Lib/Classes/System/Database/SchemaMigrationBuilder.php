@@ -192,7 +192,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
             $this->m_table = $v_table;
             $v_table['description'] = $description;
             $v_table['table'] = $name;
-            $this->table_prefix = $v_table['Prefix'] = igk_getv($options,'prefix',  'cl');
+            $this->table_prefix = $v_table['Prefix'] = igk_getv($options,'prefix',  IGK_FIELD_PREFIX);
             return $this;
         } 
         return $this->migration()->addTable($name, $description, $options);

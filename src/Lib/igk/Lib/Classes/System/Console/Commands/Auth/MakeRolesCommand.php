@@ -21,7 +21,7 @@ class MakeRolesCommand extends AppExecCommand{
 	/* var $options=[]; */
 	/* var $category = ''; */
 	var $usage = 'controller [options]';
-	public function exec($command, string $controller = null) { 
+	public function exec($command, ?string $controller = null) { 
 		$ctrl = self::GetController($controller);
 
 		$path = $ctrl->getConfigsDir();

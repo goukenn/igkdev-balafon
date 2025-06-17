@@ -595,7 +595,7 @@ class HtmlRenderer
             if (is_numeric($c) || !empty($c)) {
                 // + | check that it doesnt contains quotes
                 if (preg_match("/[\"]/", trim($c, " \""))) {
-                    $c = igk_str_surround(addslashes($c));
+                    $c = '"'.htmlentities($c).'"';
                 }
                 if ($options && !$v_is_obj  && igk_getv($options, "DocumentType") == 'xml') {
                     $c = str_replace('&', '&amp;', $c);

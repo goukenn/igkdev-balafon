@@ -443,8 +443,7 @@ define('IGK_OBJ_TYPE_FD', 'T');
 // define('IGK_OBJ_TYPE_EXPRESSION', 3);
 // define('IGK_OBJ_TYPE_NODE', 6);
 // define('IGK_OBJ_TYPE_FILE', 7);
-define('IGK_LANG_FILE_PREFIX', "lang.");
-//+ controller session parameter
+define('IGK_LANG_FILE_PREFIX', "lang."); 
 //+ controller environment parameter
 // define('IGK_CTRL_LANG', 3);
 // define('IGK_CTRL_TG_NODE', 240);

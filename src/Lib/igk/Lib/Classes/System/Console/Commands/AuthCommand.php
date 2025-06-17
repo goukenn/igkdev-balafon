@@ -24,7 +24,7 @@ class AuthCommand extends AppExecCommand
 {
     var $group = "management";
     var $command = "--auth";
-    var $desc = 'Manage autor';
+    var $desc = 'Manage auth';
 
     const AVAILABLE_ACTION = "auths|groups|grant";
     var $usage = 'controller --action:'.self::AVAILABLE_ACTION;

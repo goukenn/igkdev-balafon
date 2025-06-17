@@ -21,6 +21,22 @@ abstract class MapContentValidatorBase
     protected $allowNullValue = false;
 
     /**
+     * allow null value
+     * @return bool 
+     */
+    public function getAllowNullValue(){
+        return $this->allowNullValue;
+    }
+    /**
+     * chain list to create map content definition 
+     * @param bool $allowNull 
+     * @return $this 
+     */
+    public function allowNull(bool $allowNull){
+        $this->allowNullValue = $allowNull;
+        return $this;
+    }
+    /**
      * check if can update setting
      * @return bool 
      */
@@ -49,6 +65,12 @@ abstract class MapContentValidatorBase
      * @return mixed 
      */
     public function map($value, $key, &$error, bool $missing=false, bool $required = true){
+        if (is_null($value)){
+            if (!$this->allowNullValue && $this->defaultValue && $required ){
+                return $this->defaultValue;
+            }
+        }
+
         if ($this->validate($value, $key)){
             return $value;
         }
@@ -102,7 +124,6 @@ abstract class MapContentValidatorBase
         }else {
             $error = $this->notvalid_msg;
         } 
-        $error_value = true;
-
+        $error_value = true; 
     }
 }

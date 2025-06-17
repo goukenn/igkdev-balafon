@@ -27,7 +27,7 @@ class UserGroupCommand extends AppExecCommand{
 	var $category = self::USER_CAT;
 	var $usage = 'user group[] [options]';
 
-	public function exec($command, string $user=null, ...$groups) {  
+	public function exec($command, ?string $user=null, ...$groups) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');	
 		$ctrl = SysDbController::ctrl();
 		if (

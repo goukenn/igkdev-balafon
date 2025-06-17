@@ -12,13 +12,13 @@
  */
 
 
-(function (){ 
+(function () {
     const BEFORESUBMIT_EVENT = 'igkFormBeforeSubmit';
     const _eval = function (src, apply, args) {
         return (new Function(src)).apply(apply, args);
     };
     (function () {
-        if (document.head) { 
+        if (document.head) {
             var e = $igk(document.head).select("link");
             e.each(function () {
                 if (this.getAttribute("rel") == "igkcss") {
@@ -635,7 +635,7 @@
                 return;
             }
             var q = this;
-          
+
             this.reg_event("submit", function (evt) {
                 if ((typeof (q.o.checkValidity) != igk.constants.undef) && !q.o.checkValidity()) {
                     console.debug("data not valid");
@@ -728,39 +728,39 @@
              * @param {*} RegexContainer 
              * @returns 
              */
-            php(src, RegexContainer){
-                let o='', g=null,loffset = 0, closed_tag = 0, regex = new RegexContainer();
-                src = src.replaceAll('&amp;','&')
+            php(src, RegexContainer) {
+                let o = '', g = null, loffset = 0, closed_tag = 0, regex = new RegexContainer();
+                src = src.replaceAll('&amp;', '&')
                     .replaceAll('&gt;', '>')
                     .replaceAll('&lt;', '<');
                 regex.begin('<!--\\?(php|=)', '(:\/){0,1}--(:\\?){0,1}>');
                 // regex.begin('<!--\\?(php|=)', '\/--(\\?){0,1}>');
-                const options = {offset:0}; 
-                while(g = regex.detect(src, options)){
-                    let e = regex.end(g); 
-                    if (e){
+                const options = { offset: 0 };
+                while (g = regex.detect(src, options)) {
+                    let e = regex.end(g);
+                    if (e) {
                         if (e.isContinue)
                             continue;
-                        if (closed_tag){
-                            o +='?>';
+                        if (closed_tag) {
+                            o += '?>';
                         }
-                        o+= src.substring(loffset, e.from);
+                        o += src.substring(loffset, e.from);
                         let te = e.value;
-                        o+= te.replace(/^<!--\?php/, '<?php')
-                        .replace(/^<!--\?=/, '<?=')
-                        .replace(/(?:\/){0,1}-->$/, '')
-                        .replace(/\/--\?>$/, '');
+                        o += te.replace(/^<!--\?php/, '<?php')
+                            .replace(/^<!--\?=/, '<?=')
+                            .replace(/(?:\/){0,1}-->$/, '')
+                            .replace(/\/--\?>$/, '');
                         loffset = e.to;
                         closed_tag = true;
-                        if (e.missingEnd){
+                        if (e.missingEnd) {
                             // terminate but missing end
-                            loffset = e.from+te.length;
+                            loffset = e.from + te.length;
                         }
-                    } 
+                    }
                 }
-                if (loffset < src.length){
-                    if (closed_tag){
-                         o += '?>';
+                if (loffset < src.length) {
+                    if (closed_tag) {
+                        o += '?>';
                     }
                     o += src.substring(loffset);
                 }
@@ -788,17 +788,17 @@
                 if (!(c in m_types)) {
                     c = 'php';
                 }
-            } 
+            }
             let ts = q.o.innerHTML;
-            let {RegexContainer } = igk.system.text;
-            if (RegexContainer){
-                if (c in treatHtmlSource){
-                 ts = treatHtmlSource[c].apply(null, [ts, RegexContainer]);
+            let { RegexContainer } = igk.system.text;
+            if (RegexContainer) {
+                if (c in treatHtmlSource) {
+                    ts = treatHtmlSource[c].apply(null, [ts, RegexContainer]);
                 }
             }
-            var s = ts || q.o.textContent.trim(); 
+            var s = ts || q.o.textContent.trim();
             var t = s.split('\n');
-            s = s.replaceAll('<', '&lt;').replaceAll('>','&gt;');
+            s = s.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
             // return;
             // clear node
             q.setHtml("");
@@ -844,18 +844,18 @@
             } else {
                 m = new igk_e();
             }
-            if (!m){
+            if (!m) {
                 console.log("missing m ", c);
-                return ;
+                return;
             }
             var l = "";
-            
-                for (var i = 0; i < t.length; i++) {
-                    l = t[i];
-                    var d = q.add("div");
-                    d.setHtml(m.evals(l));
-                }
-            
+
+            for (var i = 0; i < t.length; i++) {
+                l = t[i];
+                var d = q.add("div");
+                d.setHtml(m.evals(l));
+            }
+
             var o = q.add('span').addClass("dispib").setHtml('_');
             var w = igk.getNumber(o.getComputedStyle('width'));
             o.remove();
@@ -917,7 +917,7 @@
                 }
                 inf.pos++;
             }
-            return w+p;
+            return w + p;
         };
 
         function _readPhpOperator(ch) {
@@ -940,8 +940,8 @@
          * @param {*} s 
          * @returns 
          */
-        function present(s){
-            return s.replaceAll('&', '&amp;').replaceAll('>','&gt;').replaceAll('<','&lt;');
+        function present(s) {
+            return s.replaceAll('&', '&amp;').replaceAll('>', '&gt;').replaceAll('<', '&lt;');
         }
 
         function igk_php_eval() { // php evaluation code
@@ -997,7 +997,7 @@
                                     if (inf.mode == 0) {
                                         inf.mode = 1; // string
                                         inf.pos++;
-                                        w = _readStringLitteral(ch); 
+                                        w = _readStringLitteral(ch);
                                         sp.add("span").addClass("s").setHtml(w);
                                         inf.mode = 0;
                                     }
@@ -1086,13 +1086,13 @@
             this.getLines = function () {
                 return l;
             };
-        } 
+        }
         igk.system.createNS("igk.highlightjs", {
             'php': igk_php_eval,
             // 'xml': igk_xml_eval
         });
 
-        function __initCode() { 
+        function __initCode() {
             $igk("code.igk-code").each_all(__init_code_area);
         };
         igk.ready(__initCode);
@@ -1444,7 +1444,7 @@
                     }
                 }
                 d.setAttribute('data-theme', n);
-                igk.cookies.set('theme_name', n); 
+                igk.cookies.set('theme_name', n);
                 return n;
             },
             getStyleSelectorList(index) {
@@ -1520,7 +1520,7 @@
             toggleClass(i, p) { // toggle class
                 var q = $igk(i).first();
                 if (q) {
-                    q.toggleClass(p); 
+                    q.toggleClass(p);
                 }
             },
             initAutoTransitionProperties: _initTransitionProperties,
@@ -1760,48 +1760,48 @@
         // + | --------------------------------------------------------
         // + | manage data-theme definition 
         // + | 
-        (function(storageCallback){
-            const {THEME_KEY, saveItem, getItem } = (function(info){
-                if (typeof(info)=='function'){
+        (function (storageCallback) {
+            const { THEME_KEY, saveItem, getItem } = (function (info) {
+                if (typeof (info) == 'function') {
                     return {
-                        saveItem(m){  
-                            info({type:'save',value:m}); 
-                    },
-                    getItem(){
-                        return info({type:'get'});
-                    },
-                    THEME_KEY: th_n  
+                        saveItem(m) {
+                            info({ type: 'save', value: m });
+                        },
+                        getItem() {
+                            return info({ type: 'get' });
+                        },
+                        THEME_KEY: th_n
                     };
                 }
-                let th_n = typeof(info) == 'string' ? info : 'theme';
+                let th_n = typeof (info) == 'string' ? info : 'theme';
                 return {
-                    saveItem(m){  
+                    saveItem(m) {
                         localStorage.setItem(THEME_KEY, m);
                     },
-                    getItem(){
+                    getItem() {
                         return localStorage.getItem(THEME_KEY);
                     },
                     THEME_KEY: th_n
                 }
             })(storageCallback);
-           
-            function __setTheme(m){
+
+            function __setTheme(m) {
                 let h = document.getElementsByTagName('html')[0];
                 h.setAttribute("data-theme", m);
                 saveItem(m);
             }
-            function __updatemode(r){
-                return (e)=>{ 
+            function __updatemode(r) {
+                return (e) => {
                     let m = (('dark' == r) && e.matches) || (('dark' != r) && !e.matches) ? 'dark' : 'light';
-                  __setTheme(m);
+                    __setTheme(m);
                 }
             }
-            if ('matchMedia' in window){ 
-                let preferredTheme = getItem() || (function(){ 
-                    let stheme = _get_html_theme(); 
-                    if (!stheme){
+            if ('matchMedia' in window) {
+                let preferredTheme = getItem() || (function () {
+                    let stheme = _get_html_theme();
+                    if (!stheme) {
                         const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
-                        if ( meta_theme){
+                        if (meta_theme) {
                             stheme = meta_theme.getAttribute('content');
                         }
                     }
@@ -1809,23 +1809,23 @@
                 })();
                 let tm = null;
                 let theme = 'dark';
-                ['light','dark'].forEach(m=>{
-                    let mode = window.matchMedia('(prefers-color-scheme: '+m+')'); 
-                    if ((preferredTheme && (m==preferredTheme)) || (!tm && mode.matches)){
+                ['light', 'dark'].forEach(m => {
+                    let mode = window.matchMedia('(prefers-color-scheme: ' + m + ')');
+                    if ((preferredTheme && (m == preferredTheme)) || (!tm && mode.matches)) {
                         tm = mode;
                         theme = m;
-                    } 
+                    }
                 });
                 tm.addEventListener('change', __updatemode(theme));
-                __setTheme(theme);  
+                __setTheme(theme);
                 // replace set document theme. 
-                igk.css.changeDocumentTheme = function(th){
-                    theme = th || (theme=='dark'?'light':'dark'); 
+                igk.css.changeDocumentTheme = function (th) {
+                    theme = th || (theme == 'dark' ? 'light' : 'dark');
                     __setTheme(theme);
                 };
             }
         })();
-   
+
 
 
 
@@ -1835,7 +1835,7 @@
                 return vendors;
             }
         });
-      
+
         var e = {};
         e.mediachanged = 1;
         for (var s in e) {
@@ -1844,10 +1844,10 @@
         igk.system.createNS("igk.publisher.events", e);
 
 
-          // + | initilial ie events
-          igk.ready(function () {
+        // + | initilial ie events
+        igk.ready(function () {
             var B = igk.dom.body();
-            let cookies = igk.cookies; 
+            let cookies = igk.cookies;
 
             if (igk.navigator.isFirefox() || igk.navigator.isChrome() || igk.navigator.isSafari()) {
                 // to get content of css style item must be added to document
@@ -3948,7 +3948,7 @@
     // ---------------------------------------------------------------------------------------------------	
     (function () {
         function __init() {
-            igk.initpowered(this.o); 
+            igk.initpowered(this.o);
         }
         igk.winui.initClassControl("igk-powered", __init, {
             desc: "manage powered message"
@@ -4511,7 +4511,7 @@
             }
         });
         igk.winui.initClassControl("igk-ajx-uri-loader", function () {
-           
+
             var u = this.getAttribute("igk:href");
             var a = this.getAttribute("igk:append");
             var self = this;
@@ -4909,7 +4909,7 @@
                     // return 0;
                 }
                 var cl = igk.system.colors.toFloatArray(_clbg);
-                if (!_ol) { 
+                if (!_ol) {
                     gl.clearColor(cl.r, cl.g, cl.b, cl.a);
                     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
                     return 0;
@@ -5435,14 +5435,14 @@
     (function () {
         var m_item = {};
         const _loader = igk.createNode('div');
-        const _event= {
+        const _event = {
             onSvgItemLoaded: 'on-svg-items-list-loaded',
             onSvgSingleItemLoaded: 'on-svg-item-loaded',
         };
         // svg list view item 
         function __init_svg_i() {
             var n = this.getAttribute("igk:svg-name");
-            if (m_item[n]) { 
+            if (m_item[n]) {
                 this.rmClass("igk-svg-lst-i");
                 // replace 
                 var g = $igk(m_item[n]).clone();
@@ -5452,9 +5452,9 @@
                 g.o.setAttribute("class", this.o.className);
                 p.replaceChild(g.o, this.o);
                 if (p.getAttribute("title")) {
-                    $igk(p).qselect("svg > title").remove(); 
+                    $igk(p).qselect("svg > title").remove();
                 }
-                _loader.raiseEvent(_event.onSvgSingleItemLoaded, {name:n, className:this.o.className, item: g.o}); 
+                _loader.raiseEvent(_event.onSvgSingleItemLoaded, { name: n, className: this.o.className, item: g.o });
             } else {
                 console.debug("item not found [" + n + "]");
             }
@@ -5468,17 +5468,17 @@
                     if (!(tn in m_item)) {
                         m_item[tn] = $igk(j).select("svg").first();
                         // + | remove marked title
-                        m_item[tn].qselect('title').each_all(function (){ this.remove()});
-                        
+                        m_item[tn].qselect('title').each_all(function () { this.remove() });
+
                     }
                 }
             }
             this.remove();
         };
         // svg list init svg list
-        function __init_svg_l(){
+        function __init_svg_l() {
             igk.dom.body().select(".igk-svg-lst").each_all(__initlist);
-            _loader.raiseEvent(_event.onSvgItemLoaded);  
+            _loader.raiseEvent(_event.onSvgItemLoaded);
         }
         igk.ready(__init_svg_l);
         igk.winui.initClassControl("igk-svg-lst", function () {
@@ -5487,7 +5487,7 @@
         igk.ajx.fn.initBeforeReady(function () {
             $igk(this).select(".igk-svg-lst").each_all(__initlist);
         });
-      
+
         igk.winui.initClassControl("igk-svg-lst-i", __init_svg_i);
         igk.winui.createSVGLi = function (n) {
             if (m_item[n]) {
@@ -5495,7 +5495,7 @@
                 return g;
             } else {
                 console.error("[igk] - svg-lst-item <<" + n + ">> not found");
-            } 
+            }
         };
         const onSvgItemLoaded = _loader.addEvent(_event.onSvgItemLoaded, {});
         const onSvgSingleItemLoaded = _loader.addEvent(_event.onSvgSingleItemLoaded, {});
@@ -5503,17 +5503,17 @@
             /**
              * register event on item loaded
              */
-            ready(fc){ 
+            ready(fc) {
                 _loader.on(_event.onSvgItemLoaded, fc);
-            }, 
-            onItemReady(fc){
+            },
+            onItemReady(fc) {
                 _loader.on(_event.onSvgSingleItemLoaded, fc);
 
             },
             /**
              * raise event
              */
-            raise(){
+            raise() {
                 onSvgItemLoaded.raiseCreateEvent();
             }
 
@@ -5726,7 +5726,7 @@
                 __render_xml_view_tag(this, b);
             }
         });
-    })(); 
+    })();
     (function () {
         // --------------------------------------------------------------------------
         // bind attribute event
@@ -6243,10 +6243,10 @@
                     }
                 }
             },
-            tel(e){
+            tel(e) {
                 _handler.number(e, false);
             },
-            pastetel(e){
+            pastetel(e) {
                 _handler.pastenumber(e, false);
             },
             integer(e) {
@@ -6255,7 +6255,45 @@
             pasteinteger(e) {
                 console.log("paste number");
                 _handler.pastenumber(e, false);
+            },
+            form_key_enter_handler(form) {
+                return function (evt) {
+                    if (evt.keyCode == 13) {
+                        evt.preventDefault();
+                        evt.stopPropagation();
+                        if (isValid(form.o)){
+                            form.o.submit();
+                        }
+                        return false;
+                    }
+                }
             }
+        };
+        function isValid(f){
+            let valid = true;
+            let ln = f.elements.length;
+            let i = 0;
+            while(valid && (i < ln)){
+                let s = f.elements.item(i);
+                i++;  
+                const t = s.type;
+                const v = s.value;
+                if (s.required){
+                    switch(t){
+                        default:
+                        if (v.length==0){
+                            valid = false;
+                        }else{
+                            if (s.pattern){
+                                let rg = new RegExp(s.pattern);
+                                valid = !rg.test(v);
+                            }
+                        }
+                        break;
+                    }
+                }
+            };
+            return valid;
         };
 
         /**
@@ -6264,9 +6302,9 @@
         function __init_form() {
             // + | console.log('init forms... control');
             this.qselect('input').each_all(function () {
-                let opts = this.o.getAttribute('data-igk-options'); 
-               
-                this.form_options = ((opts) ? JSON.parse(opts) : null) || {}; 
+                let opts = this.o.getAttribute('data-igk-options');
+
+                this.form_options = ((opts) ? JSON.parse(opts) : null) || {};
                 const max_ln = this.form_options['max-length'];
 
                 if (this.supportClass('number')) {
@@ -6275,15 +6313,32 @@
                 } else if (this.supportClass('integer')) {
                     this.on('keypress', _handler.integer);
                     this.on('paste', _handler.pasteinteger);
-                } else if (this.supportClass('phone-number')|| this.supportClass('tel')) {
+                } else if (this.supportClass('phone-number') || this.supportClass('tel')) {
                     if (this.o.value) {
                         this.o.value = this.o.value.replace(/[^0-9]/, "");
-                    } 
+                    }
                     this.on('keypress', _handler.integer);
                     this.on('paste', _handler.pasteinteger);
                 }
                 if (max_ln)
                     this.setAttribute('maxlength', max_ln);
+            });
+
+            //
+            let no_button = this.select('input[type=submit]').first() || this.select('button[type=submit]').first();
+            if (!no_button) {
+                const v_qfrom = this;
+                const v_qfc = _handler.form_key_enter_handler(v_qfrom); 
+                this.select('input.key-enter').each_all(function () {
+                    this.on('keypress', v_qfc);
+                });
+            }
+            // alert('for '+ no_button);
+            this.on('submit', (e)=>{
+                if (!isValid(this.o)){
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
             });
         };
         igk.winui.initClassControl('igk-form', __init_form);
@@ -6343,12 +6398,12 @@
         })
     })();
 
-   
+
     // handler for touch events
     (function () {
         var m = [];
         var c = igk.createNode("div");
-        const _e='click';
+        const _e = 'click';
 
         function __disable_func(evt) {
             evt.preventDefault();
@@ -6655,7 +6710,7 @@
         igk.winui.registerEventHandler("igkTouchStart", __mobile_device_event("igkTouchStart", "touchstart"));
         igk.winui.registerEventHandler("igkTouchMove", __mobile_device_event("igkTouchMove", "touchmove"));
         igk.winui.registerEventHandler("igkTouchEnd", __mobile_device_event("igkTouchEnd", "touchend"));
-        
+
         if (typeof (c.o.onmouseenter) == "undefined") { // for safari browser usage
             igk.winui.registerEventHandler("mouseenter", {
                 reg_event: function (item, func, useCapture) { // mousenter				
@@ -6911,7 +6966,7 @@
                     q.setCss({ height: r.getHeight() + "px" });
                 });
             }
-            
+
             // for(var s in r.o){
             // if(igk.system.string.startWith(s,'on'))
             // {
@@ -7071,7 +7126,7 @@
                 }
             }
 
-            function __init() { 
+            function __init() {
                 var self = this;
                 var r = this.getAttribute("igk-ajx-form");
                 var r_obj = r && (r != '1') ? igk.JSON.parse(r) : null;

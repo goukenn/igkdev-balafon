@@ -132,10 +132,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
     public function __call($name, $arguments)
     {
-        // igk_wln_e(__FILE__.":".__LINE__, "call in dispacher....", $name, $this->host instanceof IActionProcessor, 
-        // "???".method_exists($this, $name) );
-        // igk_wln_e("the host ", $this->host, $name, "?".method_exists($this, $name), is_callable($g =  [$this->host, $name]));
-        // igk_wln_e("but", $this->host, $name, get_class_methods($this->host), $this->host instanceof IActionProcessor);
         $v_host = $this->m_host;
         if (
             method_exists($v_host, $name)
@@ -219,6 +215,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         $targs = [];
         $injectors = InjectorProvider::GetInjectors();
         $ctrl = ViewHelper::CurrentCtrl();
+        // igk_wln_e(__FILE__.":".__LINE__ , 'current ctrl', $ctrl );
         $i = 0;
         $services = null;
         if ($ctrl) {
@@ -232,8 +229,8 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         $v_inject = false;
         foreach ($parameters as $k) {
-            $arg = igk_getv($args, $i);
-            $c = $arg;
+            $c = $arg = igk_getv($args, $i);
+            
 
             if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
                 if ($type == 'string') {   
@@ -258,13 +255,14 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
 
                 $v_primary = IGKType::IsPrimaryType($type);
 
-                if (!$v_primary && class_exists($type)) {
+                if (!$v_primary && class_exists($type)) 
+                {
                     if (is_subclass_of($type, IInjectable::class)) {
                         $targs[] = self::_GetInjectable($type, $args);   
                         $v_inject = true;    
-                        if (!$k->allowsNull())  {
-                            $i++;
-                        }               
+                        // if (!$k->allowsNull())  {
+                        //     $i++;
+                        // }               
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));

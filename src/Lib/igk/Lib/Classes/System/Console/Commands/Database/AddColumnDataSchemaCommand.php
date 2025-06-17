@@ -22,7 +22,7 @@ class AddColumnDataSchemaCommand extends AppExecCommand{
 	/* var $options=[]; */
 	var $category="db";
 	var $usage = 'table_name column_definition [controller]';
-	public function exec($command, string $table_name=null, ?string $column_definition=null, ?string $controller=null) { 
+	public function exec($command, ?string $table_name=null, ?string $column_definition=null, ?string $controller=null) { 
 		
 		if (igk_is_null_or_empty($table_name)){
 			throw new CommandException('table\"s  name required');

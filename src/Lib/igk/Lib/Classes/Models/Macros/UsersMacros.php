@@ -47,7 +47,7 @@ abstract class UsersMacros {
      * @return ModelBase 
      * @throws IGKException 
      */
-    public static function Register(Users $model, $o, ?BaseController $ctrl=null, callable $beforeHook=null){
+    public static function Register(Users $model, $o, ?BaseController $ctrl=null, ?callable $beforeHook=null){
   
         if (!is_array($o) && !is_object($o)){
             igk_die(__METHOD__." object not valid");

@@ -66,7 +66,8 @@ class RequestHandler
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function HandleRequestUri(string $uri, ?IRequestFileHandler $fileHandler=null, $web=true, string $file=null, $render=true){
+    public static function HandleRequestUri(string $uri, ?IRequestFileHandler $fileHandler=null, bool $web=true, ?String $file=null, bool $render=true){
+       
         if(igk_io_handle_system_command($uri)){
             if ($web)
                  igk_exit();

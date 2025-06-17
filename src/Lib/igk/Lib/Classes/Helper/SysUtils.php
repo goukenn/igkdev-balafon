@@ -174,7 +174,7 @@ class SysUtils{
     /**
      * @return array list of controller installed in project folder
      */
-    public static function GetProjectControllers(callable $filter=null){
+    public static function GetProjectControllers(?callable $filter=null){
         if (!IGKApp::IsInit()) {
             return null;
         }

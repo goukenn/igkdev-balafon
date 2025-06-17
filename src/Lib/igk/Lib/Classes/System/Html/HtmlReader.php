@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 
@@ -761,6 +761,11 @@ final class HtmlReader extends IGKObject
     ///<param name="tag">tag name that referrer to </param>
     private function _LoadComplete($cnode, $tag, $peekData = null)
     {
+        /**
+         * @var mixed $n
+         * @var mixed $d
+         */
+
         $m = (strtolower($cnode->tagName) == strtolower($tag));
         if ($m) {
             $p = $cnode->getParentNode();
@@ -771,12 +776,12 @@ final class HtmlReader extends IGKObject
         if ($peekData && ($c > 0)) {
             $n = count($this->m_resolvKeys) > 0 ? $this->m_resolvKeys[$c - 1] : null;
             $d = count($this->m_resolvValues) > 0 ? $this->m_resolvValues[$c - 1] : null;
-            if (!$d && (strtolower($n) != strtolower($tag))) {
+            if (!$d && $n && (strtolower($n) != strtolower($tag))) {
                 igk_wln_e($c, "failed to relov : " . $tag . " VS :::" . $n . " === " . $cnode->tagName);
             }
             $cnode->loadingComplete();
             $pnode = $cnode->getParentNode();
-            if ($pnode === $d) {
+            if ($d && ($pnode === $d)) {
                 $pnode->loadingComplete();
                 $pnode = $d->getParentNode();;
             } else {
@@ -784,7 +789,7 @@ final class HtmlReader extends IGKObject
                     $pnode->loadingComplete();
                     $pnode = $pnode->getParentNode();
                 }
-                if ($pnode === $d) {
+                if ($d && ($pnode === $d)){
                     $pnode = $d->getParentNode();
                 }
             }
@@ -1558,7 +1563,7 @@ final class HtmlReader extends IGKObject
      * @param const $listener environment context HTML|XML
      * @param callable $listener creator to call 
      */
-    public static function Load(string $text,  $context = null, callable $listener = null)
+    public static function Load(string $text,  $context = null, ?callable $listener = null)
     {
         $tab_doc = null;
         $b_context = false;

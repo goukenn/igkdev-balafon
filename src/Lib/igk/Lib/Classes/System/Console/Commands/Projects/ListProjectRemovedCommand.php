@@ -105,14 +105,7 @@ class ListProjectRemovedCommand extends AppExecCommand
 		//+----------------------------------------------
 
 		$loaded_fields = igk_loadlib($project_dir);
-		if ($loaded_fields) {
-			// $manager = igk_app()->getControllerManager();
-			// $loader = ApplicationLoader::getInstance();
-			// $c = new InitEnvControllerChain;
-
-			// $tab =  EnvControllerCacheList::GetControllersClasses(); 
-			// $c->load($tab, $manager, $loader); 
-
+		if ($loaded_fields) { 
 			$list = igk_sys_get_projects_controllers();
 			$ctrl = null;
 			foreach ($list as $c) {
@@ -128,11 +121,9 @@ class ListProjectRemovedCommand extends AppExecCommand
 				$g->initDb(true);
 				$install = new MigrationHandler($g);
 				$install->migrate('up');
-			}
-
+			} 
 			$v_o = true;
-		}
-
+		} 
 		return $v_o;
 	}
 }

@@ -108,7 +108,7 @@ Factory::form("fields", function ($fields, $datasource_or_callback = null, ?obje
 /**
  * register file input helper
  */
-Factory::form("file", function (string $name, string $id=null, string $class) {
+Factory::form("file", function (string $name, ?string $id=null, ?string $class = null) {
 	if ($f = igk_html_parent_node()) {
 		$input = $f->addInput(); // Fields(...func_get_args());
 		$f['enctype'] = IGK_HTML_ENCTYPE;

@@ -4,6 +4,7 @@
 // @date: 20230118 11:28:43
 namespace IGK\System\Database\Helper;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbExpression;
 use IGK\Database\DbSchemas;
@@ -24,6 +25,28 @@ use IGKSysUtil;
 abstract class DbUtility
 {
 
+    public static function EscapeSlashesValueForJSonDetection(string $value){        
+        return str_replace("/", "\\\\\\\\/", $value);
+    }
+    /**
+     * prepare columnt list 
+     * @var array
+     */
+    public static function PrepareColumnList(array $columns, string $prefix= IGK_FIELD_PREFIX):array{
+           $user_tab_c = array_combine($columns, array_map(function ($a)use($prefix) {
+            $a = strtolower($a);
+            $a = implode('.', array_slice(explode('.', $a), -1));
+            return igk_str_rm_start($a, $prefix);
+        }, $columns));
+        return $user_tab_c;
+    }
+    /**
+     * 
+     * @param mixed &$conditions 
+     * @param mixed $columns 
+     * @return void 
+     * @throws Exception 
+     */
     public static function TreatColumnsCondition(& $conditions, $columns){
         if (!$conditions)return;
         foreach($conditions as $k=>$v){
@@ -57,7 +80,7 @@ abstract class DbUtility
      */
     public static function RemoveColumnPrefixName(string $columnName, ?string $prefix){
         if ($prefix) {
-            $columnName = preg_replace("/^" . $prefix . "/i",  "", $columnName);
+            $columnName = preg_replace("/^" . $prefix . "/i",  '', $columnName);
         }
         return $columnName;
     }
@@ -307,7 +330,18 @@ abstract class DbUtility
 
             }
         }
-
         return $tab;
+    }
+    /**
+     * default map sys value
+     * @param array $data 
+     * @param string $prefix 
+     * @return array<int|string, mixed> 
+     */
+    public static function MapSysValues(array $data, string $prefix=IGK_FIELD_PREFIX){
+        return array_combine(array_map(function($a)use($prefix){
+            $a = strtolower(self::RemoveColumnPrefixName($a, $prefix));
+            return $a;
+        }, array_keys($data)), array_values($data));
     }
 }

@@ -17,7 +17,7 @@ class GetModuleCommand extends AppExecCommand{
 	var $desc='get module command';
 	/* var $options=[]; */
 	/* var \$category; */
-	public function exec($command, string $name = null, string $package_site=null) { 
+	public function exec($command, ?string $name = null, ?string $package_site=null) { 
 		empty($name) && igk_die("require module name");
 
 

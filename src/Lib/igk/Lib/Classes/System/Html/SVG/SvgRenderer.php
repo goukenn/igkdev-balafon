@@ -37,7 +37,7 @@ class SvgRenderer{
             $f = self::GetSvgFolder();  
             while( $q = array_shift($f)){
                 $d = $q[0]; // directory                
-                if (igk_io_file_exists( $file = $d."/".$name.".svg", true)){
+                if (igk_io_cache_file_exists( $file = $d."/".$name.".svg", true)){
                     $class = $q[1];
                     return IO::GetDir($file);
                 } 

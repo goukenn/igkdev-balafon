@@ -5,7 +5,7 @@
 // @description: global useage function
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 use IGK\Actions\Dispatcher;
@@ -3727,7 +3727,7 @@ if (!function_exists('igk_csv_readline')) {
      * @param ?int $flgas CSVHelper constant flags
      * @return array 
      */
-    function igk_csv_readline(string $src, $delimiter = '"', &$last_segment = null, callable $callback = null, ?int $flags = null)
+    function igk_csv_readline(string $src, $delimiter = '"', &$last_segment = null, ?callable $callback = null, ?int $flags = null)
     {
         return CSVHelper::ReadLines($src, $delimiter, $last_segment, $callback, $flags);
     }
@@ -6807,7 +6807,7 @@ function igk_doc_load_temp_script($doc, $folder, $tag = null, $strict = 0)
             } else
                 $uid = (($tag) ? ($tag . "-") : '') . uniqid();
             $f = igk_uri(igk_io_cacheddist_jsdir() . "/{$uid}.js");
-            if (igk_io_file_exists($f)) {
+            if (igk_io_cache_file_exists($f)) {
                 $doc->addTempScript($f, 1)->activate("defer");
             } else {
                 $u = "!@res/Scripts/" . $uid;
@@ -7249,6 +7249,9 @@ if (!function_exists('igk_explode')) {
  */
 function igk_extract_assoc($obj, $list)
 {
+    if (is_string($list)){
+        $list = explode('|', $list);
+    }
     $p = [];
     foreach ($list as $k => $v) {
         $d = null;
@@ -9362,7 +9365,7 @@ function igk_get_robj($callbackfilter = null, $replace = 0, $request = null)
     $m = $callbackfilter;
     if ($m === null) {
         $callbackfilter = function (&$k, $v, $rp) {
-            $rgx = "/^cl/i";
+            $rgx = "/^".IGK_FIELD_PREFIX."/i";
             $p = preg_match($rgx, $k);
             if ($p && $rp)
                 $k = preg_replace($rgx, "", $k);
@@ -9898,7 +9901,7 @@ EOF
 // @file: index.php
 // @date : {$inf->date}
 // @author : C.A.D. BONDJE DOUE
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @generator: balafon service
 // @note: {$inf->comment}
 if (!version_compare(PHP_VERSION, "7.3", ">=")){
@@ -12301,6 +12304,7 @@ function igk_html_index_of($node)
 function igk_html_init_node_page($t)
 {
     $t->setClass("fit igk-parentscroll igk-powered-viewer overflow-y-a");
+    igk_wln_e(__FILE__.":".__LINE__ , "init node");
 }
 ///<summary></summary>
 ///<param name="text"></param>
@@ -14101,7 +14105,7 @@ function igk_io_cacheddist_jsdir()
 }
 ///<summary></summary>
 /**
- * 
+ * return shared cache info 
  */
 function igk_io_cacheinfo()
 {
@@ -15150,6 +15154,12 @@ function igk_io_packagesdir()
 {
     return igk_get_packages_dir();
 }
+/**
+ * helper to get node module 
+ */
+function igk_io_node_modules_dir(){
+    return igk_io_packagesdir().'/node_modules';
+}
 ///<summary>protect the full request uri</summary>
 /**
  * protect the full request uri
@@ -15188,7 +15198,8 @@ function igk_io_push_request_uri($d)
 }
 ///<summary> return the global primary query information</summary>
 /**
- *  return the global primary query information
+ * return the global primary query information
+ * @return \IGK\System\Http\IQueryInfoOptions
  */
 function igk_io_query_info()
 {
@@ -15203,12 +15214,14 @@ function igk_io_query_info()
         $obj->ctrl = null;
         $obj->entryuri = igk_io_request_uri_path();
         $obj->root_uri = igk_io_root_entryuri();
-        $obj->fullentry = igk_io_baseuri() . $obj->entryuri;
+        $v_query = $obj->fullentry = igk_io_baseuri() . $obj->entryuri;
+        $obj->query_options = (($s = igk_getv( explode(';', $v_query, 2), 1)) ? igk_get_query_options($s): null);
+
         if ($q = $obj->query) {
             $obj->fullentry .= '?' . $q;
         }
         if ($path_info = igk_server()->PATH_INFO) {
-            $obj->params = $g = array_slice(explode("/", ($path_info)), 1);
+            $obj->params = array_slice(explode("/", ($path_info)), 1);
         }
         return $obj;
     });
@@ -19005,7 +19018,7 @@ function igk_regex_read_value(string $data, string $value_delimiter=':', $defini
  * @param mixed $func 
  * @param mixed $priority 
  */
-function igk_register_autoload_class(callable $func = null, $priority = 10)
+function igk_register_autoload_class(?callable $func = null, $priority = 10)
 {
     die(__FUNCTION__ . " obsolete");
 }
@@ -25428,10 +25441,36 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
     } 
     if ($fc) {
         igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $action);
+        igk_env_action_chain_push($action);        
         $ht = array_slice($params, 1);
         $fc_result = Dispatcher::Dispatch($fc, ...$ht);
+        igk_env_action_chain_pop();
     }
     return $fc_result;
+}
+/**
+ * in order to help retrieve the current action context 
+ */
+function igk_env_action_chain_push(string $action){
+    $chain = igk_environment()->action_hain ?? [];
+    array_push($chain, $action);
+    igk_environment()->action_hain = $chain;
+}
+/**
+ * call with pop to help action list environment
+ */
+function igk_env_action_chain_pop(){
+    if ($chain = igk_environment()->action_hain){
+        $s = array_pop($chain);
+        igk_environment()->action_hain = $chain;
+        return $s;
+    }
+}
+function igk_env_current_action(){
+      if ($chain = igk_environment()->action_hain){
+        $s = $chain[count($chain)-1];
+        return $s;
+    }
 }
 ///<summary>handle view command actions. </summary>
 ///<param name="viewName">command view name</param>
@@ -25462,7 +25501,9 @@ function igk_view_handle_actions($viewname, $arrayList, $params, $exit = 1, $fla
         foreach ($arrayList as $k => $v) {
             igk_view_reg_action($viewname, $k, $v);
         }
+       
         $b = igk_view_handle_action($viewname, $params);
+         
         if ($b && $exit) {
             igk_do_response($b);
         }

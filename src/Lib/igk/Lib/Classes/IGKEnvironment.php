@@ -49,6 +49,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
 {
     private static $sm_instance;
     private static $sm_states = [];
+    /**
+     * retrieve shared cache info
+     * @return object|null 
+     */
+    public function cacheInfo(){
+        return igk_io_cacheinfo();
+    }
     public static function saveState(array $environment_new_state)
     {
         $bck = [];
@@ -201,7 +208,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
             "%basedir%" => igk_io_basedir(),
             "%packages%" => $packagedir,
             "%modules%" => $mod_dir,
-            "%nodepackages%" => $packagedir . "/node_modules",
+            "%nodepackages%" => $packagedir . '/node_modules',
             "%viewcaches%" => igk_is_cmd() ? null : $this->getViewCacheDir()
         ]);
     }

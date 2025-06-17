@@ -34,7 +34,7 @@ class CSVHelper
      * @param callable|null $callback 
      * @return array 
      */
-    public static function ReadLines(string $src, $delimiter = '"', &$last_segment = null, callable $callback = null, ?int $flags = null)
+    public static function ReadLines(string $src, $delimiter = '"', &$last_segment = null, ?callable $callback = null, ?int $flags = null)
     {
         $v_is_read_serialize = $flags && (($flags & self::CSV_READ_SERIAL) == self::CSV_READ_SERIAL);
 

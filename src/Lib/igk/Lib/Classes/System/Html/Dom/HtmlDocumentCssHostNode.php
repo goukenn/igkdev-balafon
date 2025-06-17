@@ -13,6 +13,7 @@ use Exception;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Css\CssUtils;
 use IGKException;
+use IGKHtmlDoc;
 use ReflectionException;
 
 /**
@@ -50,7 +51,10 @@ class HtmlDocumentCssHostNode extends HtmlNode{
      */
     public function render($options = null)
     {     
-        $clear = CssUtils::InitSysGlobal($this->doc);       
+        if (!$this->doc instanceof IGKHtmlDoc ){
+            return;
+        }
+        $clear = ($this->doc instanceof IGKHtmlDoc ) ? CssUtils::InitSysGlobal($this->doc) : null;
         $inlineTheme = $this->doc->getInlineTheme();
         $s = "";
         

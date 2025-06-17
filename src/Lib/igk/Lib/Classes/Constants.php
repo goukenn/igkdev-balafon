@@ -41,6 +41,7 @@ final class Constants{
 
     const RAW_VAR = 'raw';
     const CTRL_VAR = 'ctrl';
+    const LOG_TAG = 'BLF';
 
     /**
      * project configuration file
@@ -57,8 +58,8 @@ final class Constants{
     const NS_MACROS_CLASS = EntryClassResolution::DbMacros; 
     const DB_INIT_MANAGER = \IGK\Database\DbInitManager::class;
 
-
-
+    // + | default view page limit 
+    const DB_VIEW_PAGE_LIMIT = 25;
     const DEFAULT_THEME_STYLE = 'default.pcss';
     const ANNOTATION_SUFFIX = 'Annotation';
 

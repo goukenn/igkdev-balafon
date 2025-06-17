@@ -16,15 +16,16 @@ use IGK\System\Shell\OsShell;
 class ComposerCommand extends AppExecCommand{
 	var $command='--composer';
 	var $desc='help manage balafon composer packages';
-	/* var $options=[]; */
+	var $options=[]; 
 	var $category = 'composer';
+	var $usage = 'composer_args [options]';
 	public function exec($command, string ...$args) { 
 		$packages = igk_io_packagesdir();
 
 		if (empty($composer = OsShell::where("composer.phar"))){
 			$composer = $packages."/composer.phar";
 		}
-		if (!$composer || !igk_io_file_exists($composer))
+		if (!$composer || !is_file($composer))
 		{
 			Logger::danger("missing composer.phar");
 			return -1;

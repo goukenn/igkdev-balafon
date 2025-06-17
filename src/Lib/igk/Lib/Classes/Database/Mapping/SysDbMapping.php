@@ -93,7 +93,7 @@ class SysDbMapping extends ModelMappingBase{
      */
     protected function initInfoFromModel($model){
         $v_tabInfo = $model->getTableInfo();//->columns();
-        $v_prefix = $v_tabInfo->prefix ?? 'cl';
+        $v_prefix = $v_tabInfo->prefix ?? IGK_FIELD_PREFIX;
         $v_columns = $v_tabInfo->columnInfo;
    
         return ['columns'=>$v_columns, 'prefix'=>$v_prefix];

@@ -74,13 +74,19 @@ class FormBuilder
      * @return mixed 
      * @throws Exception 
      */
-    private static function _GetAttribArgs($attr)
+    private static function _GetAttribArgs(& $attr, bool $clean=true)
     {
         $key = null;
         foreach (["attrs", "attribs", "attributes"] as $m) {
             if (isset($attr[$m])) {
                 $key = $m;
-                break;
+                if (!$clean)
+                    break;
+            } else{
+                // clean
+                if ($clean){
+                    unset($attr[$m]);
+                }
             }
         }
         return $key ? igk_getv($attr, $key) : null;
@@ -283,7 +289,7 @@ class FormBuilder
                     $o .= $component->render();
                 else if (is_string($o)) {
                     $o .= $o;
-                } 
+                }
             } else {
 
                 switch ($_type) {
@@ -422,16 +428,17 @@ class FormBuilder
                         } else {
                             // + | translate placeholder
                             $tattrib['placeholder'] = $v_place_holder ? __($v_place_holder) : __($k);
+                        } 
+                        self::_LoadClassDefinition($tattrib, $v);
+                        $tattrib["class"] = isset($tattrib["class"]) ? array_merge($tattrib['class'], [$def_type]) : $def_type; 
+                        if ($tmp_tattribs = self::_GetAttribArgs($v, true)){
+                            self::_LoadClassDefinition($tattrib, $tmp_tattribs);
+                            $v['attribs'] = $tmp_tattribs;
                         }
-                        if (isset($v["attribs"]))
-                            $tattrib["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
-                        else {
-                            $tattrib["class"] = $def_type;
-                        }
+
                         // + | -------------------------------------------------
                         // + | filter attribs
-                        // + |
-                        unset($v["attribs"]["class"]);
+                        // + | 
                         if ($p = igk_getv($v, 'attribs')) {
                             $tattrib = array_merge($tattrib, $p ?? []);
                         }
@@ -591,7 +598,7 @@ class FormBuilder
         }
         return $_value;
     }
-    public function _getSelectDataOptions(string $id, array $def_data = null)
+    public function _getSelectDataOptions(string $id, ?array $def_data = null)
     {
         $_source = $this->datasource;
         if ($_source instanceof IFormBuilderDataSource) {
@@ -628,14 +635,7 @@ class FormBuilder
         $tm = ['class' => 'button submit primary'];
 
         if ($arg = $attrib ? self::_GetAttribArgs($attrib) : null) {
-            if ($cl = igk_getv($arg, 'class')) {
-                $tm['class'] = array_unique(array_merge(
-                    explode(' ', $tm['class']),
-                    explode(' ', $cl)
-                ));
-                unset($arg['class']);
-            }
-            $tm = array_merge($tm, $arg);
+            self::_LoadClassDefinition($tm, $arg); 
         }
         self::_LoadAttributes($o, $tm);
         // if ($_closed) {
@@ -644,6 +644,26 @@ class FormBuilder
         $o .= '/>';
         // }
     }
+    /**
+     * load class definition 
+     * @param mixed &$tm 
+     * @param mixed &$arg 
+     * @return void 
+     * @throws Exception 
+     */
+    protected static function _LoadClassDefinition(&$tm, &$arg)
+    {
+        foreach (['class', 'classname', 'className'] as $ck) { 
+            if ($cl = igk_getv($arg, $ck)) {
+                $tm['class'] = array_unique(array_merge(
+                    isset($tm['class']) ? explode(' ', $tm['class']): [],
+                    explode(' ', $cl)
+                ));
+                unset($arg[$ck]);
+            }
+        }
+        $tm = array_merge($tm, $arg);
+    }
 
     public function build_button(string &$o, $attrib)
     {
@@ -651,15 +671,8 @@ class FormBuilder
         $o .= '<input type="button" ';
         $tm = ['class' => 'igk-form-control button primary'];
         $tm['value'] = igk_getv($attrib, 'value');
-        if ($arg = $attrib ? self::_GetAttribArgs($attrib) : null) {
-            if ($cl = igk_getv($arg, 'class')) {
-                $tm['class'] = array_unique(array_merge(
-                    explode(' ', $tm['class']),
-                    explode(' ', $cl)
-                ));
-                unset($arg['class']);
-            }
-            $tm = array_merge($tm, $arg);
+        if ($arg = ($attrib ? self::_GetAttribArgs($attrib) : null)) {
+            self::_LoadClassDefinition($tm, $arg);
         }
         self::_LoadAttributes($o, $tm);
         // if ($_closed) {

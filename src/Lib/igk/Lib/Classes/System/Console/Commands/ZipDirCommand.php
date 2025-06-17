@@ -22,7 +22,7 @@ class ZipDirCommand extends AppExecCommand{
 		'--regex:[]'=>'exclude file pattern'
 	]; 
 	/* var $category; */
-	public function exec($command, ?string $inputDir=null, string $outDir=null) {
+	public function exec($command, ?string $inputDir=null, ?string $outDir=null) {
 		!is_dir($inputDir) && igk_die('missing inputdir');
 		if (empty($outDir)){
 

@@ -39,6 +39,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
 
     private $m_last;
 
+
+    var $type;
+
     // var $type;
     /**
      * auto store created pattern
@@ -319,12 +322,13 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         $v_tcaptures = $this->_treatEndCaptures($info, $v_tvalue, $tab);
                         return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                             $this,
+                            'tag'=>'_treatEnd',
                             'match'=>$info->match,
                             'tokenID' => igk_getv($k, 'tokenID'),
                             'from' => $info->pos,
                             'to' => $n,
                             'value' => $v_tcaptures,
-                            'sourceData' => $v_tvalue,
+                            'sourceValue' => $v_tvalue,
                             'beginCaptures' => $info->captures,
                             'endCaptures' => $tab,
                             'parentInfo' => $info->parent
@@ -396,14 +400,18 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         // + | update to next offset 
                         $offset = 1;
                     }
+                    if ($src!=$treated){
+                        igk_environment()->isDev() && igk_die('src vs treated');
+                    }
                     // - for match result
                     return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                         'tokenID' => $k['tokenID'],
+                        'tag'=>'2',
                         'match'=>$info->match,
                         'from' => $info->pos,
                         'to' => $n,
                         'value' => $src, // real value 
-                        'sourceValue' => $treated, // source value
+                        'sourceValue' => $treated, // source value 
                         'parentInfo' => $info->parent,
                         'beginCaptures' => $info->captures,
                         'captures' => $info->captures,
@@ -433,6 +441,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     // + | ----------------
                     // + | 
                     $inf = Activator::CreateNewInstance(RegexMatcherCapture::class, [
+                        'tag'=>'_treatEndCaptures',
                         'from' => $cap->getPos(),
                         'to' => $cap->getTo(),
                         'value' => $cap->getValue()
@@ -787,7 +796,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @param int $offset position offset to match
      * @return ?IRegexMatcherDetectInfo
      */
-    public function detect(string $source, int &$offset = 0)
+    public function detect(string $source, int &$offset)
     {
         $v_flag_current = false;
         if (!$this->m_startflag) {
@@ -943,7 +952,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return $this 
      * @throws IGKException 
      */
-    public function match(string $expression, string $tokenID = null, ?string $refid = null, ?array $pattern = null)
+    public function match(string $expression, ?string $tokenID = null, ?string $refid = null, ?array $pattern = null)
     {
         $inf = Activator::CreateNewInstance(RegexMatcherPattern::class, [
             $this,
@@ -1381,5 +1390,27 @@ class RegexMatcherContainer implements IRegexMatcherContainer
 
     public function createPattern(array $args){
         return Activator::CreateNewInstance( RegexMatcherPattern::class, array_merge([$this],$args) );
+    }
+
+    /**
+     * replace source string
+     * @param string $src 
+     * @param callable $callback 
+     * @param int $offset 
+     * @return string 
+     */
+    public function replace(string $src, callable $callback, int $offset=0):string{
+        $o = '';
+        $pos = $offset;
+        $toffset = 0;
+        while($g = $this->detect($src, $pos)){
+            if ($e = $this->end($g, $src, $pos)){
+                $o .= substr($src, $toffset, $e->from-$toffset);
+                $o .= $callback($e, $o, $toffset);
+                $toffset= $e->to;
+            }
+        } 
+        $o .= substr($src, $toffset);
+        return $o;
     }
 }

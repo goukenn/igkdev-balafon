@@ -8,8 +8,14 @@ use IGK\Controllers\ApplicationController;
 use IGK\System\Console\Commands\SitemapGeneratorCommand;
 use IGK\System\Html\XML\XmlProcessor;
 use IGK\XML\XSDValidator;
+use IGK\System\Caches\EnvControllerCacheList;
+use IGK\System\Caches\InitEnvControllerChain;
+use IGK\System\IO\Path;
+use IGK\Controllers\ApiController;
 use IGKApp;
 use IGKAppSystem;
+use IGKEnvironment;
+use IGKEvents;
 use IGKException;
 use IGKSubDomainManager;
 
@@ -27,10 +33,16 @@ class UriHandler extends BaseUriHandler
         ApplicationLoader::getInstance()->bootApp($this->m_application);
     }
 
+    /**
+     * 
+     */
     protected function __construct()
     {
         $this->m_routes = $this->initRoutes();
     }
+    /**
+     * initialize system route 
+     */
     protected function initRoutes()
     {
         return [
@@ -66,7 +78,7 @@ class UriHandler extends BaseUriHandler
      */
     protected function _favicon()
     {
-        ApplicationLoader::InitConstants();
+       
         igk_set_header(
             200,
             'ok',
@@ -81,8 +93,7 @@ class UriHandler extends BaseUriHandler
     }
     public function _sitemap()
     {
-        // if not loader boot application then get controller list 
-        ApplicationLoader::InitConstants();
+        // if not loader boot application then get controller list  
         IGKSubDomainManager::Init();
         $_is_sub = IGKSubDomainManager::IsSubDomain();
         if (!$_is_sub) {
@@ -117,18 +128,160 @@ class UriHandler extends BaseUriHandler
      * @throws IGKException 
      */
     public function _caching_style()
-    {
-        ApplicationLoader::InitConstants();
+    { 
         include IGK_LIB_DIR . '/igk_serve_static.php';
     }
 
-    public static function Handle(string $uri, $app = null)
+    /**
+     * check subdmain
+     */
+    protected final static function _CheckSubDomain(){
+        \IGK\ApplicationLoader::InitConstants();
+        $g = parse_url(igk_server()->HTTP_HOST);
+        list($host, $port, $path) = igk_extract($g, 'host|port|path');
+        $v_host = $host ? $host : explode('/', $path, 2)[0];
+        if (!$v_host){
+            igk_dev_wln_e($g);//,'missing path', $_SERVER);
+        } 
+        if ($v_host && preg_match('/([a-z0-9\-_]+)(\.[a-z0-9\-_]+){2,}/', $v_host)){
+            $domain = implode('.', array_slice(explode('.', $v_host), 0, -2));  
+            if (defined('IGK_SUBDOMAIN_URI_LIST')){
+                $g = constant('IGK_SUBDOMAIN_URI_LIST');
+                if (is_string($g)){
+                    $t = explode(';', $g);
+                    while(count($t)>0){
+                        if ($q = array_shift($t)){
+                            if ($v_host == $q){
+                                return true;
+                            }
+                        }
+                    }
+                }
+            } else {
+                $v_domains = include(IGKSubDomainManager::GetConfigFile()); 
+                if ($l = igk_getv($v_domains, $domain)){
+                    $rf = false;
+                    if (is_string($l)){
+                        $rf = true;
+                        $ld = $l;
+                        $l = [$l];
+                        if (is_dir($ld = Path::Combine(igk_io_projectdir(), $ld))){
+                            $l[] = $ld;
+                        }
+                    }
+                    list ($classname, $location) = igk_extract($l,'0|1');
+                    if (!$location){
+                        $location = Path::Combine(igk_io_projectdir(), $classname);
+                    } else {
+                        $rp = igk_io_expand_path($location);
+                        if (!$rf && ($rp == $location)){
+                            $rp = Path::Combine(igk_io_projectdir(), $rp);
+                        }
+                        $location = $rp;
+                    }
+                    if (!class_exists($classname, false)){
+                        // load controller from environment  
+                        $location && igk_loadlib($location);
+                        $tab = EnvControllerCacheList::GetControllersClasses(); 
+                        if (in_array($l, $tab)){
+                            $p = igk_app();
+                            $manager = $p->getControllerManager();
+                            $c = new InitEnvControllerChain;
+                            $c->load([$l], $manager, null);
+                        }
+                        $l = $classname;
+                    } 
+                    $ctrl =  $l::ctrl(true);
+                    $dir = $ctrl->getDeclaredDir();
+                    return (object)compact('ctrl', 'domain', 'dir');
+                }
+            }
+            return true;
+        }
+        return false;        
+    }
+    /**
+     * serve to handle Base URI request
+     * @param string $uri
+     * @param mixed $app
+     * @param string $callaback
+     * @param string|true $subdomain 
+     */
+    public static function Handle(string $uri, $app = null, ?callable $bootload=null, ?string  $subdomain=null)
     {
-        $l = igk_getv(parse_url($uri), 'path');
+        $v_tab = parse_url($uri);
+        $l = igk_getv($v_tab, 'path');
         if ('/assets/Styles/balafon.css' == $l) {
             igk_environment()->NoLoadAction = true;
             $uri = $l;
+        } else {  
+            // : check handle subdomain or handle 
+        $v_subdomain = $subdomain ?? self::_CheckSubDomain(); 
+        if (($v_subdomain) && is_object($v_subdomain)) {            
+            if ($bootload){
+                $bootload();
+            }
+            $ctrl =  $v_subdomain->ctrl;
+            if ($ctrl instanceof \IGK\Controllers\ApiController ){
+                igk_reg_hook(IGKEvents::HOOK_ACTION_WILL_DO_ACTION, function($e)use($app){
+                    list($action, $ctrl) = igk_extract($e->args, 'action|controller');
+                    igk_environment()->set(IGKEnvironment::CURRENT_CTRL, $ctrl);
+                    $ctrl->bootstrap($app); 
+                });
+                $ctrl->requestHandleAction($l);
+            }else {
+                $ctrl->view($l);
+            }          
+        }  
+    }
+        return parent::Handle($uri, $app, $bootload);
+    }
+
+    /**
+     * 
+     */
+    public static function HandlePublicDir(string $path, ?string $cwd = null)
+    {
+        if (empty($tc = trim($path, '/'))){
+            return;
         }
-        return parent::Handle($uri, $app);
+        $tab = explode('/', $tc);  
+        $d = $td = $cwd ?? igk_io_basedir(); 
+        $f = true;
+        $v_start = true;
+        while ((count($tab) > 0)){
+            if ($q = array_shift($tab)) {
+                if (!is_dir($s  = $d . "/" . $q)) {
+                    array_unshift($tab, $q);
+                    $f = $v_start ? false : count($tab) > 0;
+                    break;
+                }
+                $v_start = false;
+                $d = $s;
+            }
+        }
+        if ($f) {
+            // passing to data 
+            // $_SERVER['REQUEST_URI'] = "";  
+            $target = '';
+            $f = false;
+            foreach (['index.php', 'index.phtml', 'main.php', 'main.phtml'] as $k) {
+                if ($f = file_exists($target = $d . '/' . $k)) {
+                    break;
+                }
+            }
+            if ($f) {
+                $_SERVER['REQUEST_URI'] = "/";
+                $_SERVER['PATH_INFO'] = ($tab ? '/' . implode('/', $tab) : '');
+                $_SERVER['SCRIPT_NAME'] =
+                    $_SERVER['PHP_SELF'] = substr($target, strlen($td));
+                igk_server()->prepareServerInfo();
+                chdir(dirname($target));
+                (function () {
+                    require(func_get_args()[0]);
+                    igk_exit();
+                })($target);
+            }
+        }
     }
 }

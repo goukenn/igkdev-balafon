@@ -10,6 +10,7 @@ namespace IGK\Actions;
 use IGK\System\Http\ErrorRequestResponse;
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestResponse;
+use IGK\System\Http\RequestResponseCode;
 use Throwable;
 
 // + | --------------------------------------------------------------------
@@ -21,6 +22,14 @@ use Throwable;
  * @package IGK\Actions
  */
 abstract class ApiActionBase extends MiddlewireActionBase{
+    protected $response;
+    protected $status;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->status = RequestResponseCode::Ok;
+    }
+
     protected function die($message, $code=400){
         igk_ilog("[api - die] : ".json_encode($message));
         igk_do_response(new ErrorRequestResponse($code, $message));
@@ -38,8 +47,7 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         // + | 
         if (Request::getInstance()->method('GET')){ 
             if($response instanceof RequestResponse)
-                return true;
-            //return false;
+                return true; 
         }
         return parent::_handleResponse($response);//!is_null($response) || ($response instanceof RequestResponse);
     }

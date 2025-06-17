@@ -5,12 +5,15 @@
 namespace IGK\System\WinUI\Forms;
 
 use Closure;
+use Exception;
+use IGK\Helper\Activator;
 use IGK\System\Data\IDataValidator;
 use IGK\System\Data\ObjectDataValidator;
 use IGK\System\EntryClassResolution;
 use IGK\System\Http\Request;
 use IGK\System\Traits\ActivableTrait;
 use IGK\System\WinUI\Forms\FormValidationData;
+use IGKException;
 
 ///<summary>used to setup data for html's form</summary>
 /**
@@ -28,6 +31,15 @@ abstract class FormData
     const SC_NUMBER = 'Number';
     const SC_TEXT = 'Text';
 
+     /**
+     * extract fields 
+     * @param null|array $fields 
+     * @return array 
+     */
+    public function to_array(?array $fields = null): array{
+       return (array)$this;
+    }
+    
     /**
      * get validation mapper
      * @param Request $request 
@@ -69,13 +81,21 @@ abstract class FormData
         return static::class;
     }
     /**
+     * array of mapper fields
+     * @return (string|int)[] 
+     */
+    protected function getMapperFields(){
+        $ls = array_keys(get_class_vars($this->getValidationClassReference()));
+        return $ls;
+    }
+    /**
      * 
      * @param null|array $tab 
      * @return FormValidationData 
      */
     protected function getDataValidatorMapper(?array $tab = null)
     {
-        $ls = array_keys(get_class_vars($this->getValidationClassReference()));
+        $ls = $this->getMapperFields();
         if (is_null($tab)) {
             $tab = $ls;
         }
@@ -190,15 +210,28 @@ abstract class FormData
             }
         return false;
     }
+    /**
+     * validate data if ok create a form information 
+     * @param mixed $data 
+     * @param null|object $validator 
+     * @param null|array &$error 
+     * @return ?static 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function ValidateDataAndCreateInstance($data, ?object $validator = null, ?array & $error = null){
+        if ($r = self::ValidateData($data, $validator, $error)){
+            return Activator::CreateNewInstance(static::class, $r->getData());
+        }
+        return $r;
+    }
 
     /**
      * use to retrieve the fields to use in a form
      * @return array 
      */
-    public static function Fields()
-    {
-        $c = new static;
-        $tab = get_class_vars(static::class);
-        return [$tab];
+    public static function Fields():array
+    { 
+        return array_keys(get_class_vars(static::class));
     }
 }

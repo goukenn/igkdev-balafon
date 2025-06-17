@@ -103,7 +103,7 @@ class App
      * @return void 
      * @throws Exception 
      */
-    public static function Run($command = [], string $basePath = null, XPathConfig $configs = null)
+    public static function Run($command = [], ?string $basePath = null, ?XPathConfig $configs = null)
     {
         $app = (new static);
         if ($basePath === null) {
@@ -176,7 +176,7 @@ class App
             chdir($_SERVER[$v_c]);
             unset($_SERVER[$v_c]);
         }
-        return self::Exec($app, $tab);
+        return self::Exec($app, $tab) ?? 0;
     }
     /**
      * expose start base path

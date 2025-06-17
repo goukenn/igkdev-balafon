@@ -9,7 +9,7 @@ use function igk_resources_gets as __;
 
 ///<summary></summary>
 /**
-* validate email 
+* field content security to validate an email 
 * @package IGK\System\Security\Web
 */
 class EmailContentValidator  extends MapContentValidatorBase{

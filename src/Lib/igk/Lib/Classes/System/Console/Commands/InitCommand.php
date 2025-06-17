@@ -180,8 +180,9 @@ class InitCommand extends AppExecCommand
         igk_is_debug() && Logger::info("try write to file: > ".$fc);
         
 
-        igk_io_w2file($fc, $builder->render());
-        echo igk_io_projectdir()."\n";
+        igk_io_w2file($fc, $builder->render());  
+        
+        Logger::info('out: '. $fc);
         Logger::success(__("init command complete"));
     }
 }

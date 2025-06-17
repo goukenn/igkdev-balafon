@@ -26,7 +26,7 @@ final class InstallerUtils
      * @return string|false 
      * @throws IGKException 
      */
-    public static function GetEntryPointSource(array $options = null ){
+    public static function GetEntryPointSource(?array $options = null ){
         if ($options===null){
             $options = [];
         }

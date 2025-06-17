@@ -10,6 +10,8 @@ use IGK\Resources\IGKLangKey;
 use IGK\Resources\R;
 use IGK\System\Html\Converters\Converter;
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\Html\FormBuilder;
 use IGK\System\Html\HtmlNodeTagExplosionDefinition;
 use IGK\System\Html\HtmlUtils;
@@ -1566,19 +1568,34 @@ if (!function_exists('igk_html_host')) {
     {
         $root = $last = null;
         if (is_string($p)) {
-            if ($p == '@loop') {
-                $last = $root = igk_create_notagnode();
-                $root->loop(...$params[0]);
-                $params = array_slice($params, 1);
-            } else {
-                if ($args = ($params && is_array($params[0]) ? $params[0] : null)){
+            switch ($p) {
+                case HtmlNode::LOOP_HOST_TAG: 
+                    $last = $root = igk_create_notagnode();
+                    $root->loop(...$params[0]);
                     $params = array_slice($params, 1);
-                } else $args = [];
-          
-                $d= HtmlNodeTagExplosionDefinition::CreateNodes($p, ...$args);
-          
-                list($root, $last) =$d;
-                $p = $last;
+                    break;
+                case HtmlNode::FIELDS_HOST_TAG:
+                     $params = igk_getv($params, 0);// array_slice($params, 1);
+                     //igk_wln_e("create a field params ", $params);
+                    return function($n)use($params){
+                        return $n->fields($params);
+                    };
+                    break;
+                case 'text':
+                    return new HtmlTextNode(...$params);
+
+                    break;
+                default: {
+                        if ($args = ($params && is_array($params[0]) ? $params[0] : null)) {
+                            $params = array_slice($params, 1);
+                        } else $args = [];
+
+                        $d = HtmlNodeTagExplosionDefinition::CreateNodes($p, ...$args);
+
+                        list($root, $last) = $d;
+                        $p = $last;
+                    }
+                    break;
             }
         }
         $tp = [['n' => $p, 'p' => $params]];

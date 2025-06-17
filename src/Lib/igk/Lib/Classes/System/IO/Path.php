@@ -120,9 +120,13 @@ class Path
     public function getCacheDir(){
         return $this->cache_dir;
     }
+    /**
+     * 
+     */
     public function prepareData()
     {
-        if (!defined('IGK_BASE_DIR')){            
+        if (!defined('IGK_BASE_DIR')){   
+            igk_environment()->isDev() && igk_trace();         
             igk_dev_wln_e(__FILE__.":".__LINE__ , 'please setup IGK_BASE_DIR before.');
         }
         $v_is_webapp = igk_is_webapp();

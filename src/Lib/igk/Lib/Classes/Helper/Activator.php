@@ -7,7 +7,7 @@
 namespace IGK\Helper;
 
 use Exception;
-use IGK\Actions\IActionRequestValidator; 
+use IGK\Actions\IActionRequestValidator;
 use IGK\System\Http\IContentSecurityProvider;
 use IGK\System\IToArray;
 use IGK\System\IToJSon;
@@ -16,6 +16,7 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Traits\DynamicActivableTrait;
 use IGKException;
 use JsonSerializable;
+use ReflectionProperty;
 
 /**
  * 
@@ -31,22 +32,23 @@ class Activator
      * @param string $interface 
      * @return true|void 
      */
-    private static function __GetClassSrc(string $interface){
-        if (is_null(self::$sm_dyn_sources)){
+    private static function __GetClassSrc(string $interface)
+    {
+        if (is_null(self::$sm_dyn_sources)) {
             self::$sm_dyn_sources = [];
         }
-        if (isset(self::$sm_dyn_sources[$interface])){
+        if (isset(self::$sm_dyn_sources[$interface])) {
             return true;
         }
-        $nuclass = basename(igk_dir($interface)); 
-        $p = strtolower('___igk_dynamic_class_'.$nuclass);
-        if(is_null(self::$sm_dyn_class)){
+        $nuclass = basename(igk_dir($interface));
+        $p = strtolower('___igk_dynamic_class_' . $nuclass);
+        if (is_null(self::$sm_dyn_class)) {
             self::$sm_dyn_class = [];
         }
-        if (isset(self::$sm_dyn_class[$p])){
-            $p .= '_'.(self::$sm_dyn_class[$p]++);
-        }else{
-            self::$sm_dyn_class[$p] = 1;  
+        if (isset(self::$sm_dyn_class[$p])) {
+            $p .= '_' . (self::$sm_dyn_class[$p]++);
+        } else {
+            self::$sm_dyn_class[$p] = 1;
         }
 
         $dyn_trait = DynamicActivableTrait::class;
@@ -56,7 +58,7 @@ class Activator
         $ref[] = IToArray::class;
         $ref[] = IToJSon::class;
         $ref[] = $interface;
-      $ref = implode(", ", $ref );
+        $ref = implode(", ", $ref);
         $src = <<<EF
 ?><?php
 final class {$p} implements {$ref}{
@@ -68,7 +70,7 @@ final class {$p} implements {$ref}{
 } 
 EF;
         self::$sm_dyn_sources[$interface] = [$src, $p];
-        eval($src); 
+        eval($src);
     }
     /**
      * 
@@ -78,21 +80,24 @@ EF;
      * @throws Exception 
      * @throws IGKException 
      */
-    public static function CreateFromInterface(string $interface, $resolver=null){
+    public static function CreateFromInterface(string $interface, $resolver = null)
+    {
         $root = $g = igk_sys_reflect_class($interface);
         $properties = [];
         // create a container that will handle component 
         $container = new RegexMatcherContainer;
         $patterns = [
-            ["match"=>"(?i)\\$[a-z_][a-z0-9_]*\b", "tokenID"=>"name"],
-            ["match"=>"\b\w+(\s*\|\s*\w+)*\b", "tokenID"=>"type"],
+            ["match" => "(?i)\\$[a-z_][a-z0-9_]*\b", "tokenID" => "name"],
+            ["match" => "\b\w+(\s*\|\s*\w+)*\b", "tokenID" => "type"],
         ];
         $container->begin('@property\\b', '$', 'prop-detect', null, $patterns);
-        $resolver = $resolver ?? function(){return null;};
-        
-        $v_handler =  function($comment) use($container, & $properties, $resolver){
+        $resolver = $resolver ?? function () {
+            return null;
+        };
+
+        $v_handler =  function ($comment) use ($container, &$properties, $resolver) {
             $offset = 0;
-             /**
+            /**
              * @var ?string
              */
             $type = null;
@@ -100,62 +105,62 @@ EF;
              * @var ?string
              */
             $name = null;
-            while($g = $container->detect($comment, $offset)){ 
-               if( $e = $container->end($g, $comment, $offset)){
-                    switch($e->tokenID){
-                        case 'type':                   
-                            if (!$type){
+            while ($g = $container->detect($comment, $offset)) {
+                if ($e = $container->end($g, $comment, $offset)) {
+                    switch ($e->tokenID) {
+                        case 'type':
+                            if (!$type) {
                                 $type = $e->value;
                             }
-                        break;
+                            break;
                         case 'name':
                             $name = $e->value;
                             break;
                         default:
-                        $properties[substr($name, 1)] = $resolver($type);
-                        $name = $type = null;
-                        break;
+                            $properties[substr($name, 1)] = $resolver($type);
+                            $name = $type = null;
+                            break;
                     }
                     // Logger::print("sample : ".$e->tokenID . " value=[".$e->value.']');
-               }
+                }
             }
         };
         $v_load = [];
         $tq = [$g];
-        while(count($tq)>0){
+        while (count($tq) > 0) {
             $g = array_shift($tq);
-            if ($comment = $g->getDocComment()){ 
+            if ($comment = $g->getDocComment()) {
                 $v_handler($comment);
             }
-            if ($g->isInterface()){
+            if ($g->isInterface()) {
                 // 
-                foreach($g->getInterfaceNames() as $r){
-                    if (!isset($v_load[$r])){
+                foreach ($g->getInterfaceNames() as $r) {
+                    if (!isset($v_load[$r])) {
                         array_unshift($tq, igk_sys_reflect_class($r));
                     }
                 }
             } else {
                 $cv = get_class_vars($g->getName());
-                foreach($cv as $k=>$value){
+                foreach ($cv as $k => $value) {
                     $properties[$k] = $value;
                 }
-                foreach($g->getInterfaceNames() as $r){
-                    if (!isset($v_load[$r])){
+                foreach ($g->getInterfaceNames() as $r) {
+                    if (!isset($v_load[$r])) {
                         array_unshift($tq, igk_sys_reflect_class($r));
                     }
                 }
-                if($c = $g->getParentClass()){
-                    if (!isset($v_load[$c])){
+                if ($c = $g->getParentClass()) {
+                    if (!isset($v_load[$c])) {
                         array_unshift($tq, igk_sys_reflect_class($c));
-                    } 
+                    }
                 }
             }
-        } 
+        }
         ksort($properties);
-        if ($root->isInterface()){
+        if ($root->isInterface()) {
             $cl = $root->getName();
             self::__GetClassSrc($cl);
-            if ($_dyn_cl =  igk_getv(self::$sm_dyn_sources[$cl], 1)){
+            if ($_dyn_cl =  igk_getv(self::$sm_dyn_sources[$cl], 1)) {
                 return new $_dyn_cl($properties);
             }
         }
@@ -220,7 +225,7 @@ EF;
         if ($data instanceof $classame) {
             return $data;
         }
-      
+
         $args = [];
         if (is_array($data) || (is_object($data))) {
             // + | numberic value will be used as contructor argument
@@ -249,11 +254,18 @@ EF;
                     }
                 }
             } else {
+                $c_8_1 = version_compare(PHP_VERSION, '8.1', '>=');
                 foreach (get_class_vars(get_class($g)) as $k => $v) {
                     $v = igk_getv($data, $k, $g->$k) ?? $v;
                     if (method_exists($g, $fc = 'set' . ucfirst($k))) {
                         $g->$fc($v);
                         continue;
+                    }
+                    if ($c_8_1) {
+                        $v_p = new ReflectionProperty($g, $k);
+                        if ($v_p->isReadOnly()) {
+                            continue;
+                        }
                     }
                     $g->{$k} = $v;
                 }
@@ -266,7 +278,7 @@ EF;
                 }
             }
         }
- 
+
 
         return $g;
     }
@@ -277,8 +289,9 @@ EF;
      * @param mixed $def definition
      * @return void 
      */
-    public static function InitPrivatePropety(callable $callable, $inf, $def){
-        if ($fc = $callable->bindTo($inf)){
+    public static function InitPrivatePropety(callable $callable, $inf, $def)
+    {
+        if ($fc = $callable->bindTo($inf)) {
             $fc($def);
         }
     }

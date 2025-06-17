@@ -165,7 +165,7 @@ class MakeClassCommand extends AppExecCommand
     /**
      * exec command
      */
-    public function exec($command, $class_path = null, string $definition = null)
+    public function exec($command, $class_path = null, ?string $definition = null)
     { 
         if ($scaffold_help = igk_getv($command->options, '--scaffold')){
             $this->showlistOfScaffold();

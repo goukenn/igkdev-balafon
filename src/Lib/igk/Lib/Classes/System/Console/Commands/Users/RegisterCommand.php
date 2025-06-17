@@ -22,7 +22,7 @@ class RegisterCommand extends AppExecCommand{
 
 	var $category = self::USER_CAT;
 	var $usage = 'login [firstname] [lastname] [options]';
-	public function exec($command, string $login = null , ?string $firtname=null, ?string $lastname=null) { 
+	public function exec($command, ?string $login = null , ?string $firtname=null, ?string $lastname=null) { 
 		Logger::SetColorizer(new Colorize);
 		// $ctrl = self::ResolveController($command);
 		$r = Users::Register(['clLogin'=>$login, 'clFirstName'=>$firtname, 'clLastName'=>$lastname]);

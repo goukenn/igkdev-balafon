@@ -635,9 +635,10 @@ EOF;
      */
     public function handle_redirection_uri($u, $forcehandle = 1)
     {  
+        // D: base handle 
+        // time: 200ms. -- need to optimize
 
-        igk_sys_handle_uri();
-    
+        
         $page= $k =
         $pattern = $p= $c=
         $param =

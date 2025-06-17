@@ -130,6 +130,15 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         return $sync;
 
     }
+    protected function start($command, &$setting){
+        if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
+            return $c;
+        } 
+        if (!is_object($h = $this->connect($setting["server"],$setting["user"], $setting["password"]))){
+            return false;
+        }
+        return $h;
+    }
     protected function connect($server, $user, $pwd){
         $h = null;
         // connect to ftp server

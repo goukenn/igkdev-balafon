@@ -64,7 +64,7 @@ class ScaffoldCommand extends AppExecCommand
             self::$sm_scaffold[$name] = $cl;
         }
     }
-    public function exec($command, string $cmd =null)
+    public function exec($command, ?string $cmd =null)
     {   
         $result = null;
         $failed = false;

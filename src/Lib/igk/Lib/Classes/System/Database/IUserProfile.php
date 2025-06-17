@@ -32,11 +32,11 @@ interface IUserProfile{
      * get system's user model
      * @return Users 
      */
-    function model(): \IGK\Models\Users;
+    function model(): ?\IGK\Models\Users;
 
     /**
      * get project's user model
      * @return ModelBase 
      */
-    function user(): \IGK\Models\ModelBase;
+    function user(): ?\IGK\Models\ModelBase;
 }

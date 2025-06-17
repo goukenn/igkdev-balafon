@@ -6,6 +6,7 @@ namespace IGK\System;
 
 use ArrayAccess;
 use ArrayIterator;
+use Exception;
 use IGK\System\Core\IProxyDataArgs;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
@@ -20,11 +21,18 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
     use ArrayAccessSelfTrait;
     protected $p_data; 
  
+    /**
+     * 
+     * @return Traversable<mixed, mixed>|mixed[] 
+     */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->p_data, 0);
     }
-
+    /**
+     * retrieve affected data
+     * @return mixed 
+     */
     public function getData(){
         return $this->p_data;
     }
@@ -61,6 +69,21 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
         if (is_object($this->p_data)) {
             return call_user_func_array([$this->p_data, $name], $arguments);
         }
+    }
+
+    /**
+     * mapt to Array object 
+     * @param array $mapping_table 
+     * @return array 
+     * @throws Exception 
+     */
+    public function mapToArray(array $mapping_table, ?callable $treat_value = null){
+        $c = [];
+        foreach($mapping_table as $k=>$v){
+            $tv = igk_getv($this->p_data, $k);
+            $c[$v] = $treat_value ? $treat_value($tv, $k) : $tv;
+        }
+        return $c;
     }
     
 }

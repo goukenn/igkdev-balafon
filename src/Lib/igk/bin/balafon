@@ -7,7 +7,14 @@
 
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
+// clean if only on 
+if (isset($__igk_balafon_cmd_auto_clean)){
+    while(ob_get_level()>0){
+        ob_end_clean();
+    }
+}
 
+    
 require_once __DIR__."/../igk.environment.loading.php";
  
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/balafon-cli.php");
@@ -42,4 +49,9 @@ $status = $app->run(__FILE__, false);
 //--------------------------------------------------------------------------------
 // | finish with status code
 // |
+ 
+if (isset($__igk_balafon_in_func)){
+ 
+    return $status;
+}  
 exit($status);

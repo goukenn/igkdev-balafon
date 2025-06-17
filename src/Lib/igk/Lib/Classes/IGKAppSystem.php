@@ -229,7 +229,7 @@ class IGKAppSystem
         // + | --------------------------------------------------------------------
         // + | LOAD CONTROLLER LISTS
         // + |
-        $tab =  EnvControllerCacheList::GetControllersClasses(); 
+        $tab = EnvControllerCacheList::GetControllersClasses(); 
         $c->load($tab, $manager, $loader);  
     }
     private function __construct()

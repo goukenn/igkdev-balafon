@@ -65,7 +65,7 @@ if (!function_exists('igk_express_eval')){
      * @param mixed $expression 
      * @return string 
      */
-    function igk_express_eval($expression, array $dependOn=null){ 
+    function igk_express_eval($expression, ?array $dependOn=null){ 
         $g = new ViewExpressionEval($expression, $dependOn); 
         return $g; 
     }

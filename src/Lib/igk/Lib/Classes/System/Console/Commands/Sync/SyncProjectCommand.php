@@ -212,7 +212,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                         }
                     }
 
-                    $fc = function ($f, array &$excludedir = null) use ($exclude_file_extension, $resolv_files) {
+                    $fc = function ($f, ?array &$excludedir = null) use ($exclude_file_extension, $resolv_files) {
                         $dir = dirname($f);
                         $basename = basename($f);
                         if ($resolv_files) {

@@ -72,7 +72,7 @@ abstract class AppCommand {
      * @param mixed $usage 
      * @return void 
      */
-    protected function showCommandUsage(string $usage=null){
+    protected function showCommandUsage(?string $usage=null){
         Logger::print(sprintf("%s %s", App::Gets(App::AQUA, $this->command), $usage ?? $this->usage));
     }
     /**

@@ -30,7 +30,7 @@ abstract class BaseUriHandler
      * @param null|IGKApplicationBase $application 
      * @return void 
      */
-    public static function Handle(string $uri, ?IGKApplicationBase $application =null )
+    public static function Handle(string $uri, ?IGKApplicationBase $application =null, ?callable $bootload=null )
     {
         $g = new static;
         $g->m_application = $application;
@@ -41,8 +41,9 @@ abstract class BaseUriHandler
        $uri = $tab["path"];
        if (isset($g->m_routes[$uri])) {
            $r = $g->m_routes[$uri];
-           if (is_callable($r)) {
-               call_user_func_array($r, [$uri, $g]);
+           if (is_callable($r)) {    
+                defined('IGK_BASE_DIR') || \IGK\ApplicationLoader::InitConstants();                      
+                call_user_func_array($r, [$uri, $g]); 
             }
         }        
     }
