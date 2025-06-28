@@ -26499,3 +26499,9 @@ if (!function_exists('igk_load_env')) {
         return $config;
     }
 }
+
+if (!function_exists('igk_map_conv_to_array')){
+    function igk_map_conv_to_array($a){
+        return $a->to_array();
+    }
+}

@@ -24,6 +24,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\NotAllowedRequestException;
 use IGK\System\Http\Request;
 use IGK\System\Http\RequestResponse;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\Route;
 use IGK\System\Http\Traits\HeaderOptionResponseTrait; 
 use IGK\System\Traits\InjectableTrait;
@@ -431,7 +432,14 @@ abstract class IGKActionBase implements IActionProcessor
         // + | by default in ajx context and not null 
         // + |
         return ((igk_is_ajx_demand() || igk_server()->accept('json')) && !is_null($response) && $this->handleExit) 
-        || ($response instanceof RequestResponse);
+        || ($response instanceof RequestResponse) || (function(Request $request){
+            // expect for default result format 
+            $q = $request->getQueryInfo()->query_options;
+            if ($q && (igk_getv($q, 'fmt'))){
+                return true;
+            }
+            return false;
+        })(Request::getInstance());
     }
     /**
      * Handle action
@@ -534,7 +542,7 @@ abstract class IGKActionBase implements IActionProcessor
                 $v_host->handleExit = $exit;
                 if ($exit || ($v_host->_handleResponse($c))) { 
                     if (is_array($c) && !key_exists(Request::ARRAY_RESPONSE_CODE, $c)){
-                        $c[Request::ARRAY_RESPONSE_CODE] = $v_host->status;
+                        $c[Request::ARRAY_RESPONSE_CODE] = $v_host->status ?? RequestResponseCode::Ok;
                     }
                     return igk_do_response($c);
                 }

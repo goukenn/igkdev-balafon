@@ -64,6 +64,7 @@ use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\ViewLayout;
 use IGK\Constants;
+use IGK\System\Controllers\ControllerParamKeys;
 use IGKEnvironment;
 use IGKEvents;
 use IGKModuleListMigration;
@@ -1804,6 +1805,31 @@ abstract class ControllerExtension
         return $cl;
     }
 
+    /**
+     * retrieve action instance 
+     * @param BaseController $controller 
+     * @param string $path 
+     * @return ?ActionBase
+     */
+    public static function actionInstance(BaseController $controller, string $path){
+        $_k = ControllerParamKeys::ACTIONS_INSTANCES;
+        $tab = $controller->getParam($_k) ?? [];
+        if (isset($tab[$path])){
+            return $tab[$path];
+        }
+        if ($a = $controller->getActionHandler($path, new ActionResolutionInfo, [])){
+            if (is_subclass_of($a, ActionBase::class)){
+                $j = new $a;
+                $j->setController($controller);
+                $tab[$path] = $j; 
+                $controller->setParam($_k, $tab);
+                return $j;
+            }
+        }
+        return null;
+    }
+
+
     ///<summary> initialize db's table from data schemas </summary>
     /**
      *  initialize db's table from data schemas
@@ -2356,6 +2382,7 @@ abstract class ControllerExtension
         }
         return $c;
     }
+
     /**
      * load js script extension
      * @param BaseController $controler
@@ -2432,23 +2459,7 @@ abstract class ControllerExtension
         }
     }
 
-    /**
-     * get action handler 
-     * @param BaseController $controller
-     * @param string $name request name
-     * @param ?array $params trait param for resolution 
-     * @return ?string action class name 
-     * @return ?ActionResolutionInfo action resolution info
-     * @throws IGKException 
-     */
-    public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null, ?bool $is_ajx = null): ?string
-    {
-        // + | --------------------------------------------------------------------
-        // + | detect action to call - base on request name and params
-        // + |
-
-        if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
-            return null;
+    public static function DetectControllerClassDefinitionActionHandlerList(BaseController $controller, string $name,?array & $params, $is_ajx=false):Array{
         $c = [];
         $t = [];
         $m = "";
@@ -2497,7 +2508,10 @@ abstract class ControllerExtension
                 continue;
             }
             if ($p) {
-                $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . $p . $postfix])));
+                // + | set folder entry point 
+                // + | - action_dir/actionAction
+                // + | - action_dir/DeffaultAction 
+                $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . basename(igk_dir($p)) . $postfix])));
                 $fc_prepend($t, $l, $level - 1, $margs);
                 if (strtolower($p) != strtolower(IGK_DEFAULT_VIEW)) {
                     $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . ucfirst(IGK_DEFAULT_VIEW) . $postfix])));
@@ -2515,6 +2529,7 @@ abstract class ControllerExtension
                 $m .= $sep . $g;
                 $m = ltrim($m, '\\');
                 $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix]))), $level, $margs);
+                $g = $m;
             }
 
             $sep = "\\";
@@ -2535,12 +2550,125 @@ abstract class ControllerExtension
         if ($entry_default || ($name != IGK_DEFAULT_VIEW) && !$controller->getConfig("no_fallback_to_default_action")) {
             $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix])))] = -1;
         }
+        ActionHelper::$ResolvedClass = null;
+        
+        return $t;
+    }
+    /**
+     * get action handler 
+     * @param BaseController $controller
+     * @param string $name request name
+     * @param ?array $params trait param for resolution 
+     * @return ?string action class name 
+     * @return ?ActionResolutionInfo action resolution info
+     * @throws IGKException 
+     */
+    public static function getActionHandler(BaseController $controller, string $name, ActionResolutionInfo $responseData,  ?array $params = null, ?bool $is_ajx = null): ?string
+    {
+        // + | --------------------------------------------------------------------
+        // + | detect action to call - base on request name and params
+        // + |
+
+        if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
+            return null;
+        // $c = [];
+        // $t = [];
+        // $m = "";
+        // $sep = "";
+        // $fallback = false;
+        // $fc_prepend = function (&$tab, $name, $level, $params) {
+        //     $tab = [$name => [$level, $params]] + $tab;
+        // };
+        // // $TLevel = $params ? count($params) : 0;
+        // $entry_default = ($name == IGK_DEFAULT_VIEW);
+        // if (($name != IGK_DEFAULT_VIEW) && preg_match("/" . IGK_DEFAULT_VIEW . "$/", $name)) {
+        //     $name = rtrim(substr($name, 0, -strlen(IGK_DEFAULT_VIEW)), "/");
+        // } else {
+        //     if ($params) {
+        //         // + | update must combine with current name 
+        //         $name = ltrim(Path::Combine($entry_default ? "/" : $name, implode("/", $params)), '/');
+        //     }
+        //     // + | empty parameter list
+        //     $params = [];
+        // }
+        // $ns = $controller->getEntryNameSpace();
+        // if (!empty($ns)) {
+        //     $c[] = $ns;
+        // }
+        // $search_name = $name;
+        // if ($params) {
+        //     // $search_name = $name . "/" . implode("/", $params);
+        //     $search_name .= "/" . implode("/", $params);
+        // }
+        // $p = null; //  "previous callback failed";
+        // $level = 1;  // level for arguments detection
+        // $postfix = EntryClassResolution::ActionClassSuffix;
+        // $targs = explode("/", ltrim($search_name, '/'));
+        // $margs = array_slice($targs, 1);
+        // $_it = 0;
+        // while (($tc = count($targs)) > 0) {
+        //     $r = array_shift($targs);
+        //     $v_last = (($tc - 1) == 0) && $is_ajx;
+        //     $g = StringUtility::CamelClassName(ucfirst($r));
+        //     $_it++;
+        //     if (is_numeric($g)) {
+        //         if ($fallback) {
+        //             break;
+        //         }
+        //         $fallback = true;
+        //         continue;
+        //     }
+        //     if ($p) {
+        //         // + | set folder entry point 
+        //         // + | - action_dir/actionAction
+        //         // + | - action_dir/DeffaultAction 
+        //         $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . basename(igk_dir($p)) . $postfix])));
+        //         $fc_prepend($t, $l, $level - 1, $margs);
+        //         if (strtolower($p) != strtolower(IGK_DEFAULT_VIEW)) {
+        //             $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . ucfirst(IGK_DEFAULT_VIEW) . $postfix])));
+        //             $fc_prepend($t, $l, $level - 2, $margs);
+        //         }
+        //         array_shift($margs);
+        //     }
+        //     $v_ajx_suffix = ($tc == 1) && preg_match("/\.ajx$/i", $r);
+        //     if ($v_last || $v_ajx_suffix) {
+        //         $rg = StringUtility::CamelClassName(ucfirst(igk_str_rm_last($r, '.ajx')));
+        //         $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $sep . $rg . $postfix]))), $level, $margs);
+        //     }
+
+        //     if (!$v_ajx_suffix) {
+        //         $m .= $sep . $g;
+        //         $m = ltrim($m, '\\');
+        //         $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix]))), $level, $margs);
+        //         $g = $m;
+        //     }
+
+        //     $sep = "\\";
+        //     $p = $g;
+        //     $fallback = true;
+        //     $level++;
+        // }
+        // // + | append last
+        // if ($p) {
+        //     // $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . $p . $postfix])));
+        //     // $fc_prepend($t, $l, $level - 1, $margs);
+        //     if (strtolower($p) != strtolower(IGK_DEFAULT_VIEW)) {
+        //         $l = implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $p . "\\" . ucfirst(IGK_DEFAULT_VIEW) . $postfix])));
+        //         $fc_prepend($t, $l, $level - 2, $margs);
+        //     }
+        //     array_shift($margs);
+        // }
+        // if ($entry_default || ($name != IGK_DEFAULT_VIEW) && !$controller->getConfig("no_fallback_to_default_action")) {
+        //     $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix])))] = -1;
+        // }        
+        // ActionHelper::$ResolvedClass = null;
+        $t = self::DetectControllerClassDefinitionActionHandlerList($controller, $name, $params, $is_ajx);
+        $ns = $controller->getEntryNameSpace();
         $classdir = $controller->getClassesDir();
         $sublen = 1;
         if (!empty($ns)) {
             $sublen += strlen($ns);
-        }
-        ActionHelper::$ResolvedClass = null;
+        }        
         while (count($t) > 0) {
             $cl = array_key_first($t);
             list($level, $params) = array_shift($t);

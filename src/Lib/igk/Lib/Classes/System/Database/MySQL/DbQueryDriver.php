@@ -18,6 +18,9 @@ use ReflectionException;
  * mysql query driver 
  */
 class DbQueryDriver extends DatabaseDbQueryDriver {
+    public function getselectdb(){
+        return $this->m_resource->selectdb;
+    }
     /**
      * create a driver with the setting option 
      * @param mixed $options 

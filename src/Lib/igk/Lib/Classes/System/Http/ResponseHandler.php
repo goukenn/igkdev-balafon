@@ -17,6 +17,17 @@ use IGK\System\IO\StringBuilder;
  */
 class ResponseHandler
 {
+    public function requestHandlerMimeType(){
+         if($v_qoptions =Request::getInstance()->getQueryInfo()->query_options){
+                if ($fmt = igk_getv($v_qoptions, 'fmt')){
+                    return igk_getv([
+                        'json'=>'application/json',
+                        'xml'=>'application/xml',
+                        'txt'=>'text/plain',
+                        'html'=>'text/html'], $fmt);
+                }
+            }
+    }
     /**
      * handle response
      * @param mixed $r 
@@ -43,12 +54,19 @@ class ResponseHandler
             $code = igk_getv($r, $c_key = Request::ARRAY_RESPONSE_CODE) ?? $code;
             igk_unset($r, $c_key);
             ob_get_level() &&  ob_clean();
-            switch (igk_server()->CONTENT_TYPE) {
+            $fmt_mime_type =igk_server()->CONTENT_TYPE;
+            if($v_qoptions = $this->requestHandlerMimeType()){
+                    $fmt_mime_type = $v_qoptions;
+            }
+
+
+            switch ($fmt_mime_type) {
                 case 'application/xml':
                     $r = igk_xml_render('response', $r);
-                    $b = new WebResponse($r);
-                    $b->code = $code;
-                    $b->output();
+                    $b = new XmlResponse($r);
+                    $b->code = $code; 
+                     $b->output();
+                    exit;
                     break;
                 case 'text/html':
                     $sb = new StringBuilder(); 

@@ -798,7 +798,8 @@ class IO
         $is_excludir_array = is_array($excludedir);
         while (count($dirs) > 0) {
             $q = array_pop($dirs);
-            if (isset($excludedir[$q])) {
+            if (isset($excludedir[$q])) { 
+
                 continue;
             }
             // use scan dir to order

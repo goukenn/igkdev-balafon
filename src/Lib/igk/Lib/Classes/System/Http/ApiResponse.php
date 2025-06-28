@@ -68,10 +68,5 @@ class ApiResponse extends Response{
         igk_do_response(
             new JsonResponse($this->response($data, $code), $code, $this->m_header)
         );
-
-        // if ($this->m_header){
-        //     igk_set_header($code, StatusCode::GetStatus($code), $this->m_header);
-        // }
-        // igk_do_response($this->response($data, $code));
     }
 }

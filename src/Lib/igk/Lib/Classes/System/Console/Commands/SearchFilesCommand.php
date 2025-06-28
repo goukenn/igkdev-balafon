@@ -25,11 +25,12 @@ class SearchFilesCommand extends AppExecCommand{
 
 		$pattern = $pattern ? '/'.$pattern.'/': '/.*/';
 		$ls = IO::GetFiles($dir, $pattern, true);
+		if ($ls){
 		sort($ls);
 		array_map(function($q){
 			Logger::print($q);
 		}, $ls);
-
+	}
 
 		Logger::info('total: '. count($ls));
 	}

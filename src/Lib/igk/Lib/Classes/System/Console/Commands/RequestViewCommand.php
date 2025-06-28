@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\Helper\SysUtils;
+use IGK\Helper\ViewHelper;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -134,9 +135,7 @@ class RequestViewCommand extends AppExecCommand
         }
 
         igk_server()->prepareServerInfo();
-        $tview = array_filter(explode("/", $path));
-        $view = array_shift($tview);
-        $args =$tview;
+        list($view, $args) = ViewHelper::PrepareViewArgFromPath($path); 
         $ctrl->setCurrentView($view, true, null, $args);
     }
 }

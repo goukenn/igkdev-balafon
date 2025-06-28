@@ -14,6 +14,12 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 
 /**
  * represent app - system - controller - public hook
+ * Hooking system 
+ * each callback must have 
+ * - args that hold argument for the hook
+ * - handle to inform that and callback already handle the hooking system
+ * - $ref* to pass reference object hook object of reference value
+ * - output the global event output
  */
 class IGKEvents extends IGKObject
 {
@@ -80,7 +86,8 @@ class IGKEvents extends IGKObject
     const HOOK_USER_LOGIN = "sys_user_login";
     const HOOK_USER_LOGOUT = "sys_user_logout";
     const HOOK_USER_ACTIVATED = "sys_user_status_changed";
-    const HOOK_USER_DELETE = "sys_user_delete";
+    const HOOK_USER_DELETE = "sys_user_delete"; // just make it inactive
+    const HOOK_USER_DROP = "sys_user_drop"; // full user removed
     // + | --------------------------------------------------------------------
     // + | DB HOOK
     // + |

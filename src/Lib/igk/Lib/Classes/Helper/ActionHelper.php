@@ -396,7 +396,7 @@ abstract class ActionHelper
         return $tab;
     }
     /**
-     * get actions exposed method
+     * get actions exposed method.
      * @param object|string $object_or_class 
      * @return null|array 
      * @throws IGKException 
@@ -405,6 +405,10 @@ abstract class ActionHelper
      */
     public static function GetExposedMethods($object_or_class)
     {
+        // + | --------------------------------------------------------------------
+        // + | by default disable use of prefix (get|set) method and protected one.
+        // + |
+        
         if (!is_subclass_of($object_or_class, ActionBase::class)) {
             return null;
         }

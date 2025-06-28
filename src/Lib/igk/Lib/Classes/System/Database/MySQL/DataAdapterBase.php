@@ -590,6 +590,12 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return false;
     }
+    /**
+     * retrieve the selecgted db 
+     */
+    public function getselectdb(){
+        return $this->m_dbname ?? ($this->m_dbManager? $this->m_dbManager->getselectdb() : null) ?? null;
+    }
     ///<summary></summary>
     /**
      * 

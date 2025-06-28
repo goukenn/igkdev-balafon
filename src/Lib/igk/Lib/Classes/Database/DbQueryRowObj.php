@@ -13,7 +13,7 @@ use IGK\System\Polyfill\IteratorTrait;
 use Iterator;
 
 /**
- * 
+ * Query row result 
  * @package IGK\Database
  */
 class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{

@@ -36,6 +36,7 @@ abstract class EntryClassResolution
     const ActionDefaultAction = 'Actions\DefaultAction';
     const Actions = 'Actions';
     const Profiles = 'Profiles';
+    const ProfilesGetDefaultMethod = 'GetDefaultProfile';
 
     const WinUI_ViewLayout = '/WinUI/ViewLayout';
     const WinUI_Form_Validation = '/WinUI/FormValidations';

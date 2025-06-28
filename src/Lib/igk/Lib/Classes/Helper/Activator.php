@@ -213,16 +213,16 @@ EF;
      *      class must context a public constructor \
      *      data pass to it will be used to initialize public properties
      * 
-     * @param string|callable|array $classame 
+     * @param string|callable|array $class_name 
      * @param mixed $data . numeric association key will be used as contructor argument
      * @param bool $fullfill fullfield with data 
      * @return object|mixed association data
      * @throws IGKException 
      * @throws Exception class not found
      */
-    public static function CreateNewInstance($classame, $data = null, bool $fullfill = false)
+    public static function CreateNewInstance($class_name, $data = null, bool $fullfill = false)
     {
-        if ($data instanceof $classame) {
+        if ($data instanceof $class_name) {
             return $data;
         }
 
@@ -236,10 +236,10 @@ EF;
             }
         }
 
-        if (is_callable($classame)) {
-            $g = $classame(...$args);
+        if (is_callable($class_name)) {
+            $g = $class_name(...$args);
         } else {
-            $g = new $classame(...$args);
+            $g = new $class_name(...$args);
         }
         if ($data) {
 

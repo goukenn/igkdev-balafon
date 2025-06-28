@@ -183,6 +183,9 @@ abstract class FormData
      */
     public static function ValidateData($data, ?object $validator = null, ?array &$errors = null)
     {
+        if (!$data){
+            return false;
+        }
         $validata_class = EntryClassResolution::CreateValidatorInstance;
         $validator = $validator ??
             (method_exists(static::class, $validata_class) ?

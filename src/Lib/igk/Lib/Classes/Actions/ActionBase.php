@@ -35,4 +35,8 @@ abstract class ActionBase extends IGKActionBase{
         }
         return null;
     }
+    public function __debugInfo()
+    {
+        return [];
+    }
 }

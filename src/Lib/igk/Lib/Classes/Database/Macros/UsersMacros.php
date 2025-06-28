@@ -36,7 +36,7 @@ abstract class UsersMacros
      * @return mixed 
      */
     static function RegisterAndInitProjectUserByLogin(string $login, BaseController $ctrl ){
-        if ($u = Users::Register(['clLogin'=>$login])){ 
+        if ($u = Users::Register([Users::FD_CL_LOGIN => $login])){ 
             $ctrl->initUserFromSysUser($u); 
             return $u;
         }

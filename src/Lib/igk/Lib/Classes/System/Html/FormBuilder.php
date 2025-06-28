@@ -156,6 +156,9 @@ class FormBuilder
             }
             $o = rtrim($o);
         };
+        /**
+         * bind value for copy
+         */
         $bindValue = function (&$o, &$fieldset, $k, $v) use ($get_attr_key, $load_attr, $tag) {
             $v_k_id = null;
             $v_error = null;
@@ -276,9 +279,13 @@ class FormBuilder
             }
 
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
+                $tcc = igk_getv($v, 'label_attribs') ?? [];
+                if ($tcc){
+                    igk_unset($v, 'label_attribs');
+                }
                 $g = HtmlUtils::GetFilteredAttributeString("label", array_merge([
                     'class' => "igk-form-label" . ($v_error ? ' igk-text-danger error' : '')
-                ], igk_getv($v, 'label_attribs') ?? []));
+                ], $tcc));
                 $c_id = ($t_id) ? "for='{$t_id}'" : "";
                 $o .= "<label {$c_id}$g>" . $label_text . "</label>";
             }

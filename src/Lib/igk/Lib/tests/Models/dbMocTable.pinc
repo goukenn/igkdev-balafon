@@ -34,8 +34,7 @@ class Table1Test extends dbMocModelBase implements IOneTableDataBaseDefinition
             "clId" => new DbColumnInfo(["clType" => "Int",  "clTypeLength" => "11", "clIsPrimary" => 1, "clAutoIncrement" => 1]),
             "clName" => new DbColumnInfo(["clType" => "varchar", "clTypeLength" => 30]),
             "clDescription" => new DbColumnInfo(["clType" => "text"])
-        ];
-
+        ]; 
         return Activator::CreateNewInstance(
             DbModelDefinitionInfo::class,
             [

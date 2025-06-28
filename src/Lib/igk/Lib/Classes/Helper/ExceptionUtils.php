@@ -11,6 +11,7 @@ use Exception;
 use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Resources\R;
 use IGKResourceUriResolver;
+use IGKException;
 
 /**
  * 
@@ -73,7 +74,7 @@ abstract class ExceptionUtils
         $trace_css = "";
         $trace_css .= igk_io_read_allfile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/exception.css");
         $trace_css .= igk_io_read_allfile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/trace.css");
-        if ((get_class($Ex) == IGKException::class) || is_subclass_of($Ex, IGKException::class)) {
+        if ((get_class($Ex) == \IGKException::class) || is_subclass_of($Ex, \IGKException::class)) {
             if (!($s = $Ex->getCode())) {
                 $s = 500;
             }

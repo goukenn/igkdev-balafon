@@ -163,13 +163,14 @@ final class IGKAppConfig extends IGKObject {
     */
     private function _updateCache(){
         $f=igk_io_syspath(IGK_CACHE_DATAFILE);
+        $v_ctn = igk_notifyctrl();
         if($this->Data->cache_loaded_file){
             @unlink($f);
-            igk_notifyctrl()->addMsg(__("Cache file stored"));
+            $v_ctn->addMsg(__("Cache file stored"));
         }
         else{ 
             @unlink($f); 
-            igk_notifyctrl()->addMsg(__("Unlink file: {0}", basename($f))); 
+            $v_ctn->addMsg(__("Unlink file: {0}", basename($f))); 
         }
     } 
     ///<summary></summary>

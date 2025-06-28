@@ -322,7 +322,7 @@ class IGKApp extends IGKObject
         IGKEvents::hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
 
         // register system hooks
-        include IGK_LIB_DIR.'/Inc/igk_hooks.php'; 
+        include IGK_LIB_DIR.'/Inc/igk_hooks.pinc'; 
     }
 
     /**

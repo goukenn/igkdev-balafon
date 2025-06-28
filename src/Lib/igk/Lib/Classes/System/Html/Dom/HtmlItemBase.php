@@ -787,7 +787,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 }
                 if (func_num_args() > 2) {
                     $t = array($this);
-                    $t = array_merge($t, igk_getv(array_slice(func_get_args(), 2), 0));
+                    $t = array_values(array_merge($t, igk_getv(array_slice(func_get_args(), 2), 0)));
                     $this->setCallback($name, null); // backup  
                     $o = call_user_func_array($b, $t);
                     $this->setCallback($name, $b); // restore callback

@@ -93,8 +93,7 @@ class ApplicationLoader
     private function __construct($context = null)
     {
         $this->_context = $context;
-        register_shutdown_function(function () {
-            // igk_wln("shut down --- ",$this->_changed, $this->_included); 
+        register_shutdown_function(function(){ 
             if (!defined('IGK_BASE_DIR') || defined('IGK_NO_LIB_CACHE')) {
                 return;
             }
@@ -466,7 +465,6 @@ class ApplicationLoader
                 }
             } catch (\Exception $ex) {
                 igk_show_exception($ex);
-                exit;
             }
         }
         // + | init application register 

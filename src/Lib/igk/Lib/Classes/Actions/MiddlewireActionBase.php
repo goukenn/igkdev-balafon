@@ -121,7 +121,9 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      */
     public static function __callStatic($name, $arguments)
     {
-        return (function($a){return $a;})(new static())->$name(...$arguments);
+        return (function ($a) {
+            return $a;
+        })(new static())->$name(...$arguments);
     }
     /**
      * magic core system to handle route definitions
@@ -145,40 +147,52 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         $routes = Route::GetAction(static::class);
         $method = strtolower(igk_server()->REQUEST_METHOD);
 
-        $path =  "/" . trim($path, "/");
+        // $path =  "/" . trim($path, "/");
         // detected method to invoke
         $_invoke = function ($name, $arguments, $m, &$handle) use ($method) {
-            if (($method == 'options') && !method_exists($this, $name . '_' . $method)) {
-                return Response::OptionResponse();
+            $is_index = $name !== 'index';
+            $rc = [$name];
+            if ($is_index) {
+                $rc[] = 'index';
             }
-            $proc = ["_" . $method, ""];
-            $handle = false;
-            $v_user = $this->currentUser();
-            $v_global_security = $v_global_auth = null;
-            $v_global_strict = false;
-            $td = new ReflectionClass($this);
-            if ($comment = $td->getDocComment()){
-                if ($v_global_security = PhpDocCommentSecurityAndAuthUtility::ParseComment($comment, $p)){
-                    $v_global_auth = $p->auth;
-                    $v_global_strict = $p->strict_auth;
-                }
-            }
-            
+            while (count($rc) > 0) {
+                $name = array_shift($rc);
 
-            while ((count($proc) > 0) && (($f = array_shift($proc)) !== null)) {
-                if (in_array($name . $f, $m)) {
-                    $name = $name . $f;
-                    $v_refmethod = new ReflectionMethod($this, $name);
-                    // + | check for route not security 
-                    if (!$v_user) {
-                        self::_CheckMethodAccess($this, $v_refmethod, $v_global_security, $v_global_auth, $v_global_strict);
-                    } else {
-                        // + | 
-                        self::_VerifMethodAccess($this, $v_refmethod, $v_user);
+
+                if (($method == 'options') && !method_exists($this, $name . '_' . $method)) {
+                    return Response::OptionResponse();
+                }
+                $proc = ["_" . $method, ""];
+                $handle = false;
+                $v_user = $this->currentUser();
+                $v_global_security = $v_global_auth = null;
+                $v_global_strict = false;
+                $td = new ReflectionClass($this);
+                if ($comment = $td->getDocComment()) {
+                    if ($v_global_security = PhpDocCommentSecurityAndAuthUtility::ParseComment($comment, $p)) {
+                        $v_global_auth = $p->auth;
+                        $v_global_strict = $p->strict_auth;
                     }
-                    $handle = true;
-                    $arguments =  Dispatcher::GetInjectArgs($v_refmethod, $arguments, []);
-                    return $this->$name(...$arguments);
+                }
+                while ((count($proc) > 0) && (($f = array_shift($proc)) !== null)) {
+                    if (in_array($name . $f, $m)) {
+                        $name = $name . $f;
+                        $v_refmethod = new ReflectionMethod($this, $name);
+                        // + | check for route not security 
+                        if (!$v_user) {
+                            self::_CheckMethodAccess($this, $v_refmethod, $v_global_security, $v_global_auth, $v_global_strict);
+                        } else {
+                            // + | 
+                            self::_VerifMethodAccess($this, $v_refmethod, $v_user);
+                        }
+                        $handle = true;
+                        $arguments =  Dispatcher::GetInjectArgs($v_refmethod, $arguments, []);
+                        return $this->$name(...$arguments);
+                    }
+                }
+                if ($is_index){
+                    array_unshift($arguments, $name);
+                    $is_index = false;
                 }
             }
         };
@@ -272,7 +286,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             igk_dev_wln_e("route not resolved " . $path);
             throw new IGKException(__("Route {0} not resolved, in {1} ", $path, get_class($this)), 404);
         } else {
-            // no definition foute found for this class suppose all method is accessible 
+            // no definition route found for this class suppose all method is accessible 
             if ($r = $_handling($name, $arguments, $_invoke)) {
                 return $r['result'];
             }
@@ -326,12 +340,12 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      * @param mixed &$p 
      * @return mixed|void 
      */
-    static function _ParseSecurity(ReflectionMethod $v_refmethod, & $p)
+    static function _ParseSecurity(ReflectionMethod $v_refmethod, &$p)
     {
-        if ($comment = $v_refmethod->getDocComment()){
-            return PhpDocCommentSecurityAndAuthUtility::ParseComment($comment, $p); 
+        if ($comment = $v_refmethod->getDocComment()) {
+            return PhpDocCommentSecurityAndAuthUtility::ParseComment($comment, $p);
         }
-    } 
+    }
 
     /**
      * check method access no user 
@@ -341,23 +355,29 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      * @return never 
      * @throws Exception 
      */
-    private static function _CheckMethodAccess($host, ReflectionMethod $v_refmethod, $global_security =null , $global_auth=null, $global_strict_auth=false)
+    private static function _CheckMethodAccess($host, ReflectionMethod $v_refmethod, $global_security = null, $global_auth = null, $global_strict_auth = false)
     {
+
         $c_mid_key = IGKEvents::HOOK_MIDDLEWARE_ACTION;
         $auth = '';
         $p = null;
         $security = self::_ParseSecurity($v_refmethod, $p) ?? $global_security;
         if ($security) {
-            if (is_null($p)){
-                $p = (object)['security'=>$security, 'auth'=>$global_auth, 'strict_auth'=>$global_strict_auth];
+            if (is_null($p)) {
+                $p = (object)['security' => $security, 'auth' => $global_auth, 'strict_auth' => $global_strict_auth];
             }
             $fc_auth = function ($e) {
-                if ($e->args->access){
+                if ($e->args->access) {
                     return;
                 }
                 $c = igk_server()->getAccessObject();
                 if (is_null($c)) {
-                    igk_json(['error'=>true, 'message'=>'require auth to access'], RequestResponseCode::Forbiden);
+                    igk_json([
+                        'error' => true,
+                        'message' => 'require auth to access object',
+                        // 'headers'=>igk_get_allheaders(),
+                        // 'server'=>$_SERVER
+                    ], RequestResponseCode::Forbiden);
                     return;
                 }
                 $arg = $e->args;
@@ -366,15 +386,14 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 $is_bearer = in_array($security, [Security::BEARER_AUTH]);
                 $token = $is_bearer ? $c->getBearerToken() : $c->getBasicToken();
 
-                if ($token){
+                if ($token) {
                     list($login, $pwd) = explode(':', base64_decode($token), 2);
-                }
-                else {
-                    if (in_array($security, [Security::BASIC_AUTH])){
-                            list($login, $pwd) = $c::HandleBasicAuth();
+                } else {
+                    if (in_array($security, [Security::BASIC_AUTH])) {
+                        list($login, $pwd) = $c::HandleBasicAuth();
                     }
                 }
-                if ($login && $pwd){
+                if ($login && $pwd) {
                     $connected = $controller->login($login, $pwd, false);
                     $e->args->access = $connected;
                 }
@@ -391,8 +410,8 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 'access' => false,
                 'controller' => $ctrl
             ];
-            if ($auth){
-                $auth = array_map(function($a)use($ctrl){
+            if ($auth) {
+                $auth = array_map(function ($a) use ($ctrl) {
                     return $ctrl->authName($a);
                 }, $auth);
             }

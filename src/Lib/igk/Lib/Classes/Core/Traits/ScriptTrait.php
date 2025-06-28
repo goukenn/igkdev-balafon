@@ -66,17 +66,7 @@ trait ScriptTrait
         $exclude_dir = igk_sys_js_exclude_dir();
         $allowHiddenFile = $manager ? $manager->allowHiddenFile : false;
         $references = [];
-        $sources = []; //sources to load 
-        // $buildSource = function()use(& $sources, $lf, & $references){
-        //     $s = '';
-        //     foreach($sources as $f=>$i){
-        //         if (!$i) continue;
-        //         $s .= "// " . igk_io_collapse_path($f) . $lf;
-        //         $ts = file_get_contents($f);
-        //         $ts = self::TreatJSSource($f, $ts, $references);
-        //     }
-        //     return $s;
-        // };
+        $sources = []; //sources to load  
         $_autoloads_dir = [];
         $resolverfc = function ($f) use (&$s, &$tag, &$references, $lf, $manager, $allowHiddenFile, & $sources, & $_autoloads_dir) {
             if (!$allowHiddenFile && (strpos(basename($f), ".") === 0)) {
@@ -159,11 +149,16 @@ trait ScriptTrait
         $out = self::TreatBundlerSource($out);
         return $out;
     }
+    /**
+     * just treat bundle
+     * @param string $src 
+     * @return string 
+     */
     public static function TreatBundlerSource(string $src){
         return $src;   
     }
     /**
-     * reate js source
+     * treat js source
      * @param string $file 
      * @param mixed $src 
      * @param array &$reference 

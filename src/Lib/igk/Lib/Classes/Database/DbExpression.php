@@ -16,11 +16,24 @@ use IGKObject;
 use ModelBase;
 
 class DbExpression extends IGKObject implements IHtmlGetValue{
+    
+    
     protected $m_v;
     ///<summary></summary>
     ///<param name="value"></param>
     public function __construct($value=null){
         $this->m_v=$value;
+    }
+    /**
+     * 
+     * @return mixed 
+     */
+    public static function Now(){
+        static $now;
+        if (is_null($now)){
+            $now = new DbExpression('Now()');
+        }
+        return $now;
     }
     ///<summary>Represente Create function</summary>
     ///<param name="expression"></param>

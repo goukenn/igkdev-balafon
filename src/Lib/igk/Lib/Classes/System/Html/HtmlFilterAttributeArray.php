@@ -53,8 +53,8 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
     public function _access_OffsetGet($name){
         return $this->m_attributes[$name];
     }
-    public function _access_OffsetSet($name, $v){
-        if (in_array($name, ["style", "class"]))
+    public function _access_OffsetSet(string $name, $v){
+        if (in_array(strtolower($name), ["style", "class","classname"]))
             $this->parent_trait_offsetSet($name, $v);
         else
             $this->m_attributes[$name] = $v;

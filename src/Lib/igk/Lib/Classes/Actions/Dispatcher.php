@@ -108,7 +108,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             throw $ex;
         } catch (TypeError $ex) {
             // + | call to function but arguments injection no valid
-
             throw new OperationNotAllowedException('Dispatcher failed: '.$ex->getMessage(), 405, $ex);
         }
     }
@@ -230,7 +229,9 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         $v_inject = false;
         foreach ($parameters as $k) {
             $c = $arg = igk_getv($args, $i);
-            
+            if (is_null($c) && $k->isDefaultValueAvailable()){
+                $c = $k->getDefaultValue();
+            }
 
             if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
                 if ($type == 'string') {   

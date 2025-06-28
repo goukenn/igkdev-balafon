@@ -18,7 +18,20 @@ if (!function_exists("igk_array_find_first")) {
         }
     }
 }
-
+if (!function_exists("igk_array_keysv")) {
+    /**
+     * return only non numeric keys value
+     */
+    function igk_array_keysv(array $tab)
+    {
+        $o = [];
+        foreach ($tab as $k=>$value) {
+            if (is_numeric($k))continue;
+            $o[$k] = $value;
+        }
+        return $o;
+    }
+}
 if (!function_exists('igk_array_pad')){
     /**
      * trucate array or append to max length
@@ -181,7 +194,8 @@ if (!function_exists("igk_array_first")) {
     function igk_array_first($c)
     {
         if (is_array($c) && (igk_count($c) > 0)) {
-            return $c[0];
+            $key = array_keys($c)[0];
+            return $c[$key];
         }
         return null;
     }

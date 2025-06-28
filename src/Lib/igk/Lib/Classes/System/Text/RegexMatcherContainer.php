@@ -134,7 +134,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         return igk_getv($this->m_references, $id);
     }
     /**
-     * clear all 
+     * clear all definitions
      * @return void 
      */
     public function clear()
@@ -142,6 +142,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $this->m_matcher = [];
         $this->m_references = []; 
     }
+    /**
+     * reset detection
+     * @return void 
+     */
     public function resetTreatment(){
 
         $this->m_pos = 0;
@@ -552,8 +556,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 'tokenID' => $v_id,
                 'from' => $l->pos,
                 'to' => $n,
-                'value' =>  null,
-                'beginCaptures' => $info->captures,
+                'value' =>  $compared_end->value,
+                'beginCaptures' => $compared_end->captures, // + | fix info captures
+                'captures' => $compared_end->captures, 
                 'endCaptures' => null,
                 'parentInfo' => $info,
                 'match'=>$k
@@ -607,10 +612,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      */
     private function _matchOffset(string $regex, string $source, int $offset, &$start_line = false)
     {
+        $j = null;
         $start_line = preg_match(self::REGEX_START_LINE, $regex) > 0;
-        $end_line = preg_match(self::REGEX_END_LINE, $regex) > 0;
+        $end_line = ($regex!= "/$/") && preg_match(self::REGEX_END_LINE, $regex) > 0;
         $result = [];
         $tab = [];
+        $regex = empty($regex)?'/$/':$regex;
         if (preg_match($regex, $source, $tab, PREG_OFFSET_CAPTURE, $offset)) {
             $result[] = $tab;
         }

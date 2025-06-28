@@ -47,6 +47,17 @@ class ViewHelper
     const PRIVATE_VIEW_ARG = 'view_sets';
 
     /**
+     * prepare view argument from path
+     * @param string $path 
+     * @return ((string|null)|array<int, string>)[] 
+     */
+    public static function PrepareViewArgFromPath(string $path){
+        $tview = array_filter(explode("/", $path));
+        $view = array_shift($tview);
+        $args =$tview;
+        return [$view, $args];
+    }
+    /**
      * 
      * @param string $n 
      * @return string 

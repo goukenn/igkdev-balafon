@@ -3,14 +3,10 @@
 // @filename: HtmlScriptLoader.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use Exception;
 use IGK\Core\Traits\ScriptTrait;
 use IGK\Helper\IO;
-use IGK\System\Console\Logger;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\Path;
@@ -20,7 +16,6 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGKCaches;
 use IGKException;
 use IGKResourceUriResolver;
-
 /**
  * script loader 
  * @package IGK\System\Html\Dom
@@ -28,41 +23,33 @@ use IGKResourceUriResolver;
 class HtmlScriptLoader
 {
     use ScriptTrait;
-
     var $options;
-
     /**
      * directory to load
      * @var mixed
      */
     var $dirs;
-
     /**
      * production mode
      * @var bool
      */
     var $production;
-
     /**
      * 
      * @var ?array excluded directory options
      */
     var $excludir;
-
     public function getExcludeDir(): array
     {
         return $this->excludir ? $this->excludir : igk_sys_js_exclude_dir();
     }
-
-
     public function getscript($options = null)
     {
         return self::LoadScripts($this->dirs, $options, $this->production, $this->getExcludeDir());
     }
-
     /**
-     * load script 
-     * @param array $tab array of directory 
+     * load system core script 
+     * @param array<string> $tab array of directories 
      * @param mixed $options render option
      * @param bool $production production mode 
      * @param array $exclude_dir list of excluded directory
@@ -70,18 +57,16 @@ class HtmlScriptLoader
      * @return string|false result
      * @throws IGKException 
      */
-    public static function LoadScripts($tab, $options = null, $production = false, $exclude_dir = [], $cachePath = "corejs:/igk.js", $defer = 0)
+    public static function LoadScripts($tab, $options = null, $production = false, $exclude_dir = [], $cachePath = "corejs:/igk.js", $defer = 0, $no_page_cache=null)
     {
-        $no_page_cache = igk_setting()->no_page_cache();
+        $no_page_cache = $no_page_cache ?? igk_setting()->no_page_cache();
         $out = "";
         $uri = igk_server()->REQUEST_URI ?? "";
         $resolver = IGKResourceUriResolver::getInstance();
         $firstEval = $options ? igk_getv($options, "jsOpsFirstEval", true) : true;
         $references = [];
-
         if ($options && $firstEval)
             $options->jsOpsFirstEval = false;
-
         // 
         // default library directory             
         // append script to ignore
@@ -172,7 +157,6 @@ class HtmlScriptLoader
             if (!$no_page_cache  && file_exists($production_file)) {
                 return file_get_contents($production_file);
             }
-
             $assets = [];
             $resolverfc = function ($f) use (&$s, &$assets, &$references) {
                 if (strpos(basename($f), '.') === 0) {
@@ -194,14 +178,12 @@ class HtmlScriptLoader
                 }
             };
         }
-
         while ($q = array_shift($tab)) {
             $dir = $q[0];
             $tag = $q[1];
             if ($dir && key_exists($dir, $exclude_dir)) {
                 continue;
             }
-
             $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq . $dir, null);
             if (!$no_page_cache && file_exists($cache_path)) {
                 ob_start();
@@ -217,7 +199,6 @@ class HtmlScriptLoader
                 $dirs[] = $dir . "/system/ctrl/ctrl.js";
                 $exclude_dir += array_fill_keys($dirs, 1);
                 IO::GetFiles($dir, self::GetLoadingAssetRegex(), true, $exclude_dir, $resolverfc);
-
                 // store references 
                 if ($references) { 
                     $sb = new StringBuilder;
@@ -232,7 +213,6 @@ class HtmlScriptLoader
                     $rp = new Replacement;
                     $rp->add('/(\'|")use\\s+strict(s)?\\s*(\\1)(;)?(\\s+)?/', '');
                     $s = $rp->replace($s);
-
                     $sb->append('\'use strict\';');
                     $sb->append(sprintf(
                         '(function(window){ const __module_refs = []; (()=>{%s; return (id)=>{return a[id].apply();};})(); %s})(window);',
@@ -270,7 +250,6 @@ class HtmlScriptLoader
     public static function ImportContentAsModule(string $content): string
     {
         $content = self::RemoveGlobalExportFromContent($content);
-
         return implode("\n", [
             'function(){',
             'const module = {};',
@@ -280,16 +259,14 @@ class HtmlScriptLoader
         ]);
     }
     /**
-     * 
+     * remove global export from script content
      * @param string $content 
      * @return string 
      * @throws IGKException 
      * @throws Exception 
      */
-    public static function RemoveGlobalExportFromContent(string $content)
+    public static function RemoveGlobalExportFromContent(string $content, & $export_list =[])
     {
-
-
         $ctx = new RegexMatcherContainer;
         $brank = $ctx->begin('\{', '\}', 'brank')->last();
         $comment = $ctx->begin('\/\*', '\*\/', 'multiline-comment')->last();
@@ -321,6 +298,7 @@ class HtmlScriptLoader
                 if (is_null($e->parentInfo) && ($e->tokenID == 'skip')) {       
                         $ostr .= substr($src, $loffset, $e->from - $loffset);
                         $loffset = $e->to;  
+                    $export_list[] = $e->value;
                 }
             }
         }
@@ -335,7 +313,6 @@ class HtmlScriptLoader
     {
         return "/\.((m)?js|json|xml|svg|shader|txt)$/";
     }
-
     /**
      * 
      * @param string $file 
@@ -356,7 +333,6 @@ class HtmlScriptLoader
         $sb->appendLine("})();");
         return "" . $sb;
     }
-
     /**
      * get core script exception
      * @return never 

@@ -41,14 +41,20 @@ function igk_gd_resize_proportional($src, $w, $h, $type = 1, $compression = 0, b
     $H = imagesy($ih);  
     $ex = $w / $W;
     $ey = $h / $H;
+    $x = 0; $y=0;
+    $dx = $dy = 0;
     if (!$cover){
         $ex = min($ex, $ey);
         $x = intval(ceil(((-$W * $ex) + $w) / 2.0));
         $y = intval(ceil(((-$H * $ex) + $h) / 2.0));
     } else {
-        $ex = max($ex, $ey);
-        $x = intval(round(((-$W * $ex) + $w) / 2.0));
-        $y = intval(round(((-$H * $ex) + $h) / 2.0));
+        $ex = max($ex, $ey); 
+        $x = intval(ceil(((-$W * $ex) / 2.0 ) + ($w/2.0)));   
+        $y = intval(ceil(((-$H * $ex) / 2.0 ) + ($h/2.0)));   
+        $dx =   -$x;
+        $dy =  0 -$y;
+        // $x = intval(ceil(((-$W ) + ($w* $ex)) / 2.0));
+        // $y = intval(ceil(((-$H ) + ($h* $ex)) / 2.0));
     }
 
     $img = imagecreatetruecolor($w, $h);
@@ -59,7 +65,7 @@ function igk_gd_resize_proportional($src, $w, $h, $type = 1, $compression = 0, b
     imageantialias($img, $antialias);
 
     $sh = imagescale($ih, ceil($ex * $W), ceil($ex * $H));
-    imagecopy($img, $sh, $x, $y, 0, 0, $w, $h);
+    imagecopy($img, $sh, $x, $y, 0, 0, $w+$dx, $h+$dy);
     $g = igk_ob_get_func(function ($t) use (&$img, $compression) {
         if ($t == 1) {
             $clevel = 9 - ($compression * 9 / 100);

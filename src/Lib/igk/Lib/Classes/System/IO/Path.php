@@ -479,19 +479,22 @@ class Path
     public static function Combine(...$path)
     {
         $sep = '/';
-        $path = array_values(array_filter(array_values($path)));
+        $filter_callback = function($a){
+            return !is_null($a) && (is_numeric($a) || (is_string($a) && !empty($a)));
+        };
+        $path = array_values(array_filter(array_values($path), $filter_callback));
         if ($path) {
             $p = rtrim($path[0], $sep);           
             $path = array_slice($path, 1);
             $path = array_map(self::class . "::TrimDir", $path);
             $r = '';
-            if (!empty($p)){
+            if (is_numeric($p) || !empty($p)){
                 array_unshift($path, $p);
             }
             else{
                 $r = $sep;
             }
-            return $r.igk_uri(implode($sep, array_filter($path)));
+            return $r.igk_uri(implode($sep, array_filter($path, $filter_callback)));
         }
         return null;
     }

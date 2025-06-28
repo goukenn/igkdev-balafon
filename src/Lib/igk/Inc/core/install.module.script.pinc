@@ -164,7 +164,7 @@ if (!class_exists(SimpleXMLElement::class)) {
     $response->die("zip simple xml element not present", 500);
 }
 $steps[] = "check archive ".$archive;
-if (!igk_io_file_exists($archive)) {
+if (!file_exists($archive)) {
     $response->die("module archive is missing.", 500);
 }
 

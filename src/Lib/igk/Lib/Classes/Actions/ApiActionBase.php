@@ -34,7 +34,9 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         igk_ilog("[api - die] : ".json_encode($message));
         igk_do_response(new ErrorRequestResponse($code, $message));
     }
-
+    protected function _json($data, $code=RequestResponseCode::Ok){
+        return igk_json(json_encode($data), $code);
+    }
     /**
      * enabled handling response.
      * @param mixed $response 
@@ -49,7 +51,7 @@ abstract class ApiActionBase extends MiddlewireActionBase{
             if($response instanceof RequestResponse)
                 return true; 
         }
-        return parent::_handleResponse($response);//!is_null($response) || ($response instanceof RequestResponse);
+        return parent::_handleResponse($response) || is_array($response); 
     }
     
     protected function _handleMethodNotFound($name)
@@ -64,5 +66,5 @@ abstract class ApiActionBase extends MiddlewireActionBase{
             igk_environment()->isDev()? ['type'=>get_class($ex), 
             'ex_message'=>($p = $ex->getPrevious()) ? $p->getMessage() : null, 
             'message'=>"misconfiguration. Action handle throwable"] : null, $ex->getCode());  
-    }
+    } 
 }

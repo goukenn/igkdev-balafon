@@ -381,7 +381,7 @@ abstract class RootControllerBase extends IGKObject{
      */
     public static function Invoke($instance, string $method, ?array $args=null){
         if (is_null($args))
-            $args = [];
+            $args = []; 
         return call_user_func_array([$instance, $method], $args); 
     }
 }

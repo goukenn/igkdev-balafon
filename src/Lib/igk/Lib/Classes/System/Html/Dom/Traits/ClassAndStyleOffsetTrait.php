@@ -34,12 +34,13 @@ trait ClassAndStyleOffsetTrait{
             switch (strtolower($k)) {
                 case 'class':
                 case 'classname':
+                    $tk = 'class';
                     if ($v === null) {
                         unset($this->m_attributes[$k]);
                     } else {
-                        if (!($cl = igk_getv($this->m_attributes, $k))) {
+                        if (!($cl = igk_getv($this->m_attributes, $tk))) {
                             $cl = new HtmlCssClassValueAttribute();
-                            $this->m_attributes[$k] = $cl;
+                            $this->m_attributes[$tk] = $cl;
                         }
                         $cl->add($v);
                     }

@@ -605,9 +605,7 @@ class SQLGrammar implements IDbQueryGrammar
         if ($desc) {
             $query .= " COMMENT='" . $this->m_driver->escape_string($desc) . "' ";
         }
-        $query = sprintf($driver->getCreateTableFormat(["checkTable" => 1]), trim($query));
-        // $query = rtrim($query) . ";";
-        igk_ilog($query, null, 0, false);
+        $query = sprintf($driver->getCreateTableFormat(["checkTable" => 1]), trim($query));        
         return $query;
     }
 
@@ -991,8 +989,6 @@ class SQLGrammar implements IDbQueryGrammar
         $v_v = "";
         $v_c = 0;
         $tvalues = static::GetValues($this->m_driver, $values, $tableInfo);
-        // $level = $tvalues->clLevel;
-        // igk_debug_wln_e(__FILE__.":".__LINE__,  $tvalues, $values);
         foreach ($tvalues as $k => $v) {
             if ($v_c != 0) {
                 $query .= ",";
@@ -1314,6 +1310,10 @@ class SQLGrammar implements IDbQueryGrammar
             }
         }
 
+        if ($value instanceof DbQueryExpression){
+            return $value->getValue();
+        }
+
         if ($tinf) {
             $of = $type == "i" ? $tinf->clInsertFunction : $tinf->clUpdateFunction;
             if (!preg_match("/date(time)?/i", $tinf->clType) && !empty($of)) {
@@ -1575,8 +1575,10 @@ class SQLGrammar implements IDbQueryGrammar
                         $v = $v[$k];
                     }
                 }
+                if ($v instanceof ModelBase){
+                    $v= $v->id();
+                }
                 if (is_object($v)) {
-
                     if ($v instanceof \IGK\Database\DbQueryCondition) {
                         if (!empty($q = self::GetCondString($driver, $v))) {
                             if ($t == 1)
@@ -1643,6 +1645,7 @@ class SQLGrammar implements IDbQueryGrammar
                     if ($v_is_obj) {
                         $v = json_encode($v);
                     }
+                    $c_exp = null;
                     if (is_null($k = self::_GetKeyOperator($k, $v, $query, $c, $op, $t, $c_exp, $adapter))) {
                         continue; // 2 
                     }
@@ -1658,7 +1661,7 @@ class SQLGrammar implements IDbQueryGrammar
                             $query .= "{$c}'" . $adapter->escape_string($v) . "'";
                         }
                     } else
-                        $query .= " " . $c_exp;
+                        $query .= " " . ($c_exp ?? 'IS NULL');
                 }
                 $t = 1;
             }

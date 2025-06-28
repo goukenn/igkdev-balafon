@@ -30,6 +30,7 @@ require_once(IGK_LIB_DIR . "/Lib/functions-helpers/sys.php");
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/io.php");
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/string.php");
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/db.php");
+require_once(IGK_LIB_DIR . "/Lib/functions-helpers/regex.php");
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/docs.php");
 require_once(IGK_LIB_DIR . "/igk_functions.php");
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/balafon-cli.php");
