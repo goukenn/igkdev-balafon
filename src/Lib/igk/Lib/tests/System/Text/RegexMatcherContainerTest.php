@@ -171,16 +171,16 @@ class RegexMatcherContainerTest extends BaseTestCase
     public function test_regexmatch_skip_multiline_litteral()
     {
         // phpunit -c phpunit.xml.dist --testsuite core --filter test_regexmatch_multiline
-        $s = implode("\n", [ 
+        $s = implode("\n", [
             "(a:string):void;",
             "b: string;",
             "new (b:string):void;",
             "cm: string;"
         ]);
         $ctn = new RegexMatcherContainer;
-        $brank_function = $ctn->begin("(new\\b)?\\s*(?=\()", ";", "brank-func")->last(); 
+        $brank_function = $ctn->begin("(new\\b)?\\s*(?=\()", ";", "brank-func")->last();
 
-        $brank = $ctn->appendBrank()->last(); 
+        $brank = $ctn->appendBrank()->last();
         $brank_function->patterns = [
             $brank
         ];
@@ -192,20 +192,19 @@ class RegexMatcherContainerTest extends BaseTestCase
         ]));
         $pos = 0;
         $ctn->treat($s, function ($g, $next_pos, $data,) use (&$ch, &$pos) {
-            if (($g->parentInfo == null) && ($g->tokenID!='__end:test__')){
+            if (($g->parentInfo == null) && ($g->tokenID != '__end:test__')) {
                 echo $g->value . "\n";
                 RegexMatcherUtility::Skip($g, $next_pos, $data, $pos, $ch);
             }
         }, '__end:test__');
         $ch .= substr($s, $pos);
-        echo trim($ch); 
-
+        echo trim($ch);
     }
 
     public function test_regexmatch_skip_glue()
     {
         // phpunit -c phpunit.xml.dist --testsuite core --filter test_regexmatch_skip_glue
-        $s = implode("\n", [ 
+        $s = implode("\n", [
             // " 'a' | 'b'; ",
             " 'a' | 'b' ",
             "|",
@@ -213,10 +212,10 @@ class RegexMatcherContainerTest extends BaseTestCase
             "export {type a}"
         ]);
         $ctn = new RegexMatcherContainer;
-        $brank_function = $ctn->begin("\{", "\}", "brank-func")->last(); 
-        $glue = $ctn->match("(?<=(\}|'|\"))?\|", 'glue')->last(); 
-        $str = $ctn->appendStringDetection()->last(); 
-        $stop = $ctn->match("(?=;|^\w+)", 'stop-def')->last(); 
+        $brank_function = $ctn->begin("\{", "\}", "brank-func")->last();
+        $glue = $ctn->match("(?<=(\}|'|\"))?\|", 'glue')->last();
+        $str = $ctn->appendStringDetection()->last();
+        $stop = $ctn->match("(?=;|^\w+)", 'stop-def')->last();
         // $ctn->match('(?=\\w+|[^\\w\\s])', 'end');
 
 
@@ -234,58 +233,117 @@ class RegexMatcherContainerTest extends BaseTestCase
         $ch = '';
         $ctn->treat($s, function ($g, $next_pos, $data) use (&$ch, &$pos) {
             if ($g->parentInfo == null) {
-                echo $g->tokenID.':'.$g->value . "\n";
+                echo $g->tokenID . ':' . $g->value . "\n";
                 RegexMatcherUtility::Skip($g, $next_pos, $data, $pos, $ch);
-                if ($g->tokenID == 'stop-def'){
+                if ($g->tokenID == 'stop-def') {
                     return true;
                 }
             }
         });
         //$ch .= substr($s, $pos);
-     
+
     }
 
-    public function test_regexmatch_startline(){
+    public function test_regexmatch_startline_b_only()
+    {
         $ctn = new RegexMatcherContainer;
         $ctn->match("^b");
-        $s = implode("\n", ["a","b", "c"]);
+        $s = implode("\n", ["a", "b", "c"]);
         $this->expectOutputString("b", "mark-name");
 
-        $ctn->treat($s, function($e){
+        $ctn->treat($s, function ($e) {
             if ($e->getisRootCaptured())
                 echo $e->value;
         });
- 
     }
-    public function test_regexmatch_startline_2(){
+    public function test_regexmatch_startline_ba_only()
+    {
         $ctn = new RegexMatcherContainer;
         $ctn->match("^(b|a)");
-        $s = implode("\n", ["a","b", "c"]);
+        $s = implode("\n", ["a", "b", "c"]);
         $this->expectOutputString("ab", "mark-name");
 
-        $ctn->treat($s, function($e){
+        $ctn->treat($s, function ($e) {
             if ($e->getisRootCaptured())
                 echo $e->value;
         });
     }
-    public function test_regexmatch_number_line(){
-        $container = new RegexMatcherContainer; 
-        $container->match('^\d+(?=\n)?', 'count'); 
+    public function test_regexmatch_number_line()
+    {
+        $container = new RegexMatcherContainer;
+        $container->match('^\d+(?=\n)?', 'count');
         $r = [];
-        $container->treat(implode("\n", range(1,6)), function($g, $next_pos)use(& $r){
-            $r[] = "capture : ".$next_pos.":".$g->tokenID.": ".$g->value;
+        $container->treat(implode("\n", range(1, 6)), function ($g, $next_pos) use (&$r) {
+            $r[] = "capture : " . $next_pos . ":" . $g->tokenID . ": " . $g->value;
         });
-        $this->assertEquals('["capture : 1:count: 1","capture : 3:count: 2","capture : 5:count: 3","capture : 7:count: 4","capture : 9:count: 5","capture : 11:count: 6"]', json_encode($r)); 
+        $this->assertEquals('["capture : 1:count: 1","capture : 3:count: 2","capture : 5:count: 3","capture : 7:count: 4","capture : 9:count: 5","capture : 11:count: 6"]', json_encode($r));
     }
-    public function test_regexmatch_empty_line(){
-        $container = new RegexMatcherContainer; 
-        $container = new RegexMatcherContainer; 
-        $container->match('^(?=\n)?', 'count'); 
+    public function test_regexmatch_empty_line()
+    {
+        $container = new RegexMatcherContainer;
+        $container = new RegexMatcherContainer;
+        $container->match('^(?=\n)?', 'count');
         $r = [];
-        $container->treat(str_repeat("\n", 6), function($g, $next_pos)use(& $r){
-            $r[] = ("> : ".$next_pos.":".$g->tokenID.": ".$g->value);
-        });   
-        $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', json_encode($r)); 
+        $container->treat(str_repeat("\n", 6), function ($g, $next_pos) use (&$r) {
+            $r[] = ("> : " . $next_pos . ":" . $g->tokenID . ": " . $g->value);
+        });
+        $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', json_encode($r));
     }
 
+    /**
+     * 
+     * @return void 
+     */
+    public function test_regexmatch_empty_block()
+    {
+
+
+
+        $regex = new RegexMatcherContainer;
+
+        // ''  stop a end of the source text  
+        // '$' stop at end of the line 
+        $c = $regex->createPattern([
+            // "begin"=>"begin",
+            // "end"=>"", //  "" or "$" "to stop" 
+            "tokenID" => 'marking',
+            "patterns" => [
+                $regex->createPattern(['match' => "\\ba\\b", "tokenID" => 'letter-a']),
+                $regex->createPattern(['match' => "\\bb\\b", "tokenID" => 'letter-b']),
+            ]
+        ]);
+
+        $h = $regex->createPattern([
+            "begin" => "begin",
+            "end" => "$", //  "" or "$" "to stop" 
+            "tokenID" => "group-block",
+            "patterns" => [$c]
+        ]);
+
+        $regex->append($h);
+        $src = implode("\n", [
+            "begin a de jour b a b",
+            "home",
+            "begin racagnac a a",
+        ]);
+        $pos = 0;
+   $this->expectOutputString(implode("\n", [
+            'letter-a',
+            'letter-b',
+            'letter-a',
+            'letter-b',
+            'group-block',
+            'letter-a',
+            'letter-a',
+            'group-block',
+            ''
+        ]));
+        while ($g = $regex->detect($src, $pos)) {
+
+            if ($e = $regex->end($g, $src, $pos)) {
+                echo ($e->tokenID) . PHP_EOL;
+            }
+        }
+     
+    }
 }

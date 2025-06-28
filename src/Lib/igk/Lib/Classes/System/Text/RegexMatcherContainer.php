@@ -614,10 +614,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     {
         $j = null;
         $start_line = preg_match(self::REGEX_START_LINE, $regex) > 0;
-        $end_line = ($regex!= "/$/") && preg_match(self::REGEX_END_LINE, $regex) > 0;
+        // $end_line = ($regex!= "/$/") && preg_match(self::REGEX_END_LINE, $regex) > 0;
+        $end_line = preg_match(self::REGEX_END_LINE, $regex) > 0;
         $result = [];
         $tab = [];
-        $regex = empty($regex)?'/$/':$regex;
+        //$regex = empty($regex)?'/$/':$regex;
         if (preg_match($regex, $source, $tab, PREG_OFFSET_CAPTURE, $offset)) {
             $result[] = $tab;
         }
@@ -650,7 +651,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             }
         }
         if ($end_line && ($offset < $TLen)) {
-            $coffset = $offset > 0 ? $next_line : 1;
+            $coffset = $offset > 0 ? ($next_line===false? strlen($source): $next_line) : 1;            
             $j = substr($source, $offset, abs($coffset - $offset));
             // check if continue line match 
             $lc = false;
@@ -827,7 +828,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         $this->m_last_offset = $offset;
         // $v_end_line_detect_offset = null;
-        $m = $this->m_matcher;
+        
         $result = [];
         $next_line = false;
         $info = $this->m_parentInfo;
@@ -835,7 +836,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $ln = strlen($source);
         while ($detect) {
             $detect = false;
-            foreach ($m as $k) {
+            $tm = $this->m_matcher; // restart matching detection
+            while(count($tm)>0){
+                $k = array_shift($tm); 
+            // foreach ($m as $k) {
                 if (is_array($k)) {
                     // create an object
                     $k = (object)$k;
@@ -860,6 +864,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         $b = igk_getv($k, 'match');
                         if ($b) {
                             $this->_startMatch($info, $result, $b, $source, $offset, $k, $next_line);
+                        } else {
+                            if ($patterns = igk_getv($k, 'patterns')){
+                                // + | for pattern only 
+                                // $tc = array_reverse($patterns);
+                                array_unshift($tm, ...$patterns); 
+                            }
                         }
                         break;
                 }
