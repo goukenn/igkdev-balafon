@@ -4433,7 +4433,7 @@ function igk_db_create_datafrominfo($adapter, $table, $obj, $tabinfo)
 function igk_db_create_emptyresult($ctrl, $result = false)
 {
     $g = igk_get_data_adapter($ctrl);
-    $s = $g ? $g->CreateEmptyResult($result) : null;
+    $s = $g ? $g->createEmptyResult($result) : null;
     return $s;
 }
 ///<summary>create a db expression that will be evaluated</summary>
@@ -14415,7 +14415,8 @@ function igk_io_dirs($dir, $match = IGK_ALL_REGEX, $recursive = true, $ignoredna
                 if (($f == ".") || ($f == "..")) {
                     continue;
                 }
-                if (is_dir($c = igk_realpath($q . DIRECTORY_SEPARATOR . $f))) {
+                $c = igk_realpath($q . DIRECTORY_SEPARATOR . $f);
+                if ($c && is_dir($c)) {
                     if ($fc($c, $f, $ignoredname)) {
                         $ignored_dirs[$c] = $c;
                         continue;

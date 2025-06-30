@@ -19,7 +19,7 @@ class XSDValidator
      * @param mixed|null $error allow error
      * @return bool|void return true if succeed
      */
-    public static function ValidateSource(string $source, string $xsd, array & $error = null)
+    public static function ValidateSource(string $source, string $xsd, ?array & $error = null)
     {
         // $source = preg_replace('/\<\?.+\?\>/m', '', $source);
         $dom = new DOMDocument;

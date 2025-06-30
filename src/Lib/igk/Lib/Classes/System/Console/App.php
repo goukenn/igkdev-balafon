@@ -275,7 +275,7 @@ class App
                     }
                 } else {
 
-                    if ($c[0][0] == "-") {
+                    if ($c[0] && ($c[0][0] == "-")){
                         if (!property_exists($command->options, $c[0])) {
                             $command->options->{$c[0]} = $v_ts;
                         } else {

@@ -376,6 +376,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     protected function _getRenderingChildren($options = null)
     {
+        if ($this->isEmptyTag()){
+            return [];
+        }
         return $this->m_childs ?  $this->m_childs->to_array() : [];
     }
     public function getAttributes()

@@ -1216,19 +1216,7 @@
                 }
             }
         }
-        // for chrome navigator require to register
-        // if(igk.navigator.isChrome()){
-        // igk.ready(function(){
-        // // r.setCss({position:'absolute',zIndex:40});
-        // // register media to bottom
-        // igk.dom.body().add("div").setCss({position:'absolute',visibility:'hidden',overflow:'hidden','height':'0px', 'bottom':'0px'})
-        // .addClass("igk-m-i")// media info
-        // .add(r).
-        // t.add(dev);		 
-        // igk.css.appendRule(".igk-device:before{position:absolute;}");
-        // igk.publisher.publish("sys://css/info",{});	
-        // });
-        // }
+        // for chrome navigator require to register        
         function __getRule(f) {
             var m = null;
             var q = new RegExp("/" + f + "(.+)*");

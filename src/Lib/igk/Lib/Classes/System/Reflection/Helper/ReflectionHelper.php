@@ -19,7 +19,7 @@ class ReflectionHelper
      * @param callable|null $filter 
      * @return void 
      */
-    public static function GetParameterInfo(array $parameters, callable $callable = null)
+    public static function GetParameterInfo(array $parameters, ?callable $callable = null)
     {
         // + | --------------------------------------------------------------------
         // + | get parameter dispatche info

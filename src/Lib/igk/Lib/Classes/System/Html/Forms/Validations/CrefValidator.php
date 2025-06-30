@@ -12,7 +12,7 @@ namespace IGK\System\Html\Forms\Validations;
 * @author C.A.D. BONDJE DOUE
 */
 class CrefValidator extends HiddenValidator{
-    public function _validate($value, $default=null, array & $errors = null, $options=null ){
+    public function _validate($value, $default=null, ?array & $errors = null, $options=null ){
         if (igk_valid_cref(1)){
             return $value;
         }

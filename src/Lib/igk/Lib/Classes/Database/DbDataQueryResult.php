@@ -24,6 +24,9 @@ final class DbDataQueryResult extends IGKQueryResult{
     public function to_array(): ?array {
         return $this->m_rows;
     }
+    public function getRowAtIndex($index){
+        return igk_getv($this->m_rows, $index);
+    }
     public function success(): bool
     {
         return true;

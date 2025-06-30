@@ -43,10 +43,10 @@ class Utils{
             foreach(array_keys($v_tb) as $table){                
                 $test->assertTrue(
                     $model->select_count(null,$table) !== -1                        
-                    , "Table $table not present");
+                    , "Table '$table' not present. please initialaze controller db");
             } 
         }else {
-            $test->fail("no tables : ".get_class($controller));
+            $test->fail("no tables: ".get_class($controller));
         }
 
     }

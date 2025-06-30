@@ -154,7 +154,8 @@ final class IGKAppConfig extends IGKObject {
         }      
         $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries, $extra);
  
-        date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels"));         
+        date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels")); 
+        $db_name = $this->m_datas->db_name; 
       
     }
     ///<summary></summary>

@@ -18,8 +18,6 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\EnvironmentArrayException;
-// use IGK\Ext\Adapters\SQLite3\SQLite3Result as AdapterQueryResult;
-// use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 use IGK\Helper\Activator;
 use IGK\System\Database\Exceptions\MissingTableException;
@@ -517,7 +515,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
     * @param mixed $query the default value is null
     * @param mixed $info the default value is null
     */
-    public function CreateEmptyResult($result=null, $query=null, $info=null){
+    public function createEmptyResult($result=null, $query=null, $info=null){
         $r= SQLite3Result::CreateResult($result, $query, $info);
         return $r;
     }
@@ -1117,7 +1115,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
         }
         if($this->sql->lastErrorCode() == 0)
             return null;
-        $obj= $this->CreateEmptyResult(false, $query, array("error"=>1, "errormsg"=>$this->sql->lastErrorMsg()));
+        $obj= $this->createEmptyResult(false, $query, array("error"=>1, "errormsg"=>$this->sql->lastErrorMsg()));
         return $obj;
     }
     ///<summary></summary>
@@ -1256,14 +1254,6 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
 //         $this->res=$res;
 //         $this->Columns=array();
 //         $this->Rows=array();
-//     }
-
-//     ///<summary></summary>
-//     /**
-//     * 
-//     */
-//     public function CreateEmptyResult(){
-//         return null;
 //     }
 // }
 DbQueryDriver::Init(function(& $conf){

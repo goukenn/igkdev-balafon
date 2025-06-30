@@ -279,7 +279,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * 
      * @param mixed $result the default value is false
      */
-    public function CreateEmptyResult($result = false)
+    public function createEmptyResult($result = false)
     {
         return IGKMySQLQueryResult::CreateResult($result);
     }

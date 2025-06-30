@@ -691,27 +691,48 @@ class IO
     /**
      * get directories
      * @param string $dir
-     * @param ?string $match
+     * @param ?string|callable $match
      * @param bool $recursive the default value is false
      */
-    public static function GetDirs(string $dir, ?string $match, bool $recursive = false)
+    public static function GetDirs(string $dir, $match, bool $recursive = false)
     {
         if (is_dir($dir) === false)
             return null;
         $v_out = array();
         $hdir = @opendir($dir);
+        $call = null;
+        if (is_null($match) || is_string($match)){
+            $call = function($f)use(& $v_out, $recursive, $match){
+                if ((($match == null) || (($match != null) && (preg_match($match, $f))))) {
+                    $v_out[] = $f;
+                }
+                if ($recursive){
+                   foreach (igk_io_dirs($f, "/.*/", false) as $k) {
+                        $v_out[] = $k;
+                    } 
+                }
+            };
+        } else if (is_callable($match)){
+            $call = function ($f)use($match, $recursive){
+                $vt = [$f];
+                while(count($vt)>0){
+                    $f = array_shift($vt);
+                    $s = $match($f);
+                    if ($s && $recursive){
+                        foreach (igk_io_dirs($f, "/.*/", false) as $k) {
+                            $vt[] = $k; 
+                        } 
+                    }
+                }
+        };
+        }
         if ($hdir) {
             while (($r = readdir($hdir))) {
                 if ($r == "." || ($r == ".."))
                     continue;
                 $f = $dir . DIRECTORY_SEPARATOR . $r;
-                if (is_dir($f) && (($match == null) || (($match != null) && (preg_match($match, $f))))) {
-                    $v_out[] = $f;
-                }
-                if ($recursive) {
-                    foreach (igk_io_dirs($f, $match, $recursive) as $k) {
-                        $v_out[] = $k;
-                    }
+                if (is_dir($f)){
+                $call($f); 
                 }
             }
             closedir($hdir);
@@ -803,8 +824,11 @@ class IO
                 continue;
             }
             // use scan dir to order
-            $files = scandir($q); //, 2);
-            while (count($files) > 0) {
+            $files = @scandir($q); //, 2);
+            if ($files === false){
+                continue;
+            }
+            while ($files && (count($files) > 0)) {
                 $r = array_shift($files);
                 if (($r == '..') || ($r == '.')) continue;
                 $f = $q . $sep . $r;

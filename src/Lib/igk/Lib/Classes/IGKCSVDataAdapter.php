@@ -321,7 +321,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $result the default value is null
     */
-    public function CreateEmptyResult($result=null){
+    public function createEmptyResult($result=null){
         return null;
     }
     ///<summary></summary>

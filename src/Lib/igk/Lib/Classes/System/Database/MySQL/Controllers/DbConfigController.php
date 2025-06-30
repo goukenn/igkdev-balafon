@@ -379,7 +379,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $r = $mysql->listTables();
             $mysql->close();
             if ($r && !$r->resultTypeIsBoolean()) {
-                $tab = $r->CreateEmptyResult($r);
+                $tab = $r->createEmptyResult($r);
                 $n = $r->Columns[0]->name;
                 if ($searchkey != null) {
                     $q = strtolower($searchkey);

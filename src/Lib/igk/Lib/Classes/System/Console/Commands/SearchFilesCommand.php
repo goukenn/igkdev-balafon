@@ -17,21 +17,32 @@ use IGK\System\Console\Logger;
 class SearchFilesCommand extends AppExecCommand{
 	var $command='--find';
 	var $desc='find file with regex pattern'; 
-	/* var $options=[]; */
+	var $options=[
+		'--real-only'=>'flag: real file only '
+	]; 
 	var $category = 'sys';
 	var $usage = 'directory pattern [options]';
 	public function exec($command, ?string $dir=null, ?string $pattern=null){ 
 		$dir ?? igk_die('missing directory');
-
+		$T = 0;
+		$real = property_exists($command->options, '--real-only');
 		$pattern = $pattern ? '/'.$pattern.'/': '/.*/';
-		$ls = IO::GetFiles($dir, $pattern, true);
-		if ($ls){
-		sort($ls);
-		array_map(function($q){
-			Logger::print($q);
-		}, $ls);
-	}
+		$ls = IO::GetFiles($dir, function($f) use($pattern, & $T, $real){
+			if (!$real || (realpath($f)==$f)){
+			if (preg_match($pattern, $f)){
+				Logger::print($f);
+				$T ++;
+			}
+		}
+		}, true);
 
-		Logger::info('total: '. count($ls));
+		// if ($ls){
+		// sort($ls);
+		// array_map(function($q){
+		// 	Logger::print($q);
+		// }, $ls);
+	// }
+
+		Logger::info('total: '. $T); // count($ls));
 	}
 }

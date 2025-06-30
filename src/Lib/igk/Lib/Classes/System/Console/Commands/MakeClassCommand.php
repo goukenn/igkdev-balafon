@@ -138,7 +138,7 @@ class MakeClassCommand extends AppExecCommand
             $type = $scaffold->classModel($type);
         } else if ($d = igk_environment()->make_class_scaffold) {
             $type = igk_getv($d, $type);
-        } else if ($file = self::ScaffoldResolveClass(IGK_LIB_DIR . "/Data/Scaffold/" . $type, ['.php', '.template'])) {
+        } else if ($file = self::ScaffoldResolveClass(IGK_LIB_DIR . "/Data/Scaffold/" . $type, ['.mphp', '.template'])) {
             $type = igk_createobj(['name' => $type, 'defs' => file_get_contents($file)]);
         }
         return $type;

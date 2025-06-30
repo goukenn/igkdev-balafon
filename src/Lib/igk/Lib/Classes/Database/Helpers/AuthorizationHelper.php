@@ -19,7 +19,7 @@ class AuthorizationHelper{
      * @param BaseController|null $ctrl 
      * @return array<string|int, mixed> 
      */
-    public static function Map($auths, BaseController $ctrl=null){
+    public static function Map($auths, ?BaseController $ctrl=null){
         $ctrl = $ctrl ?? igk_current_ctrl();
         if (!is_array($auths)){
             $auths = [$auths];

@@ -18,7 +18,7 @@ use ReflectionFunction;
 class TemplateEngine
 {
     var $start;
-    private function getFuncArgInfo($rffunc, array $creationargs = null)
+    private function getFuncArgInfo($rffunc, ?array $creationargs = null)
     {
         $info = new TemplateArgInfo();
         $info->setCreationArg($creationargs); 

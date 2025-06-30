@@ -68,7 +68,8 @@ abstract class Utility{
                 if ($c instanceof Closure)
                     $c($n, $command);
                 else{
-                    igk_io_w2file($n, '');
+                    $code = is_string($c)? $c: '';
+                    igk_io_w2file($n, $code);
                 }
                 Logger::info("generate : ".$n);
             }

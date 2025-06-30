@@ -12,6 +12,13 @@ use IGK\Helper\JSonEncodeOption;
 use IGK\System\Text\RegexMatcherPattern;
 use IGK\System\Text\IRegexMatchPatternOutpuTreatmentListener;
 use IGKException;
+
+// + | --------------------------------------------------------------------
+// + | - priority to end regex
+// + |
+
+
+
 ///<summary></summary>
 /**
  * extract definitio beetween begin/end definition 
@@ -370,7 +377,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                             'to' => $offset,
                             'value' => substr($source, $info->pos),
                             'beginCaptures' => $info->captures,
-                            'parentInfo' => $info->parent
+                            'parentInfo' => $info->parent, 
                         ]);
                     }
                     break;

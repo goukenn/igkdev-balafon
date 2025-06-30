@@ -98,7 +98,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         $attachement = null,
         string $type = "text/html",
         ?string $fromTitle = null,
-        callable $init = null
+        ?callable $init = null
     ) {
         $mail = new static();
         if ($init) {

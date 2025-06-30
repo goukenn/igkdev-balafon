@@ -29,7 +29,7 @@
             }
         }
         let m = null;
-        while (treat.length) {
+        while (treat.length >0) {
             const [p, line, offset] = treat.shift();
             let cm = p.exec(line);
             if (cm) {
@@ -46,10 +46,10 @@
      * get next explored line 
      * @param {string} line 
      * @param {number} offset if 0 return the start line 
-     * @returns {undefined|[string:string,offset:number]}
+     * @returns {undefined|[string:string,offset:number, any]}
      */
     function startLine(line, offset) {
-        if (offset == 0) return [line, offset];
+        if (offset == 0) return [line, offset,null];
         let gs = line.slice(offset);
         let idx = gs.indexOf("\n");
         if (idx != -1) {
@@ -603,7 +603,7 @@
         /**
          * init capture listener 
          * @param {*} capture 
-         * @param {{captureListener:()=>string, e}} param 
+         * @param {{captureListener:()=>string, e, source}} param 
          * @returns 
          */
         function _InitTreatClosure(capture, { captureListener, e, source }) {

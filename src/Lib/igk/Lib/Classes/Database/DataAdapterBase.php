@@ -435,7 +435,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     /**
      * 
      */
-    abstract public function CreateEmptyResult();
+    abstract public function createEmptyResult();
     ///<summary></summary>
     ///<param name="tablename"></param>
     ///<param name="columninfoArray"></param>

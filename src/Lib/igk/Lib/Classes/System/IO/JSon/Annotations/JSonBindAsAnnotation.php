@@ -42,7 +42,7 @@ class JSonBindAsAnnotation extends AnnotationBase
      * @param ?string $type 
      * @return void 
      */
-    public function __construct(string $type = null)
+    public function __construct(?string $type = null)
     {
         $this->type = $type ?? 'string';
     }
