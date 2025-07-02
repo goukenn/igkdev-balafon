@@ -8,8 +8,6 @@
 file: class.IGKNavigationMenuBar
 
 */
-///<summary>represent a navigation menu bar</summary>
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\Dom\HtmlNode;

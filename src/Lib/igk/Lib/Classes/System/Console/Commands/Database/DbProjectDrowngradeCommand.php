@@ -12,7 +12,6 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\SchemaMigrationInfo;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database

@@ -5,7 +5,6 @@
 namespace IGK\System\IO;
 
 
-///<summary></summary>
 /**
 * resource identifier constants
 * @package IGK\System\IO

@@ -6,7 +6,6 @@ namespace IGK\System\Culture;
 
 use IGK\Resources\R;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Culture

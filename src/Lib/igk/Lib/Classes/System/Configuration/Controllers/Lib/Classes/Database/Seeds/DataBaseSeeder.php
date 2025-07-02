@@ -7,7 +7,6 @@ namespace IGK\Database\Seeds;
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Database\Seeds\SeederBase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\Seeds

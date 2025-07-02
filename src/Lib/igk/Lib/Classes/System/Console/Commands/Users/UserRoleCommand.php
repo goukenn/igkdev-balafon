@@ -7,7 +7,6 @@ namespace IGK\System\Console\Commands\Users;
 use IGK\Helper\ModelHelper;
 use IGK\System\Console\AppExecCommand;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Users

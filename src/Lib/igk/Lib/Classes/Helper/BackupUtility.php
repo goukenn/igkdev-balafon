@@ -16,7 +16,6 @@ use IGKException;
 use ReflectionException;
 use Symfony\Component\Translation\Loader\CsvFileLoader;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper

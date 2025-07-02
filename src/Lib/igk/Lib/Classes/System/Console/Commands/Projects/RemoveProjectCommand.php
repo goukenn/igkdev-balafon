@@ -13,7 +13,6 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler; 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Projects

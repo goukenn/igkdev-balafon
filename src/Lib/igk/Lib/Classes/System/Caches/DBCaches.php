@@ -25,7 +25,6 @@ use IGKException;
 use IGKSysUtil;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Caches

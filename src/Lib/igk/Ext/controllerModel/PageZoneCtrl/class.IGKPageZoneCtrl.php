@@ -8,14 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>Represente class: IGKPageZoneCtrl</summary>
 /**
 * Represent IGKPageZoneCtrl class
 */
 abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
     private $m_viewZone;
-    ///<summary></summary>
-    ///<param name="targetnode" default="null"></param>
     /**
     * 
     * @param mixed $targetnode the default value is null
@@ -35,49 +32,42 @@ abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
             }
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
     protected function _showViewFile(){
         parent::_showViewFile();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public static function GetAdditionalConfigInfo(){
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getCanAddChild(){
         return true;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getName(){
         return get_class($this);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getViewZone(){
         return $this->m_viewZone;
     }
-    ///<summary></summary>
     /**
     * 
     */
     protected function initComplete($context=null){
         parent::initComplete();
     }
-    ///<summary></summary>
     //@@@ init target node
     /**
     * 

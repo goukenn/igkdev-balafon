@@ -9,7 +9,6 @@ use IGK\System\IO\Path;
 use IGK\Constants;
 use IGKException;
 
-///<summary></summary>
 /**
 * balafon's base project configuration 
 * @package IGK\System\Console

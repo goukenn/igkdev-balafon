@@ -80,7 +80,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     public function getRowCount(){
         return $this->m_rowcount;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -106,15 +105,12 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     public function __toString(){
         return __CLASS__." [RowCount: ".$this->RowCount."]";
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getColumnCount(){
         return igk_count($this->m_columns);
     }
-    ///<summary></summary>
-    ///<param name="columnname"></param>
     /**
     * 
     * @param mixed $columnname
@@ -125,21 +121,18 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
         }
         return -1;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getColumns(){
         return $this->m_columns;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getHasRow(){
         return ($this->getRowCount() > 0);
     }
-    ///<summary></summary>
     /**
     * retrieve the query
     */
@@ -147,7 +140,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
         return $this->m_query;
     }
    
-    ///<summary>get the type of result. boolean|numeric|db_result</summary>
     /**
     * get the type of result. boolean|numeric|db_result
     */
@@ -155,14 +147,12 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
         return "fetch";
     }   
   
-    ///<summary></summary>
     /**
     * 
     */
     public function getTables(){
         return $this->m_tables;
     }
-    ///<summary>get the request value</summary>
     /**
     * get the request value
     */

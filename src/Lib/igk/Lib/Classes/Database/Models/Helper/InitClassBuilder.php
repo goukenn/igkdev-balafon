@@ -15,7 +15,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\Constants;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Database\Models\Helper

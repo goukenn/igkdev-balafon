@@ -5,7 +5,6 @@
 namespace IGK\System\Cron;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Cron

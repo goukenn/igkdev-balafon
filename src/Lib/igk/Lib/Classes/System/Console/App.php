@@ -20,7 +20,6 @@ use ReflectionException;
 use stdClass;
 use Throwable;
 
-///<summary>represent Balafon CLI console Application</summary>
 class App
 {
     const GREEN = "\e[1;32m";

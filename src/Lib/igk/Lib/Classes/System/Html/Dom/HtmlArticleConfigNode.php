@@ -12,7 +12,6 @@ use IGK\System\Html\HtmlUtils;
 use IGKValueListener;
 use IGKViewMode;
 
-///<summary>Represente class: IGKHtmlArticleConfigNode</summary>
 /**
 * Represent IGKHtmlArticleConfigNode class
 */
@@ -22,11 +21,6 @@ final class HtmlArticleConfigNode extends HtmlNode{
     private $m_filename;
     private $m_forceview;
     private $m_target;
-    ///<summary></summary>
-    ///<param name="ctrl" default="null"></param>
-    ///<param name="target" default="null"></param>
-    ///<param name="filename" default="null"></param>
-    ///<param name="forceview"></param>
     /**
     * 
     * @param mixed $ctrl the default value is null
@@ -60,22 +54,18 @@ final class HtmlArticleConfigNode extends HtmlNode{
         $target->add($this);
         $this->setIndex(-1000);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getdropFileUri(){
         return $this->m_dropfileUri;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getIsVisible(){
         return $this->m_forceview || (parent::getIsVisible() && IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER));
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v

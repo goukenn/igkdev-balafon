@@ -6,8 +6,6 @@
 
 
 
-///<summary>Represente class: IGKValidator</summary>
-
 use IGK\Constants;
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\FormFieldInfo;
@@ -31,7 +29,6 @@ final class IGKValidator extends IGKObject
     private $sm_cibling;
     private $sm_enode;
     private static $sm_instance;
-    ///<summary></summary>
     /**
      * 
      */
@@ -41,8 +38,6 @@ final class IGKValidator extends IGKObject
         $this->sm_cibling = array();
     }
    
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
      * 
      * @param mixed $name
@@ -55,11 +50,6 @@ final class IGKValidator extends IGKObject
             $e->sm_cibling[$v] = 1;
         }
     }
-    ///<summary></summary>
-    ///<param name="condition"></param>
-    ///<param name="error" ref="true"></param>
-    ///<param name="node" default="null"></param>
-    ///<param name="errormsg" default="IGK_STR_EMPTY"></param>
     /**
      * 
      * @param bool $condition
@@ -76,7 +66,6 @@ final class IGKValidator extends IGKObject
             }
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -84,8 +73,6 @@ final class IGKValidator extends IGKObject
     {
         return self::getInstance()->sm_cibling;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
      * 
      * @param mixed $name
@@ -95,7 +82,6 @@ final class IGKValidator extends IGKObject
         $e = self::getInstance();
         return isset($e->sm_cibling[$name]);
     }
-    ///<summary>retrieve validation error node</summary>
     /**
      * retrieve validation error node 
      */
@@ -103,7 +89,6 @@ final class IGKValidator extends IGKObject
     {
         return self::getInstance()->sm_enode;
     }
-    ///<summary></summary>
     /**
      * global validation instance
      */
@@ -116,8 +101,6 @@ final class IGKValidator extends IGKObject
         }
         return self::$sm_instance;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
      * 
      * @param mixed $n
@@ -133,7 +116,6 @@ final class IGKValidator extends IGKObject
         }
         return igk_getv($patterns, $n);
     }
-    ///<summary>represent initilalize the validator node</summary>
     /**
      * represent initilalize the validator node
      */
@@ -144,15 +126,11 @@ final class IGKValidator extends IGKObject
         $e->sm_cibling = array();
         return $e->sm_enode;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
      */
     public static function IsDate($v) {}
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -161,8 +139,6 @@ final class IGKValidator extends IGKObject
     {
         return is_Double($v);
     }
-    ///<summary></summary>
-    ///<param name="mail"></param>
     /**
      * 
      * @param mixed $mail
@@ -173,8 +149,6 @@ final class IGKValidator extends IGKObject
             return false;
         return preg_match(self::EMAIL_REGEX, $mail);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -202,8 +176,6 @@ final class IGKValidator extends IGKObject
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -212,8 +184,6 @@ final class IGKValidator extends IGKObject
     {
         return is_numeric($v);
     }
-    ///<summary></summary>
-    ///<param name="p"></param>
     /**
      * 
      * @param mixed $p
@@ -225,8 +195,6 @@ final class IGKValidator extends IGKObject
         }
         return preg_match(IGK_IPV4_REGEX, trim($p));
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -235,7 +203,6 @@ final class IGKValidator extends IGKObject
     {
         return is_string($v);
     }
-    ///<summary>check is null or empty.</summary>
     /**
      * check is null or empty.
      */
@@ -247,7 +214,6 @@ final class IGKValidator extends IGKObject
         }
         return $v;
     }
-    ///<summary>check if full uri</summary>
     /**
      * check if full uri
      */
@@ -265,8 +231,6 @@ final class IGKValidator extends IGKObject
         // $r = !$r || preg_match( "#^/(index\.php/)?\{[^\}]+]\}#i", $v);
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="o"></param>
     /**
      * 
      * @param mixed $o
@@ -280,10 +244,6 @@ final class IGKValidator extends IGKObject
         }
         return $validator->validate($o) == $o;
     }
-    ///<summary></summary>
-    ///<param name="o"></param>
-    ///<param name="fields"></param>
-    ///<param name="error" ref="true"></param>
     /**
      * 
      * @param object $o object to validate 

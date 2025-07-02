@@ -8,7 +8,6 @@ use IGK\System\TamTam\Helper\ProjectBuilderHelper;
 use IGK\System\TamTam\ProjectSettingValidationData;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\TamTam

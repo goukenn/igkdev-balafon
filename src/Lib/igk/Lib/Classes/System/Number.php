@@ -22,8 +22,6 @@ final class Number
         "Kb" => 1024,
         "B" => 1
     );
-    ///<summary></summary>
-    ///<param name="d"></param>
     private static function __GetValue($d)
     {
         if (is_int($d) || preg_match("/[0-9]/i", $d)) {
@@ -31,9 +29,6 @@ final class Number
         } else
             return 10 + (ord($d) - ord('A'));
     }
-    ///<summary></summary>
-    ///<param name="d"></param>
-    ///<param name="base"></param>
     public static function FromBase($d, $base)
     {
         $o = 0;
@@ -45,9 +40,6 @@ final class Number
         }
         return $o;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
-    ///<param name="round" default="4"></param>
     public static function GetMemorySize($value, $round = 4)
     {
         if ($value == 0)
@@ -59,17 +51,11 @@ final class Number
         }
         return "0 byte";
     }
-    ///<summary></summary>
-    ///<param name="r"></param>
     private static function HexP($r)
     {
         $g = ($r >= 10) ? chr(ord("A") + ($r - 10)) : $r;
         return $g;
     }
-    ///<summary></summary>
-    ///<param name="d"></param>
-    ///<param name="base"></param>
-    ///<param name="length" default="-1"></param>
     public static function ToBase($d, $base, $length = -1)
     {
         if (is_numeric($d) == false)

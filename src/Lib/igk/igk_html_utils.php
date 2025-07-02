@@ -45,7 +45,6 @@ if (!function_exists('igk_create_rnode')) {
         return HtmlNodeTagExplosionDefinition::Core()->setup($tag, []);
     }
 }
-///<summary>pre render argument</summary>
 /**
  * rendere pre tag direct print
  * @return void 
@@ -151,9 +150,6 @@ function igk_html_print_r($args)
 }
 
 
-///<summary></summary>
-///<param name="t"></param>
-///<param name="ctrl"></param>
 /**
  * 
  * @param mixed $t
@@ -168,8 +164,6 @@ function igk_html_add_good_uri($t, $ctrl)
     }
     $t->addInput("goodUri", "hidden", $redirect);
 }
-///<summary></summary>
-///<param name="n"></param>
 /**
  * 
  * @param mixed $n
@@ -183,9 +177,6 @@ function igk_html_attribvalue($n)
     }
     return "\"" . $n . "\"";
 }
-///<summary></summary>
-///<param name="node"></param>
-///<param name="title"></param>
 /**
  * 
  * @param mixed $node
@@ -200,9 +191,6 @@ function igk_html_add_title($node, $title)
     $d->Content = __($title);
     return $d;
 }
-///<summary>get paget title function</summary>
-///<param name="ctrl">the controller the application title. mixed string|control implement AppTitle property</summary>
-///<param name="title" >the text title</param>
 /**
  * get paget title function
  * @param mixed ctrl the controller the application title. mixed string|control implement AppTitle property
@@ -215,9 +203,6 @@ function igk_html_app_page_title($ctrl, $title)
         is_string($ctrl) ? $ctrl : $ctrl->AppTitle
     ));
 }
-///<summary></summary>
-///<param name="ctrl"></param>
-///<param name="title"></param>
 /**
  * 
  * @param mixed $ctrl
@@ -227,9 +212,6 @@ function igk_html_apptitle($ctrl, $title)
 {
     return  __("title.app_2", $title, $ctrl->getAppTitle());
 }
-///<summary></summary>
-///<param name="tab"></param>
-///<param name="headercallback" default="null"></param>
 /**
  * 
  * @param mixed $tab
@@ -247,13 +229,6 @@ function igk_html_array_table($tab, $headercallback = null)
     }
     return $n;
 }
-///<summary>utility to build form data</summary>
-///<code type="php">igk_html_build_form($dv, array(
-///IGK_FD_NAME=>array("require"=>1),
-///"clDisplayName"=>array("require"=>1),
-///"clVersion"=>array("require"=>1, "attribs"=>array("value"=>"1.0"))
-///), "div");
-///</code>
 /**
  * utility to build form data
  * @deprecated use IGK\System\Html\FormBuilder instead
@@ -322,7 +297,6 @@ function igk_html_build_form($t, $data, $defaultTarget = "li")
         }
     }
 }
-///<summary>build entry</summary>
 /**
  * build entry
  */
@@ -344,7 +318,6 @@ function igk_html_build_form_array_entry($name, $type, $n, $value = null)
             break;
     }
 }
-///<summary>shortcut to igk_html_load_menu_array. used to build menu</summary>
 /** 
  * shortcut to igk_html_load_menu_array. used to build menu
  * @param ?HtmlItemBase $target target node
@@ -375,14 +348,6 @@ function igk_html_build_menu(?HtmlItemBase $target, $menuTab, $callback = null, 
 }
 
 
-///<summary></summary>
-///<param name="target"></param>
-///<param name="tab"></param>
-///<param name="item" default="li"></param>
-///<param name="subnode" default="ul"></param>
-///<param name="user" default="null"></param>
-///<param name="ctrl" default="null"></param>
-///<param name="callback" default="null"></param>
 /**
  * 
  * @param mixed $target
@@ -605,7 +570,6 @@ function igk_html_build_select($target, $name, $tab, $selectattributes = null, $
     $attr && $sel->setAttributes($attr);
     return $sel;
 }
-///<summary></summary>
 /**
  * 
  */
@@ -619,7 +583,6 @@ function igk_html_build_select_setting()
         "resolvtext" => null
     );
 }
-///<summary>utility to build table result</summary>
 /**
  * utility to build table result
  */
@@ -630,10 +593,6 @@ function igk_html_build_table($tab, $rows, $headers, $callback = null)
         igk_html_db_build_table_row($tab->add("tr"), $v, $headers, "td", $callback);
     }
 }
-///<summary></summary>
-///<param name="tab"></param>
-///<param name="nav"></param>
-///<param name="selected" default="null"></param>
 /**
  * 
  * @param mixed $tab
@@ -650,9 +609,6 @@ function igk_html_buildmenu_nav($tab, $nav, $selected = null)
         $a->setAttribute('href', $v)->Content = __("menu.{$k}");
     }
 }
-///<summary>build menu array for ul</summary>
-///<param name='tab'> must be array of {key,'uri'}</param>
-///<param name='ul'>the uri tab list</param>
 /**
  * build menu array for ul
  * @param mixed $tab  must be array of {key,'uri'}
@@ -669,8 +625,6 @@ function igk_html_buildmenu_ul($tab, $ul, $selected = null)
     }
 }
 
-///<summary></summary>
-///<param name="ctrl"></param>
 /**
  * 
  * @param mixed $ctrl
@@ -689,10 +643,6 @@ function igk_html_create_message($ctrl)
     );
     return $s;
 }
-///<summary></summary>
-///<param name="tr"></param>
-///<param name="tab"></param>
-///<param name="filter" default="null"></param>
 /**
  * 
  * @param mixed $tr
@@ -703,11 +653,6 @@ function igk_html_db_build_table_entry($tr, $tab, $filter = null)
 {
     igk_html_db_build_table_row($tr, $tab, $filter, "td");
 }
-///<summary></summary>
-///<param name="tr"></param>
-///<param name="tab"></param>
-///<param name="filter" default="null"></param>
-///<param name="callback" default="null"></param>
 /**
  * 
  * @param mixed $tr
@@ -719,12 +664,6 @@ function igk_html_db_build_table_header($tr, $tab, $filter = null, $callback = n
 {
     igk_html_db_build_table_row($tr, $tab, $filter, "th", $callback);
 }
-///<summary></summary>
-///<param name="tr"></param>
-///<param name="tab"></param>
-///<param name="filter" default="null"></param>
-///<param name="cell" default="td"></param>
-///<param name="callback" default="null"></param>
 /**
  * 
  * @param mixed $tr
@@ -789,10 +728,6 @@ function igk_html_db_build_table_row($tr, $tab, $filter = null, $cell = "td", $c
         }
     }
 }
-///<summary></summary>
-///<param name="dbResult"></param>
-///<param name="sortcallback"></param>
-///<param name="useempty"></param>
 /**
  * 
  * @param mixed $dbResult
@@ -806,8 +741,6 @@ function igk_html_db_select_filter($dbResult, $sortcallback, $useempty = 0)
     $dbResult = $dbResult->sortBy($sortcallback);
     return $dbResult;
 }
-///<summary></summary>
-///<param name="title"></param>
 /**
  * 
  * @param mixed $title
@@ -816,8 +749,6 @@ function igk_html_domaintitle($title)
 {
     return  __("title.app_2", $title, igk_configs()->website_domain);
 }
-///<summary></summary>
-///<param name="obj"></param>
 /**
  * 
  * @param mixed $obj
@@ -844,8 +775,6 @@ function igk_html_dump($obj)
     }
     return $t;
 }
-///<summary></summary>
-///<param name="id"></param>
 /**
  * 
  * @param mixed $id
@@ -877,9 +806,6 @@ function igk_html_select_constants($type)
 }
 
 
-///<summary></summary>
-///<param name="frm"></param>
-///<param name="data"></param>
 /**
  * 
  * @param mixed $frm
@@ -892,7 +818,6 @@ function igk_html_form_buildformfield($frm, $fields, $data)
     });
     return $frm;
 }
-///<summary>get select data</summary>
 /**
  * get select data
  * @param array $data get select data
@@ -909,7 +834,6 @@ function igk_html_form_select_data(array $data, $callback)
     }
     return $o;
 }
-///<summary>build form field on modele view </summary>
 /**
  * 
  * @param IFormFieldOptions[]|array|IFormFieldDataForm $formFields 
@@ -953,7 +877,6 @@ if (!function_exists("igk_get_unique_identifier")) {
 }
 
 
-///<summary></summary>
 /**
  * 
  */
@@ -989,9 +912,6 @@ function igk_html_form_initfield($frm)
         igk_html_form_init();
     }, null);
 }
-///<summary></summary>
-///<param name="ns"></param>
-///<param name="e"></param>
 /**
  * 
  * @param mixed $ns

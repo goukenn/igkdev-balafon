@@ -15,7 +15,6 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
 
-///<summary>String utility helper. store string help function  </summary>
 /**
  * 
  * @package IGK\Helper
@@ -345,9 +344,6 @@ abstract class StringUtility
         return $g;
     }
 
-    ///<summary></summary>
-    ///<param name="text"></param>
-    ///<param name="pattern"></param>
     /**
      * 
      * @param mixed $text
@@ -359,9 +355,6 @@ abstract class StringUtility
             return (strstr($text, $pattern) != null);
         return true;
     }
-    ///<summary></summary>
-    ///<param name="chaine"></param>
-    ///<param name="pattern"></param>
     /**
      * 
      * @param mixed $chaine
@@ -380,8 +373,6 @@ abstract class StringUtility
             return true;
         return false;
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     /**
      * regex detection of formatted string
      * @param string $s formatted string. 
@@ -402,10 +393,6 @@ abstract class StringUtility
         }
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="chaine"></param>
-    ///<param name="research"></param>
-    ///<param name="offset"></param>
     //@chaine : string where to operate
     /**
      * 
@@ -422,10 +409,6 @@ abstract class StringUtility
             return -1;
         return $i;
     }
-    ///<summary></summary>
-    ///<param name="tab"></param>
-    ///<param name="separator" default=","></param>
-    ///<param name="key" default="true"></param>
     /**
      * 
      * @param mixed $tab
@@ -449,9 +432,6 @@ abstract class StringUtility
         }
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="chaine"></param>
-    ///<param name="pattern"></param>
     /**
      * 
      * @param mixed $chaine
@@ -461,10 +441,6 @@ abstract class StringUtility
     {
         return (self::IndexOf($chaine, $pattern) == 0);
     }
-    ///<summary></summary>
-    ///<param name="chaine"></param>
-    ///<param name="start"></param>
-    ///<param name="length" default="null"></param>
     //@personal sub
     /**
      * 

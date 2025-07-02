@@ -8,7 +8,6 @@
 namespace IGK\System\Html\Dom;
  
 
-///<summary>before next sibling</summary>
 /**
 * before next sibling, call configuration callback every time AcceptRender is called 
 */

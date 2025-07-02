@@ -15,7 +15,6 @@ use IGK\System\Console\Logger;
  */
 class GitHelper
 {
-    ///<summary>Generate project git ignore file </summary>
     /**
      * Generate project git ignore file 
      */

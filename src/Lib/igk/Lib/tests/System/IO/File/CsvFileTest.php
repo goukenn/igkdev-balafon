@@ -7,7 +7,6 @@ namespace IGK\Tests\System\IO\File;
 use IGK\System\IO\File\CsvFile;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\System\IO\File

@@ -15,7 +15,6 @@ use IGK\System\Text\RegexMatcherPattern;
 use IGKException;
 use IGKValidator;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Core\Traits

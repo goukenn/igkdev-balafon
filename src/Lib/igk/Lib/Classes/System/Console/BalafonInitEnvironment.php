@@ -7,7 +7,6 @@ namespace IGK\System\Console;
 use IGK\System\Html\HtmlRenderer;
 use stdClass;
 
-///<summary></summary>
 /**
 * init environment balafon environment configuration
 * @package IGK\System\Console

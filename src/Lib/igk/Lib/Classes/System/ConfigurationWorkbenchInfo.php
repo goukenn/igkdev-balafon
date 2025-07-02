@@ -5,7 +5,6 @@
 namespace IGK\System;
 
 
-///<summary></summary>
 /**
  * the workbench information
  * @package IGK\System

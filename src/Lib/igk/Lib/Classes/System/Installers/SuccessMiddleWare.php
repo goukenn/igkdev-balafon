@@ -13,7 +13,6 @@ use IGK\Helper\IO;
 use function igk_resources_gets as __;
 
 
-///<summary>Represente class: SuccessMiddleWare</summary>
 /**
 * Represent SuccessMiddleWare class
 */
@@ -21,14 +20,12 @@ final class SuccessMiddleWare extends InstallerActionMiddleWare{
 
     const EVENT = __CLASS__."::Complete";
 
-    ///<summary></summary>
     /**
     * 
     */
     public function getMessage(){
         return __("welldone");
     }
-    ///<summary></summary>
     /**
     * 
     */

@@ -5,7 +5,6 @@
 namespace IGK;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK

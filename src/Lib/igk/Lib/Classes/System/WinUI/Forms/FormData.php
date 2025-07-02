@@ -15,7 +15,6 @@ use IGK\System\Traits\ActivableTrait;
 use IGK\System\WinUI\Forms\FormValidationData;
 use IGKException;
 
-///<summary>used to setup data for html's form</summary>
 /**
  * used to setup data for html's form
  * @package IGK\System\WinUI\Forms

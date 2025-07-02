@@ -12,7 +12,6 @@ use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGK\Constants;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Annotations

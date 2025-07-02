@@ -10,7 +10,6 @@ use IGK\System\Html\XML\XmlNode;
 use IGK\System\Html\XML\XmlNodeLoader;
 use IGK\System\Regex\Replacement;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\SVG\Traits

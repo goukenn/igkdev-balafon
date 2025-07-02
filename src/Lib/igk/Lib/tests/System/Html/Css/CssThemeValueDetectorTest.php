@@ -10,7 +10,6 @@ use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 use IGKHtmlDoc;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Html\Css

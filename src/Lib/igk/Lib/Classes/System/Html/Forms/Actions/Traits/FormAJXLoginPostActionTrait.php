@@ -16,7 +16,6 @@ use IGKActionBase;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Forms\Actions\Traits

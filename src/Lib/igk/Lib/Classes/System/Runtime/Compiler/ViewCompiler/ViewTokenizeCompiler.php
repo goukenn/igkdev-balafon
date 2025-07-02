@@ -15,7 +15,6 @@ use IGK\System\Runtime\Compiler\Traits\CompilerTokenEntryTrait;
 use IGK\System\Runtime\Compiler\Traits\CompilerTokenReadStructHandlerTrait;
 use IGK\System\Runtime\Compiler\Traits\CompilerTokenStateBufferTrait;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler

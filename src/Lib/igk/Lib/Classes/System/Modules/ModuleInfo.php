@@ -5,7 +5,6 @@
 namespace IGK\System\Modules;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Modules

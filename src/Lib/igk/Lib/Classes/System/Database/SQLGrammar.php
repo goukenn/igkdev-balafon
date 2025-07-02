@@ -39,7 +39,6 @@ use IGKException;
 use IGKSysUtil;
 use stdClass;
 
-///<summary>represent sql default grammar</summary>
 /**
  * represent sql default grammar. Root is mysql behaviour
  * @package IGK\System\Database
@@ -1118,12 +1117,6 @@ class SQLGrammar implements IDbQueryGrammar
         return false;
     }
 
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="tableInfo"></param>
-    ///<param name="columnName"></param>
-    ///<param name="value"></param>
-    ///<param name="type" default="i"></param>
     /**
      * 
      * @param mixed $tbname
@@ -1812,8 +1805,6 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $columns;
     }
-    ///<summary></summary>
-    ///<param name="options"></param>
     /**
      * Order query extra options
      * @param IDbSQLGrammarExtraOptions $options

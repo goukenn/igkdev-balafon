@@ -5,7 +5,6 @@
 namespace IGK\System\Controllers\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Controllers\Traits

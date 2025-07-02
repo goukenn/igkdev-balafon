@@ -5,7 +5,6 @@
 namespace IGK\System\Text;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Text

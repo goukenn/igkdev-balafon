@@ -15,7 +15,6 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * explode tag definition 
  * @package IGK\System\Html

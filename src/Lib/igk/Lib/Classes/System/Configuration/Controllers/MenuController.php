@@ -24,7 +24,6 @@ use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
 use function igk_resources_gets as __;
 
-///<summary> used to manage global menu and system's configuration menu.</summary>
 /**
  *  used to manage global menu and system's configuration menu.
  */
@@ -45,8 +44,6 @@ final class MenuController extends ConfigControllerBase
      * @var mixed
      */
     private $m_menuChangedState;
-    ///<summary></summary>
-    ///<param name="storeconfig" default="true"></param>
     /**
      * 
      * @param mixed $storeconfig the default value is true
@@ -58,11 +55,6 @@ final class MenuController extends ConfigControllerBase
     }
    
     
-    ///<summary></summary>
-    ///<param name="div"></param>
-    ///<param name="selectedMenu"></param>
-    ///<param name="key" default="lb.Controller"></param>
-    ///<param name="remove" default="IGK_STR_EMPTY"></param>
     /**
      * 
      * @param mixed $div
@@ -92,13 +84,6 @@ final class MenuController extends ConfigControllerBase
         }
         return $sel;
     }
-    ///<summary></summary>
-    ///<param name="host"></param>
-    ///<param name="ctrl"></param>
-    ///<param name="target"></param>
-    ///<param name="tab"></param>
-    ///<param name="tname" default="li"></param>
-    ///<param name="selected" default="null"></param>
     /**
      * 
      * @param mixed $host
@@ -165,7 +150,6 @@ final class MenuController extends ConfigControllerBase
             }
         }
     }
-    ///<summary>load configuration menu</summary>
     /**
      * load configuration menu
      */
@@ -195,7 +179,6 @@ final class MenuController extends ConfigControllerBase
         }
         return (object)$tab;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -228,8 +211,6 @@ final class MenuController extends ConfigControllerBase
             igk_sys_regchange(self::MENU_CHANGE_KEY, $this->m_menuChangedState);
         return $v;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
      * 
      * @param mixed $name
@@ -238,8 +219,6 @@ final class MenuController extends ConfigControllerBase
     {
         return MenuUtils::GetParentName($name);
     }
-    ///<summary></summary>
-    ///<param name="menu"></param>
     /**
      * 
      * @param mixed $menu
@@ -252,11 +231,6 @@ final class MenuController extends ConfigControllerBase
             return $menu;
         return $this->_getRootMenu($menu->MenuParent);
     }
-    ///<summary></summary>
-    ///<param name="e" ref="true"></param>
-    ///<param name="v_ctab"></param>
-    ///<param name="cul"></param>
-    ///<param name="bygroup" default="false"></param>
     /**
      * 
      * @param mixed * $e
@@ -302,10 +276,6 @@ final class MenuController extends ConfigControllerBase
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="ul"></param>
-    ///<param name="menu"></param>
-    ///<param name="pages" default="null" ref="true"></param>
     /**
      * 
      * @param mixed $ul
@@ -316,7 +286,6 @@ final class MenuController extends ConfigControllerBase
     {
         MenuUtils::InitMenu($ul, $menu, $pages);
     }
-    ///<summary></summary>
     /**
      * 
      */

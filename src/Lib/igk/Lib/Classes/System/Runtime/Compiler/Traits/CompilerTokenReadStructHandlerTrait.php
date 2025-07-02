@@ -7,7 +7,6 @@ namespace IGK\System\Runtime\Compiler\Traits;
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\IReadTokenOptions;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\Traits

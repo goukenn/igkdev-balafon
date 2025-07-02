@@ -7,7 +7,6 @@ namespace IGK\System\Text;
 use IGKException;
 use Exception;
 
-///<summary></summary>
 /**
  * regex utility method
  * @package IGK\System\Text
@@ -15,6 +14,7 @@ use Exception;
  */
 abstract class RegexMatcherUtility
 {
+
     /**
      * 
      * @param RegexMatcherContainer $ctn the container
@@ -176,5 +176,12 @@ abstract class RegexMatcherUtility
             $_t = RegexMatcherContainer::BEGIN_END_TYPE;   
         }
         return $_t;
+    }
+
+    public static function appendPhpHereDoc($regex, & $patterns = []){
+        $patterns[] = $regex->begin('<<<[a-zA-Z]([a-zA-Z\-0-9]*)',"^\\1" ,'here-doc')->last();
+        $patterns[] = $regex->begin('<<<\'([a-zA-Z][a-zA-Z\-0-9]*)\'',"^\\1" ,'here-doc')->last();
+        $patterns[] = $regex->begin('<<<"([a-zA-Z][a-zA-Z\-0-9]*)"',"^\\1" ,'here-doc')->last();
+
     }
 }

@@ -5,7 +5,6 @@
 namespace IGK\System\Configuration;
 
 
-///<summary></summary>
 /**
 * global project parameter constant
 * @package IGK\System\Configuration

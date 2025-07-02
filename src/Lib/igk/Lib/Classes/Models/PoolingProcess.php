@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Pooling process</summary>
 /**
 * Pooling process
 * @package IGK\Models

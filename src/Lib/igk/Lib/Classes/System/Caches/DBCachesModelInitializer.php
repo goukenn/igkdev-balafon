@@ -21,7 +21,6 @@ use IGK\Constants;
 use IGKException;
 use IGKSysUtil;
 
-///<summary></summary>
 /**
  * job is to initialize model data definition class
  * @package IGK\System\Caches

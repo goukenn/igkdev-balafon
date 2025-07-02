@@ -8,7 +8,6 @@ use IGK\Helper\StringUtility;
 use IGK\System\IO\File\PHPDocCommentParser;
 use IGK\System\IO\StringBlockReader;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Security\Helpers

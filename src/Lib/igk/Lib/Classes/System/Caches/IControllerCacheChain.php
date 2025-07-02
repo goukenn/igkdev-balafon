@@ -6,7 +6,6 @@ namespace IGK\System\Caches;
 
 use IGK\Controllers\BaseController;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Caches

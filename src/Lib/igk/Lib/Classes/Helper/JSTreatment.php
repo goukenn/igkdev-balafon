@@ -6,7 +6,6 @@ namespace IGK\Helper;
 
 use IGK\System\Text\RegexMatcherContainer;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper

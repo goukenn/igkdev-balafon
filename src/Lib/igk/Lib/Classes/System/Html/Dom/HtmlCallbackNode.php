@@ -14,12 +14,9 @@ use IGKOb;
 /** @package  */
 final class HtmlCallbackNode extends HtmlNode{
     var $callback;
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
     public function _acceptRender($option=null){
         return 1;
     }
-    ///<summary></summary>
     /**
      * render callback constructor
      * @param null|callable $callback 
@@ -29,12 +26,9 @@ final class HtmlCallbackNode extends HtmlNode{
         parent::__construct('igk:callbacknode');
         $this->callback = $callback;
     }
-    ///<summary></summary>
     public function getCanRenderTag(){
         return false;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function render($options=null){
         IGKOb::Start();
         $r = "";

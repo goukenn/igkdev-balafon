@@ -29,7 +29,6 @@ use function igk_resources_gets as __;
 
 
 
-///<summary> schema constant </summary>
 /**
  * 
  *  schema constant

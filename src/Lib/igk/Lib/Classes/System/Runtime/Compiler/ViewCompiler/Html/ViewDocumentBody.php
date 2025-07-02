@@ -8,7 +8,6 @@ use IGK\System\Html\Dom\HtmlBodyNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerArgument;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\Html

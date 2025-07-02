@@ -27,7 +27,6 @@ function igk_comment_time($data){
 	return R::ngets("btv.comment_time_2", $data[0], R::ngets('time.i.'.$data[1].($s?'s':'')
 	)); //"Il Y a 3 Jour";
 }
-///<summary>a comment zone template</summary>
 function igk_comment_zone($ctrl, $n, $title="", $msg=null, $since=null, $id_reply=null,
 	$likes=1,
 	$have_child=false,

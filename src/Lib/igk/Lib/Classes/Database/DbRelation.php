@@ -5,7 +5,6 @@
 // @desc: 
 
  namespace IGK\Database;
- ///<summary>represent database relation info</summary>
  /**
   * represent database relation info
   * @package 

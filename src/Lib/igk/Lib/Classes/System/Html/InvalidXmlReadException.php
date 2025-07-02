@@ -8,15 +8,11 @@ namespace IGK\System\Html;
 
 use IGKException;
 
-///<summary>Represente class: IGKInvalidXmlReadException</summary>
 /**
 * Represent IGKInvalidXmlReadException class
 */
 class InvalidXmlReadException extends IGKException{
     var $offset;
-    ///<summary></summary>
-    ///<param name="msg"></param>
-    ///<param name="offset"></param>
     /**
     * 
     * @param mixed $msg

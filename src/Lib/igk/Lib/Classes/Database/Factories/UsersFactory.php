@@ -8,7 +8,6 @@ namespace IGK\Database\Factories;
 use IGK\System\Database\Factories\FactoryBase;
 use IGK\System\Traits\ComposerFakerTrait;
 
-///<summary>factory</summary>
 /**
 * factory
 * @package IGK\Database\Factories

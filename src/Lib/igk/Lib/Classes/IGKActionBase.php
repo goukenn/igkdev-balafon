@@ -7,8 +7,6 @@
 // @file : IGKActionBase.php
 
 
-///<summary>Represente view's action definition</summary>
-
 use IGK\Actions\ActionRequestValidator;
 use IGK\Actions\Dispatcher;
 use IGK\Actions\IActionProcessor;
@@ -182,8 +180,6 @@ abstract class IGKActionBase implements IActionProcessor
     protected function fetchRequestHeader()
     {
     }   
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
      * 
      * @param mixed $ctrl
@@ -202,7 +198,6 @@ abstract class IGKActionBase implements IActionProcessor
         } 
         return $this;
     }
-    ///<summary>for action return the current user id</summary>
     /**
      * get system current user id 
      * @return mixed 

@@ -7,7 +7,6 @@ namespace IGK\System\Html\Templates\Engine\Traits;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Templates\BindingExpressionReader;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Templates\Engine\Traits

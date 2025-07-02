@@ -5,7 +5,6 @@
 namespace IGK\System\Html;
 
 
-///<summary></summary>
 /**
 * return the context of this item
 * @package IGK\System\Html

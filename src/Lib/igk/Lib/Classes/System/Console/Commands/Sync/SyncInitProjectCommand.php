@@ -9,7 +9,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKEvents;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

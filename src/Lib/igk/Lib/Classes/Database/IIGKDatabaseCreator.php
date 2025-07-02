@@ -5,7 +5,6 @@
 namespace IGK\Database;
 
 
-///<summary></summary>
 /**
 * database driver selector
 * @package IGK\Database

@@ -6,13 +6,10 @@
 
 namespace IGK\System\Html;
 
-///<summary>Represente interface: IHtmlGetValue</summary>
 /**
 * Represent IHtmlGetValue interface
 */
 interface IHtmlGetValue {
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $options the default value is null

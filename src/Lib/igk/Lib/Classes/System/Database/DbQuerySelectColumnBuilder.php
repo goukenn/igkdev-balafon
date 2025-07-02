@@ -9,7 +9,6 @@ use IGK\Database\DbExpression;
 use IGK\Database\DbQueryCondition;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database

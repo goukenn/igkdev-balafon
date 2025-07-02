@@ -5,7 +5,6 @@
 namespace IGK\System\Html;
 
 
-///<summary></summary>
 /**
 * use with HtmlReader to set object context 
 * @package IGK\System\Html

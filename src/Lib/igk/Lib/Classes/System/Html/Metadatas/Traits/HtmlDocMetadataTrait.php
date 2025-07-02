@@ -6,7 +6,6 @@ namespace IGK\System\Html\Metadatas\Traits;
 
 use IGK\System\Html\Metadatas\MetaDataHost;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas\Traits

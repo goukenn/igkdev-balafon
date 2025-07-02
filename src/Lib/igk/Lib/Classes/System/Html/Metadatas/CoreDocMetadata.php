@@ -8,7 +8,6 @@ use IGK\Helper\Activator;
 use IGK\Helper\StringUtility;
 use ReflectionProperty;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas

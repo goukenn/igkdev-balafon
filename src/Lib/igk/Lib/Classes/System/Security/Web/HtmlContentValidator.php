@@ -6,7 +6,6 @@ namespace IGK\System\Security\Web;
 
 use IGK\System\Html\HtmlRenderer;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Security\Web

@@ -33,7 +33,6 @@ use ReflectionException;
 
 use function igk_resources_gets as __;
 
-///<summary>class used to register global user in system</summary>
 /**
  * class used to register global user in system
  */
@@ -41,7 +40,6 @@ class UsersConfigurationController extends ConfigControllerBase
 {
     const view_action = self::class . "::ViewAction";
     const NOTIFY_KEY = 'sys://uc/auf';
-    ///<summary></summary>
     /**
      * 
      */
@@ -58,7 +56,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $this->setParam("search", igk_getr("search"));
         $this->View();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -83,9 +80,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $doc->renderAJX();
         igk_exit();
     }
-    ///<summary>General connection method</summary>
-    ///<param name="log">display login</param>
-    ///<param name="pwd">clear pwd</param>
     /**
      * General connection method
      * @param mixed $log display login
@@ -198,7 +192,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return false;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -223,7 +216,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $doc->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * setting config page name
      */
@@ -231,7 +223,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return "users";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -239,7 +230,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -248,7 +238,6 @@ class UsersConfigurationController extends ConfigControllerBase
         return igk_db_get_table_name(IGK_TB_USERS);
     }
 
-    ///<summary></summary>
     /**
      * 
      */
@@ -265,7 +254,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return $db;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -273,8 +261,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return IGK_USER_CTRL;
     }
-    ///<summary></summary>
-    ///<param name="u" default="null"></param>
     /**
      * 
      * @param mixed $u the default value is null
@@ -299,8 +285,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return $u;
     }
-    ///<summary></summary>
-    ///<param name="u" default="null"></param>
     /**
      * 
      * @param mixed $u the default value is null
@@ -356,8 +340,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
     }
 
-    ///<summary></summary>
-    ///<param name="func"></param>
     /**
      * @param mixed $func
      */
@@ -365,7 +347,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return true;
     }
-    ///<summary></summary>
     /**
      * logout the current user
      */
@@ -386,7 +367,6 @@ class UsersConfigurationController extends ConfigControllerBase
         igk_clear_cookie(Cookies::USER_ID);
         return true;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -395,8 +375,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $this->logout();
         igk_navto(igk_io_baseuri());
     }
-    ///<summary>List user group</summary>
-    ///<param name="id" default="null"></param>
     /**
      * List user group
      * @param mixed $id the default value is null
@@ -470,13 +448,6 @@ class UsersConfigurationController extends ConfigControllerBase
         igk_notifyctrl("base")->setResponse(["msg" => $msg, "type" => $type]);
         igk_navto_referer();
     }
-    ///<summary></summary>
-    ///<param name="login"></param>
-    ///<param name="pwd"></param>
-    ///<param name="firstname"></param>
-    ///<param name="lastname"></param>
-    ///<param name="parentclass" default="null"></param>
-    ///<param name="level" default="1"></param>
     /**
      * 
      * @param mixed $login
@@ -500,7 +471,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $result = Users::insert($row);       
         return $result;
     }
-    ///<summary>register or connect </summary>
     public function registerOrConnect($_edata)
     {
         if (igk_is_uri_demand($this->getUri(__FUNCTION__)))
@@ -525,7 +495,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return $user;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -538,8 +507,6 @@ class UsersConfigurationController extends ConfigControllerBase
             }
         });
     }
-    ///<summary></summary>
-    ///<param name="u"></param>
     /**
      * store sessgin global user info
      * @param mixed $u
@@ -547,8 +514,6 @@ class UsersConfigurationController extends ConfigControllerBase
     public function setGlobalUser($u){
         igk_app()->session->setUser($u, $this);
     }
-    ///<summary></summary>
-    ///<param name="u"></param>
     /**
      * 
      * @param mixed $u
@@ -566,7 +531,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return 0;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -588,7 +552,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $doc->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * toggle lock activate
      */
@@ -613,7 +576,6 @@ class UsersConfigurationController extends ConfigControllerBase
         igk_wl($this->ConfigNode->getinnerHtml());
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -626,7 +588,6 @@ class UsersConfigurationController extends ConfigControllerBase
         igk_getctrl(IGK_MYSQL_DB_CTRL)->db_edit_entry_frame($this, igk_configs()->db_name, $this->getDataTableName(), $id, IGK_FD_ID, true);
         SysUtils::exitOnAJX();
     }
-    ///<summary>add user frame</summary>
     /**
      * add user frame - - 
      */
@@ -711,8 +672,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="frm"></param>
     /**
      * 
      * @param mixed $frm
@@ -722,7 +681,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $g = $frm->addActionBar();
         HtmlUtils::AddImgLnk($g, igk_js_post_frame($this->getUri("uc_auf")), "add_16x16")->setClass("igk-btn");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -759,7 +717,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         igk_navtocurrent();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -779,7 +736,6 @@ class UsersConfigurationController extends ConfigControllerBase
             igk_navtocurrent();
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -800,7 +756,6 @@ class UsersConfigurationController extends ConfigControllerBase
             igk_navtocurrent();
         }
     }
-    ///<summary></summary>
     /**
      * 
      */

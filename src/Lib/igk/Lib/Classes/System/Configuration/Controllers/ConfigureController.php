@@ -38,7 +38,6 @@ use lbuchs\WebAuthn\WebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
 
 use function igk_resources_gets as __;
-///<summary>used to manage config manager</summary>
 /**
  *  Configuration Controller
  * @package IGK\System\Configuration\Controllers
@@ -109,8 +108,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return parent::__get($n);
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
      * 
      * @param mixed $t
@@ -126,8 +123,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $div->addLabel("a_html_cache")->setClass("dispib")->Content = __("Html Cache");
         $div->addToggleStateButton("a_html_cache", "on", igk_sys_is_htmlcaching())->setClass("dispib")->setAttribute("onchange", "ns_igk.ajx.get('{$u}&cache='+ns_igk.geti(event.target.checked),null,ns_igk.ajx.fn.no); return false;");
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
      * 
      * @param mixed $t
@@ -142,7 +137,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $bar->addAJXAButton($this->getUri("viewLogs"))->setClass("igk-btn clsubmit igk-btn-default")->Content = __("View global log");
         $bar->addAJXAButton($this->getUri("clearLogs"))->setClass("igk-btn clsubmit igk-btn-default")->Content = __("Clear Log");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -165,7 +159,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         $this->setEnvParam("conf://initPageConfig", null);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -174,10 +167,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_dev_wln("no ie 6 supported");
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="name"></param>
-    ///<param name="param"></param>
     /**
      * 
      * @param mixed $target
@@ -192,9 +181,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         if (igk_configs()->$param)
             $chb["checked"] = "true";
     }
-    ///<summary></summary>
-    ///<param name="o"></param>
-    ///<param name="e"></param>
     /**
      * 
      * @param mixed $o
@@ -220,7 +206,6 @@ final class ConfigureController extends BaseController implements IConfigControl
                 break;
         }
     }
-    ///<summary> load view configuration file </summary>
     /**
      *  load view configuration file
      */
@@ -232,9 +217,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $e = $this->getConfigSettings()->configEntries;
         \IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $e);
     }
-    ///<summary></summary>
-    ///<param name="page"></param>
-    ///<param name="context" default="null"></param>
     /**
      * 
      * @param mixed $page
@@ -245,7 +227,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_getctrl(IGK_MENU_CTRL)->selectConfigMenu($page, ConfigureController::class);
         $this->m_menuName = $page;
     }
-    ///<summary>send mail notification</summary>
     /**
      * send mail notification
      */
@@ -258,8 +239,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             /// TODO: SEND MAIL CONFIG NOTIFICATION 
         }
     }
-    ///<summary></summary>
-    ///<param name="node"></param>
     /**
      * 
      * @param mixed $node
@@ -282,7 +261,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             $t->Content = $v->TagName;
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -294,9 +272,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_sys_disable_html_caching();
         }
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="method"></param>
     /**
      * 
      * @param mixed $obj
@@ -306,9 +281,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         igk_die(__METHOD__ . " Obselete");
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="method"></param>
     /**
      * 
      * @param mixed $obj
@@ -318,7 +290,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         igk_die(__METHOD__ . " Obselete");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -332,8 +303,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_navto_home(null);
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="user"></param>
     /**
      * 
      * @param mixed $user
@@ -344,8 +313,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $adm_pwd = strtolower(igk_configs()->admin_pwd);
         return (($adm == $user->clLogin) && ($adm_pwd == $user->clPwd));
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
      * 
      * @param mixed $ctrl
@@ -356,7 +323,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             $this->onConfigSettingChanged();
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -412,7 +378,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $r->RenderXML();
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -427,7 +392,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         igk_navto_referer();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -446,7 +410,6 @@ final class ConfigureController extends BaseController implements IConfigControl
             igk_exit();
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -455,8 +418,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $this->SelectedConfigCtrl = null;
         igk_getctrl(IGK_SESSION_CTRL)->ClearS();
     }
-    ///<summary></summary>
-    ///<param name="navigate" default="true"></param>
     /**
      * 
      * @param mixed $navigate the default value is true
@@ -472,8 +433,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_navtocurrent();
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="content"></param>
     /**
      * 
      * @param mixed $content
@@ -482,9 +441,6 @@ final class ConfigureController extends BaseController implements IConfigControl
     {
         return true;
     }
-    ///<summary></summary>
-    ///<param name="file" default="null"></param>
-    ///<param name="outdir" default="null"></param>
     /**
      * 
      * @param mixed $file the default value is null
@@ -524,8 +480,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="ruri" default="null"></param>
     /**
      * 
      * @param mixed $ruri the default value is null
@@ -564,7 +518,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $rep->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -580,7 +533,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_app()->getDoc()->Theme->save();
         igk_notifyctrl()->addMsgr("msg.runCtrlConfigComplete");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -603,7 +555,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         igk_notifyctrl()->addMsgr("msg.configOptionsUpdated");
         igk_resetr();
     }
-    ///<summary>general config ajx</summary>
     /**
      * general config ajx 
      */
@@ -622,7 +573,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         $this->configure_settings_load_data($n, $s);
         $n->renderAJX();
     }
-    ///<summary>global configure setting request</summary>
     /**
      * global configure setting request
      */
@@ -646,9 +596,6 @@ final class ConfigureController extends BaseController implements IConfigControl
         }
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="h"></param>
-    ///<param name="rg" default="'/(.)*/'"></param>
     /**
      * 
      * @param mixed $h

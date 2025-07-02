@@ -6,7 +6,6 @@ namespace IGK\System;
 
 use Closure;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System

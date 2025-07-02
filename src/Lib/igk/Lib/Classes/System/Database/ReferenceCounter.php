@@ -7,7 +7,6 @@ namespace IGK\System\Database;
 use IGK\Models\ModelBase;
 use IGKEvents;
 
-///<summary></summary>
 /**
  * use to update counter 
  * @package IGK\System\Database

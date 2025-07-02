@@ -14,12 +14,6 @@ use IGK\Resources\R;
 */
 final class HtmlImgLnkNode extends HtmlANode{
     private $m_img;
-    ///<summary></summary>
-    ///<param name="uri" default="null"></param>
-    ///<param name="img" default="null"></param>
-    ///<param name="width" default="16px"></param>
-    ///<param name="height" default="16px"></param>
-    ///<param name="desc" default="null"></param>
     /**
     * 
     * @param mixed $uri the default value is null
@@ -38,15 +32,12 @@ final class HtmlImgLnkNode extends HtmlANode{
             "alt"=>R::ngets($desc)
         ));
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getAlt(){
         return $this->m_img["alt"];
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v

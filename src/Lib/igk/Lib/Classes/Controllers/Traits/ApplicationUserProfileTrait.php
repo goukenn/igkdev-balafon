@@ -10,7 +10,6 @@ use IGK\System\Database\IUserProfile;
 use IGK\Models\ModelBase as coreModelBase;
 use IGK\System\EntryClassResolution;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Controllers\Traits

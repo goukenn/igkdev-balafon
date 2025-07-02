@@ -14,7 +14,6 @@ use ReflectionMethod;
 use ReflectionProperty;
 use Reflector;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Helper

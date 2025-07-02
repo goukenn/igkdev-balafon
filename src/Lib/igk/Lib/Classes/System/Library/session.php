@@ -15,7 +15,6 @@ use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
 
-///<summary>session library</summary>
 /**
  * 
  * @package IGK\System\Library

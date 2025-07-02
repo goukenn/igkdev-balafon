@@ -5,7 +5,6 @@
 namespace IGK\System\Runtime\Compiler\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\Traits

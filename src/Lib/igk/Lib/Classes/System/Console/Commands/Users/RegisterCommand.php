@@ -10,7 +10,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Users

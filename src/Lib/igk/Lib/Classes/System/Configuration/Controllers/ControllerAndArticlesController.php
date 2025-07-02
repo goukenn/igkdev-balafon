@@ -41,8 +41,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     const hookControllerConfigOptionName = 'controllerConfigData';
 
 
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     private function __updateview($ctrl)
     {
         if ($ctrl && $ctrl->getIsVisible()) {
@@ -61,8 +59,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         return $projects;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     private function __viewDefaultPageCtrl($t)
     {
         $frm = $t->addForm();
@@ -106,8 +102,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         // $frm->div()->add("noscript")->addInput("btn_add", "submit");
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
      * 
      * @param mixed $t 
@@ -140,10 +134,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         //     $frm->div()->add("noscript")->addInput("btn_add", "submit");
         // }
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
-    ///<param name="v_content"></param>
-    ///<param name="property" default="null"></param>
     private function __write_article_for_tiny($file, $v_content, $property = null)
     {
         if (empty($file))
@@ -185,9 +175,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         igk_io_save_file_as_utf8($file, $v_content, true);
         return true;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="p"></param>
     public function _buildAdditionalInfo($ctrl, $p)
     {
         $d =
@@ -240,14 +227,10 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="div"></param>
-    ///<param name="ctrl" default="null"></param>
     private function _buildViewArticle($div, $ctrl = null)
     {
         $div->div()->Content = "Not Implement: " . __FUNCTION__;
     }
-    ///<summary>build adapter selection list</summary>
     private function _ca_add_adapter($node, $k, $default = null, $nonevalue = false)
     {
         $t = \IGK\DataBase\DataAdapterBase::GetAdapters();
@@ -266,11 +249,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         $node->div()->setClass("igk-db-ad")->Content = "";
     }
-    ///<summary></summary>
-    ///<param name="li"></param>
-    ///<param name="name"></param>
-    ///<param name="value" default="null"></param>
-    ///<param name="showspace" default="true"></param>
     private function _frm_tablevisiblectrl($li, $name, $value = null, $showspace = true)
     {
         $tab = self::GetSysProject();
@@ -291,18 +269,14 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             }
         }
     }
-    ///<summary></summary>
     private function _getarticleid()
     {
         return $this->getName() . "_articles";
     }
-    ///<summary></summary>
     private function _getviewid()
     {
         $this->getName() . "_views";
     }
-    ///<summary></summary>
-    ///<param name="col"></param>
     private function _view_ctrl_EditCtrl($col)
     {
         $frm = $col->addColViewBox()->addForm();
@@ -343,9 +317,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             $ul->li()->Content = __("no sys controller found.");
         }
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="target"></param>
     protected function _view_ctrl_info($ctrl, $target)
     {
         if ($ctrl == null)
@@ -418,9 +389,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         $div = $p->div();
         $this->_view_ctrl_options($ctrl, $div);
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="dv"></param>
     private function _view_ctrl_options(\IGK\Controllers\BaseController $ctrl, $dv)
     {
         $dv["class"] = "+c-opts";
@@ -448,8 +416,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_ctrl_drop")), "drop_16x16")
             ->setClass("igk-btn");
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     private function _view_default_tab($t)
     {
         $t->addNotifyHost();

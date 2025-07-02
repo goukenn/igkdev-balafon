@@ -5,7 +5,6 @@
 namespace IGK\System\IO\VCF;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\VCF

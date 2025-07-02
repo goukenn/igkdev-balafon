@@ -6,7 +6,6 @@ namespace IGK\Printing;
 
 use IGK\System\IO\Printer\IPrinterService;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Printing

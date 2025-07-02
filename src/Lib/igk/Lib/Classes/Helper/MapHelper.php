@@ -9,7 +9,6 @@ use IGK\Mapping\IDataMapper;
 use IGK\Models\ModelBase;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Help

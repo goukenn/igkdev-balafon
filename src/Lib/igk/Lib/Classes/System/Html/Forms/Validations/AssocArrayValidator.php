@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Forms\Validations;
 use function igk_resources_gets as __;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms\Validations

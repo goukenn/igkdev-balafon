@@ -14,7 +14,6 @@ trait NoDbActiveControllerTrait{
     public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */

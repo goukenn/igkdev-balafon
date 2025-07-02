@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store framework group authorisation</summary>
 /**
 * Store framework group authorisation
 * @package IGK\Models

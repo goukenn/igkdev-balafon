@@ -12,7 +12,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\Constants;
 
-///<summary></summary>
 /**
 * Helper to project build
 * @package IGK\System\TamTam

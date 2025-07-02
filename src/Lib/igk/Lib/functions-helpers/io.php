@@ -72,7 +72,6 @@ function igk_io_read_allfile($f): ?string
 }
 
 
-///<summary>get folder where to cache some file</summary>
 /**
  * get folder where to cache some file
  */
@@ -82,9 +81,6 @@ function igk_io_cachedir()
 }
 
 
-///<summary>target, cibling le lien</summary>
-///<param name="target">: link to create</param>
-///<param name="cibling">: lien a créer</param>
 /**
  * target, cibling 
  * @param mixed $target target of the link
@@ -129,7 +125,6 @@ function igk_io_symlink($target, $link)
 }
 
 
-///<summary>return where global project are stored</summary>
 /**
  * return where global project are stored
  */

@@ -15,7 +15,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\Npm\JsonPackage; 
 
-///<summary></summary>
 /**
  * project configuration information 
  * @package IGK\System\Console\Commands

@@ -10,24 +10,15 @@
 
 class IGKListener implements IIGKListener{
     private $listener;
-    ///<summary>Represente __call function</summary>
-    ///<param name="n"></param>
-    ///<param name="args"></param>
     public function __call($n, $args){
         $f=igk_getv($this->listener, $n);
         if(is_callable($f)){
             return \call_user_func_array($f, $args);
         }
     }
-    ///<summary>Represente __callStatic function</summary>
-    ///<param name="n"></param>
-    ///<param name="args"></param>
     public static function __callStatic($n, $args){
         die("dieNotAllowed");
     }
-    ///<summary>Represente Register function</summary>
-    ///<param name="n"></param>
-    ///<param name="callback"></param>
     public function Register($n, $callback){
         $this->listener[$n]=$callback;
     }

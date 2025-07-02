@@ -9,7 +9,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Auth

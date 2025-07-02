@@ -14,7 +14,6 @@ use IGK\System\IO\Path;
 use IGK\System\IToArray;
 use IGK\System\Regex\Replacement;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands\Database

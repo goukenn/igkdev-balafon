@@ -6,7 +6,6 @@ namespace IGK\System\Http;
 
 use IGK\System\Http\IHttpClientOptions;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http

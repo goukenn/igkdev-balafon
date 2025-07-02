@@ -31,10 +31,6 @@ require_once(IGK_MYSQL_DIR . "/DataAdapterBase.php");
 require_once(IGK_MYSQL_DIR . "/DataAdapter.php");
 require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
 
-///<summary></summary>
-///<param name="srv"></param>
-///<param name="dbu"></param>
-///<param name="pwd"></param>
 /**
  * 
  * @param mixed|object $srv
@@ -97,9 +93,6 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
     }
     return @$g($srv, $dbu, $pwd);
 }
-///<summary></summary>
-///<param name="v"></param>
-///<param name="r" default="null"></param>
 /**
  * 
  * @param mixed $v
@@ -128,8 +121,6 @@ function igk_db_escape_string($v, $r = null)
         return $g($v);
     return null;
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -139,8 +130,6 @@ function igk_db_fetch_field($r)
     $g = DbQueryDriver::GetFunc("fetch_field");
     return $g($r);
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -150,8 +139,6 @@ function igk_db_fetch_row($r)
     $g = DbQueryDriver::GetFunc("fetch_row");
     return $g($r);
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -163,8 +150,6 @@ function igk_db_is_resource($r)
     }
     return is_resource($r);
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * get number of fielse
  * @param mixed $r
@@ -173,8 +158,6 @@ function igk_db_num_fields($r){
     $g = DbQueryDriver::GetFunc("num_fields");
     return ($r && $g ) ? $g($r) : -1;
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -193,8 +176,6 @@ function igk_db_fetch_assoc($r){
         return $g($r);  
     }
 }
-///<summary></summary>
-///<param name="query"></param>
 /**
  * send db query
  * @param mixed $query
@@ -226,7 +207,6 @@ function igk_db_multi_query($query, $res = null)
     }
     return $g($query);
 }
-///<summary>retreive the current server date </summary>
 /**
  * retreive the current server date
  */
@@ -234,8 +214,6 @@ function igk_mysql_datetime_now()
 {
     return date(IGK_MYSQL_DATETIME_FORMAT);
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -245,8 +223,6 @@ function igk_mysql_db_close($r)
     $g = DbQueryDriver::GetFunc("close");
     return @$g($r);
 }
-///<summary></summary>
-///<param name="r" default="null"></param>
 /**
  * 
  * @param mixed $r the default value is null
@@ -263,7 +239,6 @@ function igk_mysql_db_error($r = null)
     }
     return $g($r);
 }
-///<summary></summary>
 /**
  * 
  */
@@ -278,8 +253,6 @@ function igk_mysql_db_errorc($res=null)
     }
     return $g($r);
 }
-///<summary></summary>
-///<param name="t"></param>
 /**
  * 
  * @param mixed $t
@@ -304,7 +277,6 @@ function igk_mysql_db_gettypename($t)
     }
     return $t;
 }
-///<summary></summary>
 /**
  * 
  */
@@ -312,8 +284,6 @@ function igk_mysql_db_has_error()
 {
     return igk_mysql_db_errorc() != 0;
 }
-///<summary></summary>
-///<param name="flags"></param>
 /**
  * 
  * @param mixed $flags
@@ -322,8 +292,6 @@ function igk_mysql_db_is_primary_key($flags)
 {
     return ($flags & 2) == 2;
 }
-///<summary></summary>
-///<param name="r" default="null"></param>
 /**
  * 
  * @param mixed $r the default value is null
@@ -349,8 +317,6 @@ function igk_db_last_connect_error(){
     return $g();
 }
 
-///<summary></summary>
-///<param name="mysql"></param>
 /**
  * 
  * @param mixed $mysql
@@ -361,8 +327,6 @@ function igk_mysql_db_selected_db($mysql)
     $c = "DATABASE()";
     return $r->$c;
 }
-///<summary></summary>
-///<param name="tbname"></param>
 /**
  * 
  * @param mixed $tbname
@@ -371,8 +335,6 @@ function igk_mysql_db_tbname($tbname)
 {
     return igk_db_escape_string(igk_db_get_table_name($tbname));
 }
-///<summary></summary>
-///<param name="resource"></param>
 /**
  * 
  * @param mixed $resource
@@ -398,8 +360,6 @@ function igk_mysql_result_table($resource)
     }
     return $tab;
 }
-///<summary></summary>
-///<param name="date"></param>
 /**
  * 
  * @param mixed $date
@@ -414,7 +374,6 @@ function igk_mysql_time_span($date)
 
 
 
-///<summary> represent multi query access </summary>
 function igk_mysqli_multi_query($con, $query)
 {
     $cr =  mysqli_multi_query($con, $query);

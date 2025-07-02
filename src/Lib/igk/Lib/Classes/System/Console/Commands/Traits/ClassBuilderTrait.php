@@ -7,7 +7,6 @@ namespace IGK\System\Console\Commands\Traits;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Traits

@@ -8,7 +8,6 @@ use IGK\Models\Traits\ModelTableConstantTrait;
 use IGK\System\Database\DbConstantTypeBase;
 use IGK\System\Traits\EnumeratesConstants;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

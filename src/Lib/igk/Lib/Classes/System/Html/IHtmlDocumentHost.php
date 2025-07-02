@@ -7,7 +7,6 @@ namespace IGK\System\Html;
 use IGK\System\Html\Dom\HtmlBodyNode;
 use IGK\System\Html\Dom\HtmlHeadNode;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html

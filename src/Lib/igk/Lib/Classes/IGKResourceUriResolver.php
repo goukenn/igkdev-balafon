@@ -32,7 +32,6 @@ class IGKResourceUriResolver
      * @var bool
      */
     var $fulluri;
-    ///<summary></summary>
     private function __construct()
     {
         $this->fulluri = 0;
@@ -46,7 +45,6 @@ class IGKResourceUriResolver
     {
         $this->m_hashPath = $path ? $this->resolve($path, ["initHash" => 1]) : null;
     }
-    ///<summary>get resolver instance</summary>
     /**
      * resolver instance
      * @return self
@@ -58,7 +56,6 @@ class IGKResourceUriResolver
         }
         return self::$sm_instance;
     }
-    ///<summary>utility use to bind javascript resources</summary>
     /**
      * prepare uri resolution environment \ 
      * all public directory must have 775 mask 
@@ -150,7 +147,6 @@ class IGKResourceUriResolver
         }
         return null;
     }
-    ///<summary>resolve existing file to asset resources</summary>
     /**
      * resolve path
      * @param mixed $path path to resolve
@@ -238,8 +234,6 @@ class IGKResourceUriResolver
         }
         return igk_io_currentrelativeuri($relative);
     }
-    ///<summary>Represente resolveFullUri function</summary>
-    ///<param name="uri"></param>
     public function resolveFullUri($uri)
     {
         $data = $this->resolve($uri);
@@ -248,9 +242,6 @@ class IGKResourceUriResolver
         }
         return igk_io_baseuri() . "/" . $data;
     }
-    ///<summary>resolveOnly  file</summary>
-    ///<param name="file"></param>
-    ///<param name="notresolved" ref="true"></param>
     public function resolveOnly(string $file, &$notresolved = 0)
     {
         $fulluri = $this->fulluri || igk_is_ajx_demand();

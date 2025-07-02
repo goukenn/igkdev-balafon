@@ -115,7 +115,6 @@ abstract class FactoryBase {
         $this->reset();
         return $response;
     }
-    ///<summary>override definition</summary>
     /**
      * return new entry definition. Fake
      * @return ?array 

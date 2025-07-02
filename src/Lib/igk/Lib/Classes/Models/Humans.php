@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>store human list</summary>
 /**
 * store human list
 * @package IGK\Models

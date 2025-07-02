@@ -10,7 +10,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompileProcessCommandHandler;
 use IGK\System\Views\Traits\ViewCommentEvalTrait;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * store comment detected on a view 
 * @package IGK\System\View

@@ -8,7 +8,6 @@ use IGK\Helper\MapHelper;
 use IGK\System\Security\Web\MapContentValidatorBase;
 use IGK\System\Security\Web\ObjectContentValidator;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Data

@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Css;
 
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Css

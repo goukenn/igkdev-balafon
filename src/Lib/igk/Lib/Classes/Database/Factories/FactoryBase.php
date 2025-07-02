@@ -7,7 +7,6 @@ namespace IGK\Database\Factories;
 use IGK\Controllers\SysDbController;
 use IGK\System\Database\Factories\FactoryBase as Factory;
 
-///<summary>Factory base</summary>
 /**
 * Factory base
 * @package IGK\Database\Factories

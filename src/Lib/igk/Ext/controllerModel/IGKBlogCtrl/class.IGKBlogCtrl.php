@@ -4,8 +4,6 @@
 // @date: 20220803 13:48:59
 // @desc: 
 
-///<summary>represent blog platform </summary>
-
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Resources\R;
 

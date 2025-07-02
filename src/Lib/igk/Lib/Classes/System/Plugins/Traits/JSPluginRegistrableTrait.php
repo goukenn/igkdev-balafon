@@ -5,7 +5,6 @@
 namespace IGK\System\Plugins\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Plugins\Traits

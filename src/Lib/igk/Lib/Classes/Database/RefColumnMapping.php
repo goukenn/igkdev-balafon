@@ -8,7 +8,6 @@ use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

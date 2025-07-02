@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Templates\Engine\Helpers;
 
 
-///<summary></summary>
 /**
 * helper : static function 
 * @package IGK\System\Html\Templates\Engine\Helpers

@@ -8,7 +8,6 @@ use IGK\System\Html\Forms\Validations\InspectorFormFieldValidationBase;
 use IGK\Tests\BaseTestCase;
 use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormField;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Html\Forms\Validations

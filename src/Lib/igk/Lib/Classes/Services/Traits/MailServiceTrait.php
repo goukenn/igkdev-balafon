@@ -12,7 +12,6 @@ use IGK\System\Html\HtmlContext;
 
 use function igk_resources_gets as __;
 
-///<summary></summary>
 /**
 * global mail service trait to send controller mail 
 * @package IGK\Services\Traits

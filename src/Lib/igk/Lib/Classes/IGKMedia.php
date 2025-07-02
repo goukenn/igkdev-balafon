@@ -30,7 +30,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     const PROPERTIES_THEME = 0x4;
     const ANIMATIONS = 0x06;
     private $_;
-    ///<summary>.ctr media </summary>
     public function __construct($type, $name)
     {
         $this->_ = array();
@@ -147,9 +146,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<return refout="true"></return>
     public function &__get($n)
     {
         $o = null;
@@ -158,14 +154,10 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         return $o;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     public function __set($n, $v)
     {
         // do nothing
     }
-    ///<summary></summary>
     public function __sleep()
     {
         if (empty($this->_)) {
@@ -173,7 +165,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         return array("\0" . __CLASS__ . "\0_");
     }
-    ///<summary>get media definition</summary>
     /**
      * get css style presentation
      * @param ICssStyleContainer $theme 
@@ -257,8 +248,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         return $sb . '';
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
      * get theme definition
      * @return array|null 
@@ -267,9 +256,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     {
         return $this->getFlag(self::DEFAULT_THEME);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<return refout="true">get flags</return>
     private function &getFlag($n)
     {
         $g = null;
@@ -278,12 +264,10 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         return $g;
     }
-    ///<summary></summary>
     public function getId()
     {
         return $this->getFlag(self::MEDIA_ID);
     }
-    ///<summary>get if this media storage is empty</summary>
     /**
      * get if this media storage is empty
      * @return bool 
@@ -292,9 +276,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     {
         return count($this->_) == 0;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     private function setFlag($n, $v)
     {
         $this->_[$n] = $v;

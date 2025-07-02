@@ -6,7 +6,6 @@ namespace IGK\Helper;
 
 use IGK\System\Console\Logger;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper

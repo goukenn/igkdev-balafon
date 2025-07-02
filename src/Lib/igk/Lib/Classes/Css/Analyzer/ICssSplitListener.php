@@ -5,7 +5,6 @@
 namespace IGK\Css\Analyzer;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Css\Analyzer

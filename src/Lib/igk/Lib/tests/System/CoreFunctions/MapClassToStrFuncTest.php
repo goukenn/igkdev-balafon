@@ -6,7 +6,6 @@ namespace IGK\Tests\System\CoreFunctions;
 
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\CoreFunctions

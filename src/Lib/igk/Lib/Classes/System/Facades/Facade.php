@@ -9,7 +9,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use Exception;
 
-///<summary></summary>
 /**
 * facade creator
 * @package IGK\Systems\Facades

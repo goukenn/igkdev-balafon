@@ -6,7 +6,6 @@
 
 namespace IGK\Helper;
 
-///<summary> json utility options</summary>
 /**
  * json utility options
  * @package IGK\Helper

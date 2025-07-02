@@ -18,40 +18,31 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     private $m_error, $m_errormsg;
     public const CALLBACK_OPTS= \IGK\Database\DbConstants::CALLBACK_OPTS;
     public const RESULTHANDLER="@result_handler";
-    ///<summary></summary>
     public function createEmptyEntry(){
         return null;
     }
-    ///<summary></summary>
     public function getColumns(){
         return null;
     }
-    ///<summary></summary>
     public function getError(){
         return $this->m_error;
     }
-    ///<summary></summary>
     public function getHasError(){
         return !empty($this->m_error);
     }
-    ///<summary></summary>
     public function getHasRow(){
         return ($this->getRowCount() > 0);
     }
-    ///<summary>return the itarator that can be used to iterate shift onto an element</summary>
     public function getIterator(){
         $t=new IGKIterator($this->getRows());
         return $t;
     }
-    ///<summary></summary>
     public function getResultType(){
         return "unknow";
     }
-    ///<summary></summary>
     public function getRowCount(){
         return 0;
     }
-    ///<summary></summary>
     /**
      * 
      * @return mixed|array|iterable rows list
@@ -59,29 +50,21 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     public function getRows(){
         return null;
     }
-    ///<summary></summary>
     public function getSuccess(){
         return false;
     }
-    ///<summary></summary>
     public function getValue(){
         return null;
     }
-    ///<summary></summary>
     public function resultTypeIsBoolean(){
         return $this->getResultType() == "boolean";
     }
-    ///<summary></summary>
-    ///<param name="error"></param>
     protected function setError($error){
         $this->m_error=$error;
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     protected function setErrorMsg($msg){
         $this->m_errormsg=$msg;
     }
-    ///<summary>sort this result by </summary>
     public function SortBy($key, $asc=true){
         $t=new IGKSorter();
         $t->key=$key;
@@ -89,7 +72,6 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
         $t->Sort($this);
         return $this;
     }
-    ///<summary> if all row loaded get row to other keys</summary>
     public function to_key_array($keyname){
         $tm=[];
         foreach($this->getRows() as $r){

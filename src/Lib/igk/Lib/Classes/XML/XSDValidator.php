@@ -9,7 +9,6 @@ namespace IGK\XML;
 
 use DOMDocument;
 
-///<summary></summary>
 class XSDValidator
 {
     /**

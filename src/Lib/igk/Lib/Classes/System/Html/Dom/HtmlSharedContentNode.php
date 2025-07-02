@@ -12,14 +12,10 @@ namespace IGK\System\Html\Dom;
 
 final class HtmlSharedContentNode extends HtmlNode{
     private $m_ctrl;
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     public function __construct($ctrl){
         parent::__construct("igk-shared-content");
         $this->m_ctrl=$ctrl;
     }
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     protected function _getRenderingChildren($o=null){
         $t=array();
         $entities=$this->m_ctrl->getEntities();
@@ -32,7 +28,6 @@ final class HtmlSharedContentNode extends HtmlNode{
         }
         return $t;
     }
-    ///<summary></summary>
     public function getIsRenderTagName(){
         return false;
     }

@@ -6,7 +6,6 @@ namespace IGK\System\TamTam;
 
 use IGK\IHookOptions;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\TamTam

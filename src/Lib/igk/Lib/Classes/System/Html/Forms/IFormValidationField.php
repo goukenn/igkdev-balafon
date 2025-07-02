@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Forms;
 
 
-///<summary></summary>
 /**
  * represent a validated field info
  * @package IGK\System\Html\Forms

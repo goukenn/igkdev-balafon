@@ -10,49 +10,42 @@ use IGK\Controllers\BaseController;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGKException;
 
-///<summary>Represente class: NonVisibleControllerBase</summary>
 /**
 * Represent NonVisibleControllerBase class
 */
 abstract class NonVisibleControllerBase extends BaseController {
     use NoDbActiveControllerTrait;
    
-    ///<summary></summary>
     /**
     * 
     */
     public function getCanAddChild(){
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getcanDelete(){
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getcanModify(){
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getIsVisible():bool{
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */

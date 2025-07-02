@@ -91,7 +91,6 @@ class HtmlRenderer
         }
         return null;
     }
-    ///<summary>force to render global html document</summary>
     /**
      * force to render global html document
      */
@@ -705,9 +704,6 @@ class HtmlRenderer
     }
 
 
-    ///<summary>get attribute string</summary>
-    ///<param name="v"></param>
-    ///<param name="options"></param>
     /**
      * get attribute string
      * @param mixed $v
@@ -766,7 +762,6 @@ class HtmlRenderer
         // return "\"" . $v . "\"";
         return igk_str_surround($v);
     }
-    ///<summary>get node item inner content</summary>
     /**
      * get node item inner content
      * @param HtmlItemBase $item 

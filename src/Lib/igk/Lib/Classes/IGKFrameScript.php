@@ -13,15 +13,10 @@ use IGK\System\Html\IHtmlGetValue;
 final class IGKFrameScript implements IHtmlGetValue{
     private $m_type;
     var $owner;
-    ///<summary></summary>
-    ///<param name="owner"></param>
-    ///<param name="type" default="f"></param>
     public function __construct($owner, $type="f"){
         $this->owner=$owner;
         $this->m_type=$type;
     }
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
     public function getValue($option=null){
         $n=IGK_STR_EMPTY;
         switch($n){

@@ -6,7 +6,6 @@ namespace IGK\System\Database\Traits;
 
 use IGK\Database\DbModuleReferenceTable;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database\Traits

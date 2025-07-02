@@ -8,7 +8,6 @@ use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\Console\Logger;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Helper

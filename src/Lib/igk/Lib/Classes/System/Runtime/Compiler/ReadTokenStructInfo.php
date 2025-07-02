@@ -7,7 +7,6 @@ namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler
@@ -123,7 +122,7 @@ class ReadTokenStructInfo
         $depth = str_repeat("\t", $this->depth + 1);
         $noComment = $options && $options->noComment; 
         if (!$noComment){
-            $comment = $this->comment ?? "///<summary></summary>";
+            $comment = $this->comment ?? ''; 
             $phpDoc = $this->phpDoc ?? "/**\n* \n*/";
             $sb->appendLine($comment);
             $sb->appendLine($phpDoc);

@@ -8,9 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary></summary>
-///<param name="doc"></param>
-///<param name="v" default="1"></param>
 /**
 * 
 * @param mixed $doc

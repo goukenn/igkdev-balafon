@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Templates;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Templates

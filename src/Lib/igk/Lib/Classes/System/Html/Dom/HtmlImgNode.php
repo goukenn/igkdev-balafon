@@ -11,14 +11,12 @@ use IGK\System\Html\HtmlAttributeArray;
 use IGK\System\Html\HtmlResolvLinkValue;
 use IGKException;
 
-///<summary>Represente class: IGKHtmlNoTagNode</summary>
 /**
 * no definition 
 */
 class HtmlImgNode extends HtmlNode{
 
     
-    ///<summary></summary>
     /**
     * @param string $src uri
     */

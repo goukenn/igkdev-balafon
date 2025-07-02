@@ -6,7 +6,6 @@ namespace IGK\System\Database;
 
 use IGK\System\Models\IModelDefinitionInfo;
 
-///<summary>database host </summary>
 /**
 * database host 
 * @package IGK\System\Database

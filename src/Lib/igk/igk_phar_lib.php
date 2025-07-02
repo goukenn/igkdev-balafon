@@ -22,8 +22,6 @@ final class IGKPhar
 	//----------------------------------------------------------------------------
 	//export setting
 	//----------------------------------------------------------------------------
-	///<summary> check if file exists on current context</summary>
-	///<param name="file">the relative path to phar file</param>
 	public static function fileExists($file){
 		return igk_io_file_exists($file);
 	}

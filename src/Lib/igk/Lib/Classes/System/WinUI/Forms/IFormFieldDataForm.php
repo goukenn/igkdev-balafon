@@ -6,7 +6,6 @@ namespace IGK\System\WinUI\Forms;
 
 use IGK\System\Html\IFormFieldContainer;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\WinUI\Forms

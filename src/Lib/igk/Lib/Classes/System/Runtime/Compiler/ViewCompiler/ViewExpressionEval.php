@@ -8,7 +8,6 @@ use ArrayAccess;
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
-///<summary></summary>
 /**
 * on compilation store expression to evaluate
 * @package IGK\System\Runtime\Compiler

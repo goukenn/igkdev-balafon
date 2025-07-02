@@ -8,7 +8,6 @@ use IGK\Helper\Activator;
 use IGK\System\Html\Forms\Validations\FormValidationParamOptions;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms\Validations

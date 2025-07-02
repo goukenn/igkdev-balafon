@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store cron job</summary>
 /**
 * Store cron job
 * @package IGK\Models

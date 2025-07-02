@@ -8,7 +8,6 @@ use IGK\Controllers\ApplicationModuleController;
 use IGKException;
 use Throwable;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Exceptions

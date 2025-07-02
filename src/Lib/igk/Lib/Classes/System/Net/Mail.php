@@ -17,7 +17,6 @@ use IGKException;
 use IGKObject;
 use IIGKMailAttachmentContainer;
 
-///<summary>Represent a mail </summary>
 /**
  * Represent a mail
  */
@@ -70,7 +69,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         }
         return $mail;
     }
-    ///<summary>send mail</summary>
     /**
      * send mail 
      * - $from must match configs::mail_userauth
@@ -149,7 +147,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         }
         return $mail->sendMail();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -176,7 +173,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         $this->HtmlCharset = self::UTF8_CHARSET;
         $this->TextCharset = self::UTF8_CHARSET;
     }
-    ///<summary>send mail with TLS by using socket</summary>
     /**
      * send mail with TLS by using socket
      */
@@ -302,8 +298,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
             return true;
         }
     }
-    ///<summary></summary>
-    ///<param name="socket"></param>
     /**
      * 
      * @param mixed $socket
@@ -313,8 +307,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         fwrite($socket, 'QUIT' . IGK_CLF);
         fclose($socket);
     }
-    ///<summary></summary>
-    ///<param name="boundary"></param>
     /**
      * 
      * @param mixed $boundary
@@ -338,8 +330,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         $header .= "Content-Type: multipart/related; boundary=$boundary\r" . IGK_LF;
         return $header;
     }
-    ///<summary></summary>
-    ///<param name="to"></param>
     /**
      * 
      * @param mixed $to
@@ -373,8 +363,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
                 $this->m_to[] = $to;
         }
     }
-    ///<summary></summary>
-    ///<param name="to"></param>
     /**
      * 
      * @param mixed $to
@@ -392,8 +380,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         } else
             $this->m_tocc[] = $to;
     }
-    ///<summary></summary>
-    ///<param name="to"></param>
     /**
      * set carbon gcc 
      * @param string|string<array> $to mails list comma separated.
@@ -411,8 +397,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         } else
             $this->m_toBcc[] = $to;
     }
-    ///<summary></summary>
-    ///<param name="attachement"></param>
     /**
      * 
      * @param mixed $attachement
@@ -422,10 +406,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         if ($attachement)
             $this->m_files[] = $attachement;
     }
-    ///<summary></summary>
-    ///<param name="content"></param>
-    ///<param name="contentType" default="IGK_CT_PLAIN_TEXT"></param>
-    ///<param name="cid" default="null"></param>
     /**
      * 
      * @param mixed $content
@@ -442,10 +422,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         $this->m_files[] = $attach;
         return $attach;
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
-    ///<param name="contentType" default="IGK_CT_PLAIN_TEXT"></param>
-    ///<param name="cid" default="null"></param>
     /**
      * 
      * @param mixed $file
@@ -463,7 +439,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         $this->m_files[] = $attach;
         return $attach;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -471,7 +446,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_to = array();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -479,7 +453,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_from;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -487,7 +460,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->html_charset;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -495,8 +467,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_htmlmsg;
     }
-    ///<summary></summary>
-    ///<param name="tab"></param>
     /**
      * 
      * @param mixed $tab
@@ -511,7 +481,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         }
         return $o;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -519,7 +488,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_smtp_port;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -527,7 +495,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_pwd;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -535,7 +502,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_replyto;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -543,7 +509,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_smtphost;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -551,7 +516,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_socketTimeout;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -559,7 +523,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_socketType;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -567,7 +530,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->text_charset;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -575,7 +537,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_textmsg;
     }
-    ///<summary></summary>
     /**
      * get title
      * @return ?string
@@ -584,7 +545,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_title;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -592,7 +552,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return self::GetMailList($this->m_to);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -600,7 +559,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_useAuth;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -608,8 +566,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         return $this->m_user;
     }
-    ///<summary></summary>
-    ///<param name="$c"></param>
     /**
      * 
      * @param mixed $c
@@ -624,7 +580,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         }
         return $out;
     }
-    ///<summary>send mail after configuration </summary>
     /**
      * send mail after configuration 
      * @return boolean
@@ -703,9 +658,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="socket"></param>
-    ///<param name="expected_response"></param>
     /**
      * 
      * @param mixed $socket
@@ -736,8 +688,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * set from .
      * "title" <mail@mail.com> | mail@mail.com
@@ -757,8 +707,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     public function setFromTitle(string $title, string $mail){
         $this->setFrom(sprintf("\"%s\" <%s>", $title, $mail));
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -767,8 +715,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->html_charset = $v;
     }
-    ///<summary></summary>
-    ///<param name="content"></param>
     /**
      * 
      * @param mixed $content
@@ -777,8 +723,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_htmlmsg = $content;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -787,8 +731,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_smtp_port = $value;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -797,8 +739,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_pwd = $value;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -807,8 +747,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_replyto = $value;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -817,8 +755,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_smtphost = $value;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -827,8 +763,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_socketTimeout = $value;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -842,8 +776,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
                 break;
         }
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -852,8 +784,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->text_charset = $v;
     }
-    ///<summary></summary>
-    ///<param name="content"></param>
     /**
      * 
      * @param mixed $content
@@ -862,8 +792,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_textmsg = $content;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * set title
      * @param ?string $value
@@ -876,8 +804,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_auth_password = $password;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -886,8 +812,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     {
         $this->m_useAuth = $value;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value

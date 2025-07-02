@@ -5,7 +5,6 @@
 namespace IGK\System;
 
 
-///<summary></summary>
 /**
  * expose class require system entries class resolutions 
  * @package IGK\System

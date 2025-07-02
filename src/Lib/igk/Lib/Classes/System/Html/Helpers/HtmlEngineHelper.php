@@ -10,7 +10,6 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\HtmlLoadingContextOptions;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Helpers

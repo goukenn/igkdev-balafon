@@ -6,7 +6,6 @@ namespace IGK\System\Http\Mail;
 
 use IGK\System\Html\IHtmlStyleAtribute;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Mail

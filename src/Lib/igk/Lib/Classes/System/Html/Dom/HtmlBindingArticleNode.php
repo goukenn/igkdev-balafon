@@ -7,7 +7,6 @@ namespace IGK\System\Html\Dom;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\CompilerConstants;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom

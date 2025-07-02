@@ -7,7 +7,6 @@ namespace IGK\Tests\System\Configurations;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Configurations

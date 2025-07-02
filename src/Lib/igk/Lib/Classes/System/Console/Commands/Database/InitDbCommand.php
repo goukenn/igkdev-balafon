@@ -16,7 +16,6 @@ use IGKException;
 use IGKModuleListMigration;
 use L81Controller;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database

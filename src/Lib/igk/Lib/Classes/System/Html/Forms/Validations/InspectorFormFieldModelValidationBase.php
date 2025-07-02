@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Forms\Validations;
 
 
-///<summary></summary>
 /**
 * use to inspect model base data 
 * @package IGK\System\Html\Forms\Validations

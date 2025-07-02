@@ -5,7 +5,6 @@
 namespace IGK\System\Annotations;
 
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Annotations

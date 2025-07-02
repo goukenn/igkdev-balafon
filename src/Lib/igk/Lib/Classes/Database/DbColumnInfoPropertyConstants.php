@@ -6,7 +6,6 @@ namespace IGK\Database;
 
 use IGK\System\Exceptions\OperationNotAllowedException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

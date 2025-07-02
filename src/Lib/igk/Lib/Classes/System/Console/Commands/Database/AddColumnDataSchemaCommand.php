@@ -10,7 +10,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Exceptions\CommandException;
 use IGK\System\Console\Logger;
 
-///<summary></summary>
 /**
 * add column to table schemas
 * @package IGK\System\Console\Commands\Database

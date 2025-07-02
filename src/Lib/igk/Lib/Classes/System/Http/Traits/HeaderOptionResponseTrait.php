@@ -8,7 +8,6 @@ use IGK\System\Http\WebResponse;
 use IGKException;
 use IGK\System\Http\Helper\Response as http;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Traits

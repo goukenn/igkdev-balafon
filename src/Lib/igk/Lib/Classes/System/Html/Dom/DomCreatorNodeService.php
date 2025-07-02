@@ -6,7 +6,6 @@ namespace IGK\System\Html\Dom;
 
 use IGK\System\ServicesBase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom

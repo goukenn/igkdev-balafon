@@ -5,7 +5,6 @@
 namespace IGK\System\Articles;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Articles

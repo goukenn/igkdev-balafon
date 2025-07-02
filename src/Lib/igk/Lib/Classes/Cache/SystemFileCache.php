@@ -10,7 +10,6 @@ use function igk_resources_gets as __;
 
 class SystemFileCache extends CommonCache{
     static $LibFiles;
-    ///<summary>override lib cache file</summary>
     /**
      * return 
      * @return string 
@@ -18,8 +17,6 @@ class SystemFileCache extends CommonCache{
     public static function CacheFile(){
         return igk_io_syspath(IGK_FILE_LIB_CACHE);
     }
-    ///<summary></summary>
-    ///<param name="force" default="false"></param>
     public static function CacheLibFiles($force=false){
         $f=self::CacheFile();
         if(empty($f))
@@ -73,11 +70,9 @@ class SystemFileCache extends CommonCache{
         igk_io_w2file(dirname($f)."/.lib.version.cache", IGK_VERSION);
         self::Init_CachedHook();
     }
-     ///<summary>Represente CheckLibVersion function</summary>
      public static function CheckLibVersion(){
         return (!igk_io_file_exists($ver_file=igk_io_cachedir()."/.lib.version.cache", true)) || (IGK_VERSION != trim(file_get_contents($ver_file)));
     }
-   ///<summary></summary>
    public static function LoadCacheLibFiles(){
         $f= self::CacheFile();
         $v= false;
@@ -98,7 +93,6 @@ class SystemFileCache extends CommonCache{
         }
         return $v;
     }
-    ///<summary>init cache folder hook</summary>
     public static function Init_CachedHook($e=null){
         $f=igk_io_cachedir()."/.htaccess";
         igk_io_w2file($f, "deny from all", false);

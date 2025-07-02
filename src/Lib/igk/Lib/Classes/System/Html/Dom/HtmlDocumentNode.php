@@ -13,7 +13,6 @@ use IGK\Resources\R;
 use IGK\System\Html\HtmlRenderer;
 use IGKEvents;
 
-///<summary>represent a html document</summary>
 class HtmlDocumentNode extends HtmlItemBase{
     protected $m_head;
     protected $m_body;

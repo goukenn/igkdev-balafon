@@ -5,7 +5,6 @@
 namespace IGK\Actions\Traits;
 
 
-///<summary></summary>
 /**
 * params action trait - store param between action access
 * @package IGK\Actions\Traits

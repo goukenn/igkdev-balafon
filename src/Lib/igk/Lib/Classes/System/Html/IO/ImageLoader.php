@@ -8,7 +8,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\IO

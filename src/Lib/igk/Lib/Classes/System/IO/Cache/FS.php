@@ -8,7 +8,6 @@ use Exception;
 use IGK\System\IO\StringBuilder;
 use IGKException;
 
-///<summary></summary>
 /**
 * system file caches
 * @package IGK\System\IO\Cache

@@ -8,7 +8,6 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\HtmlNodeBuilder;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Dom

@@ -5,7 +5,6 @@
 namespace IGK\System\IO;
 
 
-///<summary></summary>
 /**
 * read block expression 
 * @package IGK\System\IO

@@ -13,14 +13,12 @@
  * @package 
  */
 final class IGKOb{
-    ///<summary></summary>
     public static function CleanAndStart(){
         while(ob_get_level() > 0){
             ob_end_clean();
         }
         ob_start();
     }
-    ///<summary></summary>
     /**
      * clear only the last buffer
      */
@@ -29,7 +27,6 @@ final class IGKOb{
             ob_end_clean();
         } 
     }
-    ///<summary></summary>
     /**
      * get the only level
      * @return string|false 
@@ -37,7 +34,6 @@ final class IGKOb{
     public static function Content(){
         return ob_get_contents();
     }
-    ///<summary></summary>
     /**
      * start new obj data 
      */

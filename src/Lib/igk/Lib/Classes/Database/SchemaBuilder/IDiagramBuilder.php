@@ -6,7 +6,6 @@ namespace IGK\Database\SchemaBuilder;
 
  
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\SchemaBuilder

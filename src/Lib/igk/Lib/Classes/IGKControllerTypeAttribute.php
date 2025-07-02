@@ -9,6 +9,5 @@
 // @url: https://www.igkdev.com
 
 class IGKControllerTypeAttribute extends IGKAttribute{
-    ///<summary></summary>
     public function __construct(){    }
 }

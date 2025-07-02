@@ -9,7 +9,6 @@ namespace IGK\System\Html\Dom;
 
 use IGKValueListener;
 
-///<summary>Represente class: IGKHtmlNotifyDialogBoxItem</summary>
 /**
 * Represent IGKHtmlNotifyDialogBoxItem class
 */
@@ -17,7 +16,6 @@ final class HtmlNotifyDialogBoxItem extends HtmlNode {
     private $m_Message;
     private $m_title;
     protected $tagname = "div";
-    ///<summary></summary>
     /**
     * 
     */

@@ -5,7 +5,6 @@
 namespace IGK\Database\Macros;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\Macros

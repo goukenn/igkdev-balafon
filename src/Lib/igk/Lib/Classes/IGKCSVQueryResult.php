@@ -10,7 +10,6 @@
 
 final class IGKCSVQueryResult extends IGKQueryResult{
     private $m_columns, $m_rowcount, $m_rows;
-    ///<summary></summary>
     private function __construct(){    }
 
     public function getRowAtIndex(int $index) { 
@@ -24,9 +23,6 @@ final class IGKCSVQueryResult extends IGKQueryResult{
     public function to_array(): ?array { 
         return $this->m_rows;
     }
-    ///<summary></summary>
-    ///<param name="e"></param>
-    ///<param name="tableinfo" default="null"></param>
     public function AppendEntries($e, $tableinfo=null){
         $this->m_rowcount += igk_count($e);
         if($tableinfo != null){
@@ -45,20 +41,15 @@ final class IGKCSVQueryResult extends IGKQueryResult{
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="result" default="null"></param>
-    ///<param name="seacharray" default="null"></param>
     public static function CreateEmptyResult($result=null, $seacharray=null){
         $out=new IGKCSVQueryResult();
         $out->m_rowcount=0;
         $out->m_rows=array();
         return $out;
     }
-    ///<summary></summary>
     public function getColumns(){
         return $this->m_columns;
     }
-    ///<summary></summary>
     public function getRows(){
         return $this->m_rows;
     }

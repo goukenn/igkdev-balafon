@@ -15,7 +15,6 @@ use IGKQueryResult;
 final class DbDataQueryResult extends IGKQueryResult{
     const CREATE_ROW="obj://createrow";
     private $m_columns, $m_rows;
-    ///<summary></summary>
     public function __construct(){
         $this->m_columns=array();
         $this->m_rows=array();
@@ -31,8 +30,6 @@ final class DbDataQueryResult extends IGKQueryResult{
     {
         return true;
     }
-    ///<summary></summary>
-    ///<param name="tab"></param>
     public function addColumns($tab){
         foreach($tab as $k){
             $d=igk_createobj();
@@ -41,8 +38,6 @@ final class DbDataQueryResult extends IGKQueryResult{
             $this->m_columns[]=$d;
         }
     }
-    ///<summary></summary>
-    ///<param name="row"></param>
     public function addRow($row){
         $d=self::CREATE_ROW;
         if(is_object($row) && isset($row->$d) && ($row->$d == 1)){
@@ -59,7 +54,6 @@ final class DbDataQueryResult extends IGKQueryResult{
         }
         $this->m_rows[]=$drow;
     }
-    ///<summary></summary>
     public function createRow(){
         $c=igk_createobj();
         foreach($this->m_columns as $v){
@@ -70,15 +64,12 @@ final class DbDataQueryResult extends IGKQueryResult{
         $c->$d=1;
         return $c;
     }
-    ///<summary></summary>
     public function getColumns(){
         return $this->m_columns;
     }
-    ///<summary></summary>
     public function getRowCount(){
         return igk_count($this->m_rows);
     }
-    ///<summary></summary>
     public function getRows(){
         return $this->m_rows;
     }

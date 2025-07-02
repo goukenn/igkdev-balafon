@@ -32,7 +32,6 @@ use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
 
-///<summary>base application controller</summary>
 abstract class ApplicationController extends  PageControllerBase
 implements IDatabaseHost
 {
@@ -42,9 +41,6 @@ implements IDatabaseHost
     private static $INIT;
     private static $sm_apps;
 
-    ///<summary></summary>
-    ///<param name="news" default="false"></param>
-    ///<param name="funcrequest" default="null"></param>
     /**
      * 
      * @param mixed $news the default value is false
@@ -54,8 +50,6 @@ implements IDatabaseHost
     {
         return igk_sys_getfunclist($this, $news, $funcrequest);
     }
-    ///<summary> override this method to handle shortcut evaluationUri according to function and param</summary>
-    ///<return> true if handled otherwise false</return>
     /**
      *  override this method to handle shortcut evaluationUri according to function and param
      */
@@ -63,7 +57,6 @@ implements IDatabaseHost
     {
         return false;
     }
-    ///<summary>override to create the application db utility intance </summary>
     /**
      * override to create the application db utility intance
      */
@@ -71,7 +64,6 @@ implements IDatabaseHost
     {
         return new IGKDbModelUtility($this);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -87,9 +79,6 @@ implements IDatabaseHost
         $div->addA($this->getAppUri(""))->setClass("glyphicons no-decoration")->Content = "&#xe021;";
         $doc->renderAJX();
     }
-    ///<summary></summary>
-    ///<param name="func"></param>
-    ///<param name="args"></param>
     /**
      * 
      * @param mixed $func
@@ -106,7 +95,6 @@ implements IDatabaseHost
         }
         return false;
     }
-    ///<summary>check before controller add</summary>
     /**
      * check before controller add
      */
@@ -123,8 +111,6 @@ implements IDatabaseHost
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="funcname"></param>
     /**
      * 
      * @param mixed $funcname
@@ -139,8 +125,6 @@ implements IDatabaseHost
         return false;
     }
 
-    ///<summary></summary>
-    ///<param name="node" default="null"></param>
     /**
      * 
      * @param mixed $node the default value is null
@@ -174,8 +158,6 @@ implements IDatabaseHost
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="clear" default="false"></param>
     /**
      * 
      * @param mixed $clear the default value is false
@@ -196,7 +178,6 @@ implements IDatabaseHost
 
         return $doc;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -245,7 +226,6 @@ implements IDatabaseHost
         }
         igk_navto($this->getAppUri());
     }
-    ///<summary>drop application table from system config</summary>
     /**
      * drop application table from system config
      */
@@ -266,7 +246,6 @@ implements IDatabaseHost
             igk_navto($c->getAppUri());
         }
     }
-    ///<summary>use to handle redirection uri</summary>
     /**
      * use to handle redirection uri
      */
@@ -279,7 +258,6 @@ implements IDatabaseHost
         $this->handle_redirection_uri($inf);
         igk_exit();
     }
-    ///<summary>List Exposed Functions</summary>
     /**
      * List Exposed Functions
      */
@@ -318,7 +296,6 @@ implements IDatabaseHost
         $b->addButton("btn.init")->setAttribute("value", "init function list")->setAttribute("onclick", "javascript: ns_igk.form.posturi('" . $u . "'); return false;");
         $doc->renderAJX();
     }
-    ///<summary></summary>
     /**
      * retrieve data schame definition
      */
@@ -339,7 +316,6 @@ implements IDatabaseHost
         }
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * primary configuration additional configuration 
      * @return <string,ConfigInfo
@@ -355,7 +331,6 @@ implements IDatabaseHost
             IGK_CTRL_CNF_APPNOTACTIVE => igk_create_additional_config_info(array("clType" => "bool", "clDefaultValue" => "0"))
         );
     }
-    ///<summary></summary>
     /**
      * 
      */

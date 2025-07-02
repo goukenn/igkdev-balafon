@@ -7,7 +7,6 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGKModuleListMigration;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

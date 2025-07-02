@@ -5,7 +5,6 @@
 namespace IGK\System\IO\JSon;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\JSon

@@ -6,7 +6,6 @@ namespace IGK\System\IO\Storage;
 
 use IGK\System\IO\Path;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\Storage

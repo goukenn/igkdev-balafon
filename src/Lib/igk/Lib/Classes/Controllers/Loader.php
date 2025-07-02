@@ -7,8 +7,6 @@
 
 namespace IGK\Controllers;
 
-///<summary>represent internal core loader</summary>
-
 use Closure;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -62,7 +60,6 @@ class Loader implements IResponse {
     }
 
     //+ store callback to call protected function info provide by the controller
-    ///<summary>dispatch call to controller</summary>
     /**
     * dispatch call to controller
     * @return mixed|void
@@ -73,8 +70,6 @@ class Loader implements IResponse {
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -85,8 +80,6 @@ class Loader implements IResponse {
 		$this->m_listener = $listener;
         $this->_cache_fs = FileSystem::Create(igk_environment()->getViewCacheDir());
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -99,9 +92,6 @@ class Loader implements IResponse {
             return $this->m_controller->$n;
         }
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
-    ///<param name="data"></param>
     /**
     * 
     * @param mixed $file
@@ -118,10 +108,6 @@ class Loader implements IResponse {
  
         $fc($file, $data); 
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
-    ///<param name="args" default="null"></param>
-    ///<param name="render" default="1"></param>
     /**
     * 
     * @param mixed $file
@@ -138,14 +124,12 @@ class Loader implements IResponse {
         $n = IGKCaches::Compile2($this->m_controller, IGKCaches::article_filesystem(), $f, $raw, $render);      
         return $n;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function clear(){
         $this->m_output="";
     }
-    ///<summary>check an resolve view file</summary>
     /**
     * check an resolve view file
     */
@@ -160,21 +144,18 @@ class Loader implements IResponse {
         }
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getConfigs(){
         return $this->m_controller->getConfigs();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getLoader(){
         return $this;
     }
-    ///<summary>retreive controller output buffer</summary>
     /**
     * retreive controller output buffer
     */
@@ -185,14 +166,12 @@ class Loader implements IResponse {
         }
         return $c;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getUser(){
         return $this->m_controller->User;
     }
-    ///<summary> use to load model utility class</summary>
     /**
     *  use to load model utility class
     */
@@ -228,7 +207,6 @@ class Loader implements IResponse {
         igk_set_env($key, $m);
         return $m[$n];
     }
-    ///<summary> include view file</summary>
     /**
     *  include view file
     */
@@ -330,7 +308,6 @@ class Loader implements IResponse {
         }
     }
 
-    ///<summary>include layout </summary>
     /**
      * include layout directory 
      * @return mixed

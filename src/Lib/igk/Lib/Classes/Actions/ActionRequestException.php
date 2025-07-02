@@ -6,7 +6,6 @@ namespace IGK\Actions;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions

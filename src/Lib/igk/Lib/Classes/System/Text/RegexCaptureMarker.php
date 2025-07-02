@@ -5,7 +5,6 @@
 namespace IGK\System\Text;
 
 
-///<summary></summary>
 /**
 * capture marker 
 * @package IGK\System\Text

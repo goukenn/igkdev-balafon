@@ -7,8 +7,6 @@
 
 
 
-///<summary>detect that a node must be an empty node</summary>
-
 use IGK\System\Html\Dom\HtmlOptions;
 
 /**
@@ -21,7 +19,6 @@ function igk_html_emptynode($n)
     }
     return igk_html_emptytag($n->TagName);
 }
-///<summary>detect that a tag must be an empty tag</summary>
 /**
  * detect that a tag must be an empty tag
  */

@@ -7,7 +7,6 @@ namespace IGK\System\WinUI;
 use IGK\Controllers\BaseController;
 use IGK\Constants;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\WinUI

@@ -17,7 +17,6 @@ use IGK\System\Html\Dom\HtmlDocTheme;
 use IGKOb;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css

@@ -9,7 +9,6 @@ use IGK\System\Html\Forms\IFormInternalIDSupport;
 use IGK\System\Html\Validations\IFormFieldValidationStoreError;
 use IGKException;
 
-///<summary></summary>
 /**
 * use to annotate a fields 
 * @package IGK\System\Html\Forms\Validations\Annotation

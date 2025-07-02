@@ -21,8 +21,6 @@ use IGKException;
 final class HtmlDefaultMainPage extends HtmlNode
 {
     static $sm_instance;
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     protected function _acceptRender($options = null):bool
     {
         if (!$this->getIsVisible()) {
@@ -53,7 +51,6 @@ final class HtmlDefaultMainPage extends HtmlNode
         }
         return 1;
     }
-    ///<summary>.ctr</summary>
     /**
      * .ctr
      * @return void 
@@ -63,8 +60,6 @@ final class HtmlDefaultMainPage extends HtmlNode
         parent::__construct("div");
         $this["class"] = "igk-project-start google-Roboto igk-parent-scroll";
     }
-    ///<summary></summary>
-
     /**
      * 
      * @return HtmlDefaultMainPage current application instance 
@@ -76,7 +71,6 @@ final class HtmlDefaultMainPage extends HtmlNode
         }
         return self::$sm_instance;
     }
-    ///<summary></summary>
     /**
      * 
      * @return int|bool 

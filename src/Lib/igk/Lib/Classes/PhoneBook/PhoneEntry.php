@@ -7,7 +7,6 @@ namespace IGK\PhoneBook;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\PhoneBook

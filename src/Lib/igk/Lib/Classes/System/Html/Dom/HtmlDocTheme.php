@@ -33,7 +33,6 @@ use IGKObjectGetProperties;
 use IGKHtmlDoc;
 use IGKException;
 
-///<summary>represent a document themes</summary>
 /**
  * represent a document themes
  * @method ?array getTempFile() get tempory loading files
@@ -394,10 +393,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $o = null;
         return $o;
     }
-    ///<summary></summary>
-    ///<param name="document"></param>
-    ///<param name="id"></param>
-    ///<param name="type" default="global"></param>
     /**
      * referer to global type 
      * @param HtmlItemBase|null $document owner
@@ -444,7 +439,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $cl = &$this->getCl();
         $cl = [];
     }
-    ///<summary>display value</summary>
     /**
      * display value
      */
@@ -456,7 +450,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         igk_css_bind_file($this, null, $file, $this);
     }
-    ///<summary>convert data to array</summary>
     /**
      * convert data to array
      * @return mixed 
@@ -477,7 +470,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $out;
     }
 
-    ///<summary>load userialize data to to thme</summary>
     /**
      * load userialize data to to thme
      * @param array $data 
@@ -507,10 +499,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $this->m_medias = $list;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="indent" default="true"></param>
-    ///<param name="themeexport" default="false"></param>
-    ///<param name="doc" default="null"></param>
     /**
      * get theme styling definition
      * @param \IGKHtmlDoc $doc document that host theme to export
@@ -752,7 +740,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             }
         }
     }
-    ///<summary></summary>
     /**
      * int theme
      */
@@ -822,8 +809,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return [];
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     /**
      * 
      * @param mixed $id
@@ -846,8 +831,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $this->reg_media();
         }
     }
-    ///<summary></summary>
-    ///<param name="style"></param>
     /**
      * 
      * @param mixed $style
@@ -863,9 +846,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         array_push($tc, $style);
         return $style;
     }
-    ///<summary></summary>
-    ///<param name="cl"></param>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $cl
@@ -887,7 +867,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $this->save();
         }
     }
-    ///<summary>Add file to document theme</summary>
     /**
      * Add file to document theme
      */
@@ -897,7 +876,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             igk_die("controller host must be defined");
         igk_css_reg_global_style_file($f, $this, $host, $temp);
     }
-    ///<summary>add font package</summary>
     /**
      * add font package
      */
@@ -913,7 +891,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $changed = true;
         }
     }
-    ///<summary>attach tempory css file</summary>
     /**
      * attach tempory css file
      * @return bool 
@@ -928,7 +905,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return !0;
     }
-    ///<summary>add css file to render inline</summary>
     /**
      * add css file to render inline 
      * @param BaseController $host controller that host the file
@@ -971,7 +947,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
 
-    ///<summary></summary>
     /**
      * 
      */
@@ -979,7 +954,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         $this->m_def->clear();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1004,10 +978,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $this->save();
         }
     }
-    ///<summary></summary>
-    ///<param name="minfile" default="false"></param>
-    ///<param name="themeexport" default="false"></param>
-    ///<param name="doc" default="null"></param>
     /**
      * get css definition
      * @param bool $minfile the default value is false
@@ -1112,8 +1082,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $this->setColors($bck);
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     /**
      * get register media
      * @param mixed $id
@@ -1130,7 +1098,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return $g;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1147,7 +1114,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $out .= $tab->render();
         return $out;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1155,7 +1121,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return "";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1163,8 +1128,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         igk_die(__METHOD__ . ". not avaiable for theme");
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
      * get color definitions
      * @return mixed|array colors
@@ -1173,27 +1136,22 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return $this->m_def->getCl();
     }
-    ///<summary>return theme extra smalll media type</summary>
     public function getxsm_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
     }
-    ///<summary>return theme smal media type</summary>
     public function getsm_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
     }
-    ///<summary>return theme large media type</summary>
     public function getlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
     }
-    ///<summary>return theme extra large media type</summary>
     public function getxlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
     }
-    ///<summary>return theme extra extra large media type</summary>
     public function getxxlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
@@ -1206,8 +1164,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return $this->getPrintMedia();
     }
-    ///<summary></summary>
-    ///<param name="key" default="null"></param>
     /**
      * 
      * @param mixed $key the default value is null
@@ -1255,8 +1211,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return $out;
     }
-    ///<summary>retrieve reference to definition</summary>
-    ///<return refout="true"></return>
     /**
      * retrieve reference to definition
      * @return mixed|array|object definition
@@ -1265,7 +1219,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return $this->m_def;
     }
-    ///<summary> get the parent document</summary>
     /**
      *  get the parent document
      */
@@ -1273,7 +1226,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return $this->m_document;
     }
-    ///<summary>return registrated fontn</summary>
     /**
      * return registrated fontn
      */
@@ -1281,7 +1233,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return null;
     }
-    ///<summary> return the id of the data</summary>
     /**
      *  return the id of the data
      */
@@ -1289,8 +1240,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return $this->m_id;
     }
-    ///<summary></summary>
-    ///<param name="idk"></param>
     /**
      * 
      * @param mixed $idk
@@ -1307,8 +1256,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="idk"></param>
     /**
      * get registrated media name
      * @param mixed $idk
@@ -1319,7 +1266,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             self::$MEDIA = [HtmlDocThemeMediaType::XSM_MEDIA => "(max-width:" . (IGK_CSS_XSM_SCREEN) . "px)", HtmlDocThemeMediaType::SM_MEDIA => "(min-width:" . (IGK_CSS_XSM_SCREEN + 1) . "px) and (max-width:" . IGK_CSS_SM_SCREEN . "px)", HtmlDocThemeMediaType::LG_MEDIA => "(min-width:" . (IGK_CSS_SM_SCREEN + 1) . "px) and (max-width:" . IGK_CSS_LG_SCREEN . "px)", HtmlDocThemeMediaType::XLG_MEDIA => "(min-width:" . (IGK_CSS_LG_SCREEN + 1) . "px) and (max-width:" . IGK_CSS_XLG_SCREEN . "px)", HtmlDocThemeMediaType::XXLG_MEDIA => "(min-width:" . (IGK_CSS_XLG_SCREEN + 1) . "px)", HtmlDocThemeMediaType::GT_XSM_MEDIA => "(min-width:" . (IGK_CSS_XSM_SCREEN + 1) . "px)", HtmlDocThemeMediaType::GT_SM_MEDIA => "(min-width:" . (IGK_CSS_SM_SCREEN + 1) . "px)", HtmlDocThemeMediaType::GT_LG_MEDIA => "(min-width:" . (IGK_CSS_LG_SCREEN + 1) . "px)", HtmlDocThemeMediaType::GT_XLG_MEDIA => "(min-width:" . (IGK_CSS_XLG_SCREEN + 1) . "px)", HtmlDocThemeMediaType::CTN_LG_MEDIA => "(min-width:855px)", HtmlDocThemeMediaType::CTN_XLG_MEDIA => "(min-width:1300px)", HtmlDocThemeMediaType::CTN_XXLG_MEDIA => "(min-width:1820px)"];
         return igk_getv(self::$MEDIA, $idk, $idk);
     }
-    ///<summary>get all registrated medias</summary>
     /**
      * get all registrated medias
      */
@@ -1328,7 +1274,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $this->m_medias;
     }
 
-    ///<summary>get print media</summary>
     /**
      * get print media
      */
@@ -1337,7 +1282,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return $this->reg_media("print", null, 'print');
     }
 
-    ///<summary></summary>
     /**
      * 
      */
@@ -1345,8 +1289,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return __CLASS__ . "_" . $this->Name;
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
      * get rules attached to theme definition
      * @return mixed|array rules
@@ -1356,8 +1298,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $sd = &$this->m_def->getRules();
         return $sd;
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
     /**
      * 
      * @param mixed $file
@@ -1369,8 +1309,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
     }
 
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
      * 
      * @param mixed $i
@@ -1381,8 +1319,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             return ($i >= 0) && ($i < count($this->m_tc));
         return !1;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
      * 
      * @param mixed $key
@@ -1391,9 +1327,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     {
         return $this->def[$key];
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $key
@@ -1423,8 +1356,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         $def[$key] = $value;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
      * 
      * @param mixed $i
@@ -1434,7 +1365,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         if (isset($this->m_tc))
             unset($this->m_tc[$i]);
     }
-    ///<summary></summary>
     /**
      * output 
      */
@@ -1444,10 +1374,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $s = $this->get_css_def();
         igk_wl($s);
     }
-    ///<summary></summary>
-    ///<param name="def"></param>
-    ///<param name="name"></param>
-    ///<param name="expression"></param>
     /**
      * register key frame 
      * @param ICssAddRule $def
@@ -1473,8 +1399,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $definition = CssUtils::BlockDefinition($definition);
         $this->registerKeyFrame($this, $name, $definition);
     }
-    ///<summary>register a media </summary>
-    ///<param name="$name">name or condition</param>
     /**
      * register a media
      * @param mixed $name name or condition
@@ -1495,8 +1419,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return $n;
     }
-    ///<summary></summary>
-    ///<param name="cl"></param>
     /**
      * 
      * @param mixed $cl
@@ -1534,7 +1456,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         return false;
     }
 
-    ///<summary>reset all media</summary>
     /**
      * reset all media definition 
      */
@@ -1556,7 +1477,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         if ($save)
             $this->save();
     }
-    ///<summary></summary>
     /**
      * clear all - 
      */
@@ -1567,8 +1487,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $this->_initMedia($this->m_id);
     }
 
-    ///<summary></summary>
-    ///<param name="file" default="null"></param>
     /**
      * 
      * @param mixed $file the default value is null
@@ -1624,8 +1542,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             $p[$name] = $value;
         }
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
      * 
      * @return mixed|array properties
@@ -1641,7 +1557,6 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return  $g;
     }
-    ///<summary></summary>
     /**
      * 
      */

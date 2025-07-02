@@ -462,8 +462,6 @@ class DataAdapter extends DataAdapterBase implements
         }
     }
 
-    ///<summary></summary>
-    ///<param name="ctrl" default="null"></param>
     /**
      * 
      * @param mixed $ctrl the default value is null
@@ -538,7 +536,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return in_array($type, ["float", "int", "varchar", "enum", "datetime", "time", "float"]);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -612,7 +609,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return $value;
     }
-    ///<summary>display value</summary>
     /**
      * display value
      */
@@ -653,9 +649,6 @@ class DataAdapter extends DataAdapterBase implements
         return false;
     }
 
-    ///<summary> add column</summary>
-    ///<param name="tbname">the table name</param>
-    ///<param name="name">the table name</param>
     /**
      *  add column
      * @param string $tbname the table name
@@ -696,8 +689,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
      * 
      * @param mixed $tbname
@@ -708,8 +699,6 @@ class DataAdapter extends DataAdapterBase implements
         return $this->sendQuery("TRUNCATE `" . $tbname . "` ;")->Success &&
             $this->sendQuery("ALTER TABLE `" . $tbname . "` AUTO_INCREMENT =1;")->Success;
     }
-    ///<summary></summary>
-    ///<param name="dbname"></param>
     /**
      * create database
      * @param mixed $dbname
@@ -721,11 +710,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="columninfoArray"></param>
-    ///<param name="entries" default="null"></param>
-    ///<param name="desc" default="null"></param>
     /**
      * 
      * @param mixed $tablename
@@ -753,7 +737,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -761,7 +744,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return igk_mysql_db_error();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -769,7 +751,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return "mysqli";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -777,7 +758,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->m_dbManager->getError();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -785,7 +765,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->m_dbManager->getErrorCode();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -794,7 +773,6 @@ class DataAdapter extends DataAdapterBase implements
         return $this->m_dbManager->getHasError();
     }
 
-    ///<summary>create table links definition </summary>
     ///return true if this table still have link an register ctrl data
     /**
      * create table links definition
@@ -803,10 +781,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->m_dbManager->haveNoLinks($tablename, $ctrl);
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="entry"></param>
-    ///<param name="tableinfo" default="null"></param>
     /**
      * adapter send query with grammar helper
      * @param mixed $tablename
@@ -820,7 +794,6 @@ class DataAdapter extends DataAdapterBase implements
             return $this->sendQuery($query, $throwException, $options, $autoclose);
         }
     }
-    ///<summary>insert array in items by building as semi-column separated query</summary>
     public function insert_array($tbname, $values, $throwex = 1)
     {
 
@@ -832,7 +805,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return $this->sendMultiQuery($query, $throwex);
     }
-    ///<summary></summary>
     /**
      * enable relation checking
      */
@@ -840,9 +812,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->sendQuery("SET foreign_key_checks=1;");
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="name"></param>
     /**
      * 
      * @param mixed $tbname
@@ -854,8 +823,6 @@ class DataAdapter extends DataAdapterBase implements
             return $this->sendQuery($query, false);
         }
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
      * select all
      * @param mixed $tbname    
@@ -938,10 +905,6 @@ class DataAdapter extends DataAdapterBase implements
         return $outdata;
     }
 
-    ///<summary></summary>
-    ///<param name="query"></param>
-    ///<param name="throwex" default="true">throw exception</param>
-    ///<param name="options" default="null">use to filter the query result. the default value is null</param>
     /**
      * 
      * @param mixed $query
@@ -1012,8 +975,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return IGK_MYSQL_DATAADAPTER;
     }
-    ///<summary></summary>
-    ///<param name="listener"></param>
     /**
      * 
      * @param mixed $listener
@@ -1026,7 +987,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->queryListener;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1034,8 +994,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->sendQuery("SET foreign_key_checks=0;");
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
     /**
      * check if table exists
      * @param mixed $tablename

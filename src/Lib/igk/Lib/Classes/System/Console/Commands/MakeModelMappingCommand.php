@@ -11,7 +11,6 @@ use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

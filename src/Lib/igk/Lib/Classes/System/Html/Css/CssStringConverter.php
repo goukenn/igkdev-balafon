@@ -6,7 +6,6 @@ namespace IGK\System\Html\Css;
 
 use IGK\System\IO\Configuration\ConfigurationReader;
 
-///<summary></summary>
 /**
 * use to parse css litteral
 * @package IGK\System\Html\Css

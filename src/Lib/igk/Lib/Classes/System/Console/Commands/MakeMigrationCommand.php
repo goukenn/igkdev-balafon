@@ -19,7 +19,6 @@ use IGK\System\IO\StringBuilder;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

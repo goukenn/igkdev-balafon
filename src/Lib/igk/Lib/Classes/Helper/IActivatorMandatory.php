@@ -5,7 +5,6 @@
 namespace IGK\Helper;
 
 
-///<summary>check for mandatory data</summary>
 /**
 * check for mandatory data
 * @package IGK\Helper

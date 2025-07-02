@@ -7,7 +7,6 @@ namespace IGK\Tests\Css;
 use IGK\Tests\BaseTestCase;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Css

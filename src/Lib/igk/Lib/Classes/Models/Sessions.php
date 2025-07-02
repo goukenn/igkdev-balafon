@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Track user started session</summary>
 /**
 * Track user started session
 * @package IGK\Models

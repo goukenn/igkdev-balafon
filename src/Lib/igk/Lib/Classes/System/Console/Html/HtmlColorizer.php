@@ -7,7 +7,6 @@ namespace IGK\System\Console\Html;
 use IGK\System\Console\Colorize;
 use IGK\System\Text\RegexMatcherContainer;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Html

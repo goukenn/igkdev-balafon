@@ -4,8 +4,6 @@
 // @date: 20220803 13:48:59
 // @desc: 
 
-///<summary>represent used to store common primary articles and templates</summary>
-
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
 abstract class IGKAtriclesCtrlBase extends \IGK\Controllers\ControllerTypeBase
@@ -14,7 +12,6 @@ abstract class IGKAtriclesCtrlBase extends \IGK\Controllers\ControllerTypeBase
 	public function __construct(){
 		parent::__construct();
 	}
-	///<summary>bind primary articles</summary>
 	public function bindArticle($ctrl, $name, $target, $row){
 		$f = $this->getArticle($name);
 		if (igk_io_file_exists($f)){

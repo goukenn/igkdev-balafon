@@ -10,7 +10,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
 use IteratorAggregate;
 use Traversable;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler

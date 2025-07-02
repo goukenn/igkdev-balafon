@@ -6,7 +6,6 @@ namespace IGK\System\Models\Traits;
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Models\Traits

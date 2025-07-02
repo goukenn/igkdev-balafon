@@ -9,7 +9,6 @@ use IGK\Database\RefColumnMapping;
 use IGK\Models\ModelBase;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Database

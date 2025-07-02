@@ -6,7 +6,6 @@ namespace IGK\System\IO\VCF;
 
 use IGK\System\IO\VCF\IVCardSaveOptions;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\VCF

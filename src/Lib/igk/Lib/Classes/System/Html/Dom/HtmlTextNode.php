@@ -22,7 +22,6 @@ class HtmlTextNode extends HtmlItemBase{
     public function getNodeType(){
         return XMLNodeType::TEXT;
     }
-    ///<summary>.ctr</summary>
     public function __construct($content=""){
         parent::__construct();
         $this->content = $content;

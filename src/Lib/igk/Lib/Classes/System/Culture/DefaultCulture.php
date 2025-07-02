@@ -5,7 +5,6 @@
 namespace IGK\System\Culture;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Culture

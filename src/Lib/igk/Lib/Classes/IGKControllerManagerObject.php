@@ -5,9 +5,6 @@
 // @desc: 
 
 
-///<summary> System Controllers Managers. store list of different controller table. </summary>
-///<note></note>
-
 use IGK\ApplicationLoader;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
@@ -54,7 +51,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * @var IGKControllerManagerObject controller instance
      */
     private static $sm_instance;
-    ///<summary></summary>
     /**
      * 
      */
@@ -119,8 +115,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
      * 
      * @param mixed $key
@@ -138,9 +132,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $key
@@ -167,7 +158,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         return array_keys($this->m_tbcontrollers);
     }
-    ///<summary>display value</summary>
     /**
      * display value
      */
@@ -175,14 +165,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         return "Controllers [#" . count($this->m_tbcontrollers) . "]";
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
-    ///<param name="tab"></param>
-    ///<param name="fname"></param>
-    ///<param name="fsize"></param>
-    ///<param name="x"></param>
-    ///<param name="y"></param>
-    ///<param name="cl"></param>
     /**
      * 
      * @param mixed $s
@@ -210,9 +192,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return $rc;
     }
 
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="regname" default="null"></param>
     /**
      * 
      * @param mixed $ctrl
@@ -239,9 +218,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return 0;
     }
-    ///<summary></summary>
-    ///<param name="a"></param>
-    ///<param name="b"></param>
     /**
      * 
      * @param mixed $a
@@ -257,7 +233,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return strcmp($a->Name, $b->Name);
     }
     ///JUST: store to controller
-    ///<summary>clear cache for base dir</summary>
     /**
      * clear cache for base dir
      */
@@ -265,7 +240,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
        \IGK\Helper\SysUtils::ClearCache($bdir, $init);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -276,7 +250,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             unlink($fc);
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -317,7 +290,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         unset($s);
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -326,8 +298,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return count($this->m_tbcontrollers);
     }
 
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
      * 
      * @param mixed $ctrl
@@ -351,8 +321,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         igk_hook(IGK_DROP_CTRL_EVENT, array($ctrl));
         return true;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     //@remove controller by name
     /**
      * 
@@ -367,7 +335,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return false;
     }
-    ///<summary>get controller info's cache file</summary>
     /**
      * get controller info's cache file
      * @return string 
@@ -384,8 +351,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         return igk_io_syspath(IGK_FILE_PROJECT_CTRL_CACHE);
     }
-    ///<summary></summary>
-    ///<param name="classname"></param>
     /**
      * 
      * @param mixed $classname
@@ -404,8 +369,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
-    ///<summary>get array of initialized controller</summary>
-    ///<return refout="true"></return>
     /**
      * get array of initialized controller
      * @return mixed|array controller list 
@@ -421,7 +384,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         return $this->m_tbcontrollers;
     }
-    ///<summary>get the current instance manager</summary>
     /**
      * get the current instance manager
      */
@@ -470,7 +432,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         igk_io_w2file($f, $m);
     }
-    ///<summary>get registerd global controller for specific fonctionnality</summary>
     /**
      * get registerd global controller for specific fonctionnality
      */
@@ -478,8 +439,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         igk_die("not allowed: " . __METHOD__);
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
      * 
      * @return mixed|array register list
@@ -534,7 +493,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         igk_hook(IGKEvents::HOOK_CONTROLLER_INIT_COMPLETE, [$this]);
         $this->onInitComplete($context);
     }
-    ///<summary>init all controllers</summary>
     /**
      * init all controllers
      * @param IGKApp application controller
@@ -645,9 +603,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         $this->initCallBack($sysload, __FUNCTION__);
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="new" default="false"></param>
     /**
      * 
      * @param mixed $ctrl
@@ -689,8 +644,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="uri"></param>
     /**
      * 
      * @param mixed $uri
@@ -726,8 +679,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         $_REQUEST = $bck;
     }
-    ///<summary></summary>
-    ///<param name="pattern"></param>
     /**
      * 
      * @param mixed $pattern
@@ -736,8 +687,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         return $this->InvokeUri($pattern->value, 1, $pattern);
     }
-    ///<summary>use to invoke system controller method</summary>
-    ///<return>the selected uri</return>
     /**
      * use to invoke system controller method
      */
@@ -828,7 +777,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         return $c;
     }
    
-    ///<summary>raise init complete event</summary>
     /**
      * raise init complete event
      */
@@ -847,7 +795,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             igk_hook("sys://event/defaultpagechanged", array($this, "defaultpagechanged"));
         }
     }
-    ///<summary>register controller for specific fonctionnality</summary>
     /**
      * register controller for specific fonctionnality
      * @deprecated register controller not allowed
@@ -856,7 +803,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         $this->m_tbcontrollers[get_class($ctrl)] = $ctrl;
     }
-    ///<summary>register controller. register to init complete</summary>    
     /**
      * register controller. register to init complete
      */
@@ -866,7 +812,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $initComplete && ConfigControllerRegistry::RegisterInitComplete($controller);
     }
 
-    ///<summary>reload controller table list</summary>
     /**
      * reload controller table list
      */
@@ -913,15 +858,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             igk_navtocurrent();
         }
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
-    ///<param name="v"></param>
-    ///<param name="fname"></param>
-    ///<param name="fsize"></param>
-    ///<param name="x"></param>
-    ///<param name="y"></param>
-    ///<param name="cl"></param>
-    ///<param name="indexpos"></param>
     /**
      * 
      * @param mixed $s
@@ -952,7 +888,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return $t;
     }
-    ///<summary>store system controller library</summary>
     /**
      * store system controller library
      */
@@ -970,8 +905,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         IGKSysCache::Init_CachedHook();
     }
 
-    ///<summary></summary>
-    ///<param name="forceview"></param>
     /**
      * 
      * @param mixed $forceview the default value is 0

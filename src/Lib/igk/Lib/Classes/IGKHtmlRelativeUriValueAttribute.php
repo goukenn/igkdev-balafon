@@ -17,21 +17,15 @@ use IGK\System\Html\Dom\HtmlItemAttribute;
  */
 final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
     private $m_lnk;
-    ///<summary></summary>
-    ///<param name="uri" default="null" type="string"></param>
     public function __construct(?string $uri=null){
         $this->m_lnk=$uri;
     }
-    ///<summary>display value</summary>
     public function __toString(){
         return $this->getValue(null);
     }
-    ///<summary></summary>
     public function getLnk(){
         return $this->m_lnk;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function getValue($options=null){
         $lnk=$this->m_lnk;
         if(empty($lnk)){

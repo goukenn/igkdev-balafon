@@ -5,13 +5,11 @@
 namespace IGK\System\Text;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-///<summary></summary>
 /**
 * use to capture result
 * @package IGK\System\Test
@@ -109,7 +107,7 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      */
     public function getisEnd(){
         $m = $this->match;
-        if ($m->type == 'match'){
+        if ($m && ($m->type == 'match')){
             return true;
         }
         return !is_null($this->endCaptures);

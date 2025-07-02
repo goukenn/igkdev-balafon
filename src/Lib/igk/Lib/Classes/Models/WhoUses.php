@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Track who use the framework</summary>
 /**
 * Track who use the framework
 * @package IGK\Models

@@ -8,7 +8,6 @@ namespace IGK\Tests\System\Validator;
 use IGK\System\Html\Forms\Validations\HtmlValidator;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Validator

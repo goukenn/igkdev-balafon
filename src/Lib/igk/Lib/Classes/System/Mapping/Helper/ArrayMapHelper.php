@@ -6,7 +6,6 @@ namespace IGK\System\Mapping\Helper;
 
 use Exception;
 
-///<summary></summary>
 /**
 * store mapping array utility function 
 * @package IGK\System\Mapping\Helper

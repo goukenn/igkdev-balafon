@@ -12,8 +12,6 @@ use IGK\Helper\StringUtility as str_helper;
 use IGK\Helper\IO;
 use IGKException; 
 
-///<summary>core path manipulation class</summary>
-///<note>for better directory manipulation.</note>
 /**
  * core path manipulation class 
  * @package IGK\System\IO
@@ -400,7 +398,6 @@ class Path
     }
 
 
-    ////<summary>get relative path</summary>
     /**
      * Get relative path
      * @param mixed $source 

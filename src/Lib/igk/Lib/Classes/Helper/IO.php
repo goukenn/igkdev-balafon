@@ -309,9 +309,6 @@ class IO
         $r = is_link($cibling);
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="path"></param>
-    ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
      * 
      * @param mixed $path
@@ -327,10 +324,6 @@ class IO
         }
         return $path;
     }
-    ///<summary></summary>
-    ///<param name="filename"></param>
-    ///<param name="content"></param>
-    ///<param name="chmod" default="IGK_DEFAULT_FILE_MASK"></param>
     /**
      * 
      * @param mixed $filename
@@ -341,11 +334,6 @@ class IO
     {
         return self::WriteToFile($filename, $content, true, $chmod, "a+");
     }
-    ///<summary></summary>
-    ///<param name="inputDir"></param>
-    ///<param name="outputDir"></param>
-    ///<param name="recursive" default="false"></param>
-    ///<param name="overwrite" default="false"></param>
     /**
      * 
      * @param mixed $inputDir
@@ -389,9 +377,6 @@ class IO
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="dirname"></param>
-    ///<param name="mode" default="IGK_DEFAULT_FOLDER_MASK"></param>
     /**
      * 
      * @param mixed $dirname
@@ -401,10 +386,6 @@ class IO
     {
         return FileWriter::CreateDir($dirname, $mode);
     }
-    ///<summary> Create a directory recursivily</summary>
-    ///<dir>directory to create</dir>
-    ///<root>mus add a as directory separator </root>
-    ///<return>-1 if dir is empty, </return>
     /**
      *  Create a directory recursivily
      */
@@ -429,7 +410,6 @@ class IO
         }
         return true;
     }
-    ///<summary>DIRECTORY FUNCTION.  </summary>
     /**
      * DIRECTORY FUNCTION.
      */
@@ -437,8 +417,6 @@ class IO
     {
         return igk_io_basedir($dir);
     }
-    ///<summary> get relative path according to the IGK_APP_DIR</summary>
-    ///<param name="dir">must be a full path to existing file or  existing directory </param>
     /**
      *  get relative path according to the IGK_APP_DIR
      * @param mixed $dir must be a full path to existing file or existing directory
@@ -448,7 +426,6 @@ class IO
         $doc_root = self::GetBaseDir();
         return self::GetSysRelativePath($dir, $doc_root, $separator);
     }
-    ///<summary>GET BASE FOLDER FULLPATH</summary>
     /**
      * GET BASE FOLDER FULLPATH
      */
@@ -459,8 +436,6 @@ class IO
             return igk_dir(igk_io_currentrelativepath(IGK_APP_DIR . "/" . $d . "/" . $dir));
         return igk_dir(igk_io_currentrelativepath(IGK_APP_DIR . "/" . $dir));
     }
-    ///<summary>get the current base uri according to local specification</summary>
-    ///<param name="dir">null or existing fullpath directory or file element. </param>
     /**
      * get the current base uri according to local specification
      * @param mixed $dir null or existing fullpath directory or file element.
@@ -469,10 +444,6 @@ class IO
     {
         return igk_io_baseuri($dir, $secured, $path);
     }
-    ///<summary></summary>
-    ///<param name="source"></param>
-    ///<param name="destination"></param>
-    ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
      * 
      * @param mixed $source
@@ -497,7 +468,6 @@ class IO
         }
         return empty($dir) ? null : self::__fixPath($dir, $separator);
     }
-    ///<summary>current directory</summary>
     /**
      * get current directory
      */
@@ -505,7 +475,6 @@ class IO
     {
         return getcwd();
     }
-    ///<summary>get relative path according to IGK_APP_DIR base dir</summary>
     ///@dir: absolute path or basedir relative path
     /**
      * get relative path according to IGK_APP_DIR base dir
@@ -540,8 +509,6 @@ class IO
         }
         return $r;
     }
-    ///<summary>return relative uri from server requested URI</summary>
-    ///<param name="dir"> full path to resources</param>
     /**
      * return relative uri from server requested URI
      * @param mixed $dir full path to resources
@@ -591,7 +558,6 @@ class IO
         }
         return null;
     }
-    ///<summary>tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur</summary>
     /**
      * tranforme le repertoire passer en paramètre en une chemin compatible celon le systeme d'exploitation serveur
      */
@@ -612,8 +578,6 @@ class IO
         }
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="folder"></param>
     /**
      * retrieve only file 
      * @param mixed $folder
@@ -637,8 +601,6 @@ class IO
         }
         return $dirs;
     }
-    ///<summary></summary>
-    ///<param name="folder"></param>
     /**
      * retrieve only folder
      * @param mixed $folder
@@ -684,10 +646,6 @@ class IO
         }
         return $dirs;
     }
-    ///<summary>get directories</summary>
-    ///<param name="dir"></param>
-    ///<param name="match"></param>
-    ///<param name="recursive" default="false"></param>
     /**
      * get directories
      * @param string $dir
@@ -739,8 +697,6 @@ class IO
         }
         return $v_out;
     }
-    ///<summary></summary>
-    ///<param name="filename"></param>
     /**
      * 
      * @param string $filename
@@ -756,8 +712,6 @@ class IO
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="filename"></param>
     /**
      * 
      * @param string $filename
@@ -768,11 +722,6 @@ class IO
         $b = $pathinfo["basename"];
         return $b;
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
-    ///<param name="match"></param>
-    ///<param name="recursive" default="false"></param>
-    ///<param name="excludedir" default="null" ref="true"></param>
     /**
      * get files in directory 
      * @param string $dir directory
@@ -868,8 +817,6 @@ class IO
         }
         return $v_out;
     }
-    ///<summary></summary>
-    ///<param name="size"></param>
     /**
      * 
      * @param mixed $size
@@ -891,9 +838,6 @@ class IO
         );
         return (round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . ' ' . $sizes[$i]);
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
-    ///<param name="recursive" default="true"></param>
     /**
      * 
      * @param mixed $dir
@@ -937,8 +881,6 @@ class IO
         }
         return $tab;
     }
-    ///<summary></summary>
-    ///<param name="secure" default="false"></param>
     /**
      * 
      * @param mixed $secure the default value is false
@@ -950,10 +892,6 @@ class IO
             return $p;
         return null;
     }
-    ///<summary></summary>
-    ///<param name="sourcepath"></param>
-    ///<param name="targetdir"></param>
-    ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
      * get relative path helper
      * @param mixed $sourcepath path where to go
@@ -1005,10 +943,6 @@ class IO
         // }
         // return $s;
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
-    ///<param name="cdir"></param>
-    ///<param name="bdir"></param>
     /**
      * 
      * @param mixed $dir
@@ -1033,7 +967,6 @@ class IO
         }
         return empty($dir) ? null : self::__fixPath($dir);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1042,9 +975,7 @@ class IO
         return self::GetRootUri(igk_getv(explode("?", igk_io_request_uri() ?? ""), 0));
     }
     ///end relative
-    ///<summary>Get the Root directory according to DocumentRoot apache configuration </summary>
     ///@get the root dir according to document root. uses for css script file
-    ///<param name="dir">relative dirctory that will be append to result</param>
     /**
      * Get the Root directory according to DocumentRoot apache configuration
      * @param mixed $dir relative dirctory that will be append to result
@@ -1078,8 +1009,6 @@ class IO
         }
         return $s;
     }
-    ///<summary> get relative path according to the DOCUMENT_ROOT</summary>
-    ///<remark>full path from root dir</remark>
     /**
      *  get relative path according to the DOCUMENT_ROOT
      */
@@ -1102,9 +1031,6 @@ class IO
             $dir = $c . $separator . $dir;
         return igk_uri(empty($dir) ? null : self::__fixPath($dir));
     }
-    ///<summary></summary>
-    ///<param name="uri" default="IGK_STR_EMPTY"></param>
-    ///<param name="secured" default="null"></param>
     /**
      * 
      * @param mixed $uri the default value is IGK_STR_EMPTY
@@ -1131,10 +1057,6 @@ class IO
         $out = str_replace('\\', '/', $out);
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
-    ///<param name="doc_root"></param>
-    ///<param name="separator" default="DIRECTORY_SEPARATOR"></param>
     /**
      * 
      * @param mixed $dir
@@ -1172,8 +1094,6 @@ class IO
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="uri"></param>
     /**
      * check if this path exists and is abolutes path
      * @param mixed $uri
@@ -1183,8 +1103,6 @@ class IO
         $uri = igk_dir($uri);
         return igk_io_file_exists($uri) && ($uri == igk_realpath($uri));
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
     /**
      * 
      * @param mixed $dir
@@ -1209,7 +1127,6 @@ class IO
         }
         return true;
     }
-    ///<summary>check is this file is present on server .symbolink link resolved</summary>
     /**
      * check is this file is present on server .symbolink link resolved
      */
@@ -1218,7 +1135,6 @@ class IO
         $uri = igk_dir($uri);
         return !empty($c = igk_realpath($uri));
     }
-    ///<summary>read entiere file in one shot. speed for small file</summary>
     /**
      * read entiere file in one shot. speed for small file
      */
@@ -1244,10 +1160,6 @@ class IO
         }
         return $str;
     }
-    ///<summary></summary>
-    ///<param name="f"></param>
-    ///<param name="offset"></param>
-    ///<param name="ln"></param>
     /**
      * 
      * @param mixed $f
@@ -1269,8 +1181,6 @@ class IO
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
     /**
      * 
      * @param mixed $dir
@@ -1282,7 +1192,6 @@ class IO
         }
         return $dir;
     }
-    ///<summary>REMOVE FOLDER</summary>
     /**
      * REMOVE FOLDER
      */
@@ -1337,9 +1246,6 @@ class IO
         }
         return igk_count($kdir) == 0;
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
-    ///<param name="pattern" default="null"></param>
     /**
      * 
      * @param mixed $dir
@@ -1365,8 +1271,6 @@ class IO
         closedir($hdir);
         return true;
     }
-    ///<summary>write text to a file</summary>
-    ///<remarks>return true if success. or throw exception</remarks>
     /**
      * write text to a file
      */
@@ -1374,11 +1278,6 @@ class IO
     {
         return igk_io_save_file_as_utf8_wbom($filename, $content, $overwrite, $chmod, $type);
     }
-    ///<summary></summary>
-    ///<param name="filename"></param>
-    ///<param name="content"></param>
-    ///<param name="overwrite" default="true"></param>
-    ///<param name="chmod" default="IGK_DEFAULT_FILE_MASK"></param>
     /**
      * 
      * @param mixed $filename

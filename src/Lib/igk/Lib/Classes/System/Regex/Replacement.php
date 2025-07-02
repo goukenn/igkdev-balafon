@@ -7,7 +7,6 @@ namespace IGK\System\Regex;
 use Closure;
 use IGK\Core\Traits\NoDynamicPropertyTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Regex

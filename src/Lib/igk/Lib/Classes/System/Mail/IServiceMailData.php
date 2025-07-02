@@ -5,7 +5,6 @@
 namespace IGK\System\Mail;
 
 
-///<summary></summary>
 /**
 * get mail data service
 * @package IGK\System\Mail

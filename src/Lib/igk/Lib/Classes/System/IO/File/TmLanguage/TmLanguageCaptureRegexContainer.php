@@ -8,7 +8,6 @@ use IGK\Helper\Activator;
 use IGK\System\Text\IRegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\File\TmLanguage

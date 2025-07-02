@@ -5,7 +5,6 @@
 namespace IGK\System\Html;
 
 
-///<summary></summary>
 /**
 * represent a node that hold template
 * @package IGK\System\Html

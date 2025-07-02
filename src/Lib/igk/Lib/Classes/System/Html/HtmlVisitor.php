@@ -7,7 +7,6 @@ namespace IGK\System\Html;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlTextNode;
 
-///<summary>used to visit html node</summary>
 /**
  * used to visit html node
  * @package IGK\System\Html

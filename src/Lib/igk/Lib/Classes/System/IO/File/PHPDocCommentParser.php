@@ -8,7 +8,6 @@ use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGKException;
 
-///<summary></summary>
 /**
 * extends to handle custom property 
 * @package IGK\System\IO\File

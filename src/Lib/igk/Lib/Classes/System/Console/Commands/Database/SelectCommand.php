@@ -16,7 +16,6 @@ use IGK\System\Database\Mapping\MappedData;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\Mapping\Helper\ArrayMapHelper;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands\Database

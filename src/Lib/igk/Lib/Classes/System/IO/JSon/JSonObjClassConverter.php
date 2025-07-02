@@ -7,7 +7,6 @@ namespace IGK\System\IO\JSon;
 use IGK\Helper\Activator;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\JSon

@@ -12,7 +12,6 @@ use IGK\System\TamTam\ProjectBuilderEvents;
 
 use function igk_resource_gets as __;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Commmands

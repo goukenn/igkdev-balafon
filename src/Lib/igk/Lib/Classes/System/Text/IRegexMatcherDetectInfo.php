@@ -5,7 +5,6 @@
 namespace IGK\System\Text;
 
 
-///<summary></summary>
 /**
 * detect marcher regex information 
 * @package IGK\System\Text

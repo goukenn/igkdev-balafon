@@ -5,7 +5,6 @@
 namespace IGK\System\Regex;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Regex

@@ -11,8 +11,6 @@
 namespace IGK\System\Exceptions;
 
 final class CssParserException extends \IGKException{
-    ///<summary></summary>
-    ///<param name="msg"></param>
     public function __construct($msg){
         parent::__construct($msg);
     }

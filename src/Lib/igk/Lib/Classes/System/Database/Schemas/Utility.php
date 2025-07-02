@@ -5,7 +5,6 @@
 namespace IGK\System\Database\Schemas;
 
 
-///<summary>represent schema utility</summary>
 /**
 * represent schema utility 
 * @package IGK\System\Database\Schemas

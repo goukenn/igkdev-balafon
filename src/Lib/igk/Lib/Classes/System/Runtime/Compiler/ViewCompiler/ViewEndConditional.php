@@ -6,7 +6,6 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 
 use Closure;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler

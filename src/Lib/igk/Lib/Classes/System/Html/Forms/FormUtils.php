@@ -7,7 +7,6 @@ namespace IGK\System\Html\Forms;
 use IGK\Helper\ArticleContentBindingHelper;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Forms

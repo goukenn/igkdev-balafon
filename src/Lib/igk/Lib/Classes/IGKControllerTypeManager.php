@@ -14,7 +14,6 @@ use IGK\Helper\IO;
 
 final class IGKControllerTypeManager{
     static $tabManager;
-    ///<summary></summary>
     public static function GetControllerTypes(){
         if(self::$tabManager == null){
             $tab=array();
@@ -32,8 +31,6 @@ final class IGKControllerTypeManager{
         }
         return self::$tabManager;
     }
-    ///<summary>Represente GetCustomConfigInfo function</summary>
-    ///<param name="controller" type="BaseController"></param>
     public static function GetCustomConfigInfo(BaseController $controller){
         if(method_exists($controller, __FUNCTION__))
             return $controller->GetCustomConfigInfo();

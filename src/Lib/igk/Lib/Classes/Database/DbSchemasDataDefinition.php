@@ -6,7 +6,6 @@ namespace IGK\Database;
 
 use IGK\Database\Traits\DbDataDefinitionTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

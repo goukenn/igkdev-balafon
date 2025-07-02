@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Components;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Components

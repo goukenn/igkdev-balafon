@@ -4,8 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-///<summary>represent a client user manager controller</summary>
-
 use IGK\Database\DbColumnInfo;
 use IGK\Models\Users;
 use IGK\Resources\R;

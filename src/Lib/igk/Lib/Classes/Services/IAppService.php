@@ -5,7 +5,6 @@
 namespace IGK\Services;
 
 
-///<summary></summary>
 /**
 * condition to be a service that can be register
 * @package IGK\Services

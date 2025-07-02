@@ -14,7 +14,6 @@ use IGK\System\Database\ICustomUserProfile;
 use IGK\System\SystemUserProfile;
 use IGKUserInfo;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Application

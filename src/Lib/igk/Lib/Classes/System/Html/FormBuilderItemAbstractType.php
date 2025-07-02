@@ -5,7 +5,6 @@
 namespace IGK\System\Html;
 
 
-///<summary></summary>
 /**
 * base type for custom listeral type
 * @package IGK\System\Html

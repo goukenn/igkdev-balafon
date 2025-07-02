@@ -6,7 +6,6 @@ namespace IGK\System\Database\Traits;
 
 use IGK\Database\DbColumnInfo;
 
-///<summary>Column field generator</summary>
 /**
 * Column field generator
 * @package IGK\System\Database

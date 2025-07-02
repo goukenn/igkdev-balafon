@@ -12,7 +12,6 @@ use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System

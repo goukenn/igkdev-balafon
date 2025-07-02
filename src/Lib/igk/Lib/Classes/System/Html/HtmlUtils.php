@@ -35,7 +35,6 @@ use function igk_resources_gets as __;
 require_once IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
 
-///<summary>represent html utility </summary>
 /**
  * represent html utility
  */
@@ -197,9 +196,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $g;
     }
-    ///<summary>copy child by rendering</summary>
-    ///<param name="item">cibling item</param>
-    ///<param name="target">target node </param>
     /**
      * copy child by rendering
      * @param HtmlNode $item cibling item
@@ -286,7 +282,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $tagname;
     }
-    ///<summary>retrieve tagname used to created the node</summary>
     /**
      * retrieve tagname used to created the node
      * @param HtmlItemBase $node 
@@ -404,9 +399,6 @@ abstract class HtmlUtils extends DomNodeBase
         return null;
     }
 
-    ///<summary></summary>
-    ///<param name="tr"></param>
-    ///<param name="targetid" default="null"></param>
     /**
      * 
      * @param mixed $tr
@@ -422,8 +414,6 @@ abstract class HtmlUtils extends DomNodeBase
         ]);
         return $i;
     }
-    ///<summary></summary>
-    ///<param name="array"></param>
     /**
      * 
      * @param mixed $array
@@ -497,9 +487,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $d;
     }
-    ///<summary></summary>
-    ///<param name="$c"></param>
-    ///<param name="context" default="null"></param>
     /**
      * 
      * @param mixed $c read value
@@ -531,9 +518,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return str_replace("\n", "\\n", $q);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="options" default="null"></param>
     /**
      * 
      * @param mixed $n
@@ -569,8 +553,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return self::GetValue($c, $options);
     }
-    ///<summary></summary>
-    ///<param name="array"></param>
     /**
      * 
      * @param mixed $array
@@ -585,7 +567,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $tab;
     }
-    ///<summary>return value according to string</summary>
     /**
      * return value according to string
      * @return ?string 
@@ -615,9 +596,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
-    ///<param name="options"></param>
     /**
      * 
      * @param mixed $v
@@ -646,9 +624,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $v;
     }
-    ///<summary></summary>
-    ///<param name="item"></param>
-    ///<param name="target"></param>
     /**
      * 
      * @param mixed $item
@@ -663,10 +638,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value" default="null"></param>
-    ///<param name="type" default="text"></param>
     /**
      * 
      * @param mixed $id
@@ -688,9 +659,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $btn;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $id
@@ -700,8 +668,6 @@ abstract class HtmlUtils extends DomNodeBase
     {
         return igk_create_node("textarea")->setAttributes(array("id" => $id, "name" => $id, "value" => $value));
     }
-    ///<summary></summary>
-    ///<param name="item"></param>
     /**
      * 
      * @param mixed $item
@@ -718,8 +684,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="var"></param>
     /**
      * 
      * @param mixed $var
@@ -742,12 +706,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="type" default="tr"></param>
-    ///<param name="startAt"></param>
-    ///<param name="class1" default="table_darkrow"></param>
-    ///<param name="class2" default="table_lightrow"></param>
     /**
      * 
      * @param mixed $target
@@ -987,8 +945,6 @@ abstract class HtmlUtils extends DomNodeBase
             'node' => $node
         ]);
     }
-    ///<summary></summary>
-    ///<param name="vsystheme"></param>
     /**
      * init theme
      * @param mixed $vsystheme

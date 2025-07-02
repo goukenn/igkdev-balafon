@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Encoding;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Encoding

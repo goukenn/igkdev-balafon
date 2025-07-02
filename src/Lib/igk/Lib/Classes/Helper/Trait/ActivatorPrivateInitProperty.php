@@ -6,7 +6,6 @@ namespace IGK\Helper\Trait;
 
 use Closure;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper\Trait

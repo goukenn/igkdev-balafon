@@ -7,7 +7,6 @@ namespace IGK\System\Security\Web;
 use IGK\System\IO\Path;
 use function igk_resources_gets as __;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Security\Web

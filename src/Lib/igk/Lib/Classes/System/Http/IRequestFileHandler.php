@@ -5,7 +5,6 @@
 namespace IGK\System\Http;
 
 
-///<summary></summary>
 /**
 * use to handle file request
 * @package IGK\System\Http

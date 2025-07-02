@@ -18,8 +18,6 @@ class HtmlANode extends HtmlNode
 {
     private $m_href, $m_rdef;
     var $domainLink;
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
     protected function _acceptRender($option = null):bool
     {
         if (!$this->getIsVisible())
@@ -46,7 +44,6 @@ class HtmlANode extends HtmlNode
         }
         return true;
     }
-    ///<summary></summary>
     public function __construct($uri = "#")
     {
         parent::__construct("a");
@@ -55,8 +52,6 @@ class HtmlANode extends HtmlNode
         parent::offsetSet("href", $this->m_href);
         $this->m_href->setValue($uri);
     }
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
     protected function __RenderComplete($option = null)
     {
         if ($this->m_rdef == 1) {
@@ -64,9 +59,6 @@ class HtmlANode extends HtmlNode
             $this->m_rdef = 0;
         }
     }
-    ///<summary></summary>
-    ///<param name="k"></param>
-    ///<param name="v"></param>
     public function offsetSet($k, $v): void
     {
         if ($k == "href") {

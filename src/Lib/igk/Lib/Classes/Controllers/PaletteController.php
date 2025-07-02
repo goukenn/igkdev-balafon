@@ -14,9 +14,6 @@ namespace IGK\Controllers;
 use IGK\Helper\IO;
  
 
-///<summary>
-///represent a Palette controller Model
-///</summary>
 /**
 *
 *represent a Palette controller Model
@@ -24,7 +21,6 @@ use IGK\Helper\IO;
 */
 final class PaletteController extends NonVisibleControllerBase {
     private $m_palettes;
-    ///<summary></summary>
     /**
     * 
     */
@@ -32,21 +28,18 @@ final class PaletteController extends NonVisibleControllerBase {
         parent::__construct();
         $this->m_palettes=array();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getName(){
         return IGK_PALETTE_CTRL;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getPaletteDir(){
         return $this->getConfigs()->Location;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -56,15 +49,12 @@ final class PaletteController extends NonVisibleControllerBase {
         }
         return $this->m_palettes;
     }
-    ///<summary></summary>
     /**
     * 
     */
     protected function initComplete($context=null){
        parent::initComplete(); 
     }
-    ///<summary></summary>
-    ///<param name="fname"></param>
     /**
     * 
     * @param mixed $fname
@@ -96,7 +86,6 @@ final class PaletteController extends NonVisibleControllerBase {
         }
         catch(\Exception $ex){}
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -110,8 +99,6 @@ final class PaletteController extends NonVisibleControllerBase {
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     /**
     * 
     * @param mixed $id

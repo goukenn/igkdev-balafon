@@ -6,7 +6,6 @@ namespace IGK\Database\SchemaBuilder;
 
 use IGK\Database\DbColumnInfo;
 
-///<summary></summary>
 /**
 * diagram schema column
 * @package IGK\Database\SchemaBuilder

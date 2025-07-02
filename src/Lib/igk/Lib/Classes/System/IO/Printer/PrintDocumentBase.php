@@ -5,7 +5,6 @@
 namespace IGK\System\IO\Printer;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\Print

@@ -5,7 +5,6 @@
 namespace IGK\System\Views;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Views

@@ -25,7 +25,6 @@ final class SubDomainController extends ConfigControllerBase
     //     igk_trace();
     //     igk_wln("create ");
     // }
-    ///<summary>Represente __init_domain function</summary>
     private function __init_domain()
     {
         if (igk_is_cmd() || defined('IGK_NO_WEB') || defined('IGK_FRAMEWORK_ATOMIC'))
@@ -39,7 +38,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-    ///<summary>Represente _updateview function</summary>
     private function _updateview()
     {
         igk_getctrl(IGK_CONF_CTRL)->setSelectedConfigCtrl($this);
@@ -48,7 +46,6 @@ final class SubDomainController extends ConfigControllerBase
         $this->View();
         igk_ajx_replace_node($s, "#igk-cnf-content");
     }
-    ///<summary></summary>
     public function dom_add_db_domain_ajx()
     { 
         if (!igk_is_ajx_demand()) {
@@ -93,7 +90,6 @@ final class SubDomainController extends ConfigControllerBase
         igk_html_form_initfield($frm);
         igk_ajx_panel_dialog(__("Add domain"), $dv);
     }
-    ///<summary></summary>
     public function dom_add_db_edit_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -118,7 +114,6 @@ final class SubDomainController extends ConfigControllerBase
         $frm->addConfirm(1);
         igk_ajx_panel_dialog(__("Edit Domain"), $dv);
     }
-    ///<summary></summary>
     public function dom_drop_db_s_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -152,7 +147,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-    ///<summary></summary>
     public function dom_drop_domain_ajx()
     {
         $id = igk_getr("i");
@@ -193,7 +187,6 @@ final class SubDomainController extends ConfigControllerBase
         // $frame->Form->addHidden("i", igk_getr("i"));
         // $frame->renderAJX();
     }
-    ///<summary></summary>
     public function dom_drop_domaintable()
     {
         if (!igk_is_conf_connected())
@@ -222,7 +215,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-    ///<summary> edit domain ajx </summary>
     public function dom_edit_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -252,7 +244,6 @@ final class SubDomainController extends ConfigControllerBase
         }
         igk_flush_data();
     }
-    ///<summary></summary>
     public function getConfigPage()
     {
         return "domain";
@@ -272,13 +263,11 @@ final class SubDomainController extends ConfigControllerBase
         return null;
     }
 
-    ///<summary></summary>
     public function getName()
     {
         return IGK_SUBDOMAINNAME_CTRL;
     }
 
-    ///<summary></summary>
     public function View():BaseController
     {
         $t = $this->TargetNode;

@@ -10,7 +10,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console

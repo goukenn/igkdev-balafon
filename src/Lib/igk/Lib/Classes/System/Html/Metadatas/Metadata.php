@@ -6,7 +6,6 @@ namespace IGK\System\Html\Metadatas;
 
 use IGK\System\Html\Metadatas\Traits\OpenGraphMetadataTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas

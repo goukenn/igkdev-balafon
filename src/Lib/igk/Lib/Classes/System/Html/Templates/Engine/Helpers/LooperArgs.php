@@ -6,7 +6,6 @@ namespace IGK\System\Html\Templates\Engine\Helpers;
 
 use IGK\System\Html\Templates\Engine\Traits\LooperArgsTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Templates\Engine\Helpers

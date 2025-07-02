@@ -8,9 +8,7 @@ namespace IGK\Controllers;
 
 
 trait ControllerUriTrait {
-     ///<summary></summary>
-    ///<param name="function" default="null"></param>
-    /**
+     /**
     * 
     * @param mixed $function the default value is null
     */
@@ -29,8 +27,6 @@ trait ControllerUriTrait {
         return "./?".http_build_query($out).$g;
     }
 
-    ///<summary></summary>
-    ///<param name="uri"></param>
     /**
     * 
     * @param mixed $uri
@@ -42,8 +38,6 @@ trait ControllerUriTrait {
         return $out;
     }
 
-    ///<summary></summary>
-    ///<param name="page"></param>
     /**
     * 
     * @param mixed $page

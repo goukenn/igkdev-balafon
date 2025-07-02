@@ -22,7 +22,6 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions\Traits

@@ -8,7 +8,6 @@ use IGKExceptioın;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * validate html an return only text value
 * @package IGK\System\Html\Forms

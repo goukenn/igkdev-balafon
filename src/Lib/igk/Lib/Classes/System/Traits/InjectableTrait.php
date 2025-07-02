@@ -7,7 +7,6 @@ namespace IGK\System\Traits;
 use IGK\Actions\Dispatcher;
 use ReflectionMethod;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Traits

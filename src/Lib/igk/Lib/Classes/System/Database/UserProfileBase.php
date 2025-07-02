@@ -12,7 +12,6 @@ use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database

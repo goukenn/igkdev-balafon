@@ -10,7 +10,6 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Traits\HostableItemTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Mail

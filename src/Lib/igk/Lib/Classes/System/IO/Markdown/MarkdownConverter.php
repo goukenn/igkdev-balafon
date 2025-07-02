@@ -19,7 +19,6 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * helper use to convert markdown text to html
  * @package IGK\System\IO\Markdown

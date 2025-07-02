@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Metadatas;
 
 
-///<summary></summary>
 /**
 * IMetadata definition
 * @property string $charset 'UTF-8'

@@ -7,7 +7,6 @@ namespace IGK\System\Html\Forms\Validations;
 use IGK\System\Html\Forms\IFormValidationField;
 use IGK\System\Html\Forms\Validations\Traits\FormFieldValidationInfoTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms\Validations

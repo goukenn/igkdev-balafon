@@ -7,7 +7,6 @@ namespace IGK\Database\SchemaBuilder\Entities;
 use IGK\Controllers\BaseController;
 use IGK\System\Database\SchemaBuilderMigration;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\SchemaBuilder\Entities

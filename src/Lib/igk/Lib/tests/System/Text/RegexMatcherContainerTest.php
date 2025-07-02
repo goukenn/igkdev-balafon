@@ -8,7 +8,6 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\System\Text
@@ -327,7 +326,7 @@ class RegexMatcherContainerTest extends BaseTestCase
             "begin racagnac a a",
         ]);
         $pos = 0;
-   $this->expectOutputString(implode("\n", [
+        $this->expectOutputString(implode("\n", [
             'letter-a',
             'letter-b',
             'letter-a',
@@ -344,6 +343,79 @@ class RegexMatcherContainerTest extends BaseTestCase
                 echo ($e->tokenID) . PHP_EOL;
             }
         }
-     
     }
+
+
+    public function test_regexmatch_detect_stop()
+    {
+        $src = "begin: one ! begin: test is! ok\nlogo begin: gesture is for beginner\nbegin: data ok";
+
+        $regex = new RegexMatcherContainer;
+        $regex->begin('begin:', '$', 'mark')->last()->patterns = [
+            ['match' => '(?=!)', 'stop-end']
+        ];
+
+        $pos = 0;
+        $rp = [];
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                if ($e->tokenID == 'mark') {
+                    $rp[] = $e->value;
+                }
+            }
+        }
+        $this->assertEquals([
+'begin: one ', 'begin: test is', 'begin: gesture is for beginner', 'begin: data ok'
+        ], $rp);
+    }
+
+    public function test_regexmatch_detect_append_after_end_stop()
+    {
+        $src = "begin: one ; cause ! begin: data ok";
+
+        $regex = new RegexMatcherContainer;
+        $regex->begin('begin:', ';', 'mark')->last()->patterns = [
+            ['match' => '(?=!)', 'stop-end']
+        ];
+
+        $pos = 0;
+        $rp = [];
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                if ($e->tokenID == 'mark') {
+                    $rp[] = $e->value;
+                }
+            }
+        }
+        $this->assertEquals([
+'begin: one ;', 'begin: data ok'
+        ], $rp);
+    }
+    public function test_regexmatch_detect_append_after_end_stop_2()
+    {
+        $src = "       g///<summary>info</summary>\nbegin: ";
+        $stop = ['match'=>'^\\s*[^\/\\s]+', 'tokenID'=>'ugly-line'];
+        $regex = new RegexMatcherContainer;
+        $inner = $regex->begin('>','(?=<)', 'inner-sub')->last();
+        $inner->patterns = [ 
+            //$stop
+        ];
+        // + | for every line that start with /// or empty arch
+        $regex->begin('(?:^\\s*|(?<=[^\/]))\/\/\/<(summary)', '<\/\\1>', 'mark')->last()->patterns = [
+           $inner
+        ];
+        $pos = 0;
+        $rp = []; 
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                if ($e->tokenID == 'mark') {
+                    $rp[] = $e->value; 
+                } 
+            }
+        }
+        $this->assertEquals([
+'///<summary>info</summary>'
+        ], $rp);
+    }
+
 }

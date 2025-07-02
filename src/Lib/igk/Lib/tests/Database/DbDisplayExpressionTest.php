@@ -7,7 +7,6 @@ namespace IGK\Tests\Database;
 use IGK\Database\DbDisplayExpression;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Database

@@ -8,7 +8,6 @@ use Cron\CronExpression;
 use IGK\System\Console\Commands\ClearSessionCommand;
 use IGK\Constants;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Cron

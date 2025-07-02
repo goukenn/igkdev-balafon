@@ -7,7 +7,6 @@ namespace IGK\Tests\System\Html\Css;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Html\Css

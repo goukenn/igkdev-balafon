@@ -11,7 +11,6 @@ use IGK\System\Database\Mapping\ModelMappingBase;
 use IGK\System\EntryClassResolution;
 use IGKException;
 
-///<summary></summary>
 /**
 * map database column field to object
 * @package IGK\Database\Mapping

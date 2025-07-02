@@ -6,7 +6,6 @@ namespace IGK\System\Html;
 
 use IGK\Helper\BalafonJSHelper;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html

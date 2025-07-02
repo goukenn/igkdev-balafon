@@ -8,7 +8,6 @@ use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\RenderingContext;
 use IGK\System\IO\StringBuilder;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom

@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store book's prefered entries</summary>
 /**
 * Store book's prefered entries
 * @package IGK\Models

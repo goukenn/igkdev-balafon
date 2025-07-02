@@ -25,7 +25,6 @@ use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use function igk_resources_gets as __;
 
-///<summary></summary>
 /**
 * autorisation helper class 
 * @package IGK\Helper

@@ -15,7 +15,6 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use function igk_resources_gets as __ ;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms\Actions\Traits

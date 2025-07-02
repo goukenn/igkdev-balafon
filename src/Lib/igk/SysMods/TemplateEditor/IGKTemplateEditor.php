@@ -8,8 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>Use to edit a template</summary>
-
 use IGK\Controllers\BaseController;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
@@ -20,19 +18,16 @@ final class IGKTemplateEditor extends BaseController{
     use NoDbActiveControllerTrait;
 
     
-    ///<summary></summary>
     /**
     * 
     */
     public function __construct(){
         parent::__construct();
     }
-    ///<summary>cancel edition of the controller</summary>
     /**
     * cancel edition of the controller
     */
     public function Cancel($ctrl){}
-    ///<summary>call this function edit a controller</summary>
     /**
     * call this function edit a controller
     */
@@ -40,7 +35,6 @@ final class IGKTemplateEditor extends BaseController{
         if(!$this->can_edit($ctrl)){
             return;};
     }
-    ///<summary>get tempory folder</summary>
     /**
     * get tempory folder
     */

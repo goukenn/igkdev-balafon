@@ -26,7 +26,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerConstants;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\Armonic

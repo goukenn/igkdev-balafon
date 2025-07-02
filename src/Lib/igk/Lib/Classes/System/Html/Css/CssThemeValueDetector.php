@@ -9,7 +9,6 @@ use IGK\Helper\StringUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css
@@ -69,7 +68,7 @@ class CssThemeValueDetector{
         // + | 
         // + |
         $container = new RegexMatcherContainer;
-        $container->begin('{', '}(\\s*;\\s*)?', 'litteral'); // - remove
+        $container->begin('\{', '\}(\\s*;\\s*)?', 'litteral'); // - remove
         $container->begin("(\"|')", "\\1", 'string');        // - leave
         $container->begin("\\(", "\\)", 'parenthese');       // - leave
         $container->match("\\s+",'white-space');

@@ -7,7 +7,6 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use ArrayAccess;
 use IGK\System\Html\Dom\HtmlNode;
 
-///<summary></summary>
 /**
 * var to handle expression var expression setter
 * @package IGK\System\Runtime\Compiler

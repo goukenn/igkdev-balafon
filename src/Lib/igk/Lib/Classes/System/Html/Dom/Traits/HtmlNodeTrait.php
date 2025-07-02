@@ -4,7 +4,6 @@
 namespace IGK\System\Html\Dom\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom\Traits

@@ -17,8 +17,6 @@ use IGK\System\IToArray;
 class IGKObjStorage implements IToArray{
     private $m_init;
     private $m_storage = [];
-    ///<summary></summary>
-    ///<param name="tab" default="null"></param>
     public function __construct(?array $tab=null){
         if($tab && is_array($tab)){
             $this->m_init = true;
@@ -28,17 +26,12 @@ class IGKObjStorage implements IToArray{
             $this->m_init = false;
         }
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public function __get($v){
         if(isset($this->m_storage[$v])){
             return $this->m_storage[$v];
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     public function __set($n, $v){
         if (!$this->m_init){
             if($v === null){
@@ -48,7 +41,6 @@ class IGKObjStorage implements IToArray{
         }
         $this->m_storage[$n]=$v;
     }
-    ///<summary>display value</summary>
     public function __toString(){
         return __CLASS__;
     }

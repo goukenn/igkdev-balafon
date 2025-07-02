@@ -7,7 +7,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>json html node</summary>
 /**
 * json html node
 */
@@ -49,8 +48,6 @@ function igk_html_json($n){
     }
     return json_encode($d);
 }
-///<summary></summary>
-///<param name="n"></param>
 /**
 * 
 * @param string $n string to decode

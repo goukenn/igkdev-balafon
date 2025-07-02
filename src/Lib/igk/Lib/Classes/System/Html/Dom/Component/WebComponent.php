@@ -6,7 +6,6 @@ namespace IGK\System\Html\Dom\Component;
 
 use IGK\System\Html\Dom\HtmlNode;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom\Component

@@ -19,8 +19,6 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
     
     
     protected $m_v;
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function __construct($value=null){
         $this->m_v=$value;
     }
@@ -35,14 +33,10 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
         }
         return $now;
     }
-    ///<summary>Represente Create function</summary>
-    ///<param name="expression"></param>
     public static function Create($expression){
         $g=new static($expression); 
         return $g;
     }
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     public function getValue($o=null){
         if (!is_string($this->m_v)){
             if ($this->m_v instanceof static){

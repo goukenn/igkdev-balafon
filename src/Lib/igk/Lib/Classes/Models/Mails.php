@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store mails</summary>
 /**
 * Store mails
 * @package IGK\Models

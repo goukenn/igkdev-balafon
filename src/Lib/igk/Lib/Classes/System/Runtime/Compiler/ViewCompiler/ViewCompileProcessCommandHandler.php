@@ -9,7 +9,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompiler;
 use IGKCaches;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler

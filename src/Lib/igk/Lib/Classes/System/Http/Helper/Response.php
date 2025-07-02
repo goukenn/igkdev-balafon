@@ -9,7 +9,6 @@ use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\WebResponse;
 use IGKException;
 
-///<summary></summary>
 /**
 * Request response helper
 * @package IGK\System\Http\Helper

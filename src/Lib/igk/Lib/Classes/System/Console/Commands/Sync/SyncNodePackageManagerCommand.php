@@ -8,7 +8,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\SyncAppExecCommandBase\Sync;
 use IGK\System\Console\Logger;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Sync

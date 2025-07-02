@@ -5,8 +5,6 @@
 // @desc: 
  
 
-///<summary>represent application base type</summary>
-
 use IGK\ApplicationLoader;
 
 /**

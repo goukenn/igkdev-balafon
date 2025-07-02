@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store framework data types</summary>
 /**
 * Store framework data types
 * @package IGK\Models

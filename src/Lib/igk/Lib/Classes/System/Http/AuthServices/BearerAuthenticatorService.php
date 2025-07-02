@@ -15,7 +15,6 @@ use IGK\System\Http\IAuthenticatorService;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\AuthServices

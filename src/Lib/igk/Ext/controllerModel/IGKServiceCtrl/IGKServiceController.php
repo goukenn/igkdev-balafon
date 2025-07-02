@@ -19,7 +19,6 @@ use function igk_resources_gets as __;
 
 
 !defined("IGK_SERVICE_BASE_URI") && define("IGK_SERVICE_BASE_URI", "services");
-///<summary>represent a wsdl service controller type </summary>
 /** @package  */
 abstract class IGKServiceController 
     extends \IGK\Controllers\ControllerTypeBase 
@@ -29,19 +28,15 @@ abstract class IGKServiceController
     private static $sm_services=[];
    
 
-    ///<summary>Represente __getMethodParameter function</summary>
-    ///<param name="method"></param>
     private function __getMethodParameter($method){
         if(empty($method) || !method_exists($this, $method))
             return null;
         $rf=new ReflectionMethod($this, $method);
         return $rf->getParameters();
     }
-    ///<summary>get available function lists</summary>
     private function _getAvailableFuncs($new=false, $funcrequest=null){ 
         return $this->getExposedServiceFunction(); 
     }
-    ///<summary>Represente _initCssStyle function</summary>
     protected function initCssStyle(){                    
         igk_ctrl_bind_css_file($this,ViewHelper::CurrentDocument()->getTheme(), dirname(__FILE__)."/Styles/".ConstantsEFAULT_THEME_STYLE, 1);  
         ControllerExtension::bindCssStyle($this);
@@ -51,7 +46,6 @@ abstract class IGKServiceController
     }
     
    
-    ///<summary>Represente _viewDoc function</summary>
     private function _viewDoc(){ 
         $doc=igk_get_document(self::DOC_ID, true);
         igk_set_env("sys://designMode/off", 10);
@@ -73,7 +67,6 @@ abstract class IGKServiceController
         $doc->renderAJX();
     }
     
-    ///<summary>Represente baseEvaluateUri function</summary>
     public final function baseEvaluateUri(){
         $dir = dirname(__FILE__);
 	 	$f=$dir."/".IGK_VIEW_FOLDER."/default.phtml";
@@ -99,10 +92,6 @@ abstract class IGKServiceController
         igk_set_session_redirection($u);
         igk_exit();
     }
-    ///<summary>Represente bindNodeClass function</summary>
-    ///<param name="t"></param>
-    ///<param name="fname"></param>
-    ///<param name="css_def" default="null"></param>
     protected function bindNodeClass($t, $fname, $css_def=null){
         $m=igk_getv(igk_get_env(IGK_ENV_INVOKE_ARGS), "m");
         if($m == "global"){
@@ -111,14 +100,12 @@ abstract class IGKServiceController
         else
             parent::bindNodeClass($t, $fname, $css_def);
     }
-    ///<summary>Represente cachewsl function</summary>
     public function cachewsl(){
         $c = igk_getbool($this->Configs->get("clServiceDisableWSDLCache"));
         $this->Configs->clServiceDisableWSDLCache =!$c;
         $this->storeConfigSettings(); 
         igk_navto($this->getServiceUri());
     }
-    ///<summary>Represente clearwsdl_cache function</summary>
     public function clearwsdl_cache(){
         $tab=array();
         $d=ini_get("soap.wsdl_cache_dir");
@@ -132,11 +119,9 @@ abstract class IGKServiceController
             igk_nav_session();
         }
     }
-    ///<summary>Represente controllerLoaded function</summary>
     public static function controllerLoaded(){
         igk_wln_e(__FILE__.':'.__LINE__, "getConrollerLoaded", "services", igk_count(self::$sm_services));
     }
-    ///<summary>Represente evaluateUri function</summary>
     public final function evaluateUri(){
     
 
@@ -178,7 +163,6 @@ abstract class IGKServiceController
         $this->wsdl();
         igk_exit();
     }
-    ///<summary></summary>
     private function generate_wsdl(){
         $b=$this->getWsdlFile();
         $n=$this->getServiceName();
@@ -190,7 +174,6 @@ abstract class IGKServiceController
         $this->init_wsdl($g);
         $g->Save($b);
     }
-    ///<summary>Represente GetAdditionalConfigInfo function</summary>
     public static function GetAdditionalConfigInfo(){
         return array(
             "clServiceName"=>(object)array("clType"=>"text", "clRequire"=>1, "default"=>function($o){
@@ -200,7 +183,6 @@ abstract class IGKServiceController
             "clServiceDisableWSDLCache"=>(object)["clType"=>"bool"]
         );
     }
-    ///<summary>get de default string content</summary>
     public static function GetAdditionalDefaultViewContent(){
         return <<<EOF
 <?php

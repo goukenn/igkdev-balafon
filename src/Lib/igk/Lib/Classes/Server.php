@@ -9,7 +9,6 @@ use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Http\AcceptMimeTypes;
 use IGK\System\IToArray; 
 use IGK\System\Security\Web\HeaderAccessObject; 
-///<summary>represent server management </summary>
 /**
 * represent server management
 * @property string $root_dir system root directory
@@ -44,7 +43,6 @@ final class Server implements IToArray{
     public function getAccessObject():?HeaderAccessObject{
         return $this->m_access_object;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -62,7 +60,6 @@ final class Server implements IToArray{
         $v=($v_srddr == "::1") || ($v_saddr == $v_srddr) || ($v_saddr && preg_match("/^127\.(.)/i", $v_saddr));
         return $v;
     }
-    ///<summary>get remote ip</summary>
     /**
      * get remote ip
      * @return mixed 
@@ -70,7 +67,6 @@ final class Server implements IToArray{
     public static function RemoteIp(){
         return self::getInstance()->REMOTE_ADDR;
     }
-    ///<summary></summary>
     public static function ServerAddress(){
         return self::getInstance()->SERVER_ADDR;
     }
@@ -81,15 +77,12 @@ final class Server implements IToArray{
     public function isURLEncoded(){
         return $this->CONTENT_TYPE == 'application/x-www-form-urlencoded';
     }
-    ///<summary></summary>
     /**
     * 
     */
     private function __construct(){ 
         $this->prepareServerInfo();
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -114,8 +107,6 @@ final class Server implements IToArray{
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -123,9 +114,6 @@ final class Server implements IToArray{
     public function __isset($n){
         return isset($this->data[$n]);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $n
@@ -141,7 +129,6 @@ final class Server implements IToArray{
         else
             $this->data[$n]=$v;
     }
-    ///<summary>return if server accept return type</summary>
     public function accept($type="html"){
         static $accept_type= null;
         if ($accept_type===null){
@@ -161,7 +148,6 @@ final class Server implements IToArray{
     public function get($name, $default=null){
         return igk_getv($this->data, $name, $default);
     }
-    ///<summary>get server instance</summary>
     /**
     * @return Server
     */
@@ -174,8 +160,6 @@ final class Server implements IToArray{
     public function eventStreamRequest(){
         return $this->HTTP_ACCEPT == AcceptMimeTypes::EventStream;
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
     /**
     * 
     * @param mixed $file
@@ -183,14 +167,12 @@ final class Server implements IToArray{
     public function IsEntryFile($file){
         return $file === realpath($this->SCRIPT_FILENAME);
     }
-    ///<summary>check if this request is POST</summary>
     /**
     * check if this request is POST
     */
     public function ispost(){
         return $this->REQUEST_METHOD == "POST";
     }
-    ///<summary>check for method. if type is null return the REQUEST_METHOD</summary>
     /**
     * check for method
     */
@@ -211,7 +193,6 @@ final class Server implements IToArray{
         }
         return null;
     }
-    ///<summary>prpare server information</summary>
     /**
     * preparet server information 
     */
@@ -339,7 +320,6 @@ final class Server implements IToArray{
     public function is_secure(){
         return $this->HTTPS == "on";
     }
-    ///<summary></summary>
     /**
     * 
     */

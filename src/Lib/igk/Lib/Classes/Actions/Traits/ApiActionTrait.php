@@ -5,7 +5,6 @@
 namespace IGK\Actions\Traits;
 
 
-///<summary></summary>
 /**
 * api action handler
 * @package IGK\Actions\Traits

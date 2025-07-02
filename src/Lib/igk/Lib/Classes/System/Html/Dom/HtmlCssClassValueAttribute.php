@@ -41,13 +41,11 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }   
 
 
-    ///<summary></summary>
     public function __construct()
     {
         $this->m_classes = array();
         $this->m_expressions = array();
     }
-    ///<summary></summary>
     public function __serialize()
     {
         if (igk_get_env("seri")) {
@@ -59,8 +57,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         igk_set_env("seri", null);
         return [$s];
     }
-    ///<summary></summary>
-    ///<param name="data"></param>
     public function __unserialize($data)
     {
         if (is_array($data)) {
@@ -89,8 +85,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     {
         return $this->getValue();
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     private function _add($v)
     {
         if (is_array($v)) {
@@ -123,8 +117,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
         }
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     private static function &_GetRegClass()
     {
         if (self::$sm_regClass === null) {
@@ -136,9 +128,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return self::$sm_regClass;
     }
-    ///<summary></summary>
-    ///<param name="App"></param>
-    ///<param name="name"></param>
     private static function _initThemeDef($App, $name)
     {
         $tab = array();
@@ -152,8 +141,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     private static function _RegClass($name)
     {
         if (!IGKApp::IsInit() || (defined("IGK_NO_WEB") && (constant("IGK_NO_WEB") == 1))) {
@@ -165,8 +152,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             igk_hook(IGKEvents::HOOK_CSS_REG, [$name]);
         }
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     private static function _UnRegClass($name)
     {
         $v = &self::_GetRegClass();
@@ -175,8 +160,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             // igk_invoke_session_event(IGKApp::$REG_CSS_CLASS_EVT, array(igk_app(), null));
         }
     }
-    ///<summary>add css class value</summary>
-    ///<param name="class">mixed string expression or array defenition</param>
     /**
      * add css class value
      * @param mixed|array|object $class
@@ -266,7 +249,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             return implode(' ', $o);
         };
     }
-    ///<summary>clear classes_name storage</summary>
     /**
      * clear classes_name storage
      * @return void 
@@ -285,7 +267,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     {
         return isset($this->m_classes[$name]);
     }
-    ///<summary></summary>
     public function evalClassStyle()
     {
         $out = IGK_STR_EMPTY;
@@ -299,14 +280,10 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return $out;
     }
-    ///<summary></summary>
     public function getKeys()
     {
         return array_keys($this->m_classes);
     }
-    ///<summary></summary>
-    ///<param name="theme"></param>
-    ///<param name="v"></param>
     private static function GetParentClass($theme, $v)
     {
         $s = $theme[$v];
@@ -322,12 +299,10 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return $v;
     }
-    ///<summary></summary>
     public static function GetRegClass()
     {
         return self::_GetRegClass();
     }
-    ///<summary>get html css class presentation value</summary>
     public function getValue($options = null):string
     {
         $out = IGK_STR_EMPTY;
@@ -363,8 +338,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return empty($b) ? '' : $b;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public static function IsCssChild($v)
     {
         if (!IGKApp::IsInit()) {
@@ -380,8 +353,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="class"></param>
     public function remove($class)
     {
         if (empty($class))
@@ -390,8 +361,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             unset($this->m_classes[$class]);
         }
     }
-    ///<summary>Represente setClasses function</summary>
-    ///<param name="expression"></param>
     public function setClasses($expression)
     {
         $tb = array_filter(explode(" ", $expression));
@@ -400,8 +369,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     public static function UnRegClass($key)
     {
         self::_UnRegClass($key);

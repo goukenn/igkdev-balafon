@@ -21,22 +21,15 @@ use function igk_resources_gets as __;
 final class NotificationController extends BaseController implements IIGKNotifyMessage {
     private static $NotifyType=["success"=>"addSuccess", "danger"=>'addError'];
     private $m_marks;
-    ///<summary>Represente __call function</summary>
-    ///<param name="name"></param>
-    ///<param name="c"></param>
     public function __call($name, $c){
         if(method_exists($this, $fc="add".$name)){
             return $this->$fc(...$c);
         }
         return parent::__call($name, $c);
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     public function addError($msg){
         $this->TargetNode->add("div", array("class"=>"igk-notify igk-notify-danger"))->Content=$msg;
     }
-    ///<summary></summary>
-    ///<param name="msgcode"></param>
     public function addErrori($msgcode){
         $c=igk_error($msgcode);
         if($c){
@@ -46,68 +39,45 @@ final class NotificationController extends BaseController implements IIGKNotifyM
             $this->addError($li->render(null));
         }
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     public function addErrorr($key){
         $this->addError(__($key, array_slice(func_get_args(), 1)));
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     public function addInfo($msg){
         $this->TargetNode->add("div", array("class"=>"igk-notify igk-notify-info"))->Content=$msg;
         $this->m_hasmsg=true;
     }
-    ///<summary></summary>
-    ///<param name="msgKeys"></param>
     public function addInfor($msgKeys){
         $this->addInfo(__($msgKeys, array_slice(func_get_args(), 1)));
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     public function addMsg($msg){
         $mg=$this->getGlobalStorage();
         $mg->addMsg($msg);
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     public function addMsgr($msg){
         $this->addMsg(__($msg, array_slice(func_get_args(), 1)));
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     function addSuccess($msg){
         $mg=$this->getGlobalStorage();
         $mg->addSuccess($msg);
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     function addSuccessr($msg){
         $mg=$this->getGlobalStorage();
         $mg->addSuccessr($msg);
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     public function addWarning($msg){
         $mg=$this->getGlobalStorage();
         $mg->addWarning($msg);
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     public function addWarningr($msg){
         $this->addWarning(__($msg, array_slice(func_get_args(), 1)));
     }
-    ///<summary>Represente bind function</summary>
-    ///<param name="msg"></param>
-    ///<param name="t" default="'success'"></param>
     public function bind($msg, $t='success'){
         $fc=igk_getv(self::$NotifyType, $t, "addMsg");
         call_user_func_array([$this, $fc], [$msg]);
     }
-    ///<summary>get auto hided</summary>
     public function getAutoHided(){
         return $this->getGlobalStorage()->getAutoHided();
     }
-    ///<summary>Represente getGlobalStorage function</summary>
     public function getGlobalStorage(){
         static $storage=null;
         if($storage === null){
@@ -115,20 +85,16 @@ final class NotificationController extends BaseController implements IIGKNotifyM
         }
         return $storage;
     }
-    ///<summary></summary>
     public function getHasMsg(){
         $mg=$this->getGlobalStorage();
         return $mg->tab && count($mg->tab) > 0;
     }
-    ///<summary></summary>
     public function getMsError(){
         return $this->m_hasmsg;
     }
-    ///<summary></summary>
     public function getName(){
         return IGK_NOTIFICATION_CTRL;
     }
-    ///<summary>get notification item array storage</summary>
     public function getNotification($name="::global"){
         static $storage;
         if(empty($name)){
@@ -159,33 +125,24 @@ final class NotificationController extends BaseController implements IIGKNotifyM
         }
         return;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     public function getNotificationEvent($name){
         return null;
     }
-    ///<summary></summary>
     public function getNotifyHost(){
         if($this->m_notifyhost === null)
             $this->m_notifyhost=$this->app->Doc->body;
         return $this->m_notifyhost;
     }
-    ///<summary></summary>
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $v=new HtmlNotificationItemNode($this, "global");
         return $v;
     }
-    ///<summary></summary>
-    ///<param name="tagid"></param>
     public function mark($tagid){
         if($this->m_marks == null){
             $this->m_marks=array();
         }
         $this->m_marks[$tagid]=1;
     }
-    ///<summary>Render Noticiation node</summary>
-    ///<param name="n"></param>
-    ///<param name="name"></param>
     public function NotificationIsVisible($target, $host, $name){
         $c=null;
         if(empty($name)){
@@ -210,7 +167,6 @@ final class NotificationController extends BaseController implements IIGKNotifyM
         }
         return false;
     }
-    ///<summary></summary>
     public function notify_ajx(){
         $view=igk_getr("rv");
         $render=false;

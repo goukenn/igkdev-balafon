@@ -89,10 +89,7 @@ class UserAndGroupController extends ConfigControllerBase{
         
     }
 
-     ///<summary>Represente addAuthToGroup function</summary>
-    ///<param name="groupname"></param>
-    ///<param name="n"></param>
-    /**
+     /**
     * Represent addAuthToGroup function
     * @param  $groupname
     * @param  $n
@@ -123,9 +120,6 @@ class UserAndGroupController extends ConfigControllerBase{
         $ad->close();
         return $s;
     }
-    ///<summary>Represente addUserToGroup function</summary>
-    ///<param name="groupname"></param>
-    ///<param name="u"></param>
     /**
     * Represent addUserToGroup function
     * @param  $groupname
@@ -145,14 +139,12 @@ class UserAndGroupController extends ConfigControllerBase{
         $s = Usergroups::select_all($b); 
         return $s;
     }
-     ///<summary>return an array of authorisation that this user support</summary>
-    /**
+     /**
     * return an array of authorisation that this user support
     */
     public function getUserAuths($u){
         igk_die( __METHOD__." not implement");
     }
-    ///<summary>return an array of groups that this user is member of</summary>
     /**
     * return an array of groups that this user is member of
     */
@@ -171,8 +163,6 @@ class UserAndGroupController extends ConfigControllerBase{
         $ad->close();
         return $t;
     }
-    ///<summary>add group</summary>
-    ///<param name="n" default="null"></param>
     /**
     * add group
     * @param  $n the default value is null
@@ -203,7 +193,6 @@ class UserAndGroupController extends ConfigControllerBase{
         ];
         return $fields;
     }
-    ///<summary>Represente group_add_group_ajx function</summary>
     /**
     * Represent group_add_group_ajx function
     */
@@ -220,7 +209,6 @@ class UserAndGroupController extends ConfigControllerBase{
         // $frame->RenderAJX();
         igk_ajx_panel_dialog(__("add group"), $div);
     }
-    ///<summary>Represente group_add_userto_group function</summary>
     /**
     * Represent group_add_userto_group function
     */
@@ -237,7 +225,6 @@ class UserAndGroupController extends ConfigControllerBase{
         }
         $this->View();
     }
-    ///<summary>Represente group_default_view function</summary>
     /**
     * Represent group_default_view function
     */
@@ -245,7 +232,6 @@ class UserAndGroupController extends ConfigControllerBase{
         $this->CurrentView=null;
         $this->View();
     }
-    ///<summary>Represente group_dropgroup_ajx function</summary>
     /**
     * drop group
     */
@@ -278,7 +264,6 @@ class UserAndGroupController extends ConfigControllerBase{
         igk_ajx_panel_dialog(__("Drop group"), $d );
        
     }
-    ///<summary>Represente group_remove_user function</summary>
     /**
     * Represent group_remove_user function
     */
@@ -286,7 +271,6 @@ class UserAndGroupController extends ConfigControllerBase{
         igk_db_delete($this, IGK_TB_USERGROUPS, igk_getr("clId"));
         $this->View();
     }
-    ///<summary>Represente group_view_auth function</summary>
     /**
     * Represent group_view_auth function
     */
@@ -294,7 +278,6 @@ class UserAndGroupController extends ConfigControllerBase{
         $this->CurrentView="viewauth";
         $this->View();
     }
-    ///<summary>view user in groups</summary>
     /**
     * view user in groups
     */
@@ -346,7 +329,6 @@ class UserAndGroupController extends ConfigControllerBase{
         SysUtils::exitOnAJX(); 
 
     }
-    ///<summary>Represente registerHook function</summary>
     /**
     * Represent registerHook function
     */

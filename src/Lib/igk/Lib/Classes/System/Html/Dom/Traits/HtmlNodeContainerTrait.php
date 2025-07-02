@@ -7,7 +7,6 @@ namespace IGK\System\Html\Dom\Traits;
 use IGK\System\Html\Dom\Factory;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom\Traits

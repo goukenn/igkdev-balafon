@@ -20,7 +20,6 @@ use PhpParser\Node\Stmt\Continue_;
 use ReflectionClass;
 use stdClass;
 
-///<summary></summary>
 /**
  * helper to encode in json 
  * @package IGK\Helper

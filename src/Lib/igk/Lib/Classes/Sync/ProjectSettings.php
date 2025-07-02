@@ -5,7 +5,6 @@
 namespace IGK\Sync;
 
 
-///<summary></summary>
 /**
 * sync project settings
 * @package IGK\Sync

@@ -15,7 +15,5 @@ use IGKObject;
 
 
 abstract class HtmlItemAttribute extends IGKObject implements IHtmlGetValue{
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
     abstract function getValue($option=null);
 }

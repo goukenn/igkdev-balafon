@@ -6,7 +6,6 @@ namespace IGK\System;
 
 use IGK\System\Traits\PropertyObjectTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System

@@ -151,11 +151,11 @@ class PHPScriptBuilder
             case "trait":
                 if ($d = $this->doc) {
                     // documents
-                    $o .= "///<summary>" . implode("///", explode("\n", trim($d))). "</summary>\n";  
+                    // $o .= "///<summary>" . implode("///", explode("\n", trim($d))). "</summary>\n";  
                     $o .= $_setPhDoc($d, $ns, $v_author);
                     
                 } else {
-                    $o .= "///<summary></summary>\n";
+                    // $o .= "///<summary></summary>\n";
                     $o .= $_setPhDoc("", $ns, $v_author); 
                 }
                 if (!empty($modifier = $this->class_modifier)) {

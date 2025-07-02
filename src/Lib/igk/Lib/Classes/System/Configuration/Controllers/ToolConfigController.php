@@ -13,7 +13,6 @@ use IGKFv;
 use \IGK\System\Configuration\Controllers\ToolHost;
 
 use function igk_resources_gets as __; 
-///<summary>Represente class: IGKToolsCtrl</summary>
 /**
 * Represent IGKToolsCtrl class
 */
@@ -21,7 +20,6 @@ final class ToolConfigController extends ConfigControllerBase {
     public function getName(){
         return IGK_TOOLS_CTRL;
     }
-    ///<summary>Represente getConfigPage function</summary>
     /**
     * Represent getConfigPage function
     */
@@ -38,8 +36,6 @@ final class ToolConfigController extends ConfigControllerBase {
     {
         return true;
     }
-    ///<summary>Represente getm_tools function</summary>
-    ///<return refout="true"></return>
     /**
     * Represent getm_tools function
     * @return *
@@ -53,8 +49,6 @@ final class ToolConfigController extends ConfigControllerBase {
         }
         return $_toolhost;
     }
-    ///<summary>Represente RegisterTool function</summary>
-    ///<param name="ctrl"></param>
     /**
     * Represent RegisterTool function
     * @param  $ctrl
@@ -64,7 +58,6 @@ final class ToolConfigController extends ConfigControllerBase {
         $tools->register($ctrl);				
         $this->regChildController($ctrl);
     }
-    ///<summary>Represente View function</summary>
     /**
     * Represent View function
     */
@@ -104,7 +97,6 @@ final class ToolConfigController extends ConfigControllerBase {
         return $this;
     }
     
-    ///<summary>Represente view_tools_ajx function</summary>
     /**
     * Represent view_tools_ajx function
     */

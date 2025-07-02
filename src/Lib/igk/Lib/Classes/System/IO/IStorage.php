@@ -5,7 +5,6 @@
 namespace IGK\System\IO;
 
 
-///<summary>represent the IStorage interface</summary>
 /**
 * represent the IStorage interface
 * @package IGK\System\IO

@@ -6,7 +6,6 @@ namespace IGK\Core\Traits;
 
 use IGK\System\Exceptions\OperationNotAllowedException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Core\Traits

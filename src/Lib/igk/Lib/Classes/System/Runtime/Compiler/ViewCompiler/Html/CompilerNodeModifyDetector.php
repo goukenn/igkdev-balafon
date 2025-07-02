@@ -8,7 +8,6 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerArgument;
 use IGKException;
 
-///<summary></summary>
 /**
  * detect modification node
  * @package IGK\System\Runtime\Compiler\Html

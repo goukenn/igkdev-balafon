@@ -5,7 +5,6 @@
 namespace IGK\Database\Mapping;
 
 
-///<summary></summary>
 /**
 * model cache filter, used to validate and filter recieved data 
 * @package IGK\Database\Mapping

@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store migrations</summary>
 /**
 * Store migrations
 * @package IGK\Models

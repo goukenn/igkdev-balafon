@@ -9,7 +9,6 @@ use IGK\Helper\Activator;
 use IGK\System\Http\IContentSecurityProvider;
 use IGK\System\Http\Request;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\FormData\Traits

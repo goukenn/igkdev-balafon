@@ -16,7 +16,6 @@ use IGK\System\IO\Path;
 use IGK\System\SystemUserProfile;
 use IGK\System\Traits\EnumeratesConstants;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\\System\Console\Commands\Projects

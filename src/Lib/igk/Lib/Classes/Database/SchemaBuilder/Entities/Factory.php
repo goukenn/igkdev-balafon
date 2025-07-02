@@ -6,7 +6,6 @@ namespace IGK\Database\SchemaBuilder\Entities;
 
 use IGK\Resources\R;
 
-///<summary></summary>
 /**
 * Entity factory helper 
 * @package IGK\Database\SchemaBuilder\Entities

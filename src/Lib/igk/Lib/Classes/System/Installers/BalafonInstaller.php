@@ -19,7 +19,6 @@ use function igk_resources_gets as __;
 require_once(IGK_LIB_CLASSES_DIR . "/Helper/Activator.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Html/Templates/BindingContextInfo.php");
 require_once IGK_LIB_CLASSES_DIR . "/HookOptions.php";
-///<summary>use to update core framework</summary>
 /**
  * use to update core framework
  */
@@ -36,7 +35,6 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
     {
         
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -57,7 +55,6 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         }
         return $dir;
     }
-    ///<summary></summary>
     /**
      * do update
      */
@@ -143,7 +140,6 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         igk_ilog("finish install : ".$r);
         igk_exit();
     }
-    ///<summary>receive zip file </summary>
     /**
      * receive zip file
      */

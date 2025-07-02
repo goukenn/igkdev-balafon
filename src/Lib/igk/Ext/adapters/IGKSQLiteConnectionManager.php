@@ -5,7 +5,6 @@
 // @desc: 
 
 
-///<summary>Represente class: IGKSQLiteConnectionManager</summary>
 /**
 * Represent IGKSQLiteConnectionManager class
 */

@@ -16,10 +16,7 @@ use IGKValidator;
 
 final class HtmlUri extends IGKObject implements IHtmlGetValue{
     private $m_v;
-    ///<summary></summary>
     public function __construct(){    }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function getValue($options=null){
         $bck=$this->m_v;
         if($options && igk_xml_is_mailoptions($options)){
@@ -42,8 +39,6 @@ final class HtmlUri extends IGKObject implements IHtmlGetValue{
         }
         return $this->m_v;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public function setValue($v){
         $this->m_v=$v;
     }

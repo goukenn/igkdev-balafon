@@ -7,7 +7,6 @@ namespace IGK\System\Html;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
-///<summary></summary>
 /**
 * item properties options to pass to form builder
 * @package IGK\System\Html

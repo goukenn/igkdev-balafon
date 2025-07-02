@@ -14,7 +14,6 @@ use IGKServices;
 
 use function igk_resources_gets as __;
 
-///<summary>help to build and register application definition entry</summary>
 /**
  * help to build and register application definition entry
  */

@@ -6,7 +6,6 @@ namespace IGK\System\Html;
 
 use Exception;
 
-///<summary></summary>
 /**
 * definition to render on component visibility
 * @package IGK\System\Html

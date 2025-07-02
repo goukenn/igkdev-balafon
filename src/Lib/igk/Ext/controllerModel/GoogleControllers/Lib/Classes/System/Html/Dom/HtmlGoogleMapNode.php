@@ -5,8 +5,6 @@
 // @desc: 
 
 
-///<summary>Represente class: IGKHtmlGoogleMapNodeItem</summary>
-
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
@@ -17,8 +15,6 @@ final class HtmlGoogleMapNode extends HtmlNode{
     private $m_location;
     private $m_query;
     private $m_type;
-    ///<summary></summary>
-    ///<param name="opt" default="null"></param>
     /**
     * 
     * @param mixed $options the default value is null
@@ -27,7 +23,6 @@ final class HtmlGoogleMapNode extends HtmlNode{
         $this->initView();
         return parent::_acceptRender($options);
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -37,35 +32,30 @@ final class HtmlGoogleMapNode extends HtmlNode{
         $this->m_type="place";
         $this->m_key= $key ?? igk_configs()->get("google.map.key");
     }
-    ///<summary></summary>
     /**
     * retrieve the stored key
     */
     public function getKey(){
         return $this->m_key;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getLocation(){
         return $this->m_location;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getQuery(){
         return $this->m_query;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getType(){
         return $this->m_type;
     }
-    ///<summary></summary>
     /**
     * 
     */

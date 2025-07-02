@@ -17,7 +17,6 @@ require_once IGK_LIB_CLASSES_DIR . '/IGKAppConfig.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigUtils.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
 
-///<summary>cache system support</summary>
 /**
  * cache system 
  * @method static FileSystem view() view file system
@@ -41,7 +40,6 @@ final class IGKCaches
     {
     }
 
-    ////<summary>resolv path from link</summary>
     /**
      * resolv path from link
      * @param mixed $file filename to resolv

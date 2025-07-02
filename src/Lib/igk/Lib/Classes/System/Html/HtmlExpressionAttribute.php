@@ -13,13 +13,9 @@ namespace IGK\System\Html;
 
 class HtmlExpressionAttribute implements IHtmlGetValue{
     private $m_v;
-    ///<summary></summary>
-    ///<param name="v"></param>
     public function __construct($v){
         $this->m_v=$v;
     }
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     public function getValue($o=null){
         return $this->m_v;
     }

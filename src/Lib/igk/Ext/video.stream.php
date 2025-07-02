@@ -6,7 +6,6 @@
 
 
 
-///<summary>represent videos stream</summary>
 /**
  *
  * reprensetn videos stream

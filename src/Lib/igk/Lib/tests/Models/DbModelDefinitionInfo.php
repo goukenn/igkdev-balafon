@@ -7,7 +7,6 @@ namespace IGK\Tests\Models;
 use IGK\System\Database\SchemaMigrationInfo;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Models

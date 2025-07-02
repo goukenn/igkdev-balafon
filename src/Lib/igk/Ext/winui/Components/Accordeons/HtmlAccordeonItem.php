@@ -10,7 +10,6 @@ use IGK\System\Html\Dom\HtmlNode;
 require_once __DIR__."/AccordeonCookiePanel.php";
 
 
-////<summary>represent an accordeon html item</summary>
 final class HtmlAccordeonItem extends HtmlNode
 implements IIGKHtmlCookieItem
 {

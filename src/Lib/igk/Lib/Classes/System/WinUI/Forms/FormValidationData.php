@@ -5,7 +5,6 @@
 namespace IGK\System\WinUI\Forms;
 
 
-///<summary></summary>
 /**
 * validation data info 
 * @package IGK\System\WinUI\Forms

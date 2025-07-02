@@ -12,16 +12,11 @@ namespace IGK\System\Html;
 final class HtmlHeaderLinkHost{
     private $m_list;
     var $privateLink, $sharedLink;
-    ///<summary></summary>
     public function __construct(){
         $this->m_list=array();
         $this->privateLink=array();
         $this->sharedLink=array();
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="node"></param>
-    ///<param name="temp"></param>
     public function add($name, $node, $temp){
         if(isset($this->m_list[$name]))
             igk_die("link already referenced");
@@ -30,7 +25,6 @@ final class HtmlHeaderLinkHost{
             $this->m_privateLink[$name]=$node;
         }
     }
-    ///<summary></summary>
     public function clearChilds(){
         foreach($this->m_list as $v){
             igk_html_rm($v);
@@ -39,8 +33,6 @@ final class HtmlHeaderLinkHost{
         $this->privateLink=array();
         $this->sharedLink=array();
     }
-    ///<summary></summary>
-    ///<param name="o"></param>
     public function getLink($o){
         return igk_getv($this->m_list, $o);
     }

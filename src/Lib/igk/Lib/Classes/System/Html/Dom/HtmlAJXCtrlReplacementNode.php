@@ -13,7 +13,6 @@ namespace IGK\System\Html\Dom;
  */
 final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     private $m_ctrls;
-    ///<summary></summary>
     /**
     * 
     */
@@ -22,8 +21,6 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
         $this["type"] = "controlller";
         $this->m_ctrls=array();
     }
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
     /**
     * 
     * @param mixed $option the default value is null
@@ -38,9 +35,6 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
         }
         return $tab;
     }
-    ///<summary></summary>
-    ///<param name="b"></param>
-    ///<param name="target" default="null"></param>
     /**
     * 
     * @param mixed $b
@@ -49,15 +43,12 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     public function addCtrl($b, $target=null){
         $this->m_ctrls[$b->Name]=(object)["ctrl"=>$b, "target"=>$target];
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getCanAddChild(){
         return false;
     }
-    ///<summary></summary>
-    ///<param name="o" default="null" ref="true"></param>
     /**
     * 
     * @param  * $o the default value is null

@@ -7,7 +7,6 @@ namespace IGK\Tests\System\Runtime\Compiler;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewTokenExpressionConverter;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Runtime\Compiler
@@ -178,8 +177,7 @@ PHP,
     // <?php
     // if (defined("demo")):
     // if (!class_exists(Demo::class)){
-    // ///<summary></summary>
-    // /**
+    // // /**
     // *
     // */
     // class Demo{

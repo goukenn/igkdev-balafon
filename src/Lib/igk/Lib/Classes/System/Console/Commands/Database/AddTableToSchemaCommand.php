@@ -8,7 +8,6 @@ use IGK\Controllers\SysDbController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Exceptions\CommandException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database

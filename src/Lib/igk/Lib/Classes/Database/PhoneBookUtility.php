@@ -14,7 +14,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\VCF\VCard;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Database

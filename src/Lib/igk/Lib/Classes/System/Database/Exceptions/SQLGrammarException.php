@@ -7,7 +7,6 @@ namespace IGK\System\Database\Exceptions;
 use IGKException;
 use Throwable;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database\Exceptions

@@ -8,22 +8,17 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>Represente namespace: IGKApi</summary>
 /**
 * Represent IGKApi namespace
 */
 namespace IGKApi;
 // DIRECT RENDERINGuse IGK\Helper\IO as IGKIO;
-///<summary>Represente class: UtilityActions</summary>
 /**
 * Represent UtilityActions class
 */
 class UtilityActions{
     var $ctrl;
     var $target;
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="t"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -33,7 +28,6 @@ class UtilityActions{
         $this->ctrl=$ctrl;
         $this->target=$t;
     }
-    ///<summary></summary>
     /**
     * 
     */

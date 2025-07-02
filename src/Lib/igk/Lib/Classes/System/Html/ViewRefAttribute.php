@@ -5,7 +5,6 @@
 namespace IGK\System\Html;
 
 
-///<summary></summary>
 /**
 * view ref template expression
 * @package IGK\System\Html

@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Rendering\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Rendering\Trait

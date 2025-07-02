@@ -15,18 +15,13 @@ use IGKObject;
 
 class MenuItemObject extends IGKObject{
     private $m_subMenus, $m_uri;
-    ///<summary></summary>
-    ///<param name="uri"></param>
-    ///<param name="submenu" default="null"></param>
     public function __construct($uri, $submenu=null){
         $this->m_uri=$uri;
         $this->m_subMenus=$submenu;
     }
-    ///<summary></summary>
     public function getSubmenu(){
         return $this->m_subMenus;
     }
-    ///<summary></summary>
     public function getUri(){
         return $this->m_uri;
     }

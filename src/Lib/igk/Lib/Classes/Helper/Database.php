@@ -27,7 +27,6 @@ use ReflectionException;
 use ReflectionMethod;
 
 use function igk_resources_gets;
-///<summary></summary>
 /**
  * 
  * @package IGK\Helper
@@ -146,8 +145,6 @@ class Database
         }
         return $value;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     public static function IsNumber($t)
     {
         return preg_match("/(int|float|decimal|double|bigint|long)/i", $t);

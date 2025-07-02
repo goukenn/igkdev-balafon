@@ -6,7 +6,6 @@ namespace IGK\System\Html\Metadatas;
 
 use IGK\System\IO\StringBuilder;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas

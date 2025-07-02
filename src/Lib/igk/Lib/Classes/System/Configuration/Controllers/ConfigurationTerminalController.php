@@ -5,7 +5,6 @@
 namespace IGK\System\Configuration\Controllers;
 
 
-///<summary></summary>
 /**
 * terminal command interface 
 * @package IGK\System\Configuration\Controllers

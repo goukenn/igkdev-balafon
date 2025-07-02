@@ -6,7 +6,6 @@ namespace IGK\Database\PhoneBooks;
 
 use IGKValidator;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Database\PhoneBooks

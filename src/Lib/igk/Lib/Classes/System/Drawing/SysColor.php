@@ -5,7 +5,6 @@
 namespace IGK\System\Drawing;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Drawing

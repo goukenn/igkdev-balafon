@@ -6,7 +6,6 @@ namespace IGK\System\IO\File\TmLanguage;
 
 use IGK\System\Text\RegexMatcherPattern;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\File\TmLanguage

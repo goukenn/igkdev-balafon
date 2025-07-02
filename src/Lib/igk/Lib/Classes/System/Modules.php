@@ -13,7 +13,6 @@ if (@file_exists(__DIR__.'/auto_inc.modules.php'))
     class_alias('auto_load_IModuleDefinition', 'IModuleDefinition');
 }
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System

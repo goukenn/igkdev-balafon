@@ -34,12 +34,6 @@ class SQLQueryUtils{
         }
         return $defvalue;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="columninfo"></param>
-    ///<param name="desc" default="null"></param>
-    ///<param name="noengine"></param>
-    ///<param name="nocomment"></param>
     /**
      * 
      * @param mixed $tbname 
@@ -214,9 +208,6 @@ class SQLQueryUtils{
         $query=rtrim($query).";";
         return $query;
     }
-    ///<summary>Represente fallbackType function</summary>
-    ///<param name="t"></param>
-    ///<param name="adapter"></param>
     public static function fallbackType($t, $adapter){
         switch(strtolower($t)){
             case "json":
@@ -232,7 +223,6 @@ class SQLQueryUtils{
         }
         return "text";
     }
-    ///<summary>get column query definition</summary>
     public static function GetColumnDefinition($v, $nocomment=0){
         $query="";
         $type=igk_getev($v->clType, "Int");
@@ -270,15 +260,9 @@ class SQLQueryUtils{
         }
         return $query;
     }
-    ///<summary></summary>
-    ///<param name="options"></param>
-    ///<param name="tbname"></param>
     public static function GetColumnList($options, $tbname){
         die(__METHOD__.":: obselete : use GetExtrasOptions instead");
     }
-    ///<summary>get query condition string</summary>
-    ///<param name="tab"></param>
-    ///<param name="operator" default="'AND'"></param>
     public static function GetCondString($tab, $operator='AND', $adapter=null, $grammar=null){
         $query="";
         $t=0;
@@ -381,9 +365,6 @@ class SQLQueryUtils{
         }
         return $query;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="values"></param>
     public static function GetDeleteQuery($tbname, $values){
         $query="";
         $query .= "DELETE FROM `".igk_mysql_db_tbname($tbname)."`";
@@ -406,9 +387,6 @@ class SQLQueryUtils{
         }
         return $query;
     }
-    ///<summary>Represente GetExpressQuery function</summary>
-    ///<param name="express"></param>
-    ///<param name="tinf"></param>
     private static function GetExpressQuery($express, $tinf){
         $b=explode(".", $express);
         $sl=[$b[0]=>$b[1]];
@@ -418,8 +396,6 @@ class SQLQueryUtils{
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="options"></param>
     public static function GetExtraOptions($options, $ad){
         $defOrder="ASC";
         $q="";
@@ -598,15 +574,9 @@ class SQLQueryUtils{
         }
         return (object)["columns"=>$columns, "join"=>$join, "extra"=>$q. $query, "flag"=>$flag];
     }
-    ///<summary></summary>
-    ///<param name="b"></param>
     public static function GetFCN($b){
         return strtoupper($b);
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="values"></param>
-    ///<param name="tableInfo" default="null"></param>
     public static function GetInsertQuery($tbname, $values, $tableInfo=null){
         if(!$values)
             return null;
@@ -641,13 +611,9 @@ class SQLQueryUtils{
      
         return $query;
     }
-    ///<summary>Represente GetKey function</summary>
-    ///<param name="k"></param>
-    ///<param name="adapter"></param>
     private static function GetKey($k, $adapter){
         return "`".implode("`.`", array_map([$adapter, "escape_string"], explode(".", $k)))."`";
     }
-    ///<summary>get sql select query</summary>
     public static function GetSelectQuery($ad, $tbname, $where=null, $options=null){
         $q="";
         if($options == null){
@@ -684,11 +650,6 @@ class SQLQueryUtils{
         $q="SELECT {$flag}{$column} FROM `".igk_mysql_db_tbname($tbname)."`".rtrim($q).";";
         return $q;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="values"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="tableInfo" default="null"></param>
     public static function GetUpdateQuery($tbname, $values, $condition=null, $tableInfo=null){
         $rtbname=igk_mysql_db_tbname($tbname);
         $out="";
@@ -740,12 +701,6 @@ class SQLQueryUtils{
         }
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="tableInfo"></param>
-    ///<param name="columnName"></param>
-    ///<param name="value"></param>
-    ///<param name="type" default="i"></param>
     public static function GetValue($tbname, $tableInfo, $columnName, $value, $type="i"){
         $tinf=igk_getv($tableInfo, $columnName);
         $def=static::AllowedDefValue();
@@ -867,10 +822,6 @@ class SQLQueryUtils{
         }
         return "'".igk_db_escape_string($value)."'";
     }
-    ///<summary></summary>
-    ///<param name="values"></param>
-    ///<param name="tableInfo"></param>
-    ///<param name="update"></param>
     private static function GetValues($values, $tableInfo, $update=0){
         $tvalues=igk_createobj();
         if(is_object($values) && method_exists($values, "to_array")){
@@ -902,12 +853,7 @@ class SQLQueryUtils{
         }
         return $tvalues;
     }
-    ///<summary></summary>
     protected function initConfig(){    }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="values"></param>
-    ///<param name="tableinfo" default="null"></param>
     public function insert($tbname, $values, $tableinfo=null){
         $this->dieNotConnect();
         $this->initConfig();
@@ -927,10 +873,6 @@ class SQLQueryUtils{
         }
         return false;
     }
-    ///<summary>Represente IsAllowedDefValue function</summary>
-    ///<param name="def"></param>
-    ///<param name="type"></param>
-    ///<param name="value"></param>
     protected static function IsAllowedDefValue($def, $type, $value){
         if($b=igk_getv($def, strtoupper($type))){
             if(isset($b[strtoupper($value)])){
@@ -939,32 +881,21 @@ class SQLQueryUtils{
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     private static function IsNumber($t){
         return preg_match("/(int|float|decimal)/i", $t);
     }
-    ///<summary>Represente Key function</summary>
-    ///<param name="t"></param>
-    ///<param name="adapter"></param>
-    ///<param name="separator" default=","></param>
     private static function Key($t, $adapter, $separator=","){
         return implode($separator, array_map(function($t) use ($adapter){
             return "`".implode("`.`", array_map([$adapter, "escape_string"], explode(".", $t)))."`";
         }
         , array_map("trim", array_filter(explode(',', $t)))));
     }
-    ///<summary>Represente ResolvType function</summary>
-    ///<param name="t"></param>
     public static function ResolvType($t){
         return igk_getv(["int"=>"Int", "uint"=>"Int", "udouble"=>"Double", "bigint"=>"BIGINT", "ubigint"=>"BIGINT", "date"=>"Date", "enum"=>"Enum", "json"=>"JSON"], $t=strtolower($t), $t);
     }
-    ///<summary>Represente SetAdapter function</summary>
-    ///<param name="ad"></param>
     public static function SetAdapter($ad){
         self::$sm_adapter=$ad;
     }
-    ///<summary>check if this type support defaut value</summary>
     public static function supportDefaultValue($type){
         return !in_array($type, ["int"]);
     }

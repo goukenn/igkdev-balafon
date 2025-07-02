@@ -12,7 +12,6 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use JSon;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Users

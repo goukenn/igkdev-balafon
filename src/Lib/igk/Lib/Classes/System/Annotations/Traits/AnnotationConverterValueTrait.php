@@ -9,7 +9,6 @@ use IGK\System\Helpers\AnnotationHelper;
 use IGKException;
 use ReflectionProperty;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Annotations\Traits

@@ -244,9 +244,6 @@ class HtmlNode extends HtmlItemBase
         $this->setAttribute($name, new ViewRef($expression) );
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="eventObj"></param>
-    ///<return refout="true"></return>
     /**
      * bind event property.
      * ->on(string $type) : return HtmlEventProperty\
@@ -303,7 +300,6 @@ class HtmlNode extends HtmlItemBase
         return $this;
     }
     
-    ///<summary>set the class combination of this item</summary>
     /**
      * set the class combination of this item
      */
@@ -339,8 +335,6 @@ class HtmlNode extends HtmlItemBase
         $this->clearChilds();
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * set or append style to 
      * @param string|array $value
@@ -385,7 +379,6 @@ class HtmlNode extends HtmlItemBase
     }
     */
 
-    ///<summary></summary>
     /**
      * 
      */
@@ -406,7 +399,6 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
-    ///<summary>set the id of this item</summary>
     /**
      * set the id of this item
      */
@@ -431,10 +423,6 @@ class HtmlNode extends HtmlItemBase
     {
        
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
-    ///<param name="context" default="null"></param>
     /**
      * 
      * @param mixed $key
@@ -513,9 +501,6 @@ class HtmlNode extends HtmlItemBase
 
  
 
-    ///<summary></summary>
-    ///<param name="key">the key of expression to set</param>
-    ///<param name="value">value to evaluate</param>
     ///<remark >every expression key must start with '@igk:expression' name or value will be set to default </summary>
     /**
      * 

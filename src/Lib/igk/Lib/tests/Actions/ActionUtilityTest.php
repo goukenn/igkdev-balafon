@@ -8,7 +8,6 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\ActionHelper;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Actions

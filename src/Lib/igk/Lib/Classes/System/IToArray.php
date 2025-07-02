@@ -7,7 +7,6 @@
 namespace IGK\System;
 
 
-///<summary></summary>
 /**
 * define to array 
 * @package IGK\System\Array

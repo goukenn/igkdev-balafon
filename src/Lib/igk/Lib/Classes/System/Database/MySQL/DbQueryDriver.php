@@ -65,9 +65,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         return false;
     }
 
-    ///<summary></summary>
-    ///<param name="t"></param>
-    ///<param name="msg" default=""></param>
     /**
      * 
      * @param mixed $t

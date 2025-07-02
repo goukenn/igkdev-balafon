@@ -6,7 +6,6 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler

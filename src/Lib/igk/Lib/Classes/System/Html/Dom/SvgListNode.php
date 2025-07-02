@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Dom;
 
 
-///<summary></summary>
 /**
 * svg list container
 * @package IGK\System\Html\Dom

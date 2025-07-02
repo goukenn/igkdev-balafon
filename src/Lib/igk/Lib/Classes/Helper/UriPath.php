@@ -6,7 +6,6 @@ namespace IGK\Helper;
 
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Helper

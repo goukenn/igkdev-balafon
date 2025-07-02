@@ -10,7 +10,6 @@ use IGK\System\Html\Css\Traits\RenderDefinitionTrait;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css

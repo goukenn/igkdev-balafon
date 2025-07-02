@@ -6,7 +6,6 @@ namespace IGK\System\IO\HtmlDocument;
 
 use IGKHtmlDoc;
 
-///<summary></summary>
 /**
 * load script to manage document
 * @package IGK\System\IO\HtmlDocument

@@ -7,17 +7,13 @@
 namespace IGK\System\Polyfill;
  
 trait EventPropertyArrayAccessTrait{
-     ///<summary></summary>
-    ///<param name="i"></param>
-    /**
+     /**
     * 
     * @param mixed $i
     */
     public function offsetExists($i):bool{
         return false;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -31,9 +27,6 @@ trait EventPropertyArrayAccessTrait{
         }
         return $this->_p;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $i
@@ -49,8 +42,6 @@ trait EventPropertyArrayAccessTrait{
             $fc($this);
         }
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i

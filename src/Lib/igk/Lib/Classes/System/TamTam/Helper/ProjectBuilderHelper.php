@@ -5,7 +5,6 @@
 namespace IGK\System\TamTam\Helper;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\TamTam\Helper

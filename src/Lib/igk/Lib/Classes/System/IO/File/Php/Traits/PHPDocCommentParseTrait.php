@@ -5,7 +5,6 @@
 namespace IGK\System\IO\File\Php\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\File\Php\Traits

@@ -6,7 +6,6 @@ namespace IGK\System\Applications;
 
 use IGKCssApplication;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Applications

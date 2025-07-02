@@ -5,8 +5,6 @@
 // @desc: 
 
 
-///<summary>subdomain manager</summary>
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
@@ -22,14 +20,10 @@ final class IGKSubDomainManager extends IGKObject{
     private static $sm_isSubDomain;
     private static $sm_subDomainName;
     private static $sm_cached_domains;
-    ///<summary></summary>
     /**
     * 
     */
     private function __construct(){}
-    ///<summary></summary>
-    ///<param name="domain"></param>
-    ///<param name="servername"></param>
     /**
     * 
     * @param mixed $domain
@@ -64,7 +58,6 @@ final class IGKSubDomainManager extends IGKObject{
     public static function GetConfigFile(){
         return Path::getInstance()->getDataDir()."/subdomain.php";
     }
-    ///<summary>get the domain controller or return false</summary>
     /**
     * get the domain controller or return false
     * @return false|BaseController found controller 
@@ -165,14 +158,12 @@ final class IGKSubDomainManager extends IGKObject{
             }
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function Clear(){
         igk_environment()->{IGK_ENV_SESS_DOM_LIST} = null; 
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -181,7 +172,6 @@ final class IGKSubDomainManager extends IGKObject{
             return array_keys($t);
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -201,7 +191,6 @@ final class IGKSubDomainManager extends IGKObject{
         return  $srv; 
     }
 
-    ///<summary></summary>
     /**
     * 
     */
@@ -212,7 +201,6 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return self::$sm_instance;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -221,7 +209,6 @@ final class IGKSubDomainManager extends IGKObject{
             $c = [];
         return $c;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -240,14 +227,12 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return $srv;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public static function GetSubDomainName(){
         return self::$sm_subDomainName;
     }
-    ///<summary>init domain server</summary>
     /**
     * init domain server - operation 
     */
@@ -280,9 +265,6 @@ final class IGKSubDomainManager extends IGKObject{
             ini_set("session.cookie_path", $_path);
         }
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="ctrl"></param>
     /**
     * 
     * @param mixed $n
@@ -292,24 +274,18 @@ final class IGKSubDomainManager extends IGKObject{
         $t=self::getInstance()->getRegList();
         return isset($t[$n]) && ($t[$n]->ctrl === $ctrl);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public static function IsSubDomain(){
         return self::$sm_isSubDomain;
     }
-    ///<summary></summary>
     /**
     * 
     */
     protected function onDomainChanged(){
         $this->Clear();
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="ctrl"></param>
-    ///<param name="row" default="null"></param>
     /**
     * 
     * @param mixed $n
@@ -328,7 +304,6 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return false;
     }
-    ///<summary>resole domain to match server name</summary>
     /**
     * resole domain to match server name
     */
@@ -346,8 +321,6 @@ final class IGKSubDomainManager extends IGKObject{
     }
     
     
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
     * 
     * @param mixed $t

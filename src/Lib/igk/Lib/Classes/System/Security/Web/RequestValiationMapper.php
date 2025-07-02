@@ -7,7 +7,6 @@ namespace IGK\System\Security\Web;
 use IGK\Helper\MapHelper;
 use IGK\System\Data\ObjectValidationMapper;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Security\Web

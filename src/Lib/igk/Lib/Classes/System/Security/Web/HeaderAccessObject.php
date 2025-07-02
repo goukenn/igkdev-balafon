@@ -9,7 +9,6 @@ use IGK\Helper\Activator;
 use IGK\System\Traits\ActivableTrait;
 use IGKException;
 
-///<summary></summary>
 /**
 * handle Header Access Controller 
 * @package IGK\System\Security\Web

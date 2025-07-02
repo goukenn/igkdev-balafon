@@ -7,7 +7,6 @@ namespace IGK\Tests\System\Text;
 use IGK\System\Text\RegexMatcherUtility;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Text

@@ -14,11 +14,9 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
     use IGK\System\Polyfill\ScriptAssocArrayAccessTrait;
     private $data;
     static $sm_initCache, $sm_store;
-    ///<summary></summary>
     public function __construct(){
         $this->data=array();
     }
-    ///<summary></summary>
     public function __serialize(){
         if(self::$sm_store){
             if(!igk_io_file_exists($cache=self::GetCacheFile())){
@@ -36,21 +34,15 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
         }
         return [];
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     public function __unserialize($s){
         return;    }
-    ///<summary></summary>
     public static function GetCacheFile(){
         return igk_dir(igk_io_cachedir()."/.core.scripts.cache");
     }
    
-    ///<summary>Represente store function</summary>
-    ///<param name="d"></param>
     protected function store($d){
         self::$sm_store=$d;
     }
-    ///<summary></summary>
     public function to_array():?array{
         return $this->data;
     }

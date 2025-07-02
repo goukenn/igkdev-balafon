@@ -84,7 +84,6 @@ require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerRequestExtensionTrait.php';
 
 
-///<summary>controller macros extension</summary>
 /**
  * controller macros extension
  */
@@ -233,10 +232,6 @@ abstract class ControllerExtension
         igk_trace();
         exit;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
-    ///<param name="fname"></param>
-    ///<param name="css_def" default="null"></param>
     /**
      * bind target node
      * @param HtmlNode $t
@@ -477,8 +472,6 @@ abstract class ControllerExtension
     {
         return $ctrl->getDeclaredDir() . "/" . IGK_CONF_FOLDER;
     }
-    ///<summary>check that the controller can't be uses as entry controller</summary>
-    ///<param name="ctrl">controller to check</param>
     /**
      * check that the controller can't be uses as entry controller
      * @param BaseController $ctrl controller to check
@@ -535,7 +528,6 @@ abstract class ControllerExtension
         }
         return $guid;
     }
-    ///<summary>retrieve current view uri</summary>
     /**
      * retrieve current view uri
      * @param BaseController $ctrl 
@@ -568,7 +560,6 @@ abstract class ControllerExtension
         }
         return $uri;
     }
-    ///<summary>retrieve root base uri</summary>
     /**
      * retrieve root base uri
      * @param BaseController $ctrl 
@@ -1455,7 +1446,6 @@ abstract class ControllerExtension
     {
         return implode("/", array_filter([BaseController::Invoke($controller, "getLibDir"), $path]));
     }
-    ///<summary>check user auth demand level</summary>
     /**
      * check user auth demand level
      */
@@ -1470,9 +1460,6 @@ abstract class ControllerExtension
         return $user->auth($authDemand);
     }
 
-    ///<summary>View Error</summary>
-    ///<param name="ctrl"></param>
-    ///<param name="code"></param>
     /**
      * 
      * @param mixed $ctrl
@@ -1626,7 +1613,6 @@ abstract class ControllerExtension
         }
     }
 
-    ///<summary>get authorisation key</summary>
     /**
      * get authorisation key
      */
@@ -1701,7 +1687,6 @@ abstract class ControllerExtension
     {
         return "sys://ctrl/" . sha1(get_class($controller));
     }
-    ///<summary>set environment parameter for this controller</summary>
     /**
      * set environment parameter for this controller
      */
@@ -1709,7 +1694,6 @@ abstract class ControllerExtension
     {
         return igk_environment()->setArray(self::getEnvParamKey($controller), $key, $value);
     }
-    ///<summary>get environment parameter for this controller</summary>
     /**
      * get environment parameter for this controller
      */
@@ -1740,7 +1724,6 @@ abstract class ControllerExtension
         return null;
     }
 
-    ///<summary>Dispatch model utility</summary>
     /**
      *  Dispatch model utility 
      * @param BaseController $controller 
@@ -1758,7 +1741,6 @@ abstract class ControllerExtension
         return false;
     }
 
-    ///<summary>get model utility</summary>
     /**
      * get model utility
      * @param BaseController $controller 
@@ -1830,7 +1812,6 @@ abstract class ControllerExtension
     }
 
 
-    ///<summary> initialize db's table from data schemas </summary>
     /**
      *  initialize db's table from data schemas
      *  @return false|array array of initialize tables
@@ -2029,7 +2010,6 @@ abstract class ControllerExtension
         }
     }
 
-    ///<summary></summary>
     /**
      * 
      */
@@ -2100,7 +2080,6 @@ abstract class ControllerExtension
         return $refmethod->isPublic() && ($refmethod->getDeclaringClass()->name == get_class($controller));
     }
 
-    ///<summary>get the application current document</summary>
     /**
      * get the application current document
      */

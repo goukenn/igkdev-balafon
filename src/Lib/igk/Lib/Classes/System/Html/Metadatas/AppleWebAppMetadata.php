@@ -6,7 +6,6 @@ namespace IGK\System\Html\Metadatas;
 
 use IGK\Helper\Activator;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas

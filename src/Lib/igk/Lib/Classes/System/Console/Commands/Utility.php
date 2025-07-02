@@ -15,7 +15,6 @@ use IGK\System\Console\AppCommand;
 use IGK\System\Console\Logger;
 use IGKBacktickHelperCommandTrait;
 
-///<summary>command utility</summary>
 /**
  * command console utility Helper function 
  * @package igk\System\Console\Commands

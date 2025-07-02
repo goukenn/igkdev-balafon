@@ -23,7 +23,6 @@ require_once IGK_LIB_CLASSES_DIR . '/System/EntryClassResolution.php';
 require_once IGK_LIB_CLASSES_DIR . '/Server.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/IO/Path.php';
 
-///<summary>core application loader </summary>
 /**
  * 
  * @package 

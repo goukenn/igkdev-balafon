@@ -13,7 +13,6 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Services\IBalafonApplicationMiddlewareService;
  
 
-///<summary>Represente class: IGKBalafonApplicationMiddlewareManager</summary>
 /**
 * Represent IGKBalafonApplicationMiddlewareManager class
 */
@@ -21,9 +20,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     use ArrayAccessSelfTrait;
     private $_properties;
     private $_whereList;
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="args"></param>
     /**
     * 
     * @param mixed $n
@@ -36,7 +32,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         }
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -44,8 +39,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         $this->_whereList=array();
         $this->_properties=array();
     }
-    ///<summary></summary>
-    ///<param name="middleware"></param>
     /**
     * 
     * @param mixed $middleware
@@ -54,7 +47,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         $w=& $this->_whereList;
         $w[]=$middleware;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -65,8 +57,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -74,8 +64,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     protected function _access_offsetExists($i):bool{
         return isset($this->_properties[$i]);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -83,9 +71,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     protected function _access_offsetGet($i){
         return isset($this->_properties[$i]) ? $this->_properties[$i]: null;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $i
@@ -97,8 +82,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         else
             $this->_properties[$i]=$v;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -106,15 +89,12 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     protected function _access_offsetUnset($i){
         unset($this->_properties[$i]);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function Process(){
         BalafonMiddleware::Process($this, $this->_whereList);
     }
-    ///<summary></summary>
-    ///<param name="callback"></param>
     /**
     * 
     * @param mixed $closurecallback
@@ -123,8 +103,6 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
         BalafonMiddleware::Attach(new RunCallbackMiddleware($callback), $this);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="middle"></param>
     /**
     * 
     * @param mixed $middle

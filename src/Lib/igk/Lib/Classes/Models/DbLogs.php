@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>store system's log</summary>
 /**
 * store system's log
 * @package IGK\Models

@@ -21,7 +21,6 @@ use IGK\System\WinUI\PageLayout;
 use IteratorAggregate;
 use Traversable;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands

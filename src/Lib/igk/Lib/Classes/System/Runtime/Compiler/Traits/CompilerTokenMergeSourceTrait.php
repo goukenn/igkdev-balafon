@@ -8,7 +8,6 @@ use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\ReadTokenMergeOption;
 use IGK\System\Runtime\Compiler\ReadTokenUtility;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler
@@ -55,7 +54,7 @@ trait CompilerTokenMergeSourceTrait{
 
         if ($structs = $v_options->structs) {
             $sb->appendLine();
-            $s =  ReadTokenUtility::GenerateStruct($structs, $header, $mp);
+            $s =  ltrim(ReadTokenUtility::GenerateStruct($structs, $header, $mp) ?? '');
             $sb->appendLine($s);
         }
 

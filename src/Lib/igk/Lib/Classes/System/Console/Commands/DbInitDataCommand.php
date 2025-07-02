@@ -10,7 +10,6 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\InitBase;
 use IGK\System\EntryClassResolution;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

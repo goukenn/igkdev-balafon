@@ -10,7 +10,6 @@
 //version:1.0
 //release:19/12/2017
 
-///<summary>represent the calendar item</summary>
 function igk_html_node_Calendar(){
 	$d = igk_create_node("div");
 	$d["class"] = "igk-winui-calendar";

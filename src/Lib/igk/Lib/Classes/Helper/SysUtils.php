@@ -219,7 +219,6 @@ class SysUtils{
         return $n->to_array();
     } 
 
-     ///<summary>Notifify message</summary>
      public static function Notify($message, $type="default"){
         if (igk_is_ajx_demand()){
             igk_ajx_toast($message, $type);
@@ -227,7 +226,6 @@ class SysUtils{
             igk_notifyctrl()->bind($message, $type);
         }
     }
-    ///<summary>exist on ajx deman</summary>
     /**
      * exit on ajx demand
      * @return void 
@@ -268,7 +266,6 @@ class SysUtils{
             $notify->error($errormessage);
         }
     }
-    ///<summary>assert toation on ajx demand condition</summary>
     /**
      * assert toation on ajx demand condition
      * @param mixed $condition 
@@ -320,7 +317,6 @@ class SysUtils{
     }
 
      ///JUST: store to controller
-    ///<summary>clear cache for base dir</summary>
     /**
      * clear cache for base dir
      */

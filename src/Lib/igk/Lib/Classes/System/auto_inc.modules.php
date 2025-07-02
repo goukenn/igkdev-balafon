@@ -4,7 +4,6 @@
 namespace IGK\System;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System

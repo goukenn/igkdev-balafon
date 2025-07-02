@@ -5,7 +5,6 @@
 namespace IGK\System\Net;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Net

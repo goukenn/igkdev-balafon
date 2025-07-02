@@ -12,7 +12,6 @@ use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\Constants;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

@@ -8,7 +8,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\BalafonConfiguration;
 use stdClass;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Project

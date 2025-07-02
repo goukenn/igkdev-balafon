@@ -12,7 +12,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression;
 use IGK\System\ViewExtractArgHelper;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler

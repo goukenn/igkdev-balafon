@@ -6,7 +6,6 @@ namespace IGK\System\Html\Css;
 
 use IGKMedia;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css

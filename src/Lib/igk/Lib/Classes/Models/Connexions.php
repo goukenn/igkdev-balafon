@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store started connexions</summary>
 /**
 * Store started connexions
 * @package IGK\Models

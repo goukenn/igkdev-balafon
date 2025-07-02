@@ -5,7 +5,6 @@
 namespace IGK\System;
 
 
-///<summary></summary>
 /**
 * ajx history service 
 * @package IGK\System

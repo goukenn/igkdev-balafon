@@ -16,7 +16,6 @@ use IGK\System\Runtime\Compiler\ViewCompilerBockInfo;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler

@@ -14,8 +14,6 @@ final class DbQueryListener{
     public function __construct(){
         $this->squery="";
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     function sendQuery($s){
         if(preg_match("/^SELECT Count\(\*\) FROM/i", $s)){
             return null;

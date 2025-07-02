@@ -6,8 +6,6 @@
 
 
 
-///<summary>Represente class: IGKCSVDataAdapter</summary>
-
 use IGK\Database\DataAdapterBase;
 use IGK\Database\IDbQueryResult;
 use IGK\Helper\IO;
@@ -160,7 +158,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
        }
        return date($format, $mktime);
     }
-    ///<summary>escape string </summary>
     /**
      * escape string
      * @param mixed $v 
@@ -172,8 +169,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         $v = stripslashes($v);
         return addslashes($v); 
 	}
-    ///<summary></summary>
-    ///<param name="ctrl" default="null"></param>
     /**
     * 
     * @param mixed $ctrl the default value is null
@@ -181,8 +176,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function __construct($ctrl=null){
         $this->m_ctrl=$ctrl;
     }
-    ///<summary></summary>
-    ///<param name="data"></param>
     /**
     * 
     * @param mixed $data
@@ -196,8 +189,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
             $data=substr($data, 0, strlen($data)-1);
         return $data;
     }
-    ///<summary></summary>
-    ///<param name="l"></param>
     /**
     * 
     * @param mixed $l
@@ -287,7 +278,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
 
         
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -296,8 +286,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
             fclose($this->m_f);
         }
     }
-    ///<summary></summary>
-    ///<param name="datafile" default="file"></param>
     /**
     * 
     * @param mixed $datafile the default value is "file"
@@ -308,15 +296,12 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function getFileName(){
         return $this->m_dbname;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function selectCount(string $table,?array $where = null, ?array $options = null){
         igk_dev_wln_e("CSV Adapter: Not Implement, ".__METHOD__, igk_ob_get_func('igk_show_trace'));
     }
-    ///<summary></summary>
-    ///<param name="result" default="null"></param>
     /**
     * 
     * @param mixed $result the default value is null
@@ -324,8 +309,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function createEmptyResult($result=null){
         return null;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $value
@@ -337,17 +320,12 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         }
         return $value;
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="callback"></param>
     /**
     * 
     * @param mixed $tablename
     * @param mixed $callback
     */
     public function initSystablePushInitItem($tablename, $callback){}
-    ///<summary></summary>
-    ///<param name="tablename"></param>
     /**
     * 
     * @param mixed $tablename
@@ -355,8 +333,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function initSystableRequired($tablename){
         return false;
     }
-    ///<summary></summary>
-    ///<param name="filename"></param>
     /**
     * 
     * @param mixed $filename
@@ -365,9 +341,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         $txt=IO::ReadAllText($filename);
         return self::LoadString($txt, true, $options);
     }
-    ///<summary></summary>
-    ///<param name="txt"></param>
-    ///<param name="rmBom" default="true"></param>
     /**
     * 
     * @param mixed $txt
@@ -415,8 +388,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         // }
         // return $entries;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
     * 
     * @param mixed $tbname
@@ -424,8 +395,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function selectAll($tbname){
         $this->selectAllFile($tbname);
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
     * 
     * @param mixed $tbname
@@ -439,9 +408,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="filename"></param>
-    ///<param name="entries"></param>
     /**
     * 
     * @param mixed $filename

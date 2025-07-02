@@ -30,7 +30,6 @@ require_once __DIR__. "/HorizontalPage.pinc";
 require_once __DIR__. "/IIGKHorizontalPaneListener.php"; 
  
 
-///<summary>external html item. Add to View</summary>
 final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 {
 	private $m_pane;
@@ -97,7 +96,6 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 		$this->configure();
 		$this->flush();
 	}
-	///<summary>call it first</summary>
 	public function setCtrl($ctrl, $folder = null)
 	{
 		$this->clearPages();

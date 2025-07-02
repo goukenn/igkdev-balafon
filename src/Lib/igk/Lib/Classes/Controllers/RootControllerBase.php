@@ -22,7 +22,6 @@ use ReflectionFunction;
 
 require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerEnvParams.php';
 require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
-///<summary>represent a root controller entry</summary>
 /**
  * represent a root controller entry
  * @method static macroKeys() macros: get registrated macros key
@@ -65,8 +64,7 @@ abstract class RootControllerBase extends IGKObject{
         return igk_auto_load_class($n, $entryNS, $classdir);
     }
    
-	///<summary></summary>
-    /**
+	/**
     * 
     */
     protected final function getIsSystemController(){       
@@ -227,8 +225,7 @@ abstract class RootControllerBase extends IGKObject{
 	abstract function View();
 
 
-    ///<summary>get application manager instance</summary>
-	/**
+    /**
      * get application manager instance
      *  @return IGKApp  
      * */
@@ -242,8 +239,7 @@ abstract class RootControllerBase extends IGKObject{
         return $this->getApp()->getDoc();
     }
 
-	 ///<summary>getfull uri</summary>
-    /**
+	 /**
     * getfull uri
     */
     public function getAppUri(?string $function=null):?string{ 
@@ -258,8 +254,6 @@ abstract class RootControllerBase extends IGKObject{
             return igk_uri(Path::Combine($v_buri, $function));
         return $v_buri;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
     * 
     * @param mixed $name
@@ -267,7 +261,6 @@ abstract class RootControllerBase extends IGKObject{
     public function getArticle($name){
         return $this->getArticleInDir($name, $this->getArticlesDir());
     }
-    ///<summary>get the article binding content</summary>
     /**
     * get the article binding content
     */
@@ -279,7 +272,6 @@ abstract class RootControllerBase extends IGKObject{
         }
         return IGK_STR_EMPTY;
     }
-    ///<summary>get the article binding content with name. of the target controller</summary>
     /**
     * get the article binding content with name. of the target controller
     */
@@ -287,10 +279,6 @@ abstract class RootControllerBase extends IGKObject{
         die(__METHOD__.": Not implement");
         //return $this->getArticleBindingContent($name, igk_db_select_all(igk_getctrl($targetCtrlName)));
     }
-    ///<summary>get article content</summary>
-    ///<param name="name" > name of the article</param>
-    ///<param name="evalExpression">demand for eval expression .default is true</param>
-    ///<param name="row">row used info to eval expression</param>
     /**
     * get article content
     * @param mixed $name  name of the article
@@ -309,8 +297,6 @@ abstract class RootControllerBase extends IGKObject{
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="fullname"></param>
     /**
     * 
     * @param mixed $fullname
@@ -318,9 +304,6 @@ abstract class RootControllerBase extends IGKObject{
     public function getArticleFull($fullname){
         return igk_dir($this->getArticlesDir()."/".$fullname);
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="dir"></param>
     /**
     * 
     * @param mixed $name
@@ -329,21 +312,18 @@ abstract class RootControllerBase extends IGKObject{
     public function getArticleInDir($name, $dir){        
         return IO::GetArticleInDir($dir, $name); 
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getArticlesDir(){  
         return igk_dir($this->getDeclaredDir()."/".IGK_ARTICLES_FOLDER);
     }
-        ///<summary></summary>
-    /**
+        /**
     * 
     */
     public function getScriptsDir(){
         return $this->getDeclaredDir()."/".IGK_SCRIPT_FOLDER;
     }
-    ///<summary></summary>
     /**
     * 
     */

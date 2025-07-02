@@ -5,13 +5,11 @@
 namespace IGK\Database\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\Traits
 */
 trait DbColumnInfoMethodTrait{
-    ///<summary>get if this is unsigned type</summary>
     /**
      * get if this is unsigned type
      * @return int|false 

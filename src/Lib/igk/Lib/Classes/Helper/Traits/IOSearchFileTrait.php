@@ -6,7 +6,6 @@ namespace IGK\Helper\Traits;
 
 use IGK\System\IO\Path;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper\Traits

@@ -8,7 +8,6 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Converters

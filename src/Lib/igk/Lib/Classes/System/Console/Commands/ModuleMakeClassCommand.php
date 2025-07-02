@@ -9,7 +9,6 @@ use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\Tests\Controllers\ModuleBaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

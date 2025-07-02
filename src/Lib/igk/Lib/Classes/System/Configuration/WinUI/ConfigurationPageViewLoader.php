@@ -9,7 +9,6 @@ use IGK\Controllers\ViewLayoutBase;
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\WinUI\IViewLayoutLoader;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Configuration\WinUI

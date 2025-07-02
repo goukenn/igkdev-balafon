@@ -6,7 +6,6 @@ namespace IGK\System\Console\Commands\Sync;
 
 use IGK\System\Console\Logger;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Sync

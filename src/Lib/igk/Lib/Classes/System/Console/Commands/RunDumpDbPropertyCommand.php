@@ -10,7 +10,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\EntryClassResolution;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

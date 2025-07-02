@@ -7,7 +7,6 @@ namespace IGK\System\Runtime\Compiler;
 use IGK\System\IO\StringBuilder;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler
@@ -71,7 +70,7 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
         $noComment = $options && $options->noComment; 
         // $sb->tabstop = $depth;
         if (!$is_ano && !$noComment) {
-            $comment = $this->comment ?? "///<summary></summary>";
+            $comment = $this->comment ;// ?? "///<summary></summary>";
             // auto generate
             if (is_null($this->phpDoc)) {
                 $this->phpDoc = $this->generatePhpDoc($options);

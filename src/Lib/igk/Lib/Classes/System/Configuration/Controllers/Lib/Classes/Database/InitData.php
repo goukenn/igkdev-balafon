@@ -6,7 +6,6 @@ namespace IGK\Database;
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Database\InitBase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

@@ -5,7 +5,6 @@
 namespace IGK\System\Http\Session;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Session

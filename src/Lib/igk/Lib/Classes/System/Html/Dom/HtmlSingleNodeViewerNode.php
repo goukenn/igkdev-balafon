@@ -24,16 +24,11 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     }
     
 
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     protected function _acceptRender($options = null):bool{
         if($this->targetNode)
             return $this->IsVisible;
         return false;
     }
-    ///<summary>.ctr</summary>
-    ///<param name="node">.node to render once</param>
-    ///<param name="callback">call after render</param>
     public function __construct($node, $callback=null){
         parent::__construct("igk:singleViewItem");
         if (is_string($node) ){
@@ -42,15 +37,11 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         $this->targetNode=$node;
         $this->m_callback=$callback;
     }
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
     protected function _getRenderingChildren($option=null){
         
         return [$this->targetNode];
     }
  
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     protected function __RenderComplete($options=null){ 
     
         igk_html_rm($this);
@@ -61,13 +52,9 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         }
         unset($this->targetNode);
     }
-    ///<summary></summary>
-    ///<param name="item"></param>
-    ///<param name="index" default="null"></param>
     protected function _addChild($item, $index=null){
         return false;
     }
-    ///<summary></summary>
     public function getCanRenderTag(){
         return false;
     }

@@ -5,7 +5,6 @@
 namespace IGK\System\Diagnostics;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Diagnostics

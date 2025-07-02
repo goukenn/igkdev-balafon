@@ -5,7 +5,6 @@
 namespace IGK\System\TamTam;
 
 
-///<summary></summary>
 /**
 * building Project Hook
 * @package IGK\System\TamTam

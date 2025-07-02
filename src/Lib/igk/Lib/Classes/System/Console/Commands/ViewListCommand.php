@@ -6,7 +6,6 @@ namespace IGK\System\Console\Commands;
 
 use IGK\System\Console\AppExecCommand;
 use IGK\Helper\ViewHelper;
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

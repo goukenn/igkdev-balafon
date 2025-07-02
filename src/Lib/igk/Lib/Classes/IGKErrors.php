@@ -8,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>constant for errors</summary>
 /**
  * constant for errors
  * @package 

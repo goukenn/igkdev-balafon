@@ -5,7 +5,6 @@
 namespace IGK\System\Http\Responses;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Responses

@@ -14,13 +14,11 @@ use IGK\System\Configuration\Controllers\ConfigControllerBase;
 
 use function igk_resources_gets as __;
 
-///<summary>Represente class: IGKConsoleToolManager</summary>
 /**
  * Represent IGKConsoleToolManager class
  */
 final class IGKConsoleToolManager extends ConfigControllerBase
 {
-    ///<summary></summary>
     /**
      * 
      */
@@ -28,7 +26,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     {
         return 1;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -41,7 +38,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
         return "console";
     }
 
-    ///<summary></summary>
     /**
      * 
      */
@@ -49,7 +45,6 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     {
         return "";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -57,12 +52,10 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     {
         return 10;
     }
-    ///<summary></summary>
     /**
      * 
      */
 
-    ///<summary></summary>
     /**
      * 
      */

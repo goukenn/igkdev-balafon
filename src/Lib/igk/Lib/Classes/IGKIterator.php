@@ -5,7 +5,6 @@
 // @desc: 
 
 
-///<summary>used to iterate thru an array</summary>
 /**
 * used to iterate thru an array
 */
@@ -19,8 +18,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     private $m_it_key;
     private $m_target;
     private $m_viewCount;
-    ///<summary></summary>
-    ///<param name="ob"></param>
     /**
     * 
     * @param mixed $ob
@@ -30,28 +27,24 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
         $this->m_count=igk_count($ob);
         $this->m_index=0;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function count():int{
         return igk_count($this->m_target);
     }
-    ///<summary></summary>
     /**
     * @return mixed data
     */
     function _iterator_current(){
         return $this->m_target[$this->m_it_key];
     }
-    ///<summary></summary>
     /**
     *  @return mixed data
     */
     function _iterator_key(){
         return $this->m_it_key;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -62,8 +55,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
         }
     }
     
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * 
     * @param mixed $key
@@ -71,8 +62,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     protected function _access_offsetExists($key):bool{
         return isset($this->m_target[$key]);
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * 
     * @param mixed $key
@@ -81,23 +70,17 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
         if(isset($this->m_target[$key]))
             return $this->m_target[$key];
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $key
     * @param mixed $value
     */
     protected function _access_offsetSet($key, $value):void{}
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * 
     * @param mixed $key
     */
     protected function _access_offsetUnset($key):void{}
-    ///<summary></summary>
     /**
     * 
     */
@@ -112,8 +95,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
             $this->m_it_key=null;
         }
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -121,9 +102,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     public function setrewindStart($i){
         $this->m_index=$i;
     }
-    ///<summary></summary>
-    ///<param name="index"></param>
-    ///<param name="count" default="null"></param>
     /**
     * 
     * @param mixed $index
@@ -135,7 +113,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
             $this->m_count=min($index + $count, igk_count($this->m_target));
         }
     }
-    ///<summary></summary>
     /**
     * 
     */

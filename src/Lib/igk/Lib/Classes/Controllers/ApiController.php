@@ -12,7 +12,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
 
-///<summary> api controller</summary>
 /**
  * represent api controller
  * @package IGK\Controllers

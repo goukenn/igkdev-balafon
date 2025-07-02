@@ -13,7 +13,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressionArgHelper;
 
 require_once __DIR__."/helper-functions.php";
 
-///<summary></summary>
 /**
  * process and compile every line block
  * @package IGK\System\Runtime\Compiler\ViewCompiler

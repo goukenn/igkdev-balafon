@@ -8,12 +8,10 @@
 namespace IGK\System\Html\Dom;
 
 
-///<summary>Represente class: IGKHTmlFormTitle</summary>
 /**
 * Represent IGKHTmlFormTitle class
 */
 final class HtmlFormTitleNode extends HtmlNode{
-    ///<summary></summary>
     /**
     * 
     */
@@ -21,8 +19,6 @@ final class HtmlFormTitleNode extends HtmlNode{
         parent::__construct("div");
         $this["class"]="title";
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $options the default value is null

@@ -5,7 +5,6 @@
 namespace IGK\System\Installers;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Installers

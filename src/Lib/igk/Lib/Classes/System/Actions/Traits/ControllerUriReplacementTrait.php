@@ -5,7 +5,6 @@
 namespace IGK\System\Actions\Traits;
 
 
-///<summary></summary>
 /**
 * use to replace uri in normal context 
 * @package IGK\System\Actions\Traits

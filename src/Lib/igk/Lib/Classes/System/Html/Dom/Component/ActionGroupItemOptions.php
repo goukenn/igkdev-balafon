@@ -6,7 +6,6 @@ namespace IGK\System\Html\Dom\Component;
 
 use IGK\System\Traits\ActivableTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom\Component

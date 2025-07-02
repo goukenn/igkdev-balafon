@@ -10,7 +10,6 @@ use IGK\System\Html\HtmlReader;
 use IGK\System\Installers\BalafonInstaller;
 use function igk_resources_gets as __;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

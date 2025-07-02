@@ -10,7 +10,6 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
 use IGKObject;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Text

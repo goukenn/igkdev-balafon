@@ -7,7 +7,6 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGKException;
 
-///<summary></summary>
 /**
 * configuration helper
 * @package IGK\Helper

@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Dom;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom

@@ -10,7 +10,6 @@ use IGK\Helper\Trait\ActivatorPrivateInitProperty;
 use IGKException;
 use IGKObject;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Text

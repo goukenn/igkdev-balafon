@@ -5,7 +5,6 @@
 namespace IGK\System\Npm\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Npm\Traits

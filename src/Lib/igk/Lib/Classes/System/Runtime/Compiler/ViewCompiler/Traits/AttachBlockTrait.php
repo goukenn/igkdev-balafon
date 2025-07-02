@@ -8,7 +8,6 @@ use IGK\Helper\Activator;
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewReadBlockFlagInfo;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler\Traits

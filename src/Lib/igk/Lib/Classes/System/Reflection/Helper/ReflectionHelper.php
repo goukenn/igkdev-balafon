@@ -6,7 +6,6 @@ namespace IGK\System\Reflection\Helper;
 
 use ReflectionProperty;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Reflection\Helper

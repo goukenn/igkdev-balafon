@@ -9,7 +9,6 @@ use IGK\Models\ModelBase;
 use IGKCSVDataAdapter;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database\Import

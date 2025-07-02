@@ -14,7 +14,6 @@ use IGK\System\Caches\InitEnvControllerChain;
 use IGK\System\Exceptions\ArgumentTypeNotValidException; 
 use IGK\System\Caches\EnvControllerCacheList;
 
-///<summary> manage application system</summary>
 class IGKAppSystem
 {
     /**

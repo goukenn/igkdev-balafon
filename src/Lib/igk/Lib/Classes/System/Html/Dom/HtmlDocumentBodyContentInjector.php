@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Dom;
 
 
-///<summary></summary>
 /**
 * used to inject some script at different state of the document - depend on list
 * @package IGK\System\Html\Dom

@@ -12,7 +12,6 @@ use IGK\System\Console\Commands\ServerCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Console\TerminalActionCommand;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Command

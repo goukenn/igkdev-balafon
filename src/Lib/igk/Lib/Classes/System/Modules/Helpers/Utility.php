@@ -5,7 +5,6 @@
 namespace IGK\System\Modules\Helpers;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Modules\Helpers

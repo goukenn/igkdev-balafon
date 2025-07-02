@@ -10,7 +10,6 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Http\Request;
 use IGK\System\Http\WebResponse;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Actions\Traits

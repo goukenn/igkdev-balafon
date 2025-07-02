@@ -6,7 +6,6 @@ namespace IGK\System\Database;
 
 use IGK\Helper\Database;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Database

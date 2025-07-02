@@ -5,7 +5,6 @@
 namespace IGK\Database;
 
 
-///<summary></summary>
 /**
 * db column properties 
 * @package IGK\Database

@@ -12,7 +12,6 @@ use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\IO\Path;
 
-///<summary></summary>
 /**
 * use to extract color and properties form a css distribution 
 * @package IGK\System\Console\Commands\Css

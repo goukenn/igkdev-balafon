@@ -5,7 +5,6 @@
 namespace IGK\Css\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Css\Traits

@@ -10,7 +10,6 @@ use IGK\System\Html\Css\CssMedia;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
 
-///<summary></summary>
 /**
 * genereate css library
 * @package IGK\System\Console\Commands\CssCommands

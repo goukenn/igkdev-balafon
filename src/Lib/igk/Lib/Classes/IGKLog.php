@@ -6,8 +6,6 @@
 
 
 
-///<summary>Represente class: IGKLog</summary>
-
 use IGK\Database\DataAdapterBase;
 use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO;
@@ -29,14 +27,12 @@ final class IGKLog extends IGKObject
      */
     private static $sm_loggin = false;
     private static $sm_instance;
-    ///<summary></summary>
     /**
      * 
      */
     private function __construct()
     {
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -49,7 +45,6 @@ final class IGKLog extends IGKObject
     public function write_i_data(){
         throw new NotImplementException(__METHOD__);
     }
-    ///<summary></summary>
     /**
      * @return static
      */
@@ -76,7 +71,6 @@ final class IGKLog extends IGKObject
         }
         return $f;
     }
-    ///<summary>write log to IGK_LOG_FILE</summary>
     /**
      * write log to IGK_LOG_FILE
      * @param mixed $msg
@@ -179,7 +173,6 @@ final class IGKLog extends IGKObject
         }
         return false;
     }
-    ///<summary></summary>
     /**
      * get writing log file 
      * @return string
@@ -202,8 +195,6 @@ final class IGKLog extends IGKObject
     public function getDefaultErrorLogFile():string{
         return igk_io_cachedir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . IGK_LOG_FILE_EXT; 
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     /**
      * 
      * @param mixed $msg
@@ -212,10 +203,6 @@ final class IGKLog extends IGKObject
     {
         $this->write_i("IGKLOG", $msg);
     }
-    ///<summary></summary>
-    ///<param name="tag"></param>
-    ///<param name="message"></param>
-    ///<param name="eval" default="1"></param>
     /**
      * 
      * @param mixed $tag

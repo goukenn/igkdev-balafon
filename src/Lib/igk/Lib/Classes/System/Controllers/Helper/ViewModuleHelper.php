@@ -11,7 +11,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 
-///<summary></summary>
 /**
 * use to manage controller in current view 
 * @package IGK\System\Controllers\Helper

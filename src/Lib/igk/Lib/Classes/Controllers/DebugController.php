@@ -19,16 +19,12 @@ final class DebugController extends BaseController{
     public function getName(){
         return IGK_DEBUG_CTRL;
     }
-    ///<summary></summary>
-    ///<param name="div"></param>
     public function addMessage($div){
         $this->m_topdiv->add($div);
     }
-    ///<summary></summary>
     public function ClearDebug(){
         $this->m_topdiv->clearChilds();
     }
-    ///<summary></summary>
     public function getDebuggerView(){
         static $debug=null;  
         if($debug === null){
@@ -36,11 +32,9 @@ final class DebugController extends BaseController{
         }
         return $debug;
     }
-    ///<summary></summary>
     public function getIsVisible():bool{
         return Server::IsLocal();
     }
-    ///<summary></summary>
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $node=parent::initTargetNode();
         $cl=strtolower($this->getName());
@@ -51,7 +45,6 @@ final class DebugController extends BaseController{
         HtmlUtils::AddBtnLnk($this->m_optionsdiv, "btn.ClearDebug", $this->getUri("ClearDebug"));
         return $node;
     }
-    ///<summary>debug ctrl view override</summary>
     public function View():BaseController{
         if($this->getIsVisible()){
             $body=igk_sys_debugzone_ctrl();

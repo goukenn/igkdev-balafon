@@ -14,7 +14,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\IViewLayoutLoader;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

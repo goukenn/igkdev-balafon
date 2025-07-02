@@ -10,7 +10,6 @@ use IGK\System\Regex\Replacement;
 use IGK\System\Traits\ObjectFormDataTrait;
 use IGK\System\WinUI\Forms\FormData;
 
-///<summary></summary>
 /**
 * validate json data
 * @package IGK\System\Composer

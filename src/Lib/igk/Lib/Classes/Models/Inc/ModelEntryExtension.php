@@ -51,13 +51,11 @@ use function igk_form_input_type as form_input_type;
 
 // require_once IGK_LIB_CLASSES_DIR . 
 
-///<summary>Extension</summary>
 abstract class ModelEntryExtension
 {
     use ModelExtensionTrait;
     use ModelInitDbExtensionTrait;
 
-    ///<summary>get the current model expression</summary>
     /**
      * get model instance
      * @param ModelBase $model 
@@ -1135,7 +1133,6 @@ abstract class ModelEntryExtension
         }
         return null;
     }
-    ///<summary>return the model table name</summary>
     /**
      * return model table full path
      * @param ModelBase $model 

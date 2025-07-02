@@ -10,7 +10,6 @@ use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 use ReflectionMethod;
 
-///<summary></summary>
 /**
 * execute command db utility to handle action base on modelUtility 
 * @package IGK\System\Console\Commands

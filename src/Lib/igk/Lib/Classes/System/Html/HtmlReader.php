@@ -88,7 +88,6 @@ final class HtmlReader extends IGKObject
         return $c > 0 ? self::$sm_openertype[$c - 1] : null;
     }
 
-    ///<summary>bind template object</summary>
     /**
      * 
      * @param static $reader 

@@ -5,7 +5,6 @@
 namespace IGK\Controllers;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Controllers

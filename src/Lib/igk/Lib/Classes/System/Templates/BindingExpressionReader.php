@@ -10,7 +10,6 @@ use IGK\System\DataArgs;
 use IGK\System\Html\HtmlBindingRawTransform;
 use IGK\System\Html\Templates\BindingContextInfo;
 
-///<summary></summary>
 /**
  * treat binding content
  * @package IGK\System\Templates

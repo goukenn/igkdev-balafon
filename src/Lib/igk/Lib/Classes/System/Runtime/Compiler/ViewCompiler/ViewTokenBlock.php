@@ -8,7 +8,6 @@ use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\ReadTokenMergeOption;
 use IGK\System\Runtime\Compiler\ReadTokenUtility;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler

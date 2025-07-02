@@ -11,7 +11,6 @@ namespace IGK\System\Html\XML;
  
 
 final class XmlCDATA extends XmlNode{
-    ///<summary></summary>
     public function __construct(){
         parent::__construct("igk:cdata");
     }
@@ -20,12 +19,9 @@ final class XmlCDATA extends XmlNode{
         return false;
     }
    
-    ///<summary></summary>
     public function getCanRenderTag(){
         return false;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function render($options=null){
         $c="<![CDATA[";
         $s=$this->Content;

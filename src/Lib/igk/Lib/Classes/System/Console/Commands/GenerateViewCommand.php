@@ -8,7 +8,6 @@ use IGK\DocumentParser\DocumentParser;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Command

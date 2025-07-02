@@ -17,8 +17,6 @@ use IGKObject;
  * @package 
  */
 final class HtmlUsageCondition extends IGKObject implements IHtmlGetValue{
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     public function getValue($o=null){
         $c=igk_create_node("span");
         $tc=igk_get_regctrl("sys://articles");

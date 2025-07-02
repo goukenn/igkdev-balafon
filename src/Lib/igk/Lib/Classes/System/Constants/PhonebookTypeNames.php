@@ -6,7 +6,6 @@ namespace IGK\System\Constants;
 
 use IGK\System\Traits\EnumeratesConstants;
 
-///<summary></summary>
 /**
 * phone books type system constants
 * @package IGK\System\Constants

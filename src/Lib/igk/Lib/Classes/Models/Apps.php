@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>manage download time application.</summary>
 /**
 * manage download time application.
 * @package IGK\Models

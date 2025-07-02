@@ -5,7 +5,6 @@
 namespace IGK\System\Http;
 
 
-///<summary></summary>
 /**
 * client request options
 * @package IGK\System\Http

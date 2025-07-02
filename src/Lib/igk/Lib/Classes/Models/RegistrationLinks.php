@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>store registration linkss</summary>
 /**
 * store registration linkss
 * @package IGK\Models

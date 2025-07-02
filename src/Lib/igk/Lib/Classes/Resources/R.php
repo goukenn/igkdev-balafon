@@ -23,7 +23,6 @@ use IGKUserAgent;
 use function igk_resources_gets as __;
 
 
-///<summary>IGKResource Class. represent resource / lang / resource management </summary>
 /**
 * IGKResource Class. represent resource / lang / resource management
 */
@@ -56,12 +55,10 @@ final class R extends IGKObject {
      * @var mixed dictionary
      */
     var $langRes;
-    ///<summary></summary>
     /**
     * 
     */
     private function __construct(){}
-    ///<summary>set the langage key</summary>
     /**
     * set the langage key
     */
@@ -108,8 +105,6 @@ final class R extends IGKObject {
     public static function GetSupportedLangs(){
         return array_filter(explode("|", self::GetSupportLangRegex()));
     }
-    ///<summary></summary>
-    ///<param name="lang" default="fr"></param>
     /**
     * 
     * @param mixed $lang the default value is "fr"
@@ -137,7 +132,6 @@ final class R extends IGKObject {
         igk_set_env($key, null);
         return $r;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -146,7 +140,6 @@ final class R extends IGKObject {
         $v->langRes=array();
         self::SaveLang(null);
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -157,7 +150,6 @@ final class R extends IGKObject {
         }
         return $lg;
     }
-    ///<summary> get the current language file</summary>
     /**
     *  get the current language file
     */
@@ -167,7 +159,6 @@ final class R extends IGKObject {
         $lg=self::GetCurrentLang();
         return $folder."/".IGK_LANG_FILE_PREFIX.$lg.IGK_LANG_FILE_EXTENSION;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -178,7 +169,6 @@ final class R extends IGKObject {
         }
         return self::DEFAULT_LANG;
     }
-    ///<summary>get resource image uri</summary>
     /**
     * get resource image uri
     */
@@ -189,8 +179,6 @@ final class R extends IGKObject {
         } 
         return null;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
     * 
     * @param mixed $name
@@ -202,7 +190,6 @@ final class R extends IGKObject {
         }
         return IGK_STR_EMPTY;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -214,8 +201,6 @@ final class R extends IGKObject {
         }
         return self::$sm_instance;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * 
     * @param mixed $key
@@ -224,21 +209,18 @@ final class R extends IGKObject {
         $v=self::getInstance();
         return igk_getv($v->langRes, $key);
     }
-    ///<summary> get Language key</summary>
     /**
     *  get Language key
     */
     public static function GetLang($keys){
         return new IGKLangExpression($keys);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public static function GetLangInfo(){
         return self::getInstance()->langRes;
     }
-    ///<summary>get string expression </summary>
     /**
     * get string expression
     */
@@ -278,7 +260,6 @@ final class R extends IGKObject {
         }
         return $key;
     }
-    ///<summary>prepare support lang</summary>
     /**
     * prepare support lang
     */
@@ -292,7 +273,6 @@ final class R extends IGKObject {
     public static function Contains($key){ 
         return isset(self::getInstance()->langRes[$key]); 
     }
-    ///<summary></summary>
     /**
      * get support lang regex
     * @var string
@@ -306,7 +286,6 @@ final class R extends IGKObject {
         return $r ?? 'en'; 
     }
  
-    ///<summary></summary>
     /**
     * 
     */

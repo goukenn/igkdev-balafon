@@ -13,13 +13,11 @@ use IGK\Resources\R;
 use IGKControllerManagerObject;
 use IGKControllerTypeManager;
 
-///<summary>Controller used to manage controllers</summary>
 /**
 * Controller used to manage controllers
 */
 final class ControllerManager extends NonVisibleControllerBase {
 
-    ///<summary>add a controller from request</summary>
     /**
     * add a controller from request
     */
@@ -147,10 +145,6 @@ final class ControllerManager extends NonVisibleControllerBase {
         }
         return $response;
     }
-    ///<summary>Represente GetDefaultClassContent function</summary>
-    ///<param name="name"></param>
-    ///<param name="extends"></param>
-    ///<param name="webparent" default="null"></param>
     /**
     * Represent GetDefaultClassContent function
     * @param  $name

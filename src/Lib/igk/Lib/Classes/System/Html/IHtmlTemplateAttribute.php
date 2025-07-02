@@ -5,7 +5,6 @@
 namespace IGK\System\Html;
 
 
-///<summary>a template attribute expression</summary>
 /**
 * a template attribute expression
 * @package IGK\System\Html

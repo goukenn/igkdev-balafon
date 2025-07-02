@@ -190,8 +190,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
     }
 
 
-    ///<summary>use to invoke system controller method</summary>
-    ///<return>the selected uri</return>
     /**
      * use to invoke system controller method
      */
@@ -281,7 +279,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         return $c;
     }
 
-    ///<summary>array of loaded controller</summary>
     /**
      * array of loaded controller
      * @return array 

@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>store use information types.</summary>
 /**
 * store use information types.
 * @package IGK\Models

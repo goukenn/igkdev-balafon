@@ -10,7 +10,6 @@ namespace IGK\System\Configuration\Controllers;
 use IGK\Controllers\BaseController; 
 use function igk_resources_gets as __;
 
-///<summary>Manage session </summary>
 /**
 * configuration manage session
 */
@@ -21,7 +20,6 @@ final class SessionManagerController extends ConfigControllerBase{
     {
         return IGK_CTRL_SESSION_MANAGER;
     }
-    ///<summary>Represente clearall function</summary>
     /**
     * Represent clearall function
     */
@@ -35,7 +33,6 @@ final class SessionManagerController extends ConfigControllerBase{
         $sc->Content="window.location = '".igk_io_baseuri()."';"; 
         return $sc;
     }
-    ///<summary>Represente drop function</summary>
     /**
     * Represent drop function
     */
@@ -58,7 +55,6 @@ final class SessionManagerController extends ConfigControllerBase{
         igk_ajx_replace_ctrl_view($this, 1);
         igk_exit();
     }
-    ///<summary>Represente getConfigPage function</summary>
     /**
     * Represent getConfigPage function
     */
@@ -72,7 +68,6 @@ final class SessionManagerController extends ConfigControllerBase{
     {
         return igk_app()->getApplication()->getLibrary("session");
     }
-    ///<summary>Represente View function</summary>
     /**
     * Represent View function
     */

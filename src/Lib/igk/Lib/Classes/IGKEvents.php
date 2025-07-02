@@ -5,8 +5,6 @@
 // @desc: 
 
 
-///<summary>represent a event method pointer</summary>
-
 use IGK\Actions\Dispatcher;
 use IGK\HookOptions;
 use IGK\IHookOptions;
@@ -196,10 +194,6 @@ class IGKEvents extends IGKObject
         igk_reg_hook($hookKey, $m);
     }
 
-    ///<summary></summary>
-    ///<param name="owner"></param>
-    ///<param name="name"></param>
-    ///<param name="single" default="false"></param>
     /**
      * 
      * @param mixed $owner
@@ -213,7 +207,6 @@ class IGKEvents extends IGKObject
         $this->m_singlemethod = $single;
         $this->m_name = $name;
     }
-    ///<summary>display value</summary>
     /**
      * display value
      */
@@ -221,9 +214,6 @@ class IGKEvents extends IGKObject
     {
         return __CLASS__ . "[" . $this->m_name . ";for[" . get_class($this->m_owner) . "]]";
     }
-    ///<summary>register a class method to this</summary>
-    ///<param class="class">mixed class or callable</param>
-    ///<param class="method">if class method is a name</param>
     /**
      * register a class method to this
      * @param  mixed $class or callable
@@ -251,7 +241,6 @@ class IGKEvents extends IGKObject
         }
         return null;
     }
-    ///<summary>invoke resgistrated method</summary>
     /**
      * invoke resgistrated method
      */
@@ -263,7 +252,6 @@ class IGKEvents extends IGKObject
             }
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -271,7 +259,6 @@ class IGKEvents extends IGKObject
     {
         $this->m_methods = array();
     }
-    ///<summary>enumerate registrated methods</summary>
     /**
      * enumerate registrated methods
      */
@@ -288,7 +275,6 @@ class IGKEvents extends IGKObject
     {
         return count($this->m_methods);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -296,7 +282,6 @@ class IGKEvents extends IGKObject
     {
         return $this->__toString() . " count # " . igk_count($this->m_methods);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -304,7 +289,6 @@ class IGKEvents extends IGKObject
     {
         return igk_get_env("sys://event/isdebugging/" . $this->m_name, 0);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -312,7 +296,6 @@ class IGKEvents extends IGKObject
     {
         return igk_count($this->m_methods);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -320,7 +303,6 @@ class IGKEvents extends IGKObject
     {
         return $this->m_name;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -328,9 +310,6 @@ class IGKEvents extends IGKObject
     {
         return $this->m_owner;
     }
-    ///<summary></summary>
-    ///<param name="class"></param>
-    ///<param name="method"></param>
     /**
      * 
      * @param mixed $class
@@ -350,9 +329,6 @@ class IGKEvents extends IGKObject
         }
         return 0;
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="name" default="IGK_FUNC_KEY"></param>
     /**
      * 
      * @param mixed $obj
@@ -374,8 +350,6 @@ class IGKEvents extends IGKObject
         $this->m_methods = $tab;
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v

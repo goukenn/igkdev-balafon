@@ -5,7 +5,6 @@
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 
 
-///<summary></summary>
 /**
 * for setter expression value
 * @package IGK\System\Runtime\Compiler

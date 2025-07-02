@@ -8,15 +8,11 @@ namespace IGK\System\Exceptions;
 
 use IGKException;
 
-///<summary>resource not found exception</summary>
 /**
 *  resource not found exception
 */
 class ResourceNotFoundException extends IGKException {
     private $m_file;
-    ///<summary></summary>
-    ///<param name="message"></param>
-    ///<param name="file"></param>
     /**
     * 
     * @param mixed $message
@@ -26,7 +22,6 @@ class ResourceNotFoundException extends IGKException {
         parent::__construct($message, $code);
         $this->m_file=$file;
     }
-    ///<summary></summary>
     /**
     * 
     */

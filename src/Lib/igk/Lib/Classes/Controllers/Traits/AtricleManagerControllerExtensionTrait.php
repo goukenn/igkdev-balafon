@@ -10,7 +10,6 @@ use IGK\Helper\IO;
 use IGK\System\IO\Path;
 use IGKResourceUriResolver;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Controllers\Traits

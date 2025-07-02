@@ -7,13 +7,10 @@
 
 
  
-///<summary>Represent the base IGK object class </summary>
 /**
 * Represent the base IGK object class
 */
 class IGKObject {
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * 
     * @param mixed $key
@@ -24,9 +21,6 @@ class IGKObject {
         }
         return null;
     } 
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $name
@@ -35,7 +29,6 @@ class IGKObject {
     public function __set($name, $value){
         $this->_setIn($name, $value);
     }
-    ///<summary>display value</summary>
     /**
     * display value
     */
@@ -50,9 +43,6 @@ class IGKObject {
             call_user_func_array([$this, 'registerHook'], []);
         }
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="value" ref="true"></param>
     /**
     * 
     * @param mixed $name
@@ -65,9 +55,6 @@ class IGKObject {
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="event"></param>
-    ///<param name="method"></param>
     /**
     * 
     * @param mixed $event
@@ -76,8 +63,6 @@ class IGKObject {
     public function callEvent($event, $method){
         throw new IGKException(__METHOD__." Not implement");
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
     /**
     * 
     * @param mixed $obj
@@ -88,17 +73,14 @@ class IGKObject {
         $r=($g == $s);
         return $r;
     }
-    ///<summary>used to dispose and release element</summary>
     /**
     * used to dispose and release element
     */
     public function dispose(){}
-    ///<summary></summary>
     /**
     * 
     */
     protected function getCmpObj(){}
-    ///<summary>override this method to filter call of global method used to call internal function (protected)</summary>
     /**
     * override this method to filter call of global method used to call internal function (protected)
     */
@@ -113,9 +95,6 @@ class IGKObject {
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $name

@@ -6,8 +6,6 @@
 
 namespace IGK;
 
-///<summary>Represente class: Constants</summary>
-
 use IGK\System\EntryClassResolution;
 use IGKEnvironment;
 

@@ -12,7 +12,6 @@ use IGK\System\EntryClassResolution;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands

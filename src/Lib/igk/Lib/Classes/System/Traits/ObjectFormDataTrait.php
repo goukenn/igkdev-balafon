@@ -6,7 +6,6 @@ namespace IGK\System\Traits;
 
 use IGK\System\Http\Request;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Traits

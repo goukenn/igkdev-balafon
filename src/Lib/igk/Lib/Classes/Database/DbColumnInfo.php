@@ -17,7 +17,6 @@ use IGKSysUtil;
 use ReflectionException;
 
 require_once __DIR__ . "/Traits/DbColumnInfoTrait.php";
-///<summary>Represent class: DbColumnInfo</summary>
 /**
  * Represent DbColumnInfo class
  */
@@ -44,8 +43,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         return DbUtils::GetIsDumpField($this);
     }
-    ///<summary></summary>
-    ///<param name="array" default="null"></param>
     /**
      * 
      * @param mixed $array the default value is null
@@ -257,7 +254,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         return $cls;
     }
 
-    ///<summary> return a filtered array of property</summary>
     /**
      * return a filtered array of property
      * @return array 
@@ -301,8 +297,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $cl;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
      * 
      * @param mixed $key
@@ -315,9 +309,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         igk_die("__get Not implements : " . $key . " " . get_class($this));
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $key
@@ -327,7 +318,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         igk_die("variable : [" . $key . "] Not Implements");
     }
-    ///<summary>display value</summary>
     /**
      * display value
      */
@@ -356,7 +346,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $t;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -364,7 +353,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         return get_class_vars("DbColumnInfo");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -378,7 +366,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     }
 
 
-    ///<summary> get row default value</summary>
     /**
      * get column default value
      * @param DbColumnInfo $v 

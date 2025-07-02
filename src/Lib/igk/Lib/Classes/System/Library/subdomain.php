@@ -67,7 +67,6 @@ class subdomain{
         //}, 100);
     }
 
-    ///<summary></summary>
     /**
     * check for subdomain
     */

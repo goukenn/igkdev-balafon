@@ -5,7 +5,6 @@
 namespace IGK\System\Database;
 
 
-///<summary></summary>
 /**
 * @property array $tables list of table 
 * @property array $tbrelations 

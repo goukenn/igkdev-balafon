@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Dom;
 
 
-///<summary></summary>
 /**
 * host for rendering element 
 * @package IGK\System\Html\Dom

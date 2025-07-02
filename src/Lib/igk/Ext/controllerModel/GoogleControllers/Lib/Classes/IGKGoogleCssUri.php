@@ -8,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>Represente namespace: IGK\Core\Ext\Google</summary>
 /**
 * Represent IGK\Core\Ext\Google namespace
 */
@@ -25,9 +24,6 @@ use \IGKHtmlRelativeUriValueAttribute;
 class IGKGoogleCssUri{
     private $m_file;
     private $m_uri;
-    ///<summary></summary>
-    ///<param name="f"></param>
-    ///<param name="uri"></param>
     /**
     * 
     * @param mixed $f
@@ -37,7 +33,6 @@ class IGKGoogleCssUri{
         $this->m_file=$f;
         $this->m_uri=$uri;
     }
-    ///<summary></summary>
     /**
     * 
     */

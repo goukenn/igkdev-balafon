@@ -9,7 +9,6 @@ use IGK\Helper\Activator;
 use IGK\System\ConfigurationFile;
 use IGK\System\IO\Path;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Configuration

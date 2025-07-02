@@ -11,8 +11,6 @@ use IGK\System\Html\Css\CssUtils;
 
 trait CSSDefaultArrayAccess{
 
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -23,8 +21,6 @@ trait CSSDefaultArrayAccess{
         }
         return isset($this->_[self::PROPERTIES][$i]);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -42,9 +38,6 @@ trait CSSDefaultArrayAccess{
         }
         return igk_getv($tab, $key);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $i
@@ -61,8 +54,6 @@ trait CSSDefaultArrayAccess{
     }
 
   
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i

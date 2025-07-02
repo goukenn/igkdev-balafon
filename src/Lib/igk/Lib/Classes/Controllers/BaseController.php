@@ -166,7 +166,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * @var mixed
      */
     private static $sm_sysController = [];
-    ///<summary></summary>
     /**
      * @return object 
      */
@@ -189,12 +188,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         return (object)$t;
     }
-    ///<summary>reset the current view file request</summary>
     // protected function _resolview($f, ?array $params = [])
     // {
     //     return false;       
     // }
-    ///<summary></summary>
     /**
      * rende view file
      */
@@ -538,7 +535,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         return new ViewDataArgs($cp);
     }
-    ///<summary>include constant</summary>
     /**
      * include constant
      */
@@ -550,8 +546,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             include_once($f);
         unset($f);
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
     /**
      * 
      * @param mixed $file
@@ -565,7 +559,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         return $data;
     }
-    ///<summary></summary>
     /**
      * @return string default name attached to this controller 
      */
@@ -573,8 +566,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return strtolower(get_class($this));
     }
-    ///<summary>get store parameter referece value</summary>
-    ///<param name="register">get store parameter referece value</param>
     /**
      * get store parameter 
      * @return mixed objet reference value
@@ -585,7 +576,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $o = isset($param[$key]) ? $param[$key] : $default;
         return $o;
     }
-    ///<summary>get stored params keys</summary>
     /**
      * get stored params keys
      * @return array stored params keys
@@ -594,7 +584,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return array_keys((array)$this->getParams());
     }
-    ///<summary>get all controller's parameters</summary>
     /**
      * get all controller's parameters
      */
@@ -620,7 +609,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $tab[$cl] = $c;
         return $c->filename;
     }
-    ///<summary></summary>
     /**
      * @return string
      */
@@ -648,7 +636,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return Path::Combine($this->getDeclaredDir(), IGK_CONF_FOLDER);
     }
-    ///<summary>get view dir</summary>
     /**
      * get view dir
      */
@@ -656,7 +643,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return ControllerPaths::Gets($this)->viewDir;
     }
-    ///<summary>get style directory folder</summary>
     /**
      * 
      */
@@ -664,7 +650,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return ControllerPaths::Gets($this)->stylesDir;
     }
-    ///<summary>get primary style file</summary>
     /**
      * get style dir
      */
@@ -675,7 +660,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         return implode("/", [$this->getStylesDir(), Constants::DEFAULT_THEME_STYLE]);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -683,7 +667,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return $this->getDataDir() . "/" . IGK_CTRL_CONF_FILE;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -691,7 +674,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return $this->getDeclaredDir() . "/" . IGK_DATA_FOLDER;
     }
-    ///<summary>get the constant file </summary>
     /**
      * get the constant file
      */
@@ -699,7 +681,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return $this->getDeclaredDir() . "/.constants.php.inc";
     }
-    ///<summary></summary>
     /**
      * Db constant utility
      */
@@ -707,7 +688,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return $this->getDeclaredDir() . "/.db.constants.php";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -715,7 +695,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return $this->getDataDir() . "/" . IGK_RES_FOLDER;
     }
-    ///<summary>get controlleur current configuration</summary>
     /**
      * get controlleur current configuration
      * @return IControllerConfigurationData 
@@ -741,7 +720,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         igk_environment()->set($key,  $tab);
         return $c;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -756,7 +734,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         return $l;
     }
-    ///<summary>utility view args</summary>
     /**
      * utility view args
      */
@@ -769,7 +746,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $entry_uri = igk_io_view_entry_uri($this, $fname);
         return get_defined_vars();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -777,10 +753,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return igk_dir($this->getDeclaredDir() . DIRECTORY_SEPARATOR . IGK_CONTENT_FOLDER);
     }
-    ///<summary>Register controller view $params var</summary>
-    ///<param name="args">Mixed, single value or array . if single value it will be converted into an array of single array element</param>
-    ///<param name="options">query options</param>
-    ///<note>passing null will reset the system vars</note>
     /**
      * Register controller view $params var
      * @param mixed $args Mixed, single value or array . if single value it will be converted into an array of single array element
@@ -806,7 +778,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         $this->setEnvParam(IGK_VIEW_OPTIONS, $options);
     }
-    ///<sample>editor[/package/function/arg1/args2]</sample>
     /**
      * resolve view files and update parameters
      * @param string $view extension
@@ -895,8 +866,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $v_cf = ViewHelper::ResolveViewFile($_viewdir, $view, $f, $checkfile, $param);
         return $v_cf;
     }
-    ///<summary></summary>
-    ///<param name="path"></param>
     /**
      * 
      * @param mixed $path
@@ -907,8 +876,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             return $path;
         return igk_dir(dirname($this->getDeclaredFileName()) . DIRECTORY_SEPARATOR . $path);
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
      * 
      * @return *
@@ -934,7 +901,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         // }
         // return $r;
     }
-    ///<summary>get the flag value</summary>
     /**
      * get the flag value
      */
@@ -942,7 +908,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return $this->getM_()->getFlag($code, $default);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -950,8 +915,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return $this->getEnvParam(self::CURRENT_VIEW, IGK_DEFAULT_VIEW);
     }
-    ///<summary>set controller current view</summary>
-    ///<param name="options">extra option to pass to view</param>
     /**
      * set controller current view
      * @param mixed $view 
@@ -987,7 +950,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 $this->getTargetNode($bck);
         }
     }
-    ///<summary>get initialize target node </summary>
     /**
      * get initialize target node 
      */
@@ -1000,7 +962,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         })();
         return $b;
     }
-    ///<summary>init target node</summary>
     /**
      * init target node 
      */
@@ -1020,7 +981,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return true;
     }
-    ///<summary>override this method to show the controller view.</summary>
     /**
      * invoke view logic. \
      * override this method to customize your view logic.
@@ -1101,7 +1061,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
         return $this;
     }
-    ///<summary>get system variables for this controller.</summary>
     /**
      * init system's view variables for this controller.
      */
@@ -1143,7 +1102,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         igk_set_env($ck, $t);
         return $t;
     }
-    ///<summary>Initialize view setting - before rendering </summary>
     /**
      * Initialize view setting - before rendering
      */
@@ -1159,7 +1117,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $this->bindCssStyle();
         igk_hook(IGKEvents::HOOK_INIT_VIEW, ['ctrl' => $this]);
     }
-    ///<summary>set the flag</summary>
     /**
      * set environment param flags the flag
      */
@@ -1167,7 +1124,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         $this->setEnvParam($code, $value);
     }
-    ///<summary>reset the value of the current view</summary>
     /**
      * reset the value of the current view
      */
@@ -1175,7 +1131,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         $this->setParam(self::CURRENT_VIEW, $view);
     }
-    ///<summary>check if this controller class is a system controller</summary>
     ///<param name="mixed">object|class name of a controller</summary>
     /**
      * check if this controller class is a system controller
@@ -1192,11 +1147,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         return (igk_getv(self::$sm_sysController, $className) != null);
     }
-    ///<summary></summary>
-    ///<param name="view"></param>
-    ///<param name="target"></param>
-    ///<param name="forcecreation" default="false"></param>
-    ///<param name="args" default="null"></param>
     /**
      * 
      * @param mixed $view
@@ -1220,7 +1170,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $this->resetCurrentView($v_view);
         $this->setParam($key, null);
     }
-    ///<summary>set the controller parameters</summary>
     /**
      * set the controller parameters
      */
@@ -1234,7 +1183,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         return $this;
     }
-    ///<summary>call view layout without changing current view</summary>
     /**
      * call view layout without changing current view
      */
@@ -1259,7 +1207,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $this->regSystemVars(null);
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1268,7 +1215,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         return igk_app()->getCurrentPageFolder();
     }
     use ControllerUriTrait;
-    ///<summary>view complete.</summary>
     /**
      * view complete.
      */
@@ -1282,7 +1228,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         }
         igk_hook(IGKEvents::VIEWCOMPLETE, array("ctrl" => $this));
     }
-    ///<summary>include view on contex</summary>
     /**
      * include view on contex
      */
@@ -1301,7 +1246,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 $this->regSystemVars($d);
         }
     }
-    ///<summary> get default data adapter name</summary>
     /**
      * get default data adapter name
      */
@@ -1309,7 +1253,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     {
         return igk_sys_getconfig("default_dataadapter", IGK_MYSQL_DATAADAPTER);
     }
-    ///<summary></summary>
     /**
      * @return ?IModelDefinitionInfo controller's table info
      */
@@ -1335,8 +1278,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         // override this to handle management of a spécific table 
         return null;
     }
-    ///<summary></summary>
-    ///<param name="className"></param>
     /**
      * 
      * @param mixed $className
@@ -1349,7 +1290,6 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             self::$sm_sysController[$className] = $className;
         }
     }
-    ///<summary></summary>
     /**
      * 
      */

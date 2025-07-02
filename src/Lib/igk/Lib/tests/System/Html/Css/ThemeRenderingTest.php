@@ -17,7 +17,6 @@ use ReflectionException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Html\Css

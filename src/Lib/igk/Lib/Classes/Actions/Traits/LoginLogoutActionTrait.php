@@ -5,7 +5,6 @@
 namespace IGK\Actions\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions\Traits

@@ -6,13 +6,11 @@
 
 namespace IGK\System\Html\Dom;
  
-///<summary>Represente class: IGKHtmlAJXReplacementNode</summary>
 /**
 * Represent IGKHtmlAJXReplacementNode class
 */
 final class HtmlAJXReplacementNode extends HtmlNode{
     private $m_nodes;
-    ///<summary></summary>
     /**
     * 
     */
@@ -21,9 +19,6 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         $this->m_nodes=array();
         $this["type"] = "node";
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="tag" default="null"></param>
     /**
     * 
     * @param mixed $n
@@ -34,22 +29,18 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         return $this;
     }
     
-    ///<summary></summary>
     /**
     * 
     */
     public function getChildCount(){
         return igk_count($this->m_nodes);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getChilds(){
         return $this->m_nodes;
     }
-    ///<summary></summary>
-    ///<param name="o" default="null" ref="true"></param>
     /**
     * 
     * @param  * $o the default value is null

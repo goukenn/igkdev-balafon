@@ -15,8 +15,6 @@ namespace IGK\System\Html\Dom;
 class HtmlBodyMainScript extends HtmlScriptNode{
     static $item;
     private $m_scripts = [];
-    ///<summary>add inline script to bodymain  script</summary>
-    ///<return>index of this script</return>
     public function addScript($key, $script){
         if(!isset($this->m_scripts[$key])){            
             if (!empty($script)){
@@ -34,18 +32,13 @@ class HtmlBodyMainScript extends HtmlScriptNode{
         }
         return igk_count($this->m_scripts);
     }
-     ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="n"></param>
-    public function addScriptNode($id, $n){
+     public function addScriptNode($id, $n){
         return $this->m_bodyMainScript->addScriptNode($id, $n);
     }
  
     public function appendScript($scriptFile){
         return $this->appendScript($scriptFile);
     }
-    ///<summary></summary>
-    ///<param name="index"></param>
     public function removeScript($index){
         $str=igk_getv($this->m_scripts, $index);
         if($str){
@@ -53,9 +46,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
             $this->_initValue();
         }
     }
-///<summary></summary>
-    ///<param name="index"></param>
-    public function getScriptAt($index){
+public function getScriptAt($index){
         return igk_getv($this->m_scripts, $index, null);
     }
     public static function getItem(){

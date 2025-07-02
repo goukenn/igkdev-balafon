@@ -11,7 +11,6 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Http\ErrorRequestResponse;
 use IGK\System\Http\Responses\UserResponse;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions\Traits\Authenticator

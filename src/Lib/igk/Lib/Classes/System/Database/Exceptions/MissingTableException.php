@@ -6,7 +6,6 @@ namespace IGK\System\Database\Exceptions;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database\Exceptions

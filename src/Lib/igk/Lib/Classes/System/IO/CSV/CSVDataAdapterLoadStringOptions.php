@@ -5,7 +5,6 @@
 namespace IGK\System\IO\CSV;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\CSV

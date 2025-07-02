@@ -5,7 +5,6 @@
 namespace IGK\System\Data;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Data

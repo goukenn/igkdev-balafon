@@ -8,7 +8,6 @@ use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerArgument;
 use stdClass;
 
-///<summary></summary>
 /**
 * use to handle document objet on compiler
 * @package IGK\System\Runtime\Compiler\Html

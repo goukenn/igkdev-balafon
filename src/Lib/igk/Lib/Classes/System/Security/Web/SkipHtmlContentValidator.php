@@ -6,7 +6,6 @@ namespace IGK\System\Security\Web;
 
 use IGK\System\Html\Forms\HtmlValidator;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Security\Web

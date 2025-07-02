@@ -6,7 +6,6 @@ namespace IGK\System\Html\XML;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\XML

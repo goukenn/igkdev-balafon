@@ -7,7 +7,6 @@ namespace IGK\System\Net\Mail;
 use IGK\System\Html\HtmlRendererOptions;
 use IGK\System\Html\HtmlRenderingContext;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Net\Mail

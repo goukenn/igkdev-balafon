@@ -8,7 +8,6 @@ use IGK\System\Html\IHtmlGetValue;
 use IGKException;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO

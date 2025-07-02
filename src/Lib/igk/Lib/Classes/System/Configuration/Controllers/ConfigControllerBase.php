@@ -5,7 +5,6 @@
 // @desc: 
 
 
-///<summary>Represente class: ConfigControllerBase</summary>
 namespace IGK\System\Configuration\Controllers;
 
 use IGK\Controllers\BaseController;
@@ -76,9 +75,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         return $this->getConfigs()->get($name, $default);
     }
 
-    ///<summary></summary>
-    ///<param name="node"></param>
-    ///<param name="title"></param>
     /**
      * 
      * @param mixed $node
@@ -90,7 +86,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         $d["class"] = "igk-cnf-title";
         $d->Content = __($title);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -98,7 +93,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return igk_getctrl(IGK_CONF_CTRL, false);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -106,7 +100,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return $this->getConfigCtrl()->getConfigNode();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -114,7 +107,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return "default";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -122,7 +114,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return "./help/help." . $this->Name;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -130,7 +121,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return igk_is_conf_connected();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -143,7 +133,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         $v = $cnf->getIsConnected();
         return $v;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -154,7 +143,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
             $c->registerConfig($this);
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -196,8 +184,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="funcName"></param>
     /**
      * 
      * @param mixed $funcName
@@ -209,7 +195,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return true; // parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $function]);
     }
-    ///<summary>base show Configuration of the controller</summary>
     /**
      * base show Configuration of the controller
      */
@@ -236,7 +221,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
             $this->setEnvParam('handled', true);
         }  
     }
-    ///<summary>used to initialize the config view node</summary>
     /**
      * used to initialize the config view node
      */

@@ -5,7 +5,6 @@
 namespace IGK\System\Security\Web;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Security\Web

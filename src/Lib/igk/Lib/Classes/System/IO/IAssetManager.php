@@ -5,7 +5,6 @@
 namespace IGK\System\IO;
 
 
-///<summary></summary>
 /**
 *asset manager 
 * @package IGK\System\IO

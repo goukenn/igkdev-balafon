@@ -5,7 +5,6 @@
 namespace IGK\System;
 
 
-///<summary>hook handler</summary>
 /**
 * hook handler
 * @package IGK\System

@@ -5,7 +5,6 @@
 namespace IGK\System\Composer\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Composer\Traits

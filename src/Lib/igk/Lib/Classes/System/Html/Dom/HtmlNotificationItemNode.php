@@ -12,8 +12,6 @@ namespace IGK\System\Html\Dom;
 
 final class HtmlNotificationItemNode extends HtmlNode{
     private $m_autohided, $m_owner, $m_script;
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     protected function _acceptRender($options = null):bool{
         if(!$this->IsVisible || !$this->HasChilds)
             return false;
@@ -25,8 +23,6 @@ final class HtmlNotificationItemNode extends HtmlNode{
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="owner"></param>
     public function __construct($owner, $name){
         parent::__construct("div");
         $this->m_autohided=true;
@@ -37,73 +33,46 @@ final class HtmlNotificationItemNode extends HtmlNode{
         $this["igk-control-type"]="notifyctrl";
         $this["igk-control-name"]=$name;
     }
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     protected function __RenderComplete($o=null){ 
         $this->clearChilds();
         if($this->m_owner->TargetNode === $this){
             $this->m_owner->setNotifyHost(null);
         }
     }
-    ///<summary>Represente __wakeup function</summary>
     public function __wakeup(){    }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     function addError($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-danger"))->Content=$msg;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     function addErrorr($key){
         $this->addError(__($key, array_slice(func_get_args(), 1)));
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     function addInfo($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-info"))->Content=$msg;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     function addInfor($key){
         $this->addInfo(__($key, array_slice(func_get_args(), 1)));
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
-    ///<param name="type" default="'default'"></param>
     function addMsg($msg, $type='default'){
         $this->add("div", array("class"=>"igk-notify igk-notify-{$type}"))->Content=$msg;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     function addMsgr($key){
         $this->addMsg(__($key, array_slice(func_get_args(), 1)));
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     function addSuccess($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-success"))->Content=$msg;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     function addSuccessr($key){
         $this->addSuccess(__($key, array_slice(func_get_args(), 1)));
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     function addWarning($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-warning"))->Content=$msg;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     function addWarningr($key){
         $this->addWarning(__($key, array_slice(func_get_args(), 1)));
     }
-    ///<summary></summary>
     public function getAutoHide(){
         return $this->m_autohided;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public function setAutohide($v){
         $this->m_autohided=$v;
     }

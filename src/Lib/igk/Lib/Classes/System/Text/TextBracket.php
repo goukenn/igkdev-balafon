@@ -5,7 +5,6 @@
 namespace IGK\System\Text;
 
 
-///<summary></summary>
 /**
 * reduce data
 * @package IGK\System\Text

@@ -8,14 +8,11 @@
 namespace IGK\System\Database\MySQL;
 use \IGKObject;
 
-///<summary>Represente class: IGKMySQLTimeManager</summary>
 /**
 * Represent IGKMySQLTimeManager class
 */
 final class IGKMySQLTimeManager extends IGKObject{
     var $ad;
-    ///<summary></summary>
-    ///<param name="ad"></param>
     /**
     * 
     * @param mixed $ad
@@ -23,7 +20,6 @@ final class IGKMySQLTimeManager extends IGKObject{
     public function __construct($ad){
         $this->ad=$ad;
     }
-    ///<summary></summary>
     /**
     * 
     */

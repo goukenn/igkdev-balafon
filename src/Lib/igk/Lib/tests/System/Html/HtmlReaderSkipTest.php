@@ -9,7 +9,6 @@ namespace IGK\Tests\System\Html;
 use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Html

@@ -7,7 +7,6 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\IO\StringBuilder;
 
-///<summary></summary>
 /**
 * render php compiled condition node
 * @package IGK\System\Runtime\Compiler\Html

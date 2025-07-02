@@ -20,7 +20,6 @@ use TypeError;
 // @licence: IGKDEV - Balafon @ 2019
 // @Description: Use to add extra module to system. that module include function declared on .module.pinc file with the $reg array
  
-///<summary>represent application module class </summary>
 /**
 * represent application module class
 * @method function initDoc($doc, ...$args) initialize document
@@ -77,9 +76,6 @@ final class ApplicationModuleController extends BaseController{
             $this->m_initializer = new $classname();
         }
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="args"></param>
     /**
     * 
     * @param mixed $n
@@ -153,8 +149,6 @@ final class ApplicationModuleController extends BaseController{
         }
         return Path::Combine($this->getDeclaredDir(),"/Data/assets");
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
     /**
     * 
     * @param mixed $dir base directory 
@@ -229,7 +223,6 @@ final class ApplicationModuleController extends BaseController{
             ApplicationLoader::RegisterAutoload($fc, $libdir);
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -238,15 +231,12 @@ final class ApplicationModuleController extends BaseController{
         $this->m_src=null;
         return array("m_dir");
     }
-    ///<summary></summary>
     /**
     * 
     */
     function __wakeup(){
         $this->_init();
     }
-    ///<summary></summary>
-    ///<param name="c" default="null"></param>
     /**
     * init module 
     * @param mixed $c the default value is null
@@ -297,8 +287,6 @@ final class ApplicationModuleController extends BaseController{
     public function getModuleConfig(){
         return $this->m_configs;
     }
-    ///<summary></summary>
-    ///<param name="configs" ref="true"></param>
     /**
     * 
     * @param  * $configs
@@ -306,8 +294,6 @@ final class ApplicationModuleController extends BaseController{
     protected function _initconfig(& $configs){
         $configs["libdir"]= igk_io_collapse_path(IGK_LIB_DIR); 
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     /**
     * 
     * @param mixed $msg
@@ -315,15 +301,12 @@ final class ApplicationModuleController extends BaseController{
     private function bindError($msg){
         $this->setParam(__METHOD__, $msg);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getAppDocument(){
         return null;
     }
-    ///<summary></summary>
-    ///<param name="c" default="null"></param>
     /**
     * 
     * @param mixed $function the default value is null
@@ -336,42 +319,36 @@ final class ApplicationModuleController extends BaseController{
         $s=base64_encode($u);
         return igk_getctrl(IGK_SESSION_CTRL)->getUri("invmodule&q=".$s);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getCallee(){
         return igk_peek_env(__CLASS__."/callee");
     }
-    ///<summary>get the inline calling function</summary>
     /**
     * get the inline calling function
     */
     public function getCaller(){
         return $this->m_caller;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public static function GetCanCreateFrameworkInstance(){
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getCurrentDoc(){
         return $this->m_doc;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getDeclaredDir():string{
         return $this->m_dir;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -381,7 +358,6 @@ final class ApplicationModuleController extends BaseController{
     public function getLibDir(){
         return implode("/", [$this->getDeclaredDir(), IGK_LIB_FOLDER]);
     }
-    ///<summary>get module environment configuration</summary>
     /**
     * get module environment configuration
     */
@@ -403,25 +379,18 @@ final class ApplicationModuleController extends BaseController{
         }
         return $_configs[$_hash];
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getListener(){
         return $this->m_listener ?? igk_ctrl_current_view_ctrl();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getName(){
         return strtolower(str_replace("/", ".", igk_uri(substr($this->m_dir, strlen(igk_get_module_dir())))));
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="def" default="null"></param>
-    ///<param name="register" default="false"></param>
-    ///<return refout="true"></return>
     /**
     * 
     * @param mixed $n
@@ -437,8 +406,6 @@ final class ApplicationModuleController extends BaseController{
         }
         return $h;
     }
-    ///<summary></summary>
-    ///<param name="c" default="null"></param>
     /**
     * 
     * @param mixed $c the default value is null
@@ -446,8 +413,6 @@ final class ApplicationModuleController extends BaseController{
     public function getUri($c=null){
         return $this->getAppUri($c);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -455,9 +420,6 @@ final class ApplicationModuleController extends BaseController{
     public function methodExists($n){
         return isset($this->m_fclist[$n]);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="fc"></param>
     /**
     * 
     * @param mixed $n
@@ -469,8 +431,6 @@ final class ApplicationModuleController extends BaseController{
         }
         $this->m_fclist[$n]=$fc;
     }
-    ///<summary></summary>
-    ///<param name="doc"></param>
     /**
     * attach to current document
     * @param mixed $doc
@@ -478,8 +438,6 @@ final class ApplicationModuleController extends BaseController{
     private function setCurrentDoc($doc){
         $this->m_doc=$doc;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -487,9 +445,6 @@ final class ApplicationModuleController extends BaseController{
     public function setListener($v){
         $this->m_listener=$v;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $n

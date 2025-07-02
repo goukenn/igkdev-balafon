@@ -8,7 +8,6 @@ use IGK\Controllers\BaseController;
 use IGK\System\Database\SchemaBuilderMigration;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Database\SchemaBuilder\Entities

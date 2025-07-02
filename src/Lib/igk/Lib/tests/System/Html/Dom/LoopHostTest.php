@@ -30,7 +30,6 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
         return self::EvalBindingExpression($this->m_value, (array)$context); // "data";
     }
 }
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\System\Html\Dom

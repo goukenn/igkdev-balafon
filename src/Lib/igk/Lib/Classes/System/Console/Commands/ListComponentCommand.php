@@ -14,7 +14,6 @@ use ReflectionException;
 use IGKException;
 use ReflectionFunction;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands

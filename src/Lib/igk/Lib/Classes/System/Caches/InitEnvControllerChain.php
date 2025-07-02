@@ -10,7 +10,6 @@ use IGKEvents;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Caches

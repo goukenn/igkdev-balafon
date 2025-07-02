@@ -12,8 +12,6 @@ namespace IGK\System\Html\Dom;
 
 final class HtmlFaviconNode extends HtmlNode{
     static $sm_instance;
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     protected function _acceptRender($options = null):bool{
         if($options && isset($options->Document)){
             $g=$options->Document->getFavicon();
@@ -22,20 +20,16 @@ final class HtmlFaviconNode extends HtmlNode{
         }
         return false;
     }
-    ///<summary></summary>
     private function __construct(){
         parent::__construct("link");
         $this["rel"]="shortcut icon";
         $this["type"]="image/x-icon";
         $this["href"]=null;
     }
-    ///<summary></summary>
     public function __sleep(){
         return array();
     }
-    ///<summary></summary>
     public function __wakeup(){    }
-    ///<summary></summary>
     public static function getItem(){
         if(self::$sm_instance === null){
             self::$sm_instance=new HtmlFaviconNode();

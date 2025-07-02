@@ -9,7 +9,6 @@ use IGKCSVDataAdapter;
 use IGK\System\Database\MySQL\DataAdapter as MySQLDbAdapter;
 use IGK\System\IO\StringBuilder;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Database\MySQL\Helper

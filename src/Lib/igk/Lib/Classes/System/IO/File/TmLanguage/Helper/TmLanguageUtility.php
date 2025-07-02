@@ -13,7 +13,6 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\IO\File\TmLanguage\Helper

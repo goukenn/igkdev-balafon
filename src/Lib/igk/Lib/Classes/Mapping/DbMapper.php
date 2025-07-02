@@ -5,7 +5,6 @@
 namespace IGK\Mapping;
 
 
-///<summary></summary>
 /**
 * mapper use to construct fields
 * @package IGK\Mapping

@@ -8,7 +8,6 @@ use Exception;
 use IGK\System\Console\Logger;
 use IGKEvents;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database

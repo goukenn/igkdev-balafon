@@ -12,7 +12,6 @@ final class IGKViewMode extends IGKObject{
     const ADMINISTRATOR=6;
     const VISITOR=1;
     const WEBMASTER=2;
-    ///<summary></summary>
     public static function GetSystemViewMode(){
         $m=igk_app()->getViewMode();
         $t=array();
@@ -23,17 +22,13 @@ final class IGKViewMode extends IGKObject{
         return implode(",", array_filter($t));
     }
 
-     ///<summary></summary>
-    ///<param name="view"></param>
-    /**
+     /**
     * 
     * @param mixed $view
     */
     public static function IsSupportViewMode($view){
         return ((igk_app()->getViewMode() & $view) == $view);
     }
-    ///<summary></summary>
-    ///<param name="mode"></param>
     /**
      * 
      * @param mixed $mode 
@@ -42,7 +37,6 @@ final class IGKViewMode extends IGKObject{
     public static function IsViewMode($mode){
         return self::IsSupportViewMode($mode);
     }
-    ///<summary></summary>
     /**
      * 
      * @return bool 

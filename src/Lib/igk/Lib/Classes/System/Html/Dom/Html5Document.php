@@ -7,7 +7,6 @@ namespace IGK\System\Html\Dom;
 use IGK\System\IO\StringBuilder;
 use IGKObject;
 
-///<summary></summary>
 /**
 * html5 document helper
 * @package IGK\System\Html\Dom

@@ -5,7 +5,6 @@
 namespace IGK\Curl;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Curl

@@ -5,7 +5,6 @@
 namespace IGK\System\Controllers;
 
 
-///<summary></summary>
 /**
 * use to register property
 * @package IGK\System\Controllers

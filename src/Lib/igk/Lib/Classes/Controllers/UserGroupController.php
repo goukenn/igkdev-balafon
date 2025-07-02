@@ -15,15 +15,12 @@ use IGK\Models\Usergroups;
 use IGKEvents;
 
 final class UserGroupController extends NonVisibleControllerBase{
-    ///<summary></summary>
     public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
-    ///<summary></summary>
     public function getDataTableName(): ?string{
         return Usergroups::table();
     }
-    ///<summary></summary>
     protected function registerHook(){
         $tb=$this->getDataTableName();
         igk_reg_hook(IGKEvents::HOOK_DB_DATA_ENTRY, function($hook) use ($tb){

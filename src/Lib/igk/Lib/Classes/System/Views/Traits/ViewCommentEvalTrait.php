@@ -6,7 +6,6 @@ namespace IGK\System\Views\Traits;
 
 use IGK\Helper\StringUtility;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Views\Traits

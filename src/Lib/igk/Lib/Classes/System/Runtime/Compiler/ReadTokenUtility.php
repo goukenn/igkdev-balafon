@@ -8,7 +8,6 @@ use IGK\System\IO\StringBuilder;
 use IGK\System\Text\LinePrefixMapper;
 use IGKException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler
@@ -119,7 +118,7 @@ class ReadTokenUtility
 
                 $src = $tm->output($options);
                 if (!$header) {
-                    $sb->appendLine(sprintf("%s", $src . "\n"));
+                    $sb->appendLine(sprintf("%s", $src));
                     continue;
                 }
 

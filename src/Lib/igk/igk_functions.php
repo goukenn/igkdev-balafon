@@ -90,7 +90,6 @@ use IGK\System\IO\File\IniFile;
 use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
 
-///<summary></summary>
 /**
  * 
  */
@@ -98,7 +97,6 @@ function igk_agent_androidversion()
 {
     return IGKUserAgent::GetAndroidVersion();
 }
-///<summary></summary>
 /**
  * 
  */
@@ -123,7 +121,6 @@ function igk_agent_ieversion()
     }
     return null;
 }
-///<summary></summary>
 /**
  * 
  */
@@ -131,7 +128,6 @@ function igk_agent_isandroid()
 {
     return IGKUserAgent::IsAndroid();
 }
-///<summary></summary>
 /**
  * 
  */
@@ -139,7 +135,6 @@ function igk_agent_isie()
 {
     return IGKUserAgent::IsIE();
 }
-///<summary>close a visible notify dialog</summary>
 /**
  * close a visible notify dialog
  */
@@ -149,7 +144,6 @@ function igk_ajx_close_dialog()
     $s->Content = "igk.balafonjs.utils.closeNotify(1);";
     $s->renderAJX();
 }
-///<summary></summary>
 /**
  * 
  */
@@ -158,8 +152,6 @@ function igk_ajx_exit()
     if (igk_is_ajx_demand())
         igk_exit();
 }
-///<summary></summary>
-///<param name="script"></param>
 /**
  * 
  * @param mixed $script 
@@ -172,8 +164,6 @@ function igk_ajx_include_script($script)
         $b->renderAJX();
     }
 }
-///<summary></summary>
-///<param name="lnk"></param>
 /**
  * 
  * @param mixed $lnk 
@@ -191,7 +181,6 @@ function igk_ajx_link($lnk)
     }
     return null;
 }
-///<summary></summary>
 /**
  * 
  */
@@ -6647,6 +6636,7 @@ function igk_display($obj, $keyTab = null)
  */
 function igk_display_error($a)
 {
+    
     if ($a) {
         switch (igk_server()->ENVIRONMENT) {
             case "development":
@@ -6654,8 +6644,14 @@ function igk_display_error($a)
                 ini_set('display_errors', 1);
                 break;
             default:
-                error_reporting(E_ALL | E_STRICT | E_NOTICE);
-                ini_set('error_reporting', E_ALL | E_STRICT);
+                $report = E_ALL;
+                $e_all = E_ALL | E_NOTICE;
+                if (version_compare(PHP_VERSION, '8.0', '<' )){
+                    $report = $report | E_STRICT;
+                    $e_all = $e_all | E_STRICT;
+                }
+                error_reporting($e_all); 
+                ini_set('error_reporting',$report); 
                 break;
         }
     } else {

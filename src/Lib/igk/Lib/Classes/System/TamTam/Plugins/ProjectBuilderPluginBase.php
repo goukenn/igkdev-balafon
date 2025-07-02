@@ -8,7 +8,6 @@ use IGK\Controllers\BaseController;
 use IGK\System\Console\BalafonCLIService;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\TamTam\Plugins

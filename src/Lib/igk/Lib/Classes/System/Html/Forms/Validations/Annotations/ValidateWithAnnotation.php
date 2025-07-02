@@ -10,7 +10,6 @@ use IGK\System\IAnnotation;
 use IGK\System\Annotations\AnnotationInfo;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
 
-///<summary></summary>
 /**
  * Use to validate a property on a fields list
  * @package IGK\System\Html\Forms\Validations\Annotations

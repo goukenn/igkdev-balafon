@@ -7,7 +7,6 @@ namespace IGK\System\Html\Css;
 use Exception;
 use IGK\System\Text\RegexMatcherContainer;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css

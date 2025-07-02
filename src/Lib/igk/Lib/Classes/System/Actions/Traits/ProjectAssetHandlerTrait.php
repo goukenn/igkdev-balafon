@@ -9,7 +9,6 @@ use IGK\System\Exceptions\ResourceNotFoundException;
 use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\WebFileResponse;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Actions\Traits

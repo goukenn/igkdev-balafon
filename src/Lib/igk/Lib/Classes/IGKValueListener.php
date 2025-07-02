@@ -17,15 +17,10 @@ use IGK\System\Html\HtmlUtils;
  */
 final class IGKValueListener extends IGKObject implements IHtmlGetValue{
     private $m_attr, $m_owner;
-    ///<summary></summary>
-    ///<param name="owner"></param>
-    ///<param name="attr"></param>
     public function __construct($owner, $attr){
         $this->m_owner=$owner;
         $this->m_attr=$attr;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function getValue($options=null){
         $k=$this->m_attr;
         $v="";

@@ -7,7 +7,6 @@
 
 namespace IGK\Core\Ext\Google\OAuth;
 
-///<summary></summary>
 /**
  * @desc client
  *

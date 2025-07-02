@@ -10,7 +10,6 @@ use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

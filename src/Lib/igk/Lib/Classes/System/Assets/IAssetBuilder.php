@@ -5,7 +5,6 @@
 namespace IGK\System\Assets;
 
 
-///<summary></summary>
 /**
 * asset builder interface 
 * @package IGK\System\Assets

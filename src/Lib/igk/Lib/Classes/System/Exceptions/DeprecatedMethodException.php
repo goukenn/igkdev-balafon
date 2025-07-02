@@ -6,7 +6,6 @@ namespace IGK\System\Exceptions;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Exceptions

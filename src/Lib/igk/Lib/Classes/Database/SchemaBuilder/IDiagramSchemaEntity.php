@@ -6,7 +6,6 @@ namespace IGK\Database\SchemaBuilder;
 
 use IGK\Database\DbConstants;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Database\SchemaBuilder

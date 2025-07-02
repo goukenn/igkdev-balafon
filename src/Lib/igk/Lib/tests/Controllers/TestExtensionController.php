@@ -7,7 +7,6 @@ namespace IGK\Tests\Controllers;
 use IGK\Controllers\NotRegistrableControllerBase;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Controllers

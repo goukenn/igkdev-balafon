@@ -15,13 +15,11 @@ use IGK\System\IO\Path;
 use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
-///<summary>represent google's font configuration layer</summary>
 /**
 * represent google's font configuration layer
 */
 final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     use ControllerLocationTrait;
-    ///<summary></summary>
     /**
     * 
     */
@@ -29,21 +27,18 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         return igk_dir($this->getDataDir()."/google.".IGK_CTRL_CONF_FILE);
     }
   
-    ///<summary></summary>
     /**
     * 
     */
     public function getConfigGroup(){
         return "google";
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getConfigPage(){
         return "google.fonts";
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -53,14 +48,12 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         $t=(array)($fonts);
         return array_keys($t);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getName(){
         return __CLASS__; 
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -71,7 +64,6 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
             $this->getUri("showConfig")))->setGroup($this->ConfigGroup)
         );
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -95,7 +87,6 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
         igk_navto_referer();
     }
    
-    ///<summary></summary>
     /**
     * 
     */

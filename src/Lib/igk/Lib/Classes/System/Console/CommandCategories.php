@@ -5,7 +5,6 @@
 namespace IGK\System\Console;
 
 
-///<summary></summary>
 /**
 * system primary category command
 * @package IGK\System\Console

@@ -16,14 +16,11 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
 {
     private $m_o;
     protected $value;
-    ///<summary></summary>
-    ///<param name="target"></param>
     public function __construct($target)
     {
         $this->m_o = $target;
     }
 
-    ///<summary></summary>
     public function __sleep()
     {
         if (empty($this->value)) {
@@ -43,10 +40,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
         }
         return $rv;
     }
-    ///<summary></summary>
     function __wakeup() {}
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function getValue($options = null)
     {
         $opt = IGK_STR_EMPTY;
@@ -77,8 +71,6 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
         }
         return empty($opt) ? null : $opt;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setValue($value)
     {
         if ($value instanceof HtmlStyleValueAttribute) {

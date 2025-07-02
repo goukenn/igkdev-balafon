@@ -134,7 +134,6 @@ class Route
     }
 
 
-    ///<summary>register action provider</summary>
     /**
      * register action provider
      * @param string $actionClass 
@@ -177,7 +176,6 @@ class Route
         self::$sm_routes[] = $c;
         return $c;
     }
-    ///<summary>get action Provider</summary>
     public static function GetAction($actionClass)
     {
         return igk_getv(self::$sm_actions, $actionClass);

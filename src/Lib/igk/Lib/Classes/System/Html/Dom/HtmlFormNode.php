@@ -10,7 +10,6 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Traits\HostableItemTrait;
 
-///<summary>igk framework form</summary>
 /**
  * igk framework form
  */
@@ -37,8 +36,6 @@ final class HtmlFormNode extends HtmlNode
         $this['enctype'] = IGK_HTML_ENCTYPE;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     /**
      * 
      * @param mixed $o the default value is null
@@ -50,9 +47,6 @@ final class HtmlFormNode extends HtmlNode
         $this->footdiv->setIsVisible($this->footdiv->gethasContent() && !$this->m_nofoot);
         return true;
     }
-    ///<summary></summary>
-    ///<param name="notitle" default="false"></param>
-    ///<param name="nofoot" default="true"></param>
     /**
      * 
      * @param mixed $notitle the default value is false
@@ -118,9 +112,6 @@ final class HtmlFormNode extends HtmlNode
         }
         return $n;
     }
-    ///<summary></summary>
-    ///<param name="item"></param>
-    ///<param name="index" default="null"></param>
     /**
      * 
      * @param mixed $item
@@ -130,10 +121,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->bodydiv->_Add($item);
     }
-    ///<summary></summary>
-    ///<param name="nameoritem"></param>
-    ///<param name="attributes" default="null"></param>
-    ///<param name="index" default="null"></param>
     /**
      * 
      * @param mixed $nameoritem
@@ -144,7 +131,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->bodydiv->add($nameoritem, $attributes, $index);
     }
-    ///<summary>input environement confirmation</summary>
     /**
      * input environement confirmation
      */
@@ -152,9 +138,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->addInput("confirm", "hidden", $v);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $n
@@ -164,7 +147,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->addInput($n, "hidden", $v);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -177,7 +159,6 @@ final class HtmlFormNode extends HtmlNode
         $i["type"] = "hidden";
         return $i;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -185,7 +166,6 @@ final class HtmlFormNode extends HtmlNode
     {
         $this->bodydiv->clearChilds();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -193,7 +173,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this["action"];
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -201,7 +180,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->bodydiv;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -209,7 +187,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -217,7 +194,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_encType;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -225,7 +201,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->footdiv;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -233,7 +208,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this["method"];
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -241,7 +215,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_nofoot;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -249,7 +222,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->m_notitle;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -257,8 +229,6 @@ final class HtmlFormNode extends HtmlNode
     {
         return $this->topdiv->Content;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -268,8 +238,6 @@ final class HtmlFormNode extends HtmlNode
         $this->setAttribute("action", $value);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -279,8 +247,6 @@ final class HtmlFormNode extends HtmlNode
         $this->bodydiv->setContent($v);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -291,8 +257,6 @@ final class HtmlFormNode extends HtmlNode
         $this['enctype'] = $value;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -302,8 +266,6 @@ final class HtmlFormNode extends HtmlNode
         $this->setAttribute("method", $value);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -313,8 +275,6 @@ final class HtmlFormNode extends HtmlNode
         $this->m_nofoot = $value;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $value
@@ -324,8 +284,6 @@ final class HtmlFormNode extends HtmlNode
         $this->m_notitle = $value;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * set for mtitle
      * @param mixed $value

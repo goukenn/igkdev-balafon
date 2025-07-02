@@ -10,7 +10,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Css

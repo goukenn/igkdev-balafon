@@ -5,7 +5,6 @@
 namespace IGK\System\Http\Mail;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Mail

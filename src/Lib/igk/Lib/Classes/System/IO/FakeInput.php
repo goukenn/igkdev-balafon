@@ -5,7 +5,6 @@
 namespace IGK\System\IO;
 
 
-///<summary></summary>
 /**
 * use to fake php://input reading
 * @package IGK\System\IO

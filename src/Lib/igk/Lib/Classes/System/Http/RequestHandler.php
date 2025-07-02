@@ -422,7 +422,6 @@ class RequestHandler
         }
     }
 
-    ///<summary>handle command application command action</summary>
     /**
      * handle command application command action
      */

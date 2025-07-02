@@ -5,7 +5,6 @@
 namespace IGK\System\Services;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Services

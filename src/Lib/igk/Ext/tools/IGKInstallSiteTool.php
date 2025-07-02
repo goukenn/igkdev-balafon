@@ -12,12 +12,10 @@ use IGK\Helper\IO;
 use IGK\System\Installers\InstallerUtils;
 use IGK\System\IO\StringBuilder;
 
-///<summary>Represente class: IGKInstallSiteTool</summary>
 /**
 * Represent IGKInstallSiteTool class
 */
 class IGKInstallSiteTool extends ToolControllerBase{
-    ///<summary></summary>
     /**
     * 
     */
@@ -35,14 +33,12 @@ class IGKInstallSiteTool extends ToolControllerBase{
         igk_html_form_initfield($frm);
         $frame->renderAJX();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getIsAvailable(){
         return true;
     }
-    ///<summary>install site </summary>
     /**
     * install site
     */

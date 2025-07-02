@@ -8,7 +8,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGKEvents;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

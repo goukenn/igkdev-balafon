@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Forms\Validations\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms\Validations\Traits

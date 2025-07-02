@@ -6,7 +6,6 @@ namespace IGK\Database\Constants;
 
 use IGK\System\Constants\PhonebookTypeNames as ConstantsPhonebookTypeNames;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\Constants

@@ -7,7 +7,6 @@
 
 namespace IGK\Cache;
 
-///<summary>common cache abstract class </summary>
 /// contain only static method
 abstract class CommonCache{
     /**

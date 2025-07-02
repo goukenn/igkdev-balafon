@@ -8,7 +8,6 @@ use Exception;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 
-///<summary></summary>
 /**
  * parse css string content and return and array of string 
  * @package IGK\System\Html\Css

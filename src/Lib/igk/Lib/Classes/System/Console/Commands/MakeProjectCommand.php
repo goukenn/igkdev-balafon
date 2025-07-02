@@ -8,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>Represente namespace: IGK\System\Console\Commands</summary>
 namespace IGK\System\Console\Commands;
 
 use Closure;
@@ -42,7 +41,6 @@ use function igk_resources_gets as __;
 use stdClass;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 
-///<summary>Represente class: MakeProjectCommand</summary>
 class MakeProjectCommand extends AppExecCommand
 {
     var $category = "make", $command = "--make:project", $desc = "make new project.", $options = [
@@ -66,9 +64,6 @@ class MakeProjectCommand extends AppExecCommand
      */
     protected $author;
 
-    ///<summary>Represente exec function</summary>
-    ///<param name="command"></param>
-    ///<param name="name" default=""></param>
     public function exec($command, $controller = "")
     {
 

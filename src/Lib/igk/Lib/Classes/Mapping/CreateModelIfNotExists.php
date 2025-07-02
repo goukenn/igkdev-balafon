@@ -5,7 +5,6 @@
 namespace IGK\Mapping;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Mapping

@@ -6,7 +6,6 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
 
 use IGK\System\Html\Dom\HtmlNode;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler\Html

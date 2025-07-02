@@ -8,7 +8,6 @@
 $CF = igk_ctrl_zone_init(__FILE__);
 
 
-///<summary> create a video controls list</summary>
 ///options: JS object
 ///{controls: for available control , btns
 function igk_html_node_videoControls($model='default', $options=null){

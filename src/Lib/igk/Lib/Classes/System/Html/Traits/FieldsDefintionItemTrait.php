@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Traits;
 
 
-///<summary></summary>
 /**
 * provide a fields method actions 
 * @package IGK\System\Html\Traits

@@ -31,10 +31,7 @@ class HtmlBodyNode extends HtmlNode{
 
     
 
-    // ///<summary></summary>
-    // ///<param name="id"></param>
-    // ///<param name="n"></param>
-    // public function addScriptNode($id, $n){
+    // // // // public function addScriptNode($id, $n){
     //     return $this->m_bodyMainScript->addScriptNode($id, $n);
     // }
     public function removeScript($scriptFile){

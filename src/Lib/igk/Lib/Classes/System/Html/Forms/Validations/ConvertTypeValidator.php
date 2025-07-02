@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Forms\Validations;
 
 
-///<summary></summary>
 /**
 * create a validator
 * @package IGK\System\Html\Forms\Validations

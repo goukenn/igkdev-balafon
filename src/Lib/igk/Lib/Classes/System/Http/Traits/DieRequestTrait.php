@@ -7,7 +7,6 @@ namespace IGK\System\Http\Traits;
 use IGK\System\Http\ErrorRequestResponse;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Traits

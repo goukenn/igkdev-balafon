@@ -6,8 +6,6 @@
 
 namespace IGK\System\Database\MySQL\Controllers;
 
-///<summary>Represente class: IGKMySQLDataCtrl</summary>
-
 use IGK\Controllers\BaseController;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
@@ -61,9 +59,6 @@ class MySQLDataController extends BaseController{
         }
         return $node;
     }
-    ///<summary>remove all constraint attached to this database</summary>
-    ///<param name="adapt"></param>
-    ///<param name="dbname"></param>
     /**
     * drop all constraint attached to this database
     * @param mixed $adapt
@@ -77,10 +72,6 @@ class MySQLDataController extends BaseController{
         $adapt->selectdb($bck);
         return $g;
     }
-    ///<summary></summary>
-    ///<param name="adapt"></param>
-    ///<param name="dbname"></param>
-    ///<param name="qregex"></param>
     /**
     * drop all constraint
     * @param mixed $adapt
@@ -112,8 +103,6 @@ class MySQLDataController extends BaseController{
         $adapt->selectdb($dbname);
         return $r;
     }
-    ///<summary>drop table</summary>
-    ///<param name="tbname" type="mixed">mixed single table name or array of table name</param>
     /**
     * drop table
     * @param array|mixed tbname mixed single table name or array of table name
@@ -162,13 +151,6 @@ class MySQLDataController extends BaseController{
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="adapter"></param>
-    ///<param name="tbname"></param>
-    ///<param name="dbname"></param>
-    ///<param name="tablelist" default="null"></param>
-    ///<param name="deleted" default="null" ref="true"></param>
-    ///<param name="node" default="null"></param>
     /**
     * 
     * @param mixed $adapter
@@ -227,9 +209,6 @@ class MySQLDataController extends BaseController{
         }
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="adapt"></param>
-    ///<param name="dbname"></param>
     /**
     * 
     * @param mixed $adapt
@@ -243,10 +222,6 @@ class MySQLDataController extends BaseController{
         $adapt->selectdb($bck);
         return $g;
     }
-    ///<summary></summary>
-    ///<param name="a"></param>
-    ///<param name="b"></param>
-    ///<param name="tbase"></param>
     /**
     * 
     * @param mixed $a
@@ -270,21 +245,17 @@ class MySQLDataController extends BaseController{
         $a->selectdb($bck);
         return max($i, $max + 1);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getDataAdapterName():string{
         return IGK_MYSQL_DATAADAPTER;
     }
-    ///<summary></summary>
     /**
     * 
     */
    
   
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
     * 
     * @param mixed $tbname
@@ -293,8 +264,6 @@ class MySQLDataController extends BaseController{
         $v=$this->getInfo($tbname);
         return ($v == null) ? null: $v->Entries;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
     * 
     * @param mixed $tbname
@@ -302,7 +271,6 @@ class MySQLDataController extends BaseController{
     public function getInfo($tbname){
         return igk_getv($this->m_dictionary, $tbname);
     }
-    ///<summary></summary>
     /**
     * not visible controller
     */
@@ -315,10 +283,6 @@ class MySQLDataController extends BaseController{
        return null;
     }
      
-    ///<summary></summary>
-    ///<param name="adapt"></param>
-    ///<param name="dbname"></param>
-    ///<param name="e"></param>
     /**
     * 
     * @param mixed $adapt

@@ -16,11 +16,6 @@ if (!in_array("zip", get_loaded_extensions(false))){
     return;
 }  
 
-///<summary></summary>
-///<param name="file"></param>
-///<param name="name"></param>
-///<param name="content"></param>
-///<param name="closearchive" default="1"></param>
 /**
  * zip content
  * @param string $temp_file 
@@ -42,9 +37,6 @@ function igk_zip_content(string $temp_file, string $name, string $content, $clos
     }
     return $zip;
 }
-///<summary></summary>
-///<param name="outdir"></param>
-///<param name="name"></param>
 function igk_zip_create_dir($outdir, $name){
     $t=explode('/', $name);
     if(is_dir($outdir)){
@@ -58,11 +50,6 @@ function igk_zip_create_dir($outdir, $name){
         }
     }
 }
-///<summary></summary>
-///<param name="file"></param>
-///<param name="dir"></param>
-///<param name="folder" default="null"></param>
-///<param name="regex" default="null"></param>
 function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
     if(!is_dir($dir))
         return false;
@@ -73,10 +60,6 @@ function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
     }
     return true;
 }
-///<summary></summary>
-///<param name="file"></param>
-///<param name="entry"></param>
-///<param name="close" default="1"></param>
 function igk_zip_delete($file, $entry, $close=1){
     if(!igk_io_file_exists($file))
         return 0;
@@ -90,7 +73,6 @@ function igk_zip_delete($file, $entry, $close=1){
         $zip->close();
     return $r;
 }
-///<summary>use to zip a directory </summary>
 /**
  * zip folder 
  * @param string $dir input directory 
@@ -146,10 +128,6 @@ function igk_zip_dir(string $dir, $zip, ?string $folder=null, ?string $regex=nul
     }
     return $files;
 }
-///<summary></summary>
-///<param name="dir"></param>
-///<param name="outf"></param>
-///<param name="exclude_pattern"></param>
 /**
  * exclude directory from pattern
  * @param string $dir 
@@ -185,8 +163,6 @@ function igk_zip_excludedir(string $dir, string $outf,string $exclude_pattern){
     return array("count"=>$count, "files"=>$files);
 }
 
-///<summary>zip folder :  </summary>
-///<param name="dir">mixed : string|array of folder do compress </param>
 function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
     if(is_String($dir) && (is_dir($dir) == false))
         return false;
@@ -214,15 +190,9 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
     return false;
 }
  
-///<summary></summary>
-///<param name="outf"></param>
 function igk_zip_module($outf){  
     return igk_zip_excludedir(igk_io_basedir()."/Mods", $outf, "/\.(avi|(mp|(3|4))|gkds|zip|rar)/i");
 } 
-///<summary></summary>
-///<param name="file"></param>
-///<param name="outdir"></param>
-///<param name="entry" default="null">filter regex|callback</param>
 /**
  * 
  * @param mixed $file 
@@ -263,15 +233,9 @@ function igk_zip_unzip($file, $outdir, $entry=null){
     }
     return false; 
 }
-///<summary></summary>
-///<param name="zipfile"></param>
-///<param name="callback"></param>
 function igk_zip_unzip_callback($zipfile, $callback){
     igk_die('not implement');
 }
-///<summary></summary>
-///<param name="f"></param>
-///<param name="entry"></param>
 function igk_zip_unzip_entry($f, $entry){
     $c="zip://".igk_uri($f)."#".$entry;
     $h=fopen($c, 'r');
@@ -285,7 +249,6 @@ function igk_zip_unzip_entry($f, $entry){
     fclose($h);
     return $c;
 }
-///<summary>read zip content</summary>
 /**
  * unzip file archive and return name content
  * @param mixed $zipfile 
@@ -313,10 +276,6 @@ function igk_zip_unzip_filecontent(string $zipfile, string $name){
     }
     return $c;
 }
-///<summary></summary>
-///<param name="file"></param>
-///<param name="outdir"></param>
-///<param name="zipentry" default="null"></param>
 /**
  * unzip file to
  * @param mixed $file 

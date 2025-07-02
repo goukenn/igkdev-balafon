@@ -17,7 +17,6 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGKException;
 use IGKSysUtil;
 
-///<summary></summary>
 /**
  * database helper utility class 
  * @package IGK\System\Database\Helper

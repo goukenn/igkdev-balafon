@@ -31,7 +31,6 @@ abstract class PageControllerBase extends ControllerTypeBase
     const PAGE_USER=self::PAGE_CONSTANT + 1;
     const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
 
-    ///<summary>init view</summary>
     /**
      * init view
      * */
@@ -39,7 +38,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         $this->register_autoload();
         parent::_initView();
     }
-    ///<summary>get buffer output</summary>
     /**
      * get buffer output
      * @return mixed 
@@ -48,8 +46,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         $s=$this->getEnvParam("_output");
         return $s;
     }
-    ///<summary>Represente getTableConst function</summary>
-    ///<param name="n"></param>
     public function getTableConst($n){
         $cl=get_class($this)."DbConstants";
         if(class_exists($cl, false)){
@@ -60,20 +56,17 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
     
     
-    ///<summary></summary>
     protected function getUserDir(){
         if($u=$this->User)
             return $this->getDataDir()."/users/".$u->clLogin;
         return null;
     }
-    ///<summary></summary>
     protected function getUserSettingFile(){
         if($u=$this->User){
             return $this->getUserDir()."/.settings.xml";
         }
         return null;
     }
-    ///<summary></summary>
     protected function getUserSettings(){
         $settings=$this->getEnvParam(self::ENV_PARAM_USER_SETTINGS);
         if($settings)
@@ -87,19 +80,12 @@ abstract class PageControllerBase extends ControllerTypeBase
         $this->setEnvParam(self::ENV_PARAM_USER_SETTINGS, $settings);
         return $settings;
     }
-    ///<summary></summary>
-    ///<param name="u"></param>
-    ///<param name="forcehandle" default="1"></param>
     public function handle_redirection_uri($u, $forcehandle=1){
         return false;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="view"></param>
     public static function HandlePage($ctrl, $view){
         return $ctrl->handleView($view);
     }
-    ///<summary>override this to handle page</summary>
     protected function handleView($view){
         $f=$this->getViewFile($view);
         if(igk_io_file_exists($f) && method_exists($this, "renderDefaultDoc")){
@@ -109,8 +95,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return 0;
     }
-    ///<summary>init app's. override this method to initialize user app's environment</summary>
-    ///<remark>in general you must load app environment setting and store it in $user->EnvParam["app:://Name/setting"]</remark>
     protected function initUserFromSysUser(object $u): \IGK\System\Database\IUserProfile{
         if (!is_null($u)){ 
             $cl = $this->resolveClass(EntryClassResolution::UserProfile);
@@ -122,14 +106,12 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return $u;
     }
-    ///<summary></summary>
     public function navtohome(){
         $this->resetCurrentView();
         $c=$this->getAppUri();
         igk_navto($c);
     } 
    
-    ///<summary></summary>
     protected function storeUserSettings(){
         $settings=$this->getUserSettings();
         if($settings && ($file=$this->getUserSettingFile())){
@@ -138,7 +120,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return 0;
     }
-    ///<summary>update the current data base</summary>
     // public final function updateDb(){
     //     $s=igk_is_conf_connected() || igk_user()->auth($this->Name.":".__FUNCTION__);
     //     if(!$s){

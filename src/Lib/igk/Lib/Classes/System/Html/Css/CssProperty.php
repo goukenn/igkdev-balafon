@@ -6,7 +6,6 @@ namespace IGK\System\Html\Css;
 
 use IGK\System\Html\Css\Traits\RenderDefinitionTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css

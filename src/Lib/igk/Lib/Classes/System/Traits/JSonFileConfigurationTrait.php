@@ -5,7 +5,6 @@
 namespace IGK\System\Traits;
 
 
-///<summary></summary>
 /**
 * for json file configuration 
 * @package IGK\System\Traits

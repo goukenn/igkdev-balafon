@@ -8,7 +8,6 @@ use ArrayAccess;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler

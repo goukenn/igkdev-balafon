@@ -8,7 +8,6 @@ use IGKException;
 use IGKObject;
 use stdClass;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css

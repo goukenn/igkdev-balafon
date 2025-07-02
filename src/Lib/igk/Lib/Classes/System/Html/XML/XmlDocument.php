@@ -13,15 +13,10 @@ use IGK\System\Html\HtmlRenderer;
 
 class XmlDocument extends XmlNode{
     private $_docType;
-    ///<summary>Represente __construct function</summary>
-    ///<param name="tag"></param>
-    ///<param name="docType" default="null"></param>
     public function __construct($tag, $docType=null){
         parent::__construct($tag);
         $this->_docType=$docType;
     }
-    ///<summary>Represente render function</summary>
-    ///<param name="option" default="null"></param>
     public function render($option=null){
         $sb=igk_xml_header().PHP_EOL;
         if($this->_docType)

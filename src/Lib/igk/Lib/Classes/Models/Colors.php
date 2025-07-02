@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>use to store named colors.</summary>
 /**
 * use to store named colors.
 * @package IGK\Models

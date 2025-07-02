@@ -6,7 +6,6 @@ namespace IGK\Database\Helpers;
 
 use IGK\System\Controllers\ApplicationModules;
 
-///<summary></summary>
 /**
 * use to handle module database migration.
 * @package IGK\Database\Helpers

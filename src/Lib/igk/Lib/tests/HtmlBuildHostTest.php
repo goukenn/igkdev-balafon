@@ -6,7 +6,6 @@ namespace IGK\Tests;
 
 use IGK\Tests\BaseTestCase;
 use function igk_html_host as _h;
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests

@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store Connexion attempts</summary>
 /**
 * Store Connexion attempts
 * @package IGK\Models

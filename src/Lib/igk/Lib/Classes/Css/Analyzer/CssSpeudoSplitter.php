@@ -6,7 +6,6 @@ namespace IGK\Css\Analyzer;
 
 use IGK\System\Text\RegexMatcherContainer;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Css\Analyzer

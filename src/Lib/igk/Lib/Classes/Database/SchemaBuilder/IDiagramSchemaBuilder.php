@@ -6,7 +6,6 @@ namespace IGK\Database\SchemaBuilder;
 
 use IGK\Database\SchemaBuilder\IDiagramSchemaEntity;
 
-///<summary>Schema builder blueprint</summary>
 /**
 * Schema builder blueprint
 * @package IGK\Database\SchemaBuilder

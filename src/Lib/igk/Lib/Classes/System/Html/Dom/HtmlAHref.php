@@ -23,15 +23,11 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     const OWNER = 2;
     const URI = 1;
     private $_;
-    ///<summary></summary>
-    ///<param name="a"></param>
     public function __construct($a)
     {
         $this->_ = array();
         $this->_[self::OWNER] = $a;
     }
-    ///<summary></summary>
-    ///<param name="option"></param>
     private function _checkLnk($option)
     {
         $bck = $this->getUri();
@@ -103,35 +99,26 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
         // }
         return $bck;
     }
-    ///<summary></summary>
     public function getDesignMode()
     {
         return igk_is_design_mode();
     }
-    ///<summary></summary>
     public function getOwner()
     {
         return igk_getv($this->_, self::OWNER);
     }
-    ///<summary></summary>
     public function getUri()
     {
         return igk_getv($this->_, self::URI);
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function getValue($options = null)
     {
         return $this->_checkLnk($options);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public function setUri($v)
     {
         $this->_[self::URI] = $v;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public function setValue($v)
     {
         $this->setUri($v);

@@ -51,10 +51,6 @@ use IGK\System\Services\LoginServiceEvents;
 use function igk_resources_gets as __;
 
 if (!function_exists("igk_css_link_callback")) {
-	///<summary>function igk_css_link_callback</summary>
-	///<param name="p"></param>
-	///<param name="key"></param>
-	///<param name="href"></param>
 	/**
 	 * function igk_css_link_callback
 	 * @param mixed $p
@@ -75,8 +71,6 @@ if (!function_exists("igk_css_link_callback")) {
 	}
 }
 if (!function_exists("igk_file_content")) {
-	///<summary>encapsulate file_get_contents</summary>
-	///<param name="file"></param>
 	/**
 	 * encapsulate file_get_contents
 	 * @param mixed $file
@@ -98,8 +92,6 @@ if (!function_exists("igk_htlm_node_cdata")) {
 	}
 }
 if (!function_exists("igk_html__tabbutton_add")) {
-	///<summary>function igk_html__tabbutton_add</summary>
-	///<param name="q"></param>
 	/**
 	 * function igk_html__tabbutton_add
 	 * @param mixed $q
@@ -112,10 +104,6 @@ if (!function_exists("igk_html__tabbutton_add")) {
 	}
 }
 if (!function_exists("igk_html_add_context_menu_item")) {
-	///<summary>function igk_html_add_context_menu_item</summary>
-	///<param name="n"></param>
-	///<param name="uri"></param>
-	///<param name="display"></param>
 	/**
 	 * function igk_html_add_context_menu_item
 	 * @param mixed $n
@@ -128,9 +116,6 @@ if (!function_exists("igk_html_add_context_menu_item")) {
 	}
 }
 if (!function_exists("igk_html_callback_ajx_lnksettarget")) {
-	///<summary>function igk_html_callback_ajx_lnksettarget</summary>
-	///<param name="n"></param>
-	///<param name="p"></param>
 	/**
 	 * function igk_html_callback_ajx_lnksettarget
 	 * @param mixed $n
@@ -142,8 +127,6 @@ if (!function_exists("igk_html_callback_ajx_lnksettarget")) {
 	}
 }
 if (!function_exists("igk_html_callback_alinktn")) {
-	///<summary>function igk_html_callback_alinktn</summary>
-	///<param name="n"></param>
 	/**
 	 * function igk_html_callback_alinktn
 	 * @param mixed $n
@@ -158,10 +141,6 @@ if (!function_exists("igk_html_callback_alinktn")) {
 	}
 }
 if (!function_exists("igk_html_callback_ctrlview_acceptrender")) {
-	///<summary>function igk_html_callback_ctrlview_acceptrender</summary>
-	///<param name="n"></param>
-	///<param name="s"></param>
-	///<param name="clear"></param>
 	/**
 	 * function igk_html_callback_ctrlview_acceptrender
 	 * @param mixed $n
@@ -199,8 +178,6 @@ if (!function_exists("igk_html_callback_ctrlview_acceptrender")) {
 	}
 }
 if (!function_exists("igk_html_callback_replacecontent_acceptrender")) {
-	///<summary>function igk_html_callback_replacecontent_acceptrender</summary>
-	///<param name="n"></param>
 	/**
 	 * function igk_html_callback_replacecontent_acceptrender
 	 * @param mixed $n

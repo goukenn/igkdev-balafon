@@ -13,8 +13,6 @@ use IGK\System\Html\HtmlUtils;
 final class IGKCoreJSon extends IGKObject
 {
     const ExpressionRegex = "\\{(?<expression>(.)+)\\}";
-    ///<summary></summary>
-    ///<param name="n"></param>
     // private static function json_key($n){
     //     if(preg_match_all("/^(?P<delimiter>('|\")*)(?P<key>(.)+)\\1$/i", $n, $tab)){
     //         return $tab["key"][0];
@@ -22,8 +20,6 @@ final class IGKCoreJSon extends IGKObject
     //     return $n;
     // }
 
-    ///<summary></summary>
-    ///<param name="expression"></param>
     public function ToDictionary($expression, $strict = true){
         $h = self::GetExpression($expression, $strict);
         if (is_int($h) && ($h <= 0))

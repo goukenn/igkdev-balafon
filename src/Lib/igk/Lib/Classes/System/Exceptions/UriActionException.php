@@ -9,17 +9,11 @@ namespace IGK\System\Exceptions;
 
 use IGKException;
 
-///<summary>represent uri action exception</summary>
-///<remark>raised when can't handle uri. </remark>
 /**
 * represent uri action exception
 */
 class UriActionException extends IGKException{
     private $m_uri;
-    ///<summary></summary>
-    ///<param name="msg"></param>
-    ///<param name="uri" default="null"></param>
-    ///<param name="code"></param>
     /**
     * 
     * @param mixed $msg
@@ -30,7 +24,6 @@ class UriActionException extends IGKException{
         parent::__construct($msg);
         $this->m_uri=$uri;
     }
-    ///<summary></summary>
     /**
     * 
     */

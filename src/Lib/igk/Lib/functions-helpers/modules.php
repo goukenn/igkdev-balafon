@@ -71,7 +71,6 @@ if (!function_exists('igk_get_loaded_modules')) {
 }
 
 
-///<summary>represent require module</summary>
 /**
  * /**
  *  

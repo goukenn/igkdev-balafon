@@ -10,7 +10,6 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\File\PHPScriptBuilder;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Api

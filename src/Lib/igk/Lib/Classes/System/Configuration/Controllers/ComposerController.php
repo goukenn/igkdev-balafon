@@ -11,7 +11,6 @@ use IGK\Controllers\BaseController;
 
 use function igk_resources_gets as __;
 
-///<summary>class used to register global user in system</summary>
 /**
 * class used to register global user in system
 */

@@ -17,7 +17,6 @@ use IGK\System\IToArrayResolver;
 use IGKSorter;
 use IIGKQueryResult;
 
-///<summary>Represent MySQL Query result wrapper</summary>
 /**
  * Represent MySQL Query result wrapper
  */
@@ -60,7 +59,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     {
         return JSon::Encode($this->to_array(), $option, $json_option);
     }
-    ///<summary></summary>
     /**
      * 
      */

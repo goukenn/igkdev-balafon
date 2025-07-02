@@ -5,20 +5,17 @@
 // @desc: 
 
 namespace IGK\System\Html\Dom; 
-///<summary>no tag definition</summary>
 /**
 * no tag definition 
 */
 class HtmlNoTagNode extends HtmlNode{
     protected $tagname = 'igk:notagnode';
-    ///<summary></summary>
     /**
     * .ctr
     */
     public function __construct(){       
         parent::__construct();
     }
-    ///<summary></summary>
     /**
     * can render tag
     */

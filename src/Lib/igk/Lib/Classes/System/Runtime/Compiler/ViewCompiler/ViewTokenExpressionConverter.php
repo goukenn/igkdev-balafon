@@ -5,7 +5,6 @@
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler

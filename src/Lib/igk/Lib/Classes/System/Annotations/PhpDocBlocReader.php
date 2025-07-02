@@ -5,7 +5,6 @@
 namespace IGK\System\Annotations;
 
 
-///<summary></summary>
 /**
 * dock block reader in use.
 * @package IGK\System\Annotations

@@ -8,7 +8,6 @@ use IGK\System\IO\Path;
 use IGKException;
 use IGKValidator;
 
-///<summary></summary>
 /**
 * represent a core curl http client
 * @package IGK\System\Http

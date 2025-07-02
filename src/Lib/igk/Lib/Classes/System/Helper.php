@@ -6,7 +6,6 @@
 
 namespace IGK\System;
 
-///<summary> core Helper class </summary>
 /**
  * 
  * @package IGK\System

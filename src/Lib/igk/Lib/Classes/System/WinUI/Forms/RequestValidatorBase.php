@@ -11,7 +11,6 @@ use IGK\System\DataArgs;
 use IGK\System\Http\Request;
 use IGK\System\Security\Web\RequestValiationMapper;
 
-///<summary></summary>
 /**
 * request data validator
 * @package IGK\System\WinUI\Forms

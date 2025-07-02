@@ -5,7 +5,6 @@
 namespace IGK\System\Html;
 
 
-///<summary></summary>
 /**
  * use to transform binding data
  * @package IGK\System\Html

@@ -6,7 +6,6 @@ namespace IGK\System\Http;
 
 use IGKApplicationBase;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Http

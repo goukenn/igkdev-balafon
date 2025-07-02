@@ -51,7 +51,7 @@ Name:balafon.js
     const IGK_OBJECT = "object";
     var __eventObjectManager = null;
     const __libName = "BalafonJS";
-    const __version = "4.0.18.0705";
+    const __version = "4.0.20.0701";
     const __author = "C.A.D. BONDJE DOUE";
     const __devscript = "igk.js";
     var __lang = [];
@@ -1997,10 +1997,10 @@ Name:balafon.js
             bfirst.qselect('.igk-powered-viewer').first() ||
             bfirst.qselect('.igk-parentscroll').first();
 
-        Object.defineProperty(ln, 'parentScroll', {get(){return t; }});
-        
+        Object.defineProperty(ln, 'parentScroll', { get() { return t; } });
+
         if (t) {
-            
+
             async function _updateBottomSize(offw) {
                 let bottom = t.getComputedStyle('padding-bottom');
                 let height = ln.getComputedStyle('height');
@@ -2016,7 +2016,7 @@ Name:balafon.js
 
                 if ((offw == 0) && scrolling) {
                     offw = 11; // macos - width size view that autoshow/hidde
-                } 
+                }
                 // console.log({height, offw, target: t.o});  
                 if (!alignl) {
                     def = {
@@ -2032,7 +2032,7 @@ Name:balafon.js
                         left: '0px',
                         right: 'auto'
                     };
-                } 
+                }
                 ln.setCss(def);
             }
             // controller node is a parent scroll items 
@@ -2096,8 +2096,8 @@ Name:balafon.js
                     var _q = $igk(s).add("div").addClass("posab fitw fith").setHtml("height:info");
                     var h = s.offsetHeight - _q.o.offsetHeight;
                     _q.remove();
-                    animprop.bottom = (h + 2) + "px"; 
-                } 
+                    animprop.bottom = (h + 2) + "px";
+                }
                 $igk(node).animate(animprop, animinfo);
             }
             var v_self = this;
@@ -7280,9 +7280,9 @@ Name:balafon.js
             c_value += "; SameSite=Strict";
             if (path)
                 c_value += "; Path=" + path;
-            domain = domain || '.'+document.location.hostname;
-            if (domain){
-                c_value += '; Domain='+domain;
+            domain = domain || '.' + document.location.hostname;
+            if (domain) {
+                c_value += '; Domain=' + domain;
             }
             c_value += '; Secure';
             document.cookie = name + "=" + c_value;
@@ -13062,6 +13062,5 @@ Name:balafon.js
     var _udef = 'undefined';
     // special functions
     ns_igk.__REFID__ = __version;
-    ns_igk._$exists = function (n) { return typeof (igk.system.getNS(n)) != _udef; };
-
+    ns_igk._$exists = function (n) { return typeof (igk.system.getNS(n)) != _udef; };  
 })(window);

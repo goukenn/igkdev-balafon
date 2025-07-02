@@ -563,7 +563,6 @@ class QueryBuilder
     {
         return __CLASS__ . "[" . $this->get_query() . "]";
     }
-    ///<summary>get model</summary>
     /**
      * get model
      * @return ModelBase 

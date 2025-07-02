@@ -6,7 +6,6 @@ namespace IGK\Database;
 
 use Exception;
 
-///<summary></summary>
 /**
 * create a query condition : will check that property exists before create chaining. 
 * @package IGK\Database

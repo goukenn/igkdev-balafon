@@ -6,7 +6,6 @@ namespace IGK\System\Traits;
 
 use IGK\Helper\Activator;
 
-///<summary></summary>
 /**
 * use new intance 
 * @package IGK\System\Traits

@@ -8,7 +8,6 @@ use IGK\Helper\Activator;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\RegexMatcherContainer;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\VCF

@@ -9,7 +9,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database

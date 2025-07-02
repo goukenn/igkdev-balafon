@@ -12,7 +12,6 @@ use IGK\System\Helpers\AnnotationHelper;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * init database constant annotations
 * @package IGK\Database\ORM\Annotations

@@ -6,7 +6,6 @@ namespace IGK\System\Html;
 
 use IGKException;
 
-///<summary></summary>
 /**
  * html rendering option 
  * @package IGK\System\Html

@@ -9,16 +9,12 @@ namespace IGK\JS;
 use IGK\System\IO\HtmlDocument\IDocumentScriptLoader;
 use IGKHtmlDoc;
 
-///<summary>Represent default script loader </summary>
 /**
 * Represent default script loader 
 */
 class ScriptLoader implements IDocumentScriptLoader{
     var $ctrl;
     var $target;
-    ///<summary>Represente __construct function</summary>
-    ///<param name="controller"></param>
-    ///<param name="cachetarget"></param>
     /**
     * Represent __construct function
     * @param  $controller
@@ -28,10 +24,6 @@ class ScriptLoader implements IDocumentScriptLoader{
         $this->ctrl=$controller;
         $this->target=$cachetarget;
     }
-    ///<summary>Represente Load function</summary>
-    ///<param name="doc"></param>
-    ///<param name="folder"></param>
-    ///<param name="created"></param>
     /**
     * load cached document
     * @param  $doc

@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>store local sites partner.</summary>
 /**
 * store local sites partner.
 * @package IGK\Models

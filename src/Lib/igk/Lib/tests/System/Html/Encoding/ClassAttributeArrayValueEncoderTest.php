@@ -7,7 +7,6 @@ namespace IGK\Tests\System\Html\Encoding;
 use IGK\System\Html\Encoding\ClassAttributeArrayValueEncoder;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Html\Encoding

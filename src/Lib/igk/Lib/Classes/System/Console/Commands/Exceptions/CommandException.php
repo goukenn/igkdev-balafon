@@ -6,7 +6,6 @@ namespace IGK\System\Console\Commands\Exceptions;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Exceptions

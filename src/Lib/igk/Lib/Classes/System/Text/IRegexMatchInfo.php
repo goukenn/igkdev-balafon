@@ -5,7 +5,6 @@
 namespace IGK\System\Text;
 
 
-///<summary></summary>
 /**
 * regex match info
 * @package IGK\System\Text

@@ -5,7 +5,6 @@
  
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK

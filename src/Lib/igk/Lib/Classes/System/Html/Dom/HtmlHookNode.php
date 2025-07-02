@@ -16,20 +16,14 @@ namespace IGK\System\Html\Dom;
  */
 class HtmlHookNode extends HtmlNode{
     private $m_eventType, $m_context;
-    ///<summary></summary>
-    ///<param name="eventType"></param>
-    ///<param name="options" default="null"></param>
     public function __construct($eventType, ?string $context=null){
         parent::__construct("igk-hook-node");
         $this->m_eventType=$eventType;
         $this->m_context =$context;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     // protected function _getRenderingChildren($options=null){
     //     return null;
     // }
-    ///<summary></summary>
     public function getCanRenderTag(){
         return false;
     }

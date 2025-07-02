@@ -10,25 +10,19 @@ namespace IGK\System\Services;
 
 use ArrayAccess;
 
-///<summary>Represente interface: IIGKBalafonApplicationMiddlewareService</summary>
 /**
 * Represent IIGKBalafonApplicationMiddlewareService interface
 */
 interface IBalafonApplicationMiddlewareService extends ArrayAccess{
-    ///<summary></summary>
     /**
     * 
     */
     function GetLastMiddleware();
-    ///<summary></summary>
-    ///<param name="callback"></param>
     /**
     * 
     * @param closure callback
     */
     function Run($callback);
-    ///<summary></summary>
-    ///<param name="instance"></param>
     /**
     * 
     * @param mixed instance

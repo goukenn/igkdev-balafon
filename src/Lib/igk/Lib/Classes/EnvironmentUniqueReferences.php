@@ -7,7 +7,6 @@ namespace IGK;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK

@@ -9,7 +9,6 @@ use IGK\System\Html\Css\CssClassNameDetectorUtils;
 use IGK\System\Html\Css\CssParser;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\System\Html\Css

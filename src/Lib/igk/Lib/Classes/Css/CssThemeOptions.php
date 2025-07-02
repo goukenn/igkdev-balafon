@@ -5,7 +5,6 @@
 namespace IGK\Css;
 
 
-///<summary></summary>
 /**
 * store default theme options
 * @package IGK\System\Css

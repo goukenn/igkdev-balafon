@@ -5,7 +5,6 @@
 namespace IGK\System\Configuration;
 
 
-///<summary></summary>
 /**
 * represent project configuration 
 * @package IGK\System\Configuration

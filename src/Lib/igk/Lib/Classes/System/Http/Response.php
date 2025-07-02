@@ -13,7 +13,6 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\IInjectable;
 use IGKException;
 
-///<summary> default response </summary>
 abstract class Response implements IResponse, IInjectable{
     /**
      * response body

@@ -11,7 +11,6 @@ use IGKApplicationBase;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * help as entry point to live with other framework
 * @package IGK\Framework

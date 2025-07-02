@@ -12,7 +12,6 @@ use IGKEvents;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * use to handle user registration with mail only to application 
 * @package IGK\Actions\Traits

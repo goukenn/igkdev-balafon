@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Metadatas;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas

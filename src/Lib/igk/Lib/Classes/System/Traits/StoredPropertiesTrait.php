@@ -5,7 +5,6 @@
 namespace IGK\System\Traits;
 
 
-///<summary></summary>
 /**
 * since 8.0 dynamic property is deprecated to user properties trait that will handle auto property \
 * and magic __get and __set to be implement in user.

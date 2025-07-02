@@ -4,7 +4,6 @@
 // @date: 20250215 11:41:53
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Traits

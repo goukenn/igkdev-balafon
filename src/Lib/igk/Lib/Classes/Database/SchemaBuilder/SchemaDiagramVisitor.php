@@ -19,7 +19,6 @@ use IGKEvents;
 use IGKSysUtil;
 use Logger;
 
-///<summary></summary>
 /**
  * visit diagrams
  * @package IGK\Database\SchemaBuilder

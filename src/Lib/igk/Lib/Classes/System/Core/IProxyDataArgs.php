@@ -6,7 +6,6 @@ namespace IGK\System\Core;
 
 use ArrayAccess;
 
-///<summary></summary>
 /**
 * proxy data support
 * @package IGK\System\Core

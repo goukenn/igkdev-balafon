@@ -8,7 +8,6 @@ use IGKValidator;
 
 use function igk_resources_gets as __;
 
-///<summary>Password Content validator </summary>
 /**
  * Password Content validator 
  * @package IGK\System\Security\Web

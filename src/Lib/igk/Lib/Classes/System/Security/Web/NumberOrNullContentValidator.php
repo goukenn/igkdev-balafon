@@ -5,7 +5,6 @@
 namespace IGK\System\Security\Web;
 
 
-///<summary></summary>
 /**
 * number content validator
 * @package IGK\System\Security\Web

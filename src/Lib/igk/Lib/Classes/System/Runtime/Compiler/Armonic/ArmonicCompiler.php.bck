@@ -21,7 +21,6 @@ use IGKException;
 use Illuminate\View\Compilers\Compiler;
 use PhpOption\Option;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\Armonic

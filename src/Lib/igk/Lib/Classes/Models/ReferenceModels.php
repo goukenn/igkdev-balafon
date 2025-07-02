@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store reference domain</summary>
 /**
 * Store reference domain
 * @package IGK\Models

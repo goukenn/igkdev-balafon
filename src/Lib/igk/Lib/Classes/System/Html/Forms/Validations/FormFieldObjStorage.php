@@ -7,7 +7,6 @@ namespace IGK\System\Html\Forms\Validations;
 use IGK\System\Html\IFormFieldOptions;
 use IGKObjStorage;
 
-///<summary>Form field object storage</summary>
 /**
 * Form field object storage
 * @package IGK\System\Html\Forms\Validations

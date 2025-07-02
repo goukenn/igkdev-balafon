@@ -8,7 +8,6 @@ namespace IGK\Tests\Helper;
 use IGK\Helper\JSon;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\Helper

@@ -10,7 +10,6 @@ namespace IGK\System\Http;
 // + |  Header always edit Set-Cookie (.*) "$1; SameSite=Lax"
 // + |  https://stackoverflow.com/questions/39750906/php-setcookie-samesite-strict
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http

@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>store system uri.</summary>
 /**
 * store system uri.
 * @package IGK\Models

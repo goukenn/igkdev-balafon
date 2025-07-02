@@ -9,7 +9,6 @@ use IGK\System\DataArgs;
 use IGK\System\Security\Web\RequestValiationMapper;
 use IGKException;
 
-///<summary></summary>
 /**
 * default object validator
 * @package IGK\System\Data

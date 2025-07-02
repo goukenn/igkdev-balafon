@@ -7,7 +7,6 @@ namespace IGK\Models\Traits;
 use IGK\Helper\Database;
 use ReflectionClass;
 
-///<summary></summary>
 /**
 * class must provide a static $model and static $field_name
 * @package IGK\Models\Traits

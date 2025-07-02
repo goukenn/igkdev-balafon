@@ -20,8 +20,6 @@ abstract class XMLNodeType{
     const INNER_TEXT = 7;
     const DOCTYPE=8;
 
-    ///<summary></summary>
-    ///<param name="i"></param>
     public static function GetString($i){
         switch($i){
             case self::NONE:

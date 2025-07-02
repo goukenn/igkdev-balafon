@@ -6,7 +6,6 @@ namespace IGK\System\IO\Printer;
 
 use IGK\System\IInjectable;
 
-///<summary></summary>
 /**
 * use to print pdf with an library
 * @package IGK\System\IO\Print

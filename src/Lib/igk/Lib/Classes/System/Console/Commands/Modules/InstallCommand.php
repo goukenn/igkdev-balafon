@@ -13,7 +13,6 @@ use IGK\System\Installers\ModuleInstaller;
 use IGK\System\IO\Path;
 use IGK\System\Modules\ModuleManager; 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Modules

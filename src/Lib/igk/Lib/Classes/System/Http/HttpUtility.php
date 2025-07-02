@@ -6,7 +6,6 @@ namespace IGK\System\Http;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http

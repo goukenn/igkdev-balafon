@@ -11,7 +11,6 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html

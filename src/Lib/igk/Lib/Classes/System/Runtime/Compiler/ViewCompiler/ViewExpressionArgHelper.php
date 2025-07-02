@@ -7,7 +7,6 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler

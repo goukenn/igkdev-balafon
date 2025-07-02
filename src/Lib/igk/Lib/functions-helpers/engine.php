@@ -1,10 +1,6 @@
 <?php
 
 
-///<summary>Convert string argument to array list. in context</summary>
-///<param name="s">parameter to convert</param>
-///<param name="context">context object that will parameter to convert</param>
-
 use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\System\DataArgs;
@@ -68,7 +64,6 @@ function igk_engine_get_attr_arg($s, $context = null)
     return $tb;
 }
 
-///<summary>retrieve argument splitting</summary>
 /**
  * retrieve argument splitting
  */
@@ -132,12 +127,6 @@ function igk_engine_treat_arg($v){
 }
 
 
-///<summary>bind attributes</summary>
-///<param name="reader"></param>
-///<param name="attr"></param>
-///<param name="value"></param>
-///<param name="context" default="null"></param>
-///<param name="storecallback" default="null"></param>
 /**
  * get tempory binding attributes
  * @param mixed $reader 
@@ -171,8 +160,6 @@ function igk_engine_temp_bind_attribute($reader, $attr, $value, $context = null,
     return false;
 }
 
-///<summary>Represente igk_get_attrib_raw_context function</summary>
-///<param name="n_context"></param>
 /**
  * retrieve binding attribute info
  * @param mixed $context 
@@ -214,7 +201,6 @@ function igk_get_attrib_raw_context($context)
 }
 
 
-///<summary>article priority root context</summary>
 /**
  * get root data stored to article chain
  * @return ?object|array|mixed root context
@@ -228,7 +214,6 @@ function igk_get_article_root_context()
     }
     return null;
 }
-///<summary>get current article chain data</summary>
 /**
  * get current article chain data
  */
@@ -240,8 +225,6 @@ function igk_get_article_chain()
     }
     return null;
 }
-///<summary></summary>
-///<param name="f"></param>
 /**
  * 
  * @param mixed $f 
@@ -252,7 +235,6 @@ function igk_pop_article_chain()
     array_pop($g);
     igk_set_env($key, $g);
 }
-///<summary>push article in chain data</summary>
 /**
  * push article in chain data
  * @var string $f context identification 
@@ -280,7 +262,6 @@ function igk_push_article_chain(string $f, $context = null)
     }
     igk_set_env_array($key, new \IGK\System\Articles\ChainInfo($f, $ctx)); //  ["n" => $f, "data" => $ctx]);
 }
-///<summary>get template binding attribute</summary>
 /**
  * get template binding attribute
  */
@@ -297,8 +278,6 @@ function igk_get_template_bindingattributes()
     return $o;
 }
 
-///<summary>register template binding attributes</summary>
-///<param name="$name">comma separated string of identifier for binding attribute</param>
 ///<param name="$callback">the callback</summary>
 /**
  * register template binding attributes

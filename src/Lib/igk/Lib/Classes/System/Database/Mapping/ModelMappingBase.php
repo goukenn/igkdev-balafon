@@ -5,7 +5,6 @@
 namespace IGK\System\Database\Mapping;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database\Mapping

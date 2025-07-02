@@ -10,13 +10,9 @@
 
 
 
-///<summary>register global attributes</summary>
 class IGKAttribute extends IGKObject{
     static $classAttributes=array();
-    ///<summary></summary>
     public function __construct(){    }
-    ///<summary></summary>
-    ///<param name="classOrObject"></param>
     public static function GetAttributes($classOrObject){
         $n=null;
         if(is_string($classOrObject)){
@@ -26,11 +22,6 @@ class IGKAttribute extends IGKObject{
             $n=get_class($classOrObject);
         return igk_getv(self::$classAttributes, $n);
     }
-    ///<summary></summary>
-    ///<param name="classname"></param>
-    ///<param name="attribute"></param>
-    ///<param name="allowmultiple" default="true"></param>
-    ///<param name="inherits" default="false"></param>
     public static function Register($classname, $attribute, $allowmultiple=true, $inherits=false){
         $n=get_class($attribute);
         if(class_exists($classname)){

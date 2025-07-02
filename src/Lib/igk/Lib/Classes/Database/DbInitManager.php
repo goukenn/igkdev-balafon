@@ -9,7 +9,6 @@ use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

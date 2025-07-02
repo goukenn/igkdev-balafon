@@ -29,18 +29,14 @@ use ReflectionException;
 class MailConfigController extends ConfigControllerBase
 {
 
-    ///<summary></summary>
     public function getConfigPage()
     {
         return "mailserver";
     }
-    ///<summary></summary>
     public function getName()
     {
         return IGK_MAIL_CTRL;
     }
-    ///<summary>initialize system mail configuration</summary>
-    ///<param name="mail">mail object</param>
     private function init_mail_config($mail)
     {
         $mail->UseAuth = igk_configs()->mail_useauth;
@@ -50,15 +46,12 @@ class MailConfigController extends ConfigControllerBase
         $mail->SmtpHost = igk_configs()->mail_server;
         $mail->SocketType = igk_configs()->mail_authtype;
     }
-    ///<summary></summary>
     public function initMailSetting()
     {
         ini_set("smpt_port", igk_configs()->mail_port);
         ini_set("SMTP", igk_configs()->mail_server);
         ini_set("sendmail_from", igk_configs()->mail_admin);
     }
-    ///<summary></summary>
-    ///<param name="func" default="null"></param>
     public function IsFunctionExposed($func)
     {
         $tab = igk_array_createkeyarray(array("sendmailto", "register"), 1);
@@ -66,7 +59,6 @@ class MailConfigController extends ConfigControllerBase
             return true;
         return parent::IsFunctionExposed($func);
     }
-    ///<summary></summary>
     public function lock_mail()
     {
         if (!($maillist = constant('IGK_TB_MAINLINGLISTS'))) {
@@ -79,7 +71,6 @@ class MailConfigController extends ConfigControllerBase
     }
 
 
-    ///<summary>send test mail</summary>
     /**
      * send test mail
      * @return void 
@@ -121,7 +112,6 @@ class MailConfigController extends ConfigControllerBase
     
         $this->msbox = $msbox;
     }
-    ///<summary></summary>
     public function mail_update()
     {
         $server = igk_getr("server");
@@ -160,13 +150,10 @@ class MailConfigController extends ConfigControllerBase
         }
         igk_navtocurrent();
     }
-    ///<summary></summary>
-    ///<param name="args"></param>
     public function onMailSended($args)
     {
         igk_hook("MailSend", array($this, $args));
     }
-    ///<summary></summary>
     public function register()
     {
         $tb_maillist = constant('IGK_TB_MAINLINGLISTS');
@@ -186,16 +173,10 @@ class MailConfigController extends ConfigControllerBase
         igk_sys_force_view();
         igk_navtocurrent();
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="func"></param>
     public function removeMailSendEvent($obj, $func)
     {
         igk_die(__METHOD__ . " Not Obselete");
     }
-    ///<summary></summary>
-    ///<param name="fromName"></param>
-    ///<param name="message" default="null"></param>
     public function send_contactmail($fromName, $message = null)
     {
         $obj = igk_get_robj();
@@ -232,14 +213,6 @@ class MailConfigController extends ConfigControllerBase
             return array(false, $enode);
         }
     }
-    ///<summary></summary>
-    ///<param name="from"></param>
-    ///<param name="to"></param>
-    ///<param name="subject"></param>
-    ///<param name="message"></param>
-    ///<param name="reply" default="null"></param>
-    ///<param name="attachement" default="null"></param>
-    ///<param name="type" default="text/html"></param>
     /**
      * controller send mail
      * @param null|string $from email. if whant to pass From title ["" <email@domain>"]
@@ -268,7 +241,6 @@ class MailConfigController extends ConfigControllerBase
         }
         return Mail::Mail($to, $subject, $message, $from, $reply, $attachement, $type, $fromTitle);
     }
-    ///<summary></summary>
     public function sendmailto()
     {
         $to = igk_getr("n");

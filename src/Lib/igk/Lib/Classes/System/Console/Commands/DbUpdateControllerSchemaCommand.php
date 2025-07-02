@@ -9,7 +9,6 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Helper\DbUtility;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

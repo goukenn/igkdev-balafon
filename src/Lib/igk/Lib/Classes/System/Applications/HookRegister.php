@@ -6,7 +6,6 @@ namespace IGK\System\Applications;
 
 use IGKEvents;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Applications

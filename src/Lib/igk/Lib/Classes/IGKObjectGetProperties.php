@@ -6,8 +6,6 @@
 
 
 
-///<summary>Abstract magic to get/set properties</summary>
-
 use IGK\Traits\GetPropertyCallbackTrait;
 use IGK\Traits\SetPropertyCallbackTrait;
 

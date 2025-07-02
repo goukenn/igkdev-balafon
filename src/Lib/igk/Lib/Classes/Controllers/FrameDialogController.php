@@ -15,11 +15,9 @@ use IIGKFrameController;
 
 final class FrameDialogController extends NonVisibleControllerBase implements IIGKFrameController{
     const FRAME_KEYS="FRAMES";
-    ///<summary></summary>
     public function __construct(){
         parent::__construct();
     }
-    ///<summary></summary>
     public function close_frame_ajx(){
         $href=base64_decode(igk_getr("href"));
         $tag=igk_getquery_args($href);
@@ -27,7 +25,6 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
         igk_wl(igk_app()->Doc->body->render());
         igk_exit();
     }
-    ///<summary></summary>
     public function closeAllFrame(){
         $frame=$this->getFrames();
         $c=array_keys($frame);
@@ -38,9 +35,6 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
         }
         igk_navtocurrent();
     }
-    ///<summary>Close frame</summary>
-    ///<param name="id" default='null'>id of frame to close on server side</param>
-    ///<param name="navigate" default='null'>navigation uri</param>
     public function closeFrame($id=null, $navigate=null){
         $v_id=($id != null) ? $id: igk_getr("id", 0);
         $closeuri=null;
@@ -80,15 +74,10 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
             }
         }
     }
-    ///<summary></summary>
     public function closeFrame_ajx(){
         $id=igk_getr("id");
         igk_frame_close($id);
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="frame"></param>
-    ///<param name="remove" default="true"></param>
     public function ContainFrame($id, $frame, $remove=true){
         $frames=$this->getFrames();
         if(isset($frames[$id])){
@@ -105,11 +94,6 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
         else{        }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="owner"></param>
-    ///<param name="closeuri" default="null"></param>
-    ///<param name="reloadcallback" default="null"></param>
     public function createFrame($id, $owner, $closeuri=null, $reloadcallback=null){
  
         if(($id == null) || !is_string($id))
@@ -139,8 +123,6 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
         $this->setParam(self::FRAME_KEYS, $frames);
         return $v_dial;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     public function getFrame($id){
         $frames=$this->getFrames();
         if(isset($frames[$id])){
@@ -148,23 +130,18 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
         }
         return null;
     }
-    ///<summary></summary>
     public function getFrameIds(){
         if($frames=$this->getFrames()){
             return array_keys($frames);
         }
         return array();
     }
-    ///<summary></summary>
     public function getFrames(){
         return $this->getParam(self::FRAME_KEYS);
     }
-    ///<summary></summary>
     public function getName(){
         return IGK_FRAME_CTRL;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     public function IsFrameAvailable($id){
         return $this->getFrame($id) != null;
     }

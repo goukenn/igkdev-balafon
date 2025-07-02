@@ -14,7 +14,6 @@ use IGKEvents;
 use IGKException;
 use stdClass;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Helpers

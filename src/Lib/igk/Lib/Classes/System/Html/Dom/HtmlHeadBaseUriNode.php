@@ -9,11 +9,8 @@
 // @url: https://www.igkdev.com
 
 namespace IGK\System\Html\Dom;
-///<summary>base uri tag </summary>
 final class HtmlHeadBaseUriNode extends HtmlNode{
     static $sm_item;
-    ///<summary></summary>
-    ///<param name="option" default="null"></param>
     protected function _acceptRender($options = null):bool{
         
         if(($doc=$options->Document)){
@@ -25,15 +22,12 @@ final class HtmlHeadBaseUriNode extends HtmlNode{
         }
         return false;
     }
-    ///<summary></summary>
     public function __construct(){
         parent::__construct("base");
     }
-    ///<summary></summary>
     public function getIsVisible(){
         return !defined('IGK_NO_BASEURL') && (!igk_io_basedir_is_root());
     }
-    ///<summary></summary>
     public static function getItem(){
         if(self::$sm_item == null){
             self::$sm_item=new HtmlHeadBaseUriNode();

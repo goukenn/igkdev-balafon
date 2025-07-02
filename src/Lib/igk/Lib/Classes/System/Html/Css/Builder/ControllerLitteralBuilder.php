@@ -11,7 +11,6 @@ use IGK\System\IO\Path;
 use IGK\System\Regex\Replacement;
 use IGKValidator;
 
-///<summary></summary>
 /**
  * help build litteral by entry in css file
  * @package IGK\System\Html\Css\Builder

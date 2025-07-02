@@ -6,7 +6,6 @@ namespace IGK\System;
 
 use IGK\Constants;
 
-///<summary></summary>
 /**
 * represent a project configuration file 
 * @package IGK\System

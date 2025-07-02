@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Forms\Validations\Annotations;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms\Validations\Annotations

@@ -13,7 +13,6 @@ use IGK\System\IO\JSon\JSonObjClassConverter;
 use IGKException;
 use stdClass;
 
-///<summary></summary>
 /**
  * 
  * represent how to bind property when using JSon::Bind

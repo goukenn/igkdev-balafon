@@ -13,7 +13,6 @@ use IGK\System\Database\Helper\DbUtility;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\NotImplementException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Database\Import

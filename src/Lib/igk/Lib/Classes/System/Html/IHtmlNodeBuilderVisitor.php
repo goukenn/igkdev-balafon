@@ -6,7 +6,6 @@ namespace IGK\System\Html;
 
 use IGK\System\Html\Dom\HtmlItemBase;
 
-///<summary></summary>
 /**
 * handle node builder visitor
 * @package IGK\System\Html

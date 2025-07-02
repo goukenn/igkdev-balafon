@@ -12,7 +12,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\Html\ExpressionArgNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\Html\ExpressionNodeBase;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
 
-///<summary></summary>
 /**
 * use to resolve getter expression string operations
 * @package IGK\System\Runtime\Compiler\ViewCompiler

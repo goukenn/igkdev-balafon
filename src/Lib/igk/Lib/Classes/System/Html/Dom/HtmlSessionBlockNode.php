@@ -25,12 +25,9 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
         return Server::IsLocal() || igk_environment()->isDev();
     }
     
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     protected function _acceptRender($options = null):bool{  
         return $this->getIsVisible();     
     }
-    ///<summary></summary>
     private function __buildview($t){ 
         $t->addObData(function(){
             $cnf_=igk_getctrl(IGK_CONF_CTRL);
@@ -154,14 +151,12 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
         , IGK_HTML_NOTAG_ELEMENT);
     }
     private $callback_mem;
-    ///<summary></summary>
     public function __construct(SessionController $controller){
         parent::__construct($controller, "div");
         $this->callback_mem = $this->addNodeCallback("mem_usage", function($t){
             return $t->memoryusageinfo();
         });
     }
-    ///<summary></summary>
     public function onAppExit(){
         $app=igk_app();
         if(igk_is_ajx_demand() && $this->IsVisible && $app->Session->getRedirectTask('modview')){

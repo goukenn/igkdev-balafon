@@ -5,7 +5,6 @@
 namespace IGK\System\Regex;
 
 
-///<summary></summary>
 /**
  * helper used the match callable for directory
  * @package IGK\System\Regex

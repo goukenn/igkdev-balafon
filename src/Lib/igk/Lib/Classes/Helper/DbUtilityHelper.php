@@ -6,7 +6,6 @@ namespace IGK\Helper;
 
 use IGK\Controllers\BaseController;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Helpers

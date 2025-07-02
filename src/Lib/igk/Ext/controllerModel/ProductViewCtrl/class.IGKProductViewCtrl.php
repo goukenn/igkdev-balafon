@@ -4,8 +4,6 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-///<summary>controller code class declaration file is a part of the controller tab list</summary>
-
 use IGK\Controllers\BaseController;
 
 abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase

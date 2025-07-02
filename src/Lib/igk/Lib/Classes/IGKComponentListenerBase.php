@@ -9,12 +9,9 @@
 // @url: https://www.igkdev.com
 
 abstract class IGKComponentListenerBase extends IGKParamStorage implements IIGKParamHostService{
-    ///<summary></summary>
     public function __construct(){
         parent::__construct();
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     final function getUri($n){
         return igk_get_component_uri($this, $n);
     }

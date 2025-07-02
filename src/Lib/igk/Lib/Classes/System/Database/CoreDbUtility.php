@@ -5,7 +5,6 @@
 namespace IGK\System\Database;
 
 
-///<summary></summary>
 /**
 * core db utility helper
 * @package IGK\System\Database

@@ -10,7 +10,6 @@ use IGK\System\Exceptions\ActionNotFoundException;
 use igk_default\Actions\MailingStates;
 use ReflectionMethod;
 
-///<summary></summary>
 /**
 * use to register mail actions - follows us 
 * @package IGK\Actions\Traits

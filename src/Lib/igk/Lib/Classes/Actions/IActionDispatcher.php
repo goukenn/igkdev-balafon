@@ -5,7 +5,6 @@
 namespace IGK\Actions;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions

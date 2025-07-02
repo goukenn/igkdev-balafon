@@ -6,7 +6,6 @@ namespace IGK\System\IO;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO

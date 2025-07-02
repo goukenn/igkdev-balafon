@@ -5,7 +5,6 @@
 namespace IGK\Database\PhoneBooks;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\PhoneBooks

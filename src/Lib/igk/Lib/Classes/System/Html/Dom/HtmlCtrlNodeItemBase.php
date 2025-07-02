@@ -11,17 +11,12 @@ namespace IGK\System\Html\Dom;
 
 abstract class HtmlCtrlNodeItemBase extends HtmlWebComponentNode{
     private $m_ctrl;
-    ///<summary></summary>
-    ///<param name="tag"></param>
     public function __construct($tag){
         parent::__construct($tag);
     }
-    ///<summary></summary>
     public function getCtrl(){
         return igk_getctrl($this->m_ctrl);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public function setCtrl($v){
         $this->m_ctrl=$v;
         return $this;

@@ -5,8 +5,6 @@
 // @desc: 
 
 
-///<summary>Represente class: IGKAppConfig</summary>
-
 use IGK\System\Configuration\ConfigData;
 use IGK\System\IO\FileSystem;
 
@@ -101,7 +99,6 @@ final class IGKAppConfig extends IGKObject {
     private $m_oldState;
     /** @var IGKAppConfig */
     private static $sm_instance;
-    ///<summary></summary>
     /**
     * 
     */
@@ -109,7 +106,6 @@ final class IGKAppConfig extends IGKObject {
         $this->_loadSystemConfig();
     }
    
-    ///<summary>load configuration files </summary>
     /**
     * load configuration files
     */
@@ -158,7 +154,6 @@ final class IGKAppConfig extends IGKObject {
         $db_name = $this->m_datas->db_name; 
       
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -174,9 +169,6 @@ final class IGKAppConfig extends IGKObject {
             $v_ctn->addMsg(__("Unlink file: {0}", basename($f))); 
         }
     } 
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="arg"></param>
     /**
     * 
     * @param mixed $obj
@@ -185,8 +177,6 @@ final class IGKAppConfig extends IGKObject {
     public function addConfigSavedEvent($obj, $arg){
         igk_die(__METHOD__." Not Obselete");
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -199,14 +189,12 @@ final class IGKAppConfig extends IGKObject {
         }
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getConfigEntries(){
         return $this->m_configEntries;
     }
-    ///<summary></summary>
     /**
      * get data storage
     * @return \IGK\System\Configuration\ConfigData
@@ -214,7 +202,6 @@ final class IGKAppConfig extends IGKObject {
     public function getData(){
         return $this->m_datas;
     }
-    ///<summary></summary>
     /**
     * get singleton instance
     * @return self
@@ -225,7 +212,6 @@ final class IGKAppConfig extends IGKObject {
         }
         return self::$sm_instance;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -234,9 +220,6 @@ final class IGKAppConfig extends IGKObject {
             $this->m_configSavedEvent->Call($this, null);
         }
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="arg"></param>
     /**
     * 
     * @param mixed $obj
@@ -245,7 +228,6 @@ final class IGKAppConfig extends IGKObject {
     public function removeConfigSavedEvent($obj, $arg){
         igk_die(__METHOD__." Not Obselete");
     }
-    ///<summary></summary>
     /**
     * save configuration 
     * @return bool save config result 

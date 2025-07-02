@@ -10,7 +10,6 @@ defined('T_NAME_FULLY_QUALIFIED') || define('T_NAME_FULLY_QUALIFIED', 263);
 defined('T_NAME_QUALIFIED') || define('T_NAME_QUALIFIED', 265);
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler

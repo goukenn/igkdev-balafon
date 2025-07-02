@@ -9,7 +9,6 @@ use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Traits

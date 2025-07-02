@@ -20,7 +20,6 @@ use IIGKWebPageController;
 
 abstract class DefaultPageController extends PageControllerBase implements IIGKUriActionRegistrableController, IIGKWebPageController{    
     
-    ///<summary>default handle uri global uri</summary>
     /**
      * default handle uri global uri
      * @param mixed $request 
@@ -33,9 +32,6 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
             return false;
         return 1;
     }
-    ///<summary>used to evaluatue query expression</summary>
-    ///<param name="xml">show error as xml if not handled</param>
-    ///<param name="nav">demand to render or not the current document</param>
     public final function evaluateUri($patterninfo=null, $xml=true, $nav=null){
         $this->setEnvParam("from", __FUNCTION__);
         $t=$this->TargetNode;
@@ -159,7 +155,6 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         $do_rendering($t, $doc, $nav);
         return true;
     }
-    ///<summary></summary>
     public static function GetAdditionalConfigInfo(){
         return array(
             "clDefaultPage"=>igk_create_additional_config_info(array("clRequire"=>1, "clDefaultValue"=>"default")),
@@ -170,13 +165,11 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     public function getBasicUriPattern(){
         return $this->getConfig(IGK_CTRL_CNF_BASEURIPATTERN);
     }
-    ///<summary></summary>
     public function getExtraTitle(){
         if(igk_web_defaultpage() != $this->CurrentPage)
             return " - ".__("title.".$this->CurrentPage.".webpage");
         return IGK_STR_EMPTY;
     }
-    ///<summary></summary>
     public function getIsVisible():bool{
         if(igk_sys_is_subdomain() && igk_sys_domain_control($this)){
             return true;
@@ -186,20 +179,16 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         $v=($cp != IGK_CONFIG_MODE) && (strtolower($cnf->default_controller) == strtolower($this->Name));
         return $v;
     }
-    ///<summary></summary>
     public function getRegInvokeUri(){
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
     
-    ///<summary></summary>
     public function getRegUriAction(){
         $primary=$this->getBasicUriPattern();
         if(empty($primary))
             return null;
         return "".$primary.IGK_REG_ACTION_METH;
     }
-    ///<summary>handle evaluation uri</summary>
-    ///<return>true if handle uri or false</return>
     public function handle_redirection_uri($uri, $forcehandleuri=1){
         igk_sys_handle_uri();
         $k=IGK_REG_ROUTE_PATTERN;
@@ -219,13 +208,10 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         $this->evaluateUri($e);
         return true;
     }
-    ///<summary></summary>
     protected function initComplete($context=null){
         parent::initComplete();
         igk_app()->session->addUserChangedEvent($this, "View");
     }
-    ///<summary></summary>
-    ///<param name="doc"></param>
     protected function initDocument($doc){
         $f=$this->getDataDir()."/".IGK_RES_FOLDER."/Img/favicon.ico";
         if(igk_io_file_exists($f)){
@@ -233,7 +219,6 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
             $doc->Favicon=new IGKHtmlRelativeUriValueAttribute($p);
         }
     }
-    ///<summary></summary>
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $t=parent::initTargetNode();
         $k=IGK_CSS_DEFAULT_STYLE_FUNC_KEY;
@@ -241,8 +226,6 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         $t->setClass("+".$t->$k());
         return $t;
     }
-    ///<summary></summary>
-    ///<param name="uri" default="null"></param>
     public function is_handle_uri($uri=null){
         if(igk_const('IGK_REDIRECTION') == 1){
             if(preg_match("#^/!@#", igk_io_request_uri()))
@@ -258,7 +241,6 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         $c=igk_getv($p, "function");
         return false;
     }
-    ///<summary> get if a function is avaible for uri invocation</summary>
     public function IsFuncUriAvailable(& $m){
         $k=$m;
         if(!method_exists($this, $k)){
@@ -272,28 +254,20 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
         }
         return false;
     }
-    ///<summary></summary>
     public function LoadTemplate(){
         $tempfile=igk_getr("tempfile");
         $this->saveCtrl();
         $this->View();
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
     public function loadWebTheme($file){    }
-    ///<summary></summary>
-    ///<param name="uri"></param>
     public function manageErrorUriRequest($uri){    }
-    ///<summary></summary>
     protected function OnMenuPageChanged(){
         $this->View();
     }
-    ///<summary></summary>
     public function pageFolderChanged(){
         if($this->IsVisible)
             $this->View();
     }
-    ///<summary></summary>
     public function restoreCtrl(){
         $f=$this->getDeclaredDir()."/.".$this->Name.".bck.zip";
         if(igk_io_file_exists($f)){
@@ -302,22 +276,16 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
             unlink($f);
         }
     }
-    ///<summary></summary>
     public function saveCtrl(){
         igk_zip_create_file($this->getDeclaredDir()."/.".$this->Name.".bck.zip", $this->getDeclaredDir());
     }
-    ///<summary></summary>
-    ///<param name="t" ref="true"></param>
     public static function SetAdditionalConfigInfo(& $t){
         $t["clDefaultPage"]=igk_getr("clDefaultPage");
         return 1;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setPageName($value){
         $this->m_pageview=$value;
     }
-    ///<summary>default page render view</summary>
     public function View():BaseController{
         $t=$this->TargetNode;
         $doc=igk_app()->getDoc();

@@ -6,7 +6,6 @@ namespace IGK\FormData;
 
 use IGK\FormData\Traits\FormDataJsonTrait;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\FormData

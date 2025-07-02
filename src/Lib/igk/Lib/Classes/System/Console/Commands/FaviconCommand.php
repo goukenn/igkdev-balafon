@@ -9,7 +9,6 @@ use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\RegexConstant;
 use IGK\System\Regex\RegexHelper;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands

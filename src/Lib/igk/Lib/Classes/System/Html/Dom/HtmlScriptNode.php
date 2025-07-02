@@ -36,28 +36,24 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     const SCRIPT_TAG=0xb0;
     const TEMPORARY=0xb5;
 
-     ///<summary></summary>
-    /**
+     /**
     * 
     */
     public function getCanBeMerged(){
         return $this->getFlag(self::CANMERGE_LINK) ?? true;
     }
-///<summary></summary>
-    /**
+/**
     * 
     */
     public function getlink(){
         return $this->getFlag(self::SCRIPT_LINK);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getNotSingleView(){
         return $this->getFlag(self::NOT_SINGLEVIEW);
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -65,15 +61,12 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         return $this->getFlag(self::SCRIPT_TAG);
     }
 
-     ///<summary>get if is temp script</summary>
-    /**
+     /**
     * get is temp
     */
     public function IsTemporary(){
         return $this->getFlag(self::TEMPORARY);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -101,8 +94,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     public function text(string $content){
         return $this->setContent($content);
     }
-     ///<summary></summary>
-    /**
+     /**
     * 
     */
     private function _iaccept(){
@@ -114,9 +106,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     }
 
 
-      ///<summary></summary>
-    ///<param name="v"></param>
-    /**
+      /**
     * 
     * @param mixed $v
     */
@@ -124,8 +114,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::CANMERGE_LINK, $v);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -133,8 +121,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     public function setIsTemporary($v){
         $this->setFlag(self::TEMPORARY, $v);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -143,8 +129,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::SCRIPT_LINK, $v);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -153,8 +137,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::NOT_SINGLEVIEW, $v);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v

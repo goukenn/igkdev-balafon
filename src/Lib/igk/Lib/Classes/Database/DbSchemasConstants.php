@@ -5,7 +5,6 @@
 namespace IGK\Database;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

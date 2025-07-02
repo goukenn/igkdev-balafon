@@ -7,7 +7,6 @@ namespace IGK\System\Text;
 use Closure;
 use Exception;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Text

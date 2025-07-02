@@ -4,8 +4,6 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-///<summary> System utility class </summary>
-
 use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;

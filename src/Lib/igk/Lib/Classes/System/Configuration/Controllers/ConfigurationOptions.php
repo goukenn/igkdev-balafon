@@ -6,7 +6,6 @@ namespace IGK\System\Configuration\Controllers;
 
 use IGK\Controllers\IControllerConfigurationData;
 
-///<summary></summary>
 /**
  * base application controller configuration options
  * @package IGK\System\Configuration\Controllers

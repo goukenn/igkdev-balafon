@@ -32,7 +32,6 @@ if (!function_exists('igk_css_litteral')){
         return $g;
     }    
 }
-///<summary>helper: used to treat style value . {sys: ...data}</summary>
 /**
  * helper: used to treat style value . {sys: ...data}
  */

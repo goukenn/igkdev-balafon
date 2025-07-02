@@ -6,7 +6,6 @@ namespace IGK\System\Regex;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Regex

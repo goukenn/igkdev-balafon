@@ -18,7 +18,6 @@ use IGK\System\Html\HtmlReader;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
 * use to run project migration
 * @package IGK\System\Database

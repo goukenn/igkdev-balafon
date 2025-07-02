@@ -13,13 +13,11 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\XML\XmlCDATA;
 use IGK\XML\XMLNodeType;
 
-///<summary>Represente class: IGKHtmlXmlViewerItem</summary>
 /**
 * Represent IGKHtmlXmlViewerItem class
 */
 final class HtmlXmlViewerNode extends HtmlNode {
     private $m_cdata;
-    ///<summary>.ctr</summary>
     /**
     * contruct xml viewer
     */
@@ -41,9 +39,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
         $this->m_cdata->Content = $v; 
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="depth"></param>
     /**
     * 
     * @param mixed $target
@@ -64,8 +59,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
     {
         return false;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
     * 
     * @param mixed $t

@@ -130,12 +130,10 @@ class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
 }
 
 
-///<summary>Represente class: RenameLibaryMiddleWare</summary>
 /**
 * Represent RenameLibaryMiddleWare class
 */
 class RenameProjectMiddleWare extends InstallerActionMiddleWare{
-    ///<summary></summary>
     /**
     * 
     */
@@ -148,14 +146,12 @@ class RenameProjectMiddleWare extends InstallerActionMiddleWare{
             rename($libdir, dirname($libdir)."/".$project_name);
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getMessage(){
         return "rename project";
     }
-    ///<summary></summary>
     /**
     * 
     */

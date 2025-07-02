@@ -5,7 +5,6 @@
 namespace IGK\System\Html;
 
 
-///<summary></summary>
 /**
 * use to set callback expression value
 * @package IGK\System\Html

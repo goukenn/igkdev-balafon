@@ -8,7 +8,6 @@ use Exception;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKValidator;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console

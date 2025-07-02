@@ -7,8 +7,6 @@
 namespace IGK\System\Polyfill;
 
 trait CSSDefaultArrayAccess{
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -19,8 +17,6 @@ trait CSSDefaultArrayAccess{
         }
         return isset($this->_[self::PROPERTIES][$i]);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -31,9 +27,6 @@ trait CSSDefaultArrayAccess{
         }
         return igk_getv($this->_[self::PROPERTIES], $key);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $i
@@ -48,8 +41,6 @@ trait CSSDefaultArrayAccess{
         $g= & $this->_[self::PROPERTIES];
         $this->_bindProperties($g, $i, $v); 
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i

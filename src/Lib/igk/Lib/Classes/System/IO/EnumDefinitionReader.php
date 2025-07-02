@@ -6,7 +6,6 @@ namespace IGK\System\IO;
 
 use IGK\System\IO\Configuration\ConfigurationReader;
 
-///<summary></summary>
 /** 
  * use delimiter to split value   
 * @package IGK\System\IO

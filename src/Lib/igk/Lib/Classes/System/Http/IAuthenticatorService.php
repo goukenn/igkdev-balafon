@@ -7,7 +7,6 @@ namespace IGK\System\Http;
 use IGK\Controllers\BaseController;
 use IGK\System\IInjectable;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http

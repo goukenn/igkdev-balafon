@@ -5,7 +5,6 @@
 namespace IGK\System\IO\Storage;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\Storage

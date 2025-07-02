@@ -6,7 +6,6 @@ namespace IGK\System\Models\Macros;
 
 use IGK\Models\ModelBase;
 
-///<summary></summary>
 /**
 * define abstract that need to be implement 
 * @package IGK\System\Models\Macros

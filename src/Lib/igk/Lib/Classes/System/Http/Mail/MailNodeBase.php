@@ -6,7 +6,6 @@ namespace IGK\System\Http\Mail;
 
 use IGK\System\Html\Dom\HtmlNode;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Mail

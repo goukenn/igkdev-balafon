@@ -27,8 +27,6 @@ class ConfigControllerRegistry
 
 
 
-    ///<summary>RegisterInitComplete . if Ctrl is not null add it to base controller list</summary>
-    ///<param name="ctrl">if null return the count number of the registrated controller. else register the controller to iniList</param>
     /**
      * RegisterInitComplete . if Ctrl is not null add it to base controller list
      * @param mixed $ctrl if null return the count number of the registrated controller. else register the controller to iniList
@@ -57,7 +55,6 @@ class ConfigControllerRegistry
     }
 
 
-    ///<summary></summary>
     /**
      * 
      */

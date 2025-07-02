@@ -9,7 +9,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Commmands

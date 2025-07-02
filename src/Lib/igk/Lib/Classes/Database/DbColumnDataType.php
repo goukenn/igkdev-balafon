@@ -18,7 +18,6 @@ final class DbColumnDataType{
     const SINGLE="Float";
     const TEXT="Text";
     const VARCHAR="VarChar";
-    ///<summary></summary>
     public static function GetDbTypes(){
         static $t;
         if($t === null)

@@ -25,7 +25,6 @@ use ReflectionException;
 
 require_once IGK_LIB_CLASSES_DIR."/System/Database/SchemaBuilderHelper.php";
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Database

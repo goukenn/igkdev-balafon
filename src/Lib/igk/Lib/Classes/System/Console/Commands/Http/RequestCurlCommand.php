@@ -6,7 +6,6 @@ namespace IGK\System\Console\Commands\Http;
 
 use IGK\System\Console\AppExecCommand;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Http

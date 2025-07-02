@@ -6,7 +6,6 @@ namespace IGK\Tests;
 
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests

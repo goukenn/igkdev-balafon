@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Phone books</summary>
 /**
 * Phone books
 * @package IGK\Models

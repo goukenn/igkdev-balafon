@@ -11,7 +11,6 @@ use IGK\Test\IGKObjectStrictTest;
 use IGKObjectStrict;
 use JsonSerializable;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database\Mapping

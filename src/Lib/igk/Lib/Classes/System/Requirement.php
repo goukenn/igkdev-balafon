@@ -6,7 +6,6 @@ namespace IGK\System;
 
 use ZipArchive;
 
-///<summary></summary>
 /**
 * check system requirem 
 * @package IGK\System

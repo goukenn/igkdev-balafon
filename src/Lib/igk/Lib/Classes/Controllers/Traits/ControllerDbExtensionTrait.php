@@ -15,15 +15,13 @@ use IGK\System\Database\DbUtils;
 use IGK\System\Database\MigrationHandler;
 use IGKEvents;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Controllers\Traits
 */
 trait ControllerDbExtensionTrait{
 
-     ///<summary>drop list data base</summary>
-    /**
+     /**
      * drop list data base
      */
     public static function dropDb(BaseController $controller, $navigate = 1, $force = false)

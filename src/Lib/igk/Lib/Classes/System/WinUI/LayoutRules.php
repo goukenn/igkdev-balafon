@@ -9,7 +9,6 @@ use IGK\Models\Configurations;
 use IGKException;
 use ReflectionClass;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\WinUI

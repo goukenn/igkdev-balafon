@@ -8,7 +8,6 @@ use IGK\Controllers\BaseController;
 use IGK\System\IO\Path;
 use IGKValidator;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\WinUI\Traits

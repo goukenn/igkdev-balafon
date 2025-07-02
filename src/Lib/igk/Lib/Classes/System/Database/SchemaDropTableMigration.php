@@ -6,7 +6,6 @@ namespace IGK\System\Database;
 
 use IGK\System\Database\SchemaMigrationItemBase;
 
-///<summary></summary>
 /**
 * same as delete table
 * @package IGK\Database

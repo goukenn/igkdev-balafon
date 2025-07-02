@@ -8,8 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>Represente class: IGKAppleIconCtrl</summary>
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\Dom\HtmlNode;
@@ -18,7 +16,6 @@ use IGK\System\Html\Dom\HtmlNode;
 * Represent IGKAppleIconCtrl class
 */
 abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
-    ///<summary></summary>
     /**
     * 
     */
@@ -32,7 +29,6 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
             ))
         );
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -40,7 +36,6 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
         $tb=explode(',', $this->Configs->clAppleIconUri);
         return $tb;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -48,14 +43,12 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getIsVisisble():bool{
         return true;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -88,15 +81,12 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
             }
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
     protected function initTargetNode(): ?HtmlNode{
         return null;
     }
-    ///<summary></summary>
-    ///<param name="t" ref="true"></param>
     /**
     * 
     * @param  * $t

@@ -40,8 +40,6 @@ class HtmlHeadNode extends HtmlNode{
         $this->m_scripts = $list;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $options the default value is null

@@ -6,7 +6,6 @@ namespace IGK\System\Console;
 
 use IGK\System\IO\FakeInput;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console

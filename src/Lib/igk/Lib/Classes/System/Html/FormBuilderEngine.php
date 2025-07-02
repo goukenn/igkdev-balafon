@@ -15,9 +15,6 @@ use IIGKFormBuilderEngine;
 class FormBuilderEngine implements IIGKFormBuilderEngine{
     protected $frm;
     var $group;
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="arguments"></param>
     public function __call($n, $arguments){
         if((strlen($n) > 3) && (substr($n, 0, 3) == "add")){
             $view=$this->getView();
@@ -26,32 +23,20 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
         if(strtolower($n) == "setfrm"){        }
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="frm"></param>
     public function __construct($frm){
         $this->setView($frm);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     public function __get($n){
         if(strtolower($n) == "frm"){
             return $this->frm;
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     public function __set($n, $v){
         if((strtolower($n) == "frm") && ($v != null)){
             $this->frm=$v;
         }
     }
-    ///<summary></summary>
-    ///<param name="$c"></param>
-    ///<param name="entries"></param>
-    ///<param name="filter" default="null"></param>
-    ///<param name="id" default="null"></param>
     protected function _initEntries($c, $entries, $filter=null, $id=null){
         $fobj=["selected"=>0, "value"=>IGK_FD_ID, "key"=>"clName"];
         $callback=null;
@@ -96,18 +81,10 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="type" default="'submit'"></param>
-    ///<param name="text" default="null"></param>
     public function addButton($id, $type='submit', $text=null){
         $this->getView()->addButton($id, $type)->Content=$text ?? __('btn.'.$id);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value" default="null"></param>
-    ///<param name="attribs" default="null"></param>
     public function addCheckbox($id, $value=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $i=$this->addControl($id, "checkbox", null, array("value"=>$value));
@@ -117,11 +94,6 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
         }
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="type" default="'text'"></param>
-    ///<param name="style" default="null"></param>
-    ///<param name="attribs" default="null"></param>
     public function addControl($id, $type='text', $style=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $view=$this->getView();
@@ -135,17 +107,12 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
         }
         return $this;
     }
-    ///<summary></summary>
     public function addGroup(){
         $g=$this->frm->div();
         $g["class"]="igk-form-group";
         $this->group=$g;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="class" default="null"></param>
-    ///<param name="text" default="null"></param>
     public function addLabel($id, $class=null, $text=null){
         extract(igk_html_extract_id($id));
         $view=$this->getView();
@@ -154,11 +121,6 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
         $lb->Content=isset($text) ? $text: (isset($label) ? $label: __("lb.".$id));
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value" default="null"></param>
-    ///<param name="type" default="'text'"></param>
-    ///<param name="style" default="null"></param>
     public function addLabelControl($id, $value=null, $type='text', $style=null){
         extract(igk_html_extract_id($id));
         $__rv=get_defined_vars();
@@ -166,36 +128,22 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
         $this->addControl($__rv, $type, $value, $style);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="entries"></param>
-    ///<param name="filter" default="null"></param>
     public function addLabelSelect($id, $entries, $filter=null){
         extract(igk_html_extract_id($id));
         $this->addLabel(get_defined_vars());
         $this->addSelect($id, $entries, $filter);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value" default="null"></param>
     public function addLabelTextarea($id, $value=null){
         extract(igk_html_extract_id($id));
         $this->addLabel(get_defined_vars());
         $this->addTextarea($id, $value);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="callback"></param>
-    ///<param name="tag" default="'div'"></param>
     public function addObData($callback, $tag='div'){
         $this->getView()->addObData($callback, $tag);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value" default="null"></param>
-    ///<param name="attribs" default="null"></param>
     public function addRadioButton($id, $value=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $this->addControl($id, "checkbox", null, array("value"=>$value));
@@ -205,10 +153,6 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
         }
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="entries"></param>
-    ///<param name="filter" default="null"></param>
     public function addSelect($id, $entries, $filter=null){
         extract(igk_html_extract_id($id));
         $c=$this->getView()->addSelect($id);
@@ -218,23 +162,15 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
         }
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value" default="null"></param>
     public function addTextarea($id, $value=null){
         extract(igk_html_extract_id($id));
         $a=$this->getView()->addTextarea($id);
         $a->setClass("igk-form-control textarea")->Content=$value == null ? igk_getr($id, $value): $value;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value" default="null"></param>
-    ///<param name="attribs" default="null"></param>
     public function addTextfield($id, $value=null, $attribs=null){
         $this->addLabelControl($id);
     }
-    ///<summary></summary>
     public function getLastChild(){
         $view=$this->getView();
         if($view && $view->ChildCount > 0){
@@ -243,7 +179,6 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
         igk_die("failed");
         return null;
     }
-    ///<summary></summary>
     public function getView(){
         $c=null;
         if($this->group){
@@ -253,8 +188,6 @@ class FormBuilderEngine implements IIGKFormBuilderEngine{
             $c=$this->frm;
         return $c;
     }
-    ///<summary></summary>
-    ///<param name="frm"></param>
     public function setView($frm){
         if(!is_object($frm))
             igk_die("engine host required");

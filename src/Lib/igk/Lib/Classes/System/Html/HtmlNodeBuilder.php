@@ -19,7 +19,6 @@ use IGK\System\IToArray;
 use IGKException;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html

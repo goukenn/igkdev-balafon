@@ -12,7 +12,6 @@ use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Http\ApiResponse;
 use IGK\System\Http\Request;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions\Api\Traits

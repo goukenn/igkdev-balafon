@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>User's tables</summary>
 /**
 * User's tables
 * @package IGK\Models

@@ -8,7 +8,6 @@ use IGK\System\Http\Request;
 use IGK\System\Npm\Traits\JsonPackagePropertyTrait;
 use IGK\System\WinUI\Forms\FormData;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Npm

@@ -12,7 +12,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Npm\Traits\JsonPackagePropertyTrait;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Npm

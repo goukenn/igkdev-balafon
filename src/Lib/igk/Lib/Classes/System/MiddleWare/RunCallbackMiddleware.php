@@ -9,14 +9,11 @@
 namespace IGK\System\Middlewares;
  
 
-///<summary>Represente class: IGKRunCallbackMiddleware</summary>
 /**
 * Represent IGKRunCallbackMiddleware class
 */
 class RunCallbackMiddleware extends BalafonMiddleware{
     private $callback;
-    ///<summary></summary>
-    ///<param name="callback"></param>
     /**
     * 
     * @param closure callback
@@ -24,7 +21,6 @@ class RunCallbackMiddleware extends BalafonMiddleware{
     public function __construct($callback){
         $this->callback=$callback;
     }
-    ///<summary></summary>
     /**
     * 
     */

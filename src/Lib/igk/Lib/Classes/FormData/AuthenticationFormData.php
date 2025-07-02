@@ -9,7 +9,6 @@ use IGK\System\Http\Request;
 use IGK\System\Security\Web\MapContentValidatorBase;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\FormData

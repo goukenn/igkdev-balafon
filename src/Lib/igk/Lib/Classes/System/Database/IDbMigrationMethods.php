@@ -5,7 +5,6 @@
 namespace IGK\System\Database;
 
 
-///<summary></summary>
 /**
 * migration operation
 * @package IGK\System\Database

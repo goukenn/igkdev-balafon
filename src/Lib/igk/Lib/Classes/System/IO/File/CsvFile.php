@@ -6,7 +6,6 @@ namespace IGK\System\IO\File;
 
 use IGK\Helper\MapHelper; 
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\IO\File

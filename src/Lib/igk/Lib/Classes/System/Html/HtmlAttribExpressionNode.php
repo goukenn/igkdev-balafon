@@ -17,21 +17,16 @@ class HtmlAttribExpressionNode extends XmlNode
 {
     var  $node_args;
     var  $target_node;
-    ///<summary>Represente __construct function</summary>
-    ///<param name="c"></param>
-    ///<param name="context" default="null"></param>
     public function __construct(HtmlItemBase $cnode, array $c)
     {        
         parent::__construct(IGK_ENGINE_ATTR_EXPRESSION_NODE);
         $this->node_args = $c; 
         $this->target_node = $cnode; 
     }
-    ///<summary>Represente getCanAddChild function</summary>
     public function getCanAddChild()
     {
         return false;
     }
-    ///<summary>Represente loadingComplete function</summary>
     public function loadingComplete()
     { 
         $context = null;

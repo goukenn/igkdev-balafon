@@ -12,7 +12,6 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\Import\DbModelImporterMap;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database

@@ -6,7 +6,6 @@ namespace IGK\System\Security\Web\Traits;
 
 use IGK\System\Security\Web\MapContentValidatorBase;
 
-///<summary></summary>
 /**
 * wrapper to get content security management
 * @package IGK\System\Security\Web\Traits

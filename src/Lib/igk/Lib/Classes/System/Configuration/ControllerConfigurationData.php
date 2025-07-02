@@ -21,7 +21,6 @@ use function igk_resources_gets as __;
 require_once IGK_LIB_CLASSES_DIR. "/System/Html/XML/XmlConfigurationNode.php";
 require_once IGK_LIB_CLASSES_DIR. "/System/Configuration/SysConfigExpression.php";
 
-///<summary>Controller configuration data</summary>
 /**
 * Controller configuration data
 */
@@ -50,8 +49,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function to_json(){
         return json_encode($this->m_configs);
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -65,8 +62,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         $this->m_autosave = true;
         $this->m_configs=igk_createobj();       
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -74,8 +69,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function __get($n){
         return $this->get($n, null);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -83,9 +76,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function __isset($n){
         return isset($this->m_configs->$n);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $n
@@ -104,7 +94,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         igk_conf_set($this->m_configs, $v, $n);
         $this->m_changed=1;
     }
-    ///<summary>get configuration file</summary>
     /**
      * get configuration file
     * @return string 
@@ -112,8 +101,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function getConfigFile(){
         return igk_dir($this->ctrl->getConfigFile());
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
     * 
     * @param mixed $t
@@ -186,15 +173,12 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         igk_environment()->loading_context = null;
         return $t;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function LoadSetting(){}
    
    
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -217,7 +201,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     private function setupCtrlConfigSettings(){
         igk_die(__METHOD__." Not implement");
     }
-    ///<summary></summary>
     /**
     * 
     */

@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Rendering;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Rendering

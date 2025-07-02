@@ -5,7 +5,6 @@
 namespace IGK\System\Html\Converters;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Converters

@@ -1,7 +1,5 @@
 <?php
 
-///<summary>Represente class: IGKApiFunctionCtrl</summary>
-
 use IGK\Controllers\ApplicationController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
@@ -14,14 +12,12 @@ use IGK\System\Html\HtmlRenderer;
 */
 final class ApiFunctionController extends ApplicationController {
     const LIBNAME=IGK_API_MYSQLPINC;
-    ///<summary></summary>
     /**
     * 
     */
     public function about(){
         igk_wln_e(__FILE__.":".__LINE__, "About");
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -46,8 +42,6 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="cmd" default="null"></param>
     /**
     * 
     * @param mixed $cmd the default value is null
@@ -120,7 +114,6 @@ final class ApiFunctionController extends ApplicationController {
         igk_exit();
         return 1;
     }
-    ///<summary>represent a function database function list</summary>
     /**
     * represent a function database function list
     */
@@ -486,7 +479,6 @@ final class ApiFunctionController extends ApplicationController {
         igk_exit();
         return 1;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -499,7 +491,6 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -510,19 +501,16 @@ final class ApiFunctionController extends ApplicationController {
     protected function getEntryNameSpace(){
         return "IGKApi";
     }
-    ///<summary></summary>
     /**
     * 
     */
     
-    ///<summary></summary>
     /**
     * 
     */
     public function getIsVisible():bool{
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -532,22 +520,18 @@ final class ApiFunctionController extends ApplicationController {
     public function getAppName(){
         return IGK_API_CTRL;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getRegUriAction(){
         return IGK_API_URI.IGK_REG_ACTION_METH_OPTIONS;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getVersion(){
         return IGK_API_VERSION;
     }
-    ///<summary></summary>
-    ///<param name="function"></param>
     /**
     * 
     * @param mixed $function
@@ -555,7 +539,6 @@ final class ApiFunctionController extends ApplicationController {
     public function IsFunctionExposed($function){
         return true;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -578,7 +561,6 @@ final class ApiFunctionController extends ApplicationController {
 
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -595,8 +577,6 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="cmd" default="null"></param>
     /**
     * 
     * @param mixed $cmd the default value is null
@@ -605,7 +585,6 @@ final class ApiFunctionController extends ApplicationController {
         igk_wln(__FUNCTION__." command");
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * 
     */

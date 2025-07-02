@@ -6,9 +6,6 @@
 // @desc: environment helper functions
 
 
-///<summary></summary>
-///<param name="k"></param>
-///<param name="v"></param>
 /**
  * 
  * @param mixed $k 
@@ -19,9 +16,6 @@ function igk_set_env($k, $v)
     igk_environment()->set($k, $v);
 }
 
-///<summary></summary>
-///<param name="k"></param>
-///<param name="default" default="null"></param>
 /**
  * 
  * @param mixed $k 
@@ -37,10 +31,6 @@ function igk_get_env($k, $default = null)
 
 
 
-///<summary></summary>
-///<param name="type"></param>
-///<param name="name"></param>
-///<param name="callback"></param>
 /**
  * 
  * @param mixed $type 

@@ -5,7 +5,6 @@
 namespace IGK\System\WinUI\Menus;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\WinUI\Menus

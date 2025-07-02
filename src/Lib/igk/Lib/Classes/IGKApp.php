@@ -5,8 +5,6 @@
 // @desc: 
 
 
-///<summary> core application engine </summary>
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
@@ -129,7 +127,6 @@ class IGKApp extends IGKObject
         }   
         return $this->m_settings;
     }
-    ///<summary>get environment base controller</summary>
     /**
     * get environment base controller
     * @return BaseController|null base controller
@@ -137,9 +134,7 @@ class IGKApp extends IGKObject
     public function getBaseCurrentCtrl(){
         return igk_environment()->basectrl;
     }
-     ///<summary>change environment base controller</summary>
-    ///<param name="v"></param>
-    /**
+     /**
     * change environment base controller
     * @param mixed $v
     */
@@ -147,7 +142,6 @@ class IGKApp extends IGKObject
 		igk_environment()->basectrl =  $v; 
         return $this;
     }
-    ///<summary>view mode setting - require session</summary>
     /**
     * view mode setting - require session
     */
@@ -157,9 +151,7 @@ class IGKApp extends IGKObject
 			return IGKViewMode::VISITOR;
         return $this->getSettings()->{IGK_VIEW_MODE_FLAG}; 
     }
-     ///<summary></summary>
-    ///<param name="v"></param>
-    /**
+     /**
     * 
     * @param mixed $v
     */
@@ -173,8 +165,7 @@ class IGKApp extends IGKObject
         igk_hook(IGKEvents::HOOK_VIEW_MODE_CHANGED, [$this, $v]);
     }
    
-     ///<summary>get api current page folder</summary>
-    /**
+     /**
     * get api current page folder
     * @return ?string
     */
@@ -248,7 +239,6 @@ class IGKApp extends IGKObject
         }
         return $this->m_controllerManager; 
     }
-    ///<summary>application configuration data</summary>
     /**
     * short cut to get application configuration data
     * @return IGK\System\Configuration\ConfigData
@@ -256,7 +246,6 @@ class IGKApp extends IGKObject
     public function getConfigs(){
         return IGKAppConfig::getInstance()->Data;
     }
-    ///<summary>get the global document</summary>
     /**
     *  get the global document
     * @return IGKHtmlDoc core document
@@ -362,7 +351,6 @@ class IGKApp extends IGKObject
         ];
     }
 
-    ///<summary>destroy the application</summary>
     /**
     * destroy the application
     */
@@ -374,7 +362,6 @@ class IGKApp extends IGKObject
         }
         return 0;
     }
-    ///<summary>get application service by name</summary>
     /**
      * get application service by name 
      * @param string $serviceName 

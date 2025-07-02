@@ -5,7 +5,6 @@
 namespace IGK\System\Models\Traits;
 
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Ssytem\Models\Traits

@@ -7,7 +7,6 @@ namespace IGK\System\Console\Commands\Sync;
 use IGK\Helper\Activator;
 use IGK\System\IO\Path;
 
-///<summary></summary>
 /**
 * sync project settings
 * @package IGK\System\Console\Commands\Sync

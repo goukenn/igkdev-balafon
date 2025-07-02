@@ -16,7 +16,6 @@ use IGKObject;
  * @package IGK\System\Html
  */
 final class HtmlActiveAttrib extends IGKObject{
-    ///<summary></summary>
     public static function getInstance(){
         $key='sys://html/active/attribInstance';
         $b=igk_get_env($key);

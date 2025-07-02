@@ -7,7 +7,6 @@ namespace IGK\System\Html\Traits;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\HtmlUtils;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Traits

@@ -14,11 +14,9 @@ namespace IGK\Controllers;
  * controller type base 
  */
 abstract class ControllerTypeBase extends BaseController{   
-    ///<summary></summary>
     public static function GetAdditionalConfigInfo(){
         return null;
     }
-    ///<summary>get de default string content</summary>
     public static function GetAdditionalDefaultViewContent(){
         static $viewcomment=null;
         if($viewcomment === null)
@@ -34,12 +32,9 @@ abstract class ControllerTypeBase extends BaseController{
             ]);
         return $r;
     }
-    ///<summary></summary>
     public static function GetCtrlCategory(){
         return "DEFAULT";
     }
-    ///<summary></summary>
-    ///<param name="t" ref="true"></param>
     public static function SetAdditionalConfigInfo(& $t){
         return 1;
     }

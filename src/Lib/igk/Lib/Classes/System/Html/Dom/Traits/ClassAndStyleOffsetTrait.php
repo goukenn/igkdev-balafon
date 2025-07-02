@@ -10,7 +10,6 @@ use IGK\System\Html\HtmlStyleValueAttribute;
 use IGK\System\Html\IHtmlContextContainer;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom\Traits

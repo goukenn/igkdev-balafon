@@ -7,7 +7,6 @@ namespace IGK\System\Html;
 use IGK\System\Html\Dom\HtmlNode;
 use IGKObject;
 
-///<summary></summary>
 /**
 * represent a simple web document 
 * @package IGK\System\Html

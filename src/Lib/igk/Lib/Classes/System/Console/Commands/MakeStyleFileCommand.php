@@ -16,7 +16,6 @@ use IGKMedia;
 
 use function igk_resources_gets as __;
 
-///<summary></summary>
 /**
 * make style file command 
 * @package IGK\System\Console\Commands

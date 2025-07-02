@@ -18,7 +18,6 @@ use ReflectionException;
 
 use function igk_resources_gets as __;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Net

@@ -7,7 +7,6 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Helpers

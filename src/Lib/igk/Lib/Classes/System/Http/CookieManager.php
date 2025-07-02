@@ -6,7 +6,6 @@ namespace IGK\System\Http;
 
 use IGKException;
 
-///<summary></summary>
 /**
 * with session start, used to manage application manage cookies
 * @package IGK\System\Http

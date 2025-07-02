@@ -5,15 +5,12 @@
 namespace IGK\Traits;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Traits
 * @author C.A.D. BONDJE DOUE
 */
 trait GetPropertyCallbackTrait{
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * 
     * @param mixed $key

@@ -5,7 +5,6 @@
 namespace IGK\Helper\Expressions;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper\Expressions

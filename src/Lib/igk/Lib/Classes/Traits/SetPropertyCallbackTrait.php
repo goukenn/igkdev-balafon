@@ -5,7 +5,6 @@
 namespace IGK\Traits;
 
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Traits
@@ -13,9 +12,6 @@ namespace IGK\Traits;
  */
 trait SetPropertyCallbackTrait
 {
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $key

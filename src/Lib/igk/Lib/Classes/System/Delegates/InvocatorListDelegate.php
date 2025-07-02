@@ -5,7 +5,6 @@
 namespace IGK\System\Delegates;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Delegates

@@ -126,7 +126,6 @@ if (defined('GOOGLE_MODULE')) {
     {
         return igk_configs()->{IGKGoogleConfigurationSetting::API_KEY};
     }
-    ///<summary>get condensed family name for URI </summary>
     /**
      * get condensed family name for URI
      * @param mixed $string$family Font's name definition
@@ -138,8 +137,6 @@ if (defined('GOOGLE_MODULE')) {
         $s = str_replace(";", "x", $s);
         return $s;
     }
-    ///<summary>get local file path from family</summary>
-    ///<param name="family">family name</param>
     /**
      * get local file path from family
      * @param mixed $family name
@@ -149,7 +146,6 @@ if (defined('GOOGLE_MODULE')) {
         return igk_google_get_css_fontfile($family);
     }
     if (!function_exists('igk_google_font_api_uri')) {
-        ///<summary>get google uri form</summary>
         /**
          * helper: get google uri form
          * @param ?string $n name of the font 
@@ -168,8 +164,6 @@ if (defined('GOOGLE_MODULE')) {
             return $s;
         }
     }
-    ///<summary></summary>
-    ///<param name="family"></param>
     /**
      * 
      * @param mixed $family
@@ -178,9 +172,6 @@ if (defined('GOOGLE_MODULE')) {
     {
         return igk_dir(igk_google_get_fontdir() . "/" . igk_google_condensedfamilyname($family) . ".css");
     }
-    ///<summary></summary>
-    ///<param name="folderid"></param>
-    ///<param name="filename"></param>
     /**
      * 
      * @param mixed $folderid
@@ -192,8 +183,6 @@ if (defined('GOOGLE_MODULE')) {
     }
 
     if (function_exists("igk_curl_post_uri")) {
-        ///<summary>download google font to file</summary>
-        ///<return>array of files</return>
         /**
          * download google font to file
          */
@@ -220,7 +209,6 @@ if (defined('GOOGLE_MODULE')) {
             return $files;
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -234,9 +222,6 @@ if (defined('GOOGLE_MODULE')) {
     }
 
     if (function_exists("igk_curl_post_uri")) {
-        ///<summary></summary>
-        ///<param name="family"></param>
-        ///<param name="sizes"></param>
         /**
          * 
          * @param mixed $family
@@ -283,8 +268,6 @@ if (defined('GOOGLE_MODULE')) {
             return 0;
         }
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
      * 
      * @param mixed $n
@@ -293,7 +276,6 @@ if (defined('GOOGLE_MODULE')) {
     {
         return 1;
     }
-    ///<summary>convert google uri's font to App font resource</summary>
     /**
      * convert google uri's font to App font resource
      */
@@ -315,7 +297,6 @@ if (defined('GOOGLE_MODULE')) {
         }
         return $s;
     }
-    ///<summary>register file that will respond to uri</summary>
     /**
      * register file that will respond to uri
      */
@@ -331,7 +312,6 @@ if (defined('GOOGLE_MODULE')) {
         $s->{"fonts"} = $fonts;
         igk_google_store_setting();
     }
-    ///<summary>get google settings</summary>
     /**
      * get google settings
      */
@@ -348,7 +328,6 @@ if (defined('GOOGLE_MODULE')) {
             return $s ?? igk_createobj();
         });
     }
-    ///<summary>store balafon controller configuration</summary>
     /**
      * store balafon controller configuration
      */
@@ -359,9 +338,6 @@ if (defined('GOOGLE_MODULE')) {
     }
 
     if (function_exists("igk_curl_post_uri")) {
-        ///<summary></summary>
-        ///<param name="links"></param>
-        ///<param name="download" default="1"></param>
         /**
          * 
          * @param mixed $links
@@ -388,7 +364,6 @@ if (defined('GOOGLE_MODULE')) {
             return $temp;
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -397,7 +372,6 @@ if (defined('GOOGLE_MODULE')) {
         $CF = igk_ctrl_zone_init(__FILE__);
         return $CF;
     }
-    ///<summary> init google zone </summary>
     /**
      *  init google zone
      */
@@ -406,8 +380,6 @@ if (defined('GOOGLE_MODULE')) {
         $f = IGK_LIB_DIR . "/../api/google-api-client/vendor/autoload.php";
         require_once($f);
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
      * 
      * @param mixed $t

@@ -13,7 +13,6 @@ use IGKViewMode;
 
 use function igk_resources_gets as __;
 
-///<summary>represent a language key entries. it support IHtmlGetValue for getting and setting the values</summary>
 /**
 * represent a language key entries. it support IHtmlGetValue for getting and setting the values
 */
@@ -21,10 +20,6 @@ final class IGKLangKey implements IHtmlGetValue {
     var $args;
     var $def;
     var $key;
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="default"></param>
-    ///<param name="args" default="null"></param>
     /**
     * 
     * @param mixed $key
@@ -38,15 +33,12 @@ final class IGKLangKey implements IHtmlGetValue {
         $this->def=$default;
         $this->args=$args;
     }
-    ///<summary>display value</summary>
     /**
     * display value
     */
     public function __toString(){
         return $this->key;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $options the default value is null
@@ -83,9 +75,6 @@ final class IGKLangKey implements IHtmlGetValue {
         }
         return html_entity_decode($s);
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
-    ///<param name="args"></param>
     /**
     * 
     * @param mixed $s

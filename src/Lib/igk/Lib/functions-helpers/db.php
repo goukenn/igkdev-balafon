@@ -5,12 +5,6 @@
 // @date: 20230202 17:23:52
 // @desc: db function helper
 
-///<summary></summary>
-///<param name="controllerOrAdapterName"></param>
-///<param name="table"></param>
-///<param name="dbname" default="null"></param>
-///<param name="leaveOpen" default="false"></param>
-
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbConstants;
@@ -141,7 +135,6 @@ function igk_db_is_user_authorized($s, $actionName, $strict = false, $authTable 
     return $v_r;
 }
 
-///<summary>insert in table if data not exists</summary>
 /**
  * insert in table if data not exists
  * @deprecated use direct model access
@@ -189,9 +182,6 @@ function igk_db_insert_if_not_exists($controllerOrAdpaterName, $table, $entry, $
     return null;
 }
 
-///<summary></summary>
-///<param name="ctrl"></param>
-///<param name="entries"></param>
 /**
  * utility global function 
  * @param BaseController $ctrl 
@@ -206,8 +196,6 @@ function igk_db_insertc(BaseController $ctrl, $entries)
     // return igk_db_insert($ctrl, $ctrl->getDataTableName(), $entries, null);
 }
 
-///<summary> shortcut to add multiple entries on the table</summary>
-///<param name="strict"> add stop if error dected</param>
 /**
  *  shortcut to add multiple entries on the table
  * @param mixed $strict  add stop if error dected
@@ -225,8 +213,6 @@ function igk_db_inserts($ad, $table, $entries, $strict = 1)
 }
 
 
-///<summary></summary>
-///<remark>if entrie is a std class the reponds will have a clid updated </remark>
 /**
  * @deprecated use model entry class
  */
@@ -248,10 +234,6 @@ function igk_db_insert($controllerOrAdpaterName, $table, $entries, $dbname = nul
     return null;
 }
 
-///<summary></summary>
-///<summary></summary>
-///<param name="ctrl"></param>
-///<param name="leaveopen" default="false"></param>
 /**
  * 
  * @param mixed $ctrl 
@@ -273,8 +255,6 @@ function igk_db_last_id($ctrl, $leaveopen = false)
     return null;
 }
 
-///<summary></summary>
-///<param name="groups"></param>
 /**
  * 
  * @param mixed $groups 
@@ -300,8 +280,6 @@ function igk_db_init_auths($auths)
 }
 
 
-///<summary>grant system authorisation</summary>
-///<exemple>igk_db_grant('sys://drop', 'root')</exemple>
 /**
  * grant system authorisation
  */
@@ -328,9 +306,6 @@ function igk_db_grant($authname, $groupname, $access = 1, $ctrl = null)
 }
 
 
-///<summary></summary>
-///<param name="tb"></param>
-///<param name="dataobj" default="null"></param>
 /**
  * 
  * @param mixed $tb 
@@ -353,7 +328,6 @@ function igk_db_create_obj_from_infokey($tb, $dataobj = null)
     return null;
 }
 
-///<summary>return column info association keys</summary>
 /**
  * return column info association keys
  * @deprecated
@@ -372,8 +346,6 @@ function igk_db_column_info($db, $tablename, &$autoinc = null)
 }
 
 
-///<summary></summary>
-///<param name="ctrlorName"></param>
 /**
  * 
  * @param mixed $ctrlorName 
@@ -384,7 +356,6 @@ function igk_db_close($ctrlorName)
     if ($apt)
         $apt->close(false);
 }
-///<summary>close adapter</summary>
 /**
  * close adapter
  */

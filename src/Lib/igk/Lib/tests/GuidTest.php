@@ -9,7 +9,6 @@ namespace IGK\Tests;
 use IGK\System\Regex\RegexConstant;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests

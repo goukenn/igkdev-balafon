@@ -7,7 +7,6 @@ namespace IGK\System\Http;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http

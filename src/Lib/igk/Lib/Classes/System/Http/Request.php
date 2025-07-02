@@ -15,7 +15,6 @@ use IGK\System\IInjectable;
 use IGK\System\Security\Web\Traits\ContentSecurityManagementTrait;
 use IGKException;
 
-///<summary>request </summary>
 /**
  * 
  * @package IGK\System\Http
@@ -157,7 +156,6 @@ class Request implements IInjectable, IContentSecurityProvider
         return $this->m_params;
     }
 
-    ///<summary>base request instance</summary>
     /**
      * base request instance
      * @return  Request

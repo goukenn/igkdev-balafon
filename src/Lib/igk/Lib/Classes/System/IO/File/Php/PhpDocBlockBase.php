@@ -5,7 +5,6 @@
 namespace IGK\System\IO\File\Php;
 
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\File\Php

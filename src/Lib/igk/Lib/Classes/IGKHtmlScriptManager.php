@@ -4,8 +4,6 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
-///<summary>Represente class: IGKHtmlScriptManager</summary>
-
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlScriptNode;
@@ -22,8 +20,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     const TEMPORARY_SCRIPT=6;
     private $_f;
     private $m_scripts = [];
-    ///<summary></summary>
-    ///<param name="owner"></param>
     /** 
     * @param mixed $owner
     */
@@ -54,7 +50,6 @@ final class IGKHtmlScriptManager extends IGKObject {
             }
         });
     }
-    ///<summary>display value</summary>
     /**
     * display value
     */
@@ -62,7 +57,6 @@ final class IGKHtmlScriptManager extends IGKObject {
         return get_class($this);
     }
     ///clear cache if script not loaded correctly
-    ///<summary>register script to script manager</summary>
     /**
     * register script to script manager
     * @param string $file server script file
@@ -78,21 +72,18 @@ final class IGKHtmlScriptManager extends IGKObject {
         }
         return $s["item"]; 
     } 
-    ///<summary>clear loaded script</summary>
     /**
     * clear loaded script
     */
     public function Clear($tag=null){
         throw new NotImplementException(__METHOD__);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function Flags(){
         return $this->_f;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -100,9 +91,6 @@ final class IGKHtmlScriptManager extends IGKObject {
         igk_trace();
         throw new NotImplementException(__METHOD__);
     }    
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="default" default="null"></param>
     /**
     * 
     * @param mixed $n
@@ -112,16 +100,12 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function getFlag($n, $default=null){
         return $this->_f->getFlag($n, $default);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getManager(){
         return $this->getFlag(self::MANAGER_FLAG);
     }
-    ///<summary>merge all required scripts</summary>
-    ///<param name="zip">get or set if required minification</param>
-    ///<param name="files" ref="true">will recieve all merged scripts</param>
     /**
     * merge all required scripts
     * @param mixed $zip get or set if required minification
@@ -131,15 +115,12 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function getMergedContent($zip=0, & $files=null){
         throw new IGKException(__METHOD__. " Not implement");
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getNode(){
         return $this->getFlag(self::JSMAN_NODE);
     }
-    ///<summary></summary>
-    ///<param name="tab" default="null"></param>
     /**
     * 
     * @param mixed $tab the default value is null
@@ -154,8 +135,6 @@ final class IGKHtmlScriptManager extends IGKObject {
         // }
         // return $o;
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
     /**
     * 
     * @param mixed $file
@@ -167,7 +146,6 @@ final class IGKHtmlScriptManager extends IGKObject {
             return $this->$tasc[$file];
         return null;
     }
-    ///<summary>return document tempory script</summary>
     /**
     * return document tempory script
     */
@@ -179,7 +157,6 @@ final class IGKHtmlScriptManager extends IGKObject {
         }
         return $c;
     }
-    ///<summary>get if this script file is loaded to the document</summary>
     /**
     * get if this script file is loaded to the document
     */

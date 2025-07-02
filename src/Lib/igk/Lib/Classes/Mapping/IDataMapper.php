@@ -5,7 +5,6 @@
 namespace IGK\Mapping;
 
 
-///<summary>use to map key value to [new_key, value]</summary>
 /**
 * use to map key value to [new_key, value]
 * @package IGK\Mapping

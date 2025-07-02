@@ -15,7 +15,6 @@ use IGK\System\Database\MigrationHandler;
 use IGKAppSystem;
 use IGKSysUtil;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands\Projects

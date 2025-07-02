@@ -7,7 +7,6 @@ namespace IGK\Models;
 
 use IGK\Models\ModelBase;
 
-///<summary>Store guid on db for living purpose. link to change password for exemple.</summary>
 /**
 * Store guid on db for living purpose. link to change password for exemple.
 * @package IGK\Models

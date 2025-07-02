@@ -4,7 +4,11 @@
 // @date: 20230302 12:55:00
 // @desc: string method helpers
 use IGK\Helper\StringUtility as stringUtility;
-
+use IGK\System\Console\Logger;
+use IGK\System\Text\RegexDetectBuffer;
+use IGK\System\Text\RegexDetectHandler;
+use IGK\System\Text\RegexMatcherContainer;
+use IGK\System\Text\RegexMatcherUtility;
 
 if (!function_exists('igk_str_add_suffix')){
     function igk_str_add_suffix(string $content, string $suffix, bool $check=true):string{
@@ -48,7 +52,6 @@ if (!function_exists('igk_str_preg_replace_assoc_array')) {
 }
 
 
-///<summary>shortcut to string ::Format method helper</summary>
 /**
  * shortcut to string ::Format method helper
  * @param string $data format key
@@ -115,11 +118,6 @@ if (!function_exists('igk_str_insert')) {
     // {
     //     return substr($str, 0, $start_index) . $content . substr($str, $start_index);
     // }
-    ///<summary></summary>
-    ///<param name="glue"></param>
-    ///<param name="text"></param>
-    ///<param name="start"></param>
-    ///<param name="offset" default="null"></param>
     /**
      * 
      * @param mixed $glue string to insert 
@@ -225,4 +223,70 @@ if (!function_exists('igk_str_repeat_callback')){
         }
         return $s;
     }
+}
+
+
+
+if (!function_exists('igk_str_rm_php_csharp_summary')){
+function igk_str_rm_php_csharp_summary(string $src){
+ 
+$regex = new RegexMatcherContainer;
+
+$regex->autoStore = false;
+$sub = $regex->begin('<([a-zA-Z][a-zA-Z0-9\-:]*)', '\/>|<\/\\1\\s*>', 'sub')->last();
+$inner = $regex->begin('>','(?=<)', 'inner-sub')->last();
+
+$regex->autoStore = true;
+$regex->appendStringDetection('string', true);
+$regex->appendCommentDocBlock();
+RegexMatcherUtility::appendPhpHereDoc($regex);
+
+ 
+$stop = $regex->createPattern(['match'=>'^\\s*[^\/\\s]+', 'tokenID'=>'ugly-line']);
+
+$regex->match('<\?php(\\s*|$)', 'php-start');
+$regex->match('\?>', 'php-end');
+
+$inner->patterns = [
+    $sub,
+    $stop
+];
+// $g = $regex->begin('\/\/\/\\s*<([a-zA-Z][a-zA-Z0-9\-:]*)', '(?=^\\s*[^\/])|\/>|<\/\\1\\s*>(\\s*|$)', 'summary-start')->last();
+$g = $regex->begin('(?:^\\s*|(?<=[^\/]))\/\/\/\\s*<([a-zA-Z][a-zA-Z0-9\-:]*)', '\/>|<\/\\1\\s*>(\\s*|$)', 'summary-start')->last();
+$g->patterns = [
+    $inner,
+    $stop
+];
+ 
+$buffer = new RegexDetectBuffer;
+$buffer->source = $src;
+$inf =(object)['start'=>false];
+(new RegexDetectHandler($regex))->detect(
+    $src,
+    function (
+        $e
+    ) use ($buffer, $inf) {
+        igk_is_debug() && Logger::info('tokenID:'.$e->tokenID);
+        // if ('ugly-line'==$e->tokenID){
+        //     Logger::print($e->value. ' capture: '. strlen($e->beginCaptures[0][0]));
+        // }
+        if ($inf->start && ($e->tokenID == 'summary-start')) {
+            // echo ' :::: '.$e->getisEnd() ;
+            if ($e->getisEnd()){
+            // IGK\System\Console\Logger::print($e->value);
+            $buffer->replace($e);
+            }
+        }
+    }, function($g)use($inf){ 
+        if ($g->match->tokenID=='php-start'){
+            $inf->start = true;
+        }
+        if ($g->match->tokenID=='php-end'){
+            $inf->start = false;
+        }
+    }
+);
+
+return $buffer->output();
+}
 }

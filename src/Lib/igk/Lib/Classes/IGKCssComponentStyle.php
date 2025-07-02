@@ -16,7 +16,6 @@ final class IGKCssComponentStyle extends IGKObject{
     private function __construct(){
         $this->m_loadedStyles=array();
     }
-    ///<summary></summary>
     public static function getInstance(){
         $k=igk_get_instance_key(__CLASS__);
         $v=igk_app()->session->getParam($k);
@@ -26,7 +25,6 @@ final class IGKCssComponentStyle extends IGKObject{
         }
         return $v;
     }
-    ///<summary>create a register file</summary>
     public function regFile($file, $host=null){
         if(!igk_io_file_exists($file))
             return null;

@@ -6,7 +6,6 @@ namespace IGK\System\Http;
 
 use IGK\System\Security\Web\MapContentValidatorBase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http

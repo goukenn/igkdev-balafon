@@ -19,7 +19,6 @@ use ModelBase;
 use function igk_getv as getv;
 use function igk_resources_gets as __;
 
-///<summary>Represente class: IGKSQLDataAdapter</summary>
 /**
 * Represent IGKSQLDataAdapter class
 */
@@ -165,9 +164,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         //+ insert and update function ignored
         return $cl; 
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="entry"></param>
     /**
     * 
     * @param mixed $tbname
@@ -177,7 +173,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createDeleteQuery($tbname, $conditions);		
         return $this->sendQuery($query); 
     }
-    ///<summary>delete all from table</summary>
     /**
     * delete all from table
     */
@@ -185,15 +180,10 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createDeleteQuery($tbname, $condition);		
         return $this->sendQuery($query); 
     }
-    ///<summary>setup manager config for next operation</summary>
     /**
     * setup manager config for next operation
     */
     protected function initConfig(){}
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="values"></param>
-    ///<param name="tableinfo" default="null"></param>
     /**
     * 
     * @param mixed $tbname table name
@@ -207,13 +197,10 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
     }
 
 
-   ///<summary></summary>
-    /**
+   /**
     * 
     */
     public function last_id(){}
-    ///<summary>build and send a mysql select query</summary>
-    ///<param name="options">callback or igk_db_create_opt_obj()</param>
     /**
     * build and send a mysql select query
     * @param mixed $options callback or igk_db_create_opt_obj()
@@ -223,8 +210,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createSelectQuery($tbname, $where, $options);		
         return $this->sendQuery($query, $throwex, $options, $autoclose);   
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
     * 
     * @param mixed $tbname
@@ -233,10 +218,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createSelectQuery($tbname);
         return $this->sendQuery($query, $tbname);
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $tbname
@@ -248,11 +229,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
             return $this->sendQuery($query, $tbname, $options);
         }
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="entry"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="tabinfo" default="null"></param>
     /**
     * 
     * @param mixed $tablename

@@ -18,7 +18,6 @@ use IGK\System\IO\Path;
 use IGK\System\WinUI\Forms\FormValidationData;
 use Logger;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Winui\FormValidation

@@ -19,7 +19,6 @@ use IGKException;
 
 
 
-///<summary></summary>
 /**
  * extract definitio beetween begin/end definition 
  * @package IGK\System\Text
@@ -326,7 +325,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                             $offset = $compared_end->pos;
                             array_unshift($tabinfo, $compared_end);
                             continue 2;
-                        }
+                        } 
+
                         // update next offset 
                         $offset = $n;
                         $v_tvalue = substr($source, $info->pos, $n - $info->pos);
@@ -393,7 +393,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         // + | logic to treat match patterns  - normally not treated treat to patterns
                         // + | require engine treatment listener 
                         $inf = $this->m_engine_treatement_info;
-                        if ($inf->type = 'treat') {
+                        // + | condition missing or equal 
+                        if ('treat' == $inf->type) {
                             list($callable, $end_token_id) = igk_extract($inf, 'callable|end_token_id');
                             $g = new static;
                             $g->m_matcher = $k->patterns;
@@ -625,10 +626,18 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $end_line = preg_match(self::REGEX_END_LINE, $regex) > 0;
         $result = [];
         $tab = [];
-        //$regex = empty($regex)?'/$/':$regex;
-        if (preg_match($regex, $source, $tab, PREG_OFFSET_CAPTURE, $offset)) {
-            $result[] = $tab;
+        //$regex = empty($regex)?'/$/':$regex 
+         $error = preg_last_error_msg();
+         if ($offset<strlen($source)){
+        if (false !== (preg_match($regex, $source, $tab, PREG_OFFSET_CAPTURE, $offset))) {
+            if (!empty($tab)){
+                $result[] = $tab;
+            }
+        } else {
+            $error = preg_last_error_msg(); 
+            igk_die(implode("\n", ['regex - produce ', $error]));            
         }
+    }
         $tab = [];
         $TLen = strlen($source);
         $next_line = $offset < $TLen ? strpos($source, "\n", $offset) : false;
@@ -679,6 +688,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         // compare result
         if ($result) {
             usort($result, function ($a, $b) {
+                if (!key_exists(0, $a)){
+                    igk_wln_e('failed');
+                }
                 return $a[0][1] <=> $b[0][1];
             });
             return $result[0];
@@ -1088,12 +1100,18 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     /**
      * append string detection on top level pattern
      * @param string $tokenID 
+     * @param bool $escaped 
      * @return $this 
      * @throws IGKException 
      */
-    public function appendStringDetection($tokenID = 'string')
+    public function appendStringDetection($tokenID = 'string', bool $escaped=false)
     {
-        $this->begin("(\"|')", "\\1", $tokenID);
+        $l = $this->begin("(\"|')", "\\1", $tokenID)->last();
+        if($escaped){
+            $l->patterns = [
+                $this->createPattern(['match'=>'\\\\.'])
+            ];
+        }
         return $this;
     }
     /**

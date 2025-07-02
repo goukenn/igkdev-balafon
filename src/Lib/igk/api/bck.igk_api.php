@@ -17,14 +17,12 @@ use IGK\System\Html\HtmlReader;
 define("IGK_API_CTRL", "API");
 define("IGK_API_VERSION", "1.0.0.0");
 define("IGK_API_URI", "^/api/v2");
-///<summary>Represente class: IGKApiFunctionCtrl</summary>
 /**
  * Represent IGKApiFunctionCtrl class
  */
 final class ApiFunctionController extends ApplicationController
 {
     public $message = array();
-    ///<summary></summary>
     /**
      * 
      */
@@ -49,8 +47,6 @@ final class ApiFunctionController extends ApplicationController
         $node->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="cmd" default="null"></param>
     /**
      * argument
      * @param mixed $cmd the default value is null
@@ -187,7 +183,6 @@ final class ApiFunctionController extends ApplicationController
         }
         return igk_exit();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -202,7 +197,6 @@ final class ApiFunctionController extends ApplicationController
         igk_exit();
     } 
 
-    ///<summary></summary>
     /**
      * check if this controller allow view
      */
@@ -210,7 +204,6 @@ final class ApiFunctionController extends ApplicationController
     {
         return false;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -218,7 +211,6 @@ final class ApiFunctionController extends ApplicationController
     {
         return IGK_API_CTRL;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -226,7 +218,6 @@ final class ApiFunctionController extends ApplicationController
     {
         return IGK_API_URI . IGK_REG_ACTION_METH;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -234,8 +225,6 @@ final class ApiFunctionController extends ApplicationController
     {
         return IGK_API_VERSION;
     }
-    ///<summary></summary>
-    ///<param name="function"></param>
     /**
      * 
      * @param mixed $function
@@ -244,7 +233,6 @@ final class ApiFunctionController extends ApplicationController
     {
         return true;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -268,7 +256,6 @@ final class ApiFunctionController extends ApplicationController
 
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -286,8 +273,6 @@ final class ApiFunctionController extends ApplicationController
         $node->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="cmd" default="null"></param>
     /**
      * 
      * @param mixed $cmd the default value is null

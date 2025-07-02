@@ -7,7 +7,6 @@ namespace IGK\System\Caches;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Caches

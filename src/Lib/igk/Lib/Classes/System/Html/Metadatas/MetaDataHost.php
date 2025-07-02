@@ -8,7 +8,6 @@ use IGKEvents;
 use IGKException;
 use IGKHtmlDoc;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Metadatas

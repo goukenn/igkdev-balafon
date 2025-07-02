@@ -2,7 +2,6 @@
 // @author: C.A.D. BONDJE DOUE
 // @date: 20220601 15:03:27
 
-///<summary>Html - core components</summary>
 /**
 * Html - core components
 * @method self a($href= '#', $attributes= null, $index= null) create winui-a

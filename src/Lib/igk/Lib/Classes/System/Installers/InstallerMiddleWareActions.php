@@ -9,7 +9,6 @@ namespace IGK\System\Installers;
 use IGK\System\Http\AcceptMimeTypes;
 
 use function igk_resources_gets as __;
-///<summary>Installer middleware storage</summary>
 /**
 * Installer middel ware storage
 */
@@ -30,7 +29,6 @@ class InstallerMiddleWareActions{
      * @var bool 
      */
     var $fromUpload;
-    ///<summary></summary>
     /**
     * 
     */
@@ -53,8 +51,6 @@ class InstallerMiddleWareActions{
         }
     }
    
-    ///<summary></summary>
-    ///<param name="middle"></param>
     /**
     * 
     * @param mixed $middle
@@ -69,7 +65,6 @@ class InstallerMiddleWareActions{
         }
         $this->_list[]=$middle;
     }
-    ///<summary></summary>
     /**
      * is event stream request
     * @return bool
@@ -77,7 +72,6 @@ class InstallerMiddleWareActions{
     public function isEventStream():bool{
         return igk_server()->eventStreamRequest();
     }
-    ///<summary></summary>
     /**
     * 
     * @return mixed
@@ -90,8 +84,6 @@ class InstallerMiddleWareActions{
         }
         return $this->Success;
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     /**
     * 
     * @param mixed $msg

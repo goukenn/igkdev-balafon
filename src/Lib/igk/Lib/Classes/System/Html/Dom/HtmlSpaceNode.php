@@ -5,12 +5,10 @@
 // @desc: 
 
 namespace IGK\System\Html\Dom; 
-///<summary>Represente class: IGKHtmlNoTagNode</summary>
 /**
 * no definition 
 */
 class HtmlSpaceNode extends HtmlNode{
-    ///<summary></summary>
     /**
     * 
     */
@@ -20,7 +18,6 @@ class HtmlSpaceNode extends HtmlNode{
     public function getContent(){
         return "&nbsp;";
     }
-    ///<summary></summary>
     /**
     * 
     */

@@ -7,7 +7,6 @@ namespace IGK\System\Console\Commands\Utils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands\Utils

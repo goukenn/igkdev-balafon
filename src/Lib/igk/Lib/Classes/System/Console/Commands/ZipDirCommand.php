@@ -10,7 +10,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use ZipArchive;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands

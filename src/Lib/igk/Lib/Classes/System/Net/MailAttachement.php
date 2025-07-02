@@ -15,12 +15,10 @@ use IGKObject;
 class MailAttachement extends IGKObject{
     private $m_content;
     var $CID, $ContentType, $Link, $Name, $Type, $Visible;
-    ///<summary></summary>
     public function __construct(){
         $this->ContentType=IGK_CT_PLAIN_TEXT;
         $this->Visible=false;
     }
-    ///<summary></summary>
     public function getContent(){
         return $this->m_content;
     }
@@ -33,8 +31,6 @@ class MailAttachement extends IGKObject{
             $data=igk_io_read_allfile($this->Link);
         return chunk_split(base64_encode($data), 76, IGK_CLF);
     }
-    ///<summary></summary>
-    ///<param name="content"></param>
     public function setContent($content){
         $this->m_content=$content;
         return $this;

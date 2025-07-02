@@ -8,7 +8,6 @@ use IGK\Helper\IO;
 use IGK\Tests\BaseTestCase;
 use IGKHtmlDoc;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Html\Doc

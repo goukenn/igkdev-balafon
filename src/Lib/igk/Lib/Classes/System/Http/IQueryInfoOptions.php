@@ -5,7 +5,6 @@
 namespace IGK\System\Http;
 
 
-///<summary>represent a query option information</summary>
 /**
 * represent a query option information 
 * @package IGK\System\Http

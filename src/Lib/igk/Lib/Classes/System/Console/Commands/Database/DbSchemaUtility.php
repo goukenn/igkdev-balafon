@@ -9,7 +9,6 @@ use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlReaderDocument;
 use IGKException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database

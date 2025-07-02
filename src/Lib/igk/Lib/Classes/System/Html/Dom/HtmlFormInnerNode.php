@@ -12,13 +12,10 @@ namespace IGK\System\Html\Dom;
 
 final class HtmlFormInnerNode extends HtmlNode{
     private $m_form;
-    ///<summary></summary>
-    ///<param name="form"></param>
     public function __construct($form){
         parent::__construct( "igk:form-inner");
         $this->m_form=$form;
     }
-    ///<summary></summary>
     public function getCanRenderTag()
     {
         return false;
