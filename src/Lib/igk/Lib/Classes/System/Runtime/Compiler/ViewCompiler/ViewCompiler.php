@@ -3,7 +3,6 @@
 // @file: ViewCompiler.php
 // @date: 20221024 16:51:12
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use Exception;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
@@ -22,10 +21,7 @@ use IGK\System\Views\ViewCommentArgs;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
-
 require_once __DIR__ . "/helper-functions.php";
-
-
 /**
  * BALAFON VIEW COMPILER
  * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -37,33 +33,27 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     use ViewCompilerReadTryCatch;
     use AttachBlockTrait;
     use ViewReadConditionTrait;
-
     private $m_containers = [];
-
     /**
      * enable cache usage
      * @var bool
      */
     var $forCache;
-
     /**
      * options to poss to view
      */
     var $options;
-
     var $params;
     /**
      * expression regex to handle comment
      * @var string
      */
     var $expression_regex = ViewCommentArgs::COMMENT_EXPRESSION_REGEX;
-
     /**
      * laeve commend regex
      * @var string
      */
     var $expression_use_comment_regex = "/\/\/\s*\+/";
-
     /**
      * represent the token compiler 
      * @var mixed
@@ -74,27 +64,22 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @var bool
      */
     private $m_output = true;
-
     /**
      * 
      * @var bool
      */
     var $documentBuild = false;
-
     /**
      * variables
      * @var mixed
      */
     var $variables = [];
-
     var $flagHandler = null;
-
     /**
      * instruction blocks
      * @var ?ViewInstructionBlock
      */
     var $instruction_blocks;
-
     /**
      * instruction buffer
      * @var string
@@ -105,21 +90,15 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @var string
      */
     var $tab_stop = "    ";
-
     private $top_expression;
-
     private $instruct_flag = false;
-
     private $m_init_variables = [];
-
     private $m_compile_handler;
-
     /**
      * getter expression list.
      * @var array
      */
     private $m_expressions = [];
-
     /**
      * stop strings 
      * @var mixed
@@ -129,7 +108,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         "igk_do_response" => '$__do_response_expression__',
         "eval" => '$__do_eval__'
     ];
-
     /**
      * current block
      * @var ?ViewCompilerBockInfo
@@ -141,15 +119,12 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     const READ_EXPECT_BLOCK_CONTAINER = "expect_block_childs";
     const READ_BLOCK_INSTRUCTION = "handle_instruction";
     const READ_CONDITIONAL_EXPRESSION = "handle_conditional_expression";
-   
     const BLOCK_TRIM_CHAR = ViewCompilerConstants::BLOCK_TRIM_CHAR;
-
     public function __construct()
     {
         // parent::__construct();
         $this->instruction_blocks = new ViewInstructionBlock;
     }
-
     /**
      * evaluate comment with compiler handler
      * @param mixed $data 
@@ -173,14 +148,10 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     {
         return new ViewCompileProcessCommandHandler($this);
     }
-
-
     public function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         if (!$options->struct_info) {
-
             $v_flag = &$options->flag; 
-
             if ($v_flag) {
                 // igk_debug_wln(
                 //     __FILE__.":".__LINE__, 
@@ -201,7 +172,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                 $this->_pushBuffer($options, $options->flagOptions->buffer, self::READ_BLOCK_INSTRUCTION);
                 $this->instruct_flag = true;
             }
-
             switch ($id) {
                 case T_OPEN_TAG:
                     break;
@@ -219,7 +189,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     } else {
                         $this->_handleComment($options, $id, $value);
                     }
-
                     break;
                 case T_START_HEREDOC:
                     $this->instruction_buffer .= $value;
@@ -300,7 +269,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return parent::HandleToken($options, $id, $value);
     }
-
     #block instruction that must end with )
     protected function _readConditionalExpression(ReadTokenOptions $options, ?string $id, string $value){
         $this->_pushFlag($options);
@@ -328,7 +296,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             $options->flagOptions->conditional = true;
             return true;
             //$this->_endSetterVariable($options, $id, $value);
-             
         }
         $fop->buffer .= $value;
         if (($value == ')') && ($fop->depth == $options->depth)){
@@ -369,7 +336,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             $this->_popFlag($options);
         }
         if (!empty($options->buffers)) {
-
             igk_trace();
             print_r($options->buffers);
             igk_wln_e(
@@ -385,11 +351,9 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             //     __FILE__ . ":" . __LINE__,
             //     "::::::::::::::::::::::::::::::::::::::::::::compile__block"
             // );
-
             $sb = new StringBuilder;
             if ($this->forCache) {
                 $header = parent::mergeSourceCode(true);
-
                 if (count($options->exit_detecteds)) {
                     // + | --------------------------------------------------
                     // + | remove last instruction in case of return detected
@@ -397,12 +361,10 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                 }
                 igk_environment()->caching_result = true;
                 ViewCompilerUtility::CompileBlocks($this->instruction_blocks, $sb, $this->options, $header, $this->variables);
-
                 foreach($this->m_expressions as $exp=>$buffer){
                     $sb->replace($exp, $buffer);
                 }
                 $this->m_expressions = [];
-
                 igk_environment()->caching_result = false;
             } else {
                 ViewCompilerUtility::RenderBlock($this->instruction_blocks, $sb);
@@ -429,8 +391,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         if ($flag == self::READ_BLOCK_INSTRUCTION) {
             return $this->_handleInstruction($options, $id, $value);
         }
-
-
         return parent::_handleFlag($options, $id, $value);
     }
     protected function _handleInstruction(ReadTokenOptions $options, ?string $id, string $value): bool
@@ -450,7 +410,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         } 
         return false;
     }
-
     private function _appendInstructBuffer()
     {
         $s = &$this->instruction_buffer;
@@ -463,7 +422,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
     }
     #region Expression
-
     /**
      * 
      * @param ReadTokenOptions $options 
@@ -476,7 +434,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      */
     protected function _endReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
-
         /**
          * @var ReadTokenExpressionFlagOptions $fop  
          */
@@ -497,7 +454,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                         $v_eexpress
                     ] = $v_cbuffer;
                     $fop->buffer = $v_eexpress;
-
                 } else {
                     if (!$fop->args_replaced) {
                         $this->_replaceGetterArgs($fop->dependOn, $fop->buffer);
@@ -529,7 +485,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     }
                 }
             }
-
         }
         return true;
     }
@@ -537,18 +492,13 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     {
         if (!$options->struct_info) { 
             $fop = $options->flagOptions;
-
             if ($this->m_end_condiontal){
                 $c = igk_array_last($this->m_end_condiontal);
                 if ($c->handle($options, $id, $value)){
-                  
                     $this->_endReadExpression($options, $id, $value);
                     return true;
                 }
             }
-
-            
-
             if ($id == T_WHITESPACE) {
                 if (!empty($value) && ($value == "\n") && $fop->ignoreDependency) { // possibility to containt white space
                     $value .= $this->_getTabStop($options);
@@ -559,7 +509,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                 if (igk_str_endwith($sb, "<?php") || ($tb && (($i = strrpos($fop->buffer, $tb)) !== false) && (($i + strlen($tb)) == strlen($fop->buffer))))
                     $fop->buffer = $sb . "\n" . $this->_getTabStop($options);
             }
-
             if (($options->heredocFlag) || ($id == T_END_HEREDOC)) {
                 $fop->buffer .= $value;
                 return true;
@@ -593,7 +542,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return parent::_handleReadExpression($options, $id, $value);
     }
-
     private function _replaceGetterArgs($depend, &$buffer)
     {
         foreach (array_keys($depend) as $k) {
@@ -604,9 +552,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             );
         }
     }
-   
     #endregion
-
     #region GLOBAL_VARIABLE
     protected function _readSetterVariable(ReadTokenOptions $options, ?string $id, string $value): bool
     {
@@ -649,7 +595,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     $v = '$' . $name;
                 }
                 $v_buffer .= $v;
-
                 $this->_endSetterVariable($options, $id, $value);
                 // + | expect expression
                 $this->_readExpression($options, '=');
@@ -668,10 +613,8 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
                     $op = $sp . $value . $sp; 
                     // + | Important cause the variable detection to build view                         
                     $v = ViewTokenizeArgConstants::SETTER_VAR . '[\'' . $name . '\']' . $op;
-                    
                     $v_buffer .= $v;
                     $this->_endSetterVariable($options, $id, $value);
-                   
                     // + | expect expression
                     $this->_readExpression($options, ":var");
                     return true;
@@ -691,9 +634,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         return true;
     }
     #endregion
-
     #region BLOCK
-
     protected static function IsBlockCase($id): bool
     {
         switch ($id) {
@@ -761,7 +702,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         // }
         // return true;
     }
-
     protected function _handleReadBlock(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $v_block = $this->m_block;
@@ -890,7 +830,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         return true;
     }
     #endregion
-
     /**
      * 
      * @param array $files 
@@ -915,7 +854,6 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         if (!$this->m_output) return null;
         if ($this->documentBuild) {
             $doc = IGKHtmlDoc::CreateDocument("compiled-document");
-
             return $doc->render();
         }
         return parent::mergeSourceCode($header);

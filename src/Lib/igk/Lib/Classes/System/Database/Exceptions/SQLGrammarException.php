@@ -3,10 +3,8 @@
 // @file: SQLGrammarException.php
 // @date: 20240908 11:10:28
 namespace IGK\System\Database\Exceptions;
-
 use IGKException;
 use Throwable;
-
 /**
 * 
 * @package IGK\System\Database\Exceptions

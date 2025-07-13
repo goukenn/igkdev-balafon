@@ -7,12 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Resources\R;
 use IGKEvents;
-
 final class HtmlDialogFrameNode extends HtmlNode{
     private $m_Box, $m_BoxContent, $m_Height, $m_Title, $m_Width, $m_callbackMethod, $m_closeBtn, $m_closeCallBackEvent, $m_closeMethodUri, $m_closeUri, $m_form, $m_framectrl, $m_id, $m_owner, $m_reloadcallbackMethod, $m_script;
     protected function _acceptRender($options = null):bool{

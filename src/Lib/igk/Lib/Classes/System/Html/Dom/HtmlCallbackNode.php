@@ -8,9 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 use IGKOb;
-
 /** @package  */
 final class HtmlCallbackNode extends HtmlNode{
     var $callback;

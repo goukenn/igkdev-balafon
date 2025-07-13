@@ -3,10 +3,7 @@
 // @filename: HtmlUtils.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use Closure;
 use Countable;
 use IGK\Helper\StringUtility as IGKString;
@@ -28,13 +25,9 @@ use Nette\Utils\Callback;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
-
 use function igk_resources_gets as __;
-
-
 require_once IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
-
 /**
  * represent html utility
  */
@@ -82,7 +75,6 @@ abstract class HtmlUtils extends DomNodeBase
     {
         return HtmlNodeTagExplosionDefinition::ExplodeTag($tagname, $context);
     }
-
     /**
      * helper: special entitiel encoding 
      * @param string $value 
@@ -96,7 +88,6 @@ abstract class HtmlUtils extends DomNodeBase
     {
         return (new AttributeEncoder)->decode($value);
     }
-
     /**
      * create a select option data
      */
@@ -110,7 +101,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $n;
     }
-
     public static function HostNode(HtmlNode $p, callable $callback, ...$args)
     {
         array_unshift($args, $p);
@@ -237,7 +227,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return null;
     }
-
     /**
      * get full query ars
      * @param string $uri 
@@ -295,7 +284,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return self::GetGeneratedTagname($node);
     }
-
     public static function GetAttributeArrayToString($attribs)
     {
         $o = "";
@@ -307,7 +295,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return ltrim($o);
     }
-
     private static $gRendering;
     /**
      * 
@@ -398,7 +385,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return null;
     }
-
     /**
      * 
      * @param mixed $tr
@@ -452,7 +438,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $frm;
     }
-
     ///used to create sub menu in category
     /**
      */
@@ -748,15 +733,12 @@ abstract class HtmlUtils extends DomNodeBase
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
     {
         static $createComponentFromPackage = null, $creator = null, $initiator = null;
-
         // + | -----------------------------------------------------------------------
         // + | prefilter component creation
         // + |
-
         if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))) {
             return $p;
         }
-
         if ($initiator == null) {
             $initiator = igk_environment()->createArray(IGKEnvironmentConstants::COMPONENT_INITIATORS);
         }
@@ -828,7 +810,6 @@ abstract class HtmlUtils extends DomNodeBase
             return $comp;
         }
         $c = null;
-
         // + | check for function 
         if (function_exists($fc = str_replace("-", "_", IGK_FUNC_NODE_PREFIX . $name))) {
             $s = new ReflectionFunction($fc);
@@ -865,7 +846,6 @@ abstract class HtmlUtils extends DomNodeBase
                                     "args" => $tb
                                 ]));
                             }
-
                             self::FilterNode($c,  [
                                 "node" => $c,
                                 "tagname" => $name,
@@ -909,7 +889,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $c;
     }
-
     /**
      * filter node element hook call.
      * @param HtmlItemBase $node 
@@ -954,8 +933,6 @@ abstract class HtmlUtils extends DomNodeBase
         CssUtils::InitSysTheme($vsystheme);
         $vsystheme->Name = "igk_system_theme";
     }
-
-
     public static function SkipAdd($value = 1)
     {
         if ($p = igk_html_parent_node()) {
@@ -980,7 +957,6 @@ abstract class HtmlUtils extends DomNodeBase
     {
         return preg_match("#\<(?P<tagname>[\w][0-9_\-\w:]*)( (.+)?)?>#", $content);
     }
-
     /**
      * BindRows 
      * @param mixed $table HtmlNode

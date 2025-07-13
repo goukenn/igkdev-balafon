@@ -3,10 +3,8 @@
 // @file: AdminDashboardLoginTrait.php
 // @date: 20230617 13:50:29
 namespace IGK\Actions\Traits;
-
 use IGK\System\Http\Request;
 use IGKException;
-
 /**
 * 
 * @package IGK\Actions\Traits

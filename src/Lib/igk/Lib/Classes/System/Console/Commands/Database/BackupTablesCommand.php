@@ -3,7 +3,6 @@
 // @file: BackupTablesCommand.php
 // @date: 20241004 09:10:06
 namespace IGK\System\Console\Commands\Database;
-
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
@@ -13,7 +12,6 @@ use IGK\System\Database\Import\DbModelImporterMap;
 use IGK\System\IO\Path;
 use IGK\System\IToArray;
 use IGK\System\Regex\Replacement;
-
 /**
  * 
  * @package IGK\System\Console\Commands\Database
@@ -26,7 +24,6 @@ class BackupTablesCommand extends AppExecCommand
 	var $options = ['--restore' => 'flag to be in restore mode'];
 	var $category = 'db';
 	var $usage = 'controller outdir [options]';
-
 	public function prefixHandler(string $back_name, ?array $attr=null){
 		$regex = new Replacement;
 		$regex->add("/%d/", date('Ymd'));
@@ -40,7 +37,6 @@ class BackupTablesCommand extends AppExecCommand
 		$_is_debug = igk_is_debug();
 		$restore_mode = property_exists($command->options, '--restore');
 		$path = $outdir ?? Path::Combine(getcwd(), $this->prefixHandler('backup_%d_%n',['n'=>$ctrl->getName()])); 
-
 		if ($tables = $ctrl->getDbDefinitionTables()) {
 			$ad = $ctrl->getDataAdapter();
 			IO::CreateDir($path);

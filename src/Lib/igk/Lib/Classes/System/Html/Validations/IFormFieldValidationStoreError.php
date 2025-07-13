@@ -3,8 +3,6 @@
 // @file: IFormFieldValidationStoreError.php
 // @date: 20241108 16:28:08
 namespace IGK\System\Html\Validations;
-
-
 /**
 * 
 * @package IGK\System\Html\Validations
@@ -17,7 +15,6 @@ interface IFormFieldValidationStoreError{
      * @return void 
      */
     function setError($error):void;
-
     /**
      * 
      * @return mixed 

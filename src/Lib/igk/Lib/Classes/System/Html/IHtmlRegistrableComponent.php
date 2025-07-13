@@ -3,12 +3,9 @@
 // @file: IHtmlRegistrableComponent.php
 // @date: 20230307 07:19:38
 namespace IGK\System\Html;
-
-
 /**
 * 
 * @package IGK\System\Html
 */
 interface IHtmlRegistrableComponent{
-
 }

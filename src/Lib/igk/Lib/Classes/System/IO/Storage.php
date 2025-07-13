@@ -3,10 +3,7 @@
 // @filename: Storage.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\IO;
-
 /**
  * represet abstract storage 
  * @package IGK\System\IO
@@ -24,7 +21,6 @@ abstract class Storage{
      * @return mixed 
      */
     public abstract function get($path) : ?object;
-
     /**
      * unlink path in 
      * @return mixed 

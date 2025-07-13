@@ -7,11 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
-
-
 final class HtmlNSValueAttribute implements IHtmlGetValue{
     private $m_n, $m_ns;
     public function __construct($n, $ns){

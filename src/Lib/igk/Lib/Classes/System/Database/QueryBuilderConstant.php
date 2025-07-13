@@ -3,9 +3,7 @@
 // @filename: QueryBuilderConstant.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Database;
-
 /**
  * define use query builder constant
  * @package IGK\System\Database

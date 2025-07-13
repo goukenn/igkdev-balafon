@@ -3,14 +3,10 @@
 // @filename: UriHelper.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Helper;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGKException;
-
 abstract class UriHelper{
     const URI_SYS_REPLACE = "base|base_config";
     /**

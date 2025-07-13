@@ -3,10 +3,7 @@
 // @filename: SchemaChangeColumnMigration.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Database;
-
 use Exception;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
@@ -15,15 +12,12 @@ use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
-
 class SchemaChangeColumnMigration extends SchemaMigrationItemBase
 {
     protected $fill_properties = ["table", "column", 'tag'];
     // source column to restore
     var $columnInfo;
     private $columns;
-
-
     public function __construct($migrations)
     {
         parent::__construct($migrations);
@@ -44,7 +38,6 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             return;
         }
         $table  = $this->table;
-
         // if ('clUser_Id' == $this->columnInfo->clName){
         //     Logger::warn(__FILE__.":".__LINE__ . " change ... ");
         // }
@@ -54,15 +47,12 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
         // $tinfo = DbSchemas::GetTableRowReference($tb, $ctrl);
         $migration = $this->getMigration();
         $cinfo = $this->columns[0];
-
         if (empty($cinfo->clName))
             $cinfo->clName = $this->column;
-
         if (empty($cinfo->clName)) {
             igk_die('missconfiguration. change column migration missing column name ' . $tb);
         }
         $v_column = $this->column;
-
         if (($mig = $migration->migrationListener) instanceof ISchemaMigrationInfoListener){
             // treat info 
             // 
@@ -72,19 +62,14 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
             $cinfo->clName = Database::AutoPrefixColumn($cinfo->clName, $v_prefix);
             if($link = $cinfo->clLinkColumn){
                 $ltab = $mig->getTableSchemaFileDefinition($cinfo->clLinkType);
-
                 if ($prefix = igk_getv($ltab, 'prefix', '')){
                     $link = Database::AutoPrefixColumn( $link, $prefix); 
                 }
                 $cinfo->clLinkColumn = $link;
             }
             $v_column = Database::AutoPrefixColumn($v_column, $v_prefix);
-
         }
-
         // treat column info defintion ; cause of prefix attached to table 
-
-
         try {
             if ($cinfo->clName != $v_column) {
                 // rename first 
@@ -108,7 +93,6 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl::db_change_column($tb, $this->columnInfo);
     }
-
     /**
      * load child definitions 
      * @param mixed $childs 

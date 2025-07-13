@@ -3,10 +3,7 @@
 // @filename: WebFileResponse.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 /**
  * use to response with file
  * @package IGK\System\Http
@@ -22,7 +19,6 @@ class WebFileResponse extends RequestResponse{
      * @var mixed
      */
     var $zip;
-
     /**
      * define the variable charset
      * @var mixed
@@ -33,13 +29,11 @@ class WebFileResponse extends RequestResponse{
      * @var null|string
      */
     var $content_type;
-
     /**
      * cache output 
      * @var int?
      */
     var $cache;
-
     public function __construct(string $file, ?string $content_type=null)
     {
         $this->file = $file;
@@ -69,7 +63,6 @@ class WebFileResponse extends RequestResponse{
             $this->headers[] = ("Pragma: cache");
             $this->headers[] = ("Cache-Control: max-age={$second}, public, immutable");
         }
-
         if ($type = igk_io_path_ext($this->file)){
             // replace header from mime type 
             $mime = igk_header_mime();

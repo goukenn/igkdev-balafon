@@ -3,13 +3,10 @@
 // @filename: HtmlResolvLinkValue.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Html;
-
 use IGK\System\Html\IHtmlGetValue;
 use IGKResourceUriResolver;
 use IGKValidator;
-
 class HtmlResolvLinkValue extends HtmlAttributeValue implements IHtmlGetValue {
     public function getValue($options = null) { 
         if (($lnk = $this->value) && is_string($lnk)) {

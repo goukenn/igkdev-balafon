@@ -3,11 +3,7 @@
 // @filename: AppCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
-
 namespace IGK\System\Console;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -22,11 +18,8 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKEvents;
 use ReflectionClass;
 use ReflectionException;
-
 require_once(__DIR__."/AppCommandConstant.php");
-
 abstract class AppCommand {
-
     const ENV_KEY = "balafon/command_args";
     const OPTIONS_TAB_SPACE = "\r\t\t\t\t";
     const INIT_COMMAND_METHOD = 'InitCommand';
@@ -35,37 +28,31 @@ abstract class AppCommand {
      * @var mixed
      */
     var $command;
-
     /**
      * register callable
      * @var mixed
      */
     var $callable;
-
     /**
      * register description
      * @var mixed
      */
     var $desc;
-
     /**
      * define the command category
      * @var mixed
      */
     var $category;
-
     /**
      * array of options
      * @var mixed
      */
     var $options;
-
     /**
      * define the command usage
      * @var mixed
      */
     var $usage;
-    
     var $app;
     /**
      * show command usage
@@ -112,9 +99,7 @@ abstract class AppCommand {
     public static function GetCommands(){
         static $loaded_command = null;
         if ($loaded_command === null){
-
             $loaded_command = [];
-
             foreach(get_declared_classes() as $cl){
                 if ($cl == BalafonCLICommand::class){
                     continue;
@@ -125,7 +110,6 @@ abstract class AppCommand {
                         if (method_exists($cl, self::INIT_COMMAND_METHOD)){
                             call_user_func_array([$cl, self::INIT_COMMAND_METHOD],[]);
                         }   
-
                         $b = new $cl();
                         if (empty($b->command)){
                             die("command : ".$cl. " not specified");
@@ -135,7 +119,6 @@ abstract class AppCommand {
                 }
             }
             if (file_exists($file = AppCommandConstant::GetCacheFile())){
-                
                 $list = include($file);
                 // - init module
                 $mod = igk_get_modules();
@@ -254,7 +237,13 @@ abstract class AppCommand {
                 }
                 $oc.=":".App::Gets($cl,  $s);
             }
+            if (is_array($v)){
+                ksort($v);
+                $v = "\n\n".implode("\n", array_map(function($i, $k){
+                    return $k.self::OPTIONS_TAB_SPACE.$i;
+                }, $v, array_keys($v)));
 
+            }
             Logger::print( $oc. self::OPTIONS_TAB_SPACE. "{$v}". PHP_EOL); 
         }
         Logger::print("");
@@ -292,14 +281,9 @@ abstract class AppCommand {
     public static function CreateOptionsCommandFrom($command, ?array $options=null){
         $c = (object)$command;
         unset($c->options);
-        
         $tp = $options ?? [];
         $c->options = (object)$tp; 
-        
         $g = Activator::CreateNewInstance(AppCommandOptions::class, $c);
         return $g;
     }
-
-   
-   
 }

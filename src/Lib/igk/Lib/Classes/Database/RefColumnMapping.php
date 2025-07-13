@@ -3,11 +3,9 @@
 // @file: RefColumnMapping.php
 // @date: 20230124 20:34:04
 namespace IGK\Database;
-
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
-
 /**
 * 
 * @package IGK\Database

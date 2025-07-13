@@ -3,8 +3,6 @@
 // @file: IFormFieldFile.php
 // @date: 20241123 09:05:00
 namespace IGK\System\Html\Forms\Validations\Annotations;
-
-
 /**
 * 
 * @package IGK\System\Html\Forms\Validations\Annotations
@@ -15,5 +13,4 @@ namespace IGK\System\Html\Forms\Validations\Annotations;
 * @property ?bool $multiple allow multiple selection
 */
 interface IFormFieldFile{
-
 }

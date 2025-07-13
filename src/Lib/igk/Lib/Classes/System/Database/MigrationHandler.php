@@ -3,7 +3,6 @@
 // @file: MigrationHandler.php
 // @date: 20221112 08:36:25
 namespace IGK\System\Database;
-
 use Error;
 use Exception;
 use IGK\Controllers\BaseController;
@@ -17,7 +16,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlReader;
 use IGKException;
 use ReflectionException;
-
 /**
 * use to run project migration
 * @package IGK\System\Database
@@ -59,12 +57,10 @@ class MigrationHandler{
         $ctrl = $this->m_controller; 
         $migrations = Migrations::select_all(['migration_controller'=>$ctrl->getName()]);
         ArrayUtils::FillKeyWithProperty($migrations, 'migration_name'); 
-
         return [$files, $migrations]; // compact('files','migrations');
     }
     public function getList(){
         list($files, $migrations) = $this->_getProps(); 
-
         $list = [];
         while(count($files)>0){
             $c = array_shift($files);
@@ -84,7 +80,6 @@ class MigrationHandler{
             $list[] = $obj;
         }
         return $list ;
-
     }
     /**
      * 
@@ -96,26 +91,19 @@ class MigrationHandler{
         list($files, $migrations) = $this->_getProps();
         $g = $files;
         $ctrl = $this->m_controller;
-        
-
         while(count($g)>0){
             $c = array_shift($g);
             $migration_name = igk_io_basenamewithoutext($c);
             preg_match(self::match, $c, $tab);
             $nname = $tab['name'];
             if (($name == $nname) || ($name== $migration_name)){
-
                 if (isset($migrations[$migration_name])){
-
                     if ($migrations[$migration_name]->migration_batch){
                         $builder = new SchemaBuilder;
                         $schema = $builder->migrations();
                         self::MigrateFile($c, $ctrl, 'down', $schema);
                         self::_MigrateSchemaBuilder($builder, $this->m_controller);
-
-                       
                     }
-
                     if (($mig = $migrations[$migration_name]) instanceof Migrations){
                         Migrations::delete($mig->clId);
                     }
@@ -136,7 +124,6 @@ class MigrationHandler{
         $ns = $ctrl::ns(EntryClassResolution::DbMigrations);
         $tabcl = get_declared_classes();
         $tabc = count($tabcl);  
-
         preg_match(self::match, $file, $tab);
         $name = $tab['name'];
         self::_GetRealClassName($name, $tabc);          
@@ -201,7 +188,6 @@ class MigrationHandler{
         $ns = $ctrl::ns( EntryClassResolution::DbMigrations);
         $tabcl = get_declared_classes();
         $tabc = count($tabcl);    
-
         $match = self::match;
         $builder = new SchemaBuilder;        
         $schema =  $builder->migrations();
@@ -263,8 +249,6 @@ class MigrationHandler{
             if (!$v_execute){
                 continue;
             }
-
-
             preg_match($match, $c, $tab);
             $name = $tab['name'];
             self::_GetRealClassName($name, $tabc);          
@@ -282,7 +266,6 @@ class MigrationHandler{
                 //+ stop - register register new migration 
                 $v_execute = false;
                 $status = 0;
-            
             }
         }         
         $node = HtmlReader::Load($builder->render(), "xml"); 

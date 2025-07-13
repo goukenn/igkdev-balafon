@@ -2,10 +2,8 @@
 // @author: C.A.D. BONDJE DOUE
 // desc: installer utility class helper
 namespace IGK\System\Installers;
-
 use IGK\System\IO\StringBuilder;
 use IGKException;
-
 final class InstallerUtils
 {
     private function __construct(){        
@@ -41,7 +39,6 @@ final class InstallerUtils
             "{{ @app_config }}"=>self::GetConfigData($options),
             "{{ @project_dir }}"=>igk_getv($options, "project_dir"),
             "{{ @extra_define }}"=> igk_getv($options, "is_primary") ? "" : self::GetExtraDefinition($options),
-
         ] as $k=>$v){
             $src = str_replace($k , $v, $src);
         }
@@ -59,7 +56,6 @@ final class InstallerUtils
     }
     public static function NoAccessDir($dir, $framework_require = 0){
         $src = "<?php\n";
-        
         if ($framework_require){
             $src .= "defined('IGK_FRAMEWORK') || die('access not allowed - framework required');\n";
         } else {

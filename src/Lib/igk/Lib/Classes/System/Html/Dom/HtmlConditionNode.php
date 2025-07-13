@@ -3,11 +3,9 @@
 // @file: HtmlConditionNode.php
 // @date: 20221109 09:21:39
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\RenderingContext;
 use IGK\System\IO\StringBuilder;
-
 /**
 * 
 * @package IGK\System\Html\Dom
@@ -15,7 +13,6 @@ use IGK\System\IO\StringBuilder;
 class HtmlConditionNode extends HtmlNode{
     var $tagname = 'igk:if-condition';
     var $condition; 
-    
     public function setSysAttribute($key, $value, $context = null): bool
     {
         if ($key == 'condition'){
@@ -32,7 +29,6 @@ class HtmlConditionNode extends HtmlNode{
         $src = implode('', array_map(function($a)use($options){
             return HtmlRenderer::Render($a, $options);
         }, $tab));
-
         if ($options && (igk_getv($options,'renderingContext') == RenderingContext::TEMPLATE)){
             $sb = new StringBuilder;
             $sb->append("<".$this->getTagName());

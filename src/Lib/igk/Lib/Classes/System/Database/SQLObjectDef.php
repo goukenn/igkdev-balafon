@@ -4,9 +4,7 @@
 // @date: 20221122 12:39:48
 // @desc: 
 namespace IGK\System\Database;
-
 use IGK\Database\DbColumnInfo;
-
 /**
  * job is to cache definition to send to database 
  * @package IGK\System\Database
@@ -42,7 +40,6 @@ class SQLObjectDef{
                 } 
             }
             $r[$v->clName] = $rvalue; 
-
         }
         return $r;
     }

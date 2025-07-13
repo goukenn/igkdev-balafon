@@ -1,14 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: MaintenanceHelper.php
 // @date: 20220427 14:54:14
 // @desc: maintenance helper
-
 namespace IGK\Helper;
-
 use IGK\System\Installers\InstallerUtils;
-
 /**
  * 
  */
@@ -29,8 +25,7 @@ class MaintenanceHelper
         }
         igk_io_w2file($bdir . "/index.php", igk_io_read_allfile(IGK_LIB_DIR . "/Default/Views/maintenance.mode.phtml"));
         igk_io_w2file(
-            $bdir . "/.htaccess",
-            <<<EOF
+            $bdir . "/.htaccess",<<<EOF
 <IfModule rewrite_module>
 RewriteEngine On
 #redirect all to index.php
@@ -38,8 +33,7 @@ RewriteCond "%{REQUEST_FILENAME}" !-f
 RewriteCond "%{REQUEST_FILENAME}" !-d
 RewriteRule ^(/)?(.)*$  "index.php" [QSA,L]
 </IfModule>
-EOF
-        );
+EOF        );
     }
     /**
      * 
@@ -59,7 +53,6 @@ EOF
                 @rename($k, $v);
             }
         }
-
         $is_primary = dirname(igk_io_applicationdir()) == igk_io_basedir();
         if (!igk_io_file_exists($index = $bdir . "/index.php")){
             // install index file ...
@@ -72,7 +65,6 @@ EOF
                 ])
             );
         }
-
         if (!igk_io_file_exists($h = $bdir . "/.htaccess")){
             // install index file ...
             igk_io_w2file(

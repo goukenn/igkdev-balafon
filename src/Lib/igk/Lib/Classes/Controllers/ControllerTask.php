@@ -3,10 +3,7 @@
 // @filename: ControllerTask.php
 // @date: 20220803 13:48:58
 // @desc: 
- 
-
 namespace IGK\Controllers;
-
 use Exception;
 use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
@@ -16,15 +13,12 @@ use IGK\System\Http\RouteActionHandler;
  * @package IGK\Controllers
  */
 abstract class ControllerTask{
-    
     protected $controller;
-
     /**
      * 
      * @var RouteActionHandler
      */
     protected $route;
-
     public function __construct($controller, ?RouteActionHandler $route=null)
     {
         $this->controller = $controller;
@@ -41,7 +35,6 @@ abstract class ControllerTask{
      * @return mixed 
      */
     abstract function index();
-    
     public function __call($name, $args)
     {
         $n = $name."_".igk_server()->REQUEST_METHOD;
@@ -51,6 +44,4 @@ abstract class ControllerTask{
         array_unshift($args, $name);
         return $this->index(...$args);
     }
-
-
 }

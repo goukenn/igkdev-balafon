@@ -3,13 +3,11 @@
 // @file: MailPreviewNode.php
 // @date: 20250427 08:39:38
 namespace IGK\System\Http\Mail;
-
 use IGK\Css\CssThemeResolver;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Traits\HostableItemTrait;
-
 /**
 * 
 * @package IGK\System\Http\Mail
@@ -31,7 +29,6 @@ class MailPreviewNode extends HtmlNode
         $resolver = new CssThemeResolver;
         $this->m_theme_resolver = $resolver;
     }
-
     public function getRenderedChilds($options = null)
     {
         // convert rendering to view 
@@ -45,9 +42,7 @@ class MailPreviewNode extends HtmlNode
             $theme = $doc->getTheme();
             $resolver->parent = $systheme;
             $resolver->theme = $theme;
-
             $systheme->initGlobalDefinition();
-
             HtmlUtils::CopyNode($mail, $child, function (string $n) use ($options) {
                 return new MailNode(
                     $options,

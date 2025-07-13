@@ -8,10 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Drawing;
-
 use IGK\System\Number;
 use IGKObject;
-
 class Color extends IGKObject{
     private $m_A, $m_B, $m_G, $m_R;
     public function __construct($r, $g, $b, $a){

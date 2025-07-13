@@ -3,9 +3,6 @@
 // @filename: IGKLog.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
 use IGK\Database\DataAdapterBase;
 use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO;
@@ -14,8 +11,6 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
- 
-
 /**
  * Represent IGKLog class
  */
@@ -83,7 +78,6 @@ final class IGKLog extends IGKObject
             return;
         }
         self::$sm_loggin = true;
-
         if (!defined('IGK_NO_TRACELOG')) {
             if (!igk_sys_env_production()) {
                 igk_ilog_trace(igk_trace_function(2 + $traceindex));
@@ -94,9 +88,7 @@ final class IGKLog extends IGKObject
             $tag = IGK_LOG_SYS;
         } 
         $f = self::GetSystemLogFile();
-       
         igk_log_append($f, $msg, $tag);
-        
         if (is_array($msg)) {
             $s = "Array(" . count($msg) . "):[\n";
             foreach ($msg as $k => $v) {
@@ -112,11 +104,9 @@ final class IGKLog extends IGKObject
             $s .= "]";
             $msg = $s;
         }
-        
         if (igk_environment()->isDev()) {
             error_log("[{$tag}] - $msg");
         }
-
         // + | ---------------------------------------------------
         // + | log running data to running app
         // + |

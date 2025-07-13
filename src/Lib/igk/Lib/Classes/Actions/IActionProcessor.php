@@ -3,7 +3,6 @@
 // @filename: IActionProcessor.php
 // @date: 20220601 14:46:55
 // @desc: 
-
 namespace IGK\Actions;
 /**
  * 
@@ -11,5 +10,4 @@ namespace IGK\Actions;
  */
 interface IActionProcessor{
     function getHost();
-
 }

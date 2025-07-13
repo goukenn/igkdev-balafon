@@ -3,11 +3,9 @@
 // @file: ImportDataFileCommand.php
 // @date: 20240918 16:42:02
 namespace IGK\System\Console\Commands\Database;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Import\DbImportFile;
-
 /**
 * 
 * @package IGK\\System\Console\Commands\Database
@@ -38,7 +36,6 @@ class ImportDataFileCommand extends AppExecCommand{
 		$autoregister = property_exists($command->options, '--autoregister');
 		$entry = igk_getv($command->options, '--entry');
 		self::BindUserCommand($ctrl, $command);
-		
 		$model = $ctrl->model($model);
 		if ($model){
 			Logger::info('importing...');
@@ -49,6 +46,5 @@ class ImportDataFileCommand extends AppExecCommand{
 			Logger::danger('missing model');
 		}		
 		return 0;
-
 	}
 }

@@ -3,9 +3,7 @@
 // @file: DbSeedCommand.php
 // @date: 20230509 08:40:53
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
-
 /**
 * 
 * @package IGK\System\Console\Commands

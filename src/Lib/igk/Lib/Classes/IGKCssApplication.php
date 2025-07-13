@@ -3,12 +3,8 @@
 // @filename: IGKCssApplication.php
 // @date: 20220803 13:48:54
 // @desc: 
-
- 
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Diagnostics\Benchmark;
- 
-
 require_once IGK_LIB_CLASSES_DIR ."/IGKCaches.php";
 /**
  * to initialize css application 
@@ -29,7 +25,6 @@ class IGKCssApplication extends IGKApplicationBase
         Benchmark::$Enabled = false;
         require_once IGK_LIB_CLASSES_DIR . "/Css/CssContext.php";     
     }
-
     /**
      * run css application
      * @param string $entryfile 
@@ -39,5 +34,4 @@ class IGKCssApplication extends IGKApplicationBase
     public function run(string $entryfile, $render = 1) {      
         igk_setting()->no_init_controller = igk_io_file_exists(SystemUriActionController::GetCacheFile()); 
     }
-    
 }

@@ -3,14 +3,11 @@
 // @file: TextContentValidator.php
 // @date: 20230303 21:32:26
 namespace IGK\System\Security\Web;
-
-
 /**
 * 
 * @package IGK\System\Security\Web
 */
 class TextContentValidator extends MapContentValidatorBase{
-
     protected function validate(& $value, $key):bool{  
         if ($value){
             // remove transform to html content
@@ -18,5 +15,4 @@ class TextContentValidator extends MapContentValidatorBase{
         }
         return true; 
     }
-
 }

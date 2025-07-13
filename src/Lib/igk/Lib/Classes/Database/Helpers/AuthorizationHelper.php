@@ -3,9 +3,7 @@
 // @file: AuthorizationHelper.php
 // @date: 20250210 16:17:11
 namespace IGK\Database\Helpers;
-
 use IGK\Controllers\BaseController;
-
 /**
 * 
 * @package IGK\Database\Helpers

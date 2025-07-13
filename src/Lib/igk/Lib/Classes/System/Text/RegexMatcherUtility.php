@@ -3,10 +3,8 @@
 // @file: RegexMatcherUtility.php
 // @date: 20241031 17:45:12
 namespace IGK\System\Text;
-
 use IGKException;
 use Exception;
-
 /**
  * regex utility method
  * @package IGK\System\Text
@@ -14,7 +12,6 @@ use Exception;
  */
 abstract class RegexMatcherUtility
 {
-
     /**
      * 
      * @param RegexMatcherContainer $ctn the container
@@ -66,7 +63,6 @@ abstract class RegexMatcherUtility
         });
         return $v;
     }
-
     public static function CodeCommentMatcherReference()
     {
         $ctn = new RegexMatcherContainer;
@@ -74,7 +70,6 @@ abstract class RegexMatcherUtility
         $ctn->begin('\/\*', '\*\/', 'multiline')->last();
         return $ctn;
     }
-
     /**
      * remove comment 
      * @param string $match 
@@ -108,7 +103,6 @@ abstract class RegexMatcherUtility
         $ch .= rtrim(substr($data, $pos, $g->from - $pos));
         $pos = $next_pos;
     }
-
     /**
      * treat begin end capture
      * @param string $source 
@@ -129,7 +123,6 @@ abstract class RegexMatcherUtility
         $n = substr($n, 0, abs($endPos - $offset)) . $end;
         return $n;
     }
-
     /**
      * treat extended 
      * @param string $c 
@@ -149,13 +142,11 @@ abstract class RegexMatcherUtility
         $tload = [];
         array_map(function ($i) use (&$tload) {
             if (preg_match("/^#/", $i)) return; // skip comment
-
             $i = preg_replace("/^\s+\|\s+/", "|", $i);
             $tload[] = $i;
         }, $l);
         return trim(implode('', $tload));
     }
-
     /**
      * match type inclusion
      * @param mixed $k 
@@ -177,11 +168,32 @@ abstract class RegexMatcherUtility
         }
         return $_t;
     }
-
-    public static function appendPhpHereDoc($regex, & $patterns = []){
-        $patterns[] = $regex->begin('<<<[a-zA-Z]([a-zA-Z\-0-9]*)',"^\\1" ,'here-doc')->last();
+    /**
+     * 
+     * @param mixed $regex 
+     * @param array &$patterns 
+     * @return void 
+     */
+    public static function AppendPhpHereDoc($regex, & $patterns = []){
+        $patterns[] = $regex->begin('<<<([a-zA-Z][a-zA-Z\-0-9]*)',"^\\1" ,'here-doc')->last();
         $patterns[] = $regex->begin('<<<\'([a-zA-Z][a-zA-Z\-0-9]*)\'',"^\\1" ,'here-doc')->last();
         $patterns[] = $regex->begin('<<<"([a-zA-Z][a-zA-Z\-0-9]*)"',"^\\1" ,'here-doc')->last();
-
+    }
+    /**
+     * 
+     * @param mixed &$v_plc 
+     * @param IRegexMatcherEndDetectionInfo $e 
+     * @return array 
+     */
+    public static function GetChainUntil(& $v_plc, $e){
+         $chain = [];
+        while (($tc = count($v_plc)) > 0) {
+            if ($v_plc[$tc - 1][0]->from <= $e->from) {
+                break;
+            }
+            $r = array_pop($v_plc);
+            array_unshift($chain, $r);
+        }
+        return $chain;
     }
 }

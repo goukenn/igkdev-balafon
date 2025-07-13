@@ -3,9 +3,7 @@
 // @filename: MYSQLQueryFetchResult.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Database\MySQL;
-
 use Exception;
 use IGK\Database\DbConstants;
 use IGK\Database\DbQueryResult;
@@ -18,7 +16,6 @@ use IGKSorter;
 use IIGKQueryResult;
 use Iterator;
 use ModelBase;
-
 ///<summary>implement fetch result/summary>
 /**
 *  implement fetch result
@@ -40,24 +37,19 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     private $m_model;
     private $m_driver;
     use IteratorTrait;
-
     // public function to_json($option = null, int $flag = 0) { }
-
     public function to_array(): ?array {
         return null;// yield $this->fetch();
     }
     public function generate(){
         return yield $this->fetch();
     }
-
     public function getRowAtIndex($index) { 
         return null;
     }
-
     protected function _iterator_key() { 
         return null;
     }
-
     public function handle($result){
         $this->m_result = $result; 
         $this->m_fieldcount= igk_db_num_fields($result);
@@ -139,14 +131,12 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     public function getQuery(){
         return $this->m_query;
     }
-   
     /**
     * get the type of result. boolean|numeric|db_result
     */
     public function getResultType(){
         return "fetch";
     }   
-  
     /**
     * 
     */
@@ -159,8 +149,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     public function getValue(){
         return $this->m_value;
     }
-    
-   
     /**
      * fetch result
      * @return bool 
@@ -186,7 +174,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
         return $this->m_rowdef !== null;
     }
     public function _iterator_rewind(){
-
         $dbresult = $this->m_result;
         if (!$dbresult)
             return false;
@@ -208,7 +195,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     public function _iterator_next(){
         $this->fetch();
     }
-
     /**
      * 
      * @return null|object|DbQueryRowObj

@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKViewMode extends IGKObject{
     const ADMINISTRATOR=6;
     const VISITOR=1;
@@ -21,7 +20,6 @@ final class IGKViewMode extends IGKObject{
         }
         return implode(",", array_filter($t));
     }
-
      /**
     * 
     * @param mixed $view

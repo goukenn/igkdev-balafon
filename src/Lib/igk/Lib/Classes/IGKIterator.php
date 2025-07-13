@@ -3,8 +3,6 @@
 // @filename: IGKIterator.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 /**
 * used to iterate thru an array
 */
@@ -54,7 +52,6 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
             $this->m_it_key=$this->it_vtab[$this->it_index];
         }
     }
-    
     /**
     * 
     * @param mixed $key

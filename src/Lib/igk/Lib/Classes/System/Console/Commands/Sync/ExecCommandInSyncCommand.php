@@ -3,10 +3,8 @@
 // @file: ExecCommandInSyncCommand.php
 // @date: 20250612 15:30:43
 namespace IGK\System\Console\Commands\Sync;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Sync
@@ -19,7 +17,6 @@ class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
 	/* var $category = ''; */
 	/* var $usage = ''; */
 	public function exec($command, ...$args) {
-
 		($h = $this->start($command, $setting)) || igk_die('missing config to sync');
    		if ($install_source = self::GetScriptInstall([			
             'sync/sync-command.pinc',
@@ -29,9 +26,7 @@ class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
      		$pdir = $setting["public_dir"];
 			ftp_put($h, $pdir . "/command.php",  $tmpfile, FTP_BINARY);
 			@unlink($tmpfile);
-
 			$uri = $setting["site_uri"];
-
 			sleep(2);
             $response = igk_curl_post_uri($uri."/command.php", 
                 [
@@ -49,7 +44,6 @@ class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
 			print_r($response);
 			Logger::print('');
 		}
-
         ftp_close($h);
         Logger::success("done"); 
 	}

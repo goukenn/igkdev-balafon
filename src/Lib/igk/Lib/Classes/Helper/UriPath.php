@@ -3,9 +3,7 @@
 // @file: UriPath.php
 // @date: 20221124 12:54:37
 namespace IGK\Helper;
-
 use IGKException;
-
 /**
  * 
  * @package IGK\Helper
@@ -40,7 +38,6 @@ class UriPath
     public static function CheckActionExtend(string $uri, string $method){
         return self::CheckPath($uri, '^/'.ltrim($method, '/'). self::ACTION_EXTENTION_PATTERN);
     }
-
     /**
      * create a matcher patter according to definition
      * @param string $s 

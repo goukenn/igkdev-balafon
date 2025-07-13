@@ -3,8 +3,6 @@
 // @file: IViewHandlerInfo.php
 // @date: 20240130 14:11:13
 namespace IGK\System\Views;
-
-
 /**
 * 
 * @package IGK\System\Views

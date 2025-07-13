@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ViewLayoutLoader.php
 // @date: 20220605 13:04:13
 // @desc: view layout loader
-
 namespace IGK\Controllers;
-
 use Exception;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -19,14 +16,12 @@ use IGK\System\WinUI\IViewLayoutLoader;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
-
 /**
  * view layout loader
  * @package IGK\Controllers
  */
 class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
 {
-
     private $m_dir;
     /**
      * common inclusion 
@@ -43,18 +38,15 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * @var ?string
      */
     var $header;
-
     /**
      * footer view file 
      * @var ?string
      */
     var $footer;
-
     /***
      * default title 
      */
     var $title;
-
     /**
      * const to store page layout param.
      */
@@ -67,7 +59,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * const activate the main layout param
      */
     const MAIN_LAYOUT_PARAM = "@MainLayout"; 
-  
     protected function initialize()
     {
         $v_dir = $this->controller->getViewDir();
@@ -95,7 +86,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      */
     public function interup()
     {
-
         HtmlRenderer::RenderDocument(igk_app()->getDoc());
         igk_exit();
     }
@@ -133,9 +123,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      */
     public function include(string $file, ?array $args = null)
     {
-
         $v_is_ajx_view_request = preg_match("/\.ajx\.phtml$/i", $file) && igk_is_ajx_demand();
-      
         $v_common = $v_footer = $v_header = $v_dir = $response = null;
         $ctrl =  $this->controller;
         $this->controller->setExtraArgs(["layout" => $this]);
@@ -148,7 +136,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             // + | inject global common 
             igk_include_view_file($this->controller, $v_common, true, $args);
         } 
-
         if (!$v_is_ajx_view_request) {
             $v_header = $this->_resolveContextFile($this->header, $v_dir);
             $v_footer = $this->_resolveContextFile($this->footer, $v_dir);
@@ -175,7 +162,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             $this->didRegisterIconLibrary($lib); 
         return $response;
     }
-
     private function _resolveContextFile($file, $bdir)
     {
         $g = array_values(array_filter(explode($this->controller->getViewDir(), $file, 2)));
@@ -184,7 +170,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         }
         return $file;
     }
-
     /**
      * import file  
      * @param string $file 
@@ -219,7 +204,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      */
     public function getPageTitle(string $title, $main = false): string
     {
-
         return $main ?
             sprintf("%s ", $title) :
             sprintf(
@@ -257,7 +241,6 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
                 if ($path = SvgRenderer::GetPath($a, $l)){
                     SvgRenderer::$RegisterPath[$a] = $path;  
                 }
-
             }, $list);
         }  
     }

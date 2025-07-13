@@ -7,13 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
-
-
 abstract class HtmlItemAttribute extends IGKObject implements IHtmlGetValue{
     abstract function getValue($option=null);
 }

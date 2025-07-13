@@ -7,14 +7,12 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Css\CssSupport;
 use IGK\Css\ICssAnimation;
 use IGK\Css\ICssStyleContainer;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\IO\StringBuilder;
-
 /**
  * media management 
  * @package 
@@ -48,14 +46,12 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         }
         $this->_[self::ANIMATIONS][$name] = sprintf('@keyframes %s{%s}', $name, $d);
     }
-
     public static function Clone(IGKMedia $media)
     {
         $c = new static('', '');
         $c->_ = array_combine(array_keys($media->_), array_values($media->_)); //merge($media->_);
         return $c;
     }
-
     /**
      * 
      * @return string 
@@ -72,14 +68,12 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     {
         return igk_getv($this->_, self::PROPERTIES_THEME);
     }
-
     public function Clear()
     {
         $id = igk_getv($this->_, self::MEDIA_ID);
         $this->_ = [];
         $this->_[self::MEDIA_ID] = $id;
     }
-
     /**
      * support css rules 
      * @param string $rule 
@@ -127,7 +121,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
      */
     public function load_data(array $data)
     {
-
         $this->_ = [
             self::MEDIA_ID => $this->getId()
         ];
@@ -139,7 +132,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
             self::PROPERTIES_THEME => 'props',
             self::ANIMATIONS=>'anims'
         ] as $t => $n) {
-
             if (is_array($g = igk_getv($data, $n))) {
                 $this->_[$t] = $g;
             }
@@ -181,7 +173,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
         $minfile = true,
         $themeexport = true
     ): ?string {
-
         $o = "";
         $lineseparator = $minfile ? "" : IGK_LF;
         $def = $this->getDef();
@@ -189,7 +180,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
             foreach ($def as $k => $v) {
                 if (is_null($v) || empty($v))
                     continue;
-
                 // if (is_array($v)){
                 //     // + | store array definition
                 //     $sb = new \IGK\System\IO\StringBuilder; // StringBuilder;
@@ -222,9 +212,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
             // igk_wln_e(__FILE__.":".__LINE__ , "load aminations.....");
             ksort($anims);
             $o.= implode('', $anims);
-
         }
-
         $o .= $this->getPropertiesCssDef($theme, $systheme, $minfile, $themeexport);
         return $o;
     }

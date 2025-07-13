@@ -3,39 +3,30 @@
 // @filename: HtmlScriptNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlAttributeArray;
 use IGK\System\Html\HtmlResolvLinkValue;
 use IGKValidator;
-
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/IHtmlScript.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlResolvLinkValue.php";
-
 class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     /**
      * script tag
      * @var string
      */
     protected $tagname = "script";
-
     protected $link;
-
     /**
      * script version
      * @var mixed
      */
     protected $version;
-
     const ACCEPT=0xb3;
     const CANMERGE_LINK=0xb2;
     const NOT_SINGLEVIEW=0xb4;
     const SCRIPT_LINK=0xb1;
     const SCRIPT_TAG=0xb0;
     const TEMPORARY=0xb5;
-
      /**
     * 
     */
@@ -60,7 +51,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     public function getTag(){
         return $this->getFlag(self::SCRIPT_TAG);
     }
-
      /**
     * get is temp
     */
@@ -85,7 +75,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->canBeMerged=true;
         $this->_iaccept(); 
     }
-
     protected function createAttributeArray(){ 
         return new HtmlAttributeArray([
             "src"=>new HtmlResolvLinkValue()
@@ -104,8 +93,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     {
         return false;
     }
-
-
       /**
     * 
     * @param mixed $v
@@ -145,7 +132,6 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::SCRIPT_TAG, $v);
         return $this;
     }
-    
     protected function getcanLoadContent($value):bool{        
         return false;
     }

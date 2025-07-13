@@ -3,12 +3,10 @@
 // @file: DbDropForeignKeysCommand.php
 // @date: 20230118 15:51:18
 namespace IGK\System\Console\Commands;
-
 use IGK\Controllers\SysDbController;
 use IGK\Helper\Database;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * drop all database foreign keys
 * @package IGK\System\Console\Command

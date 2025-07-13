@@ -3,8 +3,6 @@
 // @file: ViewVarExpression.php
 // @date: 20221010 21:40:24
 namespace IGK\System;
-
-
 /**
 * 
 * @package IGK\System

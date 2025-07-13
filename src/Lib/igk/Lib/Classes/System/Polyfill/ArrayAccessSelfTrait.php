@@ -3,11 +3,7 @@
 // @filename: ArrayAccessSelfTrait.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Polyfill;
-
-
 trait ArrayAccessSelfTrait{
     /**
      * 

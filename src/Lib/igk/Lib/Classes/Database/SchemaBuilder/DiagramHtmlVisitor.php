@@ -1,16 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: DiagramHtmlVisitor.php
 // @date: 20220531 13:35:47
 // @desc: 
-
 namespace IGK\Database\SchemaBuilder;
-
-
-
 class DiagramHtmlVisitor extends DiagramVisitor{
-   
     public function visitDiagramEntity($entity){
         $o = "";
         $n = igk_create_node("div");
@@ -25,5 +19,3 @@ class DiagramHtmlVisitor extends DiagramVisitor{
         return $o;
     }
 }
-
-

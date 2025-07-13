@@ -7,13 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\Usergroups;
 use IGKEvents;
-
 final class UserGroupController extends NonVisibleControllerBase{
     public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;

@@ -3,14 +3,12 @@
 // @file: HtmlFilterAttribute.php
 // @date: 20221107 19:24:14
 namespace IGK\System\Html;
-
 use ArrayAccess;
 use ArrayIterator;
 use IGK\System\Html\Dom\Traits\ClassAndStyleOffsetTrait;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
-
 /**
 * 
 * @package IGK\System\Html
@@ -20,10 +18,7 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
         _access_OffsetSet as parent_trait_offsetSet;
     }
     use ArrayAccessSelfTrait;
-
     protected $m_attributes;
-
-    
     public function __construct($tab=null){
         $this->m_attributes = new HtmlAttributeArray;
         if ($tab){
@@ -67,5 +62,4 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
     public function count(){
         return $this->m_attributes->count();
     }
-
 }

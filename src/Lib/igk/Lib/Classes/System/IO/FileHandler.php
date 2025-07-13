@@ -3,9 +3,7 @@
 // @file: FileHandler.php
 // @date: 20240115 10:34:09
 namespace IGK\System\IO;
-
 use IGKException;
-
 /**
 * 
 * @package IGK\System\IO
@@ -13,7 +11,6 @@ use IGKException;
 */
 abstract class FileHandler{
     private static $sm_handler;
-
     const FILE_CONTEXT_GLOBAL = 'global';
     const FILE_CONTEXT_VIEW = 'view_context';
     const FILE_CONTEXT_CSS = 'style_context';
@@ -44,7 +41,6 @@ abstract class FileHandler{
                 self::$sm_handler[$extension] = $handler;
             }
             $tab_handler[$extension] = $extension;
-
         },
         explode(',', $tab[0]));
         $key = self::CONTEXT_KEY;
@@ -115,7 +111,6 @@ abstract class FileHandler{
      * @return mixed
      */
     abstract function transform(string $content);
-
     /**
      * init default source
      * @return null|string 

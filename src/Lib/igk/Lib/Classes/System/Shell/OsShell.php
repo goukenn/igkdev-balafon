@@ -1,14 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: OsShell.php
 // @date: 20220426 10:34:04
 // @desc: 
-
-
 namespace IGK\System\Shell;
-
-
 /**
  * helper to get sheel
  * @package IGK\System\Shell

@@ -3,9 +3,7 @@
 // @filename: HtmlAJXReplacementNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom;
- 
 /**
 * Represent IGKHtmlAJXReplacementNode class
 */
@@ -28,7 +26,6 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         $this->m_nodes[]=$n;
         return $this;
     }
-    
     /**
     * 
     */

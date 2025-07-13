@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ApplicationModuleConfigurationInfo.php
 // @date: 20240201 12:26:34
 // @desc: 
-
 namespace IGK\Controllers;
-
 /**
  * module configuration info
  */
@@ -20,7 +17,6 @@ class ApplicationModuleConfigurationInfo{
      * @var ?array 
      */
     var $plugins;
-
     /**
      * 
      * @var ?bool

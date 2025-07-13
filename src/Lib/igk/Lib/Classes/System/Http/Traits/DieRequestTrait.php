@@ -3,17 +3,14 @@
 // @file: DieRequestTrait.php
 // @date: 20240104 17:26:40
 namespace IGK\System\Http\Traits;
-
 use IGK\System\Http\ErrorRequestResponse;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Http\Traits
 * @author C.A.D. BONDJE DOUE
 */
 trait DieRequestTrait{
-
     /**
      * die 
      * @param int $code error status code 

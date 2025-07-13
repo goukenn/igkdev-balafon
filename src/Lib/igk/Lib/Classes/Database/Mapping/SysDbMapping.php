@@ -3,22 +3,18 @@
 // @file: SysDbMapping.php
 // @date: 20231005 11:49:46
 namespace IGK\Database\Mapping;
-
 use IGK\Controllers\SysDbController;
 use IGK\Models\ModelBase;
 use IGK\System\Database\Mapping\DefaultMap;
 use IGK\System\Database\Mapping\ModelMappingBase;
 use IGK\System\EntryClassResolution;
 use IGKException;
-
 /**
 * map database column field to object
 * @package IGK\Database\Mapping
 */
 class SysDbMapping extends ModelMappingBase{
     protected $m_info;
-
-
     public function __invoke($o){
         return $this->map($o);
     }
@@ -94,8 +90,6 @@ class SysDbMapping extends ModelMappingBase{
         $v_tabInfo = $model->getTableInfo();//->columns();
         $v_prefix = $v_tabInfo->prefix ?? IGK_FIELD_PREFIX;
         $v_columns = $v_tabInfo->columnInfo;
-   
         return ['columns'=>$v_columns, 'prefix'=>$v_prefix];
     }
-   
 }

@@ -3,12 +3,8 @@
 // @filename: RedirectRequestResponse.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 class RedirectRequestResponse extends RequestResponse{
-
     public function __construct($uri=null)
     {
         if ($uri===null){
@@ -23,5 +19,4 @@ class RedirectRequestResponse extends RequestResponse{
             igk_navto($this->uri);
         } 
     }
-
 }

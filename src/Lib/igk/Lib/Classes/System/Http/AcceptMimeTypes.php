@@ -3,8 +3,6 @@
 // @file: AcceptMimeTypes.php
 // @date: 20250428 07:48:51
 namespace IGK\System\Http;
-
-
 /**
 * 
 * @package IGK\System\Http

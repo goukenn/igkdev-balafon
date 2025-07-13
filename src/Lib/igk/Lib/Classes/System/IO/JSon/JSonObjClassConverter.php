@@ -3,10 +3,8 @@
 // @file: JSonObjClassConverter.php
 // @date: 20250128 13:22:20
 namespace IGK\System\IO\JSon;
-
 use IGK\Helper\Activator;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\IO\JSon
@@ -16,7 +14,6 @@ class JSonObjClassConverter extends JSonBindToConverterBase{
     private $type;
     public function __construct($type){
         $this->type = $type;
-    
     }
     /**
      * binding object class 
@@ -30,14 +27,12 @@ class JSonObjClassConverter extends JSonBindToConverterBase{
             return null;
         }      
         $v_t = $this->type;
-       
         $is_null = is_null($options);
         $g = Activator::CreateNewInstance($v_t, !$is_null?$value:[]);
         if (!$is_null){
             $options->handle = true;
             $options->unshiftData($g, $value);
         }
-
         return $g;
     }
 }

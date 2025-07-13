@@ -3,8 +3,6 @@
 // @file: IMailAttachementOption.php
 // @date: 20241218 23:02:05
 namespace IGK\System\Net;
-
-
 /**
 * 
 * @package IGK\System\Net
@@ -15,5 +13,4 @@ namespace IGK\System\Net;
 * @property ?string $content 
 */
 interface IMailAttachementOption{
-
 }

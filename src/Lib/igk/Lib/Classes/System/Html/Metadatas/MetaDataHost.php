@@ -3,11 +3,9 @@
 // @file: MetaDataHost.php
 // @date: 20231221 14:23:00
 namespace IGK\System\Html\Metadatas;
-
 use IGKEvents;
 use IGKException;
 use IGKHtmlDoc;
-
 /**
  * 
  * @package IGK\System\Html\Metadatas
@@ -46,7 +44,6 @@ class MetaDataHost
         if (is_null($register)) {
             $register = static::InitCoreMetaDataDefinition();
         }
-
         // core fields 
         $m = $this->m_host->getMetas();
         $fields = [
@@ -69,12 +66,10 @@ class MetaDataHost
                 $m->setCharset($v);
             }
         ];
-
         foreach ($register as $p) {
             $tfile = array_fill_keys(array_keys($p->map()), $p->getSetDataCallback());
             $fields = array_merge($fields, $tfile);
         }
-
         igk_reg_hook(IGKEvents::HOOK_HTML_HEAD, function ($e) use ($register) {
             $opt = igk_getv($e->args, 'options');
             if ($opt && ($opt->Document === $this->m_host)) {
@@ -85,7 +80,6 @@ class MetaDataHost
                 }
             }
         });
-
         // binding meta field register 
         foreach ($settings as $k => $v) {
             $fc = igk_getv($fields, $k);

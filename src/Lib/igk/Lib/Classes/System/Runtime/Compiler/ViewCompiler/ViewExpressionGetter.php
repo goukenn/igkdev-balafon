@@ -3,7 +3,6 @@
 // @file: ViewExpressionGetter.php
 // @date: 20221015 22:47:16
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\OperationNotAllowedException;
@@ -11,7 +10,6 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression;
 use IGK\System\ViewExtractArgHelper;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Runtime\Compiler
@@ -33,7 +31,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
                 return $p;
             if ($p instanceof BaseController)
                 return $p;
-
             return new ViewGetterExpression($name, $p);
         }else if ($name instanceof ViewExpressionEval){
             $name->listener = $this->listener;
@@ -62,11 +59,9 @@ class ViewExpressionGetter extends ViewExpressionBase{
         // $args = new ViewExtractArgHelper($name, $p);
         // return $args;
     }
-
     protected function _access_OffsetSet($name, $value){
         throw new OperationNotAllowedException("Expression Getter can't set value");
     }
-
     public function __get($name){
         // for real value
         return $this->getValue($name);
@@ -82,7 +77,6 @@ class ViewExpressionGetter extends ViewExpressionBase{
         $p = ViewExpressionArgHelper::GetVar($name);
         return $p;
     }
-    
     public function __toString()
     {
         return 'getter:::';

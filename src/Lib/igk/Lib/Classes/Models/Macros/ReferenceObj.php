@@ -3,19 +3,14 @@
 // @filename: ReferenceObj.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\Models\Macros;
-
 use IGKObject;
-
 /**
  * reference object value 
  * @package IGK\Models\Macros
  */
 class ReferenceObj extends IGKObject{
     private $_ref;
-
     public function __construct($ref){
         $this->_ref = $ref;
     }

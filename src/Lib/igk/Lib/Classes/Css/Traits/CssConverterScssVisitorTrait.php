@@ -3,15 +3,12 @@
 // @file: CssConverterScssVisitorTrait.php
 // @date: 20230125 17:55:13
 namespace IGK\Css\Traits;
-
-
 /**
 * 
 * @package IGK\Css\Traits
 */
 trait CssConverterScssVisitorTrait{
     protected function _visit_return(){
-
     }
     protected static function _ReadBlock($converter, & $tab, $options){
         $src = $converter->src;
@@ -36,7 +33,6 @@ trait CssConverterScssVisitorTrait{
         }
         $tab[$v_1] = $body;      
     }
-    
     protected function _visit_keyframes($options){
         $this->_ReadBlock($this, $this->keyframes, $options);          
     }
@@ -53,7 +49,6 @@ trait CssConverterScssVisitorTrait{
         $this->keyframes['@-moz-keyframes'][array_keys($tab)[0]] = array_values($tab)[0];
     }
     protected function _visit_function($options){
-        
         $src = $this->src;
         $offset = & $options->offset;
         // + | get function name and parameter : scass support '$' as parement like php that's perfect.

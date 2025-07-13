@@ -3,7 +3,6 @@
 // @file: ModelMappingData.php
 // @date: 20231015 15:33:34
 namespace IGK\Database\Mapping\Traits;
-
 use IGK\Models\ModelBase;
 use IGKSysUtil as sysutil;
 /**

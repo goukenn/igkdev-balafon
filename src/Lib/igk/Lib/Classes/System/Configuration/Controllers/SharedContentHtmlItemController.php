@@ -8,10 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\Controllers;
-
 use IGK\System\Html\Dom\HtmlSharedContentNode;
 use IGKHtmlSharedNotifyDialog;
-
 final class SharedContentHtmlItemController extends BaseController{
     const notifybox="notifybox";
     public function __construct(){

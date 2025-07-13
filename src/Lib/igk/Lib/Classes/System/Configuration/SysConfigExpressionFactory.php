@@ -3,17 +3,13 @@
 // @filename: SysConfigExpressionFactory.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Configuration;
-
 use IGK\System\Html\XML\XmlConfigurationNode;
-
 /**
  * class factory for configuration
  * @package IGK\System\Configuration
  */
 class SysConfigExpressionFactory{    
-
     const KEY = self::class."/factories";
     /**
      * register prefix

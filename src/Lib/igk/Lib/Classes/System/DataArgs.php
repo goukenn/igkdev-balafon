@@ -3,7 +3,6 @@
 // @file: DataArgs.php
 // @date: 20230129 12:59:40
 namespace IGK\System;
-
 use ArrayAccess;
 use ArrayIterator;
 use Exception;
@@ -11,7 +10,6 @@ use IGK\System\Core\IProxyDataArgs;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
-
 /**
 * 
 * @package IGK\System
@@ -19,7 +17,6 @@ use Traversable;
 class DataArgs implements IProxyDataArgs, IteratorAggregate{
     use ArrayAccessSelfTrait;
     protected $p_data; 
- 
     /**
      * 
      * @return Traversable<mixed, mixed>|mixed[] 
@@ -35,7 +32,6 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
     public function getData(){
         return $this->p_data;
     }
-
     public function _access_OffsetGet($index)
     {
         return igk_getv($this->p_data, $index);
@@ -44,7 +40,6 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
     {
         return igk_getv($this->p_data, $name);
     }
-
     public function __construct($data)
     {
         $this->p_data = $data;
@@ -62,14 +57,12 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
         }
         return json_encode($this->p_data);
     }
-
     public function __call($name, $arguments)
     {
         if (is_object($this->p_data)) {
             return call_user_func_array([$this->p_data, $name], $arguments);
         }
     }
-
     /**
      * mapt to Array object 
      * @param array $mapping_table 
@@ -84,5 +77,4 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
         }
         return $c;
     }
-    
 }

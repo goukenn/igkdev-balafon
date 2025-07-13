@@ -3,8 +3,6 @@
 // @file: TextareaValidator.php
 // @date: 20240104 16:24:18
 namespace IGK\System\Html\Forms\Validations;
-
-
 /**
 * 
 * @package IGK\System\Html\Forms\Validations

@@ -3,9 +3,7 @@
 // @file: ServerFakerInput.php
 // @date: 20230107 13:32:22
 namespace IGK\System\Console;
-
 use IGK\System\IO\FakeInput;
-
 /**
 * 
 * @package IGK\System\Console
@@ -22,5 +20,4 @@ class ServerFakerInput extends FakeInput{
         }
         return $r;
     }
-
 }

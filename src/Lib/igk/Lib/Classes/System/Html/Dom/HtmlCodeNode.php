@@ -3,15 +3,10 @@
 // @filename: HtmlCodeNode.php
 // @date: 20220706 16:12:34
 // @desc: code node
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlRenderer;
-
 class HtmlCodeNode extends HtmlNode{
     protected $tagname = "code";
-
     public function setContent($v){
         if (is_string($v)){
             $v = self::TreatContent($v);
@@ -42,5 +37,4 @@ class HtmlCodeNode extends HtmlNode{
             return [$sb];
         } 
     }
-
 }

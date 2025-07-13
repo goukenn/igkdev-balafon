@@ -1,16 +1,12 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ConfigurationReader.php
 // @date: 20220830 09:47:38
 // @desc: 
-
 namespace IGK\System\IO\Configuration;
-
 use Closure;
 use IGK\System\IO\EnumDefinitionReader;
 use stdClass;
-
 /**
  * String configuration reader. 
  * @package IGK\System\Configuration
@@ -22,19 +18,16 @@ class ConfigurationReader
      * @var string
      */
     var $delimiter = ",";
-
     /**
      * separator between key and value
      * @var string
      */
     var $separator = "=";
-
     /**
      * read errors
      * @var array
      */
     protected $m_errors = [];
-
     /**
      * litteral string to read
      * @var string
@@ -45,7 +38,6 @@ class ConfigurationReader
      * @var int
      */
     protected $m_offset;
-
     /**
      * read mode
      * @var mixed
@@ -56,31 +48,24 @@ class ConfigurationReader
      * @var mixed
      */
     protected $m_ln;
-    
     protected $m_result;
-
     /**
      * escae start litter counter 
      * @var mixed
      */
     var $escape_start; // ConfigurationReader
-
     /**
      * escape start
      * @var mixed
      */
     var $escape_end;
-
     const MODE_NAME = 1;
     const MODE_VALUE = 2;
-
     /**
      * non marked string listener
      * @var ?callable
      */
     var $NonMarkedStringPropertiesListener;
-
-
     /**
      * treat expression 
      * @param string $text 
@@ -105,13 +90,11 @@ class ConfigurationReader
             $pos = $spos; 
             $expression[$key] = $n;
         }
-
         return $l;
     }
     public function __construct()
     {
     }
-    
     /** 
      * read a value and return a object associated with it   
      * @param string $value 
@@ -126,7 +109,6 @@ class ConfigurationReader
                 $this->m_errors[] = "not a valid separator or delimiter";
             return false;
         }
-
         $obj = new ConfigurationObject();
         $this->m_text = $value;
         $this->m_offset = 0;
@@ -135,7 +117,6 @@ class ConfigurationReader
         $list = [];
         $name = null;
         $value = null;
-
         $fc_bind = function(& $list, $name, $value){
             $gf = $this->NonMarkedStringPropertiesListener;
             if (!is_null($name) && !empty($name)){
@@ -244,13 +225,10 @@ class ConfigurationReader
             if ($escape_delimiter){
                 if ($ch=='\\'){
                     if (($this->escape_start || $this->escape_end) && ( $this->m_ln-1 > $this->m_offset)){
-    
                         $v_next_ch = $this->m_text[$this->m_offset+1];
                         if (($this->escape_end == $v_next_ch) || ($this->escape_start==$v_next_ch)){
-    
                             if ($this->escape_start==$v_next_ch){
                                 $v_ecounter++;
-                                
                             }else if ($this->escape_end == $v_next_ch){
                                 $v_ecounter--;
                             }
@@ -261,7 +239,6 @@ class ConfigurationReader
                     }
                 }
             }
-
             switch($ch){
                 case '"':
                 case "'":
@@ -289,11 +266,9 @@ class ConfigurationReader
     protected function _readLitteralEnd(string $ch, string $end):bool{
         return $ch == $end;
     }
-   
     public function getErrors(){
         return $this->m_errors;
     }
-
     /**
      * create a css value reader
      * @return ConfigurationReader 
@@ -322,7 +297,6 @@ class ConfigurationReader
         $reader->delimiter = "\n";
         return $reader;
     }
-
     /**
      * direct parsing
      */
@@ -330,7 +304,6 @@ class ConfigurationReader
         $reader = new self;
         return $reader->read($value);
     }
-
     public static function ParseEnumLitteralValue(string $value){
         $r = new EnumDefinitionReader;
         return $r->read($value);

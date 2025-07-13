@@ -3,7 +3,6 @@
 // @file: InspectorFormFieldValidationBase.php
 // @date: 20231229 09:49:58
 namespace IGK\System\Html\Forms\Validations;
-
 use Exception;
 use Error;
 use IGK\Helper\Activator;
@@ -20,7 +19,6 @@ use ReflectionProperty;
 use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormField;
 use IGK\System\Html\IFormFieldOptions;
 use IGK\System\Html\Validations\IFormFieldValidationStoreError;
-
 /**
 * represent class that will define property required to inspect form field request
 * @package IGK\System\Html\Forms\Validations
@@ -67,13 +65,11 @@ abstract class InspectorFormFieldValidationBase implements
             }else {
                 // + | 
                 // + | convert to FormFieldInfo
-                
                 $v_validator = is_object($s) && method_exists($s, 'getValidator') ?  $s->getValidator() : null;
                 $s = Activator::CreateNewInstance(FormFieldInfo::class, $s);
                 $s->validator = $v_validator;
             }
             if ($s instanceof FormFieldInfo) {
-                
                 if ($s->validator) {
                     // convert to formFieldValidationInfo
                     $validations[$k] = Activator::CreateNewInstance(FormFieldValidationInfo::class, $s);
@@ -84,7 +80,6 @@ abstract class InspectorFormFieldValidationBase implements
                     // create a validation depending on type
                     $v_validator = FormFieldValidatorBase::Factory($s->type) ;                  
                     $v_v = new FormFieldValidationInfo;
-                                    
                     $v_v->validator = $v_validator? $v_validator:  new DefaultValidator;                
                     $v_v->default = $s->default;
                     $v_v->required = $s->required;
@@ -111,7 +106,6 @@ abstract class InspectorFormFieldValidationBase implements
         FormEnvironmentProperties::validation_error($error);
         return false;
     }
-
     /**
      * on validateion complete 
      * @return void 
@@ -119,7 +113,6 @@ abstract class InspectorFormFieldValidationBase implements
     protected function onValidationComplete($data, $validations){
         // override to validate 
     }
-
      /**
      * 
      * @param null|string $class_name 

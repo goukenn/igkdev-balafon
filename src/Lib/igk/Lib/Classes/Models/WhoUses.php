@@ -3,10 +3,7 @@
 // @file: WhoUses.php
 // @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Track who use the framework
 * @package IGK\Models

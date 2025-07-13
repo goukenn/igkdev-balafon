@@ -3,8 +3,6 @@
 // @file: IDiagramLoadingDefinition.php
 // @date: 20240918 07:45:09
 namespace IGK\Database\SchemaBuilder;
-
-
 /**
 * 
 * @package IGK\Database

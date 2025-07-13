@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\BaseController;
 use IGK\Database\Helpers\AuthorizationHelper;
 use IGK\Models\Caches\CacheModels;
@@ -16,7 +15,6 @@ use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 use IGK\System\IToArray;
 use IGK\System\Traits\StoredPropertiesTrait;
-
 class IGKUserInfo extends IGKObject implements IToArray{ 
     const DB_INFO_KEY="sys://db/info";
     var $clId;
@@ -25,9 +23,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     // var $clPwd;
     var $csrf;
     use StoredPropertiesTrait;
-
     public function __construct(){    }
- 
     public function __set($name, $value){
         if(!$this->_setIn($name, $value))
             $this->setProperty($name, $value);

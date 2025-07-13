@@ -3,7 +3,6 @@
 // @file: CreateUserProfileClassCommand.php
 // @date: 20240922 06:54:01
 namespace IGK\System\Console\Commands\Projects;
-
 use IGK\Controllers\ApplicationController;
 use IGK\Models\ModelBase;
 use IGK\System\Applications\ApplicationUserProfile;
@@ -15,7 +14,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\SystemUserProfile;
 use IGK\System\Traits\EnumeratesConstants;
-
 /**
 * 
 * @package IGK\\System\Console\Commands\Projects
@@ -34,7 +32,6 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		$ctrl = self::GetController($controller);
 		$v_pname = EntryClassResolution::UserProfile;
 		$f = $ctrl::resolveClass($v_pname);
-
 		if ($f && class_exists($f)){
 			Logger::warn(igk_logf("profile class already exists"));
 			return -1;
@@ -51,7 +48,6 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		if ($ctrl instanceof ApplicationController){
 			$parent = ApplicationUserProfile::class;
 		}
-
 		$src = new PHPScriptBuilder;
 		$src->name(igk_io_basenamewithoutext($v_pname))
 		->comment("support - specific user connection to service")
@@ -62,10 +58,8 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 		->namespace($ctrl->getEntryNamespace())
 		->extends($parent)
 		->defs($code);
-
 		igk_io_w2file($file, $src->render());
 		};
-
 		$bind[Path::Combine($ctrl->getDeclaredDir(), 'Configs/profiles.php')] = function($file){
 			$c = new PHPScriptBuilder;
 			$c->type('function')
@@ -73,7 +67,6 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 			->defs('return [];');
 			igk_io_w2file($file, $c->render());
 		};
-		
 		$c = Path::Combine($ctrl->getClassesDir(), EntryClassResolution::ProjectProfilesClass.'.php');
 		if (!igk_io_file_exists($c)){
 			$bind[$c] = function($file)use($ctrl){
@@ -88,7 +81,6 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 			};
 		}
 		$c = Path::Combine($ctrl->getClassesDir(), EntryClassResolution::AuthorizationClass.'.php');
-		
 		if (!igk_io_file_exists($c)){
 			$bind[$c] = function($file)use($ctrl){
 				$c = new PHPScriptBuilder;
@@ -107,10 +99,7 @@ class CreateUserProfileClassCommand extends AppExecCommand{
 				igk_io_w2file($file, $c->render()); 
 			};
 		}
-
-
 		Utility::MakeBindFiles($command, $bind, property_exists($command->options ,'--force'));
 		Logger::success('done');
-
 	}
 }

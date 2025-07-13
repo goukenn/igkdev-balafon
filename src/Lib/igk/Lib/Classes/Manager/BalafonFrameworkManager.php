@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Manager;
-
 /**
 * Framework manager
 */

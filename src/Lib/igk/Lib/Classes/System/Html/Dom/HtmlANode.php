@@ -7,13 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlUtils;
 use function igk_resources_gets as __;
-
-
 class HtmlANode extends HtmlNode
 {
     private $m_href, $m_rdef;

@@ -3,12 +3,8 @@
 // @filename: SchemaCreateTableMigration.php
 // @date: 20220803 13:48:56
 // @desc: 
-
- 
 namespace IGK\System\Database;
-
 use IGK\Database\DbColumnInfo;
-
 class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table"]; 
     // source column to restore
@@ -27,7 +23,6 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
         //restore current table definition
         igk_die("c'ant restore");
     }
-
     /**
      * load childs 
      * @param mixed $childs 

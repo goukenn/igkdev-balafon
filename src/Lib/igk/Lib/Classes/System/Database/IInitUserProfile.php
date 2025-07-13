@@ -3,9 +3,7 @@
 // @filename: IInitUserProfile.php
 // @date: 20221113 10:16:58
 // @desc: 
-
 namespace IGK\System\Database;
-
 /**
  * 
  * @package IGK\System\Database

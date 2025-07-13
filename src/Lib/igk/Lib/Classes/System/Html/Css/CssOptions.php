@@ -3,8 +3,6 @@
 // @file: CssOptions.php
 // @date: 20221202 08:57:43
 namespace IGK\System\Html\Css;
-
-
 /**
 * 
 * @package IGK\System\Html\Css
@@ -15,7 +13,6 @@ class CssOptions implements ICssDefinition{
     {
         $this->value = $value;
     }
-
     public function getDefinition(): ?string {
         return $this->value;
      }

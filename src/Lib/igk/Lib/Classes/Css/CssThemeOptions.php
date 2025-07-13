@@ -3,8 +3,6 @@
 // @file: CssThemeOptions.php
 // @date: 20221008 14:15:11
 namespace IGK\Css;
-
-
 /**
 * store default theme options
 * @package IGK\System\Css
@@ -14,7 +12,6 @@ class CssThemeOptions{
     const DARK_THEME_NAME = "dark";
     const LIGTH_THEME_NAME = "light";
     const BOTH_THEME_NAME = "both";
-
     /**
      * is primary theme
      * @var mixed
@@ -25,7 +22,6 @@ class CssThemeOptions{
      * @var ?string
      */
     var $theme_name;
-
     /**
      * array of skip definition in render mode 
      * @var ?array

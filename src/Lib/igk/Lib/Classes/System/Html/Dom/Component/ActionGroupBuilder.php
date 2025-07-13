@@ -3,17 +3,13 @@
 // @file: ActionGroupBuilder.php
 // @date: 20221123 22:41:16
 namespace IGK\System\Html\Dom\Component;
-
-
 /**
 * 
 * @package IGK\System\Html\Dom\Component
 */
 class ActionGroupBuilder{
     var $target;
-
     var $options;
-
     public function addSeperator(){
         return $this->target->span()->setClass('igk-sep');
     }
@@ -23,7 +19,6 @@ class ActionGroupBuilder{
         return $i;
     }
     public function build(array $items){
-
         while(count($items)>0){
             $key = key($items);
             $i = array_shift($items);
@@ -50,6 +45,5 @@ class ActionGroupBuilder{
                 break;
             }
         }
-
     }
 }

@@ -3,10 +3,8 @@
 // @file: Html5Document.php
 // @date: 20230417 10:07:04
 namespace IGK\System\Html\Dom;
-
 use IGK\System\IO\StringBuilder;
 use IGKObject;
-
 /**
 * html5 document helper
 * @package IGK\System\Html\Dom
@@ -26,11 +24,8 @@ class Html5Document extends IGKObject{
         $this->m_head = new HtmlNode("head");
         $this->m_body = new HtmlNode("body");
         $this->m_html = new HtmlNode("html");
-
         $this->m_html->add($this->m_head);
         $this->m_html->add($this->m_body);
-
-
         $this->m_html['lang']="en";
         $this->setCharset('utf-8');
         $this->setMeta('viewport', 'width=device-width, initial-scale=1.0');

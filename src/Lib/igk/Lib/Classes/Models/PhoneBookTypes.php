@@ -3,10 +3,7 @@
 // @file: PhoneBookTypes.php
 // @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Phone book's type
 * @package IGK\Models

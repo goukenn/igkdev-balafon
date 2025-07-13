@@ -3,10 +3,7 @@
 // @filename: ControllerUriTrait.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Controllers;
-
-
 trait ControllerUriTrait {
      /**
     * 
@@ -26,7 +23,6 @@ trait ControllerUriTrait {
         }
         return "./?".http_build_query($out).$g;
     }
-
     /**
     * 
     * @param mixed $uri
@@ -37,7 +33,6 @@ trait ControllerUriTrait {
             $out .= "&".$uri;
         return $out;
     }
-
     /**
     * 
     * @param mixed $page

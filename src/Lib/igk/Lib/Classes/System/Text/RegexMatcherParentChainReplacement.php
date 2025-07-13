@@ -3,8 +3,6 @@
 // @file: RegexMatcherParentChainReplacement.php
 // @date: 20250617 12:49:56
 namespace IGK\System\Text;
-
-
 /**
  * 
  * @package IGK\System\Text
@@ -26,10 +24,8 @@ class RegexMatcherParentChainReplacement
     public function mark(string $value, $e)
     {
         $cp = null;
-
         $chain_parent = &$this->m_chain_parent;
         if (($new = (!$chain_parent || (($cp = $chain_parent[0]['p']) !== $e->parentInfo))) || $cp) {
-
             $cr = (object)[
                 'value' => $value,
                 'from' => $e->from,

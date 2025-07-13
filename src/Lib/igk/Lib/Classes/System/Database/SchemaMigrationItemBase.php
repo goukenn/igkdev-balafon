@@ -3,22 +3,17 @@
 // @filename: SchemaMigrationItemBase.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Database;
-
 use IGK\System\Html\Dom\HtmlCommentNode;
 use DbSchemas;
 use Google\Service\Vision\Property;
 use IGKException;
 use IGKHtmlCommentItem;
-
 /** @package  */
 abstract class SchemaMigrationItemBase{
     private $m_migration;
     protected $raw;
     protected $fill_properties; 
-
     /**
      * 
      * @return ?ISchemaMigrationInfoListener 
@@ -28,7 +23,6 @@ abstract class SchemaMigrationItemBase{
             return $mig->migrationListener;
         }
         return null;
-
     }
     public function __isset($name){
         return  property_exists($this->raw, $name);
@@ -64,20 +58,17 @@ abstract class SchemaMigrationItemBase{
      * @return void 
      */
     protected function loadChilds($childs){
-
     }
     /**
      * up the migration
      * @return void 
      */
     public function up(){
-
     }
     /**
      * down migration item
      * @return void 
      */
     public function down(){
-
     }
 }

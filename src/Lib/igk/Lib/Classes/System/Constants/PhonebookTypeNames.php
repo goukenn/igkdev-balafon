@@ -3,9 +3,7 @@
 // @file: PhonebookTypeNames.php
 // @date: 20230205 06:53:24
 namespace IGK\System\Constants;
-
 use IGK\System\Traits\EnumeratesConstants;
-
 /**
 * phone books type system constants
 * @package IGK\System\Constants
@@ -62,7 +60,6 @@ abstract class PhonebookTypeNames{
      * thumbnail picture 
      */
     const PHT_THUMBNAIL = 'thumbnail';
-
     /**
      * check for cardinality
      * @param string $s 

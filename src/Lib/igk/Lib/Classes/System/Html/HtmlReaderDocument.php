@@ -8,10 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
 use IGK\Helper\SysUtils;
 use IGK\System\Html\XML\XmlNode;
-
 final class HtmlReaderDocument extends XmlNode
 {
     public function __construct()

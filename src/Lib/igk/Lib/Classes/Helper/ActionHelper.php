@@ -3,14 +3,11 @@
 // @filename: ActionHelper.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 // @file: ActionHelper.php
 // @author: C.A.D. BONDJE DOUE
 // date: 2022-10-02
 // description: contains function that IGKActionBase can use
-
 namespace IGK\Helper;
-
 use DateInterval;
 use Exception;
 use IGK\Actions\ActionBase;
@@ -32,7 +29,6 @@ use IGKValidator;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
-
 /**
  * action helper
  * @package IGK\Helper
@@ -128,7 +124,6 @@ abstract class ActionHelper
      */
     public static function ActivateUser(BaseController $ctrl, $token, ?RegistrationLinks $regLink = null)
     {
-
         if ($row = $regLink ?? self::GetAliveToken($token)) {
             $format = IGK_MYSQL_DATETIME_FORMAT;
             $now = date_create_from_format($format, date($format));
@@ -137,7 +132,6 @@ abstract class ActionHelper
             $interval =  new DateInterval('P3D');
             $d = str_pad($diff->format('%d%h%i'), 4, '0', STR_PAD_LEFT);
             $m = str_pad($interval->format('%d%h%i'), 4, '0', STR_PAD_LEFT); 
- 
             // if ( $d < $m){
             if ($r = \IGK\Models\Users::update(
                 ["clStatus" => 1],
@@ -156,7 +150,6 @@ abstract class ActionHelper
         }
         return false;
     }
-
     public static function UnregisterUser($ctrl, $token)
     {
     }
@@ -241,7 +234,6 @@ abstract class ActionHelper
         }
         return false;
     }
-
     /**
      * helper: get action current model 
      * @param ActionBase $action 
@@ -256,7 +248,6 @@ abstract class ActionHelper
         }
         return $ret;
     }
-
     /**
      * send mail helper 
      * @param BaseController $controller 
@@ -279,29 +270,24 @@ abstract class ActionHelper
         ?array $options = null,
         ?string $mail_title = null
     ) {
-
         if (empty($v_sysmail_account = igk_configs()->mail_user)) {
             return false;
         }
-
         $info = (object)array_merge([
             "to" => $to,
             "title" => $title,
             "msg" => $msg,
         ], $options ??  []);
-
         $v_reg_info = CronJobProcess::Register(
             "mail",
             "mail.register.php",
             $info,
             $controller
         );
-
         if (!$v_reg_info) {
             igk_ilog('failed to register cron job mail process');
             return false;
         }
-
         $mail = new Mail();
         $mail->addTo($to);
         $mail_title = StringUtility::GetApplicationMailTitle($controller, $mail_title);
@@ -312,14 +298,12 @@ abstract class ActionHelper
         $mail->From = $from;
         $mail->setHtmlMsg($info->msg);
         $mail->setTitle($info->title);
-
         if ($cc = igk_getv($info, 'gcc')) {
             $mail->addToGCC($cc);
         }
         if ($cc = igk_getv($info, 'cc')) {
             $mail->addToCC($cc);
         }
-
         $rep = $v_reg_info && $mail->sendMail();
         if ($rep) {
             $v_reg_info->crons_status = 1;
@@ -327,7 +311,6 @@ abstract class ActionHelper
         }
         return $v_reg_info;
     }
-
     /**
      * generate a geristration link token
      * @param Users $user 
@@ -347,12 +330,9 @@ abstract class ActionHelper
      */
     public static function GenerateRegistrationLinkToken(string $login, string $guid, ?string $prefix = null)
     {
-
         $token = igk_encrypt($login .
             ($prefix ?? $login . date('Ymd') . time()));
         try {
-
-
             if (!($row = RegistrationLinks::select_row([
                 RegistrationLinks::FD_REG_LINK_USER_GUID => $guid,
             ]))) {
@@ -375,7 +355,6 @@ abstract class ActionHelper
         }
         return $token;
     }
-
     /**
      * retrieve all action controller action 
      * @param BaseController $controller 
@@ -408,7 +387,6 @@ abstract class ActionHelper
         // + | --------------------------------------------------------------------
         // + | by default disable use of prefix (get|set) method and protected one.
         // + |
-        
         if (!is_subclass_of($object_or_class, ActionBase::class)) {
             return null;
         }
@@ -428,7 +406,6 @@ abstract class ActionHelper
             return $n;
         }, $cl->getMethods(ReflectionMethod::IS_PUBLIC)));
     }
-
     /**
      * 
      * @param BaseController $controller 
@@ -448,7 +425,6 @@ abstract class ActionHelper
                 // + consider as default action 
                 $a = igk_str_rm_last($a, '/' . basename($a));
             }
-
             return $a;
         }
         return null;
@@ -473,7 +449,6 @@ abstract class ActionHelper
         ));
         return $action;
     }
-
     /**
      * get if resolved class is expected 
      * @param BaseController $baseController 
@@ -502,8 +477,6 @@ abstract class ActionHelper
     {
         return  '/' . igk_uri(self::GetActionName($baseController, $baseController->resolveClass($action_name))) . "/";
     }
-
-
     /**
      * do handle 
      * @param BaseController $controller 
@@ -522,7 +495,6 @@ abstract class ActionHelper
         $is_ajx = ($options ? igk_getv($options, 'is_ajx') : null) ?? 
             (igk_server()->CONTENT_TYPE == "application/json") || igk_is_ajx_demand();
         $is_exit = $is_ajx && !($options ? igk_getv($options, 'is_view') : null);
-
         $verb = ($options ? igk_getv($options, 'method') : null) ?? 
             strtolower(igk_server()->REQUEST_METHOD ?? 'get');
         $v_user = ($options ? igk_getv($options, 'user') : null);
@@ -530,7 +502,6 @@ abstract class ActionHelper
         if ($v_requestData = ($options? igk_getv($options, 'requestData') : null)){
             $old_data = Request::getInstance()->setJsonData(json_encode($v_requestData));
         }
-
         // check for source user
         $controller->checkUser(false);
         // traitement before passing args to handlers

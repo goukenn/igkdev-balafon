@@ -4,7 +4,6 @@
 // @date: 20220414 13:46:56
 // @desc: laravel mix instataller
 namespace IGK\System\Shell;
-
 /**
  * 
  * @package IGK\System\Shell

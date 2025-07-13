@@ -3,9 +3,6 @@
 // @filename: IGKValidator.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
 use IGK\Constants;
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\FormFieldInfo;
@@ -15,9 +12,7 @@ use IGK\System\Html\Forms\Validations\IFormValidationFieldHost;
 use IGK\System\Html\Forms\Validations\IFormValidator;
 use IGK\System\Html\Forms\Validations\PasswordValidator;
 use IGK\System\Html\IFormFields;
-
 use function igk_resources_gets as __;
-
 /**
  * Represent IGKValidator class
  */
@@ -37,7 +32,6 @@ final class IGKValidator extends IGKObject
         $this->sm_enode = igk_create_node_arg("div.error");
         $this->sm_cibling = array();
     }
-   
     /**
      * 
      * @param mixed $name
@@ -237,7 +231,6 @@ final class IGKValidator extends IGKObject
      */
     public static function IsValidPwd($o)
     {
-
         static $validator;
         if (is_null($validator)) {
             $validator = new PasswordValidator;
@@ -255,7 +248,6 @@ final class IGKValidator extends IGKObject
      */
     public static function Validate($o, $fields, &$error, bool $validate = true)
     {
-
         $g = self::getInstance()->sm_enode;
         $g->clearChilds();
         $e = false;
@@ -291,7 +283,6 @@ final class IGKValidator extends IGKObject
                     $v->validator = $validator;
                 }
                 if ($v instanceof FormFieldValidationInfo) {
-                   
                     $v_validator = $v->validator ?? igk_die(sprintf(__('missing validator for [%s]'), $k)); // sprintf(__()))
                     if (is_string($v_validator)) {
                         //+ create a validator from class name
@@ -312,7 +303,6 @@ final class IGKValidator extends IGKObject
                         self::Assert(false, $e, $g, $m);
                         continue;
                     }
-
                     $v_v = igk_getv($o, $k);
                     if (!$validate) {
                         //+ | just check value but not transfrom

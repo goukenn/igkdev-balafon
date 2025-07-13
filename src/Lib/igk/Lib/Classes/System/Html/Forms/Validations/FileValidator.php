@@ -3,25 +3,18 @@
 // @filename: FileValidator.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Forms\Validations;
-
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\RequestFormFileData;
 use IGK\System\Number;
 use IGK\System\Text\RegexMatcherContainer;
-
 use function igk_resources_gets as __;
-
-
 /**
  * file fields validator
  * @package IGK\System\Html\Forms
  */
 class FileValidator extends FormFieldValidatorBase implements IFormValidator
 {
-
     /**
      * 
      * @param mixed $value 
@@ -32,7 +25,6 @@ class FileValidator extends FormFieldValidatorBase implements IFormValidator
         /// TODO: Expect file validation data 
         return false;
     }
-
     protected function _validate($value, $default = null, &$error = [], ?object $options = null)
     {
         $name = $maxSize = $fieldinfo = null;
@@ -43,18 +35,15 @@ class FileValidator extends FormFieldValidatorBase implements IFormValidator
         }
         list($v_size, $v_error) = igk_extract($value, 'size|error');
         list($maxSize, $multiple, $accept) = igk_extract($fieldinfo, 'maxSize|multiple|accept');
-
         if ($accept) {
             $accept = str_replace(",", "|", $accept);
             $accept = str_replace("/", "\\/", $accept);
             $accept = str_replace("*", ".+", $accept);
             $accept = "/".$accept."/";
         }
-
         if ($maxSize){
             $maxSize = intval(Number::MemoryToBytes($maxSize));
         }
-
         $ts = $value['name'];
         $is_array = is_array($ts);
         if ($is_array){
@@ -65,7 +54,6 @@ class FileValidator extends FormFieldValidatorBase implements IFormValidator
                 foreach(['name','tmp_name','error','size', 'type'] as $k){
                     $def[$k] = $value[$k][$i];
                 }
-                
                 // validate
                 $v_error = $def['error'];
                 $v_size = $def['size'];

@@ -1,11 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: CssDevice.php
 // @date: 20220422 12:32:13
 // @desc: css device helper -- 
 // 
-  
 // + | --------------------------------------------------------------------
 // + | group media type in on device so we can 
 // + | make them device operate at once
@@ -13,20 +11,16 @@
 // + |
 // + | > create and instance an mege it
 // + | > sample : $mobile = new CssDevice($sm_screen, $xsm_screen); 
-
 namespace IGK\Css;
-
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessPropertyTrait;
 use IGKMedia;
-
 /**
  * css device helper 
  */
 class CssDevice implements ICssSupport, ArrayAccess{
     private $m_devices;
     use ArrayAccessPropertyTrait;
-
     /**
      * 
      * @param mixed $devices medias

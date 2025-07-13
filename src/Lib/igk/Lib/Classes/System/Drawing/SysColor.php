@@ -3,8 +3,6 @@
 // @file: SysColor.php
 // @date: 20220928 10:31:32
 namespace IGK\System\Drawing;
-
-
 /**
 * 
 * @package IGK\System\Drawing

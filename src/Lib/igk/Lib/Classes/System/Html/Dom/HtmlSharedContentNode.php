@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 final class HtmlSharedContentNode extends HtmlNode{
     private $m_ctrl;
     public function __construct($ctrl){

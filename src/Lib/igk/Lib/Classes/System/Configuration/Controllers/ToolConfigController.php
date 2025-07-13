@@ -3,15 +3,11 @@
 // @filename: ToolConfigController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace  IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGKFv;
 use \IGK\System\Configuration\Controllers\ToolHost;
-
 use function igk_resources_gets as __; 
 /**
 * Represent IGKToolsCtrl class
@@ -67,14 +63,12 @@ final class ToolConfigController extends ConfigControllerBase {
             $t->remove();
             return $this;
         }
-
         $v_ct=$this->getm_tools()->getTools();
         $count = igk_count($v_ct);
         $t->ClearChilds();
         $this->getConfigNode()->add($t);
         $box=$t->addPanelBox();
         igk_html_add_title($box, __("Tools"));
-        
         igk_notifyctrl()->setNotifyHost($box->addDiv());
         $s=$box->addSearch()->setClass("fitw");
         $s->Uri=$this->getUri("view_tools_ajx");
@@ -96,7 +90,6 @@ final class ToolConfigController extends ConfigControllerBase {
         }
         return $this;
     }
-    
     /**
     * Represent view_tools_ajx function
     */

@@ -3,9 +3,7 @@
 // @file: IPrinterService.php
 // @date: 20220701 19:15:24
 namespace IGK\System\IO\Printer;
-
 use IGK\System\IInjectable;
-
 /**
 * use to print pdf with an library
 * @package IGK\System\IO\Print
@@ -49,20 +47,15 @@ interface IPrinterService extends IInjectable{
      */
     function cell(string $text, $x, $y, $w, $h, $options=null);
     function write(string $text, float $h);
-
     function setFontStyle($style); 
     function setFont(string $family, string $style='', int $size=12); 
-
     function createCellOptions(): IPrinterServiceCellOption;
-    
     /**
      * output pdf document
      * @return mixed 
      */
     function printPdf();
-
     function addPage();
-
     function getPageWidth() : int;
     function getPageHeight() : int;
     /**
@@ -71,5 +64,4 @@ interface IPrinterService extends IInjectable{
      * @return mixed 
      */
     function setFontSize($size);
-
 }

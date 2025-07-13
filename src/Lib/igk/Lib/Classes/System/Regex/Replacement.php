@@ -3,10 +3,8 @@
 // @file: Replacement.php
 // @date: 20221206 07:32:52
 namespace IGK\System\Regex;
-
 use Closure;
 use IGK\Core\Traits\NoDynamicPropertyTrait;
-
 /**
 * 
 * @package IGK\System\Regex
@@ -23,7 +21,6 @@ class Replacement{
      * @var array
      */
     var $options = [];
-
     /**
      * get number of replacement infos;
      * @return int 
@@ -31,7 +28,6 @@ class Replacement{
     public function getCount(){
         return count($this->infos);
     }
-
     /**
      * replace engine
      * @param string $source 
@@ -52,7 +48,6 @@ class Replacement{
         // $error = preg_last_error();
         return $source;
     }
-    
     /**
      * add replacement object
      * @param string $pattern 
@@ -87,7 +82,6 @@ class Replacement{
     {
         return __CLASS__;
     }
-
     /**
      * replace to regex word
      * @param mixed $s 
@@ -121,7 +115,6 @@ class Replacement{
             return !preg_match($regex, $s, $tab, $flag);
         };
     }
-
     /**
      * bind with replacement data 
      * @param string $template 

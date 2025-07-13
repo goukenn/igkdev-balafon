@@ -3,10 +3,8 @@
 // @file: HostableItemTrait.php
 // @date: 20221123 18:19:15
 namespace IGK\System\Html\Traits;
-
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\HtmlUtils;
-
 /**
 * 
 * @package IGK\System\Html\Traits

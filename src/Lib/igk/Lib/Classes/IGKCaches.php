@@ -3,7 +3,6 @@
 // @filename: IGKCaches.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\LoadArticleException;
@@ -12,11 +11,9 @@ use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Http\WebFileResponse;
-
 require_once IGK_LIB_CLASSES_DIR . '/IGKAppConfig.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigUtils.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
-
 /**
  * cache system 
  * @method static FileSystem view() view file system
@@ -28,7 +25,6 @@ final class IGKCaches
      * @var IGKCaches caches
      */
     private static $sm_instance;
-
     public static function getInstance()
     {
         if (self::$sm_instance === null) {
@@ -39,7 +35,6 @@ final class IGKCaches
     private function __construct()
     {
     }
-
     /**
      * resolv path from link
      * @param mixed $file filename to resolv
@@ -67,14 +62,12 @@ final class IGKCaches
             $response->output();
         }
     }
-
     /**
      * get system cache uri
      * @return (string|bool)[]  uri and zip flag 
      */
     public static function CacheUri($controller = null, ?string $requestUri = null)
     {
-        
         $o = "";
         if ($controller === null) {
             if ($ctrl = igk_get_defaultwebpagectrl()) {
@@ -214,7 +207,6 @@ final class IGKCaches
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/css");
     }
-
     /**
      * check array file 
      * @param string[]|array $files files list to check

@@ -4,14 +4,12 @@
 // @date: 20221118 17:05:10
 namespace IGK\Actions\Traits;
 use function igk_resources_gets as __;
-
 /**
 * 
 * @package IGK\Actions
 */
 trait NewsLetterFormActionTrait{
     protected $formFieldEngine;
-    
     protected function form_news_letter($form){
         $form['action'] = $this->getController()::uri('stay-in-touch');        
         $form->h2()->Content = __("Stay in touch");

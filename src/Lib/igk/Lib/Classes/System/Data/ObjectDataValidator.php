@@ -3,18 +3,15 @@
 // @file: ObjectDataValidator.php
 // @date: 20230309 22:06:52
 namespace IGK\System\Data;
-
 use IGK\System\Data\IDataValidator;
 use IGK\System\DataArgs;
 use IGK\System\Security\Web\RequestValiationMapper;
 use IGKException;
-
 /**
 * default object validator
 * @package IGK\System\Data
 */
 class ObjectDataValidator implements IDataValidator{
-    
     /**
      * just validate data
      * @param mixed $data 

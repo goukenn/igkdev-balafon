@@ -3,7 +3,6 @@
 // @file: ViewListCommand.php
 // @date: 20230313 21:29:46
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\Helper\ViewHelper;
 /**
@@ -17,7 +16,6 @@ class ViewListCommand extends AppExecCommand{
 	/* var $options=[]; */
 	/* var \$category; */
 	public function exec($command, ?string $controller = null) {
-		
 		$ctrl = ($controller ? self::GetController($controller) : null)?? die("missing controller");
 		array_map(function($f){
 			igk_wln($f);

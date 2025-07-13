@@ -3,9 +3,7 @@
 // @filename: BalafonCacheViewCompiler.php
 // @date: 20220428 14:48:50
 // @desc: 
-
 namespace IGK\System\Compilers;
-
 use Closure;
 use Exception;
 use IGK\Controllers\BaseController;
@@ -15,13 +13,11 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressionArgHelper;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewHandler;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
-
 /**
  * 
  * @package IGK\System\Compilers
  */
 class BalafonCacheViewCompiler{
-
     /**
      * generate cache view file. 
      * @param BaseController $controller 
@@ -63,7 +59,6 @@ class BalafonCacheViewCompiler{
         }
         return $source;
     }
-
     /**
      * compile view helper
      * @param BaseController $controller 
@@ -78,23 +73,16 @@ class BalafonCacheViewCompiler{
         $compiler->options = ViewEnvironmentArgs::CreateContextViewArgument($controller, $file, __METHOD__);
         $cout =  $compiler->compile([$file]); 
         return $cout;
-
     }
-
-
     public static function GetBindViewCompilerHandler(BaseController $controller){
-
         $__igk_attr__ = Closure::fromCallable(function($arr){
             /**
              * @var ViewHandler $q 
              */
             $q = $this;
-
             if (key_exists("class", $arr)){
                 $cl = trim($arr["class"] ?? "", '"');
-        
                 $tab = explode(" ", $this->tab["class"] ?? "");
-        
                 $carr = array_map(function($a)use(& $tab){
                     if (strpos($a,'-')===0){
                         // remove 
@@ -108,19 +96,14 @@ class BalafonCacheViewCompiler{
                 }, explode(" ", $cl) );
                 $arr["class"] = implode(' ', array_filter(array_merge($tab, $carr)));
             }
-        
             $q->tab = array_merge($q->tab, $arr);
             $q->attribBind = true;
         })->bindTo(ViewHandler::getInstance());
-        
         $binding_args = get_defined_vars();
-        
-
         return Closure::fromCallable(function()use( $binding_args) {
             // + | --------------------------------------------------------------------
             // + | Handle argument views
             // + |
-            
             ${ViewExpressionArgHelper::GETTER_VAR} = (array)func_get_arg(1);
             extract(func_get_arg(1));
             foreach($binding_args as $k=>$v){

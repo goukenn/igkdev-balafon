@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\Controllers\ILibaryController;
 use IGK\Helper\SysUtils;
 use IGK\System\Applications\ApplicationUserProfile;
@@ -18,8 +16,6 @@ use IGK\System\SystemUserProfile;
 use IGKSession;
 use IIGKUriActionRegistrableController;
 use ReflectionClass;
-
-
 /**
  * 
  * @package IGK\Controllers
@@ -30,7 +26,6 @@ abstract class PageControllerBase extends ControllerTypeBase
     const PAGE_CONSTANT= IGK_USER_SETTING + 0xB;
     const PAGE_USER=self::PAGE_CONSTANT + 1;
     const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
-
     /**
      * init view
      * */
@@ -54,8 +49,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return $n;
     }
-    
-    
     protected function getUserDir(){
         if($u=$this->User)
             return $this->getDataDir()."/users/".$u->clLogin;
@@ -111,7 +104,6 @@ abstract class PageControllerBase extends ControllerTypeBase
         $c=$this->getAppUri();
         igk_navto($c);
     } 
-   
     protected function storeUserSettings(){
         $settings=$this->getUserSettings();
         if($settings && ($file=$this->getUserSettingFile())){
@@ -131,7 +123,6 @@ abstract class PageControllerBase extends ControllerTypeBase
     //     igk_navto($uri);
     //     igk_exit();
     // }
-
     ///<summary> get a application document. getDoc return the global document </summary>
     /**
     *  get a application document. getDoc return the global document

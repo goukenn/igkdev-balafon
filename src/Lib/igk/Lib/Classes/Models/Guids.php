@@ -3,10 +3,7 @@
 // @file: Guids.php
 // @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store guid on db for living purpose. link to change password for exemple.
 * @package IGK\Models

@@ -3,14 +3,10 @@
 // @filename: IGKRawDataBinding.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 class IGKRawDataBinding implements ArrayAccess {
     use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
     private $m_data;
     private function __construct(){}
-
      public function offsetExists (  $offset ) :bool{
         if (is_object($this->m_data)){
             return property_exists($this->m_data, $offset);
@@ -30,13 +26,10 @@ class IGKRawDataBinding implements ArrayAccess {
         }
         unset($this->m_data[$offset]);
     }
-
     public static function Create($row){
-        
         if (($row == null)|| ((is_array($row)==false) &&  (is_object($row)==false))){
             return null;
         }
-
         $o = new self();
         $o->m_data = $row;
         return $o;        

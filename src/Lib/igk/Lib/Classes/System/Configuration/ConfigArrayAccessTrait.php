@@ -3,9 +3,7 @@
 // @filename: ConfigArrayAccessTrait.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Configuration;
-
 trait ConfigArrayAccessTrait {
     public function offsetUnset(mixed  $n): void{
         unset($this->m_configs->$n);
@@ -33,4 +31,3 @@ trait ConfigArrayAccessTrait {
         $this->m_configs->$n=$v;
     }
 }
-  

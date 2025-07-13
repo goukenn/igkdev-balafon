@@ -3,9 +3,7 @@
 // @filename: SchemaBuilder.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Database;
-
 use ArrayAccess;
 use Exception;
 use IGK\Database\DbSchemas;
@@ -13,7 +11,6 @@ use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlCommentNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 /**
  * represent a schema builder class
  * @package IGK\System\Database
@@ -89,5 +86,4 @@ class SchemaBuilder implements ArrayAccess{
     protected function _access_OffsetUnset($n,$v){
         unset($this->_output[$n]);
     }
-
 }

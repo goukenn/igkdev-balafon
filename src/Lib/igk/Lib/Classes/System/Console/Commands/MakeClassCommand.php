@@ -3,10 +3,7 @@
 // @filename: MakeClassCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
@@ -20,16 +17,12 @@ use IGK\System\IO\Path;
 use IGK\System\Regex\Replacement;
 use IGK\Tests\BaseTestCase;
 use IGKException;
-
 class MakeClassCommand extends AppExecCommand
 {
     use ClassBuilderTrait;
     var $command = "--make:class";
-
     var $category = "make";
-
     var $desc = "make a new class. This is contextual command.";
-
     var $options = [
         "--controller:[ctrl]" => "controller that will own the class",
         "--desc:[text]" => "description of the class",
@@ -53,7 +46,6 @@ class MakeClassCommand extends AppExecCommand
      */
     private function _initCommand($command)
     {
-
         $ctrl = igk_getv_nil($command->options, "--controller");
         $extends = igk_getv($command->options, "--extends");
         $desc = igk_getv($command->options, "--desc");
@@ -151,7 +143,6 @@ class MakeClassCommand extends AppExecCommand
         if ($srv = $this->getScaffoldClassService()){
             $srv->scaffoleList($list, $docs);
         }
-        
         foreach(IO::GetFiles(IGK_LIB_DIR.'/Data/scaffold', '/\.(php|template)/', false) as $file){
             $list[] = igk_io_basenamewithoutext($file);
         }
@@ -171,7 +162,6 @@ class MakeClassCommand extends AppExecCommand
             $this->showlistOfScaffold();
             return;
         }
-
         if (empty($class_path)) {
             $f = igk_getv($command->options, '--file');
             if ($f) {
@@ -180,9 +170,6 @@ class MakeClassCommand extends AppExecCommand
             Logger::danger("classPath can't be empty");
             return -1;
         }
-
-     
-
         $context = $command->app->getContext();
         if ($context == 'module') {
             //passing to module - 
@@ -190,7 +177,6 @@ class MakeClassCommand extends AppExecCommand
             $module = igk_getv($command->options, "--module");
             return $c->exec($command, $module, $class_path);
         }
-
         $ctrl = igk_getv_nil($command->options, "--controller");
         $extends = igk_getv($command->options, "--extends");
         $desc = igk_getv($command->options, "--desc");
@@ -200,10 +186,7 @@ class MakeClassCommand extends AppExecCommand
         $ns = igk_getv($command->options, "--ns", $test ? self::TEST_CLASS : self::CORE_NS);
         $type = igk_getv($command->options, "--type", "class");
         $defs = igk_getv($command->options, "--defs");
-
         $definition = $definition ? igk_json_parse($definition) : null;
-    
-
         if (strpos($class_path, '.')) {
             igk_die('not allowed class path name');
         }
@@ -266,7 +249,6 @@ class MakeClassCommand extends AppExecCommand
         // Logger::success("output: " . igk_io_basedir());
         // Logger::success("output: " . $file);
         // Logger::success("output: " . getcwd());
-
         if (!file_exists($file) || $force) {
             $name = igk_str_ns(igk_io_basenamewithoutext($file));
             $author = $this->getAuthor($command);
@@ -302,7 +284,6 @@ class MakeClassCommand extends AppExecCommand
                 $defs = $rp->replace($type->defs);
                 $src = $defs;
             } else {
-
                 if ($definition){
                     $s = PHPScriptBuilderUtility::ExtractClassDefinition($definition,'', (object)[
                         'noHeader'=>true
@@ -313,7 +294,6 @@ class MakeClassCommand extends AppExecCommand
                     else  
                         $defs = $s; 
                 }
-
                 $builder->type($type)
                     ->namespace($ns)
                     ->author($author)

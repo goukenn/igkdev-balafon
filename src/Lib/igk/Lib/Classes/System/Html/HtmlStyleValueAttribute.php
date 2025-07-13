@@ -8,10 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
 use IGK\System\Html\Css\CssStyle;
 use IGK\System\Html\Dom\HtmlCssValueAttribute;
-
 final class HtmlStyleValueAttribute extends HtmlAttributeValue
 {
     private $m_o;
@@ -20,7 +18,6 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
     {
         $this->m_o = $target;
     }
-
     public function __sleep()
     {
         if (empty($this->value)) {
@@ -49,7 +46,6 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
             $p = $this->m_o["class"];
             $style = new CssStyle();
             $s = trim($p ? $p->EvalClassStyle() : IGK_STR_EMPTY);
-
             if ($v_value) {
                 $tg = $v_value->getValue($options);
                 if ($tg) {
@@ -57,7 +53,6 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
                     $v_value = null;
                 }
             }
-
             if (!empty($s))
                 $style->Load($s, 1, $p);
             $opt .= igk_css_get_style_from_map($this->m_o, $options, $style);

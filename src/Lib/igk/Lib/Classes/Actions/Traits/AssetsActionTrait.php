@@ -3,9 +3,7 @@
 // @file: AssetsActionTrait.php
 // @date: 20221212 11:31:26
 namespace IGK\Actions\Traits;
-
 use IGK\System\IO\Path;
-
 /**
 * 
 * @package IGK\Actions\Traits
@@ -14,7 +12,6 @@ trait AssetsActionTrait{
     public function assets($f=null){
 		$f = implode("/", func_get_args());
 		$dir = $this->getController()->getAssetsDir();
-    
 		if (!$f || !igk_io_file_exists($f = $dir."/".$f)){
 			igk_set_header(RequestResponseCode::NotFound); 
 			igk_exit();

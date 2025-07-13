@@ -3,8 +3,6 @@
 // @file: StoredPropertiesTrait.php
 // @date: 20230306 04:32:30
 namespace IGK\System\Traits;
-
-
 /**
 * since 8.0 dynamic property is deprecated to user properties trait that will handle auto property \
 * and magic __get and __set to be implement in user.
@@ -12,7 +10,6 @@ namespace IGK\System\Traits;
 */
 trait StoredPropertiesTrait{
     protected $m_properties = [];
-
     public function getProperty($n){
         return igk_getv($this->m_properties, $n);
     }

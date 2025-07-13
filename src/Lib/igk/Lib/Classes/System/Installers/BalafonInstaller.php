@@ -8,14 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Installers;
-
 use IGK\Controllers\SystemController;
 use IGK\System\Http\AcceptMimeTypes;
 use IIGKActionResult;
 use Throwable;
-
 use function igk_resources_gets as __;
-
 require_once(IGK_LIB_CLASSES_DIR . "/Helper/Activator.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Html/Templates/BindingContextInfo.php");
 require_once IGK_LIB_CLASSES_DIR . "/HookOptions.php";
@@ -33,7 +30,6 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
      */
     public function __construct()
     {
-        
     }
     /**
      * 
@@ -62,7 +58,6 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
     {
         $zfile = igk_app()->session->getParam(self::INSTALLER_KEY);
         igk_ilog("the update file : ".$zfile);
-
         if (igk_server()->eventStreamRequest() && !igk_is_ajx_demand()) {
             igk_set_header(500, "update not allowed");
             igk_exit();
@@ -72,7 +67,6 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         $from_upload = 0;
         $install_dir = $this->_get_dir("dir", IGK_LIB_DIR);
         $base_dir = $this->_get_dir("basedir", igk_io_basedir());
-       
         require_once(dirname(__FILE__) . "/InstallerActionMiddleWare.pinc");
         $mime_type = AcceptMimeTypes::EventStream;
         if (igk_server()->eventStreamRequest()) {
@@ -93,7 +87,6 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         igk_set_timeout(0);
         $service = new InstallerMiddleWareActions();
         $service->fromUpload = $from_upload;
-
         if ($this->zipcore) {
             if (igk_server()->IGK_LOCAL_TEST) {
                 $service->BaseDir = igk_server()->TEST_BASE_DIR;
@@ -122,7 +115,6 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
                 }
             }
         }
-
         // igk_ilog("installer init install");
         $this->init_installer($service);
         $r = false;
@@ -157,9 +149,7 @@ class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
         $file = igk_io_sys_tempnam("igk");
         rename($file, $file = $file . ".zip");
         igk_app()->session->setParam(self::INSTALLER_KEY, igk_uri($file));
-
         igk_ilog("installer session : ". igk_app()->session->getParam(self::INSTALLER_KEY));
-
         igk_sess_write_close(); 
         igk_io_store_ajx_uploaded_data(dirname($file), basename($file));
         $size = 0;

@@ -3,11 +3,9 @@
 // @file: dropUserCommand.php
 // @date: 20250427 08:59:28
 namespace IGK\System\Console\Commands;
-
 use IGK\Models\Usergroups as ModelsUsergroups;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
-
 /**
  * drop user 
  * @package IGK\System\Console\Commands
@@ -27,15 +25,12 @@ class dropUserCommand extends AppExecCommand
 			igk_die('missing user');
 		}
 		$v_hook = 'sys://database/drop/system_user';
-
 		igk_reg_hook($v_hook, function($e){
 			$user = $e->args['user'];
 			$s = true;
 			$s = $s && ModelsUsergroups::delete([
 				ModelsUsergroups::FD_CL_USER_ID=>$user->clId
 			]);
-
-
 		});
 		$ad = $user->getDataAdapter();
 		try {

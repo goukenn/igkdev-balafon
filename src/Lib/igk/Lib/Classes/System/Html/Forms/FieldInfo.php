@@ -3,18 +3,13 @@
 // @filename: FieldInfo.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Forms;
-
 use IGK\System\Html\IFormFieldOptions;
-
 /**
  * represent core field info
  * @package IGK\System\Html\Forms
  */
 class FieldInfo implements IFormFieldOptions{
-
     /**
      * type of the fields
      * @var  null|string|'text'
@@ -35,13 +30,11 @@ class FieldInfo implements IFormFieldOptions{
      * @var ?string
      */
     var $error;
-
     /**
      * place holder message
      * @var ?string
      */
     var $placeholder;
-
     /**
      * max length
      * @var ?int
@@ -52,7 +45,6 @@ class FieldInfo implements IFormFieldOptions{
      * @var ?int
      */
     var $minLength;
-
     public function __construct()
     {
         $this->type = 'text';

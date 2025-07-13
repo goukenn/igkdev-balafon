@@ -3,14 +3,12 @@
 // @file: MakeDbModelImporterCommand.php
 // @date: 20250225 12:14:36
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Import\DbModelImporterMap;
 use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
-
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -40,7 +38,6 @@ class MakeDbModelImporterCommand extends AppExecCommand{
 		if (!empty($ns)) {
             $ns = str_replace("/", "\\", $ns);
         }
-
 		$bind[$ctrl::classdir() . "/".$path. ".php"] = function ($file) use ($clname, $author, $ns) {
             $builder = new PHPScriptBuilder();
             $fname = basename($file);

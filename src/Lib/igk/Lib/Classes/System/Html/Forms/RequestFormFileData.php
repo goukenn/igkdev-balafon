@@ -3,8 +3,6 @@
 // @file: RequestFormFileData.php
 // @date: 20241123 11:42:23
 namespace IGK\System\Html\Forms;
-
-
 /**
 * 
 * @package IGK\System\Html\Forms
@@ -16,7 +14,6 @@ class RequestFormFileData{
     var $tmp_name;
     var $error;
     var $size;
-
     /**
      * 
      * @param string $dest 

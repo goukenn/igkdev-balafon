@@ -3,11 +3,9 @@
 // @file: CompilerNodeModifyDetector.php
 // @date: 20221011 11:17:20
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerArgument;
 use IGKException;
-
 /**
  * detect modification node
  * @package IGK\System\Runtime\Compiler\Html
@@ -25,15 +23,12 @@ class CompilerNodeModifyDetector extends HtmlNode
     private $m_freezeClearModify = false;
     static $sm_sys_modify = false;
     static $sm_filter_callback = null;
-
     /**
      * detecting class array modification
      * @var mixed
      */
     private $m_class_array =[];
-
     const CLEAR_FLAG_PARAM = "clearFlag";
-
     /**
      * set the compiler document
      * @param null|IViewCompilerArgument $value 
@@ -100,7 +95,6 @@ class CompilerNodeModifyDetector extends HtmlNode
             $this->m_attributes[$n] = implode(" ", $this->m_class_array);
             return;
         }
-
         return parent::_access_OffsetSet($n, $v);
     }
     /**

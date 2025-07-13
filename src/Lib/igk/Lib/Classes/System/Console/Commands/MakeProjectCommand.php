@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Console\Commands;
-
 use Closure;
 use IGK\ApplicationLoader;
 use IGK\Controllers\ControllerInitListener;
@@ -36,11 +34,9 @@ use IGK\System\Project\Configurations\ConfigurationPropertyInfo;
 use IGK\System\Services\IMakeProjectServiceProvider;
 use IGK\Constants;
 use IGKEvents;
-
 use function igk_resources_gets as __;
 use stdClass;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
-
 class MakeProjectCommand extends AppExecCommand
 {
     var $category = "make", $command = "--make:project", $desc = "make new project.", $options = [
@@ -55,19 +51,14 @@ class MakeProjectCommand extends AppExecCommand
         "--conf:[name=value]" => "set configuration",
         "--version" => "application version"
     ];
-
     var $entryNamespace;
-
     /**
      * define author
      * @var mixed
      */
     protected $author;
-
     public function exec($command, $controller = "")
     {
-
-
         if (empty($controller)) {
             return false;
         }
@@ -78,9 +69,6 @@ class MakeProjectCommand extends AppExecCommand
         $controller = StringUtility::CamelClassName($controller);
         $dir = igk_io_projectdir() . "/" . $controller;
         Logger::info(__("Make project ... {0}",  $controller));
-
-
-
         $author = $this->getAuthor($command);
         $type = igk_getv($command->options, "--type", \IGK\Controllers\ApplicationController::class);
         $e_ns = igk_getv($command->options, "--entryNamespace", null);
@@ -99,7 +87,6 @@ class MakeProjectCommand extends AppExecCommand
             spl_autoload_register(ApplicationLoader::TestClassesLoaderCallback(), true, true);
         }
         $this->author = $author;
-
         if (!empty($e_ns)) {
             $e_ns = str_replace("\\\\", "\\", igk_str_ns($e_ns));
             $defs .= "protected function getEntryNamespace(){ return \\{$e_ns}::class; }";
@@ -111,16 +98,11 @@ class MakeProjectCommand extends AppExecCommand
         $bind = [];
         $fname = $clname . ".php";
         $fullClassName = implode("\\", array_filter([$e_ns, $clname]));
-
-
         $bind[$dir . "/.global.php"] = function ($file) use ($author) {
             $builder = new PHPScriptBuilder();
             $builder->type("function")->author($author)->desc("global function");
             igk_io_w2file($file, $builder->render());
         };
-
-      
-
         $bind[$dir . "/$fname"] = function ($file) use ($type, $author, $defs, $desc, $clname, $fname) {
             $builder = new PHPScriptBuilder();
             $builder->type("class")->name($clname)
@@ -131,11 +113,9 @@ class MakeProjectCommand extends AppExecCommand
                 ->extends($type);
             igk_io_w2file($file, $builder->render());
         };
-
         $this->_bind_articles($bind, $dir);
         $this->_bind_langs($bind, $dir);
         $this->_bind_layout($bind, $dir);
-
         $defaultsrc = <<<EOF
 /**
  * @var object \$t
@@ -145,11 +125,9 @@ class MakeProjectCommand extends AppExecCommand
 \$t->clearChilds();
 \$t->div()->h1()->Content = "Hello !!! ".\$this->getName();
 EOF;
-
         // + | --------------------------------------------------------------------
         // + | Auto configuration 
         // + |
-
         $obj_conf = new stdClass();
         if ($p = igk_getv($command->options, "--conf")) {
             if (!is_array($p)) {
@@ -160,7 +138,6 @@ EOF;
                 $loader->load($obj_conf, $l);
             }
         }
-
         $config = new stdClass();
         if (!$no_config && class_exists($type)) {
             if (method_exists($type, "GetAdditionalDefaultViewContent")) {
@@ -205,14 +182,12 @@ EOF;
                     if (property_exists($obj_conf, $key)) {
                         $config->$key = $obj_conf->$key;
                     } else {
-                        
                         if (is_null($def) && ($def = (is_array($value) ? igk_getv($value, "default") : null)) ){
                             if (igk_is_closure($def)) {
                                 $def = $def($prop);
                             }
                         }
                         $v_v = readline(igk_getv($names, $key, $key) . " = ");
-
                         $config->$key = empty($v_v) && !is_null($def) ? $def : $v_v; // igk_getsv(readline(igk_getv($names, $key, $key) . " = "), $def);
                     }
                 }
@@ -226,7 +201,6 @@ EOF;
                 igk_io_w2file($file, $d->render((object)["Indent" => true]));
             };
         } 
-
         $bind[$dir . "/" . IGK_VIEW_FOLDER .
             "/default.phtml"] = function ($file) use ($author, $defaultsrc) {
             $builder = new PHPScriptBuilder();
@@ -244,7 +218,6 @@ EOF;
         };
         $bind[$dir . "/" . IGK_DATA_FOLDER . '/.htaccess'] = $no_access_callback;
         $bind[$dir . "/" . IGK_DATA_FOLDER . '/' . IGK_RES_FOLDER . '/.htaccess'] = $grant_access_callback;
-
         $bind[$dir . "/" . IGK_DATA_FOLDER . "/data.schema.xml"] = function ($file) use ($author, $dir) {
             $build = new SchemaBuilder();
             $build["version"] = "1.0";
@@ -291,7 +264,6 @@ EOF;
             ]))
         );
         };
-
         // Lib/autoload.php
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/autoload.php"] = function ($file) {
             $builder = new PHPScriptBuilder();
@@ -303,9 +275,7 @@ EOF;
                 ]));
             igk_io_w2file($file, $builder->render());
         };
-
         MakeUtility::BindDefaultLangSupport($command, $dir, $bind);
-
         $this->_initConfigurationFile($bind, $dir, get_defined_vars());
         // configuration 
         $bind[$dir . "/" . IGK_CONF_FOLDER . "/routes.php"] = function ($file) {
@@ -374,8 +344,6 @@ EOF;
             $env->add("env")->setAttributes(["name" => "IGK_TEST_CONTROLER", "value" => $fullClassName]);
             igk_io_w2file($file, $n->render((object)["Indent" => true]));
         };
-
-
         $bind[$dir . "/phpunit-watcher.yml"] = function ($file) {
             $c_app =  igk_io_expand_path("%packages%");
             $n = new StringBuilder();
@@ -391,7 +359,6 @@ EOF;
             $n->appendLine("  arguments: --stop-on-failure --colors=always --testdox --bootstrap Lib/Tests/autoload.php Lib/Tests");
             igk_io_w2file($file, $n);
         };
-
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/Tests/autoload.php"] = function ($file) use ($controller) {
             $builder = new PHPScriptBuilder();
             $gen = new CoreGeneration();
@@ -405,7 +372,6 @@ EOF;
             );
             igk_io_w2file($file, $builder->render());
         };
-
         if (class_exists(\PHPUnit\Framework\TestCase::class))
             $bind[$dir . "/" . IGK_LIB_FOLDER . "/Tests/" . $clname . "Test.php"] = function ($file) use ($controller, $clname) {
                 $builder = new PHPScriptBuilder();
@@ -423,9 +389,7 @@ EOF;
                     ]));
                 igk_io_w2file($file, $builder->render());
             };
-
         $this->_bind_database($bind, $dir, $controller);
-
         if ($use_git) {
             ($force || !is_dir($dir . "/.git")) &&
                 GitHelper::Generate($bind, $dir, $controller, $author, $desc, [
@@ -433,9 +397,7 @@ EOF;
                     ".phpunit.result.cache",
                 ]);
         }
-
         foreach(explode('|', 'dark|light') as $k){
-
             $bind[$dir.'/'.IGK_STYLE_FOLDER.'/Themes/'.$k.'.theme.pcss'] = function($file){
                 igk_io_w2file($file, implode("\n", [
                     "<?php",
@@ -444,17 +406,13 @@ EOF;
                 ]));
             };
         }
-
         // $project = igk_service()->get('make:project');
         // if ($project instanceof IMakeProjectServiceProvider){
         //     $project->makeProjectDefinition($bind);
         // }
-
-
         Utility::MakeBindFiles($command, $bind, $force);
         // + invoke hook - command
         igk_hook(IGKEvents::HOOK_COMMAND, ['cmd' => $this, 'dir' => $dir, 'name' => $controller, 'args' => func_get_args()]);
-
         \IGK\Helper\SysUtils::ClearCache(null, true);
         Logger::info("output: " . $dir);
         Logger::success("done\n");
@@ -495,9 +453,7 @@ EOF;
         foreach (R::GetSupportedLangs() as $l) {
             $bind[$dir . "/Configs/Lang/lang." . $l . IGK_LANG_FILE_EXTENSION] = $touch;
         }
-
     }
-
     protected function _bind_layout(array &$bind, $dir)
     {
         $view_dir = implode("/", [$dir, IGK_VIEW_FOLDER]);
@@ -506,7 +462,6 @@ EOF;
             $sb = new StringBuilder();
             $sb->appendLine('igk_google_addfont($doc, "Roboto"); ');
             $sb->appendLine('$t->setClass("+google-Roboto"); ');
-
             $builder = new PHPScriptBuilder();
             $builder->type("function")->file(basename($f))
                 ->defs($sb);
@@ -527,11 +482,9 @@ EOF;
             igk_io_w2file($f, $builder->render());
         };
     }
-
     protected function _bind_database(array &$bind, $dir, $controller)
     {
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER . "/Database/InitMacros.php"] = function ($file) use ($controller) {
-
             $e_ns = $this->entryNamespace;
             $builder = new PHPScriptBuilder;
             $extends = null;
@@ -553,9 +506,7 @@ EOF;
                 ->defs($content);
             igk_io_w2file($file, $builder->render());
         };
-
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER . "/Database/InitDbSchemaBuilder.php"] = function ($file) use ($controller) {
-
             $e_ns = $this->entryNamespace;
             $builder = new PHPScriptBuilder;
             $extends = \IGK\Database\SchemaBuilder\IDiagramBuilder::class;
@@ -597,7 +548,6 @@ EOF;
                 ]));
             igk_io_w2file($file, $builder->render());
         };
-
         $bind[$dir . "/".Constants::PROJECT_CONF_FILE] = function ($file) use ($options) {
             $config = new BalafonConfiguration;
             $config->name = ($options ? igk_conf_get($options, 'config/clAppName') ?? igk_conf_get($options, 'controller'): null)
@@ -608,7 +558,6 @@ EOF;
             igk_io_w2file($file, JSon::Encode($config, $options));
         };
     }
-
     ///<summary>Represente help function</summary>
     public function help()
     {

@@ -3,9 +3,7 @@
 // @filename: UserAndGroupController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\NotifyHelper;
 use IGK\Helper\StringUtility;
@@ -24,9 +22,7 @@ use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Views;
 use IGKEvents;
 use PhpMyAdmin\ConfigStorage\UserGroups as ConfigStorageUserGroups;
-
 use function igk_resources_gets as __;
-
 /**
  * use and group control
  * @package IGK\System\Configuration\Controllers
@@ -58,7 +54,6 @@ class UserAndGroupController extends ConfigControllerBase{
         $t->h2()->Content = __("User's group");
         $t->hr();
         $t->blockquote()->article($ctrl, "group.description");
-
         $frm=$t->form();
         $table=$frm->addDiv()->setClass("overflow-x-a")->addTable();
         $table["class"]="igk-table";
@@ -81,14 +76,11 @@ class UserAndGroupController extends ConfigControllerBase{
             igk_svg_use("user");            
             $tr->td()->ajxa($ctrl->getUri("group_dropgroup_ajx&clId=".$v->clId))->Content = igk_svg_use("drop");
         }
-         
         $uri = $ctrl->getUri("group_add_group_ajx");
         $frm->actionbar(function($a)use($uri){
             $a->ajxa($uri)->setClass("igk-btn")->Content = igk_svg_use("add");
         }); 
-        
     }
-
      /**
     * Represent addAuthToGroup function
     * @param  $groupname
@@ -128,7 +120,6 @@ class UserAndGroupController extends ConfigControllerBase{
     public function addUserToGroup($groupname, $u){
         if(empty($groupname) || !$u)
             return false;
-      
         $gid = Groups::select_row([IGK_FD_NAME=>$groupname]);
         if($gid == null){
             if(!Groups::insert([Groups::FD_CL_NAME=>$groupname])){
@@ -185,7 +176,6 @@ class UserAndGroupController extends ConfigControllerBase{
             }
             $this->View();
         }
- 
     }
     private function getAddGroupFields(){
         $fields = [
@@ -252,7 +242,6 @@ class UserAndGroupController extends ConfigControllerBase{
             igk_ajx_replace_uri($this->getUri("showConfig"));
             SysUtils::exitOnAJX();         
         }
-       
         $d = igk_create_node('div');
         $frame= $d->form();
         $frame["action"] = $this->getUri("group_dropgroup_ajx&clId=".$id);
@@ -262,7 +251,6 @@ class UserAndGroupController extends ConfigControllerBase{
         $frame->confirm();
         $frame->actionbar(Views::ActionBarConfirmDialog(), ["lb.submit"=>__("Delete")])->setClass("dispflex");
         igk_ajx_panel_dialog(__("Drop group"), $d );
-       
     }
     /**
     * Represent group_remove_user function
@@ -327,7 +315,6 @@ class UserAndGroupController extends ConfigControllerBase{
         $_REQUEST["clId"] = $id;
         $this->group_view_user();
         SysUtils::exitOnAJX(); 
-
     }
     /**
     * Represent registerHook function
@@ -346,4 +333,3 @@ class UserAndGroupController extends ConfigControllerBase{
         });
     }
 }
-

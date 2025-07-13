@@ -3,12 +3,10 @@
 // @file: FaviconCommand.php
 // @date: 20240925 16:28:38
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\RegexConstant;
 use IGK\System\Regex\RegexHelper;
-
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -24,7 +22,6 @@ class FaviconCommand extends AppExecCommand
 	];
 	/* var $category = ''; */
 	var $usage = '[options]';
-
 	private static function CheckType(string $type){
 		if (in_array($type, explode("|", "base64|svg|html|png")))
 			return $type;
@@ -33,7 +30,6 @@ class FaviconCommand extends AppExecCommand
 	private static function GetType($command){
 		if (property_exists($command->options, '--html'))
 			return 'html';
-
 	}
 	public function exec($command)
 	{
@@ -59,7 +55,6 @@ class FaviconCommand extends AppExecCommand
 					$src = $fcontent;
 					break;
 				case 'png':
-
 					break;
 				case 'html': 
 					$src = $_reduce($fcontent);
@@ -101,7 +96,6 @@ class ImageHtmlTemplate
 </body>
 </html>
 HTML);
-
 		return $sb . "";
 	}
 }

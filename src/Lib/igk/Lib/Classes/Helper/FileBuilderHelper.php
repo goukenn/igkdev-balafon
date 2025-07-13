@@ -1,15 +1,11 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: FileBuilderHelper.php
 // @date: 20220828 14:58:07
 // @desc: 
-
 namespace IGK\Helper;
-
 use Closure;
 use IGK\System\Console\Logger;
-
 abstract class FileBuilderHelper
 {
     public static function Build($data, $force = false, ?object $bind = null)

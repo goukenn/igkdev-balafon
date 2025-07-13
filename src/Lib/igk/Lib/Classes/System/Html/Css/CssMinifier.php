@@ -3,11 +3,9 @@
 // @file: CssMinifier.php
 // @date: 20241029 14:17:00
 namespace IGK\System\Html\Css;
-
 use Exception;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
  * 
  * @package IGK\System\Html\Css
@@ -33,7 +31,6 @@ class CssMinifier
         $patterns[] = $container->match(':(active|any-link|autofill|blank|checked|current|default|defined|dir|disabled|empty|enabled|first(-(child|of-type))?|focus|focus-visible|focus-within|fullscreen|future|has|host|host|host-context|hover|indeterminate|in-range|invalid|is|lang|last-child|last-of-type|left|link|local-link|modal|not|nth-child|nth-last-child|nth-last-of-type|nth-of-type|only-child|only-of-type|optional|out-of-range|past|paused|picture-in-picture|placeholder-shown|playing|read-only|read-write|required|right|root|scope|state|target|target-within|user-invalid|valid|visited|where)\\b', 'speudo-class')->last(); // 
         $patterns[] = $container->match('\\s*\\b(and|or|not|only)\\b\\s*', 'operator-litteral')->last(); // 
         $patterns[] = $container->match('\\s*\\b(var|min|max|linear-gradient|color|translate(X|Y)?|scale|rotate|rgb(a)?|hsl|calc)\\b(\\s*)(?=\\()', 'method-name')->last(); // 
-
         $patterns[] = $container->match(self::CSS_PROVIDER_PROPS, 'property')->last(); // 
         $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); // 
         // priority to skip space
@@ -43,11 +40,9 @@ class CssMinifier
         $patterns[] = $container->match("\\s+", 'skip')->last();
         $patterns[] = $container->match('\\s*(?:-)?(?:([0-9]+)?\.)?([0-9]+)(px|em|%|s|ms|rem|pt|pica|vh|vw|deg|rad|grad|ch)?', 'dimension')->last(); // 
         $patterns[] = $container->match('(?i)\\s*--[a-z\\-]+\\b', 'litteral-property')->last(); // 
-
         $patterns[] = $container->match("\\s*(\/|\+|-|%|\*|>|~)\\s*", 'operator')->last(); // ignore multispace 
         $patterns[] = $container->begin("(\"|')", '\\1', 'string-litteral')->last(); 
         $g = $container->begin('{', '}', 'block')->last();
-
         $patterns[] = $g;
         $g->patterns = $patterns;
         return $container;

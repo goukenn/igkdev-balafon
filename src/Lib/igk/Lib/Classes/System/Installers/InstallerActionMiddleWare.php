@@ -3,20 +3,15 @@
 // @filename: InstallerActionMiddleWare.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Installers;
-
 use Exception;
-
 /**
 * Represent InstallerActionMiddleWare class
 */
 class InstallerActionMiddleWare implements IMiddleWareAction{
     private $_next;
     private $_service;
-
     public function invoke() {
-
     }
     /**
     * abort action independly
@@ -30,7 +25,6 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
         }
         $this->_service->Success = false;
     }
-    
     /**
     * get current message title
     */

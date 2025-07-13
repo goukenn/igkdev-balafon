@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Html\HtmlUtils;
-
 final class IGKCoreJSon extends IGKObject
 {
     const ExpressionRegex = "\\{(?<expression>(.)+)\\}";
@@ -19,7 +17,6 @@ final class IGKCoreJSon extends IGKObject
     //     }
     //     return $n;
     // }
-
     public function ToDictionary($expression, $strict = true){
         $h = self::GetExpression($expression, $strict);
         if (is_int($h) && ($h <= 0))

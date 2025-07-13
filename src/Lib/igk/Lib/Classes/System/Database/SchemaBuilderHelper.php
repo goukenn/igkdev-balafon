@@ -4,7 +4,6 @@
 // @desc: schema builder helper
 // @date: 20210422 06:53:24
 namespace IGK\System\Database;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
@@ -20,13 +19,11 @@ class SchemaBuilderHelper{
     protected $_schema;
     private $m_inf = [];
     private $m_last_column;
-
     /**
      * get last column info blueprint node
      * @return null|IGK\System\Database\HmtlItemBase 
      */
     protected function getLastColumnInfo():?HtmlItemBase{
-        
         return $this->m_last_column;
     }
     public function getDefinition($n){
@@ -89,5 +86,4 @@ class SchemaBuilderHelper{
         }
         return false;
     }
-    
 }

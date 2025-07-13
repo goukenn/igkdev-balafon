@@ -3,24 +3,17 @@
 // @filename: InjectorProvider.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Services;
-
 use IGK\Helper\ViewHelper;
 use IGK\Models\Injectors\ModelBaseInjector;
-
 /**
  * 
  * @package 
  */
 class InjectorProvider{
-
     private $injectors;
-
     private static $sm_instance;
-
     private function __construct() {
-        
     }
     /**
      * 

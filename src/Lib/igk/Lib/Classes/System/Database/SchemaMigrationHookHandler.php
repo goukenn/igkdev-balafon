@@ -3,11 +3,9 @@
 // @file: SchemaMigrationHookHandler.php
 // @date: 20230129 16:13:18
 namespace IGK\System\Database;
-
 use Exception;
 use IGK\System\Console\Logger;
 use IGKEvents;
-
 /**
 * 
 * @package IGK\System\Database
@@ -31,7 +29,6 @@ class SchemaMigrationHookHandler{
     public function unregister(){
         igk_unreg_hook(IGKEvents::HOOK_DB_RENAME_COLUMN, $this->m_hooks[self::onColumnRename]);
     }
-
     /**
      * 
      * @param mixed $table 
@@ -61,7 +58,6 @@ class SchemaMigrationHookHandler{
             }
             $this->m_Links = $Links;
         }
-
         $n_sk = sprintf('%s.%s', $table, $name);
         if ($cl = igk_getv($this->m_Links, $n_sk)){
             // update column fields
@@ -75,14 +71,12 @@ class SchemaMigrationHookHandler{
                 $inf->clLinkColumn = $name;
             }
         }
-
         $sk = sprintf('%s.%s', $table, $column);
         if ($cl = igk_getv($this->m_Links, $sk)){
             // update column fields
             foreach($cl as $r){
                 // update column fields
                 $tb = $this->tables[$r->table]->columnInfo;
-
                 $tb[$r->column]->clLinkColumn = $name;
             }
             igk_array_replace_key($this->m_Links, $sk, $n_sk, $cl );

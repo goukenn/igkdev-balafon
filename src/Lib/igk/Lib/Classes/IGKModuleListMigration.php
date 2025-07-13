@@ -3,7 +3,6 @@
 // @filename: IGKModuleListMigration.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
@@ -16,8 +15,6 @@ use IGK\System\Database\IDbMigrationMethods;
 use IGK\System\Database\MigrationHandler;
 use IGK\System\Database\Traits\DbCreateTableReferenceTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-
-
 /**
  * single use class pattern 
  * @package 
@@ -28,7 +25,6 @@ final class IGKModuleListMigration extends BaseController implements
     IDbMigrationMethods
 {
     use DbCreateTableReferenceTrait;
-
     /**
      * make it participate to loading and migration
      * @return bool 
@@ -37,7 +33,6 @@ final class IGKModuleListMigration extends BaseController implements
     {
         return true;
     }
-
     private static $sm_list;
     /**
      * module list instance 
@@ -109,7 +104,6 @@ final class IGKModuleListMigration extends BaseController implements
             $ctrl->db_rm_column($table, $columnInfo);
         };
     }
-
     /**
      * migrate loaded list
      * @return void 
@@ -136,12 +130,10 @@ final class IGKModuleListMigration extends BaseController implements
      */
     public function injectBaseModel()
     {
-
         if ($this->m_host && method_exists($this->m_host, __FUNCTION__)) {
             return call_user_func_array([$this->m_host, __FUNCTION__], []);
         }
     }
-
     public function handleModelCreation($table_list): bool
     {
         if ($this->m_host && method_exists($this->m_host, __FUNCTION__)) {
@@ -149,8 +141,6 @@ final class IGKModuleListMigration extends BaseController implements
         }
         return true;
     }
-
-
     /**
      * get host model
      * @return mixed 
@@ -159,8 +149,6 @@ final class IGKModuleListMigration extends BaseController implements
     {
         return $this->m_host;
     }
-
-
     /**
      * schema migration list 
      * @param array $list 
@@ -233,7 +221,6 @@ final class IGKModuleListMigration extends BaseController implements
         Logger::info("Modules migration...");
         self::$sm_instance = new self();
         $v_modules = self::_GetModules();
-
         if ($v_modules) {
             $handler = new MigrationHandler(self::$sm_instance);
             foreach ($v_modules as $l) {
@@ -269,7 +256,6 @@ final class IGKModuleListMigration extends BaseController implements
             Logger::info("reset module db .... " . $l->getName());
             self::$sm_instance->m_host = $l;
             $fc(self::$sm_instance, $navigate, $force);
-
             self::$sm_instance->m_host = $l;
             ControllerExtension::migrate(self::$sm_instance);
         }
@@ -289,7 +275,6 @@ final class IGKModuleListMigration extends BaseController implements
         self::$sm_instance = new self();
         $v_modules = $modules ?? self::_GetModules();
         if (($fc = BaseController::getMacro($method)) && $v_modules) {
-
             foreach ($v_modules as $l) {
                 $n = $l->getName();
                 Logger::info(" module db .... [ " . $method . ' ] > ' . $n);
@@ -318,7 +303,6 @@ final class IGKModuleListMigration extends BaseController implements
             }
             foreach ($this->m_list as $h) {
                 $p = $argument;
-
                 if (method_exists($h, $n)) {
                     $h->$n(...$p);
                     continue;
@@ -472,7 +456,6 @@ final class IGKModuleListMigration extends BaseController implements
     public function resolvTableDefinition(string $table)
     {
         static $rstable;
-
         if ($rstable === null) {
             $rstable = [];
         }
@@ -480,7 +463,6 @@ final class IGKModuleListMigration extends BaseController implements
             return $p;
         }
         $tab = $this->m_initializer->definitions[$this->m_initializer->resolv]->tables;
-
         foreach ($tab as $m) {
             if ($table == $m->tableName) {
                 $rstable[$table] = $m;
@@ -498,7 +480,6 @@ final class IGKModuleListMigration extends BaseController implements
     {
         return $this->m_host->getName() . "/" . $key;
     }
-
     public function __toString()
     {
         if ($this->m_host) {
@@ -510,8 +491,6 @@ final class IGKModuleListMigration extends BaseController implements
         }
         return __CLASS__;
     }
-
-
     /**
      * init module list 
      * @return static

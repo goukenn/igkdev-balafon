@@ -3,9 +3,7 @@
 // @file: AssetFileRedirectHandlerTrait.php
 // @date: 20230201 12:39:33
 namespace IGK\Actions\Traits;
-
 use IGK\System\Exceptions\ResourceNotFoundException;
-
 /**
 * 
 * @package IGK\Actions\Traits

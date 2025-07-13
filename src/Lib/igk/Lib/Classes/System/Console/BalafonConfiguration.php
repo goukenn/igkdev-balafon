@@ -3,12 +3,10 @@
 // @file: BalafonConfiguration.php
 // @date: 20231016 15:36:08
 namespace IGK\System\Console;
-
 use IGK\Controllers\BaseController;
 use IGK\System\IO\Path;
 use IGK\Constants;
 use IGKException;
-
 /**
 * balafon's base project configuration 
 * @package IGK\System\Console
@@ -42,7 +40,6 @@ class BalafonConfiguration{
     }
     public static function StoreConfig(BaseController $ctrl, $config){
         $file = self::GetConfigFile($ctrl);
-
         igk_io_w2file($file, json_encode($config, JSON_PRETTY_PRINT));
     }
 }

@@ -3,29 +3,22 @@
 // @filename: DbConditionExpressionBuilder.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Database;
-
 use IGK\System\Exceptions\ArgumentNotValidException;
-
 /**
  * represent expression builder 
  * @package IGK\System\Database
  */
 class DbConditionExpressionBuilder{
     var $operand = "AND";
-
     var $conditions = [];
-
     const OP_AND = "AND";
     const OP_OR = "OR";
-
     /**
      * call back expression
      * @var mixed
      */
     var $fc;
-
     /**
      * 
      * @param mixed $operand 

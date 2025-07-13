@@ -3,8 +3,6 @@
 // @file: AttributeEncoder.php
 // @date: 20230316 09:58:40
 namespace IGK\System\Html\Encoding;
-
-
 /**
 * 
 * @package IGK\System\Html\Encoding

@@ -3,11 +3,8 @@
 // @filename: ConfigControllerRegistry.php
 // @date: 20220731 11:10:12
 // @desc: 
-
 namespace IGK\System\Configuration\Controllers;
-
 use Exception;
-
 use IGKEvents;
 use IGK\Controllers\IRegisterOnInitController;
 use IGK\Manager\ApplicationControllerManager;
@@ -15,7 +12,6 @@ use IGK\System\Diagnostics\Benchmark;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 /**
  * config controller registry
  * @package IGK\System\Configuration\Controllers
@@ -24,9 +20,6 @@ class ConfigControllerRegistry
 {
     const LOADED_CONFIG_CTRL = "config_controllers";
     private static $sm_regComplete;
-
-
-
     /**
      * RegisterInitComplete . if Ctrl is not null add it to base controller list
      * @param mixed $ctrl if null return the count number of the registrated controller. else register the controller to iniList
@@ -36,7 +29,6 @@ class ConfigControllerRegistry
         if (self::$sm_regComplete === null)
             self::$sm_regComplete = array();
         $register = $ctrl && ($ctrl instanceof IRegisterOnInitController); // in_array(IRegisterOnInitController::class,  class_implements($ctrl, false));
-
         if (($ctrl !== null) && (!$register || $ctrl->getCanRegisterOnInit())) {
             self::$sm_regComplete[] = $ctrl;
         }
@@ -53,8 +45,6 @@ class ConfigControllerRegistry
             unset(self::$sm_regComplete[$index]);
         }
     }
-
-
     /**
      * 
      */
@@ -63,7 +53,6 @@ class ConfigControllerRegistry
         if (self::$sm_regComplete){
             $cnf = igk_environment()->getControllerInfo();
             $cnf->initCount = count(self::$sm_regComplete); 
-  
             foreach (self::$sm_regComplete as  $v){
                 $_cl = get_class($v); 
                 Benchmark::mark(get_class() . "::initComplete");
@@ -86,7 +75,6 @@ class ConfigControllerRegistry
      */
     public static function Register(string $class, $name = null)
     {
-
         if (is_subclass_of($class, ConfigControllerBase::class)) {
             $key = $name ? $name : $class;
             igk_environment()->setArray(self::LOADED_CONFIG_CTRL, $key, $class);
@@ -123,9 +111,7 @@ class ConfigControllerRegistry
         if ($d = igk_environment()->get($key = "init_resolv_ctrls")){
             return $d;
         }
-
        //  igk_die(__METHOD__.":: Not implement get configuration controller - Basics");
-
         $v_load_controller = igk_app()->getControllerManager()->getControllerRef();
         // igk_wln_e($v_load_controller, __FILE__.":".__LINE__, );
         $resolv_ctrl = self::GetResolvController();

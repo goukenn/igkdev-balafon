@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Html\CallableConstants;
-
 final class IGKCssComponentStyle extends IGKObject{
     private $m_loadedStyles;
     ///.ctr
@@ -40,15 +38,11 @@ if (igk_env_count('sys://rendering/'.\$file)>1)
 	return false;
 \$bind->Content = igk_bind_host_css_style_file(\$file, \$extra[0]->Document ?? igk_get_document(\$host),\$host);
 return true;
-EOF
-
-        , array("file"=>$file, "host"=>$host)));
+EOF        , array("file"=>$file, "host"=>$host)));
         $c->setCallback("attachDispose", igk_create_expression_callback(<<<EOF
 igk_ilog("disposall ");
 unset(\$tab[\$file]);
-EOF
-
-        , array("file"=>$file, "n"=>$c, "tab"=>$this->m_loadedStyles)));
+EOF        , array("file"=>$file, "n"=>$c, "tab"=>$this->m_loadedStyles)));
         $this->m_loadedStyles[$file]=$c;
         return $c;
     }

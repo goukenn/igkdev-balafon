@@ -3,15 +3,12 @@
 // @file: ProjectBuildCommand.php
 // @date: 20230303 13:56:48
 namespace IGK\System\Commmands;
-
 use IGK\Controllers\SysDbController;
 use IGK\Helper\Activator;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\TamTam\ProjectBuilderEvents;
-
 use function igk_resource_gets as __;
-
 /**
 * 
 * @package IGK\System\Commmands
@@ -31,24 +28,19 @@ class ProjectBuildCommand extends AppExecCommand{
 		$project_builder = new $project_builder_cl();
 		$args = ["type"=>"project", "ctrl"=>$ctrl, "builder"=>$project_builder];
 		$options = (object)['cancel'=>false];
-
 		Logger::info("Build [".$ctrl->getName()."] for production...\n");
-
 		Logger::info('Before build...');
 		$o = igk_hook(ProjectBuilderEvents::BEFORE_BUILD, $args, $options);
 		if ($o && isset($o->cancel)){
 			igk_die("before build canceled");
 		}
-
 		Logger::info('Build...');
 		$ctrl->exposeAssets();
 		igk_hook(ProjectBuilderEvents::BUILD, $args);
-
 		$options = Activator::CreateNewInstance($project_after_build_options_cl, (object)['errors'=>[],
 					'output'=>null,
 					'args'=>$args
 				]);
-
 		Logger::info('after build...');
 		$o = igk_hook(ProjectBuilderEvents::AFTER_BUILD, $args, $options);
 		if ($o && $o->errors){

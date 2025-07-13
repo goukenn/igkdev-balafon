@@ -3,12 +3,9 @@
 // @file: AuthenticationResponse.php
 // @date: 20230707 18:15:53
 namespace IGK\System\Http\Responses;
-
-
 /**
 * 
 * @package IGK\System\Http\Responses
 */
 class AuthenticationResponse{
-
 }

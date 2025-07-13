@@ -3,11 +3,8 @@
 // @filename: IGKAppConfig.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 use IGK\System\Configuration\ConfigData;
 use IGK\System\IO\FileSystem;
-
 use function igk_resources_gets as __; 
 /**
 * Represent IGKAppConfig class
@@ -105,7 +102,6 @@ final class IGKAppConfig extends IGKObject {
     private function __construct(){
         $this->_loadSystemConfig();
     }
-   
     /**
     * load configuration files
     */
@@ -128,7 +124,6 @@ final class IGKAppConfig extends IGKObject {
         if (!$v_load){
            $this->m_configEntries = array_merge([],include(IGK_LIB_DIR."/.setting.global.pinc"));
         }
- 
         // + | load extra configuration files
         $preload_configs = [strtolower(igk_environment()->keyName())];
         if (($cnf = igk_environment()->extra_config) && ($cnf_file= igk_getv($cnf, "configFiles"))){
@@ -137,7 +132,6 @@ final class IGKAppConfig extends IGKObject {
         if ($fullpath==null){
             $fullpath = igk_io_syspath($file);
         }
-
         if ($preload_configs){
             $dir = dirname($fullpath); 
             foreach ($preload_configs as $value) {
@@ -149,10 +143,8 @@ final class IGKAppConfig extends IGKObject {
             }
         }      
         $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries, $extra);
- 
         date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels")); 
         $db_name = $this->m_datas->db_name; 
-      
     }
     /**
     * 

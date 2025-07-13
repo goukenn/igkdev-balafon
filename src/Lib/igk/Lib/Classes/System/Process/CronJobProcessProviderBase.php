@@ -3,12 +3,8 @@
 // @filename: CronJobProcessProviderBase.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Process;
-
 use IGK\Controllers\BaseController;
-
 /**
  * represent the base providers
  * @package IGK\System\Process
@@ -26,7 +22,6 @@ abstract class CronJobProcessProviderBase{
                 ){            
                 return false;
             }
-            
             $fc=function($ctrl){
                 extract((array)func_get_args(2));
                 return include(func_get_arg(1));

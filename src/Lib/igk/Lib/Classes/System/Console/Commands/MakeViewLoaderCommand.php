@@ -3,7 +3,6 @@
 // @file: MakeViewLoaderCommand.php
 // @date: 20250514 14:25:50
 namespace IGK\System\Console\Commands;
-
 use IGK\Controllers\ViewLayoutLoader;
 use IGK\Helper\ViewHelper;
 use IGK\System\Console\AppExecCommand;
@@ -13,7 +12,6 @@ use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\IViewLayoutLoader;
-
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -32,11 +30,8 @@ class MakeViewLoaderCommand extends AppExecCommand{
 		}
 		$force = property_exists($command->options, '--force');
 		$n = ViewHelper::TreatViewNameForClassDefinition($name);
-		
 		$cl = $ctrl::resolveClass($path = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, ucfirst($n)));
-
 		if ($force || !$cl){
-			 
 			$dir = $ctrl::classdir();
 		$bind[Path::Combine($dir, $path.'.php')] = function($file)use($ctrl, $path){
 			$build = new PHPScriptBuilder;
@@ -52,11 +47,9 @@ class MakeViewLoaderCommand extends AppExecCommand{
 			->extends(ViewLayoutLoader::class )
 			->implements(IViewLayoutLoader::class)
 			->namespace($ns);
-
 			igk_io_w2file($file, $build->render());
 		};
 	}
-
 		Utility::MakeBindFiles($command, $bind, $force);
 	}
 }

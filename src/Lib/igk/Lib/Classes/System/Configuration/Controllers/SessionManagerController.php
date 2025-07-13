@@ -3,19 +3,14 @@
 // @filename: SessionManagerController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController; 
 use function igk_resources_gets as __;
-
 /**
 * configuration manage session
 */
 final class SessionManagerController extends ConfigControllerBase{
     const SESS_NOTIFY="sys://notify/sessionmanager";
-    
     public function getName()
     {
         return IGK_CTRL_SESSION_MANAGER;
@@ -109,7 +104,6 @@ final class SessionManagerController extends ConfigControllerBase{
             //             $a->ajxabutton($this->getUri("drop&i=".$k))->Content=igk_svg_use("drop");
             //         }
             //     }, $k, $k==$sess_id);
-                
             //     $c++;
             //     if($c>=$maxItem){
             //         break;
@@ -151,7 +145,6 @@ final class SessionManagerController extends ConfigControllerBase{
                     $a->ajxabutton($this->getUri("drop&i=".$k))->Content=igk_svg_use("drop");
                 }
             }, $k, $k==$sess_id);
-            
             $c++;
             if($c>=$maxItem){
                 break;

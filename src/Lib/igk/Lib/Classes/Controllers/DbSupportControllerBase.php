@@ -3,12 +3,9 @@
 // @filename: DbSupportControllerBase.php
 // @date: 20220725 11:28:15
 // @desc: DbSupport Controller
-
 namespace IGK\Controllers;
-
 use IGK\Controllers\RootControllerBase;
 use IGKDbModelUtility;
-
 /**
  * 
  */
@@ -38,5 +35,4 @@ abstract class DbSupportControllerBase extends RootControllerBase{
         }
         return $db;
     }
-
 }

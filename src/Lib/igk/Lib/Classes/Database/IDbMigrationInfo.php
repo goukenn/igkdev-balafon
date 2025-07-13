@@ -3,8 +3,6 @@
 // @file: IDbMigrationInfo.php
 // @date: 20240921 08:53:24
 namespace IGK\Database;
-
-
 /**
 * 
 * @package IGK\Database

@@ -3,10 +3,7 @@
 // @file: Mails.php
 // @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store mails
 * @package IGK\Models

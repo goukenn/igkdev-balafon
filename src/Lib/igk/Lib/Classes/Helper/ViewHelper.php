@@ -7,7 +7,6 @@
 // @author: C.A.D. BONDJE DOUE
 //
 namespace IGK\Helper;
-
 use Closure;
 use Exception;
 use IGK\Actions\ActionFormOptions;
@@ -32,7 +31,6 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use function igk_resources_gets as __;
-
 /**
  * view context helper class 
  * @package
@@ -45,7 +43,6 @@ class ViewHelper
     const ARG_KEY = "sys://io/query_args";
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
     const PRIVATE_VIEW_ARG = 'view_sets';
-
     /**
      * prepare view argument from path
      * @param string $path 
@@ -74,7 +71,6 @@ class ViewHelper
                 return ucfirst($a);
             }, $tn));
         }
-
         return $n;
     }
     /**

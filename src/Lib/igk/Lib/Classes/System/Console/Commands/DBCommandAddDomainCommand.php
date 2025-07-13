@@ -3,27 +3,19 @@
 // @filename: ClearCacheCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Console\Commands;
-
 use Exception;
 use IGK\Models\Subdomains;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 use Models\Domains;
-
 class DBCommandAddDomainCommand extends AppExecCommand
 {
     var $command = "--domain";
-
     var $desc = "set controller as domain";
-
     var $category = "administration";
-
     var $options = [];
-
     public function showUsage(){
         Logger::print($this->command. " domainame controller [options]");
     }

@@ -8,23 +8,17 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 use IGK\Controllers\SessionController;
 use IGK\Resources\R;
 use IGK\Server;
 use IGKHtmlRelativeUriValueAttribute;
- 
 use IGKViewMode;
 use function igk_resources_gets as __;
-
-
 final class HtmlSessionBlockNode extends HtmlCtrlNode{
- 
     public function getIsVisible()
     {
         return Server::IsLocal() || igk_environment()->isDev();
     }
-    
     protected function _acceptRender($options = null):bool{  
         return $this->getIsVisible();     
     }
@@ -37,8 +31,6 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $t["class"]="debugzone igk-session-block google-Roboto";
             $t->setIndex(10000);
             $d=igk_create_node("div");
-        
-
             $d->addSectionTitle(4)->Content=__("Debug Panel");
             $ul=$d->add("ul");
             $ul->setClass("debug-panel google-Roboto");
@@ -164,7 +156,6 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $app->Session->{"modeview"}=null;
         }
     }
-
     protected function _getRenderingChildren($options = null)
     { 
         // $v = parent::_getRenderingChildren();

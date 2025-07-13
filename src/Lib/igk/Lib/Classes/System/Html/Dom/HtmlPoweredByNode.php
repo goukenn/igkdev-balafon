@@ -7,13 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
 use function igk_resources_gets as __;
-
 use IGKApp;
 use IGKHtmlDoc;
-
 class HtmlPoweredByNode extends HtmlNode{
     protected $tagname = "div";
     public static function getItem(){

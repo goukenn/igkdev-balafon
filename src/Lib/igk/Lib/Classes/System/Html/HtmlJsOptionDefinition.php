@@ -3,15 +3,12 @@
 // @file: HtmlJsOptionDefinition.php
 // @date: 20230429 23:03:49
 namespace IGK\System\Html;
-
 use IGK\Helper\BalafonJSHelper;
-
 /**
 * 
 * @package IGK\System\Html
 */
 class HtmlJsOptionDefinition implements IHtmlGetValue{
-
     private $m_callbable;
     private $m_name;
     public function __construct(string $name, \Closure $options)
@@ -20,7 +17,6 @@ class HtmlJsOptionDefinition implements IHtmlGetValue{
         $this->m_name = $name;
         $this->m_callbable = $options;
     }
-
     public function getValue($options = null) {
         $name = $this->m_name;
         $o = $this->m_callbable;

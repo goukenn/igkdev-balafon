@@ -3,8 +3,6 @@
 // @file: IDbColumnProperties.php
 // @date: 20240906 07:02:14
 namespace IGK\Database;
-
-
 /**
 * db column properties 
 * @package IGK\Database
@@ -54,5 +52,4 @@ namespace IGK\Database;
 * @property ?string $clCharset configured charset 
 */
 interface IDbColumnProperties{
-
 }

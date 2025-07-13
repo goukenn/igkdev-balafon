@@ -3,11 +3,9 @@
 // @file: SearchFilesCommand.php
 // @date: 20250604 15:27:20
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -34,14 +32,12 @@ class SearchFilesCommand extends AppExecCommand{
 			}
 		}
 		}, true);
-
 		// if ($ls){
 		// sort($ls);
 		// array_map(function($q){
 		// 	Logger::print($q);
 		// }, $ls);
 	// }
-
 		Logger::info('total: '. $T); // count($ls));
 	}
 }

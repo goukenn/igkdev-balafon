@@ -1,16 +1,13 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ResponseHandler.php
 // @date: 20220630 08:41:30
 // @desc: 
 namespace IGK\System\Http;
-
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Http\JsonResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\StringBuilder;
-
 /**
  * response handler
  * @package IGK\System\Http\ReponseHandler
@@ -58,8 +55,6 @@ class ResponseHandler
             if($v_qoptions = $this->requestHandlerMimeType()){
                     $fmt_mime_type = $v_qoptions;
             }
-
-
             switch ($fmt_mime_type) {
                 case 'application/xml':
                     $r = igk_xml_render('response', $r);

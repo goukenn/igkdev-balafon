@@ -3,16 +3,13 @@
 // @file: ViewExpressionSetter.php
 // @date: 20221015 12:26:05
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use ArrayAccess;
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
 * var to handle expression var expression setter
 * @package IGK\System\Runtime\Compiler
 */
 final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAccess{
-  
     private $m_update =false;
     private $update_express=null;    
     /**
@@ -20,7 +17,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
      * @var mixed
      */
     private $m_name;
-    
     protected function _access_OffsetSet($n, $v){
         $c = new ViewExpressionSetterValueInfo($n, $v, function($n){
             $this->m_update = true;
@@ -49,7 +45,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
             return $p; 
         }
     }
-   
     public function getIsUpdate(){
         return $this->m_update;
     }
@@ -57,7 +52,6 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
         $this->m_update = false;
         $this->update_express = null;
     }
-
     public function __get($n){
         if ($this->contains($n))
             return $this->_access_OffsetGet($n);

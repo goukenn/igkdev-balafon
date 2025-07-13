@@ -1,5 +1,4 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: BindingPipeExpressionInfo.php
 // @date: 20220819 15:55:25
@@ -11,7 +10,6 @@ use IGK\Resources\R;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 class BindingPipeExpressionInfo{
     /**
      * create default pipe definition

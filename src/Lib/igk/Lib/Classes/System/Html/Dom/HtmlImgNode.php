@@ -3,20 +3,15 @@
 // @filename: HtmlImgNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Resources\ResourceData;
 use IGK\System\Html\HtmlAttributeArray;
 use IGK\System\Html\HtmlResolvLinkValue;
 use IGKException;
-
 /**
 * no definition 
 */
 class HtmlImgNode extends HtmlNode{
-
-    
     /**
     * @param string $src uri
     */

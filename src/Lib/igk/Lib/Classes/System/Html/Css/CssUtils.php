@@ -41,7 +41,6 @@ abstract class CssUtils
 {
     private static $sm_treated_colors = [];
     const CSS_DESC_TITLE = 'Balafon Css Theme';
-
     /**
      * get code block definition 
      * @param mixed $definition 
@@ -415,7 +414,6 @@ abstract class CssUtils
         bool $theme_export = false,
         $rootListener = null
     ) {
-        
         if ($controller->getConfig('no_theme_support'))
             return;
         $tdef = explode('|', CssConstants::SUPPORT_THEME);
@@ -446,14 +444,11 @@ abstract class CssUtils
         $root_defs = [];
         $sroot_defs = [];  
         $v_copy = null;  
-
         foreach ($tdef as $theme_name) {
             $opt->theme_name = $theme_name;
             $opt->is_primary = $primaryTheme == $theme_name;
             $colors = $a_theme->getThemeColorsByName($theme_name);
-
             if ($v_systheme){
-
                 $inc_files = $v_theme ? $v_theme->getIncludedFiles() : null;
                 // + | load specific attached theme options... 
                 $v_theme = new HtmlDocTheme(null, "temp", HtmlDocTheme::TEMP_TYPE);
@@ -463,7 +458,6 @@ abstract class CssUtils
                 if ($colors) {
                     $v_theme->setColors($colors);
                 } 
-               
             }
             else {
                 // $v_theme = $a_theme;

@@ -3,7 +3,6 @@
 // @file: FormData.php
 // @date: 20230205 21:40:41
 namespace IGK\System\WinUI\Forms;
-
 use Closure;
 use Exception;
 use IGK\Helper\Activator;
@@ -14,7 +13,6 @@ use IGK\System\Http\Request;
 use IGK\System\Traits\ActivableTrait;
 use IGK\System\WinUI\Forms\FormValidationData;
 use IGKException;
-
 /**
  * used to setup data for html's form
  * @package IGK\System\WinUI\Forms
@@ -22,14 +20,12 @@ use IGKException;
 abstract class FormData
 {
     use ActivableTrait;
-
     // + | refer to [name]ContentValidator class 
     const SC_EMAIL = 'Email';
     const SC_PASSWORD = 'Password';
     const SC_INTEGER = 'Integer';
     const SC_NUMBER = 'Number';
     const SC_TEXT = 'Text';
-
      /**
      * extract fields 
      * @param null|array $fields 
@@ -38,7 +34,6 @@ abstract class FormData
     public function to_array(?array $fields = null): array{
        return (array)$this;
     }
-    
     /**
      * get validation mapper
      * @param Request $request 
@@ -144,7 +139,6 @@ abstract class FormData
     {
         return null;
     }
-
     /**
      * get not required fields [ key => missing default value, $key]
      * @return null|array 
@@ -161,7 +155,6 @@ abstract class FormData
     {
         return null;
     }
-
     /**
      * validate from json request
      * @param Request $request 
@@ -190,11 +183,9 @@ abstract class FormData
             (method_exists(static::class, $validata_class) ?
                 call_user_func_array([static::class, $validata_class], []) : null) ??
             new ObjectDataValidator();
-
         /**
          * @var {validate():null}|null $validator
          */
-
         $e = new static;
         $validation_mapper = $e->getDataValidatorMapper();
         $requestData = [];
@@ -227,7 +218,6 @@ abstract class FormData
         }
         return $r;
     }
-
     /**
      * use to retrieve the fields to use in a form
      * @return array 

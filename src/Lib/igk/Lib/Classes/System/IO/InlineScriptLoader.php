@@ -3,11 +3,8 @@
 // @file: InlineScriptLoader.php
 // @date: 20250401 14:37:42
 namespace IGK\System\IO;
-
 use IGK\System\Html\IHtmlGetValue;
 use IGKException;
-
-
 /**
 * 
 * @package IGK\System\IO
@@ -31,7 +28,6 @@ class InlineScriptLoader implements IHtmlGetValue{
         if (igk_environment()->isDev()){
             return file_get_contents($this->file);
         }
-        
         $d = igk_js_minify(file_get_contents($this->file));
         // TODO : caching file result 
         $v_hashkey = hash('crc32b', $this->file);

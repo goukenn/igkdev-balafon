@@ -1,15 +1,12 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ArticleContentBindingHelper.php
 // @date: 20221115 22:47:41
 // @desc: 
 namespace IGK\Helper;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Models\ModelBase;
-
 class ArticleContentBindingHelper{
     const PIPE_ARG_FORMAT = "#\{\{\s*(?P<property>%s)\s*((\|(?P<pipe>[^\}]+))?\s*)?\}\}#";
     /**
@@ -48,7 +45,6 @@ class ArticleContentBindingHelper{
         }
         return false;
     }
-
     /**
      * bind article with pipe binding expression 
      * @param string $content 

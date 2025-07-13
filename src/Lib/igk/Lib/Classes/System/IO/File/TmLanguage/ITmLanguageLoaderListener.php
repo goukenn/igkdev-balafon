@@ -3,9 +3,7 @@
 // @file: ITmLanguageLoaderListener.php
 // @date: 20241107 04:53:12
 namespace IGK\System\IO\File\TmLanguage;
-
 use IGK\System\Text\RegexMatcherPattern;
-
 /**
 * 
 * @package IGK\System\IO\File\TmLanguage

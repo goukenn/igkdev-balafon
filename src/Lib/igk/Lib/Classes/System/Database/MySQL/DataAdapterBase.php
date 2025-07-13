@@ -3,11 +3,8 @@
 // @filename: DataAdapterBase.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 // @file: DataAdapterBase.php
-
 namespace IGK\System\Database\MySQL;
-
 use Exception;
 use IGKException;
 use IGK\Database\SQLDataAdapter;
@@ -16,12 +13,8 @@ use IGK\System\Database\NoDbConnection;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\Constants;
-
 // if (!defined(__FILE__)){
-
 //     define(__FILE__, 1);
-
-
 /**
  * Represent DataAdapterBase class
  */
@@ -43,7 +36,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * @var false
      */
     protected $inTransaction = false;
-
     /**
      * check if adapter can process query 
      * @param string $context 
@@ -53,7 +45,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return  !($this->m_dbManager instanceof NoDbConnection);
     }
-
     /**
      * 
      * @param mixed $ctrl the default value is null
@@ -73,7 +64,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $this->m_dbManager->setCloseCallback(array($this, 'closeCallback'));
             $this->m_dbManager->setOpenCallback(array($this, 'openCallback'));
         }
-
         if ($this->connect()) {
             register_shutdown_function(function () {
                 $c = $this->OpenCount();
@@ -86,7 +76,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
             });
         }
     }
-
     /**
      * @return object data manager
      */
@@ -191,13 +180,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
             }
             return false;
         }
-
         $dbs = igk_get_env("sys://Db/NODBSELECT");
         $dbname = $this->m_dbname;
-
         if (is_string($dbnamemix))
             $dbname = $dbnamemix;
-
         if (!$dbs && $selectdb) {
             $dbname = is_null($dbname) ? $this->app->Configs->db_name : $dbname;
             if ($dbname && !$this->selectdb($dbname)) {
@@ -237,7 +223,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         if (!$options)
             $options = [];
-
         $options["Columns"] = [
             "Count(*) as count"
         ];
@@ -326,7 +311,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
             return MySQLDataController::GetConstraint_Index($this, $s, $this->DbName);
         return null;
     }
-
     /**
      * 
      */
@@ -417,8 +401,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         $this->m_time = new IGKMySQLTimeManager($this);
         return $this->m_time;
     }
-
-
     /**
      * 
      */
@@ -572,12 +554,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
     public function update($tbname, $entries, $where = null, $querytabinfo = null)
     {
         if (($entries == null) || ($this->m_dbManager == null)) {
-
             return false;
         }
         return $this->m_dbManager->update($tbname, $entries, $where, $querytabinfo);
     }
-
     /**
      * create table info query
      * @param SQLGrammar $grammar 

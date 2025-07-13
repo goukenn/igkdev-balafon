@@ -3,9 +3,7 @@
 // @filename: StringUtility.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Helper;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlUtils;
@@ -14,7 +12,6 @@ use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\Helper
@@ -23,7 +20,6 @@ abstract class StringUtility
 {
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
-
     /**
      * get function name
      * @param string $s 
@@ -54,7 +50,6 @@ abstract class StringUtility
         }
         return $s;
     }
-
     /**
      * reduction condition block code 
      * @param string $condition 
@@ -203,7 +198,6 @@ abstract class StringUtility
      */
     public static function NS(string $namespace): string
     {
-
         $ns = str_replace("/", "\\", $namespace);
         $ns = trim(str_replace(" ", "", $ns));
         return $ns;
@@ -251,14 +245,11 @@ abstract class StringUtility
      */
     public static function UriStart(string $haystack, string $compare): bool
     {
-
         $haystack = rtrim($haystack, "/");
         $compare = rtrim($compare, "/");
         if (strpos($haystack, $compare) === 0) {
             $u = rtrim(parse_url($haystack)["path"], "/");
             $v = rtrim(parse_url($compare)["path"], "/");
-
-
             return (bool)preg_match("#" . $v . "(/(.+)|\?|\#|$)#", $u);
         }
         return false;
@@ -295,7 +286,6 @@ abstract class StringUtility
         $name = preg_replace("#[^0-9a-z]#i", "_", $name);
         return str_replace("_", "", ucwords(ucfirst($name), "_"));
     }
-
     public static function Identifier(string $n)
     {
         $rx =  "/^" . IGK_IDENTIFIER_RX . "$/i";
@@ -343,7 +333,6 @@ abstract class StringUtility
         $g = str_replace("/", $dir, $g);
         return $g;
     }
-
     /**
      * 
      * @param mixed $text
@@ -362,7 +351,7 @@ abstract class StringUtility
      */
     public static function EndWith($chaine, $pattern)
     {
-        $chaine = trim($chaine);
+        // $chaine = trim($chaine);
         $c = strlen($chaine);
         $p = strlen($pattern);
         $i = strripos($chaine, $pattern);
@@ -455,7 +444,6 @@ abstract class StringUtility
         } else
             return substr($chaine, $start);
     }
-
     /**
      * read identifier token
      * @param string $hastack 
@@ -581,7 +569,6 @@ abstract class StringUtility
                             // read array of constant to handle doc comment
                             $l =self::ReadArrayConstants($b);                            
                             $args = array_merge($args, [$l]); 
-
                         }
                         $ch = '';
                     }
@@ -667,7 +654,6 @@ abstract class StringUtility
         }
         return $v;
     }
-
     /**
      * insert string at offset
      * @param string $haystack string to modify 
@@ -690,14 +676,12 @@ abstract class StringUtility
      */
     public static function ReplaceAtOffset(string $haystack, string $insert, int $offset, int $length)
     {
-
         return  substr($haystack, 0, $offset) .
             $insert . substr(
                 $haystack,
                 $offset + $length
             );
     }
-
     public static function DisplayAddress(
         ?string $street = null,
         ?string $number = null,
@@ -756,7 +740,6 @@ abstract class StringUtility
         $identifer = $rp->replace(trim($identifer));
         return $identifer;
     }
-
     /**
      * array to environment - filter value
      * @param mixed $tab 
@@ -771,7 +754,6 @@ abstract class StringUtility
             return $k . '=' . $v;
         }, $tab, array_keys($tab))));
     }
-
     /**
      * 
      * @param string $value 

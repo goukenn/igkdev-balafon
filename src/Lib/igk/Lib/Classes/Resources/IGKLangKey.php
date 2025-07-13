@@ -3,16 +3,11 @@
 // @filename: IGKLangKey.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\Resources;
-
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\IHtmlGetValue;
 use IGKViewMode;
-
 use function igk_resources_gets as __;
-
 /**
 * represent a language key entries. it support IHtmlGetValue for getting and setting the values
 */

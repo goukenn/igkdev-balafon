@@ -3,11 +3,8 @@
 // @filename: HtmlTextNode.php
 // @date: 20220309 08:58:17
 // @desc: text node
-
 namespace IGK\System\Html\Dom;
-
 use IGK\XML\XMLNodeType;
-
 /**
  * represent text done
  */

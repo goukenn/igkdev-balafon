@@ -7,12 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Exceptions\OperationNotAllowedException;
-
 use function igk_resources_gets as __;
-
-
 class IGKNotifyStorage{
     private $m_name, $tab;
     private $m_autohide;
@@ -29,11 +25,9 @@ class IGKNotifyStorage{
         throw new OperationNotAllowedException('notifyStorage');
     }
     private function __construct(){    }
-
     public function addDanger($msg){
         return $this->addError(...func_get_args());        
     }
-
     public function addError($msg){
         $this->tab[]=["type"=>"igk-danger", "msg"=>$msg];
         return $this;
@@ -101,7 +95,6 @@ class IGKNotifyStorage{
         $this->tab=[$data];
         return $this;
     }
-
     /**
      * get messages
      */

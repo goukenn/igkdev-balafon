@@ -3,8 +3,6 @@
 // @filename: subdomain.php
 // @date: 20220803 13:48:55
 // @desc:  subdomain library loading
-
- 
 namespace IGK\System\Library;
 use function igk_resources_gets as __;
 use Exception;
@@ -15,7 +13,6 @@ use IGKException;
 use IGKSubDomainManager;
 use IGKSystemUriActionPatternInfo;
 use IGKValidator;
-
 /**
  * subdomain management library
  * @package IGK\System\Library
@@ -29,12 +26,10 @@ class subdomain{
             return false;
         }
         require_once IGK_LIB_CLASSES_DIR."/IGKSubDomainManager.php";
-
         if (empty(IGKSubDomainManager::GetSubDomain())){
             return false;
         }
         if (!defined('IGK_CONFIG_PAGE') && !igk_is_cmd() && !IGKValidator::IsIPAddress(igk_server()->SERVER_NAME)){
-
             // igk_reg_hook(IGKEvents::HOOK_APP_BOOT, [$this, 'bootapp']);    
             igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function($e){
                 $this->boot_args = $e;
@@ -66,12 +61,10 @@ class subdomain{
             });
         //}, 100);
     }
-
     /**
     * check for subdomain
     */
     private function __checkSubDomain(?string $file){
-       
         $uri=igk_io_fullrequesturi();
         if(igk_io_handle_system_command($uri)){
             igk_exit();
@@ -96,7 +89,6 @@ class subdomain{
                 if($e && !empty($e=trim($e)))
                     $entry="/".$e;
             }
-
             require_once IGK_LIB_DIR . "/igk_request_handle.php";       
             igk_sys_handle_ctrl_request_uri($uri, true); 
             $path_info = $uri;

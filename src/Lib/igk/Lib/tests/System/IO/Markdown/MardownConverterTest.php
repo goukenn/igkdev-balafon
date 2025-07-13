@@ -53,8 +53,9 @@ class MardownConverterTest extends BaseTestCase
         ]);
         $d = $this->_transform($src);
         $this->assertEquals(
-            '<table class="igk-table"><tr><th>Name of data</th><th>Description Node</th></tr><tr><td>igkdev</td><td>www.igkdev.com</td></tr><tr><td>jour</td><td><b><code>null</code></b></td></tr></table><table class="igk-table"><tr><th>Sample</th><th></th></tr><tr><td>info</td><td></td></tr></table>',
-            $d
+            '<table class="igk-table"><tr><th>Name of data</th><th>Description Node</th></tr><tr><td>igkdev</td><td>www.igkdev.com</td></tr><tr><td>jour</td><td><b><code>null</code></b></td></tr></table>'
+            .'<table class="igk-table"><tr><th>Sample</th><th></th></tr><tr><td>info</td><td></td></tr></table>'
+            , $d
         );
     }
     public function test_mdconverter_emoji()
@@ -110,6 +111,7 @@ class MardownConverterTest extends BaseTestCase
         $src = implode("\n", [
             '1. Info data',
             '1. Info info',
+            // '',
             '',
             '1. Orange',
             '2. ```Mangoes```'

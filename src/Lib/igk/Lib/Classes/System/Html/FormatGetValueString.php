@@ -8,9 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
- 
 use IGKObject;
-
 /** @package IGK\System\Html */
 final class HtmlFormatGetValueString extends IGKObject implements IHtmlGetValue{
     private $m_member, $m_obj;

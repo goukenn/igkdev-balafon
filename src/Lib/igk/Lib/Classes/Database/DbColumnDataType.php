@@ -7,10 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Database;
-
-
 final class DbColumnDataType{
     const DATE_TIME="Datetime";
     const DOUBLE_SINGLE="Double";

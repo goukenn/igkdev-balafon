@@ -3,13 +3,10 @@
 // @filename: IGKEvents.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 use IGK\Actions\Dispatcher;
 use IGK\HookOptions;
 use IGK\IHookOptions;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-
 /**
  * represent app - system - controller - public hook
  * Hooking system 
@@ -21,15 +18,12 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
  */
 class IGKEvents extends IGKObject
 {
-
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
     const HOOK_SESS_START = "sys_session_start";
-
     /**
      * reset uset authentications 
      */
     const HOOK_USER_RESET_AUTH = 'sys://user/reset_auth';
-
     // + | --------------------------------------------------------------------
     // + | Application constant 
     // + |  
@@ -37,14 +31,10 @@ class IGKEvents extends IGKObject
     const HOOK_APP_PRESENTATION = 0xa01;
     const HOOK_APP_BOOT = "sys://app_boot";
     const HOOK_APP_SETTING_RESET = "app_setting_reset";
-
     // + | --------------------------------------------------------------------
     // + | command event constant : 
     // + |
     const HOOK_COMMAND = 'sys_commnand';
-
-
-
     const HOOK_INIT_APP = "init_app";
     const HOOK_BEFORE_INIT_APP = "before_init_app";
     const HOOK_AFTER_INIT_APP = "after_init_app";
@@ -54,7 +44,6 @@ class IGKEvents extends IGKObject
     // + | --------------------------------------------------------------------
     // + | DB QUERY
     // + |
-
     const HOOK_DB_DATA_ENTRY = "db_dataentry";
     const HOOK_DB_INIT_START = "db_init_start";
     const HOOK_DB_INIT_COMPLETE = "db_init_complete";
@@ -63,7 +52,6 @@ class IGKEvents extends IGKObject
     const HOOK_DB_POST_GROUP = "db_post_db_create_database_list";
     const HOOK_DB_CACHES_INITIALIZED = "db_cache_initialized";
     const HOOK_DB_INSERT = 'db_data_inserted';
-
     const HOOK_HTML_BEFORE_RENDER_DOC = "html_before_render_doc";
     const HOOK_HTML_AFTER_RENDER_BODY = "html_after_render_body";
     const HOOK_HTML_BODY = "html_body";
@@ -72,13 +60,11 @@ class IGKEvents extends IGKObject
     const HOOK_HTML_META = "html_meta";
     const HOOK_HTML_PRE_FILTER_ATTRIBUTE = "html_prefilter_attribute";
     const HOOK_HTML_LOADING_CONTEXT_REGISTER = 'html_context_register';
-
     const HOOK_PAGEFOLDER_CHANGED = "sys_pagefolder";
     const HOOK_SCRIPTS = "html_load_scripts";
     // + | --------------------------------------------------------------------
     // + | USER MANAGEMENT HOOK
     // + |
-
     const HOOK_USER_ADDED = "sys_user_added";
     const HOOK_USER_EXISTS = "sys_user_exists";
     const HOOK_USER_LOGIN = "sys_user_login";
@@ -92,12 +78,9 @@ class IGKEvents extends IGKObject
     const HOOK_DB_START_DROP_TABLE = 'sys://db/startdroptable';
     const HOOK_DB_RENAME_COLUMN = 'sys://db/rename_column';
     const HOOK_DB_MIGRATE = 'sys://db/migrate'; // event: ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]
-
-
     const HOOK_ACTION_WILL_DO_ACTION = 'sys://action/willDoAction';
     const HOOK_ACTION_DO_ACTION = 'sys://action/doAction';
     const HOOK_ACTION_DID_ACTION = 'sys://action/didDoAction';
-
     const HOOK_MK_LINK = "generateLink";
     const USER_PWD_CHANGED = "user pwd changed";
     const HOOK_MODEL_INIT = "db_init_model_macros";
@@ -115,18 +98,14 @@ class IGKEvents extends IGKObject
     // + |
     const HOOK_INIT_VIEW =  'on_init_view';
     const HOOK_INIT_INC_VIEW = 'on_init_inc_view';
-
-
     const HOOK_FORCE_VIEW = "doc_force_view";
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
     const HOOK_LOG_APPEND = "sys_log_append_msg";
     const HOOK_INSTALL_SITE = "sys_install_site";
     const HOOK_INIT_GLOBAL_MATERIAL_FILTER = "sys_init_gobal_material_filter";
     const HOOK_MAIL_REGISTER = "sys_hook_mail_register";
-
     const P_SUBDOMAIN_PRIORITY = 0;
     const P_SESSION_PRIORITY = 100;
-
     public static function CreateHookOptions(): IHookOptions
     {
         return new HookOptions();
@@ -136,13 +115,11 @@ class IGKEvents extends IGKObject
      */
     const HOOK_BIND_CTRL_CSS = "css_bind_ctrl_style";
     const ENV_KEY = "sys://hooks";
-
     const HOOK_DOM_PROPERTY_CHANGED = "dom_property_changed";
     /**
      * filter node . update property or replace with output response.
      */
     const FILTER_CREATED_NODE = "post_filter_node";
-
     const FILTER_DB_SCHEMA_INFO = "filter_db_schema_info";
     /**
      * filter node creation
@@ -150,14 +127,11 @@ class IGKEvents extends IGKObject
     const FILTER_PRE_CREATE_ELEMENT = "pre_filter_node";
     const FILTER_POST_CREATE_ELEMENT = "post_filter_node";
     const FILTER_CONFIG_MENU = 'filter_config_menu';
-
     const FILTER_AUTH_TYPE = 'filter_user_auth_type';
-
     /**
      * build command event
      */
     const BUILD_ASSETS = 'build_assets';
-
     /**
      * command Hooks
      */
@@ -165,20 +139,14 @@ class IGKEvents extends IGKObject
     const COMMAND_HELP_HOOK = 'command:help';
     const HOOK_MIDDLEWARE_ACTION = 'MiddleWareAction';
     const HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN = 'MiddleWareAction:/CheckAccessToken';
-
     const HOOK_ON_MODULE_ADDED = 'command:/module/added';
-
-
     const HOOK_USER_AUTHENTICATE = 'sys:/user/authenticate';
     const VIEWCOMPLETE = 0x1;
-
     const HOOK_CRUNJOB = 'on_do_cronjob';
     private $m_methods;
     private $m_name;
     private $m_owner;
     private $m_singlemethod;
-
-
     /**
      * register hook callback
      * @param string $hookKey 
@@ -193,7 +161,6 @@ class IGKEvents extends IGKObject
         };
         igk_reg_hook($hookKey, $m);
     }
-
     /**
      * 
      * @param mixed $owner
@@ -355,7 +322,6 @@ class IGKEvents extends IGKObject
      * @param mixed $v
      */
     public function setIsDebugging($v) {}
-
     /**
      * register hooks
      * @param mixed $name 
@@ -376,7 +342,6 @@ class IGKEvents extends IGKObject
         );
         $hooks[$name]->changed = 1;
     }
-
     /**
      * 
      * @param mixed $name 
@@ -399,7 +364,6 @@ class IGKEvents extends IGKObject
         }
         $hooks = igk_environment()->get(self::ENV_KEY);
         $tab = igk_getv($hooks, $name);
-
         if ($tab) {
             $list = &$tab->list;
             if ($tab->changed) {
@@ -430,7 +394,6 @@ class IGKEvents extends IGKObject
                 }
                 $cargs[0]->lastoutput = call_user_func_array($callback, $tcargs);
             };
-
             foreach ($list as $v) {
                 if (!is_callable($v_c = $v->callback)) {
                     if (is_string($v_c)) {
@@ -474,7 +437,6 @@ class IGKEvents extends IGKObject
         }
         return $def ? $def->output : $args;
     }
-
     /**
      * unregister hook
      * @param mixed $name 
@@ -499,7 +461,6 @@ class IGKEvents extends IGKObject
             $hooks[$name]->list = [];
         }
         $tb = &$hooks[$name]->list;
-
         if ($all) {
             $c = 0;
             $tb = array_filter(array_map(function ($v) use ($callback, &$c) {
@@ -511,7 +472,6 @@ class IGKEvents extends IGKObject
             }, $tb));
             return $c;
         }
-
         foreach ($tb as $k => $v) {
             if ($v->callback === $callback) {
                 unset($tb[$k]);

@@ -3,14 +3,12 @@
 // @file: ControllerLitteralBuilder.php
 // @date: 20230418 09:39:59
 namespace IGK\System\Html\Css\Builder;
-
 use igk\devtools\DocumentParser\UriDetector;
 use IGK\Helper\IO;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\IO\Path;
 use IGK\System\Regex\Replacement;
 use IGKValidator;
-
 /**
  * help build litteral by entry in css file
  * @package IGK\System\Html\Css\Builder
@@ -20,9 +18,7 @@ class ControllerLitteralBuilder
     var $outputFile;
     var $controller;
     var $outputDir;
-
     private $m_resources;
-
     public function resplaceResPath($path)
     {
         $asset = $this->controller->asset("/", false);
@@ -31,11 +27,8 @@ class ControllerLitteralBuilder
         $rp->add("#/_lib_/Default/R/Css/#", "/core_css/");
         $rp->add("#/_lib_/Default/R/JS/#", "/core_js/");
         $rp->add("#/{$asset}#", "/assets/");
-
-
         return $rp->replace($path);
     }
-
     public function build()
     {
         $css = CssUtils::GenCss($this->controller);
@@ -55,10 +48,8 @@ class ControllerLitteralBuilder
                         $g = getimagesize($s);
                         if ($g) {
                             $target = $this->outputDir . igk_str_rm_start($m, $bdir);
-
                             IO::CreateDir(dirname($target));
                             igk_io_w2file($target, file_get_contents($s));
-
                             $fc = igk_str_rm_start($target, $this->outputDir);
                             $css = str_replace($k->uri, "url({$fc})", $css);
                         } else {
@@ -68,13 +59,11 @@ class ControllerLitteralBuilder
                             $this->$fc($s);
                         }
                     }
-
                     $this->m_resources[$s] = $fc;
                 }
             }
         }
         $css = preg_replace('/\*#\s*sourceMappingURL\s*=\s*[^\*]+\*\/\//', '', $css);
-
         igk_io_w2file($this->outputFile, $css);
     }
     protected function _store_css($file)

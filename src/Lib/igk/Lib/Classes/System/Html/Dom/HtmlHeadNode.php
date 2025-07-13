@@ -1,24 +1,18 @@
 <?php
-
 namespace IGK\System\Html\Dom;
-
 use IGKEvents;
-
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
-
 class HtmlHeadNode extends HtmlNode{
     protected $tagname = "head";
     private $m_title; 
     private $m_scripts = [];
-
     public function __construct()
     {
         parent::__construct();
     }
-
     public function setTitle($value){
         if ($this->m_title == null){
             $this->m_title = new HtmlNode("title");

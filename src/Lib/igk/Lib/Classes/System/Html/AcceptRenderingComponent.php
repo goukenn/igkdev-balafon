@@ -3,9 +3,7 @@
 // @file: AcceptRenderingComponent.php
 // @date: 20250408 15:50:23
 namespace IGK\System\Html;
-
 use Exception;
-
 /**
 * definition to render on component visibility
 * @package IGK\System\Html
@@ -19,7 +17,6 @@ class AcceptRenderingComponent{
     public function __construct(string $guid)
     {
         $this->guid = $guid;
-
     }
     public function script(){
         if (is_null($this->m_script)){
@@ -27,7 +24,6 @@ class AcceptRenderingComponent{
         }
         return $this->m_script;
     }
-
     /**
      * 
      * @param mixed $n 

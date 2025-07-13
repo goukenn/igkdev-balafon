@@ -3,15 +3,12 @@
 // @file: MacrosServices.php
 // @date: 20230106 00:56:46
 namespace IGK\System\Actions\Services;
-
-
 /**
 * 
 * @package IGK\System\Actions\Services
 */
 class MacrosServices{
     static $macros = [];
-
     /**
      * register action method 
      * @param string $name 

@@ -3,8 +3,6 @@
 // @file: CoreIconMetaData.php
 // @date: 20231221 15:59:06
 namespace IGK\System\Html\Metadatas;
-
-
 /**
 * 
 * @package IGK\System\Html\Metadatas

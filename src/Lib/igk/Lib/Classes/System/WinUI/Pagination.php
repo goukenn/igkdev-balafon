@@ -3,16 +3,11 @@
 // @filename: Pagination.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\WinUI;
-
 use Exception;
 use IGK\Helper\UriHelper; 
 use IGKException;
-
 use function igk_resources_gets as __;
-
 class Pagination{
     /**
      * selected pan
@@ -38,15 +33,12 @@ class Pagination{
      * @var mixed
      */
     var $type; 
-
     /**
      * default css class 
      * @var string
      */
     var $className = "igk-pagination";
-
     var $pageQuery;
-
     /**
      * 
      * @param mixed $itemPerPage number per page
@@ -78,7 +70,6 @@ class Pagination{
      * @throws IGKException 
      */
     public function list($ajx=0, $request_uri = null){ 
-        
         $total = floor($this->total/$this->count)+1;
         $n = igk_create_node("ul");
         $n["class"] = $this->className;
@@ -93,7 +84,6 @@ class Pagination{
         $request_uri = $request_uri ?? igk_io_request_uri();
         $query = UriHelper::GetQueryTab($request_uri);
         $request_uri = explode("?", $request_uri)[0];
-        
         if (empty($query)){
             $q = "?".$this->pageQuery."=";
         }else{

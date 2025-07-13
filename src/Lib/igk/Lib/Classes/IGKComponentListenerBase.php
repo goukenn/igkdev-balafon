@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 abstract class IGKComponentListenerBase extends IGKParamStorage implements IIGKParamHostService{
     public function __construct(){
         parent::__construct();

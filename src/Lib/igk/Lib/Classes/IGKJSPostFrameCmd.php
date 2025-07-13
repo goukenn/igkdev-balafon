@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Html\IHtmlGetValue;
-
 class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
     private $m_global, $m_obj, $m_t;
     public function __construct($obj, $t, $global=false){

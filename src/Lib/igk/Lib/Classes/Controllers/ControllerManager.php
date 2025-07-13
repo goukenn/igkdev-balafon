@@ -1,23 +1,18 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ControllerManager.php
 // @date: 20220425 14:53:16
 // @desc: controller manager
-
 namespace IGK\Controllers;
-
 use IGK\Constants;
 use IGK\Helper\IO;
 use IGK\Resources\R;
 use IGKControllerManagerObject;
 use IGKControllerTypeManager;
-
 /**
 * Controller used to manage controllers
 */
 final class ControllerManager extends NonVisibleControllerBase {
-
     /**
     * add a controller from request
     */
@@ -66,7 +61,6 @@ final class ControllerManager extends NonVisibleControllerBase {
             return $response;
         }
         if($n && ($n != ".") && ($n != "..") && (igk_getctrl($n, false) == null) && ($type != null)){
-            
             $p="";
             if(($ctrl_ns != "igk") && preg_match(IGK_NAME_SPACE_REGEX, $ctrl_ns)){
                 $m=explode(".", $ctrl_ns);
@@ -104,9 +98,7 @@ final class ControllerManager extends NonVisibleControllerBase {
                 igk_io_save_file_as_utf8($folder."/".IGK_SCRIPT_FOLDER."/default.js", self::GetDefaultScript($n));
             }
             $file_name=$folder."/class.".$n.".php";
-
             $v_clcontent = self::GetDefaultClassContent($n, $type, $webparent, $t);
-
             igk_io_save_file_as_utf8($file_name, $v_clcontent);
             igk_io_save_file_as_utf8($folder."/".IGK_VIEW_FOLDER."/".IGK_DEFAULT_VIEW_FILE, call_user_func(array($type, "GetAdditionalDefaultViewContent")));
             include($file_name);
@@ -132,7 +124,6 @@ final class ControllerManager extends NonVisibleControllerBase {
             if($ctrl && !$nodefaultarticle){
                 igk_io_save_file_as_utf8($ctrl->getArticle(IGK_DEFAULT), R::ngets("default.articlev_1", $n)->getValue());
             }
-			
 			if ($t[IGK_CTRL_CNF_USE_DATASCHEMA]){
 				igk_io_w2file($folder."/".IGK_DATA_FOLDER."/".IGK_SCHEMA_FILENAME, "<".IGK_SCHEMA_TAGNAME." />"); 
 			}
@@ -270,7 +261,6 @@ OEF;
             if($ctrl){
                 $cl=get_class($ctrl);
                 if($cl){
-                    
                     $i=static::getInstance(); 
                     if ($r=is_string($n) ? $i->dropControllerByName($n): $i->dropController($n)){
                         // reset controller cache

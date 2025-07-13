@@ -3,9 +3,7 @@
 // @file: WebComponent.php
 // @date: 20221123 18:14:24
 namespace IGK\System\Html\Dom\Component;
-
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
 * 
 * @package IGK\System\Html\Dom\Component

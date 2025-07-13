@@ -3,8 +3,6 @@
 // @file: SchemaForeignConstraintInfo.php
 // @date: 20230203 22:10:38
 namespace IGK\System\Database;
-
-
 /**
 * 
 * @package IGK\System\Database
@@ -25,7 +23,6 @@ class SchemaForeignConstraintInfo{
      * @var mixed
      */
     var $columns;
-
     /**
      * foreign key reference
      * @var ?string

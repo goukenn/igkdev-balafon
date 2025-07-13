@@ -3,11 +3,9 @@
 // @file: Colorize.php
 // @date: 20240914 12:40:24
 namespace IGK\System\Console;
-
 use Exception;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKValidator;
-
 /**
  * 
  * @package IGK\System\Console
@@ -25,7 +23,6 @@ class Colorize
      * @var mixed
      */
     var $colors;
-
     protected function _initRegexMatcherContainer(RegexMatcherContainer $match){
         $match->begin("('|\")", "(?<!\\\\)\\1", "string");
         $match->begin("#", "$", "comment");
@@ -56,7 +53,6 @@ class Colorize
         if (is_null($match)) {
             $match = new RegexMatcherContainer;
             $this->_initRegexMatcherContainer($match);
-          
         }
         $rp = [];
         $filter = $filter ?? $this->listener;
@@ -104,7 +100,6 @@ class Colorize
             }
             return true;
         })) {
-
             $n = '';
             $offset = 0;
             while (count($rp) > 0) {

@@ -7,13 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\WinUI\Menus;
-
 use IGKException;
-
 use function igk_resources_gets as __;
-
 /**
  * contextual menu item
  * @package IGK\System\WinUI\Menus

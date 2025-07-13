@@ -3,17 +3,12 @@
 // @filename: DbDropCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGKException;
-
 use function igk_resources_gets as __;
-
 class DbDropCommand extends AppExecCommand{
     public $command = "--db:droptables";
     public $category = "db";
@@ -33,6 +28,5 @@ class DbDropCommand extends AppExecCommand{
         $c::dropDb(false, true);
         Logger::success(__("done"));
         return 0;
-
     }
 }

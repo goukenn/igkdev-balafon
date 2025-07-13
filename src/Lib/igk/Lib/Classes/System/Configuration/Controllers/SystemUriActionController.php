@@ -7,10 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
-
 namespace IGK\System\Configuration\Controllers;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Models\Systemuri;
@@ -19,10 +16,6 @@ use IGK\System\Http\RequestResponseCode;
 use IGKException;
 use IGKSystemUriActionPatternInfo;
 use IIGKUriActionListener;
-
-
- 
-
 final class SystemUriActionController extends ConfigControllerBase implements IIGKUriActionListener{
     //+ action routes
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
@@ -35,19 +28,17 @@ final class SystemUriActionController extends ConfigControllerBase implements II
      * handle system uri
      */
     const AC_SYS_URI = 'sys';
-    
     private static $sm_actions, $sm_routes;
     public static function GetCacheFile(){
         return igk_io_cachedir()."/".self::CACHE_FILE;
     }
-   
     /**
      * 
      */
     private static function _RegActions(SystemUriActionController $controller){
         if (self::$sm_actions === null){
             // @unlink(self::GetCacheFile());
-            if (igk_io_file_exists($file = self::GetCacheFile(), true)){
+            if (file_exists($file = self::GetCacheFile())){
                 $tab = unserialize(file_get_contents($file));
                 self::$sm_routes = $tab["routes"];
                 self::$sm_actions = $tab["actions"];
@@ -74,7 +65,6 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         return self::$sm_actions;
     }
     public function contains($key){
-        
         $tab=$this->_refRoutes();
         if(is_array($tab))
             return array_key_exists($key, $tab);
@@ -132,7 +122,6 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     public function getConfigPage(){
         return "systemuri";
     }
-    
     public function getDataTableName(): ?string{
         return igk_db_get_table_name(IGK_TB_SYSTEMURI);
     }
@@ -158,7 +147,6 @@ final class SystemUriActionController extends ConfigControllerBase implements II
      * @param int|bool $render render content
      */
     public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
-       
         $app = igk_app();
         $actionctrl = $this; 
         if ($e = $actionctrl->matche($uri)){
@@ -194,12 +182,10 @@ final class SystemUriActionController extends ConfigControllerBase implements II
     static function GetConfigurationPath(){
         static $conf_path;
         if (is_null($conf_path)){
-
             $conf_path = igk_app()->getConfigs()->get('configuration_access', IGK_CONF_PATH);  
             self::_CheckConfPath($conf_path) || igk_die('configuration path is not valid');
         }
         return $conf_path;
-    
     }
     public function init_wakeup(){    }
     /**
@@ -254,7 +240,6 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         if (!igk_configs()->get("no_db_route") && class_exists(Systemuri::class)){        
             try {
                 $e = Systemuri::select_all(); 
-         
             if($e){
                 foreach($e as $k=>$v){
                     if(is_object($v)){
@@ -272,7 +257,6 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         }
         return $actions;
     } 
-   
     public function invoke_action(){
         $u=igk_getv($_SERVER, "REQUEST_URI");
         $c=preg_match_all("/^\/@!(?P<name>([^\/]+))(\/(?P<param>(.)+))?$/i", $u, $tab);
@@ -314,7 +298,6 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         }
     }
     public function invokePageAction($type, $ctrl, $func, $args){
-
         self::_RegActions($this); 
         switch($type){
             case self::AC_SYS_URI:
@@ -367,12 +350,9 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $app=igk_app();
         $app->Session->PageFolder=IGK_HOME_PAGEFOLDER;
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, $pattern);
-
         // $v_uri = './?c=%7Ba4918130-ce95-8e6b-c4a0-7b906dcf8c51%7D&f=configure-settings';
         // igk_trace();
         // igk_wln_e($v_uri, $pattern->action, $r);
-
-
         $app->getControllerManager()->InvokeUri($v_uri);
         igk_set_env(IGK_ENV_URI_PATTERN_KEY, null);
         if($render){
@@ -388,15 +368,12 @@ final class SystemUriActionController extends ConfigControllerBase implements II
      */
     public static function GetMatchCtrl(string $uri, bool $forceMatch=false){
         static $rsolv = true;
-
         if ($rsolv){
             $rsolv = false;
         }else {
             return ;
         }
- 
         $g = self::ctrl()->matche($uri);
-        
         $c = null;
         $rsolv = true;
         if ($g){
@@ -414,13 +391,11 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $v_routes = $this->_refRoutes();  
         // igk_wl_pre($v_routes);
         // igk_wln_e(__FILE__.":".__LINE__);
-
         if($v_routes){
             //  krsort($v_routes);
             foreach($v_routes as $k=>$v){
                 $pattern=igk_pattern_matcher_get_pattern($k); 
                 if(preg_match_all($pattern, $uri)){
-                     
                     return new IGKSystemUriActionPatternInfo(array(
                         "action"=>$k,
                         "ctrl"=> null,
@@ -435,7 +410,6 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         return null;
     }
     public function matche_global($uri){
-    
         $v_routes = $this->_refRoutes();
         if($v_routes){
             foreach($v_routes as $k=>$v){
@@ -495,7 +469,6 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         $c=$c->clearChilds()->addPanelBox();
         igk_html_add_title($c, "title.SystemUriView");
         //$c->addHSep();
-        
         $c->notagnode()->article($this, "systemuri", []);
         //igk_html_article($this, "systemuri", $c->div());
         //$c->addHSep();
@@ -509,5 +482,4 @@ final class SystemUriActionController extends ConfigControllerBase implements II
         }
         return $this;
     }
-  
 }

@@ -3,10 +3,8 @@
 // @file: ExpressionEvalEngineTrait.php
 // @date: 20240123 13:12:18
 namespace IGK\System\Html\Templates\Engine\Traits;
-
 use IGK\System\Html\HtmlReader;
 use IGK\System\Templates\BindingExpressionReader;
-
 /**
 * 
 * @package IGK\System\Html\Templates\Engine\Traits
@@ -23,7 +21,6 @@ trait ExpressionEvalEngineTrait{
             "expression" => "",
             HtmlReader::ARGS_ATTRIBUTE => HtmlReader::EXPRESSION_ARGS
         ];
-
         if ($c = preg_match_all('/(?P<escape>(\\\)?\')?\{\{(?P<value>.+)\}\}/', $content, $matches)){
             $tab = [];
             for($i = 0; $i < $c; $i++){
@@ -34,10 +31,7 @@ trait ExpressionEvalEngineTrait{
                 $v_v = $matches[$i][0];
                 if (!key_exists($v_v, $tab)){
                     $v_ts = substr($v_v, strlen($v_escape));
-
                    $v =  $exp_reader->treatContent($v_ts, $data);
-
-
                     //$v = igk_engine_eval($v_ts, 0, $data);
                     if ($v_escape=='\\\''){
                         $v_escape='\'';
@@ -49,5 +43,4 @@ trait ExpressionEvalEngineTrait{
         } 
         return igk_str_remove_quote($content);
     }
-
 }

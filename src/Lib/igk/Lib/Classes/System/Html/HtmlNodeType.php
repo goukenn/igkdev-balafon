@@ -3,10 +3,7 @@
 // @filename: HtmlNodeType.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 abstract class HtmlNodeType{
     const Node = "Node";
     const Text = "Text";

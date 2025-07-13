@@ -239,7 +239,7 @@ $inner = $regex->begin('>','(?=<)', 'inner-sub')->last();
 $regex->autoStore = true;
 $regex->appendStringDetection('string', true);
 $regex->appendCommentDocBlock();
-RegexMatcherUtility::appendPhpHereDoc($regex);
+RegexMatcherUtility::AppendPhpHereDoc($regex);
 
  
 $stop = $regex->createPattern(['match'=>'^\\s*[^\/\\s]+', 'tokenID'=>'ugly-line']);
@@ -266,14 +266,9 @@ $inf =(object)['start'=>false];
     function (
         $e
     ) use ($buffer, $inf) {
-        igk_is_debug() && Logger::info('tokenID:'.$e->tokenID);
-        // if ('ugly-line'==$e->tokenID){
-        //     Logger::print($e->value. ' capture: '. strlen($e->beginCaptures[0][0]));
-        // }
-        if ($inf->start && ($e->tokenID == 'summary-start')) {
-            // echo ' :::: '.$e->getisEnd() ;
-            if ($e->getisEnd()){
-            // IGK\System\Console\Logger::print($e->value);
+        igk_is_debug() && Logger::info('tokenID:'.$e->tokenID);  
+        if ($inf->start && ($e->tokenID == 'summary-start')) { 
+            if ($e->getisEnd()){ 
             $buffer->replace($e);
             }
         }

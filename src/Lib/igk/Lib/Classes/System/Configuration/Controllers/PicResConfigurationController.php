@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGKHtmlRelativeUriValueAttribute; 
@@ -18,7 +16,6 @@ use IGK\System\Html\Dom\HtmlSearchNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\Helper\IO as IGKIO;
 use function igk_resources_gets as __;
-
 /**
  * manage picture resources
  * @package IGK\System\Configuration\Controllers
@@ -29,7 +26,6 @@ final class PicResConfigurationController extends ConfigControllerBase{
     const PICRES_FLAG=1;
     const PICRES_KEY="PicResChanged";
     const TARGETDIR=IGK_RES_FOLDER."/Img";
-   
     public function getIsVisible():bool{
         return false;
     }

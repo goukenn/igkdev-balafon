@@ -3,7 +3,6 @@
 // @file: ScriptTrait.php
 // @date: 20221202 15:22:19
 namespace IGK\Core\Traits;
-
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlScriptLoader;
@@ -14,7 +13,6 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherPattern;
 use IGKException;
 use IGKValidator;
-
 /**
  * 
  * @package IGK\Core\Traits
@@ -49,7 +47,6 @@ trait ScriptTrait
     {
         return HtmlScriptLoader::LoadScripts(self::GetCoreScriptDirs(), $options, $production, igk_sys_js_exclude_dir());
     }
-
     /**
      * get script content 
      * @param mixed $tab 
@@ -78,9 +75,8 @@ trait ScriptTrait
                         return;
                     }
                     if (!isset($_autoloads_dir[$dir = dirname($f)])){
-
                         $_autoloads_dir[$dir] = 1;
-                        if (igk_io_file_exists($fjson = $dir.'/__autoload.json')){
+                        if (file_exists($fjson = $dir.'/__autoload.json')){
                             $r = json_decode(file_get_contents($fjson), true);
                             $rg = igk_extract_obj($r, 'required|ignore');
                             $_autoloads_dir[$dir] = $rg; 
@@ -100,7 +96,6 @@ trait ScriptTrait
                             }
                         }
                     } 
-
                     $sources[$f] = 
                     // $s .= "// " . igk_io_collapse_path($f) . $lf;
                     // $ts = file_get_contents($f);
@@ -123,11 +118,8 @@ trait ScriptTrait
             }
             $s = "";
         }
-
         // - merge source 
-
         if (is_null($manager) && ($references)) {
-
             $sb = new StringBuilder;
             $r = 0;
             $sb->appendLine('(function(){');
@@ -142,8 +134,9 @@ trait ScriptTrait
             $out .= implode("\n", $sources);
             $sb->appendLine('})();');
             $out = $sb . '' . $out;
+        } else {
+             $out .= implode("\n", $sources);
         }
-
         // . bundler treatment
         $out = self::TreatBundlerSource($out);
         return $out;
@@ -179,18 +172,15 @@ trait ScriptTrait
         $l = $jscontainer->match('\/\/.*$', 'comment');
         $l = $jscontainer->appendStringDetection('litteral');
         $l = $jscontainer->begin('(’)', '\\1', 'litteral-import');
-
         $url = null;
-
         while ($g = $jscontainer->detect($src, $offset)) {
             if ($e = $jscontainer->end($g, $src, $offset)) {
-
                 switch ($e->tokenID) {
                     case 'import.url':
                         $l = trim($e->value, '"\'');
                         if (!IGKValidator::IsUri($l)) {
                             $cf = Path::CombineAndFlattenPath($dir,  $l);
-                            if (igk_io_file_exists($cf)) {
+                            if (file_exists($cf)) {
                                 $url = $cf;
                             }
                         }
@@ -205,7 +195,6 @@ trait ScriptTrait
                             // return imports module reference for production . 
                             $gm = rtrim(substr($src, 0, $e->from));
                             // if (igk_str_endwith($gm,'=')){
-
                             // }
                             $ts = sprintf('__module_refs[%s].apply(window);', $inx);
                             $src = $gm . $ts . substr($src, $e->to);

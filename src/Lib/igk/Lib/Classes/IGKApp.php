@@ -3,8 +3,6 @@
 // @filename: IGKApp.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
@@ -15,7 +13,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\HookHandler; 
 use IGK\System\IO\Path;
 use function igk_resources_gets as __; 
-
 require_once IGK_LIB_CLASSES_DIR.'/IGKEvents.php';
 require_once IGK_LIB_CLASSES_DIR.'/IGKAppContext.php';
 /**
@@ -37,9 +34,7 @@ class IGKApp extends IGKObject
      */
     private $m_initialized;
     private $_f;
-
     const DOC_NAME = "main_document";
-    
     /**
      * get app configuration settings
      * @return mixed 
@@ -63,7 +58,6 @@ class IGKApp extends IGKObject
         return self::$sm_instance;
     }
     private function __construct(){
-        
     }
     /** 
      * create controller manager
@@ -73,7 +67,6 @@ class IGKApp extends IGKObject
         //:: return IGKControllerManagerObject::getInstance();
         return new ApplicationControllerManager($this, $this->m_appInfo);
     }
-
     public function __toString()
     {
         return "igk framework - app[Version:" . IGK_VERSION . "]";
@@ -98,7 +91,6 @@ class IGKApp extends IGKObject
      * @throws Exception 
      */
     public function getSettings(){
-
         $app_key = IGK_APP_SESSION_KEY;
         $use_session = $this->getApplication()->lib('session');
         $v_bstart = null;        
@@ -116,7 +108,6 @@ class IGKApp extends IGKObject
                     $a->{IGK_APP_INFO_TYPE} = IGKAppInfoType::Session; 
                     return $a;
                 });
-                
             } else {
                 $v_setting_info = $this->createAppInfo();
             }
@@ -146,7 +137,6 @@ class IGKApp extends IGKObject
     * view mode setting - require session
     */
     public function getViewMode(){
-
 		if (!isset($this->getSettings()->{IGK_VIEW_MODE_FLAG}))
 			return IGKViewMode::VISITOR;
         return $this->getSettings()->{IGK_VIEW_MODE_FLAG}; 
@@ -164,7 +154,6 @@ class IGKApp extends IGKObject
 		$this->getSettings()->{IGK_VIEW_MODE_FLAG} = $v; 
         igk_hook(IGKEvents::HOOK_VIEW_MODE_CHANGED, [$this, $v]);
     }
-   
      /**
     * get api current page folder
     * @return ?string
@@ -267,7 +256,6 @@ class IGKApp extends IGKObject
         }
         return $v_doc;        
     }
-
     public static function IsInit(){
         return (self::$sm_instance !==null) && self::$sm_instance->m_initialized;
     }
@@ -300,20 +288,16 @@ class IGKApp extends IGKObject
         // + |--------------------------------------------------------------
         // + | HOOK application initialize 
         // + | 
-  
         // \IGK\System\Diagnostics\Benchmark::Activate(true, ["dieOnError"=>true]);
-        
         \IGK\System\Diagnostics\Benchmark::mark("hook_init_app");       
         // TODO : REMOVE HOOK_INIT_APP COAST        
         IGKEvents::hook(IGKEvents::HOOK_INIT_APP, $_hookArgs);  
         \IGK\System\Diagnostics\Benchmark::expect("hook_init_app", 0.0015); 
         self::$sm_instance->m_initialized = true;
         IGKEvents::hook(IGKEvents::HOOK_AFTER_INIT_APP, $_hookArgs);
-
         // register system hooks
         include IGK_LIB_DIR.'/Inc/igk_hooks.pinc'; 
     }
-
     /**
      * Run Api Engine context
      * @param IGKApplicationBase $app 
@@ -330,7 +314,6 @@ class IGKApp extends IGKObject
         self::$sm_instance->m_initialized = true;
         return self::$sm_instance;
     }
-
     /**
      * create session storage application information
      * @return object 
@@ -350,7 +333,6 @@ class IGKApp extends IGKObject
             "appInfo" => (new IGKAppInfoStorage())->getData() 
         ];
     }
-
     /**
     * destroy the application
     */
@@ -370,12 +352,9 @@ class IGKApp extends IGKObject
     public function getService(string $serviceName){
         return IGKServices::Get($serviceName);
     }
-
     //-------------------------------------------------------------------------------------
     // |+ self hosted application context
-
     private $m_context;
-
     /**
      * get the current definition context
      * @return ?string
@@ -428,5 +407,3 @@ class IGKApp extends IGKObject
         self::_InitHookLogic($_hookArgs);        
     }
 }
-
- 

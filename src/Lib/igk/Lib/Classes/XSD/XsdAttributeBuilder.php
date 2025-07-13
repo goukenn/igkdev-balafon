@@ -3,17 +3,11 @@
 // @filename: XsdAttributeBuilder.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
 namespace IGK\XSD;
-
 use IGKXmlNode;
-
 class XsdAttributeBuilder extends XsdElement{
     private function __construct()
     {
-        
     }
     public static function Create(IGKXmlNode $node, XsdBuilder $builder)
     {

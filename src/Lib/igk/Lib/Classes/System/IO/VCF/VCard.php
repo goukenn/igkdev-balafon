@@ -3,11 +3,9 @@
 // @file: VCard.php
 // @date: 20250503 12:25:54
 namespace IGK\System\IO\VCF;
-
 use IGK\Helper\Activator;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
 * 
 * @package IGK\System\IO\VCF
@@ -45,13 +43,11 @@ class VCard
      * @var mixed
      */
     var $TZ;
-
     /**
      * geo location
      * @var mixed
      */
     var $GEO;
-
     var $ROLE;
     var $LOGO;
     var $RELATED;
@@ -62,12 +58,10 @@ class VCard
     var $KEY;
     var $FBURL;
     var $CALADRURI;
-
     public function __construct()
     {
         $this->VERSION = '3.0';
     }
-
     /**
      * 
      * @param string $type 
@@ -91,9 +85,7 @@ class VCard
         foreach ($vcards as $value) {
             if ($value instanceof static) {
                 $v_sb->appendLine("BEGIN:VCARD");
-
                 foreach($rv as $k){
-
                     if (!empty($value->{$k})){
                         $n = str_replace('_','-', $k);
                         $v = $value->{$k};
@@ -109,7 +101,6 @@ class VCard
                         }
                     }
                 }
-
                 $v_sb->appendLine("END:VCARD");
             }
         }
@@ -150,8 +141,6 @@ class VCard
             } else 
                 $def[$key] = $value;
         };
-
-
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 switch ($e->tokenID) {
@@ -199,7 +188,6 @@ class VCard
                             if (($rpos = strpos($value, ':')) !== false){
                                 $tv = substr($value, $rpos + 1);
                             }
-                               
                             if ($key == 'TEL') {
                                 //just treat 
                                 $v = str_replace(' ', '', $tv);
@@ -214,14 +202,12 @@ class VCard
                         break;
                 }
             }
-
             if ($pos == $lastpos) {
                 igk_wln_e("cusort not move", $lastpos);
                 break;
             }
             $lastpos = $pos;
         }
-
         if (!empty($key) && $value){
             $def[$key] = $value;
         }

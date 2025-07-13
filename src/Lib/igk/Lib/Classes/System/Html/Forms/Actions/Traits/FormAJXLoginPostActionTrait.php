@@ -3,7 +3,6 @@
 // @file: FormAJXLoginPostActionTrait.php
 // @date: 20230427 12:51:05
 namespace IGK\System\Html\Forms\Actions\Traits;
-
 use IGK\Actions\ActionBase;
 use IGK\Database\Macros\UsersMacros;
 use IGK\Models\Users;
@@ -15,7 +14,6 @@ use IGK\System\Http\WebResponse;
 use IGKActionBase;
 use IGKException;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\Html\Forms\Actions\Traits
@@ -79,6 +77,5 @@ trait FormAJXLoginPostActionTrait
         }
         return $this->die("Unauthenticated", 401);
     }
-
     static abstract function RegisterToken(Users $user): string;
 }

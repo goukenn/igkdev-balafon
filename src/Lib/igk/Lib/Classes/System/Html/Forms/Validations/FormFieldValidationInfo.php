@@ -3,10 +3,8 @@
 // @file: FormFieldValidationInfo.php
 // @date: 20231228 21:50:33
 namespace IGK\System\Html\Forms\Validations;
-
 use IGK\System\Html\Forms\IFormValidationField;
 use IGK\System\Html\Forms\Validations\Traits\FormFieldValidationInfoTrait;
-
 /**
 * 
 * @package IGK\System\Html\Forms\Validations
@@ -22,7 +20,6 @@ class FormFieldValidationInfo implements IFormValidationInfo{
      * @var mixed
      */
     var $validator;
-    
     /**
      * source field
      * @var mixed

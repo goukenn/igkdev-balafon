@@ -3,11 +3,9 @@
 // @file: CssSession.php
 // @date: 20221005 10:30:40
 namespace IGK\System\Html\Css;
-
 use IGKException;
 use IGKObject;
 use stdClass;
-
 /**
 * 
 * @package IGK\System\Html\Css
@@ -15,7 +13,6 @@ use stdClass;
 class CssSession extends IGKObject{
     const APP_THEME_NAME = 'igk_app_theme_name';
 	private $_data;
-
 	private static $sm_instance;
 	public static function getInstance(){
 		if (self::$sm_instance === null){

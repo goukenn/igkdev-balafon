@@ -3,13 +3,11 @@
 // @file: RegisterServiceActionTrait.php
 // @date: 20221115 08:47:02
 namespace IGK\Actions\Traits;
-
 use IGK\Actions\Dispatcher;
 use IGK\Models\Mailinglists;
 use IGK\System\Exceptions\ActionNotFoundException;
 use igk_default\Actions\MailingStates;
 use ReflectionMethod;
-
 /**
 * use to register mail actions - follows us 
 * @package IGK\Actions\Traits
@@ -26,7 +24,6 @@ trait RegisterServiceActionTrait{
         }
         throw new ActionNotFoundException($t);        
     }
-
     private function activate_mail(){
         $g = base64_decode(igk_getr("q"));
         parse_str($g, $q);
@@ -39,9 +36,7 @@ trait RegisterServiceActionTrait{
         }
         $g = $this->getController();
         igk_navto($g::uri("/?q=MailService&r=".$r));
-
     }
-   
     private function unregister_mail(){
         $g = base64_decode(igk_getr("q"));
         parse_str($g, $q);

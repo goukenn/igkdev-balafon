@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Net;
 use IGKObject; 
- 
-
 class MailAttachement extends IGKObject{
     private $m_content;
     var $CID, $ContentType, $Link, $Name, $Type, $Visible;

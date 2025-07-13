@@ -3,13 +3,11 @@
 // @file: RegexCaptureInfo.php
 // @date: 20241106 15:57:37
 namespace IGK\System\Text;
-
 use Closure;
 use IGK\Helper\Activator;
 use IGK\Helper\Trait\ActivatorPrivateInitProperty;
 use IGKException;
 use IGKObject;
-
 /**
  * 
  * @package IGK\System\Text
@@ -21,15 +19,11 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
     private $pos;
     private $to;
     private $value; 
-
     var $childs;
     var $data;
     var $_dynamic;
-
     public function getisRoot(): bool { return true;}
-
     public function getisRootCaptured(): bool { return true;}
-
     public function getPos(){
         return $this->pos;
     }
@@ -57,9 +51,7 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
             return;
         }
         parent::__set($n, $v);
-        
     }
-    
     /**
      * 
      * @param array $def 
@@ -73,4 +65,3 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
         return $inf;
     } 
 }
- 

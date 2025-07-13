@@ -3,15 +3,12 @@
 // @file: ValueExpression.php
 // @date: 20230225 19:25:21
 namespace IGK\Helper\Expressions;
-
-
 /**
 * 
 * @package IGK\Helper\Expressions
 */
 class ValueExpression{
     protected $data = [];
-
     /**
      * replace 
      * @param string $data 

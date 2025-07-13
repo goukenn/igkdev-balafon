@@ -3,8 +3,6 @@
 // @file: ViewReadConditionFlagInfo.php
 // @date: 20221027 08:04:10
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
-
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -45,7 +43,6 @@ class ViewReadBlockFlagInfo{
      * @var bool
      */
     var $condition_read = false;
-
     /**
      * is litteral block expression
      */

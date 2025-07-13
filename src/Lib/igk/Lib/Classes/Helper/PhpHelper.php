@@ -1,19 +1,15 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: PhpHelper.php
 // @date: 20220601 14:18:34
 // @desc: PhpHelp
-
 namespace IGK\Helper;
-
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionParameter;
-
 class PhpHelper{
     /**
      * get callable from string
@@ -53,21 +49,17 @@ class PhpHelper{
                 $ll = ltrim($ll);
                 if(strpos($ll,"@")===0)
                     continue;
-    
                 $c .= $ll; 
             }
         }
         return $c;
     }
-
     /**
      * 
      * @return string 
      */
     public static function HtmlComponentDocumention(){
-
         require_once IGK_LIB_DIR . "/igk_html_func_items.php";
-
         $_fcs = get_defined_functions(true)["user"];
         $ln = strlen(IGK_FUNC_NODE_PREFIX);
         sort($_fcs);
@@ -91,12 +83,9 @@ class PhpHelper{
                         $t .= $p->getType()->getName() . " ";
                     }
                     $g .= self::getDefaultValue($p);
-                 
-
                     if ($p->isVariadic()) {
                         $t .= " ...";
                     }
-
                     return $t . "$".$p->name . $g;
                 }, $params)));
                 //igk_wln_e($f, $params, $params[0], $m);
@@ -153,7 +142,6 @@ class PhpHelper{
                     $s .= '\\';
                 }
                 $s .= $r.' '; // IGKType::GetName($p->getType()) . " ";
-
             } 
             $s.=  '$'.$p->getName();
             $s.= self::getDefaultValue($p);

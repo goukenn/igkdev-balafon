@@ -3,10 +3,7 @@
 // @filename: Request.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
@@ -14,7 +11,6 @@ use IGK\System\Console\ServerFakerInput;
 use IGK\System\IInjectable;
 use IGK\System\Security\Web\Traits\ContentSecurityManagementTrait;
 use IGKException;
-
 /**
  * 
  * @package IGK\System\Http
@@ -25,7 +21,6 @@ class Request implements IInjectable, IContentSecurityProvider
     const REQUEST_JSON_DATA_ENV_KEY = 'RequestFakeJsonInput';
     const FILES_FIELD = "\$files";
     const ARRAY_RESPONSE_CODE = '@__response_code';
-
     /**
      * 
      * @param mixed $args 
@@ -44,7 +39,6 @@ class Request implements IInjectable, IContentSecurityProvider
      */
     public static function IsSupportFileRequest($data){
         return isset( ((object)$data)->{self::FILES_FIELD});
-
     }
     /**
      * 
@@ -113,7 +107,6 @@ class Request implements IInjectable, IContentSecurityProvider
         } 
         return $this->js_data;
     }
-
     /**
      * transform global request data request object
      * @return object 
@@ -133,7 +126,6 @@ class Request implements IInjectable, IContentSecurityProvider
     public function isset($key){
         return isset($_REQUEST[$key]);
     }
-  
     /**
      * set the request parameters
      */
@@ -151,11 +143,9 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return $this->m_params;
     }
-
     public function getParams(){
         return $this->m_params;
     }
-
     /**
      * base request instance
      * @return  Request
@@ -177,7 +167,6 @@ class Request implements IInjectable, IContentSecurityProvider
         if (!$b)
             return null;
         $file = (($g = $v_srv->SCRIPT_NAME) ? $g : $v_srv->PHP_SELF);
-        
         if (preg_match('/[~]/', $file)){
             igk_die("request entry not allowed");
         } 
@@ -255,7 +244,6 @@ class Request implements IInjectable, IContentSecurityProvider
     {
         return igk_getv($_FILES, $name);
     }
-
     public function view_args($params=null, $default=null)
     {
         $t = igk_get_view_args();

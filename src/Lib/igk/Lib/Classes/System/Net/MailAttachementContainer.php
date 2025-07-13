@@ -7,12 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Net;
-
 use IGKObject;
 use IIGKMailAttachmentContainer;
-
 final class MailAttachementContainer extends IGKObject implements IIGKMailAttachmentContainer{
     private $m_files, $m_ids;
     public function __construct(){

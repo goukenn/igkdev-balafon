@@ -3,7 +3,6 @@
 // @file: EnvironmentCommand.php
 // @date: 20240914 11:23:33
 namespace IGK\System\Console\Commands;
-
 use Google\Service\TrafficDirectorService\RegexMatcher;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
@@ -11,7 +10,6 @@ use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\Constants;
-
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -27,7 +25,6 @@ class EnvironmentCommand extends AppExecCommand{
 	static function Environment(){
 		$env = []; 
 		$tenv = getenv();
-
 		foreach($tenv as $k => $v){
 			if (preg_match("/^\bIGK_[A-Z_]+\b/", $k)){
 				$env[$k] = $v;
@@ -45,7 +42,6 @@ class EnvironmentCommand extends AppExecCommand{
 		}
 		$ctrl = self::GetController(igk_getv($command->options,'--controller'), false);
 		$module = ($m=igk_getv($command->options,'--module')) ? igk_get_module($m) : null;
-
 		$def->controller = $ctrl ? $ctrl->getName() : null;//  getCurrentController();
 		$def->module = $module ? $module->getName() : null;
 		$def->env = self::Environment();
@@ -60,14 +56,12 @@ class EnvironmentCommand extends AppExecCommand{
 			if (property_exists($cnf, $k)){
 				$cnf->{$k} = '< secret >';
 			}
-
 		} 
 		$def->config = $cnf; 
 		if ($ctrl){
 			$cnf = $ctrl->getDeclaredDir()."/". Constants::PROJECT_CONF_FILE;
 			if (igk_io_file_exists($cnf)){
 				$def->project = json_decode(file_get_contents($cnf));
-
 			}
 		} 
 		$s = json_encode($def, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);

@@ -3,14 +3,12 @@
 // @file: RequestFileUtility.php
 // @date: 20241123 13:34:28
 namespace IGK\System\Html\Forms\Helper;
-
 use Closure;
 use IGK\Helper\IO;
 use IGK\System\Forms\IUploadFileHandler;
 use IGK\System\Html\Forms\RequestFormFileData;
 use IGK\System\Http\HttpUtility;
 use IGK\System\IO\Path;
-
 /**
  * 
  * @package IGK\System\Html\Forms\helpers
@@ -58,7 +56,6 @@ class RequestFileUtility
             $value->moveUploadTo(Path::Combine( $destination, $k));
         })->bindTo((object)get_defined_vars());
     }
-
     /**
      * 
      */

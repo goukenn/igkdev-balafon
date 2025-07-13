@@ -8,11 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System;
-
 use Exception;
-
 use function igk_resources_gets as __;
-
 final class Number
 {
     static $sm_sizeFormat = array(
@@ -98,7 +95,6 @@ final class Number
         }
         return $o;
     }
-
     /**
      * 
      * @param string $value 
@@ -124,8 +120,6 @@ final class Number
                 'mo' => 'Mb'
             ], $f);
             $v_t = igk_getv(self::$sm_sizeFormat, $v_t);
-
-
             return $r * $v_t;
         }
     }

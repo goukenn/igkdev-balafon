@@ -3,8 +3,6 @@
 // @file: IDbSQLGrammarExtraOptions.php
 // @date: 20240906 08:24:28
 namespace IGK\System\Database;
-
-
 /**
 * 
 * @package IGK\System\Database
@@ -17,5 +15,4 @@ namespace IGK\System\Database;
 * @property ?int|array $Limit
 */
 interface IDbSQLGrammarExtraOptions{
-
 }

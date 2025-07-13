@@ -3,25 +3,19 @@
 // @filename: CoreFileSystem.php
 // @date: 20220803 13:48:55
 // @desc: 
- 
- 
 namespace IGK\System\IO;
-
 // igk_trace();
 // igk_wln_e("basic");
-
 /**
  * core file
  * @package IGK\System\IO
  */
 abstract class CoreFileSystem{
-
      /**
      * 
      * @var string base path of the file system
      */
     public $path; 
-    
     /**
      * check if path is dir
      * @return bool 
@@ -36,7 +30,6 @@ abstract class CoreFileSystem{
     public function isFile(){
         return is_file($this->path);
     }
-
     /**
      * check if path is expired
      * @param string $path path to cache in file system
@@ -108,7 +101,6 @@ abstract class CoreFileSystem{
     public function getFullPath(string $path): string {
         return implode(DIRECTORY_SEPARATOR, array_filter([$this->_getDir(), $path]));
     }
-
     /**
      * check if path expired 
      * @param string $path 
@@ -121,7 +113,6 @@ abstract class CoreFileSystem{
         }
         return true;
     }
-
 //       /**
 //      * check that file expiere from cache storage
 //      * @param string $realpath_to_check 

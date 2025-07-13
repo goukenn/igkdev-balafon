@@ -8,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 abstract class HtmlCtrlNodeItemBase extends HtmlWebComponentNode{
     private $m_ctrl;
     public function __construct($tag){

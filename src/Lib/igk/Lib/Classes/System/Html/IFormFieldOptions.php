@@ -3,13 +3,9 @@
 // @filename: IFormFieldOptions.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use IGK\System\Html\Forms\IFormValidationField;
 use IGK\System\Html\Forms\Validations\FormFieldValidationInfo;
-
 /**
  * represent a form field options declaration
  * @package IGK\System\Html
@@ -25,5 +21,4 @@ use IGK\System\Html\Forms\Validations\FormFieldValidationInfo;
  * @property array $data entry data. $key=>$value, ['i'=>, 't'=>]
  */
 interface IFormFieldOptions extends IFormValidationField{
-
 }

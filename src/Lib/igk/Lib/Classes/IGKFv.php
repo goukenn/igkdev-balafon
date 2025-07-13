@@ -3,9 +3,6 @@
 // @filename: IGKFv.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
 /**
 * represent Internal session flag data
 */
@@ -86,7 +83,6 @@ class IGKFv {
         $g=$this->getFlag($code);
         if($force || ($g == null) || ((is_array($g) && (count($g) == 0)))){
             $this->unsetFlag($code);
-
 			$this->_updateBinding();
         }
     }
@@ -104,7 +100,6 @@ class IGKFv {
     * get the flag.use explicitly setFlag to store reference data
     */
     public function & getFlag($code, & $default=null, $register=0){
-
         $g=null;
         if(isset($this->_[$code]))
             $g=& $this->_[$code];
@@ -143,7 +138,6 @@ class IGKFv {
                 $this->_[$code]=$v;
         }
 		$this->_updateBinding();
-
     }
 	private function _updateBinding(){
 		if ($this->_listener){

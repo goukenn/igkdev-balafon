@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ApplicationControllerManager.php
 // @date: 20220831 19:53:14
 // @desc: 
-
 namespace IGK\Manager;
-
 use Doctrine\Inflector\Rules\Patterns;
 use IGK\ApplicationLoader;
 use IGK\Constants;
@@ -24,7 +21,6 @@ use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
-
 /**
  * manage controller between session
  * @package 
@@ -34,39 +30,32 @@ class ApplicationControllerManager implements IApplicationControllerManager
     private $m_app;
     const INIT_METHOD = "initComplete";
     const REF_MODULE_TOKEN_IDENTIFIER='ref-module';
-
     private $m_controllers = [];
     /**
      * the default application controller
      * @var ?BaseController
      */
     private $m_default_controller;
-
     public function __construct(IGKApp $application)
     {
         $this->m_app = $application;
     }
-
     public function getRegistratedNamedController(string $name): ?BaseController
     {
         return SysUtils::GetControllerByName($name, false);
     }
-
     public function registerNamedController(string $name, BaseController $controller)
     {
         return null;
     }
-
     public function getDefaultController(): ?BaseController
     {
         return $this->m_default_controller;
     }
-
     public function setDefaultController(?BaseController $controller)
     {
         $this->m_default_controller = $controller;
     }
-
     /**
      * get controller instance
      * @param BaseController|string $n 
@@ -84,7 +73,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         if (key_exists($n, $resolved)){
             return $resolved[$n];
         }
-
         if (is_string($n) && $this->m_default_controller && (get_class($this->m_default_controller) === $n)) {
             return $this->m_default_controller;
         }
@@ -95,7 +83,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
             return $ctrl;
         }
         $resolv_controler = &self::GetResolvController();
-
         // igk_wln_e(__FILE__.":".__LINE__,  "the [{$n}]", $resolv_controler);
         if ($env_controller = igk_environment()->get(ConfigControllerRegistry::LOADED_CONFIG_CTRL)) {
             // merge with config controller
@@ -122,7 +109,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
             $this->register($ctrl);
             return $ctrl;
         }  
-
         if ($throwex) {
             throw new ControllerNotFoundException($n);
         }
@@ -172,7 +158,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         // + | --------------------------------------------------------------------
         // + | CALL init complete took too long
         // + |
-
         $c = get_class($controller);
         if ($this->notPresent($controller)) {
             $cl = get_class($controller);
@@ -188,8 +173,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         }
         return false;
     }
-
-
     /**
      * use to invoke system controller method
      */
@@ -248,7 +231,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
             if ($f == IGK_EVALUATE_URI_FUNC) {
                 igk_app()->setBaseCurrentCtrl($ctrl);
             }
-
             if (($f == IGK_EVALUATE_URI_FUNC) || $ctrl->IsFunctionExposed($f)) {
                 igk_app()->session->URI_AJX_CONTEXT = igk_is_ajx_demand() || str::EndWith($f, IGK_AJX_METHOD_SUFFIX) || (igk_getr("ajx") == 1);
                 $fd = null;
@@ -278,7 +260,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         }
         return $c;
     }
-
     /**
      * array of loaded controller
      * @return array 
@@ -319,7 +300,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
         }
         return $out;
     }
-
     /**
      * invoke pattern
      * @param mixed $pattern 
@@ -331,7 +311,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
     {
         return $this->InvokeUri($pattern->value, 1, $pattern);
     }
-
     /**
      * 
      * @param string $reference 
@@ -340,10 +319,8 @@ class ApplicationControllerManager implements IApplicationControllerManager
     static function RetrieveControllerFromReference(string $reference)
     {
         $reference = trim($reference, '. ');
-
         $regex = new RegexMatcherContainer;
         $cp = $regex->begin('#ref-module\\s*\(', '\)', 'ref-module')->last();
-
         $stringLitteral = [
             'begin'=>"('|\")",
             'end'=>'\\1',
@@ -354,7 +331,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
                 ]
             ]
         ];
-
         $cp->patterns = [
             [
                 'name' => 'refname',
@@ -372,7 +348,6 @@ class ApplicationControllerManager implements IApplicationControllerManager
                         return $module;
                     }
                     $check = igk_get_module('igk\\authentications\\WebAuthn');
-
                     throw new \IGKException('reference module not found or not loaded '.$v. ' ===? check is null '.(is_null($check)));
                 }
                 if ($e->match->name =='refname'){

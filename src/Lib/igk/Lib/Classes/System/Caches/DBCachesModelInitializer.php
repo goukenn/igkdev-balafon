@@ -3,7 +3,6 @@
 // @file: DBCachesModelInitializer.php
 // @date: 20221120 23:53:26
 namespace IGK\System\Caches;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
@@ -20,7 +19,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\Constants;
 use IGKException;
 use IGKSysUtil;
-
 /**
  * job is to initialize model data definition class
  * @package IGK\System\Caches
@@ -34,7 +32,6 @@ class DBCachesModelInitializer
      * @var bool
      */
     private $m_migration = false;
-
     private function __construct() {}
     /**
      * create an instance for migration purpose
@@ -93,8 +90,6 @@ class DBCachesModelInitializer
             if (isset($plist->tables[$ab->tableName])) {
                 Logger::warn("possible re_use table " . $ab->tableName);
             }
-
-
             if (!isset($ab->definitionResolver) || is_null($ab->definitionResolver)) {
                 $ab->definitionResolver = $this;
             }
@@ -104,7 +99,6 @@ class DBCachesModelInitializer
                 $ns = $current::ns(''); 
                 $ab->modelClass = $ns . "\\Models\\" . $table;
             }
-
             $plist->tables[$ab->tableName] = $ab;
             $plist->defs[$ab->tableName] = $ab;
         }
@@ -115,7 +109,6 @@ class DBCachesModelInitializer
                 echo '</pre>';
                 igk_exit();
             }
-
             $this->_loadDef($current,  $plist->defs);
             ControllerExtension::InitDataBaseModel(
                 $current,
@@ -167,7 +160,6 @@ class DBCachesModelInitializer
         });
         return $sb;
     }
-
     /**
      * 
      * @param array $inf 
@@ -187,9 +179,7 @@ class DBCachesModelInitializer
             if ($prefix){
                 $column = self::_RemovePrefix($column, $prefix);
             }
-
             $skeys[$column] = $prop;
-
             if ($prop->clAutoIncrement) {
                 continue;
             }
@@ -201,13 +191,11 @@ class DBCachesModelInitializer
         }
         $tab = array_merge($require, $optional);
         $tab = array_combine($tab, $tab);
-
         $g = array_map(function ($i) use ($ctrl, $skeys) {
             return $this->getPhpDoPropertyType($i, $skeys[$i], $ctrl, true);
         }, $tab);
         return $g;
     }
-
     /**
      * 
      * @param string $type 
@@ -252,18 +240,14 @@ class DBCachesModelInitializer
             $name = self::_RemovePrefix($name, $prefix);
         }
         $t = IGKSysUtil::ConvertToPhpDocType($info->clType);
-
         if ($info->clLinkType) {
             $default_link = 'int';
             // + | --------------------------------------------------------------------
             // + | because getLinkType resolve the table cache list it must be call first 
             // + |
-
             $tp = $this->getLinkType($info->clLinkType, $info->clNotNull, $ctrl);
             if ($v_lnk_column = $info->clLinkColumn) {
-
                 $tb = $info->clLinkType; // DbUtils::ResolvDefTableTypeName($info->clLinkType, $ctrl);
-
                 if (!isset($this->tableInfo[$tb])) {
                     igk_die("failed to resolv the table info " . $tb);
                 }
@@ -290,7 +274,6 @@ class DBCachesModelInitializer
         // + | 
         return $t . " \$" . $name . $extra;
     }
-
     /**
      * Get Link type helper
      * @param mixed $type 
@@ -330,7 +313,6 @@ class DBCachesModelInitializer
                     $gu = $g[$type];
                     break;
                 }
-
                 if (isset($this->m_loaded[get_class($q)]) && ($gu = igk_getv($this->m_loaded[get_class($q)], $type))) {
                     break;
                 }

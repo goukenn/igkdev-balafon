@@ -1,9 +1,6 @@
 <?php
-
 namespace IGK\Helper\Traits;
-
 trait IOPathCheckerTrait{
-
      /**
      * check if path is root path 
      * @param string $path 

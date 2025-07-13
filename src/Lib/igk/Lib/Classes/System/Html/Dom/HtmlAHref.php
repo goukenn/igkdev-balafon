@@ -8,12 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 use IGK\Helper\UriHelper;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use IGKValidator;
-
 /**
  * 
  * @package IGK\System\Html\Dom
@@ -67,7 +65,6 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
                 return $r;
             }
         }
-   
         if ($owner->domainLink) {
             if (preg_match("/^\/[^\/](.)+$/", $bck) && !igk_sys_is_subdomain()) {
                 $u = igk_io_baseuri() . $bck;

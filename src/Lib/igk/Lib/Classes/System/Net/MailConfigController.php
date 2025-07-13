@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Net;
-
 use function igk_resources_gets as __;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
@@ -21,14 +18,12 @@ use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGKException;
 use IGKValidator;
 use ReflectionException;
-
 /**
  * mail configuration controller
  * @package IGK\System\Net
  */
 class MailConfigController extends ConfigControllerBase
 {
-
     public function getConfigPage()
     {
         return "mailserver";
@@ -69,8 +64,6 @@ class MailConfigController extends ConfigControllerBase
         igk_sys_force_view();
         igk_navtocurrent();
     }
-
-
     /**
      * send test mail
      * @return void 
@@ -78,11 +71,9 @@ class MailConfigController extends ConfigControllerBase
      */
     public function mail_testmail()
     {
-
         $app = igk_app();
         $to = igk_getr("clTestMail");
         $msbox = igk_create_node();
-
         if (empty($subject = igk_getr("subject")))
             $subject = __("Mail test: {0}", $app->getConfigs()->website_domain);
         if (empty($msg = igk_getr("msg")))
@@ -108,8 +99,6 @@ class MailConfigController extends ConfigControllerBase
             $msbox->addError("error ... " . $app->getConfigs()->mail_contact);
         }
         igk_environment()->replace_uri = igk_io_baseuri().igk_io_request_uri_path(); 
-
-    
         $this->msbox = $msbox;
     }
     public function mail_update()
@@ -166,7 +155,6 @@ class MailConfigController extends ConfigControllerBase
             } else {
                 $n->addMsgr("msg.mailregistered");
                 igk_resetr();
-            
                 igk_db_insert_if_not_exists($this, $tb_maillist, array("clEmail" => $c));
             }
         }
@@ -249,7 +237,6 @@ class MailConfigController extends ConfigControllerBase
         $m->Content = <<<EOF
 window.open("mailto:$to?subject=$s","sendmail");
 EOF;
-
         igk_app()->Doc->body->add(new HtmlSingleNodeViewerNode($m));
         igk_navtocurrent();
     }
@@ -261,11 +248,8 @@ EOF;
             igk_html_rm($c);
             return $this;
         }
-
         $cnf = igk_app()->getConfigs();
-
         $this->getConfigNode()->add($c);
-
         $c = $c->ClearChilds()->addPanelBox();
         igk_html_add_title($c, "title.configmailserver");
         $c->addPanel()->article($this, "mailserver");
@@ -278,7 +262,6 @@ EOF;
         igk_html_form_initfield($frm);
         $attribs = ["class" => "fitw igk-form-control form-control"];
         $frm->setClass("webmail-config");
-
         $frm->div()->fields([
             'server' => [
                 'value' => $cnf->mail_server,
@@ -288,10 +271,7 @@ EOF;
                 'tip' => __('admin mail'),
                 'attribs' => $attribs,
             ],
-
-
         ]); 
-
         $secure_div = $frm->div()->setClass('section');
         $secure_div->div()->fields([
             'useauth' => [
@@ -325,9 +305,7 @@ EOF;
                 'type' => 'password',
                 'placeholder' => __('confirm password'),
             ],
-
         ]);
-
         $frm->div()->setClass('section')->fields([
             'clContactTo' => [
                 'type' => 'email',
@@ -346,8 +324,6 @@ EOF;
             $t->addBtn("btn_update", __("Update"));
         });
         $frm = $div->addForm();
-
-
         $frm->notifyHost('mail:notifyResponse');
         $frm["method"] = "POST";
         $frm["action"] = $this->getUri("mail_testmail");

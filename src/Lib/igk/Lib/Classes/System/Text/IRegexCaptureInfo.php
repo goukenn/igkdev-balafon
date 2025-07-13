@@ -3,8 +3,6 @@
 // @file: IRegexCaptureInfo.php
 // @date: 20241106 11:44:37
 namespace IGK\System\Text;
-
-
 /**
 * 
 * @package IGK\System\Text

@@ -3,10 +3,8 @@
 // @file: ExtractClassCommand.php
 // @date: 20250314 12:17:28
 namespace IGK\System\Console\Commands\Utils;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
-
 /**
  * 
  * @package IGK\System\Console\Commands\Utils
@@ -32,7 +30,6 @@ class ExtractClassCommand extends AppExecCommand
 				$data = igk_conf_get($data, $path);
 			}
 		}
-
 		if ($data) {
 			$name = igk_getv($command->options, '-n');
 			echo PHPScriptBuilderUtility::ExtractClassDefinition($data, $name), PHP_EOL;

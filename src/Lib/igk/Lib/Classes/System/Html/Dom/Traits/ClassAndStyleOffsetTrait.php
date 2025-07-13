@@ -3,20 +3,16 @@
 // @file: ClassAndStyleOffsetTrait.php
 // @date: 20221107 19:19:56
 namespace IGK\System\Html\Dom\Traits;
-
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlOptions;
 use IGK\System\Html\HtmlStyleValueAttribute;
 use IGK\System\Html\IHtmlContextContainer;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Html\Dom\Traits
 */
 trait ClassAndStyleOffsetTrait{
-
-    
     /**
      * set property
      * @param mixed $k 
@@ -26,7 +22,6 @@ trait ClassAndStyleOffsetTrait{
      */
     protected function _access_OffsetSet($k, $v)
     { 
-
         if ($v === null) {
             unset($this->m_attributes[$k]);
         } else {
@@ -54,7 +49,6 @@ trait ClassAndStyleOffsetTrait{
                 default:
                     if (strpos($k, 'igk:') === 0) {
                         $ck = substr($k, 4);
-
                         if (!HtmlOptions::IsAllowedAttribute($ck)) {
                             return;
                         }

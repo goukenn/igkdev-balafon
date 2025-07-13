@@ -3,11 +3,8 @@
 // @filename: ServiceController.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Controllers;
-
 use ApplicationLoader;
-
 /**
  * used to register service
  * @package IGK\Controllers

@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Database;
-
 use IGKQueryResult;
-
 final class DbDataQueryResult extends IGKQueryResult{
     const CREATE_ROW="obj://createrow";
     private $m_columns, $m_rows;
@@ -19,7 +16,6 @@ final class DbDataQueryResult extends IGKQueryResult{
         $this->m_columns=array();
         $this->m_rows=array();
     }
-
     public function to_array(): ?array {
         return $this->m_rows;
     }

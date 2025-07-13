@@ -3,9 +3,7 @@
 // @filename: FormBuilder.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Html;
-
 use Closure;
 use Error;
 use Exception;
@@ -21,9 +19,7 @@ use IGK\System\Html\Forms\IFormInternalIDSupport;
 use IGK\System\Html\Validations\IFormFieldValidationStoreError;
 use IGK\System\Number;
 use IGKEnvironmentConstants;
-
 use function igk_resources_gets as __;
-
 /**
  * default form builder
  * @package IGK\System\Html
@@ -36,7 +32,6 @@ class FormBuilder
      */
     var $datasource;
     const ENV_CSS = IGKEnvironmentConstants::CSS_ENV_STYLE_KEY;
-
     static $ResolvType = [
         "number" => "text",
         "tel" => "text",
@@ -67,7 +62,6 @@ class FormBuilder
         'datetime' => 'igk-form-control datetime',
         'datetime-local' => 'igk-form-control datetime-local',
     ];
-
     /**
      * retrieve attribute args
      * @param mixed $attr 
@@ -119,9 +113,7 @@ class FormBuilder
         if (empty($tag)) {
             $tag = "div";
         }
-
         $clprop->add("data");
-
         /**
          * load attributes defnitions
          */
@@ -175,7 +167,6 @@ class FormBuilder
             $ResolvClass = self::$ResolvClass;
             $ResolvType = self::$ResolvType;
             $v_k_id = $v_k_id ?? $k;
-
             $_value = is_array($v) && key_exists("value", $v) ? $v["value"] : "";
             if ($attr_key) {
                 if (isset($v[$attr_key]["value"])) {
@@ -184,15 +175,12 @@ class FormBuilder
                 }
             }
             $_value = $this->_getDataSourceValue($_value, $v_k_id);
-
             $_type = strtolower(isset($v["type"]) ? $v["type"] : "text");
             $_allow_empty = isset($v["allow_empty"]) ? $v["allow_empty"] : "";
             $_empty_value = isset($v["empty_value"]) ? $v["empty_value"] : "0";
-
             // + | --------------------------------------------------------------------
             // + | handle special type 
             // + |
-
             if ($_type == "fieldset") {
                 if ($fieldset) {
                     $o .= "</fieldset>";
@@ -214,21 +202,16 @@ class FormBuilder
                 }
                 return;
             }
-
             if (preg_match("/\\b(button|submit|reset)\\b/", $_type)) {
-
                 if (method_exists($this, $fc = 'build_' . $_type)) {
                     $args = [&$o, $v];
                     call_user_func_array([$this, $fc], $args);
                 }
-
                 return;
             }
-
             // + | --------------------------------------------------------------------
             // + | build node
             // + |
-
             $_id = "";
             $t_id = igk_getv($v, "id", $k);
             if ($t_id) {
@@ -240,9 +223,7 @@ class FormBuilder
             } else {
                 $_name = " name=\"{$k}\"";
             }
-
             $_is_required = isset($v["required"]) ? $v["required"] : 0;
-
             $label_text = ucfirst(igk_getv($v, "label_text", __($k)));
             $bind_class_name = igk_getv($v, 'class_name');
             // igk_wln_e( __FILE__.":".__LINE__ 
@@ -268,7 +249,6 @@ class FormBuilder
                 // class name 
                 $class_style .= ' ' . igk_css_str2class_name(strtolower($k));
             }
-
             if ($_is_div) {
                 $o .= "<" . $tag . " ";
                 if ($_is_required) {
@@ -277,7 +257,6 @@ class FormBuilder
                 $o .= "class=\"$class_style\" ";
                 $o = rtrim($o) . ">";
             }
-
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
                 $tcc = igk_getv($v, 'label_attribs') ?? [];
                 if ($tcc){
@@ -298,7 +277,6 @@ class FormBuilder
                     $o .= $o;
                 }
             } else {
-
                 switch ($_type) {
                     case formTypes::Fieldset:
                         break;
@@ -320,7 +298,6 @@ class FormBuilder
                         }
                         $o .= "</{$tag}>";
                         break;
-
                     case formTypes::Datalist:
                         if (empty($_id)) {
                             $_id = " id=\"{$k}\"";
@@ -376,7 +353,6 @@ class FormBuilder
                         }
                         $o .= "</select>";
                         break;
-
                     case formTypes::Text:
                     case formTypes::Hidden:
                     case formTypes::Password:
@@ -403,13 +379,10 @@ class FormBuilder
                         if ($v_autocomplete = igk_getv($v, 'autocomplete')) {
                             $tattrib['autocomplete'] = $v_autocomplete;
                         }
-
                         if ($_type == formTypes::File) {
-
                             // + | --------------------------------------------------------------------
                             // + | treat file type
                             // + |
-
                             if ($accept = igk_getv($v, 'accept')) {
                                 $tattrib['accept'] = $accept;
                             }
@@ -424,8 +397,6 @@ class FormBuilder
                                 }
                             }
                         }
-
-
                         foreach ($keys as $kk) {
                             $tattrib[strtolower($kk)] = igk_getv($v, $kk);
                         }
@@ -442,14 +413,12 @@ class FormBuilder
                             self::_LoadClassDefinition($tattrib, $tmp_tattribs);
                             $v['attribs'] = $tmp_tattribs;
                         }
-
                         // + | -------------------------------------------------
                         // + | filter attribs
                         // + | 
                         if ($p = igk_getv($v, 'attribs')) {
                             $tattrib = array_merge($tattrib, $p ?? []);
                         }
-
                         $jp = [
                             "type" => $_otype,
                             "id" => $t_id,
@@ -466,7 +435,6 @@ class FormBuilder
                             $o .= ' ' . implode(" ", $_activate);
                         }
                         $o .= "/>";
-
                         if (isset($v["tips"])) {
                             $o .= '<div class="tips">' . $v["tips"] . '</div>';
                         }
@@ -549,9 +517,6 @@ class FormBuilder
                 }
                 continue;
             }
-
-
-
             $bindValue($o, $fieldset, $k, $v);
         }
         if ($fieldset) {
@@ -571,7 +536,6 @@ class FormBuilder
     {
         return preg_match("/(text|checkbox|password|datetime|email|hidden|fieldset|button|submit|reset|datalist|select|number)/", $type);
     }
-
     /**
      * 
      * @param mixed $a 
@@ -583,7 +547,6 @@ class FormBuilder
     {
         return strcmp(igk_getv($a, 't'), igk_getv($b, 't'));
     }
-
     /**
      * get retrieve value data
      * @param mixed $value 
@@ -615,7 +578,6 @@ class FormBuilder
         }
         return $def_data;
     }
-
     /**
      * build select definition info
      * @param mixed $data 
@@ -634,13 +596,11 @@ class FormBuilder
         }
         return $list;
     }
-
     public function build_submit(string &$o, $attrib)
     {
         $_closed = false;
         $o .= '<input type="submit" ';
         $tm = ['class' => 'button submit primary'];
-
         if ($arg = $attrib ? self::_GetAttribArgs($attrib) : null) {
             self::_LoadClassDefinition($tm, $arg); 
         }
@@ -671,7 +631,6 @@ class FormBuilder
         }
         $tm = array_merge($tm, $arg);
     }
-
     public function build_button(string &$o, $attrib)
     {
         $_closed = false;

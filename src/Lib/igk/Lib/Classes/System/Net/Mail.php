@@ -3,10 +3,7 @@
 // @filename: Mail.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Net;
-
 use Exception;
 use Error;
 use IGK\Helper\IO;
@@ -16,7 +13,6 @@ use IGK\System\Html\HtmlRenderer;
 use IGKException;
 use IGKObject;
 use IIGKMailAttachmentContainer;
-
 /**
  * Represent a mail
  */
@@ -48,9 +44,7 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
     private $m_useAuth;
     private $m_user;
     private $text_charset = "iso-8859-1"; 
-
     var $Base64Encoding = true; 
-
     public function getErrorMsg()
     {
         return $this->ErrorMsg;
@@ -162,7 +156,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
             // + | --------------------------------------------------------------------
             // + | configure system
             // + |
-
             $this->m_useAuth = $app->Configs->mail_useauth;
             $this->m_smtphost = $app->Configs->mail_server;
             $this->m_user = $app->Configs->mail_user;
@@ -254,7 +247,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
             // + | --------------------------------------------------------------------
             // + | valid email from
             // + |
-
             $from = $this->FROM;
             if ($from) {
                 if (!preg_match("/(\"(?<title>.*)\")?\<(?P<from>[^\^]+)\>/", $from, $t_tab)) {
@@ -266,7 +258,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
                 // null reserved path
                 $from = "<>";
             }
-
             igk_debug_wln("MAIL FROM: " . $from);
             fwrite($socket, 'MAIL FROM:' . $from . '' . $lf);
             if (!$this->server_parse($socket, '250')) {
@@ -608,7 +599,6 @@ class Mail extends IGKObject implements IIGKMailAttachmentContainer
                 $message .= $j1;
             }
             if (!empty($j2)) {
-
                 $message .= $LINE . "--sub_$boundary" . $lf;
                 if ($this->Base64Encoding) {
                     $message .= "Content-Transfer-Encoding: base64" . $lf;

@@ -3,7 +3,6 @@
 // @file: ApplicationModuleHelper.php
 // @date: 20230303 18:15:13
 namespace IGK\Helper;
-
 use Exception;
 use IGK\Controllers\ApplicationModuleConfigurationInfo;
 use IGK\Controllers\ApplicationModuleController;
@@ -13,7 +12,6 @@ use IGK\System\Modules\ModuleManager;
 use IGKEvents;
 use IGKException;
 use stdClass;
-
 /**
  * 
  * @package IGK\Helpers
@@ -38,7 +36,6 @@ class ApplicationModuleHelper
         }
         return $dir;
     }
-
     /**
      * import required module 
      * @param array $required_conf 
@@ -56,7 +53,6 @@ class ApplicationModuleHelper
             if (empty($n)) return;
             $module = igk_require_module($n);
             if ($module && $module->supportMethod(\IGK\Controllers\ApplicationModuleController::INIT_METHOD)) {
-
                 $info = self::CreateApplicationModuleConfigurationInfo($required_conf[$n]);
                 if ($info->initDoc !== false) {
                     igk_reg_hook(IGKEvents::HOOK_INIT_INC_VIEW, function () use ($module, $ctrl) {
@@ -90,7 +86,6 @@ class ApplicationModuleHelper
      */
     public static function CreateApplicationModuleConfigurationInfo($info)
     {
-
         if ($info instanceof stdClass) {
             $info = Activator::CreateNewInstance(ApplicationModuleConfigurationInfo::class, $info);
         } else if (is_string($info)) {

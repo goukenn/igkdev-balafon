@@ -3,10 +3,7 @@
 // @filename: OutSideLinksCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppExecCommand;
@@ -17,14 +14,10 @@ use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
 use \IGKControllerManagerObject;
 use Illuminate\Support\Facades\Log;
-
 class OutSideLinksCommand extends AppExecCommand{
     var $command = "--outsidelinks"; 
- 
     var $category = "utility";
-
     var $desc  = "retrieve all outside links";
-
     var $options = [ 
     ]; 
     public function exec($command, $path=null, $viewname=""){
@@ -59,6 +52,5 @@ class OutSideLinksCommand extends AppExecCommand{
         parent::help();
         Logger::print("-");
         Logger::info("Retrieve project outsie links");
-        
     }
 }

@@ -3,10 +3,7 @@
 // @filename: HtmlCoreJSScriptsNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Core\Traits\ScriptTrait;
 use IGK\Helper\IO;
 use IGK\System\Html\HtmlRenderer;
@@ -15,7 +12,6 @@ use IGK\System\IO\StringBuilder;
 use IGKCaches;
 use IGKException;
 use IGKResourceUriResolver;
-
 /**
  * core script rendering
  * @package IGK\System\Html\Dom
@@ -23,7 +19,6 @@ use IGKResourceUriResolver;
 final class HtmlCoreJSScriptsNode extends HtmlNode
 {
     use ScriptTrait;
-
     private static $sm_instance;
     public static function getItem()
     {
@@ -58,11 +53,9 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
         $bck_def = $options->Depth;
         $options->Depth = max(0, $options->Depth - 1);
         $is_ops = igk_environment()->isOPS();
-      
         $tabstop = HtmlRenderer::GetTabStop($options);
         $sb = new StringBuilder();
         $script = self::GetCoreScriptContent($options, $is_ops);
- 
         if (!$is_ops) {
             $sb->appendLine($tabstop."<!-- core scripts -->");
             $sb->appendLine($script);
@@ -75,5 +68,4 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
             $options->Depth = $bck_def;
         return $sb.'';
     }
-  
 }

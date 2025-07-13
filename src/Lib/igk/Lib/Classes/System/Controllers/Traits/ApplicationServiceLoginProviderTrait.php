@@ -3,8 +3,6 @@
 // @file: ApplicationServiceLoginProviderTrait.php
 // @date: 20221109 22:52:02
 namespace IGK\System\Controllers\Traits;
-
-
 /**
 * 
 * @package IGK\System\Controllers\Traits

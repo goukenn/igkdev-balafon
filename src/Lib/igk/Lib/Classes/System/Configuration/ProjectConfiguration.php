@@ -3,8 +3,6 @@
 // @file: ProjectConfiguration.php
 // @date: 20230414 14:16:49
 namespace IGK\System\Configuration;
-
-
 /**
 * represent project configuration 
 * @package IGK\System\Configuration

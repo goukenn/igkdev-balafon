@@ -4,19 +4,16 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console\Commands;
-
 use IGK\Controllers\SessionController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\CoreFileSystem;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 class ClearSessionCommand extends AppExecCommand{
     var $command = "--clearsession";    
     var $desc = "clear session command";
     var $expired_duration;
     var $skip = false;
-    
     /**
      * exec the command
      */
@@ -56,11 +53,8 @@ class ClearSessionCommand extends AppExecCommand{
                     @unlink($v["file"]);
                     $c++;
                 }
-
             }
         }   
         Logger::success("done");
     }
-    
 }
- 

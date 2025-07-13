@@ -3,9 +3,7 @@
 // @file: ModelInitDbExtensionTrait.php
 // @date: 20230831 17:02:41
 namespace IGK\System\Models\Traits;
-
 use IGK\Models\ModelBase;
-
 /**
 * 
 * @package IGK\System\Models\Traits

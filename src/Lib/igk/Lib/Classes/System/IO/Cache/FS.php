@@ -3,11 +3,9 @@
 // @file: FS.php
 // @date: 20250520 06:35:43
 namespace IGK\System\IO\Cache;
-
 use Exception;
 use IGK\System\IO\StringBuilder;
 use IGKException;
-
 /**
 * system file caches
 * @package IGK\System\IO\Cache
@@ -26,7 +24,6 @@ class FS{
      */
     public function fileExists(string $file, bool $autocheck=false){
         $l = isset($this->m_caches[$file]);
-
         // igk_dev_wln($file, $autocheck);
         // if (!$autocheck && strstr($file, 'configs.php')){
         //  if (!$autocheck ){
@@ -34,8 +31,6 @@ class FS{
         //     igk_trace();
         //     igk_exit();
         // }
-
-
         if (!$l && ($autocheck || $this->m_auto_cache)){
             if ($l = file_exists($file)){
                 $this->m_caches[$file] = $file;     

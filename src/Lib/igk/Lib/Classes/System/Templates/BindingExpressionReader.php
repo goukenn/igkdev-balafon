@@ -3,13 +3,11 @@
 // @file: BindingExpressionReader.php
 // @date: 20230517 14:33:31
 namespace IGK\System\Templates;
-
 use Closure;
 use IGK\System\Console\Logger;
 use IGK\System\DataArgs;
 use IGK\System\Html\HtmlBindingRawTransform;
 use IGK\System\Html\Templates\BindingContextInfo;
-
 /**
  * treat binding content
  * @package IGK\System\Templates
@@ -19,7 +17,6 @@ class BindingExpressionReader
     var $startMarker = '{{';
     var $endMarker = '}}';
     var $escapedChar = "'";
-
     var $text;
     /**
      * get read value
@@ -31,45 +28,37 @@ class BindingExpressionReader
      * @var bool
      */
     var $escaped = false;
-
     /**
      * 
      * @var mixed
      */
     var $offset = 0;
-
     /**
      * mark data
      * @var array
      */
     var $mark = [];
-
     /**
      * transform to eval script content
      * @var bool
      */
     var $transformToEval;
-
     /**
      * skip mode 
      * @var bool
      */
     var $skipMode;
-
     /**
      * 
      * @var expression arg for skip mode 
      */
     var $expressionArgs;
-
     /**
      * expression args for name
      * @var mixed
      */
     var $expressionValueName;
-
     var $expressionTagName = IGK_ENGINE_EXPRESSION_NODE;
-
     /**
      * read marker 
      * @return bool 
@@ -106,7 +95,6 @@ class BindingExpressionReader
                 $tv .= $ch;
                 $offset++;
             }
-
             // $epos = strpos($this->text, $this->endMarker, $this->offset);
             // $npos = strpos($this->text, $this->startMarker, $this->offset);
             // $depth = 0;
@@ -158,14 +146,12 @@ class BindingExpressionReader
         $this->offset = 0;
         if (is_null($listener) || !($listener instanceof Closure)) {
             $data = $this->_getBindingRawData($listener);
-        
             $listener = function ($v) {
                 extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0) ?? ['raw' => new DataArgs([])]));
                 $__c = $raw ;
                 return @eval('return ' . $v . ';');
             };
         }
-
         while ($reader->read()) {
             if (!$start) {
                 $start = true;
@@ -183,7 +169,6 @@ class BindingExpressionReader
                 if ($loffset > 0) {
                     $m = substr($reader->text, $loffset, $reader->mark[1] - $loffset);
                     // if ($this->stopOnTag && $m && preg_match("/<[^>]+>/", $m)){
-
                     //         break;                                                    
                     // }
                     $v .= $m;
@@ -196,7 +181,6 @@ class BindingExpressionReader
                 $this->expressionArgs[$this->expressionValueName] = str_replace("\"", "\\\"", 
                 htmlentities($this->mark[0]));
                 $dv = \igk_html_wtag($this->expressionTagName, "", $this->expressionArgs, 1);
-
             } else {
                 if ($this->transformToEval) {
                     $dv = sprintf('<?= %s ?>', $reader->value);
@@ -242,7 +226,6 @@ class BindingExpressionReader
                         }
                         $cdata['raw'] = new DataArgs($cdata['raw']);
                         $data = $cdata;
-
                     }
                 }
             }

@@ -3,12 +3,9 @@
 // @filename: ScriptLoader.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\JS;
-
 use IGK\System\IO\HtmlDocument\IDocumentScriptLoader;
 use IGKHtmlDoc;
-
 /**
 * Represent default script loader 
 */
@@ -31,7 +28,6 @@ class ScriptLoader implements IDocumentScriptLoader{
     * @param  $created
     */
     public function loadScripts(IGKHtmlDoc $doc, ?string $folder=null, bool $created=false){
-
         $is_prod=igk_environment()->isOPS();
         $files=igk_io_getfiles($this->ctrl->getScriptsDir(), '/\.js$/i');
         if(!$is_prod){

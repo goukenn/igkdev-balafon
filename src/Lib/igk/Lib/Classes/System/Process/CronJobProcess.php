@@ -3,16 +3,12 @@
 // @filename: CronJobProcess.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Process;
-
 use IGK\Controllers\BaseController;
 use IGK\Models\Crons;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use IGKException;
-
 /**
  * 
  * @package IGK\System\Process
@@ -44,7 +40,6 @@ class CronJobProcess{
         if ($options && ($provider = self::GetJobProcessProvider($script))){
             $options = $provider->treat($options);
         }
-
         return Crons::create([
             "crons_name"=>$name,
             "crons_script"=>$script,
@@ -67,7 +62,6 @@ class CronJobProcess{
             $cl =  new CronJobProcessMailProvider();
             $tab[$script_file] = $cl;
         }
-
         return $cl;
     }
     /**

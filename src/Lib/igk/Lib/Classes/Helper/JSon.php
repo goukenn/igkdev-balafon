@@ -3,7 +3,6 @@
 // @file: JSon.php
 // @date: 20230103 23:37:50
 namespace IGK\Helper;
-
 use Exception;
 use IGK\System\Helpers\AnnotationHelper;
 use IGK\System\IO\JSon\Annotations\JSonBindAsAnnotation;
@@ -19,13 +18,10 @@ use JsonSerializable;
 use PhpParser\Node\Stmt\Continue_;
 use ReflectionClass;
 use stdClass;
-
 /**
  * helper to encode in json 
  * @package IGK\Helper
  */
-
-
 class JSon
 {
     const _map_to_object_method = '_map_to_object';
@@ -35,20 +31,16 @@ class JSon
      * @var JSonEncodeOption
      */
     protected $m_options;
-
     /**
      * 
      * @var mixed
      */
     protected $m_data;
-
     /**
      * 
      * @var mixed
      */
     protected $m_path;
-
-
     /**
      * encode
      * @param int $encode 
@@ -119,6 +111,8 @@ class JSon
         } else if (($data instanceof IToArrayResolver) || method_exists($data, 'to_array')) {
             $data = $data->to_array();
             $keys = array_keys($data);
+        } else {
+            $keys = array_keys((array)$data);
         }
         $this->_filter_array_map($data, $keys, $c, $root);
         $root = $data;
@@ -169,7 +163,6 @@ class JSon
         $is_object = false;
         $tq = [['d' => $tv, 'keys' => $keys, 'c' => $c]];
         list($allow_empty_array) = igk_extract($this->m_options, 'allow_key_assoc_empty_array');
-
         // $path = & $this->m_path;
         while (count($tq) > 0) {
             $q = array_shift($tq);
@@ -181,6 +174,7 @@ class JSon
             while (!$end  && (count($keys) > 0)) {
                 $k = array_shift($keys);
                 if (strpos($k, "\0") === 0) {
+                    // + | skip private member 
                     continue;
                 }
                 $tv = igk_getv($v, $k);
@@ -207,7 +201,6 @@ class JSon
                         // transform item to native object 
                         $tv = array_map(function ($a) {
                             if (is_object($a)) {
-
                                 $a = self::_ConvertItemObject($a);
                             }
                             return $a;
@@ -218,7 +211,6 @@ class JSon
                         $c->$k = $tv;
                         continue;
                     }
-
                     if ($tv instanceof IJSonEncodeArrayDefinition) {
                         if ($tv->isEmpty()) {
                             if ($tv->isRequired()) {
@@ -227,21 +219,18 @@ class JSon
                             }
                         }
                     }
-
                     if ($tv instanceof JsonSerializable) {
                         if ((($m = $tv->jsonSerialize()) === null) && ($this->m_options->ignore_null)) {
                             continue;
                         }
                         $tv = $m;
                     }
-
                     array_unshift($tq, ['d' => $d, 'keys' => $keys, 'c' => $c, 'is_object' => $is_object]);
                     $c->$k = new stdClass;
                     array_unshift($tq, ['d' => $tv, 'keys' => null, 'c' => $c->$k, 'is_object' => true]);
                     $end = true;
                     break;
                 }
-
                 $c->$k = $tv;
             }
         }
@@ -259,7 +248,6 @@ class JSon
      */
     public static function Encode($data, $options = null, int $encode = JSON_UNESCAPED_SLASHES)
     {
-
         if (is_null($options)) {
             $options = new JSonEncodeOption;
         } else if (!($options instanceof JSonEncodeOption)) {
@@ -268,7 +256,6 @@ class JSon
         if ($data instanceof IToJSon){
             return $data->to_json($options, $encode);
         }
-
         $e = new static;
         $e->m_options = $options;
         $e->m_data = $data;
@@ -285,7 +272,6 @@ class JSon
             $o = $r;
             while ($g = $container->detect($r, $pos)) {
                 $g = $container->end($g, $r, $pos);
-
                 switch ($g->tokenID) {
                     case 'block':
                         $rp = new Replacement;
@@ -293,7 +279,6 @@ class JSon
                         $t = $rp->replace($g->value);
                         $t = str_replace("\\\"", "\"", $t);
                         $t = JSTreatment::RemoveOutsideSymbol($t);
-
                         // $t = str_replace("\\n", "", $t);
                         $o = str_replace($g->value, $t, $o);
                         break;
@@ -304,7 +289,6 @@ class JSon
         return $r;
     }
     protected function __construct() {}
-
     /**
      * code for html attribute
      * @param mixed $data 
@@ -316,8 +300,6 @@ class JSon
     {
         return htmlentities(self::Encode($data, $encode_options));
     }
-
-
     /**
      * bind object to data
      * @param mixed $object_or_class 
@@ -349,14 +331,12 @@ class JSon
                 $v_use_annotation = ($class_name != \stdClass::class);
                 $ref =  $v_use_annotation ? igk_sys_reflect_class($class_name) ?? new ReflectionClass($class_name) : null;
                 $uses = $v_use_annotation ? AnnotationHelper::GetUses($class_name) : null;
-
                 if ($v_use_annotation){
                     $options->resolveTypeListener = function ($type)use(& $uses, $ref ,$class_name){
                         $v_reflect = $ref;
                         if (!($NS = $v_reflect->getNamespaceName())){
                             return $type;
                         }
-
                         $d = dirname($v_reflect->getFileName());
                         $path = Path::Combine($d, $type.".php");
                         if (igk_io_file_exists($path)){

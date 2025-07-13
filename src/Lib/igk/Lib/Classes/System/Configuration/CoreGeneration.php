@@ -3,10 +3,7 @@
 // @filename: CoreGeneration.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration;
-
 class CoreGeneration
 {
     public function GetTestRequireAutoload()
@@ -69,7 +66,6 @@ require_once (function ($name) {
     return constant($name);
 })('IGK_APP_DIR') . "/Lib/igk/Lib/Tests/autoload.php";
 EOF;
-        
         foreach(["%%balafon_config_file%%"=>IGK_BALAFON_CONFIG] as $k=>$v){
             $doc = str_replace($k, $v, $doc);
         }

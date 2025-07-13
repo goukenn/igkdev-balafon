@@ -31,7 +31,7 @@ class ServiceTest extends BaseTestCase{
 
 class DummyService implements \IGK\IService{
 
-    public function init(): bool {
+    public function init($options =null): bool {
         $fc = igk_configs()->get("ovh.ovhconfig");
         if ($fc && igk_io_file_exists($fc)){
             return true;

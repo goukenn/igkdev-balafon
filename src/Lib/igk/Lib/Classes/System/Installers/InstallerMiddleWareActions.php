@@ -3,11 +3,8 @@
 // @filename: InstallerMiddleWareActions.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Installers;
-
 use IGK\System\Http\AcceptMimeTypes;
-
 use function igk_resources_gets as __;
 /**
 * Installer middel ware storage
@@ -23,7 +20,6 @@ class InstallerMiddleWareActions{
      * @var ?string
      */
     var $installDir;
-
     /**
      * from uploading
      * @var bool 
@@ -50,7 +46,6 @@ class InstallerMiddleWareActions{
             }
         }
     }
-   
     /**
     * 
     * @param mixed $middle

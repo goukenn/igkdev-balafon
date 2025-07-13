@@ -3,23 +3,17 @@
 // @filename: ConsoleLogger.php
 // @date: 20220803 13:48:57
 // @desc: primary console logger
-
-
 namespace IGK\System\Console;
-
 use IGK\Resources\R;
 require_once __DIR__.'/IConsoleLogger.php';
-
 /** @package IGK\System\Console */
 class ConsoleLogger implements IConsoleLogger{
     var $app; 
     private $m_privateOffscreen;
-
     public function __construct($app)
     {
         $this->app = $app;
     }
- 
     public function warn($msg){
         $this->app->print_off($this->app::Gets(App::PURPLE, $msg));
     }
@@ -44,7 +38,6 @@ class ConsoleLogger implements IConsoleLogger{
     public function print($msg){
         $this->app->print($msg);
     }
-
     public function resources($r){
         static $tlang = null;
         if ($tlang === null){

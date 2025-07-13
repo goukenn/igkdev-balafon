@@ -3,12 +3,8 @@
 // @filename: gd.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Library;
-
 use IGKGD;
-
 class gd extends \IGKLibraryBase{
     public function init():bool{
         // initialize function

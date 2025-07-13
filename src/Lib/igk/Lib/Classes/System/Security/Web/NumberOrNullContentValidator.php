@@ -3,15 +3,12 @@
 // @file: NumberOrNullContentValidator.php
 // @date: 20230125 13:50:19
 namespace IGK\System\Security\Web;
-
-
 /**
 * number content validator
 * @package IGK\System\Security\Web
 */
 class NumberOrNullContentValidator extends MapContentValidatorBase
 {
-
     protected function validate(&$value, $key): bool {
         return true;
      }

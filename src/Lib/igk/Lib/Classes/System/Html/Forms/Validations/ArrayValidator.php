@@ -3,15 +3,12 @@
 // @filename: ArrayValidator.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Forms\Validations;
-
 /**
  * use to validate an array field
  * @package IGK\System\Html\Forms\Validations
  */
 class ArrayValidator   extends FormFieldValidatorBase implements IFormValidator{
-
     /**
      * assert value is an array
      * @param mixed $value 
@@ -28,7 +25,6 @@ class ArrayValidator   extends FormFieldValidatorBase implements IFormValidator{
      * @return mixed 
      */
     protected function _validate($value, $default=null, array & $error=[], ?object $options=null){ 
-        
         if (empty($value)){
             if (is_array($default)){
                 return $default;
@@ -40,5 +36,4 @@ class ArrayValidator   extends FormFieldValidatorBase implements IFormValidator{
         }
         return $value;
     }
-
 }

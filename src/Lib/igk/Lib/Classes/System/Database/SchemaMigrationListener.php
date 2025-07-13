@@ -3,9 +3,7 @@
 // @file: SchemaMigrationListener.php
 // @date: 20250124 15:23:18
 namespace IGK\System\Database;
-
 use IGK\Helper\Database;
-
 /**
  * 
  * @package IGK\System\Database
@@ -27,12 +25,10 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
      * @var ?ISchemaMigrationLoadingList
      */
     var $definition;
-
     public function getTableSchemaFileDefinition(string $tablename)
     {
         return igk_getv($this->definition->tables, $tablename);
     }
-
     private $m_changes = [];
     /**
      * 
@@ -47,10 +43,8 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
     {
         if ($this->m_changes) {
             $ctrl = $this->controller;
-
             $keys = array_keys($this->m_changes);
             while (0 < count($keys)) {
-
                 $uniques_column = [];
                 $tb = array_shift($keys);
                 $tabinfo = $this->getTableSchemaFileDefinition($tb);

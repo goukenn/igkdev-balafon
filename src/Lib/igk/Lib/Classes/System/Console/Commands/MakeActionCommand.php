@@ -3,10 +3,7 @@
 // @filename: MakeActionCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppExecCommand;
@@ -23,33 +20,25 @@ use IGK\Helper\StringUtility;
 use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 use \IGKControllerManagerObject;
- 
 class MakeActionCommand extends AppExecCommand{
     var $command = "--make:action"; 
- 
     var $category = "make";
-
     var $desc = "make new project's action. Contextual command.";
-
     var $options = [ 
         "--type"=>"defaut action type class",
         "--force"=>"force create action"
     ]; 
-
     var $help = "[options] controller actionName";
-
     /**
      * 
      * @var callable
      */
     var $definition; // definition callback
-
     /**
      * array of uses
      * @var ?array|?string
      */
     var $uses;
-
     var $usage = 'controller action_name [options]';
     /**
      * @var string $controller Controller
@@ -63,7 +52,6 @@ class MakeActionCommand extends AppExecCommand{
                 $controller = $ctrl->getName();
             }
         }
-
         if (empty($controller)){
             return false;
         } 
@@ -79,7 +67,6 @@ class MakeActionCommand extends AppExecCommand{
             "def"=>ActionBase::class,
             "middlewire"=>MiddlewireActionBase::class
         ], strtolower($type), $type);
-        
         $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
             Logger::danger("controller $controller not found");
@@ -97,8 +84,6 @@ class MakeActionCommand extends AppExecCommand{
             $macroName = substr($macroName,0, -6);
         }
         $macroName = preg_replace("/[^a-z0-9\/]/i","", $macroName);
-
-
         $path = $macroName;
         $tcl =  explode("/", StringUtility::Uri($path ));
         array_pop( $tcl); 
@@ -127,7 +112,6 @@ class MakeActionCommand extends AppExecCommand{
             ->desc("view action ".$macroName);
             igk_io_w2file( $file,  $builder->render());
         };
-
         CommandsUtility::MakeBindFiles($command, $bind, property_exists($command->options, "--force"));
         if(property_exists($command->options, "--clearcache" ))
             \IGK\Helper\SysUtils::ClearCache();

@@ -3,8 +3,6 @@
 // @file: HeaderData.php
 // @date: 20230128 14:03:46
 namespace IGK\System\Http;
-
-
 /**
 * 
 * @package IGK\System\Http

@@ -7,14 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\Server;
 use IGK\System\Html\Dom\HtmlDebuggerViewNode; 
 use IGK\System\Html\HtmlUtils; 
- 
-
 final class DebugController extends BaseController{
     public function getName(){
         return IGK_DEBUG_CTRL;

@@ -5,24 +5,19 @@
 // @desc: 
 // usage command exemple : 
 // --user:4 -db_server:0.0.0.0 --querydebug --debug --controller:TonerAfrikaController -srv_request_uri://localhost:7300 -srv_host:'presentation' -srv_name:'jum' -srv_root:src/public -srv_https:1
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\Logger;
 use IGK\System\Console\ServerFakerInput;
 use IGK\System\Http\Request;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
 use IGKValidator;
-
 /**
  * server command helper
  * @package IGK\System\Console\Commands
  */
 abstract class ServerCommandHelper
 {
- 
     //load command serve command
     public static function GetDbCommandsProperties()
     {
@@ -42,7 +37,6 @@ abstract class ServerCommandHelper
             '-srv_baseuri' => "base_uri", // + | <- set command environment base uri
             '-srv_referer'=>"referer",
             '-srv_ajx'=>'ajx' // set command to ajx request 
-
         ];
     }
     public static function GetUsageCommandHelp()
@@ -57,7 +51,6 @@ abstract class ServerCommandHelper
         global $_REQUEST;
         $cnf = igk_configs();
         $v_request_faker_key = Request::REQUEST_JSON_DATA_ENV_KEY;
-
         foreach (self::GetDbCommandsProperties() as $k => $v) {
             if (property_exists($command->options, $k)) {
                 $cnf->$v = $command->options->{$k};
@@ -86,7 +79,6 @@ abstract class ServerCommandHelper
         $_SERVER['SERVER_NAME'] = $cnf->{'server_name'} ?? igk_getv($_SERVER, 'SERVER_NAME');
         $_SERVER['DOCUMENT_ROOT'] = $root ?? igk_getv($_SERVER, 'DOCUMENT_ROOT');
         $_SERVER['HTTPS'] = $cnf->{'https'} ? 'on' : 0;
-        
         $_SERVER['GEOIP_LATITUDE'] = $cnf->{'geox'};
         $_SERVER['GEOIP_LONGITUDE'] = $cnf->{'geoy'};
         $_SERVER['GEOIP_COUNTRY_CODE'] = $cnf->{'country_code'};
@@ -96,7 +88,6 @@ abstract class ServerCommandHelper
         if ($cnf->{'ajx'}){
             $_SERVER['HTTP_IGK_AJX'] = 1;
         }
-
         if ($r = $cnf->{'request'}) {
             parse_str($r, $tab);
             $_REQUEST = $tab;

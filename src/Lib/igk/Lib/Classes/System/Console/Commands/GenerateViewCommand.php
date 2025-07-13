@@ -3,11 +3,9 @@
 // @file: GenerateViewCommand.php
 // @date: 20221129 10:48:32
 namespace IGK\System\Console\Commands;
-
 use IGK\DocumentParser\DocumentParser;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * 
 * @package IGK\System\Console\Command
@@ -19,8 +17,6 @@ class GenerateViewCommand extends AppExecCommand{
     ];
     var $category = "tools";
     var $desc = "generate view";
-
-
     public function showUsage(){
         Logger::print(sprintf("%s controller domain [view]", $this->command));
     }
@@ -34,7 +30,6 @@ class GenerateViewCommand extends AppExecCommand{
         $g->uri = $domain; 
         $g->controller = $controller;  
         $g->standalone = property_exists('--shared', $command->options) ? false : true;
-
         $content = igk_curl_post_uri($domain);
         if ($content && (igk_curl_status() == 200)){
             igk_io_w2file("/tmp/out.html", $content);
@@ -46,5 +41,4 @@ class GenerateViewCommand extends AppExecCommand{
             Logger::danger("no content found from [".$domain."]");
         }
     }
-
 }

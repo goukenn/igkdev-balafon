@@ -3,15 +3,12 @@
 // @filename: IGKSubDomainManager.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
 use IGK\Models\Subdomains;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
 use IGK\System\IO\Path;
-
 /**
 * subdomain manager
 */
@@ -68,7 +65,6 @@ final class IGKSubDomainManager extends IGKObject{
         }
         $subdomain= IGKSubDomainManager::SubDomainUriName($uri);
         $cache_file = self::GetCacheFile();
-       
         if (is_null(self::$sm_cached_domains)){
             self::$sm_cached_domains = [];
             if (is_file($cache_file)){
@@ -79,8 +75,6 @@ final class IGKSubDomainManager extends IGKObject{
         }
         $ctrl = null;
         $t = array_merge(self::$sm_cached_domains, $this->getRegList()?? []);  
-         
-    
         if(!empty($subdomain)){
             $s=$subdomain;
             if (is_callable($t)){
@@ -93,7 +87,6 @@ final class IGKSubDomainManager extends IGKObject{
             }  
             $v_save  = false;
             $tf = self::GetConfigFile();
-
             if (igk_io_file_exists($tf)){
                 $b = include $tf;
                 if (isset($b[$subdomain])){
@@ -108,16 +101,11 @@ final class IGKSubDomainManager extends IGKObject{
                    self::$sm_cached_domains[$subdomain] = (array)($row);
                 }
             }
-
- 
-
-
             if (!$v_save && ($raw = Subdomains::select_row([
                 "clName"=>$subdomain
             ]))){
                 // $v_duration = igk_sys_request_time() - $v_start;
                 // igk_wln_e("duration ", $v_duration, $t);
-
                 if ($ctrl = igk_getctrl($raw->clCtrl, false)){
                     $row = $raw;
                     $this->reg_domain($subdomain, $raw->clCtrl, $raw);
@@ -125,15 +113,12 @@ final class IGKSubDomainManager extends IGKObject{
                     $v_save =  true;
                 }
             }  
-
             if ($v_save)
                 igk_io_w2file($cache_file, serialize(self::$sm_cached_domains));
             return $ctrl ? $ctrl : false;
-
         }
         return false;
     }
-
     /**
      * Get Subdomain controller
      * @return BaseController|void 
@@ -148,7 +133,6 @@ final class IGKSubDomainManager extends IGKObject{
                     return $ctrl;
                 } 
             }
-
             if ($raw = Subdomains::select_row([
                 "clName"=>$subdomain
             ])){
@@ -190,7 +174,6 @@ final class IGKSubDomainManager extends IGKObject{
         }
         return  $srv; 
     }
-
     /**
     * 
     */
@@ -319,8 +302,6 @@ final class IGKSubDomainManager extends IGKObject{
             return $x1.".".$ex2;
         return $domain;
     }
-    
-    
     /**
     * 
     * @param mixed $t
@@ -328,7 +309,6 @@ final class IGKSubDomainManager extends IGKObject{
     private function updateRegList($t){
         igk_environment()->{IGK_ENV_SESS_DOM_LIST} = $t; 
     }
-
     public static function SubDomainUriName(?string $uri=null){
         $domain=igk_io_domain_uri_name($uri);
         $bdom=self::GetBaseDomain();

@@ -3,10 +3,7 @@
 // @filename: HtmlRenderer.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\JSon;
@@ -24,7 +21,6 @@ use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
 use ReflectionMethod;
-
 /**
  * represent base renderer engine
  * @package IGK\System\Html
@@ -157,7 +153,6 @@ class HtmlRenderer
             "Indent" => false,
             "header" => null,
         ]);
-
         foreach ($cmp as $k => $v) {
             if (!isset($options->$k)) {
                 $options->$k = $v;
@@ -224,7 +219,6 @@ class HtmlRenderer
     }
     private static function reduceDepth($options, $tag = null)
     {
-
         $options->Depth = max(0, $options->Depth - 1);
         // igk_debug_wln("\nreduct to : ".$options->Depth.": ".$tag);
     }
@@ -288,7 +282,6 @@ class HtmlRenderer
                         unset($options->__append__);
                     }
                 }
-
                 if ($engine) {
                     $l = $engine->render($i, $options);
                     if ($l || ($skipEngineNode = igk_getv($options, 'skipEngineNode'))) {
@@ -338,8 +331,6 @@ class HtmlRenderer
                 }
                 $content = $i->getContent($options);
                 $childs = $i->getRenderedChilds($options);
-
-
                 // + | --------------------------------------------------------------------
                 // + | aside array of node that might be render after the cibling node
                 // + |                
@@ -358,7 +349,6 @@ class HtmlRenderer
                     $s = rtrim($s) . ">";
                 }
                 $q['child_render'] = strlen($s);
-
                 if (!empty($content) || is_numeric($content)) {
                     if (is_object($content)) {
                         $s .= HtmlRenderer::GetValue($content, $options);
@@ -369,14 +359,12 @@ class HtmlRenderer
                             $s .= $content;
                     }
                 }
-
                 if ($have_childs) {
                     if ($havTag)
                         $s .= $ln;
                     array_push($tab, $q);
                     $childs = array_reverse($childs);
                     $tab = array_merge($tab, $childs);
-
                     if ($options->NamespaceContext && ($i === $options->NamespaceSource)){
                         array_push($v_renderingNSContext,$options->NamespaceContext );
                     }
@@ -412,7 +400,6 @@ class HtmlRenderer
                 $options->NamespaceContext = $v_renderingNSContext ? igk_array_peek_last($v_renderingNSContext) : null;
             }
         }
-
         $options->child_renderCount = $child_render;
         return $s; // leave space after
     }
@@ -424,9 +411,7 @@ class HtmlRenderer
             $options->renderTheme = $th; // doc->getTheme();
             CssUtils::BindCoreFile($th); //->renderTheme);
         }
-
         if ($attribs) {
-
             $v_old_style = $g = $attribs["style"];
             $cl = $attribs["class"];
             if (!empty($g)) {
@@ -476,7 +461,6 @@ class HtmlRenderer
             $v_fattribs = new HtmlFilterAttributeArray($attribs);
             $attribs = $filter->filter($v_fattribs);
         }
-
         $out = IGK_STR_EMPTY;
         igk_get_defined_ns($item, $out, $options);
         if ($options && ($options->Context == HtmlRenderingContext::Mail)) {
@@ -549,10 +533,8 @@ class HtmlRenderer
             $v_is_obj = is_object($v);
             if ($v_is_obj && ($v instanceof HtmlActiveAttrib)) {
                 $active .= $k . ' ';
-
                 continue;
             }
-
             if (is_array($v)) {
                 if (strpos($k, "igk:") === 0) {
                     $v = json_encode($v);
@@ -563,7 +545,6 @@ class HtmlRenderer
             if ($v_is_obj && ($v instanceof HtmlExpressionAttribute))
                 $c = $v->getValue();
             else {
-
                 if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
                     $v_cv = $v->getValue($options);
                     if ($v_cv instanceof IHtmlTemplateAttribute) {
@@ -611,7 +592,6 @@ class HtmlRenderer
         }
         return trim(rtrim($out) . ' ' . rtrim($active));
     }
-
     /**
      * return attribute array 
      * @param HtmlItemBase $item 
@@ -624,7 +604,6 @@ class HtmlRenderer
     public static function GetAttributeArray(HtmlItemBase $item, $options = null): array
     {
         $attribs = $item->getAttributes();
-
         $_result = [];
         $k = null;
         $v = null;
@@ -662,7 +641,6 @@ class HtmlRenderer
                     $_result[$k] = $k . '';
                     continue;
                 }
-
                 $r = (is_object($v) && ($v instanceof HtmlExpressionAttribute));
                 if ($r)
                     $c = $v->getValue();
@@ -702,8 +680,6 @@ class HtmlRenderer
         }
         return  $_result;
     }
-
-
     /**
      * get attribute string
      * @param mixed $v
@@ -716,7 +692,6 @@ class HtmlRenderer
         }
         if (empty($v) && !is_numeric($v))
             return null;
-
         while (is_object($v)) {
             $v = HtmlUtils::GetValueObj($v, $options);
         }
@@ -788,7 +763,6 @@ class HtmlRenderer
         }
         return $s;
     }
-
     /**
      * get inner text 
      * @param HtmlItemBase $item 

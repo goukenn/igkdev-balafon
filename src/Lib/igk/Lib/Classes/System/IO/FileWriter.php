@@ -3,21 +3,17 @@
 // @filename: FileWriter.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\IO;
-
 use IGK\Helper\IO;
 use IGKApp;
 use IGKAppContext;
 use IGKException;
-
 /**
  * file writer helper. to store file
  * @package IGK\System\IO
  */
 class FileWriter
 {
-
     /**
      * save to file 
      * @param mixed $filename 
@@ -89,8 +85,6 @@ class FileWriter
         }
         if (is_dir($dirname))
             return true;
-
-
         $pdir = array($dirname);
         $s_mode = is_string($mode) ? octdec($mode) : $mode;
         $is_unix = igk_environment()->isUnix();
@@ -141,7 +135,6 @@ class FileWriter
         }
         return igk_count($pdir) == 0;
     }
-
     /**
      * if opcache enabled invalidate the file
      * @param mixed $file 

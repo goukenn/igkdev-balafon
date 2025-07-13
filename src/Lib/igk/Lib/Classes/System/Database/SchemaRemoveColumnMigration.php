@@ -4,7 +4,6 @@
 // @desc: schema builder helper
 // @date: 20210422 09:09:36
 namespace IGK\System\Database;
-
 /**
  * use to remove column
  * @package IGK\System\Database
@@ -33,7 +32,6 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
     public function down(){ 
         $c_info = $this->columnInfo;
         if (!is_null($c_info)){
-
             $ctrl = $this->getMigration()->controller;
             $tb = igk_db_get_table_name($this->table, $ctrl);
             $ctrl::db_add_column($tb, $c_info, null); 

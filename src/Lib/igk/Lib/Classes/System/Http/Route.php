@@ -3,18 +3,12 @@
 // @filename: Route.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\SysUtils;
 use IGK\System\Database\IUserProfile;
 use IGKException;
-
-
 require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
-
 /**
  * Collection of registrated routes.
  * @package IGK\System\Http
@@ -60,21 +54,17 @@ class Route
      * @var string
      */
     protected $path = "";
-
     protected $controller = "";
-
     /**
      * route verbs supports
      */
     const SUPPORT_VERBS = "GET|POST|PUT|COPY|PATCH|DELETE|HEAD|LINK|UNLINK|OPTIONS|PURGE|LOCK|UNLOCK|STORE|PROPFIND|VIEW";
-
     protected function _access_OffsetSet($n, $v)
     {
         $this->path = $n;
         $this->controller = $v;
     }
     protected function _access_OffsetGet($n) {}
-
     /**
      * load controller route route config files
      * @param mixed $controller 
@@ -132,8 +122,6 @@ class Route
             }
         }, self::$sm_routes));
     }
-
-
     /**
      * register action provider
      * @param string $actionClass 
@@ -152,7 +140,6 @@ class Route
         ) {
             return self::RegisterRoute($actionClass, $path);
         }
-
         if (!isset(self::$sm_actions[$actionClass])) {
             self::$sm_actions[$actionClass] = [];
         }
@@ -163,7 +150,6 @@ class Route
         self::$sm_name_list = [];
         return $c;
     }
-
     /**
      * register route
      * @param string $path entry path
@@ -183,7 +169,6 @@ class Route
     public static function __callStatic($name, $arguments)
     {
         $verbs = explode('|', self::SUPPORT_VERBS);
-
         if (in_array($v = strtoupper($name), $verbs)) {
             if (count($arguments) == 1) {
                 array_push($arguments, '/index');
@@ -214,7 +199,6 @@ class Route
             //search in all actions
             $actions = self::$sm_actions;
         }
-
         foreach ($actions as $actions) {
             foreach ($actions as $a) {
                 if ($name == $a->getName()) {

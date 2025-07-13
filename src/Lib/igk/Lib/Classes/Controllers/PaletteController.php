@@ -7,13 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
-
 namespace IGK\Controllers;
-
 use IGK\Helper\IO;
- 
-
 /**
 *
 *represent a Palette controller Model

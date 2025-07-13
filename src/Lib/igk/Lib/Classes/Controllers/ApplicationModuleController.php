@@ -1,6 +1,5 @@
 <?php
 namespace IGK\Controllers;
-
 use Error;
 use Exception;
 use IGK\Helper\IO; 
@@ -15,11 +14,9 @@ use IGK\System\IO\Path;
 use ReflectionException;
 use Throwable;
 use TypeError;
-
 // @author: C.A.D. BONDJE DOUE
 // @licence: IGKDEV - Balafon @ 2019
 // @Description: Use to add extra module to system. that module include function declared on .module.pinc file with the $reg array
- 
 /**
 * represent application module class
 * @method function initDoc($doc, ...$args) initialize document
@@ -35,7 +32,6 @@ final class ApplicationModuleController extends BaseController{
     private $m_src;             // source code 
     private $m_initializer;     // used to extend module class properties
     private $m_configs;         // configuration 
- 
     var $boot;
     /**
      * get application module configuration value
@@ -70,7 +66,6 @@ final class ApplicationModuleController extends BaseController{
     public function supportMethod($method):bool{
         return is_callable(igk_getv($this->m_fclist, $method));
     }
-
     public function initClass($classname){
         if (class_exists($classname)){
             $this->m_initializer = new $classname();
@@ -82,7 +77,6 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $args
     */
     function __call($n, $args){
-
         $fc=igk_getv($this->m_fclist, $n);
         if($fc){
             // + | check that in methods can be initialize
@@ -100,8 +94,6 @@ final class ApplicationModuleController extends BaseController{
         } 
         return null;
     }
-    
-    
     protected function getModuleKey($name=""){
         $s = "module://".$this->name;
         if (!empty($name = trim($name, "/"))){
@@ -188,11 +180,9 @@ final class ApplicationModuleController extends BaseController{
             } 
             $entry_ns =  str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($dir)));
             $libdir=$classLib;  
-            
             $fc = function($n)use($entry_ns, $libdir){ 
                 $fc = "";
                 //  if ($n ==\igk\js\Vue3\Components\VueApplicationNode::class){
-
                 //   igk_wln_e("try load ".$n . " ".$this->getName(), $entry_ns, $dir = $this->getDeclaredDir());
                 //  }
                 if (!empty($entry_ns) && (strpos( strtolower($n), strtolower($entry_ns.'\\'))===0)){
@@ -242,7 +232,6 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $c the default value is null
     */
     private function _init($c=null){
- 
         $s=igk_io_read_allfile($c ?? $this->m_dir."/".self::MODULE_INITIALIZER_FNAME);
         // + | --------------------------------------------------------------------
         // + | $reg is a function used to register additional function 
@@ -277,7 +266,6 @@ final class ApplicationModuleController extends BaseController{
         // + | --------------------------------------------------------------------
         // + | unset source for production
         // + |
-        
         unset($this->m_src);
     }
     /**
@@ -462,7 +450,6 @@ final class ApplicationModuleController extends BaseController{
     public function get($name, $default=null){
         return $this->getEnvParam($name, $default);
     }
-
     public function View(): BaseController{
         if ($this->methodExists(__FUNCTION__)){
             $fc = igk_getv($this->m_fclist, __FUNCTION__);
@@ -483,7 +470,6 @@ final class ApplicationModuleController extends BaseController{
             igk_ilog("module app - invoke static method not allowed - ".$name);         
         } 
         // if (method_exists(ControllerExtension::class, $name)){
-            
         //     call_user_func_array([ControllerExtension::class, $name], $arguments);
         // }
         return null; 
@@ -534,7 +520,6 @@ final class ApplicationModuleController extends BaseController{
     {
         return sprintf("%s - [%s]", __CLASS__, $this->getName());
     }
-
     /**
      * resolve local class
      * @param string $name 
@@ -544,7 +529,6 @@ final class ApplicationModuleController extends BaseController{
         $m = ControllerExtension::resolveClass($this, $name);
         return $m;
     }
-
     public static function GetSettingKey(ApplicationModuleController $ctrl){
         return sprintf('module://%s', trim($ctrl->getName(),'. '));
     }

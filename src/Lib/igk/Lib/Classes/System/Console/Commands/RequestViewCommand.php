@@ -3,7 +3,6 @@
 // @file: RequestCommand.php
 // @date: 20221114 01:53:54
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\SysUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Console\App;
@@ -15,7 +14,6 @@ use IGK\System\Html\HtmlContext;
 use IGK\System\Uri;
 use IGKException;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -23,9 +21,7 @@ use ReflectionException;
 class RequestViewCommand extends AppExecCommand
 {
     var $command = '--request:view';
-
     var $desc = 'request view call';
-  
     public function showOptions()
     {
         // + | ----------------------------------
@@ -49,7 +45,6 @@ class RequestViewCommand extends AppExecCommand
         $this->options = $opts;
         parent::showOptions();
     }
- 
     public function exec($command, $controller = null, ?string $request = null)
     {
         $ctrl = $controller ?? igk_getv($command->options, '--controller');
@@ -62,11 +57,8 @@ class RequestViewCommand extends AppExecCommand
         $_SERVER['REQUEST_URI'] = '/' . $path; 
         $_SERVER['HTTP_IGK_AJX'] =  property_exists($command->options, "--ajx");
         $_SERVER['CONTENT_TYPE'] = igk_getv($command->options, "--content-type", "text/html");
-        
         ServerCommandHelper::Init($command);
-
         $ctrl->register_autoload();
-
         self::BindUserCommand($ctrl, $command);
         $render = property_exists($command->options, '--render');
         if ($json = igk_getv($command->options, '--json')) {
@@ -81,8 +73,6 @@ class RequestViewCommand extends AppExecCommand
         igk_configs()->default_controller = $ctrl->getName();
         $ctrl->getConfigs()->no_auto_cache_view = property_exists($command->options, '--no-cache');
         $this->doRequest($command, $path);
-
-
         if ($render) {
             $v_render_type = igk_getv($command->options, '--render', 'view');
             $doc = $ctrl->getDoc();
@@ -107,7 +97,6 @@ class RequestViewCommand extends AppExecCommand
                 default: 
                     $t->renderAJX($xml_render_option);
                 break;
-                
             }
             echo "\n";
         }
@@ -132,7 +121,6 @@ class RequestViewCommand extends AppExecCommand
         if ($query = $_SERVER['QUERY_STRING'] = $g->getQuery()){
             parse_str($query, $_REQUEST); 
         }
-
         igk_server()->prepareServerInfo();
         list($view, $args) = ViewHelper::PrepareViewArgFromPath($path); 
         $ctrl->setCurrentView($view, true, null, $args);

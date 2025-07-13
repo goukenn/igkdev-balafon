@@ -3,8 +3,6 @@
 // @file: RegexCaptureMarker.php
 // @date: 20241106 11:17:24
 namespace IGK\System\Text;
-
-
 /**
 * capture marker 
 * @package IGK\System\Text

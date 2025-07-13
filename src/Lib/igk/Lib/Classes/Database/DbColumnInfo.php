@@ -3,10 +3,7 @@
 // @filename: DbColumnInfo.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Database;
-
 use IGK\Database\Traits\DbColumnInfoMethodTrait;
 use IGK\Database\Traits\DbColumnInfoTrait;
 use IGK\Models\DataTypes;
@@ -15,7 +12,6 @@ use IGKException;
 use IGKObject;
 use IGKSysUtil;
 use ReflectionException;
-
 require_once __DIR__ . "/Traits/DbColumnInfoTrait.php";
 /**
  * Represent DbColumnInfo class
@@ -24,9 +20,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
 {
     use DbColumnInfoTrait;
     use DbColumnInfoMethodTrait;
-
     const TYPE_LENGTH_REGEX = "/\(\s*(?P<size>\d+)\s*\)/";
-
     /**
      * create an auto increment field
      * @param mixed $name 
@@ -74,7 +68,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         $clLinkType = array_shift($table);
         $clLinkColumn = $table ? array_shift($table) : null;
         $clType = $table ? array_shift($table) : null;
-
         return compact('clLinkType', 'clLinkColumn', 'clType');
     }
     /**
@@ -100,7 +93,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
                 }
                 $this->$k = $v;
             }
-
             // + | treat type :
             self::_TreatType($this);
             // + | treat link
@@ -111,7 +103,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
                 }
                 $this->clLinkType = trim($r[0]);
             }
-
             // + | --------------------------------------------------------------------
             // + | if already setup auto - make int data to be not null
             // + |   
@@ -183,7 +174,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $val;
     }
-
     /**
      * create definition column info from class definition 
      * @param string $class_name 
@@ -253,7 +243,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $cls;
     }
-
     /**
      * return a filtered array of property
      * @return array 
@@ -364,8 +353,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             "clAutoIncrement" => true
         ));
     }
-
-
     /**
      * get column default value
      * @param DbColumnInfo $v 
@@ -395,7 +382,6 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return $v->clDefault;
     }
-
     /**
      * check for db column info
      * @param IDbColumnInfo $v 

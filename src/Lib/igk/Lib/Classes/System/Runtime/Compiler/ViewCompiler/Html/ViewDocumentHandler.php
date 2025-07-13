@@ -3,11 +3,9 @@
 // @file: ViewDocumentHandler.php
 // @date: 20221019 09:20:46
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
-
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerArgument;
 use stdClass;
-
 /**
 * use to handle document objet on compiler
 * @package IGK\System\Runtime\Compiler\Html
@@ -17,8 +15,6 @@ class ViewDocumentHandler implements IViewCompilerArgument{
     var $body;
     var $metas;
     private $m_changed;
-
-
     public function __construct(){
         $this->body = new ViewDocumentBody();
         $this->head = new ViewDocumentHead();
@@ -37,12 +33,10 @@ class ViewDocumentHandler implements IViewCompilerArgument{
         return $s;
      }
      public function renderAccessiblity(){
-        
      }
     public function __call($name, $args){
         throw new NotImplementException(__CLASS__."::".$name);
     }
-    
     public function addTempStyle(){
         $n = igk_create_node('link');
         $n["rel"] = "stylesheet";
@@ -55,5 +49,4 @@ class ViewDocumentHandler implements IViewCompilerArgument{
     public function getBody(){
         return $this->body;
     }
-    
 }

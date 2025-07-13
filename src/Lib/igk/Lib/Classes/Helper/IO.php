@@ -3,9 +3,7 @@
 // @filename: IO.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Helper;
-
 use Exception;
 use GPBMetadata\Google\Firestore\V1Beta1\Write;
 use IGK\Helper\StringUtility as IGKString;
@@ -18,8 +16,6 @@ use IGK\System\IO\Path;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
-
-
 /**
  * IO utility helper
  * @package IGK\Helper
@@ -28,7 +24,6 @@ class IO
 {
     use IOSearchFileTrait;
     use IOPathCheckerTrait;
-
     /**
      * get mimetype from buffer 
      * @param string $buffer 
@@ -80,7 +75,6 @@ class IO
         }
         return null;
     }
-
     /**
      * clean directory
      * @param string $dir 
@@ -90,7 +84,6 @@ class IO
     public static function CleanDir(string $dir): bool
     {
         if ($hdir = @opendir($dir)) {
-
             while (($m = readdir($hdir)) !== false) {
                 if (($m == '.') || $m == '..') {
                     continue;
@@ -196,9 +189,6 @@ class IO
         }
         return null;
     }
-
-
-
     /**
      * resolv path constant
      * @param mixed $dir 
@@ -295,7 +285,6 @@ class IO
     {
         $r = false;
         $fc = !igk_is_function_disable("exec");
-
         if (!igk_server()->WINDIR) {
             // + | UNIX Allow us to create link relatively 
             if ($fc) {
@@ -346,11 +335,9 @@ class IO
         $ddir = [["d" => $inputDir, "path" => $outputDir]];
         $sep = '/';
         $ln = strlen($inputDir);
-
         while ($q = array_pop($ddir)) {
             $inputDir = $q["d"];
             $outputDir = $q["path"];
-
             $hdir = opendir($inputDir);
             if ($hdir) {
                 while (($r = readdir($hdir))) {
@@ -769,7 +756,6 @@ class IO
         while (count($dirs) > 0) {
             $q = array_pop($dirs);
             if (isset($excludedir[$q])) { 
-
                 continue;
             }
             // use scan dir to order
@@ -901,7 +887,6 @@ class IO
     public static function GetRelativePath($sourcepath, $targetdir, $separator = DIRECTORY_SEPARATOR)
     {
         return Path::GetRelativePath($sourcepath, $targetdir, $separator);
-
         // $i = IGKString::IndexOf($targetdir, $sourcepath);
         // if ($i != -1) {
         //     $s = self::__fixpath(substr($targetdir, strlen($sourcepath)));
@@ -986,7 +971,6 @@ class IO
         $s = str_replace("\\", "/", $s);
         $doc = StringUtility::Uri(igk_io_rootdir());
         $dir = StringUtility::Uri($dir);
-
         if (strlen($s) > 0) {
             if ($s[0] == "/") {
                 $s = strstr($s, $doc);
@@ -1210,7 +1194,6 @@ class IO
                 if (($f == ".") || ($f == ".."))
                     continue;
                 $v = igk_dir($dir . "/" . $f);
-
                 if ($callback && !$callback($v)) {
                     continue;
                 }
@@ -1289,7 +1272,6 @@ class IO
     {
         return self::WriteToFile($filename, $content, $overwrite, $chmod);
     }
-
     /**
      * read file lines 
      * @param string $filename 
@@ -1303,7 +1285,6 @@ class IO
         $g = array_slice($g, $start, $end - $start);
         return implode("\n", $g);
     }
-
     /**
      * get unix path - to search for real file
      * @param string $path 

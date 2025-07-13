@@ -7,16 +7,12 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\Models\Subdomains;
 use IGKSubDomainManager;
 use function igk_resources_gets as __;
-
-
 final class SubDomainController extends ConfigControllerBase
 {
     // public function __construct()
@@ -74,8 +70,6 @@ final class SubDomainController extends ConfigControllerBase
             $s = $this->getConfigNode();
             $this->View();
             $s->add($this->getTargetNode());
-
-
             igk_ajx_replace_node($s, "#igk-cnf-content");
             igk_ajx_replace_uri(sprintf('%s%s', igk_io_baseuri(), igk_server()->getConfigurationPath()). "/#!p=" . $this->getConfigPage());
             igk_ajx_panel_dialog_close();
@@ -181,7 +175,6 @@ final class SubDomainController extends ConfigControllerBase
         });
         $form->input("i", "hidden", $id);
         igk_ajx_panel_dialog(__("Confirm dialog"), $form);
-
         // $frame=igk_frame_add_confirm($this, __FUNCTION__, $this->getUri(__FUNCTION__));
         // $frame->Form->Div->Content=__("confirm.delete");
         // $frame->Form->addHidden("i", igk_getr("i"));
@@ -262,12 +255,10 @@ final class SubDomainController extends ConfigControllerBase
         }
         return null;
     }
-
     public function getName()
     {
         return IGK_SUBDOMAINNAME_CTRL;
     }
-
     public function View():BaseController
     {
         $t = $this->TargetNode;
@@ -288,7 +279,6 @@ final class SubDomainController extends ConfigControllerBase
         $tdv = $n->div();
         $tdv["class"] = "c-z igk-write";
         // $tdv->div()->addTitleLevel(5)->Content = R::ngets("title.DatbaseRegisteredDomain");
-         
         $tdv->notifyhost("domain/dbz");
         // \opcache_reset(); 
         //igk_notifyctrl()->setNotifyHost($tdv->div(), "domain/dbz");
@@ -326,7 +316,6 @@ final class SubDomainController extends ConfigControllerBase
                 $tdv->div()->addText($c);
             }
         }
-
        // $n->ajxa($this->getUri("update-view-list_ajx"))->Content = "Updatelist:";
     }
     private function update_view_list_ajx(){

@@ -3,8 +3,6 @@
 // @file: ChainInfo.php
 // @date: 20230403 21:02:17
 namespace IGK\System\Articles;
-
-
 /**
 * 
 * @package IGK\System\Articles
@@ -12,7 +10,6 @@ namespace IGK\System\Articles;
 class ChainInfo{
     var $n;
     var $data;
-
     public function __construct($n, $data)
     {
         $this->n = $n;

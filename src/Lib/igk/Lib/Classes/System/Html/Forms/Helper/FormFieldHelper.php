@@ -3,12 +3,10 @@
 // @file: FormFieldHelper.php
 // @date: 20240910 07:47:01
 namespace IGK\System\Html\Forms\Helper;
-
 use Exception;
 use IGK\System\Http\Request;
 use IGKException;
 use IGKValidator;
-
 /**
  * 
  * @package IGK\System\Html\Forms\Helper
@@ -28,9 +26,7 @@ abstract class FormFieldHelper
         $sess_form = igk_app()->session->{self::FORM_FIELD};
         if (!$sess_form)
             return null;
-
         $request = (array)($data ?? $_REQUEST);
-
         $obj = self::HandleFormRequest($sess_form, $request, $obj);
         return $obj;
     }
@@ -42,7 +38,6 @@ abstract class FormFieldHelper
     {
         igk_app()->session->{self::FORM_FIELD} = igk_createobj();
     }
-
     /**
      * single treat 
      * @param object $sess_form_form array<guid, array<string, index,name>
@@ -61,7 +56,6 @@ abstract class FormFieldHelper
         $found = false;
         foreach ($keys as $uid) {
             if (IGKValidator::IsGUID($uid) && (1 == igk_getv($request_data, $uid))) {
-
                 $info = igk_getv($sess_form_form, $uid);
                 if (is_null($obj)) {
                     $obj = igk_createobj();
@@ -84,7 +78,6 @@ abstract class FormFieldHelper
         }
         return $found ? $obj : null;
     }
-    
     /**
      * environment method
      * @param null|bool $r 
@@ -99,7 +92,6 @@ abstract class FormFieldHelper
         igk_environment()->set($k, $r);
         return $r;
     }
-
     /**
      * randomize form fields
      * @param array $formFields 
@@ -108,7 +100,6 @@ abstract class FormFieldHelper
      */
     public static function FormRandFieldName(array $formFields)
     {
-
         $session = igk_app()->getSession();
         if (!($sess_form = $session->forms)) {
             $sess_form = igk_createobj();
@@ -118,7 +109,6 @@ abstract class FormFieldHelper
         $ls = array_keys($formFields);
         $count = 1;
         $sess_form_def = [];
-
         foreach ($ls as $k) {
             $kn = $k;
             if (is_numeric($k)) {
@@ -133,14 +123,12 @@ abstract class FormFieldHelper
             $sess_form_def[$nkey] = [$k, $kn]; // + | index_or_key | name
             $count++;
         }
-
         $nfields[$form_guid] = ['type' => 'hidden', 'value' => '1'];
         if (isset($sess_form->{$form_guid})) {
             $sess_form->{$form_guid} = array_merge($sess_form->{$form_guid}, $sess_form_def);
         } else
             $sess_form->{$form_guid} = $sess_form_def;
         $session->forms = $sess_form;
-
         return $nfields;
     }
 }

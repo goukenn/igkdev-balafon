@@ -7,12 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\System\Html\Dom\HtmlDialogFrameNode;
 use IIGKFrameController;
-
 final class FrameDialogController extends NonVisibleControllerBase implements IIGKFrameController{
     const FRAME_KEYS="FRAMES";
     public function __construct(){
@@ -46,9 +43,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
                 if(($closeuri=urldecode(igk_getr("closeuri"))) == null)
                     $closeuri=urldecode(igk_getv($args, "closeuri"));
                 $frame->remove();
-
                 $method = $frame->getcloseMethodUri();
-                
                 if(method_exists(get_class($frame->Owner), "frameClosed")){
                     $frame->Owner->frameClosed();
                 }
@@ -95,7 +90,6 @@ final class FrameDialogController extends NonVisibleControllerBase implements II
         return false;
     }
     public function createFrame($id, $owner, $closeuri=null, $reloadcallback=null){
- 
         if(($id == null) || !is_string($id))
             return null;
         $frames=$this->getFrames();

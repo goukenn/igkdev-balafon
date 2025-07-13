@@ -3,7 +3,6 @@
 // @filename: ConfigureController.php 
 // @desc:  Configuration Controller page  
 namespace IGK\System\Configuration\Controllers;
-
 use Exception;
 use Google\Service\ToolResults\Execution;
 use IGK\Controllers\BaseController;
@@ -36,7 +35,6 @@ use IGKHostParam;
 use IGKValidator;
 use lbuchs\WebAuthn\WebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
-
 use function igk_resources_gets as __;
 /**
  *  Configuration Controller
@@ -1123,20 +1121,15 @@ EOF;
             $bar->addButton("connect", 1)->setClass("bmc-raise igk-winui-bmc-button")->Content = __("Connect");
             $bar->addABtn(igk_io_baseuri())->setClass("igk-pull-right")->Content = __("Back to {0}", IGKValidator::IsIpAddress(igk_server()->SERVER_NAME) ? __("Home") :  igk_sys_domain_name());
             $root->div()->setClass('info')->setAttribute("style", "font-size:0.8em; text-align:center")->div()->Content = "{$igk_framename} - ( " . IGK_PLATEFORM_NAME . " ) - {$igk_version}<br />Configuration";
-
             // + | --------------------------------------------------------------------
             // + | term of use an privacy
             // + |
-
             // $root->div()->setClass('dispflex justify-c flex-row text-d-small')->host(function($a){
             //     $a->span()->content = __('term of use');
             //     $a->span()->setClass('hsep dispib')->content = ' | ';
             //     $a->span()->content = __('privacy');
             // });
-
             $root->footer()->setClass("footer alignc posab loc_l loc_b loc_r text-d-small")->addIGKCopyright();
-
-
             if (igk_configs()->webauthn_required) {
                 // + | inject web-authentication connection - 
                 $js_loader = $this->_getInlineJSLoade();
@@ -1146,14 +1139,11 @@ EOF;
                     ->setAttributes([
                         'data-webauthn-resolve' => $this->getUri('webauthn-create-get')
                     ])->add(igk_html_host(
-
                         'div.span',
                         __('Sign In'),
-
                         igk_html_host('div.span.igk-svg-host > host', [function ($a) {
                             $a->text(base64_decode('PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCEtLUdlbmVyYXRvcjogQXBwbGUgTmF0aXZlIENvcmVTVkcgMzI2LS0+CjwhRE9DVFlQRSBzdmcKUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIKICAgICAgICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPgo8c3ZnIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmlld0JveD0iMCAwIDIzLjY4NDkgMjMuOTIwMiI+CiA8Zz4KICA8cmVjdCBoZWlnaHQ9IjIzLjkyMDIiIG9wYWNpdHk9IjAiIHdpZHRoPSIyMy42ODQ5IiB4PSIwIiB5PSIwIi8+CiAgPHBhdGggZD0iTTE1Ljk4MzkgMTQuMzI4NEMxNS45ODM2IDE0LjMzIDE1Ljk4MzYgMTQuMzMxNyAxNS45ODM2IDE0LjMzMzNDMTUuOTgzNiAxNC42MDc4IDE2LjAxMTIgMTQuODc2NSAxNi4wNjQ3IDE1LjEzNjJDMTQuODkwMyAxNC40ODY1IDEzLjQwNjQgMTQuMDU5OSAxMS42NTgyIDE0LjA1OTlDNi45MTU2OCAxNC4wNTk5IDQuMTI1ODUgMTcuMTk1OSA0LjEyNTg1IDE5LjM3NjdDNC4xMjU4NSAxOS44Mjc5IDQuMzQ1NzcgMTkuOTk0NyA1LjAzNTU5IDE5Ljk5NDdMMTcuOTQwNyAxOS45OTQ3TDE3Ljk0MDcgMjAuNjk1OUw1LjEyODk3IDIwLjY5NTlDMy45NTA4MiAyMC42OTU5IDMuMzk3MyAyMC4yOTkgMy4zOTczIDE5LjQxNDZDMy4zOTczIDE2Ljg4NDEgNi41NjY0NCAxMy4zNTE3IDExLjY1ODIgMTMuMzUxN0MxMy4zMjA1IDEzLjM1MTcgMTQuNzc4NiAxMy43Mjg2IDE1Ljk4MzkgMTQuMzI4NFpNMTUuNjMwOSA3LjQ5NDY3QzE1LjYzMDkgOS45NTc5NSAxMy44OTgxIDExLjg2MzggMTEuNjc5MyAxMS44NjM4QzkuNDYwNTkgMTEuODYzOCA3LjcyNzc3IDkuOTYwNjkgNy43Mjc3NyA3LjUwMDE0QzcuNzI3NzcgNS4xNjAyOSA5LjQ5ODQ4IDMuMjIxNjIgMTEuNjc5MyAzLjIyMTYyQzEzLjg1MTYgMy4yMjE2MiAxNS42MzA5IDUuMTQyMzIgMTUuNjMwOSA3LjQ5NDY3Wk04LjQ1NjMyIDcuNTAwMTRDOC40NTYzMiA5LjU3MzE3IDkuODczODkgMTEuMTYyNiAxMS42NzkzIDExLjE2MjZDMTMuNDg3NSAxMS4xNjI2IDE0LjkwMjQgOS41NzQ3MyAxNC45MDI0IDcuNDk0NjdDMTQuOTAyNCA1LjUyNTU0IDEzLjQ1MDggMy45MjI4MiAxMS42NzkzIDMuOTIyODJDOS44OTY1NCAzLjkyMjgyIDguNDU2MzIgNS41NDA3OCA4LjQ1NjMyIDcuNTAwMTRaIiBmaWxsPSIjZmY0NTNhIi8+CiAgPHBhdGggZD0iTTE5LjgzMjEgMTEuMzYxNUMxOC4xNzEyIDExLjM2MTUgMTYuODU3NSAxMi43MDE3IDE2Ljg1NzUgMTQuMzMzM0MxNi44NTc1IDE1LjYyNjMgMTcuNjE3NiAxNi43MjgzIDE4LjgxMTggMTcuMTYxOUwxOC44MTE4IDIxLjk1MzdDMTguODExOCAyMi4wMjg3IDE4Ljg0MjMgMjIuMTIzNiAxOC45MTMzIDIyLjIxNDJMMTkuNzEyNiAyMi45OTIzQzE5Ljc5NjIgMjMuMDc1OSAxOS44Njk2IDIzLjA3ODcgMTkuOTQ4OSAyMi45OTIzTDIxLjQ3MzUgMjEuNDg0NUMyMS41NDMgMjEuNDEyMyAyMS41NDMgMjEuMzQ1OCAyMS40NzM1IDIxLjI2MjNMMjAuNDU3NSAyMC4yNTMzTDIxLjgzMDUgMTguOTIzNkMyMS44ODYgMTguODYzOCAyMS44ODYgMTguNzY2NSAyMS44MTggMTguNjg0NUwyMC40MzkxIDE3LjMxNTRDMjEuOTY0MSAxNi43MzUzIDIyLjgxMSAxNS42NjI2IDIyLjgxMSAxNC4zMzMzQzIyLjgxMSAxMi43MDg3IDIxLjQ4NzYgMTEuMzYxNSAxOS44MzIxIDExLjM2MTVaTTE5LjgyOTQgMTIuNzExMUMyMC4zMzU2IDEyLjcxMTEgMjAuNzQ0MiAxMy4xMTk3IDIwLjc0NDIgMTMuNjMzQzIwLjc0NDIgMTQuMTMwNiAyMC4zMzU2IDE0LjU0NjIgMTkuODI5NCAxNC41NDYyQzE5LjMzMDEgMTQuNTQ2MiAxOC45MTE4IDE0LjEzMDYgMTguOTExOCAxMy42MzNDMTguOTExOCAxMy4xMTk3IDE5LjMxMzMgMTIuNzExMSAxOS44Mjk0IDEyLjcxMTFaIiBmaWxsPSIjNWU1Y2U2Ii8+CiA8L2c+Cjwvc3ZnPg=='));
                         }])
-
                     ));
                 if (igk_environment()->isDev()) {
                     $v_uri = igk_uri(Path::CombineAndFlattenPath(igk_io_baseuri(), $this->getUri('webauthn-create-register')));
@@ -1416,8 +1406,6 @@ EOF;
                 if (empty($challenge)) {
                     igk_json(['error' => true, 'msg' => 'missing challenge - on create']);
                 }
-
-
                 $toseridata = $webauth->processCreate(
                     base64_decode(igk_getv($credentials->response, 'clientDataJSON')),
                     base64_decode(igk_getv($credentials->response, 'attestationObject')),
@@ -2073,14 +2061,12 @@ EOF;
             $v_confctrl = igk_getconfigwebpagectrl();
             $uri = igk_uri(Path::CombineAndFlattenPath(igk_io_baseuri(),  $v_confctrl->getUri('webauthn-create-register')));
             $v_toggle_uri = igk_uri(Path::CombineAndFlattenPath(igk_io_baseuri(),  $v_confctrl->getUri('toggle-webauth-requirement')));
-
             $d = $tbox->row()->col('fitw no-overflow')->div()->setClass('line-conf fitw dispflex flex-justify-sb no-overflow');
             $s = 'cbox_webauth_requirement';
             $d->label($s)->Content = __('WebAuthRequirement');
             $d->addToggleStateButton($s, "on", $v_cnf->webauthn_required)
                 ->setClass("dispib")
                 ->on('change', 'igk.ajx.post("' . $v_toggle_uri . '"); return false;');
- 
             $tbox->script()->content = <<<JS
 (function(){
     const p = \$igk('.wa-credentials').first(); 

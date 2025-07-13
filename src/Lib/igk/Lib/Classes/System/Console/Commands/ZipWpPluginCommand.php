@@ -3,28 +3,19 @@
 // @filename: ZipWpPluginCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use ZipArchive;
-
 class ZipWpPluginCommand extends AppExecCommand{
-
     var $command = "--zipwp_plugin";
-
     var $desc = "zip wordpress plugin";
-
-
     public function exec($command, $sourcepath=null, $path=null){
-       
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");
             return -1;
         }
         if (empty($sourcepath) || !is_dir($sourcepath)){
-            
             Logger::danger("source folder not present");
             return false;
         }
@@ -33,13 +24,10 @@ class ZipWpPluginCommand extends AppExecCommand{
             $ts = $command->options->{"--ignore"};
             if (!is_array($ts))
                 $ts = [$ts];
-             
             $ts = array_filter($ts);
             $idx = str_replace("/", "\\/", "(".implode("|", $ts).")|");
             // igk_wln_e($command->options->{"--ignore"}, $ts, $idx);
         }
-        
-
         // return;
         $prjname = basename($sourcepath);
         $fname = "/wp_plugin_.".$prjname.".".date("Ymd").".zip";
@@ -50,7 +38,6 @@ class ZipWpPluginCommand extends AppExecCommand{
         }
         $author = $command->app->getConfigs()->get("author", IGK_AUTHOR);
        // igk_sys_zip_project($ctrl, $path, $author);
-
         // $g = $ctrl->getDeclaredDir();
         if (igk_io_file_exists($path)){
             @unlink($path);
@@ -72,5 +59,4 @@ class ZipWpPluginCommand extends AppExecCommand{
         }
         Logger::success("zip wp plugin: ".$path);
     }
-      
 }

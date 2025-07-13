@@ -3,20 +3,16 @@
 // @file: SyncInitProjectCommand.php
 // @date: 20230225 19:37:58
 namespace IGK\System\Console\Commands\Sync;
-
 use IGK\Helper\JSon;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKEvents;
-
 /**
 * 
 * @package IGK\System\Console\Commands
 */
 class SyncInitProjectCommand extends SyncAppExecCommandBase{
-    
     const CONF_FILE = '.balafon-sync.project.json';
-    
     var $command="--sync:init-project";
     var $desc = "initialize sync project - configuration file";
     var $options= [
@@ -38,9 +34,6 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
             }  
         });
     }
-
- 
-
     public function exec($command, ?string $controller=null) { 
         if (is_null($controller)){
             igk_die("controller required");
@@ -64,5 +57,4 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
         Logger::info("create : ".$file);
         Logger::success('done');
     }
-     
 }

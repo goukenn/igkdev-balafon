@@ -7,12 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
 final class HtmlHeadBaseUriNode extends HtmlNode{
     static $sm_item;
     protected function _acceptRender($options = null):bool{
-        
         if(($doc=$options->Document)){
             $b=$doc->getBaseUri();
             if(!empty($b)){

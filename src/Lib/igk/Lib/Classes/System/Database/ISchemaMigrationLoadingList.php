@@ -3,8 +3,6 @@
 // @file: ISchemaMigrationLoadingList.php
 // @date: 20250124 15:26:02
 namespace IGK\System\Database;
-
-
 /**
 * 
 * @package IGK\System\Database
@@ -13,5 +11,4 @@ namespace IGK\System\Database;
 * 
 */
 interface ISchemaMigrationLoadingList{
-
 }

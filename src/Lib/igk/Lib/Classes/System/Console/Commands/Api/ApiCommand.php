@@ -3,13 +3,11 @@
 // @file: ApiCommand.php
 // @date: 20230901 09:48:11
 namespace IGK\System\Console\Commands\Api;
-
 use IGK\Actions\ActionResolutionInfo;
 use IGK\Helper\ArrayUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Api
@@ -56,13 +54,11 @@ class ApiCommand extends AppExecCommand{
 					continue;
 				}
 			}
-			
 			$builder = new PHPScriptBuilder;
 			$builder->type('function')
 			->defs(sprintf('return %s;', ArrayUtils::Export($routes)));
 			igk_io_w2file($file, $builder->render());
 			$routes && $v_fc_showRoute($routes);
 		}
-		
 	}
 }

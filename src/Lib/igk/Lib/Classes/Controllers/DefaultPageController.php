@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\System\Html\XML\XmlNode;
 use IGKException;
 use IGKHtmlRelativeUriValueAttribute;
@@ -17,9 +15,7 @@ use IGKSystemUriActionPatternInfo;
 use IGKViewMode;
 use IIGKUriActionRegistrableController;
 use IIGKWebPageController;
-
 abstract class DefaultPageController extends PageControllerBase implements IIGKUriActionRegistrableController, IIGKWebPageController{    
-    
     /**
      * default handle uri global uri
      * @param mixed $request 
@@ -182,7 +178,6 @@ abstract class DefaultPageController extends PageControllerBase implements IIGKU
     public function getRegInvokeUri(){
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
-    
     public function getRegUriAction(){
         $primary=$this->getBasicUriPattern();
         if(empty($primary))

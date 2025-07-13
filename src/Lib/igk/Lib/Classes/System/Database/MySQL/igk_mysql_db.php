@@ -4,12 +4,10 @@
 // licence: IGKDEV - Balafon @ 2019
 // desc: mysql data adapter
 // @file: igk_mysql_db.php
-
 use IGK\Database\DbQueryDriver;
 use IGK\Constants;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGK\System\Console\Logger;
-
 if (!extension_loaded("mysql") && (!extension_loaded("mysqli"))) {
     error_log("[BLF] - no extension mysql or mysqli installed. class will not be installed in that case." . extension_loaded("mysqli"));
     return;
@@ -22,15 +20,11 @@ define("IGK_MYSQL_DIR", IGK_LIB_CLASSES_DIR . "/System/Database/MySQL");
 define('MYSQL_DB_DRIVER', 1);
 require_once(IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Database/SQLDataAdapter.php");
- 
 $file = (igk_sys_reflect_class(\IGK\System\Database\MySQL\DataAdapterBase::class))->getFileName();
-
-
 require_once(IGK_MYSQL_DIR . "/DataAdapterBase.php");
 // igk_wln_e("the file ", get_included_files() , $file, IGK_MYSQL_DIR . "/DataAdapterBase.php");
 require_once(IGK_MYSQL_DIR . "/DataAdapter.php");
 require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
-
 /**
  * 
  * @param mixed|object $srv
@@ -39,7 +33,6 @@ require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
  */
 function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
 {
-
     if (empty($srv))
         return false;
     $g = DbQueryDriver::GetFunc("connect") ?? igk_die("not connect found for !!!! " . DbQueryDriver::$Config["system"]);
@@ -60,7 +53,6 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
                     null,
                     $port
                 ];
-             
                 $b = @$g(...$mg);
             } else {
                 $b = @$g($srv, $dbu, $pwd);
@@ -316,7 +308,6 @@ function igk_db_last_connect_error(){
     }
     return $g();
 }
-
 /**
  * 
  * @param mixed $mysql
@@ -368,12 +359,6 @@ function igk_mysql_time_span($date)
 {
     return igk_time_span(IGK_MYSQL_DATETIME_FORMAT, $date);
 }
-
-
-
-
-
-
 function igk_mysqli_multi_query($con, $query)
 {
     $cr =  mysqli_multi_query($con, $query);
@@ -420,7 +405,5 @@ DbQueryDriver::Init(function (&$conf) {
     $t["connect_error"] = "mysqli_connect_error";
     $conf[$n]["func"] = $t;
 });
-
 // require_once __DIR__ . "/Controllers/DbConfigController.php";
-
 ConfigControllerRegistry::Register(\IGK\System\Database\MySQL\Controllers\DbConfigController::class, IGK_MYSQL_DB_CTRL);

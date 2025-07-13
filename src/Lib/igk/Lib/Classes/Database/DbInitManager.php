@@ -3,19 +3,16 @@
 // @file: DbInitManager.php
 // @date: 20221118 09:03:41
 namespace IGK\Database;
-
 use IGK\Controllers\BaseController;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
-
 /**
 * 
 * @package IGK\Database
 */
 class DbInitManager{
     public function init(BaseController $controller){
-      
         // + | --------------------------------------------------------------------
         // + | init profiles
         // + |

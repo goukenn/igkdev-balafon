@@ -3,7 +3,6 @@
 // @file: HtmlNodeTagExplosionDefinition.php
 // @date: 20230328 13:47:42
 namespace IGK\System\Html;
-
 use Exception;
 use IGK\System\ArrayMapKeyValue;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -14,7 +13,6 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
-
 /**
  * explode tag definition 
  * @package IGK\System\Html
@@ -22,12 +20,10 @@ use ReflectionException;
 class HtmlNodeTagExplosionDefinition
 {
     use HtmlNodeTagExplosionTrait;
-
     const split = '>';
     // + | --------------------------------------------------------------------
     // + | prefix definition 
     // + |
-    
     const identifier = '#';
     const name = '%';
     const classes='.';
@@ -36,15 +32,11 @@ class HtmlNodeTagExplosionDefinition
      * @var HtmlNodeBuilder
      */
     var $builder;
-
     /**
      * explode definition 
      */
     protected $split = self::split;
-
     private static $sm_static;
-
-
     public function __construct(HtmlNodeBuilder $builder)
     {
         $this->builder = $builder;
@@ -126,7 +118,6 @@ class HtmlNodeTagExplosionDefinition
                 $n->setAttribute('name', $name);
             }
         }
-
         // while(count($v_node_creates)>0){
         //     $q = array_shift($v_node_creates);
         //     $this->builder->onClose($q);
@@ -151,7 +142,6 @@ class HtmlNodeTagExplosionDefinition
         if ($i == '[[:@ctrl]]') {
             return $i;
         }
-
         if (preg_match("/^\[.+\]/", $i)) {
             // convert array 
             return json_decode($i);
@@ -201,11 +191,9 @@ class HtmlNodeTagExplosionDefinition
             $g = igk_str_read_brank($tagname, $pos, ')', '(');
             $a = substr($g, 1, -1);
             $args = igk_engine_get_attr_arg($a, $context);
-
             if ($args) {
                 $args = array_map([self::class, '_DefinitionArgs'], $args);
             }
-
             $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
             //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
         }
@@ -223,8 +211,6 @@ class HtmlNodeTagExplosionDefinition
             $r->escape_start = "[";
             $r->escape_end = ']';
             $v_activa_attrib = self::_GetActiveAttribute($a);
-
-
             $attr = ArrayMapKeyValue::Map(function ($k, $v) {
                 if (is_null($v)) {
                     if (strpos($k, "@") === 0) {
@@ -234,7 +220,6 @@ class HtmlNodeTagExplosionDefinition
                 }
                 return [$k, $v];
             }, (array)$r->read($a));
-
             if ($v_activa_attrib) {
                 foreach (array_keys($v_activa_attrib) as $m) {
                     if (isset($attr[$m])) continue;
@@ -263,7 +248,6 @@ class HtmlNodeTagExplosionDefinition
                 self::_StrRmValue($tagname, $tab[0][$i]);
             }
         }
-
         // + | identify class : .
         if (($v_pos = strpos($tagname, '.')) !== false) {
             $tclasses = [];
@@ -290,7 +274,6 @@ class HtmlNodeTagExplosionDefinition
                 self::_StrRmValue($tagname, $tab[0][$i]);
             }
         }
-
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
     private static function _StrRmValue(string &$tagname, $value)
@@ -343,12 +326,10 @@ class HtmlNodeTagExplosionDefinition
                 $last = $n;
                 $parent = $n;
             }
-
             igk_html_pop_node_parent();
         }
         return [$root, $last];
     }
-
     /**
      * create node args 
      * @param string $tagname 

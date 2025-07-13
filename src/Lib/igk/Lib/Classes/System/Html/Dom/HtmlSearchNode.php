@@ -3,13 +3,10 @@
 // @filename: HtmlSearchNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Html\HtmlUtils;
 use IGKValueListener;
-
 /**
 * Represent HtmlSearchNode class
 */

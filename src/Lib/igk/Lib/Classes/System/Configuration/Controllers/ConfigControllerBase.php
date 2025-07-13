@@ -3,26 +3,18 @@
 // @filename: ConfigControllerBase.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\Menus\MenuItem;
-
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-
-
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigController.php";
-
 /**
  * Represent ConfigControllerBase class
  */
@@ -74,7 +66,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return $this->getConfigs()->get($name, $default);
     }
-
     /**
      * 
      * @param mixed $node

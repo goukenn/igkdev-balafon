@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: DiagramEntityAssociation.php
 // @date: 20220531 16:27:01
 // @desc: 
-
 namespace IGK\Database\SchemaBuilder;
-
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbConstants;
 use IGK\Database\IDbColumnInfo;
@@ -14,7 +11,6 @@ use IGK\Helper\Activator;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
-
 /**
  * entity association diagram builder. on render it will render a md file by default
  */
@@ -39,13 +35,9 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_relations = [];
         $this->m_migrations = [];
     }
-
     public function description(?string $desc ): IDiagramSchemaBuilder {
         return $this;
      }
-
-   
-
     public function addIndex(string $table, $column) { 
         $mig = new DiagramMigration;
         $mig->type = __FUNCTION__;
@@ -53,7 +45,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_migrations[] = $mig;
         return $this;
     }
-
     public function dropIndex(string $table, $column) { 
         $mig = new DiagramMigration;
         $mig->type = __FUNCTION__;
@@ -61,7 +52,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_migrations[] = $mig;
         return $this;
     }
-
     public function addColumn(string $table, string $name): IDiagramSchemaColumn
     {
         $n = new DiagramSchemaColumn($name);
@@ -71,10 +61,8 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_migrations[] = $mig;
         return $n;
     }
-
     public function dropEntity(string $name): void
     {
-
         $g = null;
         $k = __FUNCTION__;
         $g = igk_getv($this->m_migrations, $k) ?? [];
@@ -82,7 +70,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $mig->type = 'dropEntity';
         $mig->properties = ['name' => $name];
         $g[$name] = $mig;
-
         $this->m_migrations[$k] = $g;
     }
     public function dropColumn(string $tablename, string $columnName): void
@@ -106,7 +93,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $g[json_encode($v_ofkey)] = $mig;
         $this->m_migrations[$k] = $g;
     }
-
     public function getTablePrefix(): string
     {
         return $this->table_prefix;
@@ -173,7 +159,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         if (!$visiting && count($this->m_relations) > 0) {
             $o .= "\n---- \n";
             $o .= "---- \n\n";
-
             foreach ($this->m_relations as $r) {
                 // igk_wln_e($r);
                 $o .= "# [" . $r->name . "]\n";
@@ -186,7 +171,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $o .= $visitor->complete();
         return $o;
     }
-
     /**
      * retrieve table info
      * @param string $name 
@@ -252,18 +236,15 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_entities[$e->getName()] = $e;
         return $e;
     }
-
     public function link(string $relationName, $sourceEntity, $endEntity, $startType, $endType = null)
     {
         $sc = (is_string($sourceEntity) ? igk_getv($this->m_entities, $sourceEntity) : (in_array($sourceEntity, $this->m_relations) ?
             $sourceEntity : null)) ??  die("source not in array");
         $dc = (is_string($endEntity) ? igk_getv($this->m_entities, $endEntity) : (in_array($endEntity, $this->m_relations) ?
             $endEntity : null)) ?? die("destination not in array");
-
         $this->m_relations[$relationName] = $c = new DiagramRelation($relationName, $sc, $dc, $startType, $endType);
         return $c;
     }
-
     /**
      * load from data schema
      * @param mixed $loadSchemaObject 
@@ -282,7 +263,6 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
             foreach ($loadSchemaObject->tables as $k => $v) {
                 $e = $o->entity($v->defTableName);
                 $e->addProperties($v->columnInfo);
-                
                 if ($links = $e->getResolveLinks()){
                     $v_resolv_kinks = array_merge($v_resolv_kinks, [$k=>$links]);
                 }

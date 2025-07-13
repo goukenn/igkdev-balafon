@@ -3,8 +3,6 @@
 // @file: DbQueryExpression.php
 // @date: 20250618 09:53:28
 namespace IGK\System\Database;
-
-
 /**
 * 
 * @package IGK\System\Database
@@ -19,7 +17,6 @@ class DbQueryExpression{
         $this->m_expression = $v;
     }
     private function __construct(){
-
     }
     /**
      * create a DbExpression

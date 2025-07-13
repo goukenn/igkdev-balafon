@@ -3,13 +3,11 @@
 // @file: ZipDirCommand.php
 // @date: 20231014 10:53:44
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use ZipArchive;
-
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -24,7 +22,6 @@ class ZipDirCommand extends AppExecCommand{
 	public function exec($command, ?string $inputDir=null, ?string $outDir=null) {
 		!is_dir($inputDir) && igk_die('missing inputdir');
 		if (empty($outDir)){
-
 			$outDir = Path::Combine(getcwd());
 		}
 		$filename = igk_getv($command->options, '--name' , basename($inputDir).date('Ymd_His').'.zip' );
@@ -39,6 +36,5 @@ class ZipDirCommand extends AppExecCommand{
 		} else {
 			Logger::danger('failed to create zip archive');
 		}
-
 	}
 }

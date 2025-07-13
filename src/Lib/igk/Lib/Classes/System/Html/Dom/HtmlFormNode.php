@@ -3,13 +3,10 @@
 // @filename: HtmlFormNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Traits\HostableItemTrait;
-
 /**
  * igk framework form
  */
@@ -76,7 +73,6 @@ final class HtmlFormNode extends HtmlNode
         $this->m_definition->Add($this->topdiv);
         $this->m_definition->Add($this->bodydiv);
         $this->m_definition->Add($this->footdiv);
-
         parent::_Add($this->m_definition);
     }
     public function setMAX_FILE_SIZE($size)

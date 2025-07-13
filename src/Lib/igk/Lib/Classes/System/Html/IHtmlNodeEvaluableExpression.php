@@ -3,8 +3,6 @@
 // @file: IHtmlNodeEvaluableExpression.php
 // @date: 20240122 13:01:49
 namespace IGK\System\Html;
-
-
 /**
 * 
 * @package IGK\System\Html

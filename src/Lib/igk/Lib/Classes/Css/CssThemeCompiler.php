@@ -3,9 +3,7 @@
 // @filename: CssThemeCompiler.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Css;
-
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use Exception;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -15,7 +13,6 @@ use IGKCaches;
 use IGKCssDefaultStyle;
 use IGKException;
 use ReflectionException;
-
 class CssThemeCompiler
 {
     /**
@@ -23,31 +20,26 @@ class CssThemeCompiler
      * @var bool
      */
     var $designmode;
-
     /**
      * global color pointer
      * @var mixed
      */
     var $gcl;
-
     /**
      * 
      * @var mixed
      */
     var $start;
-
     /**
      * last time 
      * @var double
      */
     var $last;
-
     /**
      * resolv
      * @var array
      */
     var $resolv = [];
-
     public function __construct($colors, $designmode = false)
     {
         $this->designmode = $designmode;
@@ -65,7 +57,6 @@ class CssThemeCompiler
         $result = "";
         return $result;
     }
-
     /**
      * return compiler data
      * @param string $value 
@@ -75,7 +66,6 @@ class CssThemeCompiler
     {
         return (strpos($value, "[") !== false) || (strpos($value, "{") !== false);
     }
-
     /**
      * compile and render css 
      * @param HtmlDocTheme $theme 
@@ -124,11 +114,9 @@ class CssThemeCompiler
                     $theme->getDef()->setFiles($cfile);
                 } 
             }
-
             if (!$must_recompile && igk_io_file_exists($express_cf, true)) {
                 $src_sys = file_get_contents($express_cf);
             } else {
- 
                 igk_css_bind_sys_global_files($theme);
                 $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);
                 // + | cache expression

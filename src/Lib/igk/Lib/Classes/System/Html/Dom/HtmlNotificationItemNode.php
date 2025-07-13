@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom; 
-
 final class HtmlNotificationItemNode extends HtmlNode{
     private $m_autohided, $m_owner, $m_script;
     protected function _acceptRender($options = null):bool{

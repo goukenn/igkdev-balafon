@@ -3,17 +3,13 @@
 // @filename: IGKLangResDictionary.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\Resources;
-
 use ArrayAccess;
 use ArrayIterator;
 use Closure;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
-
 /**
 *  use for key's language operation
 */

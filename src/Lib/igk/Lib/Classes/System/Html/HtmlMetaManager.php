@@ -7,13 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html;
-
 use IGKEvents;
 use IGKException;
 use IGKObject;
-
 /**
  * manage document meta
  * @package IGK\System\Html
@@ -118,7 +115,6 @@ final class HtmlMetaManager extends IGKObject{
         // + | --------------------------------------------------------------------
         // + | remove meta form definition or update the meta string
         // + |
-        
         if($bmeta && ($bmeta !== $meta)){
             unset($this->m_metas[$name]);
         } 
@@ -192,7 +188,6 @@ final class HtmlMetaManager extends IGKObject{
         $o .= igk_ob_get_func(function($options){
             igk_hook(IGKEvents::HOOK_HTML_META, [$options, $this]);
         },[$options] );
-
         return $o;// .$s;
     }
     /**
@@ -202,11 +197,9 @@ final class HtmlMetaManager extends IGKObject{
      * @return void 
      */
     public function appendKeyMeta($name, array $attributes){
-      
         if (!isset($this->m_key_metas[$name])){
             $this->m_key_metas[$name] = [];
         }
-        
         $this->m_key_metas[$name][] = $attributes;
         return $this;
     }
@@ -224,7 +217,6 @@ final class HtmlMetaManager extends IGKObject{
     }
     public function setCharset(string $charset){
         $this->m_metas[self::META_CHARSET] = ['charset'=>$charset];
-        
     }
     public function setAuthor($value){
         $this->updateContent(self::META_AUTHOR, $value);

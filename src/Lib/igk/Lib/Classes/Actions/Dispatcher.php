@@ -3,10 +3,7 @@
 // @filename: Dispatcher.php
 // @date: 20220803 13:48:58
 // @desc: action dispatcher 
-
-
 namespace IGK\Actions;
-
 use Closure;
 use Exception;
 use IGK\Actions\IActionProcessor;
@@ -31,7 +28,6 @@ use ReflectionFunction;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
 use TypeError;
-
 /**
  * default action dispactcher
  */
@@ -48,7 +44,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         "int" => MatchPattern::Int,
         "float" => MatchPattern::Float,
     ];
-
     ///<sumary>.ctr</summary>
     /**
      * .ctr
@@ -68,7 +63,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         $this->m_host->baseActionName = $actionName;
     }
-
     public function getBaseActionName(): string
     {
         return $this->m_host->baseActionName;
@@ -116,7 +110,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         if (self::$sm_macro === null) {
             self::$sm_macro = [];
             self::$sm_macro[self::DISPATCH_METHOD] = function ($fc, ...$args) {
-
                 return static::_HandleDispatch($fc, ...$args);
             };
         }
@@ -152,7 +145,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         throw new ActionNotFoundException($name);
     }
-
     /**
      * @param ReflectionFunction #Parameter#cd4a68c3 
      * @param IGK\Actions\ref #Parameter#ca4a640a 
@@ -163,7 +155,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         $args = self::GetInjectArgs($g, $args);
     }
-
     /**
      * get argument to inject or dispatch
      * @param mixed $parameters 
@@ -179,7 +170,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         self::_GetInjectedParameters($targs, $parameters, $args);
         return $targs;
     }
-
     /**
      * get injected args
      * @param ReflectionFunctionAbstract $g 
@@ -232,7 +222,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             if (is_null($c) && $k->isDefaultValueAvailable()){
                 $c = $k->getDefaultValue();
             }
-
             if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
                 if ($type == 'string') {   
                     $targs[] = $v_inject ? '': $c;
@@ -253,9 +242,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);
                     continue;
                 }
-
                 $v_primary = IGKType::IsPrimaryType($type);
-
                 if (!$v_primary && class_exists($type)) 
                 {
                     if (is_subclass_of($type, IInjectable::class)) {
@@ -281,7 +268,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                         continue;
                     }
                     if ($j && ($c = $j->resolve($arg, $p))){ 
-                        
                         $targs[] = $c;
                         $i++;
                         continue;

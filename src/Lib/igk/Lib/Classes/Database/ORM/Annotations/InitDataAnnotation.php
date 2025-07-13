@@ -3,7 +3,6 @@
 // @file: InitDataAnnotation.php
 // @date: 20240905 03:35:24
 namespace IGK\Database\ORM\Annotations;
-
 use IGK\Controllers\BaseController;
 use IGK\Models\Traits\ModelTableConstantTrait;
 use IGK\System\Annotations\AnnotationBase;
@@ -11,14 +10,12 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Helpers\AnnotationHelper;
 use IGKException;
 use ReflectionException;
-
 /**
 * init database constant annotations
 * @package IGK\Database\ORM\Annotations
 * @author C.A.D. BONDJE DOUE
 */
 class InitDataAnnotation extends AnnotationBase{
-
     /**
      * 
      * @param BaseController $controller 

@@ -1,11 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: CssParser.php
 // @date: 20220310 11:16:25
 // @desc: parse css 
 namespace IGK\System\Html\Css;
-
 use ArrayAccess;
 use Exception;
 use Error;
@@ -22,8 +20,6 @@ use ReflectionException;
 // + | value delimiter ':' 
 // + | field delimiter ';'
 // + |
-
-
 /**
  * parse css litteral to object definition 
  * @package IGK\System\Html\Css
@@ -45,9 +41,7 @@ class CssParser implements ArrayAccess
     use ArrayAccessSelfTrait;
     const MATCH_VAR = "/^var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)$/i";
     const MATCH_RESOLVE_VAR = "/var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)/i";
-
     var $lineFeed = '';
-
     private function __construct() {}
     /**
      * get json definition
@@ -102,7 +96,6 @@ class CssParser implements ArrayAccess
                     // + | --------------------------------------------------------------------
                     // + | read css attribute definition - directive 
                     // + |
-
                     $s = $pos;
                     $pos++;
                     $v_name = self::_ReadName($content, $pos, $len);
@@ -147,7 +140,6 @@ class CssParser implements ArrayAccess
                             $g = trim(substr($content, $s, $pos - $s));
                             // reduce ( condition block )
                             $g = StringUtility::ReduceConditionBlock($g);
-
                             $pos--;
                             $media = new CssMedia($g);
                             $rv = '';
@@ -183,7 +175,6 @@ class CssParser implements ArrayAccess
                             array_push($tdef, $def);
                             $def = &$media->def;
                             break;
-
                         default:
                             // +| read options or definition states
                             $v_tpos = strpos($content, ';', $pos + 1);
@@ -331,7 +322,6 @@ class CssParser implements ArrayAccess
                     $rv .= igk_str_read_brank($content, $pos, $ch, $ch);
                     break;
                 case '}':
-
                     if (!empty($rv = trim($rv))) {
                         // finish selector 
                         if ($mode == 1) {
@@ -445,7 +435,6 @@ class CssParser implements ArrayAccess
         $g->m_definition = self::__ReadDefinition($content);
         return $g;
     }
-
     function _access_OffsetSet($n,  $v)
     {
         $this->m_definition[$n] = $v;
@@ -538,14 +527,12 @@ class CssParser implements ArrayAccess
         }
         return [$t, $r, $b, $l];
     }
-
     /**
      * retrieve porder definition
      * @return object 
      */
     public function border()
     {
-
         $res = [];
         // if ($all = $this["border"]) {
         // }
@@ -563,9 +550,7 @@ class CssParser implements ArrayAccess
                 $res["bottom"]["width"] =
                 $all;
         }
-
         foreach (["left", "top", "right", "bottom"] as $k) {
-
             if ($w = $this["border-" . $k . "-width"]) {
                 $res[$k]['width'] = $w;
             }
@@ -577,10 +562,8 @@ class CssParser implements ArrayAccess
             // }
         }
         unset($k, $gp);
-
         return (object) $res;
     }
-
     /**
      * get colors 
      * @return array 
@@ -604,7 +587,6 @@ class CssParser implements ArrayAccess
             if (!($n instanceof ICssDefinition)) {
                 continue;
             }
-
             // if (is_string($n)) {
             igk_wln("data : ", $n);
             // }
@@ -697,10 +679,8 @@ class CssParser implements ArrayAccess
         $lf = $this->lineFeed;
         if ($rdef) {
             // treat defintion list 
-
             $this->treatExtratProperty($rdef);
             ksort($rdef);
-
             foreach ($rdef as $k => $v) {
                 if ($v instanceof ICssDefinition) {
                     $sb->append($v->getDefinition($lf));

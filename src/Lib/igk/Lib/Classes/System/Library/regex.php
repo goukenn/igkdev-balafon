@@ -1,8 +1,6 @@
 <?php
-
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherParentChainReplacement;
-
 if (!function_exists('igk_dump_export')) {
     /**
      * 
@@ -26,7 +24,6 @@ if (!function_exists('igk_dump_export')) {
         $skip = $c->match('\\s+', 'skip-multispace')->last();
         $c->autoStore = true;
         $tc = $c->begin('\\barray\\b\\s*\\(', '\\)', 'array_block')->last();
-
         $tc->patterns = [$str, $skip, $tc];
         $pos = 0;
         $out = '';

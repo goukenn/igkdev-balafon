@@ -3,10 +3,8 @@
 // @file: UserRoleCommand.php
 // @date: 20230704 14:17:10
 namespace IGK\System\Console\Commands\Users;
-
 use IGK\Helper\ModelHelper;
 use IGK\System\Console\AppExecCommand;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Users
@@ -15,9 +13,7 @@ class UserRoleCommand extends AppExecCommand{
 	var $command='--users:role';
 	var $desc='get user\'s roles';
 	/* var $options=[]; */
-
 	var $category = self::USER_CAT;
-
 	public function exec($command, ?string $user=null) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');		
 		$auths = $user->auths();

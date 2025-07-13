@@ -7,17 +7,13 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\System\Html\Dom\HtmlNotificationItemNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGKException;
 use IGKNotifyStorage;
 use IIGKNotifyMessage;
 use function igk_resources_gets as __;
-
-
 final class NotificationController extends BaseController implements IIGKNotifyMessage {
     private static $NotifyType=["success"=>"addSuccess", "danger"=>'addError'];
     private $m_marks;
@@ -179,7 +175,6 @@ final class NotificationController extends BaseController implements IIGKNotifyM
                     $d->Content=<<<EOF
 (function(){ ns_igk.ajx.post('{$uri}',null, ns_igk.ajx.fn.prepend_to_body); })();
 EOF;
-
                     $d->renderAJX();
                 }
                 else if($view){
@@ -289,7 +284,6 @@ EOF;
         }
         return $this;
     }
-
     public function getMessages(){
         $store = $this->getGlobalStorage();
         return $store->getMessages(); 

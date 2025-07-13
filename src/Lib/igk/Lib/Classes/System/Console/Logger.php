@@ -3,12 +3,8 @@
 // @filename: Logger.php
 // @date: 20220426 10:28:49
 // @desc: Core Logger - use in console
-
-
 namespace IGK\System\Console;
-
 use Exception;
-
 /**
  * use to write logger in console data
  * @package IGK\System\Console
@@ -25,9 +21,7 @@ class Logger{
      */
     private static $sm_logger;
     private static $sm_colorizer;
-
     const TabSpace = "\r\t\t\t\t";
-    
     /**
      * 
      * @param mixed $logger logger object - iconsole logger object
@@ -71,7 +65,6 @@ class Logger{
         if (!in_array($name, ['log', 'warning','success','danger','print', 'info','warn', 'printf', 'offscreen'])){           
             igk_die($name . " - log not in a logger list allowed method ");
         }
-
         if ($name==='offscreen'){
             if (self::$sm_logger){
                 return self::$sm_logger->offscreen();

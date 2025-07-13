@@ -8,13 +8,9 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\Helper;
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\WinUI\Menus\MenuItem;
-
 use function igk_resources_gets as __;
-
-
 final class MenuUtils{
     public static function BuildDbMenu($target, $table, $tab){
         self::BuildMenu($target, $tab, $menu, $pages);

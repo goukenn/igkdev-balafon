@@ -3,9 +3,7 @@
 // @file: ActivatorPrivateInitProperty.php
 // @date: 20241106 16:14:56
 namespace IGK\Helper\Trait;
-
 use Closure;
-
 /**
 * 
 * @package IGK\Helper\Trait

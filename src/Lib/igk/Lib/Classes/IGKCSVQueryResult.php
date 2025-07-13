@@ -7,19 +7,15 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKCSVQueryResult extends IGKQueryResult{
     private $m_columns, $m_rowcount, $m_rows;
     private function __construct(){    }
-
     public function getRowAtIndex(int $index) { 
         return igk_getv($this->m_rows, $index);
     }
-
     public function success(): bool { 
         return true;
     }
-
     public function to_array(): ?array { 
         return $this->m_rows;
     }

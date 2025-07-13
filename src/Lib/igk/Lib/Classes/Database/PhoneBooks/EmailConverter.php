@@ -3,9 +3,7 @@
 // @file: EmailConverter.php
 // @date: 20250506 14:32:02
 namespace IGK\Database\PhoneBooks;
-
 use IGKValidator;
-
 /**
  * 
  * @package IGK\Database\PhoneBooks

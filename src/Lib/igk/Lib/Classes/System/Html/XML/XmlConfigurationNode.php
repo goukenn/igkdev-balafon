@@ -3,12 +3,8 @@
 // @filename: XmlConfigurationNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\XML;
-
 use IGK\System\Html\HtmlUtils;
-
 /**
  * configuration node
  * @package IGK\System\Html\XML
@@ -49,7 +45,6 @@ class XmlConfigurationNode extends XmlNode{
                     return $g;
                 }                
             }
-
             /** */
         }
         return parent::add($n, $attributes, $indexOrargs);
@@ -62,7 +57,6 @@ class XmlConfigurationNode extends XmlNode{
         }
         return $g; 
     }
-   
     public function getInnerHtml()
     {
         $s = trim(parent::getInnerHtml());     
@@ -88,6 +82,5 @@ class XmlConfigurationNode extends XmlNode{
             } 
         }
         return $s;
-
     }
 }

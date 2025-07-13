@@ -3,8 +3,6 @@
 // @file: PhoneConverter.php
 // @date: 20250505 09:25:00
 namespace IGK\Database\PhoneBooks;
-
-
 /**
 * 
 * @package IGK\Database\PhoneBooks
@@ -19,6 +17,4 @@ class PhoneConverter extends PhoneBookConverterBase{
         $v = preg_replace('/^0([1-9])/', '+32\\1', $v);
         return $v;
     }
-
-
 }

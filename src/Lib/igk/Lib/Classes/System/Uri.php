@@ -3,12 +3,8 @@
 // @filename: Uri.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\System;
-
 use IGKException;
-
 /**
  * manage uri
  * @package IGK\System
@@ -40,7 +36,6 @@ class Uri
         } else {
             $c = [];
         }
-
         if ($append_args) {
             $c = array_merge($c, $append_args);
         }
@@ -63,7 +58,6 @@ class Uri
         }
         return $cpath;
     }
-
     public static function FromParseUrl(array $data){
         $url = "";
         $url = implode("", array_filter([
@@ -75,7 +69,6 @@ class Uri
             ($q = igk_getv($data, "query"))? "?".$q : null 
         ]));
         return new Uri($url);
-
     }
     public static function get(string $name, $default = null)
     {
@@ -107,7 +100,6 @@ class Uri
             $n->m_options = substr($n->m_path, $pos+1);
             $n->m_path =  substr($n->m_path,0, $pos); 
         }
-
     }
     /**
      * get detected string option 

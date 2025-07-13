@@ -3,9 +3,7 @@
 // @file: SchemaDropColumnMigration.php
 // @date: 20231222 17:35:47
 namespace IGK\System\Database;
-
 use IGK\Database\DbSchemas;
-
 /**
  * 
  * @package IGK\System\Database

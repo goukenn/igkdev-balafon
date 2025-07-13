@@ -3,12 +3,10 @@
 // @file: FormFieldAnnotation.php
 // @date: 20240103 19:08:45
 namespace IGK\System\Html\Forms\Validations\Annotations;
-
 use Exception;
 use IGK\System\Html\Forms\IFormInternalIDSupport;
 use IGK\System\Html\Validations\IFormFieldValidationStoreError;
 use IGKException;
-
 /**
 * use to annotate a fields 
 * @package IGK\System\Html\Forms\Validations\Annotation
@@ -20,43 +18,36 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * @var mixed
      */
     var $id;
-
     /**
      * the place holder to display . if not specified will use the id
      * @var mixed
      */
     var $placeholder;
-
     /**
      * autocomplete attribute for fields
      * @var string|'off'
      */
     var $autocomplete;
-
     /**
      * text to display
      * @var null|string
      */
     var $label_text;
-
     /**
      * field default value 
      * @var mixed
      */
     var $default;
-
     /**
      * data used to store 
      * @var mixed
      */
     var $data;
-
     /**
      * allow null value
      * @var ?bool 
      */
     var $allowNull;
-
     /**
      * component to use to render component
      * @var mixed
@@ -67,10 +58,7 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
      * @var ?string
      */
     private $m_internal_id;
-
     private $m_validation_error;
-
-    
     /**
      * store valiateion error 
      * @param mixed $error 
@@ -82,8 +70,6 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
     public function getError(){
         return $this->m_validation_error;
     }
-    
-
     /**
      * set internal identification
      * @return null|string 
@@ -107,7 +93,6 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
     public function setLabel_Text(?string $value){
         $this->label_text = $value;
     }
-
     /**
      * 
      * @param mixed $reader 

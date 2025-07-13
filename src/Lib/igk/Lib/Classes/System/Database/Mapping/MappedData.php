@@ -3,14 +3,12 @@
 // @file: MappedData.php
 // @date: 20220819 11:33:43
 namespace IGK\System\Database\Mapping;
-
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\IToArrayResolver;
 use IGK\Test\IGKObjectStrictTest;
 use IGKObjectStrict;
 use JsonSerializable;
-
 /**
 * 
 * @package IGK\System\Database\Mapping
@@ -21,9 +19,7 @@ class MappedData implements JsonSerializable, IToArrayResolver{
         foreach($data as $k=>$v){
             $this->$k = $v;
         }
-        
     }
-
     public function jsonSerialize(bool $ignore_null=true, bool $ignore_empty=true): mixed { 
         $opts = new JSonEncodeOption;
         $opts->ignore_null = $ignore_null;
@@ -41,6 +37,5 @@ class MappedData implements JsonSerializable, IToArrayResolver{
         return igk_getv($this->m_data, $n);
     }
     public function serialize(){
-
     }
 }

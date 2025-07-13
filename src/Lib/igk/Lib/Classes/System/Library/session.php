@@ -3,10 +3,8 @@
 // @filename: session.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 // @file: session.php
 namespace IGK\System\Library;
-
 use Closure;
 use IGK\Helper\IO;
 use IGK\System\Http\Cookies;
@@ -14,7 +12,6 @@ use IGK\System\IO\Path;
 use IGKEvents;
 use IGKException;
 use IGKSessionFileSaveHandler;
-
 /**
  * 
  * @package IGK\System\Library
@@ -26,7 +23,6 @@ class session extends \IGKLibraryBase
      * @var ?string
      */
     private $m_new_session_id;
-
     /**
      * is renew session id 
      * @return bool 
@@ -34,15 +30,12 @@ class session extends \IGKLibraryBase
     public function isRenew():bool{
         return !is_null($this->m_new_session_id);
     }
-
     public function init(): bool
     {
         // initialize function
         require_once IGK_LIB_CLASSES_DIR . "/IGKSessionFileSaveHandler.php";
         require_once __DIR__ . "/Session/.functions.pinc";
         require_once IGK_LIB_CLASSES_DIR . "/Controllers/SessionController.php";
-
-
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function () {
             if ($this->canStartSession()) {
                 igk_is_debug() && igk_ilog("session start.");
@@ -138,7 +131,6 @@ class session extends \IGKLibraryBase
         if ($reset) {
             igk_env_count_reset(__FUNCTION__);
         }
-
         $f = igk_env_count(__FUNCTION__);
         $is_no_start = empty(session_id());
         if (($f > 1) || (!$is_no_start)) {
@@ -158,7 +150,6 @@ class session extends \IGKLibraryBase
         // init cookie path 
         // ini_set('session.cookie_path', '/');  
         // + |  
-
         // ini_set('session.cookie_lifetime', 4600);
         //+ $idstorage= trim(isset($_COOKIE) && isset($_COOKIE[$cookieName]) ? $_COOKIE[$cookieName]: trim(igk_getr($cookieName)));
         //+ check if the session is passed prio to cookie value.
@@ -241,7 +232,6 @@ class session extends \IGKLibraryBase
         }
         return false;
     }
-
     /**
      * change to session id
      * @param mixed $newid 

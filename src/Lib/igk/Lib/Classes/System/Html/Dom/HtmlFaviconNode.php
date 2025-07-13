@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 final class HtmlFaviconNode extends HtmlNode{
     static $sm_instance;
     protected function _acceptRender($options = null):bool{

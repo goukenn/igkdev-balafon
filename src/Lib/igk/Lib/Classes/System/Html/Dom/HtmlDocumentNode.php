@@ -3,16 +3,12 @@
 // @filename: HtmlDocumentNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 // @file: HtmlDocumentNode.php
-
 namespace IGK\System\Html\Dom;
-
 use Exception;
 use IGK\Resources\R;
 use IGK\System\Html\HtmlRenderer;
 use IGKEvents;
-
 class HtmlDocumentNode extends HtmlItemBase{
     protected $m_head;
     protected $m_body;
@@ -25,12 +21,9 @@ class HtmlDocumentNode extends HtmlItemBase{
      * @var ?string
      */
     var $docType;
-
-
     public function __debugInfo(){
         return [];
     }
-
     /**
      * define name spaces
      */
@@ -38,7 +31,6 @@ class HtmlDocumentNode extends HtmlItemBase{
     public function getId(){
         return $this->m_id;
     }
-
     /**
      * 
      * @return HtmlBodyNode 
@@ -48,7 +40,6 @@ class HtmlDocumentNode extends HtmlItemBase{
      * @return HtmlHeadNode 
      */
     public function getHead(): ?HtmlHeadNode{ return $this->m_head; }
-
     /**
      * set document title
      * @param string $value 
@@ -110,7 +101,6 @@ class HtmlDocumentNode extends HtmlItemBase{
         // + | --------------------------------------------------------------------
         // + | hook global event before render document 
         // + |
-        
         igk_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, ["doc"=>$this]);
         if (!empty($head = HtmlRenderer::Render($this->m_head, $options))){
             $s.= $head.$ln;

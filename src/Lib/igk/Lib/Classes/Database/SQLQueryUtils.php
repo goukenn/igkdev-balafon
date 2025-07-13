@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Database;
-
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Database\QueryBuilderConstant as queryConstant;
 use IGKException;
@@ -166,7 +164,6 @@ class SQLQueryUtils{
                 $primary .= "`".$v_name."`";
             }
             if ($v->clIsIndex ){
-
                 if( ($v->clLinkType) && !$v->clIsUnique && !$v->clIsUniqueColumnMember && $v->clIsPrimary){
                     if(!empty($findex))
                     $findex .= ",";
@@ -608,7 +605,6 @@ class SQLQueryUtils{
             }
         }
         $query .= ") VALUES (".$v_v.");";
-     
         return $query;
     }
     private static function GetKey($k, $adapter){
@@ -680,7 +676,6 @@ class SQLQueryUtils{
             }
             $t=1;
         }
-        
         if($condition){
             if(is_array($condition)){
                 $v_condstr .= self::GetCondString($condition);

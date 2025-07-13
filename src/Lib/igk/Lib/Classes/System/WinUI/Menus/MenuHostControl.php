@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\WinUI\Menus;
-
 use IGKObject;
-
 final class MenuHostControl extends IGKObject{
     private $m_active, $m_diseable;
     public function __construct(){    }

@@ -3,10 +3,7 @@
 // @file: Apps.php
 // @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * manage download time application.
 * @package IGK\Models

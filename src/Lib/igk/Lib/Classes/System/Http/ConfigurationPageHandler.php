@@ -1,19 +1,15 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ConfigarationPageHandler.php
 // @date: 20220825 14:57:44
 // @desc: configuration page handler
-
 namespace IGK\System\Http;
-
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use Exception;
 use IGK\Server;
 use IGK\System\IO\Path;
 use IGKException; 
 use ReflectionException;
-
 class ConfigurationPageHandler
 {
     var $route;
@@ -50,7 +46,6 @@ class ConfigurationPageHandler
         $file = $this->file;
         $g = ltrim(implode('/', array_filter(explode("/", strtolower($path_info)))), '/');
         if (strpos($g, $this->route) === 0) {
-
             $data = Path::getInstance()->getSysDataDir();
             if (is_file($data . "/no_config")) {
                 igk_set_header("403");
@@ -62,7 +57,6 @@ class ConfigurationPageHandler
                 $redirect_callback();
                 igk_environment()->noPageRedirection404 = null;
             }
-            
             defined('IGK_REDIRECTION') || define('IGK_REDIRECTION', 0);
             if (!defined("IGK_CONFIG_PAGE"))
                 define("IGK_CONFIG_PAGE", 1);

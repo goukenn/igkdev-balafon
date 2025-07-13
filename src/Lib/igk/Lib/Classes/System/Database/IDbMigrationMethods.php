@@ -3,8 +3,6 @@
 // @file: IDbMigrationMethods.php
 // @date: 20230617 10:18:39
 namespace IGK\System\Database;
-
-
 /**
 * migration operation
 * @package IGK\System\Database

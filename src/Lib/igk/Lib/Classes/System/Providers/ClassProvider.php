@@ -1,20 +1,16 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ClassProvider.php
 // @date: 20220824 13:05:32
 // @desc: will help to create or override some spécific class by name
 namespace IGK\System\Providers;
-
 use IGKException;
-
 /**
  * class name resolution providers
  * @package IGK\System\Providers
  */
 class ClassProvider{
     private $m_classes;
-
     /**
      * 
      * @param string $name 
@@ -39,5 +35,4 @@ class ClassProvider{
     public function __construct(){
         $this->m_classes = $this->initProvider();
     }
-
 }

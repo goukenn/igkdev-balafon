@@ -3,16 +3,12 @@
 // @filename: NoDbConnection.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Database;
-
 /**
 * Represent IGKNoDbConnection class
 */
 class NoDbConnection{
     var $db_name;
-
     public function __toString()
     {
         return __CLASS__;
@@ -74,7 +70,6 @@ class NoDbConnection{
     function getVersion():string{
         return '';
     }
-
     public function __call($n, $name){
         return null;
     }

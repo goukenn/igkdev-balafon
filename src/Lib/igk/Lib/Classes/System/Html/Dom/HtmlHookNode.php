@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 /**
  * hook callback node
  * @package IGK\System\Html\Dom
@@ -27,7 +25,6 @@ class HtmlHookNode extends HtmlNode{
     public function getCanRenderTag(){
         return false;
     }
-     
     protected function _acceptRender($options = null):bool
     {
         if($v = $this->getIsVisible()){

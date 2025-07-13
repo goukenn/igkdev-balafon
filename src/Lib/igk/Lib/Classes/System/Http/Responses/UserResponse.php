@@ -3,7 +3,6 @@
 // @file: UserResponse.php
 // @date: 20230427 16:54:31
 namespace IGK\System\Http\Responses;
-
 use IGK\Controllers\BaseController;
 use IGK\Database\Mapping\SysDbMapping;
 use IGK\Helper\ActionHelper;
@@ -14,7 +13,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Http\IAuthenticatorService;
 use IGKException;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\Http\Responses
@@ -28,7 +26,6 @@ class UserResponse
     var $message;
     var $user_app;
     var $controller;
-
     private static function _CreateUserData(Users $user){
         return $user->CreateUserApiResponseData();
     }

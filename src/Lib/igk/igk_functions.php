@@ -16992,8 +16992,10 @@ function igk_kill_trace()
  */
 function igk_last($tab)
 {
-    if (($i = igk_count($tab)) > 0)
-        return $tab[$i - 1];
+    if ($c = array_keys($tab)){
+        $i = $c[count($c)-1];
+        return $tab[$i];
+    }
     return null;
 }
 ///<summary> force loading class</summary>
@@ -22284,7 +22286,7 @@ function igk_sys_balafon_js(?BaseController $controller = null, $debug = false, 
     $f = null;
     $encoding = igk_server()->HTTP_ACCEPT_ENCODING ?? '';
     $accept = array_map("trim", explode(',', $encoding));
-    if ($usecache && igk_io_file_exists($f = $r . "/balafon.js")) {
+    if ($usecache && file_exists($f = $r . "/balafon.js")) {
         $ctx = file_get_contents($f);
         if (!empty($ctx) && in_array("deflate", $accept)) {
             $src = @gzinflate($ctx);

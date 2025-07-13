@@ -1,14 +1,10 @@
 <?php
- 
 // @author: C.A.D. BONDJE DOUE
 // @filename: d.php
 // @date: 20220531 13:34:45
 // @desc: 
-
 namespace IGK\Database\SchemaBuilder;
-  
 use IGK\Helper\Activator;
-
 /**
  * base diagrame property host
  * @package igk\db\schemaBuilder
@@ -22,7 +18,6 @@ abstract class DiagramPropertiesHost{
      * @var mixed
      */
     protected $m_last;
-    
     public function getLastProperty(){
         return $this->m_last;
     }
@@ -45,7 +40,6 @@ abstract class DiagramPropertiesHost{
             }
             $this->m_properties[$k->clName] = $k;
             $this->m_last = $k;   
-            
             // if k request resolution 
             if (DiagramHelper::IsRequestLinkResolution($k)){
                 if (is_null($this->m_resolveLinkColumn)){
@@ -53,7 +47,6 @@ abstract class DiagramPropertiesHost{
                 }
                 $this->m_resolveLinkColumn[] = $k;
             }
-
         } 
         return $this;
     }

@@ -3,9 +3,7 @@
 // @filename: IGKAppInfoStorage.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\System\ApplicationSessionStorage;
-
  /**
   * 
   * @package 
@@ -16,7 +14,6 @@ use IGK\System\ApplicationSessionStorage;
   */
  interface IIGKComponentInfo{
  }
-
 /**
  * application session info storage. help reduce the coast of session file 
  * @package IGK
@@ -29,7 +26,6 @@ use IGK\System\ApplicationSessionStorage;
  */
 class IGKAppInfoStorage extends IGKObject{
     var $data;
-
     public function __construct(?object $o=null){
         $o = $o ?? $this->createSessionInfoStorage();
         $this->data = $o;        
@@ -42,7 +38,6 @@ class IGKAppInfoStorage extends IGKObject{
         $src = new ApplicationSessionStorage;
         $src->components = igk_prepare_components_storage();
         return (object)(array)$src;
-        
         // return (object)[
         //     "controllers" => [],
         //     "documents" => [],

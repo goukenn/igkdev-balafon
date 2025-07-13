@@ -3,12 +3,10 @@
 // @file: CssThemeValueDetector.php
 // @date: 20241030 06:45:06
 namespace IGK\System\Html\Css;
-
 use Exception;
 use IGK\Helper\StringUtility;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Html\Css
@@ -20,13 +18,11 @@ class CssThemeValueDetector{
      * @var bool
      */
     var $treatGlobal;
-
     /**
      * remove static properties
      * @var bool
      */
     var $removeStaticProps;
-
     public function __construct(){
         $this->treatGlobal = true;
         $this->removeStaticProps = true;
@@ -41,8 +37,6 @@ class CssThemeValueDetector{
      */
     private static function _TreatExpression(string $value){
         $v = preg_replace("/\s+/", " ", $value);
-        
-
         return $v;
     }
     private static function _TreatPropertyExpression(string $value){
@@ -74,15 +68,12 @@ class CssThemeValueDetector{
         $container->match("\\s+",'white-space');
         $remove_global &&
         $container->begin('\\[','\\](\\s*;\\s*)?', 'global');
-
         if ($remove_static_property)
         {
             $container->begin("\[","\](\\s*;\\s*)", 'bracket'); // skip bracket 
             $container->match("(-+)?[\w\-]+\\s*:\\s*", 'property');
         }
-
         $lpos = 0;
-
         $n = ''; 
         $container->treat($v, function($g, & $pos, $v)use(& $n, & $lpos){
             switch($g->tokenID)
@@ -127,7 +118,6 @@ class CssThemeValueDetector{
                                 return true;
                         }
                     });
-      
                     if (is_int($cpos)){
                         if ($cpos==-1){
                             // read to end 

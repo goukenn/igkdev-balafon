@@ -3,9 +3,7 @@
 // @file: Globalization.php
 // @date: 20230517 10:46:38
 namespace IGK\System\Culture;
-
 use IGK\Resources\R;
-
 /**
 * 
 * @package IGK\System\Culture
@@ -16,10 +14,7 @@ abstract class Globalization{
     var $currencySymbol = '€';
     var $format = '%.2f';
     var $symbolPostFix = true;
-
     static $sm_regGlobals;
-
-
     protected function __construct(){        
     }
     /**
@@ -35,14 +30,12 @@ abstract class Globalization{
         }
         return null;
     }
-
     public static function FromCurrencyFormat(string $format, ?string $lang = null){
         if (is_null(self::$sm_regGlobals)){
             self::$sm_regGlobals = [];
         }
         $lang = $lang ?? R::GetCurrentLang();
         $key = $lang."-".$format;
-
         if (isset(self::$sm_regGlobals[$key])){
             return self::$sm_regGlobals[$key];
         }

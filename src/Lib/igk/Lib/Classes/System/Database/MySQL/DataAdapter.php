@@ -3,10 +3,7 @@
 // @filename: DataAdapter.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Database\MySQL;
-
 use Error;
 use Exception;
 use IGK\Constants;
@@ -29,10 +26,7 @@ use IGKException;
 use IGKQueryResult;
 use ModelBase;
 use ReflectionException;
-
 use function igk_getv as getv;
-
-
 /**
  * MySQL Data Adapter 
  */
@@ -43,11 +37,9 @@ class DataAdapter extends DataAdapterBase implements
     private $queryListener;
     private static $_initAdapter;
     private static $supportedList;
-
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
     const DB_INFORMATION_SCHEMA = 'information_schema';
-
     /**
      * 
      * @param string $table 
@@ -61,16 +53,13 @@ class DataAdapter extends DataAdapterBase implements
         $tb = '`' . self::DB_INFORMATION_SCHEMA . '`.`TABLE_CONSTRAINTS`';
         $dbname = $this->getDbName();
         $query = "SELECT * FROM {$tb} WHERE `TABLE_SCHEMA`='{$dbname}' AND `TABLE_NAME`='{$table}' AND `CONSTRAINT_TYPE`='UNIQUE';";
-
         if ($r = $this->sendQuery($query)) {
-
             foreach ($r->getRows() as $r) {
                 $tn = $r->CONSTRAINT_NAME;
                 $query = sprintf('ALTER TABLE `%s` DROP INDEX `%s`;', $table, $tn);
                 $g = $this->sendQuery($query);
             }
         }
-
         return $r;
     }
     /**
@@ -93,7 +82,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return IGK_MYSQL_DATETIME_FORMAT;
     }
-
     /**
      * type allow type length
      * @param string $type 
@@ -149,7 +137,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
-
     /**
      * check for existing column
      * @param string $table 
@@ -163,12 +150,9 @@ class DataAdapter extends DataAdapterBase implements
      */
     function exist_column(string $table, string $column, $db = null): bool
     {
-
         $db = $db ?? $this->getDbName() ?? igk_die("no db name");
         $grammar = $this->getGrammar();
-
         // $this->selectdb();
-
         $q = $grammar->createSelectQuery(self::DB_INFORMATION_SCHEMA . ".COLUMNS", [
             "TABLE_NAME" => $table,
             "TABLE_SCHEMA" => $db,
@@ -204,7 +188,6 @@ class DataAdapter extends DataAdapterBase implements
             //$this->sendQuery($query);
         }
         // + | drop all foreign keys attached to table columns       
-
         if ((false !== $this->remove_reverse_foreign_keys($table, $info->clName)) && ($query = $this->remove_unique($table, $info->clName))) {
             $c = $this->sendQuery($query);
         }
@@ -227,14 +210,12 @@ class DataAdapter extends DataAdapterBase implements
         $foreign_exists = false;
         $inno_db_table = self::DB_INFORMATION_SCHEMA . ".INNODB_FOREIGN_COLS";
         try {
-
             // check that inodb 
             try {
                 $foreign_exists = $check_exist ?? $check_exist = $this->tableExists($inno_db_table);
             } catch (\Exception $ext) {
                 $foreign_exists = false;
             }
-
             //   throw new \IGKException('missing column : '. $inno_db_table) ;
             if ($foreign_exists) {
                 $query = sprintf(
@@ -281,12 +262,10 @@ class DataAdapter extends DataAdapterBase implements
         }
         return null;
     }
-
     public function remove_unique(string $table, string $info, $db = null)
     {
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
-
         // do not select information schemas
         // $this->selectdb(self::DB_INFORMATION_SCHEMA);
         $query = sprintf(
@@ -315,7 +294,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return null;
     }
-
     /**
      * 
      * @param string $table_name 
@@ -331,7 +309,6 @@ class DataAdapter extends DataAdapterBase implements
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
         $v_tkey_column_usage = self::DB_INFORMATION_SCHEMA . '.KEY_COLUMN_USAGE';
-
         // + | get reverse foreign keys 
         $query = sprintf(
             implode('', [
@@ -360,7 +337,6 @@ class DataAdapter extends DataAdapterBase implements
             }
         }
     }
-
     /**
      * drop foreing keys tables 
      * @param mixed $keys 
@@ -410,12 +386,10 @@ class DataAdapter extends DataAdapterBase implements
         }
         return '`' . $v . '`';
     }
-
     public function escape_table_column(string $v): string
     {
         return '`' . $v . '`';
     }
-
     /**
      * create a fetch result
      * @param string $query query to send
@@ -461,7 +435,6 @@ class DataAdapter extends DataAdapterBase implements
             return $ctrl->getDataTableDefinition($table);
         }
     }
-
     /**
      * 
      * @param mixed $ctrl the default value is null
@@ -479,7 +452,6 @@ class DataAdapter extends DataAdapterBase implements
      */
     public function isTypeSupported($type): bool
     {
-
         if (self::$supportedList === null) {
             self::_InitSupportedTypes($this);
             // self::$supportedList = [];
@@ -563,7 +535,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return null;
     }
-
     public function escape_string(?string $v = null): string
     {
         if (is_null($v)) {
@@ -579,7 +550,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return addslashes($v);
     }
-
     /**
      * filter data type value 
      * @param mixed $value 
@@ -640,7 +610,6 @@ class DataAdapter extends DataAdapterBase implements
             return mysqli_set_charset($b, $charset);
         }
     }
-
     public function delete($tablename, $conditions = null)
     {
         if ($query = $this->getGrammar()->createDeleteQuery($tablename, $conditions)) {
@@ -648,7 +617,6 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
-
     /**
      *  add column
      * @param string $tbname the table name
@@ -721,7 +689,6 @@ class DataAdapter extends DataAdapterBase implements
     public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $dbname = null, ?string $prefix=null)
     {
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
-
             if (!($this->tableExists($tablename, false))) {
                 igk_ilog('db try to create table > ' . $tablename);
                 $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $dbname, $prefix);
@@ -772,7 +739,6 @@ class DataAdapter extends DataAdapterBase implements
     {
         return $this->m_dbManager->getHasError();
     }
-
     ///return true if this table still have link an register ctrl data
     /**
      * create table links definition
@@ -789,14 +755,12 @@ class DataAdapter extends DataAdapterBase implements
      */
     public function insert($tablename, $entry, $tableinfo = null, bool $throwException = true, $options = null, $autoclose = false)
     {
-
         if ($query = $this->getGrammar()->createInsertQuery($tablename, $entry, $tableinfo)) {
             return $this->sendQuery($query, $throwException, $options, $autoclose);
         }
     }
     public function insert_array($tbname, $values, $throwex = 1)
     {
-
         $query = "";
         $ch = "";
         foreach ($values as  $v) {
@@ -866,9 +830,7 @@ class DataAdapter extends DataAdapterBase implements
             $ctype = $v->Type ? trim($v->Type) : 'Int';
             $tab = array();
             preg_match_all("/^((?P<type>([^\(\))]+)))\\s*((\((?P<length>([0-9]+))\)){0,1}|(.+)?)$/i", trim($ctype), $tab);
-
             $cl["clType"] = $this->getGrammar()->ResolvType(getv($tab["type"], 0, "Int"));
-
             if (strtolower($cl["clType"]) == "enum") {
                 $cl["clEnumValues"] = substr($ctype, strpos($ctype, "(") + 1, -1);
             } else {
@@ -904,7 +866,6 @@ class DataAdapter extends DataAdapterBase implements
         }, [(object)$data]);
         return $outdata;
     }
-
     /**
      * 
      * @param mixed $query

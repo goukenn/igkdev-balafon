@@ -3,9 +3,7 @@
 // @file: ConfigurationOptions.php
 // @date: 20221123 23:49:02
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\IControllerConfigurationData;
-
 /**
  * base application controller configuration options
  * @package IGK\System\Configuration\Controllers
@@ -47,24 +45,19 @@ class ConfigurationOptions
      * @var mixed
      */
     var $no_theme_support;
-
     /**
      * theme list support by default null mean 'light' and 'dark' support
      * @var ?array|?string if string ',' separated list
      */
     var $theme_list;
-
     /**
      * disable auto caching view support. 
      * @var mixed
      */
     var $no_auto_cache_view;
-    
     /**
      * disable fallback to DefaultAction handler in case of specific class not found.
      * @var ?bool
      */
     var $no_fallback_to_default_action;
-
-
 }

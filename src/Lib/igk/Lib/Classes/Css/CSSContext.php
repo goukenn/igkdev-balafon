@@ -3,9 +3,7 @@
 // @filename: IGKCssContext.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Css;
-
 use IGKException;
 use IGKResourceUriResolver;
 /**
@@ -16,12 +14,10 @@ class CSSContext{
     private $theme;
     static $sm_instance;
     private function __construct(){
-
     }
     public static function Init($ctrl, $theme=null){ 
         if (self::$sm_instance === null){
             self::$sm_instance = new CSSContext();
-
         }
         self::$sm_instance->ctrl = $ctrl;
         self::$sm_instance->theme = $theme;

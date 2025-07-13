@@ -3,10 +3,7 @@
 // @filename: Loader.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Controllers;
-
 use Closure;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -19,7 +16,6 @@ use IGK\System\IO\Path;
 use IGKCaches;
 use IGKException;
 use ReflectionException;
-
 /**
 * represent internal core loader
 */
@@ -29,7 +25,6 @@ class Loader implements IResponse {
 	private $m_listener;
     private $_cache_fs;
     private $loader_load_files = [];
-
     public function loaded_files(){
         return $this->loader_load_files;
     }
@@ -50,7 +45,6 @@ class Loader implements IResponse {
         }
         return $g;
     }
-
     /**
      * get the button 
      * @return ?string
@@ -58,7 +52,6 @@ class Loader implements IResponse {
     public function getBuffer(): ?string{
         return $this->m_output;
     }
-
     //+ store callback to call protected function info provide by the controller
     /**
     * dispatch call to controller
@@ -105,7 +98,6 @@ class Loader implements IResponse {
             extract(array_merge(func_get_arg(1), ["ctrl"=>$this])); 
             include(func_get_arg(0));
         })->bindTo($this->m_controller);
- 
         $fc($file, $data); 
     }
     /**
@@ -115,7 +107,6 @@ class Loader implements IResponse {
     * @param mixed $render the default value is 1
     */
     public function article($file, $raw=null, $render=1){
-
         if (empty($f= realpath($file)))
             $f = $this->m_controller->getArticle($file);
         if(!igk_io_file_exists($f)){
@@ -225,7 +216,6 @@ class Loader implements IResponse {
         }
         if(!igk_io_file_exists($file))
              return $this; 
-
         $this->loader_load_files[$file] = $file;
         $bck = set_include_path(dirname($file).PATH_SEPARATOR. get_include_path());
         //+ unset the file to load        
@@ -249,9 +239,7 @@ class Loader implements IResponse {
             $this->m_output .= $o;
         }
 		return $this;
-    
     }
-
     /**
      * bind article
      * @param mixed $file 
@@ -307,7 +295,6 @@ class Loader implements IResponse {
             $fc($file, $viewargs);
         }
     }
-
     /**
      * include layout directory 
      * @return mixed
@@ -333,4 +320,3 @@ class Loader implements IResponse {
         igk_environment()->isDev() && igk_die(sprintf('missing layout [%s]'.$file));
     }
 }
-

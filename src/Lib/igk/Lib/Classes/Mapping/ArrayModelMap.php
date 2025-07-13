@@ -1,18 +1,14 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ArrayModelMap.php
 // @date: 20220712 10:19:04
 // @desc: 
-
 namespace IGK\Mapping;
-
 /**
  * array model to array mapping
  * @package IGK\Mapping
  */
 class ArrayModelMap extends SingleMapBase{
-
     public function map($data){
         if (is_array($data)){
             return array_map(function($a){

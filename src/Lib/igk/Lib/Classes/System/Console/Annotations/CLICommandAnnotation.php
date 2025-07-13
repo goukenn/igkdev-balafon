@@ -3,7 +3,6 @@
 // @file: CLICommandAnnotation.php
 // @date: 20240821 00:42:43
 namespace IGK\System\Console\Annotations;
-
 use IGK\System\Annotations\AnnotationBase;
 use IGK\System\Annotations\AnnotationInfo;
 /**
@@ -13,5 +12,4 @@ use IGK\System\Annotations\AnnotationInfo;
 * @AnnotationInfo(isMutiple=false, type=class)
 */
 class CLICommandAnnotation extends AnnotationBase{
-
 }

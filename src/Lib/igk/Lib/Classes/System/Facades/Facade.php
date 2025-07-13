@@ -3,12 +3,10 @@
 // @file: Facade.php
 // @date: 20221005 14:19:33
 namespace IGK\System\Facades;
-
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use Exception;
-
 /**
 * facade creator
 * @package IGK\Systems\Facades
@@ -34,7 +32,6 @@ class Facade{
     public static function GetFacade(string $baseclass, ?string $primaryClass=null){
         // + | 
         // + |  try to load class and facade 
-         
         if (class_exists($baseclass, false)){
             return $baseclass;
         }

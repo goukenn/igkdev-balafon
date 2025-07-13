@@ -3,22 +3,18 @@
 // @filename: Path.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\IO;
-
 use Exception;
 use IGK\Constants;
 use IGK\Helper\StringUtility as str_helper;
 use IGK\Helper\IO;
 use IGKException; 
-
 /**
  * core path manipulation class 
  * @package IGK\System\IO
  */
 class Path
 {
-
     protected $lib_dir;
     protected $class_dir;
     protected $app_dir;
@@ -35,10 +31,7 @@ class Path
     protected $temp_dir;
     protected $cache_dir;
     protected $public_assets_dir;
-
-
     private static $sm_instance;
-
     /**
      * get temp directory 
      * @return mixed 
@@ -87,7 +80,6 @@ class Path
         }
         return self::$sm_instance;
     }
-
     /**
      * get the backup directory
      * @return mixed 
@@ -135,8 +127,6 @@ class Path
         $this->package_dir = str_helper::Uri(IGK_PACKAGE_DIR);
         $this->module_dir = str_helper::Uri(IGK_MODULE_DIR);
         $this->class_dir = str_helper::UriCombine(IGK_LIB_DIR, IGK_LIB_FOLDER, IGK_CLASSES_FOLDER);
-
-
         $this->cache_dir =  $this->app_dir . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER;
         $this->public_assets_dir = Path::Combine($this->base_dir, IGK_RES_FOLDER);
         // check an create cache folder on init - build - hook - context 
@@ -144,12 +134,10 @@ class Path
             // create cache directory for web app
             IO::CreateDir($this->cache_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
         } 
-
         if ($v_is_webapp && $this->public_assets_dir && !is_dir($this->public_assets_dir)){
             // + | init create asset directory for web app
             IO::CreateDir($this->public_assets_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
         }
-
         $b = ["v" => IGK_VERSION];
         if (igk_environment()->isDev() && igk_getr("XDEBUG_TRIGGER")) {
             $b["XDEBUG_TRIGGER"] = 1;
@@ -239,8 +227,6 @@ class Path
     {
         return $this->sys_data_dir;
     }
-
-
     /**
      * 
      * @param mixed|null $dir 
@@ -338,7 +324,6 @@ class Path
             if (!$found)
                 return null;
         }
-
         return $path;
     }
     /**
@@ -381,7 +366,6 @@ class Path
             $link = rtrim($link, "/") . "/";
         }
         return self::GetRelativePath(str_helper::uri($spath), str_helper::uri($link));
-
         // $d1 = explode("/", ltrim(str_helper::uri($spath), "/"));
         // $d2 = explode("/", ltrim(str_helper::uri($link), "/"));
         // $i = 0;
@@ -396,8 +380,6 @@ class Path
         // $dnew = str_repeat("../", count($d2)). implode("/", array_slice($d1,$i));
         // return $dnew;
     }
-
-
     /**
      * Get relative path
      * @param mixed $source 
@@ -427,7 +409,6 @@ class Path
             }
             $vtarget = $v_cpath;
         }
-
         if ($v_found || ($vtarget == '/')) {
             $l = '';
             if (strpos($vsource, $v_cpath) !== 0) {
@@ -452,10 +433,7 @@ class Path
             return $out;
         }
         return null; 
-
-       
     }
-
     /**
      * 
      * @param string $path 
@@ -568,7 +546,6 @@ class Path
         }
         return $s;
     }
-
     /**
      * combine an flatten path
      * @param ?string[] $path 
@@ -578,7 +555,6 @@ class Path
     {
         return self::FlattenPath(self::Combine(...$path));
     }
-
     /**
      * detect that path is in library
      * @param string $path 
@@ -602,7 +578,6 @@ class Path
         }
         return null;
     }
-
     /**
      * resolve path with include path list 
      * @param string $path 

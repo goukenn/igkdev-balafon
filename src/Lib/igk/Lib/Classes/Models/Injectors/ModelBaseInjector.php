@@ -3,21 +3,16 @@
 // @filenamer: ModelBaseInjector.php
 // @date: 20220803 13:48:57
 // @desc: model base inject 
-
-
 namespace IGK\Models\Injectors;
-
 use IGK\Models\ModelBase;
 use IGK\System\IInjector;
 use IGKValidator;
-
 /**
  * model base injector 
  * @package IGK\Models\Injectors
  */
 class ModelBaseInjector implements IInjector{
     protected $model;
-
     /**
      * retrieve the stored model 
      * @return null|ModelBase 

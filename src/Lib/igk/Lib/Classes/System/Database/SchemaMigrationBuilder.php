@@ -4,14 +4,12 @@
 // @desc: the migration schema builder
 // @date: 20210422 06:39:05
 namespace IGK\System\Database;
-
 use Error;
 use IGK\Database\DbSchemas;
 use IGK\System\Database\SchemaBuilderHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
-
 require_once IGK_LIB_CLASSES_DIR . '/System/Database/SchemaBuilderHelper.php';
 /**
  * schema migration builder
@@ -19,14 +17,11 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Database/SchemaBuilderHelper.php';
  */
 class SchemaMigrationBuilder extends SchemaBuilderHelper
 {
-
     private $is_migration;
     private $table_prefix;
     private $m_table;
     private $m_column;
-
     const SUPPORTED_TYPES = 'int|float|bigint|long|varchar|text|json|enum|double|date|datetime|boolean';
-
     /**
      * clean and start new edition 
      * @return static 
@@ -51,7 +46,6 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         }
         return $this;
     }
-
     public function id():SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -59,7 +53,6 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clIsPrimary'] = true;
         return $this;
     }
-    
     public function text():SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -76,7 +69,6 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @throws ReflectionException 
      */
     public function ref(string $id = IGK_FD_ID):SchemaMigrationBuilder{
-       
         return $this->column($id)->id()->autoincrement();
     }
     /**
@@ -97,7 +89,6 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         }
         return null;
     }
-
     /**
      * set auto increment
      * @return static 
@@ -176,7 +167,6 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clType'] = $type;
         return $this;
     }
-
     /**
      * add a table to the schema definition
      * @param string $name 
@@ -212,7 +202,6 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
     protected function __construct()
     {
-        
     }
     /**
      * create a schema builder node 
@@ -336,7 +325,6 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->migration()->addIndex($table, $colname);
         return $this;
     }
-
     /**
      * create table migration
      * @param string $table 

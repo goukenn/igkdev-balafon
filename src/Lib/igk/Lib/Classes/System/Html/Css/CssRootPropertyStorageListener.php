@@ -3,8 +3,6 @@
 // @file: CssRootPropertyStorageListener.php
 // @date: 20241030 16:47:01
 namespace IGK\System\Html\Css;
-
-
 /**
 * 
 * @package IGK\System\Html\Css
@@ -12,7 +10,6 @@ namespace IGK\System\Html\Css;
 */
 class CssRootPropertyStorageListener implements ICssStoreRootListener{
     private $m_roots;
-
     /**
      * root listener 
      * @param array $tab 

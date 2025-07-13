@@ -3,8 +3,6 @@
 // @file: ApplicationSocialProviderTrait.php
 // @date: 20221109 05:34:43
 namespace IGK\System\Controllers\Traits;
-
-
 /**
 * 
 * @package IGK\System\Controllers\Traits

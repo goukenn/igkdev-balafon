@@ -2,8 +2,6 @@
 // @author: C.A.D. BONDJE DOUE
 // @date: 20250420 14:57:06
 namespace IGK\System;
-
-
 /**
 * 
 * @package IGK\System
@@ -90,5 +88,4 @@ namespace IGK\System;
 * @method static string tinymce() tinymce wrapper
 * */
 interface IModuleDefinition{
-
 }

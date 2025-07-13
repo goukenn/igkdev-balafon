@@ -3,8 +3,6 @@
 // @file: RegexTreatMatchInfo.php
 // @date: 20250110 13:39:05
 namespace IGK\System\Text;
-
-
 /**
 * 
 * @package IGK\System\Text
@@ -16,14 +14,9 @@ class RegexTreatMatchInfo{
      * @var int?
      */
     var $pos;
-
     var $value;
-
     var $match;
-
     var $captures;
-
     var $parent;
-
     var $endTreat;
 }

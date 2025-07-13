@@ -3,11 +3,9 @@
 // @file: HeaderOptionResponseTrait.php
 // @date: 20230128 13:31:49
 namespace IGK\System\Http\Traits;
-
 use IGK\System\Http\WebResponse;
 use IGKException;
 use IGK\System\Http\Helper\Response as http;
-
 /**
 * 
 * @package IGK\System\Http\Traits

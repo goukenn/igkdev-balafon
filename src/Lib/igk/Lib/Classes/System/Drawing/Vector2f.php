@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Drawing;
-
 use IGKObject;
-
 final class Vector2f extends IGKObject{
     private $m_x, $m_y;
     public function __construct($x=0, $y=0){

@@ -3,15 +3,11 @@
 // @filename: ColumnMigrationInjector.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Database;
-
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\JSon;
 use IGKEvents;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
-
 /**
  * migration injector used to inject defenition on column migration 
  */
@@ -40,7 +36,6 @@ class ColumnMigrationInjector{
     public function remove(& $info){
         unset($info->columnInfo[$this->info->clName]);
     }
-
     /**
      * inject column definitions
      * @param mixed $driver 
@@ -58,7 +53,6 @@ class ColumnMigrationInjector{
                   return;
                 } 
             $v_info = & $e->args["info"]; 
-            
             $callable($v_info); 
         }); 
         // load tatble definition an dive into injection table 

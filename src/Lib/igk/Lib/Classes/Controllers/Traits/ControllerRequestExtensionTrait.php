@@ -3,7 +3,6 @@
 // @file: ControllerRequestExtensionTrait.php
 // @date: 20230803 15:09:44
 namespace IGK\Controllers\Traits;
-
 use IGK\Actions\ActionResolutionInfo;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerEnvParams;
@@ -18,7 +17,6 @@ use IGKEvents;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\Controllers\Traits
@@ -84,7 +82,6 @@ trait ControllerRequestExtensionTrait
         if ($qoptions){
             $controller->setEnvParam(IGK_VIEW_OPTIONS, igk_get_query_options($qoptions));
         }
-
         $q = [];
         count($v_path)>0 && parse_str($v_path[0], $q);
         if ($q){            
@@ -100,19 +97,15 @@ trait ControllerRequestExtensionTrait
         $_arg_bck = igk_get_env($_env_arg_key);
         igk_set_env($_env_arg_key, $v_viewargs);
         // + | stop heere before action - 
-
-
         $rep = new ActionResolutionInfo;
         $lang = R::GetCurrentLang();
         if ($lg = igk_getv($tab = explode('/', ltrim($path, '/'), 2), 0)){
             $cc = R::SupportLang($lg);
             if ($cc && ($lg!= $lang)){
-            
                 R::ChangeLang($lg);
                 $path = '/'.$tab[1];
             }
         }
-
         if ($action = $controller->getActionHandler($path, $rep, null)) { 
             $params = $rep->params; // 
             igk_hook(IGKEvents::HOOK_ACTION_WILL_DO_ACTION, compact('action', 'params', 'controller'));
@@ -128,7 +121,6 @@ trait ControllerRequestExtensionTrait
         // + | restore 
         igk_set_env($_env_arg_key, $_arg_bck);
         self::_RestoreBackupServerInfo($v_backup); 
-
         return $result;
     }
 }

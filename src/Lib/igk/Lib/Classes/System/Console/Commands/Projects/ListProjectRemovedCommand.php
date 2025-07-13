@@ -3,7 +3,6 @@
 // @file: ListProjectRemovedCommand.php
 // @date: 20231223 16:56:28
 namespace IGK\System\Console\Commands\Projects;
-
 use IGK\ApplicationLoader;
 use IGK\Helper\SysUtils;
 use IGK\System\Caches\EnvControllerCacheList;
@@ -14,7 +13,6 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGKAppSystem;
 use IGKSysUtil;
-
 /**
  * 
  * @package IGK\System\Console\Commands\Projects
@@ -39,7 +37,6 @@ class ListProjectRemovedCommand extends AppExecCommand
 	/* var $category='project'; */
 	public function exec($command, ?string $action = null)
 	{
-
 		DbCommandHelper::Init($command);
 		$dir = IGK_PROJECT_DIR . '/.removed';
 		if (empty($action) || ($action == "ls")) {
@@ -79,8 +76,6 @@ class ListProjectRemovedCommand extends AppExecCommand
 				Logger::danger("missing project name or folder");
 				return -1;
 			}
-
-
 			$i_dir =  IGK_PROJECT_DIR . "/" . $name;
 			Logger::info('clear cache');
 			SysUtils::ClearCache();
@@ -102,7 +97,6 @@ class ListProjectRemovedCommand extends AppExecCommand
 		//+----------------------------------------------
 		//+ get controller in director.
 		//+----------------------------------------------
-
 		$loaded_fields = igk_loadlib($project_dir);
 		if ($loaded_fields) { 
 			$list = igk_sys_get_projects_controllers();
@@ -114,7 +108,6 @@ class ListProjectRemovedCommand extends AppExecCommand
 				}
 			}
 			$g = $ctrl;
-
 			if ($g) {
 				/// TODO: Project Installer
 				$g->initDb(true);

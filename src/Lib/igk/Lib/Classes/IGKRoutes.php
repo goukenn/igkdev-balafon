@@ -3,10 +3,7 @@
 // @filename: IGKRoutes.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 use IGK\System\Http\Request;
-
 class IGKRoutes
 {
     const REG_KEY = "sys://reg/systemuri";

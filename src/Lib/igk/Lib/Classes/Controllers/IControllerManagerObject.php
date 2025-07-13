@@ -3,8 +3,6 @@
 // @file: IControllerManagerObject.php
 // @date: 20220909 11:14:19
 namespace IGK\Controllers;
-
-
 /**
 * 
 * @package IGK\Controllers
@@ -26,14 +24,12 @@ interface IControllerManagerObject{
      * @return array 
      */
     function getUserControllers():array;
-
     /**
      * get registrated named controller
      * @param string $name 
      * @return null|BaseController 
      */
     function getRegistratedNamedController(string $name): ?BaseController;
-
     /**
      * register named controller
      * @param string $name 
@@ -41,7 +37,6 @@ interface IControllerManagerObject{
      * @return mixed 
      */
     function registerNamedController(string $name, BaseController $controller);
-
     /**
      * invoke pattern
      * @param mixed $pattern 

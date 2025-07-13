@@ -3,7 +3,6 @@
 // @file: JsonPackage.php
 // @date: 20230330 12:23:20
 namespace IGK\System\Npm;
-
 use IGK\Helper\Activator;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
@@ -11,7 +10,6 @@ use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Npm\Traits\JsonPackagePropertyTrait;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\Npm
@@ -36,7 +34,6 @@ class JsonPackage
         igk_environment()->last_error = $errors;
         return false;
     }
-
     /**
      * mergin configuration file 
      */
@@ -47,7 +44,6 @@ class JsonPackage
         }
         $this->mergeWithContent($package);
     }
-
     /**
      * merge with content packages
      */
@@ -58,7 +54,6 @@ class JsonPackage
             if (!property_exists($this, $f) || !property_exists($package, $f) ) {
                 continue;
             }
-
             $g = (array)$this->$f;
             $t = (array)$package->$f;
             $kg = array_keys($g);

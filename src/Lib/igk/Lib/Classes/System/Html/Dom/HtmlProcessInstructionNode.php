@@ -8,10 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGKException;
-
 class HtmlProcessInstructionNode extends HtmlNode{
     private  $m_noClose;
     public function __construct($content, $noClose=false){
@@ -31,7 +29,6 @@ class HtmlProcessInstructionNode extends HtmlNode{
     public function add($item, $attributes=null, $index=null){
         return null;
     }
-     
     public function getCanRenderTag(){
         return false;
     }

@@ -8,9 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
-
-
 class HtmlExpressionAttribute implements IHtmlGetValue{
     private $m_v;
     public function __construct($v){

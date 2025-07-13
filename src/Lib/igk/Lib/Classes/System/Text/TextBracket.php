@@ -3,8 +3,6 @@
 // @file: TextBracket.php
 // @date: 20221023 10:16:14
 namespace IGK\System\Text;
-
-
 /**
 * reduce data
 * @package IGK\System\Text
@@ -12,9 +10,7 @@ namespace IGK\System\Text;
 class TextBracket{
     var $bracketStart = "(";
     var $bracketEnd = ")";
-
     private $m_blocks = [];
-
     /**
      * reduce block to string expression
      * @return string 
@@ -72,25 +68,21 @@ class TextBracket{
                 $depth_s++;
             }
         }
-
         if ($depth_e){
             $depth_s++;
             $c = $depth_s - $depth_e;
             $sb = str_repeat($this->bracketStart, $c).$sb;
             $sb.= str_repeat($this->bracketEnd, $c);
-
             $g = $blocks[count( $blocks) - 1];
             $g = str_repeat($this->bracketStart, $c) .$g;
             $g.= str_repeat($this->bracketEnd, $c);
             $blocks[count( $blocks) - 1] = $g;
-
             $depth_s = $c;
             $sb = str_repeat($this->bracketStart, $c).
                   implode ("" , $blocks).
                   str_repeat($this->bracketEnd, $c);
         }
         return $sb;
-
     }
     /**
      * parse string to text bracket block
@@ -110,7 +102,6 @@ class TextBracket{
         return null;
     }
     private static function _Load($def, string $source){
-
         $ln = strlen($source);
         $pos = 0;
         $buffer = "";
@@ -121,7 +112,6 @@ class TextBracket{
         $count = 0;
         while ($ln>$pos) {
             $ch = $source[$pos];
-
             if ($ch == ' '){
                 if ($skipSpace){
                     continue;
@@ -129,7 +119,6 @@ class TextBracket{
                     $skipSpace = 1;
                 }
             }
-
             switch ($ch) { 
                 case $def->bracketStart:
                     $depth ++ ;
@@ -159,7 +148,6 @@ class TextBracket{
                     break;
                 case $def->bracketEnd:
                     $depth --;
-
                     if ($bloc){
                         if (!empty($buffer)){
                             $bloc->blocs[] = trim($buffer);

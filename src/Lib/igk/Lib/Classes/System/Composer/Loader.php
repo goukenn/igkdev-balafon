@@ -1,13 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: Loader.php
 // @date: 20220829 13:55:14
 // @desc: 
 namespace IGK\System\Composer;
-
 use IGK\System\Console\Logger; 
-
 /**
  * composer autoloader helper
  * @package IGK\System\Composer
@@ -19,13 +16,11 @@ class Loader
     private $to_merge;
     const spl_autoload_unregister = 'spl_autoload_unregister';
     const spl_autoload_register = 'spl_autoload_register';
-
     /**
      * register misssing classes
      * @var array
      */
     var $registerMissings = [];
-
     public function register(string $path)
     {
         $this->package_file = $path;
@@ -33,13 +28,11 @@ class Loader
     }
     private function _autoload($f)
     {
-
         if ($this->init) {
             return;
         }
         $this->init = ["class" => $f, "at" => igk_sys_request_time()];
         \spl_autoload_unregister([$this, __FUNCTION__]);
-
         $bck = spl_autoload_functions();
         // clean all 
         array_map(self::spl_autoload_unregister, $bck);

@@ -3,8 +3,6 @@
 // @file: NotifyActionTrait.php
 // @date: 20221117 21:42:51
 namespace IGK\Actions\Traits;
-
-
 /**
 * 
 * @package IGK\Actions\Traits
@@ -15,7 +13,6 @@ trait NotifyActionTrait{
      * @var mixed
      */
     var $notifyActionName;
-    
     protected function error(string $message){
         $not = $this->getNoticationController();
         return $not->error($message);        

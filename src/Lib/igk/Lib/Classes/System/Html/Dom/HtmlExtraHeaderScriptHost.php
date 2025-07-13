@@ -3,8 +3,6 @@
 // @file: HtmlExtraHeaderScriptHost.php
 // @date: 20221120 12:10:54
 namespace IGK\System\Html\Dom;
-
-
 /**
 * 
 * @package IGK\System\Html\Dom
@@ -23,7 +21,6 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
     {
         return false;
     }
-   
     public function getRenderedChilds($options = null)
     { 
         return $this->m_childs? 
@@ -32,7 +29,6 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
     }
     private function _init_list($a, $id=null){
         $n = igk_create_node('script');
-        
         $n['src']= igk_io_append_query($a, "v=".IGK_VERSION);
         if (is_numeric($id))
         {

@@ -3,20 +3,15 @@
 // @filename: BalafonProjectInstaller.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Installers;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 use function igk_resources_gets as __; 
-
 require_once(__DIR__."/InstallerActionMiddleWare.pinc");
-
 class BalafonProjectInstaller extends BalafonInstaller{
     protected $controller;
     protected $zipcore = false;
@@ -43,7 +38,6 @@ class BalafonProjectInstaller extends BalafonInstaller{
         $srv->controller = $this->controller;
         $srv->project_name = igk_str_snake(basename(igk_dir(get_class($this->controller))));
         $srv->intall_dir =  $this->controller->getDeclaredDir(); 
-        
         //igk_ilog("init project installer: ".$this->zipfile);
         $service->add(new BalafonInstallerMiddelWare());
         $service->add(new BackupProjectMiddleWare($this->controller));
@@ -53,8 +47,6 @@ class BalafonProjectInstaller extends BalafonInstaller{
         $service->add(new SuccessProjectInstallMiddleWare());
     }
 }
-
-
 class BackupProjectMiddleWare extends InstallerActionMiddleWare{
     private $controller;
     public function __construct(BaseController $controller)
@@ -65,10 +57,8 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
         return __("Backup project ... {0}", get_class($this->controller));
     }
     public function abort(){
-
     }
     public function invoke(){
-       
         $dir = $this->controller->getDeclaredDir();
         $fname = igk_str_ns(get_class($this->controller))."_".date("Ymd");
         $path = dirname($dir)."/".$fname.".zip";
@@ -80,7 +70,6 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
             ]); 
         }
         $this->next();
-         
     }
 }
 class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
@@ -88,14 +77,12 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
         return __("Extract project library cache ...");
     }
     public function abort(){
-
     }
     public function invoke(){
         $ctrl = $this->getServiceInfo()->Listener->controller;
         $project_name  = $this->getServiceInfo()->Listener->project_name;
         $dir  = $this->getServiceInfo()->Listener->intall_dir;
         $core_zip = $this->getServiceInfo()->Listener->CoreZip;
-
         // 
         // extract zip 
         //
@@ -119,7 +106,6 @@ class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
         return __("project update well done");
     }
     public function abort(){
-
     }
     public function invoke(){
         // igk_ilog("installer complete");
@@ -128,8 +114,6 @@ class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
         $this->next();
     }
 }
-
-
 /**
 * Represent RenameLibaryMiddleWare class
 */
@@ -140,7 +124,6 @@ class RenameProjectMiddleWare extends InstallerActionMiddleWare{
     public function abort(){ 
         $ctrl = $this->getServiceInfo()->Listener->controller;
         $project_name  = $this->getServiceInfo()->Listener->project_name;
-
         $libdir=dirname($ctrl->getDeclaredDir())."/__temp_".$project_name;
         if(is_dir($libdir)){
             rename($libdir, dirname($libdir)."/".$project_name);
@@ -158,7 +141,6 @@ class RenameProjectMiddleWare extends InstallerActionMiddleWare{
     public function invoke(){
         $ctrl = $this->getServiceInfo()->Listener->controller;
         $project_name  = $this->getServiceInfo()->Listener->project_name;
-
         $libdir=$ctrl->getDeclaredDir(); 
         if(is_dir($libdir)){ 
             $temp_dir = $this->getServiceInfo()->Listener->TempDir = dirname($libdir)."/__temp_".$project_name;

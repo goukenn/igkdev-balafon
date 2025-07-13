@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html;
-
 use ArrayAccess;
-
 class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     use \IGK\System\Polyfill\EventPropertyArrayAccessTrait;
     private $_n;

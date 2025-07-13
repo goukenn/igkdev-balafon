@@ -3,8 +3,6 @@
 // @file: CompilerTokenCompileTrait.php
 // @date: 20221024 00:25:14
 namespace IGK\System\Runtime\Compiler\Traits;
-
-
 /**
 * 
 * @package IGK\System\Runtime\Compiler
@@ -15,13 +13,11 @@ trait CompilerTokenCompileTrait{
      * @var ?ReadTokenOptions
      */
     var $options;
-
     public function compileSource(string $source): ?string
     { 
         $this->parseToken($source); 
         return $this->mergeSourceCode();
     }
-
     public function compileFile(string $file): ?string
     {
         if (is_file($file)) {

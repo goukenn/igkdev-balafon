@@ -3,13 +3,10 @@
 // @file: IDbResolveLinkListener.php
 // @date: 20221125 09:45:23
 namespace IGK\System\Database;
-
-
 /**
 * 
 * @package IGK\System\Database
 */
 interface IDbResolveLinkListener{
-    
     function resolve(string $linkType):bool;
 }

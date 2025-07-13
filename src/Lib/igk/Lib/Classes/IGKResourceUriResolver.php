@@ -7,15 +7,12 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Constants;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
 use IGK\System\IO\ResIdentifierConstants;
-
 use function igk_resources_gets as __;
-
 /**
  * 
  * @package 
@@ -37,7 +34,6 @@ class IGKResourceUriResolver
         $this->fulluri = 0;
         $this->prepareEnvironment();
     }
-
     /**
      * mark path that need to be hashed before resolution
      */
@@ -94,12 +90,10 @@ class IGKResourceUriResolver
             igk_io_cachedir() =>ResIdentifierConstants::CACHE
         );
         $public_asset = Path::getInstance()->getPublicAssetDir();
-
         // possibility that file are symlink 
         if (($c = $app_dir."/Lib/igk") != IGK_LIB_DIR){        
             $this->environment[$c] = ResIdentifierConstants::LIBRARY;
         }
-
         krsort($this->environment, SORT_REGULAR);
         $_access = implode("\n", ["allow from all", "AddType text/javascript js", "AddEncoding deflate js", "<IfModule mod_headers.c>", "Header set Cache-Control \"max-age=31536000\"", "</IfModule>",]);
         if ($c =  $public_asset. "/_chs_/dist/js/.htaccess") {
@@ -115,10 +109,8 @@ class IGKResourceUriResolver
             if (strpos($chain, $this->m_hashPath) === 0) {
                 $dir = substr($chain, strlen($this->m_hashPath)+1);
                 $v_path = substr($chain, strlen(IGK_RES_FOLDER . "/" . $j ), strlen($this->m_hashPath) - strlen(IGK_RES_FOLDER . "/" . $j ));
-                 
                 // hash no 
                 $chain = implode("/", array_filter([IGK_RES_FOLDER , $j , sha1($v_path), $dir]));
-                
             }
         }
         return $chain;
@@ -191,7 +183,6 @@ class IGKResourceUriResolver
                 return $this->resolveResource($rp, $fulluri).$query;
             }
         }
-        
         if ($appData === null) {
             $i = 1;
             if (!strstr(IGK_LIB_DIR, igk_uri(igk_io_applicationdir())))
@@ -220,7 +211,6 @@ class IGKResourceUriResolver
         if (!igk_io_file_exists($fc = Path::Combine($v_bdir, $v_res_path), true)){
             // + | missing - create a link to 
             if (!igk_io_symlink($rp, $fc)) {
-
                 igk_ilog(__("Failed to create symbolic link - 2 - ") . " " . $rp . '==$gt; ' . $fc. " ? " . is_link($fc) 
                 );
                 return null;

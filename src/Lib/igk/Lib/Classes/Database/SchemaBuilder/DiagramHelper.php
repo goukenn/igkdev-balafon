@@ -1,17 +1,12 @@
 <?php
-
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: DiagramHelper.php
 // @date: 20220728 12:16:48
 // @desc: diagram helper 
-
 namespace IGK\Database\SchemaBuilder;
-
 use IGK\Helper\Database;
 use IGK\System\Html\XML\XmlNode;
 use IGKException;
-
 abstract class DiagramHelper{
     /**
      * resolve loaded links
@@ -22,9 +17,7 @@ abstract class DiagramHelper{
      * @throws IGKException 
      */
     public static function ResolveLinks($loadSchemaObject, $links){
-
         foreach($links as $def){
-            
             foreach($def as $column){
                 $v_rtable = $column->clLinkType;
                 $v_n = $column->clLinkColumn; 

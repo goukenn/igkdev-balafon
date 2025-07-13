@@ -3,8 +3,6 @@
 // @file: LoginLogoutActionTrait.php
 // @date: 20221116 10:40:27
 namespace IGK\Actions\Traits;
-
-
 /**
 * 
 * @package IGK\Actions\Traits

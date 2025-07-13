@@ -3,13 +3,8 @@
 // @filename: interfaces.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
-
 use IGK\Database\IIGKDatabaseCreator;
 use IGK\System\Configuration\Controllers\IConfigController;
-
 /**
 * represent IIAction Result interface
 */
@@ -19,7 +14,6 @@ interface IIGKActionResult{
     */
     function index();
 } 
- 
 /**
 * Represent IIGKController interface
 */
@@ -28,9 +22,7 @@ interface IIGKController{
     * 
     */
     function getName();
-
 }
-
 interface IIGKNodeController extends IIGKController{
     /**
     * 
@@ -40,9 +32,7 @@ interface IIGKNodeController extends IIGKController{
     * 
     */
     function getTargetNodeId();
-   
 }
-
 interface IIGKViewController{    
     function View();
 }
@@ -113,7 +103,6 @@ interface IIGKDataAdapter{
     * 
     */
     function selectCount(string $tbname, ?array $where = null, ?array $options = null);
- 
     /**
     * 
     */
@@ -138,7 +127,6 @@ interface IIGKDbUtility{
 interface IIGKDbModel{
 	function getTable();
 }
-
 ///<note>all id are mixed of string or array properties</summary>
 /**
 * engine form builder interface
@@ -276,7 +264,6 @@ interface IIGKHtmlCookieItem{
     */
     function setCookieId($v);
 }
-
 /**
 * Represent IIGKHtmlLoadContent interface
 */
@@ -443,7 +430,6 @@ interface IIGKQueryResult{
     * @return array 
     */
     function getRows();
-
     /**
      * get a column list
      * @return array 
@@ -641,4 +627,3 @@ interface IIGKWebPageController{
     */
     function manageErrorUriRequest($uri);
 }
- 

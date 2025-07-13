@@ -7,17 +7,12 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Database;
-
 use IGK\Helper\Activator;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use ModelBase;
-
 class DbExpression extends IGKObject implements IHtmlGetValue{
-    
-    
     protected $m_v;
     public function __construct($value=null){
         $this->m_v=$value;
@@ -46,12 +41,10 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
         }
         return $this->m_v;
     }
-
     public static function NotInSelectedField(\IGK\System\Models\ModelBase  $source_model, \IGK\System\Models\ModelBase $target_model, 
         string $column_in_source_model, 
         string $column_in_target_model){
         $g = Activator::CreateNewInstance(DbLitteralExpression::class, get_defined_vars());
         return $g;
-
     }
 }

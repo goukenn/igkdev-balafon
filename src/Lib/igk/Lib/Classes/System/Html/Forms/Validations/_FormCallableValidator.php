@@ -3,9 +3,7 @@
 // @filename: _FormCallableValidator.php
 // @date: 20220531 11:45:07
 // @desc: 
-
 namespace IGK\System\Html\Forms\Validations;
-
 /**
  * internal use of callable validation
  * @package IGK\System\Html\Forms
@@ -16,7 +14,6 @@ class _FormCallableValidator extends FormFieldValidatorBase implements IFormVali
     {
         $this->m_callable = $call;
     }
-
     public function assertValidate($value): bool { 
         return false;
     }
@@ -24,5 +21,4 @@ class _FormCallableValidator extends FormFieldValidatorBase implements IFormVali
         $fc = $this->m_callable;       
         return $fc($value, $default, $error);
     }
-
 }

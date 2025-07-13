@@ -3,10 +3,7 @@
 // @file: Partners.php
 // @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * store local sites partner.
 * @package IGK\Models

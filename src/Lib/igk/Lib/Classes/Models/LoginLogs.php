@@ -3,10 +3,7 @@
 // @file: LoginLogs.php
 // @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
 /**
 * Store connexion history
 * @package IGK\Models

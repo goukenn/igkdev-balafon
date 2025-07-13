@@ -3,9 +3,7 @@
 // @file: MailStyleValue.php
 // @date: 20250427 08:37:58
 namespace IGK\System\Http\Mail;
-
 use IGK\System\Html\IHtmlStyleAtribute;
-
 /**
 * 
 * @package IGK\System\Http\Mail

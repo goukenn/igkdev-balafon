@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: MethodPropertyChainTrait.php
 // @date: 20220803 13:50:44
 // @desc: 
-
 namespace IGK\System\Traits;
-
 /**
  * 
  */

@@ -1,25 +1,19 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: HtmlControllerJSScriptsNode.php
 // @date: 20220630 16:02:21
 // @desc: 
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Helper\ViewHelper;
 use IGK\System\IO\StringBuilder;
-
 /**
  * item to auto add controller script node
  * @package IGK\System\Html\Dom
  */
 class HtmlControllerJSScriptsNode extends HtmlNode
 {
-
     static $sm_item;
     use HtmlDocumentOnlyTrait;
-
     public static function getItem()
     {
         if (self::$sm_item === null)
@@ -30,7 +24,6 @@ class HtmlControllerJSScriptsNode extends HtmlNode
     {
         $this->tagname = "igk-controller-js";
     }
-
     public function render($options = null): ?string
     {
         $ctrl = ViewHelper::BaseController();
@@ -39,7 +32,6 @@ class HtmlControllerJSScriptsNode extends HtmlNode
         }
         $gb = realpath($ctrl->getScriptsDir());
         $is_dev = igk_environment()->isDev();
-
         $excludedir = igk_sys_js_exclude_dir(); 
         $src = HtmlScriptLoader::LoadScripts(
             [

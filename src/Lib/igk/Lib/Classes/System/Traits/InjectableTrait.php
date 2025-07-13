@@ -3,10 +3,8 @@
 // @file: InjectableTrait.php
 // @date: 20221123 10:53:55
 namespace IGK\System\Traits;
-
 use IGK\Actions\Dispatcher;
 use ReflectionMethod;
-
 /**
 * 
 * @package IGK\System\Traits

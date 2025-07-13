@@ -1,5 +1,4 @@
 <?php
-
 namespace IGK\System\Http;
 // @author: C.A.D. BONDJE DOUE
 // @filename: StatusCode.php
@@ -15,7 +14,6 @@ class StatusCode extends RequestResponseCode
     const BAD_REQUEST = 400;
     const UNAUTHORIZED = 401;
     const FORBIDEN = 403;
-
     public static function GetStatus(int $code)
     {
         static $t = null;

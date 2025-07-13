@@ -7,12 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\Helper\IO;
 use IIGKControllerInitListener;
-
 /**
  * represent a listener object used to initialize ontroller environment
  */

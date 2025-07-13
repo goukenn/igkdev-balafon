@@ -7,13 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-  
-
 use IGK\Resources\R;
 use IGKException;
-
 /**
  * defaut home page
  * @package IGK\System\Html\Dom

@@ -4,11 +4,8 @@
 // @desc: 
 // @date: 20210723 13:13:48
 namespace IGK\System\IO;
-
-
 class StringLogBuilder extends StringBuilder{
     private $m_listener;
-
     public function __construct(& $src, callable $listener)
     {
         parent::__construct($src);        

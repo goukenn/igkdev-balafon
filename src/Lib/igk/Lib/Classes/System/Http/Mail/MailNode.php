@@ -3,8 +3,6 @@
 // @file: MailNode.php
 // @date: 20250427 08:38:47
 namespace IGK\System\Http\Mail;
-
-
 /**
 * 
 * @package IGK\System\Http\Mail
@@ -15,7 +13,6 @@ class MailNode extends MailNodeBase
     private $m_inline_style = '';
     private $m_render_options;
     private $m_resolver;
-
     public function __construct($options, $resolver, ?string $tagname = null)
     {
         parent::__construct($tagname);
@@ -34,8 +31,6 @@ class MailNode extends MailNodeBase
         $cc = $this->m_resolver;
         return $cc($i);
     }
-
-
     protected function _access_offsetSet($n, $v)
     {
         switch ($n) {

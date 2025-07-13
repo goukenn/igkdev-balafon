@@ -3,9 +3,7 @@
 // @filename: IGKApplication.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\ApplicationLoader;
-
 require_once IGK_LIB_CLASSES_DIR.'/IGKApplicationBase.php';
 /**
  * represent core application

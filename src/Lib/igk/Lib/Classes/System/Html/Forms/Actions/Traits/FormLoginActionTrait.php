@@ -3,7 +3,6 @@
 // @file: FormLoginActionTrait.php
 // @date: 20221205 22:17:20
 namespace IGK\System\Html\Forms\Actions\Traits;
-
 use IGK\Helper\ViewHelper;
 use IGK\System\Actions\Traits\ActionFormHandlerTrait;
 use IGK\System\Html\Forms\FormHelper;
@@ -11,10 +10,7 @@ use IGK\System\Services\LoginServiceEvents;
 use IGK\System\Services\SignProvider;
 use IGKException;
 use Illuminate\Contracts\Container\BindingResolutionException;
-
 use function igk_resources_gets as __ ;
-
-
 /**
 * 
 * @package IGK\System\Html\Forms\Actions\Traits
@@ -24,7 +20,6 @@ trait FormLoginActionTrait{
     var $formLoginActionRememberMe = true;
     var $formLoginActionRegisterUri = "registerLogin";
     var $formLoginActionLogin = 'login';
-    
     /**
      * form login builder 
      * @param mixed $form 
@@ -35,7 +30,6 @@ trait FormLoginActionTrait{
      */
     protected function form_login($form, $options = null)
     { 
-
         $user = ViewHelper::CurrentCtrl()->getUser();
         if ($user){
             return;
@@ -48,7 +42,6 @@ trait FormLoginActionTrait{
         if ($data = $options ? igk_getv($options, 'data') : null){
             $loginSetting = igk_getv($data, __FUNCTION__);
             // convert to login form setting action.
-            
         }
         $t = $form;
         $ctrl = ViewHelper::CurrentCtrl();

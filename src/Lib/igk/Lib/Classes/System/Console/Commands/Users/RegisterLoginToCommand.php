@@ -3,24 +3,18 @@
 // @file: RegisterLoginToCommand.php
 // @date: 20230713 14:43:57
 namespace IGK\System\Console\Commands\Users;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Users
 */
 class RegisterLoginToCommand extends AppExecCommand{
 	var $command='--users:login';
-
 	var $desc='login command. to register to project';
 	/* var $options=[]; */
-
 	var $category = self::USER_CAT;
-
 	var $usage = 'controller login [options]';
-
 	public function exec($command, ?string $controller=null, ?string $login = null) { 
 		$login || igk_die("require login");
 		$ctrl = self::GetController($controller);

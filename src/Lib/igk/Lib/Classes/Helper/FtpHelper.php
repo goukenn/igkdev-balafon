@@ -3,15 +3,10 @@
 // @filename: FtpHelper.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Helper;
-
 use IGK\System\Console\Logger;
-
 class FtpHelper
 {
-
     public static function FileExists($res, $path){
         $dir = dirname($path);
         $g = ftp_nlist($res, $dir);
@@ -41,7 +36,6 @@ class FtpHelper
         @ftp_chdir($ftpresourse, $bckdir);        
         return $r;
     }
-
     public static function RmDir($ftpresourse, string $directory){
         $cwd = ftp_pwd($ftpresourse);
         if (!@ftp_chdir($ftpresourse, $directory))
@@ -51,7 +45,6 @@ class FtpHelper
         while($dir = array_shift($sub)){
             $files = ftp_mlsd($ftpresourse, $dir);
             $path =  ($dir=="." ?  $directory : $dir); 
-
             foreach($files as $k=>$v){
                 if (($v['name']=="..") || ($v['name']=="."))
                 {
@@ -65,14 +58,11 @@ class FtpHelper
                     }
                     array_push($sub, $full);
                 }else {
-
                     $rep = ftp_delete($ftpresourse, $full);
                     igk_is_debug() && Logger::success("delete : ".$full. " ".$rep);
                 }
             } 
-
         }
- 
         while($d = array_shift($ddirs)){
             if (!@ftp_rmdir($ftpresourse, $d)){
                 return false;

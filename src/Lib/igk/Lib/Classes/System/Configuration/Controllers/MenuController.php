@@ -3,10 +3,7 @@
 // @filename: MenuController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
@@ -21,9 +18,7 @@ use IGK\System\WinUI\Menus\MenuItem;
 use IGKEvents;
 use IGKValidator;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
-
 use function igk_resources_gets as __;
-
 /**
  *  used to manage global menu and system's configuration menu.
  */
@@ -37,8 +32,6 @@ final class MenuController extends ConfigControllerBase
     const MENU_CHANGE_KEY = "CustomMenuChanged";
     const SYSTEM_MENU_FLAG = 0xa01;
     const USER_MENU_FLAG = 0xa0a;
-
-     
     /**
      * state changed
      * @var mixed
@@ -53,8 +46,6 @@ final class MenuController extends ConfigControllerBase
         $this->m_customMenu = array();
         $this->storeDBConfigsSettingMenu($storeconfig);
     }
-   
-    
     /**
      * 
      * @param mixed $div
@@ -160,7 +151,6 @@ final class MenuController extends ConfigControllerBase
         if (igk_io_cache_file_exists($f)) {
             $d = igk_create_node("div");
             $d->Load(igk_io_read_allfile($f));
-            
             $e = igk_getv($d->getElementsByTagName("configmenu"), 0);
             $c = $e ? $e->getChilds() : null;
             if ($c) {
@@ -298,15 +288,10 @@ final class MenuController extends ConfigControllerBase
         //$v_Menus=array();
         $v_CPages = array();
         $v_confctrl = igk_getconfigwebpagectrl();
-
         /// TASK: INIT Configuration Controllers
         $v_load_controller = ConfigControllerRegistry::ResolvAndInitControllers();
-
         $ctab = $v_confctrl->initConfigMenu();
-
         // igk_wln_e("load controller .... ",  $v_load_controller);
-
-         
         foreach ($v_load_controller as $v) {
             if ($v !== $v_confctrl) {
                 if (!($v instanceof ConfigControllerBase) || !$v->getIsConfigPageAvailable())
@@ -321,7 +306,6 @@ final class MenuController extends ConfigControllerBase
             "data"=> & $v_ctab
         ];
         igk_hook(IGKEvents::FILTER_CONFIG_MENU, [$c_array] );
- 
         $v_sortByDisplayText = array(MenuItem::class, "SortMenuByDisplayText");
         $v_configTargetNode = igk_create_node("div");
         $v_configTargetNode["class"] = "igk-config-menu-font google-Roboto";
@@ -329,15 +313,12 @@ final class MenuController extends ConfigControllerBase
         // $v_configTargetNode["igk-autofix-style"]="{'left':'0px', 'top':'10px', 'bottom':'10px', 'width':'200px'}";
         $v_configTargetNode->Index = -9999;
         $v_configTargetNode->clearChilds();
-        
         $div = $v_configTargetNode->li()->div();
         $ul = $div->add("ul");
         $this->_initConfigMenu($v_CPages, $ctab, $ul, false);
-
         //configuration menu tab
         igk_usort($v_ctab, $v_sortByDisplayText);
         $this->_initConfigMenu($v_CPages, $v_ctab, $v_configTargetNode->li()->ul(), true);
-
         $v_configTargetNode->addBalafonJS()->Content = <<<EOF
 ns_igk.readyinvoke('igk.configmenu.init', ns_igk.getParentScript());
 EOF;
@@ -388,7 +369,6 @@ EOF;
                     $e,
                     6
                 )),
-
             );
         }
     }
@@ -546,8 +526,6 @@ EOF;
     {
         return $this->getParam("currentPageIndex", 0);
     }
-
-
     ///<summary>get data table info</summary>
     /**
      * return data table info
@@ -687,7 +665,6 @@ EOF;
     {
         return $this->m_customMenu;
     }
-    
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="ctrl"></param>
@@ -1344,7 +1321,6 @@ EOF;
     public function View():BaseController
     {         
         return $this;
-
         // if (!$this->getIsVisible()) {
         //     if (!$this->ConfigCtrl->IsConfiguring) {
         //         $this->selectGlobalMenu(strtolower($this->m_CurrentPage), $this->m_CurrentPageIndex);

@@ -3,9 +3,7 @@
 // @file: MailNodeBase.php
 // @date: 20250427 08:39:03
 namespace IGK\System\Http\Mail;
-
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
 * 
 * @package IGK\System\Http\Mail

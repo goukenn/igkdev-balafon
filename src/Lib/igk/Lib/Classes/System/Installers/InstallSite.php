@@ -3,10 +3,7 @@
 // @filename: InstallSite.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Installers;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Console\AppConfigs;
 use IGK\System\Console\Logger;
@@ -18,10 +15,8 @@ use IGKAppSystem;
 use IGKEvents;
 use IGKException;
 use IO;
-
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
 require_once __DIR__."/InstallerUtils.php";
-
 /**
  * primary instlalation reference
  * @package IGK\System\Installers
@@ -61,14 +56,12 @@ class InstallSite
             Logger::danger("directory exists.");
             return false;
         }
-
         if (!igk_io_createdir($src)) {
             return false;
         }
         $v_is_unix = igk_environment()->isUnix();
         $c_root = StringUtility::Uri(implode("/", array_filter([$src, ltrim(igk_io_get_relativepath($src, $options["rootdir"]), './')])));
         $base_uri = igk_getv($options, "base_uri", "localhost");
-  
         // + | ---------------------------------------------------
         // + | primary installation  
         // + |  :is when all folder is exposed to public directory
@@ -124,7 +117,6 @@ class InstallSite
                 "   binaryPath: " . (igk_io_file_exists($tf = igk_io_packagesdir() . "/vendor/bin/phpunit") ? $tf : ""),
                 "   arguments: --stop-on-failure --colors=always --testdox --bootstrap {$c_app}/Lib/igk/Lib/tests/autoload.php {$c_app}/Projects/",
             ]));
-
             // + | -------------------------------------------------------------------------------------------------
             // generate phpunit.xml.dist distribution
             $php_xml = igk_create_xmlnode("phpunit");
@@ -148,11 +140,9 @@ class InstallSite
         // + | -------------------------------------------------------------------------------------------------
         $public_folder = $folder . "/" . $c_public;
         $app_folder = rtrim($folder . "/" . $c_app, "/");
-
         // + | --------------------------------------------------------------------
         // + | chain lib directory 
         // + |
-        
         if (!is_link($lnk = $app_folder . "/Lib/igk") && !igk_io_file_exists($lnk)) {
             igk_io_createdir(dirname($lnk));
             // + | relative path is important. some directory no allow reading link resources.
@@ -164,7 +154,6 @@ class InstallSite
         }
         // + | package folder
         $lnk = $app_folder . "/" . IGK_PACKAGES_FOLDER;
-
         if (!empty($packagefolder = igk_getv($options, "packagedir")) && !is_link($lnk)) {
             symlink($packagefolder, $lnk);
         } else {
@@ -193,7 +182,6 @@ class InstallSite
             // generate composer instruction 
             $this->_generateComposer($base, ["name"=>strtolower(IGK_PLATEFORM_NAME."/site-packages")]);
         }
-
         $lnk = $app_folder . "/" . IGK_PROJECTS_FOLDER;
         if (!empty($projectdir = igk_getv($options, "projectdir")) && !is_link(
             $lnk
@@ -209,11 +197,9 @@ class InstallSite
         )) {
             symlink($sessiondir, $lnk);
         }
-
         // + | --------------------------------------------------------------------
         // + | create index file 
         // + |  
-
         $index = $public_folder . "/index.php";
         igk_io_w2file(
             $index,
@@ -225,8 +211,6 @@ class InstallSite
                 "no_webconfig"=> igk_getv($options, "no_webconfig")
             ])
         );
- 
-
         IGKAppSystem::InstallDir($index, 
             $app_folder, 
             dirname($index), 
@@ -235,8 +219,6 @@ class InstallSite
             $app_folder."/Lib/igk/".IGK_DATA_FOLDER,
             ["domain_name"=>$base_uri ]
         );
-        
-
         if (!$is_primary && $is_dev) {
             // + | ----------------------------------------------------------------
             // + | generate vhost            
@@ -246,12 +228,10 @@ class InstallSite
                 $listen = "Listen " . $tport . "\n";
             } else
                 $listen = "";
-
             $servername = igk_getv($options, "ServerName", "localhost");
             $t_conf_file = $folder . "/vhost.conf";
             igk_io_w2file(
-                $t_conf_file,
-                <<<EOF
+                $t_conf_file,<<<EOF
 {$listen}<IfDefine !ServerName>
 ServerName {$servername}
 </IfDefine>
@@ -287,9 +267,7 @@ AddEncoding deflate js
 #</IfModule>
 </Directory>
 </VirtualHost>
-EOF
-            );
-           
+EOF            );
         }
         // + | -------------------------------------------------------------------------------------------
         // + | generate configuration 
@@ -320,8 +298,6 @@ EOF
                 }
             }
         }
-
-
         // + | ------------------------------------------------------------------------------------------
         // + | post install site 
         // + |
@@ -337,8 +313,6 @@ EOF
         } 
         return true;
     }
-
-
     /**
      * generate composer file
      * @param string $folder 

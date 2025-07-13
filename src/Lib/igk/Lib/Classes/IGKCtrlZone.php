@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKCtrlZone extends IGKObject implements IIGKCtrlDirManagement{
     private $m_filename;
     public function __construct($fname){

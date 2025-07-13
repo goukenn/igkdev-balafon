@@ -3,12 +3,8 @@
 // @filename: IGKSession.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 use IGK\Resources\R;
 use function igk_resources_gets as __;
-
-
 /**
 * represent handle session service
 * @property $services stored services
@@ -59,7 +55,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
      * @throws Exception 
      */
     public function __call(string $name, ?array $args){
-      
         if ($args && (($fc=igk_getv($args, 0)) instanceof Closure)){
             return $this->updateProperty($name, $fc); 
         }
@@ -83,7 +78,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
 		$g = null;
         if(method_exists($this, "get".$key)){
             $g= call_user_func(array($this, "get".$key), null);
-
         }
         else if(isset($this->m_sessionParams[$key])){
             return $this->m_sessionParams[$key];
@@ -365,7 +359,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         igk_get_env("sys://session/redirecttask", $g);
         return $g;
     }
-   
     /**
     * 
     * @param mixed $obj
@@ -476,7 +469,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     */
     public function setUser($user, $context){  
         $u=$this->getUser();
-    
         if(($context !== null) && ($context == igk_getctrl(IGK_USER_CTRL))){
             if($u !== $user){
                 if ($user && (get_class($user) !== IGKUserInfo::class)){
@@ -499,7 +491,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         if($this->m_updateSessionEvent != null)
             $this->m_updateSessionEvent->Call($this, null);
     }
-
     public function getServices(){
         return $this->getParam(self::SESS_SERVICE);
     }
@@ -510,7 +501,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
             $this->m_sessionParams[self::SESS_SERVICE] =$service; 
         }
     } 
-
     /**
      * update store value
      * @param mixed $key 

@@ -3,10 +3,8 @@
 // @file: ApiResponse.php
 // @date: 20230215 11:47:35
 namespace IGK\System\Http;
-
 use Exception;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Http
@@ -33,7 +31,6 @@ class ApiResponse extends Response{
      * @return mixed 
      */
     public function output(){
-
     }
     public function die(string $message, $code=500){
         igk_do_response(new ErrorRequestResponse($code, $message));

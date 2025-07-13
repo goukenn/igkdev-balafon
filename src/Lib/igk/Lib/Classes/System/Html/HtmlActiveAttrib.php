@@ -8,9 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
 use IGKObject;
-
 /**
  * mark an attribute to be activated
  * @package IGK\System\Html

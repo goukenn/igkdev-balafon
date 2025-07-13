@@ -3,13 +3,11 @@
 // @file: ValidateWithAttribute.php
 // @date: 20240103 16:43:22
 namespace IGK\System\Html\Forms\Validations\Annotations;
-
 use IGK\Helper\Activator;
 use IGK\System\Annotations\AnnotationBase;
 use IGK\System\IAnnotation;
 use IGK\System\Annotations\AnnotationInfo;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
-
 /**
  * Use to validate a property on a fields list
  * @package IGK\System\Html\Forms\Validations\Annotations
@@ -44,32 +42,26 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
      * @var ?bool
      */
     var $required;
-
-
     /**
      * define max length
      * @var ?bool
      */
     var $allowNull;
-
     /**
      * file max size
      * @var ?string
      */
     var $maxSize;
-
     /**
      * file accept
      * @var ?string
      */
     var $accept;
-
     /**
      * multiple value
      * @var ?bool
      */
     var $multiple;
-
     /**
      * get the attribute validator
      * @return mixed 
@@ -82,7 +74,6 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
     {
         parent::setParams($params);
     }
-
     public function __construct(?string $validator = null)
     {
         if ($validator) {
@@ -93,7 +84,6 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
             }
         }
     }
-
     public function setType(?string $type=null){
         $type = $type ?? 'text';
         $this->type = $type;

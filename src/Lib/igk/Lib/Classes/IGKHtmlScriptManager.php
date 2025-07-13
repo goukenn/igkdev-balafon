@@ -3,11 +3,9 @@
 // @filename: IGKHtmlScriptManager.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlScriptNode;
-
 /**
 * Represent IGKHtmlScriptManager class
 */
@@ -64,7 +62,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     * @param string $tag 'priv'| or any tag to identify associate script
     */
     public function addScript($file, $canbeMerged=true, $tag='priv'){  
-
         if (!($s = igk_getv($this->m_scripts, $file))){
             $item = new HtmlScriptNode();
             $s = compact("canbeMerged", "tag", "item");
@@ -127,7 +124,6 @@ final class IGKHtmlScriptManager extends IGKObject {
     */
     public function getNonMergedContent($tab=null){
         throw new Exception("Not implement = ".__METHOD__);
-
         // $nonMerged=$tab == null ? $this->getMergedContent()->notMerged: $tab->notMerged;
         // $o="";
         // foreach($nonMerged as $v){
@@ -163,5 +159,4 @@ final class IGKHtmlScriptManager extends IGKObject {
     public function isLoaded($file){
         return isset($this->m_assocTable[$file]);
     }
-    
 }

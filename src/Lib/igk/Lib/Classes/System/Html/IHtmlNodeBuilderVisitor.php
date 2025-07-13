@@ -3,9 +3,7 @@
 // @file: IHtmlNodeBuilderVisitor.php
 // @date: 20240118 07:50:37
 namespace IGK\System\Html;
-
 use IGK\System\Html\Dom\HtmlItemBase;
-
 /**
 * handle node builder visitor
 * @package IGK\System\Html
@@ -21,7 +19,6 @@ interface IHtmlNodeBuilderVisitor{
      * @return mixed last context
      */
     function pushContext($new_context);
-    
     /**
      * pop current context 
      * @return mixed 

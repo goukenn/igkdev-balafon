@@ -3,16 +3,12 @@
 // @filename: HtmlCssValueAttribute.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Css\CssThemeCompiler;
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Html\IHtmlStyleAtribute;
-
 class HtmlCssValueAttribute implements IHtmlStyleAtribute{
     var $value;
-
     public function __construct(string $value)
     {
         $this->value = $value;
@@ -24,7 +20,5 @@ class HtmlCssValueAttribute implements IHtmlStyleAtribute{
             return $compiler->treatValue($this->value, $options->Document->getTheme(), $options->Document->getSysTheme());
         }
         return $this->value;
-
     }
-
 }

@@ -8,12 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Drawing;
-
 use Exception;
 use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
-
 final class Rectanglef extends IGKObject{
     private $m_h, $m_w, $m_x, $m_y;
     public function __construct($x=0, $y=0, $width=0, $height=0){

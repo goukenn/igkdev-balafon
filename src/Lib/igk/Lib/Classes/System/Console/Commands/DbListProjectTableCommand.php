@@ -3,15 +3,11 @@
 // @filename: DbDropCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
-
 class DbListProjectTableCommand extends AppExecCommand{
     public $command = "--db:list-project-tables";
     public $category = "db";
@@ -39,11 +35,7 @@ class DbListProjectTableCommand extends AppExecCommand{
             Logger::danger("definition info not found");
             return - 1;
         }
-
- 
-        
         Logger::success(__("done"));
         return 0;
-
     }
 }

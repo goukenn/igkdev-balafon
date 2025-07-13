@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKDynamicObject extends IGKObject{
     private $m_properties;
     public function __call($name, $arguments){

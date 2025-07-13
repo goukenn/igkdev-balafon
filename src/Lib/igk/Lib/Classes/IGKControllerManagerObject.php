@@ -3,8 +3,6 @@
 // @filename: IGKControllerManagerObject.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 use IGK\ApplicationLoader;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
@@ -22,9 +20,7 @@ use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Drawing\Color;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 use function igk_resources_gets as __;
- 
 /**
  * System Controllers Managers. store list of different controller table.
  * @deprecated use ApplicationControllerManager instead
@@ -40,7 +36,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * @var mixed
      */
     private $m_complete;
-
     /**
      * @var array store [name:instance] of registrated controller
      */
@@ -63,19 +58,14 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $this->m_classReg = [];
         $this->m_initEvent = 0;
     }
-
     public function getUserControllers(): array {
         return [];
      }
-
     public function getRegistratedNamedController(string $name): ?BaseController {
         return null;
      }
-
     public function registerNamedController(string $name, BaseController $controller) { }
-
     public function getDefaultController(): ?BaseController { return null; }
-
     public function setDefaultController(?BaseController $controller) { }
     /**
      * get or init controller instance
@@ -191,7 +181,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return $rc;
     }
-
     /**
      * 
      * @param mixed $ctrl
@@ -297,7 +286,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         return count($this->m_tbcontrollers);
     }
-
     /**
      * 
      * @param mixed $ctrl
@@ -308,7 +296,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             return false;
         $k = strtolower($ctrl->getName());
         $d = dirname($ctrl->getDeclaredFileName());
- 
         if (method_exists($ctrl, "dropController")){
             $ctrl->dropController();
         }
@@ -468,7 +455,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     //             if (
     //                 RootControllerBase::IsSystemController($v) || IGKControllerManagerObject::IsIncludedController($v) ||
     //                 !RootControllerBase::Invoke($v, "getCanModify")                    
-
     //             ) {
     //                 // igk_dev_wln("not user not ".get_class($v) ." is ". IGKControllerManagerObject::IsIncludedController($v));                   
     //                 // igk_dev_wln("filter 2: ".$v->getName(), 
@@ -537,7 +523,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
                 $cl = trim($d[0]);
                 if (empty($cl))
                     continue;
-
                 $reg_name = trim($d[1]);
                 $reg_cname = trim($d[2]);
                 $resolvCtrl[$reg_cname] = $cl;
@@ -564,7 +549,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             }
             $sysload = true;
         }
-
         if (!$sysload) {
             $sfc = "GetCanCreateFrameworkInstance";
             $tempty = array();
@@ -574,8 +558,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
                 array_combine($keys = get_declared_classes(), $keys),
                 $tab
             );
-
-
             $loaded = [];
             foreach ($declared as $k => $v) {
                 if (isset($loaded[$v]))
@@ -584,7 +566,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
                     continue;
                 }
                 if (is_subclass_of($v, BaseController::class)) {
-
                     $v_rc = igk_sys_reflect_class($v);
                     if ($v_rc->isAbstract() || (method_exists($v, $sfc) && !call_user_func_array(array($v, $sfc), $tempty)))
                         continue;
@@ -726,7 +707,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             if ($l) {
                 R::ChangeLang(igk_getv($args, "l"));
                 unset($args["l"]);
-
             }
         }
         $arg = igk_io_arg_from($f);
@@ -746,7 +726,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             if ($f == IGK_EVALUATE_URI_FUNC) {
                 igk_app()->setBaseCurrentCtrl($ctrl);
             }
-
             if (($f == IGK_EVALUATE_URI_FUNC) || $ctrl->IsFunctionExposed($f)) {
                 igk_app()->session->URI_AJX_CONTEXT = igk_is_ajx_demand() || IGKString::EndWith($f, IGK_AJX_METHOD_SUFFIX) || (igk_getr("ajx") == 1);
                 $fd = null;
@@ -776,7 +755,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return $c;
     }
-   
     /**
      * raise init complete event
      */
@@ -787,7 +765,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         ConfigControllerRegistry::InvokeRegisterComplete($context);
         \IGK\System\Diagnostics\Benchmark::expect("lib_controller_init_complete", 0.50);
         //igk_wln_e("init_complete:", igk_execute_time(__FUNCTION__) );
-
         if (defined('IGK_NO_WEB'))
             return;
         if (!$this->m_initEvent) {
@@ -811,7 +788,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $this->_registerCtrl($controller, $regname);
         $initComplete && ConfigControllerRegistry::RegisterInitComplete($controller);
     }
-
     /**
      * reload controller table list
      */
@@ -904,7 +880,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         igk_io_w2file($fc, igk_cache_array_content($m, $fc), true);
         IGKSysCache::Init_CachedHook();
     }
-
     /**
      * 
      * @param mixed $forceview the default value is 0
@@ -913,7 +888,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     {
         $u = igk_io_base_request_uri();
         $u = explode("?", $u)[0];
-
         if ($forceview || (!igk_sys_is_subdomain()) && (preg_match('#^(\/|index.php)?$#', $u))) {
             $ctrls = self::getInstance()->m_tbviewcontrollers;
             if ($ctrls) {
@@ -926,7 +900,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             }
         }
     }
-
     /**
      * retrieve controller
      * @param mixed $ctrlname 
@@ -950,7 +923,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
             if (empty($ctrlname)) {
                 return null;
             }
-
             if ($cc === null || !is_object($cc)) {
                 if ($throwex) {
                     igk_die("igk_app() ControllerManager is null. Session probably destroyed." . IGKApp::IsInit());
@@ -977,7 +949,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
-
     /**
      * resolv project class 
      */
@@ -999,9 +970,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
                 $projects = [];
             }
         }
-
         // igk_wln_e(__FILE__.":".__LINE__,  compact("projects", "n"));
-
         if (isset($projects[$n])) {
             $dir = $projects[$n];
             if (!($dir_info = igk_getv($project_info, $dir))) {
@@ -1015,10 +984,8 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return false;
     }
-
     public static function InitController($ctrlname)
     {
-
         $n = self::GetSystemController($ctrlname);  
         if (($n === null) && (self::ProjectClass($ctrlname) || class_exists($ctrlname))) {
             $n = $ctrlname;
@@ -1031,17 +998,14 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
-
     public static function GetSystemController($n)
     {
-
         $b = igk_environment()->get("sys://app/controllers");
         if ($b && $n) {
             if ($g = igk_getv($b, $n))
                 return $g;
         }
         $g = self::GetRegisteryController();
-
         return igk_getv($g, $n);
     }
     public static function GetRegisteryController()
@@ -1060,7 +1024,6 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return $resolv_ctrl;
     }
-
     public static function GetResolvName($class)
     {
         $g = self::GetResolvController();

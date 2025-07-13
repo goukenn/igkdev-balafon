@@ -3,11 +3,9 @@
 // @file: ComposerCommand.php
 // @date: 20230311 09:12:52
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
-
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -20,7 +18,6 @@ class ComposerCommand extends AppExecCommand{
 	var $usage = 'composer_args [options]';
 	public function exec($command, string ...$args) { 
 		$packages = igk_io_packagesdir();
-
 		if (empty($composer = OsShell::where("composer.phar"))){
 			$composer = $packages."/composer.phar";
 		}

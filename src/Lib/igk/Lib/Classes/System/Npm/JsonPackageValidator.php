@@ -3,19 +3,15 @@
 // @file: JsonPackageValidator.php
 // @date: 20230330 12:25:28
 namespace IGK\System\Npm;
-
 use IGK\System\Http\Request;
 use IGK\System\Npm\Traits\JsonPackagePropertyTrait;
 use IGK\System\WinUI\Forms\FormData;
-
 /**
 * 
 * @package IGK\System\Npm
 */
 class JsonPackageValidator extends FormData{
     use JsonPackagePropertyTrait;
-
-
     protected function getContentSecureFormRequest(Request $request): ?array
     {
       return $this->getContentSecure();
@@ -25,7 +21,6 @@ class JsonPackageValidator extends FormData{
      * @return null|array if assoc and validation : return treated value
      */
     protected function getContentSecure():?array{
-
         return [
             "author"=>function($n, $key, & $error){
                 if (is_object($n)){

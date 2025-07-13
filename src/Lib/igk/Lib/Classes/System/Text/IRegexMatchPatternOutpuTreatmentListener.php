@@ -3,8 +3,6 @@
 // @file: IRegexMatchPatternOutpuTreatmentListener.php
 // @date: 20241104 11:48:37
 namespace IGK\System\Text;
-
-
 /**
 * 
 * @package IGK\System\Text

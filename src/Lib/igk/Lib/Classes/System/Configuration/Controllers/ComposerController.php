@@ -3,14 +3,9 @@
 // @filename: ComposerController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace  IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
-
 use function igk_resources_gets as __;
-
 /**
 * class used to register global user in system
 */

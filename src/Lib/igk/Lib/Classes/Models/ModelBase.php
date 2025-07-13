@@ -3,15 +3,8 @@
 // @filename: ModelBase.php
 // @date: 20220803 13:48:57
 // @desc: extra definition model
-
-
 namespace IGK\Models;
-
- 
-
 require_once __DIR__ . "/Inc/ModelEntryExtension.php";
-
-
 /**
  * Model base - entry macros definition.
  * @package IGK\Models

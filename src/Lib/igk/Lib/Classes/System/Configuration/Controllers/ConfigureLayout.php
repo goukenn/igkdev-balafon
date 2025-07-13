@@ -3,12 +3,8 @@
 // @filename: ConfigureLayout.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration\Controllers;
-
 use function igk_resources_gets as __; 
-
 class ConfigureLayout{
     var $controller;
     public function __construct($controller)

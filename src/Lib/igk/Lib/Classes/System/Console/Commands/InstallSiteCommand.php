@@ -3,10 +3,7 @@
 // @filename: InstallSiteCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppExecCommand;
@@ -22,15 +19,11 @@ use IGK\System\Installers\LaravelMixInstaller;
 use IGKCaches;
 use \IGKControllerManagerObject;
 use IGKEvents;
-
 class InstallSiteCommand extends AppExecCommand
 {
     var $command = "--install-site";
-
     var $category = 'sys';
-
     var $desc  = "create new site";
-
     var $options = [
         "--root-dir:[dir]" => "document root. default is current install directory. if relative, base on the install site",
         "--apache:[host_dir]" => "apache server vitual host directory",
@@ -67,10 +60,7 @@ class InstallSiteCommand extends AppExecCommand
             }
             $install_dir = realpath($install_dir);
         }
-
-
         $cnf = $command->app->getConfigs();
-
         $author = igk_getv($command->options, "--author",  $cnf ? $cnf->get("author", IGK_AUTHOR) : IGK_AUTHOR);
         $module =  igk_getv($command->options, "--module", null);
         $package = igk_getv($command->options, "--package",  null);
@@ -79,17 +69,13 @@ class InstallSiteCommand extends AppExecCommand
         $projects = igk_getv($command->options, "--projects", null);
         $environment = igk_getv($command->options, "--environment", igk_app()->getApplication()->environment ?? igk_environment()->name());
         $base_uri = igk_getv($command->options, "--uri", "localhost");
-
         $listen = igk_getv($command->options, "--listen", 80);
         $apachedir = igk_getv($command->options, "--apache", null);
         $ugroup = igk_getv($command->options, "--usergroup", null) ?? $this->getUserGroup();
         $init = property_exists($command->options, "--init-config");
-        
- 
         $root_dir = igk_getv($command->options, "--root-dir", null);
         $is_primary = 1;
         $cache_dir = igk_io_cachedir(); 
-
         if (empty($root_dir)) {
             $root_dir = $install_dir;
         } else {
@@ -101,7 +87,6 @@ class InstallSiteCommand extends AppExecCommand
         // + | HANDLE SERVER HOOK
         // + |
         igk_reg_hook(IGKEvents::HOOK_INSTALL_SITE, [LaravelMixInstaller::class, "Handle"]);
-
         if (InstallSite::Install(
             $install_dir,
             $listen,
@@ -147,7 +132,6 @@ class InstallSiteCommand extends AppExecCommand
                 //remove cachee directory for host
                 IO::RmDir($cache_dir);
             }
-
         } else {
             Logger::danger("failed to install site " . $install_dir . "\n");
         }
@@ -164,11 +148,9 @@ class InstallSiteCommand extends AppExecCommand
         Logger::print("\n\n");
         $this->showOptions();
     }
-
     private function getUserGroup(){
         if (igk_environment()->isUnix()){
             $s = `groups`;
-           
             if (preg_match("/wwww-data/", $s)){
                 return "www-data:www-data";
             }

@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\System\Console\Commands\Sync;
-
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\Commands\Sync\SyncAppExecCommandBase;
 use IGK\System\Console\Logger;
@@ -10,12 +8,9 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\Regex\Replacement;
 use IGKException;
 use ReflectionException;
-
 class SyncComposerCommand extends SyncAppExecCommandBase{
     var $command = "--sync:composer";
-
     var $desc = 'sync:ftp use global shared composer';
-    
     /**
      * get merged scripts
      * @return string[] 
@@ -26,7 +21,6 @@ class SyncComposerCommand extends SyncAppExecCommandBase{
             IGK_LIB_DIR."/Inc/core/composer.pinc",   
         ];
     }  
- 
     /**
      * execute command
      * @param mixed $command 

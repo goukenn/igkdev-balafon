@@ -3,11 +3,9 @@
 // @file: ModelArrayMapping.php
 // @date: 20241007 16:04:08
 namespace IGK\System\Database\Mapping;
-
 use Exception;
 use IGK\Models\ModelBase;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Database\Mapping

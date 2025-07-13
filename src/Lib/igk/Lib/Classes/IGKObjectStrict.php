@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKObjectStrict{
     private $m_ins;
     public function __call($n, $params){

@@ -3,15 +3,12 @@
 // @filename: MacrosHelper.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 //
 // @file: MacrosHelper.php
 // @author: C.A.D. BONDJE DOUE
 // version: 1.0
 //
 namespace IGK\Helper;
-
-
 use IGK\Models\Users;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
@@ -19,7 +16,6 @@ use IGKException;
 use IGKObjStorage;
 use ModelBase;
 use ReflectionException;
-
 /**
  * macro helper expressions
  * @package IGK\Helper
@@ -27,7 +23,6 @@ use ReflectionException;
 class MacrosHelper
 {
     private static $macros;
-
     public static function Get($name)
     {
         return self::__callStatic($name, null);
@@ -73,7 +68,6 @@ class MacrosHelper
         }
         return igk_getv(self::$macros, $name);
     }
-
     /**
      * check user's auth 
      * @param Users $user 
@@ -94,7 +88,6 @@ class MacrosHelper
         if ($user->is_mock()){
             return false;
         }  
-
         $q = $user;
         $key = \IGK\Models\ModelBase::AuthKey;
         $is_auth = false;
@@ -118,7 +111,6 @@ class MacrosHelper
                 return false;
         }
         if (($is_auth = count($g) > 0)) {
-
             if ($strict) {
                 while ($is_auth && ($auth = array_shift($auths))) {
                     // check all auths
@@ -138,7 +130,6 @@ class MacrosHelper
         }
         return $is_auth;
     }
-
     /**
      * add User with storage data
      * @param Users $user 

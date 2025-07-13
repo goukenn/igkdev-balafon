@@ -3,12 +3,9 @@
 // @file: LocaleSetting.php
 // @date: 20221121 09:54:10
 namespace IGK\System\Configuration;
-
 use IGK\Helper\StringUtility;
 use IGK\Resources\R;
-
 use function igk_resources_gets as __;
-
 /**
 * 
 * @package IGK\System\Configuration

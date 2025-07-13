@@ -3,14 +3,12 @@
 // @file: MakeModelMappingCommand.php
 // @date: 20240916 16:33:43
 namespace IGK\System\Console\Commands;
-
 use IGK\Database\Mapping\SysDbMapping;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\EntryClassResolution;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
-
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -22,7 +20,6 @@ class MakeModelMappingCommand extends AppExecCommand{
 	var $options=[]; 
 	var $category = 'make';
 	var $usage = 'model controller [options]';
-
 	/**
 	 * location of sample . 
 	 */

@@ -3,11 +3,8 @@
 // @filename: ActionFormOptions.php
 // @date: 20221114 21:43:57
 // @desc: 
-
 namespace IGK\Actions;
-
 use IGKObject;
-
 /**
  * action base form option 
  * @package 
@@ -18,9 +15,7 @@ class ActionFormOptions extends IGKObject{
      * @var mixed
      */
     var $referer;
-
     var $good_uri;
-
     var $noRegister;
     /**
      * passing extra data 

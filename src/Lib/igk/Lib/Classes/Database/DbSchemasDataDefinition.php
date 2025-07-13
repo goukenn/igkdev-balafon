@@ -3,9 +3,7 @@
 // @file: DbSchemasDataDefinition.php
 // @date: 20240805 21:18:31
 namespace IGK\Database;
-
 use IGK\Database\Traits\DbDataDefinitionTrait;
-
 /**
 * 
 * @package IGK\Database

@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKSystemUriActionPatternInfo extends IGKObject{
     var $action, $context, $ctrl, $keys, $pattern, $requestparams, $uri, $value;
     /**
@@ -28,7 +27,6 @@ final class IGKSystemUriActionPatternInfo extends IGKObject{
         $uri=$uri ?? $this->uri; 
         if($uri && preg_match($this->pattern, $uri)){
             $this->uri=$uri;
-
             return true;
         }
         return false;

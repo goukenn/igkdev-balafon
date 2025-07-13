@@ -3,26 +3,19 @@
 // @filename: AppConfigs.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console;
-
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Configuration\XPathConfig;
 use IGKException;
-
 use function readline;
-
 class AppConfigs
 {
     var $author;
-
     /**
      * load configuration file
      */
     const ConfigurationFileName = IGK_BALAFON_CONFIG;
-    
     public function init($init_data)
     {
         if (!function_exists('readdline')){
@@ -123,7 +116,6 @@ class AppConfigs
         }
         return $s;
     }
-
     /**
      * load configuration file
      * @param string $configFile 

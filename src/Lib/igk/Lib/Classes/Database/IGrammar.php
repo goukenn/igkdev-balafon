@@ -3,8 +3,6 @@
 // @file: IGrammar.php
 // @date: 20230305 21:56:20
 namespace IGK\Database;
-
-
 /**
 * 
 * @package IGK\Database
@@ -16,5 +14,4 @@ interface IGrammar{
      * @return string 
      */
     function createRandomQueryTableOnColumn(string $table, string $column, ?array $columns=null, int $limit=1): ?string;
-   
 }

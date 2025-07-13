@@ -3,8 +3,6 @@
 // @file: HtmlTableHeaderInfo.php
 // @date: 20230525 18:08:30
 namespace IGK\System\Html\Dom;
-
-
 /**
 * 
 * @package IGK\System\Html\Dom
@@ -12,7 +10,6 @@ namespace IGK\System\Html\Dom;
 class HtmlTableHeaderInfo{
     var $title;
     var $key;
-
     public function isEmpty():bool{
         return empty($this->key);
     }

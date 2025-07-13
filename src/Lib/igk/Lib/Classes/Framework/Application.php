@@ -3,20 +3,17 @@
 // @file: Application.php
 // @date: 20230626 14:41:48
 namespace IGK\Framework;
-
 use IGK\ApplicationLoader;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKApp;
 use IGKApplicationBase;
 use IGKException;
 use ReflectionException;
-
 /**
 * help as entry point to live with other framework
 * @package IGK\Framework
 */
 class Application extends IGKApplicationBase{
-
     public function run(string $entryfile, $render = 1) { 
         // do nothing - to integrate with other framework
     }    

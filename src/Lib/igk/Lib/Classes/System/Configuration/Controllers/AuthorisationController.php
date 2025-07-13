@@ -3,11 +3,7 @@
 // @filename: AuthorisationController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\Authorization;
 use IGK\Helper\NotifyHelper;
@@ -24,9 +20,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Views;
 use IGKSysUtil;
-
 use function igk_resources_gets as __;
-
 class AuthorisationController extends ConfigControllerBase{
     public function getName(){
         return  IGK_AUTH_CTRL;
@@ -65,8 +59,6 @@ class AuthorisationController extends ConfigControllerBase{
             "administration")
         );
     }
-    
-   
     /**
     * Represent _auth_options function
     * @param  $frm
@@ -93,12 +85,10 @@ class AuthorisationController extends ConfigControllerBase{
     //     $limit = null;
     //     if ($c>0){
     //         $blimit = igk_getv($options, "Limit", PageLayout::ItemLimits());
-            
     //         if ($c < $blimit){
     //             $pan = new Pagination();
     //             $options["Limit"] = $pan->getLimit();
     //         }
-
     //         if ($r= $model::select_all($conditions, $options)){
     //             foreach($r as $v){
     //                 $callback($target, $v);
@@ -120,7 +110,6 @@ class AuthorisationController extends ConfigControllerBase{
         $this->_auth_options($frm);
         $table=$frm->div()->setClass("overflow-x-a")->table();
         $table["class"]="igk-table igk-table-striped igk-table-hover";
-        
         $tr=$table->addTr();
         $tr->th()->addSpace();
         $tr->th()->setClass("fitw")->Content=R::ngets("lb.clName");
@@ -170,7 +159,6 @@ class AuthorisationController extends ConfigControllerBase{
         $frm->confirm();
         $frm->submit("submit");
         igk_ajx_panel_dialog(__("add auth"), $d);
-      
     }
     /**
     * Represent auth_add_group_ajx function
@@ -240,11 +228,9 @@ class AuthorisationController extends ConfigControllerBase{
         $d->addObData($v_r);
         $d->div()->Content="Autorisation : ".$v_r;
         $b->addMsg($d, $t);
-        
         if (igk_is_ajx_demand()){
             igk_ajx_toast($t);
         }else{
-            
         }
         //igk_navto($this->getUri('showConfig').'#'.__FUNCTION__);
     }
@@ -368,10 +354,7 @@ class AuthorisationController extends ConfigControllerBase{
         $li=$ul->addLi();
         $li->addLabel()->Content=R::ngets("lb.users");
         $select=$li->addSelect("clUser");
-
        //  Users::select_fetch();
-
-
         $r= Users::select_all(); // igk_db_table_select_where(IGK_TB_USERS, null, $this);
         $cg = Authorizations::select_all(['!clController'=>null], ['Distinct'=>true, 'OrderBy'=>[
             'clController'
@@ -382,7 +365,6 @@ class AuthorisationController extends ConfigControllerBase{
             'empty'=>['text'=>'no controller', 'value'=>0],
             'offset'=>1
         ]);
- 
         $select->add("option");
         if($r) foreach($r as  $v){
             if($v->clLastName == "IGKSystem")
@@ -400,9 +382,6 @@ class AuthorisationController extends ConfigControllerBase{
         $frm->actionbar(FormHelper::submit()); // null, __("Check autorisation")));
         return $d;
     }
-   
-     
-    
     /**
     * Represent getDataTableName function
     */
@@ -423,7 +402,6 @@ class AuthorisationController extends ConfigControllerBase{
             return true;
         return igk_db_is_user_authorized($s, $actionName, $authTable, $userGroupTable);
     }
-   
     /**
     * Represent View function
     */
@@ -475,7 +453,6 @@ class AuthorisationController extends ConfigControllerBase{
         }
         $buri=igk_register_temp_uri(__CLASS__);
         $g_group_uri = $buri.'/list_group_ajx';
-        
         $frm = $n->form($buri."/".__FUNCTION__);
         $frm->div()->notifyhost(__FUNCTION__);
         $frm->ajx();
@@ -524,7 +501,6 @@ class AuthorisationController extends ConfigControllerBase{
     igk.ready(_NS.init);
 })();
 JS;
-         
         return $n;
     }
     public function list_group_ajx(){
@@ -536,8 +512,6 @@ JS;
         ->execute();
         $n = igk_create_notagnode();
         $n->Content = FormHelper::SelectOptions($g->to_array(), "clId", "clName");
-        
         return $n;
-
     }
 }

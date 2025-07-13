@@ -3,8 +3,6 @@
 // @file: IRegexMatchInfo.php
 // @date: 20241102 07:17:37
 namespace IGK\System\Text;
-
-
 /**
 * regex match info
 * @package IGK\System\Text
@@ -16,5 +14,4 @@ namespace IGK\System\Text;
 * @property string $tokenID
 */
 interface IRegexMatchInfo{
-
 }

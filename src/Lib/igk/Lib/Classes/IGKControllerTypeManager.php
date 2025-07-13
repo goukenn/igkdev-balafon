@@ -7,11 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerTypeBase;
 use IGK\Helper\IO;
-
 final class IGKControllerTypeManager{
     static $tabManager;
     public static function GetControllerTypes(){

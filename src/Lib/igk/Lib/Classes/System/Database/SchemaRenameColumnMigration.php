@@ -4,12 +4,10 @@
 // @desc: schema builder helper
 // @date: 20210422 09:09:36
 namespace IGK\System\Database;
-
 use IGK\Database\DbSchemas;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\BooleanQueryResult;
 use IGKEvents;
-
 /**
  * rename column migration
  * @package IGK\System\Database
@@ -46,5 +44,4 @@ class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl::db_rename_column($tb, $this->new_name, $this->column);
     }
-
 }

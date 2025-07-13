@@ -3,13 +3,10 @@
 // @file: IHtmlReadContextOptions.php
 // @date: 20230307 19:31:46
 namespace IGK\System\Html;
-
-
 /**
 * 
 * @package IGK\System\Html
 * @property ?bool $transormToEval
 */
 interface IHtmlReadContextOptions{
-    
 }

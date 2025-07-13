@@ -3,10 +3,8 @@
 // @file: ModelConstantsHelper.php
 // @date: 20230120 12:02:06
 namespace IGK\Models\Traits;
-
 use IGK\Helper\Database;
 use ReflectionClass;
-
 /**
 * class must provide a static $model and static $field_name
 * @package IGK\Models\Traits
@@ -17,7 +15,6 @@ trait ModelTableConstantTrait{
     //  * @var mixed
     //  */
     // protected static $model;
-
     // /**
     //  * field name to use
     //  * @var mixed
@@ -38,7 +35,6 @@ trait ModelTableConstantTrait{
         $fn = igk_getv($cl_vars, 'field_name');
         return $model::GetCache($fn, $value);
     }
-
     /**
      * init data
      * @return void 

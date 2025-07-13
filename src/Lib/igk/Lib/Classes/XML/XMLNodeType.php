@@ -8,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\XML;
-
 abstract class XMLNodeType{
     const CDATA=5;
     const COMMENT=3;
@@ -19,7 +18,6 @@ abstract class XMLNodeType{
     const TEXT=6;
     const INNER_TEXT = 7;
     const DOCTYPE=8;
-
     public static function GetString($i){
         switch($i){
             case self::NONE:

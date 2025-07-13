@@ -3,13 +3,11 @@
 // @file: MakeCommand.php
 // @date: 20230702 16:16:43
 namespace IGK\System\Console\Commands\Modules;
-
 use IGK\System\Console\AppExecCommand; 
 use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Modules
@@ -19,7 +17,6 @@ class MakeClassCommandCommand extends AppExecCommand{
 	var $command='--module:make-command';
 	var $desc='make module\'s command';
     var $category = 'module';
-
 	// var $options=[
 	// 	'--base'=>'flag: enable abstract base-definition'
 	// ];
@@ -28,13 +25,9 @@ class MakeClassCommandCommand extends AppExecCommand{
 		$mod = igk_get_module($module_name) ?? igk_die('missing or not found module');
 		empty($class_name) && igk_die('class name required');
 		$v_base = property_exists($command->options, '--base');
-
-
 		$clpath = igk_str_add_suffix(
 			Path::Combine(\System\Console\Commands::class, $class_name),
 			$v_base ? 'Base' : 'Command');
-
-		 
         $cl = $mod->resolveClass($clpath);
 		$test = false;// property_exists($command->options, "--test");
 		$desc = igk_getv($command->options, '--desc');

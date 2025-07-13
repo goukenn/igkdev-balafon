@@ -3,7 +3,6 @@
 // @file: InitClassBuilder.php
 // @date: 20240921 08:32:29
 namespace IGK\Database\Models\Helper;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\Database;
 use IGK\Helper\StringUtility;
@@ -14,7 +13,6 @@ use IGK\System\Database\JoinTableOp;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\Constants;
-
 /**
  * 
  * @package IGK\Database\Models\Helper
@@ -36,12 +34,10 @@ class InitClassBuilder
         ?callable $property_call_info=null,
         ?callable $arg_call_info=null)
     {
-
         if ($display_expression ){
             // + | --------------------------------------------------------------------
             // + | treat display expression before render 
             // + |
-            
             if(strpos($display_expression,',')){
                 $fc = function($r)use ($prefix){
                     return DbUtility::TreatColumnName($r, $prefix);
@@ -52,9 +48,7 @@ class InitClassBuilder
                 $display_expression = DbUtility::TreatColumnName($display_expression, $prefix);  
                 $display_expression = sprintf('"%s"', $display_expression);
             }
-            
         }
-
         $ns =  $ctrl->getEntryNamespace();
         $uses = [];
         $gc = 0;
@@ -68,7 +62,6 @@ class InitClassBuilder
         }
         $o = "/**\n* table's name\n*/\n";
         $o .= "protected \$table = \"{$table}\";" . PHP_EOL;
-
         if (!$gc && $ctrl) {
             $cl = get_class($ctrl);
             $uses[] = "$cl::class";
@@ -98,18 +91,14 @@ class InitClassBuilder
                 }
             }
             $v_const_name = StringUtility::GetConstantName($v_nn);
-
             if (DbUtils::IsJoinTableLinkCandidate($cinfo)) {
                 $rc = JoinTableOp::class . '::EQUAL';
                 //if (!in_array(JoinTableOp::class, $uses)){
                 //$uses[] = JoinTableOp::class;
                 //}
-
                 $v_js = StringUtility::ConstantToCamelCaseClassName($cinfo->clName);
                 $v_joinMeth[] = sprintf("?array joinOn%s(\$call=null, ?string \$type=null, string \$op=\\" . $rc . ") - macros function ", $v_js);
                 $v_joinMeth[] = sprintf("?string targetOn%s() - macros function", $v_js);
-
-
                 $v_meth_link_canditate .= sprintf(
                     "/** join on expression */\npublic function joinOn%s(\$call=null, ?string \$type=null, string \$op=JoinTableOp::EQUAL):array {\n\t%s\n}",
                     $v_js,
@@ -126,7 +115,6 @@ class InitClassBuilder
                         // 'return [$cl::table()]; '
                     ]),
                 ) . "\n";
-
                 $v_meth_link_canditate .=
                     sprintf(
                         "/**\n * @return string\n*/\npublic function targetOn%s(): string{\n%s\n}\n",
@@ -163,14 +151,11 @@ class InitClassBuilder
                 }
                 $unique_columns[$index][] = $cinfo->clName;
             }
-
             if ($cinfo->clDisplay) {
                 $displays[] = $cinfo->clName;
             }
-
             // + get property type
             $pr_type = $property_call_info ? $property_call_info($cinfo, $ctrl, $prefix) : 'mixed';
-
             if ($desc = trim($cinfo->clDescription ?? '')) {
                 $desc = ' ' . $desc;
             }
@@ -188,7 +173,6 @@ class InitClassBuilder
         if ($helper_constant_call) {
             $php_doc .= $helper_constant_call;
         }
-
         $args = $arg_call_info? $arg_call_info($migrationInfo, $ctrl, $prefix) :null;
         array_map(function ($i) use (&$php_doc) {
             $php_doc .= sprintf("@method static %s", $i) . "\n";
@@ -217,7 +201,6 @@ class InitClassBuilder
             $o .= "/**\n* override refid key \n*/\n";
             $o .= "protected \$refId = \"{$refkey}\";" . PHP_EOL;
         }
-
         if (!empty($hiddens)) {
             $o .= "/**\n*override hidden key\n*/\n";
             $_hidden = "['" . implode("','", $hiddens) . "']";
@@ -237,18 +220,13 @@ class InitClassBuilder
         if ($sdisp_play){
             $o .= "/**\n*override display key\n*/\n";
             $o .= implode("", $sdisp_play);
-
         }
-
         if (!empty($unique_columns)) {
             $o .= "protected \$unique_columns = " . var_export($unique_columns, true) . ";";
         }
-
-
         // + | add method link candidate
         if (!empty($v_meth_link_canditate))
             $o .= "\n" . $v_meth_link_canditate;
-
         $base_ns = implode("\\", array_filter([$ns, "Models"]));
         $o = $const_data . $o;
         $builder = new PHPScriptBuilder();

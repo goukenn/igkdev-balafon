@@ -271,8 +271,10 @@ class RegexMatcherContainerTest extends BaseTestCase
     {
         $container = new RegexMatcherContainer;
         $container->match('^\d+(?=\n)?', 'count');
-        $r = [];
-        $container->treat(implode("\n", range(1, 6)), function ($g, $next_pos) use (&$r) {
+        $src = implode("\n", range(1, 6));
+       
+        $r = []; 
+        $container->treat($src,  function ($g, $next_pos) use (&$r) {
             $r[] = "capture : " . $next_pos . ":" . $g->tokenID . ": " . $g->value;
         });
         $this->assertEquals('["capture : 1:count: 1","capture : 3:count: 2","capture : 5:count: 3","capture : 7:count: 4","capture : 9:count: 5","capture : 11:count: 6"]', json_encode($r));
@@ -282,8 +284,10 @@ class RegexMatcherContainerTest extends BaseTestCase
         $container = new RegexMatcherContainer;
         $container = new RegexMatcherContainer;
         $container->match('^(?=\n)?', 'count');
+        $src = str_repeat("\n", 6);
+        $ln = strlen($src);
         $r = [];
-        $container->treat(str_repeat("\n", 6), function ($g, $next_pos) use (&$r) {
+        $container->treat($src, function ($g, $next_pos) use (&$r) {
             $r[] = ("> : " . $next_pos . ":" . $g->tokenID . ": " . $g->value);
         });
         $this->assertEquals('["> : 1:count: ","> : 2:count: ","> : 3:count: ","> : 4:count: ","> : 5:count: ","> : 6:count: "]', json_encode($r));

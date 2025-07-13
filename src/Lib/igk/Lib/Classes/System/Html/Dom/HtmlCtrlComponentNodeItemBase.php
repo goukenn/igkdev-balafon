@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 use IIGKHtmlComponent;
-
 abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implements IIGKHtmlComponent{
     public function __construct($tag){
         $this->m_controller=igk_getctrl(IGK_COMPONENT_MANAGER_CTRL, true);

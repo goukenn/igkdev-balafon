@@ -4,15 +4,12 @@
 // @desc: Database initialization
 // @date: 20211007 08:31:28
 namespace IGK\System\Database;
-
 use IGK\Controllers\BaseController;
-
 abstract class InitBase{
     const INIT_METHOD = 'Init';
     // + | public static function Init(SourceController $controller){
     // + |      override this to init your database
     // + | }
-
     protected static function InitAuthorisations( string $classname, ?BaseController $owner=null){
         self::_initConstantModel($classname, \IGK\Models\Authorizations::class, $owner, function($v, $cl)use($owner){
             return [
@@ -20,7 +17,6 @@ abstract class InitBase{
                 "clController"=>$cl,
             ];
         });
-       
     }
     protected static function _initConstantModel(string $classname, $modelclass,  ?BaseController $owner=null, ?callable $callback=null){
         $cl = null;

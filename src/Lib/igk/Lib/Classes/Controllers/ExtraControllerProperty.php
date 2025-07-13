@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGKObject;
-
 /**
  * represent an extra property that will be used for custom controller's type configuration
  * @package IGK\Controllers

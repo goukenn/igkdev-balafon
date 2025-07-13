@@ -3,10 +3,8 @@
 // @file: ClassBuilderTrait.php
 // @date: 20230103 22:54:19
 namespace IGK\System\Console\Commands\Traits;
-
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Traits

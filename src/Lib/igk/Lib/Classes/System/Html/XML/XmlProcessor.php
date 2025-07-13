@@ -8,9 +8,7 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\XML;
-
 use IGK\System\Html\HtmlRenderer;
-
 final class XmlProcessor extends XmlNode{
     /**
      * 

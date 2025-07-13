@@ -3,10 +3,8 @@
 // @file: ResponseUtility.php
 // @date: 20250325 21:09:06
 namespace IGK\System\Http;
-
 use Exception;
 use IGKException;
-
 /**
 * shared reponse utility functions
 * @package IGK\System\Http

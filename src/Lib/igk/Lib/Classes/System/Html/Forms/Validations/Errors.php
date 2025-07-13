@@ -3,10 +3,7 @@
 // @file: Errors.php
 // @date: 20231230 09:37:50
 namespace IGK\System\Html\Forms\Validations;
-
 use function igk_resources_gets as __;
-
-
 /**
 * 
 * @package IGK\System\Html\Forms\Validations
@@ -14,8 +11,6 @@ use function igk_resources_gets as __;
 */
 class Errors{
     const DISABLE_ARRAY = 1200;
-
-
     public static function GetErrors($code){
         return [
             self::DISABLE_ARRAY => 'Converter disable array'

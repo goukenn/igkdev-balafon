@@ -3,7 +3,6 @@
 // @file: JSonBindAsAnnotation.php
 // @date: 20250128 15:42:49
 namespace IGK\System\IO\JSon\Annotations;
-
 use IGK\Controllers\BaseController;
 use IGK\System\AnnotationBase;
 use IGK\System\Annotations\PhpDocBlocReader;
@@ -12,7 +11,6 @@ use IGK\System\IO\JSon\JSonBindToConverterBase;
 use IGK\System\IO\JSon\JSonObjClassConverter;
 use IGKException;
 use stdClass;
-
 /**
  * 
  * represent how to bind property when using JSon::Bind
@@ -26,7 +24,6 @@ class JSonBindAsAnnotation extends AnnotationBase
      * @var mixed
      */
     var $type;
-
     /**
      * define whether property must be defined
      * @var ?boolean
@@ -81,7 +78,6 @@ class JSonBindAsAnnotation extends AnnotationBase
             }
         ];
     }
-
     /**
      * 
      * @param mixed $object_or_class 
@@ -109,27 +105,22 @@ class JSonBindAsAnnotation extends AnnotationBase
         $cp = [];
         $reader = new PhpDocBlocReader;
         $uses = $uses ?? AnnotationHelper::GetUses($class_name);
-
         foreach ($reflect->getProperties() as $k) {
             $comment = $k->getDocComment();
             $p = $reader->readDoc($comment, $uses);
             $bindAnnotation = igk_getv(array_filter($p->getAnnotations(), function ($a) {
                 return $a instanceof JSonBindAsAnnotation;
             }), 0);
-
             if ($bindAnnotation) {
                 $cp[$k->getName()] = $bindAnnotation;
             } else {
                 $cp[$k->getName()] = new JSonBindAsAnnotation('mixed');
             }
         }
-
         igk_sys_reflect_class_unset($reflect);
         return $cp;
     }
-
     private static function _ResolveTypeWithListener($v_typeresolve, $converter, $type){
-
         if ($v_typeresolve && !key_exists($type, $converter)){
             $type = $v_typeresolve($type);
         }
@@ -144,9 +135,6 @@ class JSonBindAsAnnotation extends AnnotationBase
     {
         $converter = self::GetBaseConverter();
         $v_typeresolve = $options->resolveTypeListener;
-
-
-
         if (preg_match('/arrayOf<(?P<tname>.+)>/', $this->type, $tab)) {
             $ctype = $tab['tname'];
             if (is_null($value)) {
@@ -176,7 +164,6 @@ class JSonBindAsAnnotation extends AnnotationBase
         } else {
             $ctype = $this->type;
             $ctype = self::_ResolveTypeWithListener($v_typeresolve, $converter, $ctype);
-
             $rc = self::ResolveConverter($converter, $ctype);
             if ($rc) {
                 return $rc($value, $options);

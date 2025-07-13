@@ -1,15 +1,11 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ComposerPackage.php
 // @date: 20230414 15:52:41
 // @desc: 
-
 namespace IGK\System\Composer;
-
 use IGK\Helper\Activator;
 use IGK\System\Composer\Traits\ComposerPackageFileTrait;
-
 /**
  * @package IGK\System\Composer
  */

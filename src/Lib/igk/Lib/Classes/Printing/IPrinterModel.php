@@ -3,9 +3,7 @@
 // @file: IPrinterModel.php
 // @date: 20230202 07:40:14
 namespace IGK\Printing;
-
 use IGK\System\IO\Printer\IPrinterService;
-
 /**
 * 
 * @package IGK\Printing

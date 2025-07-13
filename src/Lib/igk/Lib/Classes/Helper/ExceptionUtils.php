@@ -3,16 +3,12 @@
 // @filename: ExceptionUtils.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Helper;
-
 use Exception;
 use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Resources\R;
 use IGKResourceUriResolver;
 use IGKException;
-
 /**
  * 
  */
@@ -138,9 +134,7 @@ abstract class ExceptionUtils
 })();
 </script>
 EOF;
-
 $end_point = GoogleAPIEndPoints::CssEndPoint;
-
         if (igk_is_ajx_demand()) {
             $doc = <<<EOF
 {$scripts}

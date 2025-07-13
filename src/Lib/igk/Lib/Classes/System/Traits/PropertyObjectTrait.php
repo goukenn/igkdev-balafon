@@ -3,15 +3,12 @@
 // @file: PropertyObjectTrait.php
 // @date: 20241108 16:31:12
 namespace IGK\System\Traits;
-
-
 /**
 * 
 * @package IGK\System\Traits
 * @author C.A.D. BONDJE DOUE
 */
 trait PropertyObjectTrait{
-
     public function __get($key){
         if(method_exists($this, $fc = "get".ucfirst($key))){ 
             return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));

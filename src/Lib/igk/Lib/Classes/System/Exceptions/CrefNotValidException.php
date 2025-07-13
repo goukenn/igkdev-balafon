@@ -3,12 +3,9 @@
 // @filename: CrefNotValidException.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Exceptions;
-
 use IGKException;
 use function igk_resources_gets as __;
-
 /**
  * cref not valid exception
  * @package IGK\System\Security

@@ -3,26 +3,21 @@
 // @file: ScriptConfigData.php
 // @date: 20241123 15:58:18
 namespace IGK\System\Configuration;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\System\ConfigurationFile;
 use IGK\System\IO\Path;
-
 /**
 * 
 * @package IGK\System\Configuration
 * @author C.A.D. BONDJE DOUE
 */
 class ScriptConfigData{
-
     var $main;
-
     public function __construct()
     {
         $this->main = ConfigurationFile::DEFAULT_MAINJS;
     }
-
     /**
      * 
      * @param BaseController $ctrl 

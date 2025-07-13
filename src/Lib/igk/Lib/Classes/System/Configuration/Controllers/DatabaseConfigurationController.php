@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: DatabaseConfigurationController.php
 // @date: 20230526 12:00:34
 // @desc: configuration controller
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -15,7 +12,6 @@ use IGK\System\Html\HtmlNodeBuilder;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
-
 /**
  * manage database actions 
  * @package IGK\System\Configuration\Controllers
@@ -25,7 +21,6 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     {
         parent::__construct(); 
     }
-
     public function getName(){
         return IGK_DB_CONF_CTRL;
     }
@@ -33,7 +28,6 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     { 
         return 'db';
     } 
-
     public function initDbSystem(){
         if (igk_is_conf_connected()){
             SysDbController::initDb();

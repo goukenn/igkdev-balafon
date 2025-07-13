@@ -3,8 +3,6 @@
 // @file: ModuleInfo.php
 // @date: 20230703 10:02:41
 namespace IGK\System\Modules;
-
-
 /**
 * 
 * @package IGK\System\Modules
@@ -15,15 +13,12 @@ class ModuleInfo{
     var $desc;
     var $version;
     var $email;
-
     var $release;
-
     /**
      * 
      * @var ?array required modules
      */
     private $m_require;
-
     /**
      * set require
      * @param null|array $require 

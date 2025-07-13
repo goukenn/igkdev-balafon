@@ -3,10 +3,8 @@
 // @file: ViewLayout.php
 // @date: 20240915 09:53:22
 namespace IGK\System\WinUI;
-
 use IGK\Controllers\BaseController;
 use IGK\Constants;
-
 /**
 * 
 * @package IGK\System\WinUI
@@ -15,13 +13,11 @@ use IGK\Constants;
 class ViewLayout{
     private $m_controller;
     private $m_styleloaded = [];
-
     /**
      * default theme file 
      * @var ?string
      */
     var $defaultThemeStyle = Constants::DEFAULT_THEME_STYLE;
-
     /**
      * get base controller 
      * @return BaseController
@@ -37,7 +33,6 @@ class ViewLayout{
     public function setController(BaseController $value){
         $this->m_controller = $value;
     }
-
     public function isStyleLoaded(string $file){
         return $this->m_styleloaded && key_exists($file, $this->m_styleloaded);
     }

@@ -3,8 +3,6 @@
 // @file: IDbQueryOptions.php
 // @date: 20240914 10:19:09
 namespace IGK\Database;
-
-
 /**
 * 
 * @package IGK\Database
@@ -15,5 +13,4 @@ namespace IGK\Database;
 * @property ?array $OrderBy
 */
 interface IDbQueryOptions{
-
 }

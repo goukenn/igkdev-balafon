@@ -7,14 +7,12 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Css\CssSupport;
 use IGK\Css\ICssAddRule;
 use IGK\Css\ICssStyleContainer;
 use IGK\Css\ICssSupport;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\IToArray;
-
 /**
  * default style definition .
  * @package 
@@ -33,21 +31,16 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     const SYMBOLS_RULE = 3;
     const TEMP_FILES_RULE = 8;
     const SET_FLAG = 19;
-
     /**
      * append same key attribute to merge the same property
      * @var ?bool
      */
     var $noAppendDefinition;
-
-
     /**
      * flag used to disable theme dynamic rendering for controller.
      */
     const ST_NO_THEME_RENDERING_FLAG = 'no_theme_rendering';
     private $_;
-
-
     /**
      * clear property definition 
      * @param string $defname 
@@ -139,7 +132,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     {
         $key = "@supports (" . $rule . ")";
         $trule = &$this->_[self::DECLARED_RULE];
-
         if (isset($trule[$key])) {
             if (($trule[$key] instanceof CssSupport)) {
                 return $trule[$key];
@@ -149,14 +141,12 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
         $trule[$key] = $rule;
         return $rule;
     }
-
     public function getProperties()
     {
         return igk_getv($this->_, self::PROPERTIES);
     }
     public function __get($n)
     {
-
         igk_die(__METHOD__ . " not allowed [{$n}] : ");
     }
     // // public function __serialize(){
@@ -227,7 +217,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
     public function clear()
     {
-
         if ($this->_) { 
             $_state = igk_getv($this->_, self::SET_FLAG);
             $keys = array_keys($this->_);
@@ -417,7 +406,6 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     public function reverseDefinitionProperties()
     {
         if (isset($this->_[self::PROPERTIES])) {
-
             $p = $this->_[self::PROPERTIES];
             $p = array_reverse($p, true);
             $this->_[self::PROPERTIES] = $p;

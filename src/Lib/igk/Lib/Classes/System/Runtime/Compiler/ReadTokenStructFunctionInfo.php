@@ -3,34 +3,26 @@
 // @file: ReadTokenStructFunctionInfo.php
 // @date: 20221020 08:06:25
 namespace IGK\System\Runtime\Compiler;
-
 use IGK\System\IO\StringBuilder;
 use IGKException;
-
 /**
  * 
  * @package IGK\System\Runtime\Compiler
  */
 class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
 {
-
-
     var $condition;
-
     /**
      * params arguments
      * @var array
      */
     var $args = [];
-
     var $return;
-
     /**
      * ref function 
      * @var bool
      */
     var $refFunc = false;
-
     /**
      * is abstract
      * @var false
@@ -75,7 +67,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
             if (is_null($this->phpDoc)) {
                 $this->phpDoc = $this->generatePhpDoc($options);
             }
-
             $phpDoc = $this->phpDoc ?? "/**\n* \n*/";
             $sb->appendLine($comment);
             $sb->appendLine($phpDoc);
@@ -100,7 +91,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
             $sb->appendLine(";");
         } else {
             $sb->appendLine("{");
-
             if ($this->variables){
                 if (!empty($meth = rtrim(ReadTokenUtility::GenerateVariables($this->variables, $merge, $this->type)))){
                     $sb->appendLine($meth); 
@@ -126,7 +116,6 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
     {
         return $this->getIsAnonymous();
     }
-
     public function generatePhpDoc($options)
     {
         $sb = new StringBuilder();

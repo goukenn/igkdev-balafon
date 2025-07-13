@@ -3,8 +3,6 @@
 // @file: FormValidationFieldPropsBase.php
 // @date: 20231229 16:01:23
 namespace IGK\System\Html\Forms\Validations;
-
-
 /**
 * 
 * @package IGK\System\Html\Forms\Validations
@@ -25,13 +23,11 @@ abstract class FormValidationFieldPropsBase{
      * @var mixed
      */
     var $allowNull;
-
     /**
      * allow empty value
      * @var ?bool
      */
     var $allowEmpty;
-
     /**
      * 
      * @var ?ObjectStorage of the field information

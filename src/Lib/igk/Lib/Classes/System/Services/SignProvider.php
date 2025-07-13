@@ -3,17 +3,13 @@
 // @filename: SignProvider.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Services;
-
 use IGK\Models\Users;
 use IGK\System\Services\Auth\AuthSignInfo;
 use IGKEvents;
 use IGKException;
 use IGKObjStorage;
 use Illuminate\Contracts\Container\BindingResolutionException;
-
-
 /**
  * sign provider helper with oauth
  */
@@ -36,7 +32,6 @@ class SignProvider{
             $tab[$k->getProviderName()] = $k;
         } 
     }
-
     /**
      * check if provider contains registered signin information
      * @return bool 
@@ -53,7 +48,6 @@ class SignProvider{
      * @throws BindingResolutionException 
      */
     public static function Unregister(string $name){
-
         $tab = & igk_environment()->createArray(self::ENV_KEY);
         unset($tab[$name]);
     }
@@ -79,7 +73,6 @@ class SignProvider{
         $tab = & igk_environment()->createArray(self::ENV_KEY);
         return igk_getv($tab, $provider);
     }
-
     /**
      * bind redirect uri
      * @param mixed $redirect_uri 

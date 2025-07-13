@@ -3,9 +3,7 @@
 // @file: CssMapTheme.php
 // @date: 20221230 19:31:10
 namespace IGK\System\Html\Css;
-
 use IGKMedia;
-
 /**
 * 
 * @package IGK\System\Html\Css
@@ -15,7 +13,6 @@ class CssMapTheme{
     var $lk;
     var $is_primaryTheme;
     var $skipProperty;
-
     public function __construct(IGKMedia $media, $is_primaryTheme, $lk)
     {
         $this->media = $media;
@@ -47,7 +44,6 @@ class CssMapTheme{
             }
             CssUtils::TreatCssDefinition($v, $k, $g, $is_primaryTheme, $lk, $v_source_defs);
         }, $tab, array_keys($tab));
-
         $this->media->clear();
         $this->media->load_data(['def'=>$g]);
     }

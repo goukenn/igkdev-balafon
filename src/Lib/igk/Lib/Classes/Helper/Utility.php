@@ -3,16 +3,11 @@
 // @filename: Utility.php
 // @date: 20220803 13:48:58
 // @desc: utility helper
-
 namespace IGK\Helper;
-
 use Exception; 
 use IGK\System\Http\RequestUtility;
 use stdClass;
-
 abstract class Utility {
-  
-
     public static function PostCref(callable $callback, $valid=1, $method="POST"){
         if (igk_server()->method($method) && igk_valid_cref($valid)){
             return $callback();
@@ -58,7 +53,6 @@ abstract class Utility {
     public static function To_JSON($raw , $options=null, $json_option = JSON_UNESCAPED_SLASHES){
         return JSon::Encode($raw, $options, $json_option);       
     }
-
     /**
      * 
      * @param string $clasname 

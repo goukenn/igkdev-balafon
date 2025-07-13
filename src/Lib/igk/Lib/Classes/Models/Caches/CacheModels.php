@@ -3,11 +3,8 @@
 // @filename: CacheModels.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\Models\Caches;
-
 use IGK\Models\ModelBase;
-
 /**
  * chache model result
  * @package IGK\Models\Caches

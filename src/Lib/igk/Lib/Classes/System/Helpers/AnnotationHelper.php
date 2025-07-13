@@ -3,7 +3,6 @@
 // @file: AnnotationHelper.php
 // @date: 20230731 09:43:36
 namespace IGK\System\Helpers;
-
 use Exception;
 use IGK\Constants; 
 use IGK\System\Annotations\PhpDocBlocReader;
@@ -13,7 +12,6 @@ use IGKException;
 use ReflectionMethod;
 use ReflectionProperty;
 use Reflector;
-
 /**
  * 
  * @package IGK\System\Helper
@@ -22,7 +20,6 @@ final class AnnotationHelper
 {
     const REGEX_USES = "/use\s+(?P<name>[^\s;]+)(\s+as\s+(?P<alias>[^\s+;]+))?/im";
     private static $sm_cacheData;
-
     private static function &_GetCacheData()
     {
         return self::$sm_cacheData;
@@ -146,14 +143,12 @@ final class AnnotationHelper
         $ref = igk_sys_reflect_class($class_name);
         $v_fn = $ref->getFileName();
         $cache_data = &self::_GetCacheData();
-
         if (isset($cache_data[$v_fn])) {
             $v_info = $cache_data[$v_fn];
             if (intval(filemtime($v_fn)) <= $v_info->timestamp) {
                 return $v_info->annotations;
             }
         }
-
         $v_tq = [[$v_fn, $ref]];
         $v_uses = [];
         $v_source = [];
@@ -167,7 +162,6 @@ final class AnnotationHelper
                     $a = $tab['alias'][$i];
                     $v_uses[$n] = basename(igk_uri(empty($a) ? $n : $a));
                     $v_update_class($v_uses, $n);
-
                 }
             }
             $v_source[$v_fn] = 1;
@@ -183,7 +177,6 @@ final class AnnotationHelper
                 }
             }, $utraist);
         }
-
         // + |  autoload the class defined in the class 
         $tb = get_declared_classes();
         array_map(function ($c) use ($v_fn, &$v_uses, $v_update_class) {
@@ -191,11 +184,8 @@ final class AnnotationHelper
             if ($ref->getFileName() == $v_fn) {
                 $v_uses[$c] = basename(igk_dir($c));
                 $v_update_class($v_uses, $c);
-
             }
         }, $tb);
-
-       
         return $v_uses;
     }
     /**
@@ -218,9 +208,7 @@ final class AnnotationHelper
             }
             return $class ? self::GetUses($class) : [];
         };
-
         $v_uses = $v_use ?? $ref_class($method);
-
         $comment = $method->getDocComment();
         if ($comment) {
             $reader = new PhpDocBlocReader;
@@ -264,7 +252,6 @@ final class AnnotationHelper
     {
         $info = self::GetClassAnnotations($class_name);
         $pinfo = igk_getv($info, 0);
-
         return (object)[
             'count' => 0,
             'class' => $class_name,
@@ -273,7 +260,6 @@ final class AnnotationHelper
             'multiple' => $pinfo ? $pinfo->multiple : true,
         ];
     }
-
     /**
      * get property annotations 
      * @var mixed $obj name or class
@@ -288,7 +274,6 @@ final class AnnotationHelper
         $p = $reader->readDoc($comment, $uses);
         return $p->getAnnotations();
     }
-
     /**
      * retrieve the full class depending on 
      * @param mixed $class_name 

@@ -3,11 +3,8 @@
 // @filename: SchemaBuilderMigration.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Database;
- 
 use IGKException;
-
 /**
  * update schema migrations
  * @package IGK\System\Database
@@ -24,7 +21,6 @@ class SchemaBuilderMigration{
      * @var mixed
      */
     private $items; 
-
     /**
      * migration info listener 
      * @var ?IMi
@@ -78,5 +74,4 @@ class SchemaBuilderMigration{
     }
     public function __construct(){
     }
-     
 }

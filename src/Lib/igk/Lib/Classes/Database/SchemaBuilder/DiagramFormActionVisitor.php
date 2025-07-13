@@ -3,14 +3,11 @@
 // @filename: DiagramFormActionVisitor.php
 // @date: 20220531 13:34:45
 // @desc: build data schema visitor.
-
 namespace IGK\Database\SchemaBuilder;
- 
 use IGK\Database\DbSchemas;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\IO\File\PHPScriptBuilder;
 use Illuminate\Database\Eloquent\Builder;
-
 /**
  * 
  * @package igk\db\schemaBuilder
@@ -19,7 +16,6 @@ class DiagramFormActionVisitor extends DiagramVisitor{
     private $visitor_items = [];
     var $builder;
     var $ctrl;
-
     public function __construct($ctrl)
     {
         $this->ctrl = $ctrl;
@@ -52,11 +48,8 @@ class DiagramFormActionVisitor extends DiagramVisitor{
                 // $ul->setAttributes($r); 
             }
         }
-
 $_to[] = '});';
-
         $o .= implode("\n", $_to).PHP_EOL; 
         $this->builder->defs = $this->builder->defs.$o;
-        
     }
 }

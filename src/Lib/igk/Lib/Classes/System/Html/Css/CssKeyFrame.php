@@ -3,13 +3,11 @@
 // @file: CssKeyFrame.php
 // @date: 20221202 10:24:25
 namespace IGK\System\Html\Css;
-
 use Error;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Css\Traits\RenderDefinitionTrait;
 use IGKException;
 use ReflectionException;
-
 /**
 * 
 * @package IGK\System\Html\Css

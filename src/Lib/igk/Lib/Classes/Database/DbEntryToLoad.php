@@ -7,11 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Database;
-
 use IGKObject;
-
 final class DbEntryToLoad extends IGKObject{
     var $ctrl, $entries, $tablename;
     public function __construct($ctrl, $tablename, $entries){

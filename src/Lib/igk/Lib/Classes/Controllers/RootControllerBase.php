@@ -3,10 +3,7 @@
 // @filename: RootControllerBase.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Controllers;
-
 use Closure;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
@@ -19,7 +16,6 @@ use IGKObject;
 use IGKType;
 use ReflectionException;
 use ReflectionFunction;
-
 require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerEnvParams.php';
 require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
 /**
@@ -36,12 +32,10 @@ require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
 abstract class RootControllerBase extends IGKObject{
 	static $macros;
     protected static $func_defs;
-    
     const MACRO_INITDB_METHOD = 'initDb';
     const MACRO_RESETDB_METHOD = 'resetDb';
     const MACRO_INVOKE_METHOD = 'invokeMacros';
     const MACRO_GET_DB_METHOD = 'getDb';
-
     public function __construct(){        
     }
     public function __debugInfo()
@@ -63,7 +57,6 @@ abstract class RootControllerBase extends IGKObject{
         }         
         return igk_auto_load_class($n, $entryNS, $classdir);
     }
-   
 	/**
     * 
     */
@@ -97,8 +90,6 @@ abstract class RootControllerBase extends IGKObject{
     public final static function getMacro($name){
         return igk_getv(self::$macros, $name);
     }
-
-    
     /**
      * macros override
      * @param mixed $name 
@@ -132,11 +123,9 @@ abstract class RootControllerBase extends IGKObject{
         }
 		$c = $c ? $c : igk_getctrl(static::class); 
         $k = static::class."/".$name;
-		 
 		if (isset($func_defs[$k]) || isset(self::$macros[$name])){
             if (!isset($func_defs[$k])){
                 $fc = self::$macros[$name];
-
                 if (is_array($fc) && (count($fc)>2)){
                     $fc = array_slice($fc, 0, 2);
                     $fc = Closure::fromCallable(self::$macros[$name]);
@@ -162,7 +151,6 @@ abstract class RootControllerBase extends IGKObject{
             array_unshift($arguments, $c);
 			return $fc(...$arguments);
 		} 
-		
 		//if ($name == "getComponentsDir"){
 			// method is probably protected
 		if (!$v_macro && !igk_environment()->get(static::class.'/bypass_method') && method_exists($c, $name)){
@@ -191,7 +179,6 @@ abstract class RootControllerBase extends IGKObject{
         array_unshift($argument, $this);
         return static::__callStatic($name, $argument);
     }
-
     /**
      * get response or get environment params
      * @param mixed $name 
@@ -203,7 +190,6 @@ abstract class RootControllerBase extends IGKObject{
         }
         return $this->getEnvParam($name);
     }
-
     /**
      * set environment parameter
      * @param mixed $name 
@@ -214,23 +200,18 @@ abstract class RootControllerBase extends IGKObject{
         if (!$this->_setIn($name, $value)){   
            // self::$sm_bindController = $this;
            // passing object to setEnvParam - no getctrl required
-        
            $this->__callStatic('invokeMacros', ['setEnvParam', $this, $name, $value]);
            // setEnvParam($name, $value);
            // self::$sm_bindController = null;
         }
         return $this;
     }
-
 	abstract function View();
-
-
     /**
      * get application manager instance
      *  @return IGKApp  
      * */
 	public function getApp(){ return IGKApp::getInstance(); }
-
     /**
      * return system document
      * @return mixed 
@@ -238,7 +219,6 @@ abstract class RootControllerBase extends IGKObject{
     public function getDoc(){
         return $this->getApp()->getDoc();
     }
-
 	 /**
     * getfull uri
     */
@@ -291,7 +271,6 @@ abstract class RootControllerBase extends IGKObject{
             $out=igk_io_read_allfile($f);
             if($evalExpression){
                 $out = igk_html_treat_content($out, $this, $row)->render();
-                
             }
             return $out;
         }
@@ -330,15 +309,12 @@ abstract class RootControllerBase extends IGKObject{
     public function getBaseUri(){
         return $this->getEnvParam("fulluri") ?? $this->getAppUri($this->currentView);
     }
-
     /**
      * override this to initialize context
      * @return void 
      */
     protected function initComplete($context = null){
     }
-
-   
     /***
      * create controller an 
      */

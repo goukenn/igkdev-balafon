@@ -3,16 +3,12 @@
 // @filename: WebInitComponentInsterfaceCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\PhpHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use ReflectionFunction;
-
 // class WebInitComponentInsterfaceCommand extends AppExecCommand
 // {
 //     var $command = "--web:init-component";
@@ -29,5 +25,4 @@ use ReflectionFunction;
 //         igk_io_w2file($file, $s);    
 //         Logger::success("done");
 //     }
-
 // }

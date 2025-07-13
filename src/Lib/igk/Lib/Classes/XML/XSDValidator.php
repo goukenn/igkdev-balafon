@@ -3,12 +3,8 @@
 // @filename: XSDValidator.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\XML;
-
 use DOMDocument;
-
 class XSDValidator
 {
     /**
@@ -26,7 +22,6 @@ class XSDValidator
         if ($error !== null) {
             libxml_use_internal_errors(true);
         }
-        
         if ($success = !$dom->schemaValidateSource($xsd)) {
             $errors = libxml_get_errors();      
             foreach ($errors as $error) {
@@ -45,14 +40,11 @@ class XSDValidator
             }
         }
         return !$success;
-        
     }
     /**
      * @return ?bool
      */
     public static function ValidateSourceUri(string $source, string $uri): ?bool{
-       
-        
         if ($g = @file_get_contents($uri)){
             if (!XSDValidator::ValidateSource($source, $g)){
                 igk_ilog(" not a good validator ");

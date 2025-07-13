@@ -3,8 +3,6 @@
 // @file: HtmlCloneNode.php
 // @date: 20230329 11:52:57
 namespace IGK\System\Html\Dom;
-
-
 /**
 * host for rendering element 
 * @package IGK\System\Html\Dom
@@ -13,7 +11,6 @@ class HtmlCloneNode extends HtmlNode{
     var $target;
     var $tagname ='igk-clone-node';
     var $children= false;
-
     public function __construct(HtmlItemBase $c){
         if ($c instanceof static){
             igk_die("not allowed to clone a clone. ");

@@ -3,7 +3,6 @@
 // @file: DbUtility.php
 // @date: 20230118 11:28:43
 namespace IGK\System\Database\Helper;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbExpression;
@@ -16,14 +15,12 @@ use IGK\System\Database\DbReverseMappingLink;
 use IGK\System\Html\Dom\HtmlNode;
 use IGKException;
 use IGKSysUtil;
-
 /**
  * database helper utility class 
  * @package IGK\System\Database\Helper
  */
 abstract class DbUtility
 {
-
     public static function EscapeSlashesValueForJSonDetection(string $value){        
         return str_replace("/", "\\\\\\\\/", $value);
     }
@@ -70,7 +67,6 @@ abstract class DbUtility
         }
         return $columnName;
     }
-
     /**
      * remove column prefix key 
      * @param string $columnName 
@@ -150,7 +146,6 @@ abstract class DbUtility
      */
     public static function BackupDataSchema(BaseController $ctrl, $defentries)
     {
-
         $tb = igk_db_get_ctrl_tables($ctrl);
         $schema = igk_html_node_dbdataschema();
         $apt = $ctrl->getDataAdapter();
@@ -169,7 +164,6 @@ abstract class DbUtility
         }
         return $schema;
     }
-
     /**
      * get link column name 
      * @param string $table 
@@ -195,7 +189,6 @@ abstract class DbUtility
         }
         return null;
     }
-
     /**
      * treat value conditions
      * @param mixed $columns 
@@ -269,14 +262,12 @@ abstract class DbUtility
                     $f->columns = $s;
                     $f->table = $tb;
                     $f->model = DbCaches::GetTableInfo($tb)->model();
-
                     $r[$k] = $f;
                 }
             }
         }
         return $r;
     }
-
     /**
      * preparent condition list to avoid duplicate
      * @param mixed $columns 
@@ -292,11 +283,9 @@ abstract class DbUtility
                 continue;
             }
             $tv = igk_getv($condition, $v->clName);
-
             if ($tv instanceof ModelBase){
                 $clinfo = $v->clLinkColumn;
                 $tv = $tv->{$clinfo};
-
             }  
             if ($v->clIsUnique) {
                 if (!is_null($tv) || $v->clNotNull){                    
@@ -326,7 +315,6 @@ abstract class DbUtility
                     continue;
                 $reg[$s] = 1;
                 $tab[] = DbConditionExpressionBuilder::Create($t);
-
             }
         }
         return $tab;

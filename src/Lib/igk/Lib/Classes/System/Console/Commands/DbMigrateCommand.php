@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: DbMigrateCommand.php
 // @date: 20221111 22:30:40
 // @desc: 
-
 namespace System\Console\Commands;
-
 use com\igkdev\projects\AppBalafon\AppBalafonConstants;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
@@ -19,27 +16,20 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGKModuleListMigration;
-
 !defined('IGK_CONSOLE_HTRAIT') &&  define('IGK_CONSOLE_HTRAIT', str_repeat('-', 60));
 class DbMigrateCommand extends AppExecCommand
 {
     const H_TRAIT = IGK_CONSOLE_HTRAIT;
     var $command = '--db:migrate';
-
     var $category = 'db';
-
     var $desc = 'migration command';
-
     var $options = [
         '--no-clear-db-cache'=>'flag: do not clear db cache',
         '--force'=>"flag: force module class creation"
     ];
-
-
     public function showUsage(){
         parent::showCommandUsage('controller [options]');
     }
-
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);
@@ -69,7 +59,6 @@ class DbMigrateCommand extends AppExecCommand
         Logger::print(self::H_TRAIT);
         Logger::info("Do migration ");
         Logger::print(self::H_TRAIT."\n");
-
         if (!property_exists($command->options, '--no-clear-db-cache')){
             igk_ilog('clear db caches');
             DBCaches::Clear();

@@ -3,11 +3,7 @@
 // @filename: HtmlBodyMainScript.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
-
 /**
  * 
  * @package IGK\System\Html\Dom
@@ -28,14 +24,12 @@ class HtmlBodyMainScript extends HtmlScriptNode{
             } else {
                 $this->m_scripts[$key]=$script;
             }
-            
         }
         return igk_count($this->m_scripts);
     }
      public function addScriptNode($id, $n){
         return $this->m_bodyMainScript->addScriptNode($id, $n);
     }
- 
     public function appendScript($scriptFile){
         return $this->appendScript($scriptFile);
     }
@@ -60,7 +54,6 @@ public function getScriptAt($index){
         // avoid defering on script
         $this->activate('defer');
     }
-     
     protected function _getRenderingChildren($options = null)
     {
         return array_filter([ 
@@ -81,7 +74,6 @@ public function getScriptAt($index){
  */
 final class SourceScriptRenderer extends HtmlNode{
     private $m_scripts;
-
     public function __construct($scripts)
     {
         $this->m_scripts = $scripts;
@@ -89,5 +81,4 @@ final class SourceScriptRenderer extends HtmlNode{
     public function render($options = null) { 
         return $this->m_scripts ? implode("\n", array_values($this->m_scripts )) : null;
     }
-
 } 

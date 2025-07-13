@@ -3,13 +3,10 @@
 // @filename: RequestException.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
 use Exception;
 class RequestException extends \IGKException{
     protected $status;
- 
     public function __construct($code, $message="", ?\Throwable $previous=null)
     {
         if (empty($message)){

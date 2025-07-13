@@ -13062,5 +13062,15 @@ Name:balafon.js
     var _udef = 'undefined';
     // special functions
     ns_igk.__REFID__ = __version;
-    ns_igk._$exists = function (n) { return typeof (igk.system.getNS(n)) != _udef; };  
+    ns_igk._$exists = function (n) { return typeof (igk.system.getNS(n)) != _udef; };
+
+    // for meta 
+        $igk.module = {
+            metaSearchParam(meta, key, d) {
+                d = d || '';
+                let l = (new URL(meta.url));
+                return decodeURIComponent(l.searchParams.get(key) || d) || d;
+            }
+        };
+    
 })(window);

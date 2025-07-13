@@ -3,51 +3,42 @@
 // @file: RegexMatcherPattern.php
 // @date: 20241031 10:36:35
 namespace IGK\System\Text;
-
 use ArrayAccess;
 use IGK\Helper\Activator;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
 use IGKObject;
+use JsonSerializable;
 
 /**
 * 
 * @package IGK\System\Text
 * @author C.A.D. BONDJE DOUE
 */
-class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatcherContainer{
+class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatcherContainer, JsonSerializable{
     use ArrayAccessSelfTrait;
-
     const MATCH_TYPE = 'match';
     const BEGIN_END_TYPE = 'begin/end';
     const BEGIN_WHILE_TYPE = 'begin/while';
-    var $type;
+    // var $type;
     var $tokenID;
     var $begin;
     var $end;
     var $match;
     var $refid;
     var $while;
-
-    // public function getType(){
-    //     return $this->m_type;
-    // }
-    // public function setType($v){
-    //     $this->m_type = $v;
-    // }
-    /**
+    var $name;
+    var $description;
+ /**
      * 
      * @var ?array
      */
     var $beginCaptures;
-
     /**
      * 
      * @var ?array
      */
     var $endCaptures;
-     
-
     /**
      * array to captures before send to 
      * @var ?array
@@ -58,13 +49,25 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @var null|Array|RegexMacherPattern[]
      */
     var $patterns;
-
     /**
      * 
      * @var mixed
      */
     private $m_matcher;
+    private $m_type;
 
+    public function jsonSerialize(): mixed {
+        $l = (object)(array)$this;
+        unset($l->type);
+        return $l;
+     }
+    public function getType(){
+        return $this->m_type;
+    }
+    public function setType($v){
+        $this->m_type = $v;
+    }
+   
     protected function _access_OffsetGet($n){
         return $this->{$n};
     }
@@ -79,7 +82,6 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     public function getMatcher(){
         return $this->m_matcher;
     }
-
     /**
      * create a new matcher page 
      * @return static 
@@ -147,14 +149,12 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
         ];
         return $g;
     }
-
     /**
      * append
      * @param RegexMatcherPattern $c 
      * @return void 
      */
     public function append(RegexMatcherPattern $c){
-
         if($c->m_matcher === $this->m_matcher){
             if (is_null($this->patterns))
                 $this->patterns = [];

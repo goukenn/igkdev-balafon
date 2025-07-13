@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: theme_functions.php
 // @date: 20220805 17:02:34
 // @desc: 
-
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-
 /**
  * 
  * @param string $propety
@@ -20,7 +17,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 function igk_theme_screen_mark($property, $style, $prefix = '.igk-')
 {
     extract(igk_environment()->last(IGKEnvironmentConstants::CSS_UTIL_ARGS) ?? []);
-
     $xsm_screen[$prefix . "xsm-sm-$property"] =
         $xsm_screen[$prefix . "xsm-sm-lg-$property"] =
         $xsm_screen[$prefix . "xsm-sm-lg-xlg-$property"] =
@@ -48,8 +44,6 @@ function igk_theme_screen_mark($property, $style, $prefix = '.igk-')
         $xxlg_screen[$prefix . "xlg-xxlg-$property"]
         = $style;
 }
-
-
 if (false == function_exists('import')){
     /**
      * 

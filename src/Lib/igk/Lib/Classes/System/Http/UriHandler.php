@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\System\Http;
-
 use Error;
 use Exception;
 use IGK\ApplicationLoader;
@@ -23,7 +21,6 @@ use IGKException;
 use IGKSubDomainManager;
 use IGKValidator;
 use ReflectionException;
-
 require_once __DIR__ . "/BaseUriHandler.php";
 require_once IGK_LIB_CLASSES_DIR . '/ApplicationLoader.php';
 /**
@@ -37,7 +34,6 @@ class UriHandler extends BaseUriHandler
     {
         ApplicationLoader::getInstance()->bootApp($this->m_application);
     }
-
     /**
      * 
      */
@@ -83,7 +79,6 @@ class UriHandler extends BaseUriHandler
      */
     protected function _favicon()
     {
-
         igk_set_header(
             200,
             'ok',
@@ -126,7 +121,6 @@ class UriHandler extends BaseUriHandler
         // + | leave site map for handling by Project
         // + | 
     }
-
     /**
      * init caching style
      * @return void 
@@ -151,13 +145,11 @@ class UriHandler extends BaseUriHandler
         \IGK\ApplicationLoader::InitConstants();
         $v_host = $host ?? self::RetrieveServerHost();
         if ($v_host && preg_match('/([a-z0-9\-_]+)(\.[a-z0-9\-_]+){2,}/', $v_host)) {
-
             if (IGKValidator::IsIpAddress($v_host)){                 
                 $domain = $v_host;
             }else {
                 $domain = implode('.', array_slice(explode('.', $v_host), 0, -2));
             }
-
             if (defined('IGK_SUBDOMAIN_URI_LIST')) {
                 $g = constant('IGK_SUBDOMAIN_URI_LIST');
                 if (is_string($g)) {
@@ -289,7 +281,6 @@ class UriHandler extends BaseUriHandler
             //     }
             //     igk_wln_e(__FILE__ . ":" . __LINE__, $v_tab, $v_subdomain);
             // }
-
             if (($v_subdomain) && is_object($v_subdomain)) {
                 if ($bootload) {
                     $bootload();
@@ -309,7 +300,6 @@ class UriHandler extends BaseUriHandler
         }
         return parent::Handle($uri, $app, $bootload);
     }
-
     /**
      * 
      */

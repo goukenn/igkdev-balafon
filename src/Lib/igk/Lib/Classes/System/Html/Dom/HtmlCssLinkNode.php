@@ -7,11 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
-
 namespace IGK\System\Html\Dom;
-
-
 class HtmlCssLinkNode extends HtmlNode{
     protected function _acceptRender($options = null):bool{
         if($this->system && $options && ($options->Context == "mail")){
@@ -25,7 +21,6 @@ class HtmlCssLinkNode extends HtmlNode{
     public function __construct($link, $system=false, $defer=0){
         parent::__construct("igk-css-link");
         $ln = self::CreateWebNode("link"); 
-         
         $ln["type"]="text/css";
         $ln["rel"]="stylesheet";
         if($defer)
@@ -34,7 +29,6 @@ class HtmlCssLinkNode extends HtmlNode{
         $ln->cache=false;
         $ln->system=$system;
         $this->setln($ln);  
-      
     }
     public function getCanRenderTag()
     {
@@ -50,7 +44,6 @@ class HtmlCssLinkNode extends HtmlNode{
     public function getCache(){
         return $this->ln->cache;
     }
-     
     public function getlink(){
         return $this->ln->link;
     }

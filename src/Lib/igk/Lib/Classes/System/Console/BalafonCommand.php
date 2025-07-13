@@ -1,14 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: BalafonCommand.php
 // @date: 20220605 01:21:10
 // @desc: command
-
 namespace IGK\System\Console;
-
 use IGK\System\Shell\OsShell;
-
 /**
  * 
  * @package IGK\System\Console
@@ -20,7 +16,6 @@ class BalafonCommand{
      */
     protected function __construct()
     {
-        
     }
     /**
      * execute balafon command
@@ -34,7 +29,6 @@ class BalafonCommand{
         }
         $c = new static();
         return $c->run($commandArgs);
-        
     }
     /**
      * return command args

@@ -3,16 +3,12 @@
 // @filename: IGKCSVDataAdapter.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
 use IGK\Database\DataAdapterBase;
 use IGK\Database\IDbQueryResult;
 use IGK\Helper\IO;
 use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\IO\CSV\Helper\CSVHelper;
-
 /**
 * Represent IGKCSVDataAdapter class
 */
@@ -20,46 +16,33 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     private $m_ctrl;
     private $m_dbname;
     private $m_fhandle;
-
     const DELIMITER = '"';
     const SEPARATOR = ',';
-
     public function queryColumnCharset(string $charset): ?string { 
         return PHP_EOL;
     }
-
     public function setForeignKeyCheck($flag) { }
-
     public function allowTypeLength(string $type, ?int $length = null): bool { 
         return in_array($type, ['int','varchar']);
     }
-    
     public function remove_foreign(string $name, string $column): ?string { return null; }
-
     public function setSendDbQueryListener(?IDbSendQueryListener $listener) { }
-
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return null; }
-
     public function getDateTimeFormat(): string {
         return IGK_MYSQL_TIME_FORMAT;
     }
-
     public function exist_column(string $table, string $column, $db = null): bool {
         return false;
      }
-
     public function getVersion(): string { 
         return IGK_VERSION;
     }
-
     public function getType(): string {
         return 'CSV';
      }
-
     public function listTables() {
         return ['name'=>['csv_file']];
      }
-
     /**
      * no query allowed
      * @param string $query 
@@ -71,73 +54,56 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function sendQuery($query, $throwex = true, $options = null, $autoclose = false) {
         return false;
      }
-
     public function constraintForeignKeyExists(string $name): bool { 
         return false;
     }
-
     public function tableExists(string $table, bool $throwex = false): bool {
         return false;
      }
-
     public function getIsConnect(): bool {
         /** allway return true*/
         return true;
     }
-
     public function constraintExists(string $name): bool {
         return false;
     }
-
     public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column,string $dbname): string {
         return "";
     }
-
     public function getCreateTableFormat(?array $options = null): ?string {
         return null;
     }
-
     public function filterColumn($columninfo, $value): bool { 
         return false;
     }
-
     public function getDbName(): ?string { 
         return "file://csv";
     }
-
     public function escape_table_name(string $v): string {
         return  $v;
     }
-
     public function escape_table_column(string $v): string { 
         return $v;
     }
     public function isTypeSupported(string $type): bool {
         return true;
      }
-
     public function escape(?string $column=null): string {
         return $column;
      }
-
     public function supportDefaultValue(string $type): bool {
         return false;
      }
-
     public function isAutoIncrementType(string $type): bool { 
         return false;
     }
-
     public function getDataValue($value, $tinf) { }
-
     public function getParam(string $key, $rowInfo = null, $tableInfo = null): ?string {
         return null;
      }
-
     public function getDataTableDefinition(string $tablename) { 
         return null;
     }
-
     public function last_error() {
         return null;
      }
@@ -165,7 +131,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      */
 	public function escape_string(?string $v = null):string{
         // same as XMLDataAdapter 
-  
         $v = stripslashes($v);
         return addslashes($v); 
 	}
@@ -225,7 +190,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
                         $v = $json;
                     }
                 } else if ($v_is_read_serialize && preg_match("/^[^:]+:[^:]+:\{/", $v, $b)){
-
                     // possible serialized data
                     // a:3:{i:1;a:1:{s:5:"title"}}}
                     $v_s = $b[0];
@@ -240,12 +204,9 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
                         igk_ilog([
                             'failed to unserialize',
                             $m
-
                         ]);
                         igk_die('faile to unserialize data ');
                     }          
-
-
                 }
                 else{
                     $v = stripslashes($v);
@@ -255,7 +216,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
                 $wait = true;
             }else{
                 if ($ch == $sep){
-                    
                     if (!empty($v)){
                         $tab[] = trim($v);
                         $v = '';
@@ -274,9 +234,6 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
             $tab[] = $v;
         }
         return $tab;
-
-
-        
     }
     /**
     * 
@@ -357,14 +314,12 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
         $sep = ($options ? igk_getv($options, "separator"): null) ?? self::SEPARATOR; 
         $delimeter = ($options ? igk_getv($options, "delimiter"): null) ?? self::DELIMITER;
         $flags = ($options ? igk_getv($options, "flags"): null) ?? 0;
-
         $filter = igk_getv($options, "filter", function(){
             return function(){
                 return true;
             };
         });
         igk_csv_readline($txt, '"', $last, function($line)use($sep, & $entries, $filter, $delimeter, $flags){
-            
             $tab = self::_CSVReadLine($line, $sep, $flags);
             if ($filter($tab)){
                 $entries[] =$tab;
@@ -372,11 +327,8 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
             return true;
         }, $flags);
         return $entries;
-
-
         // $lines=explode(IGK_LF, $txt);
         // $entries=array();
-      
         // foreach($lines as $l){
         //     if(empty($l)){
         //         continue;

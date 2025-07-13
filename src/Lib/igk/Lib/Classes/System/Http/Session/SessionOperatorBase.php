@@ -3,8 +3,6 @@
 // @file: SessionOperatorBase.php
 // @date: 20221010 01:48:40
 namespace IGK\System\Http\Session;
-
-
 /**
 * 
 * @package IGK\System\Http\Session

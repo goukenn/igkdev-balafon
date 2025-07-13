@@ -3,7 +3,6 @@
 // @file: InitDbCommand.php
 // @date: 20230703 12:55:25
 namespace IGK\System\Console\Commands\Database;
-
 use Exception;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\SysUtils;
@@ -15,7 +14,6 @@ use IGK\System\Console\Logger;
 use IGKException;
 use IGKModuleListMigration;
 use L81Controller;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Database
@@ -30,7 +28,6 @@ class InitDbCommand extends AppExecCommand{
 	];
 	var $category = "db";
 	var $usage = '[controller] [options]';
-
 	/**
 	 * 
 	 * @param mixed $command 
@@ -58,7 +55,6 @@ class InitDbCommand extends AppExecCommand{
 			// $ad->sendQuery('drop database `igkdev.ops2`;');
 			// $ad->sendQuery('create database `igkdev.ops2`;');
 			// $ad->selectdb('igkdev.ops2');
-
 			$c = igk_sys_getall_ctrl();   
 			// $c = [ L81Controller::ctrl()];           
 			if ($b = IGKModuleListMigration::CreateModulesMigration()) {
@@ -68,7 +64,6 @@ class InitDbCommand extends AppExecCommand{
 			$clean = property_exists($command->options, '--clean');
 		}
 		$force = property_exists($command->options, '--force');
-
 		if ($c) {
 			$db_name = igk_configs()->db_name;
 			Logger::info('dbname :'. $db_name);

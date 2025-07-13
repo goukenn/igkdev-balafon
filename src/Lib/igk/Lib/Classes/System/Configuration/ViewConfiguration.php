@@ -3,15 +3,11 @@
 // @file: ViewConfiguration.php
 // @date: 20230118 21:54:14
 namespace IGK\System\Configuration;
-
-
 /**
 * 
 * @package IGK\System\Configuration
 */
 class ViewConfiguration{
     var $default_dir_entry = 'default';
-
     var $is_dir_entry = [];
-
 }

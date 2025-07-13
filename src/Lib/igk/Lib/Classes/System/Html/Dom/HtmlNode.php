@@ -3,10 +3,7 @@
 // @filename: HtmlNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\Traits\AccessibilityTrait;
@@ -21,9 +18,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\ViewRef;
 use IGKException;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-
 /**
  * 
  * @package IGK\System\Html\Dom
@@ -173,7 +168,6 @@ class HtmlNode extends HtmlItemBase
     use HtmlNodeTrait;
     use ClassAndStyleOffsetTrait;
     use AccessibilityTrait;
-
     /**
      * create and add node or return null
      * @param string $tagname_selector 
@@ -212,7 +206,6 @@ class HtmlNode extends HtmlItemBase
         $node['class'] = $class; 
         return $node['class'];
     }
-
     /**
      * init with data 
      * @param array $data array of data to load
@@ -229,7 +222,6 @@ class HtmlNode extends HtmlItemBase
      * @var mixed
      */
     private $m_property = [];
-
     public function __toString()
     {
         return $this->render();
@@ -274,7 +266,6 @@ class HtmlNode extends HtmlItemBase
             return $this->add($p);
         }
     }
-
     /**
      * set aria attribute
      * @param string $type aria types
@@ -299,7 +290,6 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
-    
     /**
      * set the class combination of this item
      */
@@ -324,11 +314,9 @@ class HtmlNode extends HtmlItemBase
      */
     public function clearClass()
     {
-
         $this["class"] = null;
         return $this;
     }
-
     public function clear()
     {
         $this->getAttributes()->clear();
@@ -349,8 +337,6 @@ class HtmlNode extends HtmlItemBase
                 return implode(":", [$k, $a]);
             }, $value, array_keys($value))));
         }
-        
-
         if (0 === strpos($value, '+/')) {
             $s = $this["style"]."";
             $value = implode(';', array_filter([rtrim($s, ";"), substr($value, 2)])); 
@@ -378,7 +364,6 @@ class HtmlNode extends HtmlItemBase
         }
     }
     */
-
     /**
      * 
      */
@@ -421,7 +406,6 @@ class HtmlNode extends HtmlItemBase
      */
     protected function initialize()
     {
-       
     }
     /**
      * 
@@ -463,11 +447,9 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
-
     public function getProperty(string $name){
         return igk_getv($this->m_property, $name);
     }
-
     /**
      * get the custom properties
      * @param mixed $name 
@@ -498,9 +480,6 @@ class HtmlNode extends HtmlItemBase
     {
         return isset($this->m_attributes[$n]);
     }
-
- 
-
     ///<remark >every expression key must start with '@igk:expression' name or value will be set to default </summary>
     /**
      * 
@@ -526,10 +505,8 @@ class HtmlNode extends HtmlItemBase
         $this->m_attributes[$key] = $value;
         return $this;
     }
-
     public function getCanRenderTag()
     {
-       
         if ($this->iscallback(__FUNCTION__)) {
             $this->evalCallback(__FUNCTION__, $output);
             return $output;
@@ -548,7 +525,6 @@ class HtmlNode extends HtmlItemBase
         if (is_null($activate_condition) || $activate_condition){
             $this->m_attributes->activate($n);
         }
-
         return $this;
     }
     public function deactivate($n)
@@ -556,7 +532,6 @@ class HtmlNode extends HtmlItemBase
         $this->m_attributes->deactivate($n);
         return $this;
     }
-
     /**
      * @return bool get if close tag
      */

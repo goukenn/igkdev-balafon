@@ -3,9 +3,7 @@
 // @file: DoWhileBlock.php
 // @date: 20221026 17:37:04
 namespace IGK\System\Runtime\Compiler\ViewCompiler\CodeBlock;
-
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerBockInfo;
-
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler\CodeBlock
@@ -21,5 +19,4 @@ class DoWhileBlock extends ViewCompilerBockInfo{
     public function endBlock(){
         return ["}", sprintf("while (%s);", $this->condition)];
     }
-
 }

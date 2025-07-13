@@ -3,9 +3,7 @@
 // @file: IDatabaseHost.php
 // @date: 20220902 13:24:02
 namespace IGK\System\Database;
-
 use IGK\System\Models\IModelDefinitionInfo;
-
 /**
 * database host 
 * @package IGK\System\Database

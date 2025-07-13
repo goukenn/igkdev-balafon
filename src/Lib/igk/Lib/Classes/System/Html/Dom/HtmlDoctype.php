@@ -8,14 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
-
 final class HtmlDoctype extends HtmlItemBase{
     const HTML_DOCTYPE = '<!DOCTYPE html>';
     public function __construct($value){
         $this->Content=$value;
     }
-   
     protected function _addChild($item, $index=null){
         return false;
     }

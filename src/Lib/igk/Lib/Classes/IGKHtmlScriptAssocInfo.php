@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\IToArray;
-
 final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
     use IGK\System\Polyfill\ScriptAssocArrayAccessTrait;
     private $data;
@@ -39,7 +37,6 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
     public static function GetCacheFile(){
         return igk_dir(igk_io_cachedir()."/.core.scripts.cache");
     }
-   
     protected function store($d){
         self::$sm_store=$d;
     }

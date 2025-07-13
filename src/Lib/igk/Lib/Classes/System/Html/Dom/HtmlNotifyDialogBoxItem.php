@@ -3,12 +3,8 @@
 // @filename: HtmlNotifyDialogBoxItem.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGKValueListener;
-
 /**
 * Represent IGKHtmlNotifyDialogBoxItem class
 */
@@ -43,7 +39,6 @@ EOF;
     public function getTitle(){
         return $this->m_title;
     }
-     
     ///<summary></summary>
     ///<param name="title"></param>
     ///<param name="msg"></param>

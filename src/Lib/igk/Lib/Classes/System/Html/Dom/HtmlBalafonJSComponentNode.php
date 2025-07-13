@@ -3,11 +3,7 @@
 // @filename: HtmlBalafonJSComponentNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
-
 class HtmlBalafonJSComponentNode extends HtmlScriptNode{    
     public function __construct(bool $autoremove=true){
         parent::__construct();    

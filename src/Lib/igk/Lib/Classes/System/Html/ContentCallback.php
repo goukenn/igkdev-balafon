@@ -3,8 +3,6 @@
 // @file: ContentCallback.php
 // @date: 20230104 11:05:55
 namespace IGK\System\Html;
-
-
 /**
 * use to set callback expression value
 * @package IGK\System\Html
@@ -12,7 +10,6 @@ namespace IGK\System\Html;
 */
 class ContentCallback implements IHtmlGetValue{
     private $m_callable;
-
     public function __construct(callable $callback){
         $this->m_callable = $callback;
     }

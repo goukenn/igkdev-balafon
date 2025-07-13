@@ -3,12 +3,8 @@
 // @filename: SysConfigExpression.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration;
-
 use IGK\System\Html\IHtmlGetValue;
-
 /**
  * retrieve sys expression
  * @package IGK\System\Configuration
@@ -20,16 +16,13 @@ class SysConfigExpression implements IHtmlGetValue{
      * @var string
      */
     protected $tag= 'sys';
-
     public function __construct($expression)
     {
         $this->expression = $expression;
     }
-
     public function getValue($options = null) { 
        return $this->getStoreValue(); 
     }
-
     public function __toString()
     {
         return (string)igk_configs()->get($this->expression);
@@ -39,5 +32,4 @@ class SysConfigExpression implements IHtmlGetValue{
             return sprintf("{{ %s.%s }}", $this->tag, $ex);
         return null;
     }
-   
 }

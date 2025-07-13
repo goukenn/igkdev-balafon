@@ -3,8 +3,6 @@
 // @file: DbColumnInfoMethodTrait.php
 // @date: 20221104 14:47:37
 namespace IGK\Database\Traits;
-
-
 /**
 * 
 * @package IGK\Database\Traits

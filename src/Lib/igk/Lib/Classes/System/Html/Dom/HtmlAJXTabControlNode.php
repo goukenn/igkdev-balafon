@@ -1,9 +1,6 @@
 <?php
-
 namespace IGK\System\Html\Dom;
-
 use IGKEvents;
-
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
@@ -18,11 +15,9 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     private $m_tablist;
     private static $demoComponent;
     public const CONTROL = HtmlComponents::AJXTabControl;
-
     public function getSelectedIndex(){
         return $this->m_selected;
     }
-
 	public function getSettings($key){
 		if ($this->m_tabViewListener){
 			return $this->m_tabViewListener->getParam($key);
@@ -142,7 +137,6 @@ EOF;
         if (is_int($i)){
             $li=$this->m_tablist->Childs[$i];
         }else{
-
             foreach($this->m_tablist->Childs->to_array() as $hi){
                 if ($hi->getParam("id") == $i){
                     $li = $hi;

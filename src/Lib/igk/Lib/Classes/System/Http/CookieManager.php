@@ -3,9 +3,7 @@
 // @file: CookieManager.php
 // @date: 20221009 04:10:08
 namespace IGK\System\Http;
-
 use IGKException;
-
 /**
 * with session start, used to manage application manage cookies
 * @package IGK\System\Http
@@ -52,7 +50,6 @@ class CookieManager{
      * @throws IGKException 
      */
     public function get($n){
-        
         return igk_getv($this->_getdata(), $n);
     }
     /**

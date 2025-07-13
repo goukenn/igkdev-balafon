@@ -3,9 +3,7 @@
 // @file: HtmlRendererOptions.php
 // @date: 20220906 00:28:43
 namespace IGK\System\Html;
-
 use IGKException;
-
 /**
  * html rendering option 
  * @package IGK\System\Html
@@ -17,31 +15,26 @@ class HtmlRendererOptions
      * @var mixed
      */
     var $Source;
-
     /**
      * get or set line feed separatror 
      * @var string
      */
     var $LF = "";
-
     /**
      * store current namespace context
      * @var mixed
      */
     var $NamespaceContext;
-
     /**
      * namespace target sournce owner
      * @var mixed
      */
     var $NamespaceSource;
-
     /**
      * engine use to render 
      * @var ?IHtmlEngineRenderer
      */
     var $Engine;
-
     /**
      * use to mark renderer with sanitize rendering
      * @var null|bool|int
@@ -52,7 +45,6 @@ class HtmlRendererOptions
      * @var mixed
      */
     var $__invoke = null;
-
     /**
      * filter element
      * @var ?callable (HtmlNode a)=>bool
@@ -78,7 +70,6 @@ class HtmlRendererOptions
      * @var bool
      */
     var $Stop = 0;
-
     /**
      * redering context
      * @var string
@@ -99,11 +90,8 @@ class HtmlRendererOptions
     var $StandAlone = 0;
     var $Cache;
     var $CacheUri = 0;
-
     var $CacheUriLevel = 0;
-
     var $flag_no_attrib_escape;
-
     var $attribute_entity_escape;
     /**
      * array of tab
@@ -126,41 +114,32 @@ class HtmlRendererOptions
      * @var mixed
      */
     var $jsOpsFirstEval;
-
     /**
      * header to attach to render document
      * @var mixed
      */
     var $header;
-
     /**
      * rendering context, ?|template| in RenderingContext
      * @var ?string
      */
     var $renderingContext;
-
     /**
      * skip node read flag when rendering engine is use 
      * @var ?bool
      */
     var $skipEngineNode;
-
     /**
      * skip tags list
      * @var ?array|callable 
      */
     var $skipTags;
-
     /**
      * 
      * @var for aside items
      */
     var $aside;
-
-
     private $m_properties;
-
-
     /**
      * set extra property
      * @param mixed $n 
@@ -197,7 +176,6 @@ class HtmlRendererOptions
         }
         return $rg;
     }
-
     public function __isset($n){
         return $this->m_properties && key_exists($n, $this->m_properties);
     }

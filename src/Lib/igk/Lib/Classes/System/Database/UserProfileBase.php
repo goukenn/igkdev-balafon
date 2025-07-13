@@ -3,7 +3,6 @@
 // @file: UserProfileBase.php
 // @date: 20221113 10:22:28
 namespace IGK\System\Database;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\StringUtility;  
 use IGK\Models\ModelBase; 
@@ -11,7 +10,6 @@ use IGK\Models\Users;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 /**
 * 
 * @package IGK\System\Database
@@ -20,7 +18,6 @@ abstract class UserProfileBase implements ICustomUserProfile{
     protected $m_info;
     protected $m_model;
     protected $m_controller;
-
     public function setUserInfo($userInfo) {
         $this->m_info = $userInfo;
     }   
@@ -102,7 +99,6 @@ abstract class UserProfileBase implements ICustomUserProfile{
     public function save(){
         return $this->m_model->save();
     }
-
     /**
      * get list of groups 
      * @return void 
@@ -114,5 +110,4 @@ abstract class UserProfileBase implements ICustomUserProfile{
         $mod = $this->systemModel(); 
         return $mod->memberOf(); 
     }
-    
 }

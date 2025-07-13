@@ -8,8 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\XML;
- 
-
 final class XmlCDATA extends XmlNode{
     public function __construct(){
         parent::__construct("igk:cdata");
@@ -18,7 +16,6 @@ final class XmlCDATA extends XmlNode{
     {
         return false;
     }
-   
     public function getCanRenderTag(){
         return false;
     }

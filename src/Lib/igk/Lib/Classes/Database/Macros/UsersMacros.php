@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\Database\Macros;
-
 use GrahamCampbell\ResultType\Success;
 use IGK\Controllers\BaseController;
 use IGK\Database\Mapping\SysDbMapping;
@@ -20,15 +18,12 @@ use IGK\System\Database\MySQL\BooleanQueryResult;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
-
 /**
  * used for macros injection 
  * @package IGK\Database\Macros
  */
 abstract class UsersMacros
 {
-
     /**
      * register and init project user by login
      * @param string $login 
@@ -89,7 +84,6 @@ abstract class UsersMacros
         unset($user->clPwd);
         return $user->save();
     }
-
     public static function isActive(Users $user){
         return $user->clStatus == 1;
     }
@@ -112,14 +106,11 @@ abstract class UsersMacros
     public static function addPhoneBookEntry(Users $model, $type, $value)
     {
         $r = static::getPhoneBookEntry($model);
-
         $guid = ($r ? $r->usrphb_PhoneBookEntryGuid : null) ?? PhoneBookEntries::create()->rcphbe_Guid;
-
         if (($r && !$r->usrphb_PhoneBookEntryGuid) && ($guid)) {
             $r->usrphb_PhoneBookEntryGuid = $guid;
             $r->save();
         }
-
         $t = PhoneBookTypes::GetCache(PhoneBookTypes::FD_NAME, $type);
         if (!$t) {
             return false;
@@ -224,7 +215,6 @@ abstract class UsersMacros
         $s = trim(implode(' ', array_filter([$user->clFirstName, strtoupper($user->clLastName ?? '')])));
         return empty($s)? $user->clLogin : $s;
     }
-
     /**
      * bind user to group 
      * @param Users $user 
@@ -235,7 +225,6 @@ abstract class UsersMacros
     public static function bindToGroup(Users $user, BaseController $ctrl, string $groupname){
         return \IGK\Helper\Authorization::BindUserToGroup($ctrl, $user, $groupname);
     }
-
      /**
      * remove current user from that group 
      * @param Users $user 
@@ -258,9 +247,7 @@ abstract class UsersMacros
             $condition['clController'] = $v_ctrl_name;
         }
         $condition['clName'] = $groupName; 
-
         if ($gid = (($m = Groups::select_row($condition)) ? $m->clId : null)){
-
             $condition = [];
             $condition = array_merge($condition, ["clGroup_Id"=>$gid, "clUser_Id"=>$uid]);
             $r = Usergroups::delete($condition);
@@ -269,9 +256,7 @@ abstract class UsersMacros
             }
         }
         return $r;
-        
     }
-
     /**
      * create user reponse data
      * @param Users $user 

@@ -3,13 +3,10 @@
 // @filename: PHPScriptBuilderUtility.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 // @file: PHPScriptBuilderUtility.php
 // @author: C.A.D. BONDJE DOUE
 namespace IGK\System\IO\File;
-
 use IGK\System\IO\StringBuilder;
-
 abstract class PHPScriptBuilderUtility
 {
     /**
@@ -20,7 +17,6 @@ abstract class PHPScriptBuilderUtility
     public static function MergeSource(...$sources): ?string
     {
         if (!$sources) return null;
-
         $tsrc = "";
         $root_depth = 0;
         $v_tcount = 0;
@@ -39,7 +35,6 @@ abstract class PHPScriptBuilderUtility
             $sb = new StringBuilder();
             $declare = 0;
             while (count($tokens)) {
-
                 $e = array_shift($tokens);
                 $v = $e;
                 if (is_array($v)) {
@@ -101,7 +96,6 @@ abstract class PHPScriptBuilderUtility
         $o .= "return [" . $data . "];";
         return $o;
     }
-
     /**
      * remove php comment token 
      * @param string $source source
@@ -120,10 +114,8 @@ abstract class PHPScriptBuilderUtility
             }
             return $m;
         }, $comments));
-
         return $src;
     }
-
     /**
      * 
      * @param mixed $data 
@@ -158,11 +150,9 @@ abstract class PHPScriptBuilderUtility
             $def->appendLine(sprintf('var $%s;', $k));
         }
         $type = $name?'class':'function';
-
         $sb
         ->name($name)
         ->type($type)->defs($def);
-
         return $sb->render();
     }   
 }

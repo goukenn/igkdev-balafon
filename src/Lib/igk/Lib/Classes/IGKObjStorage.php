@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\IToArray;
-
 /**
  * use to copy and retrieve data or null
  * @package 
@@ -55,7 +53,6 @@ class IGKObjStorage implements IToArray{
     public function to_json(){
         return json_encode($this->to_array());
     }
-
     public function __isset($name)
     {
         return key_exists($name, $this->m_storage);

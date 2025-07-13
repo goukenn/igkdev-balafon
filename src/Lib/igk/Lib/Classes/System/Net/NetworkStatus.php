@@ -3,15 +3,12 @@
 // @file: NetworkStatus.php
 // @date: 20230322 23:50:21
 namespace IGK\System\Net;
-
-
 /**
 * 
 * @package IGK\System\Net
 */
 class NetworkStatus{
     private static $sm_is_alive;
-
     public static function IsConnectionAlive(){
         if (!is_null(self::$sm_is_alive)){
             return self::$sm_is_alive;

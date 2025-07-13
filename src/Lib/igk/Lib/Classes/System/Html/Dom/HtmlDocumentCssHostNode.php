@@ -3,10 +3,7 @@
 // @filename: Untitled-1
 // @date: 20220422 09:31:53
 // @desc: hosting document
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use Exception;
@@ -15,7 +12,6 @@ use IGK\System\Html\Css\CssUtils;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
-
 /**
  * for rendering inline-css tempory file
  * @package IGK\System\Html\Dom
@@ -26,7 +22,6 @@ class HtmlDocumentCssHostNode extends HtmlNode{
      * @var \IGKHtmlDoc
      */
     protected $doc;
-
     public function __construct($doc){
         $this->doc = $doc;
     }
@@ -57,7 +52,6 @@ class HtmlDocumentCssHostNode extends HtmlNode{
         $clear = ($this->doc instanceof IGKHtmlDoc ) ? CssUtils::InitSysGlobal($this->doc) : null;
         $inlineTheme = $this->doc->getInlineTheme();
         $s = "";
-        
         $theme = $this->doc->getTheme();
         $g = ""; 
         $g.= $theme->get_css_def();
@@ -72,13 +66,10 @@ class HtmlDocumentCssHostNode extends HtmlNode{
         $is_dev && ($s.= "<!-- start:inline style -->");
         $s .= $vs->render();
         $is_dev && ($s.= "\n<!-- end:inline style -->");   
-       
         if ($clear){
             $this->doc->getSysTheme()->resetSysGlobal();
             $theme->getDef()->clear(); 
         }  
         return $s;        
     }
-
-   
 }

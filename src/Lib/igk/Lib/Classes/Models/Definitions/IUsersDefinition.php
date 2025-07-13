@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\Models\Definitions;
-
 /**
  * 
  * @package 
@@ -9,5 +7,4 @@ namespace IGK\Models\Definitions;
  * @method array groups() list of groups 
  */
 interface IUsersDefinition{
-
 }

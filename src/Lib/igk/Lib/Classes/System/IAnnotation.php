@@ -3,8 +3,6 @@
 // @file: IAnnotation.php
 // @date: 20230731 09:35:08
 namespace IGK\System;
-
-
 /**
 * 
 * @package IGK\System

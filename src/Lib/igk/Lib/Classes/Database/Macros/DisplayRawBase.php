@@ -3,14 +3,11 @@
 // @file: DisplayRawBase.php
 // @date: 20230117 11:00:56
 namespace IGK\Database\Macros;
-
-
 /**
 * 
 * @package IGK\Database\Macros
 */
 abstract class DisplayRawBase{
-    
     /**
      * display item
      * @param mixed $item 

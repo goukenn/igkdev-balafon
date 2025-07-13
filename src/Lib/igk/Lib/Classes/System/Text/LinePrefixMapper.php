@@ -3,8 +3,6 @@
 // @file: LinePrefixMapper.php
 // @date: 20221021 21:15:05
 namespace IGK\System\Text;
-
-
 /**
 * 
 * @package IGK\System\Text
@@ -15,13 +13,11 @@ class LinePrefixMapper{
      * @var string
      */
     var $prefix;
-
     /**
      * 
      * @var string
      */
     var $suffix;
-
     /**
      * map source string
      * @param string $source 

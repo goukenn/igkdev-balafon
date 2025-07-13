@@ -3,8 +3,6 @@
 // @file: VersionClass.php
 // @date: 20221122 12:50:06
 namespace IGK\Projects\Database;
-
-
 /**
 * project database version storage 
 * @package IGK\Projects\Database
@@ -20,7 +18,6 @@ class VersionClass{
      * @var string_unique(35)
      */
     var $version;
-
     /**
      * 
      * @var string
@@ -46,5 +43,4 @@ class VersionClass{
      * @var datetime
      */
     var $updateAt;
-    
 }

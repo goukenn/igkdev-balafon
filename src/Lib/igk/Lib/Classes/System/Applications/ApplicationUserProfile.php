@@ -3,7 +3,6 @@
 // @file: ApplicationUserProfile.php
 // @date: 20230129 13:34:47
 namespace IGK\System\Applications;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\ViewHelper;
@@ -13,18 +12,14 @@ use IGK\Models\Users;
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\SystemUserProfile;
 use IGKUserInfo;
-
 /**
 * 
 * @package IGK\System\Application
 */
 class ApplicationUserProfile extends SystemUserProfile implements ICustomUserProfile{
-
     private $m_user;
     private $m_app_user; 
-
     protected function registerProfile() { }
-
     public function user(): ModelsModelBase {
         return $this->m_app_user;
      } 
@@ -36,7 +31,6 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
     public function setUserInfo($userInfo) {
         $this->m_profile = $userInfo;
      }
-
     public function getUserInfo(){ 
         return $this->m_profile;
     } 
@@ -50,7 +44,6 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
     public function model(): Users { 
         return $this->m_user;
     }
-
     /**
      * construct use model 
      * @param Users $user 

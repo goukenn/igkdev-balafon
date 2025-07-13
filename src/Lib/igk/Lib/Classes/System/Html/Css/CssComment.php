@@ -3,8 +3,6 @@
 // @file: CssComment.php
 // @date: 20221202 08:50:35
 namespace IGK\System\Html\Css;
-
-
 /**
 * represent css comment
 * @package IGK\System\Html\Css
@@ -15,7 +13,6 @@ class CssComment implements ICssDefinition{
     {
         $this->value = $value;
     }
-
     public function getDefinition(): ?string { 
         return $this->value;
     }

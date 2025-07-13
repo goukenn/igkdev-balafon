@@ -3,17 +3,12 @@
 // @filename: TerminalActionCommand.php
 // @date: 20220421 08:02:53
 // @desc: Terminal action command
-
-
 namespace IGK\System\Console;
-
 use Closure;
 use Error;
 use Exception;
 use IGKEnvironment;
 use function \readline;
-
-
 /**
  * terminal action command
  * @package IGK\System\Console
@@ -25,15 +20,12 @@ class TerminalActionCommand
      * @var string
      */
     protected $prompt = App::BLUE . "\$tac >" . App::END . " ";
-
     /**
      * store running command
      * @var array
      */
     protected $commands = [];
-
     protected $errors = [];
-
     /**
      * retun command line
      * @return int 
@@ -46,10 +38,8 @@ class TerminalActionCommand
         });
         !defined('IGK_THROW_MISSING_MACROS_EXCEPTION') && define('IGK_THROW_MISSING_MACROS_EXCEPTION', 1);
         !defined('IGK_RUN_TAC_COMMAND') && define('IGK_RUN_TAC_COMMAND', 1);
-
         $stop = ['quit', 'exit'];
         $func = Closure::fromCallable([self::class, '_RunCommand']);
-
         if (!function_exists('readline')) {
             Logger::danger("require readline");
             return -1;
@@ -83,7 +73,6 @@ class TerminalActionCommand
             $this->errors[] = $l_error;
         }
     }
-
     static function _RunCommand()
     {
         extract([
@@ -100,7 +89,6 @@ class TerminalActionCommand
         return $cmd;
     }
 }
-
 if (!function_exists('igk_read_line')) {
     function igk_read_line(string $prompt)
     {

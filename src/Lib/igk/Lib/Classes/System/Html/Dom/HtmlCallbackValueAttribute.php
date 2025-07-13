@@ -3,10 +3,7 @@
 // @filename: HtmlCallbackValueAttribute.php
 // @date: 20220504 07:59:09
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 /**
  * use to retrieve value from callback
  * @package IGK\System\Html\Dom
@@ -23,5 +20,4 @@ class HtmlCallbackValueAttribute extends HtmlItemAttribute{
         $fc = $this->callback;
         return $fc($option, $this);
     }
-
 }

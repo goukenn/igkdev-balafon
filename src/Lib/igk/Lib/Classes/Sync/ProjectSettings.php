@@ -3,8 +3,6 @@
 // @file: ProjectSettings.php
 // @date: 20230225 19:44:55
 namespace IGK\Sync;
-
-
 /**
 * sync project settings
 * @package IGK\Sync
@@ -15,13 +13,11 @@ class ProjectSettings{
      * @var ?array
      */
     var $ignoredirs;
-
     /**
      * leave directory unchanged 
      * @var ?array
      */
     var $leavedirs;
-
     /**
      * list of directory to clear for every sync
      * @var ?array

@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 final class HtmlSingleNodeViewerNode extends HtmlNode{
     private $m_callback;
     var $targetNode;
@@ -22,8 +20,6 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         $this->targetNode->setContent(...func_get_args());
         return $this;
     }
-    
-
     protected function _acceptRender($options = null):bool{
         if($this->targetNode)
             return $this->IsVisible;
@@ -38,12 +34,9 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         $this->m_callback=$callback;
     }
     protected function _getRenderingChildren($option=null){
-        
         return [$this->targetNode];
     }
- 
     protected function __RenderComplete($options=null){ 
-    
         igk_html_rm($this);
         if($this->m_callback){
             igk_invoke_callback_obj($this, $this->m_callback);

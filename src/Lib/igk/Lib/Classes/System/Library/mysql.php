@@ -3,12 +3,9 @@
 // @filename: mysql.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Library;
 use IGK\System\Database\MySQL\DataAdapter as MySQLDataAdapter;
 use IGK\System\EntryClassResolution;
-
 /**
  * init mysql library
  * @package IGK\System\Library

@@ -3,8 +3,6 @@
 // @file: IViewCompilerOptions.php
 // @date: 20221027 13:51:46
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
-
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler

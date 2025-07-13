@@ -3,7 +3,6 @@
 // @file: RegisterUserServiceActionTrait.php
 // @date: 20230516 08:45:52
 namespace IGK\Actions\Traits;
- 
 use Exception;
 use IGK\Helper\ActionHelper;
 use IGK\System\Exceptions\CssParserException;
@@ -11,7 +10,6 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 /**
 * use to handle user registration with mail only to application 
 * @package IGK\Actions\Traits
@@ -29,7 +27,6 @@ trait RegisterUserServiceActionTrait{
             ]);
         });
     }
-
     /**
      * RegisterUser service auth - activate|unsubscribe - token
      * @param string $name activate|unsubscribe
@@ -46,7 +43,6 @@ trait RegisterUserServiceActionTrait{
                 break;
        }
        $this->die('No allowed');
-
     }
     /**
      * retrieve uri from action definition 

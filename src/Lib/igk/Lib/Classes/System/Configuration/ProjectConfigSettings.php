@@ -1,13 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SysConfigSettings.php
 // @date: 20220509 08:42:59
 // @desc: sys configuration settings
 namespace IGK\System\Configuration;
-
 use IGK\System\Configuration\Controllers\ConfigurationOptions;
-
 /**
  * general configuration setting. need to be activate from configs data expression
  * @package 
@@ -23,13 +20,11 @@ class ProjectConfigSettings extends ConfigurationOptions{
      * @var mixed
      */
     var $clDescription;
-
     /**
      * adapter name to use 
      * @var mixed
      */
     var $clDataAdapterName;
-   
     /**
      * name used to register
      * @var mixed

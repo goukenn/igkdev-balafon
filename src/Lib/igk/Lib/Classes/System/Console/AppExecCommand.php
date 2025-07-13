@@ -3,10 +3,7 @@
 // @filename: AppExecCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace  IGK\System\Console;
-
 use Error;
 use Exception;
 use IGK\Controllers\BaseController;
@@ -15,7 +12,6 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
-
 abstract class AppExecCommand extends AppCommand{
     protected $handle;
     private $m_colorizer;
@@ -47,7 +43,6 @@ abstract class AppExecCommand extends AppCommand{
      * @throws Exception 
      */
     public static function BindUserCommand($ctrl, $command, $arg='--user'){
-
         if ($id = intval($uref = igk_getv($command->options, $arg))) {
             self::BindUser($ctrl, $id);
         }else if ($uref){
@@ -107,12 +102,10 @@ abstract class AppExecCommand extends AppCommand{
                 $fc = $this->handle;
                 $args = func_get_args();
                 return $fc(...$args);
-
             };
         }
     }
     public abstract function exec($command);
-
     /**
      * get controller helper
      * @param string $controller 

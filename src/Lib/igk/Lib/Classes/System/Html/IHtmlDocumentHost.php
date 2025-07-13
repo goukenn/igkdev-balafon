@@ -3,10 +3,8 @@
 // @file: IHtmlDocumentHost.php
 // @date: 20230102 22:00:15
 namespace IGK\System\Html;
-
 use IGK\System\Html\Dom\HtmlBodyNode;
 use IGK\System\Html\Dom\HtmlHeadNode;
-
 /**
  * 
  * @package IGK\System\Html
@@ -26,7 +24,6 @@ interface IHtmlDocumentHost
      * @return mixed 
      */
     function setTitle(?string $title = null);
-
     function getBody(): ?HtmlBodyNode;
     /**
      * 

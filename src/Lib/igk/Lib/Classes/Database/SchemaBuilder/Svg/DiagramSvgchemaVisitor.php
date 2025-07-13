@@ -1,17 +1,13 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: d.php
 // @date: 20220531 13:34:45
 // @desc: 
-
 namespace IGK\Database\SchemaBuilder\SVG;
- 
 use IGK\Database\SchemaBuilder\DiagramEntityColumnInfo;
 use IGK\Database\SchemaBuilder\DiagramVisitor;
 use IGK\Database\SchemaBuilder\Svg\Html\BoxDimension;
 use IGK\System\Html\XML\XmlNode;
-
 /**
  * diagram svg schema visitor
  * @package igk\db\schemaBuilder
@@ -23,7 +19,6 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
     var $height;
     const DEFAULT_WIDTH  = 500;
     const DEFAULT_HEIGHT = 500;
-    
     public function start():string{
         $this->defs = new XmlNode("defs");
         $this->visitor_items = [];
@@ -53,8 +48,6 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
         $count = 1;
         $HeightDim = new BoxDimension(); 
         $HeightDim->value = $height ;
-
-      
         $_clipid = "rect_".$count;
         $count++;
         $posxDim = new BoxDimension();
@@ -71,8 +64,6 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
             ]
         );
         $n["clip-path"] = sprintf("url(#%s)", $_clipid);
-          
-        
         if($p = $entity->getProperties()){
             $n->add("rect")
             ->setAttributes(
@@ -87,7 +78,6 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
                 "stroke-width"=>"4"
                 ]
             );
-
             foreach($p as $l){
                 $ul = $n->add("rect");
                 $ul->setAttributes([
@@ -116,8 +106,6 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
             }
         }
         //$o .= $this->defs->render();
-        
         return $o;
     }
 }
-

@@ -8,7 +8,6 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
 final class HtmlHeaderLinkHost{
     private $m_list;
     var $privateLink, $sharedLink;

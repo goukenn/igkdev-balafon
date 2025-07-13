@@ -3,9 +3,7 @@
 // @filename: QueryBuilder.php
 // @date: 20220728 14:50:19
 // @desc: 
-
 namespace IGK\System\Database;
-
 use Closure;
 use IGK\Database\DbConstants;
 use IGK\Models\ModelBase;
@@ -17,7 +15,6 @@ use IGKException;
 use IGKQueryResult;
 use IGKSysUtil;
 use ReflectionException;
-
 /**
  * use to build query
  * @package IGK\System\Database
@@ -30,9 +27,7 @@ class QueryBuilder
     private $m_with;
     private $m_withTotalCount;
     private $m_row_listener;
-
     const JOINS = QueryOptions::JOINS;
-
     /**
      * field to add as total counter 
      * @param bool|string $value 
@@ -72,8 +67,6 @@ class QueryBuilder
         $this->m_with[$table] = $cinfo;
         return $this;
     }
-
-
     public function __construct(ModelBase $model)
     {
         if (!$model)
@@ -82,7 +75,6 @@ class QueryBuilder
         $this->m_options = [];
         $this->m_model = $model;
     }
-
     /**
      * help left join
      * @param mixed $condition 
@@ -109,7 +101,6 @@ class QueryBuilder
     {
         return new DbExpression($string);
     }
-
     /**
      * set conditions
      * @param array $condition 
@@ -135,7 +126,6 @@ class QueryBuilder
      * @return $this 
      */
     public function registerRowListener($callback){
-
         $this->m_row_listener = $callback;
         return $this;
     }
@@ -348,7 +338,6 @@ class QueryBuilder
         // + | --------------------------------------------------------------------
         // + | create a db fetch result to handle with a foreach in case no need to load every data
         // + |
-
         $driver = $this->m_model->getDataAdapter();
         $query = $this->get_query();
         $options = $options ?? $this->m_options;
@@ -465,10 +454,8 @@ class QueryBuilder
     private static function _BuildRowDef($source_row, $row, $ctrl, $tab, $with, $links, $linktab)
     {
         $row_defs = [$source_row];
-
         while (count($row_defs) > 0) {
             $v = array_shift($row_defs);
-
             foreach ($with as $k => $vv) {
                 $w_table =
                     $w_prop = $vv;
@@ -490,7 +477,6 @@ class QueryBuilder
             }
             $w_table = null;
             $columns_keys = [];
-
             // $ref_column = null;
             foreach ($links as $cl => $info) {
                 list($table, $clname) = $info;
@@ -583,7 +569,6 @@ class QueryBuilder
             return  $tab->getRows(); //->to_array();
         }
     }
-
     public function groupBy(?array $column = null)
     {
         $this->m_options[QueryOptions::GROUP_BY] = $column;

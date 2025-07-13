@@ -3,8 +3,6 @@
 // @file: HtmlDocumentBodyContentInjector.php
 // @date: 20250404 20:38:56
 namespace IGK\System\Html\Dom;
-
-
 /**
 * used to inject some script at different state of the document - depend on list
 * @package IGK\System\Html\Dom

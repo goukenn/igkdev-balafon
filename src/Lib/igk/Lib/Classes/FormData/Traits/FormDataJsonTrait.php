@@ -3,12 +3,10 @@
 // @file: FormDataJsonTrait.php
 // @date: 20230707 17:50:06
 namespace IGK\FormData\Traits;
-
 use IGK\Actions\IActionRequestValidator;
 use IGK\Helper\Activator;
 use IGK\System\Http\IContentSecurityProvider;
 use IGK\System\Http\Request;
-
 /**
 * 
 * @package IGK\FormData\Traits

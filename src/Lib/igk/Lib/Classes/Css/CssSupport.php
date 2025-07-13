@@ -1,16 +1,12 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: CssSupport.php
 // @date: 20220423 08:02:18
 // @desc: Css Support
-
 namespace IGK\Css;
-
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKMedia;
-
 class CssSupport implements ArrayAccess{
     var $rule;
     var $media; 
@@ -20,7 +16,6 @@ class CssSupport implements ArrayAccess{
      */
     var $def;
     use ArrayAccessSelfTrait;
-
     public function __construct($rule)
     {
         $this->rule = $rule;
@@ -40,7 +35,6 @@ class CssSupport implements ArrayAccess{
         $this[$key] = $value;
         return $this;
     }
-
     public function _access_OffsetSet($n, $v){
         $this->media[$n] = $v;
     }

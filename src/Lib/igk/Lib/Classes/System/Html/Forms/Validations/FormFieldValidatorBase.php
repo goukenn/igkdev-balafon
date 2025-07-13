@@ -3,11 +3,9 @@
 // @file: FormFieldValidatorBase.php
 // @date: 20230427 10:47:00
 namespace IGK\System\Html\Forms\Validations;
-
 use IGK\Helper\Activator;
 use IGK\System\Html\Forms\Validations\FormValidationParamOptions;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Html\Forms\Validations
@@ -41,7 +39,6 @@ abstract class FormFieldValidatorBase implements IFormValidator{
             $error = & $value->error;
             $v_output = & $value->output;    
             $options = Activator::CreateNewInstance(FormValidationParamOptions::class , $value);
-
             $v_output = $this->_validate($value->input, $value->default, $error, $options);
         } else {  
             $v_name = null;
@@ -72,7 +69,6 @@ abstract class FormFieldValidatorBase implements IFormValidator{
      * @return mixed 
      */
     protected abstract function _validate($value, $default=null, array & $error=[], ?object $options=null);
-
     /**
      * factory form field creation validator
      * @param string $name 
@@ -86,7 +82,6 @@ abstract class FormFieldValidatorBase implements IFormValidator{
         }
         return null;
     }
-
     public function allowNull(bool $allowNull){
         $this->m_allowNull = $allowNull;
         return $this;

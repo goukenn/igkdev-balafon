@@ -7,14 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGKResourceUriResolver;
 use function igk_resources_gets as __;
-
-
 abstract class ToolControllerBase extends BaseController{
     static $sm_tools = [];
     public function doAction(){    }

@@ -3,11 +3,9 @@
 // @file: CssRulesParser.php
 // @date: 20250628 22:08:34
 namespace IGK\System\Html\Css;
-
 use Exception;
 use IGK\System\Console\Logger;
 use IGK\System\Text\RegexMatcherContainer;
-
 /**
  * parse css string content and return and array of string 
  * @package IGK\System\Html\Css
@@ -27,16 +25,13 @@ class CssRulesParser
         $glue_space = $c->match('\\s+', 'glue-space')->last();
         $brank = $c->begin('\{', '\}', 'brank')->last();
         $media_brank = $c->begin('\{', '\}', 'media-brank')->last();
-
         $attrib = $c->begin('\[', '\]', 'attrib')->last();
         $func = $c->begin('\(', '\)', 'func')->last();
         $glue = $c->match('\\s*(\+|>|~)\\s*', 'glue')->last();
         $separator = $c->match('\\s*(,)\\s*', 'separator')->last();
         $string = $c->appendStringDetection()->last();
         $comment = $c->begin('\/\*', '\*\/', 'comment')->last();
-
          $at_rule = $c->begin('@\\w+\\b', '(?<=\}|;)', 'at-rule')->last();
-
         $media = $c->begin('@media\\b', '(?<=\})', 'media')->last();
         $media->patterns = [
             $c->createPattern(['match'=>"\\s+(print|and|screen)"]),
@@ -45,19 +40,14 @@ class CssRulesParser
             $string,
             $media_brank
         ];
-
-
          $at_rule->patterns = [
  $comment,
             $glue_space,
             $string,
             $media_brank
          ];
-
         $selector = $c->match('\*|(\.|#|:+)?[\\w\-]+(-|\\b)', 'selector')->last();
-
         $c->autoStore = true;
-
         $media_brank->patterns = [
             $string,
             $glue_space,
@@ -93,7 +83,6 @@ class CssRulesParser
     {
         $tab = [];
         $c = new static;
-
         $regex = $c->m_regex;
         $pos = 0;
         $c = '';
@@ -137,7 +126,6 @@ class CssRulesParser
                         if ($e->tokenID == 'glue') {
                             $v = trim($v);
                         }
-                        
                         if ($e->tokenID == 'glue-space') {
                             $v = $e->parentInfo == null ? ' ':'';
                         }

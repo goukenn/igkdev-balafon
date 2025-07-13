@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK;
-
 if (!function_exists('typeof')){
     function typeof($o){
         if (is_null($o)){
@@ -22,6 +20,5 @@ if (!function_exists('typeof')){
         if (is_int($o)){
             return 'int';
         }
-
     }
 }

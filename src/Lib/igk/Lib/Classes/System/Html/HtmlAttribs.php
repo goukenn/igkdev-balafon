@@ -7,13 +7,11 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlDomActiveAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\XmlNode;
 use IGK\System\Html\HtmlExpressionAttribute;
-
 class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     use IGK\System\Polyfill\ArrayAccessSelfTrait;
     use IGK\System\Polyfill\IteratorTrait;

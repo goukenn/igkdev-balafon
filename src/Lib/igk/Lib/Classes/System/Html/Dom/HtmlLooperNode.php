@@ -3,10 +3,7 @@
 // @filename: HtmlLooperNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use ArrayIterator;
 use Exception;
 use IGK\Controllers\BaseController;
@@ -28,7 +25,6 @@ use ReflectionException;
 use SebastianBergmann\FileIterator\Iterator;
 use IGK\System\Html\IHtmlHostContextContainer;
 use IGK\System\Html\IHtmlTemplateHost;
-
 /**
  * summary html array looper.
  * Help write view and article template without the php foreach loop
@@ -45,12 +41,10 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
     private $callback; 
     private $m_template;    
     protected $tagname = "igk:looper";
-
     /**
      * to indicate that the variables list is a looper key 
      */
     const LOOPER_KEY = '$raw';
-   
     private static $sm_renderingContextArgs;
     /**
      * param to pass 
@@ -58,7 +52,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
      */
     private $params; // 
     var $controller;
-
     function __debugInfo()
     {
         return [];
@@ -87,7 +80,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
         return $this;
     }
     public function getCanRenderTag() { return false; }
-
     /**
      * render override 
      * @param mixed $options 
@@ -148,7 +140,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
         $sb = self::_RenderTemplate($children, $t_options); 
         // + render global data 
         $n = igk_create_notagnode();  
-
         if ($v_args instanceof IViewExpressionArg){
             $hook_expression = $v_args->getExpression();                 
             self::_HostChain($n, $sb."", $v_args, $ctrl, $hook_expression);
@@ -175,7 +166,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
                $v_out=null;
             }
         } 
-
         array_shift(self::$sm_renderingContextArgs);
         return $v_out;
     }
@@ -197,7 +187,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
         } 
         return $sb.'';
     }
-
     /**
      * 
      * @param mixed $n target node 
@@ -222,7 +211,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
             igk_pop_article_chain();
         }
     }
-
     /**
      * bind host callable 
      * @param callable $callback 
@@ -281,8 +269,6 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
         $this->m_template->clearChilds();
     }
 }
-
-
 class LopperEvalData implements  \Iterator{
     use IteratorTrait;
     private $m_data;

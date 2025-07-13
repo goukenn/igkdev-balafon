@@ -3,10 +3,7 @@
 // @filename: ActionScaffold.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Scaffold;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\System\Console\App;
@@ -16,7 +13,6 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use ModelBase;
-
 class AuthScaffold extends ScaffoldBase
 {
     var $description = "authentication scaffold";
@@ -41,25 +37,20 @@ class AuthScaffold extends ScaffoldBase
         $model = igk_getv($command->options, "--model");
         $is_force = property_exists($command->options, "--force");
         $action_name = igk_getv($command->options, "--action");
- 
-
         //as class = 
         $controller = igk_str_ns($controller); 
-
         if (!($ctrl = igk_getctrl($controller, false))) {
             Logger::danger(sprintf("controller %s not found", $controller));
             return false;
         }
         // $ctrl::register_autoload();
         $viewdir = $ctrl->getViewDir(); 
-         
         $bind[$viewdir . "/ServiceLogin.phtml"] = function ($file) use ($model) {
             $sb = new StringBuilder;
             $sb->appendLine(implode('\n', [
             ]));
             igk_io_w2file($file, self::GenerateViewTemplate($file, $sb.''));
         };
-
         $bind[$viewdir . "/registerLogin.phtml"] = function ($file) use ($model) {
             $sb = new StringBuilder;
             $sb->appendLine(implode('\n',[]));
@@ -71,17 +62,14 @@ class AuthScaffold extends ScaffoldBase
             ]));
             igk_io_w2file($file, self::GenerateViewTemplate($file, $sb.''));
         };
-
         $bind[$viewdir . "/confirmRegistration.phtml"] = function ($file) use ($model) {
             $sb = new StringBuilder;
             $sb->appendLine(implode('\n',[
             ]));
             igk_io_w2file($file, self::GenerateViewTemplate($file, $sb.''));
         };
-
         Utility::MakeBindFiles($command, $bind, $is_force);
         if ($model) {
-            
             // $action->exec($command, get_class($ctrl), $name);
         }
         else if ($action_name){

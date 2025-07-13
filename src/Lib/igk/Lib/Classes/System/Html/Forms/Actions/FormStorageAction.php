@@ -3,16 +3,12 @@
 // @filename: FormStorageAction.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Forms\Actions;
-
 use IGK\Actions\ActionBase;
 use IGK\Helper\SysUtils;
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\Forms\FormValidation;
 use IGK\System\Http\Request;
-
 /**
  * form storage action.
  * @package 
@@ -20,17 +16,14 @@ use IGK\System\Http\Request;
 class FormStorageAction extends ActionBase{
     private $m_fields;
     private $m_callback;
-    
     var $formCref = 1;
     var $method = "POST";
     var $encType;
-
     /**
      * action requested
      * @var mixed
      */
     var $action;
-
     /**
      * entry file name
      * @var mixed
@@ -46,14 +39,11 @@ class FormStorageAction extends ActionBase{
      * @var string|array
      */
     var $uri;
-
     /**
      * redirect uri
      * @var mixed
      */
     var $redirect_uri;
-   
-
     /**
      * return errors 
      * @var mixed
@@ -70,7 +60,6 @@ class FormStorageAction extends ActionBase{
         $uri = $this->uri;
         $form = igk_create_node("form");//, null, [$uri, $action]);
         $_uri = is_array($uri) ? implode("/", $uri): $uri;
-
         if ($this->fname && $this->action){
             $_uri = implode("/",[$this->fname, $this->action]);
         }
@@ -79,7 +68,6 @@ class FormStorageAction extends ActionBase{
             $this->listener?
             ($this->listener->getAppUri($_uri)) : $_uri;
         $form["enctype"] = $this->encType;
-        
         if ($this->formCref){
             $form->cref();
         }
@@ -89,7 +77,6 @@ class FormStorageAction extends ActionBase{
         }
         return $form;
     }
-   
     /**
      * 
      * @param mixed $fields 
@@ -102,18 +89,15 @@ class FormStorageAction extends ActionBase{
         $this->m_callback = $callback;
         $this->listener = is_null($listener) ? ViewHelper::CurrentCtrl() : $listener;
         $this->throwActionNotFound = false;
-        
     }
     public function store(Request $request){      
         // validate first 
         $this->errors = null;
-
         if ($this->formCref){
             if (!igk_valid_cref(1, false)){
                 return false;
             }
         }
-
         $val = new FormValidation(); 
         $obj = $val->fields($this->m_fields)->validate($_REQUEST);
         if ($obj===false){
@@ -126,7 +110,6 @@ class FormStorageAction extends ActionBase{
             }
         }
     }
-   
     /**
      * handle actions
      * @param mixed $fname 

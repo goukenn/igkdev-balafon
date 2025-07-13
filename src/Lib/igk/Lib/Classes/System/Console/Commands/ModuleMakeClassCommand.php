@@ -3,12 +3,10 @@
 // @file: ModuleMakeClassCommand.php
 // @date: 20230103 22:47:37
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Traits\ClassBuilderTrait;
 use IGK\System\Console\Logger;
 use IGK\Tests\Controllers\ModuleBaseTestCase;
-
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -28,7 +26,6 @@ class ModuleMakeClassCommand extends AppExecCommand{
     }
     public function exec($command, ?string $module = null, ?string $class_path=null) 
     {
-
         if (!$module || !($mod = igk_get_module($module))){
             Logger::danger('module not found');
             return -1;
@@ -46,7 +43,6 @@ class ModuleMakeClassCommand extends AppExecCommand{
         }
         $ns = $mod->getEntryNamespace();        
         $no_test_class = false;
-
         if (!$test && (strpos($class_path,'./') === 0)){
             $class_path = substr($class_path, 2);
             $b = explode("/", $class_path, 2);
@@ -58,8 +54,6 @@ class ModuleMakeClassCommand extends AppExecCommand{
         }
         $dir = ($test ? $mod->getTestClassesDir(): $mod->getClassesDir());  
         $extends = igk_getv($command->options, "--extends", $test && !$no_test_class ? ModuleBaseTestCase::class : null);
-      
-
         if (!$no_test_class && $test && !igk_str_endwith($class_path, 'Test')){
             $class_path .= 'Test';
         }
@@ -72,5 +66,4 @@ class ModuleMakeClassCommand extends AppExecCommand{
         }
         return 200;
     }
-
 }

@@ -3,10 +3,8 @@
 // @file: ActivateCommand.php
 // @date: 20240927 15:47:17
 namespace IGK\System\Console\Commands\Users;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Users

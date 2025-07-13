@@ -3,8 +3,6 @@
 // @file: ConfigurationTerminalController.php
 // @date: 20250419 12:19:04
 namespace IGK\System\Configuration\Controllers;
-
-
 /**
 * terminal command interface 
 * @package IGK\System\Configuration\Controllers

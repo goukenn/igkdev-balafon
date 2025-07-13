@@ -3,11 +3,8 @@
 // @filename: IGKMySQLTimeManager.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Database\MySQL;
 use \IGKObject;
-
 /**
 * Represent IGKMySQLTimeManager class
 */

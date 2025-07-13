@@ -3,12 +3,10 @@
 // @file: MakeRolesCommand.php
 // @date: 20250210 15:43:21
 namespace IGK\System\Console\Commands\Auth;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Auth
@@ -22,7 +20,6 @@ class MakeRolesCommand extends AppExecCommand{
 	var $usage = 'controller [options]';
 	public function exec($command, ?string $controller = null) { 
 		$ctrl = self::GetController($controller);
-
 		$path = $ctrl->getConfigsDir();
 		$l = Path::Combine($path, 'profiles.php');
 		if (igk_io_file_exists($l)){

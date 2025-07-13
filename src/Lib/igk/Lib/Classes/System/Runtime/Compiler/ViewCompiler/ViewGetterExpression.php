@@ -3,7 +3,6 @@
 // @file: ViewGetterExpression.php
 // @date: 20221028 16:02:25
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use ArrayAccess;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\HtmlRenderer;
@@ -11,7 +10,6 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Runtime\Compiler\ViewCompiler\Html\ExpressionArgNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\Html\ExpressionNodeBase;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewExpressionArg;
-
 /**
 * use to resolve getter expression string operations
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -81,7 +79,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
         $this->m_resolv .= "[".$name."]";
         return $this;
     }
-     
     public function createExpressionNode(){ 
         $c = $this->m_resolv;
         $this->m_resolv = "";
@@ -89,7 +86,6 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
         return new ExpressionNode('<?= '.$m.'$'.$this->m_name.$c.') ?>');          
     }
 }
-
 class ExpressionNode extends ExpressionNodeBase{
     var $expression;
     public function __construct(string $expression)

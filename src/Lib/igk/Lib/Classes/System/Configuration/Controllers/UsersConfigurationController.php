@@ -3,10 +3,7 @@
 // @filename: UsersConfigurationController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace  IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\ActionHelper;
 use IGK\Helper\StringUtility;
@@ -30,9 +27,7 @@ use IGKHtmlDoc;
 use IGKSysUtil;
 use IGKValidator;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-
 /**
  * class used to register global user in system
  */
@@ -237,7 +232,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return igk_db_get_table_name(IGK_TB_USERS);
     }
-
     /**
      * 
      */
@@ -304,15 +298,11 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return null;
     }
-
     protected function initComplete($context = null)
     {
         parent::initComplete();
         if ( ($v_type = igk_environment()->context()) != IGKAppType::balafon){
-            
             return;
-
-
             igk_reg_hook(IGKEvents::HOOK_DB_TABLECREATED, function ($e) {
                 if (($e->args["1"] == Users::table())) {
                     // TODO : wait for init complete to init data
@@ -339,7 +329,6 @@ class UsersConfigurationController extends ConfigControllerBase
             Users::InitSystemUsers(); 
         }
     }
-
     /**
      * @param mixed $func
      */
@@ -440,7 +429,6 @@ class UsersConfigurationController extends ConfigControllerBase
             $type = "danger";
             $msg = __("failed to remove user from group");
         }
-
         if (igk_is_ajx_demand()) {
             igk_ajx_toast($msg, $type);
             igk_exit();
@@ -475,7 +463,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         if (igk_is_uri_demand($this->getUri(__FUNCTION__)))
             igk_die("uri request not allowed");
-
         if (!($user = igk_get_user_bylogin($_edata->email))) {
             $user = $this->register(
                 $_edata->email,
@@ -689,7 +676,6 @@ class UsersConfigurationController extends ConfigControllerBase
         /**
          * @var mixed $e
          */
-
         $rp = igk_getquery_args(base64_decode(igk_getr("q")));
         $email = igk_getv($rp, "u");
         $gooduri = igk_getv($rp, "redirect");
@@ -746,7 +732,6 @@ class UsersConfigurationController extends ConfigControllerBase
          */
         $npwd = igk_getr("clNewPwd");
         $e = $this->getDbEntries();
-
         $t = $e->searchEqual(array("clPwd" => igk_getr("clLogin")));
         if ($t && is_object($t)) {
             $t->clStatus = 1;
@@ -780,7 +765,6 @@ class UsersConfigurationController extends ConfigControllerBase
                 ]
             ]];
         }
-
         $t->clearChilds();
         $t = $t->addPanelBox();
         igk_html_add_title($t, __("System's Users"));
@@ -829,18 +813,14 @@ class UsersConfigurationController extends ConfigControllerBase
                 ->setAttribute("title", __("change password"))
                 ->Content =
                 igk_svg_use("cog-outline");
-
-
             HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), 
                 $v->clStatus == 2 ? 'active_16x16': "drop_16x16" );
         }, $condition, null);
-
         // if (igk_environment()->isDev()){
         //     $frm->ajxa($this->getUri('update_ajx'))->Content = 'update_ajx';       
         // }
         return $this;
     }
-     
     // public function update_ajx(){
     //     Users::delete(['clLogin'=>'dummy@igkdev.com']);
     //     $_REQUEST = [
@@ -884,7 +864,6 @@ class UsersConfigurationController extends ConfigControllerBase
      */
     public function changePassword(?int $id = null)
     {
-
         if (!igk_is_conf_connected()) {
             igk_get_header_status(403);
         }
@@ -897,7 +876,6 @@ class UsersConfigurationController extends ConfigControllerBase
         if (!$rid) {
             igk_die("user not found", 403);
         }
-
         if (igk_server()->method("POST")) {
             if (!igk_valid_cref(1)) {
                 igk_die("not a valid cref", 500);
@@ -911,13 +889,11 @@ class UsersConfigurationController extends ConfigControllerBase
             igk_ajx_panel_dialog_close();
             SysUtils::exitOnAJX();
         }
-
         $form = igk_create_node("form");
         $form["action"] = $this->getUri(__FUNCTION__);
         $form["igk-ajx-form"] = 1;
         $form->setStyle("min-width: 360px;");
         igk_html_form_initfield($form);
-
         $form->div()->setStyle("margin-bottom:2.1em")->Content = igk_user_fullname($rid);
         $form->span()->fields([
             "pwd" => ["type" => "password", "label_text" => __("Password"), 'placeholder' => __('password')],

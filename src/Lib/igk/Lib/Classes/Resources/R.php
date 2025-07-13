@@ -3,15 +3,12 @@
 // @filename: R.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\Resources;
-
 use IGK\Controllers\BaseController;
 use IGK\Resources\IGKLangExpression;
 use IGKObject;
 use IGKAppContext;
 use IGK\Resources\IGKLangKey;
-
 use IGK\Resources\IGKLangResDictionary;
 use IGK\System\Console\Logger;
 use IGKAppType; 
@@ -19,10 +16,7 @@ use IGK\System\Html\HtmlReader;
 use IGK\System\IO\FileSystem;
 use IGKException; 
 use IGKUserAgent;
-
 use function igk_resources_gets as __;
-
-
 /**
 * IGKResource Class. represent resource / lang / resource management
 */
@@ -38,9 +32,7 @@ final class R extends IGKObject {
     var $LangChangedEvent;
     var $PageLangChangedEvent;
     private $sm_static;
-
     const _HANDLER_KEY = __CLASS__.'@string_resource_handler';
-
     public static function GetStringResourceHandler(){
         return igk_environment()->peek(self::_HANDLER_KEY);
     }
@@ -85,7 +77,6 @@ final class R extends IGKObject {
             $locale = self::GetCurrentLang();
         }
         if ($locale != self::GetCurrentLang()){
-            
         }
         return __($text, ...$args);
     }
@@ -110,7 +101,6 @@ final class R extends IGKObject {
     * @param mixed $lang the default value is "fr"
     */
     public static function ChangeLang($lang="fr"){
- 
         $app=igk_app();
         $v=self::getInstance();
         if(igk_get_env($key="flag:".__FUNCTION__))
@@ -120,7 +110,6 @@ final class R extends IGKObject {
         $tab = array_unique(self::GetSupportedLangs()); 
         $tc = array_combine(array_map('strtolower', $tab), $tab);
         $lang = igk_getv($tc, strtolower($lang)) ?? igk_configs()->default_lang;
-
         $r=false;
         if(($v_lang != $lang) && in_array($lang, $tab)){
             $app->session->lang=$lang;
@@ -231,7 +220,6 @@ final class R extends IGKObject {
             }
             return $key;
         }
-       
         $i=self::getInstance();    
         $t=$key;
         if(isset($i->langRes[$t])){
@@ -285,7 +273,6 @@ final class R extends IGKObject {
         }
         return $r ?? 'en'; 
     }
- 
     /**
     * 
     */
@@ -501,7 +488,6 @@ EOF;
     */
     public static function RegLangCtrl($ctrl){
         $_instance=self::getInstance();
-       
         if($_instance->m_langctrl == null)
             $_instance->m_langctrl=array();
         if($_instance->m_langFiles == null)
@@ -622,7 +608,6 @@ EOF;
         if(isset($_instance->m_langctrl[$ctrl->getName()]))
             unset($_instance->m_langctrl[$ctrl->getName()]);
     }
-
     /**
      * include language regex
      * @param string $filename,

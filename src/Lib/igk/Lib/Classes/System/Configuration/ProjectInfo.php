@@ -3,8 +3,6 @@
 // @file: ProjectInfo.php
 // @date: 20230313 21:48:05
 namespace IGK\System\Configuration;
-
-
 /**
 * used to load project info setting  
 * @package IGK\System\Configuration
@@ -33,6 +31,4 @@ class ProjectInfo{
      * @var mixed
      */
     var $composer;
-    
-
 }

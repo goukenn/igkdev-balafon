@@ -1,8 +1,4 @@
 <?php
-
-
-
-
 // @file: IGKHtmlContext.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
@@ -11,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html;
-
 /**
  * represent rendering context constant;
  * @package IGK\System\Html
@@ -27,7 +21,6 @@ abstract class HtmlContext extends HtmlRenderingContext{
      * html tag that denied a close tag
      */
     const EmptyTags =  "br|hr|img|input|source|link|meta|base|col|embed|param|track|wbr";
-
     protected function __construct(){        
     }
     public static function GetEmptyTagArray(){

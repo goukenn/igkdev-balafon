@@ -3,9 +3,7 @@
 // @file: HttpUtility.php
 // @date: 20230914 09:48:49
 namespace IGK\System\Http;
-
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Http
@@ -52,7 +50,6 @@ abstract class HttpUtility{
             'text/html'=>'html'
         ], $mime_list), $mimetype, $default);
     }
-
     /**
      * retrieve base host
      * @param null|string $uri 

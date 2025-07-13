@@ -3,12 +3,8 @@
 // @filename: DashboardBase.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\WinUI;
-
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
  * 
  * @package IGK\System\WinUI
@@ -27,7 +23,6 @@ class DashboardBase extends HtmlNode{
     public static function RegisterList(){
         return self::$sm_register;
     }
-
     public static function Create(string $name){
         $cl = null;
         if (isset(self::$sm_register[$name])){
@@ -39,7 +34,6 @@ class DashboardBase extends HtmlNode{
         if (($cl === null) || !class_exists($cl)){
             return null;
         }
-
         return new $cl();
     }
     /**
@@ -48,6 +42,5 @@ class DashboardBase extends HtmlNode{
      * @return void 
      */
     public function initParam(array $params){
-
     }
 }

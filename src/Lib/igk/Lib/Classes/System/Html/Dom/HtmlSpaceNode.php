@@ -3,7 +3,6 @@
 // @filename: HtmlSpaceNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom; 
 /**
 * no definition 
@@ -24,5 +23,4 @@ class HtmlSpaceNode extends HtmlNode{
     public function getCanRenderTag(){ 
         return false;
     }
-    
 }

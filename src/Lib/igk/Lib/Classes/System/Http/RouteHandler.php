@@ -3,14 +3,10 @@
 // @filename: RouteHandler.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 use IGK\Actions\Dispatcher;
 use IGKException;
 use ReflectionMethod;
-
 /**
  * represent a route handler object
  * @package 
@@ -18,7 +14,6 @@ use ReflectionMethod;
 class RouteHandler
 {
     protected $user;
-
     protected $info;
     /**
      * name for searching
@@ -35,67 +30,55 @@ class RouteHandler
      * @var array
      */
     protected $verbs = [];
-
     /**
      * autorisation string
      * @var string|array
      */
     protected $auth;
-
     /**
      * route path pattern
      * @var string
      */
     protected $path;
-
     /**
      * attach secutiry on route 
      * @var null|'BasicAuth'|'BearerAuth'
      */
     protected $security;
-
     /**
      * controller or route class handler
      */
     protected $controller;
-
     /**
      * set the route
      */
     protected $route;
-
     /**
      * support ajx
      * @var bool
      */
     protected $ajx;
-
     /**
      * stored expression
      * @var mixed
      */
     protected $m_expressions;
-
     /**
      * enable strict directory
      * @var bool
      */
     protected $strict_dir;
-
     /**
      * authenticated user required
      * @var bool
      */
     protected $user_required;
-
     /**
      * redirect path 
      * @var ?string
      */
     protected $m_redirect_uri;
-
     protected $auth_requirement;
-
     public function getRoute()
     {
         return $this->route;
@@ -108,7 +91,6 @@ class RouteHandler
     {
         return $this->verbs;
     }
-
     protected function setRoute($route)
     {
         $this->route = $route;
@@ -121,7 +103,6 @@ class RouteHandler
     public function isAuthRequired(){
         return !empty($this->auth);
     }
-
  /**
      * set roting property object
      * @param object $info 
@@ -188,7 +169,6 @@ class RouteHandler
     {
         return $this->route_type;
     }
-
     /**
      * construct route
      * @param string $path 
@@ -242,7 +222,6 @@ class RouteHandler
     protected function getPatternRegex()
     {
         return static::GetRouteRegex($this->path, $this->m_expressions);
-
         // $croute = "/" . ltrim($this->path, "/");
         // if (preg_match_all("/(?P<mark1>\/)?(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})(?P<mark2>\/)?/i", $croute, $tab)) {
         //     $count = 0;
@@ -252,9 +231,6 @@ class RouteHandler
         //         $opt = igk_getv($tab["option"], $count) == "*";
         //         $mark1 = igk_getv($tab["mark1"], $count);
         //         $mark2 = igk_getv($tab["mark2"], $count);
-
-                
-                
         //         if ($g = igk_getv($this->m_expressions, $c, ".*")) {
         //             if ($opt) {
         //                 $g = "({$g}(/)?)?";
@@ -312,7 +288,6 @@ class RouteHandler
         }
         return "#^" . $croute . "$#";
     }
-
     /**
      * retrive resolved uri
      * @param string $routepattern 
@@ -332,13 +307,11 @@ class RouteHandler
                 $opt = igk_getv($tab["option"], $count) == "*";
                 $mark1 = igk_getv($tab["mark1"], $count);
                 $mark2 = igk_getv($tab["mark2"], $count);
-                
                 if ($g = igk_getv($resolve, $c)) {
                     $rp = $g;
                     if ($mark1){
                         $rp = "/".$rp;
                     }
-                   
                     $croute = str_replace($s, $rp, $croute);
                 }
                 $count++;
@@ -347,7 +320,6 @@ class RouteHandler
         if ($baseUri != null){
             $croute = $baseUri . $croute;
         }
-        
         return  $croute ;
     }
     /**
@@ -466,7 +438,6 @@ class RouteHandler
         }
         throw new RequestException(404, "api route not found");
     }
-
     /**
      * 
      * @param mixed|RouteHandler $route 
@@ -476,7 +447,6 @@ class RouteHandler
     public static function Handle($route, ...$arguments){
         return $route->process(...$arguments);
     }   
-
      /**
      * set ajx route pattern requirement
      * @param bool $value 

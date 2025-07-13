@@ -3,20 +3,17 @@
 // @file: Cookies.php
 // @date: 20230705 11:57:31
 namespace IGK\System\Http;
-
 // + | --------------------------------------------------------------------
 // + | cookie manipulation
 // + | Apache: configuration for php < 7.3
 // + |  Header always edit Set-Cookie (.*) "$1; SameSite=Lax"
 // + |  https://stackoverflow.com/questions/39750906/php-setcookie-samesite-strict
-
 /**
 * 
 * @package IGK\System\Http
 */
 class Cookies{
     const USER_ID = 'uid';
-
     /**
      * store cookies
      * @param string $name 

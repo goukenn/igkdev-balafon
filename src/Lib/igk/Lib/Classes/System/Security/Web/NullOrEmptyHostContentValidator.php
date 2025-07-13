@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\System\Security\Web;
-
 /**
  * null or empty host content validator
  * @package IGK\System\Security\Web
@@ -12,7 +10,6 @@ class NullOrEmptyHostContentValidator extends MapContentValidatorBase{
     {
         $this->parent = $parent;
     }
-
     public function map($value, $key, &$error, bool $missing=false, bool $required = true) { 
         if (empty($value)){
             return null;

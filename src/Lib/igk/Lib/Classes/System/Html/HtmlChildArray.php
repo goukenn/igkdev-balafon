@@ -3,17 +3,12 @@
 // @filename: HtmlChildArray.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use ArrayAccess;
 use IGK\System\Collections\ArrayList;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 class HtmlChildArray extends ArrayList implements ArrayAccess{
     use ArrayAccessSelfTrait; 
-
     public function activate($n){
         $this->m_data[$n] = HtmlActiveAttrib::getInstance();
     }
@@ -44,5 +39,4 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
             return $ai <=> $bi;
         });  
     }
-
 }

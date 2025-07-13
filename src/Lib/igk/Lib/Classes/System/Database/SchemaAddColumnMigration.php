@@ -4,7 +4,6 @@
 // @desc: schema builder helper
 // @date: 20210422 09:09:36
 namespace IGK\System\Database;
-
 use Exception;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
@@ -12,22 +11,18 @@ use IGK\Database\IDbColumnInfo;
 use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
 use IGKException;
-
 /**
  * update migrations
  * @package IGK\System\Database
  */
 class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "after"];
-
-    
     /**
      * list of column info
      */
     protected $columns;
     protected function loadChilds($childs){
         $v_table = $this->table;
-        
         $this->columns = [];
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($v_table, $ctrl);
@@ -39,7 +34,6 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
                 $this->columns[]=$cl; 
             }
         }   
-        
     }
     protected function checkRequirement()
     {
@@ -68,7 +62,6 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         }
         if ($after)
             $after = Database::AutoPrefixColumn($after, $prefix);
-
         $changed = false;
         foreach($this->columns as $cl){
             if (is_null($cl->clName)){

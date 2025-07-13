@@ -3,15 +3,12 @@
 // @filename: DbQueryRowObj.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Database;
-
 use ArrayAccess;
 use IGK\Helper\Utility;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Polyfill\IteratorTrait;
 use Iterator;
-
 /**
  * Query row result 
  * @package IGK\Database
@@ -47,11 +44,9 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		$c = $this->m_rows;
 		return array_pop($c);
 	}
-
     public function to_json(){
         return Utility::To_JSON($this->m_rows, null);
     }
- 
 	public static function Create($tab){
 		if (!$tab || !is_array($tab))
 			return null;
@@ -89,7 +84,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	protected function _access_offsetUnset($i){
 		 unset( $this->m_rows[$i]);
 	}
-
 	public function __isset($i){ 
 		return $this->OffsetExists($i);
 	}
@@ -102,7 +96,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     public function __unset($n){
         $this->OffsetUnset($n);
     }
-
 	public function _iterator_current (){
 		return $this->it_current;
 	}
@@ -134,7 +127,6 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     public function columnExists($name):bool{
 		return key_exists($name, $this->m_rows);
 	}
-
 	public function count():int{
 		return count($this->m_rows);
 	}

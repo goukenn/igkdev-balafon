@@ -1,15 +1,12 @@
 <?php
 namespace IGK\System\IO\File;
-
 use IGK\Helper\IO as IGKIO;
 use IGK\System\Html\Dom\HtmlNode;
 use IGKObject; 
 use ReflectionMethod;
-
 // @author: C.A.D. BONDJE DOUE
 // licence: IGKDEV - Balafon @ 2019
 // desc: wsdl utility class
-
 /**
 * used to generate file
 */

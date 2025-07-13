@@ -3,10 +3,7 @@
 // @filename: SysUtils.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Helper;
-
 use Error;
 use Exception;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
@@ -24,7 +21,6 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use TypeError;
-
 class SysUtils{
     /**
      * helper to secure web port 
@@ -183,7 +179,6 @@ class SysUtils{
         $projects_ctrl = [];
         foreach ($c as $k){
             $ccpath = igk_io_collapse_path($k->getDeclaredDir());;
-            
             if (strstr($ccpath, $dir)) {
                 if (!$filter || $filter($k))
                     $projects_ctrl[] = $k;
@@ -202,8 +197,6 @@ class SysUtils{
                 return $n;
             return null;
         },$ref->getMethods( ReflectionMethod::IS_PUBLIC)));
-
-
     }
      /**
      * 
@@ -218,7 +211,6 @@ class SysUtils{
             return $n;
         return $n->to_array();
     } 
-
      public static function Notify($message, $type="default"){
         if (igk_is_ajx_demand()){
             igk_ajx_toast($message, $type);
@@ -238,7 +230,6 @@ class SysUtils{
         } 
         igk_exit();
     }
-
     public static function InitClassFields($c, $object){
         $properties = igk_relection_get_properties_keys(get_class($c)); 
         foreach($object as $k=>$v){
@@ -255,7 +246,6 @@ class SysUtils{
         foreach(get_class_vars(get_class($n)) as $k=>$c){ 
             $n->$k = igk_getv($tag, $k, $c);
         } 
-
     }
     public static function assert_notify($condition, $successmsg, $errormessage, $name=null){
         $check = igk_check($condition);
@@ -286,7 +276,6 @@ class SysUtils{
         }
         igk_ajx_toast($d["msg"], $d["type"]);
     }
-
     /**
      * get subdomain controller 
      * @return null|BaseController subdomain controller
@@ -303,7 +292,6 @@ class SysUtils{
      */
     public static function CurrentBaseController(){
         // $a = igk_app();
-
         return igk_environment()->subdomainctrl ??
             igk_app()->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
     }
@@ -315,7 +303,6 @@ class SysUtils{
     public static function GetApplicationLibrary(string $name){
         return igk_getv(igk_app()->getApplication()->getLibrary(), $name);
     }
-
      ///JUST: store to controller
     /**
      * clear cache for base dir
@@ -338,7 +325,6 @@ class SysUtils{
             igk_hook("sys://cache/clear");
         }
     }
-
     /**
      * resolv link path
      * @param string $rp 
@@ -346,7 +332,6 @@ class SysUtils{
      * @throws IGKException 
      */
     public static function ResolvLinkPath(string $rp){
-
         if (is_null(igk_server()->HOME) && ($p = igk_configs()->get('access_home_dir'))){
             $home_dir = "/home/".igk_server()->USER;
             if (strpos($rp, $home_dir) === 0 ){

@@ -8,13 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Drawing;
-
 use Exception;
 use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
 use function igk_clamp as clamp;
-
 class Colorf extends IGKObject
 {
     private $m_A, $m_B, $m_G, $m_R;

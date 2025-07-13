@@ -3,9 +3,7 @@
 // @filename: CronJob.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\System;
-
 use Exception;
 use IGK\Helper\SysUtils;
 use IGK\Helper\Utility;
@@ -15,7 +13,6 @@ use IGK\System\Cron\CronExecutionStatus;
 use IGK\System\Cron\CronScriptHandler;
 use IGK\System\Process\CronJobProcess;
 use Throwable;
-
 /**
  * 
  * @package IGK\System
@@ -32,7 +29,6 @@ class CronJob
      * @var ?string
      */
     var $ctrl;
-
     public function execute()
     {
         if ($rows = Crons::select_all([
@@ -63,16 +59,12 @@ class CronJob
         //             return -1;
         //         }
         //     }
-
-
         //     $condition = ["!crons_process" => 1];
         //     if ($ctrl &&  ($ctrl = igk_getctrl($ctrl, false))) {
         //         $condition["crons_class"] = get_class($ctrl);
         //     }
         //     $rows = Crons::select_all($condition);
-
         //     foreach ($rows as $r) {
-
         //         if ($provider = CronJobProcess::GetJobProcessProvider($r->crons_script)) {
         //             if ($provider->exec($r->crons_name, json_decode($r->crons_options), $ctrl)) {
         //                 $r->crons_process = 1;
@@ -117,7 +109,6 @@ class CronJob
     {
         if (!class_exists('CommandHelper', false))
             class_alias(\IGK\System\Cron\CommandHelper::class, 'CommandHelper');
-
         $dir = IGK_LIB_DIR.'/Crons';
         $exclude_fs = $exclude_fs ?? IGK_LIB_DIR.'/cron-tab.php';
         $json_db_flag = JSON_UNESCAPED_SLASHES;
@@ -143,7 +134,6 @@ class CronJob
                                     'last-execution' => igk_getv($d, '@last-execution')
                                 ]]);
                                 $l = igk_execute_time('cron_exec');
-
                                 if ($status == CronExecutionStatus::SKIP) {
                                     continue;
                                 }

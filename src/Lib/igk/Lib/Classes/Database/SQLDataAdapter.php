@@ -3,10 +3,7 @@
 // @filename: SQLDataAdapter.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Database;
-
 use Exception;
 use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Database\IDbSendQueryListenerSupport;
@@ -15,22 +12,17 @@ use IGK\System\Html\IHtmlGetValue;
 use IGKException;
 use IGKSysUtil;
 use ModelBase;
-
 use function igk_getv as getv;
 use function igk_resources_gets as __;
-
 /**
 * Represent IGKSQLDataAdapter class
 */
 abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCreator, IDbSendQueryListenerSupport{
     const DB_INFORMATION_SCHEMA = "information_schema";
-
     private $m_listener;
-
     public function setSendDbQueryListener(?IDbSendQueryListener $listener) {
         $this->m_listener = $listener; 
     }
-
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return $this->m_listener; }
     /**
      * 
@@ -62,7 +54,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
      * @throws IGKException 
      */
     public function getParam($k, $rowInfo=null, $tinfo=null): ?string{
-   
         static $configs;
         if ($configs===null){
             $configs['auto_increment_word'] = "AUTO_INCREMENT";
@@ -76,7 +67,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         }
         return $m;
     }
-
      /**
      * create link expression
      * @param string $table table name
@@ -195,8 +185,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createInsertQuery($tbname, $values, $tableinfo);		
         return $this->sendQuery($query);  
     }
-
-
    /**
     * 
     */
@@ -243,7 +231,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $s=$this->sendQuery($query, $tablename);
         return $s;
     }
-
     /**
      * 
      * @param mixed $type 
@@ -251,7 +238,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
      * @return string|null 
      */
     public function getFuncValue($type, $value){
-       
         switch($type){
             case "IGK_PASSWD_ENCRYPT":
             return "'".$this->escape_string(IGKSysUtil::Encrypt($value))."'";
@@ -268,7 +254,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
      * @throws IGKException 
      */
     public function getObjValue($value, ?string $for=null, $tableInfo = null){
-        
         if ($value instanceof \IGK\Models\ModelBase){
             if ($for && $tableInfo){
                 $clinfo = igk_getv($tableInfo, $for);

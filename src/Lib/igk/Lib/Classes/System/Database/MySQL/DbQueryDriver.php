@@ -3,17 +3,13 @@
 // @filename: DbQueryDriver.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Database\MySQL;
-
 use Exception;
 use IGK\Database\DbQueryDriver as DatabaseDbQueryDriver;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\Constants;
 use IGKException;
 use ReflectionException;
-
 /**
  * mysql query driver 
  */
@@ -45,7 +41,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         }
         return '-1';
     }
-   
     /**
      * initilzie data driver 
      * @param mixed $resource 
@@ -64,7 +59,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         }
         return false;
     }
-
     /**
      * 
      * @param mixed $t

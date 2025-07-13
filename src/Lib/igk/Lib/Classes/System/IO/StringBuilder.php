@@ -4,8 +4,6 @@
 // @desc: String builder helper
 // @date: 20210723 13:22:40
 namespace IGK\System\IO;
-
-
 /**
  * string builder helper
  * @package IGK\System\IO
@@ -13,7 +11,6 @@ namespace IGK\System\IO;
 class StringBuilder{
     protected $m_src;
     private $m_instop;
-    
     /**
      * line feed symbol
      * @var string
@@ -24,7 +21,6 @@ class StringBuilder{
      * @var string
      */
     var $tabstop='';
-    
     public function __construct(?string & $src = null)
     {
         if ($src===null){
@@ -113,7 +109,6 @@ class StringBuilder{
     public function ltrim(string $charlist=" \t\n\r\0\x0B"){
         $this->m_src = ltrim($this->m_src, $charlist);
         return $this;
-
     }
     /**
      * trim data
@@ -145,7 +140,6 @@ class StringBuilder{
     public function isEmpty(){
         return empty($this->m_src);
     }
-
     /**
      * replace string
      * @param string $hastack 

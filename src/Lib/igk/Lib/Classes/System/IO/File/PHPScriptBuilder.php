@@ -4,11 +4,9 @@
 // @desc: PhpScript builder helper
 // @date: 20210723 13:22:40
 namespace IGK\System\IO\File;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Traits\StoredPropertiesTrait;
 use IGKException;
-
 /**
  * php script builder
  * @package IGK\System\IO\File
@@ -30,7 +28,6 @@ class PHPScriptBuilder
     var $no_header_comment;
     var $author;
     use StoredPropertiesTrait;
-
     public static function CreateEmptyScriptCallback(){
         return function($file){
             $g = new self;
@@ -38,7 +35,6 @@ class PHPScriptBuilder
             igk_io_w2file($file, $g->render());
         };
     }
-
     public function __construct()
     {
         $this->author = IGK_AUTHOR;
@@ -61,7 +57,6 @@ class PHPScriptBuilder
      * @return void 
      * @throws IGKException 
      */
-
     public static function WriteArray($file, $tab, $desc = "")
     {
         $builder = new static;
@@ -133,7 +128,6 @@ class PHPScriptBuilder
                 $_uses = [$_uses];
             }
         }
-
         $defs = "";
         if ($e = $this->defs) {
             $defs .= StringUtility::IndentContent($e)."\n";
@@ -141,7 +135,6 @@ class PHPScriptBuilder
             //     return "\t" . $s;
             // }, explode("\n", $e))) . "\n";
         }
-
         switch ($this->type) {
             case "function":
                 $o .= preg_replace("/^\\t/m", "", $defs);
@@ -153,7 +146,6 @@ class PHPScriptBuilder
                     // documents
                     // $o .= "///<summary>" . implode("///", explode("\n", trim($d))). "</summary>\n";  
                     $o .= $_setPhDoc($d, $ns, $v_author);
-                    
                 } else {
                     // $o .= "///<summary></summary>\n";
                     $o .= $_setPhDoc("", $ns, $v_author); 
@@ -169,7 +161,6 @@ class PHPScriptBuilder
                 //     $e = array_unique($e);
                 //     array_map($this->_getHeaderMap($h, $_uses), $e);
                 // }
-
                 $o .= $modifier . $this->type . " " . $this->name;
                 if ($e = $this->extends) {
                     $cu = igk_uri($e);
@@ -208,7 +199,6 @@ class PHPScriptBuilder
             default:
                 break;
         }
-
         if ($_uses){
             // ksort($_uses);
             $v_uses = array_map(function($n, $k) use (& $t_uses){
@@ -231,7 +221,6 @@ class PHPScriptBuilder
             sort($v_uses);
             $h .= implode("\n", $v_uses).PHP_EOL;
         }
-
         return "<?php\n" . $h . "\n" . $o;
     }
     /**

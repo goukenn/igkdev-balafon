@@ -3,8 +3,6 @@
 // @file: MailRegistrationTrait.php
 // @date: 20221115 21:52:14
 namespace IGK\Actions\Traits;
-
-
 /**
 * 
 * @package IGK\Actions\Traits

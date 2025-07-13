@@ -3,11 +3,7 @@
 // @filename: SvgRenderer.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
-
 namespace IGK\System\Html\SVG;
-
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Exceptions\CssParserException;
@@ -17,17 +13,13 @@ use IGK\System\Html\Dom\SvgListNode;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 /**
  * document page svg list renderer
  */
 class SvgRenderer{
-
     public static $RegisterPath = [];
     private static $sm_renderList = false;
     const FOLDER = __CLASS__."::svgLibFolder";
-
-
      /**
      * return svg folder 
      * @return mixed 
@@ -45,7 +37,6 @@ class SvgRenderer{
         }
         return false;
     }
-
     /**
      * return svg key folder 
      * @return array 
@@ -84,7 +75,6 @@ class SvgRenderer{
         return false;
     }
     public static function AcceptRenderList($options){ 
-    
         if (!self::$sm_renderList){
             if (igk_getv($options, "Document")){
                 igk_reg_hook(IGKEvents::HOOK_HTML_BODY, [self::class, "RenderList"]);           
@@ -136,5 +126,4 @@ class SvgRenderer{
         $n = new SvgListIconNode($name);                
         return $n;
     }
-
 }

@@ -3,12 +3,8 @@
 // @filename: IGlobalFunction.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK;
-
 use IGKException;
-
 /**
  * invoke global function with options.
  * @package 
@@ -37,7 +33,6 @@ abstract class IGlobalFunction
             $fc = $name;
             $result = call_user_func_array($fc, $args);
             if (is_object($o = igk_getv($args, 0))) {
-
                 $o->handle = true;
                 $o->result = $result;
             }

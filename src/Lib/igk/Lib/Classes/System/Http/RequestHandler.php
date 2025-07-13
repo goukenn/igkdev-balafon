@@ -3,10 +3,7 @@
 // @filename: RequestHandler.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 use Exception;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
@@ -22,10 +19,7 @@ use IGK\System\Http\Routes;
 use IGKApplication;
 use IGKEvents;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-
-
 /**
  * base request handle
  * @package IGK\System\Http
@@ -39,7 +33,6 @@ class RequestHandler
      * @var mixed
      */
     var $context;
-
     /**
      * 
      * @return RequestHandler instance 
@@ -50,7 +43,6 @@ class RequestHandler
             self::$sm_instance = new self();
         return self::$sm_instance;
     }
-
     private function __construct()
     {
     }
@@ -67,7 +59,6 @@ class RequestHandler
      * @throws ReflectionException 
      */
     public static function HandleRequestUri(string $uri, ?IRequestFileHandler $fileHandler=null, bool $web=true, ?String $file=null, bool $render=true){
-       
         if(igk_io_handle_system_command($uri)){
             if ($web)
                  igk_exit();
@@ -79,7 +70,6 @@ class RequestHandler
             $fileHandler->handleRequest($file, $render);
         }
     }
-
     /**
      * get if request handler handle the controller request
      * @param string $uri 
@@ -101,7 +91,6 @@ class RequestHandler
         $route_file = \IGK\System\IO\Path::getInstance()->getDataDir() . "/routes.php";
         if (!igk_io_file_exists($route_file, true))
             return;
-      
         if ($routes == null) {
             $routes = new RouteCollection();
             // + | --------------------------------------------
@@ -113,23 +102,18 @@ class RequestHandler
         $user = null;
         if (empty($routes))
             return;
-  
-   
         $arguments = [];
         foreach ($routes as $v) {
-
             if ($v->match($path, igk_server()->REQUEST_METHOD)) {
                 if ($user && !$v->isAuth($user)) {
                     throw new IGKException("Route access not allowed");
                 }
                 $v->setUser($user);
-
                 // $v->setRoutingInfo((object)[
                 //     "ruri" => $path,
                 //     "args"=>[]
                 // ]);
                 $arguments = array_filter(explode("/", $path));
-                
                 $api = IGKApplication::Boot('api');
                 // start engine require for 
                 IGKApp::StartEngine($api, false);
@@ -178,7 +162,6 @@ class RequestHandler
                             igk_environment()->set($uri_key, $b);
                         }
                         igk_ob_clean();
-
                         if (PHP_VERSION > "8.0.0") {
                             call_user_func_array($v, array_values($p->getQueryParams()));
                         } else
@@ -284,7 +267,6 @@ class RequestHandler
         define("IGK_REDIRECTION", 1); 
         igk_environment()->write_debug("Redirect engine start : ".igk_sys_request_time());
         $defctrl = igk_get_defaultwebpagectrl();
-
         $server_info = (object)array();
         foreach (array(
             "REQUEST_URI" => '',
@@ -297,16 +279,13 @@ class RequestHandler
             $server_info->$k = igk_getv($_SERVER, $k, $v);
         }
         extract($args);
-
         $app = igk_app();
-
         $code = igk_getv($_REQUEST, "__c", 901);
         $query = $server_info->{'REQUEST_URI'};
         $redirect = $server_info->{'REDIRECT_URL'};
         $redirect_status = $server_info->{'REDIRECT_STATUS'};
         $r = $server_info->{'REDIRECT_REQUEST_METHOD'};
         igk_sys_handle_res($query);
-
         switch ($code) {
             case 901:
                 // default redirect request handle
@@ -343,22 +322,17 @@ class RequestHandler
             //DEBUG: Posted data are lost
             igk_is_debug() && igk_wln_e($_POST);
         } 
-
         $v_ruri = igk_io_base_request_uri(); 
         $tab = explode('?', $v_ruri);
         $uri = igk_getv($tab, 0);
         $params = igk_getv($tab, 1);
         $page = $uri;
         $lang = null;
-
         if (($actionctrl = igk_getctrl(IGK_SYSACTION_CTRL)) && $actionctrl->handle_redirection_uri($page, $params, 1))
             return;   
-
         if (igk_environment()->noPageRedirection404){
             return;
         }
-        
-
         try {
             if (igk_sys_ispagesupported($page)) {
                 $tab = $_REQUEST;
@@ -390,7 +364,6 @@ class RequestHandler
             }
         }
         ///TASK: HANDLE RESOURCES
-
         $suri = $server_info->{'REQUEST_URI'};
         if (preg_match("/\.(jpeg|jpg|bmp|png|gkds)$/i", $suri)) {
             header("Status: 301");
@@ -421,21 +394,18 @@ class RequestHandler
             igk_show_error_doc();
         }
     }
-
     /**
      * handle command application command action
      */
     public function handle_cmd_action(string $redirect)
     {
         $rx = "#^(" . igk_io_baseUri() . ")?\/!@(?P<type>" . IGK_IDENTIFIER_RX . ")\/(\/)?(?P<ctrl>" . IGK_FQN_NS_RX . ")\/(?P<function>" . IGK_IDENTIFIER_RX . ")(\/(?P<args>(.)*))?(;(?P<query>[^;]+))?$#i";
-     
         $c = preg_match_all($rx, $redirect, $ctab);
         if ($c > 0) {
             igk_getctrl(IGK_SYSACTION_CTRL)->invokePageAction($ctab["type"][0], $ctab["ctrl"][0], $ctab["function"][0], $ctab["args"][0]);
             return true;
         }
     }
-
     /**
      * handle guid action 
      * @param string $guid 
@@ -456,8 +426,6 @@ class RequestHandler
         $index = array_search($key, $routes);
         $obj = null;
         $args = $query;
-
-      
         if (is_string($query))
             $args = explode("/", $query);
         if (!empty($index)) {
@@ -475,7 +443,6 @@ class RequestHandler
             $tclass =  explode("/::", $obj["class"]);
             $class = array_shift($tclass);
             $tclass = implode("", $tclass);
-
             if (strpos($class, "m:") === 0) {
                 $mod = str_replace(".", "\\", substr($class, 2));
                 $mod_instance = igk_require_module($mod);
@@ -510,7 +477,6 @@ class RequestHandler
                 $ctrl = new $class();
             }
             $method = "index";
-
             if (
                 !empty($tclass) &&
                 class_exists($tclass)
@@ -542,7 +508,6 @@ class RequestHandler
         $b = json_decode(igk_getv($tab, $key, ''));
         if ($b)
             $cl = $b->classpath;
-
         if (!empty($cl) && class_exists($cl, false) && !empty($query)) {
             $g = new $cl($b);
             $args = explode("/", $query);
@@ -551,7 +516,6 @@ class RequestHandler
             ob_end_clean();
             igk_wl($ob);
         }
-
         if (igk_getr("__clear")) {
             igk_app()->session->regUris = null;
         }

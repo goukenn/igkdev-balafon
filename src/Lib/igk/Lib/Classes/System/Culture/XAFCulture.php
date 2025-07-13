@@ -3,8 +3,6 @@
 // @file: XAFCulture.php
 // @date: 20230517 11:09:25
 namespace IGK\System\Culture;
-
-
 /**
 * 
 * @package IGK\System\Culture

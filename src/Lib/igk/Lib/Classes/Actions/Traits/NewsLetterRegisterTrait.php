@@ -3,7 +3,6 @@
 // @file: NewsLetterRegisterTrait.php
 // @date: 20221115 08:45:03
 namespace IGK\Actions\Traits;
-
 use Exception;
 use IGK\Helper\ActionHelper;
 use IGK\Models\Mailinglists;
@@ -21,14 +20,12 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
-
 /**
 * 
 * @package IGK\Actions\Traits
 */
 trait NewsLetterRegisterTrait{
     use NewsLetterFormActionTrait;
-
     /**
      * register to mail service
      * @param string $mail 
@@ -115,5 +112,4 @@ trait NewsLetterRegisterTrait{
         }
         igk_navto(igk_server()->HTTP_REFERER ?? $this->getController()->uri());
     }
-   
 }

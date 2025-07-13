@@ -3,11 +3,8 @@
 // @filename: ResourceNotFoundException.php
 // @date: 20220803 13:48:56
 // @desc: resource not found exception
-
 namespace IGK\System\Exceptions;
-
 use IGKException;
-
 /**
 *  resource not found exception
 */

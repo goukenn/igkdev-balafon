@@ -3,10 +3,7 @@
 // @filename: InitDataSchemaSQLCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbSchemas;
@@ -22,7 +19,6 @@ use IGKException;
 use IGKNonVisibleControllerBase;
 use IGKSysUtil;
 use ReflectionException;
-
 /**
  * initialize data schema
  * @package IGK\System\Console\Commands
@@ -31,15 +27,12 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     var $command = "--db:schema";
     var $desc = "get controller db schema"; 
     var $category = "db";
-
     var $options = [
         "controller*"=>"controller to target",
         "file*"=>"schema file to export",
         "-o:[xml|json]"=>"export type xml|json"
     ];
     var $usage = '[controller] [file] [options]';
-
-    
     /**
      * 
      * @param mixed $command 
@@ -102,6 +95,4 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
         parent::help();
         Logger::print("file [-o:[json|xml]]");
     }
-   
 }
-

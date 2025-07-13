@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\PageControllerBase;
 use IGK\Database\DbColumnDataType;
@@ -27,7 +25,6 @@ use IGKOb;
 use IGKValidator;
 use stdClass;
 use function igk_resources_gets as __;
-
 /**
  * configuration , controller and article controller page
  * @package IGK\System\Configuration\Controllers
@@ -39,8 +36,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
      * hook name when a controller require to config option 
      */
     const hookControllerConfigOptionName = 'controllerConfigData';
-
-
     private function __updateview($ctrl)
     {
         if ($ctrl && $ctrl->getIsVisible()) {
@@ -50,7 +45,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 $ctrl->View();
         }
     }
-
     private static function GetSysProject()
     {
         static $projects;
@@ -74,7 +68,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             $sl = $ul->li()->add("select")->setClass("igk-form-control");
             $sl["id"] = $sl["name"] = "clDefaultCtrl";
             $sl["onchange"] = "javascript:window.igk.ajx.post('" . $this->getUri('setdefaultpage_ajx') . "&'+this.id+'='+this.value, null, null);";
-
             $this->setup_defaultpage($ctrltab);
             $v_kn = strtolower(igk_app()->getConfigs()->default_controller);
             foreach ($ctrltab["@base"] as $k) {
@@ -294,7 +287,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             $select["class"] = "igk-form-control";
             $select["name"] =
                 $select["id"] = "controller";
-
             $g = null;
             if (($ts = $this->SelectedController) && !($g = igk_getctrl($this->SelectedController, false))) {
                 $this->SelectedController = null;
@@ -425,7 +417,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         $row = $t->addRow();
         $this->_view_ctrl_EditCtrl($row->addCol("igk-col-3-3")->setId("edit_ctrl"));
         $v_dv = $row->addCol("igk-col-3-3")->div()->setClass("cnf-edit-view-result igk-row");
-      
         $this->_viewCtrlEditResult($v_dv);
         if (igk_get_defaultwebpagectrl() == null) {
             $_dv = $row->addCol("igk-col-3-3")->div();
@@ -440,10 +431,8 @@ EOF;
     ///<param name="v_dv"></param>
     private function _viewCtrlEditResult($v_dv)
     {
-        
         if (!($c = $this->SelectedController))
             return;
-
             $txb = $v_dv->addCol("igk-col-3-3")->addColViewBox()->addComponent(
                 $this,
                 HtmlComponents::AJXTabControl,
@@ -592,7 +581,6 @@ EOF;
         $frm->div()->addNotifyHost('controller');
         $frm->addInput('notification', 'hidden', 'controller');
         $ul = $frm->ul()->setClass("add_ctrl_ul")->setStyle("overflow-y:auto; max-height:300px");
-
         $ul->li()->addSLabelInput(IGK_FD_NAME, "text", null, null, true);
         $ul->li()->addSLabelInput("clDisplayName");
         $h = $ul->li()->addSLabelInput("clRegisterName");
@@ -662,8 +650,6 @@ if (!r)
 		ns_igk.ctrl.ca_ctrl_change('{$this->getUri("ca_get_ctrl_type_info_ajx&n=")}', q.o);
 });
 JS;
-
-
         return $frame;
     }
     ///<summary>view add controller frame</summary>
@@ -702,7 +688,6 @@ JS;
     ///<summary>Request add controller</summary>
     public function ca_addCtrl()
     {
-
         if (igk_qr_confirm() && $this->ConfigCtrl->getIsConnected() && ($ctrl = igk_getctrl(IGK_CTRL_MANAGER, false))) {
             $g = 0;
             $msg = "msg.ctrl.notadded";
@@ -829,7 +814,6 @@ JS;
     public function ca_drop_controller_ajx($ctrl = null, $reconnect = 1)
     {
         $a = $ctrl ? $ctrl : (($ctrl = igk_getr("clController")) ? $ctrl : igk_getr("n"));
-
         if ($a) {
             $ctrl = igk_getctrl($a, false);
             if ($ctrl == null) {
@@ -1499,7 +1483,6 @@ JS;
     ///<summary></summary>
     public function ca_tabv_ajx()
     {
-    
         if (!igk_is_ajx_demand()) {
             // igk_dev_wln_e('not ajx demand');
             igk_navto(igk_io_baseuri());

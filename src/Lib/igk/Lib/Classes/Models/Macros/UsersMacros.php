@@ -3,11 +3,7 @@
 // @filename: UsersMacros.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
-
 namespace IGK\Models\Macros;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -19,7 +15,6 @@ use IGKEvents;
 use IGKException;
 use IGKSysUtil;
 use IGKValidator;
-
 /**
  * use macros
  * @package IGK\Models\Macros
@@ -54,7 +49,6 @@ abstract class UsersMacros
      */
     public static function Register(Users $model, $o, ?BaseController $ctrl = null, ?callable $beforeHook = null)
     {
-
         if (!is_array($o) && !is_object($o)) {
             igk_die(__METHOD__ . " object not valid");
         }
@@ -69,7 +63,6 @@ abstract class UsersMacros
             $pwd = sha1(IGK_PWD_PREFIX . date("Ymd") . microtime(true));
             igk_setv($o, Users::FD_CL_PWD, $pwd);
         }
-
         if (($login = igk_getv($o, Users::FD_CL_LOGIN))) {
             if ($model::select_row([Users::FD_CL_LOGIN => $login])) {
                 return false;
@@ -77,8 +70,6 @@ abstract class UsersMacros
         }
         if (empty(igk_getv($o, Users::FD_CL_CLASS_NAME)) && $ctrl)
             igk_setv($o, Users::FD_CL_CLASS_NAME, get_class($ctrl));
-
-
         if ($r = $model::create($o)) {
             if ($beforeHook) {
                 $beforeHook($r);
@@ -89,7 +80,6 @@ abstract class UsersMacros
         }
         return $r;
     }
-
     /**
      * user::drop used for dev to drop user 
      * @param Users $model 
@@ -111,7 +101,6 @@ abstract class UsersMacros
         try { 
             igk_hook(IGKEvents::HOOK_USER_DROP, $r);
             $model->delete();
-
             if ($_commit) {
                 $ad->commit();
             } else {
@@ -122,7 +111,6 @@ abstract class UsersMacros
         }
         return $_commit;
     }
-
     /**
      * get group that this user is member of
      * @param Users $model 
@@ -172,7 +160,6 @@ abstract class UsersMacros
     {
         return $model->GetCache(Users::FD_CL_GUID, $guid);
     }
-
     public static function InitSystemUsers()
     {
         $d = igk_configs()->website_domain;

@@ -3,15 +3,10 @@
 // @filename: HtmlArticleConfigNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlUtils;
 use IGKValueListener;
 use IGKViewMode;
-
 /**
 * Represent IGKHtmlArticleConfigNode class
 */

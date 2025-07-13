@@ -3,16 +3,12 @@
 // @filename: HtmlXmlViewerNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\XML\XmlCDATA;
 use IGK\XML\XMLNodeType;
-
 /**
 * Represent IGKHtmlXmlViewerItem class
 */
@@ -25,7 +21,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
         parent::__construct("div");
         $this["class"]="igk-xml-viewer";
         $this->m_cdata = new HtmlCommentNode();
-
     }
     public function getContent($options = null){ 
         return null;
@@ -69,8 +64,7 @@ final class HtmlXmlViewerNode extends HtmlNode {
         $this->ClearChilds();
         $this->Load(<<<EOF
 <demo attr_1="attrib_definition" >The viewer<i >sample</i></demo>
-EOF
-        , HtmlContext::XML);
+EOF        , HtmlContext::XML);
     }
     ///<summary></summary>
     ///<param name="content"></param>
@@ -83,7 +77,6 @@ EOF
     public function load($content, $context=HtmlContext::XML, ?callable $creator=null){
         if(empty($content))
             return;
-        
         $c= HtmlReader::Load($content, $context, $creator);
         $root=null;
         foreach($c->Childs as  $v){
@@ -144,6 +137,4 @@ EOF
             $target->add("span")->setClass("s")->Content="/&gt;";
         }
     }
-
-    
 }

@@ -3,16 +3,10 @@
 // @filename: ErrorRequestResponse.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
-
 namespace IGK\System\Http;
-
 use IGK\Helper\JSon as HelperJSon;
 use IGK\System\Html\Dom\HtmlDocTheme; 
-
 use function igk_resources_gets as __;
-
 class ErrorRequestResponse extends RequestResponse{
     var $type = "json";
     var $code = RequestResponseCode::BadRequest;
@@ -23,7 +17,6 @@ class ErrorRequestResponse extends RequestResponse{
         $headers = $headers ?? \IGK\System\Http\Helper\Response::GetHeaderOptions(igk_server()->REQUEST_METHOD);
         $this->headers = $headers;
     }
-
     protected function _setHeader(){
         parent::_setHeader();
     }
@@ -49,14 +42,12 @@ class ErrorRequestResponse extends RequestResponse{
             $c->add('meta')->setAttributes(['charset'=>'utf8']);
             $c->add("title")->Content = __("Error");
             $c->addStyle()->setAttribute("type", "text/css")->Content  = $this->getErrorStyle();
-
         },null); 
         $doc->add('body')->setClass("error_doc")->addObData(function($c)use($obj){
             $n = $c->add("div");
             (new ResponseHtmlRenderer($n,$obj))->render();
         });
         return "<!DOCTYPE html>".$doc->render();
-        
     }
     public function getErrorStyle(){        
         $theme = new HtmlDocTheme(null, -1, false);

@@ -3,7 +3,6 @@
 // @file: SchemaDiagramVisitor.php
 // @date: 20221104 13:21:22
 namespace IGK\Database\SchemaBuilder;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
@@ -18,7 +17,6 @@ use IGK\System\Database\SchemaMigrationInfo;
 use IGKEvents;
 use IGKSysUtil;
 use Logger;
-
 /**
  * visit diagrams
  * @package IGK\Database\SchemaBuilder
@@ -71,10 +69,8 @@ class SchemaDiagramVisitor extends DiagramVisitor
         $t->defTableName = $defTableName;
         $t->tableName = $tb;
         $t->controller = $this->m_controller;
-
         $this->m_data->tables[$tb] = $t;
     }
-
     /**
      * visit diagram migration 
      * @param DiagramMigration $migration 
@@ -128,7 +124,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
         }
     }
     var  $callback;
-
     /**
      * finish diagram visit 
      * @return null|string 
@@ -140,7 +135,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
                 // update database with migration - setting 
                 $ctrl = $e->args['ctrl'];
                 $type = $e->args['type']; 
-
                 $r = DbSchemasConstants::Downgrade;
                 if ($ctrl === $this->m_controller) {
                     foreach ($this->m_migrations as $mig) {
@@ -164,7 +158,6 @@ class SchemaDiagramVisitor extends DiagramVisitor
         return null;
     }
 }
-
 class funcHandler
 {
     var $callback;

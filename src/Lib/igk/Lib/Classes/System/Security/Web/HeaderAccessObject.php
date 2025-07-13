@@ -3,12 +3,10 @@
 // @file: HeaderAccessObject.php
 // @date: 20230130 08:19:18
 namespace IGK\System\Security\Web;
-
 use Exception;
 use IGK\Helper\Activator; 
 use IGK\System\Traits\ActivableTrait;
 use IGKException;
-
 /**
 * handle Header Access Controller 
 * @package IGK\System\Security\Web
@@ -17,31 +15,26 @@ class HeaderAccessObject{
     use ActivableTrait;
     const AUTH_BEARER = 'Bearer';
     const AUTH_BASIC = 'Basic';
-
     /**
      * auth ?demand
      * @var mixed
      */
     var $authorization;
-
     /**
      * list of auth methods
      * @var ?string
      */
     var $method;
-
     /**
      * header access 
      * @var ?string * 
      */
     var $headers;
-
     /**
      * request origin
      * @var ?string
      */
     var $origin;
-
     /**
      * 
      * @return string 

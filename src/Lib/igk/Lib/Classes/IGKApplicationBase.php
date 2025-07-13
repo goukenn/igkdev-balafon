@@ -3,10 +3,7 @@
 // @filename: IGKApplicationBase.php
 // @date: 20220803 13:48:54
 // @desc: 
- 
-
 use IGK\ApplicationLoader;
-
 /**
  * 
  * @package 
@@ -17,19 +14,14 @@ abstract class IGKApplicationBase{
      * @var array
      */
     private $lib = [];
-
     private $m_library;
-
     private $m_appBuilder;
-
     protected $no_init_environment;
-
     /**
      * retrieve entry file
      * @var mixed
      */
     protected $_entry_file;
-
     public function __get($n){
         if (method_exists($this, $fc="get".ucfirst($n))){
             return $this->$fc();
@@ -82,7 +74,6 @@ abstract class IGKApplicationBase{
         }
         return $c;
     }
-
     public function getBuilder(){
         if ($this->m_appBuilder == null ){
             ($this->m_appBuilder = $this->createAppBuilder()) || igk_die("builder not create");
@@ -115,8 +106,6 @@ abstract class IGKApplicationBase{
      * @return mixed 
      */
     abstract function run(string $entryfile, $render=1);
-
-
     public function __debugInfo()
     {
         return [];

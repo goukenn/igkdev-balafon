@@ -7,12 +7,8 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
-
 namespace IGK\System\WinUI\Menus;
-
 use IGKObject;
-
 class MenuItemObject extends IGKObject{
     private $m_subMenus, $m_uri;
     public function __construct($uri, $submenu=null){

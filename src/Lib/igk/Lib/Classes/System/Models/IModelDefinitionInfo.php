@@ -4,9 +4,7 @@
 // @date: 20221124 11:47:59
 // @desc: 
 namespace IGK\System\Models;
-
 use ArrayAccess;
-
 /**
  * 
  * @package 
@@ -17,5 +15,4 @@ use ArrayAccess;
  * @property $controller
  */
 interface IModelDefinitionInfo extends ArrayAccess{
-
 }

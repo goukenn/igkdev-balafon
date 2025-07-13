@@ -3,8 +3,6 @@
 // @file: ReadTokenFlagOptions.php
 // @date: 20221023 14:52:30
 namespace IGK\System\Runtime\Compiler;
-
-
 /**
 * 
 * @package IGK\System\Runtime\Compiler

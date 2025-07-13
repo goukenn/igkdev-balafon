@@ -3,19 +3,15 @@
 // @filename: NonVisibleControllerBase.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGKException;
-
 /**
 * Represent NonVisibleControllerBase class
 */
 abstract class NonVisibleControllerBase extends BaseController {
     use NoDbActiveControllerTrait;
-   
     /**
     * 
     */

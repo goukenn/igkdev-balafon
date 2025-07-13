@@ -1,12 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SyncProjectCommand.php
 // @date: 20220502 12:51:36
 // @desc: sync project to an througth ftp 
 namespace IGK\System\Console\Commands\Sync; 
 use IGK\System\Console\Logger;
-
 /**
  * clear cache in ftp sync server */
 class SyncClearCacheCommand extends SyncAppExecCommandBase
@@ -14,7 +12,6 @@ class SyncClearCacheCommand extends SyncAppExecCommandBase
     var $command = "--sync:clearcache";
     var $category = "sync";
     var $desc = "sync:ftp clear cache";
-
     public function exec($command)
     {
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){

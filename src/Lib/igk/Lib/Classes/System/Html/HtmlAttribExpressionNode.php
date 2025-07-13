@@ -7,12 +7,9 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html;
-
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\XML\XmlNode;
-
 class HtmlAttribExpressionNode extends XmlNode
 {
     var  $node_args;

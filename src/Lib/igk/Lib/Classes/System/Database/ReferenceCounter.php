@@ -3,10 +3,8 @@
 // @file: ReferenceCounter.php
 // @date: 20230202 16:53:35
 namespace IGK\System\Database;
-
 use IGK\Models\ModelBase;
 use IGKEvents;
-
 /**
  * use to update counter 
  * @package IGK\System\Database
@@ -28,13 +26,10 @@ class ReferenceCounter
             'd' => $data
         ];
         if (is_null(self::$REF_UPDATE)) {
-
-            
             self::$REF_UPDATE = function ($e) use ($data) {
                 $row = $e->args['row'];
                 $s = get_class($row);
                 $ss= get_class($data);      
-                
                 foreach (self::$sm_refCallback as $v) {
                     $c = $v['c'];
                     $d = $v['d'];
@@ -47,7 +42,6 @@ class ReferenceCounter
             igk_reg_hook(IGKEvents::HOOK_DB_INSERT, self::$REF_UPDATE);
         }
     }
-
     public static function Unregister(){
         if (self::$REF_UPDATE){
             igk_unreg_hook(IGKEvents::HOOK_DB_INSERT, self::$REF_UPDATE);

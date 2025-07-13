@@ -3,9 +3,7 @@
 // @file: PrinterModelBase.php
 // @date: 20230202 07:47:01
 namespace IGK\Printing;
-
 use IGK\System\IO\Printer\IPrinterService;
-
 /**
 * 
 * @package IGK\Printing
@@ -15,7 +13,6 @@ abstract class PrinterModelBase implements IPrinterModel{
     public function setPrinterService(?IPrinterService $service) {
         $this->_printer_service = $service;
      }
-
     public function print(bool $exit = true) { 
         $srv = $this->_printer_service;
         if ($srv){

@@ -3,21 +3,15 @@
 // @filename: DataAdapterBase.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Database;
-
 use IGK\Helper\Database;
 use IGK\System\Console\Logger;
 use IGK\System\Database\IDbQueryGrammar;
 use IGK\System\Database\IDbSendQueryListener;
 use IGKException;
 use IGKObject;
-
 use function igk_ilog as _log;
 use function igk_getv as getv;
-
-
 /**
  * Represent IGKDataAdapter class
  */
@@ -28,7 +22,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     protected $m_name;
     protected $m_relations;
     protected static $LENGTHDATA = ["int", "varchar", "char", "decimal"];
-
     /**
      * 
      * @param string $tablename 
@@ -40,7 +33,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @var ?IDbResolveLinkListener
      */
     var $resolveLinkListener;
-
     /**
      * inject a send db query listener 
      * */
@@ -50,7 +42,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @return null|IDbSendQueryListener 
      */
     public abstract function getSendDbQueryListener(): ?IDbSendQueryListener;
-
     function getHasError()
     {
         return false;
@@ -63,7 +54,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return 0;
     }
-
     /**
      * override it to check if can process query execution
      * @param string $context context that ask to process 
@@ -73,7 +63,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return true;
     }
-
     public function getEngineSupport(): bool
     {
         return true;
@@ -86,7 +75,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return in_array($type, static::$LENGTHDATA);
     }
-
     /**
      * create alter table 
      * @param null|array $options 
@@ -96,7 +84,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return "ALTER TABLE %s ADD %sFOREIGN KEY (%s) REFERENCES %s ON DELETE RESTRICT ON UPDATE RESTRICT;";
     }
-
     /**
      * get if adapter name is registered
      * @param string #adName
@@ -113,7 +100,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * @return mixed 
      */
     abstract function getDataTableDefinition(string $tablename);
-
     public static function GetAdapter($controllerOrAdpaterName, $throwException = false)
     {
         $n = IGK_STR_EMPTY;
@@ -204,8 +190,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
                             $c->clLinkColumn = Database::AutoPrefixColumn($c->clLinkColumn ?? IGK_FD_ID, $prefix);
                         }
                     }
-
-
                     $query = $_grammar->add_foreign_key($tbname, $c);
                     if (is_null($query)) {
                         igk_ilog("can't create foreign key. possibility on constraint name exists");
@@ -261,7 +245,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         // unset($this->m_relations);
         $this->m_relations = null;
     }
-
     public function getName()
     {
         return $this->m_name;
@@ -287,10 +270,8 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      */
     public function getGrammar()
     {
-
         return null;
     }
-
     /**
      * get select wquery expression 
      * @param mixed $express 
@@ -299,13 +280,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      */
     public function GetExpressQuery($express, $tinf, $seperator = '.')
     {
-
         if ($this->resolveLinkListener) {
             if (!$this->resolveLinkListener->resolve($tinf->clLinkType)) {
                 return null;
             }
         }
-
         $b = explode($seperator, $express);
         $value = implode($seperator, array_slice($b, 1));
         if ($nvalue = igk_regex_get("/\[(?P<value>([^\]]+))\]/", "value", $value)) {
@@ -326,7 +305,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * 
      */
     abstract public function close();
-
     abstract function exist_column(string $table, string $column, $db = null): bool;
     /**
      * 
@@ -354,14 +332,11 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         // + | --------------------------------------------------------------------
         // + | initialize comment
         // + |
-
         self::GetAdapters();
-
         $adapt = &self::$sm_regAdapter;
         $n = IGK_STR_EMPTY;
         $key = IGK_STR_EMPTY;
         $db_adapter = igk_environment()->db_adapters;
-
         if (is_string($ctrl)) {
             $key = strtoupper($ctrl);
             if (!($n = igk_getv($db_adapter, $ctrl))) {
@@ -377,9 +352,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         if (isset($db_adapter[$n])) {
             $n = $db_adapter[$n];
         }
-
         if (!igk_reflection_class_isabstract($n)) {
-
             $out = igk_create_adapter_from_classname($n);
             if ($out) {
                 $adapt[$key] = $out;
@@ -402,7 +375,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         }
         return null;
     }
-
     /**
      * 
      * @param mixed $list 
@@ -455,7 +427,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return null;
     }
-
     /**
      * 
      * @param mixed $tablename
@@ -572,7 +543,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
      * 
      */
     public function initForInitDb() {}
-
     /**
      * primary insert class 
      * @param mixed $table 
@@ -605,7 +575,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         $fc = igk_io_syspath(IGK_ADAPTER_CACHE);
         $n = "/^(IGK)?(?P<name>([^\\\\]+))DataAdapter$/i";
-
         if (empty($fc)) {
             return false;
         }
@@ -643,7 +612,6 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
             $m = "";
             foreach (get_declared_classes() as $k => $v) {
                 $cl = basename(igk_uri($v));
-
                 if (preg_match($n, $cl)) {
                     // igk_wln(__FILE__.":".__LINE__, $v);
                     $t = array();
@@ -655,14 +623,12 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
                     }
                 }
             }
-
             if ($b) {
                 foreach ($b as $k => $v) {
                     if (preg_match($n, $k)) {
                         $t = array();
                         preg_match_all($n, $k, $t);
                         $s = $t["name"][0];
-
                         if (!igk_reflection_class_isabstract($v) && igk_reflection_class_extends($v, "IGKDataAdapter")) {
                             $v_tr[strtoupper($s)] = new $v();
                             $m .= $v . IGK_LF;

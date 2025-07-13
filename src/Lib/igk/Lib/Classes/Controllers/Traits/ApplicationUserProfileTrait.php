@@ -3,13 +3,10 @@
 // @file: ApplicationUserProfileTrait.php
 // @date: 20221208 17:31:33
 namespace IGK\Controllers\Traits;
-
- 
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\Database\IUserProfile;
 use IGK\Models\ModelBase as coreModelBase;
 use IGK\System\EntryClassResolution;
-
 /**
 * 
 * @package IGK\Controllers\Traits
@@ -53,7 +50,6 @@ trait ApplicationUserProfileTrait{
             return $u;
         }
         $model = $this->model($model);
-
         $profile_class = $this->resolveClass(EntryClassResolution::UserProfile) ?? \IGK\System\Applications\ApplicationUserProfile::class;
         $key = $model->getPrimaryKey();
         if (method_exists($this, 'getInitFormSysUserCondition')){
@@ -61,7 +57,6 @@ trait ApplicationUserProfileTrait{
         }else{
             $condition = [$key=>$u->clGuid];
         }
-
         return $this->createCustomUserProfile(
             $u,
             $profile_class,
@@ -103,7 +98,6 @@ trait ApplicationUserProfileTrait{
         $roles = $this->resolveClass(EntryClassResolution::Roles); 
         // check that the user exists
         $row = $customModel::select_row($condition);
-       
         $m = null;
         if ($row){
             if (!$coreuser->memberOf()){

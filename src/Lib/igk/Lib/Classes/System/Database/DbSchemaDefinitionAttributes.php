@@ -3,8 +3,6 @@
 // @file: DbSchemaDefinitionAttributes.php
 // @date: 20231227 08:45:46
 namespace IGK\System\Database;
-
-
 /**
 * 
 * @package IGK\System\Database

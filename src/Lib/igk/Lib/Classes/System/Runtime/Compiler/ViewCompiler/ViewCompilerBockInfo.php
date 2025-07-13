@@ -3,8 +3,6 @@
 // @file: ViewCompilerBockInfo.php
 // @date: 20221025 12:23:47
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
-
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -17,33 +15,27 @@ class ViewCompilerBockInfo{
      * @var string
      */
     var $type;
-
     /**
      * 
      * @var ?ViewCompilerBockInfo
      */
     var $parent;
-
     /**
      * condition string
      * @var $condition
      */
     var $condition;
-
     /**
      * array of block in this
      * @var array
      */
     var $blocks = [];
-
     /**
      * inner code
      * @var string
      */
     var $buffer = "";
-
     private $m_isClose;
-
     public function __construct(string $type)
     {
         $this->type = $type;   
@@ -56,7 +48,6 @@ class ViewCompilerBockInfo{
     public function requireCondition():bool{
         return in_array($this->type, explode("|", self::CONDITION_BLOCK));
     }
-
     public function startBlock(){
         $c = $this->condition;
         switch($this->type){
@@ -64,7 +55,6 @@ class ViewCompilerBockInfo{
                 return $this->type.$c.":";
                 return;
         }
-
         if (!empty($c)){
             $c =" (".$c.")";
         }
@@ -77,7 +67,6 @@ class ViewCompilerBockInfo{
         }
         return sprintf("end%s;", $this->type);
     }
-
     public function isInnerBlock() : bool{
         return in_array($this->type, explode("|", self::INNER_BLOCK));
     }
@@ -94,7 +83,6 @@ class ViewCompilerBockInfo{
             "default"=>["break"]
         ];
         $g = igk_getv($tab, $type);
-        
         return array_search($this->type, $g) !== false;
     }
     public function isChildContainer(){

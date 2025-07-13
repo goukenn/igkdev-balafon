@@ -1,8 +1,5 @@
 <?php
-
 namespace IGK\System\Html\Metadatas;
-
-
   /**
      * The Facebook AppLinks metadata for the document.
      * @example
@@ -21,7 +18,6 @@ class AppLinkMetadata extends MetadataGroupEntryBase{
     var $alIOSUrl;  
     var $alAndroidPackage;  
     var $alAndroidUrl;  
-
     public function map():array{
         return [
             'alIOSAppId'=>'al:ios:app_store_id',  
@@ -30,5 +26,4 @@ class AppLinkMetadata extends MetadataGroupEntryBase{
             'alAndroidUrl'=>'al:android:url',  
         ];
     }
-
 }

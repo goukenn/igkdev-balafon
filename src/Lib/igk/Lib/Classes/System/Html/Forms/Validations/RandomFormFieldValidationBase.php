@@ -3,14 +3,12 @@
 // @file: RandomFormFieldValidationBase.php
 // @date: 20240910 11:54:59
 namespace IGK\System\Html\Forms\Validations;
-
 use Error;
 use Exception;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Forms\Helper\FormFieldHelper;
 use IGKException;
 use ReflectionException;
-
 /**
 * use to build random field validation
 * @package IGK\System\Html\Forms\Validations
@@ -19,7 +17,6 @@ use ReflectionException;
 * - decorate each field with IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation
 */
 class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
-
     /**
      * get random fields
      * @param mixed $context 
@@ -51,7 +48,6 @@ class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
      */
     public function  handleRandSessionRequest(array & $error){
         $obj = FormFieldHelper::HandleSessionRequestArgs();
-        
         return  ($obj && parent::validate((array)$obj, $error));
     }
     /**

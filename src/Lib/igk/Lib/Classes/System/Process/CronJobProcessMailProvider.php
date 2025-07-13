@@ -3,15 +3,11 @@
 // @filename: CronJobProcessMailProvider.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Process;
-
 use IGK\Controllers\BaseController;
 use IGK\Models\Mails;
 use IGK\System\Net\Mail;
 use IGKObjStorage;
-
 class CronJobProcessMailProvider extends CronJobProcessProviderBase
 {
     public function treat($options)
@@ -32,7 +28,6 @@ class CronJobProcessMailProvider extends CronJobProcessProviderBase
                 $m->addTo($mailinfo->to);
                 ($cc = $mailinfo->cc) && $m->addToCC($cc);
                 ($cci = $mailinfo->cci) && $m->addToGCC($cci);
-
                 $m->Title = $mailinfo->object;
                 $m->HtmlMsg = $mailinfo->message;
                 if ($m->sendMail()) {

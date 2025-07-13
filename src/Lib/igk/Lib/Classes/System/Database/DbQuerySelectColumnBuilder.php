@@ -3,12 +3,10 @@
 // @file: DbQuerySelectColumnBuilder.php
 // @date: 20230614 20:57:23
 namespace IGK\System\Database;
-
 use Exception;
 use IGK\Database\DbExpression;
 use IGK\Database\DbQueryCondition;
 use IGKException;
-
 /**
 * 
 * @package IGK\System\Database
@@ -51,7 +49,6 @@ class DbQuerySelectColumnBuilder{
     }
     private function __construct(){
     }
-
     public static function Build($info, $conditions, bool $filter_null = false){
         if (is_null($info))
         {

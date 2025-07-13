@@ -3,9 +3,7 @@
 // @filename: IGKDbUtility.php
 // @date: 20220803 13:48:54
 // @desc: base model utility class declaration 
-
 use function igk_resources_gets as __;
-
 /**
 * class used to manage database for a controller
 */
@@ -403,7 +401,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     protected function initDataAdapter(){
         return igk_get_data_adapter($this->m_Ctrl);
     }
-  
     /**
     * 
     * @param mixed $table
@@ -461,9 +458,7 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
                     return 2;
                 }
             }
-            
             return igk_die("not implement ".$r->RowCount);
-            
         };
         if($condition == null){
             $tab=null;
@@ -636,8 +631,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     public final function tableExists($table): bool{
         return $this->getAd()->tableExists($table); 
     }
-   
-    
     /**
     * 
     * @param mixed $table

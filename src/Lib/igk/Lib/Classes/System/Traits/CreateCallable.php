@@ -3,12 +3,8 @@
 // @filename: CreateCallable.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Traits;
-
 use Closure;
-
 trait CreateCallable{
     public static function CreateCallable($t, $func, ...$params){
         return Closure::fromCallable(function()use($func, $params){

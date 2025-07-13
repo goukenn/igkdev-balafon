@@ -3,16 +3,12 @@
 // @filename: DbColumnInfoTrait.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Database\Traits;
-
 /**
  * @extends IDbColumnProperties
  */
 trait DbColumnInfoTrait
 {
-
   /**
    * store link name
    * @var mixed
@@ -43,7 +39,6 @@ trait DbColumnInfoTrait
    * @var int
    */
   var $clDefault;
-
   /**
    * default null value
    * @var ?bool if true don't set clDefault
@@ -114,19 +109,16 @@ trait DbColumnInfoTrait
    * @var mixed
    */
   var $clLinkType;
-
   /**
    * link relation name
    * @var mixed
    */
   var $clLinkRelationName;
-
   /**
    * link constraint name
    * @var mixed
    */
   var $clLinkConstraintName;
-
   /**
    * link inversed name 
    * @var mixed
@@ -167,99 +159,81 @@ trait DbColumnInfoTrait
    * @var mixed
    */
   var $clCheckConstraint;
-
   /**
    * the link expression for default value
    */
   var $clDefaultLinkExpression;
-
   /**
    * this column is require in form input
    * @var clRequire
    */
   var $clRequire;
-
   /**
    * textarea input max length
    * @var mixed
    */
   var $clInputMaxLength;
-
   /**
    * not allow empty string. 
    * @var mixed
    */
   var $clNotAllowEmptyString;
-
   /**
    * indicate that the fields is used by other controller. \
    * system used that field for migrations purpose.
    * @var ?array of used controller other thant the host
    */
   var $clIsUsedBy;
-
   /**
    * validator type name
    * @var ?string
    */
   var $clValidator;
-
   /**
    * mark the column as hide for result
    * @var ?bool
    */
   var $clHide;
-
   /**
    * use to mark a column in display chain 
    * @var ?bool
    */
   var $clDisplay;
-
   /**
    * string linkto relation table[,column,type]
    * @var ?string
    */
   var $clLinkTo;
-
   /**
    * expected map name column name
    * @var ?string
    */
   var $clMap;
-
   /**
    * expected reverse map name
    * @var ?string target table inverse map name
    */
   var $clInverseMap;
-
   /**
    * get or set if the columninfo is a dump field. 
    * @var ?bool
    */
   var $clIsDumpField;
-
-
   /**
    * use to configure the 
    * @var ?IFormFieldDbOptions
    */
   var $clFormFieldsOptions;
-
-
   /**
    * 
    * @var boolean trim exceed
    */
   var $clNoTrimExceed;
-
   /**
    * modifier field
    * @var ?string|'private'
    */
   var $clModifier;
-
   /**
    * set column definition charset 
    * @var mixed

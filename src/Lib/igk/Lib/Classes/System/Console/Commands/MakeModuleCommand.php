@@ -3,10 +3,7 @@
 // @filename: MakeModuleCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\Controllers\ApplicationModuleController;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\Logger;
@@ -21,9 +18,7 @@ use IGK\System\Modules\Helpers\Utility as modUtility;
 use IGK\Tests\BaseTestCase;
 use IGK\Constants;
 use IGKEvents;
-
 use function igk_resources_gets as __; 
- 
 class MakeModuleCommand extends AppCommand{
     var $command = "--make:module"; 
     var $category = "make";
@@ -35,8 +30,6 @@ class MakeModuleCommand extends AppCommand{
         "--version"=>"setup current version",
         "--no-init-lang"=>"disable lang files initialization",
     ]; 
-
-   
     public function run($args, $command)
     {
         $command->exec = function($command, ?string $name=null){
@@ -45,7 +38,6 @@ class MakeModuleCommand extends AppCommand{
             }
             $name = modUtility::SanitizeName($name);
             Logger::print("generate module : " . $command->app::gets($command->app::GREEN, $name));
-
             $dir = igk_uri(igk_get_module_dir()."/".$name);
             $force = property_exists($command->options, "--force"); 
             if (is_dir($dir) && is_file($dir."/".ApplicationModuleController::CONF_MODULE)){ 
@@ -59,7 +51,6 @@ class MakeModuleCommand extends AppCommand{
             IO::CreateDir($dir."/".IGK_CONF_FOLDER);
             IO::CreateDir($dir."/".IGK_DATA_FOLDER);
             IO::CreateDir($dir."/".IGK_SCRIPT_FOLDER);
-           
             $v_fc_php_empty_file =  MakeUtility::CreateEmptyScriptCallback();
             $use_git = property_exists($command->options, "--git") || 
                 !property_exists($command->options, "--no-git") ;
@@ -68,7 +59,6 @@ class MakeModuleCommand extends AppCommand{
             $bind[$dir."/.module.pinc"] = function($file, $command, $name){
                 $author = $this->getAuthor($command);
                 $e_ns = igk_ns_name($name);
-
                 $definition = self::EntryModuleDefinition($author, $e_ns);
                 $defs = new StringBuilder;
                 $defs->appendLine("// + | ------------------------------------------------");
@@ -96,7 +86,6 @@ class MakeModuleCommand extends AppCommand{
             $bind[$dir."/".IGK_STYLE_FOLDER."/".Constants::DEFAULT_THEME_STYLE] = Utility::TouchFileCallback("<?php \n"); 
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/".ConfigurationFile::DEFAULT_MAINJS] = Utility::TouchFileCallback("// default entry script \n"); 
             $bind[$dir."/".IGK_SCRIPT_FOLDER."/default.bjs"] = Utility::TouchFileCallback("// default entry to be merge script \n"); 
-
             $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_CTRL_CONF_FILE] = Utility::TouchFileCallback(igk_create_xmlnode(IGK_CNF_TAG)->render()); 
             $bind[$dir."/".IGK_DATA_FOLDER."/".IGK_SCHEMA_FILENAME] = Utility::TouchFileCallback(igk_create_xmlnode(IGK_SCHEMA_TAGNAME)->render()); 
             $bind[$dir."/.global.php"] = function($file, $command, $name){              
@@ -111,7 +100,6 @@ class MakeModuleCommand extends AppCommand{
                 ->defs("// + module entry file ");
                 igk_io_w2file($file, $builder->render());
             };
-
             $bind[$dir."/".ApplicationModuleController::CONF_MODULE] = function($file, $command, $name){
                 $o = igk_createobj();
                 $o->name = $name;
@@ -120,7 +108,6 @@ class MakeModuleCommand extends AppCommand{
                 $o->require = igk_getv($command->options, "--require");
                 igk_io_w2file($file, json_encode($o, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
             };
-
             $bind[$dir."/Lib/Tests/autoload.php"] = function($file)use($name){
                 $builder = new PHPScriptBuilder();
                 $gen = new CoreGeneration();
@@ -132,7 +119,6 @@ class MakeModuleCommand extends AppCommand{
                         ));
                 igk_io_w2file($file, $builder->render());
             };
-
             $bind[$dir."/Lib/Tests/ModuleTestBase.php"] = function($file)use($name){
                 $r_ns = igk_ns_name($name);
                 $e_ns = implode("\\", array_filter([$r_ns, "Tests"]));
@@ -149,12 +135,10 @@ class MakeModuleCommand extends AppCommand{
                 ));
                 igk_io_w2file($file, $builder->render());
             };
-
             $bind[$dir."/Lib/autoload.php"]= $v_fc_php_empty_file;
             // + | --------------------------------------------------------------------
             // + | for unit testing
             // + |
-            
             $bind[$dir."/phpunit.xml.dist"] = function($file)use($name){
                 $c_app =  igk_io_expand_path("%lib%");
                 // igk_wln_e(__FILE__.":".__LINE__, $c_app,igk_io_collapse_path($file), igk_io_expand_path(igk_io_collapse_path($file)));
@@ -173,8 +157,6 @@ class MakeModuleCommand extends AppCommand{
                 $env->add("env")->setAttributes(["name" => "IGK_TEST_MODULE", "value" => $name]);
                 igk_io_w2file($file, $n->render((object)["Indent"=>true]));
             };
-            
-
             $bind[$dir."/phpunit-watcher.yml"] = function($file)use($name){
                 $c_app =  igk_io_expand_path("%packages%");
                 $n = new StringBuilder();
@@ -190,17 +172,13 @@ class MakeModuleCommand extends AppCommand{
                 $n->appendLine("  arguments: --stop-on-failure --colors=always --testdox --bootstrap Lib/Tests/autoload.php Lib/Tests");
                 igk_io_w2file($file, $n);
             };
-
             $bind[$dir."/Tests/README.md"] = function($f){
                 igk_io_w2file($f, implode("\n", [
                     "# global module test",
                     "## delete me"
                 ]));
             };
-
             MakeUtility::BindDefaultLangSupport($command, $dir, $bind);         
-            
-
             if ($use_git){
                 ($force || !is_dir($dir."/.git")) && 
                 GitHelper::Generate($bind, $dir,$name, $author, igk_getv($command->options, "--desc"),
@@ -225,10 +203,8 @@ class MakeModuleCommand extends AppCommand{
             igk_hook(IGKEvents::HOOK_ON_MODULE_ADDED,['module'=>$name]);
             Logger::success(__("done"));
         };
-    
     }
     static function EntryModuleDefinition($author=null, $e_ns=null, $version="1.0" ){
-        
         return <<<EOF
 //------------------------------------------------
 // define entry name space

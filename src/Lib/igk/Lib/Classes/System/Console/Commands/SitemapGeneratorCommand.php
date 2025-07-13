@@ -1,11 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SitemapGeneratorCommand.php
 // @date: 20221006 08:18:43
 // @desc: sitemap generator command
 namespace IGK\System\Console\Commands;
-
 use Exception;
 use IGK\Constants;
 use IGK\Controllers\BaseController; 
@@ -17,13 +15,11 @@ use IGK\System\Html\XML\XmlProcessor;
 use IGK\XML\XSDValidator;
 use IGKException;
 use ReflectionException;
-
 /**
  * use to generate sitemap on document 
  * @package igk\sitemaps\System\Console\Commands
  */
 class SitemapGeneratorCommand extends AppExecCommand{
-
     var $command = "--sitemap:gen";
     var $desc = "generate sitemaps";
     /**
@@ -33,7 +29,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @return void 
      */
     public function exec($command, $controller =null) {
-    
         $curi = igk_io_baseuri();
         $baseuri = igk_getv($command->options, "--baseuri", $curi);
         if (empty($controller)){
@@ -47,9 +42,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
         }
         Logger::print("generate sitemap"); 
         $baseuri = $baseuri.str_replace($curi, "", $ctrl->getAppUri()); 
-        
         echo self::GenerateSiteMap($ctrl->getViews(false, true), $baseuri);
-
     }
     public static function GetProjectIndexes(){
         $indexes = [];
@@ -89,7 +82,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
         $base_uri = rtrim($baseuri, "/");
         $mod =  date("Y-m-d");
         foreach($views as $p){
-            
             if ($p == IGK_DEFAULT_VIEW){
                 $p = "";
             }else{
@@ -112,7 +104,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
         }
         return $s; 
     }
-
     /**
      * 
      * @param array $indexes 
@@ -154,5 +145,4 @@ class SitemapGeneratorCommand extends AppExecCommand{
         }
         return $s; 
     }
-
 }

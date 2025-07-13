@@ -3,8 +3,6 @@
 // @file: ProjectSettings.php
 // @date: 20230418 11:33:39
 namespace IGK\System\Configuration;
-
-
 /**
 * reprensent project configuration setting
 * @package IGK\System\Configuration
@@ -25,7 +23,6 @@ class ProjectSettings{
      * @var string
      */
     var $assetDist = "dist";
-
     /**
      * build logic
      * @var mixed

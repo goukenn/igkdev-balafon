@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKDataBindingScript extends IGKObject{
     private $_args, $_shifparent;
     public function __construct(){

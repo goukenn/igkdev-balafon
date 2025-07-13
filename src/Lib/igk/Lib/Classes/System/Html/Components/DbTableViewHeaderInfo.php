@@ -3,8 +3,6 @@
 // @file: DbTableViewHeaderInfo.php
 // @date: 20250427 08:52:34
 namespace IGK\System\Html\Components;
-
-
 /**
 * 
 * @package IGK\System\Html\Components

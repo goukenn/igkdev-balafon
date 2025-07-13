@@ -3,8 +3,6 @@
 // @file: IFormFieldDbOptions.php
 // @date: 20240921 11:03:48
 namespace IGK\System\Html\Forms;
-
-
 /**
 * 
 * @package IGK\System\Html\Forms
@@ -12,5 +10,4 @@ namespace IGK\System\Html\Forms;
 * @property string $placeholder place holder definition  
 */
 interface IFormFieldDbOptions{
-
 }

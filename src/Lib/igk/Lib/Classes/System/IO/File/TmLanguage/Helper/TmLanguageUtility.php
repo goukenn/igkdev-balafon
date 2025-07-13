@@ -3,7 +3,6 @@
 // @file: TmLanguageUtility.php
 // @date: 20241106 17:17:18
 namespace IGK\System\IO\File\TmLanguage\Helper;
-
 use Exception;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\File\TmLanguage\ITmLanguageLoaderListener;
@@ -12,7 +11,6 @@ use IGK\System\Text\IRegexMatcherContainer;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\IO\File\TmLanguage\Helper
@@ -63,8 +61,6 @@ abstract class TmLanguageUtility
         $v_ref = $container;
         $_last = null;
         if (!$listener) {
-
-
             extract((array)igk_extract_obj($v, 'name|begin|end|match|while|captures|beginCaptures|endCaptures|patterns|tokenID'));
             if ($begin) {
                 if ($while) {
@@ -98,10 +94,8 @@ abstract class TmLanguageUtility
                 $listener->loadComplete($v, $v_container, $v_repos);
             }
         });
-
         return $_last;
     }
-
     /**
      * load captures 
      * @param mixed $captures 
@@ -128,7 +122,6 @@ abstract class TmLanguageUtility
                     self::LoadPatterns($patterns, $refOnly, $repos, $listener);
                     $v_refPattern = $refOnly->getPatterns();
                 }
-
                 $cap[$k] = igk_createobj(['name' => $name, 'patterns' => $v_refPattern]);
             }
         }

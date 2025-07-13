@@ -1,11 +1,8 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: PHPDoc.php
 // @date: 20221206 09:46:30
 // @desc: 
-
-
 namespace IGK\System\IO\File\Php;
 /**
  * the php doc commend helper
@@ -33,7 +30,6 @@ class PHPDoc{
      * @return string 
      */
     public function getValue():string{
-        
         $g = [];
         if ($c = $this->comment){
             $g[] = $c;
@@ -63,7 +59,6 @@ class PHPDoc{
       $g = null;
       if(property_exists($this, "var")) 
         $g = & $this->var;
-    
       if (is_null($g)){
           $this->var = [];
           $g = & $this->var;

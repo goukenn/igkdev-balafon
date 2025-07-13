@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKAppMethod{
     const CALLABLE_FUNC=8;
     const CALLABLE_USER_FUNC=16;

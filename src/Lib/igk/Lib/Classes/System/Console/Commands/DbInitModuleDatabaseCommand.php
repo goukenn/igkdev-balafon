@@ -3,10 +3,8 @@
 // @file: DbInitModuleDatabaseCommand.php
 // @date: 20250424 21:47:36
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGKModuleListMigration;
-
 /**
 * 
 * @package IGK\System\Console\Commands

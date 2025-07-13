@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGKOb; 
 use IGKUserAgent;
 use IGKValidator;
@@ -20,12 +18,10 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSessionBlockNode;
 use IGK\System\Http\Cookies;
 use IGKEvents;
-
 final class SessionController extends BaseController{
     private function _viewTarget(){
         $this->getTargetNode()->clearChilds();
     }
-  
     public function changeviewmode(){
         if(!igk_is_conf_connected()){
             return;        }
@@ -72,19 +68,16 @@ final class SessionController extends BaseController{
         }
         igk_navto_referer();
     }
-
     // protected function IsFunctionExposed($funcname){     
     //     $g = parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $funcname]);        
     //     return $g;
     // }
     public function ClearS($navigate=true){
- 
         if ($session = igk_app()->getApplication()->getLibrary()->session){
             $session->destroy(); 
         } 
         $_rcu=explode("?", igk_io_request_uri())[0];
         if($navigate){
-
             $buri=0;
             $s=$_rcu;
             if($s && IGKString::EndWith($s, "/clr")){
@@ -128,12 +121,10 @@ final class SessionController extends BaseController{
     public function getName(){
         return IGK_SESSION_CTRL;
     }
-    
     protected function initComplete($context=null){   
         parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
             return; 
- 
         $n=igk_get_cookie_name(igk_sys_domain_name()."/".Cookies::USER_ID);
         $rs=igk_getv($_COOKIE, $n);
         $v_user_ctrl = igk_getctrl(IGK_USER_CTRL);
@@ -162,14 +153,12 @@ final class SessionController extends BaseController{
             }
         }
         OwnViewCtrl::RegViewCtrl($this, 0);
-    
         igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function($e){            
             $options = igk_getv($e->args, "options");
             echo $this->getTargetNode()->render($options); 
             // igk_wln_e("init session controller --- ");
         });
     }
-    
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return  new HtmlSessionBlockNode($this);
     }
@@ -230,7 +219,6 @@ final class SessionController extends BaseController{
         $tab=array();
         $server="BALAFON";
         $cookie_name = igk_environment()->session_cookie_name;
-
         $sessid=igk_getv($_COOKIE, $cookie_name, session_id());
         $strCookie= $cookie_name.'='.$sessid.'; path='.igk_get_cookie_path();
         $f=igk_data_get_cron_file();
@@ -266,5 +254,4 @@ final class SessionController extends BaseController{
     public function update_setting(){
         $this->View();
     }
-   
 }

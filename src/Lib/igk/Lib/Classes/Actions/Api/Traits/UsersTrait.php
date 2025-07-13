@@ -3,7 +3,6 @@
 // @file: UsersTrait.php
 // @date: 20240909 09:21:30
 namespace IGK\Actions\Api\Traits;
-
 use IGK\Actions\Api\FormData\UserApiChangePwdFormData;
 use IGK\Database\DbExpression;
 use IGK\Models\ModelBase;
@@ -11,7 +10,6 @@ use IGK\Models\Users;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Http\ApiResponse;
 use IGK\System\Http\Request;
-
 /**
 * 
 * @package IGK\Actions\Api\Traits
@@ -38,7 +36,6 @@ trait UsersTrait
         $columns = Users::queryColumns();
         unset($columns[Users::column('clPwd')]);
         $columns = explode("|", str_replace(Users::table() . '.', '', implode("|", array_keys($columns))));
-
         $data = Users::select_all($conditions, ['Limit' => $limit, 'Columns' => $columns]);
         return [
             "page" => $p,
@@ -47,7 +44,6 @@ trait UsersTrait
             "data" => $data
         ];
     }
-
     /**
      * block user
      * @param Users $user 
@@ -124,7 +120,6 @@ trait UsersTrait
             "data" => $model::select_all($conditions, ['Limit' => $limit]),
         ];
     }
-
     /**
      * change user password
      * @param Request $request 

@@ -3,18 +3,15 @@
 // @filename: Utility.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 // @author : C.A.D. BONDJE DOUE
 // @desc: command utility
 // 
 namespace igk\System\Console\Commands;
-
 use Closure;
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\Logger;
 use IGKBacktickHelperCommandTrait;
-
 /**
  * command console utility Helper function 
  * @package igk\System\Console\Commands
@@ -22,8 +19,6 @@ use IGKBacktickHelperCommandTrait;
 abstract class Utility{
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
     use IGKBacktickHelperCommandTrait;
-   
- 
     /**
      * 
      * @param mixed $opts 
@@ -75,12 +70,9 @@ abstract class Utility{
         }
         return $gen;
     }
-
-
     public static function PackageJsonAuthor($command){
         $name = $command->app->getAuthor();
         $email = IGK_AUTHOR_CONTACT;
-
         return (object)['email'=>$email, 'name'=>$name];
     }
 }

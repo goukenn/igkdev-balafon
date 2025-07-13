@@ -3,9 +3,7 @@
 // @file: DbQueryCondition.php
 // @date: 20220628 15:18:02
 namespace IGK\Database;
-
 use Exception;
-
 /**
 * create a query condition : will check that property exists before create chaining. 
 * @package IGK\Database
@@ -14,7 +12,6 @@ class DbQueryCondition{
     private $row;
     private $m_data;
     var $operand = 'AND';
-
     const OP_AND = 'AND';
     const OP_OR = 'OR';
     /**
@@ -65,7 +62,6 @@ class DbQueryCondition{
         $this->__set($n, $arguments[0]);
         return $this;
     }
-
     /**
      * 
      * @param array $list 

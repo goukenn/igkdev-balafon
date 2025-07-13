@@ -7,7 +7,6 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 class IGKDateTime extends IGKObject{
     private $m_day, $m_hour, $m_min, $m_month, $m_sec, $m_year;
     private function __construct(){    }

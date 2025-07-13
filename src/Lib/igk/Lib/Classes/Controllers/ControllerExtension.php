@@ -3,9 +3,7 @@
 // @filename: ControllerExtension.php
 // @date: 20220728 17:08:32
 // @desc: controller macro extension
-
 namespace IGK\Controllers;
-
 use Exception;
 use IGK\Actions\ActionBase;
 use IGK\Actions\ActionResolutionInfo;
@@ -77,13 +75,10 @@ use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use ReflectionMethod;
 use Throwable;
-
 require_once __DIR__ . '/Traits/AtricleManagerControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerRequestExtensionTrait.php';
-
-
 /**
  * controller macros extension
  */
@@ -94,9 +89,7 @@ abstract class ControllerExtension
     use ControllerDbExtensionTrait;
     use ControllerRequestExtensionTrait;
     // use ControllerViewLayoutExtensionTrait;
-
     static $sm_instances_inclass = [];
-
     /**
      * extension to get language directory 
      */
@@ -112,13 +105,9 @@ abstract class ControllerExtension
      */
     public static function getViewLayout(BaseController $ctrl, ?string $fname = null)
     {
-
         $n = $fname;
         $cl = sprintf(EntryClassResolution::WinUI_ViewLayoutFormat, $n);
-
         igk_die(implode("\n", [$cl, __FILE__ . ":" . __LINE__, 'view layout loading']));
-
-
         $view_layout = $ctrl->resolveClass(EntryClassResolution::WinUI_ViewLayout) ?? ViewLayout::class;
         if ($view_layout) {
             $v_key = $ctrl->getName() . '@' . __METHOD__;
@@ -132,7 +121,6 @@ abstract class ControllerExtension
             return $instance;
         }
     }
-
     public static function convertClassToFilename(BaseController $ctrl, string $class_name): ?string
     {
         $dir = $ctrl::classdir();
@@ -179,7 +167,6 @@ abstract class ControllerExtension
     {
         return $controller->getConfig(\IGK\System\Configuration\ConfigurationFields::AppTitle, $controller->getName());
     }
-
     /**
      * set environment param document
      * @param BaseController $ctrl - base controller 
@@ -191,7 +178,6 @@ abstract class ControllerExtension
         // + | --------------------------------------------------------------------
         // + | change the envornment param document for view rendering. 
         // + |
-
         $ctrl->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $document);
     }
     /**
@@ -203,7 +189,6 @@ abstract class ControllerExtension
     {
         return null;
     }
-
     /**
      * get models
      * @param BaseController $ctrl 
@@ -225,10 +210,8 @@ abstract class ControllerExtension
             $ctrl::register_autoload();
         return $ctrl;
     }
-
     public static function getDBConfigFile(BaseController $ctrl)
     {
-
         igk_trace();
         exit;
     }
@@ -240,11 +223,9 @@ abstract class ControllerExtension
      */
     public static function bindNodeClass(BaseController $ctrl, HtmlNode $t, string $fname, ?string $css_def = null)
     {
-
         $classdef = CssUtils::GetControllerSelectorClassNameFromRegisterURI($ctrl, $fname) . ($css_def ? " " . $css_def : "");
         if ($ctrl->getEnvParam(IGK_KEY_CSS_NOCLEAR) == 1)
             return;
-
         $c = $t["class"];
         if ($c) {
             $c->Clear();
@@ -258,8 +239,6 @@ abstract class ControllerExtension
     {
         return ($controller instanceof NotRegistrableControllerBase);
     }
-
-
     #region ASSETS MANAGEMENT 
     /**
      * resolve assets . help by create a link to expose 
@@ -318,7 +297,6 @@ abstract class ControllerExtension
     {
         return implode("/", array_filter([$ctrl->getDataDir(), IGK_RES_FOLDER, ltrim($path ?? '', '/')]));
     }
-
     // exposed asset by default 
     /**
      * expose assets 
@@ -355,10 +333,7 @@ abstract class ControllerExtension
             $resolver->resolve($r);
         }
     }
-
-
     #endregion
-
     /**
      * return an array of views
      * @param BaseController $ctrl 
@@ -390,7 +365,6 @@ abstract class ControllerExtension
         }
         return $tab;
     }
-
     /**
      * check if the view exists
      * @param BaseController $ctrl 
@@ -401,7 +375,6 @@ abstract class ControllerExtension
         $c = $ctrl->getViewFile($fname);
         return $c && igk_io_cache_file_exists($c);
     }
-
     /**
      * retreive the resolved asset forlder directory 
      * @param BaseController $ctrl 
@@ -612,7 +585,6 @@ abstract class ControllerExtension
         $ad = self::getDataAdapter($ctrl);
         return $ad->sendQuery($query, false);
     }
-
     /**
      * get controller cache dir
      * @param BaseController $ctrl 
@@ -658,7 +630,6 @@ abstract class ControllerExtension
         }
         return StringUtility::AuthorizationPath($name, $cl);
     }
-
     /**
      * return notify key name
      */
@@ -673,7 +644,6 @@ abstract class ControllerExtension
     {
         return static::name($ctrl, "hook" . ($name ? "/" . $name : ""));
     }
-
     /**
      * run seeding data to database 
      * @param BaseController $ctrl 
@@ -688,8 +658,6 @@ abstract class ControllerExtension
         if (!$driver->canProcess(__FUNCTION__)) {
             throw new IGKException("driver can't process seeding");
         }
-
-
         //get all seed class and run theme        
         if (igk_is_null_or_empty($classname)) {
             $classname = EntryClassResolution::DbSeederClass;
@@ -702,7 +670,6 @@ abstract class ControllerExtension
                 return false;
             }
         }
-
         $ctrl::register_autoload();
         $g = self::ns($ctrl, $classname);
         if (class_exists($g)) {
@@ -732,7 +699,6 @@ abstract class ControllerExtension
                 return false;
             }
             if ($ctrl->getUseDataSchema()) {
-
                 $file = $ctrl->getDataSchemaFile();
                 $f = igk_db_load_data_schemas($file, $ctrl);
                 if ($m = igk_getv($f, "migrations")) {
@@ -770,7 +736,6 @@ abstract class ControllerExtension
         }
         return $invoke($ctrl, $force);
     }
-
     /**
      * load migration file
      * @param BaseController $ctrl 
@@ -803,7 +768,6 @@ abstract class ControllerExtension
         foreach ($tab as $file) {
             $t = igk_io_basenamewithoutext($file);
             if (preg_match_all($rgx, $t, $tinf)) {
-
                 $name = $tinf["name"][0];
                 $cb = $ctrl::ns("Database/Migrations/{$name}");
                 include_once($file);
@@ -812,7 +776,6 @@ abstract class ControllerExtension
                         "migration_name" => $t
                     ])) || ($cr->migration_batch == 0)) {
                         Logger::info("init-migration:" . $t);
-
                         (new $cb())->up();
                         if (!$cr) {
                             ($r = Migrations::create([
@@ -821,7 +784,6 @@ abstract class ControllerExtension
                             ])) ?
                                 Logger::success("complete:" . $t) :
                                 Logger::danger("Failed to migrate: " . $t);
-
                             if (!$r) {
                                 return false;
                             }
@@ -879,7 +841,6 @@ abstract class ControllerExtension
         $force = false,
         $clean = false
     ) {
-
         if ($ctrl instanceof  IGKModuleListMigration) {
             Logger::warn('debug modules.extension');
         }
@@ -909,7 +870,6 @@ abstract class ControllerExtension
                 DBCachesModelInitializer::InitMigration($tb) :
                 null;
             if (!($ctrl instanceof IGlobalModelFileController) || !$ctrl->handleModelCreation($tb)) {
-
                 foreach ($tb as $v) {
                     $table = null;
                     $name = sysutil::GetModelTypeNameFromInfo($v, $table);
@@ -948,12 +908,10 @@ abstract class ControllerExtension
      */
     public static function GetDefaultModelConstanceConstantsSource(BaseController $n, $name)
     {
-
         $sb = new PHPScriptBuilder;
         $clName = ucfirst($name) . 'Constants';
         $ns = $n->getEntryNamespace();
         $model_class = StringUtility::NS(Path::Combine($ns, IGK_MODELS_CLASS, ucfirst($name)));
-
         $desc = "Constants for \\" . $model_class;
         $sb->type('class')
             ->namespace(StringUtility::NS(Path::Combine($ns, IGK_DATABASE_CLASS)))
@@ -971,10 +929,8 @@ abstract class ControllerExtension
             ->uses([\IGK\System\Traits\EnumeratesConstants::class, $model_class])
             ->traits([\IGK\System\Traits\EnumeratesConstants::class])
             ->uses;
-
         return $sb->render();
     }
-
     public static function GetNamespace(BaseController $ctrl, string $path)
     {
         if ($ctrl instanceof ApplicationModuleController) {
@@ -982,7 +938,6 @@ abstract class ControllerExtension
         }
         return $ctrl::ns($path);
     }
-
     public static function InitDataInitialization(BaseController $ctrl, $force = false)
     {
         //init database models
@@ -1015,7 +970,6 @@ abstract class ControllerExtension
         $c  = (!($ctrl instanceof DbConfigController) ? $ctrl->getClassesDir() : IGK_LIB_CLASSES_DIR)
             . "/Database/Seeds/DataBaseSeeder.php";
         if (!igk_io_cache_file_exists($c)) {
-
             $ns = $ctrl::ns("Database/Seeds");
             $builder = new PHPScriptBuilder();
             $builder->type("class")
@@ -1037,7 +991,6 @@ abstract class ControllerExtension
             igk_io_w2file($c, $builder->render());
         }
     }
-
     /**
      * macros: force directory entry
      */
@@ -1058,7 +1011,6 @@ abstract class ControllerExtension
         $ruri = igk_io_baseuri() . igk_io_request_uri_path(); // igk_getv(explode('?', igk_io_base_request_uri()), 0);
         $buri = strstr($appuri, igk_io_baseuri());
         $entry_is_dir = 0;
-
         if (igk_sys_is_subdomain() && ($ctrl === SysUtils::GetSubDomainCtrl())) {
             $g = igk_getv(parse_url(igk_io_request_uri()), 'path');
             $entry_is_dir = preg_match("/\/$/", $g) || ((strlen($g) > 0) &&
@@ -1086,7 +1038,6 @@ abstract class ControllerExtension
         ViewHelper::CurrentDocument()->setBaseUri($appuri . "/");
         $ctrl->{ControllerParams::REPLACE_URI} = false;
     }
-
     /**
      * macros: init data factory
      * @param BaseController $ctrl 
@@ -1121,7 +1072,6 @@ abstract class ControllerExtension
                 ));
             igk_io_w2file($c, $builder->render());
         }
-
         if ($factories) {
         }
     }
@@ -1223,7 +1173,6 @@ abstract class ControllerExtension
     {
         return $ctrl->getConfig("clDisplayName", get_class($ctrl));
     }
-
     /**
      * get entry namespace
      * @param BaseController $ctrl 
@@ -1240,7 +1189,6 @@ abstract class ControllerExtension
         }
         return SysUtils::GetProjectEntryNamespace($ctrl->getDeclaredDir());
     }
-
     /**
      * 
      * @param mixed $cinfo 
@@ -1255,7 +1203,6 @@ abstract class ControllerExtension
         $p[] = strtolower($cinfo->clType);
         return implode("|", $p);
     }
-
     private static function GetDefaultModelBaseSource(BaseController $ctrl)
     {
         $o = "";
@@ -1269,7 +1216,6 @@ abstract class ControllerExtension
             "// @author: " . IGK_AUTHOR,
             "// @date: " . date("Ymd H:i:s")
         ])) . "\n";
-
         if ($ns) {
             $o .= "namespace $ns; " . PHP_EOL;
         }
@@ -1277,10 +1223,8 @@ abstract class ControllerExtension
         if ($cl) {
             $o .=  "use {$cl};" . PHP_EOL;
         }
-
         $o .= "\n\n/** \n */\n";
         $o .= "abstract class ModelBase extends Model {" . PHP_EOL;
-
         if ($cl) {
             $o .= "\t/**\n\t * source controller \n\t */\n";
             $o .= "\tprotected \$controller = \\{$cl}::class; " . PHP_EOL;
@@ -1288,7 +1232,6 @@ abstract class ControllerExtension
         $o .= "}" . PHP_EOL;
         return $o;
     }
-
     public static function getCacheInfo(BaseController $ctrl)
     {
         return implode("|", [
@@ -1297,7 +1240,6 @@ abstract class ControllerExtension
             $ctrl->getName()
         ]);
     }
-
     /**
      * get array view argument
      */
@@ -1372,7 +1314,6 @@ abstract class ControllerExtension
         $sysuser = $v_uctrl->getUser();
         $f = 0; // update last connection   
         $check = false;
-
         if ($ctrl->User === null) {
             if (is_object($u)) {
                 if (($u instanceof \IGK\Models\Users) && !$u->is_mock()) {
@@ -1423,7 +1364,6 @@ abstract class ControllerExtension
         } else {
             igk_notifyctrl("notify/app/login")->addErrorr("e.loginfailed");
         }
-
         if ($nav) {
             if ($f) {
                 ($b = igk_getr("goodUri")) || ($b = $ctrl->getAppUri());
@@ -1459,7 +1399,6 @@ abstract class ControllerExtension
             return true;
         return $user->auth($authDemand);
     }
-
     /**
      * 
      * @param mixed $ctrl
@@ -1543,12 +1482,10 @@ abstract class ControllerExtension
             }
             igk_environment()->connecting = null;
         }
-
         if ($ku == null) {
             if ($u != null) {
                 // check existance of the user
                 if (!is_null($u_model::GetCache($fd_guid, $u->clGuid))) {
-
                     if (method_exists($controller,  EntryClassResolution::CTRL_METHOD_INIT_USER_FROM_SYSUSER)) {
                         $pu = $controller->initUserFromSysUser($u);
                         $controller->userProfile = $pu;
@@ -1576,8 +1513,6 @@ abstract class ControllerExtension
         }
         return $r;
     }
-
-
     /**
      * log out controller 
      * @param BaseController $ctrl 
@@ -1612,7 +1547,6 @@ abstract class ControllerExtension
             igk_navto($ctrl->getAppUri());
         }
     }
-
     /**
      * get authorisation key
      */
@@ -1620,7 +1554,6 @@ abstract class ControllerExtension
     {
         return igk_ctrl_auth_key($controller, $k);
     }
-
     /**
      * retrieve cached the configs
      * @param BaseController $controller 
@@ -1633,7 +1566,6 @@ abstract class ControllerExtension
     {
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($controller, $name, $default);
     }
-
     public static function setConfig(BaseController $controller, string $name, $value)
     {
         return \IGK\System\Configuration\CacheConfigs::SetCachedOption($controller, $name, $value);
@@ -1652,7 +1584,6 @@ abstract class ControllerExtension
             return false;
         }
         $v_tab = $controller->getDataTableInfo();
-
         if (!$v_tab)
             return;
         $db = self::getDataAdapter($controller);
@@ -1666,14 +1597,11 @@ abstract class ControllerExtension
             igk_wln_e("failed to create dbtable. " . get_class($controller) . " : " . $controller->getDeclaredFileName());
         }
     }
-
-
     public static function getInitDbConstraintKey(BaseController $controller)
     {
         $cl = str_replace("_", "",  str_replace("\\", "_", get_class($controller)));
         return $cl . "_ck_"; // constraint key
     }
-
     public static function getComponentsDir(BaseController $controller)
     {
         return $controller::classdir() . "/Components";
@@ -1682,7 +1610,6 @@ abstract class ControllerExtension
     {
         return dirname($controller::classdir()) . "/" . IGK_TESTS_FOLDER;
     }
-
     public static function getEnvParamKey(BaseController $controller)
     {
         return "sys://ctrl/" . sha1(get_class($controller));
@@ -1708,7 +1635,6 @@ abstract class ControllerExtension
     {
         return self::getEnvParamKey($controller) . "/" . $key;
     }
-
     /**
      * Routing macros
      * @param BaseController $controller 
@@ -1723,7 +1649,6 @@ abstract class ControllerExtension
         }
         return null;
     }
-
     /**
      *  Dispatch model utility 
      * @param BaseController $controller 
@@ -1740,7 +1665,6 @@ abstract class ControllerExtension
         }
         return false;
     }
-
     /**
      * get model utility
      * @param BaseController $controller 
@@ -1751,7 +1675,6 @@ abstract class ControllerExtension
     {
         return $controller->loader->model($modelname);
     }
-
     /**
      * get model
      * @param BaseController $controller 
@@ -1768,7 +1691,6 @@ abstract class ControllerExtension
         }
         return $cl::model();
     }
-
     /**
      * retrieve a registration action 
      * @param BaseController $controller 
@@ -1786,7 +1708,6 @@ abstract class ControllerExtension
         }
         return $cl;
     }
-
     /**
      * retrieve action instance 
      * @param BaseController $controller 
@@ -1810,8 +1731,6 @@ abstract class ControllerExtension
         }
         return null;
     }
-
-
     /**
      *  initialize db's table from data schemas
      *  @return false|array array of initialize tables
@@ -1820,7 +1739,6 @@ abstract class ControllerExtension
     {
         // clear system schema 
         DBCaches::ClearControllerCache($controller);
-
         $db = self::getDataAdapter($controller);
         // init load a schema
         $r = $controller->loadDataAndNewEntriesFromSchemas();
@@ -1835,7 +1753,6 @@ abstract class ControllerExtension
         $migHandle->up();
         return $r->Data;
     }
-
     /**
      * 
      * @param BaseController $controller 
@@ -1873,15 +1790,12 @@ abstract class ControllerExtension
         }
         $f = $controller->getDbConstantFile();
         $tb = self::getDbDefinitionTables($controller);
-
-
         $s = "<?php" . IGK_LF;
         $s .= "// Balafon : generated db constants file" . IGK_LF;
         $s .= "// date: " . date(Constants::MYSQL_DATETIME_FORMAT) . IGK_LF;
         // generate class constants definition
         $cl = igk_uri(get_class($controller));
         $ns = dirname($cl);
-
         if (!empty($ns) && ($ns != ".")) {
             $s .= "namespace " . str_replace("/", "\\", $ns) . "; " . IGK_LF;
         }
@@ -1926,7 +1840,6 @@ abstract class ControllerExtension
     {
         return $ctrl->getConfigs()->storeConfig();
     }
-
     /**
      * get database schema file
      * @param BaseController $ctrl 
@@ -1936,7 +1849,6 @@ abstract class ControllerExtension
     {
         return $ctrl->getDataDir() . "/" . IGK_SCHEMA_FILENAME;
     }
-
     /**
      * laod database from schema
      * @param BaseController $ctrl 
@@ -1968,7 +1880,6 @@ abstract class ControllerExtension
         if (!($ctrl instanceof IDatabaseHost)) {
             return null;
         }
-
         if ($ctrl->getUseDataSchema()) {
             $info = null;
             if (DBCaches::IsInitializing())
@@ -1990,7 +1901,6 @@ abstract class ControllerExtension
                     }
                 }
             }
-
             if ($info) {
                 igk_hook(\IGKEvents::FILTER_DB_SCHEMA_INFO, ["tablename" => $tablename, "info" => $info]);
             }
@@ -2009,7 +1919,6 @@ abstract class ControllerExtension
             }
         }
     }
-
     /**
      * 
      */
@@ -2019,7 +1928,6 @@ abstract class ControllerExtension
             return true;
         return igk_is_conf_connected() || DBCaches::InitRequest();
     }
-
     /**
      * load data and entries 
      * @param BaseController $controller 
@@ -2055,7 +1963,6 @@ abstract class ControllerExtension
         }
         return $obj;
     }
-
     /**
      * controller registrated in not visible list;
      * @param BaseController $controller 
@@ -2065,7 +1972,6 @@ abstract class ControllerExtension
     {
         return !igk_environment()->isInArray(IGKEnvironment::NOT_VISIBLE_CTRL, get_class($controller));
     }
-
     /**
      * check if a function is exposed
      * @param BaseController $controller 
@@ -2079,7 +1985,6 @@ abstract class ControllerExtension
         $refmethod = new ReflectionMethod($controller, $function);
         return $refmethod->isPublic() && ($refmethod->getDeclaringClass()->name == get_class($controller));
     }
-
     /**
      * get the application current document
      */
@@ -2102,7 +2007,6 @@ abstract class ControllerExtension
             return igk_ctrl_bind_css_file($controller, $theme, $file, $cssRendering, 0);
         }
     }
-
     /**
      * bind style file 
      * @param BaseController $ctrl 
@@ -2135,8 +2039,6 @@ abstract class ControllerExtension
         $decdir = $controller->getDeclaredDir();
         return $pdir && $decdir && !empty(strstr($decdir, $pdir));
     }
-
-
     /**
      * load controller's route config files
      * @param BaseController $controller 
@@ -2155,7 +2057,6 @@ abstract class ControllerExtension
     {
         return \IGK\System\Configuration\ViewConfiguration::class;
     }
-
     /**
      * view error code 
      * @param BaseController $controller 
@@ -2184,7 +2085,6 @@ abstract class ControllerExtension
         }
         return false;
     }
-
     /**
      * 
      * @param BaseController $controller 
@@ -2207,7 +2107,6 @@ abstract class ControllerExtension
             $controller->regSystemVars($bck);
         }
     }
-
     /**
      * store data schema 
      * @param BaseController $controller 
@@ -2323,7 +2222,6 @@ abstract class ControllerExtension
         igk_navto($uri);
         igk_exit();
     }
-
     /**
      * ppend tempory style file
      * @param BaseController $controller 
@@ -2361,7 +2259,6 @@ abstract class ControllerExtension
         }
         return $c;
     }
-
     /**
      * load js script extension
      * @param BaseController $controler
@@ -2377,7 +2274,6 @@ abstract class ControllerExtension
         if (!is_array($fname)) {
             igk_die("not a valid argument");
         }
-
         $q = $fname;
         $c = 0;
         while ($fname = array_shift($q)) {
@@ -2392,7 +2288,6 @@ abstract class ControllerExtension
         }
         return $c;
     }
-
     /**
      * include in
      * @param BaseController $controller 
@@ -2437,7 +2332,6 @@ abstract class ControllerExtension
             ]);
         }
     }
-
     public static function DetectControllerClassDefinitionActionHandlerList(BaseController $controller, string $name,?array & $params, $is_ajx=false):Array{
         $c = [];
         $t = [];
@@ -2503,14 +2397,12 @@ abstract class ControllerExtension
                 $rg = StringUtility::CamelClassName(ucfirst(igk_str_rm_last($r, '.ajx')));
                 $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $sep . $rg . $postfix]))), $level, $margs);
             }
-
             if (!$v_ajx_suffix) {
                 $m .= $sep . $g;
                 $m = ltrim($m, '\\');
                 $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix]))), $level, $margs);
                 $g = $m;
             }
-
             $sep = "\\";
             $p = $g;
             $fallback = true;
@@ -2530,7 +2422,6 @@ abstract class ControllerExtension
             $t[implode("\\", array_filter(array_merge([$ns], [ActionHelper::ENTRY_NAME . ucfirst(IGK_DEFAULT_VIEW) . $postfix])))] = -1;
         }
         ActionHelper::$ResolvedClass = null;
-        
         return $t;
     }
     /**
@@ -2547,7 +2438,6 @@ abstract class ControllerExtension
         // + | --------------------------------------------------------------------
         // + | detect action to call - base on request name and params
         // + |
-
         if (property_exists($controller, ControllerEnvParams::NoActionHandle) && $controller->{ControllerEnvParams::NoActionHandle})
             return null;
         // $c = [];
@@ -2614,14 +2504,12 @@ abstract class ControllerExtension
         //         $rg = StringUtility::CamelClassName(ucfirst(igk_str_rm_last($r, '.ajx')));
         //         $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $sep . $rg . $postfix]))), $level, $margs);
         //     }
-
         //     if (!$v_ajx_suffix) {
         //         $m .= $sep . $g;
         //         $m = ltrim($m, '\\');
         //         $fc_prepend($t, implode("\\", array_filter(array_merge($c, [ActionHelper::ENTRY_NAME . $m . $postfix]))), $level, $margs);
         //         $g = $m;
         //     }
-
         //     $sep = "\\";
         //     $p = $g;
         //     $fallback = true;
@@ -2672,7 +2560,6 @@ abstract class ControllerExtension
         }
         return null;
     }
-
     public static function showError(BaseController $controller, string $message, string $title, $code = RequestResponseCode::BadRequest)
     {
         $style = file_get_contents(IGK_LIB_DIR . "/Styles/errors/exceptions.css");
@@ -2694,10 +2581,8 @@ abstract class ControllerExtension
     </body>
 </html>
 HTML;
-
         igk_do_response(new WebResponse($out, $code));
     }
-
     /**
      * handle execption
      * @param BaseController $controller 
@@ -2709,7 +2594,6 @@ HTML;
     {
         self::showError($controller, $ex->getMessage(), $title, $ex->getCode());
     }
-
     /**
      * handle referer
      * @param BaseController $controller 
@@ -2720,7 +2604,6 @@ HTML;
     {
         return igk_server()->HTTP_REFERER ?? self::uri($controller, '');
     }
-
     /**
      * check authorisation accoding to current user if connected 
      * @param BaseController $controller 
@@ -2733,7 +2616,6 @@ HTML;
         $c =  $user && $user->auth(self::authName($controller, $auth_name_or_role));
         return $c;
     }
-
     /**
      * get profile directory 
      * @param BaseController $controller 
@@ -2744,7 +2626,6 @@ HTML;
     {
         return $controller->getDataDir() . "/.profiles/" . $user->clLogin;
     }
-
     /**
      * extend get environment configuration 
      */

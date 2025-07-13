@@ -3,11 +3,7 @@
 // @filename: ControllerConfigurationData.php
 // @date: 20220803 13:48:57
 // @desc: 
- 
-
-
 namespace IGK\System\Configuration;
-
 use ArrayAccess;
 use IGK\Controllers\RootControllerBase;  
 use IGK\System\Html\HtmlContext;
@@ -16,11 +12,8 @@ use IGKEnvironment;
 use IGKException;
 use IGKObject;
 use function igk_resources_gets as __;
- 
- 
 require_once IGK_LIB_CLASSES_DIR. "/System/Html/XML/XmlConfigurationNode.php";
 require_once IGK_LIB_CLASSES_DIR. "/System/Configuration/SysConfigExpression.php";
-
 /**
 * Controller configuration data
 */
@@ -30,7 +23,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     private $m_changed=0;   
     private $m_autosave; 
     private $m_secrets = [];
-
     /**
      * check if configuration setting is a secret
      * @param string $key 
@@ -56,7 +48,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function __construct($ctrl){
         if(!$ctrl)
             igk_die(__("ctrl can't be null"));
- 
         $this->ctrl=$ctrl;
         $this->m_changed=0;
         $this->m_autosave = true;
@@ -118,7 +109,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
             }, ARRAY_FILTER_USE_BOTH);
         };
         if(!is_null($f) && igk_io_file_exists($f, true)){
-            
             igk_environment()->task = 'load-config: '.$f;
             igk_environment()->loading_context =  HtmlContext::XML;
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
@@ -177,8 +167,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     * 
     */
     public function LoadSetting(){}
-   
-   
     /**
     * 
     * @param mixed $n

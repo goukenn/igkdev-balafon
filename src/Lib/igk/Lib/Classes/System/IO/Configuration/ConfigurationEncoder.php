@@ -1,11 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ConfigurationEncoder.php
 // @date: 20220830 11:35:12
 // @desc: 
 namespace IGK\System\IO\Configuration;
-
 /**
  * 
  * @package IGK\System\IO\Configuration

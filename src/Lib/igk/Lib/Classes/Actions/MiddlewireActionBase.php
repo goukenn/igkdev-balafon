@@ -3,10 +3,7 @@
 // @filename: MiddlewireActionBase.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Actions;
-
 use Exception;
 use IGK\Helper\SysUtils;
 use IGK\Models\Users;
@@ -33,9 +30,7 @@ use Reflection;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
-
 use function igk_resources_gets as __;
-
 /**
  * Action Middleware
  * use to process method with specific checkMiddle - route 
@@ -48,7 +43,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      * @var mixed
      */
     protected $user;
-
     /**
      * redirection uri
      * @var mixed
@@ -59,13 +53,11 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      * @var mixed
      */
     protected $auths;
-
     /**
      * middleware object
      * @var mixed
      */
     protected $middleware;
-
     /**
      * get action processor
      * @return string|object 
@@ -81,12 +73,10 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      */
     protected function checkMiddle()
     {
-
         $this->ctrl->checkUser(false);
         $u = Users::currentUser();
         if (!$u) {
             $token = null;
-
             if (in_array(BearerAuthenticatorTrait::class,  class_uses($this)) || method_exists($this, 'getUserFromToken')) {
                 // retrieve user from token 
                 if ($app_user = $this->getUserFromToken(true, $token)) {
@@ -98,7 +88,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
         $this->user = $u;
         $token = null;
-
         if (empty($auths = $this->auths)) {
             return true;
         }
@@ -141,12 +130,10 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
         // + | load route configuration config
         Route::LoadConfig($this->ctrl);
-
         $path = "/" . implode("/", array_merge([$name], $arguments));
         $ruri = Request::getInstance()->view_args("entryuri") . $path;
         $routes = Route::GetAction(static::class);
         $method = strtolower(igk_server()->REQUEST_METHOD);
-
         // $path =  "/" . trim($path, "/");
         // detected method to invoke
         $_invoke = function ($name, $arguments, $m, &$handle) use ($method) {
@@ -157,8 +144,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             }
             while (count($rc) > 0) {
                 $name = array_shift($rc);
-
-
                 if (($method == 'options') && !method_exists($this, $name . '_' . $method)) {
                     return Response::OptionResponse();
                 }
@@ -196,7 +181,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 }
             }
         };
-
         $_handling = function ($name, $arguments, $_invoke) {
             $handle = false;
             $r = $_invoke($name, $arguments, ActionHelper::GetExposedMethods(static::class), $handle);
@@ -206,7 +190,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         };
         if (!empty($routes)) {
             $user = $this->user;
-
             if ($method == 'options') {
                 if ($r = $_handling($name, $arguments, $_invoke)) {
                     return $r['result'];
@@ -231,7 +214,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                             throw new IGKException("User required security missing.", RequestResponseCode::Forbiden);
                         }
                         $ctrl->checkUser(false, null);
-
                         $this->user = $user = Users::currentUser();
                     }
                     if ($v->isUserRequired()) {
@@ -278,7 +260,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             // + | --------------------------------------------------------------------
             // + | missing route : check that the view is present then do some with args
             // + |
-
             if ($r = $_handling($name, $arguments, $_invoke)) {
                 return $r['result'];
             }
@@ -346,7 +327,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             return PhpDocCommentSecurityAndAuthUtility::ParseComment($comment, $p);
         }
     }
-
     /**
      * check method access no user 
      * @param mixed $host 
@@ -357,7 +337,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      */
     private static function _CheckMethodAccess($host, ReflectionMethod $v_refmethod, $global_security = null, $global_auth = null, $global_strict_auth = false)
     {
-
         $c_mid_key = IGKEvents::HOOK_MIDDLEWARE_ACTION;
         $auth = '';
         $p = null;
@@ -385,7 +364,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 list($security, $controller) = igk_extract($arg, 'security|controller');
                 $is_bearer = in_array($security, [Security::BEARER_AUTH]);
                 $token = $is_bearer ? $c->getBearerToken() : $c->getBasicToken();
-
                 if ($token) {
                     list($login, $pwd) = explode(':', base64_decode($token), 2);
                 } else {
@@ -428,7 +406,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 }
             }
             igk_unreg_hook($c_mid_key, $fc_auth);
-
             if (!$ack->access) {
                 throw new IGKException("Security issue. Missing User.", RequestResponseCode::Forbiden);
             }
@@ -441,7 +418,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         }
         return false;
     }
-
     /**
      * redirect code 
      * @param mixed $url 
@@ -467,7 +443,6 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
         // + | --------------------------------------------------------------------
         // + | fallback route 
         // + |
-
         $view_exits = !empty($this->fname) && $this->getController()->getIsViewExists($this->fname);
         if ($view_exits) {
             // + | --------------------------------------------------------------------

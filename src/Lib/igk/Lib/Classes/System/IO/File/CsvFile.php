@@ -3,9 +3,7 @@
 // @file: CsvFile.php
 // @date: 20230120 09:12:31
 namespace IGK\System\IO\File;
-
 use IGK\Helper\MapHelper; 
-
 /**
  * 
  * @package IGK\System\IO\File
@@ -33,7 +31,6 @@ class CsvFile
      * @var ?array
      */
     var $mapper;
-
     /**
      * map entry listener
      * @var ?callable
@@ -69,7 +66,6 @@ class CsvFile
      * @return void 
      */
     public function exportLine(array $data, $length=null):string{
-        
         if (!is_null($length) && ($length>0)){
             $data = array_slice($data, 0, $length);
         }
@@ -127,7 +123,6 @@ class CsvFile
         }
         return $tab;
     }
-
     /**
      * mapp data an return an object \
      * the callable must accept two parameter : (?string $v, int $i=null): value

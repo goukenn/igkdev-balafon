@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 use Exception;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -22,14 +20,12 @@ use IGKApp;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 final class HtmlCssClassValueAttribute extends HtmlItemAttribute
 {
     private $m_classes, $m_expressions;
     private $m_listener; 
     private static $sm_regClass = null;
     private $_treat_ClassName;
-
     /**
      * 
      * @param ?callable $listener 
@@ -39,8 +35,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         $this->m_listener = $listener;
         return $this;
     }   
-
-
     public function __construct()
     {
         $this->m_classes = array();
@@ -179,7 +173,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
             $class = (array)$class; 
         }
-
         $tab = null;
         if (is_array($class)) {
             $cl = [];
@@ -196,7 +189,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
                             $this->m_classes[] = $v;
                             continue;
                         }
-
                         $cl[] = $v;
                     } else {
                         $cl[] = $k;
@@ -234,7 +226,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             $offset = 0;
             while($g = $r->detect($c, $pos)){
                 if ($e = $r->end($g, $c, $pos)){
-                    
                     $v = substr($c, $offset, $e->from-$offset);
                     if (!empty($v)){
                         $o[] = $v;
@@ -312,7 +303,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
                 $this->_add($list);
             }
         }
-
         foreach ($this->m_classes as $v) {
             if ($i == 0)
                 $i = 1;
@@ -326,7 +316,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         $b = HtmlUtils::GetValue($out);
         if ($this->m_expressions) {
             $i && $b .= ' ';
-
             foreach ($this->m_expressions as $k) {
                 if (!is_string($k) && is_callable($k) ){
                     $k = $k();
@@ -394,5 +383,4 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     public function getClasses(){
         return $this->m_classes;
     }
-   
 }

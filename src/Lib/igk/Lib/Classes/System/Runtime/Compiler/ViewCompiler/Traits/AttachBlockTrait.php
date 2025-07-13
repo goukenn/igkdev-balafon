@@ -3,11 +3,9 @@
 // @file: AttachBlockTrait.php
 // @date: 20221026 17:34:24
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Traits;
-
 use IGK\Helper\Activator;
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewReadBlockFlagInfo;
-
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler\Traits

@@ -3,9 +3,7 @@
 // @filename: Activator.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\Helper;
-
 use Exception;
 use IGK\Actions\IActionRequestValidator;
 use IGK\System\Http\IContentSecurityProvider;
@@ -17,7 +15,6 @@ use IGK\System\Traits\DynamicActivableTrait;
 use IGKException;
 use JsonSerializable;
 use ReflectionProperty;
-
 /**
  * 
  * @package IGK\Helper;
@@ -26,7 +23,6 @@ class Activator
 {
     private static $sm_dyn_sources;
     private static $sm_dyn_class;
-
     /**
      * register class source 
      * @param string $interface 
@@ -50,7 +46,6 @@ class Activator
         } else {
             self::$sm_dyn_class[$p] = 1;
         }
-
         $dyn_trait = DynamicActivableTrait::class;
         $p_trait = JsonSerializableTrait::class;
         $ref = [];
@@ -94,7 +89,6 @@ EF;
         $resolver = $resolver ?? function () {
             return null;
         };
-
         $v_handler =  function ($comment) use ($container, &$properties, $resolver) {
             $offset = 0;
             /**
@@ -164,7 +158,6 @@ EF;
                 return new $_dyn_cl($properties);
             }
         }
-
         return (object)$properties;
     }
     /**
@@ -178,10 +171,8 @@ EF;
     }
     static function CreateNewInstanceWithValidation(string $class_name, $data, IContentSecurityProvider $request, IActionRequestValidator $validator, &$errors = null)
     {
-
         $validation = (method_exists($class_name, $fc = 'ValidationData') ?
             call_user_func_array([$class_name, $fc], [$request]) : null) ?? [];
-
         $m = $validator->validate(
             $data,
             $validation,
@@ -190,7 +181,6 @@ EF;
             $data,
             $errors
         );
-
         return $m ? self::CreateNewInstance($class_name, $data) : null;
     }
     /**
@@ -225,7 +215,6 @@ EF;
         if ($data instanceof $class_name) {
             return $data;
         }
-
         $args = [];
         if (is_array($data) || (is_object($data))) {
             // + | numberic value will be used as contructor argument
@@ -235,14 +224,12 @@ EF;
                 }
             }
         }
-
         if (is_callable($class_name)) {
             $g = $class_name(...$args);
         } else {
             $g = new $class_name(...$args);
         }
         if ($data) {
-
             if ($fullfill) {
                 foreach ($data as $k => $value) {
                     if (method_exists($g, $fc = 'set' . ucfirst($k))) {
@@ -278,8 +265,6 @@ EF;
                 }
             }
         }
-
-
         return $g;
     }
     /**

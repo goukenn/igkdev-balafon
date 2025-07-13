@@ -3,17 +3,13 @@
 // @filename: ViewCallback.php
 // @date: 20220814 09:19:43
 // @desc: 
-
 namespace IGK\Helper;
-
 use IGK\Controllers\ViewLayoutCaller;
-
 /**
  * view callback helper
  * @package IGK\Helper
  */
 abstract class ViewCallback{
-   
     public static function __callStatic($name, $arguments)
     {
         if (!($ctrl = ViewHelper::CurrentCtrl())){

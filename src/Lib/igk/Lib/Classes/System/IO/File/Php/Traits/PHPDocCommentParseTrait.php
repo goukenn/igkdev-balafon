@@ -3,14 +3,11 @@
 // @file: PHPDocCommentParseTrait.php
 // @date: 20230731 10:21:35
 namespace IGK\System\IO\File\Php\Traits;
-
-
 /**
 * 
 * @package IGK\System\IO\File\Php\Traits
 */
 trait PHPDocCommentParseTrait{
-    
  /**
      * parse php doc comment
      * @param string $cm 
@@ -65,7 +62,6 @@ trait PHPDocCommentParseTrait{
                     }
                 }
             }
-            
         }, explode("\n", $c));
         if (!empty($content)){
             $g->$name($content);

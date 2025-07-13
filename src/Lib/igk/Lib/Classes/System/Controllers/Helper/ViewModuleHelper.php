@@ -3,14 +3,12 @@
 // @file: ViewModuleHelper.php
 // @date: 20250306 09:17:46
 namespace IGK\System\Controllers\Helper;
-
 use Exception;
 use IGK\Controllers\ApplicationModuleController;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use IGK\System\Exceptions\EnvironmentArrayException;
-
 /**
 * use to manage controller in current view 
 * @package IGK\System\Controllers\Helper
@@ -26,7 +24,6 @@ class ViewModuleHelper{
     public function __construct(array & $modules ){
         $this->m_modules = $modules;
     }
-
     public function __debugInfo()
     {
         return [];

@@ -3,10 +3,8 @@
 // @file: ListViewCommand.php
 // @date: 20250513 15:24:46
 namespace IGK\System\Console\Commands\Projects;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-
 /**
 * 
 * @package IGK\System\Console\Commands\Projects
@@ -28,8 +26,6 @@ class ListViewCommand extends AppExecCommand{
 		array_map(function($a)use($ctrl){
 			Logger::print($a);
 		}, $views);
-
 		//Logger::success('done');
-
 	}
 }

@@ -3,8 +3,6 @@
 // @file: IActivatorMandatory.php
 // @date: 20230112 04:06:33
 namespace IGK\Helper;
-
-
 /**
 * check for mandatory data
 * @package IGK\Helper

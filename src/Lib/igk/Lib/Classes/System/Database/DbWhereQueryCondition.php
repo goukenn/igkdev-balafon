@@ -3,8 +3,6 @@
 // @file: DbWhereQueryCondition.php
 // @date: 20241013 15:05:38
 namespace IGK\System\Database;
-
-
 /**
 * 
 * @package IGK\System\Database
@@ -17,7 +15,6 @@ class DbWhereQueryCondition implements IDbWhereQueryCondition{
     const OR_OP = 'OR';
     protected function __construct()
     {
-        
     }
     public static function Create($conditions, string $operand=self::AND_OP){
         $a = new static;
@@ -28,5 +25,4 @@ class DbWhereQueryCondition implements IDbWhereQueryCondition{
     public function getConditionInfo(): array { 
         return [$this->operand, $this->conditions];
     }
-
 }

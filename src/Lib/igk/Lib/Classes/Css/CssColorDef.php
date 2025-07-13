@@ -3,19 +3,14 @@
 // @filename: CssColorDef.php
 // @date: 20220730 10:18:32
 // @desc: color definition 
-
 namespace IGK\Css;
-
 use ArrayAccess;
 use Exception;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 class CssColorDef implements ArrayAccess{
     use ArrayAccessSelfTrait;
     private $m_data;
-
     private $sm_instance;
-
     /**
      * return definition 
      * @param string $name 
@@ -64,5 +59,4 @@ class CssColorDef implements ArrayAccess{
     protected function _access_OffsetGet($k){
         return igk_getv($this->m_data, $k);
     }
-  
 }

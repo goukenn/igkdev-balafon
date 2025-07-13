@@ -3,9 +3,7 @@
 // @filename: DbSchemas.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Database;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
@@ -25,10 +23,6 @@ use LlvGStockController;
 use ReflectionException;
 use stdClass;
 use function igk_resources_gets as __;
-
-
-
-
 /**
  * 
  *  schema constant
@@ -47,19 +41,16 @@ abstract class DbSchemas
     const GEN_COLUMNS = IGK_GEN_COLUMS;
     const RT_REQUIRESCHEMA_TAG = "RequireSchema";
     const RT_SCHEMA_TAG = IGK_SCHEMA_TAGNAME;
-
     /**
      * 
      * @var mixed
      */
     private static $sm_isLoadingFromSchema;
-
     /**
      * loaded schema
      * @var array
      */
     static $sm_schemas = [];
-
     /**
      * is loading from schema
      * @return ?bool 
@@ -80,7 +71,6 @@ abstract class DbSchemas
             unset($v_tab[$file]);
         }
     }
-
     public static function LoadRelations($schema, $data)
     {
         $n = $schema->add(self::RELATIONS_TAG);
@@ -109,7 +99,6 @@ abstract class DbSchemas
     {
         die("call static method not allowed." . __CLASS__);
     }
-
     public static function schemaDef()
     {
         $file =  '/Volumes/Data/Dev/PHP/balafon2/src/Lib/igk/Data/data.schema.xml';
@@ -118,7 +107,6 @@ abstract class DbSchemas
         }
         return null;
     }
-
     /**
      *  
      * load schema definition  - 
@@ -221,7 +209,6 @@ abstract class DbSchemas
     ) {
         $key = "schema_load";
         if ($ctrl) {
-
             if (!$reload && IGKApp::IsInit() && ($tk = $ctrl->getEnvParam($key))) {
                 extract($tk);
                 return $tk;
@@ -259,9 +246,7 @@ abstract class DbSchemas
             $v_info = $sm_cacheinfo[$key];
             return self::CreateObjFromInfo($v_info, $dataobj);
         }
-
         $v_info = DBCaches::GetColumnInfo($tablename, $ctrl) ?? self::GetTableRowReference($tablename, $ctrl, $dataobj);
-
         if ($v_info) {
             if ($v_info instanceof SchemaMigrationInfo) {
                 $v_info = $v_info->columnInfo;
@@ -313,7 +298,6 @@ abstract class DbSchemas
         if (empty($tableRowReference))
             return null;
         $obj = igk_createobj();
-
         foreach ($tableRowReference as $k => $v) {
             if (!($v instanceof IDbColumnInfo)) {
                 if (igk_environment()->isDev()) {
@@ -328,7 +312,6 @@ abstract class DbSchemas
         if ($dataobj != null) {
             if (is_array($dataobj))
                 $dataobj = (object)$dataobj;
-
             foreach ($obj as $k => $v) {
                 if (isset($dataobj->$k)) {
                     $obj->$k = $dataobj->$k;
@@ -339,7 +322,6 @@ abstract class DbSchemas
         }
         return $obj;
     }
-
     /**
      * init data schemas
      * @param BaseController $ctrl
@@ -368,10 +350,8 @@ abstract class DbSchemas
             Logger::danger(implode("\n", [__METHOD__, $ex->getMessage()]));
             $no_error = 1;
         }
-
         return $no_error;
     }
-
     /**
      * reset loading schema - 
      * @return void 
@@ -381,15 +361,11 @@ abstract class DbSchemas
         self::$sm_schemas = [];
     }
 }
-
-
-
 // function observe_schemas()
 // {
 //     return 8;
     // if ($tab = array_values(DbSchemas::$sm_schemas)) {
     //     $r = $tab[0]['definition']->tables['tbigk_mailinglists'];
-
     //     return $r;
     // }
 // }

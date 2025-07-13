@@ -7,13 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Css;
-
 use IGK\Controllers\BaseController;
 use IGKEvents;
 use IGKObject;
-
 final class CssStyle extends IGKObject{
     private $m_properties;
     public function __construct(){
@@ -34,5 +31,4 @@ final class CssStyle extends IGKObject{
         }
         return $o;
     }
- 
 }

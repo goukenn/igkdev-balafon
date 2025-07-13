@@ -7,9 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Html\Dom\HtmlItemAttribute;
-
 /**
  * represent base dir resolution path resolver. \
  * base_dir/lnk exists resolv it

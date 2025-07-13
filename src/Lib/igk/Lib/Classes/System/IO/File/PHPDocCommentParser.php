@@ -3,11 +3,9 @@
 // @file: PHPDocCommentParser.php
 // @date: 20230104 17:05:49
 namespace IGK\System\IO\File;
-
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
 use IGKException;
-
 /**
 * extends to handle custom property 
 * @package IGK\System\IO\File
@@ -22,14 +20,11 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     var $description;
     var $api;
     var $throws;
-
     /**
      * authorization to bind to 
      * @var mixed
      */
     var $auth;
-
-
     /**
      * get response object
      * @var mixed
@@ -41,7 +36,6 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @usage @covers classMethod 
      */
     var $covers;
-
     /**
      * use with 
      * @var ?
@@ -52,19 +46,16 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @var mixed
      */
     var $request;
-
     /**
      * to handle security
      * @var mixed
      */
     var $security;
-
     /**
      * 
      * @var ?bool auth enable strict definition  
      */
     var $strict_auth;
-
     public function getPropertyFilterListener(){
         return $this->m_propertyFilterListener;
     }
@@ -84,10 +75,8 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     public function setPropertyHandlerListener($handler){
         $this->m_propertyHandleListener = $handler;
     }
-
     private function __construct(){
     }
-   
     /**
      * override static content
      * @param string $content 

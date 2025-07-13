@@ -3,15 +3,11 @@
 // @filename: ComponentManagerController.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Controllers;
-
-
 // // /**
 // * component manager controller
 // */
 final class ComponentManagerController extends NonVisibleControllerBase{
-
     /**
     *  Dispose all component
     */
@@ -61,7 +57,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
 		if (get_class($obj) === stdClass::class){
 			igk_die("stdlass resolv ::: -" );
 		}
-
         $r=$obj->getParam(__CLASS__.":id");
         if($r)
             return $r;

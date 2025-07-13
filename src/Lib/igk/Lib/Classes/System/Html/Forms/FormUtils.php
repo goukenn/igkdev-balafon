@@ -3,10 +3,8 @@
 // @file: FormUtils.php
 // @date: 20221111 14:05:40
 namespace IGK\System\Html\Forms;
-
 use IGK\Helper\ArticleContentBindingHelper;
 use IGKException;
-
 /**
  * 
  * @package IGK\System\Html\Forms
@@ -29,7 +27,6 @@ class FormUtils
         $empty = $options ? igk_getv($options, 'empty') : null;
         $offset = $options ? igk_getv($options, 'offset') : 0;
         $data = [];
-        
         if ($list)
         foreach ($list as $m) {
             if ($callback) {
@@ -53,8 +50,6 @@ class FormUtils
                     }
                 }
             }
-
-
             $g = ["i" => $key ? $m->{$key} : count($data) + $offset, "t" =>  $text];
             if ((is_callable($selected) && $selected($m)) || ($selected && ($selected == $g["i"]))) {
                 $g["selected"] = true;

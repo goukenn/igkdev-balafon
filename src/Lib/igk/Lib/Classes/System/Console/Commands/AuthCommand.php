@@ -3,9 +3,7 @@
 // @filename: AuthCommand.php
 // @date: 20220802 18:44:45
 // @desc: auth command
-
 namespace IGK\System\Console\Commands;
-
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
@@ -15,7 +13,6 @@ use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use SQLQueryUtils;
-
 /**
  * auth command helper
  * @package IGK\System\Console\Commands
@@ -25,10 +22,8 @@ class AuthCommand extends AppExecCommand
     var $group = "management";
     var $command = "--auth";
     var $desc = 'Manage auth';
-
     const AVAILABLE_ACTION = "auths|groups|grant";
     var $usage = 'controller --action:'.self::AVAILABLE_ACTION;
-
     var $action_helps = [];
     public function help()
     { 
@@ -47,11 +42,9 @@ class AuthCommand extends AppExecCommand
             }
         }
     }
-
     public function exec($command, $username = null, ...$options)
     {
         DbCommandHelper::Init($command);
-
         $action = igk_getv($command->options, "-action", "help");
         if (empty($action) || is_array($action)) {
             die("not valid");
@@ -63,12 +56,10 @@ class AuthCommand extends AppExecCommand
             Logger::danger("User not found");
             return -1;
         }
-
         if (!in_array($action, explode("|", self::AVAILABLE_ACTION))){
             Logger::danger("not a valid action");
             return -1;
         }
-
         switch ($action) {
             case "groups": // view groups
                 Logger::info("member of : ");
@@ -105,14 +96,12 @@ class AuthCommand extends AppExecCommand
                 // $id = Groupauthorizations::insertIfNotExists(
                 //     ["clGroup_Id"=>$g->clId, "clAuth_Id"=>$auths->clId],
                 //     ["extra"=>["clGrant"=>1]]);
-
                 // igk_wln_e("the id :::: ", $id);
                 break;
             case "help":
             default:
                 break;
         }
-
         // igk_wln_e("loging : ", $g, $g->groups());//, $g::getMacroKeys());
         Logger::print("auth - done");
     }

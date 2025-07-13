@@ -3,22 +3,16 @@
 // @filename: FormAddressField.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Forms;
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGKException;
-
 class FormAddressField extends HtmlNode implements IFormValidationNode{
     private $m_fields;
     protected $tagname = "igk:form-address-field";
-
     public function getCanRenderTag(){
         return false;
     }
-
     public function __construct($fiedname)
     {
         $this->fieldname = $fiedname;
@@ -31,10 +25,8 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
             "address.country",
         ];
         parent::__construct();
-
     }
     public function validateRequest(& $outputdata, & $errors){
-
         $outputdata[$this->fieldname] = (object)[
             "street"=>igk_getr("address_street"),
             "number"=>igk_getr("address_number"),
@@ -45,7 +37,6 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
         ];
         return true;
     }
-   
     protected function initialize()
     {
         parent::initialize();

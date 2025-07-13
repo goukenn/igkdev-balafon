@@ -3,8 +3,6 @@
 // @file: HtmlHostChildren.php
 // @date: 20230418 15:40:03
 namespace IGK\System\Html\Dom;
-
-
 /**
 * 
 * @package IGK\System\Html\Dom
@@ -28,5 +26,4 @@ final class HtmlHostChildren extends HtmlItemBase{
     {
         return $this->children;
     }
-
 }

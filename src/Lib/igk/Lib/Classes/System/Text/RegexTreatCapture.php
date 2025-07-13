@@ -3,10 +3,8 @@
 // @file: RegexTreatCapture.php
 // @date: 20241106 10:33:55
 namespace IGK\System\Text;
-
 use Closure;
 use Exception;
-
 /**
 * 
 * @package IGK\System\Text
@@ -21,14 +19,11 @@ class RegexTreatCapture{
     private $m_treat_capture;
     private $m_offset;
     private $m_info;
-    
     /**
      * object treat listener
      * @var mixed
      */
     var $treatListener;
-
-
     const MARK_KEY = '\0:mark';
     const REGEX_FLAG = PREG_OFFSET_CAPTURE;
     protected function __construct(string $source_value, int $offset, $captures, $treat_capture)
@@ -49,7 +44,6 @@ class RegexTreatCapture{
         $this->m_captures = $captures;
         $this->m_info = self::OrderCaptures($captures);
     }
-
     /**
      * treat source capture 
      * @return string 
@@ -58,7 +52,6 @@ class RegexTreatCapture{
         $listener = $listener ?? $this->treatListener;
         return self::TreatCapture($this->m_source_value, $this->m_offset, $this->m_info, $this->m_treat_capture, $listener);
     }
-
     /**
      * order regex captures
      * @param array $captures 
@@ -84,10 +77,8 @@ class RegexTreatCapture{
                 $v_lkname = $kl;
                 continue;
             }
-    
             $pos = $q[1];
             $to = $pos + strlen($q[0]);
-    
             $inf = RegexCaptureInfo::CreateFrom([
                 'parent' => null,
                 'index' => $k_index,
@@ -188,7 +179,6 @@ class RegexTreatCapture{
             $v_output .= substr($v, $v_lpos);
             return $v_output;
         };
-    
         $v_gcapture = null;
         foreach ($capture as $index => $v) {
             if ($index==0){
@@ -207,18 +197,15 @@ class RegexTreatCapture{
                 }
                 $v_cap->{$mark_key}=0;
                 $v_p = $v_cap;
-    
                 // reset chain data 
                 while($v_p = $v_p->parent){
                     $v_p->{$mark_key}=0;
                     $v_p->data = $v_p->value; 
                 }
             }
-    
             $v_tcap = [$v_cap];
             while (count($v_tcap) > 0) {
                 $cap = array_shift($v_tcap);
-    
                 if (!$cap->{$mark_key}) {
                     // copy childrens tab
                     $c = $cap->childs;
@@ -238,14 +225,12 @@ class RegexTreatCapture{
                             $v_tcouput[] = (object)['pos' => $q->pos, 'to' => $q->to, 'value' => $q->data];
                             continue;
                         }
-    
                         if ($q->childs) {
                             array_unshift($c, new RegexCaptureMarker($q, $v_tcouput));
                             array_unshift($c, ...$q->childs);
                             $v_tcouput = null;
                             continue;
                         }
-    
                         $v_rcap = igk_getv($capture, $q->index);
                         if ($v_rcap) {
                             // handle capture : 
@@ -260,7 +245,6 @@ class RegexTreatCapture{
                         $__handle_capture($v, $cap, $callable);
                     }
                     $cap->{$mark_key} = 1;
-    
                     if (is_null($cap->parent)) {
                         $v_toutput[] = (object)['pos' => $cap->pos, 'to' => $cap->to, 'value' => $cap->data]; // v_toutputsubstr($source_value, 0, $cap->pos). $cap->data. 
                     } else {
@@ -291,9 +275,6 @@ class RegexTreatCapture{
                 }
             }
         }
-
         return $v_output;
     }
-
- 
 }

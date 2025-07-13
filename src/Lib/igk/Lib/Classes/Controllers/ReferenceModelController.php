@@ -3,13 +3,10 @@
 // @filename: ReferenceModelController.php
 // @date: 20220311 15:59:05
 // @desc: reference model controller
-
 namespace IGK\Controllers;
-
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\ReferenceModels;
 use IGK\System\Number;
-
 /**
 *  used for referencing global value data
 */

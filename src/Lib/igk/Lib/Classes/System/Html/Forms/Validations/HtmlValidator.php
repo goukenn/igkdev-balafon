@@ -3,11 +3,9 @@
 // @file: HtmlValidator.php
 // @date: 20230117 15:16:11
 namespace IGK\System\Html\Forms\Validations;
-
 use IGKExceptioın;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 /**
 * validate html an return only text value
 * @package IGK\System\Html\Forms
@@ -15,7 +13,6 @@ use ReflectionException;
 class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
     var $skip_all;
     var $allowed_tags;
-
     /**
      * asset that data can't be validated
      * @param mixed $value 
@@ -24,7 +21,6 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
     public function assertValidate($value): bool {
         return is_string($value);
     }
-
     /**
      * validate the data
      * @param mixed $value 
@@ -119,6 +115,4 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
         }
         return $n;
     }
-
-
 }

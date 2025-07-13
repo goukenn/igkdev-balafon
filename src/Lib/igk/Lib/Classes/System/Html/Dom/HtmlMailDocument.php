@@ -7,15 +7,12 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Net\MailAttachementContainer;
-
 final class IGKHtmlMailDoc extends HtmlNode{
     private $_attachement, $m_app, $m_message, $m_theme;
-    
     public function _acceptRender($options=null){
         return true;
     }

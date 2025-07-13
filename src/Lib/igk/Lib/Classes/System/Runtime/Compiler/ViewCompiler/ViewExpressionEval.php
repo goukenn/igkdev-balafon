@@ -3,11 +3,9 @@
 // @file: ViewExpressionEval.php
 // @date: 20221016 09:33:44
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use ArrayAccess;
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 /**
 * on compilation store expression to evaluate
 * @package IGK\System\Runtime\Compiler
@@ -24,7 +22,6 @@ class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
      */
     var $dependOn;
     protected $tagname = "igk:view-expression-eval";
-
     public function getCanRenderTag(){
         return true;
     }
@@ -43,7 +40,6 @@ class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
                 $eval = rtrim(substr($eval, 0, -2));
             }
         }
-
         $this->source = $eval;   
         $this->dependOn = & $dependOn; 
     }

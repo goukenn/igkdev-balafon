@@ -3,7 +3,6 @@
 // @filename: IGKHtmlDoc.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\Css\CssThemeOptions;
 use IGK\Helper\Activator;
 use IGK\IGKHtmlDocFlagOption;
@@ -23,15 +22,12 @@ use IGK\System\Html\IHtmlDocumentHost;
 use IGK\System\Html\Metadatas\Traits\HtmlDocMetadataTrait;
 use IGK\System\Http\CookieManager;
 use IGK\System\Http\IHeaderResponse;
-
-
 /**
  * create core document
  * @package IGK
  */
 class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocumentHost
 {
-
     private $m_privatetheme;
     private $m_theme;
     private $m_baseuri;
@@ -43,7 +39,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     private $m_noFontInstall;
     private $m_noIFrame;
     use HtmlDocMetadataTrait;
-
     /**
      * set flag option 
      * @param mixed|IGKHtmlDocFlagOption $o 
@@ -82,11 +77,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
             $ln['rel'] = 'website icon';
             $ln['type'] = $type;
         }
-
         $ln['href'] = $href;
         return $this;
     }
-
     public function getnoFontInstall()
     {
         return $this->m_noFontInstall;
@@ -96,7 +89,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->m_noFontInstall = $value;
         return $this;
     }
-
     public function setIsTemplate(?bool $value)
     {
         $this->isTemplate = $value;
@@ -108,7 +100,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
             return $this->isTemplate;
         return null;
     }
-
     public function getnoCoreScript()
     {
         return $this->m_noCoreScript;
@@ -169,7 +160,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @var string
      */
     private $m_dir;
-
     private $m_status;
     /**
      * store global themes
@@ -177,12 +167,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     private static $sm_theme;
     private static $sm_scriptManager;
-
     protected $namespaces = [
         "xmlns" => "http://www.w3.org/1999/xhtml",
         "xmlns:igk" => HtmlNode::HTML_NAMESPACE
     ];
-
     const IGK_DOC_FAVICON_FLAG = self::IGK_DOC_TYPE_FLAG + 3;
     const IGK_DOC_LINKMANAGER_FLAG = self::IGK_DOC_TYPE_FLAG + 2;
     const IGK_DOC_LOADED_SCRIPT_FLAG = self::IGK_DOC_TYPE_FLAG + 4;
@@ -190,7 +178,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     const IGK_DOC_SCRIPTMANAGER_FLAG = self::IGK_DOC_TYPE_FLAG + 6;
     const IGK_DOC_TITLE_FLAG = self::IGK_DOC_TYPE_FLAG + 1;
     const IGK_DOC_TYPE_FLAG = 0xB01;
-
     /**
      * set color scheme
      * @param 'dark'|'light'|null $cl 
@@ -250,7 +237,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $sm->setAttribute($n, HtmlMetaManager::ATTR_CONTENT, $cl);
         return $this;
     }
-
     /**
      * get header color
      */
@@ -392,7 +378,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     {
         return $this->ScriptManager->addScript($file, $canbeMerged, $tag);
     }
-
     /**
      * 
      * @param mixed $id 
@@ -425,7 +410,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     public function getInlineTheme()
     {
-
         $id = spl_object_id($this);
         $key = "doc://" . $id . "/inline_theme";
         if ($theme = igk_environment()->get($key)) {
@@ -435,7 +419,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         igk_environment()->set($key, $theme);
         return $theme;
     }
-
     /**
      * add core style uri
      * @return mixed 
@@ -453,7 +436,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         if (!$g || !isset($g[$s])) {
             $t = new HtmlDocCoreStyle($s, true, 0);
             $this->m_head->add($t);
-
             // + | ---------------------------------------------------
             // + | to avoid flickering FOCUS direct css access required
             // + | 
@@ -507,9 +489,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     {
         return $this->getFlag(self::IGK_DOC_FAVICON_FLAG);
     }
-
-
-
     /**
      * 
      */
@@ -545,7 +524,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     public static function LastRenderedDocument()
     {
         static $sm_lastDocument;
-
         if ($sm_lastDocument === null) {
             $_id = igk_app()->settings->CurrentDocumentIndex;
             if ($_id === null)
@@ -558,7 +536,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $sm_lastDocument;
     }
-
     /**
      *  initialize the private theme
      */
@@ -572,7 +549,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->m_theme->Name = "default";
         $this->m_privatetheme->resetAll();
     }
-
     /**
      * setup global document
      */
@@ -581,7 +557,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->_initThemes();
         $this->m_body["class"] = "igk-body";
     }
-
     public function render($options = null)
     {
         igk_app()->settings->CurrentDocumentIndex = $this->getId();
@@ -600,7 +575,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         // igk_hook(IGK_CONF_USER_CHANGE_EVENT, $v_cevent);
         igk_reg_hook(IGKEvents::HOOK_PAGEFOLDER_CHANGED, $v_func, 0);
     }
-
     /**
      * load temp extra script file. must be called out of rendering context. /!\\ Before
      * @var string $file file or uri
@@ -608,12 +582,9 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      */
     public function addTempScript(string $file, ?array $query_args = null)
     {
-
         if (!IGKValidator::IsUri($file))
             $file = igk_dir($file);
         $t = $this->ScriptManager->getTempScripts();
-
-
         if (!igk_getv($t, "temp")) {
             $t->temp = array();
         }
@@ -621,16 +592,13 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $kfile = $file = array_shift($uris);
         if (is_file($file)) {
             $kfile = IGKResourceUriResolver::getInstance()->resolve($file);
-          
         }
-
         if (isset($t->temp[$kfile])) {
             $n = $t->temp[$kfile];
             $n->setIsTemp($t);
             $this->m_head->add($n);
             return $n;
         }
-
         if ($uris) {
             parse_str($uris[0], $out);
             $query_args = array_merge($out, $query_args ?? []);
@@ -721,7 +689,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->clearComponents();
         parent::Dispose();
     }
-
     /**
      * retrieve document style list
      */
@@ -735,7 +702,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $v_childs;
     }
-
     private function _initializedocument()
     {
         die(__("Not implement : {0}", __METHOD__));
@@ -771,7 +737,6 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $n->setParam("sys://css", $g);
         return $ln;
     }
-
     /**
      * set document description.
      * @param mixed $value 
@@ -870,18 +835,15 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     public function headerExtraAttribute()
     {
         $attr = "";
-
         $theme_name = $this->m_page_theme ??
             CssSession::getInstance()->theme_name ??
             CookieManager::getInstance()->get(CssSession::APP_THEME_NAME) // came for browser             
             ?? CssThemeOptions::DEFAULT_THEME_NAME;
-
         if ($theme_name)
             $attr .= "data-theme=\"" . $theme_name . "\" ";
         if ($this->m_dir) {
             $attr .= "dir=\"" . $this->m_dir . "\" ";
         }
-
         return trim($attr);
     }
 }

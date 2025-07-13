@@ -3,17 +3,13 @@
 // @file: DbEnvironment.php
 // @date: 20230703 15:06:04
 namespace IGK\System\Database;
-
-
 /**
 * 
 * @package IGK\System\Database
 */
 class DbEnvironment{
     static $sm_instance;
-
     var $no_db_select = false;
-
     private function __construct(){        
     }
     /**
@@ -25,5 +21,4 @@ class DbEnvironment{
         igk_environment()->set("sys://Db", $f);
         return $f;
     }
-
 }

@@ -1,11 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SyncProjectCommand.php
 // @date: 20220502 12:51:36
 // @desc: sync project to an througth ftp 
 namespace IGK\System\Console\Commands\Sync;
-
 use IGK\Helper\FtpHelper;
 use IGK\Helper\PhpUnitHelper;
 use IGK\System\Console\App;
@@ -14,7 +12,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Shell\OsShell;
-
 /**
  * clear cache in ftp sync server */
 class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
@@ -39,7 +36,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
             return false;
         }
         $force = property_exists($command->options, "--force");
-
         // + | check lib before update 
         if (!$force) {
             Logger::info("checking library before sync...");
@@ -51,18 +47,13 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
                 }
             }
         }
-
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return $h;
         }
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
         $install_dir = $setting["lib_dir"] ?? "../application/Lib/igk";
-
-
-
         Logger::info(sprintf("update core lib to [ %s ]", $setting["server"]));
-
         // copy libzip to public folder 
         // copy exec script to public folder
         // execute the install libscript
@@ -70,7 +61,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         // delete zipfile 
         $temp_file = igk_io_sys_tempnam("blfcore");
         $script_install = igk_io_sys_tempnam("blfcore");
-
         unlink($temp_file);
         Logger::info("temp file: " . $temp_file);
         Logger::info("temp script: " . $script_install);
@@ -79,7 +69,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         $sb->appendLine(implode("\n", [
             "\$token = '" . $token . "';",
         ]));
-
         $src = PHPScriptBuilderUtility::MergeSource(
             IGK_LIB_CLASSES_DIR . "/IGKBacktickHelperCommandTrait.php",
             IGK_LIB_DIR . "/Inc/core/installer-core-function.pinc",
@@ -90,7 +79,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         $sb->appendLine("?>" . $src);  
         $sb->appendLine("echo 'finish install';");
         $sb->appendLine("@unlink(__FILE__);");
-
         $builder = new PHPScriptBuilder();
         $builder->type("function")
             ->defs($sb);
@@ -101,10 +89,8 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
             FtpHelper::CreateDir($h, $pdir);
         }
         ftp_chdir($h, $dir);
-
         ftp_put($h, $lib =  $pdir . "/corelib.zip", $temp_file, FTP_BINARY);
         ftp_put($h, $install = $pdir . "/install.php", $script_install, FTP_BINARY);
-
         unlink($temp_file);
         unlink($script_install);
         // igk_exit();
@@ -123,8 +109,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
                 "install-token" => $token
             ]
         );
-
-
         FtpHelper::RmFile($h, $lib);
         FtpHelper::RmFile($h, $install);
         ftp_close($h);
@@ -144,7 +128,6 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
                 if ($setting['site_uri']) {
                     Logger::print('you can navigate to: ' . $setting['site_uri']);
                 }
-
                 if (property_exists($command->options, "--install-site")){
                     $exec_command = new SyncInstallSiteCommand;
                     $new_command = self::CreateOptionsCommandFrom($command,[ 

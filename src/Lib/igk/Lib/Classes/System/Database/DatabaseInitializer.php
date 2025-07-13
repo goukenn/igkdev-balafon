@@ -3,7 +3,6 @@
 // @file: DatabaseInitializer.php
 // @date: 20221118 21:40:33
 namespace IGK\System\Database;
-
 use Exception;
 use IDbGetTableReferenceHandler;
 use IGK\Controllers\ApplicationModuleController;
@@ -22,9 +21,7 @@ use IGKEvents;
 use IGKException;
 use IGKModuleListMigration; 
 use ReflectionException; 
-
 require_once IGK_LIB_CLASSES_DIR."/System/Database/SchemaBuilderHelper.php";
-
 /**
  * 
  * @package IGK\System\Database
@@ -41,7 +38,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @var mixed
      */
     private $m_resolvedLinks;
-
     /**
      * store tables definitions. 
      * @var array
@@ -62,17 +58,13 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @var array
      */
     var $migrations = [];
-
     var $relations = [];
-
     var $definitions = [];
-
     /**
      * default resolutions
      * @var mixed
      */
     var $resolv;
-
     public function getDataTablesReference(&$table)
     {
     }
@@ -113,7 +105,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         }
         return $definition;
     }
-
     /**
      * add core definition
      * @param mixed $adaptername 
@@ -152,7 +143,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         if ($ad = $controller->getDataAdapter()){
             $g = $ad->connect();
         }
-
         $rs = $definition;
         $post_install = [];
         $count = 0;
@@ -174,17 +164,13 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
             $plist->tables[$name] = $tbinfo;
         }
         $this->_initLogic($current, $plist->tables);
-
         Logger::info('post install migration ... --- ');
-
-
         if ($caches) {
             array_map(function ($a) {
                 //
                 $ctrl = $a[0];
                 // $ctrl->register_autoload(); 
                 $ad = $ctrl->getDataAdapter();
-     
                 if ($ad && isset($a[1])) {
                     $info = (object)$a[1];
                     $this->m_resolvedLinks = (object)[
@@ -193,7 +179,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
                         'adapter'=>$ad,
                     ];                      
                     $ad->resolveLinkListener = $this;
-
                     foreach ($info->tables  as $table => $tbinfo) {
                         if (isset($this->m_resolvedLinks->resolved[$table])){
                             continue;
@@ -262,18 +247,13 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     private function _initLogic(BaseController $ctrl, $tables)
     {
         Logger::info('init ... ' . $ctrl);
-
         Database::CreateTableBase($ctrl, $tables, null);
-
         Logger::info('migrate ...');
-
         SchemaBuilderHelper::Migrate($tables);
         //-
         // init require model logic
         Database::InitDbCoreLogic($ctrl, $tables, true);
     }
-
-
     private $m_definition;
     /**
      * 
@@ -353,7 +333,6 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     {
         return igk_getv($this->m_definition[$this->resolv], $table);
     }
-
     public function loadSystemProjects(string $op = DbSchemasConstants::Migrate)
     {
         $projects = Project::GetProjectInvocatorInitDbList(SysDbController::ctrl());

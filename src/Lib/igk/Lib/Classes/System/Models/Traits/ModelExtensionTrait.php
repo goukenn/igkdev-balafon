@@ -3,8 +3,6 @@
 // @file: ModelExtensionTrait.php
 // @date: 20230131 14:24:39
 namespace IGK\System\Models\Traits;
-
-
 /**
  * 
  * @package IGK\Ssytem\Models\Traits

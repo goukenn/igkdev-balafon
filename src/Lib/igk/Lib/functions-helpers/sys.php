@@ -82,3 +82,14 @@ if (!function_exists('igk_sys_cookies_build')){
         return implode(";", array_map(function($a,$b){ return $b.'='.$a; }, $cookies_entries, array_keys($cookies_entries)));
     }
 }
+
+// use function \preg_last_error_msg;
+if (!function_exists('preg_last_error_msg')){
+    function preg_last_error_msg(){ 
+
+        if ($c = preg_last_error()){
+            return 'preg_last_error: '.$c;
+        }
+        return $c;
+    }
+}

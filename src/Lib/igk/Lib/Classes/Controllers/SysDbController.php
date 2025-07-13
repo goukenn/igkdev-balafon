@@ -7,16 +7,13 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\System\Database\IDatabaseHost;
 use IGK\System\Database\MySQL\Controllers\MySQLDataController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\DeprecatedMethodException;
 use IGKException;
 use ReflectionException;
-
 /**
  * system db controller
  * @package IGK\Controllers
@@ -70,8 +67,6 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     public function getUseDataSchema():bool{
         return true;
     }
-    
-     
     public function getDataDir(){
         return IGK_LIB_DIR."/".IGK_DATA_FOLDER;
     }      

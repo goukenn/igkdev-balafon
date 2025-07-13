@@ -1,35 +1,28 @@
 <?php
- 
 // @author: C.A.D. BONDJE DOUE
 // @filename: WebResponse.php
 // @date: 20220425 15:39:28
 // @desc: web response
-
 namespace IGK\System\Http;
-
 use IGK\System\Html\HtmlRenderer;
 use IGKCaches;
 use IGKEvents;
 use IGKHtmlDoc;
 use IHeaderResponse;
-
 /**
  * represent a web rendering result
  * @package IGK\System\Http
  */
 class WebResponse extends RequestResponse{
     private $node;
-
     /**
      * enable cache on rendering
      * @var mixed
      */
     var $cache;
-
     public $headers = [
         "Content-Type: text/html"
     ];
-
     /**
      * 
      * @param mixed $node node or message to reply
@@ -49,9 +42,7 @@ class WebResponse extends RequestResponse{
             igk_wl($this->node);
             return;
         } 
-        
         if (is_object($this->node)){
-           
             if (method_exists($this->node, "renderAJX")){
                 $options = HtmlRenderer::CreateRenderOptions();
                 $options->Cache = $this->cache;
@@ -82,7 +73,6 @@ class WebResponse extends RequestResponse{
             }
         } 
         $this->_setHeader();
-        
         ob_start();   
         $this->render();
         $s = ob_get_clean();  

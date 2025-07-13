@@ -3,11 +3,9 @@
 // @file: DataConstantTypes.php
 // @date: 20250320 12:00:26
 namespace IGK\Database;
-
 use IGK\Models\Traits\ModelTableConstantTrait;
 use IGK\System\Database\DbConstantTypeBase;
 use IGK\System\Traits\EnumeratesConstants;
-
 /**
 * 
 * @package IGK\Database

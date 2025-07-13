@@ -3,13 +3,11 @@
 // @file: AtricleManagerControllerExtensionTrait.php
 // @date: 20221120 09:52:24
 namespace IGK\Controllers\Traits;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\ArticleContentBindingHelper;
 use IGK\Helper\IO;
 use IGK\System\IO\Path;
 use IGKResourceUriResolver;
-
 /**
 * 
 * @package IGK\Controllers\Traits

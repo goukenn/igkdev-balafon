@@ -3,16 +3,13 @@
 // @filename: FileSystem.php
 // @date: 20220803 13:48:55
 // @desc: 
- 
 namespace IGK\System\IO;
-
 use IGK\System\Exceptions\ArgumentNotValidException; 
 require_once __DIR__."/CoreFileSystem.php"; 
 /**
  * file system helper 
  */
 class FileSystem extends CoreFileSystem{  
- 
     /**
      * default extension 
      * @var mixed
@@ -24,7 +21,6 @@ class FileSystem extends CoreFileSystem{
         }
         $this->path = $dir;
     }
-    
     /**
      * path to check if exists
      * @param string $path 
@@ -73,7 +69,6 @@ class FileSystem extends CoreFileSystem{
     public function getFullPath(string $path): string {
         return implode(DIRECTORY_SEPARATOR, array_filter([$this->_getDir(), $path]));
     }
-
     /**
      * check if path expired 
      * @param string $path real file to check to filesystem resources
@@ -82,13 +77,11 @@ class FileSystem extends CoreFileSystem{
      */
     public function cacheExpired(string $path, ?string $ext=".php"){
         $p = filemtime($path);
-        if (igk_io_file_exists($file = $this->getCacheFilePath($path, $ext), true)){
+        if (is_file($file = $this->getCacheFilePath($path, $ext))){
             return filemtime($file) < $p;
         }
         return true;
     }
-
-
     /**
      * check that file expiere from cache storage
      * @param string $realpath_to_check 
