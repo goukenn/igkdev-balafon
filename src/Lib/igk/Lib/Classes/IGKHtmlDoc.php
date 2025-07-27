@@ -3,6 +3,8 @@
 // @filename: IGKHtmlDoc.php
 // @date: 20220803 13:48:54
 // @desc: 
+
+use IGK\Constants;
 use IGK\Css\CssThemeOptions;
 use IGK\Helper\Activator;
 use IGK\IGKHtmlDocFlagOption;

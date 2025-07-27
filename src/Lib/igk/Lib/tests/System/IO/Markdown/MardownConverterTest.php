@@ -50,7 +50,7 @@ class MardownConverterTest extends BaseTestCase
             'Sample |',
             '-|',
             'info |'
-        ]);
+        ]); 
         $d = $this->_transform($src);
         $this->assertEquals(
             '<table class="igk-table"><tr><th>Name of data</th><th>Description Node</th></tr><tr><td>igkdev</td><td>www.igkdev.com</td></tr><tr><td>jour</td><td><b><code>null</code></b></td></tr></table>'

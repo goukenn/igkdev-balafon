@@ -177,9 +177,6 @@ final class ApiFunctionController extends ApplicationController {
                             $this->datadb("loadsyncdata", $c, $u->clLogin, $ctrl->getName());
                         }
                         igk_exit();
-                        header("Content-Type: application/xml");
-                        igk_wl($g);
-                        igk_exit();
                     }
                     if(!$error){
                         $rep->addNode("Status")->Content=0;
@@ -206,9 +203,8 @@ final class ApiFunctionController extends ApplicationController {
                         $this->datadb("syncdata", $ctrl->getName(), $u->clLogin);
                         $c=IGKOB::Content();
                         IGKOb::Clear();
-                        $g=igk_curl_post_uri($srv."/api/v2/datadb/loadsyncdata", array("data"=>$c, "login"=>$u->clLogin, "ctrl"=>$ctrl->getName()));
-                        header("Content-Type: application/xml");
-                        igk_wl($g);
+                        $g=igk_curl_post_uri($srv."/api/v2/datadb/loadsyncdata", array("data"=>$c, "login"=>$u->clLogin, "ctrl"=>$ctrl->getName()));                        
+                        igk_xml($g);
                         igk_exit();
                     }
                     if(!$error){
@@ -288,10 +284,8 @@ final class ApiFunctionController extends ApplicationController {
                     $n= implode("\\", $args);//igk_getv($args, 0);
                     $ctrl=igk_getctrl($n);
                     if($ctrl){
-                        $schema=igk_db_backup_ctrl($ctrl, 1);
-                        header("Content-Type:application/xml");
-                        igk_wl(igk_xml_header()); 
-                        igk_wl($schema->render());
+                        $schema=igk_db_backup_ctrl($ctrl, 1);                        
+                        igk_xml(igk_xml_header().$schema->render());
                         igk_exit(); 
                     }
                     else{

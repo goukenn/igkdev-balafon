@@ -936,8 +936,9 @@ function igk_wln($msg = "")
 
     foreach (func_get_args() as $k) {
         $msg = $k;
-        if (is_string($msg) || is_numeric($msg))
+        if (is_string($msg) || is_numeric($msg)){
             echo ($msg . $lf);
+        }
         else {
             if ($msg !== null) {
                 if (is_object($msg)) {
@@ -1504,8 +1505,9 @@ if (!function_exists('igk_conf_get')) {
                             }
                             if ($p) {
                                 //bind array
-                                if ($m == null)
+                                if ($m == null){
                                     $m = $s;
+                                }
                                 else {
                                     if (!is_array($m)) {
                                         $m = array($m);
@@ -1544,8 +1546,9 @@ if (!function_exists('igk_conf_get')) {
                             if (!$p)
                                 break;
                         }
-                        if ($p)
+                        if ($p){
                             $m = $q;
+                        }
                         else {
                             if ($strict)
                                 return $default;

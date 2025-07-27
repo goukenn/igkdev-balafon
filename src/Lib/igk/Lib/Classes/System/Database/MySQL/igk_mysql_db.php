@@ -17,7 +17,7 @@ if (!function_exists("mysqli_connect")) {
     igk_exit();
 }
 define("IGK_MYSQL_DIR", IGK_LIB_CLASSES_DIR . "/System/Database/MySQL");
-define('MYSQL_DB_DRIVER', 1);
+define('IGK_MYSQL_DB_DRIVER', 1);
 require_once(IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Database/SQLDataAdapter.php");
 $file = (igk_sys_reflect_class(\IGK\System\Database\MySQL\DataAdapterBase::class))->getFileName();
@@ -40,7 +40,7 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
      * @var object|resource|mysqli $b
      */
     $b = null;
-    if (defined('MYSQL_DB_DRIVER') && DbQueryDriver::Is("MySQLI")) {    
+    if (defined('IGK_MYSQL_DB_DRIVER') && DbQueryDriver::Is("MySQLI")) {    
         try {
             if (is_object($srv)) {
                 if (empty($port = $srv->port)) {
@@ -369,10 +369,10 @@ function igk_mysqli_multi_query($con, $query)
     }
     return $cr;
 }
-define("IGK_MSQL_DB_Adapter", 1);
-define("IGK_MSQL_DB_AdapterFunc", extension_loaded("mysql"));
-define("IGK_MSQLi_DB_AdapterFunc", extension_loaded("mysqli"));
-if (IGK_MSQLi_DB_AdapterFunc) {
+define("IGK_MSQL_DB_ADAPTER", 1);
+define("IGK_MSQL_DB_ADAPTERFUNC", extension_loaded("mysql"));
+define("IGK_MSQLI_DB_ADAPTERFUNC", extension_loaded("mysqli"));
+if (IGK_MSQLI_DB_ADAPTERFUNC) {
     define("IGK_MYSQL_USAGE", "MySQLi");
 } else
     define("IGK_MYSQL_USAGE", "MySQL");

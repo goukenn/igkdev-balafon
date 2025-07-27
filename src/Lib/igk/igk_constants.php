@@ -2,12 +2,9 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: igk_constants.php
 // @date: 20220803 13:34:31
-// @desc: core constant definition
-
-// + | store here 
-
+// @desc: core constant definition  
 //----------------------------------------------------------------------------------------
-// + | -- define core constant 
+// + | -- define core constants 
 //----------------------------------------------------------------------------------------
 define("IGK_BALAFON_JS_VERSION", "4.6.0.0408");
 defined("IGK_FRAMEWORK") || define("IGK_FRAMEWORK", "IGKDEV-WFM");

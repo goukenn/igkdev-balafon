@@ -13,7 +13,11 @@ use IGK\System\IO\StringBuilder;
  */
 class RegexFormatStringBuilder
 {
-    private $m_sb;
+    /**
+     * 
+     * @var StringBuilder
+     */
+    protected $m_sb;
     /**
      * line feed flag
      * @var bool
@@ -21,9 +25,20 @@ class RegexFormatStringBuilder
     var $lineFeed;
     var $tabStop = '    ';
     var $depth = 0;
-    public function tab()
+    var $inlineCommentPrefix = "\r\t\t";
+    var $space = ' ';
+    /**
+     * 
+     * @var mixed
+     */
+    var $noInlinePrefixComment;
+    /**
+     * get tab display
+     * @return string 
+     */
+    public function tab(?int $depth=null):string
     {
-        return str_repeat($this->tabStop, $this->depth);
+        return str_repeat($this->tabStop, $depth ?? $this->depth);
     }
     /**
      * append line definition 
@@ -50,6 +65,10 @@ class RegexFormatStringBuilder
     {
         $this->m_sb = new StringBuilder;
     }
+    /**
+     * rtrim 
+     * @return StringBuilder 
+     */
     public function rtrim()
     {
         return $this->m_sb->rtrim();
@@ -96,5 +115,25 @@ class RegexFormatStringBuilder
             return "\n";
         }
         return implode("\n", $lines);
+    }
+    /**
+     * append inline prefix depth
+     * @return static
+     */
+    public function appendPrefixInlineComment(){
+        if ($this->noInlinePrefixComment){
+            $this->appendSpace();
+            return $this;
+        }
+        $c = $this->inlineCommentPrefix;
+        $this->append($c.$this->tab(1));
+        return $this; 
+    }
+    protected function appendSpace(){
+        $this->append($this->space);
+        return $this;
+    }
+    public function outputLength():int{
+        return $this->m_sb->length();
     }
 }

@@ -5,6 +5,7 @@
 namespace IGK\System\Text;
 
 use Exception;
+use IGK\System\Console\Logger;
 
 /**
  * 
@@ -13,12 +14,26 @@ use Exception;
  */
 class RegexDetectBuffer
 {
+    /**
+     * direct output 
+     * @var string
+     */
     var $output = '';
     var $offset = 0;
     var $source;
+    var $lineFeedSeparator = "\n";
+    /**
+     * 
+     * @var ?string
+     */
     var $depth;
     var $lineFeed = false;
     var $replace = [];
+    var $tabListener;
+    /**
+     * @var ?string
+     */
+    var $flag;
 
     private $m_initFormatBuilderListener;
     /**
@@ -31,15 +46,36 @@ class RegexDetectBuffer
     }
     /**
      * 
+     * @return string 
+     */
+    public function __toString()
+    {
+        return $this->output.'';
+    }
+    /**
+     * 
      * @return bool 
      */
     public function isEmpty()
     {
         return empty(trim($this->output));
     }
-    function replace($e, string $value = '')
+    /**
+     * replace or append value to buffer
+     * @param RegexMatcherCapture $e 
+     * @param string $value 
+     * @return void 
+     */
+    function replace(RegexMatcherCapture $e, string $value = '')
     {
+        igk_is_debug() && Logger::warn('replace: ['.json_encode($value).']');
         $v_before = substr($this->source, $this->offset, $e->from - $this->offset);
+        if ($this->flag == 'single-comment'){
+            if ($v_before=="\n"){
+                $v_before='';
+            }
+            $this->flag = null;
+        }
         if ($this->lineFeed) {
             $v_before = ltrim($v_before);
             $this->lineFeed = false;
@@ -69,32 +105,7 @@ class RegexDetectBuffer
             return $fc() ?? igk_die('failed to initialize listener');
         }
     }
-    /**
-     * replace all with the express 
-     * @param array $infos 
-     * @param string $value 
-     * @param string $expression 
-     * @param int $from 
-     * @return void 
-     */
-    public function replaceAll(array $infos, string $value, string $expression, int $from = 0): string
-    {
-        igk_die(__METHOD__ . ' not implement');
-        // $bck = $this->offset;
-        // $out = $this->output; 
-        // $this->output = '';
-        // $this->offset = $from;
-        // while(count($infos)>0){
-        //     list($i, $s) = array_shift($infos);
-        //     $this->replace($i,$s);
-        // }
-        // $this->output .= substr($this->source, $this->offset, $this->offset-$bck);
-        // $v_out = $this->output;
-        // // restaure backup
-        // $this->offset = $bck;
-        // $this->output = $out;
-        // return $v_out;
-    }
+  
     /**
      * 
      * @param IRegexMatcherEndDetectionInfo $e 
@@ -122,12 +133,11 @@ class RegexDetectBuffer
                         $buffer->rtrim();
                     }
                     if ($buffer->lineFeed) {
-                        $buffer->output .= "\n" . $buffer->depth;
+                        $buffer->output .= $this->lineFeedSeparator . $buffer->depth;
                     } else if ($buffer->isEmpty()) {
                         $buffer->output .= $buffer->depth;
                         $buffer->lineFeed = true;
                     } 
-                    
                     $buffer->replace($ee, $ss);
                 }
             }
@@ -142,6 +152,9 @@ class RegexDetectBuffer
             }
         }
     }
+    public function outputLength():int{
+        return strlen($this->output);
+    }
     private static function BuildChain($t, &$cp, &$v_rp, $e, ?callable $update = null)
     {
         if ($chain = RegexMatcherUtility::GetChainUntil($v_rp, $e)) {
@@ -151,5 +164,27 @@ class RegexDetectBuffer
             }
             $cp[1] = '' . $s;
         }
+    }
+    public function clearOutput(){
+        $this->output = '';
+    }
+    /**
+     * append to output 
+     * @param string $source 
+     * @return void 
+     */
+    public function append(string $source){
+        $this->output.= $source;
+    }
+    /**
+     * generate tab 
+     * @param null|int $depth 
+     * @return string 
+     */
+    public function tab(?int $depth=null):string{
+        if ($fc = $this->tabListener){
+            return $fc($depth);
+        }
+        return $this->depth;
     }
 }

@@ -338,6 +338,11 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
         return null;
     }
 
+    /**
+     * strip slashes 
+     * @param null|string $v 
+     * @return string 
+     */
 	public function escape_string(?string $v=null):string{
         $v = stripslashes($v);
 		return $this->sql->escapeString($v);

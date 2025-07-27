@@ -39,4 +39,15 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
             return $ai <=> $bi;
         });  
     }
+    public function first(){
+        if (count($this->m_data)){
+            return $this->m_data[0];
+        }
+
+    }
+    public function last(){
+        if ($c = count($this->m_data)){
+            return $this->m_data[$c-1];
+        }
+    }
 }

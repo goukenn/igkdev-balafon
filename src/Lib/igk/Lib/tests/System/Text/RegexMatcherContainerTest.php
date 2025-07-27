@@ -284,8 +284,7 @@ class RegexMatcherContainerTest extends BaseTestCase
         $container = new RegexMatcherContainer;
         $container = new RegexMatcherContainer;
         $container->match('^(?=\n)?', 'count');
-        $src = str_repeat("\n", 6);
-        $ln = strlen($src);
+        $src = str_repeat("\n", 6); 
         $r = [];
         $container->treat($src, function ($g, $next_pos) use (&$r) {
             $r[] = ("> : " . $next_pos . ":" . $g->tokenID . ": " . $g->value);

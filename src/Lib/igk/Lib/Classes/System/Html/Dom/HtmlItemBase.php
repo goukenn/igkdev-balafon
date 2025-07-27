@@ -76,6 +76,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public function getRenderOnly(){
         return $this->getParam(self::RENDER_ONLY);
     }
+    public function getLastNode(){
+        return $this->m_childs->last();
+    }
+    public function getFirstNode(){
+        return $this->m_childs->first();
+    }
     /**
      * current node content
      * @var mixed

@@ -123,6 +123,10 @@ class RequestViewCommand extends AppExecCommand
         }
         igk_server()->prepareServerInfo();
         list($view, $args) = ViewHelper::PrepareViewArgFromPath($path); 
+        if ($args){
+            $view .= '/'.implode("/", $args);
+            $args = [];
+        }
         $ctrl->setCurrentView($view, true, null, $args);
     }
 }

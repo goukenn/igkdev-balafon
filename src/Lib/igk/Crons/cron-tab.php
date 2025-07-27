@@ -3,22 +3,17 @@
 
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
-use IGK\Helper\JSon;
 use IGK\Models\Crons;
 use IGK\System\Console\App;
 use IGK\System\Console\AppConfigs;
-use IGK\System\Console\ConsoleLogger;
 use IGK\System\Console\IConsoleLogger;
 use IGK\System\Console\Logger;
-use IGK\System\Cron\CronExecutionStatus;
 use IGK\System\Cron\CronScriptHandler;
 use IGK\System\CronJob;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\IO\Path;
-use IGK\System\Process\CronJobProcess;
-use Spatie\PhpUnitWatcher\ConsoleApplication;
+use IGK\System\IO\Path; 
 
-define('CROS_DIR', __DIR__);
+define('IGK_CRON_START_DIR', __DIR__);
 define('IGK_APP_CRON', 1);
 error_reporting(-1);
 ini_set('display_errors', 1);

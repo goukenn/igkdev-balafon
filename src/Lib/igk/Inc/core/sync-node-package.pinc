@@ -1,12 +1,15 @@
 <?php
-//
+// @author: C.A.D. BONDJE DOUE
+// @filename: sync-node-package.pinc
+// @date: 20250723 10:57:57
+// @desc: 
 
- ini_set('display_errors',1);
+ini_set('display_errors',1);
 error_reporting(-1); 
 
 if (!class_exists('Logger')){
     /**
-     * define global sync Logger - to die with reponse
+     * define global sync Logger - to die with response
      * @package 
      */
     abstract class Logger{

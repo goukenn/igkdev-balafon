@@ -161,7 +161,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         // $m->match("\\n","end-line");
         $m->match('(?:-+(?: )*\|){1,}(?:(?: )*-+)?(?=\\n)?', 'table-segment');
         $table_entry = $m->match('(?:(?:[^\\n\|]+)\|){1,}(?:[^\\n\|]+)?(?=\\n)?', 'table-entry')->last();
-        $header = $m->match('^#{1,6}(?: (?P<title>.+))?(?=\n)?', "text-header")->last();
+        $header = $m->match('^#{1,6}(?: (?P<title>.+))?', "text-header")->last();
         $quote = $m->match("^> .+", "text-quote")->last();
         $escaped_string = $m->referenceOnly()->match('\\\\.', "escaped");
         $mention_string = $m->match("@\b\w+\b", "at-mention")->last();
@@ -188,7 +188,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $list_item = $m->match("^- .+", "list-item")->last();
         $emphasis = $m->begin("(\\*|_)", "\\1", "text-italic")->last();
         $code_block = $m->begin('`', '`', 'code-block')->last();
-        $empty_block = $m->match('^(?:[ \t]*)(?=\n)', 'empty-line')->last();
+        $empty_block = $m->appendEmptyLineDetection('empty-line')->last();
         $emoji_block = $m->match(":(\+\d|\b\w+\b):", "emoji")->last();
         $table_entry->patterns = $quote->patterns = [
             $litteral_string,
@@ -290,10 +290,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     public function treat(RegexMatcherCapture $g, int &$next_pos, string &$data)
     {
         $fc = null;
+        $v_debug = true ; // igk_is_debug();
         if ($g->tokenID)
             $fc = igk_getv($this->m_context, $g->tokenID) ?? '_treat_' . ltrim(StringUtility::FuncName($g->tokenID), '_');
         if ($g->getisRootCaptured()) {
-            igk_environment()->isDev() && Logger::print('captured : ' . $next_pos . ':' . $g->tokenID . ' : ' . App::Gets(App::BLUE_I, $g->value));
+            $v_debug && Logger::print('captured : ' . $next_pos . ':' . $g->tokenID . ' : ' . App::Gets(App::BLUE_I, $g->value));
             switch ($g->tokenID) {
                 default:
                     if ($fc && method_exists($this, $fc)) {
@@ -315,7 +316,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             }
         } else {
             if ($fc && method_exists($this, $fc)) {
-                // Logger::print('marking....:' . $g->tokenID . " value : " . $g->value);
+                $v_debug && Logger::print('tokenID:: ' . $g->tokenID . sprintf(" value : [%s]" , $g->value));
                 $s = call_user_func_array([$this, $fc], [$g->value, $g]);
                 if (!empty($s)) {
                     $data = substr($data, 0, $g->from) . $s . substr($data, $g->to);
@@ -791,6 +792,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             ':octocat:' => '-',
             ':drink:' => '🥤',
             ':birthday-cake:' => '🎂',
+            ':joy:'=>'😀'
         ], $this->m_emojies ?? []), $v);
         return $s;
     }

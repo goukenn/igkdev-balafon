@@ -19,7 +19,7 @@ use function igk_resources_gets as __;
 use function igk_curl_post_uri as post_uri;
 
 
-if (defined('GOOGLE_MODULE')) {
+if (defined('IGK_GOOGLE_MODULE')) {
     return;
 } else {
     require_once(__DIR__ . "/Lib/Classes/IGKHrefListValue.php");
@@ -27,9 +27,9 @@ if (defined('GOOGLE_MODULE')) {
     require_once(__DIR__ . "/Lib/Classes/IGKHrefListValue.php");
     require_once(__DIR__ . "/Lib/Classes/GoogleEvents.php");
     require_once(__DIR__ . "/Lib/Classes/GoogleAPIEndPoints.php");
-    define('GOOGLE_MODULE', 1);
-    define("GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
-    define("GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
+    define('IGK_GOOGLE_MODULE', 1);
+    define("IGK_GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
+    define("IGK_GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
     define("IGK_GOOGLE_DEFAULT_PROFILE_PIC", "//lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s120");
 
     /**
@@ -194,7 +194,7 @@ if (defined('GOOGLE_MODULE')) {
             $options = "";
             $url = igk_google_font_api_uri($ft, $options);
             $g = post_uri($url);
-            if (preg_match_all(GOOGLE_URI_REGEX, $g, $tab) > 0) {
+            if (preg_match_all(IGK_GOOGLE_URI_REGEX, $g, $tab) > 0) {
                 $dir = $dir ?? igk_google_get_fontdir();
                 $dir = "{$dir}/{$ft}";
                 igk_io_createdir($dir);
@@ -243,7 +243,7 @@ if (defined('GOOGLE_MODULE')) {
                 $s = post_uri($huri . "&display=swap");
                 $info = igk_curl_info();
                 if (($ts = $info["Status"]) == 200) {
-                    if (preg_match_all(GOOGLE_URI_REGEX, $s, $tab) > 0) {
+                    if (preg_match_all(IGK_GOOGLE_URI_REGEX, $s, $tab) > 0) {
                         $lnk = $tab["link"];
                         foreach ($lnk as $bs) {
                             $b = post_uri($bs);
@@ -318,7 +318,7 @@ if (defined('GOOGLE_MODULE')) {
     function igk_google_settings()
     {
         return igk_get_env("google://settings", function () {
-            $v_file = GOOGLE_SETTINGS_FILE;
+            $v_file = IGK_GOOGLE_SETTINGS_FILE;
             $s = null;
 
             if (file_exists($v_file)) {
@@ -334,7 +334,7 @@ if (defined('GOOGLE_MODULE')) {
     function igk_google_store_setting($setting = null)
     {
         $g = igk_google_settings();
-        igk_io_w2file(GOOGLE_SETTINGS_FILE, json_encode($g ?? igk_google_settings(),  JSON_FORCE_OBJECT |  JSON_UNESCAPED_SLASHES));
+        igk_io_w2file(IGK_GOOGLE_SETTINGS_FILE, json_encode($g ?? igk_google_settings(),  JSON_FORCE_OBJECT |  JSON_UNESCAPED_SLASHES));
     }
 
     if (function_exists("igk_curl_post_uri")) {
@@ -678,7 +678,7 @@ EOF;
                         igk_exit();
                     }
                     if ($s) {
-                        if (preg_match_all(GOOGLE_URI_REGEX, $s, $tab) > 0) {
+                        if (preg_match_all(IGK_GOOGLE_URI_REGEX, $s, $tab) > 0) {
                             $dir = igk_google_get_fontdir();
                             igk_io_createdir($dir);
                         }

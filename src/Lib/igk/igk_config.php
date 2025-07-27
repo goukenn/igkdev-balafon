@@ -682,7 +682,7 @@ defined('IGK_PROJECT_CTRL_SUFFIX') || define('IGK_PROJECT_CTRL_SUFFIX', 'Control
  */
 define('IGK_SYS_PAGE_CTRL', 'c_syspc');
 define('IGK_HUMAN_CTRL', 'c_sys_hc');
-define('SYS_CTRL_BASE', 0x0F);
+define('IGK_SYS_CTRL_BASE', 0x0F);
 define('IGK_SYS_API_CTRL', 'c_api');
 define('IGK_INFOS_CTRL', 'c_info');
 define('IGK_CHANGE_MAN_CTRL', 'c_chm');
@@ -709,7 +709,7 @@ define('IGK_FRAME_CTRL', "{a4131596-fa31-499e-758d-bdf45da0f918}");
 define('IGK_PIC_RES_CTRL', "{0ff2ac71-ef43-86bc-c73a-39c9f76b19c9}");
 define('IGK_USER_GROUPS_CTRL', "{7d545f74-a157-106e-aa29-df64c4346b96}");
 define('IGK_SYS_CTRL', "{0b3a8f0c-9030-fb31-e150-5f1f2e224a39}");
-define('MODULE_CNF_CTRL', "{14166020-7b69-1ddd-cc2a-6e701570d1b5}");
+define('IGK_MODULE_CNF_CTRL', "{14166020-7b69-1ddd-cc2a-6e701570d1b5}");
 define('IGK_SYSDB_CTRL', "{f9c1857e-eef2-f762-e56d-be7be1a58b4f}" );
 define('IGK_MENU_CTRL', "{dc5acdce-638f-5004-00cf-e4344277689a}");
 define('IGK_CONF_CTRL', "{a4918130-ce95-8e6b-c4a0-7b906dcf8c51}");
@@ -736,9 +736,9 @@ define('IGK_USERGROUP_CTRL', "{f73dbe59-2357-de3c-b19f-a2cdefbb194d}");
 define('IGK_USER_AND_GROUP_CTRL', "{ab6f9000-610f-3695-b431-9eb85149d777}");
 define('IGK_DB_CONF_CTRL', "{CCC0CB51-991F-DB97-303C-F29D0C784CE8}");
 
-// defi'e''IGK_OTHER_MENU_CTRL', SYS_CTRL_BASE + 1);
-// defi'e''IGK_MSBOX_CTRL', SYS_CTRL_BASE + 2);
-// defi'e''IGK_DATA_ADAPTER_CTRL', SYS_CTRL_BASE + 3);
+// defi'e''IGK_OTHER_MENU_CTRL', IGK_SYS_CTRL_BASE + 1);
+// defi'e''IGK_MSBOX_CTRL', IGK_SYS_CTRL_BASE + 2);
+// defi'e''IGK_DATA_ADAPTER_CTRL', IGK_SYS_CTRL_BASE + 3);
 // defi'e''IGK_CTRL_IDENTIFIER', 0xB1);
 define('IGK_AJX_METHOD_SUFFIX', '_ajx');
 define('IGK_CONFIRM_TITLE', "title.confirm");

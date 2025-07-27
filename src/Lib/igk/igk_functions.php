@@ -2429,6 +2429,10 @@ function igk_css_design_property_value($value, $properties, $v_designmode)
 ///<summary>get document style definition</summary>
 /**
  * get document style definition
+ * @param IGKHtmlDoc $doc document css host 
+ * @param bool $minfile minify 
+ * @param bool $themeexport theme is to export
+ * @return string
  */
 function igk_css_doc_get_def($doc, $minfile = false, $themeexport = false)
 {
@@ -6242,11 +6246,12 @@ function igk_db_view_result_node($result, $uri, $selected, $max = -1, $target = 
 }
 ///<summary>set if APP DEBUG activity</summary>
 /**
- * set if APP DEBUG activity
+ * helper: enable application environment debugging
+ * @param ?bool $debug enabl
  */
-function igk_debug(?bool $d = null)
+function igk_debug(?bool $debug = null)
 {
-    igk_environment()->set(IGKEnvironment::DEBUG, $d);
+    igk_environment()->set(IGKEnvironment::DEBUG, $debug);
 }
 ///<summary></summary>
 ///<param name="msg"></param>
@@ -15878,6 +15883,26 @@ function igk_io_view_root_entry_uri(BaseController $ctrl, string $fname = ""): s
     $buri = igk_io_baseuri() ?? '';
     return substr(igk_io_view_entry_uri($ctrl, $fname), strlen($buri));
 }
+
+if (!function_exists('igk_io_serve_file')) {
+    /**
+     * serve file 
+     * @param string $f 
+     * @param mixed $cacheoutput 
+     * @return never 
+     * @throws Exception 
+     */
+    function igk_io_serve_file(string $f, $cacheoutput = null)
+    {
+        igk_header_content_file($f);
+        igk_header_cache_output($cacheoutput ?? igk_configs()->assets_cache_output ?? 3600 * 24 * 365);
+        $size = filesize($f);
+        header("Content-Length:" . $size);
+        echo file_get_contents($f);
+        igk_exit();
+    }
+}
+
 ///<summary>get if is ajx demand</summary>
 /**
  * get if is ajx demand
@@ -21680,14 +21705,16 @@ function igk_str_remove_lines(string $str)
  */
 function igk_str_remove_quote(string $v)
 {
-    if (($count = strlen($v = trim($v))) > 0) {
+    if (($count = strlen($v = trim($v))) > 1) {
         $ch = '';
         if ($v[0] == "'") {
             $ch = "'";
         } else if ($v[0] == '"') {
             $ch = '"';
         }
-        $v = $ch &&  ($count > 1) ? igk_str_rm_last(substr($v, 1), $ch) : $v;
+        if ($ch == $v[$count-1]){
+            $v = $ch &&  ($count > 1) ? igk_str_rm_last(substr($v, 1), $ch) : $v;
+        }
     }
     return $v;
 }
@@ -21712,14 +21739,14 @@ function igk_str_repeat(string $p, int $c)
 /**
  * remove all parttern
  */
-function igk_str_rm_last(string $str, string $pattern)
+function igk_str_rm_last(string $str, string $pattern, ?int $infinite=-1)
 {
-    $c = strlen($pattern);
-    if ($c == 1) {
-        return rtrim($str, $pattern);
-    }
-    while (IGKString::EndWith($str, $pattern)) {
+    $c = strlen($pattern);   
+    while (($infinite!=0) && IGKString::EndWith($str, $pattern)) {
         $str = substr($str, 0, strlen($str) - $c);
+        if ($infinite>0){
+            $infinite--;        
+        }
     }
     return $str;
 }
@@ -21731,12 +21758,15 @@ function igk_str_rm_last(string $str, string $pattern)
  * @param mixed $str 
  * @param mixed $pattern 
  */
-function igk_str_rm_start(string $str, string $pattern)
+function igk_str_rm_start(string $str, string $pattern, ?int $infinite=-1)
 {
     if ($pattern != null) {
         $c = strlen($pattern);
-        while (($c > 0) && (strpos($str, $pattern) === 0)) {
+        while (($infinite!=0) && ($c > 0) && (strpos($str, $pattern) === 0)){
             $str = substr($str, $c);
+            if ($infinite>0){
+                $infinite--;
+            }
         }
     }
     return $str;

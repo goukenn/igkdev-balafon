@@ -3,8 +3,10 @@
 // @file: RegexMatcherUtility.php
 // @date: 20241031 17:45:12
 namespace IGK\System\Text;
+
 use IGKException;
 use Exception;
+
 /**
  * regex utility method
  * @package IGK\System\Text
@@ -12,6 +14,53 @@ use Exception;
  */
 abstract class RegexMatcherUtility
 {
+    const REGEX_OPTION = RegexMatcherContainer::REGEX_OPTION;
+
+    /**
+     * convert to regex pattern
+     * @param string $match 
+     * @return string 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public static function ConverToRegex(string $match):string{
+          $o = '';
+          $b = $match;
+        if (preg_match(self::REGEX_OPTION, $b, $tab)) {
+            $a = $tab['add'];
+            $x = false;
+            if ($a) {
+                if (strpos($a, 'i') !== false) {
+                    $o .= 'i';
+                }
+                if (strpos($a, 'm') !== false) {
+                    $o .= 'm';
+                }
+                if (strpos('x', $a) !== false) {
+                    $x = true;
+                }
+            }
+            $a = igk_getv($tab, 'remove');
+            if ($a) {
+                if (strpos('i', $a) !== false) {
+                    $o .= str_replace('i', '', $o);
+                }
+                if (strpos('m', $a) !== false) {
+                    $o .= str_replace('m', '', $o);
+                }
+                if (strpos('x', $a) !== false) {
+                    $x = false;
+                }
+            }
+            // TODO : handle extra data
+            $b = substr($b, strlen($tab[0]));
+            if ($x) {
+                $b = RegexMatcherUtility::TreatExtended($b);
+            }
+        }
+        $b = sprintf("/%s/%s", $b, $o);
+        return $b;
+    }
     /**
      * 
      * @param RegexMatcherContainer $ctn the container
@@ -153,18 +202,18 @@ abstract class RegexMatcherUtility
      * @return 'include'|'match'|'begin/while'|'begin/end' 
      * @throws Exception 
      */
-    public static function GetPatternType($k){
+    public static function GetPatternType($k)
+    {
         list($match, $include, $begin, $while) = igk_extract($k, 'match|include|begin|while|end');
         $_t = RegexMatcherContainer::MATCH_TYPE;
-        if ($include){
+        if ($include) {
             $_t = RegexMatcherContainer::INCLUDE;
-        }
-        else if ($match) {
-            $_t = RegexMatcherContainer::MATCH_TYPE; 
+        } else if ($match) {
+            $_t = RegexMatcherContainer::MATCH_TYPE;
         } else if ($begin && $while) {
-            $_t = RegexMatcherContainer::BEGIN_WHILE_TYPE;  
+            $_t = RegexMatcherContainer::BEGIN_WHILE_TYPE;
         } else if ($begin) {
-            $_t = RegexMatcherContainer::BEGIN_END_TYPE;   
+            $_t = RegexMatcherContainer::BEGIN_END_TYPE;
         }
         return $_t;
     }
@@ -174,10 +223,11 @@ abstract class RegexMatcherUtility
      * @param array &$patterns 
      * @return void 
      */
-    public static function AppendPhpHereDoc($regex, & $patterns = []){
-        $patterns[] = $regex->begin('<<<([a-zA-Z][a-zA-Z\-0-9]*)',"^\\1" ,'here-doc')->last();
-        $patterns[] = $regex->begin('<<<\'([a-zA-Z][a-zA-Z\-0-9]*)\'',"^\\1" ,'here-doc')->last();
-        $patterns[] = $regex->begin('<<<"([a-zA-Z][a-zA-Z\-0-9]*)"',"^\\1" ,'here-doc')->last();
+    public static function AppendPhpHereDoc($regex, &$patterns = [])
+    {
+        $patterns[] = $regex->begin('<<<([a-zA-Z][a-zA-Z\-0-9]*)', "^\\1", 'here-doc')->last();
+        $patterns[] = $regex->begin('<<<\'([a-zA-Z][a-zA-Z\-0-9]*)\'', "^\\1", 'here-doc')->last();
+        $patterns[] = $regex->begin('<<<"([a-zA-Z][a-zA-Z\-0-9]*)"', "^\\1", 'here-doc')->last();
     }
     /**
      * 
@@ -185,8 +235,9 @@ abstract class RegexMatcherUtility
      * @param IRegexMatcherEndDetectionInfo $e 
      * @return array 
      */
-    public static function GetChainUntil(& $v_plc, $e){
-         $chain = [];
+    public static function GetChainUntil(&$v_plc, $e)
+    {
+        $chain = [];
         while (($tc = count($v_plc)) > 0) {
             if ($v_plc[$tc - 1][0]->from <= $e->from) {
                 break;

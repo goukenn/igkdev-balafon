@@ -265,6 +265,9 @@ EF;
                 }
             }
         }
+        if (method_exists($g, 'activatorDidCreateNewInstance')){
+            $g->activatorDidCreateNewInstance();
+        }
         return $g;
     }
     /**

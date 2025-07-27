@@ -1,6 +1,10 @@
 <?php
 namespace IGK\System\Html\Dom;
+
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKEvents;
+use IGKException;
+
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
@@ -13,6 +17,13 @@ class HtmlHeadNode extends HtmlNode{
     {
         parent::__construct();
     }
+    /**
+     * set document title
+     * @param mixed $value 
+     * @return $this 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     public function setTitle($value){
         if ($this->m_title == null){
             $this->m_title = new HtmlNode("title");
@@ -21,6 +32,10 @@ class HtmlHeadNode extends HtmlNode{
         $this->m_title->content = $value;
         return $this;
     }
+    /**
+     * return header title
+     * @return mixed 
+     */
     public function getTitle(){
         if ($this->m_title){
             return $this->m_title->content;

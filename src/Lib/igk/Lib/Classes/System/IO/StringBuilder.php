@@ -11,6 +11,7 @@ namespace IGK\System\IO;
 class StringBuilder{
     protected $m_src;
     private $m_instop;
+    const TRIM_CHARLIST = " \t\n\r\0\x0B";
     /**
      * line feed symbol
      * @var string
@@ -97,7 +98,7 @@ class StringBuilder{
      * @param string $charlist 
      * @return $this 
      */
-    public function rtrim(string $charlist=" \t\n\r\0\x0B"){
+    public function rtrim(string $charlist=self::TRIM_CHARLIST){
         $this->m_src = rtrim($this->m_src, $charlist);
         return $this;
     }
@@ -106,7 +107,7 @@ class StringBuilder{
      * @param string $charlist 
      * @return $this 
      */
-    public function ltrim(string $charlist=" \t\n\r\0\x0B"){
+    public function ltrim(string $charlist=self::TRIM_CHARLIST){
         $this->m_src = ltrim($this->m_src, $charlist);
         return $this;
     }
@@ -115,7 +116,7 @@ class StringBuilder{
      * @param string $charlist 
      * @return $this 
      */
-    public function trim(string $charlist=" \t\n\r\0\x0B"){
+    public function trim(string $charlist= self::TRIM_CHARLIST){
         $this->m_src = trim($this->m_src, $charlist);
         return $this;
     }

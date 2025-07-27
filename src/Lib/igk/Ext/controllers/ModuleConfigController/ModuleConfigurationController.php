@@ -14,7 +14,7 @@ use function igk_resources_gets as __;
 
 class ModuleConfigurationController extends ConfigControllerBase{
     public function getName(){
-        return MODULE_CNF_CTRL;
+        return IGK_MODULE_CNF_CTRL;
     }
     public function initConfigMenu()
 	{

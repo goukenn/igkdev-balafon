@@ -46,7 +46,7 @@ class HtmlDocumentNode extends HtmlItemBase{
      * @return $this 
      */
     public function setTitle(?string $value=null){
-        $this->m_head->title = $value;
+        $this->m_head->title = $value; 
         return $this;
     }
     /**

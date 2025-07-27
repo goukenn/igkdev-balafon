@@ -443,6 +443,24 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         return $t;
     }
     /**
+     * search for key in environment 
+     * @param mixed $key 
+     * @return mixed 
+     */
+    public function find($key){
+        if (isset($this->m_envs[$key])){
+            return $key;
+        }
+        $c = array_keys($this->m_envs);
+        $key = strtolower($key);
+        foreach($c as $k){
+            if (strtolower($k)==$key){
+                return $k;
+            }
+        }
+        return false;
+    }
+    /**
      * create an instance of classes
      * @param string $classname_or_provider_name provider name  
      * @return mixed|null

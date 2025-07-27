@@ -21,6 +21,7 @@ use IGK\Database\DbLitteralExpression;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDataDriver;
 use IGK\Database\IDbColumnInfo;
+use IGK\Database\SQLQueryUtils;
 use IGK\Helper\Database;
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
@@ -1805,26 +1806,9 @@ class SQLGrammar implements IDbQueryGrammar
                         if ($a)
                             $query .= sprintf("GROUP BY %s", $g_by);
                     }
-                    break;
-                case "OrderByField":
-                    break;
+                    break; 
                 case queryConstant::OrderBy:
-                    if (is_array($v)) {
-                        $torder = "";
-                        $c = "";
-                        foreach ($v as $s) {
-                            $g = explode("|", $s);
-                            $type = getv($g, 1, $defOrder);
-                            $c = self::GetGroupKey($g[0], $type, $ad);
-                            if (!empty($torder))
-                                $torder .= ", ";
-                            $torder .= $c;
-                        }
-                        $torder .= " ";
-                        $optset[$k] = $torder;
-                    } else {
-                        fdie("OrderBy must be an array ['Column,...|Type']");
-                    }
+                    SQLQueryUtils::BuildOrderBy($v, $optset, $k, $ad, $defOrder); 
                     break;
                 case queryConstant::Columns:
                     $a = 0;
@@ -1876,14 +1860,16 @@ class SQLGrammar implements IDbQueryGrammar
             array_map("trim", array_filter(explode(',', $t)))
         ));
     }
+    /**
+     * get group keys
+     * @param mixed $columns 
+     * @param string $type 
+     * @param mixed $adapter 
+     * @return string 
+     */
     protected static function GetGroupKey($columns, string $type, $adapter): string
     {
-        return implode(' ' . $type . ',', array_map(
-            function ($t) use ($adapter) {
-                return  "`" . implode("`.`", array_map([$adapter, "escape_string"], explode(".", $t))) . "`";
-            },
-            array_map("trim", array_filter(explode(',', $columns)))
-        )) . ' ' . $type;
+        return SQLQueryUtils::GetGroupKey($columns, $type, $adapter);  
     }
 /**
  * 

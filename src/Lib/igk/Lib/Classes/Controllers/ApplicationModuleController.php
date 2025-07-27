@@ -71,6 +71,11 @@ final class ApplicationModuleController extends BaseController{
             $this->m_initializer = new $classname();
         }
     }
+    public function environmentSettings(){
+        $e = igk_environment();
+        $v_k = str_replace('.', '\\', trim($this->getName(), '.'));
+        return $e->get($e->find($v_k));
+    }
     /**
     * 
     * @param mixed $n

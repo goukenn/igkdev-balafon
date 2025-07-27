@@ -55,7 +55,7 @@ class RegexMatcherContainerTmLanguageConverter{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function Convert(RegexMatcherContainer $ctn){
+    public function convert(RegexMatcherContainer $ctn){
         $this->m_data = Activator::CreateNewInstance(RegexMatcherContainerTmDefinition::class, (object)[
                 'version'=>'1.0',
                 'repository'=>[],
@@ -69,10 +69,15 @@ class RegexMatcherContainerTmLanguageConverter{
                 if ($q instanceof RegexMatcherPattern){ 
                     if (false === array_search($q, $this->m_references, true)){
                         $this->m_references[] = $q; 
+                    }else{
+                        igk_die('reference a data');
                     }
-                    $r = $this->chainRepository($this->m_data->repository, $q);
-                    $json = JSon::Encode($r, JSonEncodeOption::IgnoreEmpty());
-                    $this->m_data->patterns[] = $this->_removeType(json_decode($json));
+                    if ($r = $this->_chainRepository($this->m_data->repository, $q)){
+                        $json = JSon::Encode($r, JSonEncodeOption::IgnoreEmpty());
+                        $this->m_data->patterns[] = $this->_removeType(json_decode($json));
+                    }else{
+                        $this->m_data->patterns[] = $q;
+                    }
                 }else{
                     igk_die('not a macher pattern');
                 }
@@ -84,9 +89,19 @@ class RegexMatcherContainerTmLanguageConverter{
         return $obj;
     }
 
-    function chainRepository(& $repository, RegexMatcherPattern $q){
+    /**
+     * chain repository 
+     * @param mixed &$repository 
+     * @param RegexMatcherPattern $q 
+     * @return mixed|array|void
+     * @throws Exception 
+     */
+    protected function _chainRepository(& $repository, RegexMatcherPattern $q){
         $r = (array)$q;
         $patterns = igk_getv($r, 'patterns');
+        if (empty($patterns)){
+            return;
+        }
         $tc = [];
         $ref_include = 0;
         while(count($patterns)>0){
@@ -103,7 +118,14 @@ class RegexMatcherContainerTmLanguageConverter{
                 $n = (array)$v_cp;
                 unset($n['patterns']);
                 $trp = (array)$n;
-                $trp['patterns'] = & $tc;
+
+                if (false !== ($l = array_search($v_cp, $this->m_data->patterns))){
+                    // replace patterns with repository access@
+                    $this->m_data->patterns[$l] = [
+                    'include'=>'#'.$idx
+                ];
+                }
+                //$trp['patterns'] = & $tc;
                  $repository[$idx] = $trp;
                 $tc[] = [
                     'include'=>'#'.$idx

@@ -4271,6 +4271,7 @@ if (!function_exists("igk_html_node_script")) {
 	///<summary>function </summary>
 	/**
 	 * function __desc__
+	 * @var ?string $script
 	 */
 	function igk_html_node_script($script = null, $version = null)
 	{

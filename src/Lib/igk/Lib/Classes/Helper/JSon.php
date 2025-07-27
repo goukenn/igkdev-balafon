@@ -48,6 +48,9 @@ class JSon
      */
     public function enc(int $encode)
     {
+        if (is_null($this->m_data)){
+            return false;
+        }
         $root = $this->get_root_data($this->m_data);
         return $root ? json_encode($root, $encode) : null;
     }

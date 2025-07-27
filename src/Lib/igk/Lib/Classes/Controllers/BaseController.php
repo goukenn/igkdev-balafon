@@ -818,6 +818,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         // + | igk_wln_e(__FILE__.":".__LINE__ ,  $view, $exts);
         // + | get fname to UNIX PATH
         $f = IO::GetUnixPath("/" . $view, false, $_viewdir) ?? $f;
+      
         if (is_dir($f)) {
             // + | is ajx file detection or not 
             while(count($param)>0){
@@ -850,7 +851,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
                 }
             }
         }
-        $v_cf = ViewHelper::ResolveViewFile($_viewdir, $view, $f, $checkfile, $param);
+        $v_cf = ViewHelper::ResolveViewFile($_viewdir, $view, $f, $checkfile, $param); 
         return $v_cf;
     }
     /**

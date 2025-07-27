@@ -479,6 +479,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
          */
         $tpnode = null;/* will store top node */
         $v_new_chain_info = null;
+        $glue = '';
         // $v_chain_info = null;
         while (!$next && (count($keys) > 0)) {
             $k = array_shift($keys);
@@ -521,7 +522,8 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                         if ($_last && $v_chain_info) {
                             $cn = $v_chain_info->n;
                             if ($cn) {
-                                $cn->text($v);
+                                $cn->text($glue.$v);
+                                $glue = ' ';
                                 continue;
                             }
                         }

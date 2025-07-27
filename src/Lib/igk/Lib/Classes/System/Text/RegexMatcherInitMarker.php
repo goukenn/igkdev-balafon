@@ -99,7 +99,7 @@ class RegexMatcherInitMarker
             $q = array_shift($chain);
             $v_te = (object)[
                 'tokenID' => $q->match->tokenID,
-                'pos' => $q->pos
+                'pos' => $q->pos,
             ];
             if (!isset($v_rt[$v_te->pos])) {
                 $fc($v_te, $src, $pos);
