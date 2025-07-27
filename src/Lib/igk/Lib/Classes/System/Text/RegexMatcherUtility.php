@@ -17,6 +17,7 @@ abstract class RegexMatcherUtility
     const REGEX_OPTION = RegexMatcherContainer::REGEX_OPTION;
     const REGEX_MOVEMENT_CAPTURE  = "/(|)?\(\?(=|<|!).+?[^\\\]\)(|)?/";
     const REGEX_EMPTY_LINE = '^\\h*(?=\\n)';
+    const REGEX_CAPTURE_REPLACE = "/^\\s*(.+)\\s*$/";
 
     /**
      * remove movement capture

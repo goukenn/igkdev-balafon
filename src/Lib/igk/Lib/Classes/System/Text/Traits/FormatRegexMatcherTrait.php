@@ -4,6 +4,9 @@
 // @date: 20250727 12:03:04
 namespace IGK\System\Text\Traits;
 
+use Closure;
+use Exception;
+use IGK\System\Text\RegexMatcherPattern;
 use IGK\System\Text\RegexMatcherUtility;
 
 /**
@@ -13,39 +16,77 @@ use IGK\System\Text\RegexMatcherUtility;
  */
 trait FormatRegexMatcherTrait
 {
-    protected function formatSubPattern($e, string $format, &$replacement, $g=null)
-    { 
-       if (!($captures = RegexMatcherUtility::GetEndCaptures($e))){ 
-            $replacement[] = [$e,'-|-'];
-            return; 
-       }
-        ksort($captures); 
+    /**
+     * formatter subpatter 
+     * @param mixed $e 
+     * @param string $format 
+     * @param mixed &$replacement 
+     * @param mixed $g 
+     * @return void 
+     * @throws Exception 
+     */
+    protected function formatSubPattern($e, string $format, &$replacement)
+    {
+        if (!($captures = RegexMatcherUtility::GetEndCaptures($e))) {
+            if ($e->emptyLine)
+                $replacement[] = [$e, '', 'remove' => true];
+            return;
+        }
+        ksort($captures);
         $replacement[] = [$e, function ($s, $g, $e) use ($captures, $format) {
-            $root = null;
-            $ts = '';
-            $offset = 0;
-            $treat = $e->match->getMatcher()->captureTreatmentListener ?? function (string $s, $cap) {
-                return $s;
-            };
-            foreach ($captures as $k => $v) {
-                if ($k == 0) {
-                    $root = $v;
-                    continue;
-                }
-                if ($cap = igk_getv($e->captures, $k)) {
-                    $ts .= substr($s, $offset, $cap[1] - $offset);
-                    $ts .= $treat($cap[0], $v);
-                    $offset += strlen($cap[0]);
-                }
-            }
-            $ts .= substr($s, $offset);
-            if ($root) {
-                $ts = $treat($ts, $root, $format, $e->from);
-            }
-            return $ts;
+            return self::TreatFormatCapture($s, $e, $captures, $e->captures, $format);
         }];
     }
-    protected function treatCapture(string $value, $cap, string $sourceValue, int $pos){
+    protected function treatCapture(string $value, $cap, string $sourceValue, int $pos)
+    {
         return $value;
+    }
+    public static function TreatCaptureReplace(string $s, $cap, $sourceValue, $pos): ?string
+    {
+        if ($rp = igk_getv($cap, 'replaceWith')) {
+            if ($rp instanceof Closure) {
+                return $rp($s, $cap, $sourceValue, $pos);
+            }
+            $is_empty = strlen(trim(trim($s)))==0;
+            $l = preg_replace(RegexMatcherUtility::REGEX_CAPTURE_REPLACE, $rp, $is_empty ? $s : trim($s));
+            return $l;
+        }
+        return null;
+    }
+    /**
+     * 
+     * @param mixed $s 
+     * @param mixed $e 
+     * @param array $captures capture definition 
+     * @param array $matches 
+     * @param mixed $format 
+     * @return mixed 
+     * @throws Exception 
+     */
+    public static function TreatFormatCapture(string $s, $e, array $captures, array $matches, string $format)
+    {
+        $root = null;
+        $ts = '';
+        $offset = 0;
+        $from = $e->from;
+        $treat = $e->match->getMatcher()->captureTreatmentListener ?? function (string $s, $cap, $sourceValue, $pos) {
+            return self::TreatCaptureReplace($s, $cap, $sourceValue, $pos) ?? $s;
+        };
+        foreach ($captures as $k => $v) {
+            if ($k == 0) {
+                $root = $v;
+                continue;
+            }
+            if (($cap = igk_getv($matches, $k)) && ($cap[1]!=-1)) {
+                $ts .= substr($s, $offset, $cap[1] - $offset - $from);
+                $ts .= $treat($cap[0], $v, $format, $from);
+                $offset = ($cap[1] - $from) + strlen($cap[0]);
+            }
+        }
+        $ts .= substr($s, $offset);
+        if ($root) {
+            $ts = $treat($ts, $root, $format, $from);
+        }
+        return $ts;
     }
 }

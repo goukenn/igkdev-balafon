@@ -357,11 +357,11 @@ function igk_ajx_replace_node($n, $target = null, $hash = null, $render = true)
     $c["target"] = $target;
     $c["hash"] = $hash;
     $c->addNode($n);
-    if ($render){
+    if ($render) {
         // + | add handling cores if fecth mode is coers
         $v_h = null;
         $headers = getallheaders();
-        if (igk_getv($headers, 'Sec-Fetch-Site') == 'cross-site'){
+        if (igk_getv($headers, 'Sec-Fetch-Site') == 'cross-site') {
             $v_h = Response::GetHeaderOptions(igk_server()->REQUEST_METHOD);
         }
         $response = new WebResponse($c, 200, $v_h);
@@ -705,7 +705,7 @@ function igk_bind_host_css_style($doc)
  */
 function igk_bind_host_css_style_file(string $file, ICssResourceResolver $doc, $host, bool $themeexport)
 {
-    $bvtheme = new HtmlDocTheme($doc->Parent, 'temp://files',false);
+    $bvtheme = new HtmlDocTheme($doc->Parent, 'temp://files', false);
     $out = "";
     $sys = $doc->SysTheme;
     igkOb::Start();
@@ -2169,22 +2169,22 @@ function igk_css_balafon_index(string $dir, $debug = null, ?bool $minfile = null
     $renderer->doc = $doc;
     $renderer->doc_id = $doc_id;
     $renderer->theme = $doc->getTheme();
-    ($m = $renderer->output()) || igk_die('missing balafon css output'); 
-    if ($m  && (igk_environment()->isOPS() && igk_configs()->auto_cache_css)){
-        if ($referer = igk_server()->HTTP_REFERER){
+    ($m = $renderer->output()) || igk_die('missing balafon css output');
+    if ($m  && (igk_environment()->isOPS() && igk_configs()->auto_cache_css)) {
+        if ($referer = igk_server()->HTTP_REFERER) {
             // + | CACHE CSS RENDERING
             $m->cache = false;
-            ob_start();   
+            ob_start();
             $m->render();
-            $s = ob_get_clean();  
-            igk_io_w2file(igk_io_cachedir().'/storage/css/'.hash('crc32b', $referer).'.css', $s); 
-            header(implode('', $m->headers));            
+            $s = ob_get_clean();
+            igk_io_w2file(igk_io_cachedir() . '/storage/css/' . hash('crc32b', $referer) . '.css', $s);
+            header(implode('', $m->headers));
             echo $s;
             igk_exit();
         }
-    }   
+    }
     // + | for css response 
-    igk_do_response($m);    
+    igk_do_response($m);
 }
 ///<summary></summary>
 ///<param name="callback"></param>
@@ -3808,20 +3808,19 @@ function igk_ctrl_change_lang(BaseController $ctrl, $p)
     $lang = igk_getv($p, 'lang');
     $set = false;
     if ($lang) {
-        if (R::ChangeLang($lang)){
+        if (R::ChangeLang($lang)) {
             echo 'changing....';
             $ctrl->setEnvParam(BaseController::IGK_ENV_PARAM_LANGCHANGE_KEY, 1);
-            $set=true;
+            $set = true;
+        } else {
+            $set = $lang == R::GetCurrentLang();
         }
-        else {
-            $set = $lang==R::GetCurrentLang();
-        }
-        $ctrl->setEnvParam(BaseController::IGK_ENV_PARAM_SETUP_LANG, true); 
+        $ctrl->setEnvParam(BaseController::IGK_ENV_PARAM_SETUP_LANG, true);
     }
-    if (!$set){
+    if (!$set) {
         $_headers = getallheaders();
         $locale = igk_app()->session->lang; // session locale
-     
+
 
         if (!$locale  && ($l = igk_getv($_headers, 'Accept-Language'))) {
             $g = explode(',', explode(';', $l, 2)[0]);
@@ -6641,7 +6640,7 @@ function igk_display($obj, $keyTab = null)
  */
 function igk_display_error($a)
 {
-    
+
     if ($a) {
         switch (igk_server()->ENVIRONMENT) {
             case "development":
@@ -6651,12 +6650,12 @@ function igk_display_error($a)
             default:
                 $report = E_ALL;
                 $e_all = E_ALL | E_NOTICE;
-                if (version_compare(PHP_VERSION, '8.0', '<' )){
+                if (version_compare(PHP_VERSION, '8.0', '<')) {
                     $report = $report | E_STRICT;
                     $e_all = $e_all | E_STRICT;
                 }
-                error_reporting($e_all); 
-                ini_set('error_reporting',$report); 
+                error_reporting($e_all);
+                ini_set('error_reporting', $report);
                 break;
         }
     } else {
@@ -7250,7 +7249,7 @@ if (!function_exists('igk_explode')) {
  */
 function igk_extract_assoc($obj, $list)
 {
-    if (is_string($list)){
+    if (is_string($list)) {
         $list = explode('|', $list);
     }
     $p = [];
@@ -9366,7 +9365,7 @@ function igk_get_robj($callbackfilter = null, $replace = 0, $request = null)
     $m = $callbackfilter;
     if ($m === null) {
         $callbackfilter = function (&$k, $v, $rp) {
-            $rgx = "/^".IGK_FIELD_PREFIX."/i";
+            $rgx = "/^" . IGK_FIELD_PREFIX . "/i";
             $p = preg_match($rgx, $k);
             if ($p && $rp)
                 $k = preg_replace($rgx, "", $k);
@@ -12305,7 +12304,7 @@ function igk_html_index_of($node)
 function igk_html_init_node_page($t)
 {
     $t->setClass("fit igk-parentscroll igk-powered-viewer overflow-y-a");
-    igk_wln_e(__FILE__.":".__LINE__ , "init node");
+    igk_wln_e(__FILE__ . ":" . __LINE__, "init node");
 }
 ///<summary></summary>
 ///<param name="text"></param>
@@ -12722,7 +12721,8 @@ function igk_html_reg_component_demo($ns, $callback)
  * Represent igk_html_reg_component_package function
  * @param mixed $component 
  */
-function igk_html_reg_component_package($component = null) {
+function igk_html_reg_component_package($component = null)
+{
     throw new \IGKException('not implement');
 }
 ///<summary></summary>
@@ -14686,7 +14686,7 @@ function igk_io_get_relative_currenturi(?string $uri = null): ?string
     if (strtolower($page) != IGK_HOME_PAGEFOLDER) {
         $t = ($uri) ? IGK_STR_EMPTY . ($page) . "/" . $uri : $page;
     } else {
-        if ($uri !== null){
+        if ($uri !== null) {
             $t = $uri;
         }
     }
@@ -14703,7 +14703,7 @@ function igk_io_get_uploaded_data(bool $usefaker = true)
     if ($usefaker && ($input = igk_environment()->RequestFakeJsonInput())) {
         return $input->getRaw();
     }
-    if ($usefaker && ($input = igk_server()->IGK_PHP_INPUT_DATA)){
+    if ($usefaker && ($input = igk_server()->IGK_PHP_INPUT_DATA)) {
         return $input;
     }
 
@@ -15159,8 +15159,9 @@ function igk_io_packagesdir()
 /**
  * helper to get node module 
  */
-function igk_io_node_modules_dir(){
-    return igk_io_packagesdir().'/node_modules';
+function igk_io_node_modules_dir()
+{
+    return igk_io_packagesdir() . '/node_modules';
 }
 ///<summary>protect the full request uri</summary>
 /**
@@ -15217,7 +15218,7 @@ function igk_io_query_info()
         $obj->entryuri = igk_io_request_uri_path();
         $obj->root_uri = igk_io_root_entryuri();
         $v_query = $obj->fullentry = igk_io_baseuri() . $obj->entryuri;
-        $obj->query_options = (($s = igk_getv( explode(';', $v_query, 2), 1)) ? igk_get_query_options($s): null);
+        $obj->query_options = (($s = igk_getv(explode(';', $v_query, 2), 1)) ? igk_get_query_options($s) : null);
 
         if ($q = $obj->query) {
             $obj->fullentry .= '?' . $q;
@@ -16881,8 +16882,9 @@ function igk_json($msg, $code = RequestResponseCode::Ok)
 /**
  * do json error 
  */
-function igk_json_error(string $msg, int $code = RequestResponseCode::BadRequest){
-    igk_json(['error'=>true, 'message'=>$msg], $code);
+function igk_json_error(string $msg, int $code = RequestResponseCode::BadRequest)
+{
+    igk_json(['error' => true, 'message' => $msg], $code);
 }
 ///<summary>parse expression. multi json object expression</summary>
 ///<param name="exp">param or semi column expression</param>
@@ -17017,8 +17019,8 @@ function igk_kill_trace()
  */
 function igk_last($tab)
 {
-    if ($c = array_keys($tab)){
-        $i = $c[count($c)-1];
+    if ($c = array_keys($tab)) {
+        $i = $c[count($c) - 1];
         return $tab[$i];
     }
     return null;
@@ -17113,7 +17115,7 @@ function igk_log_append($file, $msg, $tag = IGK_LOG_SYS)
     }
 
     if ($query = igk_server()->REQUEST_URI)
-        $s .= " " . $query . " "; 
+        $s .= " " . $query . " ";
     igk_set_env("igk_log_var_dump", "text");
     if ($msg && is_array($msg) || is_object($msg)) {
         $msg = (function () use ($msg) {
@@ -17317,10 +17319,9 @@ function igk_map_array_to_str($tab, $usekey = true)
                     $m .= '"' . $k . '"=>';
                 }
             }
-            if (is_bool($v)){
+            if (is_bool($v)) {
                 $m .= igk_parsebool($v);
-            }
-            else if (is_numeric($v)) {
+            } else if (is_numeric($v)) {
                 $m .= $v;
             } else if (is_string($v)) {
                 $m .= '"' . $v . '"';
@@ -17427,7 +17428,7 @@ function igk_navto($uri, ?int $headerStatus = null)
         else {
             $uri = "/" . ltrim($uri, '/');
         }
-    } 
+    }
     header("Location: " . $uri);
     igk_exit();
 }
@@ -18186,13 +18187,13 @@ function igk_pattern_view_extract($ctrl, $p, $globalregister = 0)
         $view_handler = igk_view_handler_info();
         $viewdir = $ctrl->getViewDir();
         $dir = $viewdir . "/" . $c;
-   
+
         if (is_dir($dir)) {
             if (is_string($param)) {
                 $param = !empty($param) ? array($param) : array();
             }
-            $ext_regex = $view_handler->pattern;  
-            $exts = $view_handler->list;  
+            $ext_regex = $view_handler->pattern;
+            $exts = $view_handler->list;
             $found = false;
             $cargs = [];
             while (!$found && (count($param) > 0)) {
@@ -18700,7 +18701,7 @@ function igk_reg_component_ajx($n, $attr, $callback)
  * @param callback $callback use to register package
  * @param ?string $desc description
  */
-function igk_reg_component_package(?string $packagename = null, $callback = null, ?string $desc=null)
+function igk_reg_component_package(?string $packagename = null, $callback = null, ?string $desc = null)
 {
     $key = Constants::COMPONENT_PACKAGE_KEY;
     $t = igk_get_env($key) ?? array();
@@ -18709,7 +18710,7 @@ function igk_reg_component_package(?string $packagename = null, $callback = null
     $k = strtolower($packagename);
     if (isset($t[$k]))
         igk_die("[{$packagename}]" . " component package already register.");
-    $t[$k] = array("name" => $packagename, "callback" => $callback, "init" => 0, "chain_callback"=>[], "desc"=>$desc);
+    $t[$k] = array("name" => $packagename, "callback" => $callback, "init" => 0, "chain_callback" => [], "desc" => $desc);
     $m = &$t;
     igk_set_env($key, $m);
 }
@@ -19013,7 +19014,8 @@ function igk_regex_get($pattern, $key, $value, $index = 0)
  * @param string $definition_delimiter
  * @return array<string,string> 
  */
-function igk_regex_read_value(string $data, string $value_delimiter=':', $definition_delimiter=';'){
+function igk_regex_read_value(string $data, string $value_delimiter = ':', $definition_delimiter = ';')
+{
     $container = new RegexMatcherContainer;
     $container->match($value_delimiter, "value");
     $container->match($definition_delimiter, "def");
@@ -20335,8 +20337,9 @@ function igk_str_empty($t)
 /**
  * helper: is trim empty 
  */
-function igk_str_is_trim_empty(string $str): bool{    
-    return (strlen(trim($str))===0); 
+function igk_str_is_trim_empty(string $str): bool
+{
+    return (strlen(trim($str)) === 0);
 }
 
 
@@ -21712,7 +21715,7 @@ function igk_str_remove_quote(string $v)
         } else if ($v[0] == '"') {
             $ch = '"';
         }
-        if ($ch == $v[$count-1]){
+        if ($ch == $v[$count - 1]) {
             $v = $ch &&  ($count > 1) ? igk_str_rm_last(substr($v, 1), $ch) : $v;
         }
     }
@@ -21739,13 +21742,13 @@ function igk_str_repeat(string $p, int $c)
 /**
  * remove all parttern
  */
-function igk_str_rm_last(string $str, string $pattern, ?int $infinite=-1)
+function igk_str_rm_last(string $str, string $pattern, ?int $infinite = -1)
 {
-    $c = strlen($pattern);   
-    while (($infinite!=0) && IGKString::EndWith($str, $pattern)) {
+    $c = strlen($pattern);    
+    while (($infinite != 0) && ($c > 0) && IGKString::EndWith($str, $pattern)) {
         $str = substr($str, 0, strlen($str) - $c);
-        if ($infinite>0){
-            $infinite--;        
+        if ($infinite > 0) {
+            $infinite--;
         }
     }
     return $str;
@@ -21758,15 +21761,13 @@ function igk_str_rm_last(string $str, string $pattern, ?int $infinite=-1)
  * @param mixed $str 
  * @param mixed $pattern 
  */
-function igk_str_rm_start(string $str, string $pattern, ?int $infinite=-1)
+function igk_str_rm_start(string $str, string $pattern, ?int $infinite = -1)
 {
-    if ($pattern != null) {
-        $c = strlen($pattern);
-        while (($infinite!=0) && ($c > 0) && (strpos($str, $pattern) === 0)){
-            $str = substr($str, $c);
-            if ($infinite>0){
-                $infinite--;
-            }
+    $c = strlen($pattern);
+    while (($infinite != 0) && ($c > 0) && (strpos($str, $pattern) === 0)) {
+        $str = substr($str, $c);
+        if ($infinite > 0) {
+            $infinite--;
         }
     }
     return $str;
@@ -22095,7 +22096,7 @@ function igk_svg_callable_list($n, $m)
         __FILE__ . ":" . __LINE__,
         "loading ......." . __FUNCTION__ . " deprecated"
     );
-   return 1;
+    return 1;
 }
 ///<summary>trim all unnecessary content</summary>
 ///<param name="s"> content to treat</param>
@@ -24185,7 +24186,7 @@ function igk_sys_viewctrl($name)
  * @param bool $verbose increment version
  * @return bool true if succeed
  */
-function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose=false)
+function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose = false)
 {
     if (!class_exists(ZipArchive::class, false))
         return false;
@@ -24209,7 +24210,7 @@ function igk_sys_zip_core(string $tfile, $incVersion = false, $verbose=false)
         if ($files) {
             foreach ($files as $k) {
                 $manifest->add("file")->setAttribute("entry", $k);
-                $verbose && Logger::print('add: '.$k);
+                $verbose && Logger::print('add: ' . $k);
             }
         }
         return @$zip->close();
@@ -24842,7 +24843,7 @@ function igk_user_connectas($login)
  */
 function igk_user_fullname($u)
 {
-    if (!empty(trim($t = igk_getv($u, 'clDisplay') ?? ''))){
+    if (!empty(trim($t = igk_getv($u, 'clDisplay') ?? ''))) {
         return $t;
     }
     return igk_getv($u, "clFirstName") . " " . igk_getv($u, "clLastName");
@@ -24941,7 +24942,7 @@ function igk_user_pwd_required($pwd, $repwd)
 {
     if (!$pwd || !$repwd || ($pwd != $repwd)) {
         return false;
-    } 
+    }
     return IGKValidator::IsValidPwd($pwd);
 }
 ///<summary>set environment param to users</summary>
@@ -25446,9 +25447,9 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
                 $fc = igk_getv($v_tab, $code);
                 $params = array(implode("/", $params), $code);
                 array_unshift($params, null);
-                if ($doc = ViewHelper::CurrentDocument()){
-                    $doc->setResponseStatus($code);  
-                 } else{
+                if ($doc = ViewHelper::CurrentDocument()) {
+                    $doc->setResponseStatus($code);
+                } else {
                     igk_header_cache_output();
                 }
             }
@@ -25467,10 +25468,10 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
     if (is_null($fc) && ($fc = igk_get_env($fs . "/" . IGKViewActionsConstants::HANDLE_DEFAULT))) {
         $action = IGKViewActionsConstants::HANDLE_DEFAULT;
         array_unshift($params, null);
-    } 
+    }
     if ($fc) {
         igk_set_env(IGKEnvironment::VIEW_CURRENT_ACTION, $action);
-        igk_env_action_chain_push($action);        
+        igk_env_action_chain_push($action);
         $ht = array_slice($params, 1);
         $fc_result = Dispatcher::Dispatch($fc, ...$ht);
         igk_env_action_chain_pop();
@@ -25480,7 +25481,8 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
 /**
  * in order to help retrieve the current action context 
  */
-function igk_env_action_chain_push(string $action){
+function igk_env_action_chain_push(string $action)
+{
     $chain = igk_environment()->action_hain ?? [];
     array_push($chain, $action);
     igk_environment()->action_hain = $chain;
@@ -25488,16 +25490,18 @@ function igk_env_action_chain_push(string $action){
 /**
  * call with pop to help action list environment
  */
-function igk_env_action_chain_pop(){
-    if ($chain = igk_environment()->action_hain){
+function igk_env_action_chain_pop()
+{
+    if ($chain = igk_environment()->action_hain) {
         $s = array_pop($chain);
         igk_environment()->action_hain = $chain;
         return $s;
     }
 }
-function igk_env_current_action(){
-      if ($chain = igk_environment()->action_hain){
-        $s = $chain[count($chain)-1];
+function igk_env_current_action()
+{
+    if ($chain = igk_environment()->action_hain) {
+        $s = $chain[count($chain) - 1];
         return $s;
     }
 }
@@ -25530,9 +25534,9 @@ function igk_view_handle_actions($viewname, $arrayList, $params, $exit = 1, $fla
         foreach ($arrayList as $k => $v) {
             igk_view_reg_action($viewname, $k, $v);
         }
-       
+
         $b = igk_view_handle_action($viewname, $params);
-         
+
         if ($b && $exit) {
             igk_do_response($b);
         }
@@ -26529,8 +26533,9 @@ if (!function_exists('igk_load_env')) {
     }
 }
 
-if (!function_exists('igk_map_conv_to_array')){
-    function igk_map_conv_to_array($a){
+if (!function_exists('igk_map_conv_to_array')) {
+    function igk_map_conv_to_array($a)
+    {
         return $a->to_array();
     }
 }

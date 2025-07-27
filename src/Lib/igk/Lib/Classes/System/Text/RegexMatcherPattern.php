@@ -29,18 +29,18 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     var $while;
     var $name;
     var $description;
- /**
-     * 
+    /**
+     * assoc captures array object to match against begin result 
      * @var ?array
      */
     var $beginCaptures;
     /**
-     * 
+     * assoc capture array object to match against end result 
      * @var ?array
      */
     var $endCaptures;
     /**
-     * array to captures before send to 
+     * assoc capture array object to match agains both begin/end - match result 
      * @var ?array
      */
     var $captures;

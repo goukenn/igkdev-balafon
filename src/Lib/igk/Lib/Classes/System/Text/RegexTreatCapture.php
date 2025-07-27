@@ -171,6 +171,9 @@ class RegexTreatCapture{
             $v = $source_value;
             while (count($list)) {
                 $q = array_shift($list);
+                if ($q->pos == -1){
+                    continue;
+                }
                 $pos = ($q->pos-$offset);
                 $to = ($q->to -$offset);
                 $v_output .= substr($v, $v_lpos, $pos - $v_lpos) . $q->value;

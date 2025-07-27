@@ -757,3 +757,22 @@ if (!function_exists('igk_array_order_by')) {
         return $array;
     }
 }
+
+if (!function_exists('igk_array_merge_assoc')){
+    /**
+     * merge array by preserving last key association 
+     * @param mixed ...$args 
+     * @return array 
+     */
+     function igk_array_merge_assoc(...$args)
+    {
+        $r = [];
+        while(count($args)>0){
+            $q = (array)array_shift($args);
+            foreach($q as $k=>$v){
+                $r[$k]=$v;
+            }
+        }
+        return $r; 
+    }
+}

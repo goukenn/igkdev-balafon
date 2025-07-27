@@ -79,6 +79,12 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * @var ?object
      */
     var $option;
+
+    /**
+     * is empty line detected 
+     * @var ?bool
+     */
+    var $emptyLine;
     /**
      * parent info is null
      * @return bool 

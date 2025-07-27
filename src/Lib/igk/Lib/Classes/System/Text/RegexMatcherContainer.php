@@ -372,7 +372,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                             'sourceValue' => $v_tvalue,
                             'beginCaptures' => $info->captures,
                             'endCaptures' => $tab,
-                            'parentInfo' => $info->parent
+                            'parentInfo' => $info->parent,
+                            'emptyLine'=>$info->emptyLine,
                         ]);
                     } else {
                         // + | no match end found but
@@ -402,6 +403,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         }
                         $offset = $tln;
                         return Activator::CreateNewInstance(RegexMatcherCapture::class, [
+                            'tag'=>'__local__',
                             'tokenID' => $k['tokenID'],
                             'from' => $info->pos,
                             'to' => $offset,
@@ -458,18 +460,20 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     // }
                     // - for match result
                     return Activator::CreateNewInstance(RegexMatcherCapture::class, [
-                        'tokenID' => $k['tokenID'],
                         'tag' => '2',
+                        'tokenID' => $k['tokenID'],
                         'match' => $info->match,
                         'from' => $info->pos,
                         'to' => $n,
                         'value' => $treated, // real value 
                         'sourceValue' => $bsrc, //  $treated, // source value 
+                        'option' => $option,
+                        // + | passing info
                         'parentInfo' => $info->parent,
                         'beginCaptures' => $info->captures,
                         'captures' => $info->captures,
                         'endCaptures' => $info->captures,
-                        'option' => $option
+                        'emptyLine'=>$info->emptyLine,
                     ]);
             }
         }
@@ -590,6 +594,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $offset = $l->pos;
             return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                 $this,
+                'tag'=>'3',
                 'tokenID' =>  $v_id,
                 'from' => $l->pos,
                 'to' => $l->pos,
@@ -601,10 +606,11 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             ]);
         } else {
             // capture continue capture to childs 
-            $n = $l->pos + $_size;// ($compared_end->emptyLine? $_size:$_size);
+            $n = $l->pos + $_size; 
             $offset = $n;
             return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                 $this,
+                'tag'=>'_continue_to_with_child_',
                 'tokenID' => $v_id,
                 'from' => $l->pos,
                 'to' => $n,
@@ -613,7 +619,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 'captures' => $compared_end->captures,
                 'endCaptures' => null,
                 'parentInfo' => $info,
-                'match' => $k
+                'match' => $k,
+                'emptyLine'=>$compared_end->emptyLine
             ]);
         }
         $v_continue = true;
