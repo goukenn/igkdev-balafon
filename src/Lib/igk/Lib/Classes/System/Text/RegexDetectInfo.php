@@ -59,4 +59,10 @@ class RegexDetectInfo{
      * @var mixed
      */
     var $endType;
+
+    /**
+     * is empty line detected
+     * @var mixed
+     */
+    var $emptyLine;
 }

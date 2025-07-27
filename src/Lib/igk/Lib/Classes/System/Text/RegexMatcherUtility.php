@@ -15,7 +15,28 @@ use Exception;
 abstract class RegexMatcherUtility
 {
     const REGEX_OPTION = RegexMatcherContainer::REGEX_OPTION;
+    const REGEX_MOVEMENT_CAPTURE  = "/(|)?\(\?(=|<|!).+?[^\\\]\)(|)?/";
+    const REGEX_EMPTY_LINE = '^\\h*(?=\\n)';
 
+    /**
+     * remove movement capture
+     * @param string $regex 
+     * @return string|string[]|null 
+     */
+    public static function RemoveMovementCapture(string $regex){
+        return preg_replace("/(|)?\(\?(=|<|!).+?[^\\\]\)(|)?/", '', $regex);
+    }
+    /**
+     * retrieve capture to treat
+     * @param mixed $info 
+     * @return mixed 
+     * @throws Exception 
+     */
+    public static function GetEndCaptures($info){
+        list($endCaptures, $captures) = igk_extract($info->match, 'beginCaptures|endCaptures|captures');        
+        $_ecap = $endCaptures ?? $captures;
+        return $_ecap;
+    }
     /**
      * convert to regex pattern
      * @param string $match 
@@ -112,6 +133,12 @@ abstract class RegexMatcherUtility
         });
         return $v;
     }
+    /**
+     * 
+     * @return RegexMatcherContainer 
+     * @throws IGKException 
+     * @throws Exception 
+     */
     public static function CodeCommentMatcherReference()
     {
         $ctn = new RegexMatcherContainer;

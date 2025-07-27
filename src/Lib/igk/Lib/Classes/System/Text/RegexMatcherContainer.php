@@ -61,6 +61,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @var mixed
      */
     var $captureHandlerListener;
+
+    /**
+     * 
+     * @var ?Closure(string, $capInfo, $source, $pos)
+     */
+    var $captureTreatmentListener;
     /**
      * 
      * @var mixed
@@ -577,7 +583,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             return;
         }
         $this->m_parent = $info;
-        if (strlen($compared_end->value) == 0) {
+        $_size = strlen($compared_end->value);
+        if (!$compared_end->emptyLine && ( $_size == 0)) {
             // return the base definition 
             $info->endType = 'end';
             $offset = $l->pos;
@@ -594,7 +601,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             ]);
         } else {
             // capture continue capture to childs 
-            $n = $l->pos + strlen($compared_end->value);
+            $n = $l->pos + $_size;// ($compared_end->emptyLine? $_size:$_size);
             $offset = $n;
             return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                 $this,
@@ -814,14 +821,16 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     private function _startMatch($info, &$result, $b, $source, &$offset, $k, &$next_line)
     {
         $o = '';
+        $is_empty_line = $b == RegexMatcherUtility::REGEX_EMPTY_LINE;
         if ($b) {
+            $b = 
             $b = RegexMatcherUtility::ConverToRegex($b); 
         }
         if ($b) {
             $v_move_to_next_line = false;
             $tab = $this->_matchOffset($b, $source, $offset, $v_move_to_next_line);
             if ($tab) {
-                // + | create detect result info
+                // + | create detect result info    
                 $result[] = Activator::CreateNewInstance(RegexDetectInfo::class, [
                     'pos' => $tab[0][1],
                     'value' => $tab[0][0],
@@ -829,7 +838,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     'captures' => $tab,
                     'parent' => $info,
                     'moveToNextLine' => false, // igk_str_endwith($tab[0][0], "\n")
+                    'emptyLine'=> $is_empty_line 
                 ]);
+
             }
             $next_line = $next_line || $v_move_to_next_line;
         }
@@ -1244,8 +1255,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @throws Exception 
      */
     public function appendEmptyLineDetection(string $tokenID = 'empty-line')
-    {
-        $this->match('^\\s*?\\n', $tokenID)->last();
+    {        
+        $this->match(RegexMatcherUtility::REGEX_EMPTY_LINE, $tokenID)->last();
         return $this;
     }
     public function appendMultilineComment($begin = '\/\*', $end = '\*\/', $tokenId = 'comment-multiline', $refid = null)
