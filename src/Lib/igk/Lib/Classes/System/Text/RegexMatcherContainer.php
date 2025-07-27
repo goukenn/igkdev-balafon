@@ -404,11 +404,14 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         $offset = $tln;
                         return Activator::CreateNewInstance(RegexMatcherCapture::class, [
                             'tag'=>'__local__',
+                            'match' => $info->match,
                             'tokenID' => $k['tokenID'],
                             'from' => $info->pos,
                             'to' => $offset,
                             'value' => substr($source, $info->pos),
                             'beginCaptures' => $info->captures,
+                            'endCaptures'=>null,
+                            'captures' => $info->captures,
                             'parentInfo' => $info->parent,
                         ]);
                     }
