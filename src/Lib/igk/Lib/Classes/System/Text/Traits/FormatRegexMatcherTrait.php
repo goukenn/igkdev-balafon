@@ -30,6 +30,9 @@ trait FormatRegexMatcherTrait
         if (!($captures = RegexMatcherUtility::GetEndCaptures($e))) {
             if ($e->emptyLine)
                 $replacement[] = [$e, '', 'remove' => true];
+            else{
+                $replacement[] = [$e, $e->value];
+            }
             return;
         }
         ksort($captures);
@@ -65,6 +68,7 @@ trait FormatRegexMatcherTrait
      */
     public static function TreatFormatCapture(string $s, $e, array $captures, array $matches, string $format)
     {
+        $v_key = 'replaceWith';
         $root = null;
         $ts = '';
         $offset = 0;
@@ -73,11 +77,16 @@ trait FormatRegexMatcherTrait
             return self::TreatCaptureReplace($s, $cap, $sourceValue, $pos) ?? $s;
         };
         foreach ($captures as $k => $v) {
-            if ($k == 0) {
-                $root = $v;
-                continue;
-            }
             if (($cap = igk_getv($matches, $k)) && ($cap[1]!=-1)) {
+                if ($rpw = igk_getv($v, $v_key)){ 
+                   // + update the replace with global regex matches - data
+                   $tv = self::ReplaceRegexMatcherCaptureGlobal($rpw, $matches); 
+                   $v[$v_key] = $tv;
+               }
+                if ($k == 0) {
+                    $root = $v;
+                    continue;
+                } 
                 $ts .= substr($s, $offset, $cap[1] - $offset - $from);
                 $ts .= $treat($cap[0], $v, $format, $from);
                 $offset = ($cap[1] - $from) + strlen($cap[0]);
@@ -89,4 +98,5 @@ trait FormatRegexMatcherTrait
         }
         return $ts;
     }
+
 }

@@ -12,6 +12,7 @@ use IGK\Helper\JSonEncodeOption;
 use IGK\System\Text\RegexMatcherPattern;
 use IGK\System\Text\IRegexMatchPatternOutpuTreatmentListener;
 use IGKException;
+use stdClass;
 
 // + | --------------------------------------------------------------------
 // + | - priority to end regex
@@ -38,6 +39,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     const MATCH_TYPE = 'match';
     const INCLUDE = 'include';
     private $m_last;
+    private $m_ignoreScoped;
     var $type;
     // var $type;
     /**
@@ -210,8 +212,25 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             // + | --------------------------------------------------------------------
             // + | upate last info and parent definition 
             // + | 
+            $this->m_ignoreScoped = null;
             $this->m_last_info = $info;
             $this->m_parent = $e->parentInfo;
+            if ($e->match instanceof stdClass){
+                igk_wln_e('d');
+            }
+            if ($e->match->scopedBoundary){
+                $p = $this->m_parent?->match;
+                if ($p && $p->scopedBoundary){
+                    $this->m_ignoreScoped = $p;
+                    // $offset++;
+                }
+            }   
+            // if ($e->match->type != RegexMatcherPattern::MATCH_TYPE){
+            //     if (empty($e->endCaptures[0][0])){
+            //        // $offset++;
+            //     }
+            // } 
+            
         }
         return $e;
     }
@@ -286,13 +305,29 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     $n = $offset;
                     // - | $offset++;
                     $this->m_parent = $info->parent;
+                    if ($info->match->scopedBoundary){
+                        if ( $info->parent && $info->parent->match->scopedBoundary){
+                            //$offset++;
+                        }
+                    }
+                    // if (empty($info->value)){
+                    //     // move forward
+                    //     // $offset++;
+                    //     $info->parent->endTreat = null;
+                    // }
                     return $this->_endinfo($info, $source, $n);
             }
         }
+        $v_continue = false;
+        $v_continueRead = false;
         while (count($tabinfo) > 0) {
             $info = array_shift($tabinfo);
             $k = $info->match;
             $v_size = strlen($info->value);
+            if ($v_continueRead){
+                $offset+=1;
+                $v_continueRead = false;
+            }
             // + | update parent info - 
             $this->m_parent = $info->parent;
             switch ($k->type) {
@@ -307,19 +342,27 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                         if ($b) {
                             // + | is begin 
                             $b = $b ? sprintf("/%s/%s", $b, $o) : null;
+                        }else{ 
+                            if (!is_null($b)){
+                                $b = '/.+$/';
+                            }
                         }
-                        // + | 
-                        // + | determine compared position 
-                        // + | end back reference
-                        $b = preg_replace_callback("/\\\\(?P<id>\d+)/", function ($m) use ($info) {
-                            $id = intval($m['id']);
-                            $f = $info->captures[$id][0];
-                            // + | escape repeatable items
-                            $f = str_replace("*", "\\*", $f);
-                            $f = str_replace("+", "\\+", $f);
-                            return $f;
-                        }, $b);
-                        $info->endTreat = $b;
+                        if (!is_null($b)){
+                            // + | 
+                            // + | determine compared position 
+                            // + | end back reference
+                            $b = preg_replace_callback("/\\\\(?P<id>\d+)/", function ($m) use ($info) {
+                                $id = intval($m['id']);
+                                $f = $info->captures[$id][0];
+                                // + | escape repeatable items
+                                $f = str_replace("*", "\\*", $f);
+                                $f = str_replace("+", "\\+", $f);
+                                return $f;
+                            }, $b);
+                            $info->endTreat = $b;
+                        }else{
+                            $b = $info->endTreat = false;
+                        }
                     } else
                         $b = $info->endTreat;
                     $v_skipped =  $skip;
@@ -330,9 +373,15 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     $cpos = $offset;
                     $compared_end = ($cpos >= $offset) && $info->match->patterns ? $this->_comparedPattern($info, $info->match->patterns, $source, $cpos) : null;
                     $start_line = false;
-                    if ($tab = $this->_matchOffset($b, $source, $offset, $start_line)) {
+                    if ($this->m_ignoreScoped === $info->match){
+                        $b = false;
+                    }
+                    
+
+                    if (($b!==false)&&($tab = $this->_matchOffset($b, $source, $offset, $start_line))) {
                         $v_current_offset = $tab[0][1];
-                        $n = $v_current_offset  + strlen($tab[0][0]);
+                        $v_size = strlen($tab[0][0]);
+                        $n = $v_current_offset + $v_size;
                         // + | if empty and offset not change then update to next 
                         if (empty($tab[0][0]) && !$v_skipped && ($v_current_offset == $offset)) {
                             // $offset++; // + | move forward to detect the real next end that match condition
@@ -351,6 +400,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                                 // + | update match pattern value 
                                 $r->value = substr($source, $r->from, $r->to - $r->from);
                                 return $r;
+                            }
+                            // | ---- 
+                            if ($v_continue /*&& ($v_size==0)*/ && empty($compared_end->value) ){        
+                                $v_continueRead = true;                        
+                                array_unshift($tabinfo, $compared_end);
+                                continue 2; 
                             }
                             // go back to current pos then check end 
                             $offset = $compared_end->pos;
@@ -386,6 +441,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                             }
                             if ($v_continue) {
                                 $offset = $compared_end->pos;
+                                 $v_continueRead = true;     
                                 array_unshift($tabinfo, $compared_end);
                                 continue 2;
                             }
@@ -576,9 +632,9 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         return $value;
     }
     /**
-     * 
+     * detect info comparaison
      */
-    protected function _handleComparedMatchItem($info, $compared_end, &$offset, &$v_continue = false)
+    protected function _handleComparedMatchItem(RegexDetectInfo $info, RegexDetectInfo $compared_end, int & $offset, &$v_continue = false)
     {
         $l = $compared_end;
         $k = $l->match;
@@ -632,7 +688,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * treat end info
      * @param mixed $info 
      * @param string $source 
-     * @param int $n 
+     * @param int $option position
      * @param mixed $endcapture 
      * @return mixed 
      * @throws IGKException 
@@ -642,6 +698,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $k = $info->match;
         return Activator::CreateNewInstance(RegexMatcherCapture::class, [
             $this,
+            'tag'=>'_endinfo_',
             'match' => $info->match,
             'tokenID' => $k['tokenID'],
             'from' => $info->pos,
@@ -907,15 +964,15 @@ class RegexMatcherContainer implements IRegexMatcherContainer
             $detect = false;
             $tm = $this->m_matcher; // restart matching detection
             while (count($tm) > 0) {
+                $v_ck = key($tm);
                 $k = array_shift($tm);
                 // foreach ($m as $k) {
                 if (is_array($k)) {
-                    // create an object
-                    $k = (object)$k;
+                    // create an pattern object
+                    $k = $this->createPattern($k);
+                    $this->m_matcher[$v_ck] = $k;
                 }
-
-                $v_type = self::GetPatternType($k);
-                
+                $v_type = self::GetPatternType($k);                
                 switch ($v_type) {
                     case self::BEGIN_END_TYPE:
                         $b = igk_getv($k, 'begin');

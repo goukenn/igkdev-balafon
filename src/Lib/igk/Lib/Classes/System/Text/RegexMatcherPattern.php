@@ -49,6 +49,12 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @var null|Array|RegexMacherPattern[]
      */
     var $patterns;
+
+    /**
+     * get/set to ask container detection to move forward if stopped on non empty block 
+     * @var ?bool
+     */
+    var $scopedBoundary;
     /**
      * 
      * @var mixed

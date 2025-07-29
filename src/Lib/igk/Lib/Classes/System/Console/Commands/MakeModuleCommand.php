@@ -36,6 +36,7 @@ class MakeModuleCommand extends AppCommand{
             if (empty($name)){
                 igk_die("name required");
             }
+            $name = str_replace('.','/', $name);
             $name = modUtility::SanitizeName($name);
             Logger::print("generate module : " . $command->app::gets($command->app::GREEN, $name));
             $dir = igk_uri(igk_get_module_dir()."/".$name);
