@@ -254,7 +254,7 @@ class App
                         $command->options->{$c[0]} = $v_ts;
                     }
                 } else {
-                    if ($c[0] && ($c[0][0] == "-")){
+                    if ($c[0] && ($c[0][0] == "-") && ($v!='-') && (strlen($c[0])>1)){
                         if (!property_exists($command->options, $c[0])) {
                             $command->options->{$c[0]} = $v_ts;
                         } else {

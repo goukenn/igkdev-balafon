@@ -6,11 +6,15 @@
 // usage command exemple : 
 // --user:4 -db_server:0.0.0.0 --querydebug --debug --controller:TonerAfrikaController -srv_request_uri://localhost:7300 -srv_host:'presentation' -srv_name:'jum' -srv_root:src/public -srv_https:1
 namespace IGK\System\Console\Commands;
+
+use Exception;
+use Error;
 use IGK\System\Console\Logger;
 use IGK\System\Console\ServerFakerInput;
 use IGK\System\Http\Request;
 use IGK\System\IO\Path;
 use IGK\System\Uri;
+use IGKException;
 use IGKValidator;
 /**
  * server command helper
@@ -46,6 +50,14 @@ abstract class ServerCommandHelper
         $tab['-srv_request'] = 'passing request argument';
         return $tab;
     }
+    /**
+     * initialize server command options
+     * @param mixed $command 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws Error 
+     */
     public static function Init($command)
     {
         global $_REQUEST;

@@ -9,9 +9,9 @@
 class IGKObject {
     /**
     * 
-    * @param mixed $key
+    * @param string $key
     */
-    public function __get($key){
+    public function __get(string $key){
         if(method_exists($this, $fc = "get".ucfirst($key))){ 
             return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
         }
@@ -22,7 +22,7 @@ class IGKObject {
     * @param mixed $name
     * @param mixed $value
     */
-    public function __set($name, $value){
+    public function __set(string $name, $value){
         $this->_setIn($name, $value);
     }
     /**

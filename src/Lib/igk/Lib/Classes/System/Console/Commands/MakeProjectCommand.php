@@ -406,10 +406,7 @@ EOF;
                 ]));
             };
         }
-        // $project = igk_service()->get('make:project');
-        // if ($project instanceof IMakeProjectServiceProvider){
-        //     $project->makeProjectDefinition($bind);
-        // }
+        
         Utility::MakeBindFiles($command, $bind, $force);
         // + invoke hook - command
         igk_hook(IGKEvents::HOOK_COMMAND, ['cmd' => $this, 'dir' => $dir, 'name' => $controller, 'args' => func_get_args()]);

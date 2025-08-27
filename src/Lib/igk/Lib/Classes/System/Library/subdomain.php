@@ -29,8 +29,7 @@ class subdomain{
         if (empty(IGKSubDomainManager::GetSubDomain())){
             return false;
         }
-        if (!defined('IGK_CONFIG_PAGE') && !igk_is_cmd() && !IGKValidator::IsIPAddress(igk_server()->SERVER_NAME)){
-            // igk_reg_hook(IGKEvents::HOOK_APP_BOOT, [$this, 'bootapp']);    
+        if (!defined('IGK_CONFIG_PAGE') && !igk_is_cmd() && !IGKValidator::IsIPAddress(igk_server()->SERVER_NAME)){            
             igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, function($e){
                 $this->boot_args = $e;
                 $this->bootapp();

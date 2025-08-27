@@ -4,11 +4,12 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
+namespace IGK\Ext;
 
 
 /**
- *
- * reprensetn videos stream
+ * to serve video stream
+ * represent videos stream
  * */
 class VideoStream
 {

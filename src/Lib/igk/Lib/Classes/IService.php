@@ -9,6 +9,5 @@ use IGK\Services\IAppService;
  * service implement init method
  * @package IGK
  */
-interface IService extends IAppService{
-    function init($configs = null):bool;
+interface IService extends IAppService{ 
 }

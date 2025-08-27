@@ -529,8 +529,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $depth = strlen($ct[0]);
         $v = ltrim($v, "- \t");
         if ($this->m_state == 'list') {
-            // chain subitem by default the depth is 1:
-            // if 
+            // + | chain subitem by default the depth is 1:
+            // + |
             $this->m_li_item = static::_ChainSubList($this->m_ul, $depth);
         } else {
             if ($this->m_state && ($this->m_state != 'sublist')) {

@@ -17,28 +17,30 @@ use IGKException;
 use ReflectionException;
 
 /**
-* 
-* @package IGK\System\IO\File\TmLanguage\Converters
-* @author C.A.D. BONDJE DOUE
-*/
-class RegexMatcherContainerTmLanguageConverter{
+ * 
+ * @package IGK\System\IO\File\TmLanguage\Converters
+ * @author C.A.D. BONDJE DOUE
+ */
+class RegexMatcherContainerTmLanguageConverter
+{
     private $m_data;
     private $m_references = [];
-    protected function _removeType($a){
+    protected function _removeType($a)
+    {
         $tab = [$a];
         $mark = [];
-        while(count($tab)>0){
+        while (count($tab) > 0) {
             $q = array_shift($tab);
-            if (($tp = in_array($q, $mark))!==false){
+            if (($tp = in_array($q, $mark)) !== false) {
                 continue;
             }
-            $mark [] = $q;
-            if (is_array($q)){
+            $mark[] = $q;
+            if (is_array($q)) {
                 unset($q['type']);
-            } else if (is_object($q)){
+            } else if (is_object($q)) {
                 unset($q->type);
             }
-            if ($p = (array)igk_getv($q, 'patterns')){
+            if ($p = (array)igk_getv($q, 'patterns')) {
                 $tab = array_merge($tab, $p);
             }
         }
@@ -47,7 +49,7 @@ class RegexMatcherContainerTmLanguageConverter{
     /**
      * convert to tm language 
      * @param RegexMatcherContainer $ctn 
-     * @return mixed 
+     * @return array 
      * @throws IGKException 
      * @throws Exception 
      * @throws Error 
@@ -55,40 +57,102 @@ class RegexMatcherContainerTmLanguageConverter{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function convert(RegexMatcherContainer $ctn){
+    public function convert(RegexMatcherContainer $ctn, string $scopeName):array
+    {
         $this->m_data = Activator::CreateNewInstance(RegexMatcherContainerTmDefinition::class, (object)[
-                'version'=>'1.0',
-                'repository'=>[],
-                'patterns'=>[],
-                '$scope'=>''        
-            ]);
+            'version' => '1.0',
+            'repository' => [],
+            'patterns' => [],
+            '$scope' => '',
+            'scopeName' => $scopeName
+        ]);
         $this->m_references = [];
-        if ($d = $ctn->getMatcher()){
-            while(count($d)>0){
+        if ($d = $ctn->getMatcher()) {
+
+            // normalize 
+            $refdata = [];
+            $datas = [];
+            $logic = [];
+            $repository = [];
+            while (count($d) > 0) {
                 $q = array_shift($d);
-                if ($q instanceof RegexMatcherPattern){ 
-                    if (false === array_search($q, $this->m_references, true)){
-                        $this->m_references[] = $q; 
-                    }else{
-                        igk_die('reference a data');
-                    }
-                    if ($r = $this->_chainRepository($this->m_data->repository, $q)){
-                        $json = JSon::Encode($r, JSonEncodeOption::IgnoreEmpty());
-                        $this->m_data->patterns[] = $this->_removeType(json_decode($json));
-                    }else{
-                        $this->m_data->patterns[] = $q;
+                if (is_array($q)){
+                    // igk_wln_e(__FILE__.":".__LINE__ , 'the array');
+                    continue;
+                }
+                $id = spl_object_id($q);
+                if (!isset($refdata[$id])){
+                    $refdata[$id] = (object)['data'=>$q, 'id'=>'pattern-'.$id, 'ref'=>0];
+                    if ($patterns =  igk_getv($q, 'patterns')) {
+                        array_unshift($d, ...$patterns);
                     }
                 }else{
-                    igk_die('not a macher pattern');
+                    $refdata[$id]->ref++;
                 }
             }
-        } 
-        $obj = (object)(array)$this->m_data;
-        $p = json_decode(JSon::Encode($obj, JSonEncodeOption::IgnoreEmpty(), JSON_PRETTY_PRINT));
-        $obj = $this->_removeType($p);
-        return $obj;
-    }
+            $d = $ctn->getMatcher();
+            $patterns = & $this->m_data->patterns;
+            $repository = & $this->m_data->repository; 
+            while (count($d) > 0){
+                $q = array_shift($d);
+                if (is_array($q)){
+                    $patterns[] = $q;
+                    continue;
+                }
 
+                $id = spl_object_id($q);
+                $o = $this->_unsetPrivateMembers((array)$q);
+                if ($dc = igk_getv($q, 'patterns')){
+                    $np = $this->_getIncludeData($refdata, $dc);
+                    $o['patterns'] = $np;
+                } 
+                $repository[$refdata[$id]->id] = $o;
+                $patterns[] = ['include'=>'#'.$refdata[$id]->id];
+            }          
+        }
+        // fix 
+        foreach($refdata as $tp){
+            if (!isset($repository[$tp->id])){
+                $o = $this->_unsetPrivateMembers((array)$tp->data);
+                if ($dc = igk_getv($o, 'patterns')){
+                    $np = $this->_getIncludeData($refdata, $dc);
+                    $o['patterns'] = $np;
+                   // igk_wln_e(__FILE__.":".__LINE__ , $o);
+                }
+                $repository[$tp->id] = $o;
+            }
+        } 
+        $data = $this->m_data->jsonSerialize();        
+        return $data;
+    }
+    /**
+     * 
+     * @param mixed $refdata 
+     * @param array $tab 
+     * @return array 
+     */
+    private function _getIncludeData($refdata, array $tab){
+        $tr = [];
+        foreach($tab as $c){
+            if (is_array($c)){
+                $tr[] = $c;
+                continue;
+            }
+            $id = spl_object_id($c);
+            $tr[] = ['include'=>'#'.$refdata[$id]->id];
+        }
+        return $tr;
+    }
+    private function _unsetPrivateMembers(array $tab)
+    {
+        $g = array_keys($tab);
+        foreach ($g as $tc) {
+            if (false !== strpos($tc, "\0")) {
+                unset($tab[$tc]);
+            }
+        }
+        return $tab;
+    }
     /**
      * chain repository 
      * @param mixed &$repository 
@@ -96,52 +160,67 @@ class RegexMatcherContainerTmLanguageConverter{
      * @return mixed|array|void
      * @throws Exception 
      */
-    protected function _chainRepository(& $repository, RegexMatcherPattern $q){
-        $r = (array)$q;
+    protected function _chainRepository(&$repository, RegexMatcherPattern $q)
+    {
+        $r = $this->_unsetPrivateMembers((array)$q);
         $patterns = igk_getv($r, 'patterns');
-        if (empty($patterns)){
+        if (empty($patterns)) {
             return;
         }
+        //unset private members
+
         $tc = [];
         $ref_include = 0;
-        while(count($patterns)>0){
-            $v_cp = array_shift($patterns);
+        while (count($patterns) > 0) {
+            $v_cp = $this->_unsetPrivateMembers((array)array_shift($patterns));
 
-            if (false === ($ind = array_search($v_cp, $this->m_references))){
+            if (false === ($ind = array_search($v_cp, $this->m_references))) {
                 $this->m_references[] = $v_cp;
                 $tc[] = $v_cp;
-            }else{
-                $idx = "repos_".$this->get_identifier($ind);
-                if ($q === $v_cp){ 
-                    $ref_include = '#'.$idx;
+            } else {
+                $idx = "repos_" . $this->get_identifier($ind);
+                if ($q === $v_cp) {
+                    $ref_include = '#' . $idx;
                 }
                 $n = (array)$v_cp;
                 unset($n['patterns']);
                 $trp = (array)$n;
 
-                if (false !== ($l = array_search($v_cp, $this->m_data->patterns))){
+                if (false !== ($l = array_search($v_cp, $this->m_data->patterns, true))) {
                     // replace patterns with repository access@
                     $this->m_data->patterns[$l] = [
-                    'include'=>'#'.$idx
-                ];
+                        'include' => '#' . $idx
+                    ];
                 }
                 //$trp['patterns'] = & $tc;
-                 $repository[$idx] = $trp;
+                $repository[$idx] = $trp;
                 $tc[] = [
-                    'include'=>'#'.$idx
+                    'include' => '#' . $idx
                 ];
-
             }
 
+            if ($cpattern = igk_getv($v_cp, 'patterns')) {
+                $v_tcp = [];
+                foreach ($cpattern as $tpattern) {
+                    $v_tcp = $this->_unsetPrivateMembers((array)$tpattern);
+
+                    $ind = array_search($v_cp, $this->m_references);
+
+                    igk_wln(__FILE__ . ":" . __LINE__, $ind);
+                }
+
+                $v_cp['patterns'] = $v_tcp;
+            }
         }
         $r['patterns'] = $tc;
-        if ($ref_include){
-            $r = ['include'=>$ref_include];
+        if ($ref_include) {
+            $r = ['include' => $ref_include];
         }
-        
+
         return $r;
     }
-    private function get_identifier($ind){
-        return '_n_'.$ind;
+    private function get_identifier($ind)
+    {
+        return '_n_' . $ind;
     }
 }

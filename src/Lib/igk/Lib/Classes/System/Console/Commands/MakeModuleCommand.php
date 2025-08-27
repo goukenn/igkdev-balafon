@@ -68,7 +68,7 @@ class MakeModuleCommand extends AppCommand{
                 $defs->appendLine("");
                 // + | because of a single line no need to pass to next line
                 $defs->appendLine(sprintf("// \$reg('%s', function(\$doc){ /* call in view-build-context to initialize the document */ });\n", 
-                    \IGK\Controllers\ApplicationModuleController::INIT_METHOD    
+                    \IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD    
                 ));
                 $defs->appendLine();
                 $defs->appendLine("// + module definition\nreturn [\n$definition\n];");

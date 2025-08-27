@@ -85,6 +85,12 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * @var ?bool
      */
     var $emptyLine;
+
+    /**
+     * old current detected info object . use on end treatment
+     * @var .null
+     */
+    var $info;
     /**
      * parent info is null
      * @return bool 
@@ -115,5 +121,7 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     }
     public function updateWith($data){
         $this->parentInfo->value .= " ---- ";
+        throw new \Exception('not implement');
     }
+     
 }

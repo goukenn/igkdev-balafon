@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Html;
+
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
 use IGK\Helper\JSon;
@@ -21,6 +22,7 @@ use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
 use ReflectionMethod;
+
 /**
  * represent base renderer engine
  * @package IGK\System\Html
@@ -29,6 +31,57 @@ class HtmlRenderer
 {
     const reflect_class = 'reflec_class';
     const render_method = 'render';
+    /**
+     * 
+     * @param HtmlItemBase $n 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function SplitterJoin(HtmlItemBase $n, $separator='')
+    {
+        $s = '';
+        $attr = '';
+        $close = '';
+        $t = $n->getTagName();
+        if ($n->getCanRenderTag()) {
+            if ($attr = HtmlRenderer::GetAttributeString($n, null)) {
+                $attr = ' ' . $attr;
+            }
+            if ($n->isEmptyTag()) {
+                $s = sprintf('<%s%s/>'.$separator, $t, $attr);
+            } else {
+                $close = sprintf("</%s>", $t).$separator;
+                $s = sprintf('%s<%s%s>', $close, $t, $attr);
+            }
+        }
+        return $s;
+    }
+    /**
+     * 
+     * @param HtmlItemBase $s 
+     * @param mixed $g 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function Encapsulate(HtmlItemBase $s, $g): string
+    {
+        $t = $s->getTagName();
+        if ($attr = HtmlRenderer::GetAttributeString($s, null)) {
+            $attr = ' ' . $attr;
+        }
+        if ($s->isEmptyTag()) {
+            return sprintf("<%s%s/>", $t, $attr) . $g;
+        }
+        return sprintf("<%s%s>%s</%s>", $t, $attr, $g, $t);
+    }
     /**
      * append after rendering element
      * @param mixed $option 
@@ -128,7 +181,7 @@ class HtmlRenderer
     public static function OutputDocument(IGKHtmldoc $doc)
     {
         $headers = [];
-        $code = $doc->getResponseStatus() ?? RequestResponseCode::Ok ;
+        $code = $doc->getResponseStatus() ?? RequestResponseCode::Ok;
         if ($doc instanceof IHeaderResponse) {
             $headers = array_merge($headers, $doc->getResponseHeaders() ?? []);
         }
@@ -294,7 +347,7 @@ class HtmlRenderer
                     }
                 }
                 if ($options->Source !== $i) {
-                    if (is_string($i)){
+                    if (is_string($i)) {
                         $i = new HtmlTextNode($i);
                     }
                     if (!isset($reflect[$cl = get_class($i)])) {
@@ -365,8 +418,8 @@ class HtmlRenderer
                     array_push($tab, $q);
                     $childs = array_reverse($childs);
                     $tab = array_merge($tab, $childs);
-                    if ($options->NamespaceContext && ($i === $options->NamespaceSource)){
-                        array_push($v_renderingNSContext,$options->NamespaceContext );
+                    if ($options->NamespaceContext && ($i === $options->NamespaceSource)) {
+                        array_push($v_renderingNSContext, $options->NamespaceContext);
                     }
                     continue;
                 }
@@ -395,7 +448,7 @@ class HtmlRenderer
             }
             if ($i instanceof IHtmlRederingCallback)
                 $i->afterRenderCallback($options, ['output' => &$s]);
-            if ($options->NamespaceContext && ($i === $options->NamespaceSource)){
+            if ($options->NamespaceContext && ($i === $options->NamespaceSource)) {
                 array_pop($v_renderingNSContext);
                 $options->NamespaceContext = $v_renderingNSContext ? igk_array_peek_last($v_renderingNSContext) : null;
             }
@@ -575,7 +628,7 @@ class HtmlRenderer
             if (is_numeric($c) || !empty($c)) {
                 // + | check that it doesnt contains quotes
                 if (preg_match("/[\"]/", trim($c, " \""))) {
-                    $c = '"'.htmlentities($c).'"';
+                    $c = '"' . htmlentities($c) . '"';
                 }
                 if ($options && !$v_is_obj  && igk_getv($options, "DocumentType") == 'xml') {
                     $c = str_replace('&', '&amp;', $c);
@@ -793,10 +846,10 @@ class HtmlRenderer
             $q = array_shift($childs);
             $rc_content($s, $q, $options);
             $tchilds = $q->getRenderedChilds($options);
-            if (count($tchilds)>0){
+            if (count($tchilds) > 0) {
                 array_reverse($tchilds);
                 array_unshift($childs, ...$tchilds);
-            } 
+            }
         }
         return $s;
     }

@@ -35,7 +35,7 @@ abstract class AppExecCommand extends AppCommand{
         }
     }
     /**
-     * 
+     * bind user command
      * @param mixed $ctrl 
      * @param mixed $command 
      * @param string $arg 

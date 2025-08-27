@@ -1525,7 +1525,7 @@ if (!function_exists('igk_html_host')) {
             $p = $q['n'];
             $params = $q['p'];
             foreach ($params as $n) {
-                if (is_callable($n))
+                if ($n instanceof Closure)
                     $n($p);
                 else if ($n instanceof HtmlItemBase) {
                     $p->add($n);
@@ -1552,6 +1552,11 @@ if (!function_exists('igk_html_host')) {
     }
 }
 
+if (!function_exists('igk_html_title_domain')){
+    function igk_html_title_domain(string $s, ?string $domain=null){
+        return sprintf('%s [ %s ]',$s, $domain ?? igk_configs()->website_domain );
+    }
+}
 
 if (!function_exists('igk_html_treat_indexOrArg')) {
     /**

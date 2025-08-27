@@ -242,8 +242,9 @@ abstract class ModelEntryExtension
         $t_select = DbUtility::PreparateConditionsListToAvoidDuplicate($columns, $conditions);
         $row = null;
         $count = $model->select_count($t_select);
+        $extra = !$options ? [] : igk_getv($options, "extra");
         if ($count==0){
-            if ($tab = !$options ? [] : igk_getv($options, "extra")) {
+            if ($tab = $extra) {
                 $conditions = array_merge($conditions, $tab);
                 $conditions = DbUtility::TreatSelectCondition($columns, $conditions, $prefix); 
             }
@@ -251,7 +252,16 @@ abstract class ModelEntryExtension
             $row = self::insert($model, $conditions, $update);
         } else {
             if ($count==1){
+                
                 $row = $model->select_row($t_select);
+                if ($update){
+                    if ($extra){
+                        foreach($extra as $k=>$v){
+                            $row->{$k} = $v;
+                        }
+                    }
+                    return $row->update();                    
+                }
             }
         }
         return $row;
@@ -496,6 +506,14 @@ abstract class ModelEntryExtension
     public static function resolve(ModelBase $model, $data){
         return null;
     }
+    /**
+     * update model 
+     * @param ModelBase $model 
+     * @param mixed $value 
+     * @param mixed $conditions 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public static function update(ModelBase $model, $value = null, $conditions = null)
     {
         $driver = $model->getDataAdapter();

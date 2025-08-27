@@ -17,10 +17,16 @@ class RegexDetectInfo{
      */
     var $value;
     /**
-     * position 
+     * current position position 
      * @var int
      */
     var $pos;
+
+    /**
+     * 
+     * @var mixed
+     */
+    var $basePosition;
 
     /**
      * 
@@ -28,6 +34,10 @@ class RegexDetectInfo{
      */
     var $match;
 
+    /**
+     * 
+     * @var mixed
+     */
     var $captures;
 
     /**
@@ -49,8 +59,8 @@ class RegexDetectInfo{
     var $endTreat;
 
     /**
-     * start flag.
-     * @var mixed
+     * flag mark that the detect position is started
+     * @var ?bool
      */
     var $start;
 
@@ -65,4 +75,8 @@ class RegexDetectInfo{
      * @var mixed
      */
     var $emptyLine;
+
+    public function id(){
+        return $this->match->name ?? ($s =$this->match->tokenID)?explode(' ', $s)[0] : null;
+    }
 }

@@ -995,7 +995,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             igk_wln(__FILE__ . ":" . __LINE__,  get_class($this));
             igk_trace();
             igk_die("<b>call_expression not allowed. <font color=\"red\">" . $name."</font></b>");
-        }
+        }         
     }
     public function getHasAttributes()
     {
@@ -1510,7 +1510,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * get if tag is close tag
      * @return bool is close tag
      */
-    public function isCloseTag($tag)
+    public function isCloseTag($tag):bool
     {
         if (0 === strpos($tag, "igk:"))
             $tag = substr($tag, 4);

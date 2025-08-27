@@ -57,6 +57,25 @@ class DataAdapter extends DataAdapterBase implements
             foreach ($r->getRows() as $r) {
                 $tn = $r->CONSTRAINT_NAME;
                 $query = sprintf('ALTER TABLE `%s` DROP INDEX `%s`;', $table, $tn);
+                try{
+                    $this->sendQuery($query);
+                }catch(\Exception $ex){
+                    if ($ex){
+                        
+                    }
+                }
+            }
+        }
+        return $r;
+    }
+    public function dropAllForeignKeys(string $table){
+        $tb = '`' . self::DB_INFORMATION_SCHEMA . '`.`TABLE_CONSTRAINTS`';
+        $dbname = $this->getDbName();
+        $query = "SELECT * FROM {$tb} WHERE `TABLE_SCHEMA`='{$dbname}' AND `TABLE_NAME`='{$table}' AND `CONSTRAINT_TYPE`='FOREIGN KEY';";
+        if ($r = $this->sendQuery($query)) {
+            foreach ($r->getRows() as $r) {
+                $tn = $r->CONSTRAINT_NAME;
+                $query = sprintf('ALTER TABLE `%s` DROP INDEX `%s`;', $table, $tn);
                 $g = $this->sendQuery($query);
             }
         }
@@ -570,6 +589,9 @@ class DataAdapter extends DataAdapterBase implements
                 }
             }
             if (strtolower($type) == 'text') {
+                if (is_object($value) || is_array($value)){
+                    $value = json_encode($value);
+                }
                 // + | check that text is a valid json string
                 if (json_decode($value)) {
                     $value = str_replace("\r", "", $value);

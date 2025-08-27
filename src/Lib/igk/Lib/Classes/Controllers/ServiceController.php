@@ -21,6 +21,12 @@ class ServiceController extends NonVisibleControllerBase{
             }
         }
     }
+    /**
+     * register service 
+     * @param string $classname 
+     * @param string $file 
+     * @return void 
+     */
     public static function register($classname, $file){
         $g = igk_app()->session->getServices();
         if ($g === null)

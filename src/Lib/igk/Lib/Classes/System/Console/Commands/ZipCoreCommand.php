@@ -65,7 +65,7 @@ class ZipCoreCommand extends AppExecCommand{
             $version = IO::CheckFileVersion($path); 
             $path = $dir. "/balafon.".$version.$ext;
         }
-        Logger::info("run zip ......");
+        Logger::info("run zip corelib ......");
         if (igk_sys_zip_core($path, $incVersion, $v_verbose)){
             Logger::print("out file : ".$path);
             Logger::success("zip complete");

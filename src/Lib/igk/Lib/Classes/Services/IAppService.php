@@ -15,6 +15,11 @@ namespace IGK\Services;
 */
 interface IAppService{
     /**
+     * retrieve configuration properties.
+     * @return null|IGK\Services\IAppServiceProperty 
+     */
+    function getConfigurableProperties(): array; // :?IAppServiceProperty[];
+    /**
      * initialize the service - with configuration 
      * @param mixed $configs 
      * @return bool 

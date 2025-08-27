@@ -52,7 +52,7 @@ class ApplicationModuleHelper
             }
             if (empty($n)) return;
             $module = igk_require_module($n);
-            if ($module && $module->supportMethod(\IGK\Controllers\ApplicationModuleController::INIT_METHOD)) {
+            if ($module && $module->supportMethod(\IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD)) {
                 $info = self::CreateApplicationModuleConfigurationInfo($required_conf[$n]);
                 if ($info->initDoc !== false) {
                     igk_reg_hook(IGKEvents::HOOK_INIT_INC_VIEW, function () use ($module, $ctrl) {

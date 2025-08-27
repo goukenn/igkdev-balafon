@@ -3545,6 +3545,31 @@ Name:balafon.js
             }
             return this;
         },
+        /**
+         * retrieve current computed style properties
+         * @param {*} i 
+         * @param {*} speudo 
+         * @returns 
+         */
+        computedStyle(i, speudo) {
+            if (this.o.each) {
+                let fc = this.computedStyle;
+                let r = [];
+                let q = this;
+                let a = arguments;
+                this.o.each_all(function(o){ 
+                    r.push(fc.apply(this, a));                  
+                });
+                return r;
+            }
+            else {
+                let r = window.getComputedStyle(this.o, speudo);
+                if (i) {
+                    return r[i];
+                }
+                return r;
+            }
+        },
         css: function (value) {
             if (this.o.each) {
                 this.o.each(this.css, arguments);
@@ -5181,7 +5206,7 @@ Name:balafon.js
          * @param {string} classname 
          * @returns 
          */
-        createComponent(classname){
+        createComponent(classname) {
             // + | create a control class component
             // + | usage sample : igk.createComponent("igk-ajx-uri-loader")
             // component must be first registrated with igk.winui.initClassControl
@@ -5200,7 +5225,7 @@ Name:balafon.js
             }
             return null;
         },
-        createText(s){
+        createText(s) {
             return __igk(document.createTextNode(s));
         },
         createHtml: function (s) {
@@ -9663,7 +9688,7 @@ Name:balafon.js
         // if ('onpopstate' in window)
         //     igk_winui_reg_event(window, "popstate", __popstate);
     })();
-   
+
     // notify item controller
     igk.system.createNS("igk.winui.notifyctrl", {
         init: function (t) {
@@ -12907,12 +12932,12 @@ Name:balafon.js
     ns_igk._$exists = function (n) { return typeof (igk.system.getNS(n)) != _udef; };
 
     // for meta 
-        $igk.module = {
-            metaSearchParam(meta, key, d) {
-                d = d || '';
-                let l = (new URL(meta.url));
-                return decodeURIComponent(l.searchParams.get(key) || d) || d;
-            }
-        };
-    
+    $igk.module = {
+        metaSearchParam(meta, key, d) {
+            d = d || '';
+            let l = (new URL(meta.url));
+            return decodeURIComponent(l.searchParams.get(key) || d) || d;
+        }
+    };
+
 })(window);

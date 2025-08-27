@@ -93,6 +93,10 @@ class StringBuilder{
         $this->m_src .= $text;   
         return $this;    
     }
+    public function rmLast(string $text, $number=1){
+        $this->m_src = igk_str_rm_last($this->m_src, $text, $number);
+        return $this;
+    }
     /**
      * rtrim
      * @param string $charlist 

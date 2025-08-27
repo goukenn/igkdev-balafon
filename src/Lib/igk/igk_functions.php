@@ -7231,6 +7231,40 @@ function igk_extract($obj, $list)
     return $p;
 }
 
+if (!function_exists('igk_extract_first')){
+    /**
+     * retrieve first entrie on list provider pipe delimiter list 
+     * 
+     * @param string $list pipe delimiter list 
+     */
+    function igk_extract_first($obj, string $list){
+        if (!$obj) return null;
+        $tab = (array)$obj;
+        foreach(explode('|', $list) as $k){
+            if (key_exists($k, $tab)){
+                return $tab[$k];
+            }
+        }
+        return null;
+    }
+}
+if (!function_exists('igk_extract_first_not_null')){
+    /**
+     * retrieve first entrie on list provider pipe delimiter list 
+     * 
+     * @param string $list pipe delimiter list 
+     */
+    function igk_extract_first_not_null($obj, string $list){
+        if (!$obj) return null;
+        $tab = (array)$obj;
+        foreach(explode('|', $list) as $k){
+            if (key_exists($k, $tab) && !is_null($tab[$k])){
+                return $tab[$k];
+            }
+        }
+        return null;
+    }
+}
 if (!function_exists('igk_explode')) {
     /**
      * explode helper
@@ -17014,16 +17048,22 @@ function igk_kill_trace()
 ///<summary></summary>
 ///<param name="tab"></param>
 /**
- * 
+ * last element 
  * @param mixed $tab 
  */
 function igk_last($tab)
 {
-    if ($c = array_keys($tab)) {
-        $i = $c[count($c) - 1];
-        return $tab[$i];
+    if ($tab){
+        $k = end($tab);
+        reset($tab);
+        return $k;
     }
     return null;
+    // if ($c = array_keys($tab)) {
+    //     $i = $c[count($c) - 1];
+    //     return $tab[$i];
+    // }
+    // return null;
 }
 ///<summary> force loading class</summary>
 /**

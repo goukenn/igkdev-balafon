@@ -23,6 +23,10 @@ abstract class HtmlContext extends HtmlRenderingContext{
     const EmptyTags =  "br|hr|img|input|source|link|meta|base|col|embed|param|track|wbr";
     protected function __construct(){        
     }
+    /**
+     * empty tag list 
+     * @return string[] 
+     */
     public static function GetEmptyTagArray(){
         static $clTag = null;
         if ($clTag === null){

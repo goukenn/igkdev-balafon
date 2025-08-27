@@ -31,9 +31,12 @@ class CssMinifier
         $patterns[] = $container->match(':(active|any-link|autofill|blank|checked|current|default|defined|dir|disabled|empty|enabled|first(-(child|of-type))?|focus|focus-visible|focus-within|fullscreen|future|has|host|host|host-context|hover|indeterminate|in-range|invalid|is|lang|last-child|last-of-type|left|link|local-link|modal|not|nth-child|nth-last-child|nth-last-of-type|nth-of-type|only-child|only-of-type|optional|out-of-range|past|paused|picture-in-picture|placeholder-shown|playing|read-only|read-write|required|right|root|scope|state|target|target-within|user-invalid|valid|visited|where)\\b', 'speudo-class')->last(); // 
         $patterns[] = $container->match('\\s*\\b(and|or|not|only)\\b\\s*', 'operator-litteral')->last(); // 
         $patterns[] = $container->match('\\s*\\b(var|min|max|linear-gradient|color|translate(X|Y)?|scale|rotate|rgb(a)?|hsl|calc)\\b(\\s*)(?=\\()', 'method-name')->last(); // 
+        //$patterns[] = $container->match('[a-zA-Z][a-zA-Z0-9\-]*', 'property')->last(); // 
         $patterns[] = $container->match(self::CSS_PROVIDER_PROPS, 'property')->last(); // 
         $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); // 
         // priority to skip space
+        $patterns[] = $container->match("(?<=\\{|:|;)\\s+", 'skip-space')->last();
+        $patterns[] = $container->match("\\s+(?=\\{|:|;)", 'skip-space')->last();
         $patterns[] = $container->match("\\s+(?=\\}|\\{)", 'skip-space')->last();
         $patterns[] = $container->match("\\s*(:|;|,|\(|\)|\[|\])\\s*", 'glue')->last(); // 
         $patterns[] = $container->match("\\s*(~|\*|\+|\!)=\\s*", 'glue-operator')->last(); // glue operator - remove space
@@ -61,10 +64,12 @@ class CssMinifier
         $q = $this;
         $glueInf = [];
         $container->treat($css, function ($g, int $pos, $data) use (&$ch, &$lpos, $q, & $glueInf) {
-            igk_debug_wln($g->tokenID . ' : '.$g->value);
+            igk_debug_wln($g->tokenID . ' : ['.json_encode($g->value).']');
             $v_tp = array_pop($glueInf);
             if (is_null($g->parentInfo)) {
                 switch ($g->tokenID){
+                    case 'skip-space':
+                        break;
                     case 'comment':
                         if ($q->preserveComment) {
                             $ch .= $g->value;
@@ -148,7 +153,6 @@ class CssMinifier
                 $ch.= $ns;
                 $lpos = $g->to;
                 $p->pos = $g->to;
-                $p->start= 1;
             }
         });
         $ch .= substr($css, $lpos);

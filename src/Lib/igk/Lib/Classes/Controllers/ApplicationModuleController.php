@@ -22,8 +22,8 @@ use TypeError;
 * @method function initDoc($doc, ...$args) initialize document
 */
 final class ApplicationModuleController extends BaseController{
-    const INIT_METHOD = "initDoc";
-    const CONF_MODULE = "balafon.module.json";
+    const INIT_DOC_METHOD = "initDoc";
+    const CONF_MODULE = "balafon.module.json"; 
     const MODULE_INITIALIZER_FNAME = ".module.pinc";
     private $m_dir;
     private $m_doc;
@@ -172,6 +172,11 @@ final class ApplicationModuleController extends BaseController{
         if(igk_io_file_exists($c, true)){
             $this->_init($c);
         }  
+        igk_reg_hook('sys://module/didInitModule', function($e){
+            if ($e->args['module'] === $this){
+                $this->didInitModule();
+            }
+        });
     }
     private function _initModuleClasses(){
         $dir = $this->getDeclaredDir();

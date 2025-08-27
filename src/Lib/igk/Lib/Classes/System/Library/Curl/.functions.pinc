@@ -133,9 +133,15 @@ function igk_curl_post_uri($uri, $args = null, $curlOptions = null, $headers = n
             } else {
                 foreach ($curlOptions as $k => $v) {
                     if (is_string($k)){  
-                        $c = constant("CURLOPT_" . $k);
+                        $c = constant('CURLOPT_' . $k);
                         curl_setopt($r, $c, $v);
                     } else { 
+                        if (is_string($v)){
+                            // + | possibility de 
+                            if (defined($p = 'CURLOPT_' . $v)){
+                                $k = constant($p);
+                            }
+                        }
                         curl_setopt($r, $k, $v);
                     }
                 }

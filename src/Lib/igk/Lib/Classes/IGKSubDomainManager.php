@@ -55,6 +55,11 @@ final class IGKSubDomainManager extends IGKObject{
     public static function GetConfigFile(){
         return Path::getInstance()->getDataDir()."/subdomain.php";
     }
+    public static function OnInstallSite(){
+        if (!file_exists($f=self::GetCacheFile())){
+            igk_io_w2file($f, implode("\n", ['<?php','// direct entry access domain', 'return [];']));
+        }
+    }
     /**
     * get the domain controller or return false
     * @return false|BaseController found controller 

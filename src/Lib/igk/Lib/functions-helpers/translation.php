@@ -22,7 +22,10 @@ if (!function_exists('__')){
     }
 }else {
     require_once IGK_LIB_CLASSES_DIR.'/IGKTranslator.php';
-
+    /**
+     * expose translation to other framework
+     * @package 
+     */
     class translation extends IGKTranslator{
     }
 }

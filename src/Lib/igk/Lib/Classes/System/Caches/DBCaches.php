@@ -80,7 +80,9 @@ class DBCaches
      */
     public static function GetCacheFile()
     {
-        return igk_io_cachedir() . DIRECTORY_SEPARATOR . self::CACHE_FILE_NAME;
+        $cache_dir = igk_io_cachedir() . DIRECTORY_SEPARATOR . self::CACHE_FILE_NAME;
+        //igk_wln_e(__FILE__.":".__LINE__ , $cache_dir);
+        return $cache_dir;
     }
     /**
      * retrieve cached data

@@ -621,7 +621,7 @@ class BalafonApplication extends IGKApplicationBase
                         return 0;
                     };
                 }
-            }, ["desc" => "show help or activate help option for a command"], "info"],
+            }, ["desc" => "show help or activate help option for a command"], ""],
         ];
         $this->initCommand($command, $argv);
         return $command;
@@ -637,6 +637,13 @@ class BalafonApplication extends IGKApplicationBase
             error_reporting(-1); 
         }  
     }
+    /**
+     * 
+     * @param mixed $command 
+     * @param null|BaseController $ctrl 
+     * @return void 
+     * @throws Exception 
+     */
     public static function BindCommandUser($command, ?BaseController $ctrl = null)
     {
         if ($id = intval(igk_getv($command->options, '--user'))) {

@@ -120,12 +120,16 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if (is_null($list)) {
             $list = array();
         }
-        $inf = $this->getTableColumnInfo() ?? igk_die("table info required.");
+        $inf = $this->getTableColumnInfo() ?? [];
+        // if (is_null($inf)){
+        //     igk_wln_e("error: ",$this->getTableInfo()->tableName );
+        //     igk_die("table info required.".static::class);
+        // }
         if (isset($inf[$name])) {
             return $name;
         }
-        $tabprefix = $this->getTableInfo();
-        $prefix = $tabprefix->prefix;
+        $v_tabinfo = $this->getTableInfo();
+        $prefix = $v_tabinfo->prefix;
         $n = strtolower(static::class . "::" . $prefix . $name);
         if (isset($list[$n])) {
             return $list[$n];

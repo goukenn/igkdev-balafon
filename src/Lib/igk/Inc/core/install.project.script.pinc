@@ -130,7 +130,13 @@ $v_projectInstaller->projectName = $project_name;
 $v_projectInstaller->balafon = $balafon;
 $v_projectInstaller->siteRootDir = rtrim($v_chome, '/').'/'.ltrim(igk_getr('home_dir', ''),'/');
 
-
+/**
+ * after post install script
+ * @param mixed &$postinstall 
+ * @param mixed $f 
+ * @param mixed $v_projectInstaller 
+ * @return bool 
+ */
 function post_install(&$postinstall, $f, $v_projectInstaller)
 {
     $postinstall = ['post-installing'];
@@ -146,6 +152,13 @@ function post_install(&$postinstall, $f, $v_projectInstaller)
     }
     return false;
 }
+/**
+ * before install
+ * @param mixed &$postinstall 
+ * @param mixed $f 
+ * @param mixed $v_projectInstaller 
+ * @return bool 
+ */
 function pre_install(&$postinstall, $f, $v_projectInstaller)
 {
     $postinstall = ['pre-installing'];

@@ -80,11 +80,11 @@ if (!function_exists("igk_file_content")) {
 		return file_get_contents($file);
 	}
 }
-if (!function_exists("igk_htlm_node_cdata")) {
+if (!function_exists("igk_html_node_cdata")) {
 	/**
 	 * create a cdata node
 	 */
-	function igk_htlm_node_cdata($value = null)
+	function igk_html_node_cdata($value = null)
 	{
 		$v = (new XmlNode("!CDATA"));
 		$v->setContent($value);
@@ -6007,5 +6007,51 @@ if (!function_exists('igk_html_node_dotwaiter')) {
         $n->div()->setClass('dot');
         $n->div()->setClass('dot');
         return $n;
+    }
+}
+
+
+if (!function_exists('igk_html_node_breadcrumbs')){
+    /**
+     * 
+     * @param array $menus 
+     * @param mixed $ctrl 
+     * @return HtmlItemBase 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    function igk_html_node_breadcrumbs($menus, ?BaseController $ctrl=null, $selected = null)
+    {
+        $ctrl = $ctrl ?? ViewHelper::CurrentCtrl();
+        $root = $ul = igk_create_node('ul')->setAttributes([
+            'class' => 'igk-winui-breadcrumb',
+            'aria-label'=>'Breadcrumbs'
+        ]);
+        $tq = [[$ul, $menus]];
+        $item_c = 1;
+        while (count($tq) > 0) {
+            $q = array_shift($tq);
+            list($ul, $menus) = $q;
+            foreach ($menus as $k => $v) {
+                $li = $ul->li();
+                if (is_string($v)) {
+                    $v = ['text' => is_numeric($k) ? 'item_'.($item_c++) : $k, 'uri' => $v];
+                }
+                list($text, $uri, $childs, $current_page, $id) = igk_extract($v, 'text|uri|childs|current_page|id');
+                if( igk_str_startwith($uri, '@/')){
+                    $uri = $ctrl::uri(substr($uri,1));
+                }
+                $attr = [];
+                if ($current_page){
+                    $attr['aria-current'] = 'page';
+                }
+                $li->a($uri)->setAttributes($attr)->Content = $text;
+                if ($childs) {
+                    $cul = $li->ul();
+                    array_unshift($tq,[$cul, $childs]);
+                }
+            }
+        }
+        return $root;
     }
 }

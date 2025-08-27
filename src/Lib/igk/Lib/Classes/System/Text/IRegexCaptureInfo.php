@@ -11,6 +11,10 @@ namespace IGK\System\Text;
 * @property int $to end position
 * @property string $value original value
 * @property string $data treated value
+* @property string $tag treated value
+* @property string $match treated value
+* @property int $from treated value
+* @property ?string $tokenID the token identification
 */
 interface IRegexCaptureInfo{
     function getisRoot():bool;

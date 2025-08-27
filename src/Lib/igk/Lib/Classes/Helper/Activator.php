@@ -4,8 +4,10 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\Helper;
+
 use Exception;
 use IGK\Actions\IActionRequestValidator;
+use IGK\System\Console\Logger;
 use IGK\System\Http\IContentSecurityProvider;
 use IGK\System\IToArray;
 use IGK\System\IToJSon;
@@ -14,7 +16,9 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Traits\DynamicActivableTrait;
 use IGKException;
 use JsonSerializable;
+use ReflectionClass;
 use ReflectionProperty;
+
 /**
  * 
  * @package IGK\Helper;
@@ -54,16 +58,17 @@ class Activator
         $ref[] = IToJSon::class;
         $ref[] = $interface;
         $ref = implode(", ", $ref);
-        $src = <<<EF
-?><?php
-final class {$p} implements {$ref}{
-    use {$dyn_trait};
-    use {$p_trait};
-    public function __construct(& \$d){
-        \$this->data = \$d;
-    } 
-} 
-EF;
+        $src = implode("\n", [
+            '?><?php',
+            "final class {$p} implements {$ref}{",
+            "    use {$dyn_trait};",
+            "    use {$p_trait};",
+            '    public function __construct(& $d){',
+            '        $this->data = $d;',
+            '    } ',
+            '} ',
+        ]);
+
         self::$sm_dyn_sources[$interface] = [$src, $p];
         eval($src);
     }
@@ -86,7 +91,11 @@ EF;
             ["match" => "\b\w+(\s*\|\s*\w+)*\b", "tokenID" => "type"],
         ];
         $container->begin('@property\\b', '$', 'prop-detect', null, $patterns);
-        $resolver = $resolver ?? function () {
+        $resolver = $resolver ?? function ($type) {
+            switch (strtolower($type)) {
+                case 'int':
+                    return 0;
+            }
             return null;
         };
         $v_handler =  function ($comment) use ($container, &$properties, $resolver) {
@@ -224,10 +233,19 @@ EF;
                 }
             }
         }
+        $class_vars  = null;
+        $check_version = true;
         if (is_callable($class_name)) {
             $g = $class_name(...$args);
         } else {
-            $g = new $class_name(...$args);
+            if ((new ReflectionClass($class_name))->isInterface()) {
+                $g = self::CreateFromInterface($class_name);
+                $class_vars = $g->to_array();
+                $check_version = false;
+            } else {
+                $g = new $class_name(...$args);
+                $class_vars = get_class_vars(get_class($g));
+            }
         }
         if ($data) {
             if ($fullfill) {
@@ -240,15 +258,15 @@ EF;
                         $g->{$k} = $value;
                     }
                 }
-            } else {
+            } else if ($class_vars) {
                 $c_8_1 = version_compare(PHP_VERSION, '8.1', '>=');
-                foreach (get_class_vars(get_class($g)) as $k => $v) {
+                foreach ($class_vars as $k => $v) {
                     $v = igk_getv($data, $k, $g->$k) ?? $v;
                     if (method_exists($g, $fc = 'set' . ucfirst($k))) {
                         $g->$fc($v);
                         continue;
                     }
-                    if ($c_8_1) {
+                    if ($check_version && $c_8_1) {
                         $v_p = new ReflectionProperty($g, $k);
                         if ($v_p->isReadOnly()) {
                             continue;
@@ -265,7 +283,7 @@ EF;
                 }
             }
         }
-        if (method_exists($g, 'activatorDidCreateNewInstance')){
+        if (method_exists($g, 'activatorDidCreateNewInstance')) {
             $g->activatorDidCreateNewInstance();
         }
         return $g;
@@ -297,5 +315,80 @@ EF;
             $m = igk_getv($v, $k, $p->$k);
             $p->$k = $m;
         }
+    }
+
+    /**
+     * 
+     * @param string $className 
+     * @return array 
+     */
+    public static function GetInstanceProperties(string $className): array
+    {
+        $props = [];
+        $ref = new ReflectionClass($className);
+        $q = [$ref];
+        $treats = [];
+        while (count($q) > 0) {
+            $ref = array_shift($q);
+            $id = $ref->getName();
+            if (isset($treats[$id])) continue;
+
+            $treats[$id] = 1;
+            if ($comment = $ref->getDocComment()) {
+                $props = array_merge(self::_GetDocumentProperties($comment), $props);
+            }
+            if ($ref->isInterface()) {
+                $dt = array_values($ref->getInterfaces());
+                array_unshift($q, ...$dt);
+            } else {
+                if ($d = $ref->getParentClass()) {
+                    array_unshift($q, $d);
+                }
+            }
+        }
+        return $props;
+    }
+    /**
+     * 
+     * @param string $doc_comments 
+     * @return array<mixed, object> 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    private static function _GetDocumentProperties(string $doc_comments)
+    {
+
+        $regex = new RegexMatcherContainer;
+        $f_props = $regex->begin('@property\\b', '$', 'f-props')->last();
+        $f_props->patterns = [
+            $regex->createPattern(['match' => '([a-zA-Z][a-zA-Z]*)(\|[a-zA-Z][a-zA-Z]*)*', 'tokenID' => 'f-type']),
+            $regex->createPattern(['match' => '\\$([a-zA-Z][a-zA-Z]*)(?:\\h+(.+))*', 'tokenID' => 'f-name-desc']),
+        ];
+        $pos = 0;
+        // define 
+        $src = $doc_comments;
+        $name = $type = null;
+        $props = [];
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                $tid = $e->tokenID;
+                igk_is_debug() && Logger::info('tokenid:' . $tid . ' value [' . $e->value . ']');
+                switch ($tid) {
+                    case 'f-name-desc':
+                        $name = $e->captures[1][0];
+                        $desc = (($r = igk_getv($e->captures, 2)) ? $r[0] : null);
+                        $props[$name] = (object)[
+                            'type' => $type,
+                            'desc' => $desc
+                        ];
+                        $type = $name = null;
+                        break;
+                    case 'f-type':
+                        $type = $e->value;
+                        break;
+                }
+            }
+        }
+        return $props;
     }
 }

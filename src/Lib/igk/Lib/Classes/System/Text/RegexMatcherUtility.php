@@ -24,8 +24,51 @@ abstract class RegexMatcherUtility
      * @param string $regex 
      * @return string|string[]|null 
      */
-    public static function RemoveMovementCapture(string $regex){
-        return preg_replace("/(|)?\(\?(=|<|!).+?[^\\\]\)(|)?/", '', $regex);
+    public static function RemoveMovementCapture(string $regex)
+    {
+        $src = $regex;
+
+
+
+        $regex = new RegexMatcherContainer;
+        $cbranck = $regex->begin('(\|)?\(\?((<|!)?=)', '\)(\|)?', 'c-branket')->last();
+        $sbranck = $regex->createPattern([
+            "begin" => '\(',
+            "end" => '\)',
+            "tokenID" => 'c-simple-brank'
+        ]);
+        $sbranck->patterns = [
+            $regex->createPattern(["match" => "\\\\."]),
+            $sbranck,
+        ];
+        $cbranck->patterns = [
+            $regex->createPattern(["match" => "\\\\."]),
+            $sbranck,
+            $cbranck,
+        ];
+
+
+        $pos = 0;
+        // define
+
+        $sb = '';
+        $toffset = 0;
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                if (!$e->parentInfo) {
+                    $sb .= substr($src, $toffset, $e->from - $toffset);
+                    $toffset = $e->to;
+                }
+            }
+        }
+        $sb .= substr($src, $toffset);
+        $sb = RegexMatcherUtility::RemoveEmptyGroup($sb);
+        return $sb;
+        // while (false !== ($i = strpos($regex, '(?'))) {
+        //     $f = igk_str_read_brank($regex, $i, ')', '(', null, 1);
+        //     $regex = rtrim(substr($regex, 0, $i - strlen($f) + 1), '|') . ltrim(substr($regex, $i + 1), '|');
+        // }
+        // return $regex;
     }
     /**
      * retrieve capture to treat
@@ -33,8 +76,9 @@ abstract class RegexMatcherUtility
      * @return mixed 
      * @throws Exception 
      */
-    public static function GetEndCaptures($info){
-        list($endCaptures, $captures) = igk_extract($info->match, 'beginCaptures|endCaptures|captures');        
+    public static function GetEndCaptures($info)
+    {
+        list($endCaptures, $captures) = igk_extract($info->match, 'beginCaptures|endCaptures|captures');
         $_ecap = $endCaptures ?? $captures;
         return $_ecap;
     }
@@ -45,9 +89,10 @@ abstract class RegexMatcherUtility
      * @throws Exception 
      * @throws IGKException 
      */
-    public static function ConverToRegex(string $match):string{
-          $o = '';
-          $b = $match;
+    public static function ConverToRegex(string $match): string
+    {
+        $o = '';
+        $b = $match;
         if (preg_match(self::REGEX_OPTION, $b, $tab)) {
             $a = $tab['add'];
             $x = false;
@@ -253,9 +298,9 @@ abstract class RegexMatcherUtility
      */
     public static function AppendPhpHereDoc($regex, &$patterns = [])
     {
-        $patterns[] = $regex->begin('<<<([a-zA-Z][a-zA-Z\-0-9]*)', "^\\1", 'here-doc')->last();
-        $patterns[] = $regex->begin('<<<\'([a-zA-Z][a-zA-Z\-0-9]*)\'', "^\\1", 'here-doc')->last();
-        $patterns[] = $regex->begin('<<<"([a-zA-Z][a-zA-Z\-0-9]*)"', "^\\1", 'here-doc')->last();
+        $patterns[] = $regex->begin('(<<<)([a-zA-Z][a-zA-Z\-0-9]*)', "^\\2", 'here-doc')->last();
+        $patterns[] = $regex->begin('(<<<)\'([a-zA-Z][a-zA-Z\-0-9]*)\'', "^\\2", 'here-doc')->last();
+        $patterns[] = $regex->begin('(<<<)"([a-zA-Z][a-zA-Z\-0-9]*)"', "^\\2", 'here-doc')->last();
     }
     /**
      * 
@@ -274,5 +319,24 @@ abstract class RegexMatcherUtility
             array_unshift($chain, $r);
         }
         return $chain;
+    }
+
+    /**
+     * remove empty captured group ()
+     * @param string $regex 
+     * @return string 
+     */
+    public static function RemoveEmptyGroup(string $regex)
+    {
+        $sb = $regex;
+        $toff = 0;
+        while (false !== ($cpos = strpos($sb, '()', $toff))) {
+            if (($cpos > 0) && ($sb[$cpos - 1] == '\\')) {
+                $toff = $cpos + 2;
+            } else {
+                $sb = substr($sb, 0, $cpos) . substr($sb, $cpos + 2);
+            }
+        }
+        return $sb;
     }
 }

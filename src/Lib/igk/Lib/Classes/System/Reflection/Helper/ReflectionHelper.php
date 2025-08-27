@@ -55,4 +55,20 @@ class ReflectionHelper
         }
         return false;
     }
+
+    /**
+     * 
+     * @param mixed $i 
+     * @return array 
+     */
+    public static function DebugOnlyPublicMember($i):array{
+        $r = [];
+        $tab = (array)$i;
+        foreach($tab as $k=>$v){
+            if (false === strpos($k, "\0")){
+                $r[$k] = $v;
+            }
+        }
+        return $r;
+    }
 }

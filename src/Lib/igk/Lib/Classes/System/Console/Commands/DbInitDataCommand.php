@@ -34,7 +34,6 @@ class DbInitDataCommand extends AppExecCommand{
 		} else  {
 			Logger::info('initailize db. with [./InitBase]');
 			Database::InitData($ctrl);
-			// call_user_func_array([$cl, InitBase::INIT_METHOD], [$ctrl]);
 			Logger::success('done');
 		}
 	 }

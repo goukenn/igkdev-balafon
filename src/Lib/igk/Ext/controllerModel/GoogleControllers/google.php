@@ -770,10 +770,15 @@ EOF;
             igk_reg_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, function ($e) use ($siteKey) {
                 $siteKey = \IGK\Helper\ConfigHelper::GetConfig(ViewHelper::CurrentCtrl(), "google.recaptcha_key", $siteKey) ??
                     igk_die("no recaptcha");
-                $doc = $e->args['doc'];
+                $doc = $e->args['doc']; 
+
+                $query = http_build_query([
+                    'hl'=> GoogleEndPoints::GetLang(),
+                    'render'=>$siteKey
+                ]);
                 $doc->head->script()->setId("repatcha")
                     ->activate('defer')
-                    ->setAttribute("src", GoogleEndPoints::RecaptchaEnterprise . "?hl=" . GoogleEndPoints::GetLang());
+                    ->setAttribute("src", GoogleEndPoints::RecaptchaEnterprise . $query);
             });
             $renderActions = true;
         }

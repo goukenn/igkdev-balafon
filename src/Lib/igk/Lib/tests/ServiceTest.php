@@ -4,13 +4,16 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
+namespace IGK\Tests;
 
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
+use IGKServices;
 
 class ServiceTest extends BaseTestCase{
     public function test_service(){
-        $srv = igk_app()->getService("ovh");        
+        $service_key = 'test-service';
+        $srv = igk_app()->getService($service_key );        
         $this->assertEquals(
             null,
             $srv, 
@@ -19,17 +22,19 @@ class ServiceTest extends BaseTestCase{
         /**
          * register a service 
          */
-        IGKServices::Register("ovh", DummyService::class );
-        $srv = igk_app()->getService("ovh");        
+        IGKServices::Register($service_key , DummyService::class );
+        $srv = igk_app()->getService($service_key );        
         $this->assertEquals(
-            DummyService::class,
+           DummyService::class,
            $srv ? get_class($srv) : null, "service not found"
         );
-
     }
 }
 
 class DummyService implements \IGK\IService{
+    public function getConfigurableProperties(): array { 
+        return [];
+    }
 
     public function init($options =null): bool {
         $fc = igk_configs()->get("ovh.ovhconfig");

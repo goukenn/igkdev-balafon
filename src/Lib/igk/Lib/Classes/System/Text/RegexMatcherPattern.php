@@ -21,14 +21,51 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     const BEGIN_END_TYPE = 'begin/end';
     const BEGIN_WHILE_TYPE = 'begin/while';
     // var $type;
+    /**
+     * identification tokenID reference 
+     * @var mixed
+     */
     var $tokenID;
+    /**
+     * begin pattern of both begin/end begin/while logic
+     * @var ?string
+     */
     var $begin;
+    /**
+     * end pattern of begin/end logic
+     * @var mixed
+     */
     var $end;
+    /**
+     * match pattern of match logic
+     * @var mixed
+     */
     var $match;
+    /**
+     * internal reference id
+     * @var mixed
+     */
     var $refid;
+    /**
+     * while pattern of begin/while logic
+     * @var mixed
+     */
     var $while;
+    /**
+     * provided name
+     * @var ?string
+     */
     var $name;
+    /**
+     * matcher description 
+     * @var ?string
+     */
     var $description;
+    /**
+     * the name that will be attached to the content 
+     * @var ?string
+     */
+    var $contentName;
     /**
      * assoc captures array object to match against begin result 
      * @var ?array
@@ -60,6 +97,10 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      * @var mixed
      */
     private $m_matcher;
+    /**
+     * 
+     * @var mixed
+     */
     private $m_type;
 
     public function jsonSerialize(): mixed {

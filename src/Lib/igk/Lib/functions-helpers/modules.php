@@ -92,7 +92,7 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
     $g = &igk_environment()->require_modules();
     $mkey = igk_uri(strtolower($modulename));
     $v_init_on_view = ViewHelper::CurrentCtrl() !== null;
-    $v_init_doc_method = \IGK\Controllers\ApplicationModuleController::INIT_METHOD;
+    $v_init_doc_method = \IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD;
     // igk_trace();
     if (isset($g[$mkey])) {
         $mod = $g[$mkey];
@@ -194,12 +194,14 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
     igk_pop_env($v_mod_key);
     $mod = igk_init_module($modulename, $init);
     $g[$mkey] = $mod;
-    // + | ::file : used to store list of file to  
+    // + | --------------------------------------
+    // + | file: used to store list of file to 
+    // + |
     if (igk_count($f) > 0) {
         $g["::files"][$mkey] = $f;
     }
     if (!$mod) {
-        igk_die('missing location 2222::: ' . $dir . ' ? ' . file_exists($dir) . ' -- ' . $modulename);
+        igk_die('missing location [' . $dir . '] ? ' . file_exists($dir) . ' -- ' . $modulename);
     } else {
         igk_bind_module($mod, $name);
     }
@@ -249,7 +251,7 @@ function igk_bind_module($mod, ?string $name = null, ?BaseController $controller
  */
 function igk_init_module(string $path,  ?callable $init = null, $initialize = true)
 {
-    $v_meth = \IGK\Controllers\ApplicationModuleController::INIT_METHOD;
+    $v_meth = \IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD;
     $v_init = igk_environment()->getModulesManager()->init();
     if ($mod = $v_init->get($path)) {
         return $mod;
@@ -283,6 +285,8 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
         }
         $v_init->register($path, $ob);
     }
+
+    igk_hook('sys://module/didInitModule', ['module'=>$ob]);    
     return $ob;
 }
 
