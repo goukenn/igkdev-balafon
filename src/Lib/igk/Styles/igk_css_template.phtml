@@ -950,20 +950,24 @@ $def["ul.debug-panel > li"] = "float:left;";
 igk_set_env("sys://globalcolor", 1);
 igk_set_env("sys://globalcolor", 0);
 
+// dimension zone
 foreach ([4, 8, 10, 16, 20, 24, 30, 32, 48] as $pad) {
-    $def[".pad-" . $pad] = "padding: {$pad}px;";
-    $def[".marg-" . $pad] = "margin: {$pad}px;";
-    $def[".pad-b-" . $pad] = "padding-bottom: {$pad}px;";
-    $def[".pad-t-" . $pad] = "padding-top: {$pad}px;";
-    $def[".pad-l-" . $pad] = "padding-left: {$pad}px;";
-    $def[".pad-r-" . $pad] = "padding-right: {$pad}px;";
-    $def[".marg-b-" . $pad] = "margin-bottom: {$pad}px;";
-    $def[".marg-t-" . $pad] = "margin-top: {$pad}px;";
-    $def[".marg-l-" . $pad] = "margin-left: {$pad}px;";
-    $def[".marg-r-" . $pad] = "margin-right: {$pad}px;";
-    $def[".gap-" . $pad] = "gap: {$pad}px;";
+    $def['.pad-' . $pad] = "padding: {$pad}px;";
+    $def['.marg-' . $pad] = "margin: {$pad}px;";
+    $def['.pad-b-' . $pad] = "padding-bottom: {$pad}px;";
+    $def['.pad-t-' . $pad] = "padding-top: {$pad}px;";
+    $def['.pad-l-' . $pad] = "padding-left: {$pad}px;";
+    $def['.pad-r-' . $pad] = "padding-right: {$pad}px;";
+    $def['.marg-b-' . $pad] = "margin-bottom: {$pad}px;";
+    $def['.marg-t-' . $pad] = "margin-top: {$pad}px;";
+    $def['.marg-l-' . $pad] = "margin-left: {$pad}px;";
+    $def['.marg-r-' . $pad] = "margin-right: {$pad}px;";
+    $def['.gap-' . $pad] = "gap: {$pad}px;";
     // round-corner
     $def['.rc-'.$pad] = 'border-radius: '.$pad.'px;';
+    // rounder
+    $def['.round-'.$pad] = 'border-radius: '.$pad.'px;';
+
 }
 $def[".igk-font-title-1"] = "font-family: 'Roboto', 'Helvetica', 'Arial' , sans-serif; font-size: 3em;font-weight: 200;";
 $def[".clcheckbox"] = "margin-right:{$pad_size};";
