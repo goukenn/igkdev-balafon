@@ -22223,14 +22223,18 @@ function igk_svg_register_icons($doc, $name = null, $dir = IGK_LIB_DIR . "/Data/
         }
     }
     $r = [];
-    IO::GetFiles($dir, "/\.svg$/i", true, $r, function ($file) use ($doc) {
-        igk_svg_register($doc, igk_io_basenamewithoutext($file), $file);
+    $register = [];
+    IO::GetFiles($dir, "/\.svg$/i", true, $r, function ($file) use ($doc, & $register) {
+        // igk_wln('register ', $file, igk_io_basenamewithoutext($file));
+        igk_svg_register($doc, $k = igk_io_basenamewithoutext($file), $file);
+        $register[$k] = $file;
     });
+    return $register;
 }
 /**
  * use svg image
  */
-function igk_svg_use($name, $context = null)
+function igk_svg_use(string $name, $context = null)
 {
     return \IGK\System\Html\SVG\SvgRenderer::RegisterIcon($name, $context);
 }

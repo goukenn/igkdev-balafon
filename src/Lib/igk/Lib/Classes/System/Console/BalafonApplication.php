@@ -32,6 +32,7 @@ use IGKAppType;
 use IGKEnvironment;
 use IGKException;
 use IGKModuleListMigration;
+use IGKServices;
 use ReflectionException;
 use stdClass;
 use Throwable;
@@ -232,6 +233,9 @@ class BalafonApplication extends IGKApplicationBase
             $this->library("gd");
         }
         igk_hook("console::app_cli_bootstrap", $this);
+
+        IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
+
     }
     /**
      * 

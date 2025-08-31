@@ -3718,14 +3718,19 @@ Name:balafon.js
             }
             return this;
         },
+        /**
+         * set node properties
+         * @param {*} properties 
+         * @returns 
+         */
         setProperties: function (properties) {
             if (!properties) return this;
             if (this.isSr()) {
                 this.o.each(this.setProperties, arguments);
-            } else {
-                for (var i in properties) {
+            } else { 
+                for (var i in properties) { 
                     try {
-                        this.o[i] = properties[i];
+                        this.o[ni] = properties[i];
                     } catch (Ex) {
                         console.debug("can't  set property " + i);
                     }
@@ -5104,6 +5109,19 @@ Name:balafon.js
         m_anim.type = "scrolling";
         anim1.start();
         return !0;
+    };
+
+    // -------------- HELPER 
+    /**
+     * use svg library 
+     * @param {*} n name to use
+     */
+    __prop.useSvg = function(n, context){
+        let g = document.createElement('div');
+        g.className = ['igk-svg-lst-i', n, context].filter((a)=>a).join(' ');
+        g.setAttribute('igk:svg-name', n);
+        this.add(g);
+        return this; 
     };
 
     function __igk_event(q, p, n) {

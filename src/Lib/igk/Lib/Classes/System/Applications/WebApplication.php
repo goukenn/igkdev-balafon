@@ -22,7 +22,8 @@ use IGKApp;
 use IGKApplicationBase;
 use IGKApplicationBootOptions; 
 use IGKEvents;
-use IGKException; 
+use IGKException;
+use IGKServices;
 use ReflectionException;
 use TypeError;
 require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
@@ -80,6 +81,11 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         require_once IGK_LIB_CLASSES_DIR.'/Resources/R.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/translation.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/db.php';
+
+
+        IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
+
+
         // + | init registratation domain
         igk_reg_component_package('web', function(string $n){
             return new \IGK\System\Html\Dom\HtmlNode($n);

@@ -199,8 +199,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
             $controller->getSystemVars(),
             $controller->utilityViewArgs($fname, $file),
         ), EXTR_SKIP); 
-        // igk_wln_e("the utils ",$controller->getSystemVars(), $controller->utilityViewArgs($fname, $file), $params);
-        $controller->setEnvParam("fulluri", $furi);
+        $controller->setEnvParam('fulluri', $furi);
         $params = isset($params) ? $params : array();
         $query_options = $controller->getEnvParam(IGK_VIEW_OPTIONS);
         $is_direntry = (count($params) == 0) && igk_str_endwith(explode('?', igk_io_request_uri())[0], '/');

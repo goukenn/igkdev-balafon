@@ -14,7 +14,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\Constants;
 /**
- * 
+ * intialize core class 
  * @package IGK\Database\Models\Helper
  * @author C.A.D. BONDJE DOUE
  */

@@ -6,6 +6,10 @@
 namespace IGK\System\Html\SVG;
 use IGK\System\Html\Dom\HtmlNode;
 use IGKEvents;
+/**
+ * list icon node
+ * @package IGK\System\Html\SVG
+ */
 class SvgListIconNode extends HtmlNode{
     protected $tagname = "div";
     public function __construct($name){
@@ -26,7 +30,7 @@ class SvgListIconNode extends HtmlNode{
                     $this->setClass("+".$cl ." +".$b );
                 }
                 return true;
-            } 
+            }
         }
         return false;
     }

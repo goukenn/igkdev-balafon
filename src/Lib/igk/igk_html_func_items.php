@@ -303,6 +303,9 @@ if (!function_exists("igk_html_node_a")) {
 		$a = new HtmlANode();
 		$a["href"] = $href;
 		$a->setIndex($index);
+		if (is_string($attributes)){
+			$attributes = ['target'=>$attributes];
+		}
 		if ($attributes && is_array($attributes)) {
 			$a->setAttributes($attributes);
 		}
@@ -3214,15 +3217,17 @@ if (!function_exists("igk_html_node_label")) {
 	///<param name="key"></param>
 	/**
 	 * create winui-label
-	 * @param mixed $for
-	 * @param mixed $key
+	 * @param ?string $for
+	 * @param ?string $key
 	 */
-	function igk_html_node_label($for = null, $key = null)
+	function igk_html_node_label(?string $for = null, ?string $key = null)
 	{
 		$n = new HtmlNode("label");
 		$n["for"] = $for;
 		$n["class"] = "cllabel";
-		$n->Content = (($key == null) ? R::ngets("lb." . $for) : R::ngets($key));
+		if ($for || $key){
+			$n->Content = (($key == null) ? R::ngets("lb." . $for) : R::ngets($key));
+		}
 		$n->setTempFlag("replaceContentLoading", 1);
 		return $n;
 	}
@@ -5266,14 +5271,14 @@ if (!function_exists("igk_html_node_userinfo")) {
 	}
 }
 if (!function_exists("igk_html_node_usesvg")) {
-	///<summary>function </summary>
+	///<summary>shortcut to load svg document</summary>
 	/**
-	 * function __desc__
+	 * shortcut to load svg document 
 	 */
-	function igk_html_node_usesvg($name)
+	function igk_html_node_usesvg(string $name)
 	{
 		$s = igk_create_node("span");
-		$s->Content = igk_svg_use($name);
+		$s->content = igk_svg_use($name);
 		return $s;
 	}
 }

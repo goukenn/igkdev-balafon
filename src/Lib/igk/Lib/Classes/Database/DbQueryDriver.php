@@ -225,8 +225,8 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 if ($this->m_adapter){
                    // $this->setAdapter()
                    if (($this->m_adapter instanceof IDataDriverCharsetSupport) && $this->m_charset){
-                    $this->m_adapter->set_charset($this->m_charset);
-                }
+                        $this->m_adapter->set_charset($this->m_charset);
+                    }
                 }
                 return true;
             } else {

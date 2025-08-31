@@ -33,7 +33,7 @@ class SvgRenderer
         if (!empty($name)) {
             $f = self::GetSvgFolder();
             while ($q = array_shift($f)) {
-                $d = $q[0]; // directory                
+                $d = $q[0]; // directory    
                 if (igk_io_cache_file_exists($file = $d . "/" . $name . ".svg", true)) {
                     $class = $q[1];
                     return IO::GetDir($file);
@@ -58,7 +58,7 @@ class SvgRenderer
      * @return void 
      * @throws EnvironmentArrayException 
      */
-    public static function RegisterFolder($folder, ?string $targetLib = null)
+    public static function RegisterFolder(string $folder, ?string $targetLib = null)
     {
         if (is_dir($folder)) {
             if (
@@ -74,11 +74,11 @@ class SvgRenderer
      * @param mixed $name 
      * @return bool 
      */
-    public static function Exists($name)
+    public static function Exists(string $name)
     {
         $f = self::GetSvgFolder();
         while ($d = array_shift($f)) {
-            if (igk_io_file_exists($d . "/" . $name)) {
+            if (file_exists($d . "/" . $name)) {
                 return true;
             }
         }

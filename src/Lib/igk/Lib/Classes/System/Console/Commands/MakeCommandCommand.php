@@ -39,7 +39,7 @@ class MakeCommandCommand extends AppExecCommand
         $c = func_num_args();
         if ($c == 2) {
             $command_name = $controller;
-            $controller = null;
+            $controller = self::ResolveController($command,null);
         }
         if (!empty($controller)) {
             $ctrl = self::GetController($controller, false);

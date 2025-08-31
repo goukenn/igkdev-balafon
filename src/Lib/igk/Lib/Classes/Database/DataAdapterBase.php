@@ -560,7 +560,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         return false;
     }
     /**
-     * 
+     * start 
      */
     public static function Load()
     {
@@ -569,7 +569,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         self::LoadAdapter();
     }
     /**
-     * 
+     * load db data adapters
      */
     private static function LoadAdapter()
     {

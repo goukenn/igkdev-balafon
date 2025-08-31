@@ -813,6 +813,7 @@ class SQLGrammar implements IDbQueryGrammar
         $q = "ALTER TABLE ";
         $q .= "`" . $table . "` CHANGE ";
         $q .= $adapter->escape($column) . " " . $new_name . " " . rtrim($this->getColumnInfo($info));
+        
         $q .= ';';
         return $q;
     }
@@ -904,6 +905,9 @@ class SQLGrammar implements IDbQueryGrammar
                 $query .= " ON UPDATE {$_def}";
             }
         }
+         if ($v->clCharset) {
+                $query .= sprintf('CHARSET %s ', $v->clCharset);
+            }
         if ($v->clDescription && !$nocomment) {
             $query .= "COMMENT '" . $adapter->escape_string($v->clDescription) . "' ";
         }

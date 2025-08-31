@@ -1484,16 +1484,21 @@
                         k[ni] = properties[ni];
                         continue;
                     }
+                    let ti = ni.replace(/([a-z])(?:-([a-zA-Z]))/, (match,x,y)=>{
+                        return x+y.toUpperCase();
+                    });
                     v = properties[ni];
                     if (igk.css.isItemSupport(['webkit' + ni])) {
                         n = props[('webkit' + ni).toLowerCase()];
                         if (n)
                             k[n] = v;
                     } else if (igk.css.isItemSupport([ni])) {
-                        n = props[ni.toLowerCase()];
+                        n = props[ti.toLowerCase()];
                         if (n) {
                             k[n] = v;
                         }
+                    } else {
+                        k[ti] = v;
                     }
                 }
                 // setting real value		
