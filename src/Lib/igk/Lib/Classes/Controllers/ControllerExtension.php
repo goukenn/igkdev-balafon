@@ -121,6 +121,12 @@ abstract class ControllerExtension
             return $instance;
         }
     }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param string $class_name 
+     * @return null|string 
+     */
     public static function convertClassToFilename(BaseController $ctrl, string $class_name): ?string
     {
         $dir = $ctrl::classdir();

@@ -478,10 +478,7 @@ final class ApplicationModuleController extends BaseController{
     {        
         if(igk_environment()->isDev() && ($name=== ControllerMethods::register_autoload)){       
             igk_ilog("module app - invoke static method not allowed - ".$name);         
-        } 
-        // if (method_exists(ControllerExtension::class, $name)){
-        //     call_user_func_array([ControllerExtension::class, $name], $arguments);
-        // }
+        }  
         return null; 
     }
     public function exposeAssets(){
