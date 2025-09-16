@@ -307,6 +307,14 @@ class App
             $app->showHelp();
     }
     /**
+     * determine if running is interactive
+     * @return bool 
+     */
+    public function isInteractive():bool{
+        return function_exists('stream_isatty') ? stream_isatty(STDIN)
+             : (function_exists('posix_isatty') ? posix_isatty(STDIN) : null);
+    }
+    /**
      * 
      * @return void 
      * @throws IGKException 

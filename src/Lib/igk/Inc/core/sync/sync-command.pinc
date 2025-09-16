@@ -19,19 +19,21 @@ $cmd_arg = (isset($_REQUEST['cmd_arg']) ? $_REQUEST['cmd_arg'] : null) ?? [];
 // }
 // print_r($cmd_arg);
 if (!file_exists($corelib_dir)){
-    // echo "????? ".is_dir(dirname($corelib_dir)), PHP_EOL;
-    // echo "????? ".getcwd(), PHP_EOL;
-    // echo "????? ".$home, PHP_EOL;
-
     $g = str_repeat('../', count(explode('/',$corelib_dir))-(count(explode('/', $home))+1));
     // echo 'create links ==> '.$g.ltrim($corelib, '/') . ' -> '. $corelib_dir;
     // file_put_contents(dirname($corelib_dir).'/home.txt', 'sample');
     if (!@symlink( $g.ltrim($corelib, '/'), $corelib_dir)){
-        echo ' unable to create core link';
-        exit;
+        echo __DIR__, PHP_EOL;
+        echo 'homedir ', $v_chome, PHP_EOL;
+        print_r($_REQUEST);
+        echo 'unable to create core link. missing ['.$corelib_dir.']', PHP_EOL;
+        exit(-1);
     }
 }
- 
+
+print_r('init command '.json_encode($cmd_arg));
+echo PHP_EOL;
+
 
 $balafon =  $corelib_dir . "/bin/balafon";
 $argv = array_merge([$balafon], $cmd_arg);
@@ -41,8 +43,7 @@ $argc = count($argv);
 chdir(dirname($app_dir));
 $balafon && (function($balafon, $argv, $argc){
     $__igk_balafon_cmd_auto_clean = 1;    
-    $__igk_balafon_in_func = true;
- 
+    $__igk_balafon_in_func = true; 
     ob_start();
     $t = include($balafon);  
     return $t=0;

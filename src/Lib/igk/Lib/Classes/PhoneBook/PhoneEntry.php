@@ -20,6 +20,7 @@ class PhoneEntry{
     var $gsm;
     var $phone;
     var $organisation;
+    var $birthdate;
     public function to_json(){
         return JSon::Encode($this, JSonEncodeOption::IgnoreEmpty(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }

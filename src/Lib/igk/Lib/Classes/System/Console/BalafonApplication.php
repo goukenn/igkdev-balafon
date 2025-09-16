@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Console;
 use Exception;
+use Google\Service\TagManager\Environment;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerTask;
 use IGK\Controllers\SysDbController;
@@ -492,9 +493,23 @@ class BalafonApplication extends IGKApplicationBase
             '--run' => [
                 function ($v, $command = null) {
                     $command->exec = function ($command, ?string $file = null) {
+                       
+                        if (property_exists($command->options, '--command:ls')){
+
+                            $def = EnvironmentCommandScripts::GetCacheDefinition();
+                            Logger::print('commands');
+                            foreach($def as $k=>$v){
+                                Logger::info($k);
+                            }
+
+                            return -1;
+                        }
                         if (empty($file)) {
                             Logger::danger(__("args: require file"));
                             return -1;
+                        }
+                        if(!file_exists($file)){
+                            $file = EnvironmentCommandScripts::GetCommandFile($file) ?? igk_die('missing arg command');
                         }
                         DbCommandHelper::Init($command);
                         ServerCommandHelper::Init($command);
@@ -565,8 +580,9 @@ class BalafonApplication extends IGKApplicationBase
                         Logger::info(implode(
                             "\n",
                             [
-                                "\n--run [options] [dbcommand] scriptfile\n--controller:[targetController]",
-                                "--user:id\r\t\t\tglobal user to use",
+                                App::Gets(App::GREEN, "--run")."[options] [dbcommand] scriptfile",
+                                App::Gets(App::GREEN, "--controller").":[targetController]\r\n\t\t\t\tset base project controller",
+                                App::Gets(App::GREEN, "--user").":id\r\n\t\t\t\tglobal user to use",
                             ]
                         ));
                     }

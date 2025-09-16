@@ -95,15 +95,17 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         });
         // bootstrap web application
         // + initialize library
-        $this->library("subdomain");
-        $this->library("session");
-        $this->library("mysql");
-        $this->library("zip");
-        $this->library("gd");
-        $this->library("curl");
+        // $this->library("subdomain");
+        // $this->library("session");
+        // $this->library("mysql");
+        // $this->library("zip");
+        // $this->library("gd");
+        // $this->library("curl");
+        self::InitWebAppLibrary($this); 
+      
         if ($loader){             
             $loader(); 
-            if (!igk_io_file_exists(igk_io_applicationdir()."/Data/configure", true)){          
+            if (!igk_io_file_exists(igk_io_applicationdir().'/Data/configure', true)){          
                 igk_initenv(igk_io_applicationdir(), igk_app());
             }
         } 

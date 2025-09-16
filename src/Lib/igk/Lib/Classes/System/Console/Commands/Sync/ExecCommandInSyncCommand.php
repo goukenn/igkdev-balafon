@@ -13,9 +13,11 @@ use IGK\System\Console\Logger;
 class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
 	var $command='--sync:command';
 	var $desc='execute balafon sync command';
-	/* var $options=[]; */
+	var $options=[
+		'--name:[host-target]'=>'set host target'
+	];
 	/* var $category = ''; */
-	/* var $usage = ''; */
+	var $usage = '[options] -- ...command-args to exectue';
 	public function exec($command, ...$args) {
 		($h = $this->start($command, $setting)) || igk_die('missing config to sync');
    		if ($install_source = self::GetScriptInstall([			

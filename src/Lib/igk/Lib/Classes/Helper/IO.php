@@ -24,6 +24,8 @@ class IO
 {
     use IOSearchFileTrait;
     use IOPathCheckerTrait;
+    const INPUT_STREAM = 'php://input';
+    const STDIN_STREAM = 'php://stdin';
     /**
      * get mimetype from buffer 
      * @param string $buffer 
@@ -755,7 +757,8 @@ class IO
         $is_excludir_array = is_array($excludedir);
         while (count($dirs) > 0) {
             $q = array_pop($dirs);
-            if (isset($excludedir[$q])) { 
+            
+            if (isset($excludedir[$q]) || ($is_excludir_array && (\in_array($q, $excludedir) || \in_array(basename($q), $excludedir)))){ 
                 continue;
             }
             // use scan dir to order

@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Helper;
+
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlUtils;
@@ -12,6 +13,7 @@ use IGK\System\Regex\Replacement;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
+
 /**
  * 
  * @package IGK\Helper
@@ -30,6 +32,22 @@ abstract class StringUtility
         $s = preg_replace("/[^a-z_]/i", "_", $s);
         $s = preg_replace("/_+/i", "_", $s);
         return $s;
+    }
+    public static function DumpArray(array $tab): string
+    {
+        $sb = new StringBuilder;
+        $ch = '';
+        foreach ($tab as $k => $v) {
+            if (is_numeric($k)) {
+                if (is_numeric($v)) {
+                    $sb->appendLine($ch . $v . '');
+                } else
+                    $sb->appendLine($ch . '"' . $v . '"');
+            } else
+                $sb->appendLine($ch . '"' . $k . '"=>"' . $v . '"');
+            $ch = ',';
+        }
+        return $sb;
     }
     /**
      * read line utility class 
@@ -474,15 +492,16 @@ abstract class StringUtility
         }, explode("\n", $data)));
         return $data;
     }
-    public static function SingleQuoteReplace(string $src){
+    public static function SingleQuoteReplace(string $src)
+    {
         $ctn = new RegexMatcherContainer;
         $s = $ctn->begin("(')", "\\1", 'string-to-quote')->last();
-        $s->match("\\\\.",'espaced');
-          $s = $ctn->begin("(\")", "\\1", 'stringLitteral')->last();
-        $s->match("\\\\.",'espaced');
-        $src = $ctn->replace($src, function($e, $o, & $toffset){
-            if ($e->tokenID=="string-to-quote"){
-                return sprintf('"%s"', igk_str_remove_quote($e->value)); 
+        $s->match("\\\\.", 'espaced');
+        $s = $ctn->begin("(\")", "\\1", 'stringLitteral')->last();
+        $s->match("\\\\.", 'espaced');
+        $src = $ctn->replace($src, function ($e, $o, &$toffset) {
+            if ($e->tokenID == "string-to-quote") {
+                return sprintf('"%s"', igk_str_remove_quote($e->value));
             }
             return $e->value;
         });
@@ -564,11 +583,11 @@ abstract class StringUtility
                                 $args[] = $tab;
                             }
                             $k = $v = '';
-                        } else{
+                        } else {
                             $error = json_last_error_msg();
                             // read array of constant to handle doc comment
-                            $l =self::ReadArrayConstants($b);                            
-                            $args = array_merge($args, [$l]); 
+                            $l = self::ReadArrayConstants($b);
+                            $args = array_merge($args, [$l]);
                         }
                         $ch = '';
                     }
@@ -586,7 +605,8 @@ abstract class StringUtility
         }
         return $args;
     }
-    public static function ReadArrayConstants($v){
+    public static function ReadArrayConstants($v)
+    {
         $c = new RegexMatcherContainer;
         $g = $c->begin('\[', '\]')->last();
         $string = $c->appendStringDetection('string')->last();
@@ -601,32 +621,32 @@ abstract class StringUtility
             $g
         ];
         $pos = 0;
-        $temp ='';
+        $temp = '';
         $r = [];
         $glue = false;
-        while($g = $c->detect($v, $pos)){
-            if ($e = $c->end($g, $v, $pos)){
-                if ($e->tokenID=='sep'){
-                    if ($temp){
+        while ($g = $c->detect($v, $pos)) {
+            if ($e = $c->end($g, $v, $pos)) {
+                if ($e->tokenID == 'sep') {
+                    if ($temp) {
                         $r[] = $temp;
                         $temp = '';
                     }
                     continue;
                 }
-                if ($e->tokenID=='glue'){
+                if ($e->tokenID == 'glue') {
                     $glue = true;
                     continue;
                 }
-                if ($e->tokenID){
+                if ($e->tokenID) {
                     $tv = $e->value;
-                    if ($e->tokenID == 'string'){
+                    if ($e->tokenID == 'string') {
                         $tv = igk_str_remove_quote($tv);
                     }
-                    if ($temp){
-                        if ($glue){
-                            $temp.= $tv;
+                    if ($temp) {
+                        if ($glue) {
+                            $temp .= $tv;
                             $glue =  false;
-                        }                        
+                        }
                     } else {
                         $temp = $tv;
                         $glue = false;
@@ -634,9 +654,9 @@ abstract class StringUtility
                 }
             }
         }
-           if ($temp){
+        if ($temp) {
             $r[] = $temp;
-           }
+        }
         return $r;
     }
     /**

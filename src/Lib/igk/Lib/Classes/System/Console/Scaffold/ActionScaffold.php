@@ -4,17 +4,42 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console\Scaffold;
+
+use Exception;
 use IGK\Controllers\BaseController;
-use IGK\Helper\IO;
 use IGK\System\Console\App;
 use IGK\System\Console\Commands\MakeActionCommand;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\File\PHPScriptBuilder;
-use ModelBase;
+use IGKException;
+use ReflectionException;
+
+/**
+ * 
+ * @package IGK\System\Console\Scaffold
+ */
 class ActionScaffold extends ScaffoldBase
 {
+    /**
+     * 
+     * @var string
+     */
     var $description = "generate REST action";
+    /**
+     * 
+     * @param mixed $command 
+     * @param mixed $controller 
+     * @param null|string $name 
+     * @return mixed 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function exec($command, $controller = null, ?string $name = null)
     {
         if (property_exists($command->options, "--help")) {

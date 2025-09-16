@@ -3,6 +3,7 @@
 // @filename: ConfigureController.php 
 // @desc:  Configuration Controller page  
 namespace IGK\System\Configuration\Controllers;
+
 use Exception;
 use Google\Service\ToolResults\Execution;
 use IGK\Controllers\BaseController;
@@ -36,6 +37,7 @@ use IGKValidator;
 use lbuchs\WebAuthn\WebAuthn;
 use lbuchs\WebAuthn\WebAuthnException;
 use function igk_resources_gets as __;
+
 /**
  *  Configuration Controller
  * @package IGK\System\Configuration\Controllers
@@ -70,7 +72,7 @@ final class ConfigureController extends BaseController implements IConfigControl
      * @param null|string $fname 
      * @return IViewLayoutLoader 
      */
-    protected function createViewLoader(?string $fname=null): ?IViewLayoutLoader
+    protected function createViewLoader(?string $fname = null): ?IViewLayoutLoader
     {
         return new ConfigurationPageViewLoader($this);
     }
@@ -1299,7 +1301,9 @@ EOF;
     protected function _initWebAuthn(): ?WebAuthn
     {
         if (class_exists(WebAuthn::class))
-            return new WebAuthn(igk_resources_gets('manager') . ' - (CPanel)', igk_sys_domain_name());
+            return new WebAuthn(__('manager') . ' - (CPanel)', 
+                igk_sys_domain_name()
+            );
         return null;
     }
     /**
@@ -1330,9 +1334,10 @@ EOF;
         igk_is_conf_connected() && igk_die('misconfiguration');
         ($webauth = $this->_initWebAuthn()) || igk_die('failed to load webauthn library');
         $data = (object)json_decode(igk_io_get_uploaded_data(false));
-        $status=200; $o = [];
+        $status = 200;
+        $o = [];
         ($deseri_data = igk_configs()->webauthn_serie_key) &&
-        ($deseri_data = unserialize(base64_decode($deseri_data)));
+            ($deseri_data = unserialize(base64_decode($deseri_data)));
         if (!$deseri_data) {
             igk_json(json_encode(['error' => true, 'notice' => 'misconfiguration deserie']));
         }
@@ -1387,9 +1392,15 @@ EOF;
      */
     public function webauthn_create_register()
     {
-        igk_server()->method('POST') || igk_die('not a valid request');
+        //igk_server()->method('POST') || igk_die('invoke method not a valid request');
         ($webauth = $this->_initWebAuthn()) || igk_die('failed to load webauthn library');
         $data = (object)json_decode(igk_io_get_uploaded_data(false), true);
+        // $data = (object)[
+        //     'action' => 'store',
+        //     'credentials' => [
+        //         'response' => '',
+        //     ]
+        // ];
         $out  = [];
         $conf = igk_configs();
         $sess = igk_app()->session;
@@ -2036,7 +2047,8 @@ EOF;
         igk_notifyctrl("run:cron")->addSuccess("cron executed");
         igk_navto_referer();
     }
-    private function _getInlineJSLoade(){
+    private function _getInlineJSLoade()
+    {
         return  new InlineScriptLoader(IGK_LIB_DIR . '/Scripts/.inc/configs/web-authentication.js');
     }
     /**

@@ -3013,7 +3013,7 @@ function igk_css_load_theme($th = null)
     $r = 0;
     foreach ($env_path as $d) {
         $f = igk_dir($d . "/" . IGK_RES_FOLDER . "/Themes/{$gt}.theme");
-        if (igk_io_file_exists($f, true)) {
+        if (file_exists($f)) {
             $r = 1;
             break;
         }
@@ -7231,34 +7231,36 @@ function igk_extract($obj, $list)
     return $p;
 }
 
-if (!function_exists('igk_extract_first')){
+if (!function_exists('igk_extract_first')) {
     /**
      * retrieve first entrie on list provider pipe delimiter list 
      * 
      * @param string $list pipe delimiter list 
      */
-    function igk_extract_first($obj, string $list){
+    function igk_extract_first($obj, string $list)
+    {
         if (!$obj) return null;
         $tab = (array)$obj;
-        foreach(explode('|', $list) as $k){
-            if (key_exists($k, $tab)){
+        foreach (explode('|', $list) as $k) {
+            if (key_exists($k, $tab)) {
                 return $tab[$k];
             }
         }
         return null;
     }
 }
-if (!function_exists('igk_extract_first_not_null')){
+if (!function_exists('igk_extract_first_not_null')) {
     /**
      * retrieve first entrie on list provider pipe delimiter list 
      * 
      * @param string $list pipe delimiter list 
      */
-    function igk_extract_first_not_null($obj, string $list){
+    function igk_extract_first_not_null($obj, string $list)
+    {
         if (!$obj) return null;
         $tab = (array)$obj;
-        foreach(explode('|', $list) as $k){
-            if (key_exists($k, $tab) && !is_null($tab[$k])){
+        foreach (explode('|', $list) as $k) {
+            if (key_exists($k, $tab) && !is_null($tab[$k])) {
                 return $tab[$k];
             }
         }
@@ -13442,7 +13444,7 @@ function igk_include_file(string $file, $args = null)
             $$k = &$args[$k];
         }
         unset($k, $v);
-    }
+    } 
     include($file);
 }
 
@@ -14740,8 +14742,8 @@ function igk_io_get_uploaded_data(bool $usefaker = true)
     if ($usefaker && ($input = igk_server()->IGK_PHP_INPUT_DATA)) {
         return $input;
     }
-
-    $fin = fopen('php://input', "r");
+    
+    $fin = fopen(IO::INPUT_STREAM, "r");
     if (!$fin)
         return 0;
     fseek($fin, 0, SEEK_SET);
@@ -15692,7 +15694,7 @@ function igk_io_store_ajx_uploaded_data($folder, $fname = null)
     $fname = $fname === null ? igk_getv($tab, "IGK_FILE_NAME", "file.data") : $fname;
     $bfname = igk_io_basenamewithoutext($fname);
     $of = igk_dir($folder . "/" . $fname);
-    $v_gh = fopen("php://input", "r");
+    $v_gh = fopen(IO::INPUT_STREAM, "r");
     $v_wh = fopen($of, "w");
     if ($v_wh) {
         igk_io_copy_stream($v_gh, $v_wh, 8192, 1);
@@ -15756,7 +15758,7 @@ function igk_io_store_uploaded_file($file)
 {
     if (!IO::CreateDir(dirname($file)))
         return 0;
-    $fin = fopen("php://input", "r");
+    $fin = fopen(IO::INPUT_STREAM, "r");
     if (!$fin)
         return 0;
     $fo = fopen($file, "w+");
@@ -17053,7 +17055,7 @@ function igk_kill_trace()
  */
 function igk_last($tab)
 {
-    if ($tab){
+    if ($tab) {
         $k = end($tab);
         reset($tab);
         return $k;
@@ -20070,6 +20072,8 @@ function igk_show_error_doc($doc = null, $code = RequestResponseCode::NotFound, 
  */
 function igk_show_exception($ex, $file = null, $line = null, $title = null)
 {
+    require_once IGK_LIB_CLASSES_DIR."/Helper/ExceptionUtils.php";
+    
     IGK\Helper\ExceptionUtils::ShowException($ex, $file, $line, $title);
 }
 ///<summary>Represente igk_show_exception_trace function</summary>
@@ -21784,7 +21788,7 @@ function igk_str_repeat(string $p, int $c)
  */
 function igk_str_rm_last(string $str, string $pattern, ?int $infinite = -1)
 {
-    $c = strlen($pattern);    
+    $c = strlen($pattern);
     while (($infinite != 0) && ($c > 0) && IGKString::EndWith($str, $pattern)) {
         $str = substr($str, 0, strlen($str) - $c);
         if ($infinite > 0) {
@@ -22224,7 +22228,7 @@ function igk_svg_register_icons($doc, $name = null, $dir = IGK_LIB_DIR . "/Data/
     }
     $r = [];
     $register = [];
-    IO::GetFiles($dir, "/\.svg$/i", true, $r, function ($file) use ($doc, & $register) {
+    IO::GetFiles($dir, "/\.svg$/i", true, $r, function ($file) use ($doc, &$register) {
         // igk_wln('register ', $file, igk_io_basenamewithoutext($file));
         igk_svg_register($doc, $k = igk_io_basenamewithoutext($file), $file);
         $register[$k] = $file;
@@ -22238,6 +22242,36 @@ function igk_svg_use(string $name, $context = null)
 {
     return \IGK\System\Html\SVG\SvgRenderer::RegisterIcon($name, $context);
 }
+if (!function_exists('igk_svg_inject')) {
+    /**
+     * 
+     * @param mixed $doc 
+     * @param string $name column separator string 
+     * @param null|string $context 
+     * @return void 
+     * @throws Error 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    function igk_svg_inject($doc, string $name, ?string $context = null)
+    {
+        $key = __FUNCTION__ . ':/svgInjector';
+        $n = $doc->body->getParam($key);
+        if (!isset($n)) {
+            $n = $doc->body->div()->setClass('dispn');
+            $doc->body->setParam($key, $n);
+        }
+        $c = explode(',', $name);
+        while (count($c)) {
+            $q = trim(array_shift($c));
+            $n->usesvg($q, $context);
+        }
+    }
+}
+
 ///<summary>create uri system pattern info</summary>
 /**
  * create uri system pattern info

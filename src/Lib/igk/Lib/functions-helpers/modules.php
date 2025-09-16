@@ -119,7 +119,7 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
             );
             throw new \IGKException(__FUNCTION__ . "::module <b>{$modulename}</b> missing " . igk_io_collapse_path($dir), 500);
         }
-        igk_die('missing localation ' . $dir);
+        igk_die('missing location ' . $dir);
         return null;
     }
 

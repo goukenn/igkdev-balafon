@@ -494,9 +494,13 @@ class SQLGrammar implements IDbQueryGrammar
                 if (!isset($v->clColumnMemberIndex)) {
                     $v_unique_columns_index = '0';
                 } else {
-                    $v_unique_columns_index = '' . $v->clColumnMemberIndex;
+                    $p = $v->clColumnMemberIndex;
+                    if (is_array($p)){
+                        $p = implode(',', $p); 
+                    }
+                    $v_unique_columns_index = '' . $p;
                 }
-                //  if ($v_unique_columns_index) {
+
                 $tindex = self::SplitColumnMemberRereference($v_unique_columns_index);
                 $indexes = array();
                 foreach ($tindex as $kindex) {
@@ -529,8 +533,8 @@ class SQLGrammar implements IDbQueryGrammar
                     // + |                    
                     $v_nk .= '_FK';
                 }
-                if (!$v->clIsUniqueColumnMember  && $v->clIsPrimary) {
-                }
+                //if (!$v->clIsUniqueColumnMember  && $v->clIsPrimary) {
+                // }
                 if (!empty($findex))
                     $findex .= ",";
                 $findex .= "KEY `" . $v_nk . "_index` (`" . $v_name . "`)";

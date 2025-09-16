@@ -9,7 +9,7 @@ use IGK\System\Drawing\Rectanglef;
 use Safe\Exceptions\ImageException;
 
 use function igk_clamp as clamp; 
-
+ 
 if (!extension_loaded("gd")) {
     return;
 }

@@ -27,6 +27,10 @@ class DbMigrateCommand extends AppExecCommand
         '--no-clear-db-cache'=>'flag: do not clear db cache',
         '--force'=>"flag: force module class creation"
     ];
+    /**
+     * 
+     * @return void 
+     */
     public function showUsage(){
         parent::showCommandUsage('controller [options]');
     }

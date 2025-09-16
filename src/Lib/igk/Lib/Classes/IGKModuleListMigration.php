@@ -314,6 +314,12 @@ final class IGKModuleListMigration extends BaseController implements
             }
         }
     }
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return mixed 
+     */
     public static function __callStatic($name, $arguments)
     {
         if (method_exists(ControllerExtension::class, $name)) {

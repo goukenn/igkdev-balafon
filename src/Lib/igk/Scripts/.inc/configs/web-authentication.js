@@ -1,4 +1,6 @@
 // @ts-nocheck
+// @file: web-authentication.js
+
 'use strict';
 (function () {
     const primaryFetchConfig = {
@@ -127,7 +129,9 @@
             const registerUser = await _registerUser(uri);
             if (registerUser) {
                 try {
+                    // console.log('register .... ');
                     const credentials = await navigator.credentials.create({ publicKey: registerUser });
+                    // console.log('credi - ', credentials);
                     if (credentials) {
                         // send and store information to server 
                         const _new = bufferUtils.serveData(credentials);
@@ -149,6 +153,7 @@
                     }
                 } catch (e) {
                     console.error('create credential failed.', e);
+                   // console.log({uri, registerUser});
                 }
             }
             return null;

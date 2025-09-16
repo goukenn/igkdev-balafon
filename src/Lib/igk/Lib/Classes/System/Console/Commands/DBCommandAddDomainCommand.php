@@ -17,7 +17,7 @@ class DBCommandAddDomainCommand extends AppExecCommand
     var $category = "administration";
     var $options = [];
     public function showUsage(){
-        Logger::print($this->command. " domainame controller [options]");
+        Logger::print(sprintf( "%s domain_name controller [options]", $this->command));
     }
     /**
      * exec the command

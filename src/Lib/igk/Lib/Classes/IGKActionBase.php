@@ -166,8 +166,9 @@ abstract class IGKActionBase implements IActionProcessor
     {
     }   
     /**
-     * 
+     * initialize controller definition 
      * @param mixed $ctrl
+     * @return static
      */
     protected function initialize(BaseController $ctrl)
     {    
@@ -250,7 +251,13 @@ abstract class IGKActionBase implements IActionProcessor
         // + | --------------------------------------------------------------------
         // + | BLF: init and setup controller 
         // + |
-        $this->initialize($ctrl)->setup();
+        
+        $r = $this->initialize($ctrl);
+        if (is_null($r)){
+            igk_wln_e(get_class($this), 'initialize null....');
+        }
+
+        $r->setup();
         $b = $this->getActionProcessor();
         if (is_string($b)) {
             if (!class_exists($b)) {

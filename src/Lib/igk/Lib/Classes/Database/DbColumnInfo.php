@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Database;
+
 use IGK\Database\Traits\DbColumnInfoMethodTrait;
 use IGK\Database\Traits\DbColumnInfoTrait;
 use IGK\Models\DataTypes;
@@ -12,6 +13,7 @@ use IGKException;
 use IGKObject;
 use IGKSysUtil;
 use ReflectionException;
+
 require_once __DIR__ . "/Traits/DbColumnInfoTrait.php";
 /**
  * Represent DbColumnInfo class
@@ -26,8 +28,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
      * @param mixed $name 
      * @return static 
      */
-    public static function CreateAutoInc($name){
-        return new static(['clName'=>$name, 'clAutoIncrement'=>true, 'clIsUnique'=>true]);
+    public static function CreateAutoInc($name)
+    {
+        return new static(['clName' => $name, 'clAutoIncrement' => true, 'clIsUnique' => true]);
     }
     /**
      * get if this column info must be consider as a dump fields
@@ -44,7 +47,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     public function __construct($array = null)
     {
         $this->clType = "Int";
-        // $this->clTypeLength = new DbDolumnDefaultLength(11);      
+     
         $this->initialize($array);
         // + | -------------------------------------------------
         // + | fix resolved data 
@@ -96,13 +99,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             // + | treat type :
             self::_TreatType($this);
             // + | treat link
-            if ($l = $this->clLinkType){
-                $r = explode(',', $l, 2);
-                if ((count($r)>1) && (!$this->clLinkColumn)){
-                    $this->clLinkColumn = trim($r[1]);
-                }
-                $this->clLinkType = trim($r[0]);
-            }
+            self::_TreatLinkType($this);
+            // + | treat link column members
+            self::_TreatUniqeColumnMember($this);
             // + | --------------------------------------------------------------------
             // + | if already setup auto - make int data to be not null
             // + |   
@@ -127,6 +126,54 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
             $this->clDefault = null;
         }
     }
+    /**
+     * 
+     * @param static $q 
+     * @return void 
+     */
+    private static function _TreatLinkType($q)
+    {
+        $lnk = $q->clLinkType;
+        if (!$lnk) {
+            return;
+        }
+        $regex = '/(?P<name>(%[a-zA-Z_][a-zA-Z_0-9]*%)?[a-zA-Z_][a-zA-Z_0-9]*)\(\\s*(?P<column>[a-zA-Z_][a-zA-Z_0-9]*)\)/';
+        if (preg_match($regex, $lnk, $tab)) {
+            $lnk = $tab['name'];
+            $q->clLinkColumn = $q->clLinkColumn ?? $tab['column'];
+        } else {
+            $r = explode(',', $lnk, 2);
+            if ((count($r) > 1) && (!$q->clLinkColumn)) {
+                $q->clLinkColumn = trim($r[1]);
+            }
+            $lnk = trim($r[0]);
+        }
+        $q->clLinkType = $lnk;
+    }
+    /**
+     * 
+     * @param static $q
+     * @return void 
+     */
+    private static function _TreatUniqeColumnMember($q)
+    {
+        $l = $q->clIsUniqueColumnMember;
+        if ($l) {
+            $v = false;
+            if (preg_match("/\\d+(,\\s*\\d+\\s*)*/", $l, $tab)) {
+                $q->clColumnMemberIndex = $q->clColumnMemberIndex ?? array_map('intval', explode(',', $l));
+                $v = true;
+            } else if ($l == 'true') {
+                $v = true;
+            }
+            $q->clIsUniqueColumnMember = $v;
+        }
+    }
+    /**
+     * treat type 
+     * @param mixed $q 
+     * @return void 
+     */
     private static function _TreatType($q)
     {
         if (is_null($q->clType)) {
@@ -150,8 +197,8 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
                 }
                 break;
             case strtolower(DbDataTypes::PhoneNumber):
-                    $q->clType = DbDataTypes::VarChar;
-                    $q->clTypeLength = DbDataTypes::PHONE_NUMBER_MAX_LENGTH;
+                $q->clType = DbDataTypes::VarChar;
+                $q->clTypeLength = DbDataTypes::PHONE_NUMBER_MAX_LENGTH;
                 break;
         }
     }
@@ -395,7 +442,8 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         }
         return false;
     }
-    public static function IsNumber(IDbColumnInfo $v){
-        return preg_match('/\\b(int|float|double)\\b/i',$v->clType);
+    public static function IsNumber(IDbColumnInfo $v)
+    {
+        return preg_match('/\\b(int|float|double)\\b/i', $v->clType);
     }
 }

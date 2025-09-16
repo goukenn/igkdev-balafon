@@ -14,6 +14,10 @@ use IGKException;
 class FS{
     private $m_caches;
     private $m_auto_cache;
+    /**
+     * get cache file path
+     * @return string 
+     */
     public static function CacheFile(){
         return igk_io_cachedir()."/.fs-caches.php";
     }

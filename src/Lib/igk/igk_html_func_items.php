@@ -375,10 +375,11 @@ if (!function_exists("igk_html_node_abtn")) {
 	function igk_html_node_abtn($uri = "#", $type = "default", $role = "button")
 	{
 		$n = igk_create_node("a");
-		$n["class"] = "igk-btn";
-		$n["href"] = $uri;
-		$n["role"] = $role;
+		$n['class'] = "igk-btn";
+		$n['href'] = $uri;
+		$n['role'] = $role;
 		$n->type = $type;
+		// igk_wln_e(__FILE__.":".__LINE__ , 'render.....', $n);
 		return $n;
 	}
 }

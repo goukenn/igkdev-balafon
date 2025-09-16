@@ -3,10 +3,15 @@
 // @file: DbInitManager.php
 // @date: 20221118 09:03:41
 namespace IGK\Database;
+
+use Exception;
+use Error;
 use IGK\Controllers\BaseController;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
+use IGKException;
+
 /**
 * 
 * @package IGK\Database
@@ -18,13 +23,21 @@ class DbInitManager{
         // + |
         $this->initProfile($controller);
     }
+    /**
+     * 
+     * @param BaseController $controller 
+     * @return void 
+     * @throws Exception 
+     * @throws Error 
+     * @throws IGKException 
+     */
     protected function initProfile(BaseController $controller){
+        igk_debug_wln('init controller profiles ....');
         $tpro= null;
         $pro = $controller->configFile('profiles');
         if ($pro && igk_io_file_exists($pro)){
             $tpro = include($pro);
         }
-        igk_debug_wln('init profiles ....');
         if (!is_array($tpro))
             return;
         $roles = []; // mean groups

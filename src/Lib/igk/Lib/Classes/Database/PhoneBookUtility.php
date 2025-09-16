@@ -88,7 +88,7 @@ class PhoneBookUtility
                     ->where([
                         PhoneBooks::FD_ENTRY_GUID => $q->Guid
                     ])->execute();
-                $v_card = null;// new VCard;
+                $v_card = null;// 
                 foreach ($g->getRows() as $row) {
                     $type = $row->{PhoneBookTypes::FD_NAME};
                     $v = $row->{PhoneBooks::FD_VALUE};

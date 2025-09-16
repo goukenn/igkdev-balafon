@@ -147,7 +147,7 @@ final class IGKAppConfig extends IGKObject {
         $db_name = $this->m_datas->db_name; 
     }
     /**
-    * 
+    * update cache
     */
     private function _updateCache(){
         $f=igk_io_syspath(IGK_CACHE_DATAFILE);
