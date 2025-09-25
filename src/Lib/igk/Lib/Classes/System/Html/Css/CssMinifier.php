@@ -34,6 +34,9 @@ class CssMinifier
         //$patterns[] = $container->match('[a-zA-Z][a-zA-Z0-9\-]*', 'property')->last(); // 
         $patterns[] = $container->match(self::CSS_PROVIDER_PROPS, 'property')->last(); // 
         $patterns[] = $container->match(self::CSS_PROPS, 'property')->last(); // 
+
+        $patterns[] = $container->match('(?<=\\s)\{\\s*', 'curl-provider');
+        $patterns[] = $container->match('(?<=\\s)\}\\s*', 'curl-end-provider');
         // priority to skip space
         $patterns[] = $container->match("(?<=\\{|:|;)\\s+", 'skip-space')->last();
         $patterns[] = $container->match("\\s+(?=\\{|:|;)", 'skip-space')->last();
@@ -57,14 +60,18 @@ class CssMinifier
      * @throws Exception 
      */
     public function minify(string $css)
-    {        
+    {   
+        //return $css;     
+
+
         $container = $this->getRegexContainer(); 
+        // $container->resetTreatment();
         $lpos = 0;
         $ch = '';
         $q = $this;
         $glueInf = [];
         $container->treat($css, function ($g, int $pos, $data) use (&$ch, &$lpos, $q, & $glueInf) {
-            igk_debug_wln($g->tokenID . ' : ['.json_encode($g->value).']');
+            igk_is_debug() && Logger::info($g->tokenID . ' : ['.json_encode($g->value).']');
             $v_tp = array_pop($glueInf);
             if (is_null($g->parentInfo)) {
                 switch ($g->tokenID){
@@ -75,15 +82,21 @@ class CssMinifier
                             $ch .= $g->value;
                         }
                         break;
+                    case 'curl-end-provider':
+                        $ch = rtrim($ch).'}';
+                        break;                
+                    case 'curl-provider':
+                        $ch = rtrim($ch).'{';
+                        break;
                     case 'operator':
                     case 'operator-litteral':
-                        $ch .= substr($data, $lpos, $g->from - $lpos) . sprintf(' %s ', trim($g->value));
+                        $ch .= substr($data, $lpos, $g->from - $lpos) . sprintf('%s ', trim($g->value));
                         //if ($g->tokenID != 'operator-litteral')
                         $glueInf[] = 1; 
                         break;
                     case 'glue':
                     case 'glue-operator':
-                        $ts = trim($g->value);
+                        // $ts = trim($g->value);
                         $ch = rtrim($ch.substr($data, $lpos, $g->from - $lpos));
                         if ($v_tp) $ch.= ' ';
                         $ch.= trim($g->value); 
@@ -102,6 +115,7 @@ class CssMinifier
                             $ch = rtrim($ch);
                         }
                         $ch .= $vv . $g->value;
+                        $pos = $g->to;
                         break;
                 }
                 $lpos = $pos;

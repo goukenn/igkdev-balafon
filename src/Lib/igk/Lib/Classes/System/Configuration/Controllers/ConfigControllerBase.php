@@ -204,8 +204,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
                 $this->View();
                 if ($_cnf_node = $this->getConfigNode()) {
                     $_cnf_node->clearChilds();
-                    $_cnf_node->add($_t);
-                    // $_cnf_node->div()->Content = "DEBUG ::::".get_class($this);
+                    $_cnf_node->add($_t); 
                     igk_set_env($e_key, $this);
                 }
             }

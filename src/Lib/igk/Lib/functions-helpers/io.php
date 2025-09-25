@@ -142,8 +142,20 @@ function igk_io_projectdir()
 }
 
 if (!function_exists('igk_io_file_exists')) {
+    /**
+     * check for file cache existance
+     * @param string $file 
+     * @param bool $autocheck 
+     * @return bool 
+     * @throws Exception 
+     */
     function igk_io_file_exists(string $file, bool $autocheck =false): bool
     {
+
+         if (preg_match('/RegexContainer.d.js/', $file)){
+           // igk_wln_e(__FILE__.":".__LINE__ , "finish");
+        }
+
         static $FS;
         if (IGKApp::IsInit()) {
             if (is_null($FS)) {

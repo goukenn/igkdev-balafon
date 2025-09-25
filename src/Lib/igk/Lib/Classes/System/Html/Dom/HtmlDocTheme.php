@@ -14,6 +14,7 @@ use IGK\Css\ICssAnimation;
 use IGK\Css\ICssResourceResolver;
 use IGK\Css\ICssStyleContainer;
 use IGK\Helper\SysUtils;
+use IGK\System\Console\Logger;
 use IGK\System\Html\Css\CssConstants;
 use IGK\System\Html\Css\CssMinifier;
 use IGK\System\Html\Css\CssUtils;
@@ -508,6 +509,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         if (!$this->noHeader && $this->m_imports) {
             $out .= CssUtils::RenderImport($this->m_imports);
         }
+
+
+
         $builder = new \IGK\Css\CssThemeResolver();
         $builder->theme = $this;
         $builder->parent = $systheme;
@@ -558,6 +562,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             if (!empty($v_var_def))
                 $out .= ":root{" . $v_var_def . "}";
         }
+        
         // + | --------------------------------------------------------------------
         // + | render font definition 
         // + |
@@ -577,6 +582,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             if ($tv)
                 $out .= "/* <!-- Fonts --> */" . $lineseparator . $s . $ft_def;
         }
+               
         // + | --------------------------------------------------------------------
         // + | render rule definition 
         // + |
@@ -590,16 +596,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         // + | 
         $s = "";
         $tv = 0;
-        $prefix = $this->prefix;
-        $css_minifier = new CssMinifier;
+        $prefix = $this->prefix;        
         $v_trim_chars = " \n\r\t\v\0;";
         if ($attr = $def->getAttributes()) {
+
             foreach ($attr as $k => $v) {
                 if (empty($v))
                     continue;
-                if (is_numeric($k) || empty($k)) {
-                    // minifier only what is on {}
-                    $s .= $css_minifier->minify($v);
+                if (is_numeric($k) || empty($k)) {                    
+                    $s .= $v;
                     $tv = $tv || !empty(trim($s));
                     continue;
                 }
@@ -607,16 +612,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                 if (!empty($kv)) {
                     if ($prefix) {
                         $k = str_replace('.', '.' . $prefix, $k);
-                    }
-                    $kv = $css_minifier->minify($kv);
+                    }                     
                     $s .= $k . "{" . $kv . "}" . $lineseparator;
                     $tv = 1;
                 }
             }
-        }
+        } 
         if ($tv) {
             !$themeexport && ($out .= "/* <!-- Attributes --> */" . $lineseparator);
-            $out .= rtrim($s) . $lineseparator;;
+            $out .= rtrim($s) . $lineseparator;
             !$themeexport && ($out .= "/* <!-- end:Attributes --> */" . $lineseparator);
         }
         $res = $this->res;
@@ -958,7 +962,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $is_root = $this === $systheme;
         // $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $this->parent : $systheme);
         $parent = $is_root ? null : (($v_parent instanceof self) && ($v_parent !== $this) ? $v_parent : $systheme);
-        \IGK\System\Diagnostics\Benchmark::mark("theme-export-def");
+        \IGK\System\Diagnostics\Benchmark::mark($bmark = "theme-export-def");
         $out = $this->_get_css_def($doc, $minfile, $themeexport, $resourceResolver, $parent);
         \IGK\System\Diagnostics\Benchmark::expect("theme-export-def", 0.100);
         if ($this->m_medias) {

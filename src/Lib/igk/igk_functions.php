@@ -75,6 +75,7 @@ use IGK\System\Core\IProxyDataArgs;
 use IGK\System\DataArgs;
 use IGK\System\Html\CallableConstants;
 use IGK\System\Html\Dom\HtmlCoreJSScriptsNode;
+use IGK\System\Html\Dom\IThemeDefinition;
 use IGK\System\Html\Dom\SvgListNode;
 use IGK\System\Html\HtmlLoadingContext;
 use IGK\System\Html\HtmlLoadingContextOptions;
@@ -2286,8 +2287,7 @@ function igk_css_bind_theme_file(IGKHtmlDoc $doc, $th, $files)
     foreach ($lfile as $d) {
         $tab = explode('|', $d);
         list($file, $ctrl) = igk_count($tab) >= 2 ? $tab : [$tab[0], null];
-
-        if (!isset($v_lfiles[$file]) && !empty($d) && igk_io_file_exists($file)) {
+        if (!isset($v_lfiles[$file]) && !empty($d) && igk_io_file_exists($file, true)) {
             if ($ctrl) {
                 $ctrl = igk_getctrl($ctrl, false);
             }
@@ -2437,13 +2437,13 @@ function igk_css_design_property_value($value, $properties, $v_designmode)
 function igk_css_doc_get_def($doc, $minfile = false, $themeexport = false)
 {
     $el = $minfile ? IGK_STR_EMPTY : IGK_LF;
-    $s = (object)array("name" => "systheme", "theme" => $doc->SysTheme);
+    $s = Activator::CreateNewInstance(IThemeDefinition::class, ["name" => "systheme", "theme" => $doc->SysTheme]);
+   
     $data[] = $s;
     if ($files = $s->theme->def->getFiles()) {
         igk_css_bind_theme_file($doc, $s->theme, $files);
-    }
-    $files = $s->theme->def->getBindTempFiles();
-    if ($files) {
+    } 
+    if ($files = $s->theme->def->getBindTempFiles()) {
         igk_css_bind_theme_file($doc, $s->theme, $files);
     }
     $outcl = [];
@@ -2451,18 +2451,16 @@ function igk_css_doc_get_def($doc, $minfile = false, $themeexport = false)
         if (isset($outcl[$cl])) {
             return $outcl[$cl];
         }
-        $outcl[$cl] = $cl;
-        return "transparent";
+        return $outcl[$cl] = 'transparent';        
     });
     $s = igk_css_init_style_def_workflow($doc);
     $data[] = $s;
     $o = "";
-    // ' Logger::info('dist project');
     foreach ($data as $v) {
         $theme = igk_getv($v, 'theme');
         $name = igk_getv($v, 'name');
         if (!$minfile)
-            $o .= IGK_START_COMMENT . " CSS. Doc def - [" . $name . "] " . IGK_END_COMMENT . $el;
+            $o .= IGK_START_COMMENT . " CSS. - [" . $name . "] " . IGK_END_COMMENT . $el;
         $o .= $theme->get_css_def($minfile, $themeexport) . $el;
     }
     if (igk_server_is_local() && (igk_count($outcl) > 0) && ($f = igk_const("IGK_OUTCL_FILE"))) {
@@ -2478,6 +2476,7 @@ function igk_css_doc_get_def($doc, $minfile = false, $themeexport = false)
 }
 ///<return> the value of the key if found in the current theme</return>
 /**
+ * 
  */
 function igk_css_get_cl($key)
 {
@@ -3808,8 +3807,7 @@ function igk_ctrl_change_lang(BaseController $ctrl, $p)
     $lang = igk_getv($p, 'lang');
     $set = false;
     if ($lang) {
-        if (R::ChangeLang($lang)) {
-            echo 'changing....';
+        if (R::ChangeLang($lang)) {            
             $ctrl->setEnvParam(BaseController::IGK_ENV_PARAM_LANGCHANGE_KEY, 1);
             $set = true;
         } else {
@@ -13551,13 +13549,14 @@ function igk_include_utils()
  * include view
  * @param mixed $ctrl the controller that will be used
  * @param mixed $target target node that will recieve the content of the view
- * @param mixed $file file path or relative name to view file
+ * @param string $file file path or relative name to view file
  * @param mixed $create create file if not exists. default is false
  * @param mixed $args array data to pass to view file 
  */
-function igk_include_view($ctrl, $target, $file, $args = null, $create = false)
+function igk_include_view($ctrl, $target, string $file, $args = null, $create = false)
 {
     if ($f = igk_io_file_exists($file) ? $file : $ctrl->getViewFile($file)) {
+  
         $s_args = igk_get_view_args();
         if ($s_args && !igk_is_included_view($f)) {
             $id = spl_object_hash($ctrl);
@@ -13569,7 +13568,7 @@ function igk_include_view($ctrl, $target, $file, $args = null, $create = false)
                 igk_set_env(IGKEnvironment::CTRL_CONTEXT_SOURCE_VIEW_ARGS, $c);
             }
         }
-        igk_include_set_view($f);
+        igk_include_set_view($f);        
         $ctrl->getViewContent($file, $target, $create, $args);
         igk_include_unset_view($f);
     }
@@ -13580,7 +13579,8 @@ function igk_include_view($ctrl, $target, $file, $args = null, $create = false)
 /**
  * Represent igk_include_view_file function
  * @param mixed $ctrl 
- * @param mixed $file 
+ * @param string $file 
+ * @param bool $no_cache 
  */
 function igk_include_view_file($ctrl, $file, $no_cache = false)
 {
@@ -13590,17 +13590,13 @@ function igk_include_view_file($ctrl, $file, $no_cache = false)
     $cache = igk_cache()::view();
     $key = IGKEnvironmentConstants::VIEW_FILE_CACHES;
     igk_environment()->push($key, $file);
-    // TODO: LOAD MODULE
-    // igk_trace();
-    // igk_exit();
 
     if (!in_array($ext, ['phtml', 'pinc'])) {
         // + | handling response from file handler
         if ($handler = \IGK\System\IO\FileHandler::GetFileHandlerFromExtenstion('.' . $ext)) {
             $response = $handler->transform(file_get_contents($file), (object)['ctrl' => $ctrl, 'raw' => ViewHelper::GetViewArgs('data')]);
             if ($response instanceof HtmlItemBase)
-                $ctrl->getTargetNode()->add($response);
-            // $response->renderAJX();
+                $ctrl->getTargetNode()->add($response); 
             else if ($response) {
                 igk_wl($response);
             }

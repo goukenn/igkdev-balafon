@@ -14,7 +14,7 @@ class FileSystem extends CoreFileSystem{
      * default extension 
      * @var mixed
      */
-    var $default_extention;
+    var $default_extension;
     public function __construct(string $dir){
         if (!self::Exists($dir)){
             throw new ArgumentNotValidException("dir");
@@ -59,7 +59,7 @@ class FileSystem extends CoreFileSystem{
      */
     public function getCacheFilePath(string $path, ?string $ext=".php"): string{
         if (is_null($ext)){
-            $ext = $this->default_extention ?? '.php';
+            $ext = $this->default_extension ?? '.php';
         }
         return implode(DIRECTORY_SEPARATOR, [$this->_getDir(), sha1($path).$ext]);
     }

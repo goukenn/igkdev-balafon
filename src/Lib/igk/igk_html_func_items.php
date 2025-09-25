@@ -5726,7 +5726,7 @@ if (!function_exists("igk_min_script")) {
 	 * helper minify script
 	 * @param mixed $s
 	 */
-	function igk_min_script($s)
+	function igk_min_script(string $s)
 	{
 		$s = preg_replace("/(\n|\t|\r)/i", "", $s);
 		return $s;

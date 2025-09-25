@@ -9,6 +9,7 @@ use IGK\Core\Traits\ScriptTrait;
 use IGK\Helper\IO;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\IO\CoreFileSystem;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
@@ -178,14 +179,17 @@ class HtmlScriptLoader
                 }
             };
         }
+        $jfs = IGKCaches::js_filesystem();
+        $rs = $jfs->default_extension;
+        $jfs->default_extension = CoreFileSystem::INC_EXTENSION;
         while ($q = array_shift($tab)) {
             $dir = $q[0];
             $tag = $q[1];
             if ($dir && key_exists($dir, $exclude_dir)) {
                 continue;
             }
-            $cache_path = IGKCaches::js_filesystem()->getCacheFilePath($rq . $dir, null);
-            if (!$no_page_cache && file_exists($cache_path)) {
+            $cache_path = $jfs->getCacheFilePath($rq . $dir, null);
+            if (!$no_page_cache && igk_io_file_exists($cache_path, true)){
                 ob_start();
                 include($cache_path);
                 $out .= ob_get_contents();
@@ -231,16 +235,19 @@ class HtmlScriptLoader
                 igk_js_minify($out),
                 $firstEval ? igk_js_minify(file_get_contents(IGK_LIB_DIR . "/Inc/js/eval.js")) : "if ( !(typeof(igk) > 'u') && igk.js && igk.js.initEmbededScript) igk.js.initEmbededScript()"
             ];
-            $out = $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[" . $pif[0] . "]]>\n</script>" . $lf;
+            $out  = $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n//<![CDATA[" . $pif[0] . "]]>\n</script>" . $lf;
             $out .= $tabstop . "<script type=\"text/javascript\" language=\"javascript\" >\n" . $pif[1] . "\n</script>" . $lf;
             if (!$no_page_cache) {
                 IO::WriteToFile($production_file, $out);
             }
         }
-        $r = preg_match_all("/igk.control.js/", $out, $tab);
-        if ($r > 1) {
-            igk_wln_e(__FILE__ . ":" . __LINE__, 'error loading file twice', sprintf('%s', json_encode($tab, JSON_PRETTY_PRINT)), $out);
+        if (igk_is_debug()){
+            $r = preg_match_all("/igk.control.js/", $out, $tab);
+            if ($r>1){
+                igk_debug_wln_e(__FILE__ . ":" . __LINE__, ' error loading file twice', sprintf('%s', json_encode($tab, JSON_PRETTY_PRINT)), $out);
+            }
         }
+        $jfs->default_extension = $rs;
         return $out;
     }
     /**

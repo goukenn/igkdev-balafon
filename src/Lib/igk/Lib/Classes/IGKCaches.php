@@ -193,14 +193,24 @@ final class IGKCaches
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/articles"); // igk_environment()->getViewCacheDir());
     }
+    /**
+     * 
+     * @return FileSystem|null 
+     * @throws IGKException 
+     */
     private function _init_page_filesystem_caches()
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/pages");
     }
+    /**
+     * 
+     * @return FileSystem|null 
+     * @throws IGKException 
+     */
     private function _init_js_filesystem_caches()
     {
         $js = self::__init_cache(igk_io_cachedir() . "/storage/js");
-        $js->default_extention = '.js';
+        $js->default_extension = '.js';
         return $js;
     }
     private function _init_css_filesystem_caches()

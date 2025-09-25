@@ -1015,10 +1015,25 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             if ($required) {
                 $load = $required;
             }
+
+            if ($project = (array)igk_conf_get($data, 'dependOn')){
+                $this->_initCheckRequireProject($project);
+            }
         }
         $v_modules[$v_cl] = $load;
         igk_set_env($v_key, $v_modules);
         return $data;
+    }
+    protected function _initCheckRequireProject($project){
+        if (!$project){
+            return;
+        }
+        while(count($project)){
+            $q = array_shift($project);
+            if (!($c = igk_getctrl($q, false))){
+                igk_die('missing : '.$q);
+            }
+        }
     }
     /**
      * get global project configuration settings
@@ -1029,9 +1044,12 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
      * @throws Exception 
      */
     protected function _globalConfigSettings(){
-        $config_file = Path::Combine($this->getDeclaredDir(), Constants::PROJECT_CONF_FILE);
-        if ($data = json_decode(file_get_contents($config_file))) {
-            return $data;
+        $g = self::IsSysController($this);        
+        if (!$g){
+            $config_file = Path::Combine($this->getDeclaredDir(), Constants::PROJECT_CONF_FILE);
+            if ($data = json_decode(file_get_contents($config_file))) {
+                return $data;
+            }
         }
         return null;      
     }
@@ -1122,27 +1140,24 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     ///<param name="mixed">object|class name of a controller</summary>
     /**
      * check if this controller class is a system controller
-     * @param mixed object|class name of a controller
+     * @param object|string $className of a controller
      */
     public static function IsSysController($className)
     {
-        if (is_object($className)) {
-            $f = igk_uri($className->getDeclaredFileName());
-            if (strstr($f, IGK_LIB_DIR)) {
-                return true;
-            }
-            return false;
+        if (is_object($className) && ($className instanceof BaseController)) {
+            $f = realpath($className->getDeclaredFileName());
+            return igk_str_startwith($f, IGK_LIB_DIR);
         }
         return (igk_getv(self::$sm_sysController, $className) != null);
     }
     /**
      * 
-     * @param mixed $view
-     * @param mixed $target
+     * @param string $view
+     * @param mixed $target node
      * @param mixed $forcecreation the default value is false
      * @param mixed $args the default value is null
      */
-    public function getViewContent($view, $target, $forcecreation = false, $args = null)
+    public function getViewContent(string $view, $target, $forcecreation = false, $args = null)
     {
         $key = "ctrl/backupnode";
         $g = $this->getParam($key);
@@ -1156,7 +1171,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $this->getView($view, $forcecreation, $args);
         $this->setTargetNode($bck);
         $this->resetCurrentView($v_view);
-        $this->setParam($key, null);
+        $this->setParam($key, null); 
     }
     /**
      * set the controller parameters
@@ -1180,7 +1195,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $v = igk_dir($view != null ? $view : igk_getr("v", $view));
         $f = igk_realpath($v) === $v ? $v : $this->getViewFile($v);
         $this->regSystemVars(null);
-        if (igk_io_file_exists($f) || ($forcecreation && igk_io_save_file_as_utf8($f, IGK_STR_EMPTY))) {
+        if (igk_io_file_exists($f, true) || ($forcecreation && igk_io_save_file_as_utf8($f, IGK_STR_EMPTY))) {            
             $def = 0;
             if (($args !== null) && !empty($args)) {
                 $def++;

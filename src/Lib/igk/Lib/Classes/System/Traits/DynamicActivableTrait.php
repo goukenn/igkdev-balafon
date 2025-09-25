@@ -33,7 +33,7 @@ trait DynamicActivableTrait{
     public function to_json($option = NULL, int $flag = 0){
         return JSon::Encode($this->data, JSonEncodeOption::IgnoreEmpty());
     }
-    public function __isset($n){
-        igk_wln_e( __FILE__.":".__LINE__ , 'lkjd: '.$n);
+    public function __isset($n){        
+        return isset($this->data[$n]);
     }
 }

@@ -126,7 +126,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         $v_is_ajx_view_request = preg_match("/\.ajx\.phtml$/i", $file) && igk_is_ajx_demand();
         $v_common = $v_footer = $v_header = $v_dir = $response = null;
         $ctrl =  $this->controller;
-        $this->controller->setExtraArgs(["layout" => $this]);
+        $ctrl->setExtraArgs(["layout" => $this]);
         $v_main = $this->isMainLayout($file) || $this->getLayoutIsSingleView($file);
         $v_no_cache = $ctrl->getEnvParam(ControllerEnvParams::NoCompilation) || $ctrl->getConfigs()->no_auto_cache_view
             || \getenv('IGK_ENV_NO_AUTOCACHEVIEW');
@@ -134,7 +134,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
         $v_dir = dirname($file);
         if (($v_common = $this->common) && $this->exists($v_common)){
             // + | inject global common 
-            igk_include_view_file($this->controller, $v_common, true, $args);
+            igk_include_view_file($ctrl, $v_common, true, $args);
         } 
         if (!$v_is_ajx_view_request) {
             $v_header = $this->_resolveContextFile($this->header, $v_dir);
@@ -143,7 +143,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             // update target node to match ajx requirement 
             $t = $ctrl->getTargetNode();
             $t['id'] = null;
-            // $tcl = igk_css_str2class_name($this->controller->getName());
+            // $tcl = igk_css_str2class_name($ctrl->getName());
             // igk_wln_e(__FILE__.":".__LINE__ , $tcl);
             // // if($t['class']){  
             // //     $t['class'] = ' basic -'.$tcl;                      
@@ -151,9 +151,14 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
             $t['igk-type'] = 'ajx-view'; 
         } 
         if (!$v_main &&  $v_header &&  $this->exists($v_header)) {
-            igk_include_view_file($this->controller, $v_header, true, $args);
+            igk_include_view_file($ctrl, $v_header, true, $args);
         }
-        $response = igk_include_view_file($this->controller, $file, $v_no_cache, $args);
+        $response = igk_include_view_file($ctrl, $file, $v_no_cache, $args);
+
+         igk_wln( __FILE__.":".__LINE__ , $file, $response, "\n", $ctrl->getTargetNode()->render());
+igk_trace();
+igk_exit();
+
         if (!$v_main && $v_footer && $this->exists($v_footer)) {
             igk_include_view_file($this->controller, $v_footer, true, $args);
         }

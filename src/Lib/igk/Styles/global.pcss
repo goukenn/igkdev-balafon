@@ -7,7 +7,7 @@
 
 // by default important in balafon system view
 // $def = $vsystheme->def;
- 
+
 
 $def[IGK_CSS_MEDIA_TYPE_CLASS] = "z-index:-9999; content:'global'";
 
@@ -20,14 +20,14 @@ $def["html, body, ul, div, p"] = "padding:0px; margin:0px; position:relative;";
 
 $def["a"] = "[sysfcl:linkForeColor] text-decoration:none;";
 $def["body li"] = "list-style-type:none;";
-$def["body a, body img, body a:hover, body a:focus"]= "text-decoration:none; list-style-type:none;";
-$def["body a:hover"]="[sysfcl:linkHoverForeColor]";
+$def["body a, body img, body a:hover, body a:focus"] = "text-decoration:none; list-style-type:none;";
+$def["body a:hover"] = "[sysfcl:linkHoverForeColor]";
 $def["html, body"] = "width:100%; height:100%;";
-$def["span"]="white-space: normal";//for span white space are not interprete as the same IE#firefox
+$def["span"] = "white-space: normal"; //for span white space are not interprete as the same IE#firefox
 //define shortcut icon theme
 
 $def[".posab"] = "position:absolute;";
-$def[".posfix"]="position:fixed;";
+$def[".posfix"] = "position:fixed;";
 $def[".posr"] = "position:relative;";
 $def[".poss"] = "position:static;";
 $def[".possticky"] = "position:sticky;";
@@ -43,53 +43,53 @@ $def[".overflow-y-a"] = "overflow-y:auto !important;";
 $def[".overflow-x"] = "overflow-x:scroll !important;";
 $def[".overflow-y"] = "overflow-y:scroll !important;";
 
-$def[".clearb-row:after"]= "clear:both; display:table; content:' ';";
+$def[".clearb-row:after"] = "clear:both; display:table; content:' ';";
 
 
-$def[".alignl"] ="text-align:left !important;";
-$def[".alignr"] ="text-align:right !important;";
-$def[".alignc"] ="text-align:center !important;";
+$def[".alignl"] = "text-align:left !important;";
+$def[".alignr"] = "text-align:right !important;";
+$def[".alignc"] = "text-align:center !important;";
 
-$def[".alignm"] ="vertical-align:middle !important;";
-$def[".alignb"] ="vertical-align:bottom !important;";
-$def[".alignt"] ="vertical-align:top !important;";
+$def[".alignm"] = "vertical-align:middle !important;";
+$def[".alignb"] = "vertical-align:bottom !important;";
+$def[".alignt"] = "vertical-align:top !important;";
 $def[".flip-x"] = "[transform: rotate(180deg)]";
 $def[".flip-y"] = "[transform: scale(1,-1)]";
 
 $def[".box-center"] = "{sys:posab} top:50%; left:50%; [transform:translate(-50%, -50%)]";
 
-$def[".igk-text-c"] ="text-align:center !important; vertical-align: middle !important;";
+$def[".igk-text-c"] = "text-align:center !important; vertical-align: middle !important;";
 
 // + | z-index prop
-foreach([5,10,20,100] as $i){
-	$def['.z-'.$i] = 'z-index: '.$i;
+foreach ([5, 10, 20, 100] as $i) {
+    $def['.z-' . $i] = 'z-index: ' . $i;
 }
-$def[".ztop"] ="z-index: 9000;";
-$def[".zback"] ="z-index: -9000;"; 
+$def[".ztop"] = "z-index: 9000;";
+$def[".zback"] = "z-index: -9000;";
 
 
 $def[".fitvh"] = "height: 100vh;";
 $def['.fitvw'] = 'width: 100vw;';
 
 
-$def[".fitw"] ="width:100%;";
-$def[".fitw-i"] ="width:100% !important;";
+$def[".fitw"] = "width:100%;";
+$def[".fitw-i"] = "width:100% !important;";
 $def[".fitw-a"] = "width:auto !important;";
 $def[".fith-a"] = "height:auto !important;";
-$def[".fit"] ="width:100%; height:100%;";
+$def[".fit"] = "width:100%; height:100%;";
 $def[".fitc"] = "[fit:cover]";
 $def[".fitf"] = "[fit:fill]";
-$def[".igk-underline-div"] ="display:block; position:absolute; height:2px; width:100%; background-color:#414141; bottom :0px;";
+$def[".igk-underline-div"] = "display:block; position:absolute; height:2px; width:100%; background-color:#414141; bottom :0px;";
 $def[".igk-underline-div:hover"] = "[sysbgcl: underlineHover]";
 $def[".bdr-1"] = "border:1px solid black;";
 $def[".fts-i"] = "font-style:italic;";
 $def[".cur-pointer"] = "cursor:pointer;";
 $def[".cur-default"] = "cursor:default;";
- 
-$def[".margin-a-w"] 
-= $def[".margin-w-a"]
-= $def[".mg-w-a"]
-= "margin-left:auto; margin-right:auto;";
+
+$def[".margin-a-w"]
+    = $def[".margin-w-a"]
+    = $def[".mg-w-a"]
+    = "margin-left:auto; margin-right:auto;";
 
 
 $def[".igk-web-pageinfo"] = "{sys:dispn}";
@@ -105,31 +105,31 @@ $def[".cllabel.clrequired:after"] = "content:' *'; display:inline-block; white-s
 
 //article options
 $def[".igk-article-options"] = "{sys:posr, alignl,loc_l,loc_t,z_50,fitw} font-size:14pt;";
-$def[".igk-article-options:before"]="content:' '; {sys:dispb,fit,posab} z-index:-10; background-color:black; opacity:0.5;";
-$def[".igk-article-options img"] ="display:inline;";
-$def[".igk-article-options > a "] ="display:inline-block;";
+$def[".igk-article-options:before"] = "content:' '; {sys:dispb,fit,posab} z-index:-10; background-color:black; opacity:0.5;";
+$def[".igk-article-options img"] = "display:inline;";
+$def[".igk-article-options > a "] = "display:inline-block;";
 $def[".igk-article-options .igk-symbol"] = "{sys:dispib, alignm,fit} width:32px; overflow:hidden;";
-$def[".igk-article-options .igk-symbol:hover"]="color:indigo;";
-$def[".igk-article-options .mark"]="{sys:dispib} width:32px; height:32px; padding:4px; overflow:hidden; vertical-align:middle;";
-$def[".igk-article-options .mark .igk-symbol"]="background-repeat:no-repeat !important; vertical-align:top;";
-$def[".igk-article-options .mark svg"]="width:100%; height:100%";
+$def[".igk-article-options .igk-symbol:hover"] = "color:indigo;";
+$def[".igk-article-options .mark"] = "{sys:dispib} width:32px; height:32px; padding:4px; overflow:hidden; vertical-align:middle;";
+$def[".igk-article-options .mark .igk-symbol"] = "background-repeat:no-repeat !important; vertical-align:top;";
+$def[".igk-article-options .mark svg"] = "width:100%; height:100%";
 
 //
-$def[".".igk_css_str2class_name(IGK_SESSION_CTRL)] = 
-"{sys:posfix, loc_r, loc_t} top:32px; right:32px; z-index:10000;";
+$def["." . igk_css_str2class_name(IGK_SESSION_CTRL)] =
+    "{sys:posfix, loc_r, loc_t} top:32px; right:32px; z-index:10000;";
 $def[".capitalize"] = "text-transform:capitalize;";
 $def[".uppercase"] = "text-transform:uppercase;";
 $def[".lowercase"] = "text-transform:lowercase;";
-$def[".fith"] ="height:100%;";
-$def[".hide"] ="display:none;";
-$def[".halfw"] ="width:50%;";
-$def[".halfh"] ="height:50%;";
+$def[".fith"] = "height:100%;";
+$def[".hide"] = "display:none;";
+$def[".halfw"] = "width:50%;";
+$def[".halfh"] = "height:50%;";
 
 
 $def[".pad4"] = "padding: 4px;";
 $def[".marg4"] = "margin: 4px;";
-$def[".marg-a"]="margin:auto;";
-$def[".padd-a"]="padding:0.5em;";
+$def[".marg-a"] = "margin:auto;";
+$def[".padd-a"] = "padding:0.5em;";
 
 $def[".center-box"] = "position:relative; margin: 0px auto; top: 50%; left:0%;[transform: translate(0%, -50%)]";
 
@@ -149,7 +149,7 @@ $def[".no-border"] = $def[".no-bdr"]  = "border:none;";
 $def[".no-background"] = "background-color:transparent;";
 $def[".no-margin"] = "margin:0px;";
 $def[".no-padding"] = "padding:0px;";
-$def[".no-decoration"] ="text-decoration:none;";
+$def[".no-decoration"] = "text-decoration:none;";
 $def[".no-repeat"] = "background-repeat:no-repeat;";
 $def[".no-overflow"] = "overflow:hidden;";
 $def['.no-overflow-x'] = "overflow-x: hidden;";
@@ -163,31 +163,32 @@ $def[".no-focus"] = "text-decoration:none; border:none; outline:0;";
 $def[".no-selection"] = "[resolv:user-select: none;]";
 $def[".no-contextmenu"] = "[resolv:user-select: none;] /*disable context menu*/";
 $def[".no-drag"] = "[resolv:user-select: none;]";
-$def[".no-outline"]="outline:none !important; outline-style:none;";
+$def[".no-outline"] = "outline:none !important; outline-style:none;";
 // + | disable flex-shrink on item 
-$def[".no-shrink"] = 'flex-shrink: 0;'; 
-$def[".no-appearance"]="[resolv:appearance:none;]";
+$def[".no-shrink"] = 'flex-shrink: 0;';
+$def[".no-appearance"] = "[resolv:appearance:none;]";
 $def[".preserve-spaces"] = "white-space-collapse:preserve-spaces;";
 
 $def[".no-scrollbar::-webkit-scrollbar"] = "display:none;";
 $theme->supports('scrollbar-width:none')->set(
-    ".no-scrollbar", "scrollbar-width:none; -ms-overflow-style:none;"
+    ".no-scrollbar",
+    "scrollbar-width:none; -ms-overflow-style:none;"
 );
 // $def[".no-scrollbar"] = "scrollbar-width:none; -ms-overflow-style:none;";
-$def[".no-cursor"] = "cursor: none;"; 
+$def[".no-cursor"] = "cursor: none;";
 // + | disable speudo class entry on item .no-speudo
-$def['.no-speudo-a:before'] = 
-$def['.no-speudo-a:after'] =  "display:none;"; 
+$def['.no-speudo-a:before'] =
+    $def['.no-speudo-a:after'] =  "display:none;";
 
 $def[".overflow"] = "overflow: auto;";
 $def['.overflow-visible'] = 'overflow:visible;';
 
-$def[".ellipsis"]= "text-overflow:ellipsis;";
+$def[".ellipsis"] = "text-overflow:ellipsis;";
 $def[".wrapnormal"] = "white-space:normal;";
-$def[".loc_b"]="bottom:0px;";
-$def[".loc_l"]="left:0px;";
-$def[".loc_mid"]="left:50%; top: 50%;";
-$def[".loc_r"]="right:0px;";
+$def[".loc_b"] = "bottom:0px;";
+$def[".loc_l"] = "left:0px;";
+$def[".loc_mid"] = "left:50%; top: 50%;";
+$def[".loc_r"] = "right:0px;";
 $def[".loc_t"] = "top:0px;";
 $def[".loc_a"] = "top:0px !important; bottom: 0px !important; right: 0px !important; left: 0px !important;";
 
@@ -196,16 +197,16 @@ $def['.loc_bottom'] = 'left:0px; bottom:0px; right:0px';
 
 $def[".nomargin"] = "margin-top:0px; margin-left:0px;margin-right:0px; margin-bottom:0px;";
 $def[".nopadding"] = "padding-top:0px; padding-bottom:0px; padding-right:0px; padding-left:0px;";
-$def[".no-decoreation"]="text-decoration:none;";
+$def[".no-decoreation"] = "text-decoration:none;";
 $def[".block_5m"] = "margin:5px;";
 $def[".block_10m"] = "margin:10px;";
 
-for($i =0; $i<= 10; $i++){
-	$def[".z-level-".$i] = "z-index:".($i*10).";";
+for ($i = 0; $i <= 10; $i++) {
+    $def[".z-level-" . $i] = "z-index:" . ($i * 10) . ";";
 }
 
 $theme->supports('resize:both')->set(".resizable", "resize:both;");
-$def["*:before, *:after"]= "box-sizing: border-box";
+$def["*:before, *:after"] = "box-sizing: border-box";
 
 
 $def[".scroll_h_x"] = "overflow-x:hidden;";
@@ -217,12 +218,12 @@ $def[".scroll_ax"] = "overflow-x: auto;";
 $def[".autoh"] = "height:auto;";
 $def[".autow"] = "width:auto;";
 
-$def[".puce_circle"]= "list-style-type:disc;";
+$def[".puce_circle"] = "list-style-type:disc;";
 
 $def[".dispn"] = "display:none;";
 $def[".dispb"] = "display:block;";
 $def[".dispi"] = " display:inline;";
-$def[".dispib"] = "display:inline-block;"; 
+$def[".dispib"] = "display:inline-block;";
 
 // + | ------------------------------------------------------------
 // + | important style
@@ -239,38 +240,38 @@ $def[".disptabr"] = " display: table-row;min-height:0px;";
 // + | --------------------------------------------------------------------
 // + | grid property 
 // + | 
-$def[".dispgrid"] =  
-$def[".grid"] = 
-$def[".igk-grid"] = "display: grid;";
+$def[".dispgrid"] =
+    $def[".grid"] =
+    $def[".igk-grid"] = "display: grid;";
 
 
 //-----------------------------------------------------------------
 //flex properties
 //-----------------------------------------------------------------
-$def[".dispflex"] = $def['.flex']= "display: flex;";
+$def[".dispflex"] = $def['.flex'] = "display: flex;";
 $def[".dispiflex"] = $def[".flexi"] = $def[".iflex"] = "display:inline-flex";
 $def[".flex-no-wrap"] = "flex-wrap: nowrap;";
 $def[".flex-wrap"] = "flex-wrap: wrap;";
 $def[".flex-wrap-reverse"] = "flex-wrap: wrap-reverse;";
 $def[".flex-a-center"] = "justify-content: center; align-items: center;";
 $def[".flex-column"] =
-$def[".flex-col"] = "flex-direction: column;";
+    $def[".flex-col"] = "flex-direction: column;";
 $def[".flex-column-i"] =
-$def[".flex-col-i"] = "flex-direction: column !important;";
+    $def[".flex-col-i"] = "flex-direction: column !important;";
 
-foreach([2,4, 6, 8,14,16,20,22,24,32,48,64] as $i){
-    $def[".flex-gap-".$i] = "gap: {$i}px";
+foreach ([2, 4, 6, 8, 14, 16, 20, 22, 24, 32, 48, 64] as $i) {
+    $def[".flex-gap-" . $i] = "gap: {$i}px";
 }
 
 $def[".flex-row"] = "flex-direction: row;";
 $def[".flex-row-i"] = "flex-direction: row !important;"; // flex-row-important
 $def[".flex-row-reverse"] = "flex-direction: row-reverse;";
-$def[".flex-alignc > *"] = "align-self: center;";				// align all child to center
-$def[".flex-alignm"] = "justify-content: center;";				// align all child to center
-$def[".flex-align-ic"] = "align-items: center;";				// align all child to center
-$def[".flex-space-between"] = 
-$def[".flex-space-b"] = 
-"justify-content: space-between;";
+$def[".flex-alignc > *"] = "align-self: center;";                // align all child to center
+$def[".flex-alignm"] = "justify-content: center;";                // align all child to center
+$def[".flex-align-ic"] = "align-items: center;";                // align all child to center
+$def[".flex-space-between"] =
+    $def[".flex-space-b"] =
+    "justify-content: space-between;";
 $def[".flex-justify-s"] = "justify-content: start;";
 $def[".flex-justify-c"] = "justify-content: center;";
 $def[".flex-justify-e"] = "justify-content: end;";
@@ -284,11 +285,11 @@ $def[".flex-nowrap"] = "flex-wrap: nowrap;";
 
 $def[".flex-grow"] = "flex-grow: 1;";
 $def[".flex-fill > *"] = "flex-grow: 1;";
- 
-foreach([1, 2 , 4, 6] as $k){
-    $_a = (((1/$k)) * 100);
-    $def['.flex-basis-'.$k] = "flex-basis: ".($_a)."%;";
-    $def['.flex-grow-'.$k] = "flex-grow: ".($_a/100).";";
+
+foreach ([1, 2, 4, 6] as $k) {
+    $_a = (((1 / $k)) * 100);
+    $def['.flex-basis-' . $k] = "flex-basis: " . ($_a) . "%;";
+    $def['.flex-grow-' . $k] = "flex-grow: " . ($_a / 100) . ";";
 }
 
 $def['.flex.center'] = 'justify-content: center; align-items: center; text-align: center; height: 100%;';
@@ -307,9 +308,9 @@ $def[".nowrap-container > *"] = "{sys:no-wrap}";
 
 
 
-$def[".dispigrid"] =  
-$def[".i-grid"] = 
-$def[".igk-inline-grid"] = "display: -ms-inline-grid; display: inline-grid;";
+$def[".dispigrid"] =
+    $def[".i-grid"] =
+    $def[".igk-inline-grid"] = "display: -ms-inline-grid; display: inline-grid;";
 
 
 $def[".igk-clear-cell"] = "display:table; content:' ' ; clear:both;";
@@ -336,22 +337,22 @@ $def[".igk-ctrl-options ul li"] = "{sys:dispib} vertical-align:middle;";
 $def[".frame_textarea"] = "width: 500px; height:300px";
 $def[".igk-msbox-dialog"] = $def[".igk-framebox-dialog"] = "[bgcl:frameboxDialogBgColor, white] padding: 4px;";
 $def[".igk-msbox-dialog-title"] =
-$def[".framebox-dialog-title"]="position:relative; overflow:hidden; min-height:32px; font-size:14pt; [bgcl:igk-framebox-title-bgcl] [fcl:igk-framebox-title-fcl] cursor:move; padding-right: 64px;";
+    $def[".framebox-dialog-title"] = "position:relative; overflow:hidden; min-height:32px; font-size:14pt; [bgcl:igk-framebox-title-bgcl] [fcl:igk-framebox-title-fcl] cursor:move; padding-right: 64px;";
 
-$def[".hseparator"]="{sys:fitw} height: 16px; [res:hsep];";
-$def[".hidden"]="display:none;";
+$def[".hseparator"] = "{sys:fitw} height: 16px; [res:hsep];";
+$def[".hidden"] = "display:none;";
 
-$def[".transparent"] ="background-color:transparent; color:transparent;";
+$def[".transparent"] = "background-color:transparent; color:transparent;";
 $def[".igk-bodyinfo"] = "display:none;";
 
-$def[".config-fileviewdir"]="[res:folder_16x16]; background-repeat: no-repeat; text-indent: 24px; display:inline-block;";
-$def[".config-fileviewfile"]="[res:file_16x16]; background-repeat: no-repeat; text-indent: 24px; display:inline-block;";
+$def[".config-fileviewdir"] = "[res:folder_16x16]; background-repeat: no-repeat; text-indent: 24px; display:inline-block;";
+$def[".config-fileviewfile"] = "[res:file_16x16]; background-repeat: no-repeat; text-indent: 24px; display:inline-block;";
 
 
-$def[".framebox-dialog .cltextarea"]="width:100%;min-height:124px";
+$def[".framebox-dialog .cltextarea"] = "width:100%;min-height:124px";
 $def[".framebox-dialog-content .content"] = "overflow-y:auto;";
-$def[".framebox-title .title"]= "{sys:alignb}  white-space:nowrap !important;";
-$def[".framebox-title .framebox_close "]= "{sys:alignm, posab} right: 4px; top: 50%; [transform:translateY(-50%)]";
+$def[".framebox-title .title"] = "{sys:alignb}  white-space:nowrap !important;";
+$def[".framebox-title .framebox_close "] = "{sys:alignm, posab} right: 4px; top: 50%; [transform:translateY(-50%)]";
 //---------------------------------------------------------
 //CONFIG Home page for apage editor
 //---------------------------------------------------------
@@ -385,9 +386,9 @@ $def['.opacity-1'] = 'opacity:1;';
 
 
 
-	//config button styles
-$btnstyle = "[sysbgcl:buttonBackgroundColor] [sysfcl:buttonTextColor] border:none; {sys:dispib} display:inline-block; margin:2px; vertical-align: middle; text-align:center;".
-"cursor:pointer;";
+//config button styles
+$btnstyle = "[sysbgcl:buttonBackgroundColor] [sysfcl:buttonTextColor] border:none; {sys:dispib} display:inline-block; margin:2px; vertical-align: middle; text-align:center;" .
+    "cursor:pointer;";
 
 
 
@@ -409,27 +410,27 @@ $def[".fit-cover"] = "[fit:cover]";
 $def[".fit-page-h"] = "height: 100vh";
 
 
-$def[".igk-horizontal-separator"]="{sys:dispb} height:1px;  [bgcl:--igk-bgcl-hsep] border-bottom: 1px solid [cl:igk-hsep-light, #eee]; margin-bottom:10px";
+$def[".igk-horizontal-separator"] = "{sys:dispb} height:1px;  [bgcl:--igk-bgcl-hsep] border-bottom: 1px solid [cl:igk-hsep-light, #eee]; margin-bottom:10px";
 $def[".igk-powered"] = "display:block; position:fixed; background-color: [cl:poweredBgColor,#222]; color:[cl:poweredColor, white]; bottom:0px; z-index: 10000; font-size:12px; right:0px; border-radius:4px 0px 0px 0px; padding:4px 0px 0px 16px; [trans: all .2s ease]";
 $def[".igk-powered a"] = "color:white;";
 $def[".igk-powered a:visited,.igk-powered a:hover"] = "color:white;";
 $def[".igk-notify.igk-notify-danger .error-code"] = "background-color:#eee; color:#555; padding:10px;";
 
 // screen - reader only
-$def[".sr-only"]= "{sys:no-overflow} position:absolute; display:block;width:0px; height:0px;";
+$def[".sr-only"] = "{sys:no-overflow} position:absolute; display:block;width:0px; height:0px;";
 
 $def["code.dispib"] = "width:auto !important; vertical-align:middle;";
 
 // Printing 
-$PTR[".".igk_css_str2class_name(IGK_SESSION_CTRL)] = "display:none;";
+$PTR["." . igk_css_str2class_name(IGK_SESSION_CTRL)] = "display:none;";
 
-$cl["igk-framebox-title-bgcl"]=
-$cl["--igk-bgcl-hsep"] =
-$cl["igk-notify-w-fcl"] =
-$cl["igk-notify-i-fcl"] =
-$cl["igk-cnf-add-prop-color"] =
-$cl["igk-framebox-title-fcl"]
-= "transparent";
+$cl["igk-framebox-title-bgcl"] =
+    $cl["--igk-bgcl-hsep"] =
+    $cl["igk-notify-w-fcl"] =
+    $cl["igk-notify-i-fcl"] =
+    $cl["igk-cnf-add-prop-color"] =
+    $cl["igk-framebox-title-fcl"]
+    = "transparent";
 
 $cl["igk-framebox-title-fcl"] = "transparent";
 $cl["--igk-bgcl-hsep"] = "transparent";
@@ -463,10 +464,10 @@ $def[".cursor-help"] = "cursor: help;";
 // display only only
 $tab = ["xsm", "sm", "lg", "xlg", "xxlg"];
 $c = 0;
-$tkey = []; 
+$tkey = [];
 foreach ($tab as $k) {
     $v = ".igk-" . $k . "-only";
-    $def[$v] = "display:none;";    
+    $def[$v] = "display:none;";
     ${$k . "_screen"}[$v] = "display:initial;";
     $c++;
     $g = $k;
@@ -474,25 +475,25 @@ foreach ($tab as $k) {
         $g .= "-" . $m;
         if ($g == "xsm-sm-lg-xlg-xxlg")
             continue;
-        $kk = ".igk-" . $g . "-only"; 
+        $kk = ".igk-" . $g . "-only";
         $def[$kk] = "display:none;";
     }
 }
 igk_theme_screen_mark("only", "display:initial;");
-unset($v, $k,$c); 
+unset($v, $k, $c);
 
 $def["p.pre-line"] = "white-space: pre-line;";
 
 
 
 // + | define translucid property
-$def['.translucid']= "backdrop-filter: blur(10px);";
-foreach([4, 8, 10, 20, 32] as $s){
-    $def['.translucid-'.$s] = sprintf('backdrop-filter: blur(%spx);', $s);
+$def['.translucid'] = "backdrop-filter: blur(10px);";
+foreach ([4, 8, 10, 20, 32] as $s) {
+    $def['.translucid-' . $s] = sprintf('backdrop-filter: blur(%spx);', $s);
 }
 
-foreach([1,10,50, 100, 500] as $s){
-    $def['.z-index-'.$s] = sprintf('z-index:%s', $s);
+foreach ([1, 10, 50, 100, 500] as $s) {
+    $def['.z-index-' . $s] = sprintf('z-index:%s', $s);
 }
 
 $def['.igk-powered'] = 'padding:8px 10px;';

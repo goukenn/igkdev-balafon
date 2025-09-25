@@ -149,6 +149,7 @@ class BindingExpressionReader
             $listener = function ($v) {
                 extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0) ?? ['raw' => new DataArgs([])]));
                 $__c = $raw ;
+                // igk_ilog('data : ['.$v.']');
                 return @eval('return ' . $v . ';');
             };
         }
