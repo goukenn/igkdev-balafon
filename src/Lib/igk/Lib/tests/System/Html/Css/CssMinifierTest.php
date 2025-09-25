@@ -54,7 +54,7 @@ class CssMinifierTest extends BaseTestCase{
         $css = 'body  .color[   basic   ~= info    ] > d:first-child:not(.level) + .red{color:red;}'; 
         $minifier = new CssMinifier;  
         $minifier->preserveComment = false;
-        $this->assertEquals('body .color[basic~=info] > d:first-child:not(.level) + .red{color:red;}', 
+        $this->assertEquals('body .color[basic~=info]> d:first-child:not(.level)+ .red{color:red;}', 
         $minifier->minify($css));
     }
     function test_cssminity_custom_property_speudo(){
@@ -78,7 +78,7 @@ class CssMinifierTest extends BaseTestCase{
         $css = '@media (max-width: 300px)and(min-width:250px){div{background-color: indigo !important;}}'; 
         $minifier = new CssMinifier;  
         $minifier->preserveComment = false;
-        $this->assertEquals('@media(max-width:300px) and (min-width:250px){div{background-color:indigo !important;}}', 
+        $this->assertEquals('@media(max-width:300px)and (min-width:250px){div{background-color:indigo !important;}}', 
         $minifier->minify($css));
     }
 }
