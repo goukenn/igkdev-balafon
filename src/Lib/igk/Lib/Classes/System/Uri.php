@@ -178,4 +178,5 @@ class Uri
             $this->m_fragment ? "#" . $this->m_fragment : null
         ]), '/');
     }
+    
 }

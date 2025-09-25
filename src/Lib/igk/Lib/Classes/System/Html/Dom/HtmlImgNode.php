@@ -16,7 +16,8 @@ class HtmlImgNode extends HtmlNode{
     * @param string $src uri
     */
     public function __construct($src=null){
-        parent::__construct("igk-img");
+        parent::__construct('igk-img');
+    
         $this["src"] = $src; 
         $this["xmlns:igk"] = self::HTML_NAMESPACE; 
         $this->setSrc($src);

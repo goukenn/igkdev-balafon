@@ -45,8 +45,11 @@ use IGK\System\Html\IFormFields;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Http\Mail\MailPreviewNode;
+use IGK\System\IO\Path;
 use IGK\System\Number;
 use IGK\System\Services\LoginServiceEvents;
+use IGK\System\Uri;
+use IGK\System\UriResolver;
 
 use function igk_resources_gets as __;
 
@@ -2795,6 +2798,10 @@ if (!function_exists("igk_html_node_img")) {
 	 */
 	function igk_html_node_img($src = null)
 	{
+		if (is_string($src)){
+			// TODO : resolve data 
+			$src = UriResolver::ResolveControllerResource($src);			
+		}
 		return new \IGK\System\Html\Dom\HtmlImgNode($src);
 	}
 }
