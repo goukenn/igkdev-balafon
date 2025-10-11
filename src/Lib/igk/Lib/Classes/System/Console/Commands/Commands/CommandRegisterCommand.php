@@ -8,6 +8,7 @@ use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\EnvironmentCommandScripts;
 use IGK\System\Console\Logger;
+use function igk_resources_gets as __;
 
 /**
  * 
@@ -18,13 +19,22 @@ class CommandRegisterCommand extends AppExecCommand
 {
 	var $command = '--command:ls';
 	var $desc = 'list registered command';
-	var $options = [];
-	var $category = '';
-	var $usage = '';
+	var $options = [
+		'--location' =>'flag: show default location'
+	];
+	var $category = 'command';
+	var $usage = '[options]';
 	public function exec($command)
 	{
 		$def = EnvironmentCommandScripts::GetCacheDefinition();
-		Logger::print('list registered commands');
+		if (property_exists($command->options, '--location')){
+			Logger::print(__('commands locations'));
+			Logger::info(json_encode(['commandLocation'=>EnvironmentCommandScripts::DefaultCommandLocation()],
+			 JSON_PRETTY_PRINT |
+			JSON_UNESCAPED_SLASHES));
+			Logger::print('');
+		}
+		Logger::print(__('list registered commands'));
 		foreach ($def as $k => $v) {
 			$dt = [App::Gets(App::GREEN, $k)];
 			$dt[] = $v->desc;

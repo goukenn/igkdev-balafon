@@ -3,8 +3,10 @@
 // @file: HtmlNodeTagExplosionDefinition.php
 // @date: 20230328 13:47:42
 namespace IGK\System\Html;
+
 use Exception;
 use IGK\System\ArrayMapKeyValue;
+use IGK\System\Console\Logger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlNode;
@@ -13,6 +15,7 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
+
 /**
  * explode tag definition 
  * @package IGK\System\Html
@@ -26,7 +29,7 @@ class HtmlNodeTagExplosionDefinition
     // + |
     const identifier = '#';
     const name = '%';
-    const classes='.';
+    const classes = '.';
     /**
      * 
      * @var HtmlNodeBuilder
@@ -131,7 +134,7 @@ class HtmlNodeTagExplosionDefinition
      * @param mixed $i 
      * @return mixed 
      */
-    private static function _DefinitionArgs($i)
+    public static function DefinitionArgs($i)
     {
         if (!is_string($i)) {
             return $i;
@@ -168,6 +171,7 @@ class HtmlNodeTagExplosionDefinition
         }
         return $active_attrib;
     }
+
     /**
      * explode tag definitions 
      * @param string $tagname 
@@ -192,7 +196,7 @@ class HtmlNodeTagExplosionDefinition
             $a = substr($g, 1, -1);
             $args = igk_engine_get_attr_arg($a, $context);
             if ($args) {
-                $args = array_map([self::class, '_DefinitionArgs'], $args);
+                $args = array_map([self::class, 'DefinitionArgs'], $args);
             }
             $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
             //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
@@ -276,32 +280,140 @@ class HtmlNodeTagExplosionDefinition
         }
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
+
+    /**
+     * explode tag 2
+     * @param string $tagname 
+     * @param mixed $context 
+     * @return array 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function ExplodeTag2(string $tagname, $context=null): array
+    {
+        $regex = new RegexMatcherContainer;
+        $v_s = $regex->appendStringDetection('string', true)->last();
+        $v_b = $regex->begin('\[', '\]', 'cbrank')->last();
+        $regex->begin('\(', '\)', 'pbrank');
+        $regex->begin('\{', '\}', 'curl-brank');
+        $regex->match('([#\\.%!])?[a-zA-Z_][a-zA-Z0-9_\-]*', 'litteral');
+        $regex->resetTreatment();
+
+        $v_b->patterns = [
+            $v_s
+        ];
+        $pos = 0;
+        $definition = [
+            'classes' => [],
+            'id' => null, // ids 
+            'name' => null,
+            'tagname' => null,
+            'attr' => null, // active attribute ,
+            'args' => null,
+        ];
+        $list = [
+            'litteral' => function (&$def, $e) {
+                if ($c = igk_getv($e->beginCaptures, 1)) {
+                    $t = substr($e->value, 1);
+                    switch ($c[0]) {
+                        case '.':
+                            $def['classes'][$t] = 1;
+                            break;
+                        case '!':
+                            $def['attr'][$t] = new HtmlActiveAttrib();
+                            break;
+                        case '%':
+                            $def['name'] = $t;
+                            break;
+                        case '#':
+                            $def['id'] = $t;
+                            break;
+                    }
+                } else {
+                    $t = $e->value;
+                    $def['tagname'] = $t;
+                } 
+            },
+            'pbrank' => function (&$def,  $e) use ($context) {
+                $def['args'] && igk_die('params already passed');
+                $a = substr($e->value, 1, -1);
+                $args = igk_engine_get_attr_arg($a, $context);
+                if ($args) {
+                    $args = array_map([HtmlNodeTagExplosionDefinition::class, 'DefinitionArgs'], $args);
+                }
+                $def['args'] = $args;
+            },
+            'cbrank' => function (&$def, $e) use ($context) {
+                $a = substr($e->value, 1, -1);
+                // $attr = igk_engine_get_attr_arg($a, $context);
+                $r = new ConfigurationReader();
+                $r->separator = ':';
+                $r->delimiter = ',';
+                $r->escape_start = "[";
+                $r->escape_end = ']';
+                $v_activa_attrib = []; // HtmlNodeTagExplosionDefinition::_GetActiveAttribute($a);
+                $attr = ArrayMapKeyValue::Map(function ($k, $v) {
+                    if (is_null($v)) {
+                        if (strpos($k, "@") === 0) {
+                            return [$k = ltrim($k, '@'), new HtmlActiveAttrib];
+                        }
+                        return null;
+                    }
+                    return [$k, $v];
+                }, (array)$r->read($a));
+                if ($v_activa_attrib) {
+                    foreach (array_keys($v_activa_attrib) as $m) {
+                        if (isset($attr[$m])) continue;
+                        $attr[$m] = new HtmlActiveAttrib;
+                    }
+                }
+                $def['attr'] = array_merge($def['attr'] ?? [], $attr);
+            }
+        ];
+        $s = $tagname;
+        while ($g = $regex->detect($s, $pos)) {
+            if ($e = $regex->end($g, $s, $pos)) {
+                igk_is_debug() && Logger::info($e->tokenID . ':' . $e->value);
+                if ($fc = igk_getv($list, $e->tokenID)) {
+                    $fc($definition, $e);
+                }
+            }
+        }
+        return igk_extract($definition, 'tagname|id|classes|args|name|attr');
+    }
+    /**
+     * 
+     * @param string &$tagname 
+     * @param mixed $value 
+     * @return void 
+     */
     private static function _StrRmValue(string &$tagname, $value)
     {
         $ln  = strlen($value);
         $pos = strpos($tagname, $value);
         $tagname = substr($tagname, 0, $pos) . substr($tagname,  $pos + $ln);
     }
-/**
- * create node wwith date deifnition 
- * @param string $tag_def 
- * @return array 
- * @throws IGKException 
- * @throws Exception 
- * @throws ArgumentTypeNotValidException 
- * @throws ReflectionException 
- */
-    public static function CreateNodes(string $tag_def, ...$args){
+    /**
+     * create node wwith date deifnition 
+     * @param string $tag_def 
+     * @return array 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function CreateNodes(string $tag_def, ...$args)
+    {
         $ctn = new RegexMatcherContainer;
         $ctn->appendStringDetection();
         $ctn->match(self::split, 'split');
         $offset = 0;
         $rf = [];
         $p = 0;
-        while($g = $ctn->detect($tag_def, $offset)){
-            if ($e = $ctn->end($g, $tag_def, $offset)){
-                if ($e->tokenID=='split'){
-                    $rf[] = trim(substr($tag_def, $p,  $e->from-$p));
+        while ($g = $ctn->detect($tag_def, $offset)) {
+            if ($e = $ctn->end($g, $tag_def, $offset)) {
+                if ($e->tokenID == 'split') {
+                    $rf[] = trim(substr($tag_def, $p,  $e->from - $p));
                     $p = $e->to;
                 }
             }
@@ -310,17 +422,17 @@ class HtmlNodeTagExplosionDefinition
             $rf[] = $s;
         $root = $last = $parent = null;
         // $bck_parent = igk_html_parent_node();
-        while(count($rf)>0){
+        while (count($rf) > 0) {
             $q = array_shift($rf);
-            $targ = empty($rf)? $args : [];
-            if ($parent){
-                igk_html_push_node_parent($parent); 
+            $targ = empty($rf) ? $args : [];
+            if ($parent) {
+                igk_html_push_node_parent($parent);
             }
             $n = self::CreateNodeArg($q, ...$targ);
-            if (is_null($root)){
+            if (is_null($root)) {
                 $root = $last = $parent = $n;
-            }else {
-                if ($last){
+            } else {
+                if ($last) {
                     $last->add($n);
                 }
                 $last = $n;
@@ -339,8 +451,9 @@ class HtmlNodeTagExplosionDefinition
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function CreateNodeArg(string $tagname, ...$index_or_args){
-        list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($tagname);
+    public static function CreateNodeArg(string $tagname, ...$index_or_args)
+    {
+        list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($tagname);
         $n = HtmlNode::CreateWebNode($tagname, null, $index_or_args);
         if ($attr) {
             $n->setAttributes($attr);

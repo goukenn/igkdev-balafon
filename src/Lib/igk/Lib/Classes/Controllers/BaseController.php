@@ -204,7 +204,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         $f = "";
         $v = $this->getCurrentView() ?? igk_die("current view is null. " . get_class($this));
         $c = strtolower(igk_getr("c", ""));
-        // igk_wln_e(__FILE__.":".__LINE__ , 'current view= '.$v, $params);
+        if (is_file($v)){
+            $f = $v;
+        }
+        
         if ($c == strtolower($this->getName())) {
             // + | override the views
             $v = igk_getr("v", $v);
@@ -479,7 +482,14 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             ob_start();
             $bckdir = set_include_path(dirname($file) . PATH_SEPARATOR . get_include_path());
             igk_environment()->viewfile = 1;
+            igk_set_env('igk_view_handle_actions', null);
             $response = $this->getViewLoader()->include($file, $viewargs);
+            $g = igk_get_env('igk_view_handle_actions');
+            /// TODO: HANDLE default error              
+            if (($tg = igk_view_handle_missing_params()) && ($params = igk_getv($tg, 'params'))){   
+                igk_dev_wln(__FILE__.":".__LINE__ , $tg, $viewargs);
+                $this::viewError($tg['code'], igk_getv($tg, 'params'));
+            }
             igk_environment()->viewfile = null;
             set_include_path($bckdir);
             $out = ob_get_contents();

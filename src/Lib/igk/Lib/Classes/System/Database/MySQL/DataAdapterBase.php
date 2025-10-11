@@ -443,11 +443,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
         return $this->m_dbManager->last_id();
     }
     /**
-     * 
+     * @param ?string $filter
      */
-    public function listTables()
+    public function listTables(?string $filter=null)
     {
-        return $this->getGrammar()->listTables();
+        return $this->getGrammar()->listTables($filter);
     }
     /**
      * 

@@ -31,15 +31,22 @@ use IGK\System\Http\Route;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Project\Configurations\ConfigurationPropertyInfo;
-use IGK\System\Services\IMakeProjectServiceProvider;
 use IGK\Constants;
 use IGKEvents;
 use function igk_resources_gets as __;
 use stdClass;
-use Symfony\Component\Serializer\Encoder\JsonEncode;
+
+
+/**
+ * make new project 
+ * @package IGK\System\Console\Commands
+ */
 class MakeProjectCommand extends AppExecCommand
 {
-    var $category = "make", $command = "--make:project", $desc = "make new project.", $options = [
+    var $category = "make";
+    var $command = "--make:project";
+    var $desc = "make new project.";
+    var $options = [
         "--type:[type]" => "project type. default is ApplicationController::class",
         "--entryNamespace:[namespace]" => "define project entry NS",
         "--desc:[desc]" => "project description",
@@ -112,6 +119,17 @@ class MakeProjectCommand extends AppExecCommand
                 ->desc($desc)
                 ->extends($type);
             igk_io_w2file($file, $builder->render());
+        };
+        // + | --------------------------------------------------------------------
+        // + | bind readme definition 
+        // + |
+        
+        $bind[$dir.'/README.md']=function($file){
+            $sb = new StringBuilder;
+            $sb->appendLine("# Balafon's projects");
+
+
+            igk_io_w2file($file, $sb.'');
         };
         $this->_bind_articles($bind, $dir);
         $this->_bind_langs($bind, $dir);

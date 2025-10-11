@@ -11,23 +11,40 @@ use IGK\System\Html\Dom\HtmlNode;
  */
 class HtmlDocumentListNode extends HtmlNode{
     protected $tagname = "dl";
-    var $dd;
-    var $dt;
+    /**
+     * dt definition 
+     * @var mixed
+     */
+    // var $dd;
+    /**
+     * 
+     * @var mixed
+     */
+    // var $dt;
+   
     protected function initialize()
     {
         parent::initialize();
-        $this->dt = new HtmlNode("dt");
-        $this->dd = new HtmlNode("dd");
-        parent::_Add($this->dt, true);
-        parent::_Add($this->dd, true);
+        // $this->dt = new HtmlNode("dt");
+        // $this->dd = new HtmlNode("dd");
+        // parent::_Add($this->dt, true);
+        // parent::_Add($this->dd, true);
     }
+    /**
+     * clear childs 
+     * @return static
+     */
     public function clearChilds()
     {
         parent::clearChilds();
         $this->initialize();
+        return $this;
     }
-    public function getCanAddChilds()
-    {
-        return false;
-    }
+    /**
+     * @return bool 
+     */
+    // public function getCanAddChilds(): bool
+    // {
+    //     return false;
+    // }
 }

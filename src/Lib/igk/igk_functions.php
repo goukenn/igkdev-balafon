@@ -2216,8 +2216,25 @@ function igk_css_bind_file(HtmlDocTheme $theme, ?BaseController $ctrl, ?string $
         $file = Path::Combine($ctrl->getStylesDir(), $layout->defaultThemeStyle);
         $autoload = true;
     }
-    if (!igk_io_file_exists($file, true)) {
-        igk_ilog('Bind file failed ' . $file);
+    $sfile = $file;
+    $rf = [$file];
+    if (!$autoload && $ctrl && $file){
+        $file = Path::Combine($ctrl->getStylesDir(), $file);
+        $ext = igk_io_path_ext($file);
+        foreach(['.pcss', '.css'] as $c){
+            if ($c==$ext)continue;
+            $rf[] = $file.$c;
+        }
+    }
+    while(count($rf)){
+        $file = array_shift($rf);
+        if (igk_io_file_exists($file, true)) {
+            break;
+        }else 
+            $file = null;
+    }
+    if (is_null($file)){
+        igk_ilog('/!\\ Bind file failed ['.$file.']');
         return;
     }
     $is_null = is_null($theme);
@@ -2306,8 +2323,7 @@ function igk_css_bind_theme_file(IGKHtmlDoc $doc, $th, $files)
 function igk_css_bind_theme_files(HtmlDocTheme $theme, ?string $files = null)
 {
     $files = $files ?? $theme->getDef()->getFiles() ?? "";
-    $lfile = explode(";", igk_io_expand_path($files));
-
+    $lfile = explode(";", igk_io_expand_path($files)); 
     foreach ($lfile as $d) {
         if (empty($d))
             continue;
@@ -2943,9 +2959,10 @@ function igk_css_init_doc($doc)
 ///<param name="doc"></param>
 ///<param name="theme" default="null"></param>
 /**
- * 
+ * init style definition on document theme
  * @param mixed $doc 
  * @param mixed $theme 
+ * @note use $doc->getSysTheme() explicit on direct rendering
  */
 function igk_css_init_style_def_workflow($doc, $theme = null)
 {
@@ -3003,27 +3020,28 @@ function igk_css_is_webknowncolor($cl, $theme = null)
 ///<remark>if no theme defined then the system global theme will be used</remark>
 ///<remark2>theme is file that contain only color, font and properties definition</remark2>
 /**
- * used to bind a theme files to a theme
+ * log global theme definition used to bind a theme files to a theme
  */
-function igk_css_load_theme($th = null)
+function igk_css_load_theme($th = null, ?string $gt = null)
 {
-    $gt = igk_web_get_config("globaltheme", 'default');
-    $env_path = igk_get_env("sys://theme/path", [igk_io_basedir(), igk_io_applicationdir()]);
+    $gt = $gt ?? igk_web_get_config("globaltheme", 'default');
+    $env_path = igk_get_env("sys://theme/path", [igk_io_basedir(), igk_io_applicationdatadir()]);
     $r = 0;
     foreach ($env_path as $d) {
-        $f = igk_dir($d . "/" . IGK_RES_FOLDER . "/Themes/{$gt}.theme");
-        if (file_exists($f)) {
+        $f = igk_dir($d . "/" . IGK_RES_FOLDER . "/Themes/{$gt}".IGK_THEME_FILE_EXT);
+        if (igk_io_file_exists($f, true)) {
             $r = 1;
             break;
         }
     }
+    
     if (!$r)
         return;
     $th = $th ? $th : igk_app()->getDoc()->getSysTheme();
     $t = array();
     $t["cl"] = &$th->def->getCl();
-    $t["prop"] = &$th->def->getParams();
-    igk_include_file($f, $t);
+    $t["prop"] = &$th->def->getParams();    
+    igk_include_file($f, $t); 
 }
 
 ///<summary>bind css inline file</summary>
@@ -3357,7 +3375,9 @@ function igk_css_render_style($tab, $doc = null)
     $doc = $doc ?? igk_app()->getDoc() ?? igk_die("can't render css style");
     $systheme = $doc->getSysTheme();
     $th = $doc->getTheme();
+    // + | bind golobal theming
     igk_css_bind_sys_global_files();
+    // + | bind current themet
     igk_css_bind_theme_files($th);
     $o = "";
     foreach ($tab as $k => $v) {
@@ -25511,7 +25531,8 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
     $fc_result = null;
     $fc = null;
     $v_errkey = IGKViewActionsConstants::HANDLE_ERROR;
-    if ($action) {
+    $code = RequestResponseCode::Ok;
+    if ($action){
         if ($action != $v_errkey) {
             $fc = igk_get_env($fs . "/" . $action);
         }
@@ -25549,8 +25570,19 @@ function igk_view_handle_action($fname, $params, $redirectfailed = 1)
         $ht = array_slice($params, 1);
         $fc_result = Dispatcher::Dispatch($fc, ...$ht);
         igk_env_action_chain_pop();
+    } else{ 
+        $code = RequestResponseCode::NotFound;
+        igk_set_env('sys://view/handle_missing_action', compact('fname', 'params', 'code'));       
     }
     return $fc_result;
+}
+/**
+ * 
+ */
+function igk_view_handle_missing_params(){
+    $rs = igk_get_env($k='sys://view/handle_missing_action');
+    igk_set_env($k, null);
+    return $rs;
 }
 /**
  * in order to help retrieve the current action context 
@@ -25595,7 +25627,8 @@ function igk_env_current_action()
  */
 function igk_view_handle_actions($viewname, $arrayList, $params, $exit = 1, $flag = 0)
 {
-    igk_set_env(IGKEnvironment::VIEW_HANDLE_ACTIONS, array("v" => $viewname, "list" => $arrayList, "args" => $params));
+    $v_def = array("v" => $viewname, "list" => $arrayList, "args" => $params);
+    igk_set_env(IGKEnvironment::VIEW_HANDLE_ACTIONS, $v_def);
     $b = 0;
     if (is_string($arrayList)) {
         if (class_exists($arrayList)) {
@@ -25624,6 +25657,7 @@ function igk_view_handle_actions($viewname, $arrayList, $params, $exit = 1, $fla
             $c->regSystemVars(null);
         igk_exit();
     }
+    igk_set_env(__FUNCTION__, 1);
     return $b;
 }
 

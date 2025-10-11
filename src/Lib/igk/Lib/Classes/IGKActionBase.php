@@ -432,7 +432,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return mixed 
      * @throws IGKException 
      */
-    public static function HandleObjAction($fname, $object, array $params = [], $exit = 1, $flag = 0)
+    public static function HandleObjAction(string $fname, $object, array $params = [], $exit = 1, $flag = 0)
     {
         // + | -------------------------------------------------------------
         // + | handle object action
@@ -532,9 +532,21 @@ abstract class IGKActionBase implements IActionProcessor
             return $c;
         }
     }
+    /**
+     * 
+     * @param Throwable $ex 
+     * @return false 
+     */
     protected function _handleThrowable(Throwable $ex){
         return false;
     }
+    /**
+     * 
+     * @param mixed $code 
+     * @param mixed ...$params 
+     * @return mixed|void 
+     * @throws Exception 
+     */
     protected function handleError($code, ...$params)
     {
         $c = $this->getController();

@@ -34,7 +34,16 @@ class IGKApp extends IGKObject
      */
     private $m_initialized;
     private $_f;
+    /**
+     * document main 
+     */
     const DOC_NAME = "main_document";
+    /**
+     * context states 
+     */
+    const INIT_CONTEXT = 'init';
+    const RUN_CONTEXT = 'run';
+
     /**
      * get app configuration settings
      * @return mixed 
@@ -384,6 +393,7 @@ class IGKApp extends IGKObject
         ]);
         array_unshift($callback, $g);       
         igk_reg_hook(IGKEvents::HOOK_APP_BOOT, $callback);
+        self::$sm_instance->m_context = self::RUN_CONTEXT;
         return self::$sm_instance;
     }
     /**

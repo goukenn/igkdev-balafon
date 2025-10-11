@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\Database;
 use ArrayAccess;
+use Exception;
 use IGK\Helper\Utility;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Polyfill\IteratorTrait;
@@ -21,6 +22,15 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	private $it_keys;
 	private $it_key;
     private function __construct(){}
+	/**
+	 * retrieve column name index
+	 * @param int $index 
+	 * @return mixed 
+	 * @throws Exception 
+	 */
+	public function column(int $index){
+		return igk_getv(array_keys($this->m_rows), $index);
+	}
     public function __toString(){
         return "[".__CLASS__."]";
     }

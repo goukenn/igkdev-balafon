@@ -31,6 +31,7 @@ class IGKEvents extends IGKObject
     const HOOK_APP_PRESENTATION = 0xa01;
     const HOOK_APP_BOOT = "sys://app_boot";
     const HOOK_APP_SETTING_RESET = "app_setting_reset";
+    const HOOK_APP_CLEAN_CACHE = 'sys://cache/clear';
     // + | --------------------------------------------------------------------
     // + | command event constant : 
     // + |
@@ -415,18 +416,7 @@ class IGKEvents extends IGKObject
                         continue;
                     }
                 } else {
-                    $_invoke($v->callback, $v, $cargs);
-                    // $tcargs = $cargs;
-                    // if ($v->injectable) {
-                    //     $fc = is_array($v->callback) ? Closure::fromCallable($v->callback) : $v->callback;
-                    //     if (($fc instanceof \Closure) || is_string($fc)) {
-                    //         // if ($name=="LoginService"){
-                    //         //     igk_dev_wln("for login service");
-                    //         // }
-                    //         $tcargs = Dispatcher::GetInjectArgs(new \ReflectionFunction($fc), $cargs);
-                    //     }
-                    // }
-                    // $cargs[0]->lastoutput = call_user_func_array($v->callback, $tcargs);
+                    $_invoke($v->callback, $v, $cargs); 
                 }
                 if ($cargs[0]->handle) {
                     break;

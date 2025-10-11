@@ -39,6 +39,9 @@
         },
         isXBoxOne() { return XBoxOne; },
         isXBox360() { return XBox360; },
+        isOpera(){
+            return igk.platform.osAgent.indexOf("Opera/") != -1;
+        }, 
         isFirefox() {
             return igk.platform.osAgent.indexOf("Firefox/") != -1;
         },

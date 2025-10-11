@@ -165,6 +165,7 @@ class HtmlNode extends HtmlItemBase
     const NATIVE_ELEMENT = "text|loop";
     const LOOP_HOST_TAG = '@loop';
     const FIELDS_HOST_TAG = '@fields';
+    const TEXT_TAG = 'text';
     use HtmlNodeTrait;
     use ClassAndStyleOffsetTrait;
     use AccessibilityTrait;

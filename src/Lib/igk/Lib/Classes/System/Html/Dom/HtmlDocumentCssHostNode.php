@@ -53,8 +53,9 @@ class HtmlDocumentCssHostNode extends HtmlNode{
         $inlineTheme = $this->doc->getInlineTheme();
         $s = "";
         $theme = $this->doc->getTheme();
+        igk_css_load_theme($theme);
         $g = ""; 
-        $g.= $theme->get_css_def();
+        $g.= $theme->get_css_def();        
         $v_bindTempFiles = $inlineTheme->getDef()->getBindTempFiles(0);
         if ($v_bindTempFiles){
            igk_css_bind_theme_files($inlineTheme, $v_bindTempFiles);
@@ -65,7 +66,8 @@ class HtmlDocumentCssHostNode extends HtmlNode{
         $is_dev = igk_environment()->isDev();
         $is_dev && ($s.= "<!-- start:inline style -->");
         $s .= $vs->render();
-        $is_dev && ($s.= "\n<!-- end:inline style -->");   
+        $is_dev && ($s.= "\n<!-- end:inline style -->"); 
+         
         if ($clear){
             $this->doc->getSysTheme()->resetSysGlobal();
             $theme->getDef()->clear(); 

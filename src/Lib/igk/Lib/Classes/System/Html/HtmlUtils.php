@@ -6,6 +6,9 @@
 namespace IGK\System\Html;
 use Closure;
 use Countable;
+use Exception;
+use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\IGlobalFunction;
 use IGK\Resources\R;
@@ -45,6 +48,16 @@ abstract class HtmlUtils extends DomNodeBase
             return $data;
         }
         return json_encode($data);
+    }
+    /**
+     * 
+     * @param mixed $data 
+     * @return string|false 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function JSonDataAttributesIgnoreEmpty($data){
+        return JSon::Encode(json_decode(self::JSonDataAttributes($data)), JSonEncodeOption::IgnoreEmpty());
     }
     public static function Init($n, $data)
     {

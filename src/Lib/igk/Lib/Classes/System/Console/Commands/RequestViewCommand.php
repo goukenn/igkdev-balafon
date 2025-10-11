@@ -22,6 +22,7 @@ class RequestViewCommand extends AppExecCommand
 {
     var $command = '--request:view';
     var $desc = 'request view call';
+    var $usage = 'controller request [options]';
     public function showOptions()
     {
         // + | ----------------------------------

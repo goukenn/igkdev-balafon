@@ -64,6 +64,9 @@ abstract class UsersMacros
             igk_setv($o, Users::FD_CL_PWD, $pwd);
         }
         if (($login = igk_getv($o, Users::FD_CL_LOGIN))) {
+            if (!IGKValidator::IsEmail($login) && ($domain = igk_configs()->website_domain)){
+                $o->{Users::FD_CL_LOGIN} = $login = sprintf('%s@%s', $login, $domain);
+            }
             if ($model::select_row([Users::FD_CL_LOGIN => $login])) {
                 return false;
             }

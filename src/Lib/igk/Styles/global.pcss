@@ -74,8 +74,10 @@ $def['.fitvw'] = 'width: 100vw;';
 
 $def[".fitw"] = "width:100%;";
 $def[".fitw-i"] = "width:100% !important;";
-$def[".fitw-a"] = "width:auto !important;";
-$def[".fith-a"] = "height:auto !important;";
+$def[".fitw-a"] = "width:auto;";
+$def[".fitw-ai"] = "width:auto !important;";
+$def[".fith-a"] = "height:auto;";
+$def[".fith-ai"] = "height:auto !important;";
 $def[".fit"] = "width:100%; height:100%;";
 $def[".fitc"] = "[fit:cover]";
 $def[".fitf"] = "[fit:fill]";
@@ -163,7 +165,8 @@ $def[".no-focus"] = "text-decoration:none; border:none; outline:0;";
 $def[".no-selection"] = "[resolv:user-select: none;]";
 $def[".no-contextmenu"] = "[resolv:user-select: none;] /*disable context menu*/";
 $def[".no-drag"] = "[resolv:user-select: none;]";
-$def[".no-outline"] = "outline:none !important; outline-style:none;";
+$def[".no-outline"] = "outline:none; outline-style:none;";
+$def[".no-outline:focus"] = "outline:none; outline-style:none;";
 // + | disable flex-shrink on item 
 $def[".no-shrink"] = 'flex-shrink: 0;';
 $def[".no-appearance"] = "[resolv:appearance:none;]";
@@ -243,6 +246,13 @@ $def[".disptabr"] = " display: table-row;min-height:0px;";
 $def[".dispgrid"] =
     $def[".grid"] =
     $def[".igk-grid"] = "display: grid;";
+
+
+// + | --------------------------------------------------------------------
+// + | sizing
+// + |
+    
+$def['sz-a'] = 'height:auto;width:auto;';
 
 
 //-----------------------------------------------------------------

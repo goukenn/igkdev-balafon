@@ -98,6 +98,14 @@ class IGKServices extends ListOfCoreServices
         }
         return false;
     }
+    /**
+     * retrieve service container 
+     * @param string $n 
+     * @param mixed &$container 
+     * @param mixed &$path 
+     * @return void 
+     * @throws Exception 
+     */
     private static function _GetContainer(string $n, & $container, & $path){
         $container = null;
         $path = '';

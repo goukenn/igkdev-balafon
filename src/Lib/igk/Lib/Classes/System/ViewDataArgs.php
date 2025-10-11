@@ -37,4 +37,7 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
     {
         $this->p_data[$name] = $args;
     }
+    public function isEmpty():bool{
+        return empty($this->p_data);
+    }
 }

@@ -8,6 +8,7 @@ use AppBootstrapController;
 use IGK\Controllers\BaseController;
 use IGK\Helper\ControllerHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGKEvents;
 use IGKException;
 use ReflectionException;
 use stdClass;
@@ -31,16 +32,25 @@ final class CacheConfigs
     private $changed = false;
     private $m_update_references = [];
     private $m_changed_prop = [];
+
     /**
      * store file mtime
      * @var mixed
      */
     private $mtime;
     private $config_times = [];
-    public function getCacheFile()
+    private $m_disbale_cache_store;
+    /**
+     * get cache file 
+     * @return string 
+     */
+    public function getCacheFile():string
     {
         return igk_io_cachedir() . "/.configs.cache";
     }
+    /**
+     * .ctr
+     */
     private function __construct()
     {
     }
@@ -71,8 +81,13 @@ final class CacheConfigs
             } else {
                 $i->cacheOptions = (object)[];
             }
-            register_shutdown_function(function () {                
-                self::storeCacheOptions();
+            igk_reg_hook(IGKEvents::HOOK_APP_CLEAN_CACHE, function(){
+                self::$sm_instance->m_disbale_cache_store = true;
+            });
+            register_shutdown_function(function(){   
+                if (!self::$sm_instance->m_disbale_cache_store){
+                    self::storeCacheOptions();
+                }
             });
         }
         return self::$sm_instance;

@@ -322,8 +322,9 @@ class SysUtils{
             Logger::info("rm :" . $bdir);
             IO::CleanDir($bdir);
             igk_io_w2file($bdir . "/.htaccess", "deny from all", false);
-            igk_hook("sys://cache/clear");
         }
+        igk_environment()->set('flag://clear_cache', true);
+        igk_hook(IGKEvents::HOOK_APP_CLEAN_CACHE);
     }
     /**
      * resolv link path

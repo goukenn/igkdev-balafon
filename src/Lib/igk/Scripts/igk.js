@@ -137,8 +137,8 @@ Name:balafon.js
         if (typeof (c) != IGK_UNDEF) {
             __platform.osType = c.platform;
             __platform.osAgent = c.brands.map(function (i) {
-                return i.brand + "/" + i.version + " ";
-            }).join();
+                return i.brand + "/" + i.version;
+            }).join(',');
         } else {
             // console.debug("OS use old ways ");
             __platform.osType = "Unknow";
@@ -2239,6 +2239,7 @@ Name:balafon.js
         isSafari: fc_false,
         isIEEdge: fc_false,
         isFirefox: fc_false,
+        isOpera: fc_false
     }, { desc: "global navigator properties" });
     createNS("igk.reflection", {}, { desc: "global igk js namespace" });
     createNS("igk.exception", {}, { desc: "global igk exception class" });
@@ -11424,13 +11425,16 @@ Name:balafon.js
         });
         m_ajx_monitorListener = new igk.ajx.globalMonitorListener();
         igk_appendProp(igk.ajx.ajx.prototype, {
+
             isReady: function () {
-                return (this.xhr.readyState == 4) && (this.xhr.status == 200);
-                // (
-                // (( this.xhr.readyState == 4) && (this.xhr.status == 200)) 
-                // || // for chrome
-                // ((this.xhr.readyState == 4) && (this.xhr.status == 200) && (/^(OK|No Error)/.test(this.xhr.statusText) ))
-                // );
+                return (this.xhr.readyState == 4) && (this.xhr.status == 200);              
+            },
+            /**
+             * check end with error 
+             * @returns {bool}
+             */
+            endWithError(){
+                return (this.xhr.readyState == 4) && (this.xhr.status != 200);
             },
             json: function () {
                 // get json data

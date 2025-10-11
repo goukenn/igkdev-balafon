@@ -1501,9 +1501,8 @@ if (!function_exists('igk_html_host')) {
                         return $n->fields($params);
                     };
                     break;
-                case 'text':
+                case HtmlNode::TEXT_TAG:
                     return new HtmlTextNode(...$params);
-
                     break;
                 default: {
                         if ($args = ($params && is_array($params[0]) ? $params[0] : null)) {

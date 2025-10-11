@@ -36,7 +36,11 @@ class MySQLCommand extends AppExecCommand
     var $action_helps = [
         "drop-tables"=>"[--filter:(tables)]",
         "dump"=>"--zip,--type:(sql|csv),--filter:expression",
-        'query'=>'send manual query to mysql dbms'
+        'query'=>'send manual query to mysql dbms',
+        '--filter'
+    ];
+    var $options = [
+        '--filter:filter_def'=>'set filter definition used in action.'
     ];
     public function sendQuery($query)
     {
@@ -55,6 +59,8 @@ class MySQLCommand extends AppExecCommand
         Logger::print("");
         Logger::print($this->desc);
         Logger::print("");
+        $this->showUsage();
+        $this->showOptions();
         Logger::info("options*:");
         $options = explode("|", self::ACTIONS);
         sort($options);
@@ -76,6 +82,7 @@ class MySQLCommand extends AppExecCommand
          * var IDadaDbAdapter $db 
          */
         $db = null;
+        $v_filter = igk_getv($command->options, '--filter');         
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
         if ($db instanceof DataAdapter) {
             switch ($ac) {
@@ -152,7 +159,14 @@ class MySQLCommand extends AppExecCommand
                     break;
                 case "export_schema":
                     // export global schema
-                    igk_api_mysql_get_data_schema(DbConfigController::ctrl(), 1, []);
+                     $ref = [];
+                    if ($v_filter){
+                        $ref['filter'] = $v_filter;
+                    }
+                    if ($prefix = igk_getv($command->options, '--prefix')){
+                        $ref['prefix-table'] = $prefix;
+                    }
+                    igk_api_mysql_get_data_schema(DbConfigController::ctrl(), 1, $ref);
                     igk_exit();
                     break;
                 case "initdb":

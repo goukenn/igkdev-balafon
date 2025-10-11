@@ -608,6 +608,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
                     $tv = $tv || !empty(trim($s));
                     continue;
                 }
+                if (is_array($v)){
+                    $v = self::GlueDef($v);
+                }
+
                 $kv = $builder->treatThemeValue(trim($v, $v_trim_chars), $themeexport);
                 if (!empty($kv)) {
                     if ($prefix) {
@@ -672,6 +676,9 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         $this->m_resolver = null;
         return $out;
+    }
+    static function GlueDef(array $v):string{
+        return CssUtils::GlueArrayDefinition($v);
     }
     /**
      * map theme to definition

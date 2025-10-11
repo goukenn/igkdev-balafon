@@ -4,6 +4,7 @@
 // @date: 20220728 17:08:32
 // @desc: controller macro extension
 namespace IGK\Controllers;
+
 use Exception;
 use IGK\Actions\ActionBase;
 use IGK\Actions\ActionResolutionInfo;
@@ -75,6 +76,7 @@ use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use ReflectionMethod;
 use Throwable;
+
 require_once __DIR__ . '/Traits/AtricleManagerControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
@@ -404,10 +406,10 @@ abstract class ControllerExtension
     /**
      * get error files
      * @param BaseController $controller 
-     * @param mixed $code 
+     * @param int $code code 
      * @return string|null 
      */
-    public static function getErrorViewFile(BaseController $controller, $code)
+    public static function getErrorViewFile(BaseController $controller, int $code)
     {
         if (igk_io_cache_file_exists($f = $controller->getViewDir() . "/.error/" . $code . IGK_VIEW_FILE_EXT)) {
             return $f;
@@ -1720,17 +1722,18 @@ abstract class ControllerExtension
      * @param string $path 
      * @return ?ActionBase
      */
-    public static function actionInstance(BaseController $controller, string $path){
+    public static function actionInstance(BaseController $controller, string $path)
+    {
         $_k = ControllerParamKeys::ACTIONS_INSTANCES;
         $tab = $controller->getParam($_k) ?? [];
-        if (isset($tab[$path])){
+        if (isset($tab[$path])) {
             return $tab[$path];
         }
-        if ($a = $controller->getActionHandler($path, new ActionResolutionInfo, [])){
-            if (is_subclass_of($a, ActionBase::class)){
+        if ($a = $controller->getActionHandler($path, new ActionResolutionInfo, [])) {
+            if (is_subclass_of($a, ActionBase::class)) {
                 $j = new $a;
                 $j->setController($controller);
-                $tab[$path] = $j; 
+                $tab[$path] = $j;
                 $controller->setParam($_k, $tab);
                 return $j;
             }
@@ -2076,15 +2079,19 @@ abstract class ControllerExtension
      */
     public static function viewError(BaseController $controller, $code, $params = [])
     {
-        if (igk_io_cache_file_exists($f = $controller::getErrorViewFile($code))) {
+        $f = $controller::getErrorViewFile($code);
+        if ($f &&  igk_io_cache_file_exists($f)) {
             $node = igk_create_node("div");
             $controller->setEnvParam(BaseController::NO_ACTION_FLAG, 1);
             $controller->regSystemVars(null);
-            $controller->setCurrentView($f, true, $node, array(
+            $controller->{ControllerEnvParams::AllowHiddenView} = true;
+            $controller->setCurrentView($f, true, $node, [
                 "code" => $code,
                 "params" => $params,
-                "uri" => igk_io_request_uri()
-            ));
+                "uri" => igk_io_request_uri(),
+                'error' => true,
+                "\0type" =>'view_errors'
+            ]);
             $n = new \IGK\System\Html\Dom\HtmlNode("html");
             $n->add("body")->add($node);
             igk_do_response(new \IGK\System\Http\WebResponse($n, $code));
@@ -2338,7 +2345,8 @@ abstract class ControllerExtension
             ]);
         }
     }
-    public static function DetectControllerClassDefinitionActionHandlerList(BaseController $controller, string $name,?array & $params, $is_ajx=false):Array{
+    public static function DetectControllerClassDefinitionActionHandlerList(BaseController $controller, string $name, ?array &$params, $is_ajx = false): array
+    {
         $c = [];
         $t = [];
         $m = "";
@@ -2541,7 +2549,7 @@ abstract class ControllerExtension
         $sublen = 1;
         if (!empty($ns)) {
             $sublen += strlen($ns);
-        }        
+        }
         while (count($t) > 0) {
             $cl = array_key_first($t);
             list($level, $params) = array_shift($t);
@@ -2566,6 +2574,15 @@ abstract class ControllerExtension
         }
         return null;
     }
+    /**
+     * 
+     * @param BaseController $controller 
+     * @param string $message 
+     * @param string $title 
+     * @param mixed $code 
+     * @return void 
+     * @throws IGKException 
+     */
     public static function showError(BaseController $controller, string $message, string $title, $code = RequestResponseCode::BadRequest)
     {
         $style = file_get_contents(IGK_LIB_DIR . "/Styles/errors/exceptions.css");

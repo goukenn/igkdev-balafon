@@ -22,10 +22,30 @@ class FormBuilderItemOptions implements ArrayAccess{
      * @var string|FormBuilderItemAbstractType items text|
      */
     var $type;
+    /**
+     * 
+     * @var mixed
+     */
     var $allow_empty;
+    /**
+     * 
+     * @var mixed
+     */
     var $empty_value;
+    /**
+     * label attribute 
+     * @var mixed
+     */
     var $label_attr;
+    /**
+     * 
+     * @var mixed
+     */
     var $required;
+    /**
+     * 
+     * @var mixed
+     */
     var $placeholder;
     /**
      * id to attach to input or text area

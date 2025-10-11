@@ -147,8 +147,7 @@ class CssThemeResolver
                     switch ($type) {
                         case self::ATTR_G_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
-                            $rv = $systheme->$deftheme[$name];
-                            // igk_wln_e(__FILE__.":".__LINE__ , 'loading....');
+                            $rv = $systheme->$deftheme[$name]; 
                             break;
                         case self::ATTR_G_THEME_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
@@ -480,6 +479,7 @@ class CssThemeResolver
                     $b = $this->_get_fcl($b);
                 }
                 $v = str_replace($v_m, $b, $v);
+                igk_ilog('syscolor: '.$cl);
                 break;
             case self::ATTR_SYS_BCL : 
                 $tv = explode(',', $value);

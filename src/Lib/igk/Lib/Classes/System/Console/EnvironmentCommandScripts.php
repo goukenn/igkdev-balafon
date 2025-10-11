@@ -4,12 +4,14 @@
 // @date: 20250907 23:42:59
 namespace IGK\System\Console;
 
+use Exception;
 use IGK\Helper\Activator;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\System\IO\Path;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKEvents;
+use IGKException;
 
 /**
  * 
@@ -29,7 +31,11 @@ class EnvironmentCommandScripts
         }
         return self::$sm_caches;
     }
-    static function GetCacheFile()
+    /**
+     * get cache file 
+     * @return string 
+     */
+    static function GetCacheFile(): string
     {
         return Path::Combine(igk_io_cachedir(), '.env.commands.cache');
     }
@@ -69,7 +75,7 @@ class EnvironmentCommandScripts
      */
     static function DetectCachingCommand(?string $dir = null)
     {
-        $dir = $dir ?? igk_configs()->commands_dir ?? Path::Combine(Path::getInstance()->getApplicationDir(), 'Lib/igk/scripts/commands');
+        $dir = $dir ?? self::DefaultCommandLocation();
         $files = IO::GetFiles($dir, '/\.php$/', true) ?? [];
         $definitions = [];
         foreach ($files as $f) {
@@ -77,7 +83,17 @@ class EnvironmentCommandScripts
         }
         return $definitions;
     }
+    /**
+     * get default command location 
+     * @return ?string
+     */
+    public static function DefaultCommandLocation(){
+        return igk_configs()->commands_dir ?? Path::Combine(Path::getInstance()->getApplicationDir(), 'Lib/igk/scripts/commands');
+    }
 
+    /**
+     * 
+     */
     public static function GetCommandFile(string $file)
     {
         if (is_null(self::$sm_caches)) {
@@ -93,6 +109,14 @@ class EnvironmentCommandScripts
         }
         return null;
     }
+    /**
+     * 
+     * @param string $file 
+     * @param mixed &$definition 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     */
     static function LoadDefinition(string $file, &$definition)
     {
         $c_command = &$definition;

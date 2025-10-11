@@ -2702,13 +2702,17 @@ if (!function_exists("igk_html_node_igkcopyright")) {
 	/**
 	 * create winui-igkcopyright
 	 */
-	function igk_html_node_igkcopyright()
+	function igk_html_node_igkcopyright(?string $title=null)
 	{
 		$n = igk_create_node();
 		$n->setClass("igk-copyright");
-		$n->setCallback("getCopyright", "return igk_sys_copyright();");
-		$g = new IGKValueListener($n, "getCopyright");
-		$n->Content = $g;
+		if (is_null($title)){
+			$n->setCallback("getCopyright", "return igk_sys_copyright();");
+			$g = new IGKValueListener($n, "getCopyright");
+			$n->Content = $g;
+		} else {
+			$n->content = $title;
+		}
 		return $n;
 	}
 }

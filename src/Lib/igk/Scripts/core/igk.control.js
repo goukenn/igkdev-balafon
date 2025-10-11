@@ -1144,7 +1144,7 @@
         var domProp = null;
         var vendors = ['webkit', 'ms', 'o'];
         var corecss = "balafon.css";
-        var r = $igk(document.createElement('div'));
+        const r = $igk(document.createElement('div'));
         var dev = $igk(document.createElement('div'));
         var dum = null;
         var rule = null;
@@ -1207,6 +1207,7 @@
         // animation and transition
         var e = ['animation', 'transition'];
         var v = vendors;
+        // - console.log('media initialize ', r);
         // checking global prop
         for (var i = 0; i < v.length; i++) {
             for (var j = 0; j < e.length; j++) {
@@ -1839,10 +1840,12 @@
 
         // + | initilial ie events
         igk.ready(function () {
+            const { isChrome, isSafari, isFirefox, isIEEdge, isOpera } = igk.navigator;
             var B = igk.dom.body();
             let cookies = igk.cookies;
+ 
 
-            if (igk.navigator.isFirefox() || igk.navigator.isChrome() || igk.navigator.isSafari()) {
+            if (isFirefox() || isChrome() || isSafari() ||  isIEEdge() || isOpera()) {
                 // to get content of css style item must be added to document
                 B.add("div").setCss({ position: 'absolute', visibility: 'hidden', overflow: 'hidden', 'height': '0px', 'bottom': '0px' })
                     .addClass("igk-m-i") // media info
@@ -1850,6 +1853,8 @@
                     t.add(dev);
                 igk.css.appendRule(".igk-media-type:before{position:absolute;}");
                 igk.css.appendRule(".igk-device:before{position:absolute;}");
+            } else {
+                console.error('failed to initialize device manager ');
             }
             var dev = igk.css.getDevice();
             var m_c = igk.css.getMediaType(); // current
@@ -1860,8 +1865,9 @@
                     B.rmClass(m_c).addClass(i);
                     __raiseMedia(i);
                 }
+                // - console.log('media type : ', {mediaType:i, oldMediaType:m_c});
             };
-
+           // - console.log('init ie events::', {dev, m_c});
             function __raiseMedia(i) {
                 m_c = i;
                 igk.publisher.publish(igk.publisher.events.mediachanged, {

@@ -56,7 +56,7 @@
                 }
                 var d = m_nodeChild;
                 $igk(d).addClass(
-                    "igk-session-block no-print google-Roboto js"
+                    "igk-session-block no-print google-Roboto js no-selection"
                 ).setCss({
                     minWidth: "300px",
                     height: "0px",

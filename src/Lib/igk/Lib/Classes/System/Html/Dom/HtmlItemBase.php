@@ -89,7 +89,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     protected $content = null;
     /**
      * 
-     * @var HtmlChildArray
+     * @var ?HtmlChildArray
      */
     protected $m_childs;
     /**
@@ -354,7 +354,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         if ($this->isEmptyTag()){
             return [];
-        }
+        } 
         return $this->m_childs ?  $this->m_childs->to_array() : [];
     }
     public function getAttributes()
@@ -612,6 +612,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (($force || $this->getCanAddChilds()) && $n && ($n !== $this)) {
             if ($n->m_parent) {
                 $n->remove();
+            }
+            if ($force){
+                if (!$this->m_childs || is_array($this->m_childs)){
+                    $this->m_childs = new HtmlChildArray();
+                }
             }
             $this->m_childs[] = $n;
             $n->m_parent = $this;
@@ -1435,7 +1440,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (igk_getv($opt, 'xmldefinition') == 1) {
             $xml = new \IGK\System\Html\XML\XmlProcessor("xml");
             $xml["version"] = igk_getv($opt, "version") ?? "1.0";
-            $xml["encoding"] = igk_getv($opt, "encoding") ?? "utf8";
+            if ($stand_alone = igk_getv($opt, "standalone")){
+                $xml['standalone'] = $stand_alone;
+            }
+
+            // $xml["encoding"] = igk_getv($opt, "encoding") ?? "UTF-8";
+            // $xml["encoding"] = igk_getv($opt, "encoding") ?? "UTF-8";
             $xml->renderAJX();
         }
         $this->renderAJX($opt);

@@ -547,21 +547,29 @@ function igk_api_mysql_get_data_schema($api, $render = 1, $param = null)
     $mysql = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true);
     $tables = array();
     $dbname = ($param ? igk_getv($param, "db_name") : null) ?? igk_configs()->db_name;
-    $prefix = $param && igk_getv($param, "prefix-table") ? "%prefix%" : "";
+    $cp = igk_getv($param, "prefix-table");
+    $prefix = $param && $cp ? "%prefix%" : "";
+    $v_filter = igk_getv($param,'filter'); 
+
+
 
     if ($mysql->connect()) {
         if (!($mysql->selectdb($dbname))) {
             $rep->addNode("error")->Content = __("Database {0} not selected", $dbname);
         } else {
-            $r = $mysql->listTables();
+            $r = $mysql->listTables($v_filter);
             if ($r) {
                 $n = "table";
                 $e = false;
                 foreach ($r as $t) {
                     if ($e)
                         igk_exit();
-                    $table_n = $t->$n;
-                    $row = $rep->add(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName" => $prefix . $table_n));
+                    $rn = $table_n = $t->$n;
+                    
+                    if ($cp && $prefix){
+                        $rn = igk_str_rm_start($rn, $cp, 1);
+                    }
+                    $row = $rep->add(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName" => $prefix . $rn));
                     $tinfo = array();
                     $tt = $mysql->sendQuery("SELECT Count(*) FROM `" . $table_n . "`;");
                     $b = $tt->Columns[0]->name;
@@ -582,7 +590,7 @@ function igk_api_mysql_get_data_schema($api, $render = 1, $param = null)
         $mysql->close();
     }
     if ($render) {
-        $rep->RenderXML();
+        $rep->RenderXML((object)['xmldefinition'=>true]);
         igk_exit();
     }
     $check = igk_getv($param, "check");

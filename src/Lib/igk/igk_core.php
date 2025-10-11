@@ -241,6 +241,20 @@ if (!function_exists('igk_resources_gets')) {
     }
 }
 
+if (!function_exists('igk_resources_sprintf')) {
+
+    /**
+     * 
+     * @param string $a 
+     * @param mixed ...$args 
+     * @return string 
+     */
+    function igk_resources_sprintf(string $a, ...$args)
+    {
+        return sprintf(igk_resources_gets($a), ...$args);
+    }
+}
+
 if (!function_exists('igk_resource_gets_map')) {
     /**
      * helper: resource map string
@@ -326,10 +340,11 @@ if (!function_exists('igk_getv_nil')) {
         return empty($c = igk_getpv($array, array($key), $default)) ? null : $c;
     }
 }
-if (!function_exists('igk_unset')){
-    function igk_unset(& $o, $k){
+if (!function_exists('igk_unset')) {
+    function igk_unset(&$o, $k)
+    {
         if (is_array($o)) unset($o[$k]);
-        else if (is_object($o)){
+        else if (is_object($o)) {
             unset($o->$k);
         }
     }
@@ -730,7 +745,7 @@ function igk_load_library($name)
     if (empty($ext) || ($ext != ".php"))
         $ext = ".php";
     foreach ([$c, $lib . "/" . $name . $ext] as $c) {
-        if (igk_io_file_exists($c, true) && !isset($inUse[$c])){
+        if (igk_io_file_exists($c, true) && !isset($inUse[$c])) {
             include_once($c);
             $inUse[$c] = 1;
             return 1;
@@ -936,10 +951,9 @@ function igk_wln($msg = "")
 
     foreach (func_get_args() as $k) {
         $msg = $k;
-        if (is_string($msg) || is_numeric($msg)){
+        if (is_string($msg) || is_numeric($msg)) {
             echo ($msg . $lf);
-        }
-        else {
+        } else {
             if ($msg !== null) {
                 if (is_object($msg)) {
                     if ($msg instanceof HtmlNode) {
@@ -1015,7 +1029,7 @@ function igk_log_var_dump($tab, $lf = null)
  * @param mixed ...extra extra data
  */
 function igk_wln_e($msg = "", ...$extra)
-{ 
+{
     igk_environment()->set('TRACE_LEVEL', 3);
     call_user_func_array('igk_wln', func_get_args());
     igk_exit();
@@ -1343,7 +1357,8 @@ function igk_ilog($message, ?string $tag = null, $traceindex = 0, $dblog = true)
  * @param null|string $tag 
  * @return string 
  */
-function igk_logf($message, ?string $tag=null){
+function igk_logf($message, ?string $tag = null)
+{
     $tag = $tag ?? Constants::LOG_TAG;
     return sprintf('[%s] - %s', $tag, $message);
 }
@@ -1446,7 +1461,7 @@ function igk_sys_getconfig($name, $defaultvalue = null)
  */
 function igk_io_w2file($file, $content, $overwrite = true, $chmod = IGK_DEFAULT_FILE_MASK, $type = "w+")
 {
-   
+
     return File::Save($file, $content, $overwrite, $chmod, $type);
 }
 /**
@@ -1505,10 +1520,9 @@ if (!function_exists('igk_conf_get')) {
                             }
                             if ($p) {
                                 //bind array
-                                if ($m == null){
+                                if ($m == null) {
                                     $m = $s;
-                                }
-                                else {
+                                } else {
                                     if (!is_array($m)) {
                                         $m = array($m);
                                     }
@@ -1546,10 +1560,9 @@ if (!function_exists('igk_conf_get')) {
                             if (!$p)
                                 break;
                         }
-                        if ($p){
+                        if ($p) {
                             $m = $q;
-                        }
-                        else {
+                        } else {
                             if ($strict)
                                 return $default;
                             $m = $q;
@@ -1651,7 +1664,7 @@ function igk_sys_handle_uri($uri = null)
 function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = null): ?array
 {
     igk_debug_wln('load library ' . $dir);
- 
+
     $sdir = is_dir($dir) ? $dir : igk_dir(igk_realpath($dir));
     if (empty($sdir)) {
         return null;

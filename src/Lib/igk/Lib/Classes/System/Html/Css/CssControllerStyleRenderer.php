@@ -114,6 +114,8 @@ class CssControllerStyleRenderer{
             $vtheme->reset();
             igk_sess_write_close();
             $vtheme->load_data($seridata);
+           
+            
             // + | ---------------------------------------------------------------
             // + | bind controller definition   
             if ($ctrl && !$v_no_theme_rendering) {
@@ -134,15 +136,16 @@ class CssControllerStyleRenderer{
                 echo ("/* document " . $ref . "::::*/  body:before{content:'referer {$ref} cached: {$is_ref_cache} {$doc_id} controller : {$ctrl} ';}");
             }
             // + | compile render systheme
-            \IGK\Css\CssThemeCompiler::CompileAndRenderTheme(
-                $vsystheme,
-                $doc->getId(),
-                "sys:global",
-                true,
-                true,
-                false,
-                null
-            );
+             
+             \IGK\Css\CssThemeCompiler::CompileAndRenderTheme(
+                 $vsystheme,
+                 $doc->getId(),
+                 "sys:global",
+                 true,
+                 true,
+                 false,
+                 null
+                ); 
             if ($this->noCoreStyleDefinition){
                 ob_end_clean();
             } 

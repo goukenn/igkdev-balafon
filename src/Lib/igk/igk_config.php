@@ -788,6 +788,7 @@ define('IGK_CSS_TREAT_REGEX_2', '/\{\s*(?P<name>(sys)\s*:\s*[\w:;\-_,\!\s%]+)\s*
 define('IGK_CSS_CHILD_EXPRESSION_REGEX', "/\s*\(\s*((?P<type>(sys|th))?(\.(?P<def>[^:]+))?)?:(?P<name>([^\)]+))\)\s*;?/i");
 define('IGK_SUBDOMAIN_URI_NAME_REGEX', "/^(?P<name>[\.\-_0-9a-z]+)\.([^\.]+)\.([^\.]+)$/i");
 define('IGK_ALL_REGEX', "/(.)*/i");
+define('IGK_THEME_FILE_EXT', '.theme');
 define('IGK_VIEW_FILE_EXT', '.phtml');
 define('IGK_VIEW_FILE_EXT_REGEX', "phtml|bvhtml");
 define('IGK_VIEW_FILE_END_REGEX', "/(.)+(\.(" . IGK_VIEW_FILE_EXT_REGEX . "))?$/i");

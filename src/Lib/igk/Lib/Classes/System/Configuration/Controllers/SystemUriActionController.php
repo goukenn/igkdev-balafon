@@ -13,6 +13,7 @@ use IGK\Controllers\BaseController;
 use IGK\Models\Systemuri;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\RequestResponseCode;
+use IGKEvents;
 use IGKException;
 use IGKSystemUriActionPatternInfo;
 use IIGKUriActionListener;
@@ -49,11 +50,15 @@ final class SystemUriActionController extends ConfigControllerBase implements II
                 } 
             }
             else {
+                static $vsm_caches;
                 $g = & $controller->getRoutes();
                 self::$sm_actions = self::InitActionList($controller, $g);
-                // igk_wln_e("init route ", self::$sm_actions);
-                register_shutdown_function(function()use($file)
+                igk_reg_hook(IGKEvents::HOOK_APP_CLEAN_CACHE, function()use(& $vsm_caches){
+                    $vsm_caches = true;
+                });
+                register_shutdown_function(function()use($file, & $vsm_caches)
                 { 
+                    if (!$vsm_caches)
                     igk_io_w2file($file, serialize([
                         "routes"=>self::$sm_routes,
                         "actions"=>self::$sm_actions

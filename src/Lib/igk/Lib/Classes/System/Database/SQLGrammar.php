@@ -1894,12 +1894,23 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return "DELETE FROM `" . $this->m_driver->escape_string($tbname) . "`" . $c . ";";
     }
-    public function listTables()
+    /**
+     * get list of table
+     * @param null|string $filter 
+     * @return array 
+     */
+    public function listTables(?string $filter=null)
     {
         $tables = [];
-        $col = "Tables_in_" . $this->m_driver->getDbName();
-        $this->m_driver->sendQuery("SHOW TABLES;", true, [
-            IGKMySQLQueryResult::CALLBACK_OPTS => function ($row) use (&$tables, $col) {
+        $col = null;// "Tables_in_" . $this->m_driver->getDbName();
+        $query = sprintf("SHOW TABLES%s;",$filter? sprintf(' like \'%s\'', 
+        $this->m_driver->escape_string($filter)) :'');
+
+        $this->m_driver->sendQuery($query, true, [
+            IGKMySQLQueryResult::CALLBACK_OPTS => function ($row) use (&$tables, & $col) {
+                if (is_null($col)){
+                    $col = $row->column(0);
+                }
                 $tables[] =  (object)["table" => $row->{$col}];
                 return false;
             }

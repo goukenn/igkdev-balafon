@@ -97,6 +97,7 @@ class CssThemeCompiler
         $no_systheme = 0;
         $render_f = false;
         $lf = $minfile ? IGK_LF: "";
+        
         if ($css_cache && igk_io_file_exists($cf, true)) {
             // + | check if one of included file changed
             $array = $theme->to_array();
@@ -113,26 +114,23 @@ class CssThemeCompiler
                     $theme->getDef()->clear();
                     $theme->getDef()->setFiles($cfile);
                 } 
-            }
+            } 
             if (!$must_recompile && igk_io_file_exists($express_cf, true)) {
-                $src_sys = file_get_contents($express_cf);
+                $src_sys = file_get_contents($express_cf); 
             } else {
-                igk_css_bind_sys_global_files($theme);
-                $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);
-                // + | cache expression
-                igk_io_w2file($express_cf, $src_sys, true);
-                // + | cache core 
-                igk_io_w2file($cf, serialize($theme->to_array()));
-            }
+                // igk_css_bind_sys_global_files($theme);
+                // igk_css_load_theme($theme);
+                // $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);
+                // // + | cache expression
+                // igk_io_w2file($express_cf, $src_sys, true);
+                // // + | cache core 
+                // igk_io_w2file($cf, serialize($theme->to_array()));
+                $src_sys = self::CacheCssStoreAndExport($express_cf, $cf, $theme, $minfile, $theme_export, $resolver);  
+            } 
             $render_f = true;
         } else {
-            igk_css_bind_sys_global_files($theme);
-            igk_css_load_theme($theme);
-            $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);
-            if (!$theme_export) {
-                igk_io_w2file($express_cf, $src_sys, true);
-                igk_io_w2file($cf, serialize($theme->to_array()));
-            }
+            $src_sys = self::CacheCssStoreAndExport($express_cf, $cf, $theme, $minfile, $theme_export, $resolver); 
+            //igk_wln_e(__FILE__.":".__LINE__ ,'3', $src_sys);          
             $render_f = true;
         }
         if ($render_f){
@@ -141,5 +139,15 @@ class CssThemeCompiler
             echo $src_sys;
         }
         return $no_systheme;
+    }
+    static function CacheCssStoreAndExport($express_cf, $cf, $theme, $minfile, $theme_export, $resolver){
+        igk_css_bind_sys_global_files($theme);
+        igk_css_load_theme($theme);
+        $src_sys = $theme->get_css_def($minfile, $theme_export, $resolver);
+        if (!$theme_export) {
+            igk_io_w2file($express_cf, $src_sys, true);
+            igk_io_w2file($cf, serialize($theme->to_array()));
+        }
+        return $src_sys;
     }
 }

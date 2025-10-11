@@ -5,6 +5,7 @@
 namespace IGK\System\IO\Cache;
 use Exception;
 use IGK\System\IO\StringBuilder;
+use IGKEvents;
 use IGKException;
 /**
 * system file caches
@@ -70,10 +71,16 @@ class FS{
             $this->_registerStoreCache(); 
         }
     }
-    protected function _registerStoreCache(){
-         register_shutdown_function(function(){
-                $this->storeCache();
-            });
+    protected function _registerStoreCache(){        
+        static $clean_cache;
+        igk_reg_hook(IGKEvents::HOOK_APP_CLEAN_CACHE, function()use(& $clean_cache){
+            $clean_cache = true;
+        });
+        register_shutdown_function(function()use(& $clean_cache){
+            if (!$clean_cache){
+                $this->storeCache(); 
+            }
+        });
     }
     /**
      * 
