@@ -120,11 +120,7 @@ class HtmlNodeTagExplosionDefinition
             if ($name) {
                 $n->setAttribute('name', $name);
             }
-        }
-        // while(count($v_node_creates)>0){
-        //     $q = array_shift($v_node_creates);
-        //     $this->builder->onClose($q);
-        // } 
+        } 
         $tagname = array_shift($defs);
         list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($tagname, $context);
         return [trim($tagname), $id, $classes, $args, $name, $attr];

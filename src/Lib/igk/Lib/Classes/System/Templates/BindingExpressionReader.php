@@ -148,9 +148,13 @@ class BindingExpressionReader
             $data = $this->_getBindingRawData($listener);
             $listener = function ($v) {
                 extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0) ?? ['raw' => new DataArgs([])]));
-                $__c = $raw ;
-                // igk_ilog('data : ['.$v.']');
-                return @eval('return ' . $v . ';');
+                $__c = $raw ; 
+                $_v_r =  @eval('return ' . $v . ';');
+                if (($_v_r instanceof DataArgs) && ($c = $_v_r->getData()) && ($c instanceof Closure)){
+                    $_r = $c($raw, $ctrl);
+                    $_v_r =new DataArgs($_r);
+                }
+                return $_v_r;
             };
         }
         while ($reader->read()) {
@@ -200,7 +204,7 @@ class BindingExpressionReader
                 $dv = json_encode($dv);
             }
             $v .= $dv;
-            $loffset = $reader->offset + strlen($reader->value);
+            $loffset = $reader->offset;// + strlen($reader->value);
         }
         $v .= substr($reader->text, $loffset);
         return $v;
