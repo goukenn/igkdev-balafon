@@ -124,6 +124,8 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * build node an return the last rendered element 
      * @param mixed $data 
      * @param null|HtmlItemBase $target 
+     * @param null|HtmlItemBase $target 
+     * @param ?object $context 
      * @return HtmlItemBase 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
@@ -167,7 +169,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param array|string $def_or_tag_expression 
      * @param array|HtmlItemBase|null $target if def_or_tag_expression is string target must be an array
      * @param ?object $context context defintion 
-     * @param null|HtmlItemBase $target 
      * @return HtmlItemBase 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
@@ -683,7 +684,9 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 }
                 if ($class) {
                     $c['class'] = $class;
+                    if (is_string($class)){
                     HtmlUtils::UpdateCoreAttribute($class, $attribs);
+                    }
                 }
                 if ($v_name) {
                     $c["name"] = $v_name;

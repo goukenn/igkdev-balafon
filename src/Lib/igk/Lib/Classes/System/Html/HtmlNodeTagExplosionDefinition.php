@@ -98,7 +98,7 @@ class HtmlNodeTagExplosionDefinition
         $v_node_creates = [];
         while (count($defs) > 1) {
             $q = array_shift($defs);
-            list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($q, $context);
+            list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($q, $context);
             if (is_null($args)) {
                 $args = [];
             }
@@ -126,7 +126,7 @@ class HtmlNodeTagExplosionDefinition
         //     $this->builder->onClose($q);
         // } 
         $tagname = array_shift($defs);
-        list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag($tagname, $context);
+        list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($tagname, $context);
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
     /**
@@ -180,6 +180,7 @@ class HtmlNodeTagExplosionDefinition
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
+     * @deprecated
      */
     public static function ExplodeTag(string $tagname, $context = null): array
     {
@@ -241,7 +242,7 @@ class HtmlNodeTagExplosionDefinition
                 self::_StrRmValue($tagname, $tab[0][$i]);
             }
         }
-        // + | active attribute in targname selection tagname
+        // + | active attribute in tagname selection tagname
         if (strpos($tagname, '!') !== false) {
             $c = preg_match_all("/!(?P<name>[^!\%\.#\\s\(\)]+)/i", $tagname, $tab);
             for ($i = 0; $i < $c; $i++) {
@@ -281,6 +282,8 @@ class HtmlNodeTagExplosionDefinition
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
 
+     
+
     /**
      * explode tag 2
      * @param string $tagname 
@@ -296,7 +299,8 @@ class HtmlNodeTagExplosionDefinition
         $v_b = $regex->begin('\[', '\]', 'cbrank')->last();
         $regex->begin('\(', '\)', 'pbrank');
         $regex->begin('\{', '\}', 'curl-brank');
-        $regex->match('([#\\.%!])?[a-zA-Z_][a-zA-Z0-9_\-]*', 'litteral');
+        $regex->match('([#\\.%!@])[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'litteral');
+        $regex->match('[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'tag-litteral');
         $regex->resetTreatment();
 
         $v_b->patterns = [
@@ -312,6 +316,10 @@ class HtmlNodeTagExplosionDefinition
             'args' => null,
         ];
         $list = [
+            'tag-litteral'=>function(& $def, $e){
+                     $t = $e->value;
+                    $def['tagname'] = $t;
+            },
             'litteral' => function (&$def, $e) {
                 if ($c = igk_getv($e->beginCaptures, 1)) {
                     $t = substr($e->value, 1);
@@ -323,11 +331,13 @@ class HtmlNodeTagExplosionDefinition
                             $def['attr'][$t] = new HtmlActiveAttrib();
                             break;
                         case '%':
+                        case '@':
                             $def['name'] = $t;
                             break;
                         case '#':
                             $def['id'] = $t;
                             break;
+
                     }
                 } else {
                     $t = $e->value;
@@ -347,6 +357,7 @@ class HtmlNodeTagExplosionDefinition
                 $a = substr($e->value, 1, -1);
                 // $attr = igk_engine_get_attr_arg($a, $context);
                 $r = new ConfigurationReader();
+                $r->activeAttribute = new HtmlActiveAttrib;
                 $r->separator = ':';
                 $r->delimiter = ',';
                 $r->escape_start = "[";

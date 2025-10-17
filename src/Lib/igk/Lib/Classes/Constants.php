@@ -51,6 +51,9 @@ final class Constants{
     const DEFAUTL_PAGE_CONTROLLER_CLASS='IGKDefaultPageController';
     // environment
     const COMPONENT_PACKAGE_KEY = IGKEnvironment::COMPONENT_PACKAGE_KEY; 
+
+    const BCSS_EXTENSION = '.bcss';
+    const PCSS_EXTENSION = '.pcss';
     /**
      * get the core version 
      * @return string 

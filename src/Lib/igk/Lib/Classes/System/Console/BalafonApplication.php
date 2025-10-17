@@ -520,18 +520,20 @@ class BalafonApplication extends IGKApplicationBase
                         $ctrl = $ctrl ?? SysDbController::ctrl();
                         // - bind controller 
                         self::BindCommandController($ctrl);
-                        self::BindCommandUser($command, $ctrl);
+                        self::BindCommandUser($command, $ctrl, $user);
                         $args = ViewEnvironmentArgs::CreateContextViewArgument($ctrl, __FILE__, 'balafon');
                         $params = array_slice(func_get_args(), 2);
                         $args->params = &$params;
+                        $args->user = $user;
                         $file = realpath($file) === false ? Path::ResolvePath($file) : $file;
                         try {
                             if ($file && file_exists($file)) {
-                                $result = SysUtils::Include($file, array_merge([
+                                $tab = array_merge([
                                     "ctrl" => $ctrl,
                                     "user" => $user,
                                     "command" => $command
-                                ], (array)$args));
+                                ], (array)$args);
+                                $result = SysUtils::Include($file, $tab);
                                 if ($result) {
                                     Logger::print('--- response ---');
                                     if (is_string($result)) {
@@ -664,14 +666,16 @@ class BalafonApplication extends IGKApplicationBase
      * @return void 
      * @throws Exception 
      */
-    public static function BindCommandUser($command, ?BaseController $ctrl = null)
+    public static function BindCommandUser($command, ?BaseController $ctrl = null, & $user = null)
     {
-        if ($id = intval(igk_getv($command->options, '--user'))) {
-            if ($user = \IGK\Models\Users::Get('clId', $id)) {
-                if ($ctrl) {
-                    $ctrl::login($user, null, false);
-                }
-            }
+        $user = null;
+        if ($id = intval($login = igk_getv($command->options, '--user'))) {
+            $user = \IGK\Models\Users::Get('clId', $id);
+        } else if (!empty($login)){
+            $user = igk_get_user_bylogin($login);
+        }
+        if ($user && $ctrl){
+            $ctrl::login($user, null, false);
         }
     }
     /**

@@ -14,6 +14,11 @@ use stdClass;
 class ConfigurationReader
 {
     /**
+     * attribute used for activation litteral definition 
+     * @var null|closure|defaultActiveAttribute
+     */
+    var $activeAttribute;
+    /**
      * delimit key-value pair
      * @var string
      */
@@ -128,6 +133,7 @@ class ConfigurationReader
         };
         $sep = $this->separator;
         $v_escape_counter = 0;
+        $v_delimiter = $this->delimiter;
         while ($this->_canRead()) {
             $ch = $this->m_text[$this->m_offset];  
             switch ($ch) {
@@ -150,6 +156,15 @@ class ConfigurationReader
                     switch ($this->m_readmode) {
                         case  self::MODE_NAME:
                             $name = $this->_readName(); 
+                            if (strpos($name, $v_delimiter)!==false){
+                                $tab = explode( $v_delimiter, $name);
+                                while(count($tab)>1){
+                                    $cq = array_shift($tab);
+                                    $ac = $this->_getActiveAttrib($cq);
+                                    $fc_bind($list, $cq, $ac); 
+                                }
+                                $name = array_shift($tab);
+                            }
                             break;
                         case self::MODE_VALUE:
                             $value = $this->_readValue();
@@ -166,6 +181,9 @@ class ConfigurationReader
             $this->m_offset++;
         }
         if (empty($this->m_errors)){
+            if ($name && is_null($value)){
+                $value = $this->_getActiveAttrib($name);
+            }
             $fc_bind($list, $name, $value);
             $info = new stdClass;
             array_map(function($a)use($info){ 
@@ -179,6 +197,14 @@ class ConfigurationReader
             return $info;
         }
         return false;
+    }
+    protected function _getActiveAttrib(string $name){
+         if ($ac =$this->activeAttribute){
+            if($ac instanceof Closure){
+                $ac = $ac($name);
+            }
+        }
+        return $ac;
     }
     /**
      * get the result of last reading string

@@ -404,7 +404,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $v_nextline_offset = strpos($source, "\n", $offset);
         $v_end_of_source = $offset >= strlen($source);
 
-        if ($v_size == 0) {
+        // if ($v_size == 0) {
+        if (($v_size == 0) && (!$info->start) ){
             /// TODO: TREAT matching 
             // detect last end pattern 
             if ($info->match === $this->m_last_match) {

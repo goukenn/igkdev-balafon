@@ -116,14 +116,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      * @param string $filename 
+     * @param string $ext extension to handle bcss files  
      * @return $this 
      * @throws IGKException 
      */
-    public function load(string $filename)
+    public function load(string $filename, ?string $ext = null)
     {
+        $ext = trim($ext ?? igk_io_path_ext($filename), ' .');
         $content = file_get_contents($filename);
         $def = $this;
-        if ($handler = FileHandler::GetFileHandlerFromExtenstion(sprintf('.%s', igk_io_path_ext($filename)))) {
+        if ($handler = FileHandler::GetFileHandlerFromExtension(sprintf('.%s', $ext))) {
             // handler must support context style views
             $r = $handler->transform($content);
             $def[] = $r;

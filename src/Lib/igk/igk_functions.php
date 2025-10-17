@@ -13613,7 +13613,7 @@ function igk_include_view_file($ctrl, $file, $no_cache = false)
 
     if (!in_array($ext, ['phtml', 'pinc'])) {
         // + | handling response from file handler
-        if ($handler = \IGK\System\IO\FileHandler::GetFileHandlerFromExtenstion('.' . $ext)) {
+        if ($handler = \IGK\System\IO\FileHandler::GetFileHandlerFromExtension('.' . $ext)) {
             $response = $handler->transform(file_get_contents($file), (object)['ctrl' => $ctrl, 'raw' => ViewHelper::GetViewArgs('data')]);
             if ($response instanceof HtmlItemBase)
                 $ctrl->getTargetNode()->add($response); 

@@ -55,7 +55,7 @@ abstract class FileHandler{
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetFileHandlerFromExtenstion(string $extension){
+    public static function GetFileHandlerFromExtension(string $extension){
         if (self::$sm_handler){
             return igk_getv(self::$sm_handler, $extension);
         }

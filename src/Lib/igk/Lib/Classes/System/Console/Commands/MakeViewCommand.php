@@ -93,7 +93,7 @@ class MakeViewCommand extends AppExecCommand{
                 igk_io_w2file( $file,  $builder->render());
             }else {
                 $src = '';
-                if($handler = FileHandler::GetFileHandlerFromExtenstion('.'.$ext)){ 
+                if($handler = FileHandler::GetFileHandlerFromExtension('.'.$ext)){ 
                     $src = $handler->initDefaultSource();
                 }
                 igk_io_w2file($file, $src);

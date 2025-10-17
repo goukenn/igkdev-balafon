@@ -200,9 +200,9 @@ class BindingExpressionReader
                 $dv = json_encode($dv);
             }
             $v .= $dv;
-            $loffset = $reader->offset;
+            $loffset = $reader->offset + strlen($reader->value);
         }
-        $v .= substr($reader->text, $reader->offset);
+        $v .= substr($reader->text, $loffset);
         return $v;
     }
     private function _getBindingRawData($data)

@@ -15,7 +15,7 @@ use IGKException;
 trait ClassAndStyleOffsetTrait{
     /**
      * set property
-     * @param mixed $k 
+     * @param string $k 
      * @param mixed $v 
      * @return void|$this 
      * @throws IGKException 

@@ -6,6 +6,7 @@
 namespace IGK\System\Html\Css;
 use IGK\IGlobalFunction;
 use Exception;
+use IGK\Constants;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Css\CssThemeOptions;
@@ -22,6 +23,7 @@ use IGK\System\Html\Css\CssMapTheme;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Http\CookieManager;
+use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\RegexMatcherContainer;
@@ -1091,7 +1093,10 @@ abstract class CssUtils
         $src = ob_get_contents();
         ob_end_clean();
         if ($src) {
-            //+ | inject css style - no render -  
+            //+ | inject css style - no render -              
+            if ($bcss_handler = FileHandler::GetFileHandlerFromExtension( Constants::BCSS_EXTENSION )){
+                $src = $bcss_handler->transform($src);
+            }            
             $theme[] = $src;
         }
         igk_environment()->pop(IGKEnvironmentConstants::CSS_UTIL_ARGS);

@@ -34,8 +34,12 @@ function igk_engine_get_attr_arg($s, $context = null)
             }
             return "null";
         };
-        for ($k = 0; $k < igk_count($tb); $k++) {
-            $mk = trim($tb[$k]);
+        // for ($k = 0; $k < igk_count($tb); $k++) {
+        foreach ($tb as $k => $v) {
+            if (is_null($v) || is_object($v)) {
+                continue;
+            }
+            $mk = trim($v); //$tb[$k]);
             if (preg_match_all($rgx, $mk, $stt)) {
                 $n = $stt['name'][0];
                 $d = $stt['data'][0];
@@ -76,6 +80,14 @@ function igk_engine_read_args($s)
     $ln = strlen($s);
     $c = 0;
     $v = "";
+    $v_key = null;
+    $v_bind_arg = function ($v) use (&$v_key, & $args) {
+        if ($v_key) {
+            $args[$v_key] = $v;
+        } else
+            $args[] = $v;
+        $v_key = null;
+    };
     while ($c < $ln) {
         $ch = $s[$c];
         switch ($ch) {
@@ -88,22 +100,35 @@ function igk_engine_read_args($s)
                     $k = substr($k, 1, -1);
                 }
                 $v = "";
-                $args[] = $k;
+                $v_bind_arg($k);
                 break;
             case "{":
-                $args[] = igk_str_read_brank($s, $c, "}", "{");
+                $json = igk_str_read_brank($s, $c, "}", "{");
+                $d = igk_json_parse($json);
+                $v_bind_arg( $d );
                 $v = "";
                 break;
             case "(":
                 $v .= igk_str_read_brank($s, $c, ")", "(");
                 break;
             case "[":
-                $args[] = igk_str_read_brank($s, $c, "]", "[");
+                $v_bind_arg(igk_str_read_brank($s, $c, "]", "["));
+
                 break;
             case ",":
-                if (strlen($v = trim($v)))
-                    $args[] = igk_engine_treat_arg($v);
+                if (strlen($v = trim($v))) {
+                    $v = igk_engine_treat_arg($v);
+                    $v_bind_arg($v);
+                }
                 $v = "";
+                break;
+            case '=':
+                $v = trim($v);
+                if (strlen($v) > 0) {
+                    // affectation to key name 
+                    $v_key = $v;
+                }
+                $v = '';
                 break;
             default:
                 $v .= $ch;
@@ -111,16 +136,19 @@ function igk_engine_read_args($s)
         }
         $c++;
     }
-    if (strlen($v = trim($v)) > 0)
-        $args[] = igk_engine_treat_arg($v);
+    if (strlen($v = trim($v)) > 0) {
+        $v = igk_engine_treat_arg($v);
+        $v_bind_arg($v);
+    }
     return $args;
 }
 
 /**
  * transform treat args
  */
-function igk_engine_treat_arg($v){
-    if (($v=='null') || ($v=='nil')){
+function igk_engine_treat_arg($v)
+{
+    if (($v == 'null') || ($v == 'nil')) {
         return null;
     }
     return $v;
@@ -194,7 +222,7 @@ function igk_get_attrib_raw_context($context)
             "raw" => IGKRawDataBinding::Create($o->raw)
         ],
         "ctrl" => igk_getv($context, 'ctrl'),
-        "transformToEval" => igk_getv($context, 'transformToEval') , // $o->transformToEval,
+        "transformToEval" => igk_getv($context, 'transformToEval'), // $o->transformToEval,
         "key" => igk_getv($context, 'key'),
         "type" => igk_getv($context, 'type'),
     ];
@@ -246,7 +274,7 @@ function igk_push_article_chain(string $f, $context = null)
     $raw_var = Constants::RAW_VAR;
     $ctx =  $context;
     $b = igk_get_env($key);
-    if ( (!is_null($context)) && (!$b || (count($b) == 0))) {        
+    if ((!is_null($context)) && (!$b || (count($b) == 0))) {
         if ($ctx instanceof HtmlLoadingContextOptions) {
             $raw = $ctx->raw;
             if (is_array($raw)) {
