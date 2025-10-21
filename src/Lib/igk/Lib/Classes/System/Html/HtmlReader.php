@@ -1278,7 +1278,8 @@ final class HtmlReader extends IGKObject
             if ($template) {
                 $cattr[IGK_ENGINE_ATTR_TEMPLATE_CONTENT] = null;
             }
-            $pargs = igk_engine_get_attr_arg(igk_getv($cattr, self::ARGS_ATTRIBUTE), $reader->m_context);
+            $largs = igk_getv($cattr, self::ARGS_ATTRIBUTE);
+            $pargs = ($largs ? igk_engine_get_attr_arg($largs, $reader->m_context) : null);
             $v_tn = self::_BuildNode($reader, $cnode, $v_n, $tab_doc, $pargs);
             if ($v_tn) {
                 if ($v_tn->tagName && !$reader->IsEmpty()) {

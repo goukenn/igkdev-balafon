@@ -122,4 +122,20 @@ class ArrayUtils{
             $array[] = $k;
         }
     }
+    /**
+     * 
+     * @param array &$tab 
+     * @return void 
+     */
+    public static function UnpackArrayKeys(array & $tab, array & $list)
+    {
+        if (version_compare(PHP_VERSION, '8.0', '<')){
+            foreach(array_keys($tab) as $k){
+                if (is_string($k)){
+                    $list[$k] = $tab[$k];
+                    unset($tab[$k]);
+                }
+            }
+        }
+    }
 }

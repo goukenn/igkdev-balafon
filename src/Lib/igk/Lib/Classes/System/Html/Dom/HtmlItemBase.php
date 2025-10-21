@@ -1271,8 +1271,14 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             // + | 
             $b =  new HtmlNode($name);
             if ($param) {
-                list($content) = $param;
-                static::BindDefaultContent($b, $content);
+                list($content) = [igk_getv($param,0)];
+                if ($content){
+                    static::BindDefaultContent($b, $content);
+                    unset($param[0]);
+                }
+                if ($param){
+                    $b->setAttributes($param);
+                }
             }
             return $b;
         }

@@ -14,6 +14,7 @@ use IGK\System\Html\Templates\BindingContextInfo;
  */
 class BindingExpressionReader
 {
+    const BINDING_RAW_PROPERTY = 'raw';
     var $startMarker = '{{';
     var $endMarker = '}}';
     var $escapedChar = "'";
@@ -121,7 +122,7 @@ class BindingExpressionReader
                 $this->mark = [substr($this->text, $pos, $this->offset - $pos), $pos, $this->offset];
             } else {
                 $n = substr($this->text, $this->offset);
-                $this->offset = $epos +  strlen($this->endMarker);
+                $this->offset = strlen($this->text);
                 $this->mark = [substr($this->text, $this->offset), $pos, strlen($this->text)];
             }
             $this->value = $n;
@@ -144,12 +145,20 @@ class BindingExpressionReader
         $data = null;
         $this->text = $content;
         $this->offset = 0;
+        $v_rk = self::BINDING_RAW_PROPERTY;
         if (is_null($listener) || !($listener instanceof Closure)) {
             $data = $this->_getBindingRawData($listener);
-            $listener = function ($v) {
-                extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0) ?? ['raw' => new DataArgs([])]));
-                $__c = $raw ; 
-                $_v_r =  @eval('return ' . $v . ';');
+            if ($data && ($raw = igk_getv($data, $v_rk ))){
+                if (is_array($cdp = DataArgs::Extract($raw))){
+                    $data = array_merge($cdp , $data );
+                } 
+            }
+ 
+
+            $listener = function () {
+                extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0) ?? [$v_rk  => new DataArgs([])]));
+                // $__c = $raw ; 
+                $_v_r =  @eval('return ' . func_get_arg(0) . ';');
                 if (($_v_r instanceof DataArgs) && ($c = $_v_r->getData()) && ($c instanceof Closure)){
                     $_r = $c($raw, $ctrl);
                     $_v_r =new DataArgs($_r);
@@ -157,6 +166,7 @@ class BindingExpressionReader
                 return $_v_r;
             };
         }
+        // +| reader->offset is the size wher the read start mark definition 
         while ($reader->read()) {
             if (!$start) {
                 $start = true;

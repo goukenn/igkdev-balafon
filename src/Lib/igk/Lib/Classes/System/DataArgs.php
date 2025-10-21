@@ -8,15 +8,22 @@ use ArrayIterator;
 use Exception;
 use IGK\System\Core\IProxyDataArgs;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IGK\System\Polyfill\JsonSerializableTrait;
 use IteratorAggregate;
+use JsonSerializable;
 use Traversable;
 /**
 * 
 * @package IGK\System
 */
-class DataArgs implements IProxyDataArgs, IteratorAggregate{
+class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     use ArrayAccessSelfTrait;
-    protected $p_data; 
+    use JsonSerializableTrait;
+    protected $p_data;
+
+    public function _json_serialize(){ 
+        return self::Extract($this);
+    } 
     /**
      * 
      * @return Traversable<mixed, mixed>|mixed[] 
@@ -36,6 +43,12 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
     {
         return igk_getv($this->p_data, $index);
     }
+    /**
+     * 
+     * @param mixed $name 
+     * @return mixed 
+     * @throws Exception 
+     */
     public function __get($name)
     {
         return igk_getv($this->p_data, $name);
@@ -74,6 +87,13 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
         foreach($mapping_table as $k=>$v){
             $tv = igk_getv($this->p_data, $k);
             $c[$v] = $treat_value ? $treat_value($tv, $k) : $tv;
+        }
+        return $c;
+    }
+    public static function Extract($raw){
+        $c = $raw;
+        while($c instanceof static){
+            $c = $c->getData();
         }
         return $c;
     }

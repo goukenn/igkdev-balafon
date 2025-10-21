@@ -10,6 +10,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlNode;
+use IGK\System\Html\Exceptions\HtmlNodeTagExplosionTagNameAlreadyDefineException;
 use IGK\System\Html\Traits\HtmlNodeTagExplosionTrait;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\Text\RegexMatcherContainer;
@@ -293,13 +294,20 @@ class HtmlNodeTagExplosionDefinition
         $regex = new RegexMatcherContainer;
         $v_s = $regex->appendStringDetection('string', true)->last();
         $v_b = $regex->begin('\[', '\]', 'cbrank')->last();
-        $regex->begin('\(', '\)', 'pbrank');
+        $pbrank = $regex->begin('\(', '\)', 'pbrank')->last();
         $regex->begin('\{', '\}', 'curl-brank');
         $regex->match('([#\\.%!@])[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'litteral');
         $regex->match('[a-zA-Z_][a-zA-Z0-9_\-]*(:[a-zA-Z_][a-zA-Z0-9_\-]*)?', 'tag-litteral');
         $regex->resetTreatment();
 
+        $pbrank->patterns = [
+            
+            $pbrank
+        ];
+
+
         $v_b->patterns = [
+            $v_b,
             $v_s
         ];
         $pos = 0;
@@ -313,8 +321,7 @@ class HtmlNodeTagExplosionDefinition
         ];
         $list = [
             'tag-litteral'=>function(& $def, $e){
-                     $t = $e->value;
-                    $def['tagname'] = $t;
+                  self::_SetTagName($e,$def);
             },
             'litteral' => function (&$def, $e) {
                 if ($c = igk_getv($e->beginCaptures, 1)) {
@@ -336,8 +343,7 @@ class HtmlNodeTagExplosionDefinition
 
                     }
                 } else {
-                    $t = $e->value;
-                    $def['tagname'] = $t;
+                    self::_SetTagName($e,$def); 
                 } 
             },
             'pbrank' => function (&$def,  $e) use ($context) {
@@ -351,12 +357,19 @@ class HtmlNodeTagExplosionDefinition
             },
             'cbrank' => function (&$def, $e) use ($context) {
                 $a = substr($e->value, 1, -1);
+
+                if ($e->parentInfo){
+                    if ($e->parentInfo->match->tokenID=='cbrank'){
+                        return;
+                    }
+                }
+
                 // $attr = igk_engine_get_attr_arg($a, $context);
                 $r = new ConfigurationReader();
                 $r->activeAttribute = new HtmlActiveAttrib;
                 $r->separator = ':';
                 $r->delimiter = ',';
-                $r->escape_start = "[";
+                $r->escape_start = '[';
                 $r->escape_end = ']';
                 $v_activa_attrib = []; // HtmlNodeTagExplosionDefinition::_GetActiveAttribute($a);
                 $attr = ArrayMapKeyValue::Map(function ($k, $v) {
@@ -387,6 +400,12 @@ class HtmlNodeTagExplosionDefinition
             }
         }
         return igk_extract($definition, 'tagname|id|classes|args|name|attr');
+    }
+    private static function _SetTagName($e, & $def){
+        $t = $e->value;
+        if (isset($def['tagname']))
+            throw new HtmlNodeTagExplosionTagNameAlreadyDefineException($t);
+        $def['tagname'] = $t;
     }
     /**
      * 

@@ -37,6 +37,11 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
  */
 class LoopHostTest extends BaseTestCase
 {
+    /**
+     * 
+     * @param string $content 
+     * @return HtmlEvalExpression 
+     */
     private function evalExpression(string $content)
     {
         return new HtmlEvalExpression($content);
@@ -87,20 +92,20 @@ class LoopHostTest extends BaseTestCase
     public function test_loop_complex()
     {
         $this->assertEquals(
-            '<span><ul><li>item = 2</li></ul><ul><li>item = 3</li></ul><li>select : {"x":44,"count":3}</li> item 0  item 1  item 2  </span><p>after 44</p>',
+            '<span><ul><li>item = 2</li></ul><ul><li>item = 3</li></ul><li>select : {"x":44,"count":3}</li>item 0item 1item 2</span><p>after 44</p>',
             $this->_loop_build([
                 'span' => [
                     'loop(2..3) > ul' => [
                         'li' => 'item = {{ $raw }}',
                     ],
                     ['li'=>$this->evalExpression('select : {{ $raw }}')],
-                    'loop([[:@raw["count"]]])' => 'item {{ $raw }}'
+                    'loop([[:@raw->count]])' => 'item {{ $raw }}'
                 ],
                 'p' => $this->evalExpression('after {{ $raw->x | json }}')
             ])
         );
     }
-    public function test_loop_complex_loop()
+    public function test_loop_second_complex_loop()
     {
         $this->assertEquals(
             '<span><ul><li><div>subb : 2</div><span> child .... 2</span></li></ul><ul><li><div>subb : 3</div><span> child .... 3</span></li></ul></span><p>after 44</p>',

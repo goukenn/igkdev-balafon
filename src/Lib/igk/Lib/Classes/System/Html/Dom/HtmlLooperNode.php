@@ -147,7 +147,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
         } else { 
             $hook_expression = CompilerConstants::LOOP_CONTEXT_DATA_VAR; 
             self::_HostChain($n, $sb."", $v_args, $ctrl, '$'.$hook_expression);
-            $v_out  = $n->render();
+            $v_out = $n->render();
             if ($v_args instanceof ViewDataArgs)  {
                 $v_targs = $v_args->getData();
             }else{
@@ -180,9 +180,9 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost {
             } else {
                 //+ | binding text content 
                 $v_cx = HtmlRenderer::Render($tc, $t_options);
-                $sb->appendLine("<?php foreach($".CompilerConstants::LOOP_CONTEXT_DATA_VAR." as \$raw): ?>");
-                $sb->appendLine($v_cx);
-                $sb->appendLine("<?php endforeach; ?>"); 
+                $sb->append("<?php foreach($".CompilerConstants::LOOP_CONTEXT_DATA_VAR." as \$raw): ?>");
+                $sb->append($v_cx);
+                $sb->append("<?php endforeach; ?>"); 
             }
         } 
         return $sb.'';

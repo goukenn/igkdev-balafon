@@ -301,13 +301,16 @@ if (!function_exists("igk_html_node_a")) {
 	 * @param mixed $attributes
 	 * @param mixed $index
 	 */
-	function igk_html_node_a($href = "#", $attributes = null, $index = null)
+	function igk_html_node_a($href = "#", $attributes = null, $index = null, $content=null)
 	{
 		$a = new HtmlANode();
 		$a["href"] = $href;
 		$a->setIndex($index);
 		if (is_string($attributes)){
 			$attributes = ['target'=>$attributes];
+		}
+		if ($content){
+			$a->content=  $content;
 		}
 		if ($attributes && is_array($attributes)) {
 			$a->setAttributes($attributes);

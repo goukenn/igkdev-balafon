@@ -3,6 +3,7 @@
 
 use IGK\Constants;
 use IGK\Controllers\BaseController;
+use IGK\System\Core\EngineReadArgs;
 use IGK\System\DataArgs;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Helpers\HtmlEngineHelper;
@@ -13,19 +14,26 @@ use IGK\System\Html\HtmlLoadingContextOptions;
  * @param mixed $s parameter to convert
  * @param mixed $context context object that will store parameter to evaluate
  */
-function igk_engine_get_attr_arg($s, $context = null)
+function igk_engine_get_attr_arg(string $s, $context = null)
 {
-    $tb = igk_engine_read_args($s);
+    $__g_context = null;
+    if ($context && (is_object($context) || is_array($context))) {
+        $__g_context = (array)$context;
+        $__g_context['context'] = $context;
+    }
+    $c = new EngineReadArgs($__g_context);
+    $tb = igk_engine_read_args($s, $c); // $__g_context);
     if ((count($tb) == 0) || !is_object($context)) {
         return $tb;
     }
     $m = null;
-    if ($context && (is_object($context) || is_array($context))) {
-        $__g_context = (array)$context;
-        extract($__g_context);
-        unset($__g_context);
+    // if ($context && (is_object($context) || is_array($context))) {
+    //     $__g_context = (array)$context;
+        // extract($__g_context);
+        // unset($__g_context);
         $cs = array_keys((array)$context);
         $m = igk_str_join_tab(array_values($cs), '|', false);
+        // + | detect param context entry exprexssion - expression 
         $rgx = "#^\[\[:@(?P<name>((" . $m . ")))(?P<data>(.)+)?\]\]$#i";
         $paramvar_rgx = "#@(?P<name>((" . $m . ")))#i";
         $callback = function ($m, $n) {
@@ -33,6 +41,10 @@ function igk_engine_get_attr_arg($s, $context = null)
                 return "\$" . $m["name"];
             }
             return "null";
+        };
+        $v_fc_eval = function(){
+            extract(func_get_arg(1) ?? []);
+            return @eval (func_get_arg(0));
         };
         // for ($k = 0; $k < igk_count($tb); $k++) {
         foreach ($tb as $k => $v) {
@@ -48,30 +60,37 @@ function igk_engine_get_attr_arg($s, $context = null)
                     $s = "\$context->" . $n . $d;
                     $v_src = "return {$s};";
                     igk_set_env(IGK_LAST_EVAL_KEY, $m);
-                    $tb[$k] = @eval($v_src);
+                    $tb[$k] = $v_fc_eval($v_src, $__g_context);  
                 } else {
                     $tb[$k] = $context->$n;
                 }
             } else {
-                if (preg_match('/^(\[|array\s*\()/i', $mk)) {
-
-                    if ($gc = @eval("return " . $mk . ";")) {
+                if (preg_match('/^\[\[:@(?P<n>.+)\]\]/', $mk, $stt)){
+                    $n = $stt['n'];
+                    $s = "\$context->raw->" . $n;
+                    $v_src = "return {$s};";
+                    igk_set_env(IGK_LAST_EVAL_KEY, $m);
+                    $tb[$k] = $v_fc_eval($v_src, $__g_context);  
+                }
+                else if (preg_match('/^(\[|array\s*\()/i', $mk)) {
+                    // array detection mark 
+                    if ($gc = $v_fc_eval("return " . $mk . ";", $__g_context)) {
                         $tb[$k] = $gc;
                     } else {
                         igk_dev_wln_e(__FILE__ . ":" . __LINE__, "Action not available [[:@]] " . $mk, $cs, $gc, $k);
-                        $tb[$k] = @eval("return " . $mk . ";");
+                        $tb[$k] = $v_fc_eval("return " . $mk . ";");
                     }
                 }
             }
         }
-    }
+    //}
     return $tb;
 }
 
 /**
  * retrieve argument splitting
  */
-function igk_engine_read_args($s)
+function igk_engine_read_args($s, $engineReader=null)
 {
     if (empty($s))
         return [];
@@ -103,7 +122,9 @@ function igk_engine_read_args($s)
                 $v_bind_arg($k);
                 break;
             case "{":
-                $json = igk_str_read_brank($s, $c, "}", "{");
+                $json = ($engineReader)?
+                    $engineReader->readCurlBranketDefinition($s, $c)
+                    :igk_str_read_brank($s, $c, "}", "{");
                 $d = igk_json_parse($json);
                 $v_bind_arg( $d );
                 $v = "";
