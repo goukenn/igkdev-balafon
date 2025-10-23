@@ -10821,7 +10821,7 @@ function igk_html_bind_article_content(HtmlNode $n, string $content, $data, $ctr
         $content = igk_html_eval_global_script($content, $ctrl, $data, $id);
     }
     if (!empty($content)) {
-        //evaluate content :
+        //evaluate content
         $n->load($content, $ldcontext);
     }
     igk_html_treatinput($n);
@@ -13950,8 +13950,9 @@ function igk_invoke_param($obj, $n, $k, $offset = 1)
 ///<summary>invoke pipe expression</summary>
 /**
  * invoke pipe expression
+ * @param string $name name of the pipe arg 
  */
-function igk_invoke_pipe($name, $value, $options = null)
+function igk_invoke_pipe(string $name, $value, $options = null)
 {
     $loc_t = igk_reg_pipe(null);
     $s = $name;
@@ -17387,8 +17388,8 @@ function igk_map_array_to_str($tab, $usekey = true)
                 if ($v === null) {
                     $m .= "null";
                 } else {
-                    if (is_array($v)) {
-                        $m .= json_encode($v);
+                    if (is_array($v)||is_object($v)) {
+                        $m .= igk_array_dump_short((array)$v);
                     } else {
                         $m .= '"' . $v . '"';
                     }
@@ -20814,6 +20815,53 @@ function igk_str_pipe_value($v, $pipe)
     }
     return $v;
 }
+
+/**
+ * detect pipe
+ * @param mixed $expression 
+ * @param mixed &$pipe 
+ * @return mixed 
+ * @throws IGKException 
+ * @throws Exception 
+ */
+function igk_str_detect_pipe($expression, & $pipe){
+    $pipe = null;
+    $regex = new \IGK\System\Text\RegexMatcherContainer;
+    $pos=0;
+    $src = $expression;
+    // define
+    $v_op = $regex->match('\|\|', 'operator')->last();
+    $v_brace = $regex->begin('\(','\)','brace')->last();
+    $v_bracket = $regex->begin('\[','\]','bracket')->last();
+    $v_string = $regex->appendStringDetection('string', true);
+    $v_match = $regex->match('\|', 'pipe');
+    $v_brace->patterns = [
+        $v_brace,
+        $v_string,
+        $v_bracket,
+    ];
+    $v_bracket->patterns = [
+        $v_brace,
+        $v_string,
+        $v_bracket
+    ];
+    
+    
+    while($g = $regex->detect($src, $pos)){
+
+        if ($e = $regex->end($g, $src, $pos)){
+            Logger::info('[detect-pipe] tokenID:'.$e->tokenID);
+            if ($e->tokenID=='pipe'){
+                $expression = trim(substr($src, 0, $e->from));
+                $pipe = trim(substr($src, $e->from+1));
+                $pos = strlen($src);
+                break;
+            }
+        }
+    }
+    return $expression;
+}
+
 ///<summary>remove magic cote from message</summary>
 /**
  * remove magic cote from message

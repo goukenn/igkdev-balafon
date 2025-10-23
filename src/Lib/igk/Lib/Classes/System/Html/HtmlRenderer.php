@@ -7,6 +7,7 @@ namespace IGK\System\Html;
 
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
+use IGK\Helper\Activator;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -191,8 +192,9 @@ class HtmlRenderer
     }
     /**
      * sanitize rendering option 
+     * @param object 
      */
-    public static function SanitizeOptions($options)
+    public static function SanitizeOptions(object $options)
     {
         if (!isset($options->sanitizeRendering)) {
             $options->sanitizeRendering = 1;
@@ -218,6 +220,9 @@ class HtmlRenderer
             $options = self::CreateRenderOptions();
         } else {
             // sanitize options property
+            if (is_array($options)){
+                $options = Activator::CreateNewInstance( HtmlRendererOptions::class, $options);  
+            }
             self::SanitizeOptions($options);
         }
         $options->LF = $options->Indent ? "\n" : "";
@@ -286,6 +291,10 @@ class HtmlRenderer
             ["item" => $item, "close" => false]
         ];
         $options->Source = $item;
+        $is_html_redering = in_array( igk_getv($options, 'Context', HtmlRenderingContext::Html),  [
+            HtmlRenderingContext::Html, 
+            HtmlRenderingContext::XML]
+        ); 
         //count the parent invoker
         self::UpdateInvoke(__METHOD__, $options);
         $s = "";
@@ -355,7 +364,7 @@ class HtmlRenderer
                     }
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
-                        if (!empty($v_c = $i->render($options))) {
+                        if (!empty($v_c = $i->render($options))) { 
                             $s .=  $v_c . $ln;
                             continue;
                         }
@@ -363,8 +372,9 @@ class HtmlRenderer
                         continue;
                     }
                 }
-                $options->lastRendering = $i;
-                $tag = $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
+                $options->lastRendering = $i; 
+                $tag_support = $is_html_redering && !$i->getFlag(HtmlItemBase::OVERRIDE_PARENT_TAG_FLAG);
+                $tag = $tag_support && $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
                 $havTag = !empty($tag);
                 if ($i instanceof IHtmlRederingCallback)
                     $i->beforeRenderCallback($options, ['output' => &$s]);

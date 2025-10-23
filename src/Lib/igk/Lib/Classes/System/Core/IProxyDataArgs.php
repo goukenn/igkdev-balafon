@@ -9,4 +9,9 @@ use ArrayAccess;
 * @package IGK\System\Core
 */
 interface IProxyDataArgs extends ArrayAccess{
+    /**
+     * retrieve mised from proxy data
+     * @return mixed 
+     */
+    function getData();
 }

@@ -4,8 +4,10 @@
 // @date: 20251021 08:07:28
 namespace IGK\System\Core;
 
+use Error;
 use Exception;
 use IGK\System\Console\Logger;
+use IGK\System\DataArgs;
 use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 
@@ -21,6 +23,10 @@ class EngineReadArgs
     {
         $this->context = $context;
     }
+    /**
+     * 
+     * @return mixed 
+     */
     protected function evalContext()
     {
         extract(func_get_arg(1) ?? []);
@@ -34,6 +40,9 @@ class EngineReadArgs
     public function evalExpression(string $src)
     {
         $r = $this->evalContext('return $context->' . $src . ';', $this->context);
+        if ($r && !is_string($r) && !is_numeric($r)) {
+            $r = json_encode($r);
+        }
         return $r;
     }
     /**
@@ -50,7 +59,7 @@ class EngineReadArgs
         $pos = &$position;
         // define
         $bcurl = $regex->begin('\{', '\}', 'curl')->last();
-        $v_detect_arg = $regex->begin('\[\[:@(?P<name>[a-zA-Z_][a-zA-Z_0-9]*)\\b', '\]\]', 'detect-args')->last();
+        $v_detect_arg = $this->_global_regex($regex);
         $v_detect_arg = $regex->begin('\$\{(?P<name>[a-zA-Z_][a-zA-Z_0-9]*)\\b', '\}', 'detect-curl-args')->last();
         $string = $regex->appendStringDetection('string', true)->last();
         $bcurl->patterns = [
@@ -62,23 +71,24 @@ class EngineReadArgs
         $v_detect_arg->patterns = [
             $string
         ];
-
-        $out = '';
+        $handlers = $this->_handlers();
+        $out = $this->_treat($src, $pos, $handlers, $regex);
+        return $out;
+    }
+    /**
+     * treat for curl
+     * @param mixed $src 
+     * @param mixed $pos 
+     * @param mixed $handlers 
+     * @param mixed $regex 
+     * @return mixed 
+     * @throws Error 
+     * @throws Exception 
+     */
+    protected function _treat($src, $pos, $handlers, $regex)
+    {
         $replaces = [];
-        $handlers = [
-            'detect-args' => function ($e) use (&$replaces) {
-                $te = $e->value;
-                $src = substr(substr($te, 0, -2), 4);
-                $r = $this->evalExpression($src);
-                $replaces[] = (object)['from' => $e->from, 'to' => $e->to, 'value' => $r];
-            },
-            'detect-curl-args'=> function($e) use (&$replaces) {
-                $te = $e->value;
-                $src = substr(substr($te, 0, -1), 2);
-                $r = $this->evalExpression($src);
-                $replaces[] = (object)['from' => $e->from, 'to' => $e->to, 'value' => $r];
-            },
-        ];
+        $out = '';
         while ($g = $regex->detect($src, $pos)) {
             if ($e = $regex->end($g, $src, $pos)) {
                 igk_is_debug() && Logger::info('[EngineReadArgs] tokenid: ' . $e->tokenID);
@@ -90,11 +100,30 @@ class EngineReadArgs
                     break;
                 }
                 if ($handle = igk_getv($handlers, $e->tokenID)) {
-                    $handle($e, $pos, $src);
+                    $handle($e, $replaces, $pos, $src);
                 }
             }
         }
         return $out;
+    }
+    protected function _handlers()
+    {
+        $handlers = [
+            'detect-args' => function ($e, &$replaces) {
+                $te = $e->value;
+                $src = substr(substr($te, 0, -2), 4);
+                $r = $this->evalExpression($src);
+
+                $replaces[] = (object)['from' => $e->from, 'to' => $e->to, 'value' => $r];
+            },
+            'detect-curl-args' => function ($e, &$replaces) {
+                $te = $e->value;
+                $src = substr(substr($te, 0, -1), 2);
+                $r = $this->evalExpression($src);
+                $replaces[] = (object)['from' => $e->from, 'to' => $e->to, 'value' => $r];
+            },
+        ];
+        return $handlers;
     }
     protected function _replaceList($o, $replaces, int $from)
     {
@@ -116,5 +145,36 @@ class EngineReadArgs
         }
         $v .= substr($ts, $offset);
         return $v;
+    }
+    protected function _global_regex($regex)
+    {
+        $v_detect_arg = $regex->begin('\[\[:@(?P<name>[a-zA-Z_][a-zA-Z_0-9]*)\\b', '\]\]', 'detect-args')->last();
+
+        return $v_detect_arg;
+    }
+    /**
+     * 
+     * @param string $src 
+     * @param mixed $context 
+     * @return void 
+     */
+    public static function TreatGlobalArgs(string $src, $context)
+    {
+        $c = new static(['context' => new DataArgs($context ?? [])]);
+        $regex = new RegexMatcherContainer;
+        $v = $c->_global_regex($regex);
+        $handlers = $c->_handlers();
+        $pos = 0;
+        $out = $src;
+        $replaces = [];
+        while ($g = $regex->detect($src, $pos)) {
+            if ($e = $regex->end($g, $src, $pos)) {
+                if ($handle = igk_getv($handlers, $e->tokenID)) {
+                    $handle($e, $replaces, $pos, $src);
+                }
+            }
+        }
+        $out = $c->_replaceList($out, $replaces, 0); 
+        return $out;
     }
 }

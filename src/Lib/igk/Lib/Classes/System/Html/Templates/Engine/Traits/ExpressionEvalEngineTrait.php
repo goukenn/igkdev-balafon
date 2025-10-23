@@ -4,9 +4,13 @@
 // @date: 20240123 13:12:18
 namespace IGK\System\Html\Templates\Engine\Traits;
 
+use Exception;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Templates\BindingExpressionReader;
 use IGK\System\Text\RegexMatcherContainer;
+use IGKException;
+use ReflectionException;
 
 /**
  * 
@@ -15,6 +19,16 @@ use IGK\System\Text\RegexMatcherContainer;
  */
 trait ExpressionEvalEngineTrait
 {
+    /**
+     * eval mustache expression and [[:@raw]] | [[:@ctl]] expression - for other just use global definition 
+     * @param string $content 
+     * @param array $data 
+     * @return string 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function EvalBindingExpression(string $content, array $data)
     {
         // $data = (array)$options;
@@ -51,31 +65,6 @@ trait ExpressionEvalEngineTrait
             }
         }
         $s .= substr($content, $offset);
-        return $s;
-
-        // igk_wln_e("done", $s);
-
-
-        // if ($c = preg_match_all('/(?P<escape>(\\\)?\')?\{\{(?P<value>.+)\}\}/', $content, $matches)) {
-        //     $tab = [];
-        //     for ($i = 0; $i < $c; $i++) {
-        //         $v_escape = $matches['escape'][$i];
-        //         if ($v_escape == '\'') {
-        //             continue;
-        //         }
-        //         $v_v = $matches[$i][0];
-        //         if (!key_exists($v_v, $tab)) {
-        //             $v_ts = substr($v_v, strlen($v_escape));
-        //             $v = $exp_reader->treatContent($v_ts, $data);
-        //             $v = igk_str_remove_quote($v);
-        //             if ($v_escape == '\\\'') {
-        //                 $v_escape = '\'';
-        //             }
-        //             $content = str_replace($v_v, $v_escape . $v, $content);
-        //             $tab[$v_v] = 1;
-        //         }
-        //     }
-        // }
-        // return igk_str_remove_quote($content);
+        return $s; 
     }
 }

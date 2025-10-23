@@ -4,6 +4,8 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Configuration;
+
+use Exception;
 use IGK\Resources\R;
 use IGK\System\IO\FileWriter;
 use IGKCSVDataAdapter;
@@ -192,13 +194,19 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         ($r = igk_io_w2file($file, $out, true)) && FileWriter::Invalidate($file);
         return $r;
     }
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $entries 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     */
     public function set($name, $entries)
     {
         if (is_array($entries)) {
             igk_die("array entries not allowed");
-        } else {
-            igk_die("array entries not allowed");
-        }
+        } 
         $k = key($entries);
         $v = array_unshift($entries);
         while (count($entries) > 0) {

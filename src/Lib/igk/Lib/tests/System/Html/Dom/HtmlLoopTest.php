@@ -26,7 +26,7 @@ class HtmlLoopTest extends BaseTestCase
         $b = $t->render();
         
         $this->assertEquals(            
-            '<div><div><div class="presentation"> welcome 0 </div><div class="presentation"> welcome 1 </div><div class="presentation"> welcome 2 </div></div></div>',
+            '<div><div><div class="presentation"> welcome 0 </div></div><div><div class="presentation"> welcome 1 </div></div><div><div class="presentation"> welcome 2 </div></div></div>',
             $b,
         );
     }
@@ -48,41 +48,41 @@ class HtmlLoopTest extends BaseTestCase
             $a["*class"] = "igk_css_litteral([\$raw==1 ? 'item-2':null, \$raw==2 ? 'item-3': null])";
             $a->Content = " welcome {{ \$raw }} ";
         });
-
+        $s = $t->render();
         $this->assertEquals(
-            '<div><div><div class=""> welcome 0 </div><div class="item-2"> welcome 1 </div><div class="item-3"> welcome 2 </div></div></div>',
-            $t->render(),
+            '<div><div><div class=""> welcome 0 </div></div><div><div class="item-2"> welcome 1 </div></div><div><div class="item-3"> welcome 2 </div></div></div>', $s,
         );
     }
 
     public function test_loop_class_href()
     {
-        $t = new HtmlNode("div");
+        $t = new HtmlNode("p");
         $t->div()->loop(3)->div()->host(function ($a) {
             $a["*class"] = "igk_css_litteral([\$raw==1 ?\"item-2\":null, \$raw==2 ? \"item-3\": null])";
-            $a->a('#')->setAttribute("*href", '$raw')->Content = "data";
+            $lnk = $a->a('#')->setAttribute("*href", '$raw');
+            $lnk->Content = "data";
             $a->Content = " welcome {{ \$raw }} ";
-        });
-        $options = (object)["PreserveAttribOrder"=>true];
-        $options = (object)["PreserveAttribOrder"=>false];
- 
+        }); 
+        $options = ["PreserveAttribOrder"=>false]; 
+        $s = $t->render($options);
+
         $this->assertEquals(
-            '<div><div><div class=""> welcome 0 <a href="0">data</a></div><div class="item-2"> welcome 1 <a href="1">data</a></div><div class="item-3"> welcome 2 <a href="2">data</a></div></div></div>',
-            $t->render($options),
+            '<p><div><div class=""> welcome 0 <a href="0">data</a></div></div><div><div class="item-2"> welcome 1 <a href="1">data</a></div></div><div><div class="item-3"> welcome 2 <a href="2">data</a></div></div></p>',
+             $s
         );
     }
 
     public function test_loop_class_key()
     { 
         $t = new HtmlNode("div");
-        $t->div()->loop(3)->div()->host(function ($a) {
+        $t->p()->loop(3)->div()->host(function ($a) {
             $a->a('#')->setAttribute("*href", '$raw')->Content = "data";
             $a->Content = " welcome {{ \$raw }} - {{ \$key }}";
         });
         $s = $t->render();
         $this->assertEquals(
-            '<div><div><div> welcome 0 - 0<a href="0">data</a></div><div> welcome 1 - 1<a href="1">data</a></div><div> welcome 2 - 2<a href="2">data</a></div></div></div>',
-           $s
+            '<div><p><div> welcome 0 - 0<a href="0">data</a></div></p><p><div> welcome 1 - 1<a href="1">data</a></div></p><p><div> welcome 2 - 2<a href="2">data</a></div></p></div>',
+            $s
         );
     }
 

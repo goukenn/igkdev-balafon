@@ -7,6 +7,7 @@ namespace IGK\System\Html;
 use Closure;
 use Error;
 use Exception;
+use IGK\System\Core\EngineReadArgs;
 use IGK\System\DataArgs;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
@@ -438,7 +439,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         &$activate,
         &$fn_c
     ) {
-        $v_keys = array_keys($v);
+        // $v_keys = array_keys($v);
         if (key_exists(self::KEY_ATTRIBS, $v)) {
             $attribs = $v[self::KEY_ATTRIBS];
             unset($v[self::KEY_ATTRIBS]);
@@ -683,7 +684,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 }
                 continue;
             }
-            $tpnode = $n;
+            $tpnode = $n; $glue = '';
             list($tagname, $id, $class, $iargs, $v_name, $iattr) = $visitor->explodeTag($k, $n);
             if ($tpnode === $n) {
                 $tpnode = null;
@@ -708,10 +709,13 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             $c && $visitor->onCreate($c);
             // + | evaluable expression
             if ($v instanceof IHtmlNodeEvaluableExpression) {
+                $v_context = (array)$visitor->getContext(); 
                 if ($visitor->isInTemplateDefinition()) {
-                    $v = $v->getValue();
+                    if (($v = $v->getValue()) && $v_context)
+                        $v = EngineReadArgs::TreatGlobalArgs($v, $v_context);
+
                 } else {
-                    $v = $v->evaluate((array)$visitor->getContext());
+                    $v = $v->evaluate($v_context);
                 }
             }
             if (($c instanceof HtmlItemBase) && ($n !== $c)) {

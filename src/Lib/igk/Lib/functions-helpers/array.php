@@ -25,14 +25,14 @@ if (!function_exists("igk_array_keysv")) {
     function igk_array_keysv(array $tab)
     {
         $o = [];
-        foreach ($tab as $k=>$value) {
-            if (is_numeric($k))continue;
+        foreach ($tab as $k => $value) {
+            if (is_numeric($k)) continue;
             $o[$k] = $value;
         }
         return $o;
     }
 }
-if (!function_exists('igk_array_pad')){
+if (!function_exists('igk_array_pad')) {
     /**
      * trucate array or append to max length
      * @param mixed $array 
@@ -40,11 +40,12 @@ if (!function_exists('igk_array_pad')){
      * @param mixed $default 
      * @return mixed 
      */
-    function igk_array_pad($array, int $length, $default=null){
-        if (count($array)>$length){
+    function igk_array_pad($array, int $length, $default = null)
+    {
+        if (count($array) > $length) {
             return array_slice($array, 0, $length);
         }
-        while(count($array)<$length){
+        while (count($array) < $length) {
             array_push($array, $default);
         };
         return $array;
@@ -367,7 +368,7 @@ if (!function_exists("igk_array_replace_key")) {
     function igk_array_replace_key(array &$tab, $oldkey, $newkey, $value)
     {
         $keys = array_keys($tab);
-        if (false === ($pos = array_search($oldkey, $keys))){
+        if (false === ($pos = array_search($oldkey, $keys))) {
             return false;
         }
         $keys[$pos] = $newkey;
@@ -581,7 +582,7 @@ if (!function_exists("igk_array_key_map_implode")) {
      * @param mixed $tab 
      * @return mixed 
      */
-    function igk_array_key_map_implode($tab, $delimiter = ':', $separator = ';', $sub_start = '{', $sub_end = '}', $string_delimit = true, string $empty_value="")
+    function igk_array_key_map_implode($tab, $delimiter = ':', $separator = ';', $sub_start = '{', $sub_end = '}', $string_delimit = true, string $empty_value = "")
     {
         $sep = '';
         $delim = '';
@@ -697,8 +698,10 @@ if (!function_exists('igk_array_dump_short')) {
                     $t = array_shift($keys);
                     $v = $n[$t];
                     if (is_numeric($t) && is_string($v)) {
-                        $s .= $ch . $fc_value($v, $rp);
-                        $ch .= ',';
+                        if (!empty($v)) {
+                            $s .= $ch . $fc_value($v, $rp);
+                            $ch = ',';
+                        }
                         continue;
                     }
 
@@ -758,21 +761,21 @@ if (!function_exists('igk_array_order_by')) {
     }
 }
 
-if (!function_exists('igk_array_merge_assoc')){
+if (!function_exists('igk_array_merge_assoc')) {
     /**
      * merge array by preserving last key association 
      * @param mixed ...$args 
      * @return array 
      */
-     function igk_array_merge_assoc(...$args)
+    function igk_array_merge_assoc(...$args)
     {
         $r = [];
-        while(count($args)>0){
+        while (count($args) > 0) {
             $q = (array)array_shift($args);
-            foreach($q as $k=>$v){
-                $r[$k]=$v;
+            foreach ($q as $k => $v) {
+                $r[$k] = $v;
             }
         }
-        return $r; 
+        return $r;
     }
 }

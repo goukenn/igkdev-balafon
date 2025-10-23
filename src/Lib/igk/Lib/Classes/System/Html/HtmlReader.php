@@ -60,6 +60,7 @@ final class HtmlReader extends IGKObject
     private $m_errors = [];
     private static $sm_ItemCreatorListener, $sm_openertype = [];
     private $m_length;
+    private static $sm_loop_binding_depth; 
     /**
      * skip element data
      * @var ?bool
@@ -90,15 +91,18 @@ final class HtmlReader extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    private static function _BindTemplate($reader, &$cnode, $template)
+    private static function _BindTemplate($reader, &$cnode,& $template)
     {
+        $binding_args = sprintf("$%s", CompilerConstants::LOOP_CONTEXT_DATA_VAR);
         $engine = "";
         if (is_array($template)) {
             $src = igk_getv($template, "content");
             $data = igk_getv($template, "context-data", []);
             $operation = igk_getv($template, 'operation');
+            $is_deep = self::$sm_loop_binding_depth;
             $ctrl = isset($reader->m_context->ctrl) ? $reader->m_context->ctrl : null;
             $n_context = ["scope" => 0, "contextlevel" => 1, "fname" => "__memory__", "data" => null];
+            self::$sm_loop_binding_depth = $is_deep + 1;
             if ($operation == \IGK\System\Html\Templates\BindingConstants::OP_LOOP) {
                 $n_options = (object)["Indent" => 0, "Depth" => 0, "Context" => "html", "RContext" => $n_context, "ctrl" => $ctrl];
                 igk_set_env("sys:://expression_context", $n_options);
@@ -107,20 +111,31 @@ final class HtmlReader extends IGKObject
                         $v_bind = new HtmlTemplateReaderDataBinding($cnode, $src, $ctrl, $data, $v_bcontext);
                         $v_ts = $v_bind->treat();
                         if ($v_bcontext->transformToEval) {
-                            $v_expression = $v_bcontext->hookExpression ?? CompilerConstants::BINDING_CONTEXT_VAR_NAME;
-                            $v_comment = igk_is_debug() ? '/* ' . __METHOD__ . ' */ ' : "";
+                            $v_expression = $v_bcontext->hookExpression ?? $binding_args ;
+                            $v_comment = igk_is_debug() ? ' /* in ' . __METHOD__ . ' */ ' : "";
                             $sb = new StringBuilder;
                             $sb->appendLine('<?php');
-                            $sb->append("if (isset($v_expression)) foreach($v_expression as \$key=>\$raw$v_comment):\n?>");
+                            $_state = self::$sm_loop_binding_depth > 1 ;
+                            if (   $_state ){
+                                $sb->appendLine("/* save state */");
+                                $sb->appendLine("\$v_states[] = compact('raw', 'key', '".CompilerConstants::LOOP_CONTEXT_DATA_VAR."'); $".
+                                CompilerConstants::LOOP_CONTEXT_DATA_VAR."= \$__fc_loop_ref(\$raw);");
+                            }
+                            $sb->appendLine("if (isset($v_expression)):\nforeach($v_expression as \$key=>\$raw$v_comment):\n?>");
                             $sb->append($v_ts);
-                            $sb->appendLine("<?php\nendforeach;\n?>");
-                            if ($v_expression==CompilerConstants::BINDING_CONTEXT_VAR_NAME){
+                            $sb->appendLine("<?php endforeach; ");    
+                            if ( $_state ){
+                                  $sb->appendLine("/* restore save state */");
+                                  $sb->appendLine("extract(array_pop(\$v_states));");
+                            }                        
+                            $sb->appendLine("endif; ?>");
+                            if ($v_expression==$binding_args ){
                                 //+ | passing sub to function 
-                                $sb = sprintf('<?php (function(%s){ %s ?>%s<?php })($raw); ?>', 
-                                    $v_expression,
-                                     $v_expression.' = '.str_replace("%s", $v_expression, 
-                                        'isset(%s) && !is_array(%s)&& !is_object(%s) ? [%s] : %s;'), //.$v_expression.'];',
-                                    $sb.'');
+                                // $sb = sprintf('<?php (function(%s){ %s ? >%s<?php })($raw); ? >', 
+                                //     $v_expression,
+                                //      $v_expression.' = '.str_replace("%s", $v_expression, 
+                                //         'isset(%s) && !is_array(%s)&& !is_object(%s) ? [%s] : %s;'), //.$v_expression.'];',
+                                //     $sb.'');
                             }
                             $v_ts = $sb;
                         }
@@ -130,6 +145,7 @@ final class HtmlReader extends IGKObject
             } else {
                 igk_die(__("Only loop operation is allowed : {0}", $operation));
             }
+            self::$sm_loop_binding_depth = $is_deep;
         }
         $gnode = $cnode->getParentNode();
         if ($gnode && !empty($engine)) {
@@ -1231,6 +1247,19 @@ final class HtmlReader extends IGKObject
         }
         self::_PopContext();
     }
+    /**
+     * 
+     * @param mixed $reader 
+     * @param mixed &$v_tags 
+     * @param mixed &$cnode 
+     * @param mixed $tab_doc 
+     * @param mixed $caller_context 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected static function _ReadModelEndElement($reader, &$v_tags, &$cnode, $tab_doc, $caller_context)
     {
         $v_n = $reader->getName();

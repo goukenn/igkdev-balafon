@@ -157,7 +157,7 @@ class BindingExpressionReader
 
             $listener = function () {
                 extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0) ?? [$v_rk  => new DataArgs([])]));
-                // $__c = $raw ; 
+                // $__c = $ctrl; 
                 $_v_r =  @eval('return ' . func_get_arg(0) . ';');
                 if (($_v_r instanceof DataArgs) && ($c = $_v_r->getData()) && ($c instanceof Closure)){
                     $_r = $c($raw, $ctrl);
@@ -198,7 +198,8 @@ class BindingExpressionReader
                 $dv = \igk_html_wtag($this->expressionTagName, "", $this->expressionArgs, 1);
             } else {
                 if ($this->transformToEval) {
-                    $dv = sprintf('<?= %s ?>', $reader->value);
+                    // transform express ion to eval list 
+                    $dv = $this->TranformExpressionToEval($reader->value);
                 } else {
                     list($dv, $pipe) = igk_str_pipe_args($reader->value, $c);
                     $dv = $listener($dv, $data);
@@ -218,6 +219,19 @@ class BindingExpressionReader
         }
         $v .= substr($reader->text, $loffset);
         return $v;
+    }
+    /**
+     * stranform expression to eval definition 
+     * @param mixed $expression 
+     * @return string 
+     */
+    public static function TranformExpressionToEval($expression){
+        $pipe = null;
+        $v = igk_str_detect_pipe($expression, $pipe);
+        if ($pipe){            
+            $v = sprintf('igk_str_pipe_value(%s, "%s")', $v, addslashes(stripslashes($pipe)));
+        }
+        return sprintf('<?= %s ?>', $v);
     }
     private function _getBindingRawData($data)
     {

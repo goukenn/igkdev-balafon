@@ -85,7 +85,7 @@ class SysUtils{
         }
         extract(func_get_arg(1));
         try{ 
-            if (!igk_environment()->NoLogEval && igk_environment()->isDev()){
+            if (igk_is_debug() && !igk_environment()->NoLogEval && igk_environment()->isDev()){
                 igk_ilog('eval : '.func_get_arg(0));
             }
             eval("?>".func_get_arg(0));

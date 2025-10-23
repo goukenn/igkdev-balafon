@@ -49,6 +49,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     const FLAG_INIT = IGK_NODETYPE_FLAG;
     const PREFILTER_ATTRIBUTE = 5;
     const RENDER_ONLY = 6;
+ 
+    const OVERRIDE_PARENT_TAG_FLAG = 'override_parent_tag_flag';
     /**
      * property flag container
      * @var array
@@ -1302,7 +1304,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public static function BindDefaultContent($node, $content)
     {
         $b = $node;
-        if (is_string($content)) {
+        if (is_string($content) || is_numeric($content)) {
             $b->setContent($content);
         } else if (is_array($content)) {
             $b->setAttributes($content);
@@ -1310,6 +1312,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             $b->add($content);
         } else if ($content instanceof Closure) {
             $content($b);
+        } else if (is_object($content)){
+            $b->text(json_encode($content));
         }
     }
     /**

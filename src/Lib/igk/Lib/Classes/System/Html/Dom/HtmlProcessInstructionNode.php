@@ -58,10 +58,10 @@ class HtmlProcessInstructionNode extends HtmlNode{
                 $src=implode("\n", array_filter(array_map("rtrim", explode("\n", $src)))); 
             }
         }
-        $out="<?";
+        $out = "<?";
         $out .= $src;
         if(!$this->m_noClose){
-            $out .= "?>\n";
+            $out .= "?>";
         }
         return $out;
     }

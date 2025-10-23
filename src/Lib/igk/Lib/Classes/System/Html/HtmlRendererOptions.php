@@ -139,6 +139,10 @@ class HtmlRendererOptions
      * @var for aside items
      */
     var $aside;
+    /**
+     * store definition properties
+     * @var mixed
+     */
     private $m_properties;
     /**
      * set extra property
@@ -164,6 +168,12 @@ class HtmlRendererOptions
     {
         return igk_getv($this->m_properties, $n);
     }
+    /**
+     * set reference properties
+     * @param mixed $n 
+     * @param mixed &$v 
+     * @return void 
+     */
     public function setRef($n, &$v)
     {
         $this->m_properties[$n] = &$v;

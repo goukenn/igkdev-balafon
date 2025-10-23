@@ -352,7 +352,10 @@ abstract class ControllerExtension
         $gf = $ctrl->getViewDir();
         $tab = [];
         $ln = strlen($gf);
-        foreach (IO::GetFiles($gf, "/\.phtml/i", $recursive) as $bf) {
+        $views = ['phtml', 'bview'];
+        $r = sprintf('(%s)', implode('|', $views));
+
+        foreach (IO::GetFiles($gf, "/\.".$r."$/i", $recursive) as $bf) {
             $n = substr($bf, $ln + 1);
             $p = dirname($n);
             $tn = igk_io_basenamewithoutext($n);
@@ -369,7 +372,7 @@ abstract class ControllerExtension
                 $p = "";
             else
                 $p .= "/";
-            $tab[] = $p . $tn;
+            $tab[$p . $tn] = $p . $tn;
         }
         return $tab;
     }
