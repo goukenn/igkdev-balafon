@@ -18,4 +18,5 @@ abstract class ListOfCoreServices
     const PRINTER = "Printer";
     const MAPPING_SERVICE = "MappingService";
     const FORMATTER_SERVICE = 'formatters';
+    const CORE_CODE_HIGHLIGHT = 'balafon-core-code-highlight';
 }

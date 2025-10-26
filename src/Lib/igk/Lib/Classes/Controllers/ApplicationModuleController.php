@@ -4,6 +4,7 @@ use Error;
 use Exception;
 use IGK\Helper\IO; 
 use IGK\ApplicationLoader;
+use IGK\Constants;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Controllers\ControllerMethods;
 use IGK\System\Exceptions\ApplicationModuleInitException;
@@ -23,7 +24,7 @@ use TypeError;
 */
 final class ApplicationModuleController extends BaseController{
     const INIT_DOC_METHOD = "initDoc";
-    const CONF_MODULE = "balafon.module.json"; 
+    const CONF_MODULE = Constants::MODULE_CONF_FILE; 
     const MODULE_INITIALIZER_FNAME = ".module.pinc";
     private $m_dir;
     private $m_doc;

@@ -11,6 +11,7 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
+use IGK\System\Text\Formatters\FormatterBase;
 use IGK\System\Text\IRegexMatchPatternOutpuTreatmentListener;
 use IGK\System\Text\IRegexMatchPatternStateListener;
 use IGK\System\Text\RegexMatcherCapture;
@@ -25,10 +26,27 @@ use ReflectionException;
 class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchPatternOutpuTreatmentListener
 {
     /**
+     * use code formatter service
+     * @var ?bool
+     */
+    var $useCodeFormatter;
+    /**
      * mention base url 
      * @var ?string
      */
     var $mentionBaseURL;
+
+    /**
+     * set default line tag
+     * @var string
+     */
+    var $tag = 'p';
+
+    /**
+     * store document link
+     * @var ?array
+     */
+    var $documentLinks;
     /**
      * store emojies
      * @var emojies
@@ -56,6 +74,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     private $m_ul;
     /**
      * 
+     * @var IGK\System\IO\Markdown\m_useTag
+     */
+    private $m_useTag;
+    /**
+     * 
      * @var array<keyOf<'a' | 'quote' >, array<['class']>>
      */
     private $m_classStyles;
@@ -77,6 +100,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     protected $m_node;
     protected $m_stores;
     const TREAT_METHOD = 'treat';
+
+    /**
+     * allow document link
+     * @var ?bool
+     */
+    var $allowLinkDocument; 
     public function setEmojie(?array $emojies){
         $this->m_emojies = $emojies;
     }
@@ -186,6 +215,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $bold = $m->begin("(\\*\\*|__)", "\\1", "text-bold")->last();
         $task_list_item = $m->match("^- \[(?P<type> |x|-)\]\s+(?P<value>.+)(?=\\n)?", "task-list-item")->last();
         $list_item = $m->match("^- .+", "list-item")->last();
+        $hr_item = $m->match("^---.*$", "hr")->last();
         $emphasis = $m->begin("(\\*|_)", "\\1", "text-italic")->last();
         $code_block = $m->begin('`', '`', 'code-block')->last();
         $empty_block = $m->appendEmptyLineDetection('empty-line')->last();
@@ -218,7 +248,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 $code_block,
                 $emoji_block,
                 $litteral_string,
-                $escaped_string
+                $escaped_string,
+                $uri_block
             ];
         $bold->patterns = [
             $emphasis,
@@ -249,15 +280,25 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_container->ouputTreatmentListener = $this;
         $this->m_container->treat($html, [$this, self::TREAT_METHOD]);
         if ($this->m_state) {
-            // depending on document state 
-            // $this->m_output = ltrim($this->m_output) . $this->endStateState();
-            $this->m_output .= $this->endStateState();
+            // depending on document state  
+            $this->m_output .= $this->endStateState();// . $this->m_output;
+            $this->m_state = null;
         }
         // + | last entry segment
         if ($str = substr($html, $this->m_lpos)) {
+            $str = $this->default($str);
             $this->m_output .= $str;
         }
         return ltrim($this->m_output);
+    }
+    private function default(string $str, $force=false){
+        if ($this->m_useTag || $force){
+            $l = igk_create_node_arg($this->tag);
+            $l->content = igk_str_rm_start($str, "\n", 1);
+            return $l->render();
+        }
+        return $str;
+
     }
     protected function bindRow($table, $rows, $header = false)
     {
@@ -289,13 +330,14 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     public function treat(RegexMatcherCapture $g, int &$next_pos, string &$data)
     {
-        $fc = null;
-        $v_debug = true ; // igk_is_debug();
-        if ($g->tokenID)
-            $fc = igk_getv($this->m_context, $g->tokenID) ?? '_treat_' . ltrim(StringUtility::FuncName($g->tokenID), '_');
+        $fc = null; 
+        $v_debug = igk_is_debug();
+        $tid = $g->tokenID;
+        if ($tid)
+            $fc = igk_getv($this->m_context, $tid) ?? '_treat_' . ltrim(StringUtility::FuncName($tid), '_');
         if ($g->getisRootCaptured()) {
-            $v_debug && Logger::print('captured : ' . $next_pos . ':' . $g->tokenID . ' : ' . App::Gets(App::BLUE_I, $g->value));
-            switch ($g->tokenID) {
+             $v_debug && Logger::info('captured : ' . $next_pos . ':' . $tid . ' : ' . App::Gets(App::BLUE_I, $g->value));
+            switch ($tid) {
                 default:
                     if ($fc && method_exists($this, $fc)) {
                         $tc = '';
@@ -306,6 +348,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                             $this->m_ltrim = false;
                             $this->_rtrimOutput();
                         }
+                        $this->m_useTag = $this->m_useTag || !in_array($tid,['emoji']);
                         $s = call_user_func_array([$this, $fc], [$g->value, $g]);
                         if (($this->m_ltrim) && !$not_empty){
                             $tc='';
@@ -522,6 +565,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         }
         return $li;
     }
+    public function _treat_hr(){
+        $n = igk_create_node('hr');
+        $n['class'] = 'hrule';
+        return $n->render();
+    }
     protected function _treat_sub_list_item(string $v)
     {
         $sb = '';
@@ -563,7 +611,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     protected function _treat_sub_ordered_list_item(string $v, $captures = null)
     {
         $sb = '';
-        $depth = $captures?->option->depth;
+        $depth = ($captures ? $captures->option->depth : null) ??  0;
         $tag = 'ol';
         if (!$depth) {
             $c = preg_match("/^(?:\t)+/", $v, $ct);
@@ -613,6 +661,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         $this->m_output = rtrim($this->m_output);
     }
+    private function _closeState(){
+        if ($this->m_state){
+            $this->m_output .= $this->endStateState(); 
+        }
+    }
     /**
      * treat text header 
      * @param string $v 
@@ -624,10 +677,16 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         if (empty($c = ltrim($v, '# '))){
             return '';
         }
+        $this->_closeState();
+     
         $regex = "/^#{1,6} /";
         preg_match($regex, $v, $tab);
         $count = strlen(trim($tab[0]));
         $v = ltrim(preg_replace($regex, '', $v));
+
+        // header convert to local document action 
+        $v_slug = $this->_slugify($v);
+
         if (!empty($v)) {
             $v = self::_StreatContent($v);
             $attr = igk_getv($this->m_classStyles, 'header');
@@ -635,10 +694,32 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             if ($attr) {
                 $n->setAttributes($attr);
             }
+            if ($v_slug && $this->allowLinkDocument){
+                if (!isset($this->documentLinks[$v_slug])){
+                    $n->setAttribute('id', $v_slug);
+                    $this->documentLinks[$v_slug]=1;
+                }
+            }
             $this->_rtrimOutput();
             $this->m_ltrim = true;
             return $n->render();
         }
+    }
+    protected function removeAccents($text){
+        return StringUtility::RemoveAccents($text);
+       
+    }
+    protected function _slugify(string $v){
+        $text =  $v; // trim(strtolower(preg_replace('/\\s+/', '-', $v)));
+
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+    // $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+    $text = $this->removeAccents($text);
+    $text = preg_replace('~[^-\w]+~', '', $text);
+    $text = trim($text, '-');
+    $text = preg_replace('~-+~', '-', $text);
+    $text = strtolower($text);
+        return $text;
     }
     protected function _treat_text_quote(string $v)
     {
@@ -732,9 +813,18 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $tname = $captures ? igk_getv($captures->beginCaptures, 'name') : null;
         $name = $tname ? $tname[0] : '';
         $v = trim(igk_str_rm_start(trim($v, '```'), $name));
+
+        if ($name){
+            if ($this->useCodeFormatter){
+                
+            }
+        }
+
+
         if (!empty($v)) {
-            $n = igk_create_node('code');
-            $n->setClass("igk-code -code-php " . ($name ? 'code-' . $name : ''));
+            $n = new HtmlNode('code');
+            $attr_class = igk_getv($this->m_classStyles, 'code-fence') ?? "igk-code -code-php " . ($name ? 'code-' . $name : '');            
+            $n->setClass($attr_class);
             $n->text($v);
             $this->m_ltrim = true;
             return $n->render();

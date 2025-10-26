@@ -103,6 +103,8 @@ class MakeViewCommand extends AppExecCommand{
         if ($v_cache_clear){
             \IGK\Helper\SysUtils::ClearCache(); 
         }
+        Logger::info('CLI command: ');
+        Logger::info('balafon --request:view  '.$ctrl->getName() . ' '.$viewname);
         Logger::success("done\n");
     }
     public function help(){ 

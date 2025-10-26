@@ -480,6 +480,9 @@ class SQLQueryUtils
                 case "OrderByField":
                     break;
                 case "OrderBy":
+                    if (is_string($v)){
+                        $v = [$v];
+                    }
                     if (is_array($v)) {
                         $torder = "";
                         $c = "";
@@ -494,7 +497,7 @@ class SQLQueryUtils
                         $torder .= " ";
                         $optset[$k] = $torder;
                     } else {
-                        igk_die("OrderBy must be an array ['Colum,...|Type']");
+                        igk_die("OrderBy must be an array ['Colum,...|Type'] | 'Column,...|Type' Type ASC|DESC");
                     }
                     break;
                 case "Columns":
@@ -900,6 +903,9 @@ class SQLQueryUtils
      */
     public static function BuildOrderBy($v, &$optset, string $k, $ad, $defOrder='ASC')
     {
+        if (is_string($v)){
+            $v = [$v];
+        }
         if (is_array($v)) {
             $torder = "";
             $c = "";
@@ -914,7 +920,7 @@ class SQLQueryUtils
             $torder .= " ";
             $optset[$k] = $torder;
         } else {
-            igk_die("OrderBy must be an array ['Column,...|Type']");
+            igk_die("OrderBy must be an array ['Column,...|Type']|'Column,...|Type' where Type ASC|DESC");
         }
     }
     /**

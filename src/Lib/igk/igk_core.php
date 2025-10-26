@@ -241,6 +241,16 @@ if (!function_exists('igk_resources_gets')) {
     }
 }
 
+if (!function_exists('igk_resources_getsf')) {
+    /**
+     * shorcut helper 
+     * @return mixed 
+     */
+    function igk_resources_getsf(){
+        return call_user_func_array('igk_resources_sprintf', func_get_args());
+    }
+}
+
 if (!function_exists('igk_resources_sprintf')) {
 
     /**

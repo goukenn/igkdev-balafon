@@ -13,6 +13,8 @@ use IGK\System\Database\JoinTableOp;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\Constants;
+use IGKException;
+
 /**
  * intialize core class 
  * @package IGK\Database\Models\Helper
@@ -148,6 +150,14 @@ class InitClassBuilder
             if ($cinfo->clIsUniqueColumnMember) {
                 if (!($index = $cinfo->clColumnMemberIndex)) {
                     $index = 0;
+                } else {
+                    if (is_array($index)){
+                        if (count($index) == 1){
+                            $index = igk_getv($index, 0) ?? 0;
+                        } else {
+                            throw new IGKException('main clClumnMemberIndex as array '. igk_debug_sprintf(__FILE__.":".__LINE__));
+                        }
+                    }
                 }
                 $unique_columns[$index][] = $cinfo->clName;
             }

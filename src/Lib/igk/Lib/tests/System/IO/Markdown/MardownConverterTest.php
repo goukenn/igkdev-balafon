@@ -20,9 +20,10 @@ class MardownConverterTest extends BaseTestCase
     // public static function suite(){
     //     return new TestSuite(static::class);//  'markdown';
     // }
-    private function _transform(string $src)
+    private function _transform(string $src, $allowDocumentLink=false)
     {
         $converter = new MarkdownConverter;
+        $converter->allowLinkDocument = $allowDocumentLink;
         $l = $converter->transformToHtml($src);
         return $l;
     }
@@ -92,7 +93,7 @@ class MardownConverterTest extends BaseTestCase
     {
         $src = '@igkdev is the best';
         $d = $this->_transform($src);
-        $this->assertEquals('<a href="/@igkdev"><span class="mention">@igkdev</span></a> is the best', $d);
+        $this->assertEquals('<a href="/@igkdev"><span class="mention">@igkdev</span></a><p> is the best</p>', $d);
     }
     public function test_mdconverter_escaped()
     {
@@ -185,6 +186,31 @@ class MardownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals(implode("\n", [
             '<h2>Docker - </h2><code class="igk-code">docker compose down</code>'
+        ]), $d);
+    }
+
+    public function test_mdconverter_document_link(){
+        $src = implode("\n", [
+            '# document',
+            '- [link](#sample)',
+            '## sample',
+            'writing sample'
+        ]);
+        $d = $this->_transform($src, true);
+        $this->assertEquals(implode("\n", [
+            '<h1 id="document">document</h1><ul class="list"><li class="i"><a href="#sample">link</a></li></ul><h2 id="sample">sample</h2><p>writing sample</p>'
+        ]), $d);
+    }
+
+    public function test_mdconverter_hr(){
+        $src = implode("\n", [
+            '# document',
+            '---',
+            'writing sample'
+        ]);
+        $d = $this->_transform($src, true);
+        $this->assertEquals(implode("\n", [
+            '<h1 id="document">document</h1><hr class="hrule"/><p>writing sample</p>',
         ]), $d);
     }
 }

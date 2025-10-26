@@ -35,6 +35,10 @@ class IGKServices extends ListOfCoreServices
         }
         $this->m_services[$name] = $service;
     } 
+    /**
+     * retrieve the core service instances 
+     * @return static 
+     */
     public static function getInstance()
     {
         if (self::$sm_instance === null) {
@@ -79,10 +83,10 @@ class IGKServices extends ListOfCoreServices
      * register service.
      * @param string $serviceName 
      * @param string $className a class that implement IAppService
-     * @return void 
+     * @return bool
      * @throws IGKException 
      */
-    public static function Register(string $serviceName, string $className)
+    public static function Register(string $serviceName, string $className):bool
     {
         $instance = self::getInstance();
         if (class_exists($className) && is_subclass_of($className, IAppService::class)) {
@@ -94,6 +98,7 @@ class IGKServices extends ListOfCoreServices
                 else{
                     $instance->m_services[$path] = ['@def'=>$className]; 
                 }
+                return true;
             }
         }
         return false;

@@ -36,7 +36,8 @@ namespace IGK\System\Configuration;
 * @property bool $default_author
 * @property bool $default_controller
 * @property bool $default_dataadapter
-* @property bool $default_lang
+* @property ?string $default_lang
+* @property ?string $default_user
 * @property bool $display_errors
 * @property bool $error_debug
 * @property bool $error_reporting

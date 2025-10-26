@@ -60,8 +60,8 @@ class FormatterPattern extends RegexMatcherPattern
     var $isContinueBlock;
 
     /**
-     * 
-     * @var ?string|string[]|closure(string $select)
+     * if array assoc array 
+     * @var ?string|string[]|closure(string $select):string
      */
     var $replaceWith;
     /**

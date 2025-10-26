@@ -234,7 +234,7 @@ class BalafonApplication extends IGKApplicationBase
             $this->library("gd");
         }
         igk_hook("console::app_cli_bootstrap", $this);
-
+        // + | force register base formatter service as a Formatter service container
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
 
     }
@@ -261,6 +261,7 @@ class BalafonApplication extends IGKApplicationBase
         igk_configs()->no_db_route = 1;
         igk_register_service('balafon', 'cli', new BalafonCLIService);
         IGKApp::StartEngine($this);
+
         return \IGK\System\Console\App::Run($this->command, $this->basePath, $this->configs);
     }
     /**

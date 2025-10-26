@@ -732,11 +732,13 @@
                 let o = '', g = null, loffset = 0, closed_tag = 0, regex = new RegexContainer();
                 src = src.replaceAll('&amp;', '&')
                     .replaceAll('&gt;', '>')
-                    .replaceAll('&lt;', '<');
+                    .replaceAll('&lt;', '<') 
+                    ;
                 regex.begin('<!--\\?(php|=)', '(:\/){0,1}--(:\\?){0,1}>');
                 // regex.begin('<!--\\?(php|=)', '\/--(\\?){0,1}>');
+                length = src.length;  
                 const options = { offset: 0 };
-                while (g = regex.detect(src, options)) {
+                while (g = regex.detect(src, options)) { 
                     let e = regex.end(g);
                     if (e) {
                         if (e.isContinue)
@@ -756,6 +758,9 @@
                             // terminate but missing end
                             loffset = e.from + te.length;
                         }
+                    } else {
+                        console.error('not end ....');
+                        break;
                     }
                 }
                 if (loffset < src.length) {
@@ -763,7 +768,7 @@
                         o += '?>';
                     }
                     o += src.substring(loffset);
-                }
+                } 
                 return o;
             }
         };
@@ -884,6 +889,7 @@
             var w = "";
             var c = 0;
             var ch = "";
+            const bc = inf.pos ;
             while (inf.pos < inf.ln) {
                 ch = inf.s[inf.pos];
                 // TODO TRADITIONAL WAY               
@@ -894,6 +900,9 @@
                     break;
                 }
                 inf.pos++;
+            }
+            if ( bc == inf.pos){
+                throw new Error('read word missing - caractor reading');
             }
             return w;
         }
@@ -1041,9 +1050,13 @@
                                     }
                                     inf.pos--;
                                     // inf.read = 0;
-                                    break;
-
+                                    break; 
                                 default:
+                                    if (/[^\w\s<>\.\-\+\|\*%,=!\(\)\[\]\{\}\/]/.test(ch)){
+                                        // console.log('replace: '+ch);
+                                        sp.add("span").setHtml(' '); 
+                                        break;
+                                    }
                                     if (inf.mode == 0) {
                                         if (",.?|()#[]-+{}\\/%*><;:=&|??|===|?->|->|==|+=|-=|&&".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
                                             ch = _readPhpOperator(ch, inf);
@@ -3763,8 +3776,7 @@
                                     break;
                             }
                         }
-                        m.innerText = v;
-                        console.debug("done :" + v);
+                        m.innerText = v; 
                     }
                 }); // end append prop
             } // end reader

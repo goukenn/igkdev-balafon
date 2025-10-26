@@ -1198,7 +1198,9 @@ abstract class ControllerExtension
         if ($ns != ".") {
             return str_replace("/", "\\", $ns);
         }
-        return SysUtils::GetProjectEntryNamespace($ctrl->getDeclaredDir());
+        $conf = ProjectConfiguration::LoadConfig(Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE));
+
+        return $conf->entryNamespace ?? SysUtils::GetProjectEntryNamespace($ctrl->getDeclaredDir());
     }
     /**
      * 

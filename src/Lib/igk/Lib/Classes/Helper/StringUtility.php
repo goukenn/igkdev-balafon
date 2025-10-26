@@ -210,6 +210,21 @@ abstract class StringUtility
         return $data;
     }
     /**
+     * 
+     * @param string $text 
+     * @return string 
+     */
+    public static function RemoveAccents(string $text){
+         $accents = [
+            'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a',
+            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+            'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+            'ç' => 'c', 'ñ' => 'n', '@' => 'a', 'ô' => 'o','ö'=>'o',
+            'ÿ' => 'y', 
+        ];
+        return strtr($text, $accents); 
+    }
+    /**
      * get name_space 
      * @param string $namespace 
      * @return string 

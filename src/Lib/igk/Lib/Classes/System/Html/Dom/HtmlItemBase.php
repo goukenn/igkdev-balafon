@@ -45,12 +45,12 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     const ATTRIBS = 2;
     const ITERATOR = 3;
     const OWNER = 4;
-    const CALLBACK_SUFFIX = 'Params';
     const FLAG_INIT = IGK_NODETYPE_FLAG;
     const PREFILTER_ATTRIBUTE = 5;
-    const RENDER_ONLY = 6;
- 
+    const RENDER_ONLY = 6; 
+    const CALLBACK_SUFFIX = 'Params';
     const OVERRIDE_PARENT_TAG_FLAG = 'override_parent_tag_flag';
+    const CONTENT_FIELD = 'Content';
     /**
      * property flag container
      * @var array
@@ -630,7 +630,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * 
      * @param mixed|string|HtmlItemBase script $n 
      * @param mixed $attributes 
-     * @param mixed $args 
+     * @param null|string|array $args indexed array or variable binding for php 8
      * @return mixed 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
@@ -1067,9 +1067,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public static function CreateWebNode($n, $attributes = null, $indexOrArgs = null)
     {
         if ($n = HtmlUtils::CreateHtmlComponent($n, $indexOrArgs)) {
-            if ($attributes) {
-                $n->setAttributes($attributes);
-            }
+            if ($attributes)
+                self::BindDefaultContent($n, $attributes); 
         }
         return $n;
     }
@@ -1183,6 +1182,16 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->m_attributes->keyExists($n);
     }
+    /**
+     * just write to buffer output
+     * @param mixed $options 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     final function renderAJX($options = null)
     {
         echo $this->render($options);
@@ -1298,7 +1307,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     /**
      * bind default content according to content 
      * @param mixed|self $node 
-     * @param mixed $content 
+     * @param mixed $content content to bind 
      * @return void 
      */
     public static function BindDefaultContent($node, $content)
@@ -1306,8 +1315,24 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $b = $node;
         if (is_string($content) || is_numeric($content)) {
             $b->setContent($content);
-        } else if (is_array($content)) {
+        } else if (is_array($content)){
+            // + | retrieve real content key in the array to avoid content miss spealing
+            $m = array_keys($content);
+            $v_k = self::CONTENT_FIELD;
+            $ts = strtolower($v_k); 
+            while(count($m)){
+                $q = array_shift($m);
+                if (strtolower($q)==$ts){
+                    $v_k = $q;
+                    break;
+                }
+            }
+            if ($c = igk_getv($content, $v_k)){
+                unset($content[$v_k]);
+                $b->setContent($c);
+            }
             $b->setAttributes($content);
+
         } else if ($content instanceof HtmlItemBase) {
             $b->add($content);
         } else if ($content instanceof Closure) {

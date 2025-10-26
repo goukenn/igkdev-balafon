@@ -301,16 +301,16 @@ if (!function_exists("igk_html_node_a")) {
 	 * @param mixed $attributes
 	 * @param mixed $index
 	 */
-	function igk_html_node_a($href = "#", $attributes = null, $index = null, $content=null)
+	function igk_html_node_a($href = "#", $attributes = null, $index = null, $content = null)
 	{
 		$a = new HtmlANode();
 		$a["href"] = $href;
 		$a->setIndex($index);
-		if (is_string($attributes)){
-			$attributes = ['target'=>$attributes];
+		if (is_string($attributes)) {
+			$attributes = ['target' => $attributes];
 		}
-		if ($content){
-			$a->content=  $content;
+		if ($content) {
+			$a->content =  $content;
 		}
 		if ($attributes && is_array($attributes)) {
 			$a->setAttributes($attributes);
@@ -1623,7 +1623,7 @@ if (!function_exists("igk_html_node_containerRowCol")) {
 		return ["node" => $n];
 	}
 }
-if (!function_exists("igk_html_node_cookiewarning")) { 
+if (!function_exists("igk_html_node_cookiewarning")) {
 	///<summary>create winui-cookiewarning</summary>
 	///<param name="warnurl"></param>
 	/**
@@ -1825,22 +1825,22 @@ if (!function_exists("igk_html_node_dbTableView")) {
 						}
 						$_lheader = $theader;
 					}
-					foreach ($_lheader as $k=>$v) {
+					foreach ($_lheader as $k => $v) {
 						if (empty($k)) {
 							$header[] = $k;
 							$header_node->th()->nbsp();
 							continue;
 						}
-						if (is_array($v)){
+						if (is_array($v)) {
 							if (($ctr = Activator::CreateNewInstance(\IGK\System\Html\Components\DbTableViewHeaderInfo::class, $v))
-								instanceof  \IGK\System\Html\Components\DbTableViewHeaderInfo){
-								if (is_numeric($k)){
+								instanceof  \IGK\System\Html\Components\DbTableViewHeaderInfo
+							) {
+								if (is_numeric($k)) {
 									$k = $ctr->key;
 								}
 								$header[$k] = $r->title_label ?? $k;
 								$header_node->th()->Content =  $ctr->title_label;
-							}	
-
+							}
 						} else {
 							$header[$k] = $k;
 							$header_node->th()->Content = $is_def ? $k : __($header_prefix . $k);
@@ -2705,11 +2705,11 @@ if (!function_exists("igk_html_node_igkcopyright")) {
 	/**
 	 * create winui-igkcopyright
 	 */
-	function igk_html_node_igkcopyright(?string $title=null)
+	function igk_html_node_igkcopyright(?string $title = null)
 	{
 		$n = igk_create_node();
 		$n->setClass("igk-copyright");
-		if (is_null($title)){
+		if (is_null($title)) {
 			$n->setCallback("getCopyright", "return igk_sys_copyright();");
 			$g = new IGKValueListener($n, "getCopyright");
 			$n->Content = $g;
@@ -2805,9 +2805,9 @@ if (!function_exists("igk_html_node_img")) {
 	 */
 	function igk_html_node_img($src = null)
 	{
-		if (is_string($src)){
+		if (is_string($src)) {
 			// TODO : resolve data 
-			$src = UriResolver::ResolveControllerResource($src);			
+			$src = UriResolver::ResolveControllerResource($src);
 		}
 		return new \IGK\System\Html\Dom\HtmlImgNode($src);
 	}
@@ -2819,7 +2819,7 @@ if (!function_exists("igk_html_node_imglnk")) {
 	 */
 	function igk_html_node_imglnk()
 	{
-		return new \IGK\System\Html\Dom\HtmlImgLnkNode(...func_get_args()); 
+		return new \IGK\System\Html\Dom\HtmlImgLnkNode(...func_get_args());
 	}
 }
 if (!function_exists("igk_html_node_include")) {
@@ -2910,15 +2910,22 @@ if (!function_exists("igk_html_node_innerimg")) {
 if (!function_exists("igk_html_node_input")) {
 	///<summary>function </summary>
 	/**
-	 * function __desc__
+	 * create input node helper
+	 * @param string|array|null $id id or arg of the input or arg
 	 */
 	function igk_html_node_input($id = null, $type = 'text', $value = null, $attributes = null)
 	{
 		$i = new HtmlNode('input');
-		if ($i) {
-			$i["type"] = $type;
-			$i["value"] = ($value === null) ? igk_getr($id, null) : $value;
+		$is_string = is_string($id);
+		$attributes = $attributes ?? (is_array($id) ? $id : null);
+		$i["type"] = $type;
+		$i["value"] = ($value === null) && $is_string ? igk_getr($id, null) : $value;
+		if ($is_string)
 			$i["id"] = $i["name"] = $id;
+		else {
+			$type = igk_getv($id, 'type') ?? $type;
+		}
+		if ($type) {
 			$i["class"] = "+cl" . $type;
 			switch ($type) {
 				case "button":
@@ -2927,8 +2934,9 @@ if (!function_exists("igk_html_node_input")) {
 					$i["class"] = "-cltext +igk-btn";
 					break;
 			}
-			$attributes && $i->setAttributes($attributes);
 		}
+		$attributes && $i->setAttributes($attributes);
+
 		return $i;
 	}
 }
@@ -3139,7 +3147,7 @@ if (!function_exists("igk_html_node_jsreplaceuri")) {
 	 * @param string $uri
 	 */
 	function igk_html_node_jsreplaceuri(string $uri)
-	{ 
+	{
 		$n = igk_create_node('balafonJS');
 		$n["autoremove"] = 1;
 		$n->Content = "ns_igk.winui.history.replace('{$uri}', null); ";
@@ -3240,7 +3248,7 @@ if (!function_exists("igk_html_node_label")) {
 		$n = new HtmlNode("label");
 		$n["for"] = $for;
 		$n["class"] = "cllabel";
-		if ($for || $key){
+		if ($for || $key) {
 			$n->Content = (($key == null) ? R::ngets("lb." . $for) : R::ngets($key));
 		}
 		$n->setTempFlag("replaceContentLoading", 1);
@@ -5947,20 +5955,22 @@ if (!function_exists('igk_html_node_listitem')) {
 	}
 }
 
-if (!function_exists('igk_html_node_flex')){
-    function igk_html_node_flex($tag='div'){
-        $n = igk_create_node($tag);
-        $n['class']='dispflex';
-        return $n;
-    }
+if (!function_exists('igk_html_node_flex')) {
+	function igk_html_node_flex($tag = 'div')
+	{
+		$n = igk_create_node($tag);
+		$n['class'] = 'dispflex';
+		return $n;
+	}
 }
 
-if (!function_exists('igk_html_node_grid')){
-    function igk_html_node_flex($tag='div'){
-        $n = igk_create_node($tag);
-        $n['class']='dispgrid';
-        return $n;
-    }
+if (!function_exists('igk_html_node_grid')) {
+	function igk_html_node_flex($tag = 'div')
+	{
+		$n = igk_create_node($tag);
+		$n['class'] = 'dispgrid';
+		return $n;
+	}
 }
 
 
@@ -5970,39 +5980,39 @@ require_once IGK_LIB_DIR . "/igk_html_utils.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Helpers/factory-helper.funcs.php";
 
 if (!function_exists('igk_html_node_balafonlogo')) {
-    /**
-     * node that contant balafon logo
-     * @param string $name 
-     * @return HtmlNoTagNode 
-     */
-    function igk_html_node_balafonlogo(string $name='balafon_logo')
-    {
-        $n = igk_create_notagnode();
-        return $n->usesvg($name);
-        //return $n;
-    }
+	/**
+	 * node that contant balafon logo
+	 * @param string $name 
+	 * @return HtmlNoTagNode 
+	 */
+	function igk_html_node_balafonlogo(string $name = 'balafon_logo')
+	{
+		$n = igk_create_notagnode();
+		return $n->usesvg($name);
+		//return $n;
+	}
 }
 if (!function_exists('igk_html_node_spacer')) {
-    /**
-     * create a spacer container with content 
-     * @param string $_content
-     * @param ?string $extra_class_definition additional class to subscribe 
-     * @return HtmlNoTagNode 
-     */
-    function igk_html_node_spacer($_content, ?string $extra_class_definition=null):HtmlNoTagNode
-    {
-        $n = igk_create_notagnode();
-        $n['class']='spacer-container';
+	/**
+	 * create a spacer container with content 
+	 * @param string $_content
+	 * @param ?string $extra_class_definition additional class to subscribe 
+	 * @return HtmlNoTagNode 
+	 */
+	function igk_html_node_spacer($_content, ?string $extra_class_definition = null): HtmlNoTagNode
+	{
+		$n = igk_create_notagnode();
+		$n['class'] = 'spacer-container';
 		$t = $n->div()->setClass('spacer');
-		if(!$extra_class_definition)
+		if (!$extra_class_definition)
 			$t['class'] = $extra_class_definition;
-		if ($_content instanceof HtmlItemBase){
+		if ($_content instanceof HtmlItemBase) {
 			$t->add($_content);
 		} else {
 			$t->content = $_content;
 		}
-        return $n;
-    }
+		return $n;
+	}
 }
 
 
@@ -6011,70 +6021,67 @@ if (!function_exists('igk_html_node_mailpreview')) {
 	 * helper: create an mail preview node component
 	 * @return MailPreviewNode 
 	 */
-    function igk_html_node_mailpreview()
-    {
-        return new \IGK\System\Http\Mail\MailPreviewNode();
-    }
+	function igk_html_node_mailpreview()
+	{
+		return new \IGK\System\Http\Mail\MailPreviewNode();
+	}
 }
 
 
 if (!function_exists('igk_html_node_dotwaiter')) {
-    function igk_html_node_dotwaiter()
-    {
-        $n = igk_create_node('div');
-        $n['class'] = 'igk-dotwaiter';
-        $n->div()->setClass('dot');
-        $n->div()->setClass('dot');
-        $n->div()->setClass('dot');
-        return $n;
-    }
+	function igk_html_node_dotwaiter()
+	{
+		$n = igk_create_node('div');
+		$n['class'] = 'igk-dotwaiter';
+		$n->div()->setClass('dot');
+		$n->div()->setClass('dot');
+		$n->div()->setClass('dot');
+		return $n;
+	}
 }
 
 
-if (!function_exists('igk_html_node_breadcrumbs')){
-    /**
-     * 
-     * @param array $menus 
-     * @param mixed $ctrl 
-     * @return HtmlItemBase 
-     * @throws IGKException 
-     * @throws Exception 
-     */
-    function igk_html_node_breadcrumbs($menus, ?BaseController $ctrl=null, $selected = null)
-    {
-        $ctrl = $ctrl ?? ViewHelper::CurrentCtrl();
-        $root = $ul = igk_create_node('ul')->setAttributes([
-            'class' => 'igk-winui-breadcrumb',
-            'aria-label'=>'Breadcrumbs'
-        ]);
-        $tq = [[$ul, $menus]];
-        $item_c = 1;
-        while (count($tq) > 0) {
-            $q = array_shift($tq);
-            list($ul, $menus) = $q;
-            foreach ($menus as $k => $v) {
-                $li = $ul->li();
-                if (is_string($v)) {
-                    $v = ['text' => is_numeric($k) ? 'item_'.($item_c++) : $k, 'uri' => $v];
-                }
-                list($text, $uri, $childs, $current_page, $id) = igk_extract($v, 'text|uri|childs|current_page|id');
-                if( igk_str_startwith($uri, '@/')){
-                    $uri = $ctrl::uri(substr($uri,1));
-                }
-                $attr = [];
-                if ($current_page){
-                    $attr['aria-current'] = 'page';
-                }
-                $li->a($uri)->setAttributes($attr)->Content = $text;
-                if ($childs) {
-                    $cul = $li->ul();
-                    array_unshift($tq,[$cul, $childs]);
-                }
-            }
-        }
-        return $root;
-    }
+if (!function_exists('igk_html_node_breadcrumbs')) {
+	/**
+	 * 
+	 * @param array $menus 
+	 * @param mixed $ctrl 
+	 * @return HtmlItemBase 
+	 * @throws IGKException 
+	 * @throws Exception 
+	 */
+	function igk_html_node_breadcrumbs($menus, ?BaseController $ctrl = null, $selected = null)
+	{
+		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl();
+		$root = $ul = igk_create_node('ul')->setAttributes([
+			'class' => 'igk-winui-breadcrumb',
+			'aria-label' => 'Breadcrumbs'
+		]);
+		$tq = [[$ul, $menus]];
+		$item_c = 1;
+		while (count($tq) > 0) {
+			$q = array_shift($tq);
+			list($ul, $menus) = $q;
+			foreach ($menus as $k => $v) {
+				$li = $ul->li();
+				if (is_string($v)) {
+					$v = ['text' => is_numeric($k) ? 'item_' . ($item_c++) : $k, 'uri' => $v];
+				}
+				list($text, $uri, $childs, $current_page, $id) = igk_extract($v, 'text|uri|childs|current_page|id');
+				if (igk_str_startwith($uri, '@/')) {
+					$uri = $ctrl::uri(substr($uri, 1));
+				}
+				$attr = [];
+				if ($current_page) {
+					$attr['aria-current'] = 'page';
+				}
+				$li->a($uri)->setAttributes($attr)->Content = $text;
+				if ($childs) {
+					$cul = $li->ul();
+					array_unshift($tq, [$cul, $childs]);
+				}
+			}
+		}
+		return $root;
+	}
 }
-
-
- 

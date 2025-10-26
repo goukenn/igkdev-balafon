@@ -6264,11 +6264,19 @@ function igk_db_view_result_node($result, $uri, $selected, $max = -1, $target = 
 ///<summary>set if APP DEBUG activity</summary>
 /**
  * helper: enable application environment debugging
- * @param ?bool $debug enabl
+ * @param ?bool $debug enable
  */
 function igk_debug(?bool $debug = null)
 {
     igk_environment()->set(IGKEnvironment::DEBUG, $debug);
+}
+/**
+ * get formatted string on debug 
+ */
+function igk_debug_sprintf(...$arg){
+    if (igk_is_debug()){
+        return sprintf(...$arg);
+    }
 }
 ///<summary></summary>
 ///<param name="msg"></param>
@@ -18893,19 +18901,23 @@ function igk_reg_handle_file_request($s)
 }
 ///<summary> use to register html custom component</summary>
 /**
- *  use to register html custom component to namespace
+ * use to register html custom component to namespace
+ * @param string $name
+ * @param closure callback
+ * @param ?string packages name space 
  */
-function igk_reg_html_component($name, $callback, $ns = "igk")
+function igk_reg_html_component(string $name, $callback, $ns = Constants::SYS_DEFAULT_HTML_PACKAGE)
 {
+    $v_ks = 'components';
     $package = igk_reg_component_package();
-    if (!isset($package[$ns]["components"])) {
-        $package[$ns]["components"] = [];
+    if (!isset($package[$ns][$v_ks])) {
+        $package[$ns][$v_ks] = [];
     }
     $name = strtolower(str_replace("-", "_", trim($name)));
     if ($callback === null) {
-        unset($package[$ns]["components"][$name]);
+        unset($package[$ns][$v_ks][$name]);
     } else
-        $package[$ns]["components"][$name] = $callback;
+        $package[$ns][$v_ks][$name] = $callback;
     igk_set_env(Constants::COMPONENT_PACKAGE_KEY, $package);
 }
 ///<summary></summary>

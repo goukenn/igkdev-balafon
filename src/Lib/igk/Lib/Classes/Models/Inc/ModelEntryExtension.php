@@ -242,7 +242,7 @@ abstract class ModelEntryExtension
         $t_select = DbUtility::PreparateConditionsListToAvoidDuplicate($columns, $conditions);
         $row = null;
         $count = $model->select_count($t_select);
-        $extra = !$options ? [] : igk_getv($options, "extra");
+        $extra = !$options ? [] : igk_getv($options, ModelBase::EXTRA_FIELD_OPTION);
         if ($count==0){
             if ($tab = $extra) {
                 $conditions = array_merge($conditions, $tab);
@@ -279,6 +279,30 @@ abstract class ModelEntryExtension
         }
         $p = $model->getPrimaryKey();
         return $model::update($condition, [$p => $row->{$p}]);
+    }
+    /**
+     * refer to select_first extension 
+     * @param ModelBase $model 
+     * @param mixed $condition 
+     * @param mixed $option 
+     * @param bool $autoclose 
+     * @return null 
+     * @throws IGKException 
+     */
+    public static function selectFirstRow(ModelBase $model, $condition=null, $option=null, $autoclose = false){
+        return self::select_first($model, $condition, $option, $autoclose);
+    }
+
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param mixed $conditions 
+     * @param mixed $options 
+     * @return object|null 
+     * @throws IGKException 
+     */
+    public static function selectOne(ModelBase $model, $conditions=null, $options=null){
+        return self::select_row($model, $conditions, $options);
     }
     /**
      * extension to set auto increment 

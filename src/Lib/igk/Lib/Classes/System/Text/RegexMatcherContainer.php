@@ -194,12 +194,12 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         return $c;
     }
     /**
-     * 
+     * use to fix loading properties patterns
      * @param mixed $rp 
      * @return mixed 
      * @throws Exception 
      */
-    private function _fix_loading($rp)
+    protected function _fix_loading($rp)
     {
         $tdb = [$rp];
         $root = null;
@@ -225,11 +225,18 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                             $gp[] = (array)$p;
                         }
                     } else {
-                        $gp[] = $p;
+                        $cp = $this->createPattern((array)$p);
+                        $gp[] = $cp;
                     }
                 }
                 $rp->patterns = $gp;
             }
+            // + | replaceWidth
+              if ($v_rpw = igk_getv($rp, $key = 'replaceWith')) {
+                if (is_object($v_rpw)){
+                    $rp->{$key} = (array)$v_rpw;
+                }
+              }
         }
         return $root;
     }
@@ -624,7 +631,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                     $offset = $n + ($info->moveToNextLine ? 1 : 0);
                     $bsrc = $treated = $src = substr($source, $info->pos, $n - $info->pos);
                     $option = null;
-                    $captures = $k->captures ?? $k->beginCaptures;
+                    $captures = (array)$k->captures ?? $k->beginCaptures;
                     if ($captures) {
                         $option = [
                             'captureHandlerListener' => $this->captureHandlerListener
@@ -1732,7 +1739,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return mixed 
      * @throws Exception 
      */
-    public static function TreatCaptures($captures, $cap, string $sourceValue, &$option = null, $chainList = null)
+    public static function TreatCaptures(array $captures, $cap, string $sourceValue, &$option = null, $chainList = null)
     {
         $chainList  = $chainList ?? self::CreateChainList($cap);
         ksort($captures);

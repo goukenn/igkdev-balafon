@@ -8,9 +8,14 @@ namespace IGK\System\Security\Web;
 * @package IGK\System\Security\Web
 */
 class TextContentValidator extends MapContentValidatorBase{
+    /**
+     * 
+     * @param mixed &$value 
+     * @param mixed $key 
+     * @return bool 
+     */
     protected function validate(& $value, $key):bool{  
-        if ($value){
-            // remove transform to html content
+        if ($value){ 
             $value = htmlentities($value); 
         }
         return true; 

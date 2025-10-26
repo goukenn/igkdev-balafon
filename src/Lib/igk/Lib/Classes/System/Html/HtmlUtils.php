@@ -7,6 +7,7 @@ namespace IGK\System\Html;
 use Closure;
 use Countable;
 use Exception;
+use IGK\Constants;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\Helper\StringUtility as IGKString;
@@ -745,7 +746,9 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
     {
-        static $createComponentFromPackage = null, $creator = null, $initiator = null;
+        static $createComponentFromPackage = null, $creator = null, $initiator = null, $package;
+        $def_package = Constants::SYS_DEFAULT_HTML_PACKAGE;
+
         // + | -----------------------------------------------------------------------
         // + | prefilter component creation
         // + |
@@ -778,19 +781,21 @@ abstract class HtmlUtils extends DomNodeBase
                 return $c;
             }
         }
-        $package = null;
+        $package = igk_reg_component_package();;
         if ($createComponentFromPackage === null)
             $createComponentFromPackage = function ($g, $name, $args = null, $initcallback = null, $class = IGK_HTML_ITEMBASE_CLASS, $context = HtmlContext::Html) use (&$package) {
+                if ($args && !is_array($args)){
+                    $args = [$args];
+                }
                 if (isset($package[$g]["components"])) {
                     $components = $package[$g]["components"];
-                    if (isset($components[$name]) && is_callable($c_fc = $components[$name])) {
-                        return call_user_func_array($c_fc, func_get_args());
+                    if (isset($components[$name]) && is_callable($c_fc = $components[$name])){
+                        return call_user_func_array($c_fc, $args ?? []);
                     }
                 }
                 return null;
             };
         if (($pos = strpos($name, ":")) !== false) {
-            $package = igk_reg_component_package();
             $g = substr($name, 0, $pos);
             $n = substr($name, $pos + 1);
             if (isset($package[$g])) {
@@ -819,7 +824,7 @@ abstract class HtmlUtils extends DomNodeBase
                 return $ng;
             }
         }
-        if ($comp = $createComponentFromPackage("igk", $name, $args, $initcallback, $class, $context)) {
+        if ($comp = $createComponentFromPackage($def_package, $name, $args, $initcallback, $class, $context)) {
             return $comp;
         }
         $c = null;

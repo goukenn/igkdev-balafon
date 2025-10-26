@@ -13,7 +13,7 @@ use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
 /**
-* 
+* readonly data argument
 * @package IGK\System
 */
 class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
@@ -42,6 +42,11 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     public function _access_OffsetGet($index)
     {
         return igk_getv($this->p_data, $index);
+    }
+    public function _access_offsetExists($n){
+        if (is_object($this->p_data))
+            return isset($this->p_data->{$n});
+        return isset($this->p_data[$n]);
     }
     /**
      * 

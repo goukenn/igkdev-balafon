@@ -10,6 +10,7 @@ use IGK\Services\IAppServiceContainer;
 use IGK\System\Services\Traits\ServiceContainerTrait;
 use IGK\System\Services\Traits\ServicePropertyTrait;
 use IGK\System\Text\RegexMatcherContainer;
+use IGKServices;
 
 /**
 * 
@@ -43,7 +44,7 @@ class FormatterServiceContainer implements IAppServiceContainer{
         if($scopeName=='source.html'){
             $regex = new RegexMatcherContainer;
             HtmlFormatter::InitFormatter($regex);   
-            $formatter = igk_app()->getService('formatter.html'); 
+            $formatter = igk_app()->getService(sprintf('%s.html', IGKServices::FORMATTER_SERVICE )); 
             $regex->enginePatternListener = function()use($scopeName, $formatter){
                 static $litteral;
                 if (is_null($litteral)){

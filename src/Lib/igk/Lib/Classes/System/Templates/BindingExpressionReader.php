@@ -4,6 +4,7 @@
 // @date: 20230517 14:33:31
 namespace IGK\System\Templates;
 use Closure;
+use Exception;
 use IGK\System\Console\Logger;
 use IGK\System\DataArgs;
 use IGK\System\Html\HtmlBindingRawTransform;
@@ -199,7 +200,7 @@ class BindingExpressionReader
             } else {
                 if ($this->transformToEval) {
                     // transform express ion to eval list 
-                    $dv = $this->TranformExpressionToEval($reader->value);
+                    $dv = $this->tranformExpressionToEval($reader->value);
                 } else {
                     list($dv, $pipe) = igk_str_pipe_args($reader->value, $c);
                     $dv = $listener($dv, $data);
@@ -225,7 +226,7 @@ class BindingExpressionReader
      * @param mixed $expression 
      * @return string 
      */
-    public static function TranformExpressionToEval($expression){
+    public function tranformExpressionToEval($expression){
         $pipe = null;
         $v = igk_str_detect_pipe($expression, $pipe);
         if ($pipe){            
@@ -233,6 +234,12 @@ class BindingExpressionReader
         }
         return sprintf('<?= %s ?>', $v);
     }
+    /**
+     * 
+     * @param mixed $data 
+     * @return object|array 
+     * @throws Exception 
+     */
     private function _getBindingRawData($data)
     {
         if ($data instanceof BindingContextInfo) {

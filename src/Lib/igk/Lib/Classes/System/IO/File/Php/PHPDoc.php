@@ -11,6 +11,8 @@ namespace IGK\System\IO\File\Php;
  * @method self var(string $name, ?string $type=null, ?string $comment=null) define the top comment
  */
 class PHPDoc{
+    // var $var;
+    
     public function __toString()
     {
         return $this->getValue();

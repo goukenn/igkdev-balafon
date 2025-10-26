@@ -192,7 +192,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
             $hook_expression = CompilerConstants::LOOP_CONTEXT_DATA_VAR;
             self::_HostChain($n, $sb . "", $v_args, $ctrl, '$' . $hook_expression);
             $v_out = $n->render();
-            if ($v_args instanceof ViewDataArgs) {
+            if ($v_args instanceof DataArgs) {
                 $v_targs = $v_args->getData();
             } else {
                 $v_targs = is_array($v_args) ? $v_args : 0;
@@ -201,7 +201,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
                 ob_start();
                 $v_out = implode("\n", [self::_TreatFCallback(), $v_out]);
                 SysUtils::Eval($v_out, [
-                    $hook_expression =>  new LopperEvalData($v_args),
+                    $hook_expression =>  new LopperEvalData($v_targs),
                     "raw" => $v_args,
                     "ctrl" => $ctrl
                 ]);

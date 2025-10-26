@@ -103,7 +103,7 @@ final class IGKAppConfig extends IGKObject {
         $this->_loadSystemConfig();
     }
     /**
-    * load configuration files
+    * load core configuration files
     */
     private function _loadSystemConfig(){
         $file=IGK_CONF_DATA;

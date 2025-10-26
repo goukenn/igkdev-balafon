@@ -52,6 +52,7 @@ final class Constants{
     // environment
     const COMPONENT_PACKAGE_KEY = IGKEnvironment::COMPONENT_PACKAGE_KEY; 
 
+    const SYS_DEFAULT_HTML_PACKAGE = 'igk';
     const BCSS_EXTENSION = '.bcss';
     const PCSS_EXTENSION = '.pcss';
     /**

@@ -31,6 +31,7 @@ class HtmlNodeTagExplosionDefinition
     const identifier = '#';
     const name = '%';
     const classes = '.';
+    const DEF_METHOD = 'DefinitionArgs';
     /**
      * 
      * @var HtmlNodeBuilder
@@ -194,7 +195,7 @@ class HtmlNodeTagExplosionDefinition
             $a = substr($g, 1, -1);
             $args = igk_engine_get_attr_arg($a, $context);
             if ($args) {
-                $args = array_map([self::class, 'DefinitionArgs'], $args);
+                $args = array_map([self::class, self::DEF_METHOD], $args);
             }
             $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
             //  igk_debug_wln("current context ", $tagname, $args, HtmlLoadingContext::GetCurrentContext());
@@ -351,7 +352,8 @@ class HtmlNodeTagExplosionDefinition
                 $a = substr($e->value, 1, -1);
                 $args = igk_engine_get_attr_arg($a, $context);
                 if ($args) {
-                    $args = array_map([HtmlNodeTagExplosionDefinition::class, 'DefinitionArgs'], $args);
+                    $args = array_map([HtmlNodeTagExplosionDefinition::class, self::DEF_METHOD], $args);
+                    
                 }
                 $def['args'] = $args;
             },

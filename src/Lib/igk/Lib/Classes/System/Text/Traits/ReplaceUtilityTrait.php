@@ -64,7 +64,7 @@ trait ReplaceUtilityTrait
      * 
      * @param mixed $s 
      * @param mixed $e 
-     * @param Closure(string $s):string|string|null $rp 
+     * @param Closure(string $s):string|string|null|array<string> $rp 
      * @return string 
      * @throws Exception 
      * @throws IGKException 
@@ -84,11 +84,22 @@ trait ReplaceUtilityTrait
             if ($rp instanceof Closure) {
                 $s = $rp($s, $g, $e);
             } else {
-                return self::ReplaceCaptureData($s, $g, $rp);
+                if (is_array($rp)){
+                    $s = strtr($s, $rp,);
+                } else {
+                    return self::ReplaceCaptureData($s, $g, $rp);
+                }
             }
         }
         return $s;
     }
+    /**
+     * 
+     * @param string $s 
+     * @param string $pattern 
+     * @param string $replace 
+     * @return string|string[]|null 
+     */
     public static function ReplaceCaptureData(string $s, string $pattern, string $replace)
     {
         if (false !== strpos($s, "\n")) {

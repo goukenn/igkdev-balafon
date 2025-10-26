@@ -7,7 +7,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
 /**
- * 
+ * tool to convert object to html presentation 
  * @package IGK\System\Html\Converters
  */
 class Converter

@@ -46,6 +46,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     const AuthKey = '::auth';
     const ClosureSeperator = "@";
     const StaticSperator = "::";
+    const EXTRA_FIELD_OPTION = 'extra';
     /**
      * 
      */
