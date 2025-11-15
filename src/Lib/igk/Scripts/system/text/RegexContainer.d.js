@@ -1292,7 +1292,7 @@
                     // + next offset position 
                     nResult.offset = offset;
                     // + reset offset 
-                    console.log('reset offset ..... ')
+                    // console.log('reset offset ..... ');
                     nResult.info.from = offset;
                     nResult.info.to = offset;
                     delete nResult.info.missingEnd;

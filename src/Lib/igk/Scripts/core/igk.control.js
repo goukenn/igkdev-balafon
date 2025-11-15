@@ -1116,7 +1116,7 @@
                     }
                 }); 
             }
-        })
+        });
         igk.ready(__initCode);
         igk.ctrl.registerReady(function () {
             if (this.tagName && this.tagName.toLowerCase() == "code" && this.getAttribute('igk-code')) {
