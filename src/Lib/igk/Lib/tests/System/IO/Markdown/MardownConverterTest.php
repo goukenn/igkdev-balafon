@@ -5,10 +5,14 @@
 namespace IGK\Tests\System\IO\Markdown;
 
 use Exception;
+use IGK\System\Exceptions\CssParserException;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Markdown\MarkdownConverter;
 use IGK\Tests\BaseTestCase;
+use IGKException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
+use ReflectionException;
 
 /**
  * 
@@ -20,7 +24,7 @@ class MardownConverterTest extends BaseTestCase
     // public static function suite(){
     //     return new TestSuite(static::class);//  'markdown';
     // }
-    private function _transform(string $src, $allowDocumentLink=false)
+    private function _transform(string $src, $allowDocumentLink = false)
     {
         $converter = new MarkdownConverter;
         $converter->allowLinkDocument = $allowDocumentLink;
@@ -51,12 +55,12 @@ class MardownConverterTest extends BaseTestCase
             'Sample |',
             '-|',
             'info |'
-        ]); 
+        ]);
         $d = $this->_transform($src);
         $this->assertEquals(
             '<table class="igk-table"><tr><th>Name of data</th><th>Description Node</th></tr><tr><td>igkdev</td><td>www.igkdev.com</td></tr><tr><td>jour</td><td><b><code>null</code></b></td></tr></table>'
-            .'<table class="igk-table"><tr><th>Sample</th><th></th></tr><tr><td>info</td><td></td></tr></table>'
-            , $d
+                . '<table class="igk-table"><tr><th>Sample</th></tr><tr><td>info</td></tr></table>',
+            $d
         );
     }
     public function test_mdconverter_emoji()
@@ -110,8 +114,8 @@ class MardownConverterTest extends BaseTestCase
     {
         // ordered
         $src = implode("\n", [
-            '1. Info data',
-            '1. Info info',
+            '1. a',
+            '1. b',
             // '',
             '',
             '1. Orange',
@@ -119,7 +123,7 @@ class MardownConverterTest extends BaseTestCase
         ]);
 
         $d = $this->_transform($src);
-        $this->assertEquals('<ol><li class="i">Info data</li><li class="i">Info info</li></ol><ol><li class="i">Orange</li><li class="i"><code>Mangoes</code></li></ol>', $d);
+        $this->assertEquals('<ol><li class="i">a</li><li class="i">b</li></ol><ol><li class="i">Orange</li><li class="i"><code>Mangoes</code></li></ol>', $d);
     }
     public function test_mdconverter_task()
     {
@@ -162,7 +166,8 @@ class MardownConverterTest extends BaseTestCase
         ]);
         $d = $this->_transform($src);
         $this->assertEquals(implode("\n", [
-            '<h4>Views options</h4>passing parameters to layout <code class="igk-code code-php">//#{{% expression %}}</code><h5>default expression</h5>'
+            '<h4>Views options</h4>passing parameters to layout',
+            '<code class="igk-code code-php">//#{{% expression %}}</code><h5>default expression</h5>'
         ]), $d);
     }
     public function test_mdconverter_leave_md()
@@ -170,7 +175,7 @@ class MardownConverterTest extends BaseTestCase
         // + | --------------------------------------------------------------------
         // + | remove empty line and remove non used data
         // + |
-        
+
         $src = implode("\n", [
             '',
             '',
@@ -189,7 +194,8 @@ class MardownConverterTest extends BaseTestCase
         ]), $d);
     }
 
-    public function test_mdconverter_document_link(){
+    public function test_mdconverter_document_link()
+    {
         $src = implode("\n", [
             '# document',
             '- [link](#sample)',
@@ -202,7 +208,8 @@ class MardownConverterTest extends BaseTestCase
         ]), $d);
     }
 
-    public function test_mdconverter_hr(){
+    public function test_mdconverter_hr()
+    {
         $src = implode("\n", [
             '# document',
             '---',
@@ -212,5 +219,76 @@ class MardownConverterTest extends BaseTestCase
         $this->assertEquals(implode("\n", [
             '<h1 id="document">document</h1><hr class="hrule"/><p>writing sample</p>',
         ]), $d);
+    }
+
+    public function test_mdconverter_litteral()
+    {
+        $d = $this->_transform('info < et >', false);
+
+        $this->assertEquals('info &lt; et &gt;', $d);
+    }
+    /**
+     * 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws ExpectationFailedException 
+     */
+    public function test_mdconverter_lines()
+    {
+        $d = $this->_transform(implode("\n", [
+            "`sample` : line1  ",
+            "line2 ",
+            <<<EOF
+## the-code
+data la sample   
+EOF
+        ]), false);
+
+        $this->assertEquals("<code>sample</code> : line1 \nline2<h2>the-code</h2><p>data la sample </p>", $d);
+    }
+
+    public function test_mdconverter_load_def_resource()
+    {
+        $d = $this->_transform(implode("\n", [
+            "[click](#click-me)  ",
+            "# intro {#click-me} ",
+        ]), true);
+
+        $this->assertEquals('<a href="#click-me">click</a><h1 id="click-me">intro </h1>', $d);
+    }
+    public function test_mdconverter_chain_state()
+    {
+        $d = $this->_transform(implode("\n", [
+            "```php",
+            "\$x = 4;",
+            "```",
+            "",
+            "**Cas d'usage :**",
+            "martyr"
+        ]), true);
+
+        $this->assertEquals("<code class=\"igk-code code-php\">\$x = 4;</code><b>Cas d'usage :</b><p>martyr</p>", $d);
+    }
+    public function test_mdconverter_load_array()
+    {
+        $src = implode("\n", [
+            '| a | b |',
+            '|------------|-----------|',
+            '| `.xsm` | Écran < 576px |', 
+        ]);
+         $d = $this->_transform($src, true);
+        $this->assertEquals('<table class="igk-table"><tr><th>a</th><th>b</th></tr><tr><td><code>.xsm</code></td><td>Écran &lt; 576px</td></tr></table>', $d);
+    }
+    public function test_mdconverter_inline_code_with_html_entities()
+    {
+        $src = implode("\n", [
+            'the heredoc `<<<EOR ... EOR`',
+        ]);
+         $d = $this->_transform($src, true);
+        $this->assertEquals('the heredoc <code>&lt;&lt;&lt;EOR ... EOR</code>', $d);
     }
 }

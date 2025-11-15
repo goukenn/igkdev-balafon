@@ -987,7 +987,7 @@ abstract class HtmlUtils extends DomNodeBase
         $tr = $table->tr();
         foreach ($rows as $r) {
             $m = $header ? $tr->th() : $tr->td();
-            $m->Content = $r;
+            $m->Content = $r;            
         }
     }
 }

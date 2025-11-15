@@ -335,6 +335,11 @@ class Database
         // + |        
         $controller->InitDataBaseModel($definitions, $force);
     }
+    /**
+     * 
+     * @param BaseController $controller 
+     * @return void 
+     */
     public static function InitDataEntries(BaseController $controller)
     {
         // check if controller can process 
@@ -349,9 +354,10 @@ class Database
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |
+        $vc_ini_manager_cl = Constants::DB_INIT_MANAGER;
         if (!(($cl = $controller->resolveClass(EntryClassResolution::DbInitManager)) && class_exists($cl, false)
-            && is_subclass_of($cl, \IGK\Database\DbInitManager::class))) {
-            $cl = \IGK\Database\DbInitManager::class;
+            && is_subclass_of($cl, $vc_ini_manager_cl))) {
+            $cl = $vc_ini_manager_cl;
         }
         if ($cl) {
             (new $cl($controller))->init($controller);

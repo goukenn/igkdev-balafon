@@ -53,6 +53,17 @@ class ProjectConfiguration extends EntityConfigurationSchema{
     var $entryNamespace;
 
     /**
+     * configuration file workbench information 
+     * @var ?ConfigurationWorkbenchInfo
+     */ 
+    var $workbench;
+
+    /**
+     * 
+     * @var mixed
+     */
+    var $default_user_profile;
+    /**
      * 
      * @var ?string
      */

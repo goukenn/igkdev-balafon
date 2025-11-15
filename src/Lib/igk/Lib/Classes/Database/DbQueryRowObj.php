@@ -17,7 +17,7 @@ use Iterator;
 class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	use ArrayAccessSelfTrait;
 	use IteratorTrait;
-	private $m_rows;
+	private $m_rows; 
 	private $it_current;
 	private $it_keys;
 	private $it_key;
@@ -97,7 +97,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	public function __isset($i){ 
 		return $this->OffsetExists($i);
 	}
-	public function __get($i){ 
+	public function __get($i){  
 		return $this[$i];
 	}
 	public function __set($i,$v){
@@ -139,5 +139,5 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 	public function count():int{
 		return count($this->m_rows);
-	}
+	} 
 }

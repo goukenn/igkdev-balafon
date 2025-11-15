@@ -403,4 +403,13 @@ class JSon
         }
         return $object_or_class;
     }
+    /**
+     * @param mixed $data 
+     * @return string|false 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function EncodeWithNonEmpty($data){
+        return self::Encode($data, JSonEncodeOption::IgnoreEmpty(), JSON_UNESCAPED_SLASHES);
+    }
 }

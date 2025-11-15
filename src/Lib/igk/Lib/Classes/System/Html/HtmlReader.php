@@ -350,8 +350,19 @@ final class HtmlReader extends IGKObject
                     $v .= substr($text, $offset, ($next + 2) - $offset);
                     $offset = $next + 2;
                 } else {
+                    if (preg_match("/<\/".$tag."\\b.*>/",$text, $end_tag, PREG_OFFSET_CAPTURE, $offset)){
+                        $v .= substr($text, $offset, $size= $end_tag[0][1] - $offset).$end_tag[0][0]; 
+                        $v_contents[] = $v;
+                        $offset += $size + strlen($end_tag[0][0]);
+                        $v = '';
+                        $end = false;
+                        $intag = false;
+                        array_pop($tnames);
+                        break;
+                    }else{
                     $v .= substr($text, $offset);
                     $offset = $ln;
+                    }
                 }
                 //$offset++;
                 continue;

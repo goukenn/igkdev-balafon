@@ -17,11 +17,21 @@ abstract class EntityConfigurationSchema{
      * @var string
      */
     var $name;
-
+    /**
+     * 
+     * @var mixed
+     */
     var $version;
 
+    /**
+     * 
+     */
     var $author;
 
+    /**
+     * 
+     * @var mixed
+     */
     var $license;
 
     /**

@@ -8,6 +8,7 @@ use IGK\Database\DbExpression;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\DbConditionExpressionBuilder;
+use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Http\ApiResponse;
 use IGK\System\Http\Request;
 /**
@@ -98,11 +99,12 @@ trait UsersTrait
     public function search_get(string $query)
     {
         $query = '%' . trim($query, ' %') . '%';
+        $op = SQLQueryFieldPrefixOperators::FIND;
         $conditions = [
             (new DbConditionExpressionBuilder(DbConditionExpressionBuilder::OP_OR))
-                ->add("@@" . Users::FD_CL_LOGIN, $query)
-                ->add("@@" . Users::FD_CL_FIRST_NAME, $query)
-                ->add("@@" . Users::FD_CL_LAST_NAME, $query)
+                ->add($op . Users::FD_CL_LOGIN, $query)
+                ->add($op . Users::FD_CL_FIRST_NAME, $query)
+                ->add($op . Users::FD_CL_LAST_NAME, $query)
         ];
         return $this->_getPagerResult(Users::model(), $conditions, igk_getr("p", 1), 20);
     }

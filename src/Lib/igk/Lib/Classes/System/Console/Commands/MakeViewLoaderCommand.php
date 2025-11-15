@@ -19,7 +19,7 @@ use IGK\System\WinUI\IViewLayoutLoader;
 */
 class MakeViewLoaderCommand extends AppExecCommand{
 	var $command='--make:view-layout';
-	/* var $desc='desc'; */
+	var $desc='make a view layout class';
 	/* var $options=[]; */
 	var $category = 'make';
 	var $usage = 'controller name [options]'; 	

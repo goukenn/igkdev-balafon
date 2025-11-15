@@ -14,19 +14,21 @@ use IGKActionBase;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
+use IGK\Actions\ApiActionBase;
 use IGK\Actions\MiddlewireActionBase;
+use IGK\Actions\ProjectDefaultAction;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\StringUtility;
 use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\EntryClassResolution;
-use \IGKControllerManagerObject;
+
 class MakeDbMacrosCommand extends AppExecCommand{
     var $command = "--make:model-macros"; 
     var $category = "make";
     var $desc = "make model's macros class";
     var $options = [ 
-        "--type"=>"defaut Model type class", 
+        // 
         "--clearcache"=>"clear cache",
         "--force"=>"destroy existing macros if exists",
     ]; 
@@ -59,12 +61,13 @@ class MakeDbMacrosCommand extends AppExecCommand{
         }
         Logger::info("make macros ...".$controller);
         $author = $this->getAuthor($command);
-        $type = igk_str_ns(igk_getv($command->options, "--type", ActionBase::class));
-        $type = igk_getv([
-            "project"=>ProjectDefaultAction::class,
-            "def"=>ActionBase::class,
-            "middlewire"=>MiddlewireActionBase::class
-        ], strtolower($type), $type);
+        // $type = igk_str_ns(igk_getv($command->options, "--type", ActionBase::class));
+        // $type = igk_getv([
+        //     "project"=>ProjectDefaultAction::class,
+        //     "def"=>ActionBase::class,
+        //     "middlewire"=>MiddlewireActionBase::class,
+        //     'api'=>ApiActionBase::class,
+        // ], strtolower($type), $type);
         $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
             Logger::danger("controller $controller not found");

@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Console\Commands;
 use Exception;
+use IGK\Constants;
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
 use IGK\System\Console\App;
@@ -279,7 +280,7 @@ class MakeClassCommand extends AppExecCommand
                         )));
                 $rp->add('/%__uses__%(;)?/', $uses ? 'use '.implode(";\nuse ", $uses).';':'');
                 $rp->add('/%__model__%/', $model);
-                $rp->add('/%__fieldname__%/', igk_getv($command->options, '--fieldname', 'FD_ID'));
+                $rp->add('/%__fieldname__%/', igk_getv($command->options, '--fieldname', Constants::DB_MODEL_FIELD_PREFIX. 'ID'));
                 $rp->add("/%_[^%]+_%(;)?/", '');
                 $defs = $rp->replace($type->defs);
                 $src = $defs;

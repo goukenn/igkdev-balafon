@@ -13,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property int $logginattempts_try attemps
 * @property string|datetime $logginattempts_createAt ="NOW()" Now
 * @property string|datetime $logginattempts_updateAt Last try datetime
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_LOGGINATTEMPTS_LOGIN() - `logginattempts_login` full column name 
-* @method static string FD_LOGGINATTEMPTS_TRY() - `logginattempts_try` full column name 
-* @method static string FD_LOGGINATTEMPTS_CREATE_AT() - `logginattempts_createAt` full column name 
-* @method static string FD_LOGGINATTEMPTS_UPDATE_AT() - `logginattempts_updateAt` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_LOGGINATTEMPTS_LOGIN() - `logginattempts_login` full column name 
+* @method static string FN_LOGGINATTEMPTS_TRY() - `logginattempts_try` full column name 
+* @method static string FN_LOGGINATTEMPTS_CREATE_AT() - `logginattempts_createAt` full column name 
+* @method static string FN_LOGGINATTEMPTS_UPDATE_AT() - `logginattempts_updateAt` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $logginattempts_login, int $logginattempts_try, string|datetime $logginattempts_updateAt, string|datetime $logginattempts_createAt ="NOW()") add entry helper

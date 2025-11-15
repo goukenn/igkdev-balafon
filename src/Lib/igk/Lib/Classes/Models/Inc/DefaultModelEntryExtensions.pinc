@@ -13,6 +13,8 @@ use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
+use IGK\System\Console\Logger;
+use IGK\System\Database\Helper\DbUtility;
 use IGK\System\Database\QueryBuilder; 
 
 
@@ -179,3 +181,15 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
 });
 
 \IGK\Models\ReferenceModels::registerExtension(\IGK\Models\Macros\ReferenceModelsMacros::class);
+
+
+igk_reg_hook(
+    IGKEvents::HOOK_USER_CLEAN, function($e){
+        list($user) = igk_extract($e->args,'user' );
+        Logger::info('clean user groups');
+        $cond = [
+            Usergroups::FD_CL_USER_ID=>$user->clId
+        ];
+        Usergroups::delete($cond); 
+    }
+);

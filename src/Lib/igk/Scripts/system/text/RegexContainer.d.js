@@ -278,6 +278,7 @@
         function _loadExtraProperties(inf, a) {
             // load extract properties
             let ks = Object.keys(inf);
+            // console.log(ks);
             for (let i of ks) {
                 if (/\b(type|begin|end|while|match)\b/.test(i)) {
                     continue;
@@ -863,10 +864,10 @@
                 }
                 if (!l){ 
                     if (!RegexMatcherPattern){
-                        console.log('the container ', { 
-                            RegexContainer, RegexMatcherPattern, condition: !RegexContainer || !RegexMatcherPattern 
-                        } 
-                        );
+                        // console.log('the container ', { 
+                        //     RegexContainer, RegexMatcherPattern, condition: !RegexContainer || !RegexMatcherPattern 
+                        // } 
+                        // );
                         console.error('missing RegexMatcherPattern');
                         return null;
                     }
@@ -903,8 +904,8 @@
             /**
              * match expression
              * @param {String} match 
-             * @param {*} name 
-             * @param {*} tokenID 
+             * @param {?string} name 
+             * @param {?string} tokenID 
              * @param {*} patterns 
              */
             match(match, name, tokenID, patterns) {
@@ -914,8 +915,36 @@
                 inf.match = match;
                 inf.tokenID = tokenID;
                 inf.name = name;
-                inf.patterns = patterns ? _treatLoadPattern(patterns) : null;
+                inf.patterns = patterns ? _treatLoadPattern(patterns,{ createMatcherPattern: () => this.#_createRegexMatcherPattern() }) : null;
                 this.patterns.push(inf);
+                return inf;
+            }
+            /**
+             * just create from definition
+             * @param {*} def 
+             * @returns 
+             */
+            createPattern(def){
+                let inf =this.#_createRegexMatcherPattern();
+                const {match, name, tokenID, patterns, begin, end, captures, beginCaptures, endCaptures, beginWhile, endWhile} = def;
+                const _while = def['while'];
+                let type = MATCH;
+                if (!match && begin){
+                    type = BEGIN_END;
+                } else if (!match && _while){
+                    type = BEGIN_WHILE;
+                }
+                inf.type = type;
+                inf.match = match;
+                inf.begin = begin;
+                inf.end = end;
+                inf.while = _while;
+                inf.tokenID = tokenID;
+                inf.name = name;
+                inf.beginCaptures = beginCaptures;
+                inf.endCaptures = endCaptures;
+                inf.captures = captures;
+                inf.patterns = patterns ? _treatLoadPattern(patterns,{ createMatcherPattern: () => this.#_createRegexMatcherPattern() }) : null;                
                 return inf;
             }
             /**
@@ -959,6 +988,13 @@
                 }
                 return match;
             }
+            /**
+             * 
+             * @param {*} g 
+             * @param {*} index 
+             * @param {*} parent 
+             * @returns 
+             */
             #_createEndPatternInfo(g, index, parent) {
                 const { pattern } = g;
                 const q = {
@@ -967,8 +1003,12 @@
                     to: index, // target index
                     value: '', // contains the real value in the bufferer string 
                     detectResult: g,
+                    // begin list matching
                     begin: null,
+                    // end lis
                     end: null,
+                    // match handle 
+                    endMatch: null,
                     src: null,
                     missingEnd: undefined,
                     isContinue: undefined
@@ -995,7 +1035,7 @@
                 const v_createResultListener = (info) => {
                     return q.#_createDetectInfoResult(info);
                 };
-                let value = match[0];
+                let value = (match ? match[0] :null) || '';
                 let v_skip = false;
                 let offset = 0;
                 const v_fc_checkcap = (a) => Object.keys(a).length > 0 ? a : null;
@@ -1062,6 +1102,7 @@
                             }
                             // + | continue 
                             g.isContinue = true;
+                            e.missingEnd = null;
                             const _while = pattern.while;
                             const { end } = pattern;
                             let matchs = [];
@@ -1095,8 +1136,10 @@
                                 }
                                 _handleEndMatchRegex(g.endRegex, src, line, offset, (im) => {
                                     e.end = im[0];
+                                    e.endMatch = im;
                                     m = im;
                                 });
+                               
                                 let matchs = [];
                                 // let v_matchPatterns = patterns?.length > 0 ? _handlePatterns(patterns, {
                                 //     src: g.src,
@@ -1134,6 +1177,8 @@
                                     offset = e.to;
                                     //}
                                 } else {
+                                
+                                    // console.log('missing', {src, line, offset});                               
                                     // + | missing end
                                     e.missingEnd = true;
                                     e.to = offset = src.length;
@@ -1201,7 +1246,7 @@
                                             offset = e.to;
                                         }
                                         else {
-                                            e.missingEnd = true;
+                                            e.missingEnd = 'noNextLine_';
                                             e.to = offset = src.length;
                                         }
                                     }
@@ -1246,6 +1291,8 @@
                     nResult.info.value = nv;
                     // + next offset position 
                     nResult.offset = offset;
+                    // + reset offset 
+                    console.log('reset offset ..... ')
                     nResult.info.from = offset;
                     nResult.info.to = offset;
                     delete nResult.info.missingEnd;
@@ -1279,6 +1326,37 @@
                     ...info
                 };
                 return i;
+            }
+            /**
+             * bec
+             * @param {*} e 
+             * @param {*} param1 
+             */            
+            continueDetect(e, {offset = 0, source=''}){
+                this.#m_detect_info.offset = offset;
+                const { info } = this.#m_detect_info;
+                const { detectResult } = e;                
+                let { parent } = detectResult;                
+                info.nextDetection = detectResult;
+                detectResult.offset = offset;
+                detectResult.src = source;
+                detectResult.match = null;
+                // + | update the next detected data
+                this.#m_detect_info.nextDetection = detectResult;
+                // + | reset to line start. 
+                if (detectResult.info)
+                    detectResult.info.from = 0; 
+                if (parent){
+                    // update current parent offset definition
+                    // console.log('update current parent') ;
+                    while(parent){
+                        parent.offset = offset;
+                        parent.src = source;
+                        parent.info.from = offset;
+                        parent.info.to = offset;
+                        parent = parent.parent; 
+                    }
+                }
             }
             /**
              * detecting

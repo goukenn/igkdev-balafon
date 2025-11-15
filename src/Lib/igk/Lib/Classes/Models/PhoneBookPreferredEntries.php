@@ -13,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property int|\IGK\Models\PhoneBookTypes $type_id
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `id` full column name 
-* @method static string FD_PHONE_BOOK_GUID() - `phone_book_guid` full column name 
-* @method static string FD_TYPE_ID() - `type_id` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `id` full column name 
+* @method static string FN_PHONE_BOOK_GUID() - `phone_book_guid` full column name 
+* @method static string FN_TYPE_ID() - `type_id` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphpdId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphpdId() - macros function
 * @method static ?self Add(string|\IGK\Models\PhoneBookEntries $phone_book_guid, int|\IGK\Models\PhoneBookTypes $type_id, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

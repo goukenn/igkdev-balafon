@@ -11,10 +11,10 @@ use IGK\Helper\ViewHelper;
 */
 class ViewListCommand extends AppExecCommand{
 	var $command='--view:list';
-	var $desc='list controller\'s'; 
-	var $category = "view";
-	/* var $options=[]; */
-	/* var \$category; */
+	var $desc='list controller\'s view'; 
+	var $category = "controller";
+	var $options=[]; 
+	
 	public function exec($command, ?string $controller = null) {
 		$ctrl = ($controller ? self::GetController($controller) : null)?? die("missing controller");
 		array_map(function($f){

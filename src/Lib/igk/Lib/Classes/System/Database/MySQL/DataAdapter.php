@@ -40,6 +40,8 @@ class DataAdapter extends DataAdapterBase implements
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
     const DB_INFORMATION_SCHEMA = 'information_schema';
+
+    
     /**
      * 
      * @param string $table 
@@ -424,9 +426,21 @@ class DataAdapter extends DataAdapterBase implements
     {
         return in_array(strtolower($type), ["int", "bigint"]);
     }
-    public function update($tbname, $entries, $where = null, $querytabinfo = null)
+    /**
+     * 
+     * @param mixed $tbname 
+     * @param mixed $entries 
+     * @param mixed $where 
+     * @param mixed $querytabinfo 
+     * @param null|bool $filter 
+     * @return IDbQueryResult|iterable|null|bool|void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws EnvironmentArrayException 
+     */
+    public function update($tbname, $entries, $where = null, $querytabinfo = null, ?bool $filter=null)
     {
-        if ($query = $this->getGrammar()->createUpdateQuery($tbname, $entries, $where, $querytabinfo)) {
+        if ($query = $this->getGrammar()->createUpdateQuery($tbname, $entries, $where, $querytabinfo, $filter)) {
             return $this->sendQuery($query);
         }
     }

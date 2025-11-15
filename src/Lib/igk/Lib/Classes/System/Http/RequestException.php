@@ -15,12 +15,16 @@ class RequestException extends \IGKException{
         parent::__construct($message, $code, $previous);
     }
     function handle(){
-        if (igk_server()->accept('json')){
+        if (igk_server()->accept('json') || Request::getInstance()->isRestRequest()){
             igk_set_header($this->code);
-            igk_do_response(new JsonResponse((object)[
+            $d =  [
                 'code'=>$this->code,
                 'status'=>RequestResponse::GetStatus($this->code)
-            ], $this->code));
+            ];
+            if (igk_environment()->isDev()){
+                $d['message'] = $this->getMessage();
+            }
+            igk_do_response(new JsonResponse((object)$d, $this->code));
             return true;
         }
     }

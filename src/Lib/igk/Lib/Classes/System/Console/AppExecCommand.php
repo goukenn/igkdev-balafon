@@ -43,6 +43,7 @@ abstract class AppExecCommand extends AppCommand{
      * @throws Exception 
      */
     public static function BindUserCommand($ctrl, $command, $arg='--user'){
+        $uref = null;
         if ($id = intval($uref = igk_getv($command->options, $arg))) {
             self::BindUser($ctrl, $id);
         }else if ($uref){

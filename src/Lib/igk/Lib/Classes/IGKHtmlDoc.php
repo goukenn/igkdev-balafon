@@ -400,7 +400,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->_addCoreCss();
         $this->getHead()->add(new GlobalScriptManagerHostNode());
         $this->setup_document();
-        igk_hook(IGK_ENV_NEW_DOC_CREATED, array(igk_app(), $this));
+        igk_hook(IGKEvents::HOOK_NEW_DOC_CREATED, array(igk_app(), $this));
     }
     public function getCanAddChilds()
     {

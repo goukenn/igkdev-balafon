@@ -7,6 +7,7 @@ namespace IGK\Actions;
 use IGK\System\Actions\Traits\ProjectAssetHandlerTrait;
 use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\RequestException;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\Http\ResponseHtmlRenderer;
 use IGK\System\Http\WebFileResponse;
 use IGK\System\Http\WebResponse;

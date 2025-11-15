@@ -13,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property int $clState
 * @property string|datetime $clDateTime
 * @property string $clIP
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_WEB_SITE() - `clWebSite` full column name 
-* @method static string FD_CL_STATE() - `clState` full column name 
-* @method static string FD_CL_DATE_TIME() - `clDateTime` full column name 
-* @method static string FD_CL_IP() - `clIP` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_WEB_SITE() - `clWebSite` full column name 
+* @method static string FN_CL_STATE() - `clState` full column name 
+* @method static string FN_CL_DATE_TIME() - `clDateTime` full column name 
+* @method static string FN_CL_IP() - `clIP` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clWebSite, int $clState, string|datetime $clDateTime, string $clIP) add entry helper

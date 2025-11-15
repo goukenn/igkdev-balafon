@@ -35,25 +35,7 @@
                 return !0;
             });
         }
-    })();
-
-    // $igk(igk.getParentScript()).select("link").each(function() {
-    //     var s = (this.o.getAttribute("href") + "");
-    //     if (s && (s.indexOf("R/Styles/base.php") != -1)) {
-    //         igk.system.apps.link = this;
-    //         igk.appendProperties(this, {
-    //             basehref: this.o.href,
-    //             counter: 0,
-    //             reload: function() {
-    //                 var bck = this.basehref;
-    //                 this.o.href = bck + "?reload=" + this.counter;
-    //                 this.counter++;
-    //             }
-    //         });
-    //     }
-    //     return !0;
-    // });
-
+    })(); 
 
     // 
     // controller utility presentation igk-new-lang-key
@@ -718,7 +700,7 @@
                     r += '|';
                 r += t[i];
             }
-            return new RegExp('((' + r + ')code)', 'i');
+            return new RegExp('((?<type>' + r + ')code)|(code-(?<type>'+r+'))', 'i');
         })(m_types);
 
         const treatHtmlSource = {
@@ -773,21 +755,23 @@
             }
         };
 
-        function __init_code_area() {
+        /**
+         * 
+         * @returns 
+         */
+        async function __init_code_area() {
             var q = this;
             if (!q) {
                 return;
             }
-            if (q.hightlight)
+            if (q.highlight)
                 return;
-            q.hightlight = 1;
+            q.highlight = 1;
             m_codes.push(q);
-            // return;
-            // q.addClass("dispib");
             var c = '';
             var b = null;
             if ((b = m_reg.exec(q.o.className))) {
-                c = b[2];
+                c = b.groups['type']; 
             } else {
                 c = q.getAttribute("lang");
                 if (!(c in m_types)) {
@@ -803,7 +787,7 @@
             }
             var s = ts || q.o.textContent.trim();
             var t = s.split('\n');
-            s = s.replaceAll('<', '&lt;').replaceAll('>', '&gt;');
+            s = s.replaceAll('<', '&lt;').replaceAll('>', '&gt;'); 
             // return;
             // clear node
             q.setHtml("");
@@ -885,7 +869,11 @@
             pos: 0
         };
 
-        function _readWord(s) {
+        /**
+         * read litteral string 
+         * @returns 
+         */
+        function _readWord() {
             var w = "";
             var c = 0;
             var ch = "";
@@ -894,7 +882,7 @@
                 ch = inf.s[inf.pos];
                 // TODO TRADITIONAL WAY               
                 c = ch.toLowerCase().charCodeAt(0);
-                if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || (ch == '_')) {
+                if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || (ch == '_')||(ch == '-')) {
                     w += ch;
                 } else {
                     break;
@@ -902,7 +890,8 @@
                 inf.pos++;
             }
             if ( bc == inf.pos){
-                throw new Error('read word missing - caractor reading');
+                console.log({bc, inf});
+                throw new Error('read word missing - charactor reading - '+ch+' - '+bc);
             }
             return w;
         }
@@ -955,6 +944,7 @@
 
         function igk_php_eval() { // php evaluation code
             igk_e.apply(this);
+            console.log("igk.control loading...");
             var reserved = /((true|false)|\\$this|(a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))$/;
             var w = 0;
             var l = 1; // line count
@@ -990,7 +980,6 @@
                                     break;
                                 case ']':
                                     level--;
-                                default:
                                     break;
                             }
                             inf.level = level;
@@ -1051,14 +1040,15 @@
                                     inf.pos--;
                                     // inf.read = 0;
                                     break; 
+                                case "\n":
+                                    break;
                                 default:
-                                    if (/[^\w\s<>\.\-\+\|\*%,=!\(\)\[\]\{\}\/]/.test(ch)){
-                                        // console.log('replace: '+ch);
+                                    if (/[^\w\d\s<>\.\-\+\|\*%,=!:;\(\)\[\]\{\}\/\?]/.test(ch)){ 
                                         sp.add("span").setHtml(' '); 
                                         break;
                                     }
                                     if (inf.mode == 0) {
-                                        if (",.?|()#[]-+{}\\/%*><;:=&|??|===|?->|->|==|+=|-=|&&".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
+                                        if (",.?!|~()#[]-+{}\\/%*><;:=&|??|===|?->|->|==|+=|-=|&&".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
                                             ch = _readPhpOperator(ch, inf);
                                             let ext = '';
                                             if (/(\[\]|\(\)|\[|\]|\{|\})/.test(ch.trim())) {
@@ -1100,14 +1090,33 @@
                 return l;
             };
         }
-        igk.system.createNS("igk.highlightjs", {
+        const _NS = igk.system.createNS("igk.highlightjs", {
             'php': igk_php_eval,
-            // 'xml': igk_xml_eval
+            'css': null,
+            'cs': null,
+            'txt': null,
+            'xml': null
         });
+        igk.defineProperty(_NS, 'base', {get(){
+            return igk_e;
+        }});
 
         function __initCode() {
             $igk("code.igk-code").each_all(__init_code_area);
         };
+        igk.system.createNS('igk.winui.components.code', {
+            /**
+             * just reload the component 
+             */
+            reload(){
+                $igk("code.igk-code").each_all(function(){
+                    if(this.highlight){ 
+                        this.highlight = 0;  
+                        __init_code_area.apply(this);
+                    }
+                }); 
+            }
+        })
         igk.ready(__initCode);
         igk.ctrl.registerReady(function () {
             if (this.tagName && this.tagName.toLowerCase() == "code" && this.getAttribute('igk-code')) {
@@ -8004,7 +8013,7 @@
                 return;
             var q = this;
             var v = this.getAttribute("href");
-            var meth = this.getAttribute("igk-ajx-lnk-method") || "GET";
+            var meth = (this.getAttribute("igk-ajx-lnk-method") || this.getAttribute("method") || "GET").toUpperCase();
             if (m && v) {
                 q.addClass("igk-ajx-lnk");
                 var v_meth = m.method || igk.ajx.get;

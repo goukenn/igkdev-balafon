@@ -11,6 +11,7 @@ namespace IGK\Controllers;
 use IGK\Controllers\ILibaryController;
 use IGK\Helper\SysUtils;
 use IGK\System\Applications\ApplicationUserProfile;
+use IGK\System\Database\IUserProfile;
 use IGK\System\EntryClassResolution;
 use IGK\System\SystemUserProfile;
 use IGKSession;
@@ -88,6 +89,11 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return 0;
     }
+    /**
+     * 
+     * @param object $u 
+     * @return IUserProfile 
+     */
     protected function initUserFromSysUser(object $u): \IGK\System\Database\IUserProfile{
         if (!is_null($u)){ 
             $cl = $this->resolveClass(EntryClassResolution::UserProfile);

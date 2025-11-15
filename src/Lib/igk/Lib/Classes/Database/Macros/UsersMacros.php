@@ -1,6 +1,5 @@
 <?php
 namespace IGK\Database\Macros;
-use GrahamCampbell\ResultType\Success;
 use IGK\Controllers\BaseController;
 use IGK\Database\Mapping\SysDbMapping;
 use IGK\Models\Authorizations;
@@ -17,6 +16,7 @@ use IGK\System\Constants\PhonebookTypeNames;
 use IGK\System\Database\MySQL\BooleanQueryResult;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGKEvents;
 use ReflectionException;
 /**
  * used for macros injection 
@@ -278,5 +278,10 @@ abstract class UsersMacros
             }, $user->auths()), 
         ];
         return $data;
+    }
+    // 
+    public static function cleanAndDrop(Users $model){
+        igk_hook(IGKEvents::HOOK_USER_CLEAN, ['user'=>$model]); 
+        $model->delete();
     }
 }

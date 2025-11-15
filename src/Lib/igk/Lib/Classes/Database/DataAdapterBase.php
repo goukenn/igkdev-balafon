@@ -21,6 +21,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     private static $sm_regAdapter;
     protected $m_name;
     protected $m_relations;
+    protected $m_filter_column = true;
     protected static $LENGTHDATA = ["int", "varchar", "char", "decimal"];
     /**
      * 
@@ -67,9 +68,21 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     {
         return true;
     }
+    /**
+     * get the filter column flags
+     * @return bool 
+     */
     public function getFilter(): bool
     {
-        return true;
+        return $this->m_filter_column;
+    }
+    /**
+     * 
+     * @param bool $filter 
+     * @return void 
+     */
+    public function setFilter(bool $filter){
+        $this->m_filter_column = $filter;
     }
     public function getIsLengthData(string $type): bool
     {

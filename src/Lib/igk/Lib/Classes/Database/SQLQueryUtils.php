@@ -12,6 +12,7 @@ namespace IGK\Database;
 use Exception;
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Database\QueryBuilderConstant as queryConstant;
+use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGKException;
 use IGKQueryResult;
 use IGKSysUtil;
@@ -263,6 +264,14 @@ class SQLQueryUtils
     {
         die(__METHOD__ . ":: obselete : use GetExtrasOptions instead");
     }
+    /**
+     * 
+     * @param mixed $tab 
+     * @param string $operator 
+     * @param mixed $adapter 
+     * @param mixed $grammar 
+     * @return mixed 
+     */
     public static function GetCondString($tab, $operator = 'AND', $adapter = null, $grammar = null)
     {
         $query = "";
@@ -331,7 +340,7 @@ class SQLQueryUtils
                                 $c = "!=";
                                 $c_exp = "IS NOT NULL";
                                 break;
-                            case "@@";
+                            case SQLQueryFieldPrefixOperators::FIND:
                                 $c = " Like ";
                                 break;
                             case "@&":

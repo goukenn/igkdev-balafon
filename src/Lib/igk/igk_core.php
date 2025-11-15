@@ -542,11 +542,13 @@ function igk_io_get_script($f, $args = null)
 
 /**
  * evalute constant and get the value
+ * @var sstring $name
+ * @return mixed|int
  */
-function igk_const($n)
+function igk_const($name)
 {
-    if (defined($n)) {
-        return constant($n);
+    if (defined($name)){
+        return constant($name);
     }
     return null;
 }

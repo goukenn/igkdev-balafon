@@ -14,12 +14,12 @@ use IGK\Models\ModelBase;
 * @property string $clController
 * @property string|datetime $clCreate_At ="NOW()"
 * @property string|datetime $clUpdate_At ="NOW()"
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_NAME() - `clName` full column name 
-* @method static string FD_CL_DESCRIPTION() - `clDescription` full column name 
-* @method static string FD_CL_CONTROLLER() - `clController` full column name 
-* @method static string FD_CL_CREATE_AT() - `clCreate_At` full column name 
-* @method static string FD_CL_UPDATE_AT() - `clUpdate_At` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_NAME() - `clName` full column name 
+* @method static string FN_CL_DESCRIPTION() - `clDescription` full column name 
+* @method static string FN_CL_CONTROLLER() - `clController` full column name 
+* @method static string FN_CL_CREATE_AT() - `clCreate_At` full column name 
+* @method static string FN_CL_UPDATE_AT() - `clUpdate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clName, string $clDescription, string $clController, string|datetime $clCreate_At ="NOW()", string|datetime $clUpdate_At ="NOW()") add entry helper

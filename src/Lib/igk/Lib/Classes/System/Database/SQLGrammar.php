@@ -974,7 +974,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
-    public function createUpdateQuery(string $tbname, $values, $condition = null, $tableInfo = null): ?string
+    public function createUpdateQuery(string $tbname, $values, $condition = null, $tableInfo = null, ?bool $filter=null): ?string
     {
         if (is_null($values)) {
             igk_die(__("{0} [{1}] is null", __METHOD__, "value"));
@@ -990,7 +990,7 @@ class SQLGrammar implements IDbQueryGrammar
         }
         $tableInfo = $tableInfo ?? getv(get_db_table_info($tbname), "ColumnInfo");
         $primaryKey = IGK_FD_ID;
-        $tvalues = static::GetValues($this->m_driver, $values, $tableInfo, 1);
+        $tvalues = static::GetValues($this->m_driver, $values, $tableInfo, 1, $filter);
         if (empty($tvalues)) {
             return null;
         }
@@ -1266,7 +1266,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return mixed 
      * @throws IGKException 
      */
-    protected static function GetValues($driver, $values, &$tableInfo, $update = 0)
+    protected static function GetValues($driver, $values, &$tableInfo, $update = 0, ?bool $filter = null)
     {
         $tvalues = new stdClass();
         if (is_object($values) && method_exists($values, "to_array")) {
@@ -1278,7 +1278,7 @@ class SQLGrammar implements IDbQueryGrammar
         if (is_array($values))
             $values = (object)$values;
         if ($tableInfo) {
-            $filter = $driver->getFilter();
+            $filter = $filter ?? $driver->getFilter();
             $keys = [];
             foreach ($tableInfo as $k => $v) {
                 $pv = '';
@@ -1387,7 +1387,7 @@ class SQLGrammar implements IDbQueryGrammar
                 $sq .= $where;
             } else {
                 $operand = getv($options, "Operand", self::AND_OP);
-                $sq .= static::GetCondString($this->m_driver, $where, $operand, $ad);
+                $sq .= static::GetCondString($this->m_driver, $where, $operand);
             }
             $sq = trim($sq);
             if (!empty($sq)) {
@@ -1422,11 +1422,11 @@ class SQLGrammar implements IDbQueryGrammar
      * resolv query condition string
      * @param mixed $driver 
      * @param mixed $tab 
-     * @param string $operator 
-     * @param mixed $adapter  
+     * @param string|'AND'|'OR' $operator 
+     * @param ?string $primaryKey 
      * @return mixed 
      */
-    public static function GetCondString($driver, $tab, $operator = 'AND', $primaryKey = IGK_FD_ID, $tableInfo = null)
+    public static function GetCondString($driver, $tab, $operator = 'AND', string $primaryKey = IGK_FD_ID, $tableInfo = null)
     {
         $query = "";
         $t = 0;
@@ -1592,7 +1592,7 @@ class SQLGrammar implements IDbQueryGrammar
             $k = substr($k, $ln);
             $op = null;
             switch ($ch) {
-                case "!<>":
+                case SQLQueryFieldPrefixOperators::NOT_IN:
                     // NOT IN Expression 
                     $c = " NOT IN ";
                     $query .= sprintf(
@@ -1602,9 +1602,9 @@ class SQLGrammar implements IDbQueryGrammar
                     );
                     $t = 1;
                     return null;
-                case "<>":
+                case SQLQueryFieldPrefixOperators::IN_EXPRESS:
                 case "!!":
-                    // NOT IN Expression 
+                    // IN Expression 
                     if (is_array($v)) {
                         $v = implode(',', $v);
                     }
@@ -1620,14 +1620,14 @@ class SQLGrammar implements IDbQueryGrammar
                     $c = "!=";
                     $c_exp = "IS NOT NULL";
                     break;
-                case "@@";
+                case SQLQueryFieldPrefixOperators::FIND;
                     $c = " Like ";
                     break;
                 case "@&":
                     $query .= "(" . static::GetKey($k, $adapter) . " & " . $adapter->escape_string($v) . ") = " . $adapter->escape_string($v);
                     $t = 1;
                     return null;
-                case "#":
+                case SQLQueryFieldPrefixOperators::IN:
                     $c = " In ";
                     $op = "in";
                     break;
@@ -1824,6 +1824,7 @@ class SQLGrammar implements IDbQueryGrammar
                     break;
             }
         }
+        $v_sc = igk_getv($options, 'SortColumn');
         if (!isset($optset["OrderBy"])) {
             if (isset($options->Sort) && isset($options->SortColumn)) {
                 $v = strtoupper($options->Sort);
@@ -1832,8 +1833,8 @@ class SQLGrammar implements IDbQueryGrammar
                     $optset["OrderBy"] = 1;
                 }
             } else {
-                if (isset($options->SortColumn) &&  @is_array($options->SortColumn)) {
-                    foreach ($options->SortColumn as $r => $v) {
+                if (isset($v_sc) && @is_array($v_sc)) {
+                    foreach ($v_sc as $r => $v) {
                         $v = strtoupper($v);
                         if (strpos("ASC|DESC", $v) !== false) {
                             $q .= " ORDER BY `" . $ad->escape_string($r) . "` " . $v;

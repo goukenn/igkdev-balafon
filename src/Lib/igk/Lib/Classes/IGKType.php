@@ -72,8 +72,12 @@ class IGKType{
      * @return bool 
      */
     public static function IsInjectable(string $type):bool{
+        if(igk_reflection_class_isabstract($type)){
+            return false;
+        }
+
         return is_subclass_of($type, IInjectable::class) || 
-              ($type==BaseController::class) || is_subclass_of($type, BaseController::class) ;
+               is_subclass_of($type, BaseController::class) ;
     }
     /**
      * get if methodName is a magic function

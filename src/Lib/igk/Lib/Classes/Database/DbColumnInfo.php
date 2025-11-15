@@ -47,7 +47,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     public function __construct($array = null)
     {
         $this->clType = "Int";
-     
+
         $this->initialize($array);
         // + | -------------------------------------------------
         // + | fix resolved data 
@@ -159,14 +159,18 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     {
         $l = $q->clIsUniqueColumnMember;
         if ($l) {
-            $v = false;
-            if (preg_match("/\\d+(,\\s*\\d+\\s*)*/", $l, $tab)) {
-                $q->clColumnMemberIndex = $q->clColumnMemberIndex ?? array_map('intval', explode(',', $l));
-                $v = true;
-            } else if ($l == 'true') {
-                $v = true;
+            if (is_bool($l)) {
+                $q->clColumnMemberIndex = 0;
+            } else {
+                $v = false;
+                if (preg_match("/\\d+(,\\s*\\d+\\s*)*/", $l, $tab)) {
+                    $q->clColumnMemberIndex = $q->clColumnMemberIndex ?? array_map('intval', explode(',', $l));
+                    $v = true;
+                } else if ($l == 'true') {
+                    $v = true;
+                }
+                $q->clIsUniqueColumnMember = $v;
             }
-            $q->clIsUniqueColumnMember = $v;
         }
     }
     /**

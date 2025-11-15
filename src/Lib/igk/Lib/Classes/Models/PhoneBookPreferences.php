@@ -15,13 +15,13 @@ use IGK\Models\ModelBase;
 * @property int|\IGK\Models\PhoneBookTypes $TypeId
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `Id` full column name 
-* @method static string FD_ENTRY_GUID() - `EntryGuid` full column name 
-* @method static string FD_PHONE_GUID() - `phoneGuid` full column name 
-* @method static string FD_USER_GUID() - `userGuid` full column name 
-* @method static string FD_TYPE_ID() - `TypeId` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `Id` full column name 
+* @method static string FN_ENTRY_GUID() - `EntryGuid` full column name 
+* @method static string FN_PHONE_GUID() - `phoneGuid` full column name 
+* @method static string FN_USER_GUID() - `userGuid` full column name 
+* @method static string FN_TYPE_ID() - `TypeId` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphbpId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbpId() - macros function
 * @method static ?self Add(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

@@ -2,7 +2,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @filename: igk_init.php   
-// @desc: init application system  
+// @desc: init application core system  
 // @license : see licence.txt attached to the library
 
 use IGK\Helper\StringUtility;

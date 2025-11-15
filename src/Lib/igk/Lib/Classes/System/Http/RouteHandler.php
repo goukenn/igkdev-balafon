@@ -31,7 +31,7 @@ class RouteHandler
      */
     protected $verbs = [];
     /**
-     * autorisation string
+     * authorisation string
      * @var string|array
      */
     protected $auth;
@@ -191,10 +191,10 @@ class RouteHandler
      * get if match with the verbs
      * @param mixed $path 
      * @param string $verb 
-     * @return int|false 
+     * @return bool
      * @throws Exception 
      */
-    public function match($path, $verb = 'GET')
+    public function match($path, $verb = 'GET'):bool
     { 
         // + match verb
         if (!in_array(strtoupper($verb), $this->verbs)) {
@@ -215,33 +215,26 @@ class RouteHandler
         return $r;
     }
     /**
+     * check that the path is accessible 
+     * @param string $path 
+     * @return bool 
+     */
+    public function isAccessible(string $path):bool{
+        if (!$this->m_expressions){
+            return false;
+        }
+        $regex = static::GetRouteRegex($this->path, []);
+
+        return preg_match($regex, $path);
+    }
+    /**
      * retrieve pattern regex expression
      * @return string 
      * @throws Exception 
      */
     protected function getPatternRegex()
     {
-        return static::GetRouteRegex($this->path, $this->m_expressions);
-        // $croute = "/" . ltrim($this->path, "/");
-        // if (preg_match_all("/(?P<mark1>\/)?(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})(?P<mark2>\/)?/i", $croute, $tab)) {
-        //     $count = 0;
-        //     foreach ($tab["name"] as $i) {
-        //         $c = trim($i);
-        //         $s = $tab[0][$count];
-        //         $opt = igk_getv($tab["option"], $count) == "*";
-        //         $mark1 = igk_getv($tab["mark1"], $count);
-        //         $mark2 = igk_getv($tab["mark2"], $count);
-        //         if ($g = igk_getv($this->m_expressions, $c, ".*")) {
-        //             if ($opt) {
-        //                 $g = "({$g}(/)?)?";
-        //                 //$s = "/" . rtrim($s, "/");
-        //             }
-        //             $croute = str_replace($s, "(?P<".$i.">" . $g . ")", $croute);
-        //         }
-        //         $count++;
-        //     }
-        // }
-        // return "#^" . $croute . "$#";
+        return static::GetRouteRegex($this->path, $this->m_expressions);         
     }
     public static function GetRouteRegex(string $path, ?array $expressions=null, bool $strict_dir = true){
         $croute = "/" . ltrim($path, "/");
@@ -343,9 +336,9 @@ class RouteHandler
         return $this;
     }
     /**
-     * set autorisation key name
-     * @param bool|string|arrayy $name bool|string|array of autorisation condition
-     * @param bool $strict autorisation requirement
+     * set authorisation key name
+     * @param bool|string|array $name bool|string|array of authorisation condition
+     * @param bool $strict authorisation requirement
      * @return static 
      */
     public function auth($name, bool $strict=true)

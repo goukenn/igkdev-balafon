@@ -36,9 +36,9 @@ class IGKEvents extends IGKObject
     // + | command event constant : 
     // + |
     const HOOK_COMMAND = 'sys_commnand';
-    const HOOK_INIT_APP = "init_app";
-    const HOOK_BEFORE_INIT_APP = "before_init_app";
-    const HOOK_AFTER_INIT_APP = "after_init_app";
+    const HOOK_INIT_APP = "sys://hook/init_app";
+    const HOOK_BEFORE_INIT_APP = "sys://hook/before_init_app";
+    const HOOK_AFTER_INIT_APP = "sys://hook/after_init_app";
     const HOOK_CACHE_RES_CREATED = "CacheResourceCreated";
     const HOOK_CSS_REG = "css_class_reg";
     const HOOK_TERMINATE = "sys_.terminate";
@@ -73,6 +73,7 @@ class IGKEvents extends IGKObject
     const HOOK_USER_ACTIVATED = "sys_user_status_changed";
     const HOOK_USER_DELETE = "sys_user_delete"; // just make it inactive
     const HOOK_USER_DROP = "sys_user_drop"; // full user removed
+    const HOOK_USER_CLEAN = 'sys_user_clean'; // clean user data for database
     // + | --------------------------------------------------------------------
     // + | DB HOOK
     // + |
@@ -142,6 +143,17 @@ class IGKEvents extends IGKObject
     const HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN = 'MiddleWareAction:/CheckAccessToken';
     const HOOK_ON_MODULE_ADDED = 'command:/module/added';
     const HOOK_USER_AUTHENTICATE = 'sys:/user/authenticate';
+
+    /**
+     * raise when a new document created
+     */
+    const HOOK_NEW_DOC_CREATED = 'sys://document_created';
+
+    // + | --------------------------------------------------------------------
+    // + | winui menu hook
+    // + |
+    const HOOK_WINUI_SETTING_MENU = 'sys://user/settings/menu';
+
     const VIEWCOMPLETE = 0x1;
     const HOOK_CRUNJOB = 'on_do_cronjob';
     private $m_methods;
@@ -344,8 +356,8 @@ class IGKEvents extends IGKObject
         $hooks[$name]->changed = 1;
     }
     /**
-     * 
-     * @param mixed $name 
+     * raise hook
+     * @param string $name 
      * @param array $args 
      * @param ?\IGK\IHookOptions|array|object $options require IHoopOptions to bybass option behaviour
      * @return mixed 
@@ -353,8 +365,11 @@ class IGKEvents extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function hook($name, $args = array(), $options = null)
+    public static function hook(string $name, $args = array(), $options = null)
     {
+        if (defined('IGK_DEBUG_HOOK') && constant('IGK_DEBUG_HOOK')){
+            igk_wln('hook: '.$name. ' '.session_id());
+        }
         // + ----------------------------------------------------------------------
         // + | Default output 
         $def = null;

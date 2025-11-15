@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Actions;
+
 use Exception;
 use IGK\Helper\SysUtils;
 use IGK\Models\Users;
@@ -31,6 +32,7 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
+
 /**
  * Action Middleware
  * use to process method with specific checkMiddle - route 
@@ -127,8 +129,8 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             if (is_object($rep)) {
                 return $rep;
             }
+            // + | load route configuration config
         }
-        // + | load route configuration config
         Route::LoadConfig($this->ctrl);
         $path = "/" . implode("/", array_merge([$name], $arguments));
         $ruri = Request::getInstance()->view_args("entryuri") . $path;
@@ -155,6 +157,9 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                 $td = new ReflectionClass($this);
                 if ($comment = $td->getDocComment()) {
                     if ($v_global_security = PhpDocCommentSecurityAndAuthUtility::ParseComment($comment, $p)) {
+                        /**
+                         * @var IGK\System\IO\File\PHPDocCommentParser $p
+                         */
                         $v_global_auth = $p->auth;
                         $v_global_strict = $p->strict_auth;
                     }
@@ -175,7 +180,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         return $this->$name(...$arguments);
                     }
                 }
-                if ($is_index){
+                if ($is_index) {
                     array_unshift($arguments, $name);
                     $is_index = false;
                 }
@@ -225,11 +230,11 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                     }
                     if ($v->isAuthRequired()) {
                         if ($user && !$v->isAuth($user)) {
-                            $m = "Route access not allowed.";
+                            $m = __('Route access not allowed.');
                             $redirect && $this->_handle_redirect($redirect, 301, $m);
                             throw new ActionRequestException($m, RequestResponseCode::Forbiden);
                         } else if (!$user) {
-                            $m = "Missing required user.";
+                            $m = __('Missing required user.');
                             $redirect && $this->_handle_redirect($redirect, 301, $m);
                             throw new ActionRequestException($m, RequestResponseCode::Unauthorized);
                         }
@@ -250,11 +255,19 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                         // no controller task setup
                         // return null;
                     }
+                    // + | -----------------------------------------------------------
                     // + | bind action
                     array_unshift($arguments, $name);
                     array_unshift($arguments, $this->ctrl);
-                    //igk_wln_e($arguments);
+                    
                     return RouteActionHandler::Handle($v, ...$arguments);
+                } else {
+                    // + | is accessible but route verbs not matching 
+                    if ($v->isAccessible($path, $method)){
+                        // route not matching
+                        $m = __('route not valid');
+                        throw new ActionRequestException($m, RequestResponseCode::BadRequest);
+                    }
                 }
             }
             // + | --------------------------------------------------------------------

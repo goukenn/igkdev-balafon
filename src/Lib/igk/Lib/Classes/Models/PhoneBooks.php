@@ -15,13 +15,13 @@ use IGK\Models\ModelBase;
 * @property string $is_preferred
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `Id` full column name 
-* @method static string FD_ENTRY_GUID() - `EntryGuid` full column name 
-* @method static string FD_TYPE() - `Type` full column name 
-* @method static string FD_VALUE() - `Value` full column name 
-* @method static string FD_IS_PREFERRED() - `is_preferred` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `Id` full column name 
+* @method static string FN_ENTRY_GUID() - `EntryGuid` full column name 
+* @method static string FN_TYPE() - `Type` full column name 
+* @method static string FN_VALUE() - `Value` full column name 
+* @method static string FN_IS_PREFERRED() - `is_preferred` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphbId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbId() - macros function
 * @method static ?self Add(string|\IGK\Models\PhoneBookEntries $EntryGuid, int|\IGK\Models\PhoneBookTypes $Type, string $Value, string $is_preferred, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

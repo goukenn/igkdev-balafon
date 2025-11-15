@@ -439,7 +439,7 @@ abstract class IGKActionBase implements IActionProcessor
         $actionMethod = "";
         $env = igk_environment();
         $redirect_status = igk_server()->REDIRECT_STATUS;
-        $host = null;
+        $v_host = null;
         if ($redirect_status && ($redirect_status != 200)) {
             $actionMethod = self::FAILED_STATUS;
             array_unshift($params, 0, igk_server()->REDIRECT_STATUS);
@@ -485,8 +485,8 @@ abstract class IGKActionBase implements IActionProcessor
                         }
                     }
                     if ($verb && (strtolower($verb) == 'options') && ((strrpos(strtolower($actionMethod), "_options")===false))){
-                        if ($host instanceof HeaderOptionResponseTrait){
-                            $host->optionResponse();
+                        if ($v_host instanceof HeaderOptionResponseTrait){
+                            $v_host->optionResponse();
                         }else {
                             // invoke the default system response
                             \IGK\System\Http\Helper\Response::OptionResponse();
@@ -524,9 +524,10 @@ abstract class IGKActionBase implements IActionProcessor
                 }
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             } catch (Throwable $ex) {
-                if ($host && ($host instanceof static)){
-                    $host->_handleThrowable($ex);
+                if ($v_host && ($v_host instanceof static)){
+                    $v_host->_handleThrowable($ex);
                 }
+                igk_wln_e(__FILE__.":".__LINE__ , 'is host ', $v_host );
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

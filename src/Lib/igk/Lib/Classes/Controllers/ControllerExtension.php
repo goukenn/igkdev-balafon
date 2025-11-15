@@ -63,6 +63,7 @@ use IGK\System\Http\RequestResponseCode;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\ViewLayout;
 use IGK\Constants;
+use IGK\Helper\Authorization;
 use IGK\System\Controllers\ControllerParamKeys;
 use IGKEnvironment;
 use IGKEvents;
@@ -957,11 +958,12 @@ abstract class ControllerExtension
         if (!igk_io_cache_file_exists($c)) {
             $ns = ControllerExtension::GetNamespace($ctrl, 'Database');
             $builder = new PHPScriptBuilder();
+            $cl = get_class($ctrl);
             $builder->type("class")
                 ->name("InitData")
                 ->namespace($ns)
                 ->author(igk_sys_getconfig("script_author", IGK_AUTHOR))
-                ->uses([$cl = get_class($ctrl)])
+                ->uses([$cl])
                 ->extends(\IGK\System\Database\InitBase::class)
                 ->defs(implode(
                     "\n",
@@ -1198,9 +1200,19 @@ abstract class ControllerExtension
         if ($ns != ".") {
             return str_replace("/", "\\", $ns);
         }
-        $conf = ProjectConfiguration::LoadConfig(Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE));
-
+        $conf = self::projectConfiguration($ctrl);
         return $conf->entryNamespace ?? SysUtils::GetProjectEntryNamespace($ctrl->getDeclaredDir());
+    }
+    /**
+     * retrieve and load project configuration 
+     * @param BaseController $ctrl 
+     * @return null 
+     */
+    public static function projectConfiguration(BaseController $ctrl){
+        if (BaseController::IsSystemController($ctrl)) {
+            return null;
+        }
+        return ProjectConfiguration::LoadConfig(Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE));
     }
     /**
      * 
@@ -2012,7 +2024,8 @@ abstract class ControllerExtension
     public static function bindCssStyle(BaseController $controller, ?\IGK\System\Html\Dom\HtmlDocTheme $theme = null, bool $cssRendering = false)
     {
         $theme = $theme ?? self::getCurrentDoc($controller)->getTheme();
-        if ($theme && !empty($file = $controller->getPrimaryCssFile()) && is_file($file)) {
+        $fc = [$controller, 'getPrimaryCssFile'];
+        if ($theme && !empty($file = call_user_func_array($fc,[])) && is_file($file)) {
             if (method_exists($controller, ControllerMethods::setupTheme)) {
                 $controller->setupTheme($theme);
             } else {
@@ -2121,7 +2134,7 @@ abstract class ControllerExtension
                 $tparams = array_merge($bck, $params);
                 igk_set_env($key, $tparams);
             }
-            $controller->_include_view($file);
+            call_user_func_array([$controller, '_include_view'], [$file]);
             $controller->regSystemVars($bck);
         }
     }
@@ -2688,5 +2701,39 @@ HTML;
             $ctrl->checkUser(false);
             return true;
         }
+    }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param mixed $user 
+     * @return void 
+     */
+    public static function bindUserDefaultProfiles(BaseController $ctrl, $user){
+        $profile = self::getDefaultUserProfile($ctrl);
+        if ($profile){
+            Authorization::BindUserToGroup($ctrl, $user, $profile);
+        }  
+    }
+    public static function keyName(BaseController $ctrl){
+        $keyname = igk_uri(get_class($ctrl));
+        return $keyname;
+    }
+
+    /**
+     * macro : retrieve default project controller profile
+     * @param BaseController $ctrl 
+     * @return null|string 
+     */
+    public static function getDefaultUserProfile(BaseController $ctrl): ?string{
+        $profile = null;
+         if ($defautlRole = $ctrl::resolveClass(EntryClassResolution::Profiles)) {
+            method_exists($defautlRole, $fc = EntryClassResolution::ProfilesGetDefaultMethod) &&
+            $profile = call_user_func([$defautlRole, $fc]);
+             
+        } 
+        if (!$profile && 
+            ($conf = $ctrl::projectConfiguration()))
+            $profile = $conf->default_user_profile; 
+        return $profile;
     }
 }

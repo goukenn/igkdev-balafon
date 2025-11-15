@@ -523,7 +523,7 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         return $this->Ctrl->loader->model($modeltype, $name);
     }
     /**
-    * 
+    * model rollback
     */
     public function rollback(){
         return $this->m_ad->rollback();

@@ -57,7 +57,7 @@ class ViewExpression implements ArrayAccess{
         }
         // get evaluation response 
         $response = igk_getv($this->m_variables, ViewExpressionArgHelper::RESPONSE);
-        // igk_debug_wln(__FILE__.":".__LINE__,  "the value : ", $value, $this->m_variables, $response, is_string($response));
+
         if ($this->extract){
             if ($expression instanceof ViewExpressionEval){
                 return $expression;

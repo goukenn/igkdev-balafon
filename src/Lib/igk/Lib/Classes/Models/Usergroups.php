@@ -13,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property int|\IGK\Models\Groups $clGroup_Id
 * @property string|datetime $clCreate_At ="NOW()"
 * @property string|datetime $clUpdate_At ="NOW()"
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_USER_ID() - `clUser_Id` full column name 
-* @method static string FD_CL_GROUP_ID() - `clGroup_Id` full column name 
-* @method static string FD_CL_CREATE_AT() - `clCreate_At` full column name 
-* @method static string FD_CL_UPDATE_AT() - `clUpdate_At` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_USER_ID() - `clUser_Id` full column name 
+* @method static string FN_CL_GROUP_ID() - `clGroup_Id` full column name 
+* @method static string FN_CL_CREATE_AT() - `clCreate_At` full column name 
+* @method static string FN_CL_UPDATE_AT() - `clUpdate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(int|\IGK\Models\Users $clUser_Id, int|\IGK\Models\Groups $clGroup_Id, string|datetime $clCreate_At ="NOW()", string|datetime $clUpdate_At ="NOW()") add entry helper

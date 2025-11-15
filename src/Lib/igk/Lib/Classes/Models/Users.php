@@ -30,28 +30,28 @@ use IGK\Models\ModelBase;
 * @property string|datetime $clcreate_at ="CURRENT_TIMESTAMP" user create at
 * @property string|datetime $clupdate_at ="CURRENT_TIMESTAMP" update user's info at
 * @property string|datetime $clDeactivate_At user deactivated
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_LOGIN() - `clLogin` full column name 
-* @method static string FD_CL_GUID() - `clGuid` full column name 
-* @method static string FD_CL_PWD() - `clPwd` full column name 
-* @method static string FD_CL_FIRST_NAME() - `clFirstName` full column name 
-* @method static string FD_CL_LAST_NAME() - `clLastName` full column name 
-* @method static string FD_CL_DISPLAY() - `clDisplay` full column name 
-* @method static string FD_CL_LOCALE() - `clLocale` full column name 
-* @method static string FD_CL_PICTURE() - `clPicture` full column name 
-* @method static string FD_CL_LEVEL() - `clLevel` full column name 
-* @method static string FD_CL_STATUS() - `clStatus` full column name 
-* @method static string FD_GOOGLE_USER_ID() - `google_user_id` full column name 
-* @method static string FD_PROVIDER() - `provider` full column name 
-* @method static string FD_FB_USER_ID() - `fb_user_id` full column name 
-* @method static string FD_AUTH_FA_KEY() - `auth_2fa_key` full column name 
-* @method static string FD_CL_DATE() - `clDate` full column name 
-* @method static string FD_CL_LAST_LOGIN() - `clLastLogin` full column name 
-* @method static string FD_CL_PARENT_ID() - `clParent_Id` full column name 
-* @method static string FD_CL_CLASS_NAME() - `clClassName` full column name 
-* @method static string FD_CLCREATE_AT() - `clcreate_at` full column name 
-* @method static string FD_CLUPDATE_AT() - `clupdate_at` full column name 
-* @method static string FD_CL_DEACTIVATE_AT() - `clDeactivate_At` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_LOGIN() - `clLogin` full column name 
+* @method static string FN_CL_GUID() - `clGuid` full column name 
+* @method static string FN_CL_PWD() - `clPwd` full column name 
+* @method static string FN_CL_FIRST_NAME() - `clFirstName` full column name 
+* @method static string FN_CL_LAST_NAME() - `clLastName` full column name 
+* @method static string FN_CL_DISPLAY() - `clDisplay` full column name 
+* @method static string FN_CL_LOCALE() - `clLocale` full column name 
+* @method static string FN_CL_PICTURE() - `clPicture` full column name 
+* @method static string FN_CL_LEVEL() - `clLevel` full column name 
+* @method static string FN_CL_STATUS() - `clStatus` full column name 
+* @method static string FN_GOOGLE_USER_ID() - `google_user_id` full column name 
+* @method static string FN_PROVIDER() - `provider` full column name 
+* @method static string FN_FB_USER_ID() - `fb_user_id` full column name 
+* @method static string FN_AUTH_FA_KEY() - `auth_2fa_key` full column name 
+* @method static string FN_CL_DATE() - `clDate` full column name 
+* @method static string FN_CL_LAST_LOGIN() - `clLastLogin` full column name 
+* @method static string FN_CL_PARENT_ID() - `clParent_Id` full column name 
+* @method static string FN_CL_CLASS_NAME() - `clClassName` full column name 
+* @method static string FN_CLCREATE_AT() - `clcreate_at` full column name 
+* @method static string FN_CLUPDATE_AT() - `clupdate_at` full column name 
+* @method static string FN_CL_DEACTIVATE_AT() - `clDeactivate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clLogin, string $clGuid, string $clPwd, string $clFirstName, string $clLastName, string $clDisplay, string $clPicture, string $clLevel, string $google_user_id, string $provider, string $fb_user_id, string $auth_2fa_key, string|datetime $clLastLogin, int|?\IGK\Models\Users $clParent_Id, string $clClassName, string|datetime $clDeactivate_At, string $clLocale ="fr", int $clStatus ="-1", string|datetime $clDate ="CURRENT_TIMESTAMP", string|datetime $clcreate_at ="CURRENT_TIMESTAMP", string|datetime $clupdate_at ="CURRENT_TIMESTAMP") add entry helper

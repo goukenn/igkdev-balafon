@@ -15,13 +15,13 @@ use IGK\Models\ModelBase;
 * @property string $migration_controller
 * @property string|datetime $migration_create_at ="NOW()"
 * @property string|datetime $migration_update_at ="NOW()"
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_MIGRATION_NAME() - `migration_name` full column name 
-* @method static string FD_MIGRATION_BATCH() - `migration_batch` full column name 
-* @method static string FD_MIGRATION_DESC() - `migration_desc` full column name 
-* @method static string FD_MIGRATION_CONTROLLER() - `migration_controller` full column name 
-* @method static string FD_MIGRATION_CREATE_AT() - `migration_create_at` full column name 
-* @method static string FD_MIGRATION_UPDATE_AT() - `migration_update_at` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_MIGRATION_NAME() - `migration_name` full column name 
+* @method static string FN_MIGRATION_BATCH() - `migration_batch` full column name 
+* @method static string FN_MIGRATION_DESC() - `migration_desc` full column name 
+* @method static string FN_MIGRATION_CONTROLLER() - `migration_controller` full column name 
+* @method static string FN_MIGRATION_CREATE_AT() - `migration_create_at` full column name 
+* @method static string FN_MIGRATION_UPDATE_AT() - `migration_update_at` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $migration_name, int $migration_batch, string $migration_desc, string $migration_controller, string|datetime $migration_create_at ="NOW()", string|datetime $migration_update_at ="NOW()") add entry helper

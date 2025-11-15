@@ -8,6 +8,7 @@ use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Console\ServerFakerInput;
+use IGK\System\Html\WebHearderConstants;
 use IGK\System\IInjectable;
 use IGK\System\Security\Web\Traits\ContentSecurityManagementTrait;
 use IGKException;
@@ -298,7 +299,14 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return null;
     }
-    public function  moveUploadedFile($name, $destination, ?string $requestType=null):?bool{
+    /**
+     * move uploaded file to 
+     * @param string $name 
+     * @param string $destination 
+     * @param null|string $requestType 
+     * @return null|bool 
+     */
+    public function  moveUploadedFile(string $name, string $destination, ?string $requestType=null):?bool{
         if ($file = $this->getFile($name)){
             if (($file['size'] == 0) || ($requestType && ($requestType!= $file['type']))){
                 return false;
@@ -316,5 +324,39 @@ class Request implements IInjectable, IContentSecurityProvider
         $t = ['error'=>true, 'message'=>$message];
         $t[self::ARRAY_RESPONSE_CODE] = $code ?? RequestResponseCode::BadRequest;         
         return $t;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    public function isRestRequest():bool{
+        if ($this->getHeader()->{WebHearderConstants::igk_web_response} == 1){            
+            return false;
+        }
+        if ($this->isAjx() || $this->sendsJSon()){
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    public function isAjx():bool{
+        return igk_is_ajx_demand();
+    }
+    public function sendsJSon():bool{
+        $h = $this->getHeader();
+        if ($t = $h->{'content_type'}){
+            return explode(';', $t, 1)[0] == 'application/json';
+        }
+        return false;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    public function isWebRequest():bool{
+        return !$this->isRestRequest();
     }
 }

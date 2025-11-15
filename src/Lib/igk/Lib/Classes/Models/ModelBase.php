@@ -47,15 +47,15 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static object|null|bool requestAdd() macros function add model entry by request
  * @method static void requestUpdate() macros function
  * @method static void rollback() macros function 
- * @method static string get_query() macros function get select query to send
- * @method static IIGKQueryResult select_query() macros function
+ * @method static string get_query($conditions=null, $options=null) macros function get only the query expression to send
+ * @method static IIGKQueryResult select_query($conditions=null, $options=null) macros function
  * @method static null|iterable select_query_rows($conditions=null, $options=null) macros function
  * @method static void select_row_query() macros function
  * @method static \IGK\Database\IDbQueryFetchResult select_fetch(?array $conditions[], array? $options[]) macros function return a fetch result
  * @method static string table() macros function
  * @method static null|IIGKQueryResult update(array $values, $condition=null) macros function
  * @method static void updateOrCreateIfNotExists() macros function
- * @method static void registerMacro($macroName, Callable|array $callable) register macros
+ * @method static void registerMacro($macroName, Callable|array $callable) register/override model macros
  * @method static \IGK\System\Database\Factories\FactoryBase factory(int $number, ?string $class_name = null, ...$args=null) macros function create a factory object for seeding \
  * if $class_name is set use $args to inject constructor argument. 
  * @method static array queryColumns(?array filter=null, bool useall if filter user all column by filter column with as property) macros function query columns
@@ -64,8 +64,9 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method void set(name, value): set value
  * @method static \IGK\Database\DataAdapterBase driver() macros helper get the driver attached to the current model
  * @method static string get_insert_query() marcros helper insert query 
- * @method static ?static Get(string $column, mixed $value, $autoinsert=null) macros function get row from defined value autoinsert
- * @method static ?static GetCache(string $column,mixed $value, ?bool $autoinsert=null) macros function get row from defined value autoinsert
+ * @method static ?static Get(mixed $value) macros function get row from primary key value
+ * @method static ?static Get(string $column, mixed $value, $autoinsert=null) macros function get row from defined value
+ * @method static ?static GetCache(string $column, mixed $value, ?bool $autoinsert=null) macros function get row from defined value autoinsert
  * @method static ?static cacheRow(where) macros function get row from defined value autoinsert
  * @method static ?static getv($array, $i) macros function convert class
  * @method static \IGK\System\Database\QueryBuilder with(string $table, ?string $propertyName=null) prepare command with table 

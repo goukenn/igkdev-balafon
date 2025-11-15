@@ -13,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid
 * @property string|datetime $usrphb_Create_At ="Now()"
 * @property string|datetime $usrphb_Update_At ="Now()"
-* @method static string FD_USRPHB_ID() - `usrphb_Id` full column name 
-* @method static string FD_USRPHB_USER_GUID() - `usrphb_UserGuid` full column name 
-* @method static string FD_USRPHB_PHONE_BOOK_ENTRY_GUID() - `usrphb_PhoneBookEntryGuid` full column name 
-* @method static string FD_USRPHB_CREATE_AT() - `usrphb_Create_At` full column name 
-* @method static string FD_USRPHB_UPDATE_AT() - `usrphb_Update_At` full column name 
+* @method static string FN_USRPHB_ID() - `usrphb_Id` full column name 
+* @method static string FN_USRPHB_USER_GUID() - `usrphb_UserGuid` full column name 
+* @method static string FN_USRPHB_PHONE_BOOK_ENTRY_GUID() - `usrphb_PhoneBookEntryGuid` full column name 
+* @method static string FN_USRPHB_CREATE_AT() - `usrphb_Create_At` full column name 
+* @method static string FN_USRPHB_UPDATE_AT() - `usrphb_Update_At` full column name 
 * @method static ?array joinOnRcphbUsrphbId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbUsrphbId() - macros function
 * @method static ?self Add(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string|datetime $usrphb_Create_At ="Now()", string|datetime $usrphb_Update_At ="Now()") add entry helper

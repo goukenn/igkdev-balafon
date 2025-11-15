@@ -4,6 +4,7 @@
 // @date: 20241031 17:45:12
 namespace IGK\System\Text;
 
+use Closure;
 use IGKException;
 use Exception;
 
@@ -19,6 +20,44 @@ abstract class RegexMatcherUtility
     const REGEX_EMPTY_LINE = '^\\h*(?=\\n)';
     const REGEX_CAPTURE_REPLACE = "/^\\s*(.+)\\s*$/";
 
+    /**
+     * 
+     * @param string $v 
+     * @param mixed $rp 
+     * @param mixed $e 
+     * @param mixed $g 
+     * @param mixed $replaceCapturedDataCallback
+     * @return void 
+     */
+    public static function ReplaceWith(string $s, $rp, $e, $g , ?Closure $replaceCapturedDataCallback = null){
+        
+            if ($rp instanceof Closure) {
+                $s = $rp($s, $g, $e);
+            } else {
+                if (is_array($rp)){
+                    $s = strtr($s, $rp);
+                } else {
+                    if ($replaceCapturedDataCallback){
+                        return $replaceCapturedDataCallback($s, $g, $rp);
+                    }
+                }
+            }
+            return $s;
+    }
+    /**
+     * 
+     */
+    public static function ReplaceWithOnly(string $s, $rp, $e){
+        $g = '/^(.+)$/m';
+        if ($rp instanceof Closure){
+            $s = $rp($s, $g, $e);
+        } else if (is_array($rp)){
+            if (is_array($rp)){
+                $s = strtr($s, $rp);
+            } 
+        }
+        return $s;
+    }
     /**
      * remove movement capture
      * @param string $regex 

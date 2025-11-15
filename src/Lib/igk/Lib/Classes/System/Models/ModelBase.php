@@ -4,6 +4,7 @@
 // @date: 20221120 23:18:02
 // @desc: 
 namespace IGK\System\Models;
+
 use ArrayAccess;
 use Closure;
 use Error;
@@ -34,6 +35,7 @@ use IGK\Constants;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
+
 require_once IGK_LIB_CLASSES_DIR . '/Models/Inc/ModelEntryExtension.php';
 /**
  * root model base 
@@ -289,7 +291,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if (is_callable($fc = $cl::__callStatic("getMacro", ["display"]))) {
             return $fc($this);
         }
-        return null;// $this->to_json();
+        return null; // $this->to_json();
     }
     /**
      * get reference primary key column
@@ -659,7 +661,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         return null;
     }
-    private static function & _InitDbMacros()
+    private static function &_InitDbMacros()
     {
         // ---------------------------------------------------------------------------
         // + initialize macro definition
@@ -699,19 +701,21 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                 }
             },
             MacrosConstant::getMacroKeysMethod => function (?ModelBase $filter = null) use (&$macros) {
-                $v_key = array_keys($macros);
-                if ($filter) {
-                    $cl = get_class($filter);
-                    return array_filter($v_key, function ($i) use ($cl) {
-                        return igk_str_startwith($i, $cl);
-                    });
+                if (is_array($macros)) {
+                    $v_key = array_keys($macros);
+                    if ($filter) {
+                        $cl = get_class($filter);
+                        return array_filter($v_key, function ($i) use ($cl) {
+                            return igk_str_startwith($i, $cl);
+                        });
+                    }
+                    return $v_key;
                 }
-                return $v_key;
             },
             "getInstance" => function () {
                 return igk_environment()->createClassInstance(static::class);
             }
-        ]; 
+        ];
         return $macros;
     }
     /**
@@ -724,7 +728,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     public static function __callStatic($name, $arguments)
     {
         if (self::$sm_macros === null) {
-            self::$sm_macros = & self::_InitDbMacros();  
+            self::$sm_macros = &self::_InitDbMacros();
             require_once(IGK_LIB_CLASSES_DIR . "/Models/Inc/DefaultModelEntryExtensions.pinc");
             // + | ----------------------------------------------------
             // + | init all model
@@ -769,9 +773,16 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             return $c->$name(...$arguments);
         }
         $tconst = igk_sys_reflect_class_get_constants(static::class);
-        if (preg_match('/^FD_/', $name) && in_array($name, array_keys($tconst))) {
-            return $c->column($tconst[$name]);
+        $p = Constants::DB_MODEL_FULLNAME_FIELD_PREFIX;
+        if (preg_match('/^' . $p . '/', $name)) {
+            $fns = $name;
+            $name = substr($fns, strlen($p));
+            if (in_array($kp = Constants::DB_MODEL_FIELD_PREFIX . $name, array_keys($tconst))) {
+                return $c->column($tconst[$kp]);
+            }
+            $name = $fns;
         }
+
         if (igk_environment()->isDev()) {
             igk_dev_wln(array_keys(self::$sm_macros));
             igk_dev_wln("call :" . $name);
@@ -889,8 +900,8 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if ($failed && igk_environment()->isDev()) {
             $msg = sprintf("failed to call macros %s::%s", static::class, $name);
             if (!defined('IGK_THROW_MISSING_MACROS_EXCEPTION')) {
+                echo '<div ><font color="red"><b>' . $msg . '</b></font></div>';
                 igk_trace();
-                igk_dev_wln(array_keys(self::$sm_macros));
                 igk_dev_wln($msg);
             } else {
                 throw new IGKException($msg);
@@ -920,7 +931,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         if ($this->m_alias) {
             $keys = array_keys($this->m_alias);
             return array_combine($keys, array_map(function ($a) {
-                if (false !== strpos($a, '.')){
+                if (false !== strpos($a, '.')) {
                     $a = implode('.', array_slice(explode('.', $a), -1));
                 }
                 return igk_getv($this->raw, $a);
@@ -1011,13 +1022,13 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     public function __isset($name)
     {
-        if (isset($this->raw->$name)){
+        if (isset($this->raw->$name)) {
             return true;
         }
-        if ($prefix = $this->tablePrefix()){
+        if ($prefix = $this->tablePrefix()) {
             $pname = DbUtility::TreatColumnName($name, $prefix);
             return isset($this->raw->{$pname});
-        } 
+        }
         return false;
     }
     /**
@@ -1025,7 +1036,8 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * @param string $name 
      * @return bool 
      */
-    public function columnExists(string $name){
+    public function columnExists(string $name)
+    {
         return property_exists($this->raw, $name);
     }
 }

@@ -59,7 +59,7 @@ if (!function_exists('igk_str_preg_replace_assoc_array')) {
  * @return string formatted string
  * @throws IGKException 
  */
-function igk_str_format(string $data):string
+function igk_str_format(string $data, ...$params):string
 {
     return stringUtility::Format(...func_get_args());
 }

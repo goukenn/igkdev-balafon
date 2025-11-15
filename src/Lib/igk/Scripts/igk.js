@@ -943,10 +943,10 @@ Name:balafon.js
                         return null;
                     }
                 };
-                igk_defineProperty(tn, "namespace", { get: function () { return n; }, set: function () { throw "not allowed"; } });
-                igk_defineProperty(tn, "type", { get: function () { return IGK_CLASS; } });
-                igk_defineProperty(tn, "fullname", { get: function () { return n; } });
-                igk_defineProperty(tn, "hierarchie", { get: function () { return _hierarchie; } });
+                igk_defineProperty(tn, 'namespace', { get: function () { return n; }, set: function () { throw "not allowed"; } });
+                igk_defineProperty(tn, 'type', { get: function () { return IGK_CLASS; } });
+                igk_defineProperty(tn, 'fullname', { get: function () { return n; } });
+                igk_defineProperty(tn, 'hierarchie', { get: function () { return _hierarchie; } });
                 igk_appendProp(tn, {
                     // namespace: n,
                     // type: IGK_CLASS,
@@ -2241,6 +2241,7 @@ Name:balafon.js
         isFirefox: fc_false,
         isOpera: fc_false
     }, { desc: "global navigator properties" });
+    createNS('igk.system.text', {}, { desc: "core namespace for text management." });
     createNS("igk.reflection", {}, { desc: "global igk js namespace" });
     createNS("igk.exception", {}, { desc: "global igk exception class" });
     createNS("igk.os", {}, { desc: "balafon os utility function" });
@@ -3558,8 +3559,8 @@ Name:balafon.js
                 let r = [];
                 let q = this;
                 let a = arguments;
-                this.o.each_all(function(o){ 
-                    r.push(fc.apply(this, a));                  
+                this.o.each_all(function (o) {
+                    r.push(fc.apply(this, a));
                 });
                 return r;
             }
@@ -3728,8 +3729,8 @@ Name:balafon.js
             if (!properties) return this;
             if (this.isSr()) {
                 this.o.each(this.setProperties, arguments);
-            } else { 
-                for (var i in properties) { 
+            } else {
+                for (var i in properties) {
                     try {
                         this.o[ni] = properties[i];
                     } catch (Ex) {
@@ -5117,12 +5118,12 @@ Name:balafon.js
      * use svg library 
      * @param {*} n name to use
      */
-    __prop.useSvg = function(n, context){
+    __prop.useSvg = function (n, context) {
         let g = document.createElement('div');
-        g.className = ['igk-svg-lst-i', n, context].filter((a)=>a).join(' ');
+        g.className = ['igk-svg-lst-i', n, context].filter((a) => a).join(' ');
         g.setAttribute('igk:svg-name', n);
         this.add(g);
-        return this; 
+        return this;
     };
 
     function __igk_event(q, p, n) {
@@ -8878,7 +8879,7 @@ Name:balafon.js
                 var c = g.func;
                 c.apply(q, [n, g.data]);
                 q.fn.isClassControl = 1; // mark as controller
-                q.fn.ControlName = n; // contorol name
+                q.fn.ControlName = n; // contorol name 
             }
         };
         createNS("igk.winui", {
@@ -8926,6 +8927,7 @@ Name:balafon.js
              * @param {string} n unique class component name
              */
             initClassControl: function (n, c, inf) {
+                // console.log('init class control: ', n);
                 if (!m_init && igk.ctrl.registerReady) {
                     // register node ready class control
                     m_init = 1;
@@ -8950,7 +8952,9 @@ Name:balafon.js
                 m_rcg = null;
             }
         });
-
+        /**
+         * 
+         */
         function igk_init_node_class_obj() {
             // init node objet attached by registered class
             var c = this;
@@ -8969,8 +8973,6 @@ Name:balafon.js
                 }
             }
         }
-        // igk.ready(igk_init_class_obj);
-        // igk.ajx.fn.registerNodeReady(function(){igk_init_node_class_obj.apply(this); });
     })();
     igk_defineProperty(igk, 'version', {
         get: function () { return __version; }
@@ -11427,13 +11429,13 @@ Name:balafon.js
         igk_appendProp(igk.ajx.ajx.prototype, {
 
             isReady: function () {
-                return (this.xhr.readyState == 4) && (this.xhr.status == 200);              
+                return (this.xhr.readyState == 4) && (this.xhr.status == 200);
             },
             /**
              * check end with error 
              * @returns {bool}
              */
-            endWithError(){
+            endWithError() {
                 return (this.xhr.readyState == 4) && (this.xhr.status != 200);
             },
             json: function () {
@@ -12963,3 +12965,4 @@ Name:balafon.js
     };
 
 })(window);
+

@@ -14,12 +14,12 @@ use IGK\Models\ModelBase;
 * @property int $Cardinality cardinality of the entry
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `Id` full column name 
-* @method static string FD_NAME() - `Name` full column name 
-* @method static string FD_CAT() - `Cat` full column name 
-* @method static string FD_CARDINALITY() - `Cardinality` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `Id` full column name 
+* @method static string FN_NAME() - `Name` full column name 
+* @method static string FN_CAT() - `Cat` full column name 
+* @method static string FN_CARDINALITY() - `Cardinality` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphbtId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbtId() - macros function
 * @method static ?self Add(string $Name, string $Cat, int $Cardinality, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

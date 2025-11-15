@@ -40,4 +40,13 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
     public function isEmpty():bool{
         return empty($this->p_data);
     }
+    /**
+     * 
+     * @param string $key 
+     * @param mixed $def_value 
+     * @return void 
+     */
+    public function get(string $key, $def_value){
+        return igk_getv($this->p_data, $key, $def_value);
+    }
 }

@@ -13,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property int|\IGK\Models\UserInfoTypes $clUserInfoType_Id
 * @property string $clValue stored data. not that if data if data length is more than 255 used a table to store that data
 * @property string $clDescription description of that value
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_USER_ID() - `clUser_Id` full column name 
-* @method static string FD_CL_USER_INFO_TYPE_ID() - `clUserInfoType_Id` full column name 
-* @method static string FD_CL_VALUE() - `clValue` full column name 
-* @method static string FD_CL_DESCRIPTION() - `clDescription` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_USER_ID() - `clUser_Id` full column name 
+* @method static string FN_CL_USER_INFO_TYPE_ID() - `clUserInfoType_Id` full column name 
+* @method static string FN_CL_VALUE() - `clValue` full column name 
+* @method static string FN_CL_DESCRIPTION() - `clDescription` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(int|\IGK\Models\Users $clUser_Id, int|\IGK\Models\UserInfoTypes $clUserInfoType_Id, string $clValue, string $clDescription) add entry helper

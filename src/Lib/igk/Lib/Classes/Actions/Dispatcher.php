@@ -132,7 +132,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         ) {
             // initialize replace uri 
             $v_host->getController()->{ControllerParams::REPLACE_URI} = 
-            $v_host->defaultEntryMethod != $name;
+            $v_host->getDefaultEntryMethod() != $name;
             $targs = array_merge([$fc], $arguments);
             return self::__callStatic(self::DISPATCH_METHOD, $targs);
         } else {
@@ -237,20 +237,20 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     }
                 }
                 // + | get inject table class printer service
-                if (!IGKType::IsPrimaryType($type) && is_subclass_of($type, IInjectable::class) && $services && isset($services[$type])) {
+                $v_primary = IGKType::IsPrimaryType($type);
+                $v_injectable = !$v_primary && IGKType::IsInjectable($type);
+
+                if ($v_injectable &&
+                    $services && isset($services[$type])) {
                     $rtype = $services[$type];
                     $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);
                     continue;
                 }
-                $v_primary = IGKType::IsPrimaryType($type);
                 if (!$v_primary && class_exists($type)) 
                 {
-                    if (is_subclass_of($type, IInjectable::class)) {
+                    if ($v_injectable){
                         $targs[] = self::_GetInjectable($type, $args);   
-                        $v_inject = true;    
-                        // if (!$k->allowsNull())  {
-                        //     $i++;
-                        // }               
+                        $v_inject = true; 
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));

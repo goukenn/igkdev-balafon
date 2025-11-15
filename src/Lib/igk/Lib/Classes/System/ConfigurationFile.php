@@ -4,33 +4,17 @@
 // @date: 20240816 08:05:07
 namespace IGK\System;
 use IGK\Constants;
+use IGK\System\Configuration\EntityConfigurationSchema;
+
 /**
 * represent a project configuration file 
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
 */
-class ConfigurationFile{
+class ConfigurationFile extends EntityConfigurationSchema{
     const DEFAULT_MAINJS = 'default.js';
     const CONFIG_FILE = Constants::PROJECT_CONF_FILE;
-    /**
-     * name of the project 
-     */
-    var $name;
-    /**
-     * description 
-     * @var ?string
-     */
-    var $description;
-    /**
-     * 
-     * @var ?string
-     */
-    var $version;
-    /**
-     * author name info
-     * @var mixed
-     */
-    var $author;
+   
     /**
      * array of require module
      * @var ?string[]
@@ -61,6 +45,12 @@ class ConfigurationFile{
      * @var mixed
      */
     var $scripts;
+
+    /**
+     * default user profile
+     * @var mixed
+     */
+    var $default_user_profile;
     /**
      * retrieve the main JS
      * @return mixed 

@@ -13,14 +13,7 @@ igk_reg_hook(IGKEvents::HOOK_USER_ADDED, function ($e) {
         if (method_exists($ctrl,  EntryClassResolution::CTRL_METHOD_INIT_USER_FROM_SYSUSER)) {
             $ctrl->initUserFromSysUser($user);
         } else {
-            if ($defautlRole = $ctrl::resolveClass(EntryClassResolution::Profiles)) {
-                if (
-                    method_exists($defautlRole, $fc = EntryClassResolution::ProfilesGetDefaultMethod) &&
-                    $profile = call_user_func([$defautlRole, $fc])
-                ) {
-                    Authorization::BindUserToGroup($ctrl, $user, $profile);
-                }
-            }
+            $ctrl::bindUserDefaultProfiles($user); 
         }
     }
 });

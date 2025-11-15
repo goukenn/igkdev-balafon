@@ -3,6 +3,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @desc: 
 
+use IGK\Constants;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
@@ -14,7 +15,7 @@ use IGK\System\EntryClassResolution;
 if (!function_exists('igk_db_ctrl_initdata')) {
     function igk_db_ctrl_initdata($controller)
     {
-        $v_gcl =  \IGK\Database\DbInitManager::class;
+        $v_gcl = Constants::DB_INIT_MANAGER;
         if (!(($cl = $controller->resolveClass(EntryClassResolution::DbInitManager)) && class_exists($cl, false)
             && is_subclass_of($cl, $v_gcl))) {
             $cl = $v_gcl;

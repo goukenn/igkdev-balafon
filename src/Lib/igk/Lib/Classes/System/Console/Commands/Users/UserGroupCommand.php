@@ -4,10 +4,8 @@
 // @date: 20230704 14:22:51
 namespace IGK\System\Console\Commands\Users;
 use IGK\Controllers\SysDbController;
-use IGK\Database\Macros\UsersMacros;
 use IGK\Helper\Authorization;
 use IGK\Helper\ModelHelper;
-use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use JSon;
 /**

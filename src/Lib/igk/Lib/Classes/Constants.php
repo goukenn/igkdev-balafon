@@ -55,6 +55,10 @@ final class Constants{
     const SYS_DEFAULT_HTML_PACKAGE = 'igk';
     const BCSS_EXTENSION = '.bcss';
     const PCSS_EXTENSION = '.pcss';
+
+
+    const DB_MODEL_FIELD_PREFIX = 'FD_';
+    const DB_MODEL_FULLNAME_FIELD_PREFIX = 'FN_';
     /**
      * get the core version 
      * @return string 

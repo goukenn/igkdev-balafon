@@ -13,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property string|?\IGK\Models\Users $user_guid
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `Id` full column name 
-* @method static string FD_GUID() - `Guid` full column name 
-* @method static string FD_USER_GUID() - `user_guid` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `Id` full column name 
+* @method static string FN_GUID() - `Guid` full column name 
+* @method static string FN_USER_GUID() - `user_guid` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphbeId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbeId() - macros function
 * @method static ?self Add(string $Guid, string|?\IGK\Models\Users $user_guid, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

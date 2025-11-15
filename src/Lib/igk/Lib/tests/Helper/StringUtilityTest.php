@@ -8,6 +8,7 @@
 
 namespace IGK\Tests\Helper;
 
+use IGK\Constants;
 use IGK\Helper\MenuUtils;
 use IGK\Helper\StringUtility;
 use IGK\System\Text\RegexMatcherContainer;
@@ -89,41 +90,42 @@ class StringUtilityTest extends BaseTestCase
 
     public function test_get_constant_name()
     {
+        $prefix = Constants::DB_MODEL_FIELD_PREFIX;
         $this->assertEquals(
-            "FD_USER_ID",
-            "FD_" . StringUtility::GetConstantName('userID'),
+            $prefix. "USER_ID",
+            $prefix  . StringUtility::GetConstantName('userID'),
             "CASE 1 failed"
         );
         $this->assertEquals(
-            "FD_USER_ID",
-            "FD_" . StringUtility::GetConstantName('user_ID'),
+            $prefix. "USER_ID",
+             $prefix  . StringUtility::GetConstantName('user_ID'),
             "CASE 2 failed"
         );
         $this->assertEquals(
-            "FD_USER_ID",
-            "FD_" . StringUtility::GetConstantName('user_Id'),
+            $prefix. "USER_ID",
+             $prefix  . StringUtility::GetConstantName('user_Id'),
             "CASE 3 failed"
         );
         $this->assertEquals(
-            "FD_USER_ID",
-            "FD_" . StringUtility::GetConstantName('UserId'),
+            $prefix. "USER_ID",
+             $prefix  . StringUtility::GetConstantName('UserId'),
             "CASE 4 failed"
         );
         $this->assertEquals(
-            "FD_USER_ID",
-            "FD_" . StringUtility::GetConstantName('__UserId'),
+            $prefix. "USER_ID",
+             $prefix  . StringUtility::GetConstantName('__UserId'),
             "CASE 5 failed"
         );
         // test with space content
         $this->assertEquals(
-            "FD_USER_ID",
-            "FD_" . StringUtility::GetConstantName('__User Id'),
+            $prefix. "USER_ID",
+             $prefix  . StringUtility::GetConstantName('__User Id'),
             "CASE 6 failed"
         );
         // test with all __
         $this->assertEquals(
-            "FD_USER_ID",
-            "FD_" . StringUtility::GetConstantName('__User Id__'),
+            $prefix. "USER_ID",
+             $prefix  . StringUtility::GetConstantName('__User Id__'),
             "CASE 6 failed"
         );
     }

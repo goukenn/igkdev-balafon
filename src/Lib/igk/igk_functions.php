@@ -1042,13 +1042,13 @@ function igk_clear_config_session()
 ///<param name="n">cookie's name</param>
 /**
  * clear cookie
- * @param mixed $n cookie's name
+ * @param string $name cookie's name
  */
-function igk_clear_cookie($n)
+function igk_clear_cookie($name)
 {
-    $m = igk_get_cookie_name(igk_sys_domain_name() . "/" . $n);
+    $m = igk_get_cookie_name(igk_sys_domain_name() . "/" . $name);
     $rs = igk_getv($_COOKIE, $m);
-    igk_set_cookie($n, null, 1, time() - (7 * 24 * 60));
+    igk_set_cookie($name, null, 1, time() - (7 * 24 * 60));
     if ($rs)
         unset($_COOKIE[$m]);
 }
@@ -7234,13 +7234,16 @@ function igk_execute_time($name = null, $time = null)
 ///<summary>extract data from object</summary>
 /**
  * extract variables list from object 
- * @param mixed $obj 
+ * @param null|object|array $obj 
  * @param mixed|string $list - mixed keys : string[] | [key=>default_value] | pipe delimiter list
  * @return array 
  * @throws Exception 
  */
 function igk_extract($obj, $list)
 {
+    if (is_null($obj)){
+        $obj = [];
+    }
     $p = [];
     if (is_string($list)) {
         $list =  explode("|", $list);
@@ -8331,6 +8334,19 @@ function igk_get_cookie_domain()
         return (strpos($p, ".") !== false ? "." : "") . $p;
     }
 }
+
+/**
+ * set cookie header to clear cookie definition
+ * @param string $cookie_name 
+ * @param string $path 
+ * @param ?string $domain 
+ * @return void 
+ */
+function igk_clear_real_cookie(string $cookie_name, $path='/', $domain=null){
+    $domain = $domain ?? '.'.igk_sys_domain_name();
+    setcookie($cookie_name, '', time()-(10*3600), $path, $domain);
+}
+
 ///<summary></summary>
 ///<param name="n"></param>
 /**
@@ -19808,8 +19824,8 @@ function igk_set_cached(string $n, $data, int $duration = 600)
 ///<param name="override" default="1"></param>
 ///<param name="tm" default="null"></param>
 /**
- * 
- * @param mixed $n 
+ * set cookie
+ * @param string $n name of the cookie
  * @param mixed $v 
  * @param mixed $override 
  * @param mixed $tm 
@@ -24390,7 +24406,9 @@ function igk_sys_zip_project($controller, $path, $exclude_regex = null, $author 
     $ref = "/(\/(temp|node_modules))|\.(vscode|git(ignore)?|gkds|DS_Store)$/";
     if (is_null($exclude_regex)) {
         SyncProjectSettings::InitProjectExcludeDir($pdir, $excludir);
-        $rc = Replacement::RegexExpressionFromString(implode("|", array_keys($excludir)));
+        
+        $rc = is_array($excludir) ? 
+            Replacement::RegexExpressionFromString(implode("|", array_keys($excludir))) : '';
         $exclude_regex = "/" . trim($rc, "/") . '|' . trim($ref, '/') . "/";
     }
 

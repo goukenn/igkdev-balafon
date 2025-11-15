@@ -17,15 +17,15 @@ use IGK\Models\ModelBase;
 * @property string $description
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `id` full column name 
-* @method static string FD_NAME() - `name` full column name 
-* @method static string FD_PID() - `pid` full column name 
-* @method static string FD_IP() - `ip` full column name 
-* @method static string FD_SESSION_ID() - `session_id` full column name 
-* @method static string FD_DATA() - `data` full column name 
-* @method static string FD_DESCRIPTION() - `description` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `id` full column name 
+* @method static string FN_NAME() - `name` full column name 
+* @method static string FN_PID() - `pid` full column name 
+* @method static string FN_IP() - `ip` full column name 
+* @method static string FN_SESSION_ID() - `session_id` full column name 
+* @method static string FN_DATA() - `data` full column name 
+* @method static string FN_DESCRIPTION() - `description` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnPprocId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnPprocId() - macros function
 * @method static ?self Add(string $name, int $pid, string $ip, string $session_id, string $data, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper

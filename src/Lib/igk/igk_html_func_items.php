@@ -3147,7 +3147,7 @@ if (!function_exists("igk_html_node_jsreplaceuri")) {
 	 * @param string $uri
 	 */
 	function igk_html_node_jsreplaceuri(string $uri)
-	{
+	{ 
 		$n = igk_create_node('balafonJS');
 		$n["autoremove"] = 1;
 		$n->Content = "ns_igk.winui.history.replace('{$uri}', null); ";
@@ -6084,4 +6084,19 @@ if (!function_exists('igk_html_node_breadcrumbs')) {
 		}
 		return $root;
 	}
+}
+
+
+// 20251007 - components
+
+if (!function_exists('igk_html_node_markdown')){
+    function igk_html_node_markdown(string $content, $options=null){
+        list($allowlinks) = igk_extract($options, 'allowLinkDocument');
+        $conv = new \IGK\System\IO\Markdown\MarkdownConverter;
+        $conv->allowLinkDocument = $allowlinks;
+        $conv->encapsulateTextInTag = true;
+        $n = igk_html_host('div.md-doc'); 
+        $n->text($conv->transformToHtml($content));
+        return $n;
+    }
 }

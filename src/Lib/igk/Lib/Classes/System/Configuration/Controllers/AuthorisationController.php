@@ -379,7 +379,7 @@ class AuthorisationController extends ConfigControllerBase{
             // 'clController'=>[],
             'clController'=>['type'=>'select', 'data'=>$data]
         ]); 
-        $frm->actionbar(FormHelper::submit()); // null, __("Check autorisation")));
+        $frm->actionbar(FormHelper::submit()); // null, __("Check authorisation")));
         return $d;
     }
     /**

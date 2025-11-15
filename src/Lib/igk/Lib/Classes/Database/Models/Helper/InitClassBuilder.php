@@ -172,8 +172,8 @@ class InitClassBuilder
             $php_doc .= sprintf("@property " . $pr_type . "%s\n", $desc);
             $c_p = $v_const_name; //StringUtility::GetConstantName($cinfo->clName);
             if (!isset($const_props[$c_p])) {
-                $const_data .=  "const FD_" . $c_p . '="' . $cinfo->clName . '";' . "\n";
-                $helper_constant_call .= sprintf("@method static string FD_" . $c_p . "() - `" .
+                $const_data .=  "const " .Constants::DB_MODEL_FIELD_PREFIX . $c_p . '="' . $cinfo->clName . '";' . "\n";
+                $helper_constant_call .= sprintf("@method static string " . Constants::DB_MODEL_FULLNAME_FIELD_PREFIX . $c_p . "() - `" .
                     $v_nn . "` full column name \n");
                 $const_props[$c_p] = 1;
             } else {

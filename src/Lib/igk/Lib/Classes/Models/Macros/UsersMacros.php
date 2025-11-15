@@ -150,11 +150,11 @@ abstract class UsersMacros
      */
     public static function getGroupNames(Users $model)
     {
-        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FD_CL_NAME), $model->groups());
+        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FN_CL_NAME), $model->groups());
     }
     public static function getAuthorizationNames(Users $model)
     {
-        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FD_CL_NAME), $model->auths());
+        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FN_CL_NAME), $model->auths());
     }
     /**
      * get user form guid :

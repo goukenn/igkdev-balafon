@@ -11,9 +11,9 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clName
 * @property string $clUri
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_NAME() - `clName` full column name 
-* @method static string FD_CL_URI() - `clUri` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_NAME() - `clName` full column name 
+* @method static string FN_CL_URI() - `clUri` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clName, string $clUri) add entry helper

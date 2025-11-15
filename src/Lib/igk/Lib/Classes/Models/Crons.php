@@ -17,15 +17,15 @@ use IGK\Models\ModelBase;
 * @property int $status running script response status
 * @property string|datetime $create_at ="CURRENT_TIMESTAMP"
 * @property string|datetime $update_at ="CURRENT_TIMESTAMP"
-* @method static string FD_ID() - `id` full column name 
-* @method static string FD_NAME() - `name` full column name 
-* @method static string FD_PROCESS() - `process` full column name 
-* @method static string FD_SCRIPT() - `script` full column name 
-* @method static string FD_OPTIONS() - `options` full column name 
-* @method static string FD_CLASS() - `class` full column name 
-* @method static string FD_STATUS() - `status` full column name 
-* @method static string FD_CREATE_AT() - `create_at` full column name 
-* @method static string FD_UPDATE_AT() - `update_at` full column name 
+* @method static string FN_ID() - `id` full column name 
+* @method static string FN_NAME() - `name` full column name 
+* @method static string FN_PROCESS() - `process` full column name 
+* @method static string FN_SCRIPT() - `script` full column name 
+* @method static string FN_OPTIONS() - `options` full column name 
+* @method static string FN_CLASS() - `class` full column name 
+* @method static string FN_STATUS() - `status` full column name 
+* @method static string FN_CREATE_AT() - `create_at` full column name 
+* @method static string FN_UPDATE_AT() - `update_at` full column name 
 * @method static ?array joinOnCronsId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnCronsId() - macros function
 * @method static ?self Add(string $name, string $process, string $script, string $options, string $class, int $status, string|datetime $create_at ="CURRENT_TIMESTAMP", string|datetime $update_at ="CURRENT_TIMESTAMP") add entry helper

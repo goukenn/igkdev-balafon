@@ -80,16 +80,8 @@ trait ReplaceUtilityTrait
                 $g = RegexMatcherUtility::ConverToRegex($g);
                 $g = RegexMatcherUtility::RemoveMovementCapture($g);
             }
-
-            if ($rp instanceof Closure) {
-                $s = $rp($s, $g, $e);
-            } else {
-                if (is_array($rp)){
-                    $s = strtr($s, $rp,);
-                } else {
-                    return self::ReplaceCaptureData($s, $g, $rp);
-                }
-            }
+            $callback = Closure::fromCallable([self::class, 'ReplaceCaptureData']) ?? igk_die('missing captured data');
+            $s = RegexMatcherUtility::ReplaceWith($s, $rp, $g, $e, $callback); 
         }
         return $s;
     }
