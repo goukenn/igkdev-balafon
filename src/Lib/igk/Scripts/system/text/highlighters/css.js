@@ -153,7 +153,7 @@ igk.system.createNS('igk.highlightjs', {
         }
         this.evals = function (s) {
             c++; 
-            let o = { offset: 0, source: s }
+            let o = { offset: 0, source: s };
             let g = null, e = null;
             if (state.e) {
                 regex.continueDetect(state.e, o);
