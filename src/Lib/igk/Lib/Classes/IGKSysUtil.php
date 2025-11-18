@@ -3,9 +3,7 @@
 // @filename: IGKSysUtil.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-///<summary> System utility class </summary>
-
+use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Controllers\SysDbControllerManager;
@@ -20,7 +18,6 @@ use IGK\System\Database\DbUtils;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\Test\IGKValueEntryCallbackTest;
-
 /**
  * 
  * @package 
@@ -38,7 +35,6 @@ abstract class IGKSysUtil
     public static function GeneratePWD(){
         return substr(str_shuffle(self::PRIMARY_PWD), 0, 9);
     }
-
     /**
      * get model full type name 
      * @param string $defined_table_name table name to get 
@@ -48,7 +44,7 @@ abstract class IGKSysUtil
     public static function GetModelTypeName(string $defined_table_name, ?BaseController $ctrl = null): string
     {
         $_NS = "";
-        $defined_table_name = preg_replace(IGKConstants::MODEL_TABLE_REGEX, "", $defined_table_name);
+        $defined_table_name = preg_replace(Constants::MODEL_TABLE_REGEX, "", $defined_table_name);
         if ($ctrl) {
             $_NS = $ctrl::ns(EntryClassResolution::Models) . "\\";
         }
@@ -69,6 +65,12 @@ abstract class IGKSysUtil
         }
         return null; 
     }
+    /**
+     * 
+     * @param mixed $data 
+     * @param mixed $prefix 
+     * @return string 
+     */
     public static function Encrypt($data, $prefix = null)
     {
         if ($prefix === null) {
@@ -126,7 +128,6 @@ abstract class IGKSysUtil
                     igk_ilog("Table $ck already found. [" . $v->Name . "] get from " . $tables[$ck]->ctrl->Name . " with schema");
                     return null;
                 }
-
                 $cinfo = $cv->columnInfo;
                 $desc = $cv->description;
                 $entries = $cv->entries;              
@@ -165,7 +166,6 @@ abstract class IGKSysUtil
         }
         return $tables;
     }
-
     /**
      * 
      * @param BaseController $controller 
@@ -181,21 +181,16 @@ abstract class IGKSysUtil
             $grammar = $controller->getDataAdapter()->getGrammar();
             foreach ($tables as $table => $info) {
                 //     Utils::GenerateAndWriteMigration($table, $info, $out) || die("failed to write ".$table);
-
-
                 $s .=  $grammar->CreateTableQuery($table, $info->info, $info->desc) . PHP_EOL;
                 $refered = 0;
                 $refered_counter = 0;
                 $links = "";
                 $queryfilter = igk_environment()->mysql_query_filter;
                 foreach ($info->info as $ti) {
-
-
                     if ($ti->clLinkType) {
                         $refColumn = igk_getv($ti, "clLinkColumn", IGK_FD_ID);
                         $nk = $queryfilter ? '' :
                             igk_getv($ti, "clLinkConstraintName", '`' . $table . "_" . $ti->clName . '`');
-
                         $links .= trim(IGKString::Format(
                             "ALTER TABLE {0} ADD CONSTRAINT {1} FOREIGN KEY (`{2}`) REFERENCES {3}  ON DELETE RESTRICT ON UPDATE RESTRICT;",
                             "`{$table}`",
@@ -207,7 +202,6 @@ abstract class IGKSysUtil
                                 $refColumn
                             )
                         ));
-
                         if ($refered = ($refered || ($ti->clLinkType != $table))) {
                             $refered_counter++;
                         }
@@ -250,7 +244,6 @@ abstract class IGKSysUtil
         }
         return $s;
     }
-
     /**     
      * resolv the table name
      *
@@ -260,7 +253,7 @@ abstract class IGKSysUtil
      */
     public static function DBGetTableName(string $table, ?BaseController $ctrl = null)
     { 
-        $v = IGKConstants::MODEL_TABLE_REGEX;
+        $v = Constants::MODEL_TABLE_REGEX;
         $t = preg_replace_callback(
             $v,
             function ($m) use ($ctrl) {
@@ -285,7 +278,6 @@ abstract class IGKSysUtil
         );
         return $t;
     }
-
     /**
      * 
      * @param array $inf 
@@ -304,7 +296,6 @@ abstract class IGKSysUtil
                 $column = $prop->clName;
             }
             $skeys[$column] = $prop;
-
             if ($prop->clAutoIncrement) {
                 continue;
             }
@@ -313,11 +304,9 @@ abstract class IGKSysUtil
                 continue;
             }
             $require[] = $column;
-            
         }
         $tab = array_merge($require, $optional);
         $tab = array_combine($tab, $tab); 
-
         $g = array_map(function ($i) use ($ctrl, $skeys) {
             return self::GetPhpDoPropertyType($i, $skeys[$i], $ctrl, true);
         }, $tab);
@@ -349,7 +338,6 @@ abstract class IGKSysUtil
         // + | 
         return $t . " \$" . $name . $extra;
     }
-
     /**
      * reverse table table t
      * @param string $table 
@@ -384,7 +372,6 @@ abstract class IGKSysUtil
         }
         $t .= "\\";
         $g = &\IGK\Models\ModelBase::RegisterModels();
-
         if (isset($g[$type])) {
             if (!isset($g[$type]->model)) {
                 igk_die(" model class defined.");
@@ -413,7 +400,6 @@ abstract class IGKSysUtil
                     igk_die(sprintf("dadata base do not retrieve [%s] data table info.", $type));
                 } else {
                      # build - schema migration info
-
                 }
             }
             if (!isset($gu->modelClass)) {
@@ -426,8 +412,13 @@ abstract class IGKSysUtil
         }
         return $t;
     }
-    public static function ConvertToPhpDocType($type)
-    {
+    /**
+     * 
+     * @param mixed $type 
+     * @return mixed 
+     * @throws Exception 
+     */
+    public static function ConvertToPhpDocType($type){
         if (is_null($type)){
             return 'string';
         }

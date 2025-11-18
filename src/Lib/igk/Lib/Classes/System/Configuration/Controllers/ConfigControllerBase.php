@@ -3,29 +3,20 @@
 // @filename: ConfigControllerBase.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
-///<summary>Represente class: ConfigControllerBase</summary>
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\Menus\MenuItem;
-
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-
-
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigController.php";
-
 /**
- * Represente ConfigControllerBase class
+ * Represent ConfigControllerBase class
  */
 abstract class ConfigControllerBase extends BaseController implements IConfigController
 {
@@ -75,10 +66,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return $this->getConfigs()->get($name, $default);
     }
-
-    ///<summary></summary>
-    ///<param name="node"></param>
-    ///<param name="title"></param>
     /**
      * 
      * @param mixed $node
@@ -90,7 +77,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         $d["class"] = "igk-cnf-title";
         $d->Content = __($title);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -98,7 +84,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return igk_getctrl(IGK_CONF_CTRL, false);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -106,7 +91,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return $this->getConfigCtrl()->getConfigNode();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -114,7 +98,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return "default";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -122,7 +105,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return "./help/help." . $this->Name;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -130,7 +112,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return igk_is_conf_connected();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -143,7 +124,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         $v = $cnf->getIsConnected();
         return $v;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -154,7 +134,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
             $c->registerConfig($this);
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -196,8 +175,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="funcName"></param>
     /**
      * 
      * @param mixed $funcName
@@ -209,7 +186,6 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return true; // parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $function]);
     }
-    ///<summary>base show Configuration of the controller</summary>
     /**
      * base show Configuration of the controller
      */
@@ -228,15 +204,13 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
                 $this->View();
                 if ($_cnf_node = $this->getConfigNode()) {
                     $_cnf_node->clearChilds();
-                    $_cnf_node->add($_t);
-                    // $_cnf_node->div()->Content = "DEBUG ::::".get_class($this);
+                    $_cnf_node->add($_t); 
                     igk_set_env($e_key, $this);
                 }
             }
             $this->setEnvParam('handled', true);
         }  
     }
-    ///<summary>used to initialize the config view node</summary>
     /**
      * used to initialize the config view node
      */

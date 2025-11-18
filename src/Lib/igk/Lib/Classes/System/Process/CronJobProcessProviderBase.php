@@ -3,12 +3,8 @@
 // @filename: CronJobProcessProviderBase.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Process;
-
 use IGK\Controllers\BaseController;
-
 /**
  * represent the base providers
  * @package IGK\System\Process
@@ -22,11 +18,10 @@ abstract class CronJobProcessProviderBase{
         $options= $this->treat($options);
         if ($ctrl!=null){
             if (!($ctrl = igk_getctrl($ctrl,false)) || 
-                !file_exists($file = $ctrl::classdir()."/CGI/Crons/".$name.".php")
+                !igk_io_file_exists($file = $ctrl::classdir()."/CGI/Crons/".$name.".php")
                 ){            
                 return false;
             }
-            
             $fc=function($ctrl){
                 extract((array)func_get_args(2));
                 return include(func_get_arg(1));
@@ -34,7 +29,7 @@ abstract class CronJobProcessProviderBase{
             return $fc($ctrl, $file, $options);            
         }
         $dir = igk_io_sys_classes_dir();
-        if (file_exists($file = $dir ."/CGI/Crons/".$name.".php")){
+        if (igk_io_file_exists($file = $dir ."/CGI/Crons/".$name.".php")){
             $fc=function(){
                 extract((array) func_get_arg(1));
                 return include(func_get_arg(0));

@@ -3,11 +3,8 @@
 // @filename: HtmlCarouselNode.php
 // @date: 20220315 09:21:37
 // @desc: represent carousel compoent
-
 namespace IGK\System\Html\Dom;
-
 use IGKException;
-
 /**
  * for carousel component \
  *      activate attribute for setting
@@ -19,7 +16,6 @@ use IGKException;
  */
 class HtmlCarouselNode extends HtmlNode{
     protected $tagname = "div";
-
     protected function initialize()
     {
         parent::initialize();        
@@ -34,7 +30,6 @@ class HtmlCarouselNode extends HtmlNode{
         $n["class"] = "igk-winui-carousel-slide";
         return $n;
     }
-
     protected function _acceptRender($options = null):bool
     {
         if ($doc = $options ? igk_getv($options, "Document") : null){

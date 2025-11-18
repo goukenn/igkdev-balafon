@@ -3,10 +3,7 @@
 // @filename: IGKDbUtility.php
 // @date: 20220803 13:48:54
 // @desc: base model utility class declaration 
-
 use function igk_resources_gets as __;
-
-///<summary>class used to manage database for a controller</summary>
 /**
 * class used to manage database for a controller
 */
@@ -142,7 +139,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return $v_;
     }
-    ///<summary>table fixture </summary>
     /**
     * table fixture
     */
@@ -152,8 +148,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return $this->_getTablePrefix().$table;
     }
-    ///<summary></summary>
-    ///<param name="callback"></param>
     /**
     * 
     * @param mixed $callback
@@ -165,7 +159,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $this->close();
         return $o;
     }
-    ///<summary>add direct object for table name</summary>
     /**
     * add direct object for table name
     */
@@ -173,14 +166,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $r=igk_db_create_row($tablen, $mixed);
         return $this->insertIfNotExists($tablen, $r);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function beginTransaction(){
         return $this->m_ad->beginTransaction();
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -192,14 +183,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
             //}
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function commit(){
         return $this->m_ad->commit();
     }
-    ///<summary>connect adapter</summary>
     /**
     * connect adapter
     */
@@ -208,9 +197,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
             $this->m_ad=$this->initDataAdapter();
         return $this->m_ad && $this->m_ad->connect($this->m_Ctrl);
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="id" default="null"></param>
     /**
     * 
     * @param mixed $table
@@ -222,8 +208,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return igk_db_delete($this->m_Ctrl, $table, $id);
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
     /**
     * 
     * @param mixed $table
@@ -237,8 +221,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $this->close();
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="g"></param>
     /**
     * 
     * @param mixed $g
@@ -251,15 +233,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
             $this->m_ad->rollback();
         }
     }
-    ///<summary>get the data adapter</summary>
     /**
     * get the data adapter
     */
     public final function getAd(){
         return $this->m_ad;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
     /**
     * 
     * @param mixed $table
@@ -267,14 +246,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     public function getCanSyncDataTable($table){
         return true;
     }
-    ///<summary> get configs db function</summary>
     /**
     *  get configs db function
     */
     public function getConfigv($n, $default=null, $table=null, $comment=null){
         return igk_db_get_config($n, $default, $comment, 0);
     }
-    ///<summary>get controller</summary>
     /**
     * get controller
     */
@@ -287,16 +264,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     public function getErrorCode(){
         return $this->m_errorcode;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getErrorString(){
         return $this->m_errorstr;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="condition"></param>
     /**
     * 
     * @param mixed $table
@@ -308,7 +281,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
             return $r->clId;
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -316,9 +288,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $ad=$this->Ad;
         return $ad ? $ad->getLastQuery(): -1;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="condition"></param>
     /**
     * 
     * @param mixed $table
@@ -328,9 +297,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $r=$this->select($table, $condition)->getRowAtIndex(0);
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="id"></param>
     /**
     * 
     * @param mixed $table
@@ -340,7 +306,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         return $this->select($table, array(IGK_FD_ID=>$id))->getRowAtIndex(0);
     }
     ///get default condition id
-    ///<summary>return a sync data id</summary>
     /**
     * return a sync data id
     */
@@ -373,10 +338,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="valueInTable"></param>
-    ///<param name="info" default="null"></param>
     /**
     * 
     * @param mixed $table
@@ -404,8 +365,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return igk_getv($syncrow, "clName");
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     /**
     * 
     * @param mixed $id
@@ -413,7 +372,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     public function getSystemUserById($id){
         return igk_get_user($id); 
     }
-    ///<summary>get user id</summary>
     /**
     * get user id
     */
@@ -421,15 +379,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $u=$this->m_Ctrl->User;
         return $u ? $u->clId: 0;
     }
-    ///<summary>get user by id</summary>
     /**
     * get user by id
     */
     public function getUser($uid){
         return igk_get_user($uid);
     }
-    ///<summary></summary>
-    ///<param name="uid" default="null"></param>
     /**
     * 
     * @param mixed $uid the default value is null
@@ -440,17 +395,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return $uid;
     }
-    ///<summary>initialize data adapter</summary>
     /**
     * initialize data adapter
     */
     protected function initDataAdapter(){
         return igk_get_data_adapter($this->m_Ctrl);
     }
-  
-    ///<summary>insert data</summary>
-    ///<param name="table">table where to insert</param>
-    ///<param name="obj">object to insert</param>
     /**
     * 
     * @param mixed $table
@@ -464,17 +414,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         else
             return igk_db_insert($this->m_Ctrl, $table, $obj);
     }
-	///<summary>insert array in items by building as semi-column separated query</summary>
 	public function insert_array($tbname, $values, $throwex=true){
 		 $tbname=$this->_table($tbname);
         if($this->m_ad){
             return $this->m_ad->insert_array($tbname, $values, $throwex);
         }
 	}
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="obj"></param>
-    ///<param name="id" default="'clId'"></param>
     /**
     * 
     * @param mixed $table
@@ -488,10 +433,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return 0;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="obj"></param>
-    ///<param name="leaveOpen" default="false"></param>
     /**
     * 
     * @param string $table
@@ -501,11 +442,10 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     public function insertIfNotExists(string $table, $obj, $leaveOpen=false){
         return igk_db_insert_if_not_exists($this->m_Ctrl, $table, $obj, null, null, $leaveOpen, "Or");
     }
-    ///<summary>insert or update $obj</summary>
     /**
     * insert or update $obj
     */
-    public function insertOrUpdate($table, $condition, $obj, callable $callback=null){
+    public function insertOrUpdate($table, $condition, $obj, ?callable $callback=null){
         $_invoke=function($r) use ($table, $condition, $obj, $callback){
             if($r->RowCount == 1){
                 $row=$r->getRowAtIndex(0);
@@ -518,9 +458,7 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
                     return 2;
                 }
             }
-            
             return igk_die("not implement ".$r->RowCount);
-            
         };
         if($condition == null){
             $tab=null;
@@ -542,7 +480,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return 0;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -550,10 +487,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $ad=$this->Ad;
         return $ad ? $ad->last_id(): -1;
     }
-    ///<summary></summary>
-    ///<param name="tab"></param>
-    ///<param name="callback" default="null"></param>
-    ///<param name="tablen" default="products"></param>
     /**
     * 
     * @param mixed $tab
@@ -589,17 +522,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     public function model($modeltype, $name=null){
         return $this->Ctrl->loader->model($modeltype, $name);
     }
-    ///<summary></summary>
     /**
-    * 
+    * model rollback
     */
     public function rollback(){
         return $this->m_ad->rollback();
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $table
@@ -614,10 +542,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         igk_die("/!\ no adapter created. tips. call connect function first ");
         return igk_db_table_select_where($table, $condition, $this->m_Ctrl, false, $options);
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="callback" default="null"></param>
     /**
     * 
     * @param mixed $table
@@ -629,10 +553,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $r=$this->select($table, $condition, $options);
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $table
@@ -645,10 +565,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
             return $r->getRowAtIndex(0);
         return null;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $table
@@ -661,10 +577,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
             return $r->getRowAtIndex($r->RowCount-1);
         return null;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $table
@@ -692,16 +604,12 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         $this->close();
         return $r;
     }
-    ///<summary> set the data adapter</summary>
-    ///<remark>from connect set the dataapter to change it</remark>
     /**
     *  set the data adapter
     */
     protected final function setAd($ad){
         $this->m_ad=$ad;
     }
-    ///<summary></summary>
-    ///<param name="code"></param>
     /**
     * 
     * @param mixed $code
@@ -709,8 +617,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     protected function setErrorCode($code){
         $this->m_errorcode=$code;
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     /**
     * 
     * @param mixed $s
@@ -718,8 +624,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     protected function setErrorString($s){
         $this->m_errorstr=$s;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
     /**
     * 
     * @param mixed $table
@@ -727,13 +631,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
     public final function tableExists($table): bool{
         return $this->getAd()->tableExists($table); 
     }
-   
-    
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="entrie"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="tabinfo" default="null"></param>
     /**
     * 
     * @param mixed $table
@@ -756,7 +653,6 @@ class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
         }
         return $r;
     }
-	///<summary> Update row table </summary>
 	public function update_row($row, $table=null, $condition=null){
 		($table == null) && !($table = $this->getTable()) && igk_die(__("table name not define"));
 		return $this->update($table, $row, $condition, null);

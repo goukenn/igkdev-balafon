@@ -3,10 +3,7 @@
 // @file: DeprecatedMethodException.php
 // @date: 20220908 03:41:14
 namespace IGK\System\Exceptions;
-
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Exceptions

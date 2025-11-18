@@ -3,7 +3,6 @@
 // @filename: FormBuilder.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Html;
 
 use Closure;
@@ -13,11 +12,14 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Dom\HtmlNode;
 use IGKException;
 use ReflectionException;
 use IGK\System\Html\Forms\FormBuilderComponentTypes as formTypes;
 use IGK\System\Html\Forms\IFormInternalIDSupport;
-
+use IGK\System\Html\Validations\IFormFieldValidationStoreError;
+use IGK\System\Number;
+use IGKEnvironmentConstants;
 use function igk_resources_gets as __;
 
 /**
@@ -31,6 +33,7 @@ class FormBuilder
      * @var Closure|array|IFormBuilderDataSource
      */
     var $datasource;
+    const ENV_CSS = IGKEnvironmentConstants::CSS_ENV_STYLE_KEY;
     static $ResolvType = [
         "number" => "text",
         "tel" => "text",
@@ -61,20 +64,25 @@ class FormBuilder
         'datetime' => 'igk-form-control datetime',
         'datetime-local' => 'igk-form-control datetime-local',
     ];
-
     /**
      * retrieve attribute args
      * @param mixed $attr 
      * @return mixed 
      * @throws Exception 
      */
-    private static function _GetAttribArgs($attr)
+    private static function _GetAttribArgs(&$attr, bool $clean = true)
     {
         $key = null;
         foreach (["attrs", "attribs", "attributes"] as $m) {
             if (isset($attr[$m])) {
                 $key = $m;
-                break;
+                if (!$clean)
+                    break;
+            } else {
+                // clean
+                if ($clean) {
+                    unset($attr[$m]);
+                }
             }
         }
         return $key ? igk_getv($attr, $key) : null;
@@ -107,15 +115,17 @@ class FormBuilder
         if (empty($tag)) {
             $tag = "div";
         }
-
         $clprop->add("data");
-
+        /**
+         * load attributes defnitions
+         */
         $load_attr = function ($v, &$o) use ($get_attr_key,  $clprop) {
             $clprop->clear();
             $key = $get_attr_key($v);
-            $v_def_form_control = igk_environment()->get("css/default/controlstyle", "igk-form-control form-control");
+            $v_def_form_control = igk_environment()->get(self::ENV_CSS, "igk-form-control form-control");
             if ($key === null) {
-                //default engine form control
+                // + | 
+                // + |  default engine form control
                 $e = igk_get_selected_builder_engine();
                 if ($e) {
                     $o .= $e->initAttributes($key, $v, $clprop);
@@ -140,10 +150,17 @@ class FormBuilder
             }
             $o = rtrim($o);
         };
+        /**
+         * bind value for copy
+         */
         $bindValue = function (&$o, &$fieldset, $k, $v) use ($get_attr_key, $load_attr, $tag) {
             $v_k_id = null;
+            $v_error = null;
             if ($v instanceof IFormInternalIDSupport) {
                 $v_k_id = $v->getInternalId();
+            }
+            if ($v instanceof IFormFieldValidationStoreError) {
+                $v_error = $v->getError();
             }
             if (!is_array($v)) {
                 $v = (array)$v;
@@ -152,7 +169,6 @@ class FormBuilder
             $ResolvClass = self::$ResolvClass;
             $ResolvType = self::$ResolvType;
             $v_k_id = $v_k_id ?? $k;
-
             $_value = is_array($v) && key_exists("value", $v) ? $v["value"] : "";
             if ($attr_key) {
                 if (isset($v[$attr_key]["value"])) {
@@ -161,15 +177,23 @@ class FormBuilder
                 }
             }
             $_value = $this->_getDataSourceValue($_value, $v_k_id);
-
             $_type = strtolower(isset($v["type"]) ? $v["type"] : "text");
             $_allow_empty = isset($v["allow_empty"]) ? $v["allow_empty"] : "";
             $_empty_value = isset($v["empty_value"]) ? $v["empty_value"] : "0";
 
+            if ($acomponent = igk_getv($v, 'afterComponent')) {
+                unset($v['afterComponent']);
+            }
+            if ($_class_name = igk_getv($v, 'class_name')) {
+                unset($v['class_name']);
+            }
+            // if ($_attribs = igk_getv($v, 'attribs')) {
+            //     unset($v['attribs']);
+            // }
+
             // + | --------------------------------------------------------------------
             // + | handle special type 
             // + |
-
             if ($_type == "fieldset") {
                 if ($fieldset) {
                     $o .= "</fieldset>";
@@ -191,21 +215,16 @@ class FormBuilder
                 }
                 return;
             }
-
             if (preg_match("/\\b(button|submit|reset)\\b/", $_type)) {
-
                 if (method_exists($this, $fc = 'build_' . $_type)) {
                     $args = [&$o, $v];
                     call_user_func_array([$this, $fc], $args);
                 }
-
                 return;
             }
-
             // + | --------------------------------------------------------------------
             // + | build node
             // + |
-
             $_id = "";
             $t_id = igk_getv($v, "id", $k);
             if ($t_id) {
@@ -217,10 +236,10 @@ class FormBuilder
             } else {
                 $_name = " name=\"{$k}\"";
             }
-
             $_is_required = isset($v["required"]) ? $v["required"] : 0;
-
             $label_text = ucfirst(igk_getv($v, "label_text", __($k)));
+            $bind_class_name = igk_getv($v, 'class_name');
+           
             if (!$this->isHtmlType($_type) && is_subclass_of($_type, FormBuilderItemAbstractType::class)) {
                 $v_ctype = new $_type();
                 $v_ctype->setName($k);
@@ -233,6 +252,19 @@ class FormBuilder
             }
             $_is_div = !preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type);
             $class_style = 'igk-form-group ' . $_type;
+            if ($v_error) {
+                $class_style .= ' igk-danger';
+            }
+            if ($_class_name){
+                $class_style .=  $_class_name;
+            }
+            if ($bind_class_name) {
+                $class_style .= ' ' . $bind_class_name;
+                
+            } else {
+                // class name 
+                $class_style .= ' ' . igk_css_str2class_name(strtolower($k));
+            }
             if ($_is_div) {
                 $o .= "<" . $tag . " ";
                 if ($_is_required) {
@@ -241,157 +273,213 @@ class FormBuilder
                 $o .= "class=\"$class_style\" ";
                 $o = rtrim($o) . ">";
             }
-
             if (!preg_match("/(hidden|fieldset|button|submit|reset|datalist)/", $_type)) {
+                $tcc = igk_getv($v, 'label_attribs') ?? [];
+                if ($tcc) {
+                    igk_unset($v, 'label_attribs');
+                }
                 $g = HtmlUtils::GetFilteredAttributeString("label", array_merge([
-                    'class' => "igk-form-label"
-                ], igk_getv($v, 'label_attribs') ?? []));
+                    'class' => "igk-form-label" . ($v_error ? ' igk-text-danger error' : '')
+                ], $tcc));
                 $c_id = ($t_id) ? "for='{$t_id}'" : "";
                 $o .= "<label {$c_id}$g>" . $label_text . "</label>";
             }
-            switch ($_type) {
-                case formTypes::Fieldset:
-                    break;
-                case formTypes::Textarea:
-                    $o .= "<textarea{$_name}{$_id}";
-                    if (isset($v["placeholder"])) {
-                        $o .= " placeholder=\"{$v["placeholder"]}\" ";
+            // + | component 
+            if ($component = igk_getv($v, 'component')) {
+                // inject component
+                // priority 
+                if (!is_array($component)) {
+                    $component = [$component];
+                }
+                while (count($component)) {
+                    $tc = array_shift($component);
+                    if ($tc instanceof HtmlNode)
+                        $o .= $tc->render();
+                    else if (is_string($tc)) {
+                        $o .= $tc;
                     }
-                    $load_attr($v, $o);
-                    if ($_is_required) {
-                        $o .= " required=\"true\" ";
-                    }
-                    $o = rtrim($o) . ">{$_value}</textarea>";
-                    break;
-                case formTypes::RadioGroup:
-                    $o .= '<' . $tag . ' style="display:inline-block;">';
-                    foreach ($v["data"] as $kk => $vv) {
-                        $o .= '<span >' . __($kk) . '</span><input type="radio" name="' . $k . '"' . $_id . ' value="' . $vv . '" />';
-                    }
-                    $o .= "</{$tag}>";
-                    break;
-
-                case formTypes::Datalist:
-                    if (empty($_id)) {
-                        $_id = " id=\"{$k}\"";
-                    }
-                    $o .= "<datalist" . $_id;
-                    $load_attr($v, $o);
-                    $o .= ">";
-                    if (isset($v["data"]) && is_array($_tab = $v["data"])) {
-                        foreach ($_tab as $row) {
-                            $o .= "<option ";
-                            $o .= "value=\"{$row['i']}\" ";
-                            $o .= ">";
-                            $o .= isset($row["t"]) ? __($row["t"]) : "";
-                            $o .= "</option>";
+                }
+            } else {
+                switch ($_type) {
+                    case formTypes::Fieldset:
+                        break;
+                    case formTypes::Textarea:
+                        $o .= "<textarea{$_name}{$_id} ";
+                        if (isset($v["placeholder"])) {
+                            $o .= " placeholder=\"{$v["placeholder"]}\" ";
                         }
-                    }
-                    $o .= "</datalist>";
-                    break;
-                case formTypes::Select:
-                    $k_data = "";
-                    $bas = isset($v["selected"]) ? $v["selected"] : null;
-                    $m_data = null;
-                    if (isset($v["data"]) && is_string($m_data = $v["data"])) {
-                        $k_data = "data=\"" . $m_data . "\" ";
-                    }
-                    $_id = ' id="' . $t_id . '"';
-                    // if ($bas){
-                    //     $k_data.= "selected=\"{$bas}\" ";
-                    // }
-                    $o .= "<select" . $_name . $_id . $k_data . " ";
-                    $load_attr($v, $o);
-                    $o .= ">";
-                    if ($_allow_empty) {
-                        $o .= "<option ";
-                        $o .= "value=\"{$_empty_value}\"></option>";
-                    }
-                    $_tab = $this->_getSelectDataOptions($v_k_id, is_array($m_data) ? $m_data : null);
-                    if ($_tab) {
-                        usort($_tab, [self::class, '_SelectSortBySorkByText']);
-                        foreach ($_tab as $row) {
-                            $o .= "<option ";
-                            $o .= "value=\"{$row['i']}\" ";
-                            if ((isset($bas) && ($bas == $row['i'])) || (igk_getv($row, 'selected'))) {
-                                $o .= "selected ";
-                            }
-                            if (isset($row['data-tip'])) {
-                                $o .= "data-tip=\"" . $row['data-tip'] . "\" ";
-                            }
-                            $o .= ">";
-                            $o .= $row["t"];
-                            $o .= "</option>";
+                        $load_attr($v, $o);
+                        if ($_is_required) {
+                            $o .= " required=\"true\" ";
                         }
-                    }
-                    $o .= "</select>";
-                    break;
-
-                case formTypes::Text:
-                case formTypes::Hidden:
-                case formTypes::Password:
-                default:
-
-                    // $_vt = "";
-                    if (!empty($_value) || ($_value == "0")) {
-                        $v['value'] = $_value;
-                    }
-                    // $_vt = "value=\"{$_value}\"";
-                    $_otype = igk_getv($ResolvType, $_type, "text");
-                    $def_type = igk_getv($ResolvClass, $_type, $_type);
-                    $o .= "<input";
-                    $keys = ['id', 'value', 'maxLength', 'pattern', 'placeholder'];
-                    if ($no_place_holder = in_array($_type, ['checkbox', 'radio'])) {
-                        array_pop($keys);
-                        $keys[] = 'checked';
-                    }
-                    $tattrib = ["name" => $k];
-                    foreach ($keys as $kk) {
-                        $tattrib[strtolower($kk)] = igk_getv($v, $kk);
-                    }
-                    if (!$no_place_holder && empty($tattrib['placeholder'])) {
-                        //igk_wln_e(get_defined_vars());
-                        $tattrib['placeholder'] = __($k);
-                    }
-                    if (isset($v["attribs"]))
-                        $tattrib["class"] = igk_getv($v["attribs"], "class") . " +" . $def_type;
-                    else {
-                        $tattrib["class"] = $def_type;
-                    }
-                    // + | -------------------------------------------------
-                    // + | filter attribs
-                    // + |
-                    unset($v["attribs"]["class"]);
-                    if ($p = igk_getv($v, 'attribs')) {
-                        $tattrib = array_merge($tattrib, $p ?? []);
-                    }
-
-                    $jp = [
-                        "type" => $_otype,
-                        "id" => $t_id,
-                        "value" => $_value,
-                    ] + $tattrib;
-                    $attrib = new HtmlFilterAttributeArray($jp);
-                    //$attrib["class"] = $v["attribs"]["class"];
-                    if ($_is_required) {
-                        $attrib["required"] = 1;
-                    }
-                    $attrib = HtmlUtils::PrefilterAttribute("input", $attrib);
-                    $o .= ' ' . HtmlRenderer::GetAttributeArrayToString($attrib);
-                    $o .= "/>";
-
-                    if (isset($v["tips"])) {
-                        $o .= '<div class="tips">' . $v["tips"] . '</div>';
-                    }
-                    break;
+                        $o = rtrim($o) . ">{$_value}</textarea>";
+                        break;
+                    case formTypes::RadioGroup:
+                        $o .= '<' . $tag . ' style="display:inline-block;">';
+                        foreach ($v["data"] as $kk => $vv) {
+                            $o .= '<span >' . __($kk) . '</span><input type="radio" name="' . $k . '"' . $_id . ' value="' . $vv . '" />';
+                        }
+                        $o .= "</{$tag}>";
+                        break;
+                    case formTypes::Datalist:
+                        if (empty($_id)) {
+                            $_id = " id=\"{$k}\"";
+                        }
+                        $o .= "<datalist" . $_id;
+                        $load_attr($v, $o);
+                        $o .= ">";
+                        if (isset($v["data"]) && is_array($_tab = $v["data"])) {
+                            foreach ($_tab as $row) {
+                                $o .= "<option ";
+                                $o .= "value=\"{$row['i']}\" ";
+                                $o .= ">";
+                                $o .= isset($row["t"]) ? __($row["t"]) : "";
+                                $o .= "</option>";
+                            }
+                        }
+                        $o .= "</datalist>";
+                        break;
+                    case formTypes::Select:
+                        $k_data = "";
+                        $bas = isset($v["selected"]) ? $v["selected"] : null;
+                        $m_data = null;
+                        if (isset($v["data"]) && is_string($m_data = $v["data"])) {
+                            $k_data = "data=\"" . $m_data . "\" ";
+                        }
+                        $_id = ' id="' . $t_id . '"';
+                        // if ($bas){
+                        //     $k_data.= "selected=\"{$bas}\" ";
+                        // }
+                        $o .= "<select" . $_name . $_id . $k_data . " ";
+                        $load_attr($v, $o);
+                        $o .= ">";
+                        if ($_allow_empty) {
+                            $o .= "<option ";
+                            $o .= "value=\"{$_empty_value}\"></option>";
+                        }
+                        $_tab = $this->_getSelectDataOptions($v_k_id, is_array($m_data) ? $m_data : null);
+                        if ($_tab) {
+                            usort($_tab, [self::class, '_SelectSortBySorkByText']);
+                            foreach ($_tab as $row) {
+                                $o .= "<option ";
+                                $o .= "value=\"{$row['i']}\" ";
+                                if ((isset($bas) && ($bas == $row['i'])) || (igk_getv($row, 'selected'))) {
+                                    $o .= "selected ";
+                                }
+                                if (isset($row['data-tip'])) {
+                                    $o .= "data-tip=\"" . $row['data-tip'] . "\" ";
+                                }
+                                $o .= ">";
+                                $o .= $row["t"];
+                                $o .= "</option>";
+                            }
+                        }
+                        $o .= "</select>";
+                        break;
+                    case formTypes::Text:
+                    case formTypes::Hidden:
+                    case formTypes::Password:
+                    case formTypes::File:
+                    default:
+                        $_activate = [];
+                        // $_vt = "";
+                        if (!empty($_value) || ($_value == "0")) {
+                            $v['value'] = $_value;
+                        }
+                        // $_vt = "value=\"{$_value}\"";
+                        $_otype = igk_getv($ResolvType, $_type, "text");
+                        $def_type = igk_getv($ResolvClass, $_type, $_type);
+                        if ($v_error) {
+                            $def_type .= ' +igk-danger';
+                        }
+                        $o .= "<input";
+                        $keys = ['id', 'value', 'maxLength', 'pattern', 'placeholder'];
+                        if ($no_place_holder = in_array($_type, ['checkbox', 'radio'])) {
+                            array_pop($keys);
+                            $keys[] = 'checked';
+                        }
+                        $tattrib = ["name" => $k];
+                        if ($v_autocomplete = igk_getv($v, 'autocomplete')) {
+                            $tattrib['autocomplete'] = $v_autocomplete;
+                        }
+                        if ($_type == formTypes::File) {
+                            // + | --------------------------------------------------------------------
+                            // + | treat file type
+                            // + |
+                            if ($accept = igk_getv($v, 'accept')) {
+                                $tattrib['accept'] = $accept;
+                            }
+                            if ($_a = igk_getv($v, 'maxSize')) {
+                                $v['maxLength'] =  Number::MemoryToBytes($_a);
+                            }
+                            if ($_a = igk_getv($v, 'multiple')) {
+                                $_activate[] = 'multiple';
+                                $name = $tattrib['name'];
+                                if (igk_str_endwith($name, '[]') === false) {
+                                    $tattrib['name'] .= '[]';
+                                }
+                            }
+                        }
+                        foreach ($keys as $kk) {
+                            $tattrib[strtolower($kk)] = igk_getv($v, $kk);
+                        }
+                        $v_place_holder = igk_getv($tattrib, 'placeholder');
+                        if (!$no_place_holder && empty($v_place_holder)) {
+                            $tattrib['placeholder'] = __($k);
+                        } else {
+                            // + | translate placeholder
+                            $tattrib['placeholder'] = $v_place_holder ? __($v_place_holder) : __($k);
+                        }
+                        self::_LoadClassDefinition($tattrib, $v);
+                        $tattrib["class"] = isset($tattrib["class"]) ? array_merge($tattrib['class'], [$def_type]) : $def_type;
+                        if ($tmp_tattribs = self::_GetAttribArgs($v, true)) {
+                            self::_LoadClassDefinition($tattrib, $tmp_tattribs);
+                            $v['attribs'] = $tmp_tattribs;
+                            unset($tattrib['attribs']); 
+                        }
+                        // + | -------------------------------------------------
+                        // + | filter attribs
+                        // + | 
+                        if ($p = igk_getv($v, 'attribs')) {
+                            $tattrib = array_merge($tattrib, $p ?? []);
+                        }
+                        $jp = [
+                            "type" => $_otype,
+                            "id" => $t_id,
+                            "value" => $_value,
+                        ] + $tattrib;
+                        $attrib = new HtmlFilterAttributeArray($jp); 
+                        if ($_is_required) {
+                            $attrib["required"] = 1;
+                        }
+                        $attrib = HtmlUtils::PrefilterAttribute("input", $attrib);
+                        $o .= ' ' . HtmlRenderer::GetAttributeArrayToString($attrib);
+                        if ($_activate) {
+                            $o .= ' ' . implode(" ", $_activate);
+                        }
+                        $o .= "/>";
+                        if (isset($v["tips"])) {
+                            $o .= '<div class="tips">' . $v["tips"] . '</div>';
+                        }
+                        unset($_activate);
+                        break;
+                }
             }
+            if ($v_error) {
+                $o .= '<div class="error-tip">' . __($v_error) . '</div>';
+            }
+
+            if ($acomponent) {                
+                $o .= self::RenderComponent($acomponent);
+            }
+
             if ($_is_div) {
                 $o .= "</{$tag}>";
             }
         };
         $fieldset = 0;
+        $error = null;
         foreach ($formFields as $k => $v) {
-
             if (is_integer($k)) {
                 if ($v == "-") {
                     // add separator
@@ -416,6 +504,8 @@ class FormBuilder
                     // igk_wln($k, $v);
                     igk_die(implode('', [__CLASS__, "object not allowed"]));
                 }
+            } else if (is_string($v)) {
+                $v = ['value' => $v];
             }
             if (($cpos = strrpos($k, "[]")) !== false) {
                 // + | --------------------------------------------------------------------
@@ -464,6 +554,33 @@ class FormBuilder
             echo $o;
         }
         return $o;
+        
+    }
+    /**
+     * render component
+     * @param mixed $component 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function RenderComponent($component)
+    {
+        $o ='';
+        if (!is_array($component)) {
+            $component = [$component];
+        }
+        while (count($component)) {
+            $tc = array_shift($component);
+            if ($tc instanceof HtmlNode)
+                $o .= $tc->render();
+            else if (is_string($tc)) {
+                $o .= $tc;
+            }
+        }
+        return $o;
     }
     /**
      * check whether a string type is html type
@@ -474,7 +591,6 @@ class FormBuilder
     {
         return preg_match("/(text|checkbox|password|datetime|email|hidden|fieldset|button|submit|reset|datalist|select|number)/", $type);
     }
-
     /**
      * 
      * @param mixed $a 
@@ -486,7 +602,6 @@ class FormBuilder
     {
         return strcmp(igk_getv($a, 't'), igk_getv($b, 't'));
     }
-
     /**
      * get retrieve value data
      * @param mixed $value 
@@ -508,7 +623,7 @@ class FormBuilder
         }
         return $_value;
     }
-    public function _getSelectDataOptions(string $id, array $def_data = null)
+    public function _getSelectDataOptions(string $id, ?array $def_data = null)
     {
         $_source = $this->datasource;
         if ($_source instanceof IFormBuilderDataSource) {
@@ -518,7 +633,6 @@ class FormBuilder
         }
         return $def_data;
     }
-
     /**
      * build select definition info
      * @param mixed $data 
@@ -537,52 +651,55 @@ class FormBuilder
         }
         return $list;
     }
-
     public function build_submit(string &$o, $attrib)
     {
         $_closed = false;
         $o .= '<input type="submit" ';
         $tm = ['class' => 'button submit primary'];
-
         if ($arg = $attrib ? self::_GetAttribArgs($attrib) : null) {
-            if ($cl = igk_getv($arg, 'class')) {
-                $tm['class'] = array_unique(array_merge(
-                    explode(' ', $tm['class']),
-                    explode(' ', $cl)
-                ));
-                unset($arg['class']);
-            }
-            $tm = array_merge($tm, $arg);
+            self::_LoadClassDefinition($tm, $arg);
         }
         self::_LoadAttributes($o, $tm);
         // if ($_closed) {
         //     $o .= "</button>";
         // } else {
-            $o .= '/>';
+        $o .= '/>';
         // }
     }
-
+    /**
+     * load class definition 
+     * @param mixed &$tm 
+     * @param mixed &$arg 
+     * @return void 
+     * @throws Exception 
+     */
+    protected static function _LoadClassDefinition(&$tm, &$arg)
+    {
+        foreach (['class', 'classname', 'className'] as $ck) {
+            if ($cl = igk_getv($arg, $ck)) {
+                $tm['class'] = array_unique(array_merge(
+                    isset($tm['class']) ? explode(' ', $tm['class']) : [],
+                    explode(' ', $cl)
+                ));
+                unset($arg[$ck]);
+            }
+        }
+        $tm = array_merge($tm, $arg);
+    }
     public function build_button(string &$o, $attrib)
     {
         $_closed = false;
         $o .= '<input type="button" ';
         $tm = ['class' => 'igk-form-control button primary'];
         $tm['value'] = igk_getv($attrib, 'value');
-        if ($arg = $attrib ? self::_GetAttribArgs($attrib) : null) {
-            if ($cl = igk_getv($arg, 'class')) {
-                $tm['class'] = array_unique(array_merge(
-                    explode(' ', $tm['class']),
-                    explode(' ', $cl)
-                ));
-                unset($arg['class']);
-            }
-            $tm = array_merge($tm, $arg);
+        if ($arg = ($attrib ? self::_GetAttribArgs($attrib) : null)) {
+            self::_LoadClassDefinition($tm, $arg);
         }
         self::_LoadAttributes($o, $tm);
         // if ($_closed) {
         //     $o .= "</button>";
         // } else {
-            $o .= '/>';
+        $o .= '/>';
         // }
     }
     /**

@@ -3,10 +3,8 @@
 // @filename: SQLDataAdapter.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Database;
-
+use Exception;
 use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Database\IDbSendQueryListenerSupport;
 use IGK\System\Database\SQLGrammar;
@@ -14,23 +12,17 @@ use IGK\System\Html\IHtmlGetValue;
 use IGKException;
 use IGKSysUtil;
 use ModelBase;
-
 use function igk_getv as getv;
 use function igk_resources_gets as __;
-
-///<summary>Represente class: IGKSQLDataAdapter</summary>
 /**
-* Represente IGKSQLDataAdapter class
+* Represent IGKSQLDataAdapter class
 */
 abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCreator, IDbSendQueryListenerSupport{
     const DB_INFORMATION_SCHEMA = "information_schema";
-
     private $m_listener;
-
     public function setSendDbQueryListener(?IDbSendQueryListener $listener) {
         $this->m_listener = $listener; 
     }
-
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return $this->m_listener; }
     /**
      * 
@@ -45,7 +37,11 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
     public function filterColumn($columninfo, $value): bool { 
         return false;
     }
-
+    /**
+     * create table format
+     * @param null|array $options 
+     * @return string 
+     */
     public function getCreateTableFormat(?array $options=null):string{
         return "CREATE TABLE IF NOT EXISTS %s;";
     }
@@ -58,7 +54,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
      * @throws IGKException 
      */
     public function getParam($k, $rowInfo=null, $tinfo=null): ?string{
-   
         static $configs;
         if ($configs===null){
             $configs['auto_increment_word'] = "AUTO_INCREMENT";
@@ -72,7 +67,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         }
         return $m;
     }
-
      /**
      * create link expression
      * @param string $table table name
@@ -160,9 +154,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         //+ insert and update function ignored
         return $cl; 
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="entry"></param>
     /**
     * 
     * @param mixed $tbname
@@ -172,7 +163,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createDeleteQuery($tbname, $conditions);		
         return $this->sendQuery($query); 
     }
-    ///<summary>delete all from table</summary>
     /**
     * delete all from table
     */
@@ -180,15 +170,10 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createDeleteQuery($tbname, $condition);		
         return $this->sendQuery($query); 
     }
-    ///<summary>setup manager config for next operation</summary>
     /**
     * setup manager config for next operation
     */
     protected function initConfig(){}
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="values"></param>
-    ///<param name="tableinfo" default="null"></param>
     /**
     * 
     * @param mixed $tbname table name
@@ -200,15 +185,10 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createInsertQuery($tbname, $values, $tableinfo);		
         return $this->sendQuery($query);  
     }
-
-
-   ///<summary></summary>
-    /**
+   /**
     * 
     */
     public function last_id(){}
-    ///<summary>build and send a mysql select query</summary>
-    ///<param name="options">callback or igk_db_create_opt_obj()</param>
     /**
     * build and send a mysql select query
     * @param mixed $options callback or igk_db_create_opt_obj()
@@ -218,8 +198,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createSelectQuery($tbname, $where, $options);		
         return $this->sendQuery($query, $throwex, $options, $autoclose);   
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
     * 
     * @param mixed $tbname
@@ -228,10 +206,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $query = $this->getGrammar()->createSelectQuery($tbname);
         return $this->sendQuery($query, $tbname);
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $tbname
@@ -243,11 +217,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
             return $this->sendQuery($query, $tbname, $options);
         }
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="entry"></param>
-    ///<param name="condition" default="null"></param>
-    ///<param name="tabinfo" default="null"></param>
     /**
     * 
     * @param mixed $tablename
@@ -262,7 +231,6 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
         $s=$this->sendQuery($query, $tablename);
         return $s;
     }
-
     /**
      * 
      * @param mixed $type 
@@ -270,16 +238,28 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCre
      * @return string|null 
      */
     public function getFuncValue($type, $value){
-       
         switch($type){
             case "IGK_PASSWD_ENCRYPT":
             return "'".$this->escape_string(IGKSysUtil::Encrypt($value))."'";
         } 
         return null;
     }
-    public function getObjValue($value){
-        
+    /**
+     * 
+     * @param mixed $value 
+     * @param  $for 
+     * @param mixed $value 
+     * @return mixed 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public function getObjValue($value, ?string $for=null, $tableInfo = null){
         if ($value instanceof \IGK\Models\ModelBase){
+            if ($for && $tableInfo){
+                $clinfo = igk_getv($tableInfo, $for);
+                $tk = $clinfo->clLinkColumn ?? IGK_FD_ID;
+                return $value->{$tk};
+            }
             return $value->id();
         } 
         if(igk_reflection_class_implement($value, IHtmlGetValue::class)){

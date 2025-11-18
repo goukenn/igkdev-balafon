@@ -3,19 +3,24 @@
 // @file: Modules.php
 // @date: 20241016 15:36:17
 namespace IGK\System;
-
-// $f = Path::.'/.modules_dec.php';
-
-
-///<summary></summary>
+if (@file_exists(__DIR__.'/auto_inc.modules.php'))
+{
+    require_once(__DIR__.'/auto_inc.modules.php');
+} else{
+    interface auto_load_IModuleDefinition{
+    }
+    class_alias('auto_load_IModuleDefinition', 'IModuleDefinition');
+}
 /**
 * 
 * @package IGK\System
 * @author C.A.D. BONDJE DOUE
 * @type {}
+* @method static string info()
 */
-class Modules{
+abstract class Modules implements IModuleDefinition{
     public static function __callStatic($name, $arguments){
         return str_replace("_", "\\", $name);
     }
 }
+//Modules::

@@ -3,14 +3,11 @@
 // @filename: IGKAppConfig.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-///<summary>Represente class: IGKAppConfig</summary>
-
 use IGK\System\Configuration\ConfigData;
+use IGK\System\IO\FileSystem;
 use function igk_resources_gets as __; 
 /**
-* Represente IGKAppConfig class
+* Represent IGKAppConfig class
 * @property \IGK\System\Configuration\ConfigData $Data get property data
 * @property bool $BootStrap
 * @property bool $BootStrap.Enabled
@@ -99,17 +96,14 @@ final class IGKAppConfig extends IGKObject {
     private $m_oldState;
     /** @var IGKAppConfig */
     private static $sm_instance;
-    ///<summary></summary>
     /**
     * 
     */
     private function __construct(){
         $this->_loadSystemConfig();
     }
-   
-    ///<summary>load configuration files </summary>
     /**
-    * load configuration files
+    * load core configuration files
     */
     private function _loadSystemConfig(){
         $file=IGK_CONF_DATA;
@@ -118,14 +112,18 @@ final class IGKAppConfig extends IGKObject {
         $fullpath = null;
         $b = igk_io_basenamewithoutext($file);
         $dir = dirname(igk_io_syspath($file));
+        $v_load = false;
         foreach(["", ".".igk_environment()->name()] as $f){
             $n = $dir."/".$b.$f.".php"; 
-            if (file_exists($n = $dir."/".$b.$f.".php")){        
-                $fullpath=$n;
-                IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries);      
+            if (FileSystem::Exists($n)){        
+                $fullpath=$n; 
+                IGK\System\Configuration\ConfigUtils::LoadData($fullpath, $this->m_configEntries, true, empty($f));      
+                $v_load = true; 
             } 
         }
- 
+        if (!$v_load){
+           $this->m_configEntries = array_merge([],include(IGK_LIB_DIR."/.setting.global.pinc"));
+        }
         // + | load extra configuration files
         $preload_configs = [strtolower(igk_environment()->keyName())];
         if (($cnf = igk_environment()->extra_config) && ($cnf_file= igk_getv($cnf, "configFiles"))){
@@ -134,48 +132,35 @@ final class IGKAppConfig extends IGKObject {
         if ($fullpath==null){
             $fullpath = igk_io_syspath($file);
         }
-
         if ($preload_configs){
             $dir = dirname($fullpath); 
             foreach ($preload_configs as $value) {
-                if (file_exists($file = $dir."/configs.".$value.".php")){                     
+                if (FileSystem::Exists($file = $dir."/configs.".$value.".php")){                     
                     $data = [];
                     IGK\System\Configuration\ConfigUtils::LoadData($file, $data);      
                     $extra = array_merge($extra, $data);
-                    //igk_wln_e("prelead....", $preload_configs, $this->m_configEntries + $extra);
                 };
             }
         }      
         $this->m_datas = new ConfigData($fullpath, $this, $this->m_configEntries, $extra);
-        // gk_wln_e("finish", $this->m_datas)   ;
-        date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels"));         
-      
+        date_default_timezone_set( igk_getv($this->m_datas, 'date_time_zone', "Europe/Brussels")); 
+        $db_name = $this->m_datas->db_name; 
     }
-    ///<summary></summary>
     /**
-    * 
+    * update cache
     */
     private function _updateCache(){
         $f=igk_io_syspath(IGK_CACHE_DATAFILE);
+        $v_ctn = igk_notifyctrl();
         if($this->Data->cache_loaded_file){
-            if(file_exists($f))
-                @unlink($f);
-            igk_notifyctrl()->addMsg(__("Cache file stored"));
+            @unlink($f);
+            $v_ctn->addMsg(__("Cache file stored"));
         }
-        else{
-            if(file_exists($f)){
-                $c=@unlink($f);
-                $t=@unlink(self::_LibCacheFile());
-                igk_notifyctrl()->addMsg(__("Unlink file: {0}", basename($f)));
-            }
+        else{ 
+            @unlink($f); 
+            $v_ctn->addMsg(__("Unlink file: {0}", basename($f))); 
         }
-    }
-    private static function _LibCacheFile(){
-        die(__METHOD__);
-    }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="arg"></param>
+    } 
     /**
     * 
     * @param mixed $obj
@@ -184,8 +169,6 @@ final class IGKAppConfig extends IGKObject {
     public function addConfigSavedEvent($obj, $arg){
         igk_die(__METHOD__." Not Obselete");
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -198,14 +181,12 @@ final class IGKAppConfig extends IGKObject {
         }
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getConfigEntries(){
         return $this->m_configEntries;
     }
-    ///<summary></summary>
     /**
      * get data storage
     * @return \IGK\System\Configuration\ConfigData
@@ -213,7 +194,6 @@ final class IGKAppConfig extends IGKObject {
     public function getData(){
         return $this->m_datas;
     }
-    ///<summary></summary>
     /**
     * get singleton instance
     * @return self
@@ -224,7 +204,6 @@ final class IGKAppConfig extends IGKObject {
         }
         return self::$sm_instance;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -233,9 +212,6 @@ final class IGKAppConfig extends IGKObject {
             $this->m_configSavedEvent->Call($this, null);
         }
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="arg"></param>
     /**
     * 
     * @param mixed $obj
@@ -244,7 +220,6 @@ final class IGKAppConfig extends IGKObject {
     public function removeConfigSavedEvent($obj, $arg){
         igk_die(__METHOD__." Not Obselete");
     }
-    ///<summary></summary>
     /**
     * save configuration 
     * @return bool save config result 

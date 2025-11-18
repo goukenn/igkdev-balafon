@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
+namespace IGK\Tests\Rendereging;
 
 use IGK\System\Html\HtmlReader;
 use IGK\Tests\BaseTestCase;

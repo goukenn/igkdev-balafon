@@ -3,25 +3,20 @@
 // @file: CoreUpdateLibCommand.php
 // @date: 20221230 13:14:38
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Installers\BalafonInstaller;
 use function igk_resources_gets as __;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands
 */
 class CoreUpdateLibCommand extends AppExecCommand{
-
     const GET_URI = "https://igkdev.com/balafon/get-download";
     var $command = '--update-corelib';
     var $category = 'utils';
     var $desc = 'update or restore core library';
-
     public function exec($command) { 
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");
@@ -41,7 +36,6 @@ class CoreUpdateLibCommand extends AppExecCommand{
                     Logger::info("extract core library");  
                     $old_version = IGK_VERSION;              
                     igk_zip_unzip($tempfile, IGK_LIB_DIR."/../../");
-
                     if(function_exists('opcache_reset') && !ini_get('restrict_api') && @opcache_reset()){
                     Logger::info("old version : ".$old_version);
                     Logger::info("new version : ".IGK_VERSION);                    
@@ -55,7 +49,6 @@ class CoreUpdateLibCommand extends AppExecCommand{
         } else {
             Logger::danger("can't retrieve BALAFON core library");
         }
-
     }
     /**
      * check core library
@@ -81,5 +74,4 @@ class CoreUpdateLibCommand extends AppExecCommand{
         }
         return true;
     }
-
 }

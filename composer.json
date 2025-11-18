@@ -1,0 +1,20 @@
+{
+    "name":"igkdev/balafon",
+    "description":"BALAFON PHP Framework",
+    "license": "MIT",
+    "version": "1.0",
+    "require":{  
+        "php":">=7.3"      
+    },
+    "authors": [
+        {
+            "name":"C.A.D BONDJE DOUE<goukenn>",
+            "email":"cbondje@igkdev.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "IGK": "src/Lib/igk/Lib/Classes"
+        }
+    }
+}

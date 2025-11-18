@@ -3,25 +3,28 @@
 // @file: PHPDocCommentParser.php
 // @date: 20230104 17:05:49
 namespace IGK\System\IO\File;
-
 use IGK\System\IO\File\Php\PhpDocBlockBase;
 use IGK\System\IO\File\Php\Traits\PHPDocCommentParseTrait;
-
-///<summary></summary>
+use IGKException;
 /**
-* 
+* extends to handle custom property 
 * @package IGK\System\IO\File
 */
 class PHPDocCommentParser extends PhpDocBlockBase{
     use PHPDocCommentParseTrait;
+    private $m_propertyFilterListener;
+    private $m_propertyHandleListener; 
     var $summary; 
     var $param;
     var $return;
     var $description;
     var $api;
     var $throws;
-
-
+    /**
+     * authorization to bind to 
+     * @var mixed
+     */
+    var $auth;
     /**
      * get response object
      * @var mixed
@@ -33,7 +36,6 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @usage @covers classMethod 
      */
     var $covers;
-
     /**
      * use with 
      * @var ?
@@ -44,16 +46,37 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @var mixed
      */
     var $request;
-
     /**
      * to handle security
      * @var mixed
      */
     var $security;
-
+    /**
+     * 
+     * @var ?bool auth enable strict definition  
+     */
+    var $strict_auth;
+    public function getPropertyFilterListener(){
+        return $this->m_propertyFilterListener;
+    }
+    /**
+     * 
+     * @param mixed $listener 
+     * @return void 
+     */
+    public function setPropertyFilterListener($listener){
+        $this->m_propertyFilterListener = $listener;
+    }
+    /**
+     * 
+     * @param mixed $handler 
+     * @return void 
+     */
+    public function setPropertyHandlerListener($handler){
+        $this->m_propertyHandleListener = $handler;
+    }
     private function __construct(){
     }
-   
     /**
      * override static content
      * @param string $content 
@@ -65,15 +88,30 @@ class PHPDocCommentParser extends PhpDocBlockBase{
         }   
         return $content;
     }
+    /**
+     * magic invoke for property missing call
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return mixed 
+     * @throws IGKException 
+     */
     public function __call($name, $arguments)
     {
         $g = null;
         $name = str_replace('-', '_', $name);
-        if (strpos($name,"swagger_")===0){
-            $name = igk_str_rm_start($name, 'swagger_');
+        $filter = $this->m_propertyFilterListener;
+        $handler = $this->m_propertyHandleListener;
+        if ($filter){
+            $name = $filter($name, $this);
         }
-        if (!property_exists($this, $name)){
-            throw new \IGKException("document comment parse error : property not exists [".$name."]");
+        $skip = false;
+        if (!$handler || !($skip = $handler($name, $arguments, $this))){  
+            if (!property_exists($this, $name)){
+                throw new \IGKException("document comment parse error : property not exists [".$name."]");
+            }
+        }
+        if($skip){
+            return $this;
         }
         if (count($arguments)>0){
             $g = trim($arguments[0]);     

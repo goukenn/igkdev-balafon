@@ -3,11 +3,8 @@
 // @file: ExceptionErrorRequestResponse.php
 // @date: 20231016 11:32:52
 namespace IGK\System\Http;
-
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http

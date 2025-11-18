@@ -3,9 +3,7 @@
 // @filename: QueryOptions.php
 // @date: 20220803 00:35:51
 // @desc: define callback property option
-
 namespace IGK\System\Database;
-
 /**
  * query options
  * @package 
@@ -17,7 +15,6 @@ class QueryOptions{
      * @var bool
      */
     var $noPrimaryKey;
-
     const CallbackProperty = \IGK\Database\DbConstants::CALLBACK_OPTS;
     const JOINS = 'Joins';
     const LIMIT = 'Limit';

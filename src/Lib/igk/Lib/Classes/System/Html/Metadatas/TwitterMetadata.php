@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\System\Html\Metadatas;
-
 /*
 * <meta name="twitter:card" content="summary_large_image" />
 * <meta name="twitter:site" content="@site" />
@@ -18,7 +16,6 @@ class TwitterMetadata extends MetadataGroupEntryBase{
     var $twitterTitle;
     var $twitterDescription;
     var $twitterImage;
-
     public function map():array{
         return [
             'twitterSite' => 'twitter:site',
@@ -30,5 +27,4 @@ class TwitterMetadata extends MetadataGroupEntryBase{
             'twitterCreator'=>'twitter:creator'
         ];
     }
-
 }

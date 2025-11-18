@@ -3,12 +3,9 @@
 // @file: RefColumnMapping.php
 // @date: 20230124 20:34:04
 namespace IGK\Database;
-
 use ArrayIterator;
 use IteratorAggregate;
 use Traversable;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Database
@@ -26,8 +23,10 @@ class RefColumnMapping implements IteratorAggregate{
     }
     public function getAlias(){
         $m = []; 
+        $keys = array_keys($this->m_data);
         foreach($this->m_refColumns as $k=>$v){
             if (is_numeric($k)){
+                // same definition 
                 $m[$v] = $v;
             }else{
                 $m[$v] = $k;
@@ -35,15 +34,17 @@ class RefColumnMapping implements IteratorAggregate{
         }
         return $m;
     }
-
+    /**
+     * get iteraatr definitions 
+     */
     public function getIterator(): Traversable { 
         $m = [];
         foreach($this->m_refColumns as $k=>$v){
-
-
-
             if (is_numeric($k)){
-                $m[$v] = igk_getv($this->m_data,$v);
+                $tab = explode('.', $v,2);
+                $column_name = array_pop($tab);
+                $m[$column_name] = igk_getv($this->m_data,$column_name);
+                // $m[$v] = igk_getv($this->m_data,$v);
             }else{
                 $tab = explode('.', $k);
                 $column_name = array_pop($tab);

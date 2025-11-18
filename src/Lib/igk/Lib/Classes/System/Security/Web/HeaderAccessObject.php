@@ -3,12 +3,10 @@
 // @file: HeaderAccessObject.php
 // @date: 20230130 08:19:18
 namespace IGK\System\Security\Web;
-
+use Exception;
 use IGK\Helper\Activator; 
 use IGK\System\Traits\ActivableTrait;
 use IGKException;
-
-///<summary></summary>
 /**
 * handle Header Access Controller 
 * @package IGK\System\Security\Web
@@ -16,45 +14,66 @@ use IGKException;
 class HeaderAccessObject{ 
     use ActivableTrait;
     const AUTH_BEARER = 'Bearer';
-
+    const AUTH_BASIC = 'Basic';
     /**
      * auth ?demand
      * @var mixed
      */
     var $authorization;
-
     /**
      * list of auth methods
      * @var ?string
      */
     var $method;
-
     /**
-     * list of auth user 
-     * @var ?string
+     * header access 
+     * @var ?string * 
      */
     var $headers;
-
     /**
      * request origin
      * @var ?string
      */
     var $origin;
-
+    /**
+     * 
+     * @return string 
+     */
     public function getAuthType(){
         $g = explode(' ', $this->authorization);
         return $g[0];
     }
     /**
-     * retreive bearead token 
+     * retreive bearer token 
      * @return mixed 
      * @throws IGKException 
+     * @remark bearer token list
      */
     public function getBearerToken(){
         $g = explode(' ', $this->authorization);
         if ($g[0] == self::AUTH_BEARER){
             return trim(igk_getv($g, 1, ''));
         }
+    }
+    /**
+     * 
+     * @return string|void 
+     * @throws Exception 
+     */
+    public function getBasicToken(){
+        $g = explode(' ', $this->authorization);
+        if ($g[0] == self::AUTH_BASIC){
+            return trim(igk_getv($g, 1, ''));
+        }
+    }
+    /**
+     * maybe passed in basic authentication service
+     * @return array 
+     */
+    public static function HandleBasicAuth(){
+        $user = igk_server()->PHP_AUTH_USER;
+        $pwd =  igk_server()->PHP_AUTH_PW;
+        return compact('user', 'pwd');
     }
     /**
      * get data 

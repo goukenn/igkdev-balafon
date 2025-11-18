@@ -3,19 +3,13 @@
 // @filename: IGKMySQLTimeManager.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Database\MySQL;
 use \IGKObject;
-
-///<summary>Represente class: IGKMySQLTimeManager</summary>
 /**
-* Represente IGKMySQLTimeManager class
+* Represent IGKMySQLTimeManager class
 */
 final class IGKMySQLTimeManager extends IGKObject{
     var $ad;
-    ///<summary></summary>
-    ///<param name="ad"></param>
     /**
     * 
     * @param mixed $ad
@@ -23,7 +17,6 @@ final class IGKMySQLTimeManager extends IGKObject{
     public function __construct($ad){
         $this->ad=$ad;
     }
-    ///<summary></summary>
     /**
     * 
     */

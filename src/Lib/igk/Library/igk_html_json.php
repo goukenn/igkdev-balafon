@@ -4,10 +4,9 @@
 // @copyright: igkdev © 2019
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>json html node</summary>
 /**
 * json html node
 */
@@ -49,8 +48,6 @@ function igk_html_json($n){
     }
     return json_encode($d);
 }
-///<summary></summary>
-///<param name="n"></param>
 /**
 * 
 * @param string $n string to decode

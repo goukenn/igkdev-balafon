@@ -3,31 +3,23 @@
 // @filename: IGKLangResDictionary.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\Resources;
-
 use ArrayAccess;
 use ArrayIterator;
 use Closure;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IteratorAggregate;
 use Traversable;
-
-///<summary> use for key's language operation</summary>
 /**
 *  use for key's language operation
 */
 final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     use ArrayAccessSelfTrait; 
     private $_f;
-    ///<summary></summary>
     /**
     * 
     */
     public function __construct(){}
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -36,8 +28,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         $i = strtolower($i);
         return isset($this->_f[$i]);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -46,9 +36,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         $i = strtolower($i);
         return igk_getv($this->_f, $i);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $i
@@ -58,8 +45,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         $i = strtolower($i);
         $this->_f[$i]=$v;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -68,7 +53,6 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         $i = strtolower($i);
         unset($this->_f[$i]);
     }
-    ///<summary> get sorted keys</summary>
     /**
     *  get sorted keys
     */

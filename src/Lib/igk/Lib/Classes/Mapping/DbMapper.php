@@ -3,9 +3,6 @@
 // @file: DbMapper.php
 // @date: 20230725 23:26:07
 namespace IGK\Mapping;
-
-
-///<summary></summary>
 /**
 * mapper use to construct fields
 * @package IGK\Mapping

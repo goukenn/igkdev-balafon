@@ -5,46 +5,35 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-
 use IGK\Controllers\SessionController;
 use IGK\Resources\R;
 use IGK\Server;
 use IGKHtmlRelativeUriValueAttribute;
- 
 use IGKViewMode;
 use function igk_resources_gets as __;
-
-
 final class HtmlSessionBlockNode extends HtmlCtrlNode{
- 
     public function getIsVisible()
     {
         return Server::IsLocal() || igk_environment()->isDev();
     }
-    
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     protected function _acceptRender($options = null):bool{  
         return $this->getIsVisible();     
     }
-    ///<summary></summary>
     private function __buildview($t){ 
         $t->addObData(function(){
             $cnf_=igk_getctrl(IGK_CONF_CTRL);
             $cnf_view=igk_is_conf_connected();
             $_owner=igk_getctrl(IGK_SESSION_CTRL);
             $t = igk_create_node("div");
-            $t["class"]="debugzone igk-session-block google-Roboto";
+            $t["class"]="debugzone igk-session-block";
             $t->setIndex(10000);
             $d=igk_create_node("div");
-        
-
             $d->addSectionTitle(4)->Content=__("Debug Panel");
             $ul=$d->add("ul");
-            $ul->setClass("debug-panel google-Roboto");
+            $ul->setClass("debug-panel google-Roboto no-selection");
             $v_btn_class="igk-btn igk-btn-default";
             if(!igk_get_env("sys://error")){
                 $ul["class"]="session btn-group action-group"; 
@@ -87,14 +76,14 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
                 ->activate('igk-app-action')
                 ->setClass($v_btn_class)->Content=__("API");
             }
-            $ul=$d->add("ul")->setId("cnf-inf");
-            $ul->li()->Content="Referer : ". igk_server()->REMOTE_ADDR;
-            $ul->li()->Content="PHP VERSION : ". PHP_VERSION;
-            $ul->li()->Content="CurrentLang : ". R::GetCurrentLang();
-            $ul->li()->Content="CurrentPage : ". igk_app()->CurrentPage;
-            $ul->li()->Content="CurrentFolder : ". igk_app()->getCurrentPageFolder();
-            $ul->li()->Content="ViewMode : ". IGKViewMode::GetSystemViewMode();
-            $ul->li()->Content="Environment : ". array("development", "production")[igk_sys_env_production()];
+            $ul=$d->add("ul")->setId("cnf-inf")->setClass('no-selection');
+            $ul->li()->Content="Referer: ". igk_server()->REMOTE_ADDR;
+            $ul->li()->Content="PHP VERSION: ". PHP_VERSION;
+            $ul->li()->Content="CurrentLang: ". R::GetCurrentLang();
+            $ul->li()->Content="CurrentPage: ". igk_app()->CurrentPage;
+            $ul->li()->Content="CurrentFolder: ". igk_app()->getCurrentPageFolder();
+            $ul->li()->Content="ViewMode: ". IGKViewMode::GetSystemViewMode();
+            $ul->li()->Content="Environment: ". array("development", "production")[igk_sys_env_production()];
             if ($_id = session_id()){
                 $ul->li()->Content="SessionID : ". $_id;
             }
@@ -154,14 +143,12 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
         , IGK_HTML_NOTAG_ELEMENT);
     }
     private $callback_mem;
-    ///<summary></summary>
     public function __construct(SessionController $controller){
         parent::__construct($controller, "div");
         $this->callback_mem = $this->addNodeCallback("mem_usage", function($t){
             return $t->memoryusageinfo();
         });
     }
-    ///<summary></summary>
     public function onAppExit(){
         $app=igk_app();
         if(igk_is_ajx_demand() && $this->IsVisible && $app->Session->getRedirectTask('modview')){
@@ -169,7 +156,6 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $app->Session->{"modeview"}=null;
         }
     }
-
     protected function _getRenderingChildren($options = null)
     { 
         // $v = parent::_getRenderingChildren();

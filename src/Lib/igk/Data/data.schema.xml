@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <?xml-model href="./Schemas/db-schemas.xsd"?>
+<?xml-model href="https://igkdev.com/schemas/balafon.db.schemas.xsd"?>
 <data-schemas>
 	<Entries>
 		<Rows For="%prefix%user_info_types">
@@ -72,9 +72,8 @@
 	</DataDefinition>
 	<DataDefinition TableName="%prefix%configurations">
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
-			clType="Int" clTypeLength="11"></Column>
-
-		<Column clName="clName" clNotNull="True" clType="VarChar" clTypeLength="130"></Column>
+			clType="Int" clTypeLength="11"></Column> 
+		<Column clName="clName" clNotNull="True" clType="VarChar" clTypeLength="130" clIsUnique="true"></Column>
 		<Column clName="clValue" clType="Text"></Column>
 		<Column clName="clDescription" clType="VarChar" clTypeLength="150"></Column>
 	</DataDefinition>
@@ -100,8 +99,8 @@
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
 			clType="Int"></Column>
 
-		<Column clLinkType="%prefix%groups" clName="clGroup_Id" clNotNull="True" clType="Int"></Column>
-		<Column clLinkType="%prefix%authorizations" clName="clAuth_Id" clNotNull="True" clType="Int"></Column>
+		<Column clLinkType="%prefix%groups" clName="clGroup_Id" clNotNull="True" clType="Int" clIsUniqueColumnMember="true"></Column>
+		<Column clLinkType="%prefix%authorizations" clName="clAuth_Id" clNotNull="True" clType="Int" clIsUniqueColumnMember="true"></Column>
 		<Column clDescription="Grant access depending on the authorization usage" clEnumValues="0,1"
 			clName="clGrant" clNotNull="True" clType="Enum"></Column>
 	</DataDefinition>
@@ -220,7 +219,7 @@
 		<Column clColumnMemberIndex="1" clIsUniqueColumnMember="true" clLinkType="%prefix%groups"
 			clName="clGroup_Id" clNotNull="True" clType="Int"></Column>
 	</DataDefinition>
-	<DataDefinition Description="User's tables" TableName="%prefix%users">
+	<DataDefinition Description="User's tables" TableName="%prefix%users" Display="clLogin">
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
 			clType="Int" clTypeLength="11"></Column>
 
@@ -321,19 +320,19 @@
 			clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
 		<Column clDescription="Batch Running" clName="migration_batch" clType="Int"></Column>
 	</DataDefinition>
-	<DataDefinition Description="Store cron job" TableName="%prefix%crons">
-		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
+	<DataDefinition Description="Store cron job" TableName="%prefix%crons" Prefix="crons_">
+		<Column clAutoIncrement="True" clIsPrimary="True" clName="id" clNotNull="True"
 			clType="Int" clTypeLength="11"></Column>
 
-		<Column clName="crons_name" clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
-		<Column clDefault="0" clName="crons_process" clNotNull="True" clType="VarChar"
+		<Column clName="name" clNotNull="True" clType="VarChar" clTypeLength="60"></Column>
+		<Column clDefault="0" clName="process" clNotNull="True" clType="VarChar"
 			clTypeLength="1"></Column>
-		<Column clName="crons_script" clNotNull="True" clType="Text" clTypeLength="60"></Column>
-		<Column clName="crons_options" clNotNull="True" clType="JSON" clTypeLength="60"></Column>
-		<Column clName="crons_class" clType="Text"></Column>
-		<Column clDefault="CURRENT_TIMESTAMP" clName="crons_create_at" clNotNull="True"
+		<Column clName="script" clNotNull="True" clType="Text" clTypeLength="60"></Column>
+		<Column clName="options" clNotNull="True" clType="JSON" clTypeLength="60"></Column>
+		<Column clName="class" clType="Text"></Column>
+		<Column clDefault="CURRENT_TIMESTAMP" clName="create_at" clNotNull="True"
 			clType="DateTime"></Column>
-		<Column clDefault="CURRENT_TIMESTAMP" clName="crons_update_at" clType="DateTime"></Column>
+		<Column clDefault="CURRENT_TIMESTAMP" clName="update_at" clType="DateTime"></Column>
 	</DataDefinition>
 	<DataDefinition Description="Store migrations" TableName="%prefix%logginattempts">
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
@@ -379,14 +378,13 @@
 	<DataDefinition Description="Phone books" Prefix="rcphb_" TableName="%prefix%phoneBooks">
 		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphb_Id" clType="Int"></Column>
 
-		<Column clIsUnique="False" clIsUniqueColumnMember="True" clLinkColumn="rcphbe_Guid"
+		<Column clIsUnique="False" clLinkColumn="rcphbe_Guid"
 			clLinkType="%prefix%phoneBookEntries" clName="rcphb_EntryGuid" clNotNull="True"
 			clType="Guid"></Column>
-		<Column clIsUniqueColumnMember="True" clLinkColumn="rcphbt_Id"
-			clLinkType="%prefix%phoneBookTypes" clName="rcphb_Type" clNotNull="1"></Column>
-		<Column clIsUniqueColumnMember="True" clName="rcphb_Value" clNotNull="1" clType="VarChar"
-			clTypeLength="255"></Column>
-		<GenColumn name="updateTime" prefix="rcphb_"></GenColumn>
+		<Column clLinkColumn="rcphbt_Id"
+			clLinkType="%prefix%phoneBookTypes" clName="Type" clNotNull="1"></Column>
+		<Column clName="Value" clNotNull clType="Text"></Column>
+		<GenColumn name="updateTime" ></GenColumn>
 	</DataDefinition>
 
 	<DataDefinition Description="Phone book's type" Prefix="rcphbt_"
@@ -399,11 +397,10 @@
 
 	<DataDefinition Description="Store book entries" Prefix="rcphbe_"
 		TableName="%prefix%phoneBookEntries">
-		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphbe_Id" clType="Int"></Column>
-
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphbe_Id" clType="Int"></Column> 
 		<Column clIsUnique="True" clName="rcphbe_Guid" clNotNull="1" clType="Guid"></Column>
 		<GenColumn name="updateTime" ></GenColumn>
-	</DataDefinition>
+	</DataDefinition> 
 
 	<DataDefinition Description="User's preferences " Prefix="rcphbp_"
 		TableName="%prefix%phoneBookPreferences">
@@ -420,6 +417,20 @@
 			clLinkType="%prefix%phoneBookTypes" clName="rcphbp_TypeId" clNotNull="1"></Column>
 		<GenColumn name="updateTime" prefix="rcphbp_"></GenColumn>
 	</DataDefinition>
+
+	<!-- pooling service -->
+	<DataDefinition Description="Pooling process" Prefix="pproc_"
+		TableName="%prefix%pooling_process">
+		<Column clAutoIncrement="1" clIsPrimary="1" clName="id" clType="Int"></Column>
+		<Column clName="name" clNotNull clType="Guid"></Column>
+		<Column clName="pid" clNotNull></Column>
+		<Column clName="ip" clType="text" ></Column>
+		<Column clName="session_id" clType='text' ></Column>
+		<Column clName="data" clType='json' ></Column>
+		<Column clName="description" clType="text" ></Column>
+		<GenColumn name="updateTime" ></GenColumn>
+	</DataDefinition>
+
 	<!-- END: PHONE BOOKS -->
 
 	<Migrations>
@@ -645,7 +656,8 @@
 			<changeColumn column="clPwd" table="%prefix%users">
 				<Column clHide="True" clInputType="password" clInsertFunction="IGK_PASSWD_ENCRYPT"
 					clName="clPwd" clNotNull="True" clType="VarChar" clTypeLength="200"
-					clUpdateFunction="IGK_PASSWD_ENCRYPT"></Column>
+					clUpdateFunction="IGK_PASSWD_ENCRYPT"
+					clModifier="private"></Column>
 			</changeColumn>
 		</Migration>
 
@@ -734,6 +746,18 @@
 				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="loglogs_Update_At"
 					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
 			</changeColumn>
+		</Migration>
+
+
+		<Migration>
+			<addColumn table="%prefix%phoneBookEntries" after="Guid"> 
+				<Column clName="user_guid" clType="GUID" clNotNull="false" clLinkType="%sysprefix%users" clLinkColumn="clGuid" clIsUnique="false"></Column> 
+			</addColumn>
+			<addColumn table="%prefix%phoneBooks" after="Value"> 
+				<Column clIsUniqueColumnMember="True" clLinkColumn="Id"
+						clLinkType="%prefix%phoneBookTypes" clName="Type" clNotNull="1" clColumnMemberIndex="1"></Column>
+				<Column clName="is_preferred" clType="BOOLEAN" clIsUniqueColumnMember clColumnMemberIndex="1"></Column> 
+			</addColumn>
 		</Migration>
 	</Migrations>
 </data-schemas>

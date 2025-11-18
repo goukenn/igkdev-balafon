@@ -3,11 +3,9 @@
 // @filename: InstallerMiddleWareActions.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Installers;
-
+use IGK\System\Http\AcceptMimeTypes;
 use function igk_resources_gets as __;
-///<summary>Installer middel ware storage</summary>
 /**
 * Installer middel ware storage
 */
@@ -16,18 +14,17 @@ class InstallerMiddleWareActions{
     var $BaseDir;
     var $CacheDir;
     var $LibDir;
+    var $Success;
     /**
      * install directory
      * @var ?string
      */
     var $installDir;
-
     /**
      * from uploading
      * @var bool 
      */
     var $fromUpload;
-    ///<summary></summary>
     /**
     * 
     */
@@ -49,9 +46,6 @@ class InstallerMiddleWareActions{
             }
         }
     }
-   
-    ///<summary></summary>
-    ///<param name="middle"></param>
     /**
     * 
     * @param mixed $middle
@@ -66,14 +60,13 @@ class InstallerMiddleWareActions{
         }
         $this->_list[]=$middle;
     }
-    ///<summary></summary>
     /**
-    * 
+     * is event stream request
+    * @return bool
     */
-    public function isEventStream(){
-        return igk_server()->HTTP_ACCEPT == "text/event-stream";
+    public function isEventStream():bool{
+        return igk_server()->eventStreamRequest();
     }
-    ///<summary></summary>
     /**
     * 
     * @return mixed
@@ -86,8 +79,6 @@ class InstallerMiddleWareActions{
         }
         return $this->Success;
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     /**
     * 
     * @param mixed $msg

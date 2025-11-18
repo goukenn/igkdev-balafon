@@ -3,28 +3,20 @@
 // @filename: DataAdapterBase.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 // @file: DataAdapterBase.php
-
 namespace IGK\System\Database\MySQL;
-
 use Exception;
-use IGKException; 
+use IGKException;
 use IGK\Database\SQLDataAdapter;
 use IGK\System\Database\MySQL\Controllers\MySQLDataController;
 use IGK\System\Database\NoDbConnection;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\NotImplementException;
-use IGKConstants;
-
+use IGK\Constants;
 // if (!defined(__FILE__)){
-
 //     define(__FILE__, 1);
-
-
-///<summary>Represente class: DataAdapterBase</summary>
 /**
- * Represente DataAdapterBase class
+ * Represent DataAdapterBase class
  */
 abstract class DataAdapterBase extends SQLDataAdapter
 {
@@ -34,30 +26,31 @@ abstract class DataAdapterBase extends SQLDataAdapter
     private $m_errormsg;
     private $m_time;
     private static $sm_emptyResult;
+    /**
+     * db manager/driver of query 
+     * @var mixed 
+     */
     protected $m_dbManager;
     /**
      * in transaction
      * @var false
      */
     protected $inTransaction = false;
-
     /**
      * check if adapter can process query 
      * @param string $context 
      * @return bool 
      */
-    public function canProcess(?string $context=null){
+    public function canProcess(?string $context = null)
+    {
         return  !($this->m_dbManager instanceof NoDbConnection);
     }
-
-    ///<summary></summary>
-    ///<param name="ctrl" default="null"></param>
     /**
      * 
      * @param mixed $ctrl the default value is null
      */
     public function __construct($ctrl = null)
-    { 
+    {
         $this->m_controller = $ctrl;
         $this->m_dbManager = $this->_createDriver();
         if ($this->m_dbManager == null) {
@@ -71,7 +64,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $this->m_dbManager->setCloseCallback(array($this, 'closeCallback'));
             $this->m_dbManager->setOpenCallback(array($this, 'openCallback'));
         }
-     
         if ($this->connect()) {
             register_shutdown_function(function () {
                 $c = $this->OpenCount();
@@ -81,11 +73,9 @@ abstract class DataAdapterBase extends SQLDataAdapter
                         new IGKException("failed to close connection");
                     }
                 }
-            }); 
-        } 
+            });
+        }
     }
-
-    ///<summary></summary>
     /**
      * @return object data manager
      */
@@ -93,7 +83,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         die("must create a driver");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -102,8 +91,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         $this->sendQuery("START TRANSACTION", true, null, false);
         $this->inTransaction = true;
     }
-    ///<summary></summary>
-    ///<param name="leaveOpen" default="false"></param>
     /**
      * 
      * @param mixed $leaveOpen the default value is false
@@ -117,7 +104,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
             }
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -128,7 +114,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         $this->_setDbName(null);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -136,17 +121,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         $this->_setDbName(null);
     }
-    ///<summary></summary>
     /**
      * 
      */
     public function commit()
     {
-        $this->sendQuery("COMMIT");               
+        $this->sendQuery("COMMIT");
         $this->inTransaction = false;
     }
-    ///<summary></summary>
-    ///<param name="array"></param>
     /**
      * 
      * @param mixed $array
@@ -155,7 +137,8 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         $this->m_dbManager->configure($array);
     }
-    public function resetDbManager(){
+    public function resetDbManager()
+    {
         $this->m_dbManager = null;
         $this->m_dbManager = $this->_createDriver();
     }
@@ -163,22 +146,21 @@ abstract class DataAdapterBase extends SQLDataAdapter
      * if miss to select db 
      * @return bool 
      */
-    public function getNoSelectDbErrorAutoClose():bool{
+    public function getNoSelectDbErrorAutoClose(): bool
+    {
         return $this->m_dbManager->getNoSelectDbErrorAutoClose();
     }
-    public function setNoSelectDbErrorAutoClose(bool $value){
+    public function setNoSelectDbErrorAutoClose(bool $value)
+    {
         $this->m_dbManager->setNoSelectDbErrorAutoClose($value);
     }
-    ///<summary></summary>
-    ///<param name="dbnamemix" default="null"></param>
-    ///<param name="selectdb" default="true"></param>
     /**
      * 
-     * @param mixed $dbnamemix the default value is null
+     * @param mixed $db_name the default value is null
      * @param mixed $selectdb the default value is true
      */
     public function connect($dbnamemix = null, $selectdb = true)
-    {      
+    {
         $this->makeCurrent();
         if (($this->m_dbManager == null) || (!$this->m_dbManager->connect())) {
             if (get_class($this->m_dbManager) != \IGK\System\Database\NoDbConnection::class) {
@@ -187,27 +169,25 @@ abstract class DataAdapterBase extends SQLDataAdapter
                     $this->m_dbManager ? "can't connect with DBManager: " . get_class($this->m_dbManager) :
                         "dbManager is null"
                 );
-            } else {                
-                if (igk_environment()->isDev()){                       
-                    igk_ilog("no db adapter available: " . igk_env_count(__METHOD__).
-                        (version_compare(IGKConstants::CorePHPVersion() , "7.3", "<=")
-                        ?" connection failed : check mysql_native_password vs caching_sha2_password" : "")
+            } else {
+                if (igk_environment()->isDev()) {
+                    igk_ilog(
+                        "no db adapter available / failed to connect: " . igk_env_count(__METHOD__) .
+                            (version_compare(Constants::CorePHPVersion(), "7.3", "<=")
+                                ? " connection failed : check mysql_native_password vs caching_sha2_password" : "")
                     );
-                }   
-            }         
+                }
+            }
             return false;
         }
-
         $dbs = igk_get_env("sys://Db/NODBSELECT");
-        $dbname = $this->m_dbname; 
-
+        $dbname = $this->m_dbname;
         if (is_string($dbnamemix))
             $dbname = $dbnamemix;
-
         if (!$dbs && $selectdb) {
             $dbname = is_null($dbname) ? $this->app->Configs->db_name : $dbname;
             if ($dbname && !$this->selectdb($dbname)) {
-                if (!$this->getNoSelectDbErrorAutoClose()){
+                if (!$this->getNoSelectDbErrorAutoClose()) {
                     $this->close();
                 }
                 // connected 
@@ -217,15 +197,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return true;
     }
-    private function _setDbName($dbname){
-        $this->m_dbname = $dbname; 
+    private function _setDbName($dbname)
+    {
+        $this->m_dbname = $dbname;
         $this->m_dbManager->db_name = $dbname;
     }
-    ///<summary></summary>
-    ///<param name="dbserver"></param>
-    ///<param name="dbname"></param>
-    ///<param name="dbuser"></param>
-    ///<param name="dbpwd"></param>
     /**
      * 
      * @param mixed $dbserver
@@ -237,9 +213,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->m_dbManager->connectTo($dbserver, $dbname, $dbuser, $dbpwd);
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="whereTab" default="null"></param>
     /**
      * count number of items in 
      * @param string $tbname
@@ -250,12 +223,11 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         if (!$options)
             $options = [];
-
         $options["Columns"] = [
             "Count(*) as count"
         ];
         $query = $this->getGrammar()->createSelectQuery($tbname, $where, $options);
-      try {
+        try {
             $g = $this->sendQuery($query, false);
             return $g;
         } catch (Exception $ex) {
@@ -263,19 +235,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return 0;
     }
-    ///<summary></summary>
-    ///<param name="result" default="false"></param>
     /**
      * 
      * @param mixed $result the default value is false
      */
-    public function CreateEmptyResult($result = false)
+    public function createEmptyResult($result = false)
     {
         return IGKMySQLQueryResult::CreateResult($result);
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="entry"></param>
     /**
      * 
      * @param mixed $tablename
@@ -290,8 +257,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
     /**
      * 
      * @param mixed $tablename
@@ -304,16 +269,13 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $r = $this->m_dbManager->deleteAll($tablename, $condition);
         return $r;
     }
-    ///<summary></summary>
     /**
-     * 
+     * drop all relations
      */
     public function dropAllRelations()
     {
         return MySQLDataController::DropAllRelations($this, $this->m_dbname);
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
      * 
      * @param mixed $tbname
@@ -324,7 +286,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
             return MySQLDataController::DropTable($this, $tbname, $this->DbName);
         return null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -333,7 +294,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         if ($this->m_dbManager)
             $this->m_dbManager->flushForInitDb($complete);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -341,8 +301,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return MySQLDataController::GetAllRelations($this, $this->m_dbname);
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     /**
      * 
      * @param mixed $s
@@ -353,19 +311,16 @@ abstract class DataAdapterBase extends SQLDataAdapter
             return MySQLDataController::GetConstraint_Index($this, $s, $this->DbName);
         return null;
     }
-    
-    ///<summary></summary>
     /**
      * 
      */
     public function getDbName(): ?string
-    {    
-        if ($listener = $this->getSendDbQueryListener()){
+    {
+        if ($listener = $this->getSendDbQueryListener()) {
             return $listener->getDbName();
-        }   
+        }
         return $this->m_dbname;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -373,8 +328,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->m_error;
     }
-    ///<summary></summary>
-    ///<param name="type"></param>
     /**
      * 
      * @param mixed $type
@@ -391,7 +344,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         }
         return "";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -399,15 +351,13 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return ($this->m_dbManager != null);
     }
-    ///<summary></summary>
     /**
      * 
      */
-    public function getIsConnect():bool
+    public function getIsConnect(): bool
     {
         return $this->m_dbManager->getIsConnect();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -415,7 +365,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->m_dbManager->getLastQuery();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -423,7 +372,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return  $this->m_dbManager ? $this->m_dbManager->getResId() : null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -431,7 +379,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->m_dbManager ? $this->m_dbManager->getStored() : null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -439,7 +386,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->m_dbManager ? $this->m_dbManager->getStoredRequired() : null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -447,7 +393,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->m_dbManager->getTabInitInfo();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -456,9 +401,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         $this->m_time = new IGKMySQLTimeManager($this);
         return $this->m_time;
     }
-
-
-    ///<summary></summary>
     /**
      * 
      */
@@ -467,9 +409,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
         if ($this->m_dbManager)
             $this->m_dbManager->initForInitDb();
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="callback"></param>
     /**
      * 
      * @param mixed $tablename
@@ -479,8 +418,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->m_dbManager && $this->m_dbManager->initSystablePushInitItem($tablename, $callback);
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
     /**
      * 
      * @param mixed $tablename
@@ -489,8 +426,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         return $this->m_dbManager && $this->m_dbManager->initSystableRequired($tablename);
     }
-    ///<summary></summary>
-    ///<param name="tbN"></param>
     /**
      * 
      * @param mixed $tbN
@@ -500,23 +435,20 @@ abstract class DataAdapterBase extends SQLDataAdapter
         $g = $this->getStored();
         return isset($g[$tbN]);
     }
-    ///<summary></summary>
     /**
      * 
      */
     public function last_id()
-    { 
+    {
         return $this->m_dbManager->last_id();
     }
-    ///<summary></summary>
     /**
-     * 
+     * @param ?string $filter
      */
-    public function listTables()
+    public function listTables(?string $filter=null)
     {
-        return $this->getGrammar()->listTables();
+        return $this->getGrammar()->listTables($filter);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -524,7 +456,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         igk_log_write_i(__CLASS__, "open connection");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -534,10 +465,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
             return $this->m_dbManager->openCount();
         return 0;
     }
-    public function isConnect(){
+    public function isConnect()
+    {
         return $this->openCount() > 0;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -547,7 +478,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $this->m_dbManager->closeAll();
         $this->m_dbManager = $this->_createDriver() ?? igk_die("failed to recreate db connection");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -555,16 +485,14 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         $this->sendQuery("ROLLBACK");
     }
-    ///<summary></summary>
-    ///<param name="dbname"></param>
     /**
      * 
      * @param mixed $dbname
      */
-    public function selectdb(?string $dbname=null): bool
+    public function selectdb(?string $dbname = null): bool
     {
         if (($this->m_dbManager != null) && !empty($dbname)) {
-            try{
+            try {
                 $r = $this->m_dbManager->selectdb($dbname);
                 if ($r) {
                     $this->_setDbName($dbname);
@@ -574,13 +502,17 @@ abstract class DataAdapterBase extends SQLDataAdapter
                     }
                 }
                 return $r;
-            }catch(\Exception $ex){
-                
+            } catch (\Exception $ex) {
             }
         }
         return false;
     }
-    ///<summary></summary>
+    /**
+     * retrieve the selecgted db 
+     */
+    public function getselectdb(){
+        return $this->m_dbname ?? ($this->m_dbManager? $this->m_dbManager->getselectdb() : null) ?? null;
+    }
     /**
      * 
      * @return mixed
@@ -592,22 +524,18 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $r = $this->m_dbManager->selectLastId();
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="d"></param>
     /**
      * set foreign check 
      * @param int|bool $d
      */
     public function setForeignKeyCheck($d)
     {
-        if (is_bool($d)){
+        if (is_bool($d)) {
             $d = $d ? 1 : 0;
         }
         if (is_integer($d))
             $this->sendQuery("SET foreign_key_checks=" . igk_db_escape_string($d) . ";");
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -616,11 +544,6 @@ abstract class DataAdapterBase extends SQLDataAdapter
     {
         throw new NotImplementException(__FUNCTION__);
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="entries" default="null"></param>
-    ///<param name="where" default="null"></param>
-    ///<param name="querytabinfo" default="null"></param>
     /**
      * 
      * @param mixed $tbname
@@ -631,12 +554,10 @@ abstract class DataAdapterBase extends SQLDataAdapter
     public function update($tbname, $entries, $where = null, $querytabinfo = null)
     {
         if (($entries == null) || ($this->m_dbManager == null)) {
-
             return false;
         }
         return $this->m_dbManager->update($tbname, $entries, $where, $querytabinfo);
     }
-
     /**
      * create table info query
      * @param SQLGrammar $grammar 
@@ -648,8 +569,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column, string $dbname): string
     {
         $tbname = $this->m_dbManager->escape_string($table);
-        $query =  "DESCRIBE ".$tbname. " ".$column;
-        return $query; 
+        $query =  "DESCRIBE " . $tbname . " " . $column;
+        return $query;
     }
 }
- 

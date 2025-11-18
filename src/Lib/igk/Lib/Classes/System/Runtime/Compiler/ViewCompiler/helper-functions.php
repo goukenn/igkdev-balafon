@@ -1,5 +1,4 @@
 <?php
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressionArgHelper;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressionEval;
@@ -7,7 +6,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressArg;
 use IGK\System\ViewVarExpression;
 use IGK\System\ViewEnvironmentArgs; 
 use IGK\System\ViewExtractArgHelper;
-
 if (!function_exists('igk_express_var')){
     function igk_express_var($name){
         $c = igk_environment()->peek(ViewEnvironmentArgs::class."/compiler_args");  
@@ -28,15 +26,11 @@ if (!function_exists('igk_express_var')){
         return "undefined";// '<?= $'.$name.' ? >';
     }
 }
-
 if (!function_exists('igk_php_expression')){
     function igk_php_expression($expression){
         return '<?= '.$expression.' ?>';
     }
 }
-
-
-
 if (!function_exists('igk_express_arg')){
     /**
      * used to fget view expression on arg node. will be detected as Iterable
@@ -58,21 +52,17 @@ if (!function_exists('igk_express_arg')){
         return new ViewExpressArg($expression, $p);
     }
 }
-
 if (!function_exists('igk_express_eval')){
     /**
      * express evaluate expression 
      * @param mixed $expression 
      * @return string 
      */
-    function igk_express_eval($expression, array $dependOn=null){ 
+    function igk_express_eval($expression, ?array $dependOn=null){ 
         $g = new ViewExpressionEval($expression, $dependOn); 
         return $g; 
     }
 }
-
-
-
 if (!function_exists('igk_express_in_var')){
     /**
      * express evaluate expression 
@@ -93,8 +83,6 @@ if (!function_exists('igk_express_litteral_var')){
         return '<?= $'.$name.' /* litteral var */ ?>';
     }
 }
-
-
 if (!function_exists('igk_eval_expression')){
     /**
      * express evaluate expression 
@@ -106,4 +94,3 @@ if (!function_exists('igk_eval_expression')){
         return 180; ///'<?= $'.$name.' /* eval expression */ ? >';
     }
 }
-

@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBooks.php
-// @date: 20240922 19:45:49
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>Phone books</summary>
 /**
 * Phone books
 * @package IGK\Models
@@ -16,18 +12,20 @@ use IGK\Models\ModelBase;
 * @property string|\IGK\Models\PhoneBookEntries $EntryGuid
 * @property int|\IGK\Models\PhoneBookTypes $Type
 * @property string $Value
+* @property string $is_preferred
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `Id` full column name 
-* @method static string FD_ENTRY_GUID() - `EntryGuid` full column name 
-* @method static string FD_TYPE() - `Type` full column name 
-* @method static string FD_VALUE() - `Value` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `Id` full column name 
+* @method static string FN_ENTRY_GUID() - `EntryGuid` full column name 
+* @method static string FN_TYPE() - `Type` full column name 
+* @method static string FN_VALUE() - `Value` full column name 
+* @method static string FN_IS_PREFERRED() - `is_preferred` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphbId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbId() - macros function
-* @method static ?self Add(string|\IGK\Models\PhoneBookEntries $EntryGuid, int|\IGK\Models\PhoneBookTypes $Type, string $Value, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
-* @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $EntryGuid, int|\IGK\Models\PhoneBookTypes $Type, string $Value, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
+* @method static ?self Add(string|\IGK\Models\PhoneBookEntries $EntryGuid, int|\IGK\Models\PhoneBookTypes $Type, string $Value, string $is_preferred, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
+* @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $EntryGuid, int|\IGK\Models\PhoneBookTypes $Type, string $Value, string $is_preferred, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * @method static void GetEntries(?string $entry= null) macros function
 * @method static void addPhoneBookEntry(\IGK\Models\Users $user,$value,$type= IGK\System\Constants\PhonebookTypeNames::PHT_PHONE) macros function
 * @method static void getPhoneBookEntry(\IGK\Models\Users $user) macros function
@@ -37,6 +35,7 @@ class PhoneBooks extends ModelBase{
 	const FD_ENTRY_GUID="rcphb_EntryGuid";
 	const FD_TYPE="rcphb_Type";
 	const FD_VALUE="rcphb_Value";
+	const FD_IS_PREFERRED="rcphb_is_preferred";
 	const FD_CREATE_AT="rcphb_Create_At";
 	const FD_UPDATE_AT="rcphb_Update_At";
 	/**
@@ -52,11 +51,10 @@ class PhoneBooks extends ModelBase{
 	*/
 	protected $refId = "rcphb_Id";
 	protected $unique_columns = array (
-	  0 => 
+	  1 => 
 	  array (
-	    0 => 'rcphb_EntryGuid',
-	    1 => 'rcphb_Type',
-	    2 => 'rcphb_Value',
+	    0 => 'rcphb_Type',
+	    1 => 'rcphb_is_preferred',
 	  ),
 	);
 }

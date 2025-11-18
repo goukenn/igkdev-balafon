@@ -3,9 +3,6 @@
 // @file: ReadTokenExpressionFlagOptions.php
 // @date: 20221025 09:29:16
 namespace IGK\System\Runtime\Compiler;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler
@@ -22,19 +19,16 @@ class ReadTokenExpressionFlagOptions extends ReadTokenFlagOptions{
      * @var mixed
      */
     var $split = false;
-
     /**
      * ignore dependency variable
      * @var false
      */
     var $ignoreDependency = false;
-
     /**
      * strore expression declaration depth;
      * @var mixed
      */
     var $functionDepth;
-
     var $rtrim = false;
     /**
      * mark that instruction argument replace in case of dependency

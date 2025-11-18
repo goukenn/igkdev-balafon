@@ -3,12 +3,8 @@
 // @filename: ArrayUtils.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\Helper;
-
 use IGK\System\IO\StringBuilder;
-
 class ArrayUtils{
     /**
      * self check array
@@ -66,8 +62,6 @@ class ArrayUtils{
             return var_export($a, true);
         }
     }
-
-
     /**
      * dump array 
      * @param array $array 
@@ -80,7 +74,6 @@ class ArrayUtils{
         foreach($array as $k=>$v){
             $s .= $ch;
             if (is_numeric($k)){
-
             }else{
                 $s .= igk_str_quotes($k)."=>";
             }
@@ -90,7 +83,6 @@ class ArrayUtils{
         $sb->set(sprintf('[%s]',$s));
         return ''.$sb;
     }
-
     /**
      * 
      * @param array $array 
@@ -128,6 +120,22 @@ class ArrayUtils{
     public static function AppendArrayItems(& $array, array $items){
         foreach($items as $k){
             $array[] = $k;
+        }
+    }
+    /**
+     * 
+     * @param array &$tab 
+     * @return void 
+     */
+    public static function UnpackArrayKeys(array & $tab, array & $list)
+    {
+        if (version_compare(PHP_VERSION, '8.0', '<')){
+            foreach(array_keys($tab) as $k){
+                if (is_string($k)){
+                    $list[$k] = $tab[$k];
+                    unset($tab[$k]);
+                }
+            }
         }
     }
 }

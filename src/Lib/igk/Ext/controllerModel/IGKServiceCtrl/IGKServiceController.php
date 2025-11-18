@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 use IGK\Controllers\ControllerExtension;
@@ -19,7 +19,6 @@ use function igk_resources_gets as __;
 
 
 !defined("IGK_SERVICE_BASE_URI") && define("IGK_SERVICE_BASE_URI", "services");
-///<summary>represent a wsdl service controller type </summary>
 /** @package  */
 abstract class IGKServiceController 
     extends \IGK\Controllers\ControllerTypeBase 
@@ -29,21 +28,17 @@ abstract class IGKServiceController
     private static $sm_services=[];
    
 
-    ///<summary>Represente __getMethodParameter function</summary>
-    ///<param name="method"></param>
     private function __getMethodParameter($method){
         if(empty($method) || !method_exists($this, $method))
             return null;
         $rf=new ReflectionMethod($this, $method);
         return $rf->getParameters();
     }
-    ///<summary>get available function lists</summary>
     private function _getAvailableFuncs($new=false, $funcrequest=null){ 
         return $this->getExposedServiceFunction(); 
     }
-    ///<summary>Represente _initCssStyle function</summary>
     protected function initCssStyle(){                    
-        igk_ctrl_bind_css_file($this,ViewHelper::CurrentDocument()->getTheme(), dirname(__FILE__)."/Styles/default.pcss", 1);  
+        igk_ctrl_bind_css_file($this,ViewHelper::CurrentDocument()->getTheme(), dirname(__FILE__)."/Styles/".ConstantsEFAULT_THEME_STYLE, 1);  
         ControllerExtension::bindCssStyle($this);
     }
     protected function _configureDocument($doc){
@@ -51,14 +46,13 @@ abstract class IGKServiceController
     }
     
    
-    ///<summary>Represente _viewDoc function</summary>
     private function _viewDoc(){ 
         $doc=igk_get_document(self::DOC_ID, true);
         igk_set_env("sys://designMode/off", 10);
         $doc->setParam("sys://designMode/off", 1);
         $doc->Title=R::ngets("title.app_2", $this->ServiceName, $this->App->Configs->website_title);
         // $doc->Favicon=new IGKHtmlRelativeUriValueAttribute(igk_io_baseRelativePath($this->getDataDir()."/R/Img/favicon.ico"));
-        if (file_exists($fav = $this->getDataDir()."/R/Img/favicon.ico"))
+        if (igk_io_file_exists($fav = $this->getDataDir()."/R/Img/favicon.ico"))
             igk_doc_set_favicon($doc, $fav); 
         igk_html_rm($this->TargetNode); 
         $this->_configureDocument($doc);   
@@ -73,7 +67,6 @@ abstract class IGKServiceController
         $doc->renderAJX();
     }
     
-    ///<summary>Represente baseEvaluateUri function</summary>
     public final function baseEvaluateUri(){
         $dir = dirname(__FILE__);
 	 	$f=$dir."/".IGK_VIEW_FOLDER."/default.phtml";
@@ -99,10 +92,6 @@ abstract class IGKServiceController
         igk_set_session_redirection($u);
         igk_exit();
     }
-    ///<summary>Represente bindNodeClass function</summary>
-    ///<param name="t"></param>
-    ///<param name="fname"></param>
-    ///<param name="css_def" default="null"></param>
     protected function bindNodeClass($t, $fname, $css_def=null){
         $m=igk_getv(igk_get_env(IGK_ENV_INVOKE_ARGS), "m");
         if($m == "global"){
@@ -111,14 +100,12 @@ abstract class IGKServiceController
         else
             parent::bindNodeClass($t, $fname, $css_def);
     }
-    ///<summary>Represente cachewsl function</summary>
     public function cachewsl(){
         $c = igk_getbool($this->Configs->get("clServiceDisableWSDLCache"));
         $this->Configs->clServiceDisableWSDLCache =!$c;
         $this->storeConfigSettings(); 
         igk_navto($this->getServiceUri());
     }
-    ///<summary>Represente clearwsdl_cache function</summary>
     public function clearwsdl_cache(){
         $tab=array();
         $d=ini_get("soap.wsdl_cache_dir");
@@ -132,11 +119,9 @@ abstract class IGKServiceController
             igk_nav_session();
         }
     }
-    ///<summary>Represente controllerLoaded function</summary>
     public static function controllerLoaded(){
         igk_wln_e(__FILE__.':'.__LINE__, "getConrollerLoaded", "services", igk_count(self::$sm_services));
     }
-    ///<summary>Represente evaluateUri function</summary>
     public final function evaluateUri(){
     
 
@@ -178,19 +163,17 @@ abstract class IGKServiceController
         $this->wsdl();
         igk_exit();
     }
-    ///<summary></summary>
     private function generate_wsdl(){
         $b=$this->getWsdlFile();
         $n=$this->getServiceName();
         $g=new WsdlFile($n, igk_io_baseUri()."/".IGK_SERVICE_BASE_URI."/".$n, array("nsprefix"=>"igkns", "nsuri"=>"http://www.igkdev.com"));
         $g->initService($n, array("doc"=>$this->getServiceDescription()));
         $fc=$this->getDataDir()."/.funclist.xml";
-        if(file_exists($fc))
+        if(igk_io_file_exists($fc))
             @unlink($fc);
         $this->init_wsdl($g);
         $g->Save($b);
     }
-    ///<summary>Represente GetAdditionalConfigInfo function</summary>
     public static function GetAdditionalConfigInfo(){
         return array(
             "clServiceName"=>(object)array("clType"=>"text", "clRequire"=>1, "default"=>function($o){
@@ -200,7 +183,6 @@ abstract class IGKServiceController
             "clServiceDisableWSDLCache"=>(object)["clType"=>"bool"]
         );
     }
-    ///<summary>get de default string content</summary>
     public static function GetAdditionalDefaultViewContent(){
         return <<<EOF
 <?php
@@ -222,7 +204,7 @@ EOF;
             $r->addTh()->Content=__("Description");
             $cf=$this->getArticlesDir()."/".$method.".json";
             $store=0;
-            if(!file_exists($cf)){
+            if(!igk_io_file_exists($cf)){
                 $store=1;
                 $jdata=igk_createObj();
             }
@@ -284,7 +266,7 @@ EOF;
     public function getExtra($m){
         $n=igk_create_node("div");
         $f=$this->getArticlesDir()."/".$m.".json";
-        if(file_exists($f)){
+        if(igk_io_file_exists($f)){
             $n->addJSAExtern("openFile", igk_io_to_uri($f))->setClass("igk-btn igk-btn-default igk-active")->Content=R::ngets("btn.Edit");
         }
         $s=$n->render();
@@ -296,7 +278,7 @@ EOF;
         if(($s=realpath($n)) == $n)
             return $n;
         $g=IO::GetDir(dirname(__FILE__)."/".IGK_ARTICLES_FOLDER. "/".$n);
-        if(file_exists($g))
+        if(igk_io_file_exists($g))
             return $g;
         return null;
     }
@@ -306,7 +288,7 @@ EOF;
         if(realpath($n) == $n)
             return $n;
         $g=IO::GetDir(dirname(__FILE__)."/".IGK_VIEW_FOLDER. "/".$n);
-        if(file_exists($g))
+        if(igk_io_file_exists($g))
             return $g;
         return null;
     }
@@ -360,7 +342,7 @@ EOF;
         ini_set("soap.wsdl_cache_enabled", $this->Configs->clServiceDisableWSDLCache ? "0": "1");
         $header=igk_get_allheaders();
         $b=$this->getWsdlFile();
-        if(!file_exists($b)){
+        if(!igk_io_file_exists($b)){
             $this->generate_wsdl(); 
         }
         $this::register_autoload();
@@ -452,7 +434,7 @@ EOF;
     public function wsdl($a=null, $appxml=1){
         // igk_wln_e("l:::DATA");
         $b=$this->getWsdlFile();
-        if(($a && igk_is_conf_connected()) || !file_exists($b)){
+        if(($a && igk_is_conf_connected()) || !igk_io_file_exists($b)){
             $this->generate_wsdl($b);
             if(igk_getr("r") == 1){
                 igk_navto($this->getServiceUri());

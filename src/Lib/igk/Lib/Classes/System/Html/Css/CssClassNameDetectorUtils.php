@@ -3,11 +3,8 @@
 // @file: CssClassNameDetectorUtils.php
 // @date: 20240913 09:47:11
 namespace IGK\System\Html\Css;
-
 use Exception;
 use IGK\System\Text\RegexMatcherContainer;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css
@@ -21,7 +18,7 @@ abstract class CssClassNameDetectorUtils{
      * @return mixed|void 
      */
     public static function DetectFromFile(CssClassNameDetector $detector, string $filename, & $references = null){
-        if (!file_exists($filename)){
+        if (!igk_io_file_exists($filename)){
             return false;
         }
         $ext = igk_io_path_ext($filename);
@@ -82,12 +79,9 @@ abstract class CssClassNameDetectorUtils{
         }
         return $detector->resolv(implode("\n", array_unique($expression)), $references);
     }
-
     public static function DetectFromPHtmlSource(CssClassNameDetector $detector, string $source, & $references=null){
         return self::DetectFromPhpSource($detector, $source, $references, 'phtml');
     }
- 
-
     /**
      * 
      * @param mixed $detector 
@@ -106,7 +100,6 @@ abstract class CssClassNameDetectorUtils{
         $match = [];
         while ($g = $container->detect($src, $pos)) {  
             $g = $container->end($g, $src, $pos);
-
             switch($g->tokenID ){
                 case 'tag':
                     $def = (object)['ref'=>null];

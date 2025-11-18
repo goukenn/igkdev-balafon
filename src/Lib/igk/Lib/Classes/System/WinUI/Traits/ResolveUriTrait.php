@@ -3,12 +3,9 @@
 // @file: ResolveUriTrait.php
 // @date: 20230718 12:15:08
 namespace IGK\System\WinUI\Traits;
-
 use IGK\Controllers\BaseController;
 use IGK\System\IO\Path;
 use IGKValidator;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\WinUI\Traits

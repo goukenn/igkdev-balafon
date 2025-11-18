@@ -3,11 +3,8 @@
 // @filename: BalafonJSHelper.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\Helper;
-
 use IGKException;
-
 class BalafonJSHelper{
     /**
      * get post data js expression

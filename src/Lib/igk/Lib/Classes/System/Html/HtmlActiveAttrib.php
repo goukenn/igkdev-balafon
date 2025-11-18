@@ -5,18 +5,17 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 
+use IGK\System\Console\Logger;
 use IGKObject;
-
 /**
  * mark an attribute to be activated
  * @package IGK\System\Html
  */
 final class HtmlActiveAttrib extends IGKObject{
-    ///<summary></summary>
     public static function getInstance(){
         $key='sys://html/active/attribInstance';
         $b=igk_get_env($key);
@@ -25,5 +24,9 @@ final class HtmlActiveAttrib extends IGKObject{
         $b=new self();
         igk_set_env($key, $b);
         return $b;
-    }
+    } 
+    public function __construct()
+        {
+            Logger::info('loading.');
+        }
 }

@@ -3,9 +3,6 @@
 // @file: AnnotationBase.php
 // @date: 20240103 17:09:54
 namespace IGK\System\Annotations;
-
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Annotations

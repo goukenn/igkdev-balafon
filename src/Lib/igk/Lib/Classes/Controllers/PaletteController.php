@@ -5,18 +5,10 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
-
 namespace IGK\Controllers;
-
 use IGK\Helper\IO;
- 
-
-///<summary>
-///represent a Palette controller Model
-///</summary>
 /**
 *
 *represent a Palette controller Model
@@ -24,7 +16,6 @@ use IGK\Helper\IO;
 */
 final class PaletteController extends NonVisibleControllerBase {
     private $m_palettes;
-    ///<summary></summary>
     /**
     * 
     */
@@ -32,21 +23,18 @@ final class PaletteController extends NonVisibleControllerBase {
         parent::__construct();
         $this->m_palettes=array();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getName(){
         return IGK_PALETTE_CTRL;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getPaletteDir(){
         return $this->getConfigs()->Location;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -56,21 +44,18 @@ final class PaletteController extends NonVisibleControllerBase {
         }
         return $this->m_palettes;
     }
-    ///<summary></summary>
     /**
     * 
     */
     protected function initComplete($context=null){
        parent::initComplete(); 
     }
-    ///<summary></summary>
-    ///<param name="fname"></param>
     /**
     * 
     * @param mixed $fname
     */
     public function loadFile($fname){
-        if(!file_exists($fname))
+        if(!igk_io_file_exists($fname))
             return;
         $v_name=igk_io_basenamewithoutext($fname);
         $v_t=null;
@@ -96,7 +81,6 @@ final class PaletteController extends NonVisibleControllerBase {
         }
         catch(\Exception $ex){}
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -110,15 +94,13 @@ final class PaletteController extends NonVisibleControllerBase {
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     /**
     * 
     * @param mixed $id
     */
     public function RemovePalette($id){
         $s=$this->getPaletteDir()."/".$id.".gkpal";
-        if(file_exists($s)){
+        if(igk_io_file_exists($s)){
             unlink($s);
             $this->m_palettes=array();
             $this->loadPalette();

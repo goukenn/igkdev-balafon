@@ -3,30 +3,44 @@
 // @filename: DbQueryDriver.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
-namespace IGK\System\Database\MySQL; 
-
+namespace IGK\System\Database\MySQL;
+use Exception;
 use IGK\Database\DbQueryDriver as DatabaseDbQueryDriver;
-use IGKConstants;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\Constants;
 use IGKException;
-
+use ReflectionException;
 /**
  * mysql query driver 
  */
 class DbQueryDriver extends DatabaseDbQueryDriver {
-
+    public function getselectdb(){
+        return $this->m_resource->selectdb;
+    }
+    /**
+     * create a driver with the setting option 
+     * @param mixed $options 
+     * @param mixed &$error 
+     * @return static|null 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function Create($options=null, & $error = null ){
         $o = parent::Create($options, $error); 
         return $o;
     }    
-    public function getVersion(){
+    /**
+     * retrieve the version
+     * @return string 
+     */
+    public function getVersion():string{
         if ($this->m_resource){
             return $this->m_resource->server_info;
         }
-        return null;
+        return '-1';
     }
-   
     /**
      * initilzie data driver 
      * @param mixed $resource 
@@ -34,7 +48,7 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
      * @throws IGKException possibility of no default type zone
      */
     protected function initialize($resource): bool {
-        $time_zone = igk_configs()->get('date_time_zone', IGKConstants::DEFAULT_TIME_ZONE);
+        $time_zone = igk_configs()->get('date_time_zone', Constants::DEFAULT_TIME_ZONE);
         $t=igk_db_query("SELECT SUBSTRING_INDEX(CURRENT_USER(),'@',1)", $resource);
         if($t && (igk_db_num_rows($t) == 1)){
             if (!empty($time_zone)){
@@ -45,10 +59,6 @@ class DbQueryDriver extends DatabaseDbQueryDriver {
         }
         return false;
     }
-
-    ///<summary></summary>
-    ///<param name="t"></param>
-    ///<param name="msg" default=""></param>
     /**
      * 
      * @param mixed $t

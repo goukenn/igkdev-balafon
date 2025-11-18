@@ -3,9 +3,6 @@
 // @file: IJSonEncodeArrayDefinition.php
 // @date: 20231006 22:28:43
 namespace IGK\Helper;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper

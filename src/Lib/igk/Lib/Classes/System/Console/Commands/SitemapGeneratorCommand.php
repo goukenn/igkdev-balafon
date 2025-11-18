@@ -1,12 +1,11 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SitemapGeneratorCommand.php
 // @date: 20221006 08:18:43
 // @desc: sitemap generator command
 namespace IGK\System\Console\Commands;
-
 use Exception;
+use IGK\Constants;
 use IGK\Controllers\BaseController; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -16,13 +15,11 @@ use IGK\System\Html\XML\XmlProcessor;
 use IGK\XML\XSDValidator;
 use IGKException;
 use ReflectionException;
-
 /**
  * use to generate sitemap on document 
  * @package igk\sitemaps\System\Console\Commands
  */
 class SitemapGeneratorCommand extends AppExecCommand{
-
     var $command = "--sitemap:gen";
     var $desc = "generate sitemaps";
     /**
@@ -32,7 +29,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @return void 
      */
     public function exec($command, $controller =null) {
-    
         $curi = igk_io_baseuri();
         $baseuri = igk_getv($command->options, "--baseuri", $curi);
         if (empty($controller)){
@@ -40,15 +36,13 @@ class SitemapGeneratorCommand extends AppExecCommand{
             echo self::GenerateSiteMapIndex($indexes, $baseuri);
             return;
         }
-        if (!$ctrl  = igk_getctrl($controller, false)){
+        if (!$ctrl  = self::GetController($controller, false)){
             Logger::danger("controller not found");
             return -1;
         }
         Logger::print("generate sitemap"); 
         $baseuri = $baseuri.str_replace($curi, "", $ctrl->getAppUri()); 
-        
         echo self::GenerateSiteMap($ctrl->getViews(false, true), $baseuri);
-
     }
     public static function GetProjectIndexes(){
         $indexes = [];
@@ -77,7 +71,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @throws Exception 
      * @throws IGKException 
      */
-    public static function GenerateSiteMap(array $views, string $baseuri, array & $error = null){
+    public static function GenerateSiteMap(array $views, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,
             "header"=>(new XmlProcessor("xml"))->setAttributes(["version"=>"1.0"])->render()
@@ -88,7 +82,6 @@ class SitemapGeneratorCommand extends AppExecCommand{
         $base_uri = rtrim($baseuri, "/");
         $mod =  date("Y-m-d");
         foreach($views as $p){
-            
             if ($p == IGK_DEFAULT_VIEW){
                 $p = "";
             }else{
@@ -105,13 +98,12 @@ class SitemapGeneratorCommand extends AppExecCommand{
             $u->priority()->Content = "0.5";
         }        
         $s = $map->render($options);
-        if (false===XSDValidator::ValidateSourceUri($s, \IGKConstants::SITEMAP_VALIDATOR)){
+        if (false===XSDValidator::ValidateSourceUri($s, Constants::SITEMAP_VALIDATOR)){
             $error[] = "not a good validator";            
             return -1;
         }
         return $s; 
     }
-
     /**
      * 
      * @param array $indexes 
@@ -124,7 +116,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GenerateSiteMapIndex(array $indexes, string $baseuri, array & $error = null){
+    public static function GenerateSiteMapIndex(array $indexes, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,
             "header"=>(new XmlProcessor("xml"))->setAttributes([
@@ -147,11 +139,10 @@ class SitemapGeneratorCommand extends AppExecCommand{
             $u->lastmod()->Content = $mod; 
         }        
         $s = $map->render($options);     
-        if (XSDValidator::ValidateSourceUri($s, \IGKConstants::SITEMAP_INDEX_VALIDATOR) === false){
+        if (XSDValidator::ValidateSourceUri($s, Constants::SITEMAP_INDEX_VALIDATOR) === false){
             $error[] = "not a good validator";            
             return -1;
         }
         return $s; 
     }
-
 }

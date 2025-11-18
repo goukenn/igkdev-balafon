@@ -1,26 +1,19 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: AppBuilder.php
 // @date: 20220704 12:38:36
 // @desc: application builder that implement extensible macros
-
 namespace IGK\System;
-
 use Closure;
 use IGK\System\Traits\MacrosConstant;
 use IGK\System\Traits\MacrosTrait;
 use IGKServices;
-
 use function igk_resources_gets as __;
-
-///<summary>help to build and register application definition entry</summary>
 /**
  * help to build and register application definition entry
  */
 class AppBuilder extends MacrosConstant{
     use MacrosTrait;
-
     /**
      * 
      * @param string $name 
@@ -52,7 +45,6 @@ class AppBuilder extends MacrosConstant{
             $fc = $fc->bindTo($instance);
             return $fc(...$arguments);
         }
-
         if ($fc = igk_getv($macros, $name)) {
             if (is_callable($fc)) {
                 $fc = Closure::fromCallable($fc);

@@ -6,12 +6,14 @@
 // @desc: io function helpers
 
 use IGK\Helper\IO;
+use IGK\System\IO\Cache\FS;
 
-function igk_io_mimetype_ext($type, $default='.dat'){
+function igk_io_mimetype_ext($type, $default = '.dat')
+{
     return igk_getv([
-        "image/jpeg"=>".jpeg",
-        "image/png"=>".png",
-        "image/jpg"=>".jpg",
+        "image/jpeg" => ".jpeg",
+        "image/png" => ".png",
+        "image/jpg" => ".jpg",
     ], $type, '.dat');
 }
 /**
@@ -20,13 +22,16 @@ function igk_io_mimetype_ext($type, $default='.dat'){
  * @param mixed $default 
  * @return mixed 
  */
-function igk_io_mimetype($ext, $default){
-    foreach([
-        '/\.(jpg|jpeg|webp)/'=>'image/jpeg',
-        '/\.(png)/'=>'image/png',
-        '/\.(bmp)/'=>'image/bitmap'
-    ] as $k=>$v){
-        if (preg_match($k, $ext)){
+function igk_io_mimetype($ext, $default)
+{
+    foreach (
+        [
+            '/\.(jpg|jpeg|webp)/' => 'image/jpeg',
+            '/\.(png)/' => 'image/png',
+            '/\.(bmp)/' => 'image/bitmap'
+        ] as $k => $v
+    ) {
+        if (preg_match($k, $ext)) {
             return $k;
         }
     }
@@ -37,16 +42,17 @@ function igk_io_mimetype($ext, $default){
  * @param string $path 
  * @return string 
  */
-function igk_io_flatten(string $path){
+function igk_io_flatten(string $path)
+{
     $c = igk_uri($path);
     $j = explode("../", $c);
     $path = $j[0];
     array_shift($j);
-    while(count($j)>0){
+    while (count($j) > 0) {
         $cp = array_shift($j);
         $path = dirname($path);
-        if ($cp){
-            $path .= '/'.$cp;
+        if ($cp) {
+            $path .= '/' . $cp;
         }
     }
     $path = str_replace('./', '', $path);
@@ -58,7 +64,7 @@ function igk_io_flatten(string $path){
  * read all file's content
  * @param mixed $f 
  */
-function igk_io_read_allfile($f):?string
+function igk_io_read_allfile($f): ?string
 {
     if (is_file($f))
         return IO::ReadAllText($f);
@@ -66,19 +72,15 @@ function igk_io_read_allfile($f):?string
 }
 
 
-///<summary>get folder where to cache some file</summary>
 /**
  * get folder where to cache some file
  */
 function igk_io_cachedir()
-{   
+{
     return \IGK\System\IO\Path::getInstance()->getCacheDir();
 }
 
 
-///<summary>target, cibling le lien</summary>
-///<param name="target">: link to create</param>
-///<param name="cibling">: lien a créer</param>
 /**
  * target, cibling 
  * @param mixed $target target of the link
@@ -87,30 +89,27 @@ function igk_io_cachedir()
 function igk_io_symlink($target, $link)
 {
     $r = false;
-    // if (file_exists($link) && is_link($link)){
-    //     $lnk = readlink($link);
-    // }
     if (!file_exists($link) && !is_link($link) && IO::CreateDir(dirname($link))) {
-        $target = IGKCaches::ResolvPath($target);      
+        $target = IGKCaches::ResolvPath($target);
         if (($home = igk_server()->HOME) && is_link($home)) {
             $cpath = realpath($home);
             if (strstr($cp = realpath($target), $cpath)) {
                 $target = $home . substr($cp, strlen($cpath));
             }
         }
-        
+
         // get relative link to target from link
-        $relative_target = IO::GetRelativePath($link , $target) ?? $target; 
+        $relative_target = IO::GetRelativePath($link, $target) ?? $target;
 
         // check that the directory exists to taget file 
-        if (igk_is_debug() || igk_environment()->isDev()){
+        if (igk_is_debug() || igk_environment()->isDev()) {
             $bck = getcwd();
             chdir(dirname($link));
-            $check = $relative_target;           
-            $g = file_exists($check); 
+            $check = $relative_target;
+            $g = igk_io_file_exists($check, true);
             chdir($bck);
-            if (!$g){
-                igk_dev_wln_e(__FILE__.":".__LINE__ , " target not valid : create a symlink ", $link, $target, $relative_target,  "?", $g);
+            if (!$g) {
+                igk_dev_wln_e(__FILE__ . ":" . __LINE__, " target not valid : create a symlink ", $link, $target, $relative_target,  "?", $g);
             }
         }
 
@@ -118,7 +117,7 @@ function igk_io_symlink($target, $link)
             igk_ilog("unix symlink failed: source: " . $target . " cibling: " . $link);
             if (igk_environment()->isDev()) {
                 igk_trace();
-                igk_wln_e("failed to create symlink "); ///fileexists? " . file_exists($target), "realtarget:" . realpath($target), "failed; " . $target, " cibling " . $link);
+                igk_wln_e("failed to create symlink ");
             }
         }
     }
@@ -126,7 +125,6 @@ function igk_io_symlink($target, $link)
 }
 
 
-///<summary>return where global project are stored</summary>
 /**
  * return where global project are stored
  */
@@ -141,4 +139,36 @@ function igk_io_projectdir()
     }
     $pdir || die("project dir not setup properly");
     return igk_uri($pdir);
+}
+
+if (!function_exists('igk_io_file_exists')) {
+    /**
+     * check for file cache existance
+     * @param string $file 
+     * @param bool $autocheck 
+     * @return bool 
+     * @throws Exception 
+     */
+    function igk_io_file_exists(string $file, bool $autocheck =false): bool
+    {        
+        static $FS;
+        if (IGKApp::IsInit()) {
+            if (is_null($FS)) {
+                $FS = new FS();
+                $FS->loadCache();
+                $env_outside = igk_env_count_get('file_exists_outside');
+                if ($env_outside){
+                    igk_environment()->getDebugger()->fs_filesystem_check_counter = 
+                    $env_outside; 
+                }
+            } 
+            return $FS->fileExists($file, $autocheck);
+        }
+        igk_env_count("file_exists_outside"); 
+        return file_exists($file);
+    }
+}
+
+function igk_io_cache_file_exists(string $file):bool{
+    return igk_io_file_exists($file, true);
 }

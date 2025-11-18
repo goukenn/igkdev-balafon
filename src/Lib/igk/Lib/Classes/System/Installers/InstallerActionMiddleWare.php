@@ -3,23 +3,16 @@
 // @filename: InstallerActionMiddleWare.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Installers;
-
 use Exception;
-
-///<summary>Represente class: InstallerActionMiddleWare</summary>
 /**
-* Represente InstallerActionMiddleWare class
+* Represent InstallerActionMiddleWare class
 */
 class InstallerActionMiddleWare implements IMiddleWareAction{
     private $_next;
     private $_service;
-
     public function invoke() {
-
     }
-    ///<summary></summary>
     /**
     * abort action independly
     */
@@ -32,15 +25,12 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
         }
         $this->_service->Success = false;
     }
-    
-    ///<summary></summary>
     /**
     * get current message title
     */
     public function getMessage(){
         return get_class($this);
     }
-    ///<summary></summary>
     /**
     * get service info
     * @var object
@@ -48,7 +38,6 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
     public function getServiceInfo(){
         return $this->_service;
     }
-    ///<summary></summary>
     /**
     * go to next action and invoke
     */
@@ -58,10 +47,6 @@ class InstallerActionMiddleWare implements IMiddleWareAction{
             $this->_next->invoke();
         }
     }
-    ///<summary></summary>
-    ///<param name="list"></param>
-    ///<param name="index"></param>
-    ///<param name="service" default="null"></param>
     /**
     * 
     * @param mixed $list

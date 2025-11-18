@@ -1,25 +1,18 @@
 <?php
-
-namespace IGK\System\Html\Dom;
-
-use IGK\System\Html\HtmlBindingRawTransform;
-use IGK\System\Templates\BindingExpressionReader;
-
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
-// @copyright: igkdev © 2021///<summary>Represente class: IGKHtmlExpressionNodeItem</summary>
+// @copyright: igkdev © 2021
+namespace IGK\System\Html\Dom;
+use IGK\System\Html\HtmlBindingRawTransform;
+use IGK\System\Templates\BindingExpressionReader;
 /**
-* Represente IGKHtmlExpressionNodeItem class
+* Represent IGKHtmlExpressionNodeItem class
 */
 class HtmlExpressionNode extends HtmlNode{
     var $ctrl;
     var $raw; 
     var $openerContext;
-    
-    ///<summary></summary>
-    ///<param name="args" default="null"></param>
-    ///<param name="ctrl" default="null"></param>
     /**
     * 
     * @param mixed $args the default value is null
@@ -39,8 +32,6 @@ class HtmlExpressionNode extends HtmlNode{
     { 
         return false;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $options the default value is null
@@ -51,7 +42,6 @@ class HtmlExpressionNode extends HtmlNode{
             return "";
         }
         $script_obj=igk_html_databinding_getobjforscripting($this->ctrl);
-       
         $sout = "";
         // if ($script_obj){
             $_e=html_entity_decode($src); 

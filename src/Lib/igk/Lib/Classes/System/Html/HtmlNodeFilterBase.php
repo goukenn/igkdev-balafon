@@ -3,31 +3,21 @@
 // @filename: HtmlNodeFilterBase.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use IGK\Helper\StringUtility;
 use IGKException;
-
 abstract class HtmlNodeFilterBase{
     public abstract function bind($node);
-
     public function prefilter($name, $args){
         return null;
     }
-
     public static function CreateFilter($tag){
         static $filters;
         if ($filters === null)
             $filters = [];
-        
         $ns = static::GetEntryNameSpace() ?? str_replace("/","\\", dirname(str_replace("\\", "/", static::class)));
-    
-
         $cn = "\\Filters\\".ucfirst($tag);
         $filter = $ns.$cn."Filter";
-
         if ($c = igk_getv($filters,  $filter)){
             if ($c==":Nofilter"){
                 return null;
@@ -35,11 +25,9 @@ abstract class HtmlNodeFilterBase{
             return $c;
         }
         $dir = static::FilterDir(); 
-
-        if (file_exists($file = StringUtility::Dir($dir.$cn."Filter.php"))){
+        if (igk_io_file_exists($file = StringUtility::Dir($dir.$cn."Filter.php"), true)){
             require_once($file);
         } 
-
         if (class_exists($filter , false)){
             $o = new $filter();
             $filters[$filter] = $o;
@@ -59,7 +47,6 @@ abstract class HtmlNodeFilterBase{
             $filter->bind($e->args["node"]);
         }
     }
-
     public static function PrefilterNodeHookCallback($e){
         $tag = $e->args["name"]; 
         if ($filter = self::CreateFilter($tag)){          
@@ -69,7 +56,6 @@ abstract class HtmlNodeFilterBase{
             }
         }
     }
-
     /**
      * override it to get install dir
      * @return string 

@@ -3,12 +3,8 @@
 // @filename: HtmlAssertNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\Traits\HostableItemTrait;
-
 /**
  * summary html array looper.
  * Help write view and article template without the php foreach loop
@@ -28,15 +24,12 @@ class HtmlAssertNode extends HtmlItemBase{
         $this->setFlag("NO_TEMPLATE",1); 
     }   
     public function getCanRenderTag() { return false; }
- 
     public function getIsVisible()
     { 
         return $this->condition;
     }
-     
     protected function _getRenderingChildren($options =null){
         // before render the childeren . bind callback 
         return parent::_getRenderingChildren($options);
     }
-     
 }

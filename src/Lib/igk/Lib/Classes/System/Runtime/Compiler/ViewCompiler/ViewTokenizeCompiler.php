@@ -3,7 +3,6 @@
 // @file: ViewTokenizeCompiler.php
 // @date: 20221021 08:43:40
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\IReadTokenOptions;
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
@@ -14,8 +13,6 @@ use IGK\System\Runtime\Compiler\Traits\CompilerTokenCommentHandlerTrait;
 use IGK\System\Runtime\Compiler\Traits\CompilerTokenEntryTrait;
 use IGK\System\Runtime\Compiler\Traits\CompilerTokenReadStructHandlerTrait;
 use IGK\System\Runtime\Compiler\Traits\CompilerTokenStateBufferTrait;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -32,19 +29,14 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
      * @var ViewTokenizeOptions
      */
     private $m_tokenOptions;
-
     var $converter;
-
     private $m_flags = [];
-
     private $m_clodeblock = [];
-
     public function __construct()
     {
         $this->m_tokenOptions = new ViewTokenizeOptions();
     }
     protected function _handleWhiteSpace($options, $id, $value){
-        
     }
     public function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool
     {
@@ -52,7 +44,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         $buffer = &$_opt->buffer;
         $flag = &$_opt->flag;
         $flagOptions = &$_opt->flagOptions;       
-
         if ($id == T_WHITESPACE) {
             if ($_opt->skipWhiteSpace) {
                 $value = '';
@@ -63,16 +54,13 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         } else if (!empty($value) && $_opt->skipWhiteSpace) {
             $_opt->skipWhiteSpace = 0;
         }
-
         $this->_checkBracket($_opt, $value);
-
         if ($flag) {
             $_opt->options = $options;
             if ($this->_handleFlag($_opt, $id, $value)) {
                 return true;
             }
         }
-
         switch ($id) {
             case T_OPEN_TAG:
                 //ignore open tag
@@ -175,7 +163,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                             // $flagOptions = null;
                             $buffer .= $value;
                             $_opt->skipWhiteSpace = 0;
-
                             $this->_pushFlag($_opt);
                             // go to read expression
                             $flag = CompilerFlagState::READ_EXPRESSION;
@@ -222,7 +209,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         return true;
     }
-
     private function _handleFlag(ViewTokenizeOptions $option, $id, $value)
     {
         $flag = &$option->flag;
@@ -232,7 +218,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                 $flagOptions->op = true;
             }
         };
-
         if ($flag == CompilerFlagState::READ_SKIP_BLOCK) {
             $option->buffer .= $value;
             if (($value == '}') && ($flagOptions["depth"] == $option->depth)) {
@@ -242,13 +227,11 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
             }
             return true;
         };
-
         if ($flag == CompilerFlagState::READ_BLOCK) {
             if ($this->_readTokenBlock($option, $id, $value)) {
                 return true;
             }
         } 
-
          // + | read struct
          if ($flag == CompilerFlagState::READ_STRUCT) {
             return $this->handleReadClass($flag, $option, $id, $value);
@@ -265,22 +248,18 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     public function compileSource(string $source): ?string
     {
         $this->parseToken($source);
-
         return $this->mergeSourceCode();
     }
-
     public function mergeSourceCode(): ?string
     {
         return $this->m_tokenOptions->output();
     }
-
     private function _readTokenBlock(ViewTokenizeOptions $options, $id, $value)
     {
         $v_block = $options->block;
         $v_flag = &$options->flag;
         $v_buffer = &$options->buffer;
         $v_flagOptions = &$options->flagOptions;
-
         switch ($value) {
             case '(':
                 if ($v_flagOptions["op"] == 'start')
@@ -317,9 +296,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
                                 $v_buffer = "";
                                 if (is_null($v_block->parent))
                                     $options->buffer .= $v_block->generateCode($options);                                
-                                 
                                 $options->block = $v_block->parent;
-                                 
                             } else {
                                 // + | for multiline
                                 $v_block->blocks[] .= $code;
@@ -361,7 +338,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         $options->block = $v_block->parent;
     }
-
     private function _readTokenVariable(ViewTokenizeOptions $options, $value)
     {
         $flag = &$options->flag;
@@ -382,7 +358,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
         }
         $options->skipWhiteSpace = 1;
     }
-
     private function _popFlag($options)
     {
         if ($q = array_pop($this->m_flags)) {
@@ -400,8 +375,6 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
             "options" => $options->flagOptions
         ]);
     }
-
-
     protected function handleReadClass(&$flag, IReadTokenOptions $options, $id, $value): bool
     {
         $struct = $options->struct_info;

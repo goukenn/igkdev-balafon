@@ -3,10 +3,7 @@
 // @filename: RouteMatcher.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 use IGK\Models\Users;
 use function igk_resources_gets as __;
 /**
@@ -106,11 +103,9 @@ class RouteMatcher extends RouteHandler{
                 $this->throwClass = [AuthorizationRequiredException::class, 
                   __("AuthorizationRequire: {0}", implode(",", is_array($auth) ? $auth: [$auth]))
                 ]; 
-                
                 return false;
             }
         }        
         return true;
     }
-
 }

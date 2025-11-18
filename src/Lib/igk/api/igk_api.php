@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 
@@ -19,7 +19,6 @@ define("IGK_API_MYSQLPINC", realpath(IGK_API_LIB."/.mysql.pinc"));
 require_once(IGK_API_LIB."/.igk.api.func.pinc");
 // require_once(IGK_LIB_CLASSES_DIR."/ApplicationController.php");
 
-///<summary></summary>
 /**
 * 
 */
@@ -27,12 +26,11 @@ function igk_api_free_session(){
     if(!igk_server_request_onlocal_server()){
         if(igk_getr("clClearS")){
             igk_app_destroy();
-            session_destroy();
+            igk_ilog( __FILE__.":".__LINE__ , 'destroy session ');session_destroy();
         }
     }
 }
 
-///<summary> evaluate entries</summary>
 /**
  *  evaluate entries
  */

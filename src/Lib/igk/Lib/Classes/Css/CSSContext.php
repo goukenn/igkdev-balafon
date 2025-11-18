@@ -3,9 +3,7 @@
 // @filename: IGKCssContext.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Css;
-
 use IGKException;
 use IGKResourceUriResolver;
 /**
@@ -16,12 +14,10 @@ class CSSContext{
     private $theme;
     static $sm_instance;
     private function __construct(){
-
     }
     public static function Init($ctrl, $theme=null){ 
         if (self::$sm_instance === null){
             self::$sm_instance = new CSSContext();
-
         }
         self::$sm_instance->ctrl = $ctrl;
         self::$sm_instance->theme = $theme;
@@ -29,12 +25,12 @@ class CSSContext{
     }   
     public function Resolv($file){
         $c = $this->ctrl->getDataDir().$file;
-        if (file_exists($c))
+        if (igk_io_file_exists($c))
             return IGKResourceUriResolver::getInstance()->resolve($c);
         return "";
     }
     public function SetClassDef($def, $classStyle, $medias=null, $type=null){
-        if ($type!=null && $type!="sys"){
+        if ($type!=null && $type!= 'sys'){
             throw new IGKException("Only sys is allowed for media type", 500);
         }
         if ($medias==null){

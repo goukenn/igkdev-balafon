@@ -51,8 +51,6 @@ class DbExpressionTest extends BaseTestCase{
 
     public function test_update_query(){
         $gram = Table1Test::driver()->getGrammar(); 
-        // igk_wln_e("table info : ", Table1Test::model()->getModelDefinition());
-
         $this->assertEquals(
             "UPDATE `dummy_table1` SET `clName`='info';",
             $gram->createUpdateQuery(

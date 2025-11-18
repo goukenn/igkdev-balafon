@@ -3,15 +3,12 @@
 // @filename: DiagramEntity.php
 // @date: 20220531 16:29:44
 // @desc: 
-
 namespace IGK\Database\SchemaBuilder;
-
 use IGK\Database\DbConstants;
 use IGK\Helper\Activator;
 use IGK\Resources\R;
 use IGK\System\Console\Logger;
 use IGKException;
-
 /**
  * represent diagram entities
  * @package 
@@ -28,11 +25,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      * @var mixed
      */
     private $m_desc;
-
-   
-
     const VarChar = 'VarChar';
-
     public function locale(string $id, int $length = DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity {
         foreach(R::GetSupportedLangs() as $lang){
             $this->addProperties([[
@@ -43,7 +36,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         }
         return $this;
     }
-
     public function column_varchar(string $name, int $length, ?array $options = null): IDiagramSchemaEntity {
         if (is_null($options)){
             $options = [];
@@ -56,10 +48,8 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             ],
             $options
         )]);
- 
         return $this;
     }
-
     public function getDescription(): ?string
     {
         return $this->m_desc;
@@ -69,7 +59,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         $this->m_desc = $description;
         return $this;
     }
-
     public function __construct(?string $name = null, ?string $prefix=null)
     {
         $this->m_name = $name ?? "Entity";
@@ -110,7 +99,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     public function tel(string $prefix, string $name = "Tel", $length = 15)
     {
         return $this->addProperties([
-
          [
             "clName" => $prefix . $name, "clType" => self::VarChar, "clTypeLength" => $length,
             "clInputType" => "tel"
@@ -163,7 +151,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
      */
     public function id($name = "clId", $length = 9, $description = null): IDiagramSchemaEntity
     {
-
         return $this->addProperties([
             [
                 "clName" => $name, "clType" => "Int", "clTypeLength" => $length,
@@ -235,7 +222,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clDefault" => $default, "clDescription" => $description, "clInputType" => $inputtype, "clNotNull" => $notnull
         ]]);
     }
-    
     /**
      * add varchar column
      * @param string $name 
@@ -390,12 +376,10 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
             "clInputType" => "int", "clDescription" => $description, "clDefault" => $default, "clNotNull" => 1, "clIsPrimary" => true, "clAutoIncrement" => 1
         ]]);
     }
-
     public function getName()
     {
         return $this->m_name;
     }
-
     /**
      * prefix
      * @param string $prefix 
@@ -411,7 +395,6 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         ]);
         return $this;
     }
-
     /**
      * set unit column members
      * @param mixed $column 
@@ -428,14 +411,11 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
         }
         return $this;
     }
-
     /**
      * drop the entity definition 
      * @return void 
      */
     public function drop(){
         Logger::warn(sprintf('drop entity [%s]', $this->m_name));
-        
-
     }
 }

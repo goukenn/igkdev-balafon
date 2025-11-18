@@ -11,13 +11,15 @@ use IGK\Core\Ext\Google\GoogleEvents;
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
 use IGK\Core\Ext\Google\IGKHrefListValue as IGKHrefListValue;
 use IGK\Helper\ViewHelper;
+use IGK\System\Html\CallableConstants;
+use IGK\System\Http\RequestResponseCode;
 use IGK\System\Regex\Replacement;
 
 use function igk_resources_gets as __;
 use function igk_curl_post_uri as post_uri;
 
 
-if (defined('GOOGLE_MODULE')) {
+if (defined('IGK_GOOGLE_MODULE')) {
     return;
 } else {
     require_once(__DIR__ . "/Lib/Classes/IGKHrefListValue.php");
@@ -25,9 +27,9 @@ if (defined('GOOGLE_MODULE')) {
     require_once(__DIR__ . "/Lib/Classes/IGKHrefListValue.php");
     require_once(__DIR__ . "/Lib/Classes/GoogleEvents.php");
     require_once(__DIR__ . "/Lib/Classes/GoogleAPIEndPoints.php");
-    define('GOOGLE_MODULE', 1);
-    define("GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
-    define("GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
+    define('IGK_GOOGLE_MODULE', 1);
+    define("IGK_GOOGLE_URI_REGEX", "/url\s*\((?P<link>[^)]+)\)/");
+    define("IGK_GOOGLE_SETTINGS_FILE", dirname(__FILE__) . "/Data/configs.json");
     define("IGK_GOOGLE_DEFAULT_PROFILE_PIC", "//lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s120");
 
     /**
@@ -76,8 +78,10 @@ if (defined('GOOGLE_MODULE')) {
             $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);
         }
         $theme = igk_environment()->isOPS() ?
-            $doc->getInlineTheme() :
-            $doc->getTheme();
+            $doc->getInlineTheme() 
+            :
+            $doc->getTheme()
+            ;
         if ($theme)
             igk_google_css_setfont($theme->def, $family, $extra);
         IGKEvents::hook(GoogleEvents::init_component, "font");
@@ -122,7 +126,6 @@ if (defined('GOOGLE_MODULE')) {
     {
         return igk_configs()->{IGKGoogleConfigurationSetting::API_KEY};
     }
-    ///<summary>get condensed family name for URI </summary>
     /**
      * get condensed family name for URI
      * @param mixed $string$family Font's name definition
@@ -134,8 +137,6 @@ if (defined('GOOGLE_MODULE')) {
         $s = str_replace(";", "x", $s);
         return $s;
     }
-    ///<summary>get local file path from family</summary>
-    ///<param name="family">family name</param>
     /**
      * get local file path from family
      * @param mixed $family name
@@ -145,7 +146,6 @@ if (defined('GOOGLE_MODULE')) {
         return igk_google_get_css_fontfile($family);
     }
     if (!function_exists('igk_google_font_api_uri')) {
-        ///<summary>get google uri form</summary>
         /**
          * helper: get google uri form
          * @param ?string $n name of the font 
@@ -164,8 +164,6 @@ if (defined('GOOGLE_MODULE')) {
             return $s;
         }
     }
-    ///<summary></summary>
-    ///<param name="family"></param>
     /**
      * 
      * @param mixed $family
@@ -174,9 +172,6 @@ if (defined('GOOGLE_MODULE')) {
     {
         return igk_dir(igk_google_get_fontdir() . "/" . igk_google_condensedfamilyname($family) . ".css");
     }
-    ///<summary></summary>
-    ///<param name="folderid"></param>
-    ///<param name="filename"></param>
     /**
      * 
      * @param mixed $folderid
@@ -188,8 +183,6 @@ if (defined('GOOGLE_MODULE')) {
     }
 
     if (function_exists("igk_curl_post_uri")) {
-        ///<summary>download google font to file</summary>
-        ///<return>array of files</return>
         /**
          * download google font to file
          */
@@ -201,7 +194,7 @@ if (defined('GOOGLE_MODULE')) {
             $options = "";
             $url = igk_google_font_api_uri($ft, $options);
             $g = post_uri($url);
-            if (preg_match_all(GOOGLE_URI_REGEX, $g, $tab) > 0) {
+            if (preg_match_all(IGK_GOOGLE_URI_REGEX, $g, $tab) > 0) {
                 $dir = $dir ?? igk_google_get_fontdir();
                 $dir = "{$dir}/{$ft}";
                 igk_io_createdir($dir);
@@ -216,7 +209,6 @@ if (defined('GOOGLE_MODULE')) {
             return $files;
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -230,9 +222,6 @@ if (defined('GOOGLE_MODULE')) {
     }
 
     if (function_exists("igk_curl_post_uri")) {
-        ///<summary></summary>
-        ///<param name="family"></param>
-        ///<param name="sizes"></param>
         /**
          * 
          * @param mixed $family
@@ -254,7 +243,7 @@ if (defined('GOOGLE_MODULE')) {
                 $s = post_uri($huri . "&display=swap");
                 $info = igk_curl_info();
                 if (($ts = $info["Status"]) == 200) {
-                    if (preg_match_all(GOOGLE_URI_REGEX, $s, $tab) > 0) {
+                    if (preg_match_all(IGK_GOOGLE_URI_REGEX, $s, $tab) > 0) {
                         $lnk = $tab["link"];
                         foreach ($lnk as $bs) {
                             $b = post_uri($bs);
@@ -279,8 +268,6 @@ if (defined('GOOGLE_MODULE')) {
             return 0;
         }
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
      * 
      * @param mixed $n
@@ -289,7 +276,6 @@ if (defined('GOOGLE_MODULE')) {
     {
         return 1;
     }
-    ///<summary>convert google uri's font to App font resource</summary>
     /**
      * convert google uri's font to App font resource
      */
@@ -311,7 +297,6 @@ if (defined('GOOGLE_MODULE')) {
         }
         return $s;
     }
-    ///<summary>register file that will respond to uri</summary>
     /**
      * register file that will respond to uri
      */
@@ -327,14 +312,13 @@ if (defined('GOOGLE_MODULE')) {
         $s->{"fonts"} = $fonts;
         igk_google_store_setting();
     }
-    ///<summary>get google settings</summary>
     /**
      * get google settings
      */
     function igk_google_settings()
     {
         return igk_get_env("google://settings", function () {
-            $v_file = GOOGLE_SETTINGS_FILE;
+            $v_file = IGK_GOOGLE_SETTINGS_FILE;
             $s = null;
 
             if (file_exists($v_file)) {
@@ -344,20 +328,16 @@ if (defined('GOOGLE_MODULE')) {
             return $s ?? igk_createobj();
         });
     }
-    ///<summary>store balafon controller configuration</summary>
     /**
      * store balafon controller configuration
      */
     function igk_google_store_setting($setting = null)
     {
         $g = igk_google_settings();
-        igk_io_w2file(GOOGLE_SETTINGS_FILE, json_encode($g ?? igk_google_settings(),  JSON_FORCE_OBJECT |  JSON_UNESCAPED_SLASHES));
+        igk_io_w2file(IGK_GOOGLE_SETTINGS_FILE, json_encode($g ?? igk_google_settings(),  JSON_FORCE_OBJECT |  JSON_UNESCAPED_SLASHES));
     }
 
     if (function_exists("igk_curl_post_uri")) {
-        ///<summary></summary>
-        ///<param name="links"></param>
-        ///<param name="download" default="1"></param>
         /**
          * 
          * @param mixed $links
@@ -384,7 +364,6 @@ if (defined('GOOGLE_MODULE')) {
             return $temp;
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -393,7 +372,6 @@ if (defined('GOOGLE_MODULE')) {
         $CF = igk_ctrl_zone_init(__FILE__);
         return $CF;
     }
-    ///<summary> init google zone </summary>
     /**
      *  init google zone
      */
@@ -402,8 +380,6 @@ if (defined('GOOGLE_MODULE')) {
         $f = IGK_LIB_DIR . "/../api/google-api-client/vendor/autoload.php";
         require_once($f);
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
      * 
      * @param mixed $t
@@ -539,7 +515,7 @@ EOF,
         $n["class"] = "igk-gmaps";
         $srv = igk_getv(igk_get_services("google"), "googlemap");
         $mapuri = $srv("apiuri", null, (object)["Google" => (object)["ApiKey" => $apikey]]);
-        $n->setCallback("AcceptRender", "igk_google_jsmap_acceptrender_callback");
+        $n->setCallback(CallableConstants::CALLABLE_ACCEPT_RENDER, "igk_google_jsmap_acceptrender_callback");
         $mapjs =  IGKResourceUriResolver::getInstance()->resolve(dirname(__FILE__) . '/Scripts/igk.google.maps.js');
         $n->script()->Content = <<<EOF
 (function(q){
@@ -702,7 +678,7 @@ EOF;
                         igk_exit();
                     }
                     if ($s) {
-                        if (preg_match_all(GOOGLE_URI_REGEX, $s, $tab) > 0) {
+                        if (preg_match_all(IGK_GOOGLE_URI_REGEX, $s, $tab) > 0) {
                             $dir = igk_google_get_fontdir();
                             igk_io_createdir($dir);
                         }
@@ -794,10 +770,15 @@ EOF;
             igk_reg_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, function ($e) use ($siteKey) {
                 $siteKey = \IGK\Helper\ConfigHelper::GetConfig(ViewHelper::CurrentCtrl(), "google.recaptcha_key", $siteKey) ??
                     igk_die("no recaptcha");
-                $doc = $e->args['doc'];
+                $doc = $e->args['doc']; 
+
+                $query = http_build_query([
+                    'hl'=> GoogleEndPoints::GetLang(),
+                    'render'=>$siteKey
+                ]);
                 $doc->head->script()->setId("repatcha")
                     ->activate('defer')
-                    ->setAttribute("src", GoogleEndPoints::RecaptchaEnterprise . "?hl=" . GoogleEndPoints::GetLang());
+                    ->setAttribute("src", GoogleEndPoints::RecaptchaEnterprise . $query);
             });
             $renderActions = true;
         }

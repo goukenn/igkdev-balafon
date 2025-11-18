@@ -3,27 +3,20 @@
 // @filename: OwnViewCtrl.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Controllers;
-
 use IGKObject;
-
-///<summary>represent a own view controller objet.</summary>
 /**
 * represent a own view controller objet.
 */
 final class OwnViewCtrl extends IGKObject  {
     private $m_ctrls;
     static $sm_instance;
-    ///<summary></summary>
     /**
     * 
     */
     private function __construct(){
         $this->m_ctrls=array();
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -35,7 +28,6 @@ final class OwnViewCtrl extends IGKObject  {
         }
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -45,7 +37,6 @@ final class OwnViewCtrl extends IGKObject  {
         }
         return self::$sm_instance;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -53,9 +44,6 @@ final class OwnViewCtrl extends IGKObject  {
         $i=self::getInstance();
         return $i->m_ctrls;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="handleevent" default="1"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -74,15 +62,12 @@ final class OwnViewCtrl extends IGKObject  {
             }
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function __serialize(){
         return null;
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     /**
     * 
     * @param mixed $s

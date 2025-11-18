@@ -3,9 +3,6 @@
 // @file: HtmlDomActiveAttribute.php
 // @date: 20230417 16:32:04
 namespace IGK\System\Html\Dom;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom

@@ -1,0 +1,8 @@
+<?php
+
+// exlucde core.pinc 
+
+$exclude_cores = [
+    'igk_dir',
+    'igk_count',
+];

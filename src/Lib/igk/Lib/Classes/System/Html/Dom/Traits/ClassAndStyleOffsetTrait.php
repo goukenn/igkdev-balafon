@@ -3,47 +3,43 @@
 // @file: ClassAndStyleOffsetTrait.php
 // @date: 20221107 19:19:56
 namespace IGK\System\Html\Dom\Traits;
-
 use IGK\System\Html\Dom\HtmlCssClassValueAttribute;
 use IGK\System\Html\Dom\HtmlOptions;
 use IGK\System\Html\HtmlStyleValueAttribute;
 use IGK\System\Html\IHtmlContextContainer;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom\Traits
 */
 trait ClassAndStyleOffsetTrait{
-
-    
     /**
      * set property
-     * @param mixed $k 
+     * @param string $k 
      * @param mixed $v 
      * @return void|$this 
      * @throws IGKException 
      */
     protected function _access_OffsetSet($k, $v)
     { 
-
         if ($v === null) {
             unset($this->m_attributes[$k]);
         } else {
-            switch ($k) {
-                case "class":
+            switch (strtolower($k)) {
+                case 'class':
+                case 'classname':
+                    $tk = 'class';
                     if ($v === null) {
                         unset($this->m_attributes[$k]);
                     } else {
-                        if (!($cl = igk_getv($this->m_attributes, $k))) {
+                        if (!($cl = igk_getv($this->m_attributes, $tk))) {
                             $cl = new HtmlCssClassValueAttribute();
-                            $this->m_attributes[$k] = $cl;
+                            $this->m_attributes[$tk] = $cl;
                         }
                         $cl->add($v);
                     }
                     break;
-                case "style":
+                case 'style':
                     if (!($cl = igk_getv($this->m_attributes, $k))) {
                         $cl = new HtmlStyleValueAttribute($this);
                     }
@@ -53,7 +49,6 @@ trait ClassAndStyleOffsetTrait{
                 default:
                     if (strpos($k, 'igk:') === 0) {
                         $ck = substr($k, 4);
-
                         if (!HtmlOptions::IsAllowedAttribute($ck)) {
                             return;
                         }

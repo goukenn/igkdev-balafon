@@ -3,18 +3,14 @@
 // @filename: EnumeratesConstants.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Traits;
-
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 /**
  * enumerate constant values 
  */
 trait EnumeratesConstants{
-
     /**
      * retrieve all constant value 
      * @return array of constant key=>value
@@ -63,8 +59,6 @@ trait EnumeratesConstants{
      * @param mixed $ctrl 
      * @return mixed 
      */
-
-
     public static function GetName($ctrl){
         return $ctrl::name("");
     }

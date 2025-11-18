@@ -3,13 +3,14 @@
 // @filename: ActionNotFoundException.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Exceptions;
-
 use IGKException;
 use Throwable;
 use function igk_resources_gets as __;
-
+/**
+ * action not found exception 
+ * @package IGK\System\Exceptions
+ */
 class ActionNotFoundException extends IGKException{
     public function __construct($name, ?Throwable $throwable=null )
     { 

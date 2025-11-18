@@ -3,16 +3,11 @@
 // @file: UserGroupCommand.php
 // @date: 20230704 14:22:51
 namespace IGK\System\Console\Commands\Users;
-
 use IGK\Controllers\SysDbController;
-use IGK\Database\Macros\UsersMacros;
 use IGK\Helper\Authorization;
 use IGK\Helper\ModelHelper;
-use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use JSon;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Users
@@ -23,11 +18,9 @@ class UserGroupCommand extends AppExecCommand{
 	var $options=[
 		'--controller'=>'set controller'
 	];
-
 	var $category = self::USER_CAT;
 	var $usage = 'user group[] [options]';
-
-	public function exec($command, string $user=null, ...$groups) {  
+	public function exec($command, ?string $user=null, ...$groups) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');	
 		$ctrl = SysDbController::ctrl();
 		if (

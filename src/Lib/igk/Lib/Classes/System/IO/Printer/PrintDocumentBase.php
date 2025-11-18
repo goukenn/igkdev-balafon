@@ -3,9 +3,6 @@
 // @file: PrintDocumentBase.php
 // @date: 20220701 19:14:25
 namespace IGK\System\IO\Printer;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\Print
@@ -26,13 +23,8 @@ abstract class PrintDocumentBase{
      * @return void 
      */
     protected abstract function generateDocument(IPrinterService $printer);
-
     protected function header(IPrinterService $printer){
-
     }
-
     protected function footer(IPrinterService $printer){
-
     }
-    
 }

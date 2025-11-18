@@ -7,7 +7,6 @@ namespace IGK\Tests\Helper\Array;
 
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\HelperFunctions\Array

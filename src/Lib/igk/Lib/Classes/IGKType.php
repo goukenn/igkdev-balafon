@@ -3,7 +3,6 @@
 // @filename: IGKType.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\Controllers\BaseController;
 use IGK\System\IInjectable;
 /**
@@ -11,7 +10,6 @@ use IGK\System\IInjectable;
  * @package 
  */
 class IGKType{
-
     public static function GetType($m){
         if (is_array($m)){
             return 'array';
@@ -45,7 +43,6 @@ class IGKType{
             if (IGKType::IsPrimaryType($g) && !IGKType::IsPrimaryType($base_type)){
                 return false;
             }
-
             $r = ($g == $base_type) || is_subclass_of($g, $base_type); 
         }
         return $r;
@@ -75,8 +72,12 @@ class IGKType{
      * @return bool 
      */
     public static function IsInjectable(string $type):bool{
+        if(igk_reflection_class_isabstract($type)){
+            return false;
+        }
+
         return is_subclass_of($type, IInjectable::class) || 
-              ($type==BaseController::class) || is_subclass_of($type, BaseController::class) ;
+               is_subclass_of($type, BaseController::class) ;
     }
     /**
      * get if methodName is a magic function

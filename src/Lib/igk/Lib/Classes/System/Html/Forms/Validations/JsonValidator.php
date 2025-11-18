@@ -3,16 +3,11 @@
 // @filename: JsonValidator.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Forms\Validations;
- 
-
 class JsonValidator extends FormFieldValidatorBase implements IFormValidator{
-
     public function assertValidate($value): bool { 
         return json_decode($value)!==false;
     }
-
     /**
      * validate a json data
      * @param mixed $value 

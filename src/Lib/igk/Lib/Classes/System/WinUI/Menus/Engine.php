@@ -3,14 +3,11 @@
 // @filename: Engine.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\WinUI\Menus;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\WinUI\Traits\ResolveUriTrait;
 use IGKException;
-
 /**
  * represent the menu engine
  * @package IGK\System\WinUI\Menus
@@ -45,21 +42,17 @@ class Engine{
                 if ($fc = self::GetIconEngineCallback($ref[0])){
                     $icon = $fc($ref[1]);
                 }
-                
             }
             $a->add($icon);
         }
         $a->text($text); 
         $a->className = $v_class_name;
-        
         igk_hook("filter-menu-item", ["item"=>$a, "ajx"=>$ajx]);
     }
-
     public function buildSubMenuItem(HtmlNode $hi ){  
         throw new IGKException('not implement '.__METHOD__);     
     }   
     public function buildItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
         return self::BuildMenuItem($hi, $text, $u, $ajx, $options);
     }
-    
 }

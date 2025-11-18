@@ -3,12 +3,10 @@
 // @file: DbQuerySelectColumnBuilder.php
 // @date: 20230614 20:57:23
 namespace IGK\System\Database;
-
 use Exception;
 use IGK\Database\DbExpression;
 use IGK\Database\DbQueryCondition;
-
-///<summary></summary>
+use IGKException;
 /**
 * 
 * @package IGK\System\Database
@@ -33,6 +31,13 @@ class DbQuerySelectColumnBuilder{
     public function addUnique($cl, $value){
         $this->m_tab[$cl] = $value;
     }
+    /**
+     * 
+     * @param mixed $index 
+     * @param mixed $cl 
+     * @param mixed $value 
+     * @return void 
+     */
     public function addUniqueColumn($index, $cl, $value ){
         if (!$index){
             $index = -1;
@@ -44,7 +49,6 @@ class DbQuerySelectColumnBuilder{
     }
     private function __construct(){
     }
-
     public static function Build($info, $conditions, bool $filter_null = false){
         if (is_null($info))
         {
@@ -60,10 +64,14 @@ class DbQuerySelectColumnBuilder{
             }
             $v = igk_getv($conditions, $k);
             if ($cl->clIsUnique){
-                if (is_null($v) && !$cl->clNotNull ){
-                    igk_wln('condition : ', $conditions);
-                    throw new Exception('null value not allowed for : '. $k);
+                if(is_null($v) && $cl->clNotNull){
+                    $v='';
                 }
+                // if (is_null($v) && !$cl->clNotNull ){
+                //     $v='';
+                    // igk_debug_wln('condition : ', $conditions);
+                    //throw new IGKException('null value not allowed for : '. $k);
+                // }
                 $i->addUnique($k, $v); 
             }
             if ($cl->clIsUniqueColumnMember){

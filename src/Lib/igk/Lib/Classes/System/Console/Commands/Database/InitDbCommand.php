@@ -3,7 +3,7 @@
 // @file: InitDbCommand.php
 // @date: 20230703 12:55:25
 namespace IGK\System\Console\Commands\Database;
-
+use Exception;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\SysUtils;
 use IGK\Models\Users;
@@ -11,10 +11,9 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\BalafonApplication;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
+use IGKException;
 use IGKModuleListMigration;
 use L81Controller;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database
@@ -29,7 +28,14 @@ class InitDbCommand extends AppExecCommand{
 	];
 	var $category = "db";
 	var $usage = '[controller] [options]';
-
+	/**
+	 * 
+	 * @param mixed $command 
+	 * @param null|string $ctrl 
+	 * @return int 
+	 * @throws Exception 
+	 * @throws IGKException 
+	 */
 	public function exec($command, ?string $ctrl = null) { 
 		$c = null;
 		DbCommandHelper::Init($command);
@@ -39,7 +45,7 @@ class InitDbCommand extends AppExecCommand{
 			$ctrl = igk_getv($command->options,"--controller");
 		}
 		if (!empty($ctrl)) {
-			if (!($c = igk_getctrl($ctrl, false))) {
+			if (!($c = self::GetController($ctrl, false))) {
 				Logger::danger("no controller found: " . $ctrl);
 				return -1;
 			}
@@ -49,7 +55,6 @@ class InitDbCommand extends AppExecCommand{
 			// $ad->sendQuery('drop database `igkdev.ops2`;');
 			// $ad->sendQuery('create database `igkdev.ops2`;');
 			// $ad->selectdb('igkdev.ops2');
-
 			$c = igk_sys_getall_ctrl();   
 			// $c = [ L81Controller::ctrl()];           
 			if ($b = IGKModuleListMigration::CreateModulesMigration()) {
@@ -59,7 +64,6 @@ class InitDbCommand extends AppExecCommand{
 			$clean = property_exists($command->options, '--clean');
 		}
 		$force = property_exists($command->options, '--force');
-
 		if ($c) {
 			$db_name = igk_configs()->db_name;
 			Logger::info('dbname :'. $db_name);

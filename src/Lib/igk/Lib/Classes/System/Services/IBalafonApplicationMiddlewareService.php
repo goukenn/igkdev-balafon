@@ -4,31 +4,23 @@
 // @copyright: igkdev © 2019
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Services;
-
 use ArrayAccess;
-
-///<summary>Represente interface: IIGKBalafonApplicationMiddlewareService</summary>
 /**
-* Represente IIGKBalafonApplicationMiddlewareService interface
+* Represent IIGKBalafonApplicationMiddlewareService interface
 */
 interface IBalafonApplicationMiddlewareService extends ArrayAccess{
-    ///<summary></summary>
     /**
     * 
     */
     function GetLastMiddleware();
-    ///<summary></summary>
-    ///<param name="callback"></param>
     /**
     * 
     * @param closure callback
     */
     function Run($callback);
-    ///<summary></summary>
-    ///<param name="instance"></param>
     /**
     * 
     * @param mixed instance

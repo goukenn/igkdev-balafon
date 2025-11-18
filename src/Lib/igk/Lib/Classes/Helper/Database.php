@@ -3,7 +3,6 @@
 // @file: Database.php
 // @date: 20221119 00:06:15
 namespace IGK\Helper;
-
 use Error;
 use Exception;
 use IGK\Controllers\BaseController;
@@ -19,24 +18,22 @@ use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\StringBuilder;
-use IGKConstants;
+use IGK\Constants;
 use IGKEvents;
 use IGKException;
 use IGKType;
 use ReflectionException;
 use ReflectionMethod;
-
 use function igk_resources_gets;
-///<summary></summary>
 /**
  * 
  * @package IGK\Helper
  */
 class Database
 {
+    // + | init data field constants 
+    const InsertExtraFieldsMethod = 'InsertExtraFields';
     static $sm_shared_info;
-
-
     /**
      * 
      * @param mixed $model_class 
@@ -53,21 +50,15 @@ class Database
         }
         return self::GetPhpDocMacrosDefintionToInjectFromMacroClass($cl);
     }
-    
     public static function GetPhpDocMacrosDefintionToInjectFromMacroClass(string $macro_class, ?string $model_class=null):?string{
-
-    
         $v_macro_class = $macro_class;
-
         $g = igk_sys_reflect_class($v_macro_class);
         $methods = $g->getMethods(ReflectionMethod::IS_PUBLIC || ReflectionMethod::IS_STATIC);
         usort($methods, function ($a, $b) {
             return strcmp($a->getName(), $b->getName());
         });
-
         $sb = new StringBuilder;
         $s = '';
-
         foreach ($methods as $method) {
             $t = 'void ';
             $params = $method->getParameters();
@@ -85,7 +76,6 @@ class Database
                 if ($v_return_type->allowsNull()) {
                     $s = '?';
                 }
-
                 if ($model_class && ($model_class == $tg)){
                     $s .= 'static';
                 }else {   
@@ -117,13 +107,11 @@ class Database
             igk_die('failed to resolve model');
         }
         $s = null;
-        $path = IGKConstants::NS_MACROS_CLASS . '\\' .
+        $path = Constants::NS_MACROS_CLASS . '\\' .
             ucfirst(basename(igk_uri(get_class($instance)))) . 'Macros';
         $s = $instance->getController()->resolveClass($path);
-
         return $s;
     }
-
     /**
      * get value from info
      * @param mixed $value 
@@ -143,8 +131,6 @@ class Database
         }
         return $value;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     public static function IsNumber($t)
     {
         return preg_match("/(int|float|decimal|double|bigint|long)/i", $t);
@@ -163,7 +149,6 @@ class Database
     {
         return igk_getv(self::$sm_shared_info, $n);
     }
-
     /**
      * init controller database 
      * @param BaseController $controller 
@@ -182,10 +167,10 @@ class Database
             // + | init data : 
             $recursive = false;
             if (isset($cl::$RecursiveInit)){
+                // | recursive initialize to load model recursivily
                 $recursive = igk_getv(get_class_vars($cl), 'RecursiveInit');
             } 
-            InitDataAnnotation::InitData($controller, $recursive); 
-            
+            InitDataAnnotation::InitData($controller, $recursive);  
             $call && $cl::Init($controller);
             return true;
         }
@@ -200,7 +185,7 @@ class Database
      */
     public static function GetCleanTableName(string $table, ?BaseController $controller = null)
     {
-        $v = IGKConstants::MODEL_TABLE_REGEX;
+        $v = Constants::MODEL_TABLE_REGEX;
         $t = preg_replace_callback(
             $v,
             function ($m) use ($controller) {
@@ -263,11 +248,9 @@ class Database
         self::$sm_shared_info = $tables;
         $sysctrl = SysDbController::ctrl();
         $ad_name = $sysctrl->getDataAdapterName();
-
         $dbinitializer = new DatabaseInitializer;
         $dbinitializer->resolv = $ad_name;
         $dbinitializer->upgrade($sysctrl, $tables, DBCaches::GetCacheInitializer());
-
         self::$sm_shared_info = [];
         unset($dbinitializer);
     }
@@ -308,8 +291,7 @@ class Database
             if ($dbname) {
                 $n = sprintf('`%s`.%s', $dbname, $adapter->escape_table_name($n));
             }
-
-            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName)) {
+            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName, $v->prefix)) {
                 igk_push_env("db_init_schema", sprintf("failed to create  : %s", $n));
                 igk_ilog("failed to create " . $n);
             } else {
@@ -318,7 +300,7 @@ class Database
                 }
             }
         }
-        $adapter->endInitDb();
+        $adapter->endInitDb($tb);
         if ($v_foreignConstraints) {
             array_map(function ($i) use ($adapter, $ctrl) {
                 list($tbname, $a) = $i;
@@ -334,7 +316,6 @@ class Database
             'ctrl' => $controller
         ]);
     }
-
     /**
      * only for system an core
      * @param BaseController $controller 
@@ -344,20 +325,21 @@ class Database
      */
     public static function InitDbCoreLogic(BaseController $controller, $definitions, bool $force)
     {
-
         SchemaBuilderHelper::Migrate($definitions);
         // + | ------------------------------------------------------------------------------------
         // + | init constant file 
         // + |
-
         $controller->initDbConstantFiles();
-
         // + | ------------------------------------------------------------------------------------
         // + | init database model 
         // + |        
-
         $controller->InitDataBaseModel($definitions, $force);
     }
+    /**
+     * 
+     * @param BaseController $controller 
+     * @return void 
+     */
     public static function InitDataEntries(BaseController $controller)
     {
         // check if controller can process 
@@ -372,9 +354,10 @@ class Database
         // + | --------------------------------------------------------------------
         // + | BEFORE INIT - APPLICATION
         // + |
+        $vc_ini_manager_cl = Constants::DB_INIT_MANAGER;
         if (!(($cl = $controller->resolveClass(EntryClassResolution::DbInitManager)) && class_exists($cl, false)
-            && is_subclass_of($cl, \IGK\Database\DbInitManager::class))) {
-            $cl = \IGK\Database\DbInitManager::class;
+            && is_subclass_of($cl, $vc_ini_manager_cl))) {
+            $cl = $vc_ini_manager_cl;
         }
         if ($cl) {
             (new $cl($controller))->init($controller);
@@ -389,7 +372,6 @@ class Database
             $call && $cl::Init($controller);
         }
     }
-
     /**
      * 
      * @param BaseController $controller 
@@ -445,7 +427,6 @@ class Database
         }
         return null;
     }
-
     /**
      * auto prefix column management 
      * @param string $column 

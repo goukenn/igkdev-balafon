@@ -3,19 +3,15 @@
 // @filename: d.php
 // @date: 20220531 13:34:45
 // @desc: 
-
 namespace IGK\Database\SchemaBuilder;
- 
 use IGK\Database\DbSchemas;
 use IGK\System\Html\XML\XmlNode;
-
 /**
  * diagram schema visitor
  * @package igk\db\schemaBuilder
  */
 class DiagramDbSchemaVisitor extends DiagramVisitor{
     private $visitor_items = [];
-   
     public function start():?string{
         $this->visitor_items = [];
         return  "<".IGK_SCHEMA_TAGNAME.">";

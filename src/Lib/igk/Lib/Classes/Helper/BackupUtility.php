@@ -3,7 +3,6 @@
 // @file: BackupUtility.php
 // @date: 20221122 08:46:09
 namespace IGK\Helper;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
@@ -15,8 +14,6 @@ use IGKCSVDataAdapter;
 use IGKException;
 use ReflectionException;
 use Symfony\Component\Translation\Loader\CsvFileLoader;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper
@@ -52,7 +49,6 @@ class BackupUtility{
                 if (!$litedb->tableExists($tbname)){
                     $litedb->createTable($tbname, DbColumnInfo::CreateDefArrayFromClass(VersionClass::class));
                 } 
-                
                 $vs = new VersionClass;
                 $vs->version = $gv;
                 if ($rvs = $litedb->select_row($tbname, ['version'=>$gv])){
@@ -64,13 +60,11 @@ class BackupUtility{
                         }
                             $newComment = array_merge($newComment, $d??[]);
                         $newComment[] = $rvs->comment;
-
                     }
                     $newComment = json_encode(array_filter($newComment));
                     $rvs->comment = ""; //empty($newComment) ? null : $newComment;
                     $vs->updateAt = date('Y-m-d H:i:s');
                     $litedb->update($tbname, $rvs, ['id'=>$rvs->id]);
-               
                 }else{
                 $vs->name = $name;
                 $vs->author = igk_environment()->author; 

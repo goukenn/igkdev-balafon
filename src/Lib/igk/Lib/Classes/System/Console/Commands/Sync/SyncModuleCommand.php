@@ -3,9 +3,7 @@
 // @filename: SyncModuleCommand.php
 // @date: 20220729 13:58:01
 // @desc: 
-
 namespace IGK\System\Console\Commands\Sync;
-
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Helper\FtpHelper;
 use IGK\Helper\IO;
@@ -16,7 +14,6 @@ use IGK\System\Controllers\ApplicationModules;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Shell\OsShell;
-
 /**
  * sync ftp project
  * @package IGK\System\Console\Commands
@@ -38,21 +35,16 @@ class SyncModuleCommand extends SyncAppExecCommandBase
      */
     var $use_zip;
     private $remove_cache = false;
-
     public function exec($command, ?string $module = null)
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
         }
-
         $options = igk_getv($command, "options");
         $arg =  property_exists($options, "--list") ? "l" : (property_exists($options, "--restore") ? "r" :
             "");
-
         $this->remove_cache = property_exists($options, "--clearcache");
         $this->use_zip = property_exists($options, "--zip");
-
-
         if (!is_null($module)) {
             $app_module = str_replace(".", "/", $module);
             if (!($app_module = igk_require_module($module, null, null, 0))) {
@@ -60,14 +52,10 @@ class SyncModuleCommand extends SyncAppExecCommandBase
                 return -1;
             }
             $r = $this->sync_module($app_module, $setting);
-
             error_clear_last();
             return $r;
         }
-
-
         if (!property_exists($command->options, "--no-test")){
-        
             Logger::info("checking all modules before sync...");
             if ($phpunit = OsShell::Where('phpunit')) {
                 $core_suite = igk_getv($command, '--core-test-suite', 'modules');
@@ -82,9 +70,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         // remove json modules cache file files
             @unlink($cache_file);
         }
-
         $tab = igk_get_modules();
-
         if ($tab && ( ($count = count($tab)) > 0)) {
             $i = 0;
             foreach ($tab as $mod) {
@@ -102,7 +88,6 @@ class SyncModuleCommand extends SyncAppExecCommandBase
     }
     protected function sync_module(ApplicationModuleController $module, $setting)
     {
-
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
             return -2;
         }
@@ -111,7 +96,6 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         if (empty($install_dir)){
             $dir = $setting["application_dir"] ?? igk_die("no application directory");
             $install_dir .= $dir."/Packages/Modules";
-            
         }
         Logger::info("install_dir : " . $install_dir); 
         $file = tempnam(sys_get_temp_dir(), "blf");
@@ -126,20 +110,16 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         $token = null;
         $name = "module" . $module->getName() . ".zip";
         $sb = $this->_getInstallScript($token, $name);
-  
         igk_io_w2file($script_install, $sb);
- 
-
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
-
-        //updaload zip and install it 
+        //upload zip and install it 
         ftp_put($h, $lib =  $pdir . "/" . $name, $file, FTP_BINARY);
+        // + | sleep 
+        sleep(2);
         ftp_put($h, $install = $pdir . "/install_module.php", $script_install, FTP_BINARY);
         unlink($file);
         unlink($script_install);
-
-
         $response = igk_curl_post_uri(
             $uri . "/install_module.php",
             [
@@ -154,12 +134,9 @@ class SyncModuleCommand extends SyncAppExecCommandBase
                 "archive"=>$name,
             ]
         );
-
-
         FtpHelper::RmFile($h, $lib);
         FtpHelper::RmFile($h, $install);
         ftp_close($h);
-
         if (($status = igk_curl_status()) == 200) {
             Logger::info("curl response \n" . App::Gets(App::BLUE, $response));
             $rep = json_decode($response);
@@ -176,7 +153,11 @@ class SyncModuleCommand extends SyncAppExecCommandBase
     }
     private function _getInstallScript(&$token, $name)
     {
-        return self::GetScriptInstall('install.module.script.pinc', $token, $name);      
+        return self::GetScriptInstall(
+            [
+                'installer-core-function.pinc',
+                'install.module.script.pinc'
+            ], $token, $name);      
     }
     protected function removeCache($ftp, $app_dir)
     {

@@ -3,6 +3,7 @@
 // @filename: ModuleConfigurationController.php
 // @date: 20220803 13:48:58
 // @desc: 
+namespace igk\Ext\Controllers;
 
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
@@ -11,10 +12,9 @@ use IGK\System\WinUI\Paginator;
 
 use function igk_resources_gets as __;
 
-///<summary>Module configuration controller</summary>
 class ModuleConfigurationController extends ConfigControllerBase{
     public function getName(){
-        return MODULE_CNF_CTRL;
+        return IGK_MODULE_CNF_CTRL;
     }
     public function initConfigMenu()
 	{

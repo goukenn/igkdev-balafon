@@ -3,13 +3,8 @@
 // @filename: ReferenceModelsMacros.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
-
 namespace IGK\Models\Macros;
-
 use IGK\System\Number;
-
 class ReferenceModelsMacros {
     /**
 	 * update object reference
@@ -45,12 +40,10 @@ class ReferenceModelsMacros {
 		$raw = null;
 		$v_tmodel = $refmodel == null ? 
 		(($ctrl && method_exists($ctrl, "getRefModel")) ? $ctrl->getRefModel(): "MDL") : $refmodel;
-
 		$obj->get_output =  function()use( $obj, $v_tmodel, $base, $ref){
 			$c= $obj->clNextValue;			
 			return $v_tmodel."".Number::ToBase($c, $base, $ref);
 		};
-        
         $r= $model::select_all(["clModel"=>$v_tmodel]);
         $raw= igk_getv($r, 0);
         $c = $raw? $raw->clNextValue: null;

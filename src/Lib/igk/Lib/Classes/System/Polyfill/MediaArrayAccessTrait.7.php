@@ -3,14 +3,9 @@
 // @filename: MediaArrayAccessTrait.7.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Polyfill;
-
 trait MediaArrayAccessTrait
 {
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -18,8 +13,6 @@ trait MediaArrayAccessTrait
     public function offsetExists($i):bool{
         return isset($this->_medias[$i]);
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * 
     * @param mixed $key
@@ -27,9 +20,6 @@ trait MediaArrayAccessTrait
     public function offsetGet($key){
         return isset($this->_medias[$key]) ? $this->_medias[$key]: null;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $key
@@ -42,8 +32,6 @@ trait MediaArrayAccessTrait
             $this->_medias[$key]=$value;
         }
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i

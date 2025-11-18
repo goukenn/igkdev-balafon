@@ -3,9 +3,6 @@
 // @file: ICompiler.php
 // @date: 20221019 16:08:07
 namespace IGK\System\Runtime\Compiler;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler
@@ -17,7 +14,6 @@ interface ICompiler{
      * @return null|string 
      */
     function compileSource(string $source): ?string;
-
     /**
      * compile file 
      * @param string $file 

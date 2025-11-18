@@ -3,16 +3,10 @@
 // @filename: CSSDefaultArrayAccess.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Polyfill;
-
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
-
 trait CSSDefaultArrayAccess{
-
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
@@ -23,15 +17,12 @@ trait CSSDefaultArrayAccess{
         }
         return isset($this->_[self::PROPERTIES][$i]);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i
     */
     public function offsetGet(mixed $key):mixed{
         $tab = & $this->_[self::PROPERTIES];
-
         if(!isset($tab)){
             return null;
         }
@@ -42,9 +33,6 @@ trait CSSDefaultArrayAccess{
         }
         return igk_getv($tab, $key);
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $i
@@ -59,10 +47,6 @@ trait CSSDefaultArrayAccess{
         $g= & $this->_[$t_KEY];
         $this->_bindProperties($g, $i, $v); 
     }
-
-  
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
     * 
     * @param mixed $i

@@ -3,15 +3,11 @@
 // @filename: DocumentRequestResponse.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 use Exception;
 use CssParserException;
 use IGKHtmlDoc;
 use ReflectionException;
-
 /**
  * 
  * @package IGK\System\Http

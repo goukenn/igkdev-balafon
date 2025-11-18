@@ -4,26 +4,64 @@
 // @date: 20230118 11:28:43
 namespace IGK\System\Database\Helper;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbExpression;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDbColumnInfo;
 use IGK\Models\ModelBase;
 use IGK\System\Caches\DBCaches;
+use IGK\System\Console\Logger;
 use IGK\System\Database\DbConditionExpressionBuilder;
 use IGK\System\Database\DbReverseMappingLink;
+use IGK\System\Database\SQLGrammar;
+use IGK\System\Database\SQLQueryFieldPrefixOperators;
 use IGK\System\Html\Dom\HtmlNode;
 use IGKException;
 use IGKSysUtil;
 
-///<summary></summary>
 /**
  * database helper utility class 
  * @package IGK\System\Database\Helper
  */
 abstract class DbUtility
 {
-
+    public static function EscapeSlashesValueForJSonDetection(string $value)
+    {
+        return str_replace("/", "\\\\\\\\/", $value);
+    }
+    /**
+     * prepare columnt list 
+     * @var array
+     */
+    public static function PrepareColumnList(array $columns, string $prefix = IGK_FIELD_PREFIX): array
+    {
+        $user_tab_c = array_combine($columns, array_map(function ($a) use ($prefix) {
+            $a = strtolower($a);
+            $a = implode('.', array_slice(explode('.', $a), -1));
+            return igk_str_rm_start($a, $prefix);
+        }, $columns));
+        return $user_tab_c;
+    }
+    /**
+     * 
+     * @param mixed &$conditions 
+     * @param mixed $columns 
+     * @return void 
+     * @throws Exception 
+     */
+    public static function TreatColumnsCondition(&$conditions, $columns)
+    {
+        if (!$conditions) return;
+        foreach ($conditions as $k => $v) {
+            if ($v instanceof ModelBase) {
+                if (($clinfo = igk_getv($columns, $k)) && ($clinfo->clLinkType)) {
+                    $cl = $clinfo->clLinkColumn ?? IGK_FD_ID;
+                    $conditions[$k] = $v->{$cl};
+                }
+            }
+        }
+    }
     /**
      * prefix the column name with data value
      * @param string $columnName 
@@ -37,16 +75,16 @@ abstract class DbUtility
         }
         return $columnName;
     }
-
     /**
      * remove column prefix key 
      * @param string $columnName 
      * @param null|string $prefix 
      * @return string|string[]|null 
      */
-    public static function RemoveColumnPrefixName(string $columnName, ?string $prefix){
+    public static function RemoveColumnPrefixName(string $columnName, ?string $prefix)
+    {
         if ($prefix) {
-            $columnName = preg_replace("/^" . $prefix . "/i",  "", $columnName);
+            $columnName = preg_replace("/^" . $prefix . "/i",  '', $columnName);
         }
         return $columnName;
     }
@@ -117,7 +155,6 @@ abstract class DbUtility
      */
     public static function BackupDataSchema(BaseController $ctrl, $defentries)
     {
-
         $tb = igk_db_get_ctrl_tables($ctrl);
         $schema = igk_html_node_dbdataschema();
         $apt = $ctrl->getDataAdapter();
@@ -136,7 +173,6 @@ abstract class DbUtility
         }
         return $schema;
     }
-
     /**
      * get link column name 
      * @param string $table 
@@ -162,7 +198,6 @@ abstract class DbUtility
         }
         return null;
     }
-
     /**
      * treat value conditions
      * @param mixed $columns 
@@ -236,50 +271,53 @@ abstract class DbUtility
                     $f->columns = $s;
                     $f->table = $tb;
                     $f->model = DbCaches::GetTableInfo($tb)->model();
-
                     $r[$k] = $f;
                 }
             }
         }
         return $r;
     }
-
     /**
      * preparent condition list to avoid duplicate
      * @param mixed $columns 
      * @param mixed $condition 
      * @return array 
      */
-    public static function PreparateConditionsListToAvoidDuplicate($columns, $condition){
+    public static function PreparateConditionsListToAvoidDuplicate($columns, $condition)
+    {
         $tab = [];
         $unique_columns = [];
-        foreach($columns as $k=>$v){
+        foreach ($columns as $k => $v) {
             if ($v->clAutoIncrement) continue;
-            if ((strtolower($v->clType) == 'guid') && !$v->clNotNull){
+            if ((strtolower($v->clType) == 'guid') && !$v->clNotNull) {
                 continue;
             }
             $tv = igk_getv($condition, $v->clName);
+            if ($tv instanceof ModelBase) {
+                $clinfo = $v->clLinkColumn;
+                $tv = $tv->{$clinfo};
+            }
             if ($v->clIsUnique) {
-                if (!is_null($tv) || $v->clNotNull){                    
-                    $tab[$k]=$tv;
+                if (!is_null($tv) || $v->clNotNull) {
+                    $tab[$k] = $tv;
                 }
             }
-            if ($v->clIsUniqueColumnMember){
+            if ($v->clIsUniqueColumnMember) {
                 $idx = $v->clColumnMemberIndex ?? 0;
                 if (!isset($unique_columns[$idx]))
                     $unique_columns[$idx] = [];
-                if (!is_null($tv) || $v->clNotNull){                    
-                    $unique_columns[$idx][$k] = igk_getv($condition, $v->clName);
+                if (!is_null($tv) || $v->clNotNull) {
+                    $unique_columns[$idx][$k] = $tv;
                 }
             }
         }
-        if (count($tab)>1){
+        if (count($tab) > 1) {
             $tab = [DbConditionExpressionBuilder::Create($tab, DbConditionExpressionBuilder::OP_OR)];
         }
         $reg = [];
-        if (count($unique_columns)>0){
-            foreach($unique_columns as $t){
-                if(count($t)==0)continue;
+        if (count($unique_columns) > 0) {
+            foreach ($unique_columns as $t) {
+                if (count($t) == 0) continue;
                 $keys = array_keys($t);
                 sort($keys);
                 $s = implode("-", $keys);
@@ -287,10 +325,52 @@ abstract class DbUtility
                     continue;
                 $reg[$s] = 1;
                 $tab[] = DbConditionExpressionBuilder::Create($t);
-
             }
         }
-
         return $tab;
+    }
+    /**
+     * default map sys value
+     * @param array $data 
+     * @param string $prefix 
+     * @return array<int|string, mixed> 
+     */
+    public static function MapSysValues(array $data, string $prefix = IGK_FIELD_PREFIX)
+    {
+        return array_combine(array_map(function ($a) use ($prefix) {
+            $a = strtolower(self::RemoveColumnPrefixName($a, $prefix));
+            return $a;
+        }, array_keys($data)), array_values($data));
+    }
+
+    /**
+     * 
+     * @param ModelBase $model base model
+     * @param ModelBase $link link model
+     * @param string $model_column model column
+     * @param string $link_column link column
+     * @param array $conditions link model conditions
+     * @return void 
+     */
+    public static function CleanRereference(ModelBase $model, ModelBase $link, string $model_column, 
+        string $link_column,
+        array $conditions)
+    {
+        // $driver = $model->getDataAdapter();
+        // $query = igk_str_format(
+        //     'DELETE FROM `{0}` WHERE {2} IN (SELECT `{3}` FROM `{1}`{4});',
+        //     $model->table(),
+        //     $link->table(),
+        //     $model_column,
+        //     $link_column,
+        //     (($l = SQLGrammar::GetCondString($driver, $conditions)) ? ' WHERE ' . $l : '')
+        // ); 
+        // Logger::info(implode("\n", ['the query '.$query]));
+
+        $rd = $link->get_query($conditions, ['Columns'=>[$link_column]]); 
+        return $model->delete([
+            SQLQueryFieldPrefixOperators::IN($model_column)=>$rd
+        ]);
+
     }
 }

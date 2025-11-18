@@ -4,28 +4,25 @@
 // @desc: schema builder helper
 // @date: 20210422 09:09:36
 namespace IGK\System\Database;
-
+use Exception;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDbColumnInfo;
 use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
-
+use IGKException;
 /**
  * update migrations
  * @package IGK\System\Database
  */
 class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "after"];
-
-    
     /**
      * list of column info
      */
     protected $columns;
     protected function loadChilds($childs){
         $v_table = $this->table;
-        
         $this->columns = [];
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($v_table, $ctrl);
@@ -37,7 +34,6 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
                 $this->columns[]=$cl; 
             }
         }   
-        
     }
     protected function checkRequirement()
     {
@@ -49,6 +45,12 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         $this->raw = (object)['table'=>$table, 'after'=>$after];
         $this->columns = [$column];
     }
+    /**
+     * 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     */
     public function up(){ 
         $v_table = $this->table;
         $ctrl = $this->getMigration()->controller;
@@ -58,9 +60,9 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
         if ($ref = DBCaches::GetTableInfo($tb)){
             $prefix = $ref->prefix;
         }
-        $after = Database::AutoPrefixColumn($after, $prefix);
-        
-
+        if ($after)
+            $after = Database::AutoPrefixColumn($after, $prefix);
+        $changed = false;
         foreach($this->columns as $cl){
             if (is_null($cl->clName)){
                 continue;
@@ -70,14 +72,20 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             $ctrl->db_add_column($tb, $cl, $after);
             if ($cl->clIsIndex){
                 $ctrl->db_add_index($tb, $cl->clName);
-            }
-             
+            } 
             if ($after){ // continue after
                 $after = $cl->clName;
             }
-           // $cl->clName = $hb;
+            $changed = $changed || $cl->clIsUniqueColumnMember;
+        }
+        if ($migListerner = $this->getMigrationInfoListener()){
+            $migListerner->regDefTableChanged($tb);
         }
     }
+    /**
+     * 
+     * @return void 
+     */
     public function down(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);

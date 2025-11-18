@@ -3,21 +3,17 @@
 // @filename: ScriptLoader.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\JS;
-
-///<summary>Represent default script loader </summary>
+use IGK\System\IO\HtmlDocument\IDocumentScriptLoader;
+use IGKHtmlDoc;
 /**
 * Represent default script loader 
 */
-class ScriptLoader{
+class ScriptLoader implements IDocumentScriptLoader{
     var $ctrl;
     var $target;
-    ///<summary>Represente __construct function</summary>
-    ///<param name="controller"></param>
-    ///<param name="cachetarget"></param>
     /**
-    * Represente __construct function
+    * Represent __construct function
     * @param  $controller
     * @param  $cachetarget
     */
@@ -25,19 +21,15 @@ class ScriptLoader{
         $this->ctrl=$controller;
         $this->target=$cachetarget;
     }
-    ///<summary>Represente Load function</summary>
-    ///<param name="doc"></param>
-    ///<param name="folder"></param>
-    ///<param name="created"></param>
     /**
-    * Represente Load function
+    * load cached document
     * @param  $doc
     * @param  $folder
     * @param  $created
     */
-    public function Load($doc, $folder, $created){
+    public function loadScripts(IGKHtmlDoc $doc, ?string $folder=null, bool $created=false){
         $is_prod=igk_environment()->isOPS();
-        $files=igk_io_getfiles($this->ctrl->getScriptsDir(), "/\.js$/");
+        $files=igk_io_getfiles($this->ctrl->getScriptsDir(), '/\.js$/i');
         if(!$is_prod){
             $cache_js=array();
             foreach($files as $f){
@@ -48,9 +40,9 @@ class ScriptLoader{
         else{
             $cachedir=igk_io_cacheddist_jsdir();
             $file=$cachedir.$this->target;
-            if(!file_exists($file)){
+            if(!igk_io_file_exists($file)){
                 $out=igk_js_dist_scripts($files);
-                igk_io_w2file($file, igk_ob_get_func("igk_zip_output", [$out, 0, 0]));
+                igk_io_w2file($file,  $out); 
             }
             $doc->addTempScript($file);
         }

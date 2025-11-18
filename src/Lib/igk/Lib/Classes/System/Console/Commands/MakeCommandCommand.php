@@ -3,7 +3,6 @@
 // @file: MakeCommandCommand.php
 // @date: 20230302 07:14:26
 namespace IGK\System\Console\Commands;
-
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\Modules\MakeClassCommandCommand;
@@ -11,8 +10,6 @@ use IGK\System\Console\Logger;
 use IGK\System\EntryClassResolution; 
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -22,7 +19,6 @@ class MakeCommandCommand extends AppExecCommand
     var $command = '--make:command';
     var $category = "make";
     var $desc = "help build command.contextual command.";
- 
     public function __construct()
     {
         parent::__construct();
@@ -30,12 +26,8 @@ class MakeCommandCommand extends AppExecCommand
             "[controller] command",
             "{in :module-context:} command",
         ]);
-    }
-
-
-    public function exec($command, ?string $controller = null, ?string $command_name = null)
-    {
-
+    } 
+    public function exec($command, ?string $controller = null, ?string $command_name = null){
         $context = $command->app->getContext();
         if ($context == 'module') {
             //passing to module - 
@@ -43,12 +35,11 @@ class MakeCommandCommand extends AppExecCommand
             $module = igk_getv($command->options, "--module");
             return $c->exec($command, $module, $controller);
         }
-
         $ctrl = null;
         $c = func_num_args();
         if ($c == 2) {
             $command_name = $controller;
-            $controller = null;
+            $controller = self::ResolveController($command,null);
         }
         if (!empty($controller)) {
             $ctrl = self::GetController($controller, false);
@@ -60,11 +51,9 @@ class MakeCommandCommand extends AppExecCommand
         if (!igk_str_endwith($command_name, 'Command')) {
             $command_name .= 'Command';
         }
-
         $ctrl = $ctrl ?? SysDbController::ctrl();
         $clpath = Path::Combine(EntryClassResolution::CommandEntryNS, $command_name);
         $cl = $ctrl->resolveClass($clpath);
-
         if (is_null($cl) || !class_exists($cl)){
             //make command  
             $g = new MakeClassCommand();
@@ -75,10 +64,9 @@ class MakeCommandCommand extends AppExecCommand
             $defs->appendLine("/* var \$category = ''; */");
             $defs->appendLine("/* var \$usage = ''; */");
             $defs->appendLine("public function exec(\$command) { }");
-
             $command_new = self::CreateOptionsCommandFrom($command);
             $command_new->options = (object)[
-                "--controller" => $ctrl->getName(),
+                "--controller" => $ctrl,
                 "--extends" => AppExecCommand::class,
                 "--defs" => $defs,
             ];

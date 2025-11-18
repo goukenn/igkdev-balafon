@@ -5,23 +5,16 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGKObject;
-
 /**
  * represent an extra property that will be used for custom controller's type configuration
  * @package IGK\Controllers
  */
 final class ExtraControllerProperty extends IGKObject{
     private $m_DefaultValue, $m_Type, $m_Values;
-    ///<summary>.ctr</summary>
-    ///<param name="type">type of the parameter. select|text|textarea|bool|radio</param>
-    ///<param name="def">array of value in case of "select" or default value</param>
-    ///<param name="def1">default value in case of type "select" </param>
     /**
      * 
      * @param mixed $type 
@@ -40,19 +33,15 @@ final class ExtraControllerProperty extends IGKObject{
             $this->m_Values=null;
         }
     }
-    ///<summary>display value</summary>
     public function __toString(){
         return __CLASS__; 
     }
-    ///<summary></summary>
     public function getclDefaultValue(){
         return $this->m_DefaultValue;
     }
-    ///<summary></summary>
     public function getclType(){
         return $this->m_Type;
     }
-    ///<summary></summary>
     public function getclValues(){
         return $this->m_Values;
     }

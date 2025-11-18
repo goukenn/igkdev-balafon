@@ -3,12 +3,9 @@
 // @file: ProjectBuilderPluginBase.php
 // @date: 20231016 08:31:47
 namespace IGK\System\TamTam\Plugins;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Console\BalafonCLIService;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\TamTam\Plugins
@@ -20,7 +17,6 @@ abstract class ProjectBuilderPluginBase{
      * @return void 
      */
     abstract function build(BaseController $ctrl);
-
     /**
      * get cli service
      * @return mixed 

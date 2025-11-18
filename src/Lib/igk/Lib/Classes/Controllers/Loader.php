@@ -3,12 +3,7 @@
 // @filename: Loader.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Controllers;
-
-///<summary>represent internal core loader</summary>
-
 use Closure;
 use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -21,7 +16,6 @@ use IGK\System\IO\Path;
 use IGKCaches;
 use IGKException;
 use ReflectionException;
-
 /**
 * represent internal core loader
 */
@@ -31,7 +25,6 @@ class Loader implements IResponse {
 	private $m_listener;
     private $_cache_fs;
     private $loader_load_files = [];
-
     public function loaded_files(){
         return $this->loader_load_files;
     }
@@ -52,7 +45,6 @@ class Loader implements IResponse {
         }
         return $g;
     }
-
     /**
      * get the button 
      * @return ?string
@@ -60,9 +52,7 @@ class Loader implements IResponse {
     public function getBuffer(): ?string{
         return $this->m_output;
     }
-
     //+ store callback to call protected function info provide by the controller
-    ///<summary>dispatch call to controller</summary>
     /**
     * dispatch call to controller
     * @return mixed|void
@@ -73,8 +63,6 @@ class Loader implements IResponse {
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -85,8 +73,6 @@ class Loader implements IResponse {
 		$this->m_listener = $listener;
         $this->_cache_fs = FileSystem::Create(igk_environment()->getViewCacheDir());
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -99,9 +85,6 @@ class Loader implements IResponse {
             return $this->m_controller->$n;
         }
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
-    ///<param name="data"></param>
     /**
     * 
     * @param mixed $file
@@ -115,13 +98,8 @@ class Loader implements IResponse {
             extract(array_merge(func_get_arg(1), ["ctrl"=>$this])); 
             include(func_get_arg(0));
         })->bindTo($this->m_controller);
- 
         $fc($file, $data); 
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
-    ///<param name="args" default="null"></param>
-    ///<param name="render" default="1"></param>
     /**
     * 
     * @param mixed $file
@@ -129,52 +107,49 @@ class Loader implements IResponse {
     * @param mixed $render the default value is 1
     */
     public function article($file, $raw=null, $render=1){
-
         if (empty($f= realpath($file)))
             $f = $this->m_controller->getArticle($file);
-        if(!file_exists($f)){
+        if(!igk_io_file_exists($f)){
             return false;
         }       
         $n = IGKCaches::Compile2($this->m_controller, IGKCaches::article_filesystem(), $f, $raw, $render);      
         return $n;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function clear(){
         $this->m_output="";
     }
-    ///<summary>check an resolve view file</summary>
     /**
     * check an resolve view file
     */
-    public function file_exists($view){
+    public function igk_io_file_exists($view){
+        if (preg_match('/RegexContainer.d.js/', $view)){
+            igk_wln_e(__FILE__.":".__LINE__ , "finish");
+        }
         $f=stream_resolve_include_path($view);
         if(!empty($f))
             return $f;
-        if(file_exists($view))
+        if(igk_io_file_exists($view))
             return realpath($view);
         if(!empty($c=$this->m_controller->getViewFile($view))){
             return $c;
         }
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getConfigs(){
         return $this->m_controller->getConfigs();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getLoader(){
         return $this;
     }
-    ///<summary>retreive controller output buffer</summary>
     /**
     * retreive controller output buffer
     */
@@ -185,14 +160,12 @@ class Loader implements IResponse {
         }
         return $c;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getUser(){
         return $this->m_controller->User;
     }
-    ///<summary> use to load model utility class</summary>
     /**
     *  use to load model utility class
     */
@@ -228,7 +201,6 @@ class Loader implements IResponse {
         igk_set_env($key, $m);
         return $m[$n];
     }
-    ///<summary> include view file</summary>
     /**
     *  include view file
     */
@@ -237,17 +209,16 @@ class Loader implements IResponse {
         if (!$cfile){
             return $this;
         }
-        if(file_exists($f=$cfile)){
+        if(igk_io_file_exists($f=$cfile)){
             $file=$f;
         }
         else{
-            if(!file_exists($file)){
+            if(!igk_io_file_exists($file)){
                 $file=dirname(__FILE__)."/Views/".$file.".".IGK_DEFAULT_VIEW_EXT;
             }
         }
-        if(!file_exists($file))
+        if(!igk_io_file_exists($file))
              return $this; 
-
         $this->loader_load_files[$file] = $file;
         $bck = set_include_path(dirname($file).PATH_SEPARATOR. get_include_path());
         //+ unset the file to load        
@@ -271,9 +242,7 @@ class Loader implements IResponse {
             $this->m_output .= $o;
         }
 		return $this;
-    
     }
-
     /**
      * bind article
      * @param mixed $file 
@@ -318,7 +287,7 @@ class Loader implements IResponse {
      * @return void 
      */
     public function include(string $file, $viewargs=null){ 
-        if (file_exists($file)){
+        if (igk_io_file_exists($file)){
             $fc = Closure::fromCallable(function($file, $args){
                 if ($args)
                     extract($args);  
@@ -329,8 +298,6 @@ class Loader implements IResponse {
             $fc($file, $viewargs);
         }
     }
-
-    ///<summary>include layout </summary>
     /**
      * include layout directory 
      * @return mixed
@@ -356,4 +323,3 @@ class Loader implements IResponse {
         igk_environment()->isDev() && igk_die(sprintf('missing layout [%s]'.$file));
     }
 }
-

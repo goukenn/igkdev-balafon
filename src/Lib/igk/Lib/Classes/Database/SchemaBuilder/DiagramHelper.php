@@ -1,16 +1,12 @@
 <?php
-
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: DiagramHelper.php
 // @date: 20220728 12:16:48
 // @desc: diagram helper 
-
 namespace IGK\Database\SchemaBuilder;
- 
+use IGK\Helper\Database;
 use IGK\System\Html\XML\XmlNode;
 use IGKException;
-
 abstract class DiagramHelper{
     /**
      * resolve loaded links
@@ -21,9 +17,7 @@ abstract class DiagramHelper{
      * @throws IGKException 
      */
     public static function ResolveLinks($loadSchemaObject, $links){
-
         foreach($links as $def){
-            
             foreach($def as $column){
                 $v_rtable = $column->clLinkType;
                 $v_n = $column->clLinkColumn; 
@@ -33,11 +27,9 @@ abstract class DiagramHelper{
                     if (!isset($cinfo->columnInfo[$v_n])){
                         // try to resolve 
                         $n = null;
-                        if ($cinfo->prefix){
-                            $n = $cinfo->prefix.$v_n;
-                        }
+                        $n = Database::AutoPrefixColumn($v_n, $cinfo->prefix);
                         if (!$n || !isset($cinfo->columnInfo[$n])){
-                            throw new IGKException("column not found");
+                            throw new IGKException("column  [{$n}] not found");
                         }
                         $v_n = $n;
                     }

@@ -3,9 +3,6 @@
 // @file: LooperArgsTrait.php
 // @date: 20240123 13:39:26
 namespace IGK\System\Html\Templates\Engine\Traits;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Templates\Engine\Traits

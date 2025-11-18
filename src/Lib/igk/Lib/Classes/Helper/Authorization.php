@@ -3,7 +3,6 @@
 // @file: Authorization.php
 // @date: 20221118 10:57:56
 namespace IGK\Helper;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -24,14 +23,11 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
 use function igk_resources_gets as __;
-
-///<summary></summary>
 /**
-* autorisation helper class 
+* authorisation helper class 
 * @package IGK\Helper
 */
 class Authorization{
-
     /**
      * 
      * @param Users $user 
@@ -90,7 +86,7 @@ class Authorization{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetGroupUsers(BaseController $controller, string $group, callable $builder=null){
+    public static function GetGroupUsers(BaseController $controller, string $group, ?callable $builder=null){
         $keyname = StringUtility::GetControllerKeyName($controller);
         $cl_uid = Users::column(Users::FD_CL_ID);
         $g = Groups::prepare()
@@ -160,14 +156,12 @@ class Authorization{
         $auth_name = StringUtility::AuthorizationPath($autorizationName, $name);
         $auth = Authorizations::createIfNotExists(['clController'=>$name, 'clName'=>$auth_name]);
         $group = Groups::createIfNotExists(['clController'=>$name, 'clName'=>$groupName]);
-
         return Groupauthorizations::createIfNotExists([
             "clGroup_Id"=>$group->clId,
             "clAuth_Id"=>$auth->clId,
             "clGrant"=>$grant
         ]);
     }
-
     /**
      * helper: send mail recovery instruction 
      * @param null|BaseController $baseController      

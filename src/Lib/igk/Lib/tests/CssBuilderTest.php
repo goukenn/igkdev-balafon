@@ -6,17 +6,17 @@
 
 
 namespace IGK\Tests;
-
-use IGK\Helper\StringUtility;
-use IGK\System\Html\Dom\HtmlDocTheme;
-use IGK\System\Html\Dom\HtmlDoc;
+ 
+use IGK\System\Html\Dom\HtmlDocTheme; 
 use IGKHtmlDoc;
 
 class CssBuilderTest extends BaseTestCase
 {
-    
+    protected static function _CreateTheme(){
+        return new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test", false);
+    }
     function test_render_transform(){
-        $theme = new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test");
+        $theme = self::_CreateTheme();
 
         $cv =  "[transform: scale(1.0)]";    
         $r = igk_css_treat($cv, false, $theme, $theme);
@@ -45,7 +45,7 @@ class CssBuilderTest extends BaseTestCase
     }
     function test_rendergin()
     { 
-        $theme = new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test");
+        $theme = self::_CreateTheme();
 
         $cv =  "[bgcl: actionBarButtonHoverBackgroundColor, #333] color:yellow; box-shadow: 0px 2px 6px [cl:ationBarButtonShadowColor, #111]; [transform:scale(1.1)]";
     
@@ -60,7 +60,7 @@ class CssBuilderTest extends BaseTestCase
 
     function test_css_theme_definition(){
 
-        $theme = new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test");
+        $theme = self::_CreateTheme();
 
         $systheme = igk_app()->getDoc()->getSysTheme();
         $systheme[".igk-fs-n"] = "background-color:red;";
@@ -75,7 +75,7 @@ class CssBuilderTest extends BaseTestCase
     }
 
     function test_css_sysfcolor(){
-        $theme = new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test");
+        $theme = self::_CreateTheme();
         $systheme = igk_app()->getDoc()->getSysTheme();
 
 
@@ -108,7 +108,7 @@ class CssBuilderTest extends BaseTestCase
         );
     }
     function test_css_syscl(){
-        $theme = new HtmlDocTheme( IGKHtmlDoc::CreateDocument("test"), "test");
+        $theme = self::_CreateTheme();
         $systheme = igk_app()->getDoc()->getSysTheme();
 
 
@@ -132,7 +132,7 @@ class CssBuilderTest extends BaseTestCase
     }
 
     function test_joining(){
-        $theme = new HtmlDocTheme( IGKHtmlDoc::CreateDocument("test"), "test");
+        $theme = self::_CreateTheme();
         $systheme = igk_app()->getDoc()->getSysTheme();
         $v = "border-left-color:[cl:confUpdateButtonBdrColor, indigo]; [bgcl:confUpdateButtonBgColor, #444] [fcl:confUpdateButtonFgColor, #fff]";
         $this->assertEquals(

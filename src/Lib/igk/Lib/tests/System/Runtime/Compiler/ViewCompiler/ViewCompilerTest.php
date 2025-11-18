@@ -9,7 +9,6 @@ use IGK\Controllers\SysDbController;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompiler;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Runtime\Compiler\ViewCompiler

@@ -3,18 +3,17 @@
 // @filename: DataAdapter.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Database\MySQL;
-
 use Error;
 use Exception;
+use IGK\Constants;
 use IGK\Database\DbColumnInfo;
 use IGK\System\Database\MySQL\DataAdapterBase;
 use IGK\System\Database\MySQL\IGKMySQLQueryResult;
 use IGK\System\Database\NoDbConnection;
 use IGK\Database\DbQueryResult;
 use IGK\Database\IDataDriver;
+use IGK\Database\IDataDriverCharsetSupport;
 use IGK\Database\IDbQueryResult;
 use IGK\Helper\Activator;
 use IGK\System\Console\Logger;
@@ -27,23 +26,75 @@ use IGKException;
 use IGKQueryResult;
 use ModelBase;
 use ReflectionException;
-
 use function igk_getv as getv;
-
-
 /**
  * MySQL Data Adapter 
  */
-class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
+class DataAdapter extends DataAdapterBase implements
+    IDbRetrieveColumnInfoDriver,
+    IDataDriverCharsetSupport
 {
     private $queryListener;
     private static $_initAdapter;
     private static $supportedList;
-
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
     const DB_INFORMATION_SCHEMA = 'information_schema';
 
+    
+    /**
+     * 
+     * @param string $table 
+     * @return mixed 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public function dropAllUniqueContraints(string $table)
+    {
+        $tb = '`' . self::DB_INFORMATION_SCHEMA . '`.`TABLE_CONSTRAINTS`';
+        $dbname = $this->getDbName();
+        $query = "SELECT * FROM {$tb} WHERE `TABLE_SCHEMA`='{$dbname}' AND `TABLE_NAME`='{$table}' AND `CONSTRAINT_TYPE`='UNIQUE';";
+        if ($r = $this->sendQuery($query)) {
+            foreach ($r->getRows() as $r) {
+                $tn = $r->CONSTRAINT_NAME;
+                $query = sprintf('ALTER TABLE `%s` DROP INDEX `%s`;', $table, $tn);
+                try{
+                    $this->sendQuery($query);
+                }catch(\Exception $ex){
+                    if ($ex){
+                        
+                    }
+                }
+            }
+        }
+        return $r;
+    }
+    public function dropAllForeignKeys(string $table){
+        $tb = '`' . self::DB_INFORMATION_SCHEMA . '`.`TABLE_CONSTRAINTS`';
+        $dbname = $this->getDbName();
+        $query = "SELECT * FROM {$tb} WHERE `TABLE_SCHEMA`='{$dbname}' AND `TABLE_NAME`='{$table}' AND `CONSTRAINT_TYPE`='FOREIGN KEY';";
+        if ($r = $this->sendQuery($query)) {
+            foreach ($r->getRows() as $r) {
+                $tn = $r->CONSTRAINT_NAME;
+                $query = sprintf('ALTER TABLE `%s` DROP INDEX `%s`;', $table, $tn);
+                $g = $this->sendQuery($query);
+            }
+        }
+        return $r;
+    }
+    /**
+     * expression of column charset
+     * @param string $charset 
+     * @return ?string
+     */
+    public function queryColumnCharset(string $charset): ?string
+    {
+        if (in_array($charset, ['utf8mb4'])) {
+            return sprintf('CHARSET %s ', $charset);
+        }
+        return null;
+    }
     /**
      * get date time format
      * @return string 
@@ -52,7 +103,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return IGK_MYSQL_DATETIME_FORMAT;
     }
-
     /**
      * type allow type length
      * @param string $type 
@@ -108,7 +158,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return false;
     }
-
     /**
      * check for existing column
      * @param string $table 
@@ -122,12 +171,9 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      */
     function exist_column(string $table, string $column, $db = null): bool
     {
-
         $db = $db ?? $this->getDbName() ?? igk_die("no db name");
         $grammar = $this->getGrammar();
-
         // $this->selectdb();
-
         $q = $grammar->createSelectQuery(self::DB_INFORMATION_SCHEMA . ".COLUMNS", [
             "TABLE_NAME" => $table,
             "TABLE_SCHEMA" => $db,
@@ -163,7 +209,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
             //$this->sendQuery($query);
         }
         // + | drop all foreign keys attached to table columns       
-
         if ((false !== $this->remove_reverse_foreign_keys($table, $info->clName)) && ($query = $this->remove_unique($table, $info->clName))) {
             $c = $this->sendQuery($query);
         }
@@ -186,14 +231,12 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         $foreign_exists = false;
         $inno_db_table = self::DB_INFORMATION_SCHEMA . ".INNODB_FOREIGN_COLS";
         try {
-
             // check that inodb 
             try {
                 $foreign_exists = $check_exist ?? $check_exist = $this->tableExists($inno_db_table);
             } catch (\Exception $ext) {
                 $foreign_exists = false;
             }
-
             //   throw new \IGKException('missing column : '. $inno_db_table) ;
             if ($foreign_exists) {
                 $query = sprintf(
@@ -240,12 +283,10 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return null;
     }
-
     public function remove_unique(string $table, string $info, $db = null)
     {
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
-
         // do not select information schemas
         // $this->selectdb(self::DB_INFORMATION_SCHEMA);
         $query = sprintf(
@@ -274,7 +315,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return null;
     }
-
     /**
      * 
      * @param string $table_name 
@@ -290,7 +330,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         $adapter  = $this;
         $db = $db ?? $adapter->getDbName();
         $v_tkey_column_usage = self::DB_INFORMATION_SCHEMA . '.KEY_COLUMN_USAGE';
-         
         // + | get reverse foreign keys 
         $query = sprintf(
             implode('', [
@@ -319,7 +358,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
             }
         }
     }
-
     /**
      * drop foreing keys tables 
      * @param mixed $keys 
@@ -331,9 +369,10 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     function dropForeignKeys($keys, int $type = 0)
     {
         $type = igk_getv([1 => 'UNIQUE'], $type, 'FOREIGN KEY');
+        $drop_query_format = "SELECT * FROM %s.TABLE_CONSTRAINTS where ";
         $db = $this->getDbName();
         foreach ($keys as $table) {
-            $q = sprintf("SELECT * FROM %s.TABLE_CONSTRAINTS where ", self::DB_INFORMATION_SCHEMA);
+            $q = sprintf($drop_query_format, self::DB_INFORMATION_SCHEMA);
             $q .= "TABLE_NAME='" . $table . "'";
             $q .= "AND CONSTRAINT_SCHEMA='" . $db . "' ";
             $q .= "AND CONSTRAINT_TYPE='" . $type . "';";
@@ -368,12 +407,10 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return '`' . $v . '`';
     }
-
     public function escape_table_column(string $v): string
     {
         return '`' . $v . '`';
     }
-
     /**
      * create a fetch result
      * @param string $query query to send
@@ -389,9 +426,21 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return in_array(strtolower($type), ["int", "bigint"]);
     }
-    public function update($tbname, $entries, $where = null, $querytabinfo = null)
+    /**
+     * 
+     * @param mixed $tbname 
+     * @param mixed $entries 
+     * @param mixed $where 
+     * @param mixed $querytabinfo 
+     * @param null|bool $filter 
+     * @return IDbQueryResult|iterable|null|bool|void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws EnvironmentArrayException 
+     */
+    public function update($tbname, $entries, $where = null, $querytabinfo = null, ?bool $filter=null)
     {
-        if ($query = $this->getGrammar()->createUpdateQuery($tbname, $entries, $where, $querytabinfo)) {
+        if ($query = $this->getGrammar()->createUpdateQuery($tbname, $entries, $where, $querytabinfo, $filter)) {
             return $this->sendQuery($query);
         }
     }
@@ -419,9 +468,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
             return $ctrl->getDataTableDefinition($table);
         }
     }
-
-    ///<summary></summary>
-    ///<param name="ctrl" default="null"></param>
     /**
      * 
      * @param mixed $ctrl the default value is null
@@ -439,7 +485,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      */
     public function isTypeSupported($type): bool
     {
-
         if (self::$supportedList === null) {
             self::_InitSupportedTypes($this);
             // self::$supportedList = [];
@@ -496,7 +541,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return in_array($type, ["float", "int", "varchar", "enum", "datetime", "time", "float"]);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -510,7 +554,8 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
                 "server" => $cnf->db_server,
                 "user" => $cnf->db_user,
                 "pwd" => $cnf->db_pwd,
-                "port" => $cnf->db_port
+                "port" => $cnf->db_port,
+                "charset" => $cnf->db_charset
             ],  $error);
             if ($s == null) {
                 igk_set_env("sys://db/error", "no db manager created");
@@ -523,7 +568,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return null;
     }
-
     public function escape_string(?string $v = null): string
     {
         if (is_null($v)) {
@@ -539,7 +583,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return addslashes($v);
     }
-
     /**
      * filter data type value 
      * @param mixed $value 
@@ -556,13 +599,22 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
                 if (preg_match("/^date$/i", $type)) {
                     $value = date("Y-m-d", strtotime($value));
                 } else if (preg_match("/^datetime$/i", $type) && $tinf->clNotNull) {
-                    $value = date(\IGKConstants::MYSQL_DATETIME_FORMAT, strtotime($value));
+                    $value = date(Constants::MYSQL_DATETIME_FORMAT, strtotime($value));
+                }
+            }
+            if (strtolower($type) == 'text') {
+                if (is_object($value) || is_array($value)){
+                    $value = json_encode($value);
+                }
+                // + | check that text is a valid json string
+                if (json_decode($value)) {
+                    $value = str_replace("\r", "", $value);
+                    $value = implode('\\\\n', explode('\\n', $value));
                 }
             }
         }
         return $value;
     }
-    ///<summary>display value</summary>
     /**
      * display value
      */
@@ -570,7 +622,10 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return __CLASS__;
     }
-
+    /**
+     * get the driver charset
+     * @return null|string 
+     */
     public function get_charset()
     {
         $b = $this->m_dbManager->getResId();
@@ -579,14 +634,18 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return "";
     }
-    public function set_charset($charset = "utf-8")
+    /**
+     * set driver charset of the current execution query
+     * @param string|'utf-8'|'utf8mb4' $charset 
+     * @return bool|void 
+     */
+    public function set_charset($charset = "utf8")
     {
         $b = $this->m_dbManager->getResId();
         if ($b) {
             return mysqli_set_charset($b, $charset);
         }
     }
-
     public function delete($tablename, $conditions = null)
     {
         if ($query = $this->getGrammar()->createDeleteQuery($tablename, $conditions)) {
@@ -594,10 +653,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return false;
     }
-
-    ///<summary> add column</summary>
-    ///<param name="tbname">the table name</param>
-    ///<param name="name">the table name</param>
     /**
      *  add column
      * @param string $tbname the table name
@@ -619,18 +674,25 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return $this->sendQuery($query, false);
     }
+    /**
+     * reset auo increment is empty 
+     * @param mixed $table 
+     * @param int $value 
+     * @return IDbQueryResult|iterable|null|bool 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     public function resetAutoIncrement($table, $value = 1)
     {
         $table =  igk_db_escape_string($table);
         $query = "SELECT Count(*) as count FROM `{$table}`";
         $value = max($value, 1);
-        if (($r = $this->sendQuery($query)) && ($r->getRowCount() == 0)) {
-            return $this->sendQuery("ALTER `{$table}` AUTO_INCREMENT {$value}");
+        if (($r = $this->sendQuery($query)) && ($r->getRowAtIndex(0)['count'] == 0)) {
+            return $this->sendQuery("ALTER TABLE `{$table}` AUTO_INCREMENT={$value}");
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
      * 
      * @param mixed $tbname
@@ -638,10 +700,9 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     public function clearTable($tbname)
     {
         $tbname = igk_mysql_db_tbname($tbname);
-        return $this->sendQuery("TRUNCATE `" . $tbname . "` ;")->Success && $this->sendQuery("ALTER TABLE `" . $tbname . "` AUTO_INCREMENT =1;")->Success;
+        return $this->sendQuery("TRUNCATE `" . $tbname . "` ;")->Success &&
+            $this->sendQuery("ALTER TABLE `" . $tbname . "` AUTO_INCREMENT =1;")->Success;
     }
-    ///<summary></summary>
-    ///<param name="dbname"></param>
     /**
      * create database
      * @param mixed $dbname
@@ -653,25 +714,20 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="columninfoArray"></param>
-    ///<param name="entries" default="null"></param>
-    ///<param name="desc" default="null"></param>
     /**
      * 
      * @param mixed $tablename
      * @param mixed $columninfoArray
      * @param mixed $entries the default value is null
      * @param mixed $desc the default value is null
+     * @param string $dbname the default value is null
      */
-    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $options = null)
+    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $dbname = null, ?string $prefix=null)
     {
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
-
             if (!($this->tableExists($tablename, false))) {
                 igk_ilog('db try to create table > ' . $tablename);
-                $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $options);
+                $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $dbname, $prefix);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
@@ -684,7 +740,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return false;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -692,7 +747,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return igk_mysql_db_error();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -700,7 +754,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return "mysqli";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -708,7 +761,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return $this->m_dbManager->getError();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -716,7 +768,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return $this->m_dbManager->getErrorCode();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -724,8 +775,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return $this->m_dbManager->getHasError();
     }
-
-    ///<summary>create table links definition </summary>
     ///return true if this table still have link an register ctrl data
     /**
      * create table links definition
@@ -734,10 +783,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return $this->m_dbManager->haveNoLinks($tablename, $ctrl);
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="entry"></param>
-    ///<param name="tableinfo" default="null"></param>
     /**
      * adapter send query with grammar helper
      * @param mixed $tablename
@@ -746,15 +791,12 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
      */
     public function insert($tablename, $entry, $tableinfo = null, bool $throwException = true, $options = null, $autoclose = false)
     {
-
         if ($query = $this->getGrammar()->createInsertQuery($tablename, $entry, $tableinfo)) {
             return $this->sendQuery($query, $throwException, $options, $autoclose);
         }
     }
-    ///<summary>insert array in items by building as semi-column separated query</summary>
     public function insert_array($tbname, $values, $throwex = 1)
     {
-
         $query = "";
         $ch = "";
         foreach ($values as  $v) {
@@ -763,7 +805,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }
         return $this->sendMultiQuery($query, $throwex);
     }
-    ///<summary></summary>
     /**
      * enable relation checking
      */
@@ -771,9 +812,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return $this->sendQuery("SET foreign_key_checks=1;");
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="name"></param>
     /**
      * 
      * @param mixed $tbname
@@ -785,8 +823,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
             return $this->sendQuery($query, false);
         }
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
      * select all
      * @param mixed $tbname    
@@ -830,9 +866,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
             $ctype = $v->Type ? trim($v->Type) : 'Int';
             $tab = array();
             preg_match_all("/^((?P<type>([^\(\))]+)))\\s*((\((?P<length>([0-9]+))\)){0,1}|(.+)?)$/i", trim($ctype), $tab);
-
             $cl["clType"] = $this->getGrammar()->ResolvType(getv($tab["type"], 0, "Int"));
-
             if (strtolower($cl["clType"]) == "enum") {
                 $cl["clEnumValues"] = substr($ctype, strpos($ctype, "(") + 1, -1);
             } else {
@@ -868,11 +902,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
         }, [(object)$data]);
         return $outdata;
     }
-
-    ///<summary></summary>
-    ///<param name="query"></param>
-    ///<param name="throwex" default="true">throw exception</param>
-    ///<param name="options" default="null">use to filter the query result. the default value is null</param>
     /**
      * 
      * @param mixed $query
@@ -899,7 +928,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
                     if (!is_bool($r)) {
                         $r = IGKMySQLQueryResult::CreateResult($r, $query, $options);
                     } else {
-                        $v = $r;
+                        // $v = $r;
                         $r = new BooleanQueryResult($r, $query, $listener->getLastError());
                     }
                 }
@@ -929,7 +958,7 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     }
     /**
      * return version 
-     * @return mixed 
+     * @return string
      */
     public function getVersion(): string
     {
@@ -943,8 +972,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return IGK_MYSQL_DATAADAPTER;
     }
-    ///<summary></summary>
-    ///<param name="listener"></param>
     /**
      * 
      * @param mixed $listener
@@ -957,7 +984,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return $this->queryListener;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -965,8 +991,6 @@ class DataAdapter extends DataAdapterBase implements IDbRetrieveColumnInfoDriver
     {
         return $this->sendQuery("SET foreign_key_checks=0;");
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
     /**
      * check if table exists
      * @param mixed $tablename

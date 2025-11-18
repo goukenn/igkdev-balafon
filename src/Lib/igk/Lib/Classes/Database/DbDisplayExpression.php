@@ -3,9 +3,6 @@
 // @file: DbDisplayExpression.php
 // @date: 20240921 09:24:48
 namespace IGK\Database;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Database

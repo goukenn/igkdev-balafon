@@ -5,29 +5,16 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\Helper;
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\WinUI\Menus\MenuItem;
-
 use function igk_resources_gets as __;
-
-
 final class MenuUtils{
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="table"></param>
-    ///<param name="tab"></param>
     public static function BuildDbMenu($target, $table, $tab){
         self::BuildMenu($target, $tab, $menu, $pages);
     }
-    ///<summary></summary>
-    ///<param name="targetNode"></param>
-    ///<param name="tab">array of MenuItem</param>
-    ///<param name="menus" ref="true">menu references</param>
-    ///<param name="pages" ref="true">pages references</param>
     public static function BuildMenu($targetNode, $tab, & $menus, & $pages){
         $v_list=array();
         $v_rlist=array();
@@ -63,8 +50,6 @@ final class MenuUtils{
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="menu"></param>
     public static function GetMenuLevel($menu){
         $q=$menu->MenuParent;
         $i=0;
@@ -74,7 +59,6 @@ final class MenuUtils{
         }
         return $i;
     }
-    ///<summary>get parent name of  the menu</summary>
     public static function GetParentName($name){
         $t=explode(".", $name);
         $c=count($t);
@@ -92,10 +76,6 @@ final class MenuUtils{
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="menu"></param>
-    ///<param name="pages" ref="true"></param>
     /**
      * 
      * @param HtmlNode $target 
@@ -139,9 +119,6 @@ final class MenuUtils{
         $target->li()->a() 
         ->setAttribute("href", $menu->getUri())->Content=__("menu.".$menu->Name);
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="menuTab"></param>
     public static function InitMenuArray($target, $menuTab){
         $pages=array();
         foreach($menuTab as $k=>$v){

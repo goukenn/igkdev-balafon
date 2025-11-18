@@ -3,9 +3,6 @@
 // @file: IDbSchemaDefinitionResult.php
 // @date: 20221118 21:58:35
 namespace IGK\System\Database;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database
@@ -16,5 +13,4 @@ namespace IGK\System\Database;
 * @property array $entries
 */
 interface IDbSchemaDefinitionResult{
-
 }

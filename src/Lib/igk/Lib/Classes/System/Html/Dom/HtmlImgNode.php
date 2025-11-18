@@ -3,27 +3,21 @@
 // @filename: HtmlImgNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Resources\ResourceData;
 use IGK\System\Html\HtmlAttributeArray;
 use IGK\System\Html\HtmlResolvLinkValue;
 use IGKException;
-
-///<summary>Represente class: IGKHtmlNoTagNode</summary>
 /**
 * no definition 
 */
 class HtmlImgNode extends HtmlNode{
-
-    
-    ///<summary></summary>
     /**
     * @param string $src uri
     */
     public function __construct($src=null){
-        parent::__construct("igk-img");
+        parent::__construct('igk-img');
+    
         $this["src"] = $src; 
         $this["xmlns:igk"] = self::HTML_NAMESPACE; 
         $this->setSrc($src);

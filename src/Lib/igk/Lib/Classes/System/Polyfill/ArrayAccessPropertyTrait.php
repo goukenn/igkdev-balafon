@@ -3,10 +3,7 @@
 // @filename: ArrayAccessPropertyTrait.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Polyfill;
-
 trait ArrayAccessPropertyTrait{
     use ArrayAccessSelfTrait;
     function _access_OffsetSet($n, $v){

@@ -3,14 +3,9 @@
 // @filename: MySQLConnexionString.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
-
 namespace IGK\System\Database\MySQL;
-
 use IGK\Helper\Activator;
 use IGK\System\Html\Css\CssParser;
-
 /**
  * create sql connexion string
  */

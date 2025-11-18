@@ -3,12 +3,13 @@
 // @filename: HtmlUtils.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use Closure;
 use Countable;
+use Exception;
+use IGK\Constants;
+use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\IGlobalFunction;
 use IGK\Resources\R;
@@ -28,20 +29,37 @@ use Nette\Utils\Callback;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
-
 use function igk_resources_gets as __;
-
-
-require_once  IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Html/HtmlInitNodeInfo.php';
 require_once IGK_LIB_DIR . "/igk_html_func_items.php";
-
-///<summary>represent html utility </summary>
 /**
  * represent html utility
  */
 abstract class HtmlUtils extends DomNodeBase
 {
-
+    /**
+     * convert to json data attribute
+     * @param mixed $data 
+     * @return null|string|false 
+     */
+    public static function JSonDataAttributes($data)
+    {
+        if (is_null($data)) return null;
+        if (is_string($data)) {
+            return $data;
+        }
+        return json_encode($data);
+    }
+    /**
+     * 
+     * @param mixed $data 
+     * @return string|false 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function JSonDataAttributesIgnoreEmpty($data){
+        return JSon::Encode(json_decode(self::JSonDataAttributes($data)), JSonEncodeOption::IgnoreEmpty());
+    }
     public static function Init($n, $data)
     {
         return HtmlNodeBuilder::Init($n, $data);
@@ -69,9 +87,8 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function ExplodeTag(string $tagname, $context = null): array
     {
-        return HtmlNodeTagExplosionDefinition::ExplodeTag($tagname, $context);       
+        return HtmlNodeTagExplosionDefinition::ExplodeTag($tagname, $context);
     }
-
     /**
      * helper: special entitiel encoding 
      * @param string $value 
@@ -85,7 +102,6 @@ abstract class HtmlUtils extends DomNodeBase
     {
         return (new AttributeEncoder)->decode($value);
     }
-
     /**
      * create a select option data
      */
@@ -99,7 +115,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $n;
     }
-
     public static function HostNode(HtmlNode $p, callable $callback, ...$args)
     {
         array_unshift($args, $p);
@@ -185,9 +200,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $g;
     }
-    ///<summary>copy child by rendering</summary>
-    ///<param name="item">cibling item</param>
-    ///<param name="target">target node </param>
     /**
      * copy child by rendering
      * @param HtmlNode $item cibling item
@@ -227,8 +239,8 @@ abstract class HtmlUtils extends DomNodeBase
         if ($attrib->count() > 0) {
             return ' ' . HtmlRenderer::GetAttributeArrayToString($attrib, $options);
         }
+        return null;
     }
-
     /**
      * get full query ars
      * @param string $uri 
@@ -273,7 +285,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $tagname;
     }
-    ///<summary>retrieve tagname used to created the node</summary>
     /**
      * retrieve tagname used to created the node
      * @param HtmlItemBase $node 
@@ -287,7 +298,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return self::GetGeneratedTagname($node);
     }
-
     public static function GetAttributeArrayToString($attribs)
     {
         $o = "";
@@ -299,7 +309,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return ltrim($o);
     }
-
     private static $gRendering;
     /**
      * 
@@ -390,10 +399,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return null;
     }
-
-    ///<summary></summary>
-    ///<param name="tr"></param>
-    ///<param name="targetid" default="null"></param>
     /**
      * 
      * @param mixed $tr
@@ -409,8 +414,6 @@ abstract class HtmlUtils extends DomNodeBase
         ]);
         return $i;
     }
-    ///<summary></summary>
-    ///<param name="array"></param>
     /**
      * 
      * @param mixed $array
@@ -449,7 +452,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $frm;
     }
-
     ///used to create sub menu in category
     /**
      */
@@ -484,9 +486,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $d;
     }
-    ///<summary></summary>
-    ///<param name="$c"></param>
-    ///<param name="context" default="null"></param>
     /**
      * 
      * @param mixed $c read value
@@ -516,11 +515,8 @@ abstract class HtmlUtils extends DomNodeBase
         if ($context && is_string($context) && (preg_match("/(xml|xsl)/i", $context))) {
             $q = str_replace("&amp;", "&", $q);
         }
-        return $q;
+        return str_replace("\n", "\\n", $q);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="options" default="null"></param>
     /**
      * 
      * @param mixed $n
@@ -556,8 +552,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return self::GetValue($c, $options);
     }
-    ///<summary></summary>
-    ///<param name="array"></param>
     /**
      * 
      * @param mixed $array
@@ -572,7 +566,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $tab;
     }
-    ///<summary>return value according to string</summary>
     /**
      * return value according to string
      * @return ?string 
@@ -602,9 +595,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
-    ///<param name="options"></param>
     /**
      * 
      * @param mixed $v
@@ -633,9 +623,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $v;
     }
-    ///<summary></summary>
-    ///<param name="item"></param>
-    ///<param name="target"></param>
     /**
      * 
      * @param mixed $item
@@ -650,10 +637,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value" default="null"></param>
-    ///<param name="type" default="text"></param>
     /**
      * 
      * @param mixed $id
@@ -675,9 +658,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $btn;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $id
@@ -687,8 +667,6 @@ abstract class HtmlUtils extends DomNodeBase
     {
         return igk_create_node("textarea")->setAttributes(array("id" => $id, "name" => $id, "value" => $value));
     }
-    ///<summary></summary>
-    ///<param name="item"></param>
     /**
      * 
      * @param mixed $item
@@ -705,8 +683,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="var"></param>
     /**
      * 
      * @param mixed $var
@@ -729,12 +705,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="type" default="tr"></param>
-    ///<param name="startAt"></param>
-    ///<param name="class1" default="table_darkrow"></param>
-    ///<param name="class2" default="table_lightrow"></param>
     /**
      * 
      * @param mixed $target
@@ -776,16 +746,15 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function CreateHtmlComponent($name, $args = null, $initcallback = null, $class = HtmlItemBase::class, $context = HtmlContext::Html)
     {
-        static $createComponentFromPackage = null, $creator = null, $initiator = null;
+        static $createComponentFromPackage = null, $creator = null, $initiator = null, $package;
+        $def_package = Constants::SYS_DEFAULT_HTML_PACKAGE;
 
         // + | -----------------------------------------------------------------------
         // + | prefilter component creation
         // + |
-
         if ($p = self::PrefilterNode(compact("name", "args", "initcallback", "class", "context"))) {
             return $p;
         }
-
         if ($initiator == null) {
             $initiator = igk_environment()->createArray(IGKEnvironmentConstants::COMPONENT_INITIATORS);
         }
@@ -812,18 +781,20 @@ abstract class HtmlUtils extends DomNodeBase
                 return $c;
             }
         }
-        $package = null;
+        $package = igk_reg_component_package();;
         if ($createComponentFromPackage === null)
             $createComponentFromPackage = function ($g, $name, $args = null, $initcallback = null, $class = IGK_HTML_ITEMBASE_CLASS, $context = HtmlContext::Html) use (&$package) {
+                if ($args && !is_array($args)){
+                    $args = [$args];
+                }
                 if (isset($package[$g]["components"])) {
                     $components = $package[$g]["components"];
-                    if (isset($components[$name]) && is_callable($c_fc = $components[$name])) {
-                        return call_user_func_array($c_fc, func_get_args());
+                    if (isset($components[$name]) && is_callable($c_fc = $components[$name])){
+                        return call_user_func_array($c_fc, $args ?? []);
                     }
                 }
                 return null;
             };
-        $package = igk_reg_component_package();
         if (($pos = strpos($name, ":")) !== false) {
             $g = substr($name, 0, $pos);
             $n = substr($name, $pos + 1);
@@ -839,34 +810,47 @@ abstract class HtmlUtils extends DomNodeBase
                 if ($creator == null) {
                     $creator = array();
                 }
-                $creator[$name] = $fc;
-                $ng = call_user_func_array($fc, array_merge(array($name), array_slice(func_get_args(), 1)));
+                $creator[$name] = function()use ($fc, $n){
+                    $args = func_get_args();
+                    array_shift($args);
+                    array_unshift($args, $n);
+                    return call_user_func_array($fc, $args);
+                };
+                $arg = array_slice(func_get_args(), 1);
+                if ($arg && is_array($arg[0])){
+                    $arg = $arg[0];
+                }
+                $ng = call_user_func_array($fc, array_merge(array($n), $arg));
                 return $ng;
             }
         }
-        if ($comp = $createComponentFromPackage("igk", $name, $args, $initcallback, $class, $context)) {
+        if ($comp = $createComponentFromPackage($def_package, $name, $args, $initcallback, $class, $context)) {
             return $comp;
         }
         $c = null;
-
         // + | check for function 
         if (function_exists($fc = str_replace("-", "_", IGK_FUNC_NODE_PREFIX . $name))) {
             $s = new ReflectionFunction($fc);
             $v_rp = $s->getNumberOfRequiredParameters();
             $initiator[$name] = [
-                "type" => "function", "name" => $name, "callback" => $fc, "count" => 1, "requireArgs" => $v_rp, "invoke" => function ($inf, $args) use ($initcallback) {
+                "type" => "function",
+                "name" => $name,
+                "callback" => $fc,
+                "count" => 1,
+                "requireArgs" => $v_rp,
+                "invoke" => function ($inf, $args) use ($initcallback) {
                     $tb = is_array($args) ? $args : array();
                     $v_pcount = igk_count($tb);
                     $v_rp = $inf["requireArgs"];
                     $name = $inf["name"];
                     $c = null;
                     $fc = $inf["callback"];
-                    if ($v_pcount >= $v_rp){
+                    if ($v_pcount >= $v_rp) {
                         $p = igk_html_parent_node();
                         $c = call_user_func_array($fc, $tb);
-                        if ($p && ($p===$c)){                         
+                        if ($p && ($p === $c)) {
                             return $p;
-                        }                        
+                        }
                         if ($c) {
                             if ($initcallback) {
                                 $initcallback($c, array("type" => IGK_COMPONENT_TYPE_FUNCTION, "name" => $fc));
@@ -880,7 +864,6 @@ abstract class HtmlUtils extends DomNodeBase
                                     "args" => $tb
                                 ]));
                             }
-                            
                             self::FilterNode($c,  [
                                 "node" => $c,
                                 "tagname" => $name,
@@ -901,7 +884,11 @@ abstract class HtmlUtils extends DomNodeBase
             $c = $fc($initiator[$name], $args);
         } else {
             $initiator[$name] = [
-                "type" => "fallback", "name" => $name, "count" => 1, "context" => $context, "invoke" => function ($inf, $args) {
+                "type" => "fallback",
+                "name" => $name,
+                "count" => 1,
+                "context" => $context,
+                "invoke" => function ($inf, $args) {
                     $name = $inf["name"];
                     $context = $inf["context"];
                     if ($context == HtmlContext::Html) {
@@ -920,7 +907,6 @@ abstract class HtmlUtils extends DomNodeBase
         }
         return $c;
     }
-
     /**
      * filter node element hook call.
      * @param HtmlItemBase $node 
@@ -956,8 +942,6 @@ abstract class HtmlUtils extends DomNodeBase
             'node' => $node
         ]);
     }
-    ///<summary></summary>
-    ///<param name="vsystheme"></param>
     /**
      * init theme
      * @param mixed $vsystheme
@@ -967,8 +951,6 @@ abstract class HtmlUtils extends DomNodeBase
         CssUtils::InitSysTheme($vsystheme);
         $vsystheme->Name = "igk_system_theme";
     }
-
-
     public static function SkipAdd($value = 1)
     {
         if ($p = igk_html_parent_node()) {
@@ -992,5 +974,20 @@ abstract class HtmlUtils extends DomNodeBase
     public static function IsHtmlContent(string $content): bool
     {
         return preg_match("#\<(?P<tagname>[\w][0-9_\-\w:]*)( (.+)?)?>#", $content);
+    }
+    /**
+     * BindRows 
+     * @param mixed $table HtmlNode
+     * @param mixed $rows array of row
+     * @param bool $header 
+     * @return void 
+     */
+    public static function BindRow($table, $rows, $header = false)
+    {
+        $tr = $table->tr();
+        foreach ($rows as $r) {
+            $m = $header ? $tr->th() : $tr->td();
+            $m->Content = $r;            
+        }
     }
 }

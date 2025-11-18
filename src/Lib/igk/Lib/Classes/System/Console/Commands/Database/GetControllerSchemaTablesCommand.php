@@ -3,13 +3,10 @@
 // @file: GetControllerSchemaTablesCommand.php
 // @date: 20231225 19:32:25
 namespace IGK\System\Console\Commands\Database;
-
 use IGK\Helper\JSon;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database

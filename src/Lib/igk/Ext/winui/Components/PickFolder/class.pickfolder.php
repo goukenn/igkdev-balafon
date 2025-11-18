@@ -5,8 +5,6 @@
 // @desc: 
 
 
-///<summary>used to configure sytem application folder</summary>
-
 use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Html\Dom\HtmlNode;
 

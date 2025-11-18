@@ -3,18 +3,13 @@
 // @file: CSVHelper.php
 // @date: 20231017 23:19:24
 namespace IGK\System\IO\CSV\Helper;
-
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\IO\CSV\Helper
  */
 class CSVHelper
 {
-
     const CSV_READ_SERIAL = 1;
-
     public static function IsDelimeterEscaped(string $src, int $pos ){
         if ($src[$pos-1]=='\\'){
             return true;
@@ -34,10 +29,9 @@ class CSVHelper
      * @param callable|null $callback 
      * @return array 
      */
-    public static function ReadLines(string $src, $delimiter = '"', &$last_segment = null, callable $callback = null, ?int $flags = null)
+    public static function ReadLines(string $src, $delimiter = '"', &$last_segment = null, ?callable $callback = null, ?int $flags = null)
     {
         $v_is_read_serialize = $flags && (($flags & self::CSV_READ_SERIAL) == self::CSV_READ_SERIAL);
-
         // + | --------------------------------------------------------------------
         // + | read line and update depending on line feed or not 
         // + |
@@ -63,7 +57,6 @@ class CSVHelper
             $lpos = strpos($src, $LF , $tpos);
             $bpos = strpos($src, $delimiter, $tpos);
             ($bpos > 0) && self::CheckDelimiter($src, $delimiter, $bpos);
-           
             $ref[0] = &$bpos; // + <- pointer of the delimiter
             $ref[1] = &$lpos; // + <- pointer to the line feed
             if (($bpos !== false) && $v_is_read_serialize) {
@@ -134,7 +127,6 @@ class CSVHelper
                 break;
             } else {
                 // detect end line
-
                 $v_fc_add_line(substr($src, $tpos, $lpos - $tpos));
                 //$v_fc_add_line(substr($src, $tpos));//, $lpos-$tpos));
             }
@@ -143,8 +135,6 @@ class CSVHelper
         return $lines;
     }
 }
-
-
 /**
  * helper: read serialize data string
  * @param string $data 

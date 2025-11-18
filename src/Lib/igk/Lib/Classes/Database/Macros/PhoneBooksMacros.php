@@ -1,12 +1,10 @@
 <?php
 namespace IGK\Database\Macros;
-
 use IGK\Models\PhoneBooks;
 use IGK\Models\PhoneBookTypes;
 use IGK\Models\PhoneBookUserAssociations;
 use IGK\Models\Users;
 use IGK\System\Constants\PhonebookTypeNames;
-
 class PhoneBooksMacros{
     /**
      * macros funtion 

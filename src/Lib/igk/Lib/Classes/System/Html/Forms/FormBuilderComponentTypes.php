@@ -3,9 +3,6 @@
 // @file: FormBuilderComponentTypes.php
 // @date: 20240105 13:44:21
 namespace IGK\System\Html\Forms;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms
@@ -27,4 +24,5 @@ abstract class FormBuilderComponentTypes{
     const Hidden = 'hidden';
     const Password = 'password';
     const Fieldset = 'fieldset';
+    const File = 'file';
 }

@@ -8,7 +8,6 @@ use IGK\Controllers\NotRegistrableControllerBase;
 use IGK\System\Html\Css\CssUtils;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Controllers

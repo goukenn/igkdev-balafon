@@ -3,11 +3,8 @@
 // @filename: IGKEnvironmentSettings.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK;
-
 use IGKEnvironment;
-
 /**
  * manage defaualt environment setting
  * @package IGK
@@ -15,10 +12,7 @@ use IGKEnvironment;
  */
 class IGKEnvironmentSettings{
     private static $sm_instance;
-
     var $no_page_cache;
-    
-
     public static function getInstance(){
         if (self::$sm_instance === null){
             self::$sm_instance = new self();
@@ -30,7 +24,6 @@ class IGKEnvironmentSettings{
     public function __get($name){
         return null;
     }
-
     public function __call($name, $args){
         return IGKEnvironment::getInstance()->$name;
     }

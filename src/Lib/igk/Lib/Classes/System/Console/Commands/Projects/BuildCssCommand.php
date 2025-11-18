@@ -3,15 +3,12 @@
 // @file: BuildCssCommand.php
 // @date: 20240913 12:26:10
 namespace IGK\System\Console\Commands\Projects;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Html\Css\CssClassNameDetector;
 use IGK\System\Html\Css\CssClassNameDetectorUtils;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\IO\Path;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Projects
@@ -23,7 +20,7 @@ class BuildCssCommand extends AppExecCommand{
 	var $options=[
 		'-f:file'=>'file to parse'
 	]; 
-	var $category = "project-build";
+	var $category = "project";
 	var $usage = 'controller [file] [options]';
 	public function exec($command, ?string $controller=null, ?string $file=null) {
 		$ctrl = self::GetController($controller);
@@ -43,10 +40,6 @@ class BuildCssCommand extends AppExecCommand{
 		 $g = file_get_contents($r); 
 		 $source = CssParser::Parse($g);		
 		 $detector->map($source->to_array());
- 
-
-
-
 		$resolved_def = [];
 		$references = [];
 		while(count($dirs)>0){

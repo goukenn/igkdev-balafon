@@ -3,9 +3,6 @@
 // @file: FormValidationData.php
 // @date: 20230304 13:33:15
 namespace IGK\System\WinUI\Forms;
-
-
-///<summary></summary>
 /**
 * validation data info 
 * @package IGK\System\WinUI\Forms

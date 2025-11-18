@@ -3,10 +3,7 @@
 // @file: FieldContainer.php
 // @date: 20240921 10:37:49
 namespace IGK\System\Html\Forms;
-
 use IGK\System\Html\IFormFieldContainer;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Forms
@@ -39,7 +36,6 @@ class FieldContainer implements IFormFieldContainer{
     public function getFields($context=null):array{
         return $this->m_fields;
     }
-
     public function submit(?string $title=null){
         $submit = igk_create_node("div");
         $submit->submit()->setClass('width-a');

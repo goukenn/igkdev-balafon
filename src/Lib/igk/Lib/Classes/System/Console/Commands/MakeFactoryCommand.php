@@ -3,10 +3,7 @@
 // @filename: MakeFactoryCommand.php
 // @date: 20220728 16:57:09
 // @desc: make factory class
-
- 
 namespace IGK\System\Console\Commands;
-
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
@@ -15,17 +12,12 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use \IGKControllerManagerObject;
 use IGKDbModelUtility;
-
 class MakeFactoryCommand extends AppExecCommand
 {
     var $command = "--make:factory";
-
     var $category = "make";
-
     var $desc  = "make project's factory. use %sys% for system controller.";
-
     var $options = [];
-
     var $usage = "[modelname --controller:controller]|[controller [modelname]] [option]";
     public function exec($command, $controller = "", $modelname = "")
     {
@@ -46,8 +38,7 @@ class MakeFactoryCommand extends AppExecCommand
         }
         Logger::info("make factory class ... " . $controller);
         $author = $this->getAuthor($command);
-
-        $ctrl = $ctrl ?? igk_getctrl(str_replace("/", "\\", $controller), false);
+        $ctrl = $ctrl ?? self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl) {
             Logger::danger("controller $controller not found");
             return false;
@@ -58,11 +49,9 @@ class MakeFactoryCommand extends AppExecCommand
         if (!empty($ns)) {
             $ns = str_replace("/", "\\", $ns);
         }
-
         $bind = [];
         $fields = []; 
         $ctrl->register_autoload(); 
-
         if ($g = $ctrl::model($modelname)){
             $fields = (array)$g::createEmptyRow();
         } else {
@@ -82,12 +71,9 @@ class MakeFactoryCommand extends AppExecCommand
                 ->desc("factory " . $clname);
             igk_io_w2file($file,  $builder->render());
         };
-
-
         $force = property_exists($command->options, "--force");
         $gen  = false ;
         Utility::MakeBindFiles($command, $bind, $force);
-      
         if ($gen){
             \IGK\Helper\SysUtils::ClearCache();
         }

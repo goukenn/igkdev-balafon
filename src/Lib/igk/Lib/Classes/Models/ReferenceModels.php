@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ReferenceModels.php
-// @date: 20240922 19:45:48
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>Store reference domain</summary>
 /**
 * Store reference domain
 * @package IGK\Models
@@ -15,9 +11,9 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clModel
 * @property int $clNextValue
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_MODEL() - `clModel` full column name 
-* @method static string FD_CL_NEXT_VALUE() - `clNextValue` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_MODEL() - `clModel` full column name 
+* @method static string FN_CL_NEXT_VALUE() - `clNextValue` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clModel, int $clNextValue) add entry helper

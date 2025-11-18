@@ -3,12 +3,9 @@
 // @file: Project.php
 // @date: 20221119 04:56:32
 namespace IGK\Helper;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Console\Logger;
 use IGK\System\Delegates\InvocatorListDelegate;
-
-///<summary></summary>
 /**
 * project helper
 * @package IGK\Helper

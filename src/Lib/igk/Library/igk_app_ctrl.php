@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com 
+// @mail: c.bondje.doue@igkdev.com 
 // @url: https://www.igkdev.com
 
 use IGK\Controllers\ApplicationController;
@@ -16,9 +16,6 @@ define("IGK_INC_APP_INITDB", IGK_LIB_DIR."/".IGK_INC_FOLDER."/igk_initapp_db.pin
 use function igk_resources_gets as __; 
 
 
-///<summary></summary>
-///<param name="ctrl"></param>
-///<param name="n"></param>
 /**
 * 
 * @param mixed $ctrl
@@ -29,11 +26,6 @@ function igk_app_ctrl_dropped_callback($ctrl, $n){
     $c=array();
 }
 
-///<summary></summary>
-///<param name="app"></param>
-///<param name="node"></param>
-///<param name="fname"></param>
-///<param name="goodUri" default="null"></param>
 /**
 * 
 * @param mixed $app
@@ -52,11 +44,6 @@ function igk_app_load_login_form($app, $node, $fname, $goodUri=null){
     }
     $node->appLoginForm($app, $app->getAppUri($fname), $u);
 }
-///<summary></summary>
-///<param name="app"></param>
-///<param name="div"></param>
-///<param name="badUri" default="null"></param>
-///<param name="goodUri" default="null"></param>
 /**
 * 
 * @param mixed $app

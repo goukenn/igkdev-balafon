@@ -3,9 +3,6 @@
 // @file: IHtmlRederingCallback.php
 // @date: 20241016 13:28:58
 namespace IGK\System\Html\Rendering;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Rendering

@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: CookieStorages.php
-// @date: 20240922 19:45:48
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Models
@@ -16,10 +12,10 @@ use IGK\Models\ModelBase;
 * @property string $clIdentifier
 * @property string $clName
 * @property string|datetime $clDateTime
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_IDENTIFIER() - `clIdentifier` full column name 
-* @method static string FD_CL_NAME() - `clName` full column name 
-* @method static string FD_CL_DATE_TIME() - `clDateTime` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_IDENTIFIER() - `clIdentifier` full column name 
+* @method static string FN_CL_NAME() - `clName` full column name 
+* @method static string FN_CL_DATE_TIME() - `clDateTime` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clIdentifier, string $clName, string|datetime $clDateTime) add entry helper

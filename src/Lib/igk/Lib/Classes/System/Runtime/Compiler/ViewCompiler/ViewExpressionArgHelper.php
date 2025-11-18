@@ -3,11 +3,8 @@
 // @file: ViewExpressionArgHelper.php
 // @date: 20221015 12:12:02
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler
@@ -20,9 +17,7 @@ abstract class ViewExpressionArgHelper{
     const GETTER_VAR = '___IGK_PHP_GETTER_VAR___';
     const EXPRESSION = '___IGK_PHP_EXPRESSION___';
     const RESPONSE = '___IGK_PHP_RESPONSE___';
-
     public static $Variables = [];    
-    
     /**
      * get variable property
      * @param string $name 

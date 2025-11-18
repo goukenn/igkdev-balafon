@@ -3,34 +3,40 @@
 // @file: RegisterUserServiceActionTrait.php
 // @date: 20230516 08:45:52
 namespace IGK\Actions\Traits;
- 
 use Exception;
 use IGK\Helper\ActionHelper;
+use IGK\System\Console\Logger;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\ServiceNameConstants;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
-///<summary></summary>
 /**
 * use to handle user registration with mail only to application 
 * @package IGK\Actions\Traits
 */
 trait RegisterUserServiceActionTrait{
+    /**
+     * initialize the trait service
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected function _init_trait_RegisterUserServiceActionTrait(){
         igk_reg_hook(IGKEvents::HOOK_USER_ADDED, function($e){
             $user = $e->args["user"];
             // $lived_token = '';
             $lived_token = ActionHelper::GenerateUserRegistrationLinkToken($user);   
             $this->_createUserApp($user);
+            igk_is_debug() && Logger::info('send email registration...');
             $this->_sendMailRegistration($user,[
                 'activation_uri'=>$this->uri('/auth/activate/'.$lived_token),
                 'unsubscribe_uri'=>$this->uri('/auth/unsubscribe/'.$lived_token)
             ]);
         });
     }
-
     /**
      * RegisterUser service auth - activate|unsubscribe - token
      * @param string $name activate|unsubscribe
@@ -47,7 +53,6 @@ trait RegisterUserServiceActionTrait{
                 break;
        }
        $this->die('No allowed');
-
     }
     /**
      * retrieve uri from action definition 
@@ -78,7 +83,7 @@ trait RegisterUserServiceActionTrait{
      */
     protected function _sendMailRegistration($user,?array $data=null, $title='Registration', $template_or_article='mails/registration.template'){
         $ctrl = $this->getController();
-        if ($service = igk_app()->getService(\MailService::class)){
+        if ($service = igk_app()->getService(ServiceNameConstants::MailService)){
             $service->sendMail($ctrl, $user->clLogin, $title, $template_or_article, $data);
         }     
     }
@@ -92,7 +97,7 @@ trait RegisterUserServiceActionTrait{
      */
     protected function _sendMailChangePassword($user,?array $data=null, $title='Change password', $template_or_article='mails/resetPassword.template'){
         $ctrl = $this->getController();
-        if ($service = igk_app()->getService(\MailService::class)){
+        if ($service = igk_app()->getService(ServiceNameConstants::MailService)){
             $service->sendMail($ctrl, $user->clLogin, $title, $template_or_article, $data);
         }     
     }

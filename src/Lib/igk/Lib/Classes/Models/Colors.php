@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Colors.php
-// @date: 20240922 19:45:48
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>use to store named colors.</summary>
 /**
 * use to store named colors.
 * @package IGK\Models
@@ -31,4 +27,8 @@ class Colors extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%colors";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

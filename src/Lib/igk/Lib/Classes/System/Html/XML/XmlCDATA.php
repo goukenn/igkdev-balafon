@@ -5,13 +5,10 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\XML;
- 
-
 final class XmlCDATA extends XmlNode{
-    ///<summary></summary>
     public function __construct(){
         parent::__construct("igk:cdata");
     }
@@ -19,13 +16,9 @@ final class XmlCDATA extends XmlNode{
     {
         return false;
     }
-   
-    ///<summary></summary>
     public function getCanRenderTag(){
         return false;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function render($options=null){
         $c="<![CDATA[";
         $s=$this->Content;

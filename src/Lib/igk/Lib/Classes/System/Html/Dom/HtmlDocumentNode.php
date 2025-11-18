@@ -3,28 +3,27 @@
 // @filename: HtmlDocumentNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 // @file: HtmlDocumentNode.php
-
 namespace IGK\System\Html\Dom;
-
+use Exception;
 use IGK\Resources\R;
 use IGK\System\Html\HtmlRenderer;
 use IGKEvents;
-
-///<summary>represent a html document</summary>
 class HtmlDocumentNode extends HtmlItemBase{
     protected $m_head;
     protected $m_body;
     protected $m_id;
     protected $m_lang = 'fr';
     protected $tagname = 'igk-document';
-
-
+    const DocumentInjectorKey = 'DocumentInjector';
+    /**
+     * define doc type 
+     * @var ?string
+     */
+    var $docType;
     public function __debugInfo(){
         return [];
     }
-
     /**
      * define name spaces
      */
@@ -32,7 +31,6 @@ class HtmlDocumentNode extends HtmlItemBase{
     public function getId(){
         return $this->m_id;
     }
-
     /**
      * 
      * @return HtmlBodyNode 
@@ -42,14 +40,13 @@ class HtmlDocumentNode extends HtmlItemBase{
      * @return HtmlHeadNode 
      */
     public function getHead(): ?HtmlHeadNode{ return $this->m_head; }
-
     /**
      * set document title
      * @param string $value 
      * @return $this 
      */
     public function setTitle(?string $value=null){
-        $this->m_head->title = $value;
+        $this->m_head->title = $value; 
         return $this;
     }
     /**
@@ -78,7 +75,9 @@ class HtmlDocumentNode extends HtmlItemBase{
     public function render($options=null){
         HtmlRenderer::DefOptions($options); 
         $options->Document = $this; 
-        $s = "<!DOCTYPE html>\n";             
+        $this->setParam(self::DocumentInjectorKey, new HtmlDocumentBodyContentInjector($this)); 
+        $basic_doctype = $this->docType  ?? 'html';
+        $s = "<!DOCTYPE {$basic_doctype }>\n";             
         $attr = "";
         $ln = $options->LF;
         $lang = $this->m_lang;
@@ -99,6 +98,9 @@ class HtmlDocumentNode extends HtmlItemBase{
         $s .= "<html{$attr}>"; 
         $sdepth = $options->Depth;
         $options->Depth++;
+        // + | --------------------------------------------------------------------
+        // + | hook global event before render document 
+        // + |
         igk_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, ["doc"=>$this]);
         if (!empty($head = HtmlRenderer::Render($this->m_head, $options))){
             $s.= $head.$ln;
@@ -108,13 +110,30 @@ class HtmlDocumentNode extends HtmlItemBase{
             $s = rtrim($s) . $body.$ln;
         };  
         $content = "";
+        /**
+         * hook global event afert render body node 
+         */
         igk_hook(IGKEvents::HOOK_HTML_AFTER_RENDER_BODY, ["doc"=>$this, "content"=>& $content]); 
+        if (is_array($cc = $this->getDocumentInjector()->getItems())){
+            foreach($cc as $id=>$fc){
+                $fc($content, $this);
+            }
+        }
         $options->Depth = $sdepth;
         if (!empty($content)){
             $s.= $content.$ln;
         }
         $s .= "</html>";
+        $this->setParam(self::DocumentInjectorKey, null);
         return $s;
+    }
+    /**
+     * retrieve document injector
+     * @return mixed 
+     * @throws Exception 
+     */
+    public function getDocumentInjector(){
+        return $this->getParam(self::DocumentInjectorKey);
     }
     /**
      * get extra attribute

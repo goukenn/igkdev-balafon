@@ -3,10 +3,7 @@
 // @filename: HtmlNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\Traits\AccessibilityTrait;
@@ -21,9 +18,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\ViewRef;
 use IGKException;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-
 /**
  * 
  * @package IGK\System\Html\Dom
@@ -168,10 +163,32 @@ class HtmlNode extends HtmlItemBase
     const NODE_LIST = "a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|data|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|hr|html|i|iframe|img|input|ins|kbd|keygen|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr";
     const ARIA_LIST = "autocomplete|checked|disabled|expanded|haspopup|hidden|invalid|label|level|multiline|multiselectable|orientation|pressed|readonly|required|selected|sort|valuemax|valuemin|valuenow|valuetext|live|relevant|atomic|busy|dropeffect|dragged|activedescendant|controls|describedby|flowto|labelledby|owns|posinset|setsize";
     const NATIVE_ELEMENT = "text|loop";
+    const LOOP_HOST_TAG = '@loop';
+    const FIELDS_HOST_TAG = '@fields';
+    const TEXT_TAG = 'text';
     use HtmlNodeTrait;
     use ClassAndStyleOffsetTrait;
     use AccessibilityTrait;
-
+    /**
+     * create and add node or return null
+     * @param string $tagname_selector 
+     * @param mixed $index_or_args 
+     * @return mixed|void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     * @throws EnvironmentArrayException 
+     */
+    public function n(string $tagname_selector, $index_or_args = null){
+        if ($this->getCanAddChilds()){
+            $index_or_args = $index_or_args ?? []; 
+            $node = igk_create_node_arg($tagname_selector, ...$index_or_args);
+            if ($node){
+                $this->add($node);
+                return $node;
+            }
+        }
+    }
     /**
      * check if tag node name is a native element
      * @param string $tagname 
@@ -190,7 +207,6 @@ class HtmlNode extends HtmlItemBase
         $node['class'] = $class; 
         return $node['class'];
     }
-
     /**
      * init with data 
      * @param array $data array of data to load
@@ -207,7 +223,6 @@ class HtmlNode extends HtmlItemBase
      * @var mixed
      */
     private $m_property = [];
-
     public function __toString()
     {
         return $this->render();
@@ -222,9 +237,6 @@ class HtmlNode extends HtmlItemBase
         $this->setAttribute($name, new ViewRef($expression) );
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="eventObj"></param>
-    ///<return refout="true"></return>
     /**
      * bind event property.
      * ->on(string $type) : return HtmlEventProperty\
@@ -255,7 +267,6 @@ class HtmlNode extends HtmlItemBase
             return $this->add($p);
         }
     }
-
     /**
      * set aria attribute
      * @param string $type aria types
@@ -280,14 +291,22 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
-    
-    ///<summary>set the class combination of this item</summary>
     /**
      * set the class combination of this item
      */
     public function setClass($value)
     {
-        $this["class"] = $value;
+        $this['class'] = $value;
+        return $this;
+    }
+    /**
+     * set defined variable 
+     * @param mixed $width 
+     * @param mixed $height 
+     * @return $this 
+     */
+    public function setSize($width, $height){
+        $this->setAttributes(get_defined_vars());
         return $this;
     }
     /**
@@ -296,19 +315,15 @@ class HtmlNode extends HtmlItemBase
      */
     public function clearClass()
     {
-
         $this["class"] = null;
         return $this;
     }
-
     public function clear()
     {
         $this->getAttributes()->clear();
         $this->clearChilds();
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
      * set or append style to 
      * @param string|array $value
@@ -323,8 +338,6 @@ class HtmlNode extends HtmlItemBase
                 return implode(":", [$k, $a]);
             }, $value, array_keys($value))));
         }
-        
-
         if (0 === strpos($value, '+/')) {
             $s = $this["style"]."";
             $value = implode(';', array_filter([rtrim($s, ";"), substr($value, 2)])); 
@@ -352,8 +365,6 @@ class HtmlNode extends HtmlItemBase
         }
     }
     */
-
-    ///<summary></summary>
     /**
      * 
      */
@@ -374,7 +385,6 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
-    ///<summary>set the id of this item</summary>
     /**
      * set the id of this item
      */
@@ -385,7 +395,7 @@ class HtmlNode extends HtmlItemBase
     }
     public function __construct(?string $tagname = null)
     {
-        parent::__construct();
+        parent::__construct($tagname);
         if ($tagname !== null){ 
             $this->tagname = $tagname;
         }
@@ -397,12 +407,7 @@ class HtmlNode extends HtmlItemBase
      */
     protected function initialize()
     {
-       
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
-    ///<param name="context" default="null"></param>
     /**
      * 
      * @param mixed $key
@@ -443,11 +448,9 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
-
     public function getProperty(string $name){
         return igk_getv($this->m_property, $name);
     }
-
     /**
      * get the custom properties
      * @param mixed $name 
@@ -478,12 +481,6 @@ class HtmlNode extends HtmlItemBase
     {
         return isset($this->m_attributes[$n]);
     }
-
- 
-
-    ///<summary></summary>
-    ///<param name="key">the key of expression to set</param>
-    ///<param name="value">value to evaluate</param>
     ///<remark >every expression key must start with '@igk:expression' name or value will be set to default </summary>
     /**
      * 
@@ -509,20 +506,26 @@ class HtmlNode extends HtmlItemBase
         $this->m_attributes[$key] = $value;
         return $this;
     }
-
     public function getCanRenderTag()
     {
-       
         if ($this->iscallback(__FUNCTION__)) {
             $this->evalCallback(__FUNCTION__, $output);
             return $output;
         }
         return parent::getCanRenderTag();
     }
-
-    public function activate($n)
+    /**
+     * 
+     * @param mixed $n 
+     * @return $this 
+     * @throws IGKException 
+     */
+    public function activate($n, $activate_condition=null)
     {
-        $this->m_attributes->activate($n);
+        // igk_wln_e("activate....", $activate_condition);
+        if (is_null($activate_condition) || $activate_condition){
+            $this->m_attributes->activate($n);
+        }
         return $this;
     }
     public function deactivate($n)
@@ -530,7 +533,6 @@ class HtmlNode extends HtmlItemBase
         $this->m_attributes->deactivate($n);
         return $this;
     }
-
     /**
      * @return bool get if close tag
      */
@@ -551,5 +553,16 @@ class HtmlNode extends HtmlItemBase
             $nlist = explode('|', self::NODE_LIST);
         }
         return $nlist;
+    }
+    /**
+     * because of 'add' prefix forcing addding address 
+     * @param mixed $indexOrArgs 
+     * @return HtmlItemBase 
+     * @throws IGKException 
+     */
+    public function address($index_content_or_args=null){
+        $n = new HtmlNode("address");
+        HtmlItemBase::BindDefaultContent($n, $index_content_or_args); 
+        return $this->_add($n); 
     }
 }

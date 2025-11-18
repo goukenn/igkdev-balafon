@@ -5,9 +5,8 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class IGKAppMethod{
     const CALLABLE_FUNC=8;
     const CALLABLE_USER_FUNC=16;
@@ -25,23 +24,15 @@ final class IGKAppMethod{
     private $m_;
     private $_object;
     private $_class;
-    ///<summary></summary>
-    ///<param name="d"></param>
-    ///<param name="v"></param>
     public function __call($d, $v){
         igk_die("call ".$d);
     }
-    ///<summary></summary>
     private function __construct(){
         $this->m_=new IGKAppMethodFlag();
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     public function __set($n, $v){
         igk_die("setting ".$n);
     }
-    ///<summary></summary>
     public function __sleep(){
         $t=igk_reflection_get_member($this);
         if($this->m_ && $this->m_->isEmpty()){
@@ -49,7 +40,6 @@ final class IGKAppMethod{
         }
         return array_keys($t);
     }
-    ///<summary>display value</summary>
     public function __toString(){
         $v_pattern=IGK_STR_EMPTY;
         $m=$this->m_;
@@ -69,7 +59,6 @@ final class IGKAppMethod{
         }
         return "IGKAppMethod[".$v_pattern. "]";
     }
-    ///<summary></summary>
     private function _typeToString(){
         switch($this->getType()){
             case self::OBJECT_METHOD:
@@ -87,7 +76,6 @@ final class IGKAppMethod{
         }
         return "TYPEUNKNOW";
     }
-    ///<summary>create a IGKAppMethodInfo</summary>
     public static function Create($class_or_object, & $method, $event){
         $c=$class_or_object;
         $out=null;
@@ -135,19 +123,15 @@ final class IGKAppMethod{
         }
         return $out;
     }
-    ///<summary></summary>
     public function getCallable(){
         return $this->m_->getFlag(self::C_CALLABLEN);
     }
-    ///<summary></summary>
     public function getClass(){
         return $this->m_->getFlag(self::C_CLASS);
     }
-    ///<summary></summary>
     public function getId(){
         return $this->m_->getFlag(self::C_IDN);
     }
-    ///<summary></summary>
     public function getIdKey(){
         $m=$this->getMethodName();
         switch($this->getType()){
@@ -163,25 +147,18 @@ final class IGKAppMethod{
         }
         return null;
     }
-    ///<summary></summary>
     public function getMethodName(): string{
         return $this->m_->getFlag(self::C_METHODN);
     }
-    ///<summary></summary>
     public function getObject(){
         return $this->m_->getFlag(self::C_OBJN);
     }
-    ///<summary></summary>
     public function getParentEvent(){
         return $this->m_->getFlag(self::C_PEVN);
     }
-    ///<summary></summary>
     public function getType(){
         return $this->m_->getFlag(-1);
     }
-    ///<summary></summary>
-    ///<param name="sender"></param>
-    ///<param name="args"></param>
     public function Invoke($sender, $args){
         try {
             $extra=array($sender, $args);
@@ -221,9 +198,6 @@ final class IGKAppMethod{
             igk_exit();
         }
     }
-    ///<summary></summary>
-    ///<param name="tab"></param>
-    ///<param name="event"></param>
     public function IsRegistered($tab, $event){
         if($tab == null)
             return false;
@@ -245,9 +219,6 @@ final class IGKAppMethod{
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="class_or_object"></param>
-    ///<param name="method"></param>
     public function match($class_or_object, $method){
         $_cl=$this->getClass();
         $m=$this->getMethodName();
@@ -267,42 +238,27 @@ final class IGKAppMethod{
         }
         return (($class_or_object === $_cl) && ($m == $method));
     }
-    ///<summary>check if this match the target param</summary>
     public function matchParam($paramname, $obj){
         return igk_getv($this->getClass()->clParam, $paramname) === $obj;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     public function setCallable($n){
         $this->m_->setFlag(self::C_CALLABLEN, $n);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     public function setClass($n){
         $this->m_->setFlag(self::C_CLASS, $n);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     public function setId($n){
         $this->m_->setFlag(self::C_IDN, $n);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     public function setMethodName($n){
         $this->m_->setFlag(self::C_METHODN, $n);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     public function setObject($n){
         $this->m_->setFlag(self::C_OBJN, $n);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     public function setParentEvent($n){
         $this->m_->setFlag(self::C_PEVN, $n);
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     public function setType($t){
         $this->m_->setFlag(-1, $t);
     }

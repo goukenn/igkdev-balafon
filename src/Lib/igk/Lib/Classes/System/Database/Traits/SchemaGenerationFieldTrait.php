@@ -3,10 +3,7 @@
 // @file: SchemaGenerationFieldTrait.php
 // @date: 20230202 13:53:03
 namespace IGK\System\Database\Traits;
-
 use IGK\Database\DbColumnInfo;
-
-///<summary>Column field generator</summary>
 /**
 * Column field generator
 * @package IGK\System\Database
@@ -51,9 +48,7 @@ trait SchemaGenerationFieldTrait{
         ] as $v){
             $clinfo->columns[$v['clName']] = new DbColumnInfo($v);
         }
-       
     }
-
       /**
      * generate adress 
      * @param object $clinfo 
@@ -70,6 +65,5 @@ trait SchemaGenerationFieldTrait{
         ] as $v){
             $clinfo->columns[$v['clName']] = new DbColumnInfo($v);
         }
-       
     }
 }

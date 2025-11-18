@@ -18,7 +18,7 @@
         return (new Function(src)).apply(apply, args);
     };
     (function () {
-        if (document.head) { 
+        if (document.head) {
             var e = $igk(document.head).select("link");
             e.each(function () {
                 if (this.getAttribute("rel") == "igkcss") {
@@ -35,25 +35,7 @@
                 return !0;
             });
         }
-    })();
-
-    // $igk(igk.getParentScript()).select("link").each(function() {
-    //     var s = (this.o.getAttribute("href") + "");
-    //     if (s && (s.indexOf("R/Styles/base.php") != -1)) {
-    //         igk.system.apps.link = this;
-    //         igk.appendProperties(this, {
-    //             basehref: this.o.href,
-    //             counter: 0,
-    //             reload: function() {
-    //                 var bck = this.basehref;
-    //                 this.o.href = bck + "?reload=" + this.counter;
-    //                 this.counter++;
-    //             }
-    //         });
-    //     }
-    //     return !0;
-    // });
-
+    })(); 
 
     // 
     // controller utility presentation igk-new-lang-key
@@ -635,7 +617,7 @@
                 return;
             }
             var q = this;
-          
+
             this.reg_event("submit", function (evt) {
                 if ((typeof (q.o.checkValidity) != igk.constants.undef) && !q.o.checkValidity()) {
                     console.debug("data not valid");
@@ -718,33 +700,94 @@
                     r += '|';
                 r += t[i];
             }
-            return new RegExp('((' + r + ')code)', 'i');
+            return new RegExp('((?<type>' + r + ')code)|(code-(?<type>'+r+'))', 'i');
         })(m_types);
 
-        function __init_code_area() {
+        const treatHtmlSource = {
+            /**
+             * treat inline regex container
+             * @param {*} src 
+             * @param {*} RegexContainer 
+             * @returns 
+             */
+            php(src, RegexContainer) {
+                let o = '', g = null, loffset = 0, closed_tag = 0, regex = new RegexContainer();
+                src = src.replaceAll('&amp;', '&')
+                    .replaceAll('&gt;', '>')
+                    .replaceAll('&lt;', '<') 
+                    ;
+                regex.begin('<!--\\?(php|=)', '(:\/){0,1}--(:\\?){0,1}>');
+                // regex.begin('<!--\\?(php|=)', '\/--(\\?){0,1}>');
+                length = src.length;  
+                const options = { offset: 0 };
+                while (g = regex.detect(src, options)) { 
+                    let e = regex.end(g);
+                    if (e) {
+                        if (e.isContinue)
+                            continue;
+                        if (closed_tag) {
+                            o += '?>';
+                        }
+                        o += src.substring(loffset, e.from);
+                        let te = e.value;
+                        o += te.replace(/^<!--\?php/, '<?php')
+                            .replace(/^<!--\?=/, '<?=')
+                            .replace(/(?:\/){0,1}-->$/, '')
+                            .replace(/\/--\?>$/, '');
+                        loffset = e.to;
+                        closed_tag = true;
+                        if (e.missingEnd) {
+                            // terminate but missing end
+                            loffset = e.from + te.length;
+                        }
+                    } else {
+                        console.error('not end ....');
+                        break;
+                    }
+                }
+                if (loffset < src.length) {
+                    if (closed_tag) {
+                        o += '?>';
+                    }
+                    o += src.substring(loffset);
+                } 
+                return o;
+            }
+        };
+
+        /**
+         * 
+         * @returns 
+         */
+        async function __init_code_area() {
             var q = this;
             if (!q) {
                 return;
             }
-            if (q.hightlight)
+            if (q.highlight)
                 return;
-            q.hightlight = 1;
+            q.highlight = 1;
             m_codes.push(q);
-            // return;
-            // q.addClass("dispib");
             var c = '';
             var b = null;
             if ((b = m_reg.exec(q.o.className))) {
-                c = b[2];
+                c = b.groups['type']; 
             } else {
                 c = q.getAttribute("lang");
                 if (!(c in m_types)) {
                     c = 'php';
                 }
-            } 
-            var s = q.o.textContent.trim(); 
+            }
+            let ts = q.o.innerHTML;
+            let { RegexContainer } = igk.system.text;
+            if (RegexContainer) {
+                if (c in treatHtmlSource) {
+                    ts = treatHtmlSource[c].apply(null, [ts, RegexContainer]);
+                }
+            }
+            var s = ts || q.o.textContent.trim();
             var t = s.split('\n');
-
+            s = s.replaceAll('<', '&lt;').replaceAll('>', '&gt;'); 
             // return;
             // clear node
             q.setHtml("");
@@ -790,18 +833,18 @@
             } else {
                 m = new igk_e();
             }
-            if (!m){
+            if (!m) {
                 console.log("missing m ", c);
-                return ;
+                return;
             }
             var l = "";
-            
-                for (var i = 0; i < t.length; i++) {
-                    l = t[i];
-                    var d = q.add("div");
-                    d.setHtml(m.evals(l));
-                }
-            
+
+            for (var i = 0; i < t.length; i++) {
+                l = t[i];
+                var d = q.add("div");
+                d.setHtml(m.evals(l));
+            }
+
             var o = q.add('span').addClass("dispib").setHtml('_');
             var w = igk.getNumber(o.getComputedStyle('width'));
             o.remove();
@@ -826,20 +869,29 @@
             pos: 0
         };
 
-        function _readWord(s) {
+        /**
+         * read litteral string 
+         * @returns 
+         */
+        function _readWord() {
             var w = "";
             var c = 0;
             var ch = "";
+            const bc = inf.pos ;
             while (inf.pos < inf.ln) {
                 ch = inf.s[inf.pos];
                 // TODO TRADITIONAL WAY               
                 c = ch.toLowerCase().charCodeAt(0);
-                if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || (ch == '_')) {
+                if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || (ch == '_')||(ch == '-')) {
                     w += ch;
                 } else {
                     break;
                 }
                 inf.pos++;
+            }
+            if ( bc == inf.pos){
+                console.log({bc, inf});
+                throw new Error('read word missing - charactor reading - '+ch+' - '+bc);
             }
             return w;
         }
@@ -863,7 +915,7 @@
                 }
                 inf.pos++;
             }
-            return w+p;
+            return w + p;
         };
 
         function _readPhpOperator(ch) {
@@ -881,9 +933,20 @@
             }
             return ch;
         };
-
-        function igk_php_eval() { // php evaluation code
-            igk_e.apply(this);
+        /**
+         * present for html rendering
+         * @param {*} s 
+         * @returns 
+         */
+        function present(s) {
+            return s.replaceAll('&', '&amp;').replaceAll('>', '&gt;').replaceAll('<', '&lt;');
+        };
+        /**
+         * evaluate code 
+         */
+        function igk_php_eval() { 
+            // php evaluation code
+            igk_e.apply(this); 
             var reserved = /((true|false)|\\$this|(a(bstract|nd|rray|s))|(c(a(llable|se|tch)|l(ass|one)|on(st|tinue)))|(d(e(clare|fault)|ie|o))|(e(cho|lse(if)?|mpty|nd(declare|for(each)?|if|switch|while)|val|x(it|tends)))|(f(inal|or(each)?|unction))|(g(lobal|oto))|(i(f|mplements|n(clude(_once)?|st(anceof|eadof)|terface)|sset))|(n(amespace|ew))|(p(r(i(nt|vate)|otected)|ublic))|(re(quire(_once)?|turn))|(s(tatic|witch))|(t(hrow|r(ait|y)))|(u(nset|se))|(__halt_compiler|break|list|(x)?or|var|while))$/;
             var w = 0;
             var l = 1; // line count
@@ -919,7 +982,6 @@
                                     break;
                                 case ']':
                                     level--;
-                                default:
                                     break;
                             }
                             inf.level = level;
@@ -935,7 +997,7 @@
                                     if (inf.mode == 0) {
                                         inf.mode = 1; // string
                                         inf.pos++;
-                                        w = _readStringLitteral(ch); 
+                                        w = _readStringLitteral(ch);
                                         sp.add("span").addClass("s").setHtml(w);
                                         inf.mode = 0;
                                     }
@@ -949,7 +1011,9 @@
                                     break;
                                 case '/': // for comment
                                     if ((inf.pos + 1 < inf.ln) && (inf.s[inf.pos + 1] == "/")) {
-                                        sp.add("span").addClass("cm").setHtml(ch + inf.s.substr(inf.pos + 1));
+                                        sp.add("span").addClass("cm").setHtml(
+                                            present(ch + inf.s.substr(inf.pos + 1))
+                                        );
                                         inf.read = 0;
                                     } else
                                         sp.add("span").addClass("pc").setHtml("/");
@@ -977,11 +1041,16 @@
                                     }
                                     inf.pos--;
                                     // inf.read = 0;
+                                    break; 
+                                case "\n":
                                     break;
-
                                 default:
+                                    if (/[^\w\d\s<>\.\-\+\|\*%,=!:;\(\)\[\]\{\}\/\?]/.test(ch)){ 
+                                        sp.add("span").setHtml(' '); 
+                                        break;
+                                    }
                                     if (inf.mode == 0) {
-                                        if (",.?|()#[]-+{}\\/%*><;:=&|??|===|?->|->|==|+=|-=|&&".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
+                                        if (",.?!|~()#[]-+{}\\/%*><;:=&|??|===|?->|->|==|+=|-=|&&".indexOf(ch) != -1) { // igk.char.isPonctuation(ch)){
                                             ch = _readPhpOperator(ch, inf);
                                             let ext = '';
                                             if (/(\[\]|\(\)|\[|\]|\{|\})/.test(ch.trim())) {
@@ -1022,15 +1091,34 @@
             this.getLines = function () {
                 return l;
             };
-        } 
-        igk.system.createNS("igk.highlightjs", {
+        }
+        const _NS = igk.system.createNS("igk.highlightjs", {
             'php': igk_php_eval,
-            // 'xml': igk_xml_eval
+            'css': null,
+            'cs': null,
+            'txt': null,
+            'xml': null
         });
+        igk.defineProperty(_NS, 'base', {get(){
+            return igk_e;
+        }});
 
-        function __initCode() { 
+        function __initCode() {
             $igk("code.igk-code").each_all(__init_code_area);
         };
+        igk.system.createNS('igk.winui.components.code', {
+            /**
+             * just reload the component 
+             */
+            reload(){
+                $igk("code.igk-code").each_all(function(){
+                    if(this.highlight){ 
+                        this.highlight = 0;  
+                        __init_code_area.apply(this);
+                    }
+                }); 
+            }
+        });
         igk.ready(__initCode);
         igk.ctrl.registerReady(function () {
             if (this.tagName && this.tagName.toLowerCase() == "code" && this.getAttribute('igk-code')) {
@@ -1080,8 +1168,8 @@
         var domProp = null;
         var vendors = ['webkit', 'ms', 'o'];
         var corecss = "balafon.css";
-        var r = igk.createNode('div');
-        var dev = igk.createNode('div');
+        const r = $igk(document.createElement('div'));
+        var dev = $igk(document.createElement('div'));
         var dum = null;
         var rule = null;
         var m_chtheme = null; // will store the changed theme for dynamic theme changing purpose
@@ -1143,6 +1231,7 @@
         // animation and transition
         var e = ['animation', 'transition'];
         var v = vendors;
+        // - console.log('media initialize ', r);
         // checking global prop
         for (var i = 0; i < v.length; i++) {
             for (var j = 0; j < e.length; j++) {
@@ -1152,19 +1241,7 @@
                 }
             }
         }
-        // for chrome navigator require to register
-        // if(igk.navigator.isChrome()){
-        // igk.ready(function(){
-        // // r.setCss({position:'absolute',zIndex:40});
-        // // register media to bottom
-        // igk.dom.body().add("div").setCss({position:'absolute',visibility:'hidden',overflow:'hidden','height':'0px', 'bottom':'0px'})
-        // .addClass("igk-m-i")// media info
-        // .add(r).
-        // t.add(dev);		 
-        // igk.css.appendRule(".igk-device:before{position:absolute;}");
-        // igk.publisher.publish("sys://css/info",{});	
-        // });
-        // }
+        // for chrome navigator require to register        
         function __getRule(f) {
             var m = null;
             var q = new RegExp("/" + f + "(.+)*");
@@ -1176,6 +1253,9 @@
             return null;
         }
 
+        /**
+         * 
+         */
         function _initTransitionProperties(t, list) {
             t = $igk(t);
             if (typeof (list) == 'string') {
@@ -1361,6 +1441,12 @@
                 }
                 return NaN;
             },
+            /**
+             * change doducment theme
+             * @param {*} n 
+             * @remark replaced with the next block definition
+             * @returns 
+             */
             changeDocumentTheme(n) {
                 var d = document.getElementsByTagName('html')[0];
                 if (typeof (n) == 'undefined') {
@@ -1372,7 +1458,6 @@
                 }
                 d.setAttribute('data-theme', n);
                 igk.cookies.set('theme_name', n);
-                igk.log(`>change cookie ${n}`);
                 return n;
             },
             getStyleSelectorList(index) {
@@ -1424,16 +1509,21 @@
                         k[ni] = properties[ni];
                         continue;
                     }
+                    let ti = ni.replace(/([a-z])(?:-([a-zA-Z]))/, (match,x,y)=>{
+                        return x+y.toUpperCase();
+                    });
                     v = properties[ni];
                     if (igk.css.isItemSupport(['webkit' + ni])) {
                         n = props[('webkit' + ni).toLowerCase()];
                         if (n)
                             k[n] = v;
                     } else if (igk.css.isItemSupport([ni])) {
-                        n = props[ni.toLowerCase()];
+                        n = props[ti.toLowerCase()];
                         if (n) {
                             k[n] = v;
                         }
+                    } else {
+                        k[ti] = v;
                     }
                 }
                 // setting real value		
@@ -1448,7 +1538,7 @@
             toggleClass(i, p) { // toggle class
                 var q = $igk(i).first();
                 if (q) {
-                    q.toggleClass(p); 
+                    q.toggleClass(p);
                 }
             },
             initAutoTransitionProperties: _initTransitionProperties,
@@ -1683,13 +1773,87 @@
                 }
             }
         });
+
+
+        // + | --------------------------------------------------------
+        // + | manage data-theme definition 
+        // + | 
+        (function (storageCallback) {
+            const { THEME_KEY, saveItem, getItem } = (function (info) {
+                if (typeof (info) == 'function') {
+                    return {
+                        saveItem(m) {
+                            info({ type: 'save', value: m });
+                        },
+                        getItem() {
+                            return info({ type: 'get' });
+                        },
+                        THEME_KEY: th_n
+                    };
+                }
+                let th_n = typeof (info) == 'string' ? info : 'theme';
+                return {
+                    saveItem(m) {
+                        localStorage.setItem(THEME_KEY, m);
+                    },
+                    getItem() {
+                        return localStorage.getItem(THEME_KEY);
+                    },
+                    THEME_KEY: th_n
+                }
+            })(storageCallback);
+
+            function __setTheme(m) {
+                let h = document.getElementsByTagName('html')[0];
+                h.setAttribute("data-theme", m);
+                saveItem(m);
+            }
+            function __updatemode(r) {
+                return (e) => {
+                    let m = (('dark' == r) && e.matches) || (('dark' != r) && !e.matches) ? 'dark' : 'light';
+                    __setTheme(m);
+                }
+            }
+            if ('matchMedia' in window) {
+                let preferredTheme = getItem() || (function () {
+                    let stheme = _get_html_theme();
+                    if (!stheme) {
+                        const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
+                        if (meta_theme) {
+                            stheme = meta_theme.getAttribute('content');
+                        }
+                    }
+                    return stheme;
+                })();
+                let tm = null;
+                let theme = 'dark';
+                ['light', 'dark'].forEach(m => {
+                    let mode = window.matchMedia('(prefers-color-scheme: ' + m + ')');
+                    if ((preferredTheme && (m == preferredTheme)) || (!tm && mode.matches)) {
+                        tm = mode;
+                        theme = m;
+                    }
+                });
+                tm.addEventListener('change', __updatemode(theme));
+                __setTheme(theme);
+                // replace set document theme. 
+                igk.css.changeDocumentTheme = function (th) {
+                    theme = th || (theme == 'dark' ? 'light' : 'dark');
+                    __setTheme(theme);
+                };
+            }
+        })();
+
+
+
+
         igk.defineProperty(igk.css, "rule", { get: function () { return rule; } });
         igk.defineProperty(igk.css, "vendors", {
             get: function () {
                 return vendors;
             }
         });
-      
+
         var e = {};
         e.mediachanged = 1;
         for (var s in e) {
@@ -1698,12 +1862,14 @@
         igk.system.createNS("igk.publisher.events", e);
 
 
-          // iniitilial ie events
-          igk.ready(function () {
+        // + | initilial ie events
+        igk.ready(function () {
+            const { isChrome, isSafari, isFirefox, isIEEdge, isOpera } = igk.navigator;
             var B = igk.dom.body();
-            let cookies = igk.cookies; 
+            let cookies = igk.cookies;
+ 
 
-            if (igk.navigator.isFirefox() || igk.navigator.isChrome() || igk.navigator.isSafari()) {
+            if (isFirefox() || isChrome() || isSafari() ||  isIEEdge() || isOpera()) {
                 // to get content of css style item must be added to document
                 B.add("div").setCss({ position: 'absolute', visibility: 'hidden', overflow: 'hidden', 'height': '0px', 'bottom': '0px' })
                     .addClass("igk-m-i") // media info
@@ -1711,6 +1877,8 @@
                     t.add(dev);
                 igk.css.appendRule(".igk-media-type:before{position:absolute;}");
                 igk.css.appendRule(".igk-device:before{position:absolute;}");
+            } else {
+                console.error('failed to initialize device manager ');
             }
             var dev = igk.css.getDevice();
             var m_c = igk.css.getMediaType(); // current
@@ -1721,8 +1889,9 @@
                     B.rmClass(m_c).addClass(i);
                     __raiseMedia(i);
                 }
+                // - console.log('media type : ', {mediaType:i, oldMediaType:m_c});
             };
-
+           // - console.log('init ie events::', {dev, m_c});
             function __raiseMedia(i) {
                 m_c = i;
                 igk.publisher.publish(igk.publisher.events.mediachanged, {
@@ -1731,31 +1900,6 @@
                     device: igk.css.getDevice()
                 });
             };
-            // + | theme manage change theme detections
-            // + | register to (prefers-color-scheme: dark)
-            // + |
-            function __checkMediaTheme(){
-                // priority to meta name definition passed by application 
-                const meta_theme = document.head.querySelector('meta[name="color-scheme"]');
-                let cTheme = _get_html_theme();
-                let _stheme = (meta_theme) ? meta_theme.getAttribute('content') : null;
-                if (_stheme && /\b(dark|light)\b/.test(_stheme) && (_stheme != cTheme)){
-                    //change the document theme specification to match data
-                    document.getElementsByTagName('html')[0].setAttribute('data-theme', _stheme);
-                    cTheme = _stheme;
-                }
-                let m = window.matchMedia('(prefers-color-scheme: dark)');
-                if (!cTheme) {
-                    igk.css.changeDocumentTheme(m.matches ? 'dark' : 'light');
-                }
-                m.addEventListener('change', (e) => {
-                    igk.css.changeDocumentTheme(e.matches ? 'dark' : 'light');
-                });
-            };
-
-            if (window.matchMedia) {
-                __checkMediaTheme();
-            } 
             B.addClass(m_c);
             __raiseMedia(m_c);
             igk.winui.reg_event(window, 'resize', __checkMedia);
@@ -3643,8 +3787,7 @@
                                     break;
                             }
                         }
-                        m.innerText = v;
-                        console.debug("done :" + v);
+                        m.innerText = v; 
                     }
                 }); // end append prop
             } // end reader
@@ -4390,6 +4533,7 @@
             }
         });
         igk.winui.initClassControl("igk-ajx-uri-loader", function () {
+
             var u = this.getAttribute("igk:href");
             var a = this.getAttribute("igk:append");
             var self = this;
@@ -4787,7 +4931,7 @@
                     // return 0;
                 }
                 var cl = igk.system.colors.toFloatArray(_clbg);
-                if (!_ol) { 
+                if (!_ol) {
                     gl.clearColor(cl.r, cl.g, cl.b, cl.a);
                     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
                     return 0;
@@ -5313,14 +5457,14 @@
     (function () {
         var m_item = {};
         const _loader = igk.createNode('div');
-        const _event= {
+        const _event = {
             onSvgItemLoaded: 'on-svg-items-list-loaded',
             onSvgSingleItemLoaded: 'on-svg-item-loaded',
         };
         // svg list view item 
         function __init_svg_i() {
             var n = this.getAttribute("igk:svg-name");
-            if (m_item[n]) { 
+            if (m_item[n]) {
                 this.rmClass("igk-svg-lst-i");
                 // replace 
                 var g = $igk(m_item[n]).clone();
@@ -5330,9 +5474,9 @@
                 g.o.setAttribute("class", this.o.className);
                 p.replaceChild(g.o, this.o);
                 if (p.getAttribute("title")) {
-                    $igk(p).qselect("svg > title").remove(); 
+                    $igk(p).qselect("svg > title").remove();
                 }
-                _loader.raiseEvent(_event.onSvgSingleItemLoaded, {name:n, className:this.o.className, item: g.o}); 
+                _loader.raiseEvent(_event.onSvgSingleItemLoaded, { name: n, className: this.o.className, item: g.o });
             } else {
                 console.debug("item not found [" + n + "]");
             }
@@ -5345,16 +5489,18 @@
                     var tn = j.tagName.toLowerCase();
                     if (!(tn in m_item)) {
                         m_item[tn] = $igk(j).select("svg").first();
-                        // console.log('init list ');
+                        // + | remove marked title
+                        m_item[tn].qselect('title').each_all(function () { this.remove() });
+
                     }
                 }
             }
             this.remove();
         };
         // svg list init svg list
-        function __init_svg_l(){
+        function __init_svg_l() {
             igk.dom.body().select(".igk-svg-lst").each_all(__initlist);
-            _loader.raiseEvent(_event.onSvgItemLoaded);  
+            _loader.raiseEvent(_event.onSvgItemLoaded);
         }
         igk.ready(__init_svg_l);
         igk.winui.initClassControl("igk-svg-lst", function () {
@@ -5363,7 +5509,7 @@
         igk.ajx.fn.initBeforeReady(function () {
             $igk(this).select(".igk-svg-lst").each_all(__initlist);
         });
-      
+
         igk.winui.initClassControl("igk-svg-lst-i", __init_svg_i);
         igk.winui.createSVGLi = function (n) {
             if (m_item[n]) {
@@ -5371,7 +5517,7 @@
                 return g;
             } else {
                 console.error("[igk] - svg-lst-item <<" + n + ">> not found");
-            } 
+            }
         };
         const onSvgItemLoaded = _loader.addEvent(_event.onSvgItemLoaded, {});
         const onSvgSingleItemLoaded = _loader.addEvent(_event.onSvgSingleItemLoaded, {});
@@ -5379,17 +5525,17 @@
             /**
              * register event on item loaded
              */
-            ready(fc){ 
+            ready(fc) {
                 _loader.on(_event.onSvgItemLoaded, fc);
-            }, 
-            onItemReady(fc){
+            },
+            onItemReady(fc) {
                 _loader.on(_event.onSvgSingleItemLoaded, fc);
 
             },
             /**
              * raise event
              */
-            raise(){
+            raise() {
                 onSvgItemLoaded.raiseCreateEvent();
             }
 
@@ -5469,19 +5615,6 @@
             this.remove();
         });
     })();
-    // (function () {
-    // igk-ajx-replace-ciblibk : used to replace ajx cibling context
-    // igk:data = data used to select the replacing zone
-    // igk.winui.initClassControl('igk-ajx-replace-source', function () {
-    // var o = this.getHtml();
-    // var f = this.o.firstChild;
-    // var d = this.getAttribute("igk:data");
-    // $igk(d).each_all(function(){
-    // this.insetBefore(
-    // });
-    // this.remove();
-    // });
-    // })();
     // popup menu guide
     (function () {
         var doc_e = 0; // get if reg doc event for closing
@@ -5615,7 +5748,7 @@
                 __render_xml_view_tag(this, b);
             }
         });
-    })(); 
+    })();
     (function () {
         // --------------------------------------------------------------------------
         // bind attribute event
@@ -5700,6 +5833,11 @@
             });
         });
 
+        /**
+         * init method with event
+         * @param {string} ms event name
+         * @returns 
+         */
         function _initmethod(ms) {
             return function (m, n) {
                 if (n == null) {
@@ -5868,7 +6006,7 @@
                     igk.ajx.post({
                         uri: lnk,
                         param: JSON.stringify(data),
-                        contentType: "application/json"
+                        contentType: 'application/json'
                     },
                         null, null);
                 }
@@ -6127,10 +6265,10 @@
                     }
                 }
             },
-            tel(e){
+            tel(e) {
                 _handler.number(e, false);
             },
-            pastetel(e){
+            pastetel(e) {
                 _handler.pastenumber(e, false);
             },
             integer(e) {
@@ -6139,7 +6277,45 @@
             pasteinteger(e) {
                 console.log("paste number");
                 _handler.pastenumber(e, false);
+            },
+            form_key_enter_handler(form) {
+                return function (evt) {
+                    if (evt.keyCode == 13) {
+                        evt.preventDefault();
+                        evt.stopPropagation();
+                        if (isValid(form.o)){
+                            form.o.submit();
+                        }
+                        return false;
+                    }
+                }
             }
+        };
+        function isValid(f){
+            let valid = true;
+            let ln = f.elements.length;
+            let i = 0;
+            while(valid && (i < ln)){
+                let s = f.elements.item(i);
+                i++;  
+                const t = s.type;
+                const v = s.value;
+                if (s.required){
+                    switch(t){
+                        default:
+                        if (v.length==0){
+                            valid = false;
+                        }else{
+                            if (s.pattern){
+                                let rg = new RegExp(s.pattern);
+                                valid = !rg.test(v);
+                            }
+                        }
+                        break;
+                    }
+                }
+            };
+            return valid;
         };
 
         /**
@@ -6148,9 +6324,9 @@
         function __init_form() {
             // + | console.log('init forms... control');
             this.qselect('input').each_all(function () {
-                let opts = this.o.getAttribute('data-igk-options'); 
-               
-                this.form_options = ((opts) ? JSON.parse(opts) : null) || {}; 
+                let opts = this.o.getAttribute('data-igk-options');
+
+                this.form_options = ((opts) ? JSON.parse(opts) : null) || {};
                 const max_ln = this.form_options['max-length'];
 
                 if (this.supportClass('number')) {
@@ -6159,15 +6335,32 @@
                 } else if (this.supportClass('integer')) {
                     this.on('keypress', _handler.integer);
                     this.on('paste', _handler.pasteinteger);
-                } else if (this.supportClass('phone-number')|| this.supportClass('tel')) {
+                } else if (this.supportClass('phone-number') || this.supportClass('tel')) {
                     if (this.o.value) {
                         this.o.value = this.o.value.replace(/[^0-9]/, "");
-                    } 
+                    }
                     this.on('keypress', _handler.integer);
                     this.on('paste', _handler.pasteinteger);
                 }
                 if (max_ln)
                     this.setAttribute('maxlength', max_ln);
+            });
+
+            //
+            let no_button = this.select('input[type=submit]').first() || this.select('button[type=submit]').first();
+            if (!no_button) {
+                const v_qfrom = this;
+                const v_qfc = _handler.form_key_enter_handler(v_qfrom); 
+                this.select('input.key-enter').each_all(function () {
+                    this.on('keypress', v_qfc);
+                });
+            }
+            // alert('for '+ no_button);
+            this.on('submit', (e)=>{
+                if (!isValid(this.o)){
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
             });
         };
         igk.winui.initClassControl('igk-form', __init_form);
@@ -6227,81 +6420,23 @@
         })
     })();
 
-   
-    // igk.ctrl.bindAttribManager("igk-js-bind-select-to",function(n,v){
-    // var s=null;
-    // var q=this;
-    // var qv=q.getAttribute('value');
-    // if(igk.system.string.startWith(v,"#"))
-    // {
-    // s=$igk(v);
-    // if(s){
-    // s.select("option").each(function(){
-    // copy
-    // q.appendChild(this.clone());
-    // continue execution
-    // return !0;
-    // });
-    // }
-    // }
-    // else{
-    // var s = igk.JSON.parse(v);	
-    // if(s && s.id){
-    // if(s.allowempty){
-    // var opt=igk.createNode("option");
-    // opt.setAttribute("value",typeof(s.emptyvalue) !=igk.constants.undef ? s.emptyvalue : null);
-    // q.appendChild(opt);
-    // }
-    // var select=s.selected;
-    // var tag=s.tag ? s.tag : 'option';
-    // var present=false;
-    // s=$igk(s.id).select(tag)
-    // .each(function(){
-    // copy
-    // var r=null;
-    // if(tag !='option')
-    // {
-    // r=igk.createNode("option");
-    // r.copyAttributes(this);
-    // r.setHtml(this.o.innerHTML);
-    // }
-    // else 
-    // r=this.clone();
-    // var vv=r.getAttribute('value');
-    // if(vv==select){
-    // r.setAttribute('selected','true');
-    // }
-    // if(tag !='option')
-    // r.o.tagName="option";
-    // q.appendChild(r);
-    // present |=(vv==qv);
-    // continue execution
-    // return !0;
-    // });
-    // if((qv!=null) && !present){
-    // var r=igk.createNode("option");
-    // r.setAttribute('value',qv);
-    // r.setHtml(qv);
-    // q.appendChild(r);
-    // }
-    // }
-    // }
-    // });
+
     // handler for touch events
     (function () {
         var m = [];
         var c = igk.createNode("div");
+        const _e = 'click';
 
         function __disable_func(evt) {
             evt.preventDefault();
         }
         // override the click event functions register function for click or touch screen
-        igk.winui.registerEventHandler("click", {
+        igk.winui.registerEventHandler(_e, {
             reg_event: function (item, func, useCapture) { // click host handler				
-                return igk.winui.reg_system_event(item, "click", func, useCapture);
+                return igk.winui.reg_system_event(item, _e, func, useCapture);
             },
             unreg_event: function (item, func) {
-                return igk.winui.unreg_system_event(item, "click", func);
+                return igk.winui.unreg_system_event(item, _e, func);
             }
         });
 
@@ -6597,41 +6732,7 @@
         igk.winui.registerEventHandler("igkTouchStart", __mobile_device_event("igkTouchStart", "touchstart"));
         igk.winui.registerEventHandler("igkTouchMove", __mobile_device_event("igkTouchMove", "touchmove"));
         igk.winui.registerEventHandler("igkTouchEnd", __mobile_device_event("igkTouchEnd", "touchend"));
-        // {
-        // reg_event: function(item,func,useCapture){
-        // var c={n:'igkTouchStart',index: 0,i: item,h: 0,"func":func,bind: function(evt){
-        // if(evt.type=="touchend"){
-        // evt.preventDefault();
-        // evt.stopPropagation();
-        // c.h=1;
-        // }
-        // else if(c.h==1){
-        // c.h=0;
-        // return;
-        // }
-        // c.func.apply(item,[evt]);
-        // }};
-        // c.index=m_eventDatas[c.n] ? m_eventDatas[c.n].length : 0;
-        // _regEventData(c.n,c); 
-        // if($igk(item).istouchable())
-        // {			
-        // igk.winui.reg_system_event(item,"touchstart",c.bind,useCapture);
-        // }		
-        // return item;// null;// igk.winui.reg_system_event(item,"click",c.bind,useCapture);
-        // },
-        // unreg_event: function(item,func,useCapture){
-        // var c=_getEventData("igkTouchStart",item,func);
-        // var o=null;
-        // if(c){
-        // if($igk(item).istouchable())
-        // {			
-        // o = igk.winui.unreg_system_event(item,"touchstart",c.bind);
-        // }		
-        // // var o=igk.winui.unreg_system_event(item,"click",c.bind);				
-        // return o;
-        // }
-        // }		
-        // });
+
         if (typeof (c.o.onmouseenter) == "undefined") { // for safari browser usage
             igk.winui.registerEventHandler("mouseenter", {
                 reg_event: function (item, func, useCapture) { // mousenter				
@@ -6887,8 +6988,7 @@
                     q.setCss({ height: r.getHeight() + "px" });
                 });
             }
-            // r.reg_event('resize',function(){
-            // });
+
             // for(var s in r.o){
             // if(igk.system.string.startWith(s,'on'))
             // {
@@ -7915,7 +8015,7 @@
                 return;
             var q = this;
             var v = this.getAttribute("href");
-            var meth = this.getAttribute("igk-ajx-lnk-method") || "GET";
+            var meth = (this.getAttribute("igk-ajx-lnk-method") || this.getAttribute("method") || "GET").toUpperCase();
             if (m && v) {
                 q.addClass("igk-ajx-lnk");
                 var v_meth = m.method || igk.ajx.get;

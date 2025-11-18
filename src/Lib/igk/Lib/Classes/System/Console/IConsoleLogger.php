@@ -1,8 +1,5 @@
 <?php
-
 namespace IGK\System\Console;
-
-
 /**
  * protocol used to inject a logger
  * @package IConsoleLogger
@@ -13,4 +10,9 @@ interface IConsoleLogger{
     function warn($msg);
     function success($msg);
     function danger($msg);
+    /**
+     * represent offscreen 
+     * @return mixed 
+     */
+    function offscreen();
 }

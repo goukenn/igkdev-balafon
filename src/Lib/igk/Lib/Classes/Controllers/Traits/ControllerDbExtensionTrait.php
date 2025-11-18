@@ -3,32 +3,27 @@
 // @file: ControllerDbExtensionTrait.php
 // @date: 20230703 14:24:34
 namespace IGK\Controllers\Traits;
-
 use IGK\Controllers\BaseController;
 use IGK\Database\DbSchemas;
 use IGK\Database\DbSchemasConstants;
 use IGK\Helper\DbUtilityHelper;
+use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
 use IGK\System\Database\ColumnMigrationInjector;
+use IGK\System\Database\DbUtils;
 use IGK\System\Database\MigrationHandler;
 use IGKEvents;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Controllers\Traits
 */
 trait ControllerDbExtensionTrait{
-
-     ///<summary>drop list data base</summary>
-    /**
+     /**
      * drop list data base
      */
     public static function dropDb(BaseController $controller, $navigate = 1, $force = false)
     {
-
         $ctrl = $controller;
-
         $func = function () use ($ctrl) {
             // + | --------------------------------------------------------------------
             // + | raise utility command
@@ -37,7 +32,6 @@ trait ControllerDbExtensionTrait{
             igk_hook(IGKEvents::HOOK_DB_START_DROP_TABLE, $ctrl);
         };
         $_vinit = 0;
-
         if ($force || $ctrl->getCanInitDb()) {
             if (!$ctrl->getUseDataSchema()) {
                 $db = self::getDataAdapter($ctrl);
@@ -57,7 +51,6 @@ trait ControllerDbExtensionTrait{
                 if ($force || ($db && $db->connect())) {
                     $migHandle = new MigrationHandler($controller);
                     $migHandle->down();
-
                     $v_tblist = [];
                     if ($tables = igk_getv($tb, "tables")) {
                         foreach (array_keys($tables) as $k) {
@@ -125,13 +118,18 @@ trait ControllerDbExtensionTrait{
         $ad = self::getDataAdapter($ctrl);
         ColumnMigrationInjector::Inject($ad, $table, [new ColumnMigrationInjector($info), "add"]);
         //$r = array_values(DbSchemas::$sm_schemas);
-
         if (!$ad->exist_column($table, $info->clName)) {
             if ($query = $ad->grammar->add_column($table, $info, $after)) {
                 if ($ad->sendQuery($query)) {
+                    // + | auto resolve column link type 
+                    $bck = null;
                     if ($info->clLinkType) {
+                        DbUtils::ResolveColumnLink($info, $ctrl, $bck);
                         $query_link = $ad->grammar->add_foreign_key($table, $info);
                         $ad->sendQuery($query_link);
+                        if ($bck){
+                            $info->clLinkColumn = $bck;
+                        }
                     }
                     //
                     return true;
@@ -139,7 +137,6 @@ trait ControllerDbExtensionTrait{
             }
         }
     }
-
     /**
      * rename column extension macros
      */
@@ -168,9 +165,7 @@ trait ControllerDbExtensionTrait{
                     if ($query){
                        return $ad->sendQuery($query);  
                     }           
-                    
                 }
-
                 Logger::warn(sprintf('target column already exists : %s.%s ',$table, $new_column_name ));
                 return false;
                 //remove last column - add new column with n_info- because au case sensivity
@@ -184,7 +179,6 @@ trait ControllerDbExtensionTrait{
         }
         return false;
     }
-
     /**
      * add index
      * @param BaseController $ctrl 
@@ -198,6 +192,30 @@ trait ControllerDbExtensionTrait{
         if ($query){
             return  $ad->sendQuery($query);
         }
+    }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param string $table 
+     * @param mixed $column 
+     * @return mixed|void 
+     */
+    public static function db_add_unique(BaseController $ctrl, string $table, $columns, ?string $id=null){
+        $ad = self::getDataAdapter($ctrl);  
+        $query = $ad->grammar->addUnique($table, $columns, $id);
+        if ($query){
+            return  $ad->sendQuery($query);
+        }
+    }
+    /**
+     * drop uniques
+     * @param BaseController $ctrl 
+     * @param string $table 
+     * @return mixed|void 
+     */
+    public static function db_drop_uniques(BaseController $ctrl, string $table){
+        $ad = self::getDataAdapter($ctrl);  
+        return $ad->dropAllUniqueContraints($table);
     }
     public static function db_drop_index(BaseController $ctrl, string $table, $column){
         $ad = self::getDataAdapter($ctrl);  
@@ -223,13 +241,19 @@ trait ControllerDbExtensionTrait{
             }
         }
     }
+    /**
+     * change column description 
+     * @param BaseController $ctrl 
+     * @param string $table 
+     * @param mixed $info 
+     * @return true|void 
+     */
     public static function db_change_column(BaseController $ctrl, string $table, $info)
     {
         $ad = self::getDataAdapter($ctrl); 
         if ($ad->exist_column($table, $info->clName)) {
             // drop foreign key if column 
             $ad->drop_foreign_key($table, $info);
-
             if ($query = $ad->grammar->change_column($table, $info)) {
                 if ($r = $ad->sendQuery($query)) {
                     if ($info->clLinkType) {

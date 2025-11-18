@@ -3,7 +3,6 @@
 // @file: ViewDataArgs.php
 // @date: 20221113 08:48:43
 namespace IGK\System;
-
 use ArrayAccess;
 use ArrayIterator;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
@@ -11,8 +10,6 @@ use IGK\System\Polyfill\JsonSerializableTrait;
 use IteratorAggregate;
 use JsonSerializable;
 use Traversable;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System
@@ -24,12 +21,10 @@ use Traversable;
 class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, JsonSerializable
 {
     use JsonSerializableTrait;
-
     public function __construct($data)
     {
         parent::__construct($data);
     }
-
     /**
      * 
      * @return mixed 
@@ -41,5 +36,17 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
     public function __set(string $name, $args)
     {
         $this->p_data[$name] = $args;
+    }
+    public function isEmpty():bool{
+        return empty($this->p_data);
+    }
+    /**
+     * 
+     * @param string $key 
+     * @param mixed $def_value 
+     * @return void 
+     */
+    public function get(string $key, $def_value){
+        return igk_getv($this->p_data, $key, $def_value);
     }
 }

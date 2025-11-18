@@ -3,22 +3,16 @@
 // @filename: XsdElementBuilder.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\XSD;
-
 use ArrayAccess;
 use IGKXmlNode;
-
 class XsdElementBuilder extends XsdElement 
 { 
     private $m_builder;
     private $_defining; 
-   
     private function __construct()
     {
     }
-
     /**
      * @param IGKXmlNode $node 
      * @param XsdBuilder $builder 
@@ -31,7 +25,6 @@ class XsdElementBuilder extends XsdElement
         $n->m_builder = $builder;
         return $n;
     }
-
     public function setAttribute($name, $value){
         $this->m_node->setAttribute($name, $value);
         return $this;
@@ -41,7 +34,6 @@ class XsdElementBuilder extends XsdElement
             throw new XsdBuilderException("type already defined");
         }
         if ($defaultvalue){
-
             $this->_defining = true;
             $this->m_node["default"] = $defaultvalue;
         }
@@ -72,12 +64,8 @@ class XsdElementBuilder extends XsdElement
         if ($this->_defining) {
             throw new XsdBuilderException("type already defined");
         }
-
         $this->_defining = true;
         $b = XsdBuilderUtility::BuildComplexType($this->m_node, $defs, "xs:".$type, $tattributes);
-        
-      
-       
         if ($attributes && count($attributes)){
             // $seq = $e->add("xs:sequence");
             foreach($attributes as $k=>$c){

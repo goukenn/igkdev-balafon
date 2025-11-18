@@ -3,11 +3,8 @@
 // @file: ConvertTypeValidatorBase.php
 // @date: 20231230 08:47:47
 namespace IGK\System\Html\Forms\Validations;
-
 use IGK\Helper\Activator;
 use function igk_resources_gets as __;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Forms\Validations
@@ -17,7 +14,6 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
 {
     protected $m_type;
     private $m_supportArray = true;
-
     /**
      * 
      * @param bool $support_array 
@@ -94,7 +90,6 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
                     $r[] = $g;
                 }
                 return $r ? $r : false;
-
             } else {
                 $e = [];
                 $g = $v_fc($v_fv, $value, $v_fields, $e);

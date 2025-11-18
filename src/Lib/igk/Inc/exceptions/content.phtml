@@ -8,11 +8,12 @@
 use function igk_resources_gets as __;
 
 if (igk_server()->accept("json")){
+    $_code = ($_code = $Ex->getCode())==0? 500 : $_code;
     igk_json([
-        "error"=>1,
-        "msg"=>$Ex->getMessage(),
-        "code"=>$Ex->getCode(),
-    ], $Ex->getCode()); 
+        "error"=>true,
+        "message"=>$Ex->getMessage(),
+        "code"=>$_code,
+    ], $_code); 
 } 
 
 $display_error = ini_get("display_errors");

@@ -5,7 +5,7 @@
 // @date: 20230207 14:38:38
 // @desc: install project script 
 
-use IGK\Helper\IO;
+use IGK\Controllers\BaseController;
 
 error_reporting(-1);
 ini_set('display_errors', 1);
@@ -15,9 +15,94 @@ if ($token != igk_getr('token')) {
     $response->die("missing token", 501);
 }
 
+/**
+ * project installer 
+ * @package 
+ */
+class ProjectInstaller
+{
+    private $m_bdir;
+    private $m_controller;
+
+    /**
+     * balafon shell command
+     * @var mixed
+     */
+    var $balafon;
+    /**
+     * project request name 
+     * @var mixed
+     */
+    var $projectName;
+
+    /**
+     * project manga
+     * @var mixed
+     */
+    var $siteRootDir;
+    /**
+     * installer from base directorie project 
+     * @return BaseController 
+     */
+    public function getController(): ?BaseController{
+        if (is_null($this->m_controller)){
+            $this->m_controller = igk_controller_from_dir($this->m_bdir) ?? 
+                igk_die('missing controller at '.$this->m_bdir);
+        }
+        return $this->m_controller;
+    }
+    public function __construct(string $project_dir)
+    {
+        $this->m_bdir = igk_io_flatpath( $project_dir);
+    }
+    private function _path(string $path)
+    {
+        return implode(DIRECTORY_SEPARATOR, [$this->m_bdir, ltrim($path, DIRECTORY_SEPARATOR)]);
+    }
+    public function rmFile(string $path)
+    {
+        $l = implode(DIRECTORY_SEPARATOR, [$this->m_bdir, ltrim($path, DIRECTORY_SEPARATOR)]);
+        return @unlink($l);
+    }
+    public function rmFiles(string $dir_path)
+    {
+        $l = implode(DIRECTORY_SEPARATOR, [$this->m_bdir, ltrim($dir_path, DIRECTORY_SEPARATOR)]);
+        return InstallerHelper::RmFiles($l);
+    }
+    /**
+     * just touch path 
+     * @param string $path 
+     * @return void 
+     */
+    public function touch(string $path)
+    {
+        touch($this->_path($path));
+    }
+    public function mkdir(string $path)
+    {
+        $p = $this->_path($path);
+        if (!is_dir($d = dirname($p))) {
+            return mkdir($d, 0777, true);
+        }
+    }
+    /**
+     * 
+     * @param string $path 
+     * @param mixed $content 
+     * @return void 
+     */
+    public function write_content(string $path, $content)
+    {
+        $this->mkdir($path);
+        $p = $this->_path($path);
+        file_put_contents($p, $content);
+    }
+}
+
+$preinstall = [];
+$postinstall = [];
 $version = 0;
 $author = 0;
-$appName;
 $count_file = 0;
 $hzip = new \ZipArchive();
 $appName = $install_dir = $error = null;
@@ -26,14 +111,73 @@ $outdir = "";
 $module_name = "";
 $module_version = "";
 $module_path = "";
+
+ 
+
 $zip_out_dirname = igk_getr('project_entry');
-$install_dir = rtrim($home , '/'). "/" . ltrim(igk_getr('install_dir'), '/');
-$project_dir = rtrim($install_dir, "/") . "/" . ltrim(igk_getr('project_folder'), '/');
+$v_chome = rtrim($home, '/');
+$corelib_dir = $v_chome . igk_getr('app_dir') . '/Lib/igk';
+$install_dir = $v_chome . "/" . ltrim(igk_getr('install_dir') ?? '', '/');
+$project_dir = rtrim($install_dir, "/") . "/" . ltrim(igk_getr('project_folder') ?? '', '/');
 $tempzip = null;
 $v_sys_tempdir = $install_dir . "/__temp";
+$v_projectInstaller = new ProjectInstaller($project_dir);
 
-if (!file_exists($archive)){
-    $response->die("archive is not present");
+$balafon = $corelib_dir . "/bin/balafon";
+$project_name = igk_getr('project_name');
+
+$v_projectInstaller->projectName = $project_name;
+$v_projectInstaller->balafon = $balafon;
+$v_projectInstaller->siteRootDir = rtrim($v_chome, '/').'/'.ltrim(igk_getr('home_dir', ''),'/');
+
+/**
+ * after post install script
+ * @param mixed &$postinstall 
+ * @param mixed $f 
+ * @param mixed $v_projectInstaller 
+ * @return bool 
+ */
+function post_install(&$postinstall, $f, $v_projectInstaller)
+{
+    $postinstall = ['post-installing'];
+    $r = function () {
+        extract(func_get_arg(1), EXTR_REFS);
+        include(func_get_arg(0));
+    };
+    try {
+        $r($f, ['log' => &$postinstall, 'installer' => &$v_projectInstaller]);
+        return true;
+    } catch (\Exception $ex) {
+        $postinstall[] = 'failed:' . $ex->getMessage();
+    }
+    return false;
+}
+/**
+ * before install
+ * @param mixed &$postinstall 
+ * @param mixed $f 
+ * @param mixed $v_projectInstaller 
+ * @return bool 
+ */
+function pre_install(&$postinstall, $f, $v_projectInstaller)
+{
+    $postinstall = ['pre-installing'];
+    $r = function () {
+        extract(func_get_arg(1), EXTR_REFS);
+        include(func_get_arg(0));
+    };
+    try {
+        $r($f, ['log' => &$postinstall, 'installer' => &$v_projectInstaller]);
+        return true;
+    } catch (\Exception $ex) {
+        $postinstall[] = 'failed:' . $ex->getMessage();
+    }
+    return false;
+}
+
+
+if (!file_exists($archive)) {
+    $response->die(implode("\n", ["archive is not present: " . $archive, getcwd()]));
 }
 
 if ($archive && is_file($archive) && $hzip->open($archive)) {
@@ -45,8 +189,6 @@ if ($archive && is_file($archive) && $hzip->open($archive)) {
             $data .= fread($g, 4096);
         }
         fclose($g);
-
-
         $dc = (array)simplexml_load_string($data);
         isset($dc["author"]) ? $author = $dc["author"] : $error = true;
         isset($dc["version"]) ? $version = $dc["version"] : $error = true;
@@ -56,10 +198,10 @@ if ($archive && is_file($archive) && $hzip->open($archive)) {
         } else {
             $error = true;
             $error_msg = "AppName is missing in manifest";
-        } 
+        }
         if (!$error) {
             $steps[] = "extract archive";
-            $ln = strlen($zip_out_dirname); 
+            $ln = strlen($zip_out_dirname);
             $temp_dir = $v_sys_tempdir;
             if (!is_dir($temp_dir)) {
                 @mkdir($temp_dir, 0777, true);
@@ -77,8 +219,7 @@ if ($archive && is_file($archive) && $hzip->open($archive)) {
                     $path =  trim(substr($fname, $ln), "/");
                     // echo $fname.PHP_EOL;
                     // echo "extract to : ".$fname.PHP_EOL;
-                    // echo "extract dir: ".$temp_dir.PHP_EOL;
-                   
+                    // echo "extract dir: ".$temp_dir.PHP_EOL; 
                     $hzip->extractTo($temp_dir, $fname);
                     $count_file++;
                 }
@@ -96,7 +237,9 @@ if ($archive && is_file($archive) && $hzip->open($archive)) {
     $response->die("can't open archive", 501);
 }
 if (!$error) {
-
+    if (file_exists($pc = $project_dir . '/[pre-publish].php')) {
+        pre_install($preinstall, $pc, $v_projectInstaller);
+    }
 
     if (is_dir($project_dir)) {
         $steps[] = "zip project directory";
@@ -108,83 +251,140 @@ if (!$error) {
     if (is_dir($project_dir)) {
         // before remove temp project directory - keep leavedir.
         $leave_dirs = false;
-        if (file_exists($sync =  $project_dir."/.balafon-sync.project.json")){
+        if (file_exists($sync =  $project_dir . "/.balafon-sync.project.json")) {
             $cp = (object)json_decode(file_get_contents($sync));
-            $leave_dirs = isset($cp->leavedirs)? $cp->leavedirs : null; 
+            $leave_dirs = isset($cp->leavedirs) ? $cp->leavedirs : null;
             $steps[] = '************* leave dirs **************';
-            if ($leave_dirs){
+            if ($leave_dirs) {
                 // remove directory - 
                 $ln = strlen($project_dir);
                 $steps[] = "remove project directory - and leavedirs";
                 $regfist = false;
-                igk_io_rmdir($project_dir, true, function($v)use($ln, $leave_dirs, & $regfist){
-                        $s = substr($v, $ln);
-                        if (in_array($s, $leave_dirs) || in_array(dirname($s), $leave_dirs)){
+                igk_io_rmdir($project_dir, true, function ($v) use ($ln, $leave_dirs, &$regfist) {
+                    $s = substr($v, $ln);
+                    if (in_array($s, $leave_dirs) || in_array(dirname($s), $leave_dirs)) {
+                        return false;
+                    }
+                    foreach ($leave_dirs as $k) {
+                        $t = "/^\/" . ltrim(str_replace("/", "\\/", ($k)), '/') . "/";
+                        $t = str_replace("**", "\/?([^\/]+\/?)(\/)?", $t);
+                        $t = str_replace("*", "[^\/]+", $t);
+                        if (preg_match($t, $s)) {
                             return false;
                         }
-                        foreach($leave_dirs as $k){
-                            $t = "/^\/".ltrim(str_replace("/", "\\/", ($k)), '/')."/";                         
-                            $t = str_replace("**","\/?([^\/]+\/?)(\/)?", $t);
-                            $t = str_replace("*","[^\/]+", $t);
-                            if (preg_match($t, $s)){ 
-                                return false;
-                            }
-                        }
-                        return true;
+                    }
+                    return true;
                 });
             }
         }
-        if (!$leave_dirs){
+        if (!$leave_dirs) {
             $steps[] = "remove project directory";
             igk_io_rmdir($project_dir);
         }
     }
- 
+
     if ($outdir && is_dir($outdir)) {
         //if (project_dir)
         $steps[] = "move install dir : " . $outdir . " -> " . $project_dir;
         //
-        if (!is_dir($project_dir)){
-            $steps[] = "***** rename dir *****"; 
+        if (!is_dir($project_dir)) {
+            $steps[] = "***** rename dir *****";
             rename($outdir, $project_dir);
-        }else{
-            $steps[] = "***** merge dir *****"; 
+        } else {
+            $steps[] = "***** merge dir *****";
             $cdir = [];
-            $tfiles = igk_io_getfiles($outdir, "/.+/", true); 
+            $tfiles = igk_io_getfiles($outdir, "/.+/", true);
             $ln = strlen($outdir);
             $renamefile = 0;
-            foreach($tfiles as $fc){
+            foreach ($tfiles as $fc) {
                 $path = substr($fc, $ln);
-                $out = $project_dir."/".ltrim($path,"/");
-                
-                if (file_exists($out)){
+                $out = $project_dir . "/" . ltrim($path, "/");
+
+                if (file_exists($out)) {
                     continue;
                 }
 
                 $dir = dirname($out);
-                if (!is_dir($dir)){
-                    if (isset($cdir[$dir])){
+                if (!is_dir($dir)) {
+                    if (isset($cdir[$dir])) {
                         continue;
                     }
-                    if (!@mkdir($dir, 0775, true)){
+                    if (!@mkdir($dir, 0775, true)) {
                         $cdir[$dir] = 1;
                         continue;
                     }
                 }
-                rename($fc, $out); 
-                $renamefile++;               
+                rename($fc, $out);
+                $renamefile++;
             }
             $steps[] = "%%% remove temp dir %%";
-            $steps[] =  "%% rename file : ".$renamefile." %%";
+            $steps[] =  "%% rename file : " . $renamefile . " %%";
             igk_io_rmdir($outdir);
         }
-        
     }
     if ($tempzip) {
         $steps[] = "remove tempzip";
         unlink($tempzip);
         $tempzip = null;
     }
+}
+set_include_path(implode(PATH_SEPARATOR, [
+    $corelib_dir . "/bin",
+    $corelib_dir . "/Lib/Classes",
+    $corelib_dir,
+    get_include_path()
+]));
+putenv('PATH=' . implode(PATH_SEPARATOR, [$corelib_dir . "/bin", getenv('PATH')]));
+
+if (!$error && file_exists($pc = $project_dir . '/[post-publish].php')) {
+    post_install($postinstall, $pc, $v_projectInstaller);
+}
+// chmod($corelib_dir."/bin/balafon", 0777);
+
+
+
+if (0 && ($php_cmd = InstallerHelper::GetPhpBinary()) && file_exists($balafon)) {
+    // TODO : update project
+    $v_working_dir = igk_getr('working_dir') ?? InstallerHelper::LocateBaseDir($corelib_dir, 3); //.'/../../../../');
+    $envs = [
+        'IGK_WORKING_DIR' => $v_working_dir,
+        'IGK_PACKAGE_DIR' => $v_working_dir . '/application/Packages',
+        'IGK_MODULE_DIR' => $v_working_dir . '/application/Packages/Modules',
+        'IGK_APP_DIR' => $v_working_dir . '/application',
+        'IGK_PROJECT_DIR' => $v_working_dir . '/application/Projects',
+        'REQUEST_URI'=>'', // + | empty because execution of a command require no uri access 
+    ];
+
+    $pre = [];
+    foreach ($envs as $k => $v) {
+        $s = sprintf('%s=%s', $k, $v);
+        //putenv($s);
+        $pre[] = 'export ' . $s;
+    }
+    $pre = implode(';', $pre).";";
+    $cwd = getcwd();
+    chdir($v_working_dir);
+    $install_project_command = [
+        // '--clearcache',
+        '--version --debug --report-error',
+        // '--db:initdb ' . $project_name.'Controller' 
+    ];
+    foreach($install_project_command as $install){
+        $v_cmd = $pre."{$php_cmd} {$balafon} {$install} 1>&1 2>&1; echo \"\n\"$?";
+        $r = (object)InstallerHelper::HandleBacktickCommand(`{$v_cmd}`);
+        if ($r->exit_code!=0){
+            $response->die(implode("\n", ['exec command failed :: ', 
+            $v_cmd, json_encode($r, JSON_UNESCAPED_SLASHES)]));
+        }
+    }
+    
+    // update all relative action div
+    $c = $pre."{$php_cmd} '{$balafon}' --project:list --debug --report-error 1>&1 2>&1; echo \"\n\"$?";
+    $r = InstallerHelper::HandleBacktickCommand(`{$c}`);
+    // $r = InstallerHelper::HandleBacktickCommand(`{$php_cmd} {$balafon} --command:init  1>&1 2>&1; echo "\n"$?`); 
+    echo json_encode($r, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    exit(); 
+    // + | chdir($cwd);
 }
 
 
@@ -199,7 +399,9 @@ $_vart = compact(
     "count_file",
     "author",
     "steps",
-    "outdir"
+    "outdir",
+    'preinstall',
+    'postinstall'
 );
 if (!empty($error_msg)) {
     $_vart["error_msg"] = $error_msg;

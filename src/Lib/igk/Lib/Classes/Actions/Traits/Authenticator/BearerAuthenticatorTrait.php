@@ -3,26 +3,27 @@
 // @file: BearerAuthenticatorTrait.php
 // @date: 20230515 10:40:52
 namespace IGK\Actions\Traits\Authenticator;
-
 use IGK\Controllers\BaseController;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\ErrorRequestResponse;
 use IGK\System\Http\Responses\UserResponse;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions\Traits\Authenticator
 */
 trait BearerAuthenticatorTrait{
-
     protected $_bearerAuthenticatorCookieLife = 3600;
     protected $_bearerAuthenticatorTokenHash = "-t-!#@4746QD-";
     protected $_bearerAuthenticatorCookieLifeConstants = 60*60*60*24;    // 60 days
+    /**
+     * retrieve user from server token service - connexion must be store in action's controller table
+     * @param bool $update 
+     * @param mixed &$token 
+     * @return null|ModelBase 
+     */
     protected abstract function getUserFromToken(bool $update = true, & $token=null ): ?ModelBase;
-
     /**
      * create use profile from application'user
      */
@@ -36,7 +37,6 @@ trait BearerAuthenticatorTrait{
         $user = $this->getUserFromToken($update, $token) ?? igk_do_response(new ErrorRequestResponse(401, "unauthenticated"));
         return $user;
     } 
-
     /**
      * generate token hash code 
      * @param mixed $user 
@@ -67,7 +67,6 @@ trait BearerAuthenticatorTrait{
         $exp_format = date('Y-m-d H:i:s', $expiration_date);
         $rememberbe = false;
         $start = null;
-
         if ($row){
             $info = json_decode($row->cnx_token_info);
             // if (!property_exists($info, 'start')){
@@ -78,7 +77,6 @@ trait BearerAuthenticatorTrait{
             $connexion::update([
                 'cnx_Expire_At' => $exp_format
             ],$condition);
-
         }else{
             $tokeninfo = (object)[
                 'agent'=>igk_server()->HTTP_USER_AGENT,
@@ -88,7 +86,6 @@ trait BearerAuthenticatorTrait{
                 'rememberme'=>$rememberme
             ];
             // connexion token - 
-            
             $connexion::create([
                 'cnx_user_guid' => $user->clGuid,
                 'cnx_token' => $token,

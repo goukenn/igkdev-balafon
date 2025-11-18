@@ -1,14 +1,17 @@
 <?php
 
 use IGK\Controllers\ApplicationModuleController;
+use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Helper\ViewHelper;
+use IGK\System\Controllers\ApplicationModules;
+use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 
 if (!function_exists('igk_current_module')) {
     /**
-     * retrive the current module according to execution
+     * retrive the current module according to context execution
      * @return mixed 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
@@ -16,6 +19,9 @@ if (!function_exists('igk_current_module')) {
      */
     function igk_current_module()
     {
+        $v_skey = 'module_resolution';
+        $v_env = igk_environment();
+
         list($file) = igk_sys_get_caller_file(1);
         if ($file) {
             $path = igk_io_collapse_path($file);
@@ -23,7 +29,7 @@ if (!function_exists('igk_current_module')) {
 
             if (strpos($path, $key) === 0) {
                 $n = substr($path, strlen($key) + 1);
-                $modules = igk_environment()->get("module_resolution") ?? [];
+                $modules = $v_env->get($v_skey) ?? [];
                 if (isset($modules[$n])) {
                     return $modules[$n];
                 }
@@ -33,7 +39,7 @@ if (!function_exists('igk_current_module')) {
                     if (strpos($n, $k) !== false) {
                         $mod = igk_get_module($k);
                         $modules[$n] = $mod;
-                        igk_environment()->set('module_resolution', $modules);
+                        $v_env->set($v_skey, $modules);
                         return $mod;
                     }
                 }
@@ -41,6 +47,8 @@ if (!function_exists('igk_current_module')) {
         }
     }
 }
+
+
 /**
  * include module helper
  */
@@ -48,7 +56,21 @@ function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
 {
     return igk_require_module($modulename, $init, $loadall, 0);
 }
-///<summary>represent require module</summary>
+
+if (!function_exists('igk_get_loaded_modules')) {
+
+    /**
+     * get loaded required modules 
+     * @return mixed 
+     */
+    function igk_get_loaded_modules()
+    {
+        $modules = igk_environment()->require_modules();
+        return $modules;
+    }
+}
+
+
 /**
  * /**
  *  
@@ -63,16 +85,16 @@ function igk_include_module($modulename, ?callable $init = null, $loadall = 0)
  * @throws ReflectionException 
  * @throws EnvironmentArrayException 
  */
-function igk_require_module(string $modulename, callable $init = null, $loadall = 1, $die = 1, $name = null)
+function igk_require_module(string $modulename, ?callable $init = null, $loadall = 1, $die = 1, $name = null)
 {
+    $v_mod_key = IGKEnvironmentConstants::MODULES;
     $IGK_ENV = igk_environment();
     $g = &igk_environment()->require_modules();
     $mkey = igk_uri(strtolower($modulename));
     $v_init_on_view = ViewHelper::CurrentCtrl() !== null;
-    $v_init_doc_method = \IGK\Controllers\ApplicationModuleController::INIT_METHOD;
+    $v_init_doc_method = \IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD;
     // igk_trace();
     if (isset($g[$mkey])) {
-       // igk_wln('binding.... ', __FILE__.":".__LINE__ , $mkey, $v_init_on_view, ViewHelper::CurrentCtrl());
         $mod = $g[$mkey];
         igk_bind_module($mod, $name);
         if ($init) {
@@ -81,16 +103,15 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             $gdoc = $mod->getEnvParam($v_init_doc_method);
             if (is_null($gdoc)) {
                 $doc = ViewHelper::CurrentDocument();
-                $mod->initDoc($doc);
-                $mod->getEnvParam($v_init_doc_method, $doc);
+                igk_module_init_doc($mod, $doc);
             }
         }
         return $mod;
     }
-    // igk_environment()->write_debug("load module : " . $modulename);
     $dir = igk_dir(igk_get_module_dir() . "/{$modulename}");
-    if (!file_exists($dir)) {
+    if (!igk_io_file_exists($dir, true)) {
         if ($die) {
+            igk_trace();
             igk_dev_wln_e(
                 __FILE__ . ":" . __LINE__,
                 "module missing : ",
@@ -98,12 +119,13 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             );
             throw new \IGKException(__FUNCTION__ . "::module <b>{$modulename}</b> missing " . igk_io_collapse_path($dir), 500);
         }
+        igk_die('missing location ' . $dir);
         return null;
     }
 
     // $expected_time = 0.05;
     // Benchmark::mark("loading::" . $modulename);
-    igk_push_env(IGKEnvironmentConstants::MODULES, $modulename);
+    igk_push_env($v_mod_key, $modulename);
     $f = 0;
     $ext_regex = "/(.)*\.php$/";
     $excluded_key = IGKEnvironment::IGNORE_LIB_DIR;
@@ -155,7 +177,7 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             function ($c, &$excludedir = null) use ($ext_regex, $dir) {
                 $fdir = dirname($c);
                 if ($dir != $dir) {
-                    if (file_exists($fdir . DIRECTORY_SEPARATOR . ApplicationModuleController::CONF_MODULE) || ($excludedir && isset($excludedir[$dir]))) {
+                    if (igk_io_file_exists($fdir . DIRECTORY_SEPARATOR . ApplicationModuleController::CONF_MODULE, true) || ($excludedir && isset($excludedir[$dir]))) {
                         return -1;
                     }
                 }
@@ -169,15 +191,37 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
             $excludedir
         );
     }
-    igk_pop_env(IGKEnvironmentConstants::MODULES);
+    igk_pop_env($v_mod_key);
     $mod = igk_init_module($modulename, $init);
     $g[$mkey] = $mod;
+    // + | --------------------------------------
+    // + | file: used to store list of file to 
+    // + |
     if (igk_count($f) > 0) {
         $g["::files"][$mkey] = $f;
     }
-    // :: Benchmark::expect("loading::" . $modulename, $expected_time);
-    igk_bind_module($mod, $name);
+    if (!$mod) {
+        igk_die('missing location [' . $dir . '] ? ' . file_exists($dir) . ' -- ' . $modulename);
+    } else {
+        igk_bind_module($mod, $name);
+    }
     return $mod;
+}
+function igk_module_inject_all()
+{
+    $mod = igk_get_modules();
+    $count = 0;
+    $ts = [];
+    $failed = [];
+    foreach (array_keys($mod) as $c) {
+        if ($mod_c = igk_require_module($c, null, false)) {
+            $count++;
+            $ts[] = $c;
+        } else {
+            $failed[] = $c;
+        }
+    }
+    return compact('ts', 'failed');
 }
 /**
  * 
@@ -185,12 +229,13 @@ function igk_require_module(string $modulename, callable $init = null, $loadall 
  * @param null|string $name 
  * @return void 
  */
-function igk_bind_module($mod, ?string $name = null)
+function igk_bind_module($mod, ?string $name = null, ?BaseController $controller = null)
 {
-    if ($ctrl = \IGK\Helper\ViewHelper::CurrentCtrl()) {
-        $g = $ctrl->getEnvParam("modules") ?? [];
+    $v_key = IGKEnvironmentConstants::CtrlEnvParamModules;
+    if ($ctrl = $controller ?? \IGK\Helper\ViewHelper::CurrentCtrl()) {
+        $g = $ctrl->getEnvParam($v_key) ?? [];
         $g[$name] = $mod;
-        $ctrl->setEnvParam("modules", $g);
+        $ctrl->setEnvParam($v_key, $g);
     }
 }
 
@@ -206,34 +251,57 @@ function igk_bind_module($mod, ?string $name = null)
  */
 function igk_init_module(string $path,  ?callable $init = null, $initialize = true)
 {
-    $v_meth = \IGK\Controllers\ApplicationModuleController::INIT_METHOD;
+    $v_meth = \IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD;
     $v_init = igk_environment()->getModulesManager()->init();
     if ($mod = $v_init->get($path)) {
         return $mod;
     }
-    $dir = igk_dir(igk_get_module_dir() . "/{$path}");
-    if (!file_exists($dir))
-        return null;
+    $v_mod_dir = igk_get_module_dir();
+    $dir = null;
+
+    if (($s = IO::ResolveDirRealPath($v_mod_dir, igk_dir($path)))) {
+        $dir = $s;
+    } else {
+        return false;
+    }
+    $path = substr($dir, strlen($v_mod_dir) + 1);
     // + | require to protect to case sensitive path
-    $sdir = IO::GetUnixPath($dir, true);
-    if (igk_environment()->isOPS()) {
-        if (empty($sdir)) {
-            $sdir = $dir; //realpath($dir);
-        }
-    }
-    if (empty($dir)) {
-        return null;
-    }
+    // $sdir = IO::GetUnixPath($dir, true);
+    // if (igk_environment()->isOPS()) {
+    //     if (empty($sdir)) {
+    //         $sdir = $dir; //realpath($dir);
+    //     }
+    // }
+    // if (empty($dir)) {
+    //     return null;
+    // }
     $ob = new \IGK\Controllers\ApplicationModuleController($dir, $path);
     if ($initialize) {
         $dc = igk_ctrl_current_doc();
         if (!$init && (method_exists($ob, $v_meth) || $ob->supportMethod($v_meth)) && $dc) {
-            $ob->initDoc($dc);
-            $ob->setEnvParam($v_meth, $dc);
+            igk_module_init_doc($ob, $dc);
         } else if ($init) {
             $init($ob, $dc);
         }
         $v_init->register($path, $ob);
     }
+    igk_hook(IGKEvents::HOOK_MODULE_DID_INIT_MODULE, ['module'=>$ob]);    
     return $ob;
+}
+
+
+// because initDoc only need to be call on view loading only once to initialize the document 
+function igk_module_init_doc(ApplicationModuleController $module, $doc)
+{
+    $mod = &igk_environment()->require_modules();
+    $v_k = '::initDoc';
+    if (!isset($mod[$v_k])) {
+        $mod[$v_k] = [];
+    }
+    $nk = strtolower($module->getName());
+    if (!isset($mod[$v_k][$nk])) {
+        call_user_func_array([$module, $fc = 'initDoc'], [$doc]);
+        $mod[$v_k][$nk] = 1;
+        $module->setEnvParam($fc, $doc);
+    }
 }

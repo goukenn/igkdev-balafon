@@ -3,16 +3,11 @@
 // @filename: MacrosTrait.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Traits;
-
 use Closure;
-
 trait MacrosTrait
 {
     private static $macros;
-
     public static function __callStatic($name, $arguments)
     {
         if (is_null(self::$macros)) {

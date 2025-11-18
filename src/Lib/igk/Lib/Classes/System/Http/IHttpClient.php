@@ -3,10 +3,7 @@
 // @file: IHttpClient.php
 // @date: 20230913 07:21:29
 namespace IGK\System\Http;
-
 use IGK\System\Http\IHttpClientOptions;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http
@@ -25,14 +22,12 @@ interface IHttpClient{
      * @return mixed 
      */
     function download(string $url, IHttpClientOptions $options);
-
     /**
      * get data 
      * @param string $url 
      * @return mixed 
      */
     function get(string $url);
-
     /**
      * post data
      * @param string $url 
@@ -40,15 +35,12 @@ interface IHttpClient{
      * @return mixed 
      */
     function post(string $url, Array $data=[]);
-
-
     /**
      * request with client
      * @param string $url 
      * @return mixed 
      */
     function request(string $url);
-
     /**
      * get last request status
      * @return int 

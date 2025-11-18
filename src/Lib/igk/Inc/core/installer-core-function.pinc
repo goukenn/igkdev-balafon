@@ -1,0 +1,124 @@
+<?php
+
+// file: installer-core-function.pinc 
+error_reporting(-1);
+ini_set('display_errors', 1);
+
+
+
+if (!function_exists('igk_io_flatpath')) {
+    function igk_io_flatpath(string $path)
+    {
+        $skip = 0;
+        $rpath = [];
+        while ($tp = $path) {
+            if (($path = dirname($path)) == $tp)
+                break;
+            $ts = basename($tp);
+            if ('.' == $ts) {
+                continue;
+            }
+            if ('..' == $ts) {
+                $skip++;
+            } else {
+                if ($skip == 0) {
+                    array_unshift($rpath, $ts);
+                } else
+                    $skip--;
+            } 
+        }
+        return $path .implode(DIRECTORY_SEPARATOR, $rpath);
+    }
+}
+
+if (!function_exists("igk_getr")) {
+    function igk_getr($n, $default = null)
+    {
+        if (isset($_REQUEST[$n])) {
+            return $_REQUEST[$n];
+        }
+        return $default;
+    }
+}
+ 
+
+
+if (!in_array('igk_count', $exclude_cores ?? [])  && !function_exists("igk_count")) {
+    function igk_count($n)
+    {
+        return count($n);
+    }
+}
+
+if (!in_array('igk_dir', $exclude_cores ?? []) &&  !function_exists("igk_dir")) {
+    function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
+    {
+        if ($dir === null) {
+            return $dir;
+        }
+        $d = $separator;
+        $out = '';
+        if (ord($d) == 92) {
+            $out = preg_replace("/\//", '\\', $dir);
+            $out = str_replace("\\", "\\", $out);
+        } else {
+            $d = "/[\\\\]/";
+            $out = preg_replace($d, '/', $dir);
+            $out = str_replace("//", "/", $out);
+        }
+        return $out;
+    }
+}
+if (!in_array('igk_io_rmdir', $exclude_cores ?? []) && !function_exists("igk_io_rmdir")) {
+    function igk_io_rmdir($dir, $recursive = true, $callback = null)
+    {
+        if (!is_dir($dir))
+            return false;
+        $pdir = array($dir);
+        $kdir = array($dir);
+        $d = 1;
+        while ($dir = array_pop($pdir)) {
+            $hdir = opendir($dir);
+            if (!$hdir)
+                return false;
+            while (($f = readdir($hdir))) {
+                if (($f == ".") || ($f == ".."))
+                    continue;
+                $v = igk_dir($dir . "/" . $f);
+
+                if ($callback && !$callback($v)) {
+                    continue;
+                }
+                if (is_link($v)) {
+                    @unlink($v);
+                    continue;
+                }
+                if (is_dir($v)) {
+                    if ($recursive) {
+                        array_push($pdir, $v);
+                        array_push($kdir, $v);
+                    } else {
+                        $d = 0;
+                        break;
+                    }
+                } else if (is_file($v) || is_link($v)) {
+                    if ($recursive)
+                        unlink($v);
+                    else {
+                        $d = 0;
+                        break;
+                    }
+                }
+            }
+            closedir($hdir);
+        }
+        while ($d && ($dir = array_pop($kdir))) {
+            if (is_link($dir)) {
+                unlink($dir);
+            } else {
+                @rmdir($dir);
+            }
+        }
+        return igk_count($kdir) == 0;
+    }
+}

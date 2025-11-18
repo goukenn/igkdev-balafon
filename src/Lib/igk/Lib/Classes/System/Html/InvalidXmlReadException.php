@@ -3,20 +3,13 @@
 // @filename: InvalidXmlReadException.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html;
-
 use IGKException;
-
-///<summary>Represente class: IGKInvalidXmlReadException</summary>
 /**
-* Represente IGKInvalidXmlReadException class
+* Represent IGKInvalidXmlReadException class
 */
 class InvalidXmlReadException extends IGKException{
     var $offset;
-    ///<summary></summary>
-    ///<param name="msg"></param>
-    ///<param name="offset"></param>
     /**
     * 
     * @param mixed $msg

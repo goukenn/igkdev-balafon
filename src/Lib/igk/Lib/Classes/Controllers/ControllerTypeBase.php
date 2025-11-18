@@ -5,18 +5,16 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
- 
-
+/**
+ * controller type base 
+ */
 abstract class ControllerTypeBase extends BaseController{   
-    ///<summary></summary>
     public static function GetAdditionalConfigInfo(){
         return null;
     }
-    ///<summary>get de default string content</summary>
     public static function GetAdditionalDefaultViewContent(){
         static $viewcomment=null;
         if($viewcomment === null)
@@ -26,18 +24,15 @@ abstract class ControllerTypeBase extends BaseController{
         $r="<?php\n/**\n* ".igk_html_eval_article("{$viewcomment}\n\$t->clearChilds();\nigk_html_article(\$this , \"default\", \$t);\n", 
             [
                 "author"=>igk_sys_getconfig("developer", IGK_AUTHOR), 
-                "date"=>date(\IGKConstants::MYSQL_DATETIME_FORMAT), 
+                "date"=>date(Constants::MYSQL_DATETIME_FORMAT), 
                 "version"=>1.0 ,
                 "desc"=>"",
             ]);
         return $r;
     }
-    ///<summary></summary>
     public static function GetCtrlCategory(){
         return "DEFAULT";
     }
-    ///<summary></summary>
-    ///<param name="t" ref="true"></param>
     public static function SetAdditionalConfigInfo(& $t){
         return 1;
     }

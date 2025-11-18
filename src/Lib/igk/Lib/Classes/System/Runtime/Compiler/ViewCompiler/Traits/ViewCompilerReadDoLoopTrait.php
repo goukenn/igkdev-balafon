@@ -3,15 +3,12 @@
 // @file: ViewCompilerReadDoLoop.php
 // @date: 20221026 17:16:03
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Traits;
-
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
 use IGK\System\Runtime\Compiler\ViewCompiler\CodeBlock\DoWhileBlock;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerConstants;
 use IGKException;
 use ReflectionException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -41,7 +38,6 @@ trait ViewCompilerReadDoLoopTrait
             $this->_readBlock($options, $id, $value);
         }
     }
-
     /**
      * @param ReadTokenOptions $options 
      * @param null|string $id 
@@ -56,7 +52,6 @@ trait ViewCompilerReadDoLoopTrait
         $fop = $options->flagOptions;
         $v_buffer = &$fop->buffer;
         $v_block = $this->m_block;
-
         if ($fop->depth == $options->depth) {
             switch ($id) {
                 case T_WHILE:
@@ -83,7 +78,6 @@ trait ViewCompilerReadDoLoopTrait
             $this->_endHandleDoWhileBlock($options, $id, $value);
             return true;
         }
-
         if ($fop->multicode || (!$fop->condition && !$fop->condition_read)) {
             switch ($value) {
                 case ';':
@@ -109,7 +103,6 @@ trait ViewCompilerReadDoLoopTrait
         }
         return true;
     }
-
     protected function _endHandleDoWhileBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
         $fop = $options->flagOptions;

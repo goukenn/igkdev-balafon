@@ -3,14 +3,9 @@
 // @filename: IGKMediaArrayAccessTrait.7.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Polyfill;
-
-
 trait IGKMediaArrayAccessTrait
 {
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -22,8 +17,6 @@ trait IGKMediaArrayAccessTrait
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -35,9 +28,6 @@ trait IGKMediaArrayAccessTrait
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $n
@@ -52,8 +42,6 @@ trait IGKMediaArrayAccessTrait
         }
         $g[$n]=$v;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n

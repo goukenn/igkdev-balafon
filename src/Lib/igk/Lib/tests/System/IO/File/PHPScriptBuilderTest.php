@@ -27,7 +27,6 @@ use AppTestProject;
 use ArrayAccess;
 use IGK\System\Database\Factories\FactoryBase as Factory;
 
-///<summary>Factory base</summary>
 /**
 * Factory base
 * @package dummy
@@ -93,8 +92,7 @@ PHP;
                 "use AppTestProject;",
                 "use ArrayAccess;",
                 "use IGK\System\Database\Factories\FactoryBase as Factory;",
-                "",
-                "///<summary>Factory base</summary>",
+                "",                
                 "/**",
                 "* Factory base",
                 "* @package dummy",

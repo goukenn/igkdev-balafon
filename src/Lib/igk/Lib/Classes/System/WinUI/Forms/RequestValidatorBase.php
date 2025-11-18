@@ -3,15 +3,12 @@
 // @file: RequestValidatorBase.php
 // @date: 20230303 23:02:59
 namespace IGK\System\WinUI\Forms;
-
 use IGK\Actions\IActionRequestValidator;
 use IGK\Helper\Activator;
 use IGK\System\Data\ObjectDataValidator;
 use IGK\System\DataArgs;
 use IGK\System\Http\Request;
 use IGK\System\Security\Web\RequestValiationMapper;
-
-///<summary></summary>
 /**
 * request data validator
 * @package IGK\System\WinUI\Forms
@@ -33,7 +30,6 @@ abstract class RequestValidatorBase extends ObjectDataValidator implements IActi
     public function validate
     ($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null, ?array $resolvKeys=null): bool
     { 
-        
         $r = (new RequestValiationMapper(
             $mapper,
             $defaultValues,

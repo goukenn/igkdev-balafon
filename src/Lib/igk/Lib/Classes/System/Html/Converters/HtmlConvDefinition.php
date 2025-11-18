@@ -3,9 +3,6 @@
 // @file: HtmlConvDefinition.php
 // @date: 20221006 10:34:07
 namespace IGK\System\Html\Converters;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Converters
@@ -21,7 +18,6 @@ class HtmlConvDefinition{
      * @var mixed
      */
     var $value;
-
     /**
      * create Helper
      */

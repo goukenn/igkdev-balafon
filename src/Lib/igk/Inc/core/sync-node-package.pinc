@@ -1,10 +1,15 @@
 <?php
-//
+// @author: C.A.D. BONDJE DOUE
+// @filename: sync-node-package.pinc
+// @date: 20250723 10:57:57
+// @desc: 
 
- 
+ini_set('display_errors',1);
+error_reporting(-1); 
+
 if (!class_exists('Logger')){
     /**
-     * define global sync Logger - to die with reponse
+     * define global sync Logger - to die with response
      * @package 
      */
     abstract class Logger{
@@ -17,14 +22,14 @@ if (!class_exists('Logger')){
         }
     }
 }
-if (basename(__FILE__)!='sync-node-package.pinc'){
+if (basename(__FILE__)!='sync-npm-package.php'){
     unlink(__FILE__);
+    $response->die('missing injections.'.basename(__FILE__));
 }
 $command = (object)['options'=>[]];
 $args = igk_getr('args');
 
-ini_set('display_errors',1);
-error_reporting(-1);
+
  
 if (!$args){
     Logger::danger("missing args::::");
@@ -52,28 +57,11 @@ if (in_array($c = $args[0], ['yarn', 'npm', 'exec'])){
     $cmd = $yarn .' ' .implode(" ", $args);
 } else if($npm = `{$search} npm` ) {
     $cmd = $npm .' '.implode(" ", $args);
-} else {
-    echo "end ....";
-    Logger::danger("missing yarn or npm");        
+} else { 
+   $response->die("missing yarn or npm");        
     return -1;
 }
-//  echo "cmd : ".$cmd;
-
-
-// if (property_exists($command->options, '--version')){
-//     $shell_command[] = '--version';
-// }
-// if (empty($shell_command = implode(' ', $shell_command))){
-//     Logger::danger('shell command require');
-// }
-// if ($o =  OsShell::ExecInWorkingDir( $cmd .' '.$shell_command." 1>&2 2>&2", igk_io_packagesdir() , $success=$this->command.'-complete')){
-//     if (igk_str_endwith($o, $success)){
-//         $o = igk_str_rm_last($o, $success);
-//     }
-//     Logger::print($o);
-// }
 $g = $c =  null; 
-
 $response->response(json_encode([
     'script'=>__FILE__,
     'os'=>PHP_OS,
@@ -83,4 +71,3 @@ $response->response(json_encode([
     "cmd"=>$cmd    
 ], JSON_UNESCAPED_SLASHES));
 exit;
-

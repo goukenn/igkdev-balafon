@@ -15,14 +15,13 @@ Description: control that will host every article and navigate thru them by conf
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 
+/**
+ * 
+ * @package 
+ */
 abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBase {
-	public function getName(){return get_class($this);}
+	public function getName(){return get_class($this);} 
 
-	protected function initComplete($context=null){
-		parent::initComplete();
-		//please enter your controller declaration complete here
-		// igk_js_load_script($this->App->Doc, dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
-	}
 	public function getcanAddChild(){
 		return false;
 	}

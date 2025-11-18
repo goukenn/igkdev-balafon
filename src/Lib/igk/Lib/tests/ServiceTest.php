@@ -4,38 +4,47 @@
 // @date: 20220803 13:48:54
 // @desc: 
 
+namespace IGK\Tests;
 
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
+use IGKServices;
 
 class ServiceTest extends BaseTestCase{
     public function test_service(){
-        $srv = igk_app()->getService("ovh");        
+        $service_key = 'test-service';
+        $srv = igk_app()->getService($service_key );        
         $this->assertEquals(
             null,
-            $srv, "service not found"
+            $srv, 
+            "service not found"
         );
-        IGKServices::Register("ovh", DummyService::class );
-        $srv = igk_app()->getService("ovh");        
+        /**
+         * register a service 
+         */
+        IGKServices::Register($service_key , DummyService::class );
+        $srv = igk_app()->getService($service_key );        
         $this->assertEquals(
-            DummyService::class,
+           DummyService::class,
            $srv ? get_class($srv) : null, "service not found"
         );
-
     }
 }
 
 class DummyService implements \IGK\IService{
+    public function getConfigurableProperties(): array { 
+        return [];
+    }
 
-    public function init(): bool {
+    public function init($options =null): bool {
         $fc = igk_configs()->get("ovh.ovhconfig");
-        if ($fc && file_exists($fc)){
+        if ($fc && igk_io_file_exists($fc)){
             return true;
         }
         //check if 
         //found the 
         $base = Path::LocalPath(igk_io_basedir());
-        while(! ($found = file_exists($fc = $base."/.ovhconfig"))){
+        while(! ($found = igk_io_file_exists($fc = $base."/.ovhconfig"))){
             if ($base == ($c=dirname($base))){
                 break;
             }
@@ -45,6 +54,7 @@ class DummyService implements \IGK\IService{
             igk_configs()->{"ovh.ovhconfig"} = $fc;            
             return true;
         }
+        return false;
      }
 
 }

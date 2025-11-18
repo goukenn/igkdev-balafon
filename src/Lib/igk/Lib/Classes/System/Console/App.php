@@ -3,22 +3,19 @@
 // @filename: App.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console;
-
 use IGK\System\Configuration\XPathConfig;
 use Closure;
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Console\Commands\InitCommand;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKAppType;
 use IGKException;
+use ReflectionException;
 use stdClass;
 use Throwable;
-
-///<summary>represent Balafon CLI console Application</summary>
 class App
 {
     const GREEN = "\e[1;32m";
@@ -37,7 +34,6 @@ class App
     const SHA_INDIGO = "\e[38;2;153;35;89m";
     const END = "\e[0m";
     const TEMP_DIR_NAME = '.balafon-caches';
-
     const GroupIndex = 2;
     /*
      * application version
@@ -54,12 +50,10 @@ class App
      * @var mixed
      */
     protected $_basePath;
-
     /**
      * store application configuration
      */
     protected $_configs;
-
     public function getConfigs()
     {
         return $this->_configs;
@@ -75,7 +69,6 @@ class App
         }
         return null;
     }
-
     /**
      * return application level base path 
      * @return string 
@@ -101,7 +94,7 @@ class App
      * @return void 
      * @throws Exception 
      */
-    public static function Run($command = [], string $basePath = null, XPathConfig $configs = null)
+    public static function Run($command = [], ?string $basePath = null, ?XPathConfig $configs = null)
     {
         $app = (new static);
         if ($basePath === null) {
@@ -109,22 +102,17 @@ class App
         }
         // + |init balafon temporary directory  
         $wdir = sys_get_temp_dir() . "/" . self::TEMP_DIR_NAME;
-
         !defined('IGK_LOG_FILE') && define('IGK_LOG_FILE', $wdir . "/logs/." . igk_environment()->getToday() . "/cons.log");
-
         if (!IO::CreateDir($wdir)) {
             Logger::danger("can't create tempory directory for command storage");
         }
-
         register_shutdown_function(function () use ($wdir) {
             if (!($error = error_get_last())) {
                 IO::RmDir($wdir);
             } else {
-                // igk_environment()->isDev() && print_r($error);
                 error_clear_last();
             }
         });
-
         igk_environment()->NO_DB_LOG = 1;
         igk_environment()->NO_SESSION = 1;
         igk_environment()->set("workingDir", $wdir);
@@ -132,19 +120,14 @@ class App
         $app->_configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));
         $app->boot();
-
-        if (!file_exists(AppCommandConstant::GetCacheFile())) {
-            Logger::warn("missing cache files");
+        if (!igk_io_cache_file_exists($fc = AppCommandConstant::GetCacheFile())) {
+            Logger::warn("balafon - missing cache ".$fc);
             $v_cmd = self::CreateCommand($app);
-            Logger::info("init command");
             $cmd = new InitCommand();
             $cmd->exec($v_cmd);
             unset($v_cmd);
-            Logger::success('init command.');
         }
-
         $command_args = AppCommand::GetCommands($app);
-
         if ($command_args) {
             foreach ($command_args as $c) {
                 $callbable = null;
@@ -174,11 +157,11 @@ class App
         $app->command = $command;
         $tab = array_slice(igk_server()->argv, 1);
         // + | before execute a command move the working directory to server PWD
-        if (isset($_SERVER['IGK_COMMAND_PWD'])) {
-            chdir($_SERVER['IGK_COMMAND_PWD']);
-            unset($_SERVER['IGK_COMMAND_PWD']);
+        if (isset($_SERVER[$v_c = 'IGK_COMMAND_PWD'])) {
+            chdir($_SERVER[$v_c]);
+            unset($_SERVER[$v_c]);
         }
-        return self::Exec($app, $tab);
+        return self::Exec($app, $tab) ?? 0;
     }
     /**
      * expose start base path
@@ -201,12 +184,10 @@ class App
         $command = $app->command;
         $v_cnf = $app->getConfigs();
         $v_basePath = $app->_basePath;
-
         $app = new static();
         // + pass new configuration .
         $app->_basePath = $v_basePath;
         $app->_configs = $v_cnf;
-
         if ($command_args = AppCommand::GetCommands($app)) {
             foreach ($command_args as $c) {
                 $callbable = null;
@@ -222,7 +203,6 @@ class App
                 ];
             }
         }
-
         $handle = [];
         foreach ($command as $n => $b) {
             if (count($c = explode(',', $n)) > 1) {
@@ -235,7 +215,6 @@ class App
         }
         ksort($command);
         $app->command = $command;
-
         $tab = $args;
         $command = igk_createobj();
         $command->app = $app;
@@ -248,7 +227,6 @@ class App
         $args = [];
         $show_help = true;
         $split = false;
-
         foreach ($tab as $id => $v) {
             if (!$split && $v == '--') {
                 $split = true;
@@ -276,8 +254,7 @@ class App
                         $command->options->{$c[0]} = $v_ts;
                     }
                 } else {
-
-                    if ($c[0][0] == "-") {
+                    if ($c[0] && ($c[0][0] == "-") && ($v!='-') && (strlen($c[0])>1)){
                         if (!property_exists($command->options, $c[0])) {
                             $command->options->{$c[0]} = $v_ts;
                         } else {
@@ -292,7 +269,6 @@ class App
                 }
             }
         }
-
         try {
             $action = $command->exec; //($v, $command, implode(":", array_slice($c,1)));
             if ($action) {
@@ -301,7 +277,6 @@ class App
                     foreach ($args as $v) {
                         $targs[] = $v;
                     }
-
                     return call_user_func_array([$app, 'showHelp'], $targs);
                 }
                 return $action($command, ...$args);
@@ -331,6 +306,21 @@ class App
         if ($show_help)
             $app->showHelp();
     }
+    /**
+     * determine if running is interactive
+     * @return bool 
+     */
+    public function isInteractive():bool{
+        return function_exists('stream_isatty') ? stream_isatty(STDIN)
+             : (function_exists('posix_isatty') ? posix_isatty(STDIN) : null);
+    }
+    /**
+     * 
+     * @return void 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     protected function boot()
     {
         igk_hook("console::app_boot", $this);
@@ -395,7 +385,6 @@ class App
         $this->print("\tbalafon [command] [options] [arguments]");
         $this->print("");
         $this->print("");
-
         $groups = [];
         array_walk($this->command, function ($c, $key) use (&$groups) {
             $cat = null;
@@ -405,12 +394,10 @@ class App
                 }
             }
             $cat = $cat ?? igk_getv($c, self::GroupIndex, "");
-
             if (!isset($groups[$cat]))
                 $groups[$cat] = [];
             $groups[$cat][$key] = $c;
         });
-
         ksort($groups,  SORT_FLAG_CASE | SORT_STRING);
         $key = key($groups);
         while ((count($groups) > 0) && ($g = array_shift($groups))) {
@@ -418,16 +405,13 @@ class App
                 Logger::print(App::Gets(App::YELLOW, "groups: " . $key));
                 Logger::print("");
             }
-
             foreach ($g as $n => $c) {
                 $s = " " . self::GREEN . $n . "\e[0m \r\t\t\t\t";
-
                 if (is_array($c) && is_array($c[1])) {
                     $s .= (igk_getv($c[1], "desc"));
                 } else  if (! ($c instanceof Closure)) {
                     $s .= (igk_getv($c, 1));
                 }
-
                 $this->print(implode("\r\n\t\t\t\t", explode("\n", $s)) . "\n");
             }
             $key = key($groups);
@@ -450,9 +434,7 @@ class App
     {
         return $color . $s . "\e[0m";
     }
-
     private function __construct() {}
-
     /**
      * create app command from app
      * @param App $app 
@@ -465,7 +447,6 @@ class App
             "options" => (object)[]
         ];
     }
-
     /**
      * create a command options
      * @return object 
@@ -488,7 +469,6 @@ class App
         $o->source = $source;
         return $o;
     }
-
     /**
      * get app author
      * @return mixed 

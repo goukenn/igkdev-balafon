@@ -63,8 +63,7 @@ EOF
 		if ($store) {
 			$o = $n->render($options);
 			igk_io_save_file_as_utf8(igk_io_baseDir("sitemap.xml"), $o);
-			header("Content-Type: application/xml");
-			igk_wl($o);
+			igk_xml($o);
 		} else
 			$n->RenderXML($options);
 	}

@@ -1,16 +1,12 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ViewLayoutBase.php
 // @date: 20220801 08:23:19
 // @desc: base view layout loader
-
 namespace IGK\Controllers;
-
 use IGK\System\Configuration\ConfigurationData;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGKObject;
-
 /**
  * layout base loader
  * @package IGK\Controllers
@@ -21,13 +17,11 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
      * @var BaseController
      */
     protected $controller;
-
     /**
      * configuration data used for layout
      * @var ConfigurationData
      */
     protected $m_configs;
-
     public function getConfigs(){
         return $this->m_configs;
     }
@@ -35,7 +29,6 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
     {
         return $this->controller;
     }
-
     public function __construct(BaseController $controller)
     {
         $this->controller = $controller;
@@ -50,6 +43,6 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
      * @return bool 
      */
     protected function exists($file){
-        return !empty($file) && file_exists($file);
+        return !empty($file) && igk_io_file_exists($file, true);
     }
 }

@@ -3,20 +3,14 @@
 // @filename: PasswordValidator.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Forms\Validations;
-
 use IGK\System\Html\Forms\FieldInfo;
-
 use function igk_resources_gets as __;
-
-
 /**
  * validate pssword from fields
  * @package IGK\System\Html\Forms
  */
 class PasswordValidator extends FormFieldValidatorBase implements IFormValidator{
-
     /**
      * assert validation 
      * @param mixed $value 
@@ -31,7 +25,6 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
             $v_max = $fieldInfo->maxLength ?? $v_max;
         }
         $ln = strlen($value);
-
         return (($ln>= $v_min) && ($ln<=$v_max))
             && preg_match("/[0-9]/", $value ) // <- contains number
             && preg_match("/[a-z]/", $value ) // <- contains lowercase letter
@@ -39,14 +32,12 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
             && preg_match("/[#@_!\?]/", $value ) // <- contains special symbol
         ;
     }
-
     protected function _initFieldRequirement(){
         $f = new FieldInfo();
         $f->maxLength = IGK_PWD_MAX_LENGTH;
         $f->minLength = IGK_PWD_LENGTH;
         return $f;
     }
-
     /**
      * validate from 
      * @param mixed $value val
@@ -64,7 +55,6 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
             return null;
         }
         $ln = strlen($value);
-        
         if (($ml = $fieldinfo->maxLength) && ($ln>$ml)){
             $error[] = $fieldinfo->error ?? __("password is too long");
             return null;
@@ -79,5 +69,4 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
         $error[] = $fieldinfo->error ?? __("password not matching criteria");        
         return $default;
     }
-
 }

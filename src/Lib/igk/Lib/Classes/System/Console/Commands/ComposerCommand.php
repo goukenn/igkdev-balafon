@@ -3,12 +3,9 @@
 // @file: ComposerCommand.php
 // @date: 20230311 09:12:52
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -16,15 +13,15 @@ use IGK\System\Shell\OsShell;
 class ComposerCommand extends AppExecCommand{
 	var $command='--composer';
 	var $desc='help manage balafon composer packages';
-	/* var $options=[]; */
+	var $options=[]; 
 	var $category = 'composer';
+	var $usage = 'composer_args [options]';
 	public function exec($command, string ...$args) { 
 		$packages = igk_io_packagesdir();
-
 		if (empty($composer = OsShell::where("composer.phar"))){
 			$composer = $packages."/composer.phar";
 		}
-		if (!$composer || !file_exists($composer))
+		if (!$composer || !is_file($composer))
 		{
 			Logger::danger("missing composer.phar");
 			return -1;

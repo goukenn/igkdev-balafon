@@ -3,25 +3,45 @@
 // @filename: ActionScaffold.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Scaffold;
 
+use Exception;
 use IGK\Controllers\BaseController;
-use IGK\Helper\IO;
 use IGK\System\Console\App;
 use IGK\System\Console\Commands\MakeActionCommand;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\File\PHPScriptBuilder;
-use ModelBase;
+use IGKException;
+use ReflectionException;
 
+/**
+ * 
+ * @package IGK\System\Console\Scaffold
+ */
 class ActionScaffold extends ScaffoldBase
 {
+    /**
+     * 
+     * @var string
+     */
     var $description = "generate REST action";
+    /**
+     * 
+     * @param mixed $command 
+     * @param mixed $controller 
+     * @param null|string $name 
+     * @return mixed 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws NotFoundExceptionInterface 
+     * @throws ContainerExceptionInterface 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function exec($command, $controller = null, ?string $name = null)
     {
-
         if (property_exists($command->options, "--help")) {
             $this->showHelp($command);
             return;
@@ -35,7 +55,6 @@ class ActionScaffold extends ScaffoldBase
     {
         Logger::print(App::Gets(App::BLUE_I, "params"));
         Logger::print('$controller $name [--action|--model] [--force]');
-        
         Logger::print("--action:[action_name]\r\t\t\tset the model");
         Logger::print("--model:[model_name]\r\t\t\tset the model");
         Logger::print("--force \r\t\t\tfoce model creation");
@@ -45,17 +64,13 @@ class ActionScaffold extends ScaffoldBase
         $model = igk_getv($command->options, "--model");
         $is_force = property_exists($command->options, "--force");
         $action_name = igk_getv($command->options, "--action");
-
-
         if (is_null($controller)) {
             Logger::danger("controller not provided");
             return false;
         }
-
         //as class = 
         $controller = igk_str_ns($controller);
         // igk_wln_e($controller, class_exists($controller));
-
         if (!($ctrl = igk_getctrl($controller, false))) {
             Logger::danger(sprintf("controller %s not found", $controller));
             return false;
@@ -67,11 +82,9 @@ class ActionScaffold extends ScaffoldBase
             // 
             $model = $ctrl::model($model);
         }
-
         $bind[$viewdir . "/default.phtml"] = function ($file) use ($model) {
             igk_io_w2file($file, self::GenerateViewTemplate($file));
         };
-
         $bind[$viewdir . "/details.phtml"] = function ($file) use ($model) {
             igk_io_w2file($file, self::GenerateViewTemplate($file));
         };
@@ -87,7 +100,6 @@ class ActionScaffold extends ScaffoldBase
         $bind[$viewdir . "/delete.phtml"] = function ($file) use ($model) {
             igk_io_w2file($file, self::GenerateViewTemplate($file));
         };
-
         Utility::MakeBindFiles($command, $bind, $is_force);
         if ($model) {
             $action = new MakeActionCommand();
@@ -142,7 +154,6 @@ EOF;
             $action = new MakeActionCommand();
             $action->exec($command, get_class($ctrl), $action_name);
         }
-
         Logger::success("Done. " . igk_sys_request_time());
     }
     private static function GenerateViewTemplate($file, ?string $content = null)

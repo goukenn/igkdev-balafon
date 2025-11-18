@@ -3,15 +3,15 @@
 // @file: ListComponentCommand.php
 // @date: 20230319 07:39:48
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\PhpHelper;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Regex\Replacement;
+use ReflectionException;
+use IGKException;
 use ReflectionFunction;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -26,13 +26,21 @@ class ListComponentCommand extends AppExecCommand
 		"--info"=>"flag: show info",
 	];
 	var $category = 'winui';
-
 	function showUsage()
 	{
 		parent::showUsage();
 		Logger::info(sprintf('%s [pattern] [options]', $this->command));
 	}
-	public function exec($command, string $pattern=null)
+	/**
+	 * 
+	 * @param mixed $command 
+	 * @param string|null $pattern 
+	 * @return void 
+	 * @throws ReflectionException 
+	 * @throws IGKException 
+	 * @throws ArgumentTypeNotValidException 
+	 */
+	public function exec($command, ?string $pattern=null)
 	{
 		if (!is_null($pattern)){
 			$pattern = Replacement::RegexExpressionFromString($pattern);
@@ -59,12 +67,10 @@ class ListComponentCommand extends AppExecCommand
 					$params = $ref->getParameters();
 					$s = $params? PhpHelper::GetParamerterDescription($params) : '';
 					// get p
-
 					$info[] = "(".$s.")";
 					$info[] = implode("\n", array_map('trim', explode("\n", $ref->getDocComment())));
 				}
 				$tab[$fn][] = $fc. ($_info? "\n".implode("\n", $info) : null);
-				
 			}
 			ksort($tab);
 			$g = $tab;
@@ -74,11 +80,9 @@ class ListComponentCommand extends AppExecCommand
 				return $s.implode("\n", $a) . PHP_EOL;
 			};
 		}
-
 		//sort($g);
 		echo implode("\n", array_map($map, $g, array_keys($g)));		
 		echo PHP_EOL;
-
 		if (property_exists($command->options , '--count')){
 			Logger::info("Count : ".$T);
 		}

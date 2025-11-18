@@ -1,10 +1,7 @@
 <?php
-
 namespace IGK\System\Console;
-
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\AppExecCommand;
-
 /**
  * clear db cache command 
  * @package IGK\System\Console

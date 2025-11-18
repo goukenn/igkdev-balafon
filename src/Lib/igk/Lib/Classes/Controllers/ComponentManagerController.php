@@ -3,17 +3,11 @@
 // @filename: ComponentManagerController.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Controllers;
-
-
-// ///<summary>component manager controller</summary>
-// /**
+// // /**
 // * component manager controller
 // */
 final class ComponentManagerController extends NonVisibleControllerBase{
-
-    ///<summary> Dispose all component</summary>
     /**
     *  Dispose all component
     */
@@ -25,8 +19,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         }
         igk_app()->settings->appInfo->components = null;
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
     /**
     * 
     * @param mixed $obj
@@ -35,8 +27,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         $setting=& $this->getSettings();
         return igk_array_value_exist($setting->objs, $obj);
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     /**
     * 
     * @param mixed $id
@@ -44,8 +34,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     public function getComponentById($id){
         return igk_getv($this->m_ids, $id);
     }
-    ///<summary></summary>
-    ///<param name="host"></param>
     /**
     * 
     * @param mixed $host
@@ -53,15 +41,12 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     public function getComponentId($host){
         return $host->getParam(IGK_COMPONENT_ID_PARAM);
     }
-    ///<summary> get components registrated </summary>
     /**
     *  get components registrated
     */
     public function getComponents(){
         return $this->getm_objs();
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
     /**
     * 
     * @param mixed $obj
@@ -72,7 +57,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
 		if (get_class($obj) === stdClass::class){
 			igk_die("stdlass resolv ::: -" );
 		}
-
         $r=$obj->getParam(__CLASS__.":id");
         if($r)
             return $r;
@@ -82,43 +66,36 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         }
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getm_ids(){
         return $this->settings->ids;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getm_objs(){
         return $this->settings->objs;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getm_srcs(){
         return $this->settings->srcs;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getm_uris(){
         return $this->settings->uris;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getName(){
         return IGK_COMPONENT_MANAGER_CTRL;
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
     * 
     * @return mixed|array settings
@@ -134,9 +111,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         }
         return $setting;
     }
-    ///<summary></summary>
-    ///<param name="f" default="null"></param>
-    ///<param name="obj" default="null"></param>
     /**
     * 
     * @param mixed $f the default value is null
@@ -150,7 +124,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         $this->getsettings()->uris[$id]=get_class($obj);
         return $u;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -158,7 +131,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         parent::initComplete();
         igk_hook(IGK_NODE_DISPOSED_EVENT, array($this, "nodeDisposed"));
     }
-    ///<summary>invoke</summary>
     /**
     * invoke
     */
@@ -207,8 +179,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
             igk_exit();
         }
     }
-    ///<summary></summary>
-    ///<param name="node"></param>
     /**
     * 
     * @param mixed $node
@@ -217,9 +187,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
 		$node = $e->args[0];
         $this->Unregister($node);
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="componentInterface" default="true"></param>
     /**
     * 
     * @param mixed $obj
@@ -238,8 +205,6 @@ final class ComponentManagerController extends NonVisibleControllerBase{
         // $obj->setParam(IGK_COMPONENT_ID_PARAM, $s);
         // return true;
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
     /**
     * 
     * @param mixed $obj

@@ -3,11 +3,8 @@
 // @file: ViewExtractArgHelper.php
 // @date: 20221012 16:06:14
 namespace IGK\System;
-
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
-///<summary></summary>
 /**
 * expression view helper
 * @package IGK\System
@@ -16,7 +13,6 @@ class ViewExtractArgHelper implements ArrayAccess{
     private $_output = "";   
     private $_name;
     use ArrayAccessSelfTrait;
-
     public function __construct(string $name)
     {
         $this->_name = $name;

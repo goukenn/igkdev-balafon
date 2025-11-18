@@ -3,13 +3,9 @@
 // @filename: DbCommandHelper.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\SysUtils;
 use IGK\System\Console\Logger;
-
 /**
  * db command helper
  * @package IGK\System\Console\Commands
@@ -22,8 +18,6 @@ abstract class DbCommandHelper
                 $inf = get_class($c);
                 if (!empty($class))
                     $inf .= "::" . $class;
-
-
                 Logger::print("seed... " . $inf . " query debug: " . igk_environment()->querydebug);
                 $c::register_autoload();  
                 $c::seed($class);
@@ -47,9 +41,12 @@ abstract class DbCommandHelper
     {
         $tab = self::GetDbCommandsProperties();
         $tab = array_fill_keys(array_keys($tab), null);
-
         return $tab;
     }
+    /**
+     * 
+     * @return array{-db_name: string, -db_user: string, -db_pwd: string, -db_server: string, -db_prefix: string, -db_driver: string, -db_port: string, -db_connexion_string: string} 
+     */
     public static function GetDbCommandsProperties()
     {
         return [
@@ -60,6 +57,7 @@ abstract class DbCommandHelper
             "-db_prefix" => "db_prefix",
             "-db_driver" => "db_driver",
             "-db_port" => "db_port",
+            "-db_charset"=>"db_charset",
             "-db_connexion_string" => "db_connexion_string",
         ];
     }
@@ -72,7 +70,6 @@ abstract class DbCommandHelper
             }
         }
         self::_CheckInitCommand($cnf, $command);
-
         // + | activate query debug if requested  
         if (property_exists($command->options, "--querydebug")) {
             igk_environment()->querydebug = 1;
@@ -96,7 +93,6 @@ abstract class DbCommandHelper
          * check for data environment data server
          */
         if ($cnf->default_dataadapter == 'MYSQL') {
-
             if (
                 !property_exists($command->options, '-db_server') &&
                 ($env = getenv('IGK_MYSQL_DB_SERVER'))
@@ -119,7 +115,13 @@ abstract class DbCommandHelper
                 !property_exists($command->options, '-db_pwd') &&
                 ($env = getenv('IGK_MYSQL_DB_PWD'))
             ) {
-                $cnf->db_name = $env;
+                $cnf->db_pwd = $env;
+            }
+            if (
+                !property_exists($command->options, '-db_charset') &&
+                ($env = getenv('IGK_MYSQL_DB_CHARSET'))
+            ) {
+                $cnf->db_charset = $env;
             }
         }
     }

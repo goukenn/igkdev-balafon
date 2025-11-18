@@ -6,7 +6,6 @@
 // @desc: debug functin helper
 
 
-///<summary>get if APP DEBUG is active</summary>
 /**
  * get if APP DEBUG is active
  */
@@ -14,7 +13,6 @@ function igk_is_debug()
 {
     return igk_environment()->isDebug();
 }
-///<summary>get if APP allow debugging</summary>
 /**
  * get if APP allow debugging
  */

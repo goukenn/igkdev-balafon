@@ -3,18 +3,14 @@
 // @file: ComposerFakerTrait.php
 // @date: 20230202 14:21:53
 namespace IGK\System\Traits;
-
 use Faker\Generator;
 use InvalidArgumentException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Traits
 */
 trait ComposerFakerTrait{
     protected $faker;
-
     /**
      * 
      * @return Generator 

@@ -3,10 +3,7 @@
 // @filename: MenuController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;
@@ -21,10 +18,7 @@ use IGK\System\WinUI\Menus\MenuItem;
 use IGKEvents;
 use IGKValidator;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
-
 use function igk_resources_gets as __;
-
-///<summary> used to manage global menu and system's configuration menu.</summary>
 /**
  *  used to manage global menu and system's configuration menu.
  */
@@ -38,15 +32,11 @@ final class MenuController extends ConfigControllerBase
     const MENU_CHANGE_KEY = "CustomMenuChanged";
     const SYSTEM_MENU_FLAG = 0xa01;
     const USER_MENU_FLAG = 0xa0a;
-
-     
     /**
      * state changed
      * @var mixed
      */
     private $m_menuChangedState;
-    ///<summary></summary>
-    ///<param name="storeconfig" default="true"></param>
     /**
      * 
      * @param mixed $storeconfig the default value is true
@@ -56,13 +46,6 @@ final class MenuController extends ConfigControllerBase
         $this->m_customMenu = array();
         $this->storeDBConfigsSettingMenu($storeconfig);
     }
-   
-    
-    ///<summary></summary>
-    ///<param name="div"></param>
-    ///<param name="selectedMenu"></param>
-    ///<param name="key" default="lb.Controller"></param>
-    ///<param name="remove" default="IGK_STR_EMPTY"></param>
     /**
      * 
      * @param mixed $div
@@ -92,13 +75,6 @@ final class MenuController extends ConfigControllerBase
         }
         return $sel;
     }
-    ///<summary></summary>
-    ///<param name="host"></param>
-    ///<param name="ctrl"></param>
-    ///<param name="target"></param>
-    ///<param name="tab"></param>
-    ///<param name="tname" default="li"></param>
-    ///<param name="selected" default="null"></param>
     /**
      * 
      * @param mixed $host
@@ -165,7 +141,6 @@ final class MenuController extends ConfigControllerBase
             }
         }
     }
-    ///<summary>load configuration menu</summary>
     /**
      * load configuration menu
      */
@@ -173,10 +148,9 @@ final class MenuController extends ConfigControllerBase
     {
         $tab = array();
         $f = IGK_LIB_DIR . "/" . IGK_DATA_FOLDER . "/config.menu.xml";
-        if (file_exists($f)) {
+        if (igk_io_cache_file_exists($f)) {
             $d = igk_create_node("div");
             $d->Load(igk_io_read_allfile($f));
-            
             $e = igk_getv($d->getElementsByTagName("configmenu"), 0);
             $c = $e ? $e->getChilds() : null;
             if ($c) {
@@ -195,7 +169,6 @@ final class MenuController extends ConfigControllerBase
         }
         return (object)$tab;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -228,8 +201,6 @@ final class MenuController extends ConfigControllerBase
             igk_sys_regchange(self::MENU_CHANGE_KEY, $this->m_menuChangedState);
         return $v;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
      * 
      * @param mixed $name
@@ -238,8 +209,6 @@ final class MenuController extends ConfigControllerBase
     {
         return MenuUtils::GetParentName($name);
     }
-    ///<summary></summary>
-    ///<param name="menu"></param>
     /**
      * 
      * @param mixed $menu
@@ -252,11 +221,6 @@ final class MenuController extends ConfigControllerBase
             return $menu;
         return $this->_getRootMenu($menu->MenuParent);
     }
-    ///<summary></summary>
-    ///<param name="e" ref="true"></param>
-    ///<param name="v_ctab"></param>
-    ///<param name="cul"></param>
-    ///<param name="bygroup" default="false"></param>
     /**
      * 
      * @param mixed * $e
@@ -302,10 +266,6 @@ final class MenuController extends ConfigControllerBase
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="ul"></param>
-    ///<param name="menu"></param>
-    ///<param name="pages" default="null" ref="true"></param>
     /**
      * 
      * @param mixed $ul
@@ -316,7 +276,6 @@ final class MenuController extends ConfigControllerBase
     {
         MenuUtils::InitMenu($ul, $menu, $pages);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -329,15 +288,10 @@ final class MenuController extends ConfigControllerBase
         //$v_Menus=array();
         $v_CPages = array();
         $v_confctrl = igk_getconfigwebpagectrl();
-
         /// TASK: INIT Configuration Controllers
         $v_load_controller = ConfigControllerRegistry::ResolvAndInitControllers();
-
         $ctab = $v_confctrl->initConfigMenu();
-
         // igk_wln_e("load controller .... ",  $v_load_controller);
-
-         
         foreach ($v_load_controller as $v) {
             if ($v !== $v_confctrl) {
                 if (!($v instanceof ConfigControllerBase) || !$v->getIsConfigPageAvailable())
@@ -352,7 +306,6 @@ final class MenuController extends ConfigControllerBase
             "data"=> & $v_ctab
         ];
         igk_hook(IGKEvents::FILTER_CONFIG_MENU, [$c_array] );
- 
         $v_sortByDisplayText = array(MenuItem::class, "SortMenuByDisplayText");
         $v_configTargetNode = igk_create_node("div");
         $v_configTargetNode["class"] = "igk-config-menu-font google-Roboto";
@@ -360,15 +313,12 @@ final class MenuController extends ConfigControllerBase
         // $v_configTargetNode["igk-autofix-style"]="{'left':'0px', 'top':'10px', 'bottom':'10px', 'width':'200px'}";
         $v_configTargetNode->Index = -9999;
         $v_configTargetNode->clearChilds();
-        
         $div = $v_configTargetNode->li()->div();
         $ul = $div->add("ul");
         $this->_initConfigMenu($v_CPages, $ctab, $ul, false);
-
         //configuration menu tab
         igk_usort($v_ctab, $v_sortByDisplayText);
         $this->_initConfigMenu($v_CPages, $v_ctab, $v_configTargetNode->li()->ul(), true);
-
         $v_configTargetNode->addBalafonJS()->Content = <<<EOF
 ns_igk.readyinvoke('igk.configmenu.init', ns_igk.getParentScript());
 EOF;
@@ -419,7 +369,6 @@ EOF;
                     $e,
                     6
                 )),
-
             );
         }
     }
@@ -462,7 +411,7 @@ EOF;
     private function _m_otherMenuView($target)
     {
         $this->addTitle($target, __("Custom menu"));
-        if (file_exists($a = $this->getArticle("menu.othermenudescription"))){    
+        if (igk_io_file_exists($a = $this->getArticle("menu.othermenudescription"))){    
             igk_html_article($this, $a, $target->div()->setClass("article-host"));       
         }
         $frm = $target->addForm();
@@ -577,8 +526,6 @@ EOF;
     {
         return $this->getParam("currentPageIndex", 0);
     }
-
-
     ///<summary>get data table info</summary>
     /**
      * return data table info
@@ -718,7 +665,6 @@ EOF;
     {
         return $this->m_customMenu;
     }
-    
     ///<summary></summary>
     ///<param name="name"></param>
     ///<param name="ctrl"></param>
@@ -757,7 +703,7 @@ EOF;
     {
         $f = igk_io_syspath(IGK_MENU_CONF_DATA);
         $ctrl = igk_getctrl(__CLASS__);
-        if (file_exists($f) == false) {
+        if (igk_io_file_exists($f) == false) {
             $content = <<<EOF
 DEFAULT,0,,,default,1
 DEFAULT,0,,,contact,2
@@ -1375,7 +1321,6 @@ EOF;
     public function View():BaseController
     {         
         return $this;
-
         // if (!$this->getIsVisible()) {
         //     if (!$this->ConfigCtrl->IsConfiguring) {
         //         $this->selectGlobalMenu(strtolower($this->m_CurrentPage), $this->m_CurrentPageIndex);

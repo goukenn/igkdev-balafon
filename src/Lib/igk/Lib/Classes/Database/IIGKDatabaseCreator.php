@@ -3,9 +3,6 @@
 // @file: IIGKDatabaseCreator.php
 // @date: 20230423 10:36:49
 namespace IGK\Database;
-
-
-///<summary></summary>
 /**
 * database driver selector
 * @package IGK\Database

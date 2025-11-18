@@ -3,11 +3,8 @@
 // @desc: database seeder
 // @date: 20221119 11:10:14
 namespace IGK\Database\Seeds;
-
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Database\Seeds\SeederBase;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\Seeds

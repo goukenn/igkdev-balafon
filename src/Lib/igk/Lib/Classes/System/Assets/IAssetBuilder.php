@@ -3,9 +3,6 @@
 // @file: IAssetBuilder.php
 // @date: 20230720 10:37:20
 namespace IGK\System\Assets;
-
-
-///<summary></summary>
 /**
 * asset builder interface 
 * @package IGK\System\Assets

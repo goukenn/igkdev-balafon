@@ -3,13 +3,10 @@
 // @filename: ConfigurationData.php
 // @date: 20220823 09:33:14
 // @desc: base configuration data 
-
 namespace IGK\System\Configuration;
-
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKObject;
-
 /**
  * 
  * @package 
@@ -17,7 +14,6 @@ use IGKObject;
 class ConfigurationData extends IGKObject implements ArrayAccess{  
     use ArrayAccessSelfTrait;
     protected  $m_configs;
-
     protected function _access_OffsetSet($n, $v){
         if (is_null($n)){
             igk_die("set null as array key not allowed");

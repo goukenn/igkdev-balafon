@@ -3,12 +3,9 @@
 // @file: ViewExpressionDependency.php
 // @date: 20221102 12:23:23
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use ArrayAccess;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -19,7 +16,6 @@ class ViewExpressionDependency implements ArrayAccess{
     var $expression;
     var $evalValue;
     use ArrayAccessSelfTrait;
-
     public function __construct($value, $name)
     {
         $this->value = $value;

@@ -28,7 +28,7 @@ final class HorizontalPaneManager extends HtmlComponentNode
 
 		$f = base64_decode(igk_getr("n"));
 
-		if (file_exists($f)) {
+		if (igk_io_file_exists($f)) {
 			$dirname = dirname($f);
 
 			//remove all file that match the pattern

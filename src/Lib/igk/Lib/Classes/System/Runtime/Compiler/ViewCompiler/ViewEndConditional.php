@@ -3,10 +3,7 @@
 // @file: ViewEndConditional.php
 // @date: 20221103 10:38:23
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use Closure;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler

@@ -3,9 +3,6 @@
 // @file: HtmlAttributeExpression.php
 // @date: 20221109 14:22:51
 namespace IGK\System\Html;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html

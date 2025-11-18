@@ -3,9 +3,6 @@
 // @file: IAssetManager.php
 // @date: 20230425 11:21:43
 namespace IGK\System\IO;
-
-
-///<summary></summary>
 /**
 *asset manager 
 * @package IGK\System\IO

@@ -6,7 +6,7 @@
 // @copyright: igkdev © 2022
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 // cmd : phpunit -c phpunit.xml.dist src/application/Lib/igk/Lib/Tests/System/Configurations/ContextValueTest.php
 namespace IGK\Tests\System\Html;

@@ -3,15 +3,11 @@
 // @filename: SysAppConfigExpression.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration;
-
 use IGK\Helper\StringUtility;
 use IGK\Helper\SysUtils;
 use IGK\System\Html\IHtmlGetValue;
 use Prophecy\Util\StringUtil;
-
 /**
  * retrieve sys expression
  * @package IGK\System\Configuration
@@ -23,7 +19,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
      * @var string
      */
     protected $tag= "app";
-
     public function __construct(string $expression)
     {
         if( empty($expression)){
@@ -31,7 +26,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
         }
         $this->expression = $expression;
     }
-
     public function getValue($options = null) { 
        return $this->getStoreValue(); 
     }
@@ -41,7 +35,6 @@ class SysAppConfigExpression implements IHtmlGetValue{
         }
         return null;
     }
-
     public function __toString()
     {
         return (string)$this->__get(StringUtility::CamelClassName($this->expression));

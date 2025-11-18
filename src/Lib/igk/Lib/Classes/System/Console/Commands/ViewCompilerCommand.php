@@ -3,7 +3,6 @@
 // @file: ViewCompilerCommand.php
 // @date: 20221024 16:36:06
 namespace IGK\System\Console\Commands;
-
 use ArrayAccess;
 use ArrayIterator;
 use Closure;
@@ -20,15 +19,12 @@ use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\PageLayout;
 use IteratorAggregate;
 use Traversable;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands
  */
 class ViewCompilerCommand extends AppExecCommand
 {
-
     var $command = "--compile-view";
     var $desc = "compile view file";
     var $category = "compilation";
@@ -40,7 +36,6 @@ class ViewCompilerCommand extends AppExecCommand
     }
     public function exec($command, ?string $path = null, $ctrl = null)
     {
-
         if (is_null($path)) {
             igk_die("view file required");
         }
@@ -48,9 +43,7 @@ class ViewCompilerCommand extends AppExecCommand
             igk_die("path not found");
         }
         $cache = property_exists($command->options, "--cache");
-
-        $ctrl = (is_null($ctrl) ? null : igk_getctrl($ctrl, false)) ?? SysDbController::ctrl();
-
+        $ctrl = (is_null($ctrl) ? null : self::GetController($ctrl, false)) ?? SysDbController::ctrl();
         $ctrl::register_autoload();
         $compiler = new ViewCompiler;
         $compiler->forCache = $cache;
@@ -60,30 +53,24 @@ class ViewCompilerCommand extends AppExecCommand
             $path,
             "command_line"
         );
-
         $compiler->options->layout = new PageLayout();
         $compiler->options->data = [
             (object)["user" => "1", "name" => "charles"],
             (object)["user" => "2", "name" => "bondje"],
         ];
-
-
         if ($src = $compiler->compile([$path], [])) {
             fwrite(STDERR, "Compilation result : \n");
             echo $src . "\n";
         }
-
         // if ($cache) {
             // + | --------------------------------------------------------------------
             // + | EVALUATE WITH DUMMY DATA
             // + |
-
         //     echo "------------------------------------\n";
         //     $fc = self::CreateEvalCode($compiler->options->ctrl);
         //     echo "finish:".$fc($compiler, $src);
         // }
     }
-
     public static function CreateEvalCode(BaseController $controller){
         return Closure::fromCallable(function($compiler, $src){
             ob_start();
@@ -97,14 +84,11 @@ class ViewCompilerCommand extends AppExecCommand
         })->bindTo($controller);
     }
 }
-
 class NoDataProvided implements ArrayAccess
 {
     use ArrayAccessSelfTrait;
-
     public function _access_OffsetGet($index)
     {
         return [];
     }
 }
-

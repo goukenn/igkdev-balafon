@@ -3,9 +3,6 @@
 // @file: IStorage.php
 // @date: 20230328 09:59:00
 namespace IGK\System\IO;
-
-
-///<summary>represent the IStorage interface</summary>
 /**
 * represent the IStorage interface
 * @package IGK\System\IO
@@ -25,14 +22,12 @@ interface IStorage{
      * @return mixed 
      */
     function copy(string $file, string $destination_path);
-
     /**
      * unlink path 
      * @param string $path 
      * @return mixed 
      */
     function unlink(string $path);
-
     /**
      * check if file exists
      * @param string $path 

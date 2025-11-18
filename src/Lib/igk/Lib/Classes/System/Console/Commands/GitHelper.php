@@ -3,19 +3,15 @@
 // @filename: GitHelper.php
 // @date: 20220309 14:44:49
 // @desc: Git Helper
-
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\IO;
 use IGK\System\Console\Logger;
-
 /**
  * 
  * @package IGK\System\Console\Commands
  */
 class GitHelper
 {
-    ///<summary>Generate project git ignore file </summary>
     /**
      * Generate project git ignore file 
      */

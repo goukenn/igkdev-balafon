@@ -3,14 +3,19 @@
 // @file: ArrayMapHelper.php
 // @date: 20231223 13:36:19
 namespace IGK\System\Mapping\Helper;
-
-
-///<summary></summary>
+use Exception;
 /**
 * store mapping array utility function 
 * @package IGK\System\Mapping\Helper
 */
 abstract class ArrayMapHelper{
+    /**
+     * 
+     * @param mixed $o 
+     * @param int $throw 
+     * @return null|float 
+     * @throws Exception 
+     */
     public static function DieNumberMap($o, $throw = 1){
         if (!is_numeric($o)){
             $throw && igk_die($o, 'not a number ');

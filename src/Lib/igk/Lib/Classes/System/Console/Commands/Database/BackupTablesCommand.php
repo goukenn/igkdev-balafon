@@ -3,19 +3,15 @@
 // @file: BackupTablesCommand.php
 // @date: 20241004 09:10:06
 namespace IGK\System\Console\Commands\Database;
-
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
-use IGK\System\Database\Import\DbImportFile;
 use IGK\System\Database\Import\DbModelImporterMap;
 use IGK\System\IO\Path;
 use IGK\System\IToArray;
 use IGK\System\Regex\Replacement;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands\Database
@@ -28,7 +24,6 @@ class BackupTablesCommand extends AppExecCommand
 	var $options = ['--restore' => 'flag to be in restore mode'];
 	var $category = 'db';
 	var $usage = 'controller outdir [options]';
-
 	public function prefixHandler(string $back_name, ?array $attr=null){
 		$regex = new Replacement;
 		$regex->add("/%d/", date('Ymd'));
@@ -42,7 +37,6 @@ class BackupTablesCommand extends AppExecCommand
 		$_is_debug = igk_is_debug();
 		$restore_mode = property_exists($command->options, '--restore');
 		$path = $outdir ?? Path::Combine(getcwd(), $this->prefixHandler('backup_%d_%n',['n'=>$ctrl->getName()])); 
-
 		if ($tables = $ctrl->getDbDefinitionTables()) {
 			$ad = $ctrl->getDataAdapter();
 			IO::CreateDir($path);
@@ -53,7 +47,7 @@ class BackupTablesCommand extends AppExecCommand
 			foreach (array_keys($tables) as $t) {
 				$outfile = $path . '/' . $t . '.json';
 				if ($restore_mode) {
-					if (file_exists($outfile)&&($model = $tables[$t]->model())) {
+					if (igk_io_file_exists($outfile)&&($model = $tables[$t]->model())) {
 						if ($_is_debug) {
 							$_log->info('restore: ' . $outfile);
 						}	

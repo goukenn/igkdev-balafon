@@ -7,15 +7,7 @@ use IGK\Helper\IO;
 ini_set('display_errors', 1);
 error_reporting(-1);
 
-if (!function_exists("igk_getr")) {
-    function igk_getr($n, $default = null)
-    {
-        if (isset($_REQUEST[$n])) {
-            return $_REQUEST[$n];
-        }
-        return $default;
-    }
-}
+
 
 if (!function_exists("igk_install_site")) {
     function igk_install_site($corelib, $entryfile, $args, $exit = true, $production = true)
@@ -70,7 +62,7 @@ if (!function_exists("igk_install_site")) {
          */
         $app = ApplicationLoader::Boot("balafon");
 
-        $command = $app->getPrimaryCommand();
+        $command = $app->getPrimaryCommand($argv);
 
         //-----------------------------------------------------------------------------
         // + | handle default
@@ -130,17 +122,20 @@ $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_getr("home_dir", "/");
 $corelib = igk_getr('corelib'); // library relative to home 
 $app_dir = igk_getr('app_dir'); // application dir relative to %home
 $root_dir = igk_getr('root_dir'); // public dir relative to %home
-$site_dir = igk_getr('site_dir');
+$site_dir = igk_getr('site_dir', '');
 $base_uri = igk_getr('base_uri', isset($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : "localhost");
 $token = igk_getr('token');
 $no_subdomain = igk_getr('no_subdomain');
 $no_webconfig = igk_getr('no_webconfig');
-$install_dir = implode("/", [$home, ltrim($corelib, '/')]);
-$app_dir = implode("/", [$home, ltrim($app_dir, '/')]);
-$root_dir = implode("/", [$home, ltrim($root_dir, '/')]);
-$site_dir = implode("/", [$home, ltrim($site_dir, '/')]);
+$v_rhome =  ($home=='/') ? '' : $home;
+$install_dir = implode("/", [$v_rhome, ltrim($corelib, '/')]);
+$app_dir = implode("/", [$v_rhome, $o_app_dir = ltrim($app_dir, '/')]);
+$root_dir = implode("/", [$v_rhome, ltrim($root_dir, '/')]);
+$site_dir = implode("/", [$v_rhome, ltrim($site_dir, '/')]);
+$cmd = $result = null;
 
- 
+// print_r(compact('corelib', 'app_dir', 'root_dir', 'o_app_dir'));
+// exit;
 
 $_ISUNIX = in_array(strtolower(PHP_OS), ['linux', 'darwin']);
 // + | make symbolic link
@@ -165,10 +160,12 @@ if (file_exists($v_blf_cmd)) {
 
     $dv = null; //$_ISUNIX ? " > /dev/null" : "";
     $cmd = "{$v_blf_cmd} --install-site --root-dir:{$root_dir} --application:{$app_dir} {$v_args}{$dv}";
+
     $result = `$cmd`;
-
+    
     if (is_null($result) || strstr($result, 'Status: 500 Internal Server Error')) {
-
+        
+     
         ob_start();
         $root_dir = substr($root_dir, strlen($site_dir) + 1);
         // $app_dir = substr($app_dir, strlen($site_dir)+1);

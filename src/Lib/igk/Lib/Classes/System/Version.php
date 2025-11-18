@@ -3,9 +3,6 @@
 // @file: Version.php
 // @date: 20230118 12:10:18
 namespace IGK\System;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System
@@ -15,7 +12,6 @@ class Version{
     var $minor=0;
     var $build=0;
     var $release=0;
-
     public static function Parse(string $version){
         $p = explode('.', $version);
         $check = true;

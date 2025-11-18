@@ -3,20 +3,15 @@
 // @file: ReadUtility.php
 // @date: 20221019 22:59:28
 namespace IGK\System\Runtime\Compiler;
-
 use IGK\System\IO\StringBuilder;
 use IGK\System\Text\LinePrefixMapper;
 use IGKException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler
  */
 class ReadTokenUtility
 {
-
-
     private static function _GetPonderation($mod, $p)
     {
         $h = 0;
@@ -33,7 +28,6 @@ class ReadTokenUtility
      */
     public static function GenerateVariables($vars, bool $mergeVariable = false, ?string $type=null)
     {
-
         $sb = new StringBuilder();
         $prop = ["const", "global", "var", "public", "private", "protected"];
         usort($vars, function ($a, $b) use ($prop) {
@@ -56,7 +50,6 @@ class ReadTokenUtility
             }
             $name = $k->name;
             $d = $k->default;
-
             $prefix = in_array("const", $k->modifiers) ? "" : "\$";
             if ($mergeVariable) {
                 $mod = implode(" ", $k->modifiers);
@@ -107,7 +100,6 @@ class ReadTokenUtility
         $sb = new StringBuilder();
         $p = new LinePrefixMapper;
         $p->prefix = "\t";
-
         foreach (["interface", "trait", "class", "function"] as $m) {
             if (is_null($def = igk_getv($structs, $m))) {
                 continue;
@@ -116,14 +108,11 @@ class ReadTokenUtility
                 return strcasecmp($a->name, $b->name);
             });
             foreach ($def as $tm) {
-
                 $src = $tm->output($options);
                 if (!$header) {
-                    $sb->appendLine(sprintf("%s", $src . "\n"));
+                    $sb->appendLine(sprintf("%s", $src));
                     continue;
                 }
-
-
                 // because class can't be decalared for multiple evaluation need to protect
                 switch ($tm->type) {
                     case "class":
@@ -143,7 +132,6 @@ class ReadTokenUtility
         }
         return $sb . "";
     }
-
     /**
      * generate use and attach to string builder
      * @param mixed $uses 

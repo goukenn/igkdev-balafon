@@ -3,16 +3,12 @@
 // @filename: HtmlAJXReplacementNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom;
- 
-///<summary>Represente class: IGKHtmlAJXReplacementNode</summary>
 /**
-* Represente IGKHtmlAJXReplacementNode class
+* Represent IGKHtmlAJXReplacementNode class
 */
 final class HtmlAJXReplacementNode extends HtmlNode{
     private $m_nodes;
-    ///<summary></summary>
     /**
     * 
     */
@@ -21,9 +17,6 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         $this->m_nodes=array();
         $this["type"] = "node";
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="tag" default="null"></param>
     /**
     * 
     * @param mixed $n
@@ -33,23 +26,18 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         $this->m_nodes[]=$n;
         return $this;
     }
-    
-    ///<summary></summary>
     /**
     * 
     */
     public function getChildCount(){
         return igk_count($this->m_nodes);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getChilds(){
         return $this->m_nodes;
     }
-    ///<summary></summary>
-    ///<param name="o" default="null" ref="true"></param>
     /**
     * 
     * @param  * $o the default value is null

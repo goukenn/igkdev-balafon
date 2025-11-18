@@ -9,11 +9,15 @@
 // :domain info
 //TODO: CACHE TOOL
 
+use IGK\Helper\JSon;
 use IGK\Resources\R;
 use IGK\Server;
+use IGK\System\IO\InlineScriptLoader;
+use IGK\System\IO\Path;
 
 use function igk_resources_gets as __;
-igk_require_module(\igk\ovh::class, null, 0, 0);
+
+igk_require_module('igk\\ovh', null, 0, 0);
 
 // igk_wln_e( \IGK\System\Modules\ModuleManager::GetRequiredModules());
 $ctrl->setSelectedConfigCtrl(null);
@@ -48,78 +52,72 @@ $ul->li()->Content = "IsLocal : " . igk_parsebool(Server::IsLocal());
 $ul->li()->Content = "BaseDir : " . igk_io_basedir();
 $ul->li()->Content = "LibDir : " . IGK_LIB_DIR;
 $ul->li()->Content = "Environment: " . igk_environment()->name();
-if ($sess_id = session_id()){
+if ($sess_id = session_id()) {
     $ul->li()->Content = "Session ID: " . $sess_id;
 }
-$ul->li()->Content = "GIT: "."<a href=\"".IGK_GIT_URL."\" target=\"__blank\" > ".IGK_GIT_URL." </a>";
+$ul->li()->Content = "GIT: " . "<a href=\"" . IGK_GIT_URL . "\" target=\"__blank\" > " . IGK_GIT_URL . " </a>";
 
 $frm = $box->addForm();
 $frm["action"] = $ctrl->getUri("conf_install_platform");
 $frm["class"] = "dispn";
-$frm["enctype"] = "multipart/form-data";
+$frm["enctype"] = IGK_HTML_ENCTYPE;
 $i = $frm->addInput("clFile", "file");
 $i["accept"] = ".zip";
 $lang = json_encode([
-    "wait"=>__("please wait... installing"),
-    "complete"=>__("install complete !!!"),
+    "wait" => __("please wait... installing"),
+    "complete" => __("install complete !!!"),
 ]);
 $i["onchange"] = "javascript: ns_igk.os.install(this.form, {$lang}); return false;";
 $i["class"] = "igk-btn igk-btn-default alignl dispib";
 
-$domain = igk_lib_configs()->get("website_domain"); 
+$domain = igk_lib_configs()->get("website_domain");
 
-if (igk_environment()->isDev() || ($domain == igk_server()->SERVER_NAME ) || ($domain == "*")){
+if (igk_environment()->isDev() || ($domain == igk_server()->SERVER_NAME) || ($domain == "*")) {
 
- 
 
-// + | ---------------------------------------------------------------------------
-// + | check for update - once only on fist 
-// + | 
-if ((strpos(igk_server()->HTTP_HOST, 'igkdev.')!==false) && !igk_app()->session->checkVersion){
-    $frm = $box->addForm();
-    $frm->addLineWaiter();
-    $u = "https://igkdev.com/balafon/check-update/" . IGK_VERSION."/".R::GetCurrentLang();
-    $frm->addBalafonJS()->Content = "igk.os.checkupdate('{$u}');";
-    igk_app()->session->checkVersion = 1;
-}
 
-$uform = $box->addPanelBox()->div();
-if (igk_io_basedir_is_root() && function_exists("zip_open")) {
-    $cl = \IGK\System\Installers\BalafonInstaller::class;
-    $_ag = $uform->actiongroup()->setClass("flex-alignc");
-    if (class_exists($cl)) {
-        $uri = igk_register_temp_uri($cl);
-
-        $_ag->div()->setClass("igk-btn no-padding igk-btn-core-update")
-            ->addAJXPickFile($uri . "/upload", "{complete:igk.core.install('" . $uri . "/update" . "', '#update_target')," . "progress:igk.core.progress('#update_target')," . "accept:'.zip'" . "}")
-            ->setAttribute("value", __("Update CoreLib"));
-        $uform->div()->setId("update_target");
-        $uform->script()->Content =  file_get_contents(dirname(__FILE__) . '/Scripts/configs/installer.js');
+    // + | ---------------------------------------------------------------------------
+    // + | check for update - once only on fist 
+    // + | 
+    if ((strpos(igk_server()->HTTP_HOST, 'igkdev.') !== false) && !igk_app()->session->checkVersion) {
+        $frm = $box->addForm();
+        $frm->addLineWaiter();
+        $u = "https://igkdev.com/balafon/check-update/" . IGK_VERSION . "/" . R::GetCurrentLang();
+        $frm->addBalafonJS()->Content = "igk.os.checkupdate('{$u}');";
+        igk_app()->session->checkVersion = 1;
     }
-    // + | ovh service for firewal management
-    /**
-     * @var object $srv
-     */
-    if ($srv = igk_app()->getService("ovh")){
-        $rd = $_ag->span()->setClass("badge igk-btn");
-        if ($srv->enable_firewall){
-            $rd->a($srv->disable_firewall_uri())->Content = __("Disable Ovh firewall");
-        }else {
-            $rd->a($srv->enable_firewall_uri())->Content = __("Enable ovh firewall");        
+
+    $uform = $box->addPanelBox()->div();
+    if (igk_io_basedir_is_root() && function_exists("zip_open")) {
+        $cl = \IGK\System\Installers\BalafonInstaller::class;
+        $_ag = $uform->actiongroup()->setClass("update-group-flex-alignc");
+        if (class_exists($cl)) {
+            $uri = igk_register_temp_uri($cl);
+
+            $_ag->div()->setClass("igk-btn no-padding igk-btn-core-update")
+                ->addAJXPickFile($uri . "/upload", "{complete:igk.core.install('" . $uri . "/update" . "', '#update_target')," . "progress:igk.core.progress('#update_target')," . "accept:'.zip'" . "}")
+                ->setAttribute("value", __("Update CoreLib"));
+            $uform->div()->setId("update_target");
+            $uform->script()->Content =  file_get_contents(dirname(__FILE__) . '/Scripts/configs/installer.js');
         }
+        // + | ovh service for firewal management
+        /**
+         * @var object $srv
+         */
+        if ($srv = igk_app()->getService("ovh")) {
+            if ($srv->supportConfig()) {
+                $rd = $_ag->div()->setClass("igk-btn");
+                if ($srv->enable_firewall) {
+                    $rd->a($srv->disable_firewall_uri())->Content = __("Disable Ovh firewall");
+                } else {
+                    $rd->a($srv->enable_firewall_uri())->Content = __("Enable ovh firewall");
+                }
+            }
+        }
+        igk_hook("filter_config_actionbar", ["host" => $_ag]);
+        //support
+        igk_hook("filter_config_default_bar", ["host" => $uform]);
     }
-
-    //support
-    igk_hook("filter_config_default_bar", ["host"=>$uform] );
-}
-
-    /// TODO : Group button
-
-$box->div()->groupbutton(function($a){
-    $a->button();
-    $a->button();
-});
-
 }
 
 $div = $box->addPanelBox()->div();
@@ -145,6 +143,13 @@ igk_notify_sethost($frm->div(), "update_adminpwd");
 $frm->addSLabelInput("passadmin", "password", null, ["autocomplete" => "new-password"]);
 $frm->addBr();
 $frm->addBtn("btn.updateadminpwd", __("Update"));
+
+// renew
+$this->webauth_view_config($box);
+// igk_wln_e(__FILE__.":".__LINE__ , get_class($this));
+
+
+
 $frm = $box->addPanelBox()->addForm();
 $frm["action"] = $ctrl->getUri("update_defaultlang");
 $frm->addHSep();
@@ -170,7 +175,7 @@ $frm["action"] = $ctrl->getUri("conf_update_setting");
 $div = $frm->div();
 $ul = $div->add("ul");
 $ul["class"] = "igk-row other-conf-setting";
-$tab = [ 
+$tab = [
     "cldebugmode" => ["t" => "allow_debugging", "v" => igk_configs()->allow_debugging],
     //"clallowlog"=>["t"=>"allow_log", "v"=>false],
     // "clCacheLoadedFile" => ["t" => "cache_loaded_file", "v" => igk_configs()->cache_loaded_file],
@@ -181,8 +186,8 @@ $tab = [
 foreach ($tab as $s => $kt) {
     $div = $ul->li()->setClass("igk-col fitw")->div();
     $t = $kt["t"];
-    $v = $kt["v"]; 
-    $div->addLabel()->setAttribute("for", $s)->Content = __("lb." . $t);
+    $v = $kt["v"];
+    $div->label($s)->Content = __("lb." . $t);
     $div->addToggleStateButton($s, "on", $v)->setClass("dispib"); //->setAttribute("onchange", "ns_igk.ajx.get('{$u}&cache='+ns_igk.geti(event.target.checked),null,ns_igk.ajx.fn.no); return false;");
 
 }
@@ -200,19 +205,23 @@ $fx = $box->addPanelBox();
 $frm = $fx->addForm();
 $frm["action"] = $ctrl->getUri("resetconfig");
 $frm["class"] = "dispib btn-form";
-$frm->getBox()->actiongroup()->addBtn("btn_resetconfig", R::ngets("btn.resetconfig"));
+$frm->getBox()->actiongroup()->addBtn("btn_resetconfig", R::ngets("btn.resetconfig"))
+->setClass('igk-btn btn');
 $frm = $fx->addForm();
 $frm["action"] = $ctrl->getUri("conf_runCtrlConfig");
 $frm["class"] = "dispib btn-form";
-$frm->getBox()->actiongroup()->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"));
+$frm->getBox()->actiongroup()->addBtn("btn_runctrlconfig", R::ngets("btn.runctrlSetupConfig"))
+->setClass('igk-btn btn');
 $dv = $fx->div()->setClass("btn-form igk-action-group");
-$dv->addABtn(igk_io_baseuri() . "/Configs!Settings")->setclass("clsubmit igk-btn-default dispib")->Content = __("General Configuration");
+$v_conf_path = igk_server()->getConfigurationSettingPath();
+$btn_style = 'clsubmit igk-btn-default';
+$dv->abtn(igk_io_baseuri() . $v_conf_path)
+    ->setclass($btn_style)->Content = __("General Configuration");
 if (Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()) {
-    $dv->add('a')->setClass("clsubmit igk-btn igk-btn-default dispib")->setAttribute("href", $ctrl->getUri("clearcache"))
-        //->setAttribute("onclick", "javascript: ns_igk.ajx.get(this.href+'&ajx=1', null,{src:this,complete:function(xhr){ ns_igk.ajx.fn.prepend_to(xhr,this.src.parentNode); }});  return false;")
+    $dv->abtn($ctrl->getUri("clearcache"))
+        ->setClass($btn_style )
         ->Content = __("Clear cache");
-
-    $dv->abtn($ctrl->getUri("runcron"))->setClass("clsubmit igk-btn-default")->Content = __("Run Cron");
+    $dv->abtn($ctrl->getUri("runcron"))->setClass($btn_style)->Content = __("Run Cron");
 }
 
 $fx->div()->toast_notify("run:cron");

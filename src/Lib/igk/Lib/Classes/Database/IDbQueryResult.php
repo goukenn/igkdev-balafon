@@ -3,13 +3,9 @@
 // @filename: IDbQueryResult.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Database;
-
 use IGK\System\IToArray;
 use IGK\System\IToJSon;
-
 /**
  * db query result
  * @package IGK\Database
@@ -23,18 +19,20 @@ interface IDbQueryResult extends IToArray{
      * @return ?array
      */
     function getRows();
-
     /**
      * number of row
      * @return ?int
      */
     function getRowCount();
- 
-
     /**
      * get if query success
      * @return bool 
      */
     function success(): bool;
-  
+    /**
+     * get query row at index
+     * @param int $index 
+     * @return mixed 
+     */
+    function getRowAtIndex(int $index);
 }

@@ -3,24 +3,20 @@
 // @filename: FixCssCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 class FixCssCommand extends AppExecCommand{
     var $command = "--fix:css";
     var $category = "Fixing";
     var $desc = "fix css file";
-    
     /**
      * exec the command
      */
     public function exec($command, $path=null, $ctrl=null)
     { 
         Logger::info("fix css file");
-        if (!empty($path) && file_exists($f = realpath($path))){
+        if (!empty($path) && igk_io_file_exists($f = realpath($path))){
             $ext = igk_io_path_ext($f);
             if ($ext!= IGK_DEFAULT_STYLE_EXT){
                 return -1;
@@ -85,7 +81,6 @@ class FixCssCommand extends AppExecCommand{
         } else {
             Logger::danger("file not found or not defined");
         }
-
     }
     public static function ignore_list($clear=false){
         if ($clear){
@@ -106,7 +101,6 @@ class FixCssCommand extends AppExecCommand{
         return $v;
     }
 }
-
 class ExpressionHandler{
     private static function get_arg_s($arguments){
         return array_map(function($v){

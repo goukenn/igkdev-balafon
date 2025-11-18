@@ -3,10 +3,6 @@
 // @file: IDiagramBuilder.php
 // @date: 20221104 10:06:34
 namespace IGK\Database\SchemaBuilder;
-
- 
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\SchemaBuilder

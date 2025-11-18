@@ -4,11 +4,8 @@
 // @desc: factory UsersFactory
 // @date: 20230208 17:27:59
 namespace IGK\Database\Factories;
-
 use IGK\System\Database\Factories\FactoryBase;
 use IGK\System\Traits\ComposerFakerTrait;
-
-///<summary>factory</summary>
 /**
 * factory
 * @package IGK\Database\Factories

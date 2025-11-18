@@ -3,28 +3,30 @@
 // @file: PHPDocCommentParseTrait.php
 // @date: 20230731 10:21:35
 namespace IGK\System\IO\File\Php\Traits;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\File\Php\Traits
 */
 trait PHPDocCommentParseTrait{
-    
  /**
      * parse php doc comment
      * @param string $cm 
      * @param ?PhpDocBlocReader $reader
+     * @param ?array $filter array of property to filter
+     * @param null|callable $filterCallback
+     * @param null|callable(string $name, mixed $definition, $parser):bool $handler handle extra properties
      * @return PHPDocCommentParser 
      */
-    public static function ParsePhpDocComment(string $cm,  $reader=null, ?array $filter=null){
+    public static function ParsePhpDocComment(string $cm,  $reader=null, ?array $filter=null, $filterCallback=null, $handlerCallback=null){
         $c = trim(igk_str_rm_start($cm, "/**"));
         $c = rtrim(igk_str_rm_last($c, "*/"));
         $g = new self;
+        $g->setPropertyFilterListener($filterCallback);
+        $g->setPropertyHandlerListener($handlerCallback);
         $g->summary = '';
-        $g->m_reader = $reader;
-        $g->m_filter = $filter;
+        /// TODO: Remove filter property 
+        // $g->m_reader = $reader;
+        // $g->m_filter = $filter;
         $summary = false;
         $content = "";
         $name = "";
@@ -60,7 +62,6 @@ trait PHPDocCommentParseTrait{
                     }
                 }
             }
-            
         }, explode("\n", $c));
         if (!empty($content)){
             $g->$name($content);

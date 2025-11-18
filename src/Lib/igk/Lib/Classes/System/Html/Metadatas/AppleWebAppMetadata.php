@@ -3,16 +3,12 @@
 // @file: AppleWebAppMetadata.php
 // @date: 20231221 22:10:22
 namespace IGK\System\Html\Metadatas;
-
 use IGK\Helper\Activator;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas
 */
 class AppleWebAppMetadata extends MetadataGroupEntryBase{
-
     /**
      * 
      * @var 'yes' | 'no'
@@ -23,19 +19,16 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
      * @var mixed
      */
     var $appleWebAppTitle; // -mobile-web-app-title
-
     /**
      * bar style 
      * @var null|'black-translucent'|'black'|'default'
      */
     var $appleWebAppStatusBarStyle;
-
     /**
      * 
      * @var null|object|array|AppleTouchIconMetadataDefinition|AppleTouchIconMetadataDefinition[]
      */
     var $appleWebAppStartupImage;
-
     public function map(): array { 
         return [
             'appleWebAppCapable'=>'apple-mobile-web-app-capable',
@@ -73,12 +66,8 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
             }
                 if ($v_kill)
                 unset($this->m_def[$n]);
-        
             return;
         }
-
         return parent::setProperty($n, $v);
-    
     }
-
 }

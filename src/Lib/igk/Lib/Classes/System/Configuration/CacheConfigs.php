@@ -3,19 +3,16 @@
 // @filename: CacheConfigs.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Configuration;
-
 use AppBootstrapController;
 use IGK\Controllers\BaseController;
 use IGK\Helper\ControllerHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGKEvents;
 use IGKException;
 use ReflectionException;
 use stdClass;
-
 require_once IGK_LIB_CLASSES_DIR . "/Helper/ControllerHelper.php";
-
 /**
  * cache configuration options and special setting help reduce loading speed. 
  * @package IGK\System\Configuration
@@ -28,28 +25,32 @@ final class CacheConfigs
      * @var mixed
      */
     private $cacheOptions;
-
     /**
      * store require change
      * @var bool
      */
     private $changed = false;
-
     private $m_update_references = [];
-
     private $m_changed_prop = [];
+
     /**
      * store file mtime
      * @var mixed
      */
     private $mtime;
-
     private $config_times = [];
-
-    public function getCacheFile()
+    private $m_disbale_cache_store;
+    /**
+     * get cache file 
+     * @return string 
+     */
+    public function getCacheFile():string
     {
         return igk_io_cachedir() . "/.configs.cache";
     }
+    /**
+     * .ctr
+     */
     private function __construct()
     {
     }
@@ -80,8 +81,13 @@ final class CacheConfigs
             } else {
                 $i->cacheOptions = (object)[];
             }
-            register_shutdown_function(function () {                
-                self::storeCacheOptions();
+            igk_reg_hook(IGKEvents::HOOK_APP_CLEAN_CACHE, function(){
+                self::$sm_instance->m_disbale_cache_store = true;
+            });
+            register_shutdown_function(function(){   
+                if (!self::$sm_instance->m_disbale_cache_store){
+                    self::storeCacheOptions();
+                }
             });
         }
         return self::$sm_instance;
@@ -103,8 +109,6 @@ final class CacheConfigs
         $cftime = @filemtime($cnf);
         $update = false;
         $binhash = $cnf; 
-     
-
         if (isset($i->m_changed_prop[$binhash])) {
             $inf = $i->m_changed_prop[$binhash];
             if ($inf['cftime'] == $cftime) {
@@ -129,7 +133,6 @@ final class CacheConfigs
                 $i->changed = true;  
             }
         }
-
         if (!$update) {
             if (self::_GetCacheValue($i, $controller, $name, $defaut, $value)) {
                 return $value;
@@ -230,7 +233,6 @@ final class CacheConfigs
             $i->changed = false;
         }
     }
-
     /**
      * get registrated cache setting
      * @param mixed $name 
@@ -243,7 +245,6 @@ final class CacheConfigs
     {
         if (defined("IGK_TEST_INIT"))
             return null;
-
         $options = igk_getv(self::getInstance()->cacheOptions, $name);
         if ($options) {
             return igk_getv($options, $key, $default);

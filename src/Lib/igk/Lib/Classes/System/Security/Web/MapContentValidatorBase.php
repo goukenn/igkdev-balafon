@@ -3,11 +3,8 @@
 // @file: MapContentValidatorBase.php
 // @date: 20230125 13:19:41
 namespace IGK\System\Security\Web;
-
 use IGK\System\IO\Path;
 use function igk_resources_gets as __;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Security\Web
@@ -19,7 +16,22 @@ abstract class MapContentValidatorBase
     protected $missingDefaultValue = null;
     protected $defaultValue = null;
     protected $allowNullValue = false;
-
+    /**
+     * allow null value
+     * @return bool 
+     */
+    public function getAllowNullValue(){
+        return $this->allowNullValue;
+    }
+    /**
+     * chain list to create map content definition 
+     * @param bool $allowNull 
+     * @return $this 
+     */
+    public function allowNull(bool $allowNull){
+        $this->allowNullValue = $allowNull;
+        return $this;
+    }
     /**
      * check if can update setting
      * @return bool 
@@ -35,7 +47,6 @@ abstract class MapContentValidatorBase
         $this->defaultValue = $defaultValue;
         $this->allowNullValue = $allowNullValue;
     }
-
     public final function __invoke($value, $key, &$error, bool $missing, bool $required )
     {
         return $this->map($value, $key, $error, $missing, $required);
@@ -49,6 +60,11 @@ abstract class MapContentValidatorBase
      * @return mixed 
      */
     public function map($value, $key, &$error, bool $missing=false, bool $required = true){
+        if (is_null($value)){
+            if (!$this->allowNullValue && $this->defaultValue && $required ){
+                return $this->defaultValue;
+            }
+        }
         if ($this->validate($value, $key)){
             return $value;
         }
@@ -61,7 +77,6 @@ abstract class MapContentValidatorBase
         return $cvalue;
     }
     protected abstract function validate(& $value, $key) : bool;
-
     /**
      * 
      * @return static 
@@ -69,7 +84,6 @@ abstract class MapContentValidatorBase
     public static function Get(string $t)
     {
         $cl = igk_str_ns( Path::Combine(__NAMESPACE__, sprintf('%sContentValidator', $t)));
-     
         if (!isset(self::$sm_validators[$cl])) {
             if (!is_subclass_of($cl, self::class)){
                 igk_die(sprintf(__("%s class not an subclass of %s "),$cl, self::class));
@@ -88,7 +102,6 @@ abstract class MapContentValidatorBase
         $cl = static::class;
         return new $cl();
     }
-
     protected function handleError($value, $key, &$error, $missing , bool $required, ?bool & $error_value){
         $error_value = false;
         if (!$required){
@@ -102,7 +115,6 @@ abstract class MapContentValidatorBase
         }else {
             $error = $this->notvalid_msg;
         } 
-        $error_value = true;
-
+        $error_value = true; 
     }
 }

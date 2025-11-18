@@ -3,19 +3,14 @@
 // @file: MetadataGroupEntryBase.php
 // @date: 20231221 15:12:51
 namespace IGK\System\Html\Metadatas;
-
 use IGK\System\IO\StringBuilder;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas
 */
 abstract class MetadataGroupEntryBase{
     protected $m_def = [];
-
     abstract function map():array;
-    
     public function render(){
         $s = new StringBuilder;
         $n = basename(igk_str_rm_last(igk_uri(static::class), "Metadata"));

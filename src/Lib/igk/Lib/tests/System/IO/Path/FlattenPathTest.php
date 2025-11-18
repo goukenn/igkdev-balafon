@@ -7,7 +7,6 @@ namespace IGK\Tests\System\IO\Path;
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\IO\Path

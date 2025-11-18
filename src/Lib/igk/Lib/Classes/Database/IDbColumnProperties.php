@@ -3,9 +3,6 @@
 // @file: IDbColumnProperties.php
 // @date: 20240906 07:02:14
 namespace IGK\Database;
-
-
-///<summary></summary>
 /**
 * db column properties 
 * @package IGK\Database
@@ -50,8 +47,9 @@ namespace IGK\Database;
 * @property ?string $clType
 * @property ?string|?int $clTypeLength
 * @property ?string $clUpdateFunction
+* @property ?string|'private' $clModifier will not display on render 
 * @property ?string $clValidator
+* @property ?string $clCharset configured charset 
 */
 interface IDbColumnProperties{
-
 }

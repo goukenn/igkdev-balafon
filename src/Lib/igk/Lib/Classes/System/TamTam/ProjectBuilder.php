@@ -3,30 +3,25 @@
 // @file: ProjectBuilder.php
 // @date: 20230309 20:56:44
 namespace IGK\System\TamTam;
-
 use IGK\Helper\Activator;
 use IGK\Helper\ApplicationModuleHelper;
 use IGK\Helper\IO;
 use IGK\System\Configuration\ProjectSettings;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
-use IGKConstants;
-
-///<summary></summary>
+use IGK\Constants;
 /**
 * Helper to project build
 * @package IGK\System\TamTam
 */
 class ProjectBuilder{
-
     protected $setting;
-
     /**
      * configuration file
      * @var ?string
      */
     var $configFile;
-
+    const BUILDER_ENTRY_CLASS='System\\Build\\ProjectBuilder';
     public function __construct(){
         igk_reg_hook(ProjectBuilderEvents::AFTER_BUILD, [$this, 'afterBuild']);
         igk_reg_hook(ProjectBuilderEvents::BUILD, [$this, 'build']);
@@ -34,14 +29,11 @@ class ProjectBuilder{
     }
     public function build($e){
         extract($e->args);
-
-        if ($cl = $ctrl->resolveClass(\System\Build\ProjectBuilder::class)){
+        if ($cl = $ctrl->resolveClass(self::BUILDER_ENTRY_CLASS)){
             Logger::warning(sprintf('missing project build for %', $ctrl));
         }
         $v_required = (array)igk_conf_get($builder->setting, 'required');
         $v_required && ApplicationModuleHelper::ImportRequiredModule($v_required, $ctrl);
-        
-
         // + | do build
         $v_plugins = (array)igk_conf_get($builder->setting, 'build/plugins');
         if (!empty($v_plugins)){ 
@@ -58,7 +50,6 @@ class ProjectBuilder{
                     $chain_setting->cancel = true;
                     return;
                 }
-
                 $args = $n;
                 $plugin = null;
                 if (is_object($args)){
@@ -67,13 +58,9 @@ class ProjectBuilder{
                     $plugin = new $cl(...$args);
                 }else 
                     $plugin = new $cl();
-                
                 $plugin->build($ctrl);
-
             },$v_plugins, array_keys($v_plugins)); 
         }
-
-
     }
     public function beforeBuild($e){
         extract($e->args);
@@ -81,12 +68,11 @@ class ProjectBuilder{
         if (is_dir($c = $ctrl->getDeclaredDir()."/.Caches")){
             IO::CleanDir($c);
         } 
-        $cnf = $this->configFile ?? IGKConstants::PROJECT_CONF_FILE;
-        if (file_exists($config_file = Path::Combine($install_dir, $cnf))){
+        $cnf = $this->configFile ?? Constants::PROJECT_CONF_FILE;
+        if (igk_io_file_exists($config_file = Path::Combine($install_dir, $cnf))){
             if ($data = json_decode(file_get_contents($config_file))){
                 $cl = $this->getSettingValidationDataClass();                
                 if ($cl && ($setting = $cl::ValidateData($data))){
-           
                     $this->setting = Activator::CreateNewInstance(ProjectSettings::class, $setting->getData());
                 }
             }
@@ -95,7 +81,6 @@ class ProjectBuilder{
         }
     }
     public function afterBuild($e){
-
     }
     protected function getSettingValidationDataClass(){
         return ProjectSettingValidationData::class;

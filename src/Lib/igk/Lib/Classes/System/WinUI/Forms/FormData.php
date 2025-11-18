@@ -3,31 +3,37 @@
 // @file: FormData.php
 // @date: 20230205 21:40:41
 namespace IGK\System\WinUI\Forms;
-
 use Closure;
+use Exception;
 use IGK\Helper\Activator;
 use IGK\System\Data\IDataValidator;
 use IGK\System\Data\ObjectDataValidator;
+use IGK\System\EntryClassResolution;
 use IGK\System\Http\Request;
 use IGK\System\Traits\ActivableTrait;
 use IGK\System\WinUI\Forms\FormValidationData;
-
-///<summary></summary>
+use IGKException;
 /**
- * 
+ * used to setup data for html's form
  * @package IGK\System\WinUI\Forms
  */
 abstract class FormData
 {
     use ActivableTrait;
-
     // + | refer to [name]ContentValidator class 
     const SC_EMAIL = 'Email';
     const SC_PASSWORD = 'Password';
     const SC_INTEGER = 'Integer';
     const SC_NUMBER = 'Number';
     const SC_TEXT = 'Text';
-
+     /**
+     * extract fields 
+     * @param null|array $fields 
+     * @return array 
+     */
+    public function to_array(?array $fields = null): array{
+       return (array)$this;
+    }
     /**
      * get validation mapper
      * @param Request $request 
@@ -42,6 +48,12 @@ abstract class FormData
         $tab = $this->mergeSecure($ls, $tab);
         return $this->getDataValidatorMapper($tab);
     }
+    /**
+     * 
+     * @param mixed $var_tab 
+     * @param mixed $tab 
+     * @return array 
+     */
     protected function mergeSecure($var_tab, $tab)
     {
         $rtab = [];
@@ -54,9 +66,21 @@ abstract class FormData
         }
         return $rtab;
     }
+    /**
+     * get class reference used to get properties 
+     * @return string
+     */
     protected function getValidationClassReference()
     {
         return static::class;
+    }
+    /**
+     * array of mapper fields
+     * @return (string|int)[] 
+     */
+    protected function getMapperFields(){
+        $ls = array_keys(get_class_vars($this->getValidationClassReference()));
+        return $ls;
     }
     /**
      * 
@@ -65,7 +89,7 @@ abstract class FormData
      */
     protected function getDataValidatorMapper(?array $tab = null)
     {
-        $ls = array_keys(get_class_vars($this->getValidationClassReference()));
+        $ls = $this->getMapperFields();
         if (is_null($tab)) {
             $tab = $ls;
         }
@@ -108,14 +132,13 @@ abstract class FormData
         }
     }
     /**
-     * assoc of default custom value
+     * associative array of default custom value
      * @return null|array 
      */
     public function getDefaultValues(): ?array
     {
         return null;
     }
-
     /**
      * get not required fields [ key => missing default value, $key]
      * @return null|array 
@@ -132,7 +155,6 @@ abstract class FormData
     {
         return null;
     }
-
     /**
      * validate from json request
      * @param Request $request 
@@ -149,40 +171,59 @@ abstract class FormData
      * validate data
      * @param mixed $data 
      * @param null $validator 
-     * @return false|mixed validated data or false 
+     * @return false|static|object validated data or false - static::class's properties only 
      */
     public static function ValidateData($data, ?object $validator = null, ?array &$errors = null)
     {
+        if (!$data){
+            return false;
+        }
+        $validata_class = EntryClassResolution::CreateValidatorInstance;
         $validator = $validator ??
-            (method_exists(static::class, \CreateValidatorInstance::class) ?
-                call_user_func_array([static::class, \CreateValidatorInstance::class], []) : null) ??
+            (method_exists(static::class, $validata_class) ?
+                call_user_func_array([static::class, $validata_class], []) : null) ??
             new ObjectDataValidator();
-
+        /**
+         * @var {validate():null}|null $validator
+         */
         $e = new static;
         $validation_mapper = $e->getDataValidatorMapper();
-        $requestData = [];        
-        if ($validator->validate(
-            $data,
-            $validation_mapper->mapper,
-            $validation_mapper->defaultValues,
-            $validation_mapper->not_required,
-            $requestData,
-            $errors,
-            $validation_mapper->resolvKeys
-        )) {
-            return $requestData;
-        }
+        $requestData = [];
+        if ($validator instanceof IDataValidator)
+            if ($validator->validate(
+                $data,
+                $validation_mapper->mapper,
+                $validation_mapper->defaultValues,
+                $validation_mapper->not_required,
+                $requestData,
+                $errors,
+                $validation_mapper->resolvKeys
+            )) {
+                return $requestData;
+            }
         return false;
     }
-
+    /**
+     * validate data if ok create a form information 
+     * @param mixed $data 
+     * @param null|object $validator 
+     * @param null|array &$error 
+     * @return ?static 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function ValidateDataAndCreateInstance($data, ?object $validator = null, ?array & $error = null){
+        if ($r = self::ValidateData($data, $validator, $error)){
+            return Activator::CreateNewInstance(static::class, $r->getData());
+        }
+        return $r;
+    }
     /**
      * use to retrieve the fields to use in a form
      * @return array 
      */
-    public static function Fields()
-    {
-        $c = new static;
-        $tab = get_class_vars(static::class);
-        return [$tab];
+    public static function Fields():array
+    { 
+        return array_keys(get_class_vars(static::class));
     }
 }

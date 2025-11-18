@@ -1,14 +1,10 @@
 <?php
-
 namespace IGK\System\Html\Dom;
-
 use IGKEvents;
-
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
-///<summary>represent a tab control node where tab contains came from ajx query</summary>
 /**
 * represent a tab control node where tab contains came from ajx query
 */
@@ -19,19 +15,15 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     private $m_tablist;
     private static $demoComponent;
     public const CONTROL = HtmlComponents::AJXTabControl;
-
     public function getSelectedIndex(){
         return $this->m_selected;
     }
-
 	public function getSettings($key){
 		if ($this->m_tabViewListener){
 			return $this->m_tabViewListener->getParam($key);
 		}
 		return "isnull";
 	}
-    ///<summary></summary>
-    ///<param name="opt" default="null"></param>
     /**
     * 
     * @param mixed $options the default value is null
@@ -42,7 +34,6 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         }
         return parent::_acceptRender($options);
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -56,11 +47,6 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         $this->m_tabcontent=$c;
         $this->m_tabcontent->setClass("igk-tabcontent");
     }
-    ///<summary></summary>
-    ///<param name="content" default="null"></param>
-    ///<param name="uri" default="null"></param>
-    ///<param name="active" default="false"></param>
-    ///<param name="method" default="GET"></param>
     /**
     * 
     * @param mixed $content the default value is null
@@ -87,7 +73,6 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         }
         return $li;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -95,8 +80,6 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
         $this->m_tablist->clearChilds();
         $this->m_tabcontent->clearChilds();
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
     * 
     * @param mixed $t
@@ -154,7 +137,6 @@ EOF;
         if (is_int($i)){
             $li=$this->m_tablist->Childs[$i];
         }else{
-
             foreach($this->m_tablist->Childs->to_array() as $hi){
                 if ($hi->getParam("id") == $i){
                     $li = $hi;

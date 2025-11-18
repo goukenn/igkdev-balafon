@@ -3,13 +3,9 @@
 // @filename: IControllerConfigurationData.php
 // @date: 20220308 15:48:24
 // @desc: definition package
-
-
 namespace IGK\Controllers;
-
 use IGK\System\IToArray;
 use IGK\System\IToJSon;
-
 /**
  * basic controller configuration data
  * @package IGK\Controllers
@@ -23,8 +19,6 @@ use IGK\System\IToJSon;
  * @property ?string $cssThemePrefix controller's default theme prefix
  */
 interface IControllerConfigurationData extends IToArray, IToJSon{
-
     public function get();
-
     public function storeConfig();
 }

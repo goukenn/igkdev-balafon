@@ -3,14 +3,11 @@
 // @file: CssConverter.php
 // @date: 20230124 15:25:16
 namespace IGK\Css;
-
 use IGK\Css\Traits\CssConverterScssVisitorTrait;
 use IGK\Helper\StringUtility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Css
@@ -33,12 +30,10 @@ class CssConverter{
     const MODE_ATTRIB = 1;
     const MODE_VALUE = 2;
     const MODE_SELECTOR = 3;
-
     const MEDIA_KEY = '@media';
     const MEDIA_VARIABLES_KEY = '@variables';
     const MEDIA_FUNCTION_KEY = '@function';
     const MEDIA_KEYFRAME_KEY = '@keyframes';
-
     private function initialize(){
         $this->imports = [];
         $this->variables = [];
@@ -49,7 +44,6 @@ class CssConverter{
         $this->length = strlen($content);
         return $this->parse();
     }
-
     public static function ParseFormSCSS(string $file)
     {
         $src = file_get_contents($file);
@@ -59,7 +53,6 @@ class CssConverter{
         $converter->source_file = $file;
         return $converter->parse();
     }
-
     /**
      * parse content
      * @return array 
@@ -164,7 +157,6 @@ class CssConverter{
                         $n = self::_ReadVariable($src, $offset, $this->length);
                         $this->variables[$n['name']] = $n['value'];
                         $ch = '';
-
                     } else {
                         $offset++;
                         $n = $this->_ReadName($src, $offset, $this->length);
@@ -177,12 +169,10 @@ class CssConverter{
                         //igk_die('not implement property : '.$n);
                     }
                     break;
-                
                 case '{':
                     if ($mode == self::MODE_ROOT) {
                         $selector =
                             self::_GetSelector( trim($iv), $selector, $operators);
-                        
                         $iv = $ch = '';
                         $mode = self::MODE_ATTRIB;
                         $data[$selector] = [];
@@ -243,7 +233,6 @@ class CssConverter{
                             $offset--;
                         } else {
                             $mode = self::MODE_VALUE;// posible value - but can be a selector: 
-                           
                         }
                         $ch = '';
                     } else if ($mode != self::MODE_ROOT){
@@ -320,7 +309,6 @@ class CssConverter{
             $cp[] = trim(implode($sep, array_filter([$selector, $id])));
         }
         return implode(",", $cp);
-      
     }
     /**
      * read selector and stop at the '{' or end files
@@ -352,7 +340,6 @@ class CssConverter{
                     $sl .= $selector;
                     $ch = "";
                     break;
-                
             } 
             $offset++;
             $sl .= $ch;
@@ -402,12 +389,11 @@ class CssConverter{
                     $path =  trim($iv);
                     $this->imports[] = $path;
                     if ($this->source_file){
-
                         $g = Path::FlattenPath(Path::Combine(dirname($this->source_file), $path));
                         $name = basename($g);
                         $dir = dirname($g);
                         foreach(['', '_'] as $f){
-                            if (file_exists($tf = $dir."/".$f.$name.".scss")){
+                            if (igk_io_file_exists($tf = $dir."/".$f.$name.".scss")){
                                 $gt = self::ParseFormSCSS($tf);
                                 // + | copy data
                                 $this->_copyData($gt);
@@ -415,7 +401,6 @@ class CssConverter{
                             }
                         }
                     }
-
                     $end = true;
                     $ch = $iv = '';
                     break;
@@ -439,7 +424,6 @@ class CssConverter{
         $condition = self::_ReadSelector($src, $offset, $this->length, null);
         $offset++;
         if ($data = $this->_readData($offset, 0, $selector, true)){
-
             if (!isset($this->medias[$condition])){
                 $this->medias[$condition] = []; 
             }

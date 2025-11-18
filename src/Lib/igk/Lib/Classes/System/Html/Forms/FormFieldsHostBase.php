@@ -3,7 +3,6 @@
 // @file: FormFieldsHostBase.php
 // @date: 20240103 19:04:35
 namespace IGK\System\Html\Forms;
-
 use IGK\System\Annotations\PhpDocBlocReader;
 use IGK\System\Helpers\AnnotationHelper;
 use IGK\System\Html\Forms\Validations\Annotations\ValidateWithAnnotation;
@@ -11,8 +10,6 @@ use IGK\System\Html\Forms\Validations\InspectorFormFieldValidationBase;
 use IGK\System\Reflection\Helper\ReflectionHelper;
 use IGKType;
 use ReflectionProperty;
-
-///<summary></summary>
 /**
  * use to initialize form's field
  * @package IGK\System\Html\Forms
@@ -25,7 +22,7 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
      * @return array 
      * @throws IGKException 
      */
-    public function getFields(): array
+    public function getFields($context=null): array
     {
         //++ auto fields validation loading ... 
         $reflect = igk_sys_reflect_class(static::class);
@@ -92,7 +89,6 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
                 if ($r)
                     $v_val->required = $r;
             }
-          
             $data[$props->name] = $v_val;
         }
         return $data;
@@ -114,11 +110,9 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
             $v_t = $v_gt->getName();
             if (IGKType::IsPrimaryType($v_t)) {
                 $n = self::GetFieldTypeFromPrimitive(strtolower($v_t));
-
                 if (!$v_gt->allowsNull()) {
                     $r = 1;
                 }
-
                 return $n;
             }
         }

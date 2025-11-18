@@ -5,15 +5,12 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html;
-
 use IGKEvents;
 use IGKException;
 use IGKObject;
-
 /**
  * manage document meta
  * @package IGK\System\Html
@@ -41,11 +38,9 @@ final class HtmlMetaManager extends IGKObject{
      * @var mixed
      */
     private $m_key_metas = []; 
-    ///<summary>ownerDoc is used to initialize data</summary>
     public function __construct(){
         $this->_initMetas();
     }
-    ///<summary></summary>
     public function __serialize(){
         $g=array();
         foreach($this->m_metas as $k=>$v){
@@ -59,12 +54,9 @@ final class HtmlMetaManager extends IGKObject{
             return json_encode($g);
         return '';
     }
-    ///<summary>display value</summary>
     public function __toString(){
         return __CLASS__;
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     public function __unserialize($s){
         $this->_initMetas();
         if(!empty($s) && ($tab=json_decode($s))){
@@ -74,7 +66,6 @@ final class HtmlMetaManager extends IGKObject{
             }
         }
     }
-    ///<summary></summary>
     private function _initMetas(){
         $pmetas=null;
         $cnf=igk_app()->configs;
@@ -105,15 +96,13 @@ final class HtmlMetaManager extends IGKObject{
             "name"=>"viewport",
             self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
         );
-
-        $this->m_metas[self::META_LASTUPDATE]=array(
-            "name"=>"last-updated",
-            self::ATTR_CONTENT=> "width=device-width, initial-scale=1"
-        );
+        // + | last-updated page 
+        /// TODO: last-updated checked
+        // $this->m_metas[self::META_LASTUPDATE]=array(
+        //     "name"=>"last-updated",
+        //     self::ATTR_CONTENT=> null
+        // );
     }
-    ///<summary>add or set metaname</summary>
-    ///<param name="name"></param>
-    ///<param name="meta"></param>
     /**
      * register meta definition base 
      * @param string $name 
@@ -126,7 +115,6 @@ final class HtmlMetaManager extends IGKObject{
         // + | --------------------------------------------------------------------
         // + | remove meta form definition or update the meta string
         // + |
-        
         if($bmeta && ($bmeta !== $meta)){
             unset($this->m_metas[$name]);
         } 
@@ -145,36 +133,27 @@ final class HtmlMetaManager extends IGKObject{
         }
         return 0;
     }
-    ///<summary></summary>
     public function getAuthor(){
         return HtmlUtils::GetValue($this->m_metas[self::META_AUTHOR][self::ATTR_CONTENT]);
     }
-    ///<summary></summary>
     public function getContentType(){
         return HtmlUtils::GetValue($this->m_metas[self::META_CONTENT_TYPE][self::ATTR_CONTENT]);
     }
-    ///<summary></summary>
     public function getCopyright(){
         return HtmlUtils::GetValue($this->m_metas[self::META_COPYRIGHT][self::ATTR_CONTENT]);
     }
-    ///<summary></summary>
     public function getDescription(){
         return HtmlUtils::GetValue($this->m_metas[self::META_DESC][self::ATTR_CONTENT]);
     }
-    ///<summary></summary>
     public function getKeywords(){
         return HtmlUtils::GetValue($this->m_metas[self::META_KEYWORDS][self::ATTR_CONTENT]);
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     public function getMetaById($name){
         if(isset($this->m_metas[$name])){
             return $this->m_metas[$name];
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     public function render($options=null){
         // $handle=0;
         // $s=igk_ob_get_func(function() use (& $handle){        });
@@ -209,7 +188,6 @@ final class HtmlMetaManager extends IGKObject{
         $o .= igk_ob_get_func(function($options){
             igk_hook(IGKEvents::HOOK_HTML_META, [$options, $this]);
         },[$options] );
-
         return $o;// .$s;
     }
     /**
@@ -219,70 +197,48 @@ final class HtmlMetaManager extends IGKObject{
      * @return void 
      */
     public function appendKeyMeta($name, array $attributes){
-      
         if (!isset($this->m_key_metas[$name])){
             $this->m_key_metas[$name] = [];
         }
-        
         $this->m_key_metas[$name][] = $attributes;
         return $this;
     }
     public function clearKeyMeta(){
         $this->m_key_metas = [];
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     public function rmMeta($name){
         if(isset($this->m_metas[$name])){
             unset($this->m_metas[$name]);
         }
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="attr"></param>
-    ///<param name="value"></param>
     public function setAttribute($key, $attr, $value){
         $this->m_metas[$key][$attr]=$value;
         $this->m_metas[$key]["changed"]=1;
     }
     public function setCharset(string $charset){
         $this->m_metas[self::META_CHARSET] = ['charset'=>$charset];
-        
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setAuthor($value){
         $this->updateContent(self::META_AUTHOR, $value);
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setContentType($value){
         $this->updateContent(self::META_CONTENT_TYPE, $value);
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setCopyright($value){
         $this->updateContent(self::META_COPYRIGHT, $value);
     }
     public function setLastUpdate($value){
         $this->updateContent(self::META_LASTUPDATE, $value);
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setDescription($value){
         $this->updateContent(self::META_DESC, $value);
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setKeywords($value){
         if (is_null($value)){
             unset($this->m_metas[self::META_KEYWORDS]);
         }else 
             $this->updateContent(self::META_KEYWORDS, $value);
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     public function updateContent($key, $value){
         if(!isset($this->m_metas[$key][self::ATTR_CONTENT]) || ($this->m_metas[$key][self::ATTR_CONTENT] != $value)){
             $this->m_metas[$key][self::ATTR_CONTENT]=$value;

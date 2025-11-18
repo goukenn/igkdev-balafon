@@ -5,25 +5,20 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>Represente namespace: IGKApi</summary>
 /**
-* Represente IGKApi namespace
+* Represent IGKApi namespace
 */
 namespace IGKApi;
 // DIRECT RENDERINGuse IGK\Helper\IO as IGKIO;
-///<summary>Represente class: UtilityActions</summary>
 /**
-* Represente UtilityActions class
+* Represent UtilityActions class
 */
 class UtilityActions{
     var $ctrl;
     var $target;
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="t"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -33,7 +28,6 @@ class UtilityActions{
         $this->ctrl=$ctrl;
         $this->target=$t;
     }
-    ///<summary></summary>
     /**
     * 
     */

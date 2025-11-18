@@ -3,18 +3,14 @@
 // @filename: ConfigData.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration;
 
+use Exception;
 use IGK\Resources\R;
 use IGK\System\IO\FileWriter;
 use IGKCSVDataAdapter;
 use IGKException;
-
 use function igk_resources_gets as __;
-
-///<summary>represent system config data</summary>
 /**
  * represent system config data - \
  *   this can have extra proprerties depend on environment 'extra_config' list. \
@@ -44,7 +40,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
      * @var mixed
      */
     private $m_confile;
-
     /**
      * extra properties
      * @var array
@@ -63,8 +58,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         $this->m_configEntries = $entries;
         $this->m_extra = $extra;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
      * 
      * @param mixed $key
@@ -78,9 +71,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         }
         return igk_getv($this->m_configEntries, $key);
     }
-    
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
      * 
      * @param mixed $key
@@ -102,10 +92,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         }
         return isset($this->m_configEntries[$n]);
     }
-
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     /**
      * 
      * @param mixed $key
@@ -129,7 +115,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
             }
         }
     }
-    ///<summary>display value</summary>
     /**
      * display value
      */
@@ -137,9 +122,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     {
         return "IGKConfigurationData [Count: " . count($this->m_configEntries) . "]";
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="default" default="null"></param>
     /**
      * 
      * @param mixed $name
@@ -149,7 +131,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     {
         return igk_getv($this->m_configEntries, $name, $default);
     }
-    ///<summary>get default stored configuration data</summary>
     /**
      * get default global stored configuration data
      * @param mixed $xpath 
@@ -185,7 +166,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     {
         return $this->m_extra ? array_keys($this->m_extra) : null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -193,7 +173,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     {
         return $this->m_configEntries;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -201,7 +180,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     {
         return array_keys($this->m_configEntries);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -216,16 +194,21 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         ($r = igk_io_w2file($file, $out, true)) && FileWriter::Invalidate($file);
         return $r;
     }
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $entries 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     */
     public function set($name, $entries)
     {
         if (is_array($entries)) {
             igk_die("array entries not allowed");
-        } else {
-            igk_die("array entries not allowed");
-        }
+        } 
         $k = key($entries);
         $v = array_unshift($entries);
-
         while (count($entries) > 0) {
             $k = key($entries);
             $v = array_shift($entries);
@@ -238,9 +221,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         }
         $this->saveData();
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="value"></param>
     /**
      * set configuration
      * @param string $name
@@ -251,7 +231,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         if ($name)
             $this->m_configEntries[$name] = $value;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -278,7 +257,6 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         }
         return $this->get($key);
     }
-
     public function menu_default_page()
     {
         return $this->get("menu_default_page", "default");
@@ -312,5 +290,4 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     public function assets_cache_output($default=3600){
         return $this->get(__FUNCTION__, $default);
     }
-   
 }

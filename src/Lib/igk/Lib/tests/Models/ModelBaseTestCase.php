@@ -36,7 +36,6 @@ abstract class ModelBaseTestCase extends BaseTestCase{
         }
     }
 
-    ///<summary>check database schema</summary>
     public function test_db_schema(){
         Utils::CheckControllerDataBase($this, $this->getControllerClass());
     }

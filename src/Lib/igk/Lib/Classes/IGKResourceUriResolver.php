@@ -5,16 +5,14 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
+use IGK\Constants;
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\System\IO\Path;
 use IGK\System\IO\ResIdentifierConstants;
-
 use function igk_resources_gets as __;
-
 /**
  * 
  * @package 
@@ -31,13 +29,11 @@ class IGKResourceUriResolver
      * @var bool
      */
     var $fulluri;
-    ///<summary></summary>
     private function __construct()
     {
         $this->fulluri = 0;
         $this->prepareEnvironment();
     }
-
     /**
      * mark path that need to be hashed before resolution
      */
@@ -45,7 +41,6 @@ class IGKResourceUriResolver
     {
         $this->m_hashPath = $path ? $this->resolve($path, ["initHash" => 1]) : null;
     }
-    ///<summary>get resolver instance</summary>
     /**
      * resolver instance
      * @return self
@@ -57,7 +52,6 @@ class IGKResourceUriResolver
         }
         return self::$sm_instance;
     }
-    ///<summary>utility use to bind javascript resources</summary>
     /**
      * prepare uri resolution environment \ 
      * all public directory must have 775 mask 
@@ -65,7 +59,8 @@ class IGKResourceUriResolver
      */
     public function prepareEnvironment()
     {
-        $app_dir = igk_io_applicationdir();        
+        $app_dir = igk_io_applicationdir();    
+        $package_dir = igk_get_packages_dir();    
         $this->environment = array(
             IGK_LIB_DIR . "/cgi-bin" => (object)array(
                 "name" => "cgi-bin",
@@ -73,7 +68,7 @@ class IGKResourceUriResolver
                     $chain = igk_uri(IGK_RES_FOLDER . "/_cgi_/" . $n);
                     $o = igk_io_basedir($chain);
                     $dir = dirname($o);
-                    if (!file_exists($o)) {
+                    if (!igk_io_file_exists($o)) {
                         IO::CreateDir($dir, static::DEFAULT_MASK);
                         igk_io_symlink($rp, $o);
                     } else {
@@ -81,7 +76,7 @@ class IGKResourceUriResolver
                             igk_die(__("res failed shortcut"));
                         }
                     }
-                    if (!file_exists($file = $dir . "/.htaccess")) {
+                    if (!igk_io_file_exists($file = $dir . "/.htaccess")) {
                         igk_io_w2file($file, igk_io_read_allfile(IGK_LIB_DIR . "/Inc/default.cgi.htaccess"));
                     }
                     return $chain;
@@ -90,24 +85,22 @@ class IGKResourceUriResolver
             IGK_LIB_DIR => ResIdentifierConstants::LIBRARY,
             igk_get_module_dir() => ResIdentifierConstants::MODULE,
             igk_io_projectdir() => ResIdentifierConstants::PROJECT,
-            igk_get_packages_dir()."/node_modules" => ResIdentifierConstants::NODE_PACKAGE,
-            igk_get_packages_dir() => ResIdentifierConstants::PACKAGE,
+            $package_dir => ResIdentifierConstants::PACKAGE,
+            $package_dir.'/node_modules' => ResIdentifierConstants::NODE_PACKAGE,
             igk_io_cachedir() =>ResIdentifierConstants::CACHE
         );
         $public_asset = Path::getInstance()->getPublicAssetDir();
-
         // possibility that file are symlink 
         if (($c = $app_dir."/Lib/igk") != IGK_LIB_DIR){        
             $this->environment[$c] = ResIdentifierConstants::LIBRARY;
         }
-
         krsort($this->environment, SORT_REGULAR);
         $_access = implode("\n", ["allow from all", "AddType text/javascript js", "AddEncoding deflate js", "<IfModule mod_headers.c>", "Header set Cache-Control \"max-age=31536000\"", "</IfModule>",]);
-        if (!file_exists($c =  $public_asset. "/_chs_/dist/js/.htaccess")) {
-            igk_io_w2file($c, $_access);
+        if ($c =  $public_asset. "/_chs_/dist/js/.htaccess") {
+            igk_io_w2file($c, $_access, false);
         }
-        if (!file_exists($c =  $public_asset . "/dist/js/.htaccess")) {
-            igk_io_w2file($c, $_access);
+        if ($c =  $public_asset . "/dist/js/.htaccess") {
+            igk_io_w2file($c, $_access, false);
         }
     }
     private function __hashResPath($j, $n, $options){
@@ -116,10 +109,8 @@ class IGKResourceUriResolver
             if (strpos($chain, $this->m_hashPath) === 0) {
                 $dir = substr($chain, strlen($this->m_hashPath)+1);
                 $v_path = substr($chain, strlen(IGK_RES_FOLDER . "/" . $j ), strlen($this->m_hashPath) - strlen(IGK_RES_FOLDER . "/" . $j ));
-                 
                 // hash no 
                 $chain = implode("/", array_filter([IGK_RES_FOLDER , $j , sha1($v_path), $dir]));
-                
             }
         }
         return $chain;
@@ -128,19 +119,19 @@ class IGKResourceUriResolver
      * get resource base path
      */
     private function _getResPath($path):?string{
-        if ($g = preg_match($rgx = \IGKConstants::PATH_VAR_DETECT_MODEL_REGEX, $path, $tab)){
+        if ($g = preg_match($rgx = Constants::PATH_VAR_DETECT_MODEL_REGEX, $path, $tab)){
             $s = preg_replace($rgx, '', $path);
             $n = $tab['name'];
             return Path::Combine(IGK_RES_FOLDER, igk_getv([
-                "lib"=>ResIdentifierConstants::LIBRARY,
-                "mod"=>ResIdentifierConstants::MODULE,
-                "modules"=>ResIdentifierConstants::MODULE,
-                "pkg"=>ResIdentifierConstants::PACKAGE,
-                "nodepackages"=>ResIdentifierConstants::NODE_PACKAGE,
-                "packages"=>ResIdentifierConstants::PACKAGE,
-                "prj"=>ResIdentifierConstants::PROJECT, 
-                "project"=>ResIdentifierConstants::PROJECT, 
-                "cache"=>ResIdentifierConstants::CACHE, 
+                'lib'=>ResIdentifierConstants::LIBRARY,
+                'mod'=>ResIdentifierConstants::MODULE,
+                'modules'=>ResIdentifierConstants::MODULE,
+                'pkg'=>ResIdentifierConstants::PACKAGE,
+                'nodepackages'=>ResIdentifierConstants::NODE_PACKAGE,
+                'packages'=>ResIdentifierConstants::PACKAGE,
+                'prj'=>ResIdentifierConstants::PROJECT, 
+                'project'=>ResIdentifierConstants::PROJECT, 
+                'cache'=>ResIdentifierConstants::CACHE, 
                 'app'=>ResIdentifierConstants::APP
             ], $n, function()use($n, $path){
                 igk_die("not found .... ".$n. " for [".$path."]");
@@ -148,7 +139,6 @@ class IGKResourceUriResolver
         }
         return null;
     }
-    ///<summary>resolve existing file to asset resources</summary>
     /**
      * resolve path
      * @param mixed $path path to resolve
@@ -185,10 +175,14 @@ class IGKResourceUriResolver
                 if (!igk_io_is_subdir($bdir, $path)) {
                     $rp = $acpath;
                 }
+                if (is_null($rp)){
+                    igk_dev_wln_e(__FILE__.":".__LINE__ , "missing rp ".$path, $rp, realpath($path), 
+                    $acpath,
+                    igk_realpath($path));
+                }
                 return $this->resolveResource($rp, $fulluri).$query;
             }
         }
-        
         if ($appData === null) {
             $i = 1;
             if (!strstr(IGK_LIB_DIR, igk_uri(igk_io_applicationdir())))
@@ -214,10 +208,9 @@ class IGKResourceUriResolver
         $v_res_path = $this->_getResPath($v_cpath);
         $v_bdir = igk_io_basedir();
         // create a symlink or 
-        if (!file_exists($fc = Path::Combine($v_bdir, $v_res_path))){
+        if (!igk_io_file_exists($fc = Path::Combine($v_bdir, $v_res_path), true)){
             // + | missing - create a link to 
             if (!igk_io_symlink($rp, $fc)) {
-
                 igk_ilog(__("Failed to create symbolic link - 2 - ") . " " . $rp . '==$gt; ' . $fc. " ? " . is_link($fc) 
                 );
                 return null;
@@ -231,8 +224,6 @@ class IGKResourceUriResolver
         }
         return igk_io_currentrelativeuri($relative);
     }
-    ///<summary>Represente resolveFullUri function</summary>
-    ///<param name="uri"></param>
     public function resolveFullUri($uri)
     {
         $data = $this->resolve($uri);
@@ -241,9 +232,6 @@ class IGKResourceUriResolver
         }
         return igk_io_baseuri() . "/" . $data;
     }
-    ///<summary>resolveOnly  file</summary>
-    ///<param name="file"></param>
-    ///<param name="notresolved" ref="true"></param>
     public function resolveOnly(string $file, &$notresolved = 0)
     {
         $fulluri = $this->fulluri || igk_is_ajx_demand();

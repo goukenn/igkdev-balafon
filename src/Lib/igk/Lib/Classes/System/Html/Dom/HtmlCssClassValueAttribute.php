@@ -5,11 +5,9 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 use Exception;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -17,17 +15,17 @@ use IGK\System\Html\Dom\HtmlCssClassValueAttribute as DomHtmlCssClassValueAttrib
 use IGK\System\Html\HtmlAttributeExpression;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\IDomHtmlCssClassValueAttribute;
+use IGK\System\Text\RegexMatcherContainer;
 use IGKApp;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
 final class HtmlCssClassValueAttribute extends HtmlItemAttribute
 {
     private $m_classes, $m_expressions;
     private $m_listener; 
     private static $sm_regClass = null;
-
+    private $_treat_ClassName;
     /**
      * 
      * @param ?callable $listener 
@@ -37,15 +35,11 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         $this->m_listener = $listener;
         return $this;
     }   
-
-
-    ///<summary></summary>
     public function __construct()
     {
         $this->m_classes = array();
         $this->m_expressions = array();
     }
-    ///<summary></summary>
     public function __serialize()
     {
         if (igk_get_env("seri")) {
@@ -57,8 +51,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         igk_set_env("seri", null);
         return [$s];
     }
-    ///<summary></summary>
-    ///<param name="data"></param>
     public function __unserialize($data)
     {
         if (is_array($data)) {
@@ -87,8 +79,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     {
         return $this->getValue();
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     private function _add($v)
     {
         if (is_array($v)) {
@@ -121,8 +111,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
         }
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     private static function &_GetRegClass()
     {
         if (self::$sm_regClass === null) {
@@ -134,9 +122,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return self::$sm_regClass;
     }
-    ///<summary></summary>
-    ///<param name="App"></param>
-    ///<param name="name"></param>
     private static function _initThemeDef($App, $name)
     {
         $tab = array();
@@ -150,8 +135,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     private static function _RegClass($name)
     {
         if (!IGKApp::IsInit() || (defined("IGK_NO_WEB") && (constant("IGK_NO_WEB") == 1))) {
@@ -163,8 +146,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             igk_hook(IGKEvents::HOOK_CSS_REG, [$name]);
         }
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     private static function _UnRegClass($name)
     {
         $v = &self::_GetRegClass();
@@ -173,8 +154,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             // igk_invoke_session_event(IGKApp::$REG_CSS_CLASS_EVT, array(igk_app(), null));
         }
     }
-    ///<summary>add css class value</summary>
-    ///<param name="class">mixed string expression or array defenition</param>
     /**
      * add css class value
      * @param mixed|array|object $class
@@ -194,7 +173,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
             $class = (array)$class; 
         }
-
         $tab = null;
         if (is_array($class)) {
             $cl = [];
@@ -211,7 +189,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
                             $this->m_classes[] = $v;
                             continue;
                         }
-
                         $cl[] = $v;
                     } else {
                         $cl[] = $k;
@@ -221,8 +198,14 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
             $tab = $cl;
             $class = implode(" ", $cl);
-        } else
+        } else{
+            // + treat $class definition 
+            if (strpos($class, '.')!== false){
+                ($g = $this->_treat_ClassName)  || ($g = $this->_treat_ClassName  = self::ClassDefinitionTreatment());
+                $class = $g($class);
+            }
             $tab = explode(" ", $class);
+        }
         if ($tab) {
             if (count($tab) == 1) {
                 $this->_add($class);
@@ -233,7 +216,30 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             }
         }
     }
-    ///<summary>clear classes_name storage</summary>
+    static function ClassDefinitionTreatment(){
+        $r = new RegexMatcherContainer;
+        $r->match('(?i)\.([\\w+\\-\\\\]+)\\b', 'word');
+        return function($c)use($r){
+            $pos = 0;
+            $o = [];
+            $v = '';
+            $offset = 0;
+            while($g = $r->detect($c, $pos)){
+                if ($e = $r->end($g, $c, $pos)){
+                    $v = substr($c, $offset, $e->from-$offset);
+                    if (!empty($v)){
+                        $o[] = $v;
+                    }
+                    $offset=$e->to;
+                    $o[] = $e->beginCaptures[1][0];
+                }
+            }
+            if (!empty($v = trim(substr($c, $offset)))){
+                $o[] = $v;
+            }
+            return implode(' ', $o);
+        };
+    }
     /**
      * clear classes_name storage
      * @return void 
@@ -252,7 +258,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     {
         return isset($this->m_classes[$name]);
     }
-    ///<summary></summary>
     public function evalClassStyle()
     {
         $out = IGK_STR_EMPTY;
@@ -266,14 +271,10 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return $out;
     }
-    ///<summary></summary>
     public function getKeys()
     {
         return array_keys($this->m_classes);
     }
-    ///<summary></summary>
-    ///<param name="theme"></param>
-    ///<param name="v"></param>
     private static function GetParentClass($theme, $v)
     {
         $s = $theme[$v];
@@ -289,12 +290,10 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return $v;
     }
-    ///<summary></summary>
     public static function GetRegClass()
     {
         return self::_GetRegClass();
     }
-    ///<summary>get html css class presentation value</summary>
     public function getValue($options = null):string
     {
         $out = IGK_STR_EMPTY;
@@ -304,7 +303,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
                 $this->_add($list);
             }
         }
-
         foreach ($this->m_classes as $v) {
             if ($i == 0)
                 $i = 1;
@@ -318,7 +316,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         $b = HtmlUtils::GetValue($out);
         if ($this->m_expressions) {
             $i && $b .= ' ';
-
             foreach ($this->m_expressions as $k) {
                 if (!is_string($k) && is_callable($k) ){
                     $k = $k();
@@ -330,8 +327,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return empty($b) ? '' : $b;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public static function IsCssChild($v)
     {
         if (!IGKApp::IsInit()) {
@@ -347,8 +342,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="class"></param>
     public function remove($class)
     {
         if (empty($class))
@@ -357,8 +350,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
             unset($this->m_classes[$class]);
         }
     }
-    ///<summary>Represente setClasses function</summary>
-    ///<param name="expression"></param>
     public function setClasses($expression)
     {
         $tb = array_filter(explode(" ", $expression));
@@ -367,8 +358,6 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
         }
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
     public static function UnRegClass($key)
     {
         self::_UnRegClass($key);
@@ -394,5 +383,4 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     public function getClasses(){
         return $this->m_classes;
     }
-   
 }

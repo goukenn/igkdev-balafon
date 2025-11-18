@@ -1,5 +1,5 @@
 <?php
-namespace Demo;
+namespace IGK\Tests\Systems\Compilers\Armonic\Demo;
 // @author: C.A.D. BONDJE DOUE
 // @filename: test.01.php
 // @date: 20221020 11:25:10

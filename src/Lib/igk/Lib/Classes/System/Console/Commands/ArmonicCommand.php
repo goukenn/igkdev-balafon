@@ -3,11 +3,8 @@
 // @file: ArmonicCommand.php
 // @date: 20221023 10:18:19
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Runtime\Compiler\Armonic\ArmonicCompiler;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands

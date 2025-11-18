@@ -3,11 +3,8 @@
 // @file: ClassBuilderTrait.php
 // @date: 20230103 22:54:19
 namespace IGK\System\Console\Commands\Traits;
-
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Traits
@@ -52,7 +49,7 @@ trait ClassBuilderTrait{
                 $fname .= ".php";
             }
             $file = $dir . "/" . $fname;
-        if (!file_exists($file) || $force) {
+        if (!igk_io_file_exists($file) || $force) {
             $name = igk_str_ns(igk_io_basenamewithoutext($file));
             $author = $this->getAuthor($command);
             $builder = new PHPScriptBuilder();

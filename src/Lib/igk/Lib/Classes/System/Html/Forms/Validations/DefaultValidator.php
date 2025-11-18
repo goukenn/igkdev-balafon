@@ -3,19 +3,15 @@
 // @filename: DefaultValidator.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Forms\Validations;
-
 use IGK\System\Html\Forms\IFormValidationField;
 use IGKException;
-
 /**
  * represent a default form field validator
  * @package IGK\System\Html\Forms
  */
 class DefaultValidator extends FormFieldValidatorBase implements IFormValidator, IFormValidationFieldHost{
     protected $_fieldInfo;
-
     /**
      * set validation field
      * @param null|IFormValidationField $field 
@@ -27,11 +23,9 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
     public function getFieldInfo():?IFormValidationField{
         return $this->_fieldInfo;
     }
-    
     public function assertValidate($value): bool { 
         return true;
     } 
-
     /**
      * required field info as options
      * @param mixed $value 
@@ -42,7 +36,6 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
      * @throws IGKException 
      */
     protected function _validate($value, $default=null, & $error=[], $options=null){ 
-      
         if (empty($value)){
             return $default;
         }
@@ -76,5 +69,4 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
         $error[] = 'no form field ';
         return null;
     }
-
 }

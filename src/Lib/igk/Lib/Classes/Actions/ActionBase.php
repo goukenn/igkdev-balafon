@@ -3,15 +3,12 @@
 // @filename: ActionBase.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Actions;
-
 use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\Traits\DieRequestTrait;
 use IGKActionBase;
-
+use IGKUserInfo;
 abstract class ActionBase extends IGKActionBase{
     use DieRequestTrait;
     /**
@@ -26,6 +23,16 @@ abstract class ActionBase extends IGKActionBase{
         if ($u instanceof IUserProfile){
             return $u->model();
         }
+        if ($u instanceof Users){
+            return $u;
+        }
+        if ($u instanceof IGKUserInfo){
+            return $u->model();
+        }
         return null;
+    }
+    public function __debugInfo()
+    {
+        return [];
     }
 }

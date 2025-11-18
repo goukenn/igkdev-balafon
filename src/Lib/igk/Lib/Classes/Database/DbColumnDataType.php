@@ -5,12 +5,9 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Database;
-
-
 final class DbColumnDataType{
     const DATE_TIME="Datetime";
     const DOUBLE_SINGLE="Double";
@@ -18,7 +15,6 @@ final class DbColumnDataType{
     const SINGLE="Float";
     const TEXT="Text";
     const VARCHAR="VarChar";
-    ///<summary></summary>
     public static function GetDbTypes(){
         static $t;
         if($t === null)

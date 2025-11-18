@@ -3,12 +3,9 @@
 // @file: IOControllerExtensionTrait.php
 // @date: 20230125 14:39:06
 namespace IGK\Controllers\Traits;
- 
 use IGK\Controllers\BaseController;
 use IGK\System\IO\Path;
 use IGK\System\IO\ResIdentifierConstants;
-
-///<summary></summary>
 /**
 * input management controller macros extension 
 * @package IGK\System\Controllers\Traits

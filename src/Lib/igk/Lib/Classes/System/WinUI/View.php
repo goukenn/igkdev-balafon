@@ -3,11 +3,8 @@
 // @filename: View.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\WinUI;
-
 use IGK\System\Html\Dom\HtmlNode;
-
 /**
  * default viw block
  * @package IGK\System\WinUI

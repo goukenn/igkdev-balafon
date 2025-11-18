@@ -3,9 +3,6 @@
 // @file: SessionOperatorIncCallback.php
 // @date: 20221010 01:48:20
 namespace IGK\System\Http\Session;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\Session
@@ -23,5 +20,4 @@ class SessionOperatorIncCallback extends SessionOperatorBase {
             $a = $this->step;
         return $a;
     }
-
 }

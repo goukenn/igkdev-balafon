@@ -1,8 +1,5 @@
 <?php
-
 namespace IGK\Database\Macros;
-
-use GrahamCampbell\ResultType\Success;
 use IGK\Controllers\BaseController;
 use IGK\Database\Mapping\SysDbMapping;
 use IGK\Models\Authorizations;
@@ -19,24 +16,22 @@ use IGK\System\Constants\PhonebookTypeNames;
 use IGK\System\Database\MySQL\BooleanQueryResult;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGKEvents;
 use ReflectionException;
-
-
 /**
  * used for macros injection 
  * @package IGK\Database\Macros
  */
 abstract class UsersMacros
 {
-
     /**
      * register and init project user by login
      * @param string $login 
      * @param BaseController $ctrl 
      * @return mixed 
      */
-    static function RegisterAndInitProjectUserByLogin(string $login,BaseController $ctrl ){
-        if ($u = Users::Register(['clLogin'=>$login])){ 
+    static function RegisterAndInitProjectUserByLogin(string $login, BaseController $ctrl ){
+        if ($u = Users::Register([Users::FD_CL_LOGIN => $login])){ 
             $ctrl->initUserFromSysUser($u); 
             return $u;
         }
@@ -89,7 +84,6 @@ abstract class UsersMacros
         unset($user->clPwd);
         return $user->save();
     }
-
     public static function isActive(Users $user){
         return $user->clStatus == 1;
     }
@@ -112,30 +106,27 @@ abstract class UsersMacros
     public static function addPhoneBookEntry(Users $model, $type, $value)
     {
         $r = static::getPhoneBookEntry($model);
-
         $guid = ($r ? $r->usrphb_PhoneBookEntryGuid : null) ?? PhoneBookEntries::create()->rcphbe_Guid;
-
         if (($r && !$r->usrphb_PhoneBookEntryGuid) && ($guid)) {
             $r->usrphb_PhoneBookEntryGuid = $guid;
             $r->save();
         }
-
-        $t = PhoneBookTypes::GetCache(PhoneBookTypes::FD_RCPHBT_NAME, $type);
+        $t = PhoneBookTypes::GetCache(PhoneBookTypes::FD_NAME, $type);
         if (!$t) {
             return false;
         }
         $success = false;
         if (empty($value)) {
             PhoneBooks::delete([
-                PhoneBooks::FD_RCPHB_ENTRY_GUID => $guid,
-                PhoneBooks::FD_RCPHB_TYPE => $t->rcphbt_Id,
+                PhoneBooks::FD_ENTRY_GUID => $guid,
+                PhoneBooks::FD_TYPE => $t->rcphbt_Id,
             ]);
         } else {
             PhoneBooks::beginTransaction();
             if ($g = PhoneBooks::createIfNotExists([
-                PhoneBooks::FD_RCPHB_ENTRY_GUID => $guid,
-                PhoneBooks::FD_RCPHB_TYPE => $t->rcphbt_Id,
-                PhoneBooks::FD_RCPHB_VALUE => $value,
+                PhoneBooks::FD_ENTRY_GUID => $guid,
+                PhoneBooks::FD_TYPE => $t->rcphbt_Id,
+                PhoneBooks::FD_VALUE => $value,
             ])) {
                 if (!$r) {
                     $success  = $g && PhoneBookUserAssociations::create([
@@ -195,11 +186,11 @@ abstract class UsersMacros
             PhoneBooks::prepare()
                 ->join_left(
                     PhoneBookTypes::table(),
-                    PhoneBooks::FD_RCPHB_TYPE . '=' . PhoneBookTypes::FD_RCPHBT_ID
+                    PhoneBooks::FD_TYPE . '=' . PhoneBookTypes::FD_ID
                 )
                 ->where([
-                    PhoneBooks::FD_RCPHB_ENTRY_GUID => $g->usrphb_PhoneBookEntryGuid,
-                    PhoneBookTypes::FD_RCPHBT_NAME => $type
+                    PhoneBooks::FD_ENTRY_GUID => $g->usrphb_PhoneBookEntryGuid,
+                    PhoneBookTypes::FD_NAME => $type
                 ])
                 ->execute(true, [
                     "@callback" => function ($a) use (&$response) {
@@ -224,7 +215,6 @@ abstract class UsersMacros
         $s = trim(implode(' ', array_filter([$user->clFirstName, strtoupper($user->clLastName ?? '')])));
         return empty($s)? $user->clLogin : $s;
     }
-
     /**
      * bind user to group 
      * @param Users $user 
@@ -235,7 +225,6 @@ abstract class UsersMacros
     public static function bindToGroup(Users $user, BaseController $ctrl, string $groupname){
         return \IGK\Helper\Authorization::BindUserToGroup($ctrl, $user, $groupname);
     }
-
      /**
      * remove current user from that group 
      * @param Users $user 
@@ -258,9 +247,7 @@ abstract class UsersMacros
             $condition['clController'] = $v_ctrl_name;
         }
         $condition['clName'] = $groupName; 
-
         if ($gid = (($m = Groups::select_row($condition)) ? $m->clId : null)){
-
             $condition = [];
             $condition = array_merge($condition, ["clGroup_Id"=>$gid, "clUser_Id"=>$uid]);
             $r = Usergroups::delete($condition);
@@ -269,9 +256,7 @@ abstract class UsersMacros
             }
         }
         return $r;
-        
     }
-
     /**
      * create user reponse data
      * @param Users $user 
@@ -293,5 +278,10 @@ abstract class UsersMacros
             }, $user->auths()), 
         ];
         return $data;
+    }
+    // 
+    public static function cleanAndDrop(Users $model){
+        igk_hook(IGKEvents::HOOK_USER_CLEAN, ['user'=>$model]); 
+        $model->delete();
     }
 }

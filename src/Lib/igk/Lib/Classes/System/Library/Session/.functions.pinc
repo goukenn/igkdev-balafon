@@ -21,11 +21,17 @@ function igk_cookies(){
 function igk_session_destroy()
 {
     if (session_id()) {
-        @session_destroy();
+        igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); @session_destroy();
     } 
 }
 
 if (!function_exists('igk_session_count')){
+    /**
+     * count number of opened session
+     * @return int 
+     * @throws Error 
+     * @throws Exception 
+     */
     function igk_session_count(){
        return count(igk_sys_get_all_openedsessionid(false));
     }
@@ -96,7 +102,7 @@ function igk_start_session($reset = 0)
             session_set_cookie_params(10, "/", $opts["domain"], igk_sys_srv_is_secure(), true);
         }
     }
-    $b = session_start();
+    $b = @session_start();
     return $b;
 }
 }

@@ -15,8 +15,11 @@ use IGKHtmlDoc;
 
 class ThemeBuilderTest extends BaseTestCase
 {
+    private static function _CreateTheme($id){
+        return new HtmlDocTheme(IGKHtmlDoc::CreateDocument(-1), $id, false);
+    }
     private function _get_primary_theme(){
-        $theme = new HtmlDocTheme(IGKHtmlDoc::CreateDocument(-1), "test");
+        $theme = self::_CreateTheme('test');
         $theme[".info"] = "background-color:red;";
         $cl = &$theme->getCl();
         $cl["yellostyle"] = "#879874";
@@ -30,7 +33,7 @@ class ThemeBuilderTest extends BaseTestCase
     }
     function test_theme_to_array()
     {
-        $theme = new HtmlDocTheme(IGKHtmlDoc::CreateDocument(-1), "test");
+        $theme = self::_CreateTheme('test');
         $theme[".info"] = "background-color:green;";
         $cl = &$theme->getCl();
         $cl["yellostyle"] = "#879874";

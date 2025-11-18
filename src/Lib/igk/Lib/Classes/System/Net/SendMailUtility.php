@@ -3,7 +3,6 @@
 // @file: SendMailUtility.php
 // @date: 20230425 08:32:33
 namespace IGK\System\Net;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helpers\ArticleHelper;
@@ -15,10 +14,7 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use IGKException;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Net
@@ -37,25 +33,21 @@ class SendMailUtility{
      * @throws IGKException 
      */
     public static function SendMail($baseController, $to, $from, $title, $data){
-
         if ($data instanceof HtmlItemBase){
             $mailoptions = igk_mail_option();
             $data = $data->render($mailoptions);
         }
-
         $v_reg_info = CronJobProcess::Register("mail", "mail.register.php", $info = (object)[
             "to" => $to,
             "title" => $title,
             "msg" => $data,
             'from'=> $from, 
         ], $baseController);
-
         $mail = new Mail();
         $mail->From = $from;        
         $mail->addTo($to);        
         $mail->setHtmlMsg($data);
         $mail->setTitle($title);
-
         $rep = $mail->sendMail();
         if ($rep){
             $v_reg_info->crons_status = 1;
@@ -83,7 +75,6 @@ class SendMailUtility{
         $recovery_uri = $data['recover_uri'];
         $msg = igk_create_notagnode();
         $msg->article($baseController, $farticle, array_merge($data,['uri'=>$recovery_uri]));
-
         $to = $data['email'];
         $data = $msg->render();
         empty($data) && igk_die(__("mail message is empty"));

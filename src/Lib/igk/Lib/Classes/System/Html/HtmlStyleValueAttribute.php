@@ -5,25 +5,22 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-
 use IGK\System\Html\Css\CssStyle;
 use IGK\System\Html\Dom\HtmlCssValueAttribute;
-
-final class HtmlStyleValueAttribute extends HtmlAttributeValue{
+final class HtmlStyleValueAttribute extends HtmlAttributeValue
+{
     private $m_o;
     protected $value;
-    ///<summary></summary>
-    ///<param name="target"></param>
-    public function __construct($target){
-        $this->m_o=$target;
+    public function __construct($target)
+    {
+        $this->m_o = $target;
     }
-   
-    ///<summary></summary>
-    public function __sleep(){
-        if(empty($this->value)){
+    public function __sleep()
+    {
+        if (empty($this->value)) {
             return array();
         }
         return array("m_v", "m_o");
@@ -35,45 +32,50 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue{
     public function __toString()
     {
         $rv = $this->getValue();
-        if ($rv===null){
-            igk_wln_e(__FILE__.":".__LINE__ , "someting missing for stylevalue attribute ");
+        if ($rv === null) {
+            igk_wln_e(__FILE__ . ":" . __LINE__, "someting missing for stylevalue attribute ");
         }
         return $rv;
     }
-    ///<summary></summary>
-    function __wakeup(){    }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
-    public function getValue($options=null){
-        $opt=IGK_STR_EMPTY;
-        if(igk_xml_is_mailoptions($options)){
-            $p=$this->m_o["class"];
-            $style=new CssStyle();
-            $s=trim($p ? $p->EvalClassStyle(): IGK_STR_EMPTY);
-            if(!empty($s))
+    function __wakeup() {}
+    public function getValue($options = null)
+    {
+        $opt = IGK_STR_EMPTY;
+        $v_value = $this->value;
+        if (igk_xml_is_mailoptions($options)) {
+            $p = $this->m_o["class"];
+            $style = new CssStyle();
+            $s = trim($p ? $p->EvalClassStyle() : IGK_STR_EMPTY);
+            if ($v_value) {
+                $tg = $v_value->getValue($options);
+                if ($tg) {
+                    $style->load($tg, 0, null);
+                    $v_value = null;
+                }
+            }
+            if (!empty($s))
                 $style->Load($s, 1, $p);
             $opt .= igk_css_get_style_from_map($this->m_o, $options, $style);
         }
-        if(!empty($opt) && !empty($this->value))
+        if (!empty($opt) && !empty($v_value))
             $opt .= " ";
-            if (is_object($this->value)){
-                $opt .= $this->value->getValue($options);
-            } else {
-                $opt=$opt.$this->value;
-            }
-        return empty($opt) ? null: $opt;
+        if (is_object($v_value)) {
+            $opt .= $v_value->getValue($options);
+        } else {
+            $opt = $opt . $v_value;
+        }
+        return empty($opt) ? null : $opt;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
-    public function setValue($value){
-        if ($value instanceof HtmlStyleValueAttribute){
+    public function setValue($value)
+    {
+        if ($value instanceof HtmlStyleValueAttribute) {
             $this->value = $value->getValue();
             return $this;
         }
-        if(($value == null) || is_string($value) || ($value instanceof IHtmlStyleAtribute))
-            $this->value=$value;
-        else{            
-            igk_die("no value allowed ".$value. " target :".get_class($this->m_o));
+        if (($value == null) || is_string($value) || ($value instanceof IHtmlStyleAtribute))
+            $this->value = $value;
+        else {
+            igk_die("no value allowed " . $value . " target :" . get_class($this->m_o));
         }
     }
 }

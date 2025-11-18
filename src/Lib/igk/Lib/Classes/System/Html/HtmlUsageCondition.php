@@ -5,20 +5,15 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html;
-
 use IGKObject;
-
 /**
  * usage condition helper
  * @package 
  */
 final class HtmlUsageCondition extends IGKObject implements IHtmlGetValue{
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     public function getValue($o=null){
         $c=igk_create_node("span");
         $tc=igk_get_regctrl("sys://articles");

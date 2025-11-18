@@ -1,29 +1,22 @@
 <?php
-
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ClassFileVersionLoaderTrait.php
 // @date: 20220901 07:15:22
 // @desc: 
 namespace IGK\System\Traits;
-
 use IGKException;
-
-
 // + | ----------------------------------------------------------------------
 // + | to make balafon compatible with php version spécific some file must be
 // + | chached and loaded when it's necessary. 
 // + | to avoid mixed between application shared core. need to cache file app
 // + | classes on application cache folder.
 // + |
-
 /**
  * loading version trait
  */
 trait ClassFileVersionLoaderTrait
 {
     private $_load_classes = [];
-   
     /**
      * get local application classes cache file
      * @return string 
@@ -49,7 +42,6 @@ trait ClassFileVersionLoaderTrait
         } else {
             $index = $this->_load_classes["cl"][$classname];
         }
-
         if (!isset($this->_load_classes["versions"][$index])) {
             if (!empty($version)) {
                 $this->_load_classes["versions"][$index] = $version;
@@ -74,8 +66,6 @@ trait ClassFileVersionLoaderTrait
             }
         }
     }
-
-
     /**
      * get register class 
      * @param string $classname 

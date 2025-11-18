@@ -4,11 +4,10 @@
 // licence: IGKDEV - Balafon @ 2019
 // desc: mysql data adapter
 // @file: igk_mysql_db.php
-
 use IGK\Database\DbQueryDriver;
+use IGK\Constants;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGK\System\Console\Logger;
-
 if (!extension_loaded("mysql") && (!extension_loaded("mysqli"))) {
     error_log("[BLF] - no extension mysql or mysqli installed. class will not be installed in that case." . extension_loaded("mysqli"));
     return;
@@ -18,22 +17,14 @@ if (!function_exists("mysqli_connect")) {
     igk_exit();
 }
 define("IGK_MYSQL_DIR", IGK_LIB_CLASSES_DIR . "/System/Database/MySQL");
-define('MYSQL_DB_DRIVER', 1);
+define('IGK_MYSQL_DB_DRIVER', 1);
 require_once(IGK_LIB_CLASSES_DIR . "/Database/DbQueryDriver.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Database/SQLDataAdapter.php");
- 
 $file = (igk_sys_reflect_class(\IGK\System\Database\MySQL\DataAdapterBase::class))->getFileName();
-
-
 require_once(IGK_MYSQL_DIR . "/DataAdapterBase.php");
 // igk_wln_e("the file ", get_included_files() , $file, IGK_MYSQL_DIR . "/DataAdapterBase.php");
 require_once(IGK_MYSQL_DIR . "/DataAdapter.php");
 require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
-
-///<summary></summary>
-///<param name="srv"></param>
-///<param name="dbu"></param>
-///<param name="pwd"></param>
 /**
  * 
  * @param mixed|object $srv
@@ -42,7 +33,6 @@ require_once(IGK_MYSQL_DIR . "/Controllers/MySQLDataController.php");
  */
 function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
 {
-
     if (empty($srv))
         return false;
     $g = DbQueryDriver::GetFunc("connect") ?? igk_die("not connect found for !!!! " . DbQueryDriver::$Config["system"]);
@@ -50,7 +40,7 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
      * @var object|resource|mysqli $b
      */
     $b = null;
-    if (defined('MYSQL_DB_DRIVER') && DbQueryDriver::Is("MySQLI")) {    
+    if (defined('IGK_MYSQL_DB_DRIVER') && DbQueryDriver::Is("MySQLI")) {    
         try {
             if (is_object($srv)) {
                 if (empty($port = $srv->port)) {
@@ -63,7 +53,6 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
                     null,
                     $port
                 ];
-             
                 $b = @$g(...$mg);
             } else {
                 $b = @$g($srv, $dbu, $pwd);
@@ -96,9 +85,6 @@ function igk_db_connect($srv, $dbu = null, $pwd = null, $options = null)
     }
     return @$g($srv, $dbu, $pwd);
 }
-///<summary></summary>
-///<param name="v"></param>
-///<param name="r" default="null"></param>
 /**
  * 
  * @param mixed $v
@@ -127,8 +113,6 @@ function igk_db_escape_string($v, $r = null)
         return $g($v);
     return null;
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -138,8 +122,6 @@ function igk_db_fetch_field($r)
     $g = DbQueryDriver::GetFunc("fetch_field");
     return $g($r);
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -149,8 +131,6 @@ function igk_db_fetch_row($r)
     $g = DbQueryDriver::GetFunc("fetch_row");
     return $g($r);
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -162,19 +142,14 @@ function igk_db_is_resource($r)
     }
     return is_resource($r);
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
- * 
+ * get number of fielse
  * @param mixed $r
  */
-function igk_db_num_fields($r)
-{
+function igk_db_num_fields($r){
     $g = DbQueryDriver::GetFunc("num_fields");
-    return $g($r);
+    return ($r && $g ) ? $g($r) : -1;
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -193,13 +168,11 @@ function igk_db_fetch_assoc($r){
         return $g($r);  
     }
 }
-///<summary></summary>
-///<param name="query"></param>
 /**
- * 
+ * send db query
  * @param mixed $query
  */
-function igk_db_query($query, $res = null)
+function igk_db_query(string $query, $res = null)
 { 
     $g = DbQueryDriver::GetFunc("query");
     if (DbQueryDriver::Is("MySQLI")) { 
@@ -226,7 +199,6 @@ function igk_db_multi_query($query, $res = null)
     }
     return $g($query);
 }
-///<summary>retreive the current server date </summary>
 /**
  * retreive the current server date
  */
@@ -234,8 +206,6 @@ function igk_mysql_datetime_now()
 {
     return date(IGK_MYSQL_DATETIME_FORMAT);
 }
-///<summary></summary>
-///<param name="r"></param>
 /**
  * 
  * @param mixed $r
@@ -245,8 +215,6 @@ function igk_mysql_db_close($r)
     $g = DbQueryDriver::GetFunc("close");
     return @$g($r);
 }
-///<summary></summary>
-///<param name="r" default="null"></param>
 /**
  * 
  * @param mixed $r the default value is null
@@ -263,7 +231,6 @@ function igk_mysql_db_error($r = null)
     }
     return $g($r);
 }
-///<summary></summary>
 /**
  * 
  */
@@ -278,8 +245,6 @@ function igk_mysql_db_errorc($res=null)
     }
     return $g($r);
 }
-///<summary></summary>
-///<param name="t"></param>
 /**
  * 
  * @param mixed $t
@@ -304,7 +269,6 @@ function igk_mysql_db_gettypename($t)
     }
     return $t;
 }
-///<summary></summary>
 /**
  * 
  */
@@ -312,8 +276,6 @@ function igk_mysql_db_has_error()
 {
     return igk_mysql_db_errorc() != 0;
 }
-///<summary></summary>
-///<param name="flags"></param>
 /**
  * 
  * @param mixed $flags
@@ -322,8 +284,6 @@ function igk_mysql_db_is_primary_key($flags)
 {
     return ($flags & 2) == 2;
 }
-///<summary></summary>
-///<param name="r" default="null"></param>
 /**
  * 
  * @param mixed $r the default value is null
@@ -348,9 +308,6 @@ function igk_db_last_connect_error(){
     }
     return $g();
 }
-
-///<summary></summary>
-///<param name="mysql"></param>
 /**
  * 
  * @param mixed $mysql
@@ -361,8 +318,6 @@ function igk_mysql_db_selected_db($mysql)
     $c = "DATABASE()";
     return $r->$c;
 }
-///<summary></summary>
-///<param name="tbname"></param>
 /**
  * 
  * @param mixed $tbname
@@ -371,8 +326,6 @@ function igk_mysql_db_tbname($tbname)
 {
     return igk_db_escape_string(igk_db_get_table_name($tbname));
 }
-///<summary></summary>
-///<param name="resource"></param>
 /**
  * 
  * @param mixed $resource
@@ -398,8 +351,6 @@ function igk_mysql_result_table($resource)
     }
     return $tab;
 }
-///<summary></summary>
-///<param name="date"></param>
 /**
  * 
  * @param mixed $date
@@ -408,13 +359,6 @@ function igk_mysql_time_span($date)
 {
     return igk_time_span(IGK_MYSQL_DATETIME_FORMAT, $date);
 }
-
-
-
-
-
-
-///<summary> represent multi query access </summary>
 function igk_mysqli_multi_query($con, $query)
 {
     $cr =  mysqli_multi_query($con, $query);
@@ -425,14 +369,14 @@ function igk_mysqli_multi_query($con, $query)
     }
     return $cr;
 }
-define("IGK_MSQL_DB_Adapter", 1);
-define("IGK_MSQL_DB_AdapterFunc", extension_loaded("mysql"));
-define("IGK_MSQLi_DB_AdapterFunc", extension_loaded("mysqli"));
-if (IGK_MSQLi_DB_AdapterFunc) {
+define("IGK_MSQL_DB_ADAPTER", 1);
+define("IGK_MSQL_DB_ADAPTERFUNC", extension_loaded("mysql"));
+define("IGK_MSQLI_DB_ADAPTERFUNC", extension_loaded("mysqli"));
+if (IGK_MSQLI_DB_ADAPTERFUNC) {
     define("IGK_MYSQL_USAGE", "MySQLi");
 } else
     define("IGK_MYSQL_USAGE", "MySQL");
-define("IGK_MYSQL_DATETIME_FORMAT", \IGKConstants::MYSQL_DATETIME_FORMAT);
+define("IGK_MYSQL_DATETIME_FORMAT", Constants::MYSQL_DATETIME_FORMAT);
 define("IGK_MYSQL_TIME_FORMAT", IGK_MYSQL_DATETIME_FORMAT);
 define("IGK_MYSQL_DATE_FORMAT", "Y-m-d");
 DbQueryDriver::Init(function (&$conf) {
@@ -461,7 +405,5 @@ DbQueryDriver::Init(function (&$conf) {
     $t["connect_error"] = "mysqli_connect_error";
     $conf[$n]["func"] = $t;
 });
-
 // require_once __DIR__ . "/Controllers/DbConfigController.php";
-
 ConfigControllerRegistry::Register(\IGK\System\Database\MySQL\Controllers\DbConfigController::class, IGK_MYSQL_DB_CTRL);

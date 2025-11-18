@@ -1,17 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: Authenticator.php
 // @date: 20220902 12:53:11
 // @desc: 
-
-
-
-
 namespace IGK\System\Security;
-
 use IGK\System\Database\IUserProfile;
-
 /**
  * represent authenticator
  * @package IGK\System\Security

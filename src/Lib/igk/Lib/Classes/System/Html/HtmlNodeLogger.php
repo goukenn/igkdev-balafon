@@ -3,9 +3,6 @@
 // @file: HtmlNodeLogger.php
 // @date: 20230526 01:53:27
 namespace IGK\System\Html;
-
-
-///<summary></summary>
 /**
 * logger
 * @package IGK\System\Html

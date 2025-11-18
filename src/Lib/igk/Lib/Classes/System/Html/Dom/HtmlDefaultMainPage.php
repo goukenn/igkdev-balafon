@@ -5,15 +5,11 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-  
-
 use IGK\Resources\R;
 use IGKException;
-
 /**
  * defaut home page
  * @package IGK\System\Html\Dom
@@ -21,8 +17,6 @@ use IGKException;
 final class HtmlDefaultMainPage extends HtmlNode
 {
     static $sm_instance;
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     protected function _acceptRender($options = null):bool
     {
         if (!$this->getIsVisible()) {
@@ -53,7 +47,6 @@ final class HtmlDefaultMainPage extends HtmlNode
         }
         return 1;
     }
-    ///<summary>.ctr</summary>
     /**
      * .ctr
      * @return void 
@@ -63,8 +56,6 @@ final class HtmlDefaultMainPage extends HtmlNode
         parent::__construct("div");
         $this["class"] = "igk-project-start google-Roboto igk-parent-scroll";
     }
-    ///<summary></summary>
-
     /**
      * 
      * @return HtmlDefaultMainPage current application instance 
@@ -76,7 +67,6 @@ final class HtmlDefaultMainPage extends HtmlNode
         }
         return self::$sm_instance;
     }
-    ///<summary></summary>
     /**
      * 
      * @return int|bool 

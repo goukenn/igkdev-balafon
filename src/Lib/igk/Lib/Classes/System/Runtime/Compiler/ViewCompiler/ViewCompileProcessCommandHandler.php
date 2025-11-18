@@ -3,13 +3,10 @@
 // @file: ViewCompileProcessCommandHandler.php
 // @date: 20221027 13:34:06
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompiler;
 use IGKCaches;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -79,7 +76,7 @@ class ViewCompileProcessCommandHandler{
             if (!$this->compiler->options->layout->{'@MainLayout'})
                 igk_die("import in -- @MainLayout required");
             $dir = $this->compiler->options->layout->viewDir;
-            if (file_exists($v_cfile = $dir."/".$file)){
+            if (igk_io_file_exists($v_cfile = $dir."/".$file)){
                 return "include '{$v_cfile}';\n";
             }
         }
@@ -91,7 +88,7 @@ class ViewCompileProcessCommandHandler{
          */
         public function importFile(string $file){   
             $dir = $this->compiler->options->layout->viewDir;
-            if (file_exists($v_cfile = $dir."/".$file)){
+            if (igk_io_file_exists($v_cfile = $dir."/".$file)){
                 $ext = ".cphtml";
                 // check for cached compiled view if not to compilation
                 $cache_file = IGKCaches::view()->getCacheFilePath($v_cfile, $ext);

@@ -58,13 +58,16 @@
 		}
 	});
 	
-	igk.system.createNS("igk.winui.textEdit", {//extent global class properties
+	igk.system.createNS("igk.winui.textEdit", {
+		//extend global class properties
 		getCurrent:function(){return m_ei;}
 	});
 	
 	function __itextEdit(){
 		var q = this;
-		var o = igk.JSON.parse(q.getAttribute("igk:data"));
+		var o = igk.initObj(igk.JSON.parse(q.getAttribute("igk:data")), {
+			'id':''
+		});
 		var ce = new igk.winui.textEdit(q, o);
 		
 	};	

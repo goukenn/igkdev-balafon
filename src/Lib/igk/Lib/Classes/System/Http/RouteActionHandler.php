@@ -3,10 +3,7 @@
 // @filename: RouteActionHandler.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 use Closure;
 use IGK\Models\Users;
 use Exception;
@@ -14,13 +11,12 @@ use IGK\Actions\Dispatcher;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
-
 /**
  * route action handler
  * @package IGK\System\Http
  */
 class RouteActionHandler extends RouteHandler
-{
+{ 
     /**
      * store def access
      * @var mixed
@@ -41,7 +37,6 @@ class RouteActionHandler extends RouteHandler
      * @var mixed
      */
     protected $info;
-
     /**
      * type of route
      * @var string
@@ -58,13 +53,13 @@ class RouteActionHandler extends RouteHandler
     {
         if (!is_string($path))
             throw new ArgumentTypeNotValidException("path");
-
         parent::__construct($path, $handleClass);
         $this->path = $path;
         $this->classBind = $handleClass;
         $this->type = $type;
         $this->verbs = is_string($verb) ? array_map("trim", explode(',', $verb)) : (is_array($verb) ? $verb : ['*']);
         $this->ajx = false;
+        $this->security = null;
     }
     /**
      * get request uri info
@@ -89,7 +84,6 @@ class RouteActionHandler extends RouteHandler
     {
         return RouteHandler::GetResolveURI($this->path, $args, $baseUri);
     }
-
     /**
      * helper retrieve Route handle by name
      * @param mixed $name 
@@ -103,8 +97,6 @@ class RouteActionHandler extends RouteHandler
         }
         return null;
     }
-
-
     public function getPathUri()
     {
         $croute = "/" . ltrim($this->path, "/");
@@ -124,7 +116,6 @@ class RouteActionHandler extends RouteHandler
         // + | --------------------------------------------------------------------
         // + | check in amount if bool value is passed
         // + |
-
         if (is_bool($this->auth)) {
             return $this->auth;
         }
@@ -169,7 +160,6 @@ class RouteActionHandler extends RouteHandler
         $cl = "";
         $func_name = null;
         $v_clbind = $this->classBind;
-
         if ($v_clbind && is_string($v_clbind) && method_exists($this->type, $v_clbind)) {
             $cl = $this->type;
             $m = new $cl;
@@ -238,7 +228,6 @@ class RouteActionHandler extends RouteHandler
                 return call_user_func_array($func_name, $args);                
         }
     }
-
     public static function GetRouteUri(RouteActionHandler $route, BaseController $controller, $routepattern = null)
     {
         $t = $route->gettype();

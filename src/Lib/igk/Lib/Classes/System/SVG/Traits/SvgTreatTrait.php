@@ -3,14 +3,11 @@
 // @file: SvgTreatTrait.php
 // @date: 20230429 21:46:54
 namespace IGK\System\SVG\Traits;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\XML\XmlNode;
 use IGK\System\Html\XML\XmlNodeLoader;
 use IGK\System\Regex\Replacement;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\SVG\Traits
@@ -93,9 +90,7 @@ trait SvgTreatTrait{
         $rp = new Replacement;
         $rp->add('/stroke:\s*[^;\"]+(;)?/', '');
         $svg = $rp->replace($svg);
-
         $n = XmlNodeLoader::CreateFromContent($svg);
-        
         if ($t = $n->getElementsByTagName('svg')){
             $t = $t[0];
             $w = $t['width'];

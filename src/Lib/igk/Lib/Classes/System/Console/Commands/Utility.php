@@ -3,24 +3,29 @@
 // @filename: Utility.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 // @author : C.A.D. BONDJE DOUE
 // @desc: command utility
 // 
 namespace igk\System\Console\Commands;
-
 use Closure;
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\Logger;
-
-///<summary>command utility</summary>
+use IGKBacktickHelperCommandTrait;
 /**
  * command console utility Helper function 
  * @package igk\System\Console\Commands
  */
 abstract class Utility{
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
+    use IGKBacktickHelperCommandTrait;
+    /**
+     * 
+     * @param mixed $opts 
+     * @param mixed $color_one 
+     * @param mixed $color_two 
+     * @return void 
+     */
     public static function PrintCommand($opts, $color_one=App::AQUA, $color_two = App::GREEN  ){
         foreach($opts as $k=>$v){
             if (empty($v) && (strpos($k, '+')===0)){
@@ -52,24 +57,22 @@ abstract class Utility{
     public static function MakeBindFiles($command, $bind, $is_force=false):bool{
         $gen =false;
         foreach($bind as $n=>$c){
-            if ($is_force || !file_exists($n)){
+            if ($is_force || !igk_io_cache_file_exists($n)){
                 $gen = true;
                 if ($c instanceof Closure)
                     $c($n, $command);
                 else{
-                    igk_io_w2file($n, '');
+                    $code = is_string($c)? $c: '';
+                    igk_io_w2file($n, $code);
                 }
                 Logger::info("generate : ".$n);
             }
         }
         return $gen;
     }
-
-
     public static function PackageJsonAuthor($command){
         $name = $command->app->getAuthor();
         $email = IGK_AUTHOR_CONTACT;
-
         return (object)['email'=>$email, 'name'=>$name];
     }
 }

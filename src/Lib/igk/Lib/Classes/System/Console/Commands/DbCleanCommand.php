@@ -3,10 +3,7 @@
 // @filename: DbCleanCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\Utility;
@@ -19,9 +16,7 @@ use IGK\System\Helper;
 use IGKEvents;
 use IGKNonVisibleControllerBase;
 use function \igk_api_mysql_check_data_structure;
-
 require_once IGK_LIB_DIR . "/api/igk_api.php";
-
 /**
  * initialize data schema
  * @package IGK\System\Console\Commands
@@ -31,7 +26,6 @@ class DbCleanCommand extends AppExecCommand
     var $command = "--db:clean";
     var $category = "db";
     var $desc = "clean database";
-
     public function exec($command)
     {
         if (defined('IGK_API_MYSQLPINC'))
@@ -40,10 +34,8 @@ class DbCleanCommand extends AppExecCommand
         Logger::info("clean db");
         Logger::print("not used tables");
         $prompt  = __("do you want to delete them ? ");
-
         $tb = [];
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
-        
         $api = igk_getctrl(IGK_API_CTRL);
         ob_start();
         $c = igk_api_mysql_check_data_structure($api, 0, 0, function ($type, $info) use (&$tb) {
@@ -54,7 +46,6 @@ class DbCleanCommand extends AppExecCommand
             }
         });
         ob_end_clean();
-
         if (count($tb) > 0) {
             try {
                 if ((strtolower($y = readline($prompt . " (y/n) "))) == "y") {

@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: MysqlCommand.php
 // @date: 20220727 19:46:27
 // @desc: 
-
 namespace IGK\System\Console\Commands;
-
 use Error;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\ArrayUtils;
@@ -22,27 +19,28 @@ use ZipArchive;
 use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IToArray;
+use Symfony\Component\HttpClient\Chunk\InformationalChunk;
 use Symfony\Component\Translation\Loader\CsvFileLoader;
-
 use function igk_resources_gets as __;
-
 require_once IGK_LIB_DIR . "/api/.mysql.pinc";
-
 /**
- * 
+ * MySQL db management command
  * @package IGK\System\Console\Commands
  */
 class MySQLCommand extends AppExecCommand
 {
     var $command = "--db:mysql";
-    var $desc = "mysql db managment command";
+    var $desc = "mysql db management command";
     var $category = "db";
     const ACTIONS = 'query|clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
-    
     var $action_helps = [
         "drop-tables"=>"[--filter:(tables)]",
         "dump"=>"--zip,--type:(sql|csv),--filter:expression",
-        'query'=>'send manual query to mysql dbms'
+        'query'=>'send manual query to mysql dbms',
+        '--filter'
+    ];
+    var $options = [
+        '--filter:filter_def'=>'set filter definition used in action.'
     ];
     public function sendQuery($query)
     {
@@ -61,6 +59,8 @@ class MySQLCommand extends AppExecCommand
         Logger::print("");
         Logger::print($this->desc);
         Logger::print("");
+        $this->showUsage();
+        $this->showOptions();
         Logger::info("options*:");
         $options = explode("|", self::ACTIONS);
         sort($options);
@@ -82,6 +82,7 @@ class MySQLCommand extends AppExecCommand
          * var IDadaDbAdapter $db 
          */
         $db = null;
+        $v_filter = igk_getv($command->options, '--filter');         
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
         if ($db instanceof DataAdapter) {
             switch ($ac) {
@@ -115,17 +116,23 @@ class MySQLCommand extends AppExecCommand
                     }
                     if ($filter){
                         Logger::info('filter : '.$filter);
+                    } else {
+                        if (function_exists('readline')){
+                            $c = readline('confirm you want to drop all tables ? (y|n)');
+                            if ($c=='n'){
+                                return -1;
+                            }
+                        }
                     }
                     return $this->drop_tables($db, $filter);
                 case 'restore-dump':
                     Logger::info('restore mysql dump');
                     $file = igk_getv($command->options, '--file');
-                    if (empty($file) || !file_exists($file)) {
+                    if (empty($file) || !igk_io_file_exists($file)) {
                         Logger::danger('missing dump file');
                         return -201;
                     }
                     return $this->restore_dump_database($db, $file);
-                
                     break;
                 case 'supported-types':
                     $type = $db::GetSupportedType();
@@ -152,7 +159,14 @@ class MySQLCommand extends AppExecCommand
                     break;
                 case "export_schema":
                     // export global schema
-                    igk_api_mysql_get_data_schema(DbConfigController::ctrl(), 1, []);
+                     $ref = [];
+                    if ($v_filter){
+                        $ref['filter'] = $v_filter;
+                    }
+                    if ($prefix = igk_getv($command->options, '--prefix')){
+                        $ref['prefix-table'] = $prefix;
+                    }
+                    igk_api_mysql_get_data_schema(DbConfigController::ctrl(), 1, $ref);
                     igk_exit();
                     break;
                 case "initdb":
@@ -201,7 +215,6 @@ class MySQLCommand extends AppExecCommand
                         }
                     }
                     IGKModuleListMigration::Migrate();
-
                     return 1;
                 case "seed":
                     foreach ($c as $m) {
@@ -223,7 +236,7 @@ class MySQLCommand extends AppExecCommand
                     $l = $this;
                     igk_environment()->mysql_query_filter = 1;
                     $db->setSendDbQueryListener($l);
-                    if ($ctrl && ($c = igk_getctrl($ctrl, false))) {
+                    if ($ctrl && ($c = self::GetController($ctrl, false))) {
                         $c = [$c];
                     } else {
                         $c = igk_app()->getControllerManager()->getControllers();
@@ -255,6 +268,25 @@ class MySQLCommand extends AppExecCommand
         }
         return -1;
     }
+    public function action_drop_foreign_key($command, string $tablename , string $key_name){
+        // query: SELECT * FROM `TABLE_CONSTRAINTS` WHERE `CONSTRAINT_NAME`='{$key_name}';
+        $query = 'ALTER TABLE `'.$tablename.'` DROP FOREIGN KEY '.$key_name;
+        if ($db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)){
+            if ($db->connect()){
+                try{
+                     $db->sendQuery($query);
+                     Logger::success('drop foreign key');
+                     return 0;
+                } 
+                catch (\Exception $ex){
+                    Logger::danger($ex->getMessage());
+                    return -1;
+                } finally {
+                    $db->close();
+                }
+            }
+        } 
+    }
     /**
      * 
      * @param mixed $command 
@@ -283,7 +315,7 @@ class MySQLCommand extends AppExecCommand
              */
             $l = $this;
             $ad->setSendDbQueryListener($l);
-            if (!($ctrl && ($ctrl = igk_getctrl($ctrl, false)))) {
+            if (!($ctrl && ($ctrl = self::GetController($ctrl, false)))) {
                 return -1;
             }
             Logger::info("# preview create query");
@@ -322,7 +354,6 @@ class MySQLCommand extends AppExecCommand
         $tables = array_map(function ($g) {
             return (object)['table' => $g->firstValue()];
         }, $ad->sendQuery($q)->to_array());
-
         $adapter = igk_get_data_adapter(IGK_CSV_DATAADAPTER);
         switch($type){
             case 'sql':
@@ -334,10 +365,8 @@ class MySQLCommand extends AppExecCommand
                 $dump = MySQLDbHelper::BackupToCSV($adapter, $ad, $tables, []);
             }
             break;
-
         }
             $ad->close();
-
         if ($zip) {
             $file = 'db.dump.' . date('ymd-His') . '.csv';
             igk_zip_content($file, $file, $dump, true);
@@ -346,7 +375,6 @@ class MySQLCommand extends AppExecCommand
         }
         echo $dump;
     }
-
     private function UnZipRestoreDump(string $zipfile, $ad, callable $callback)
     {
         $zip = new ZipArchive;
@@ -364,7 +392,6 @@ class MySQLCommand extends AppExecCommand
                         $buffer = '';
                         $offset = 0;
                         while (($buff = stream_get_contents($stream, $buffer_length, $offset)) !== false) {
-
                             $ln = strlen($buff);
                             if ($ln === 0) {
                                 break;
@@ -415,7 +442,6 @@ class MySQLCommand extends AppExecCommand
                     $buffer = $line;
                     return;
                 }
-
                 if ($line == "\0") {
                     $table = $tline = null;
                     $mode = 0;
@@ -431,7 +457,6 @@ class MySQLCommand extends AppExecCommand
                         Logger::info("read: " . $table);
                     }
                 } else if ($mode == 1) {
-
                     $g = IGKCSVDataAdapter::LoadString($line)[0];
                     $tline = array_fill_keys($g, null);
                     $mode = 2;
@@ -450,7 +475,6 @@ class MySQLCommand extends AppExecCommand
                         }
                         return $c;
                     }, array_slice($entries, 0, $tcount));
-
                     $entry = array_combine(array_keys($tline), $entries); //array_slice($entries, 0, $tcount));
                     try{
                         $this->update_data($ad, $table, $entry, 1 );
@@ -464,11 +488,9 @@ class MySQLCommand extends AppExecCommand
                 }
             }
         };
-
         $r = true;
         $ad->beginTransaction();
         $ad->stopRelationChecking();
-
         if ($h = fopen($file, 'r')) { 
             $ATT = fread($h, 4); 
             $LENGHT = 4096;
@@ -492,12 +514,10 @@ class MySQLCommand extends AppExecCommand
             }
             $ad->close();
         }
-
     }
     private static function update_data($ad, $table, $entry, $mode){
         $ad->insert($table, $entry);
     }
-
     private function select_show_tables_query($ad, ?string $filter=null){
         $q = "show tables";
         if ($filter){
@@ -526,12 +546,10 @@ class MySQLCommand extends AppExecCommand
             $ad->sendQuery('DELETE FROM `'.$t->table.'`');
         }
         $ad->restoreRelationChecking();
-
         $ad->close();
         Logger::success('done');
         return 0;
     }
-
     /**
      * drop tables
      * @param mixed $ad 

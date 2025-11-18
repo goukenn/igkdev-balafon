@@ -3,9 +3,7 @@
 // @filename: XPathConfig.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Configuration;
-
 //---------------------------------------------------------------------
 // XPATH: separated config entry with '/'. [index] if multiple access
 //
@@ -15,10 +13,15 @@ namespace IGK\System\Configuration;
 class XPathConfig{
     private $m_config;
     /**
-     * tempory xpath
+     * get or set loading tempory. to save configuration
      * @var false
      */
     var $isTemp = false;
+    /**
+     * init controller 
+     * @var bool
+     */
+    var $initController = true;
     public function __construct($config){
         $this->m_config = $config;
     }

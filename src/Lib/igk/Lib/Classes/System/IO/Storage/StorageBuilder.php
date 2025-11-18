@@ -3,19 +3,14 @@
 // @file: StorageBuilder.php
 // @date: 20230305 19:15:19
 namespace IGK\System\IO\Storage;
-
 use IGK\System\IO\Path;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\IO\Storage
 */
 class StorageBuilder implements IStorageBuilder{
     var $storage;
-
     var $prefix;
-
     public function __construct(IStorage $storage, string $prefix)
     {
         $this->storage = $storage;
@@ -50,7 +45,6 @@ class StorageBuilder implements IStorageBuilder{
      * @return IStorageInfo 
      */
     public function __invoke($file, bool $ovewrite=false, ?string $type=null){
-      
         return $this->store($file, $ovewrite, $type);
     }
 }

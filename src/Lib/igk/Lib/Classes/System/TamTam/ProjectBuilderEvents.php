@@ -3,9 +3,6 @@
 // @file: ProjectBuilderEvents.php
 // @date: 20230309 20:59:31
 namespace IGK\System\TamTam;
-
-
-///<summary></summary>
 /**
 * building Project Hook
 * @package IGK\System\TamTam

@@ -1,16 +1,12 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: NotifyConnexionMailDocument.php
 // @date: 20220506 09:14:15
 // @desc: 
-
 namespace IGK\System\Html\Mail;
-
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Net\MailDocument;
-
 class NotifyConnexionMailDocument extends MailDocument{
     /**
      * source tag
@@ -39,7 +35,6 @@ class NotifyConnexionMailDocument extends MailDocument{
         if ($this->m_data_service){
             return $this->m_data_service->getMailData();
         }
-
         return array(
             "date" => igk_mysql_datetime_now(),
             "domain" => igk_app()->getConfigs()->website_domain,

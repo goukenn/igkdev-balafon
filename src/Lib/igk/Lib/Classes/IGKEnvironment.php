@@ -3,23 +3,20 @@
 // @filename: IGKEnvironment.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
 use IGK\Controllers\BaseController;
+use IGK\EnvironmentUniqueReferences;
 use IGK\IGKEnvironmentServices;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Resources\R;
 use IGK\System\Console\ServerFakerInput;
+use IGK\System\Diagnostics\Debugger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\IHistoryEnvironmentProperty;
 use IGK\System\IO\FakeInput;
 use IGK\System\Providers\ClassProvider;
 use Spatie\PhpUnitWatcher\Screens\Phpunit;
-
 use function igk_getv as getv;
-
-
-///<summary>use to manage Server Environment</summary>
+require_once IGK_LIB_CLASSES_DIR . "/System/IHistoryEnvironmentProperty.php";
 /**
  * use to manage Server Environment configuration poperties
  * @property string $subdomainctrl current subdomain controller
@@ -39,11 +36,19 @@ use function igk_getv as getv;
  * @property ?IGKActionBase $action_handler_instance 
  * @property bool $NoLogEval disable eval log - 
  * @property bool $NoConsoleLogger disable console logger - 
+ * @property bool $NoLoadAction disable console logger - 
  */
-final class IGKEnvironment extends IGKEnvironmentConstants
+final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEnvironmentProperty
 {
     private static $sm_instance;
     private static $sm_states = [];
+    /**
+     * retrieve shared cache info
+     * @return object|null 
+     */
+    public function cacheInfo(){
+        return igk_io_cacheinfo();
+    }
     public static function saveState(array $environment_new_state)
     {
         $bck = [];
@@ -97,7 +102,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         "ACC" => "acceptance",
         "OPS" => "production"
     ];
-
     public function getEnvironments()
     {
         return $this->m_envs;
@@ -113,7 +117,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return in_array(strtolower(PHP_OS), ["unix", "linux", "darwin"]);
     }
-
     public function getPhpCoreVersion()
     {
         static $version;
@@ -134,7 +137,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     public function write_debug(string $message)
     {
         $d = &$this->createArray("debug_load");
-        $d[] = "<span>" . (count($d) + 1) . "</span> " . $message;
+        $d[] = "<span class=\"debug-c\">" . (count($d) + 1) . "</span>" . $message;
     }
     /**
      * get peek environment context 
@@ -178,7 +181,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         $this->set("basedir", $basedir);
         return $this;
     }
-
     public function getEnvironmentPath()
     {
         // 
@@ -196,7 +198,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants
             "%basedir%" => igk_io_basedir(),
             "%packages%" => $packagedir,
             "%modules%" => $mod_dir,
-            "%nodepackages%" => $packagedir . "/node_modules",
+            "%nodepackages%" => $packagedir . '/node_modules',
             "%viewcaches%" => igk_is_cmd() ? null : $this->getViewCacheDir()
         ]);
     }
@@ -208,7 +210,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return IGKCaches::view()->path;
     }
-
     /*
     * get the environment base directory
     * @return mixed 
@@ -225,7 +226,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         $this->set("logfile", $logfile);
         return $this;
     }
-
     /**
      * override base uri detection by set the environment base uri
      * @param null|string $uri 
@@ -235,7 +235,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         $this->set("baseURI", $uri);
     }
-
     /**
      * create an environment class instance
      * @param mixed $classname class name declaration
@@ -249,7 +248,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
             $b = [];
             $this->instances = $b;
         }
-
         if (!isset($b[$classname])) {
             $o = null;
             if ($callback) {
@@ -279,9 +277,37 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return $index;
     }
-
-
-    public function setArray($name, $key, $value)
+    /**
+     * merge uri session en venvironment
+     * @param array $uris 
+     * @return array new list of fored uri session  
+     */
+    public function mergeSessionUri(array $uris){
+        $tb = & $this->getRefArray('session_uris');
+        $tb = array_merge($tb, $uris);
+        return $tb; 
+    }
+    /**
+     * get registered array 
+     * @param string $key 
+     * @return mixed 
+     */
+    public function & getRefArray(string $key){
+        $tab = & $this->get($key);
+        if (is_null($tab)){
+            $tab = [];
+            $this->m_envs[$key] = & $tab;
+        }
+        return $tab;
+    }
+    /**
+     * store reference array
+     * @param mixed $name 
+     * @param mixed $key 
+     * @param mixed $value 
+     * @return $this 
+     */
+    public function setArray(string $name, string $key, $value)
     {
         $tab = $this->get($name);
         if (!is_array($tab)) {
@@ -292,6 +318,14 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         $this->set($name,  $tab);
         return $this;
     }
+    /**
+     * retrieve array definition 
+     * @param mixed $name 
+     * @param mixed $key 
+     * @param mixed $default 
+     * @return mixed 
+     * @throws Exception 
+     */
     public function getArray($name, $key, $default = null)
     {
         $b = $this->get($name);
@@ -300,7 +334,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return $default;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -330,8 +363,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return null;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
      * 
      * @param mixed $n
@@ -340,8 +371,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return $this->get($n);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
      * 
      * @param mixed $n
@@ -359,9 +388,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return igk_getv($this->m_envs, "no_cache");
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $n
@@ -369,7 +395,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
      */
     public function __set($n, $v)
     {
-
         if (method_exists($this, $fc = "set" . $n)) {
             $this->$fc($v);
         } else {
@@ -377,7 +402,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return $this;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -385,18 +409,16 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         igk_die("Sleep Environment: Operation Not allowed " . __CLASS__);
     }
-    ///<summary></summary>
     /**
      * 
      */
     public function __wakeup() {}
-    ///<summary></summary>
-    ///<param name="var"></param>
     /**
      * 
-     * @param mixed $var
+     * @param string $var_name 
+     * @param mixed $default 
      */
-    public function &get($var, $default = null)
+    public function &get(string $var, $default = null)
     {
         $t = null;
         if (empty($var)) {
@@ -420,7 +442,24 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return $t;
     }
-    ///<summary>create a environment class </summary>
+    /**
+     * search for key in environment 
+     * @param mixed $key 
+     * @return mixed 
+     */
+    public function find($key){
+        if (isset($this->m_envs[$key])){
+            return $key;
+        }
+        $c = array_keys($this->m_envs);
+        $key = strtolower($key);
+        foreach($c as $k){
+            if (strtolower($k)==$key){
+                return $k;
+            }
+        }
+        return false;
+    }
     /**
      * create an instance of classes
      * @param string $classname_or_provider_name provider name  
@@ -447,8 +486,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return null;
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
      * 
      * @return self environment instance
@@ -460,24 +497,29 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return self::$sm_instance;
     }
-
-    public function is_mod_enabled($module)
+    /**
+     * is apache module enable 
+     * @param mixed $module 
+     * @return bool 
+     */
+    public function is_mod_enabled(string $module)
     {
         return igk_apache_module($module);
     }
-
+    /**
+     * environment required module 
+     * @return mixed 
+     */
     public function &require_modules()
     {
         $k = IGKEnvironmentConstants::REQUIRE_MODULES;
-        $v_k = &$this->get($k);
+        $v_k = & $this->get($k);
         if (!$v_k) {
             $v_k = [];
-            $this->m_envs[$k] = &$v_k;
+            $this->m_envs[$k] = & $v_k;
         }
         return $v_k;
     }
-
-    ///<summary></summary>
     /**
      * 
      */
@@ -485,7 +527,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return $this->m_envs;
     }
-    ///<summary>check wether environment is on environment mode</summary>
     ///<remark>default environment mode is *development</summary>
     /**
      * check wether environment is on environment mode
@@ -509,7 +550,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return $this->is(self::OPS_ENV);
     }
-    ///<summary>get if environment is in debug mode</summary>
     /**
      * get if environment is in debug mode
      * @return boolean
@@ -517,7 +557,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     public function isDebug(){
         return defined('IGK_DEBUG') ? constant('IGK_DEBUG') : igk_environment()->get(self::DEBUG);
     }
-    ///<summary></summary>
+    /**
+     * is in testing mode - phpunit core
+     * @return bool 
+     */
+    public function isTesting():bool{
+        return defined('IGK_TEST_INIT');
+    }
     /**
      * 
      */
@@ -533,7 +579,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return $this->get("app_type", IGKAppType::web);
     }
-    ///<summary>environment full name</summary>
     /**
      * environment full name
      */
@@ -541,7 +586,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return igk_server()->ENVIRONMENT;
     }
-    ///<summary>environment short name</summary>
     /**
      * environment - started short name
      */
@@ -560,8 +604,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return self::ResolvEnvironment($this->name());
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /** 
      * @param mixed $i
      */
@@ -569,9 +611,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         return isset($this->m_envs[$i]);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
-    ///<return refout="true"></return>
     /**
      * 
      * @param mixed $v
@@ -586,9 +625,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $i
@@ -601,8 +637,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         else
             $this->m_envs[$i] = $v;
     }
-    ///<summary></summary>
-    ///<param name="i"></param>
     /**
      * 
      * @param mixed $i
@@ -611,7 +645,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         unset($this->m_envs[$i]);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -619,7 +652,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         die("not allowed " . __CLASS__);
     }
-    ///<summary>set localy variable</summary>
     /**
      * set localy variable
      */
@@ -653,18 +685,16 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         $this->set(get_class($ctrl) . '/bypass_method', $bypass);
     }
-
     public function get_file($file, $ext = IGK_VIEW_FILE_EXT)
     {
         $n = "." . strtolower($this->name());
         foreach ([$n, ""] as $k) {
-            if (file_exists($f = $file . $k . $ext)) {
+            if (igk_io_file_exists($f = $file . $k . $ext)) {
                 return $f;
             }
         }
         return null;
     }
-
     /**
      * push data in environment data valiable
      * @param mixed $key 
@@ -673,7 +703,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
      */
     public function push($key, $value)
     {
-
         $c = $this->get($key);
         if (!$c) {
             $c = [];
@@ -726,7 +755,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
             return igk_getv($c, 0);
         }
     }
-    ////<summary>get instance of create array </summary>
     /**
      * get instance of create array 
      * @param mixed $key 
@@ -745,7 +773,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         return $c;
     }
-
     /**
      * check if a value is present in array. registrated in invironment
      * @param mixed $key 
@@ -766,7 +793,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
     {
         $this->setArray("extra_config", "configFiles", $config);
     }
-
     /**
      * get if allowed to resolv SQL data type 
      * @return bool 
@@ -832,7 +858,6 @@ final class IGKEnvironment extends IGKEnvironmentConstants
         }
         igk_environment()->FakerInput = $data;
     }
-
     /**
      * get environment exposed services
      * @return IGKEnvironmentServices 
@@ -844,5 +869,30 @@ final class IGKEnvironment extends IGKEnvironmentConstants
             igk_environment()->services = $r;
         }
         return $r;
+    }
+    /**
+     * use to bind references in global environment definition. each referenc may be a guid 
+     * @return void 
+     */
+    public function getuniqueReferences(){
+        $r = $this->references;
+        if (is_null($r)){
+            $r = new EnvironmentUniqueReferences();
+            $this->references =$r;
+        }
+        return $r;
+    }
+    /**
+     * @return Debugger
+     */
+    public function getDebugger(){
+        // 
+        // + | Debugger
+        //
+        return igk_get_class_instance(Debugger::class, function(){
+            // igk_trace();
+            // igk_wln_e("file ", $f);
+            return new Debugger;
+        }); 
     }
 }

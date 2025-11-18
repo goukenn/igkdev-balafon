@@ -3,14 +3,11 @@
 // @file: AtricleManagerControllerExtensionTrait.php
 // @date: 20221120 09:52:24
 namespace IGK\Controllers\Traits;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\ArticleContentBindingHelper;
 use IGK\Helper\IO;
 use IGK\System\IO\Path;
 use IGKResourceUriResolver;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Controllers\Traits
@@ -23,7 +20,7 @@ trait AtricleManagerControllerExtensionTrait{
      * @return null|string 
      */
     public static function article(BaseController $controller, $name, ?array $args= null) : ?string{
-        if (file_exists($file = $controller->getArticle($name))){
+        if (igk_io_file_exists($file = $controller->getArticle($name))){
             $src = file_get_contents($file);
             if ($src && $args){
                 $src = ArticleContentBindingHelper::BindContent($src, $args);

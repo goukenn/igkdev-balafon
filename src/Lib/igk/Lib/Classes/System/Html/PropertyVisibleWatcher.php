@@ -3,9 +3,7 @@
 // @filename: PropertyVisibleWatcher.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html;
-
 /**
  * ally visible for property not null
  * @package IGK\System\Html

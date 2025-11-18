@@ -13,6 +13,8 @@ use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
 use IGK\Models\Usergroups;
 use IGK\Models\Users;
+use IGK\System\Console\Logger;
+use IGK\System\Database\Helper\DbUtility;
 use IGK\System\Database\QueryBuilder; 
 
 
@@ -81,7 +83,9 @@ Users::registerMacro("groups", function($user=null){
 Users::registerMacro("auth", MacrosHelper::auth());
 
 //+ | get current user helper 
-Users::registerMacro("currentUser", MacrosHelper::currentUser());
+Users::registerMacro('currentUser', MacrosHelper::currentUser());
+//+ | check user login 
+Users::registerMacro('checkLogin', MacrosHelper::checkLogin());
 
 
 // --------------------------------------------------------------
@@ -94,6 +98,7 @@ Users::registerMacro("addUser", MacrosHelper::addUser2());
 Users::registerMacro("GetUserByLogin", function($login){
 $conditions = [];
 if (!IGKValidator::IsEmail($login)) {
+    // append login domain 
     $conditions[] = (object)["operand" => "OR", "conditions" => ["clLogin" => $login, "clLogin" => $login . "@" . igk_configs()->website_domain]];
 } else {
     $conditions["clLogin"] = $login;
@@ -176,3 +181,15 @@ Users::registerExtension(\IGK\Models\Macros\UsersMacros::class);
 });
 
 \IGK\Models\ReferenceModels::registerExtension(\IGK\Models\Macros\ReferenceModelsMacros::class);
+
+
+igk_reg_hook(
+    IGKEvents::HOOK_USER_CLEAN, function($e){
+        list($user) = igk_extract($e->args,'user' );
+        Logger::info('clean user groups');
+        $cond = [
+            Usergroups::FD_CL_USER_ID=>$user->clId
+        ];
+        Usergroups::delete($cond); 
+    }
+);

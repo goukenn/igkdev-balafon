@@ -3,25 +3,29 @@
 // @filename: ProjectListCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-namespace IGK\System\Console\Commands;
-
+namespace IGK\System\Console\Commands; 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger; 
-use IGK\System\Console\App;  
-
+use IGK\System\Console\App;
+use IGKException;
 /**
  * list all project
  * @package IGK\System\Console\Commands
  */
 class ProjectListCommand extends AppExecCommand{
-
     var $command = "--project:list";
     var $category = "project";
     var $desc = "List installed project";
-
-    public function exec($command, $pattern =".+") { 
-   
+    var $usage = 'filter [options]';
+    var $options = [];
+    /**
+     * extract 
+     * @param mixed $command 
+     * @param string $pattern 
+     * @return void 
+     * @throws IGKException 
+     */
+    public function exec($command, $pattern =".+") {  
         $c = igk_sys_get_projects_controllers(); 
         $t = [];
         foreach ($c as $m) {

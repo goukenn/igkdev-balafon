@@ -3,9 +3,6 @@
 // @file: USDCulture.php
 // @date: 20230517 10:59:45
 namespace IGK\System\Culture;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Culture

@@ -1,13 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: MakeDbMacrosCommand.php
 // @date: 20230203 16:10:17
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use IGK\System\Console\AppExecCommand;
@@ -18,35 +14,30 @@ use IGKActionBase;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
+use IGK\Actions\ApiActionBase;
 use IGK\Actions\MiddlewireActionBase;
+use IGK\Actions\ProjectDefaultAction;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\StringUtility;
 use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\EntryClassResolution;
-use \IGKControllerManagerObject;
- 
+
 class MakeDbMacrosCommand extends AppExecCommand{
     var $command = "--make:model-macros"; 
- 
     var $category = "make";
-
     var $desc = "make model's macros class";
-
     var $options = [ 
-        "--type"=>"defaut Model type class", 
+        // 
         "--clearcache"=>"clear cache",
         "--force"=>"destroy existing macros if exists",
     ]; 
-
     var $help = "[options] controller macrosName";
-
     /**
      * 
      * @var callable
      */
     var $definition; // definition callback
-
     /**
      * array of uses
      * @var ?array|?string
@@ -70,20 +61,19 @@ class MakeDbMacrosCommand extends AppExecCommand{
         }
         Logger::info("make macros ...".$controller);
         $author = $this->getAuthor($command);
-        $type = igk_str_ns(igk_getv($command->options, "--type", ActionBase::class));
-        $type = igk_getv([
-            "project"=>ProjectDefaultAction::class,
-            "def"=>ActionBase::class,
-            "middlewire"=>MiddlewireActionBase::class
-        ], strtolower($type), $type);
-        
-        $ctrl = igk_getctrl(str_replace("/", "\\", $controller), false);
+        // $type = igk_str_ns(igk_getv($command->options, "--type", ActionBase::class));
+        // $type = igk_getv([
+        //     "project"=>ProjectDefaultAction::class,
+        //     "def"=>ActionBase::class,
+        //     "middlewire"=>MiddlewireActionBase::class,
+        //     'api'=>ApiActionBase::class,
+        // ], strtolower($type), $type);
+        $ctrl = self::GetController(str_replace("/", "\\", $controller), false);
         if (!$ctrl){
             Logger::danger("controller $controller not found");
             return false;
         }
         $ctrl::register_autoload();
-         
         $ns = $ctrl->getEntryNamespace();
         $dir = $ctrl::classdir(); 
         $bind = [];
@@ -91,7 +81,6 @@ class MakeDbMacrosCommand extends AppExecCommand{
         if ((($pos = strrpos(strtolower($macroName), 'macros'))>0) && (($pos+6)==strlen($macroName))){
             $macroName = substr($macroName,0, -6);
         }
-
         $path = $macroName;
         $tcl =  explode("/", StringUtility::Uri($path ));
         array_pop( $tcl); 
@@ -105,14 +94,12 @@ class MakeDbMacrosCommand extends AppExecCommand{
         // + | --------------------------------------------------------------------
         // + | add used model
         // + |
-        
         $this->uses = function()use($path, $ctrl){
             $m = $ctrl->resolveClass(EntryClassResolution::Models."/{$path}");
             return array_filter([
                 $m
             ]);
         };
-         
         $bind[$dir."/Database/Macros/{$path}Macros.php"] = function($file)use($macroName, 
             $author, $ns){          
             $content = $this->_getContent(); 
@@ -129,7 +116,6 @@ class MakeDbMacrosCommand extends AppExecCommand{
             ->desc("macros for model ".$macroName);
             igk_io_w2file( $file,  $builder->render());
         };
-
         CommandsUtility::MakeBindFiles($command, $bind, property_exists($command->options, "--force"));
         if(property_exists($command->options, "--clearcache" ))
             \IGK\Helper\SysUtils::ClearCache(); 

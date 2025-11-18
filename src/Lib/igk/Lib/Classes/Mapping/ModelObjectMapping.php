@@ -3,11 +3,8 @@
 // @filename: ModelObjectMapping.php
 // @date: 20230305 10:16:47
 // @desc: object used for mapping data
-
 namespace IGK\Mapping;
-
 use IGK\Helper\StringUtility;
-
 /**
  * used to map data to model
  * @package com\igkdev\app\llvGStock\Actions
@@ -28,7 +25,6 @@ class ModelObjectMapping{
      * @var ?array
      */
     var $mapping;
-    
     public function __construct(\IGK\Models\ModelBase $model, ?string $prefix){
         $this->model = $model;
         $this->prefix = $prefix;
@@ -48,7 +44,6 @@ class ModelObjectMapping{
             $ob = $ob ?? (object)[];
             foreach($data as $k=>$v){
                 if (is_object($v))continue;
-
                 if ($this->mapping){
                     if (isset($this->mapping[$k])){
                         $q = $this->mapping[$k];

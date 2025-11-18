@@ -4,6 +4,8 @@
 // @date: 20230323 12:53:54
 // @desc: system helper function 
 
+use IGK\System\Text\RegexMatcherContainer;
+
 if (!function_exists('igk_sys_request_time')){
     function igk_sys_request_time(){
         $time = $_SERVER["REQUEST_TIME_FLOAT"];
@@ -29,7 +31,6 @@ if (!function_exists('igk_sys_reflect_filter_public_properties')) {
         }, $o, array_keys($o)));
     }
 }
-
 
 if (!function_exists('igk_sys_get_html_components')){
     function igk_sys_get_html_components(?string $pattern=null){
@@ -59,5 +60,36 @@ if (!function_exists('igk_sys_reflect_is_support_trait')){
             return $r != null;
         }
         return false;
+    }
+}
+
+
+if (!function_exists('igk_sys_cookies_read_value')) {
+    /**
+     * read cookies values string
+     * @param string $data 
+     * @return array<string,string>
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    function igk_sys_cookies_read_value(string $data){ 
+        return igk_regex_read_value($data, '=',';');
+    }
+}
+
+if (!function_exists('igk_sys_cookies_build')){ 
+    function igk_sys_cookies_build(array $cookies_entries){
+        return implode(";", array_map(function($a,$b){ return $b.'='.$a; }, $cookies_entries, array_keys($cookies_entries)));
+    }
+}
+
+// use function \preg_last_error_msg;
+if (!function_exists('preg_last_error_msg')){
+    function preg_last_error_msg(){ 
+
+        if ($c = preg_last_error()){
+            return 'preg_last_error: '.$c;
+        }
+        return $c;
     }
 }

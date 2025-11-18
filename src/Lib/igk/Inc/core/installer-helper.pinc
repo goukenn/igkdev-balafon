@@ -42,15 +42,15 @@ if (!function_exists("igk_io_getfiles")) {
         return $files;
     }
 }
-if (!function_exists("igk_getr")) {
-    function igk_getr($n, $default = null)
-    {
-        if (isset($_REQUEST[$n])) {
-            return $_REQUEST[$n];
-        }
-        return $default;
-    }
-}
+// if (!function_exists("igk_getr")) {
+//     function igk_getr($n, $default = null)
+//     {
+//         if (isset($_REQUEST[$n])) {
+//             return $_REQUEST[$n];
+//         }
+//         return $default;
+//     }
+// }
 if (!function_exists("igk_count")) {
     function igk_count($n)
     {

@@ -3,10 +3,7 @@
 // @filename: DbQueryDriver.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-///<summary>Represente class: DbQueryDriver</summary>
 namespace IGK\Database;
-
 use Exception;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Exceptions\MissingTableException;
@@ -22,9 +19,8 @@ use IIGKdbManager;
 use mysqli;
 use ReflectionException;
 use Throwable;
-
 /**
- * Represente DbQueryDriver class
+ * Represent DbQueryDriver class
  */
 abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
 {
@@ -36,6 +32,7 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     private $m_adapter;
     private $m_closeCallback;
     private $m_dbpwd;
+    private $m_charset;
     // private $m_dbselect;
     private $m_dbport; // store the port
     private $m_dbserver;
@@ -49,7 +46,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     protected $m_resource;
     protected $m_error;
     protected $m_errorCode;
-
     private static $LENGTHDATA = array("int" => "Int", "varchar" => "VarChar", "char" => "Char");
     private static $__store;
     // private static $sm_resid;
@@ -57,33 +53,51 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     static $idd = 0;
     const DRIVER_MYSQLI = "MySQLI";
     private $m_noSelectDbErrorAutoClose = false;
-
     public function getNoSelectDbErrorAutoClose():bool{
         return $this->m_noSelectDbErrorAutoClose;
     }
     public function setNoSelectDbErrorAutoClose(bool $value){
         $this->m_noSelectDbErrorAutoClose = $value;
     }
-
-
+    /**
+     * get driver initialized db server 
+     * @return mixed 
+     */
     public function getServer()
     {
         return $this->m_dbserver;
     }
+    /**
+     * get driver initialized db user 
+     * @return mixed 
+     */
     public function getUser()
     {
         return $this->m_dbuser;
     }
+    /**
+     * get driver initialized port number
+     * @return mixed 
+     */
     public function getPort()
     {
         return $this->m_dbport;
     }
+    /**
+     * get driver initialized password
+     * @return mixed 
+     */
     public function getPwd()
     {
         return $this->m_dbpwd;
     }
-
-    ///<summary>.ctr</summary>
+    /**
+     * get initialize charset definition
+     * @return mixed 
+     */
+    public function getCharset(){
+        return $this->m_charset;
+    }
     /**
      * .ctr
      */
@@ -91,10 +105,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         $this->m_name = $name;
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="entries"></param>
-    ///<param name="forceload"></param>
     /**
      * 
      * @param mixed $tablename
@@ -109,8 +119,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         // igk_db_load_entries($this, $tablename, $entries);
     }
-    ///<summary></summary>
-    ///<param name="query"></param>
     /**
      * 
      * @param mixed $query
@@ -121,7 +129,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->getSender()->sendQuery($query, true, $options, null, $autoclose);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -132,9 +139,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         return array();
     }
-
-
-    ///<summary></summary>
     /**
      * 
      */
@@ -146,8 +150,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             get_class($this)
         );
     }
-    ///<summary></summary>
-    ///<param name="leaveOpen" default="false"></param>
     /**
      * 
      * @param mixed $leaveOpen the default value is false
@@ -169,12 +171,10 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             }
         }
     }
-
     public function isConnect()
     {
         return $this->m_resource && ($this->m_openCount > 0);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -194,7 +194,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return igk_db_escape_string($v);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -223,10 +222,16 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 $this->m_isconnect = true;
                 $this->m_resource = $r;
                 $this->m_openCount = 1;
+                if ($this->m_adapter){
+                   // $this->setAdapter()
+                   if (($this->m_adapter instanceof IDataDriverCharsetSupport) && $this->m_charset){
+                        $this->m_adapter->set_charset($this->m_charset);
+                    }
+                }
                 return true;
             } else {
                 $_error = __CLASS__ . "::Error : SERVER RESOURCE # ";
-                igk_notify_error($_error, "sys");
+                igk_notify_error($_error, 'sys');
                 $error = igk_db_last_connect_error();
                 $this->m_lastError = $error;
             }
@@ -238,7 +243,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         $this->m_resource = null;
         return false;
     }
-
     public function getLastError()
     {
         return $this->m_lastError;
@@ -249,12 +253,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @return bool
      */
     protected abstract function initialize($resource): bool;
-
-    ///<summary></summary>
-    ///<param name="dbserver"></param>
-    ///<param name="dbname"></param>
-    ///<param name="dbuser"></param>
-    ///<param name="dbpwd"></param>
     /**
      * 
      * @param mixed $dbserver
@@ -288,10 +286,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         $this->m_resource = null;
         return false;
     }
-    ///<summary></summary>
-    ///<param name="dbserver" default="localhost"></param>
-    ///<param name="dbuser" default="root"></param>
-    ///<param name="dbpwd" default=""></param>
     /**
      * 
      * @param mixed $dbserver the default value is "localhost"
@@ -300,19 +294,18 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      */
     public static function Create(?array $options = null, &$error = null)
     {
-
         static $driver_storage;
-
         if ($driver_storage === null) {
             $driver_storage = [];
         }
         $name = "mysql"; 
+        $app_cnf = igk_app()->getConfigs();
         $dbserver = (key_exists("server", $options) ?   $options["server"] : func_get_arg(0)) ?? '';
         $dbuser = (key_exists("user", $options)  ? $options["user"] : func_get_arg(1)) ??'';
         $dbpwd = (key_exists("pwd", $options) ? $options["pwd"] : func_get_arg(2)) ?? '';
         $port = (key_exists("port", $options) ?  $options["port"] : func_get_arg(3) ) ?? '';
-        $dbname = (key_exists("dbname", $options) ? $options["dbname"] : igk_getv(func_get_args(), 4)) ??  igk_app()->getConfigs()->db_name;
-
+        $dbname = (key_exists("dbname", $options) ? $options["dbname"] : igk_getv(func_get_args(), 4)) ??  $app_cnf->db_name;
+        $dbcharset = (key_exists("dbcharset", $options) ? $options["charset"] : igk_getv(func_get_args(), 5)) ??  $app_cnf->db_charset;
         // $dbserver="localhost", $dbuser="root", $dbpwd="", $port = null){
         $cl = static::class;
         $out = new $cl($name);
@@ -322,11 +315,13 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             $out->m_dbuser = trim($dbserver->user);
             $out->m_dbpwd = trim($dbserver->pwd);
             $out->m_dbport = $dbserver->port;
+            $out->m_charset = igk_getv($dbserver, 'charset');
         } else {
             $out->m_dbserver = trim($dbserver);
             $out->m_dbuser = trim($dbuser);
             $out->m_dbpwd = trim($dbpwd);
             $out->m_dbport = $port;
+            $out->m_charset = trim($dbcharset ??'');
         }
         try {
             $out->connect();
@@ -338,8 +333,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 error_clear_last();
             }
         }
-
-
         if ($out->m_isconnect) {
             if (igk_environment()->isDev()  && !empty($dbname)) {
                 $out->createDb($dbname);
@@ -353,8 +346,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         return $out;
     }
-    ///<summary>create database </summary>
-    ///<param name="db">db connection string</param>
     /**
      * create database 
      * @param mixed $db db connection string
@@ -366,7 +357,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         // + | ------------------- 
         return $this->sendQuery("CREATE DATABASE IF NOT EXISTS `" . $this->escape_string($db) . "`;", true);
     }
-    ///<summary>create table</summary>
     /**
      * 
      * @param string $tbname 
@@ -381,12 +371,12 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function createTable(string $tbname, array $columninfo, $entries = null, $desc = null,  $options=null)
+    public function createTable(string $tbname, array $columninfo, $entries = null, $desc = null,  $dbname=null, ?string $prefix=null)
     {
         if (!$this->getIsConnect())
             return false;
         if ($grammar = $this->m_adapter->getGrammar()) {          
-            $query = $grammar->createTableQuery($tbname, $columninfo, $desc,  $options);
+            $query = $grammar->createTableQuery($tbname, $columninfo, $desc,  $dbname, $prefix);
             if ($this->sendQuery($query)) {
                 if ($entries) {
                     $this->m_adapter->pushEntries($tbname, $entries, $columninfo);
@@ -404,7 +394,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_adapter->delete($tbname, $values);
     }
-    ///<summary>delete all items</summary>
     /**
      * delete all items
      */
@@ -412,17 +401,12 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_adapter->delete($tbname, $condition);
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
-    ///<param name="msg" default=""></param>
     /**
      * 
      * @param mixed $t
      * @param mixed $msg the default value is ""
      */
     protected abstract function dieinfo($t, $msg = "", $code = 0);
-
-    ///<summary></summary>
     /**
      * 
      */
@@ -437,8 +421,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             igk_wln_e("error:" . $ex->getMessage());
         }
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
     /**
      * 
      * @param mixed $tablename
@@ -447,7 +429,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         igk_die(__METHOD__ . " not implement");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -459,8 +440,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         $tb = $v_tableinit_info ? igk_getv(igk_getv($v_tableinit_info, "__failed"), 0) : [];
         $tbs = $v_tableinit_info ? igk_getv($v_tableinit_info, "__linkdata") : [];
         if ($ad->connect()) {
-
-
             if (igk_count($tbs) > 0) {
                 foreach ($tbs as $k => $v) {
                     $queries = $v_tableinit_info[$k];
@@ -495,7 +474,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             return !empty($msg);
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -506,7 +484,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         $t = $this->getSender()->sendQuery("SHOW DATABASES");
         return $t;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -514,7 +491,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_dbServer;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -531,7 +507,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return igk_mysql_db_error($this->m_resource);
     }
-    ///<summary></summary>
     /**
      * retrieve driver code 
      */
@@ -539,7 +514,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return igk_mysql_db_errorc($this->m_resource);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -551,10 +525,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_errorCode;
     }
-
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="throwError" default="1"></param>
     /**
      * 
      * @param mixed $n
@@ -571,7 +541,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             $fc = null;
         return $fc ?? ($throwError ? igk_die("no <b>{$n}</b> found in {$tn} dataadapter ") : null);
     }
-    ///<summary>get if last execution has an error</summary>
     /**
      * get if last execution has an error
      */
@@ -579,7 +548,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return igk_mysql_db_has_error();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -587,7 +555,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_isconnect;
     }
-    ///<summary>retrieve last send query </summary>
     /**
      * retrieve last send query 
      */
@@ -595,9 +562,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_lastQuery;
     }
-    ///<summary></summary>
-    ///<param name="tablename"></param>
-    ///<param name="name"></param>
     /**
      * 
      * @param mixed $tablename
@@ -619,14 +583,12 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_resource;
     }
-    // ///<summary></summary>
-    // /**
+    // // /**
     // * 
     // */
     // public static function GetResId(){
     //     return self::$sm_resid;
     // }
-    ///<summary></summary>
     /**
      * 
      */
@@ -634,10 +596,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_adapter ?? $this;
     }
-    ///<summary></summary>
-    ///<param name="k"></param>
-    ///<param name="rowInfo" default="null"></param>
-    ///<param name="tinfo" default="null" ref="true"></param>
     /**
      * 
      * @param mixed $k
@@ -655,9 +613,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         return $m;
     }
-    ///<summary></summary>
-    ///<param name="tabname"></param>
-    ///<param name="ctrl" default="null"></param>
     /**
      * 
      * @param mixed $tabname
@@ -678,8 +633,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         return 1;
     }
-    ///<summary></summary>
-    ///<param name="callback"></param>
     /**
      * 
      * @param mixed $callback
@@ -690,7 +643,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             self::$Config = array();
         $callback(self::$Config);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -702,7 +654,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         $db->selectdb($$dbname);
         return $db;
     }
-    ///<summary>reset db initialize algorithm algorithm</summary>
     /**
      * reset db initialize algorithm algorithm
      */
@@ -710,10 +661,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         igk_set_env("sys://db/tabfinfo/data", null);
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
-    ///<param name="values"></param>
-    ///<param name="tableinfo" default="null"></param>
     /**
      * 
      * @param mixed $tbname
@@ -726,7 +673,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         $tableinfo = $tableinfo ?? DbSchemas::GetTableColumnInfo($tbname);
         return $this->m_adapter->insert($tbname, $values, $tableinfo);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -734,14 +680,12 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return self::Is(self::DRIVER_MYSQLI);
     }
-    ///<summary>get if the current state is on driver</summary>
     public static function Is($driverName)
     {
         $s = self::$Config["db"];
         return ($s == strtolower($driverName));
         // DRIVER_MYSQLI
     }
-
     ///get the last inserted id
     /**
      * get driver last id
@@ -750,7 +694,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return igk_mysql_db_last_id($this->m_resource);
     }
-    ///<summary></summary>
     /**
      * get connection open counter
      */
@@ -758,7 +701,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_openCount;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -767,8 +709,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         DbQueryDriver::$Config = self::$__store;
         self::$__store = null;
     }
-    ///<summary></summary>
-    ///<param name="cbinfo"></param>
     /**
      * 
      * @param mixed $cbinfo
@@ -784,10 +724,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         DbQueryDriver::$Config["func"] = $tab;
         self::$__store = $ctn;
     }
-    ///<summary></summary>
-    ///<param name="table"></param>
-    ///<param name="cond" default="null"></param>
-    ///<param name="options" default="null"></param>
     /**
      * 
      * @param mixed $table
@@ -802,8 +738,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         // $s=$this->_sendQuery($query, $options);
         // return $s;
     }
-    ///<summary></summary>
-    ///<param name="dbname"></param>
     /**
      * 
      * @param mixed $dbname
@@ -827,7 +761,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             return $mysql_func($dbname);
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -835,9 +768,16 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return IGKMySQLQueryResult::CreateResult($this->_sendQuery("SELECT LAST_INSERT_ID()"));
     }
-    ///<summary></summary>
-    ///<param name="query"></param>
-    ///<param name="throwex" default="true"></param>
+    /**
+     * retrieve the last query 
+     * @return mixed|void 
+     */
+    public static function LastQuery(){
+        $g = igk_environment()->get(IGK_ENV_QUERY_LIST);
+        if ($g){
+            return array_pop($g);
+        }
+    }
     /**
      * send query and return resources
      * @param mixed $query
@@ -845,16 +785,18 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @return resource|null 
      */
     public function sendQuery($query, $throwex = true, $options = null)
-    {
+    {   
+        $v_env = igk_environment();
+        $v_qdebug = $v_env->querydebug;
         if (igk_db_is_resource($this->m_resource)) {
-            if (igk_environment()->querydebug) {
+            if ($v_qdebug ) {
                 $of = Logger::offscreen();
                 if ($of)
                     $of->print("query:*** " . $query);
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
-                igk_environment()->write_debug("<span>query &gt; </span><code type='sql'>'.$query.'</code>" );
+                igk_environment()->write_debug("<span>query &gt; </span><code type=\"sql\">{$query}</code>" );
             }
-            if (igk_environment()->isOps() &&  igk_environment()->querydebug) {
+            if ($v_env->isOps() &&  $v_qdebug ) {
                 igk_ilog("send : " . $query);
             }
             $this->setLastQuery($query);
@@ -862,7 +804,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
             // + | depend on the quere engine can throw exception : data missing
             // + |
             $nolog = is_bool($options) ? $options : (is_object($options) ? igk_getv($options, 'nolog', false) : false);
-
             $t = igk_db_query($query, $this->m_resource);
             $error = "";
             $code = 0;
@@ -890,7 +831,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         return null;
     }
-
     public function sendMultiQuery($query, $throwex = true)
     {
         $v_qdebug = igk_environment()->querydebug;
@@ -901,7 +841,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
                 igk_push_env(IGK_ENV_QUERY_LIST, $query);
             }
             $t = igk_db_multi_query($query, $this->m_resource);
-
             if ($throwex) {
                 $this->dieinfo($t, "/!\\ SQLQuery Error:<div style='font-style:normal;'>" . igk_html_query_parse($query) . "</div>");
             } else if (!$t)
@@ -910,8 +849,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="o"></param>
     /**
      * 
      * @param mixed $o
@@ -920,8 +857,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         $this->m_adapter = $o;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -930,8 +865,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         $this->m_closeCallback = $v;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -940,8 +873,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         $this->m_lastQuery = $v;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -950,19 +881,14 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         $this->m_openCallback = $v;
     }
-
-    ///<summary></summary>
-    ///<param name="tablename"></param>
     /**
      * 
      * @param mixed $tablename
      */
     public function tableExists(string $tablename, bool $throwex=true): bool
     {
-
         if (empty($tablename))
             return false;
-
         try {
             $tablename = $this->escape_table_name($tablename);
             $s = $this->sendQuery(
@@ -989,7 +915,6 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return $this->m_adapter->update($tbname, $entry, $where, $querytabinfo);
     }
-
     protected function escape_table_name(string $tbname)
     {
         return $this->m_adapter->escape_table_name($tbname);

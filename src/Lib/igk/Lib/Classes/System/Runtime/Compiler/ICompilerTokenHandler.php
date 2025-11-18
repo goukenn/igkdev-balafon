@@ -3,9 +3,6 @@
 // @file: ICompilerTokenHandler.php
 // @date: 20221019 16:41:43
 namespace IGK\System\Runtime\Compiler;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler

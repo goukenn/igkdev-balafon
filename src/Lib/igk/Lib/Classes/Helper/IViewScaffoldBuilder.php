@@ -3,9 +3,6 @@
 // @file: IViewScaffoldBuilder.php
 // @date: 20231215 16:34:05
 namespace IGK\Helper;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper

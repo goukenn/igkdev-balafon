@@ -3,13 +3,10 @@
 // @file: FaviconCommand.php
 // @date: 20240925 16:28:38
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\RegexConstant;
 use IGK\System\Regex\RegexHelper;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -25,7 +22,6 @@ class FaviconCommand extends AppExecCommand
 	];
 	/* var $category = ''; */
 	var $usage = '[options]';
-
 	private static function CheckType(string $type){
 		if (in_array($type, explode("|", "base64|svg|html|png")))
 			return $type;
@@ -34,7 +30,6 @@ class FaviconCommand extends AppExecCommand
 	private static function GetType($command){
 		if (property_exists($command->options, '--html'))
 			return 'html';
-
 	}
 	public function exec($command)
 	{
@@ -42,7 +37,6 @@ class FaviconCommand extends AppExecCommand
 		if ($type=='png'){
 			$file = IGK_LIB_DIR . '/Data/R/svg/favicon.png';
 			echo 'data:image/png;base64,'.base64_encode(file_get_contents($file));
-			// echo file_get_contents($file);
 			return 0;
 		}
 		$file = IGK_LIB_DIR . '/Data/R/svg/favicon.svg';
@@ -52,7 +46,7 @@ class FaviconCommand extends AppExecCommand
 			$src = "data:image/svg+xml;base64," . $src ;
 			return $src;
 		};
-		if (file_exists($file)) {
+		if (igk_io_file_exists($file)) {
 			$fcontent = file_get_contents($file);
 			$src = ''; 
 			switch($type)
@@ -61,7 +55,6 @@ class FaviconCommand extends AppExecCommand
 					$src = $fcontent;
 					break;
 				case 'png':
-
 					break;
 				case 'html': 
 					$src = $_reduce($fcontent);
@@ -103,7 +96,6 @@ class ImageHtmlTemplate
 </body>
 </html>
 HTML);
-
 		return $sb . "";
 	}
 }

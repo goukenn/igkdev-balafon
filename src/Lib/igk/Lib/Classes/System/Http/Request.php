@@ -3,18 +3,15 @@
 // @filename: Request.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
- 
+use Exception;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Console\ServerFakerInput;
+use IGK\System\Html\WebHearderConstants;
 use IGK\System\IInjectable;
 use IGK\System\Security\Web\Traits\ContentSecurityManagementTrait;
 use IGKException;
-
-///<summary>request </summary>
 /**
  * 
  * @package IGK\System\Http
@@ -23,7 +20,27 @@ class Request implements IInjectable, IContentSecurityProvider
 {
     use ContentSecurityManagementTrait;
     const REQUEST_JSON_DATA_ENV_KEY = 'RequestFakeJsonInput';
-    
+    const FILES_FIELD = "\$files";
+    const ARRAY_RESPONSE_CODE = '@__response_code';
+    /**
+     * 
+     * @param mixed $args 
+     * @return string 
+     */
+    public static function glueActionRequestArgument($args){
+        return '/'.implode('/', array_filter(array_map(function($a){
+            if (is_string($a) || is_numeric($a))return $a;
+            return null;
+        }, $args)));
+    }
+    /**
+     * support form data file request
+     * @param mixed $data 
+     * @return bool 
+     */
+    public static function IsSupportFileRequest($data){
+        return isset( ((object)$data)->{self::FILES_FIELD});
+    }
     /**
      * 
      * @var self
@@ -54,8 +71,8 @@ class Request implements IInjectable, IContentSecurityProvider
         return $d;
     }
     /**
-     * 
-     * @return mixed 
+     * retrieve up loaded data
+     * @return ?string 
      */
     public function getUploadedData(){
         if (!$this->prepared){
@@ -91,12 +108,25 @@ class Request implements IInjectable, IContentSecurityProvider
         } 
         return $this->js_data;
     }
-
+    /**
+     * transform global request data request object
+     * @return object 
+     */
     public function getFormData(){
         $ob = (object)$_REQUEST;
+        if ($_FILES && (count($_FILES)>0)){
+            $ob->{self::FILES_FIELD} = $_FILES;
+        }
         return $ob;
     }
-  
+    /**
+     * 
+     * @param mixed $key 
+     * @return bool 
+     */
+    public function isset($key){
+        return isset($_REQUEST[$key]);
+    }
     /**
      * set the request parameters
      */
@@ -114,12 +144,9 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return $this->m_params;
     }
-
     public function getParams(){
         return $this->m_params;
     }
-
-    ///<summary>base request instance</summary>
     /**
      * base request instance
      * @return  Request
@@ -130,20 +157,25 @@ class Request implements IInjectable, IContentSecurityProvider
             self::$sm_instance = new self();
         return self::$sm_instance;
     }
+    /**
+     * 
+     * @return null|string 
+     * @throws Exception 
+     */
     public function requestEntry(){
-        $b = igk_server()->REQUEST_URI; 
+        $v_srv = igk_server();
+        $b = $v_srv->REQUEST_URI; 
         if (!$b)
             return null;
-        $file = (($g = igk_server()->SCRIPT_NAME) ? $g : igk_server()->PHP_SELF);
-        
+        $file = (($g = $v_srv->SCRIPT_NAME) ? $g : $v_srv->PHP_SELF);
         if (preg_match('/[~]/', $file)){
             igk_die("request entry not allowed");
         } 
         $dfile = implode("/", [rtrim(igk_io_rootdir(),"/"), ltrim($file, "/")]);
-        if (!$dfile || !file_exists($dfile)){
+        if (!$dfile || !igk_io_file_exists($dfile,true)){
             // // igk_ilog("entry request file is missing.");
             // igk_trace(); 
-            igk_die("Misconfiguration: Entry request is missing. $dfile \n");
+            igk_die("Misconfiguration: Entry request is missing [". $dfile ."] - RequestURI : {$b} " .'\n');
         }
         $t = IGKString::Uri(dirname($file));
         $s = $b;
@@ -213,7 +245,6 @@ class Request implements IInjectable, IContentSecurityProvider
     {
         return igk_getv($_FILES, $name);
     }
-
     public function view_args($params=null, $default=null)
     {
         $t = igk_get_view_args();
@@ -236,17 +267,12 @@ class Request implements IInjectable, IContentSecurityProvider
     }
     /**
      * get query option
-     * @return mixed 
+     * @return mixed|IGK\System\Http\IQueryInfoOptions
      * @throws IGKException 
      */
     public function getQueryInfo(){
         if (is_null($this->m_query_info)){
             $inf = igk_io_query_info();
-            $v_eu = $inf->entryuri;
-            $pos = strpos($v_eu, ';');
-            $inf->options = $pos !== false ? 
-            igk_get_query_options(substr($inf->entryuri, $pos+1)) : [];
- 
             $this->m_query_info = $inf;
         }
         return $this->m_query_info;
@@ -273,7 +299,14 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return null;
     }
-    public function  moveUploadedFile($name, $destination, ?string $requestType=null):?bool{
+    /**
+     * move uploaded file to 
+     * @param string $name 
+     * @param string $destination 
+     * @param null|string $requestType 
+     * @return null|bool 
+     */
+    public function  moveUploadedFile(string $name, string $destination, ?string $requestType=null):?bool{
         if ($file = $this->getFile($name)){
             if (($file['size'] == 0) || ($requestType && ($requestType!= $file['type']))){
                 return false;
@@ -282,4 +315,48 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return false;
     }   
+    /**
+     * create an error message data
+     * @param string $message 
+     * @return array 
+     */
+    public function error(string $message, ?int $code=null):array{
+        $t = ['error'=>true, 'message'=>$message];
+        $t[self::ARRAY_RESPONSE_CODE] = $code ?? RequestResponseCode::BadRequest;         
+        return $t;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    public function isRestRequest():bool{
+        if ($this->getHeader()->{WebHearderConstants::igk_web_response} == 1){            
+            return false;
+        }
+        if ($this->isAjx() || $this->sendsJSon()){
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    public function isAjx():bool{
+        return igk_is_ajx_demand();
+    }
+    public function sendsJSon():bool{
+        $h = $this->getHeader();
+        if ($t = $h->{'content_type'}){
+            return explode(';', $t, 1)[0] == 'application/json';
+        }
+        return false;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    public function isWebRequest():bool{
+        return !$this->isRestRequest();
+    }
 }

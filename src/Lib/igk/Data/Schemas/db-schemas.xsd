@@ -112,8 +112,8 @@
                     type="tmigration_addcolumn" />
                 <xs:element name="renameColumn" minOccurs="0" maxOccurs="unbounded"
                     type="tmigration_renamecolumn" />
-                <xs:element name="dropColumn" minOccurs="0" maxOccurs="unbounded"
-                    type="tmigration_dropcolumn" />
+                <xs:element name="removeColumn" minOccurs="0" maxOccurs="unbounded"
+                    type="tmigration_removecolumn" />
                 <xs:element name="renameTable" minOccurs="0" maxOccurs="unbounded"
                     type="tmigration_renametable"></xs:element>
                 <xs:element name="deleteTable" minOccurs="0" maxOccurs="unbounded"
@@ -168,7 +168,7 @@
         <xs:attribute name="column" type="xs:string" use="required" />
         <xs:attribute name="new_name" type="xs:string" use="required" />
     </xs:complexType>
-    <xs:complexType name="tmigration_dropcolumn">
+    <xs:complexType name="tmigration_removecolumn">
         <xs:attribute name="table" type="xs:string"></xs:attribute>
         <xs:attribute name="column" type="xs:string"></xs:attribute>
     </xs:complexType>
@@ -214,6 +214,7 @@
         <xs:attribute name="clTypeLength" type="xs:nonNegativeInteger"></xs:attribute>
         <xs:attribute name="clUpdateFunction" type="xs:string"></xs:attribute>
         <xs:attribute name="clValidator" type="tboolean"></xs:attribute>
+        <xs:attribute name="clModifier" type="xs:string"></xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="tentries">

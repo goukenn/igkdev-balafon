@@ -3,11 +3,8 @@
 // @file: CompilerTokenReadStructHandler.php
 // @date: 20221021 19:03:12
 namespace IGK\System\Runtime\Compiler\Traits;
-
 use IGK\System\Runtime\Compiler\CompilerFlagState;
 use IGK\System\Runtime\Compiler\IReadTokenOptions;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\Traits
@@ -15,11 +12,9 @@ use IGK\System\Runtime\Compiler\IReadTokenOptions;
 trait CompilerTokenReadStructHandlerTrait
 {
     use CompilerTokenBracketTrait;
-
     protected function handleReadClass(&$flag, IReadTokenOptions $options, $id, $value): bool
     {
         $struct = $options->struct_info;
-
         switch ($id) {
             case T_STRING:
                 if (!$struct->readCode) {
@@ -60,7 +55,6 @@ trait CompilerTokenReadStructHandlerTrait
         }
         return true;
     }
-
     /**
      * handle global use flag
      * @param mixed $flag 

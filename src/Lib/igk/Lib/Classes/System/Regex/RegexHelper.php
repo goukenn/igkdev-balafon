@@ -3,10 +3,7 @@
 // @file: RegexHelper.php
 // @date: 20221202 14:59:23
 namespace IGK\System\Regex;
-
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Regex
@@ -25,5 +22,9 @@ class RegexHelper{
             return igk_getv($match, $name);
         }
         return null;
+    }
+    public static function Escape(string $value){
+        $value = str_replace("/","\\/", $value);
+        return $value;
     }
 }

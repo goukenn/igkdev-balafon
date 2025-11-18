@@ -3,11 +3,8 @@
 // @file: MigrationBase.php
 // @date: 20221112 07:49:45
 namespace IGK\Database;
-
 use IGK\System\Database\SchemaBuilder;
 use IGK\System\Database\SchemaMigrationBuilder;
-
-///<summary></summary>
 /**
 * migration base class
 * @package IGK\Database

@@ -3,15 +3,12 @@
 // @file: ActionRequestValidator.php
 // @date: 20230126 19:34:34
 namespace IGK\Actions;
-
 use IGK\Helper\Activator;
 use IGK\System\DataArgs;
 use IGK\System\Http\Request;
 use IGK\System\Security\Web\RequestValiationMapper;
 use IGK\System\WinUI\Forms\RequestValidatorBase;
 use IGKException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\Actions
@@ -23,7 +20,6 @@ class ActionRequestValidator extends RequestValidatorBase implements IActionRequ
     {
         $this->action = $action;
     }
-
     /**
      * validate data
      * @param mixed $data 
@@ -36,7 +32,8 @@ class ActionRequestValidator extends RequestValidatorBase implements IActionRequ
      * @return bool 
      * @throws IGKException 
      */
-    public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null,
+    public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, 
+     & $requestData = null,  ?array &$error = null,
      ?array $resolvKeys=null): bool    
     {   
         $r = (new RequestValiationMapper(

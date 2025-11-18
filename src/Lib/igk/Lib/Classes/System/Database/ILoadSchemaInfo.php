@@ -3,9 +3,6 @@
 // @file: ILoadSchemaInfo.php
 // @date: 20231222 13:59:45
 namespace IGK\System\Database;
-
-
-///<summary></summary>
 /**
 * @property array $tables list of table 
 * @property array $tbrelations 

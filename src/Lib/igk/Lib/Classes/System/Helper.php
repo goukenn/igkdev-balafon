@@ -3,10 +3,7 @@
 // @filename: Helper.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\System;
-
-///<summary> core Helper class </summary>
 /**
  * 
  * @package IGK\System
@@ -20,7 +17,7 @@ abstract class Helper{
         else 
             $n.=".pinc";
         $cf = dirname($file)."/".$n;
-        if (file_exists($cf)){
+        if (igk_io_file_exists($cf)){
             include($cf);
             return true;
         }
@@ -30,7 +27,6 @@ abstract class Helper{
         if (self::$_init)
             return;
         self::$_init = true;
-
         spl_autoload_register(function($n, $g=null){
             $fn = "";
             if (strpos($n, "IGK\\")==0){

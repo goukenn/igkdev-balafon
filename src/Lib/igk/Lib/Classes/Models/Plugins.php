@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Plugins.php
-// @date: 20240922 19:45:48
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>store plugins.</summary>
 /**
 * store plugins.
 * @package IGK\Models
@@ -17,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property string $clEmail Author's email
 * @property string|datetime $clRelease
 * @property string $clVersion plugin version
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_NAME() - `clName` full column name 
-* @method static string FD_CL_EMAIL() - `clEmail` full column name 
-* @method static string FD_CL_RELEASE() - `clRelease` full column name 
-* @method static string FD_CL_VERSION() - `clVersion` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_NAME() - `clName` full column name 
+* @method static string FN_CL_EMAIL() - `clEmail` full column name 
+* @method static string FN_CL_RELEASE() - `clRelease` full column name 
+* @method static string FN_CL_VERSION() - `clVersion` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clName, string $clEmail, string|datetime $clRelease, string $clVersion) add entry helper
@@ -37,4 +33,8 @@ class Plugins extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%plugins";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

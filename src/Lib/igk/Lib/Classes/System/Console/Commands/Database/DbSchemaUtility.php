@@ -3,13 +3,10 @@
 // @file: DbSchemaUtility.php
 // @date: 20240910 19:42:43
 namespace IGK\System\Console\Commands\Database;
-
 use Exception;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlReaderDocument;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Database

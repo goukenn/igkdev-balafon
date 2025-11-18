@@ -1,8 +1,5 @@
 <?php
-
 namespace IGK\System\IO\Printer;
-
-
 /**
  * 
  * @package IGK\System\IO\Printer

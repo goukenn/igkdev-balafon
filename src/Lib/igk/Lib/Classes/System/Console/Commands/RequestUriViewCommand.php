@@ -3,9 +3,7 @@
 // @filename: RequestUriViewCommand.php
 // @date: 20221124 00:58:06
 // @desc: 
-
 namespace IGK\System\Console\Commands;
-
 use Exception;
 use Error;
 use IGK\Helper\SysUtils;
@@ -18,15 +16,12 @@ use IGK\System\Http\RequestHandler;
 use IGK\System\Uri;
 use IGKException;
 use ReflectionException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands
 */
 class RequestUriViewCommand extends RequestViewCommand{
     var $command = '--request:uri';
-
     var $desc = 'request uri call'; 
     var $usage = 'controller request [options]';
     /**
@@ -39,7 +34,7 @@ class RequestUriViewCommand extends RequestViewCommand{
     public function doRequest($command, $path){ 
         igk_server()->SCRIPT_NAME = '/index.php';  
         RequestHandler::HandleRequestUri($path); 
-        if ($ctrl = igk_getctrl(igk_configs()->default_controller, false)){            
+        if ($ctrl = self::GetController(igk_configs()->default_controller, false)){            
             $g = new Uri($path);
             $path = $g->getPath();
             $_SERVER['REQUEST_URI'] = $g->getRequestUri();
@@ -49,7 +44,6 @@ class RequestUriViewCommand extends RequestViewCommand{
         } 
         Logger::info('done');
     }
- 
     /**
      * 
      * @param mixed $command 
@@ -65,5 +59,4 @@ class RequestUriViewCommand extends RequestViewCommand{
     public function exec($command, $controller=null, ?string $request=null){
         return parent::exec($command, igk_configs()->default_controller, $controller);
     }
-
 }

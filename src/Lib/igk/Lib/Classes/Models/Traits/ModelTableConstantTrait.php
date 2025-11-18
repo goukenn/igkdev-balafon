@@ -3,9 +3,8 @@
 // @file: ModelConstantsHelper.php
 // @date: 20230120 12:02:06
 namespace IGK\Models\Traits;
-
-
-///<summary></summary>
+use IGK\Helper\Database;
+use ReflectionClass;
 /**
 * class must provide a static $model and static $field_name
 * @package IGK\Models\Traits
@@ -16,7 +15,6 @@ trait ModelTableConstantTrait{
     //  * @var mixed
     //  */
     // protected static $model;
-
     // /**
     //  * field name to use
     //  * @var mixed
@@ -33,21 +31,29 @@ trait ModelTableConstantTrait{
          */
         /** eslint-disable */
         $cl = static::class;
-        return $cl::$model::GetCache($cl::$field_name, $value);
+        $model = igk_getv($cl_vars = get_class_vars($cl), 'model');
+        $fn = igk_getv($cl_vars, 'field_name');
+        return $model::GetCache($fn, $value);
     }
-
     /**
      * init data
      * @return void 
      */
     public static function InitData(){
-        $fc = 'InsertExtraFields';
+        /**
+         * @var mixed|string $cl
+         */
+        $fc = Database::InsertExtraFieldsMethod;
         $cl = static::class;
-        $model = $cl::$model;
+        $tmodel = igk_getv($cl_vars = get_class_vars($cl), 'model') ?? igk_die(sprintf('missing required model.[%s]', static::class));
+        $tfn = igk_getv($cl_vars, 'field_name');
+        $model = $tmodel;// cl::$model;
+        $fn = $tfn; // cl::$field_name;
         $init_fields = method_exists(static::class, $fc);
-        foreach($cl::GetConstants() as $ut){
+        $v_constants = $cl::GetConstants();
+        foreach($v_constants as $ut){
             $fields = [
-                $cl::$field_name=>$ut
+                $fn=>$ut
             ];
             if ($init_fields ){
                 $r = (object)['fields'=> & $fields];

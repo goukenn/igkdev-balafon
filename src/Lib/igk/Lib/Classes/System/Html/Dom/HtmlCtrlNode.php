@@ -3,12 +3,8 @@
 // @filename: HtmlCtrlNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Controllers\BaseController;
-
 /**
  * represent a controller node
  * @package IGK\System\Html\Dom

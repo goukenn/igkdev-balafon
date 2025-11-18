@@ -3,12 +3,10 @@
 // @filename: CssUtils.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Css;
-
 use IGK\IGlobalFunction;
 use Exception;
+use IGK\Constants;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Css\CssThemeOptions;
@@ -25,8 +23,10 @@ use IGK\System\Html\Css\CssMapTheme;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGK\System\Http\CookieManager;
+use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
-use IGK\System\Text\RegexMatcherContainer; 
+use IGK\System\IO\StringBuilder;
+use IGK\System\Text\RegexMatcherContainer;
 use IGKEnvironmentConstants;
 use IGKEvents;
 use IGKException;
@@ -34,9 +34,7 @@ use IGKHtmlDoc;
 use IGKMedia;
 use IGKOb;
 use ReflectionException;
-
 require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
-
 /**
  * utility function 
  * @package IGK\System\Html\Css
@@ -44,22 +42,40 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
 abstract class CssUtils
 {
     private static $sm_treated_colors = [];
-
+    const CSS_DESC_TITLE = 'Balafon Css Theme';
+    /**
+     * get code block definition 
+     * @param mixed $definition 
+     * @return mixed 
+     */
+    public static function BlockDefinition($definition){
+        if (is_array($definition)){
+            $sb = new StringBuilder;
+            foreach($definition as $k=>$v){
+                $sb->append(sprintf('%s{%s}', $k, $v));
+            }
+            $definition = $sb.'';
+        }
+        return $definition;
+    }
     /**
      * merge styles definition 
      * @param mixed ...$args 
      * @return string
      */
-    public static function MergeStyleDefinition( ...$args ){
-        if (!is_array($args)){
+    public static function MergeStyleDefinition(...$args)
+    {
+        if (!is_array($args)) {
             $args  = [$args];
         }
-        $m = StringUtility::DEFAULT_TRIM_CHAR.';';
-        $l =  implode(';', array_map(function($c)use($m){
-            return rtrim($c, $m);
+        $m = StringUtility::DEFAULT_TRIM_CHAR . ';';
+        $l =  implode(';', array_map(function ($c) use ($m) {
+            if (is_array($c)){
+                $c = self::GlueArrayDefinition($c); 
+            }
+            return rtrim($c ?? '', $m);
         }, array_filter($args)));
         return $l;
-        
     }
     public static function &GetTreatedColors()
     {
@@ -134,6 +150,12 @@ abstract class CssUtils
     {
         return implode(" ", array_filter([CssEnvironment::GetInitClass($tagname), $default]));
     }
+    /**
+     * 
+     * @param BaseController $controller 
+     * @param null|string $ruri 
+     * @return null|string 
+     */
     public static function GetControllerSelectorClassNameFromRegisterURI(BaseController $controller, ?string $ruri = null): ?string
     {
         if (!empty($ruri)) {
@@ -162,7 +184,6 @@ abstract class CssUtils
      */
     public static function InjectStyleContent($doc, string $file)
     {
-
         $style = $doc->getEnvParam($key = '://inject_style') ?? [];
         if (isset($style[$file])) {
             return true;
@@ -172,16 +193,23 @@ abstract class CssUtils
         $style[$file] = 1;
         $doc->setEnvParam($key, $style);
     }
-
+    /**
+     * 
+     * @param mixed $vsystheme 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function InitSysTheme($vsystheme)
     {
         $vsystheme->def->Clear();
         $d = $vsystheme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
         $d = $vsystheme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
         $d = $vsystheme->reg_media("(max-width:700px)");
-
         $v_cache_file = igk_dir(IGK_LIB_DIR . "/.Cache/.css.cache");
-        if (file_exists($v_cache_file)) {
+        if (igk_io_file_exists($v_cache_file, true)) {
             igk_css_include_cache($v_cache_file, $lfile);
         } else {
             $lfile = array_filter(explode(";", $vsystheme->getDef()->getFiles() ?? ""));
@@ -190,10 +218,8 @@ abstract class CssUtils
                 $options = (object)["file" => &$lfile];
                 IGlobalFunction::igk_global_init_material($options);
             }
-
             if (!$options || !igk_getv($options, "handle")) {
                 igk_hook(IGKEvents::HOOK_INIT_GLOBAL_MATERIAL_FILTER, [&$lfile]);
-
                 if (count($lfile) == 0) {
                     $lfile[] = igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/global.pcss");
                     $lfile[] = igk_get_env("sys://css/file/global_color", igk_dir(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/igk_css_colors.phtml"));
@@ -201,7 +227,7 @@ abstract class CssUtils
                 }
             }
         }
-        $g = implode(";", array_unique($lfile));
+        $g = implode(';', array_unique($lfile));
         $g = str_replace(IGK_LIB_DIR, "%lib%", $g);
         $vsystheme->def->setFiles($g);
     }
@@ -249,11 +275,10 @@ abstract class CssUtils
      */
     public static function GenCss(BaseController $controller, string $theme = CssThemeOptions::DEFAULT_THEME_NAME, bool $embedresource = false, ?string $prefix = '')
     {
-
-        if ($theme ==CssThemeOptions::BOTH_THEME_NAME){  
-            $theme = igk_environment()->get('default_theme', CssThemeOptions::DEFAULT_THEME_NAME); 
-            return self::GenCssWithThemeSupport($controller, $theme); 
-        } 
+        if ($theme == CssThemeOptions::BOTH_THEME_NAME) {
+            $theme = igk_environment()->get('default_theme', CssThemeOptions::DEFAULT_THEME_NAME);
+            return self::GenCssWithThemeSupport($controller, $theme);
+        }
         $opt = new CssThemeOptions;
         $opt->theme_name = '';
         $opt->rootListener = new CssRootPropertyStorageListener;
@@ -266,25 +291,25 @@ abstract class CssUtils
         igk_css_bind_sys_global_files($systheme);
         igk_css_load_theme($theme);
         $controller->bindCssStyle($theme, true);
-        echo "/* CSS theme */";
+        echo "/* @description: Balafon CSS theme */";
         $resourceResolver = null;
         if ($embedresource) {
             $resourceResolver = new EmbedResourceResolver();
         }
         $list = [$systheme, $theme];
         $imports = [];
-        $sb= '';
+        $sb = '';
         $ch = '';
-        while(count($list)>0){
+        while (count($list) > 0) {
             $q = array_shift($list);
             $imports = array_merge($q->getImports() ?? [], $imports);
-            $q->noHeader = true; 
-            $sb .= $ch.$q->get_css_def(true, true, $resourceResolver);
+            $q->noHeader = true;
+            $sb .= $ch . $q->get_css_def(true, true, $resourceResolver);
             $q->noHeader = false;
-            $ch="\n";
+            $ch = "\n";
         }
-        if ($imports){
-            echo self::RenderImport($imports); 
+        if ($imports) {
+            echo self::RenderImport($imports);
         }
         echo $sb;
         echo "\n/* root definition */", $opt->rootListener->render();
@@ -298,10 +323,11 @@ abstract class CssUtils
      * @param array $imports 
      * @return string 
      */
-    static function RenderImport(array $imports){
-        return implode(";\n", array_map(function($s){
-                return sprintf('@import "%s"', $s);
-            }, $imports)).";"; 
+    static function RenderImport(array $imports)
+    {
+        return implode(";\n", array_map(function ($s) {
+            return sprintf('@import "%s"', $s);
+        }, $imports)) . ";";
     }
     /**
      * get theme by selecting primary theme
@@ -319,26 +345,32 @@ abstract class CssUtils
         // + | bind global theme to start 
         $systheme = igk_app()->getDoc()->getSysTheme();
         igk_css_bind_sys_global_files($systheme);
-        $def = []; 
         $rootListener = new CssRootPropertyStorageListener;
-       
-        $def = array_merge($def, self::AppendDataTheme($controller, $systheme, $primaryTheme, false, $rootListener));
-        
+        $def = self::AppendDataTheme($controller, $systheme, $primaryTheme, false, $rootListener);
         ob_start();
-        echo "/* CSS theme */";
+        self::ObHeader();
         echo implode(
             "\n",
-            array_merge([
-               // "/* begin: - corecss */",
-                // $systheme->get_css_def(true, true),
-                //"/* end: - corecss */",
-            ], $def)
+            array_merge([], $def)
         );
         $r = ob_get_contents();
         ob_clean();
+        // testing color color scheme .
+        // $r .="background-color:var(--igk-bg-color);"; 
+        // $r .= "html[data-theme='dark'] body.igk-body{--igk-bg-color: red;}";
+        // $r .= "html[data-theme='light'] body.igk-body{--igk-bg-color: indigo;}";
         return $r;
     }
-
+    /**
+     * write ob header 
+     */
+    private static function ObHeader()
+    {
+        echo sprintf("/* @description: %s */\n", self::CSS_DESC_TITLE);
+        // echo sprintf("/* @name: %s */\n", self::CSS_DESC_TITLE);
+        // echo sprintf("/* @controller: %s */\n", self::CSS_DESC_TITLE);
+        echo sprintf("/* @date: %s */\n", date('Ymd H:i:s'));
+    }
     /**
      * helper use to clone media
      * @param array $medias 
@@ -350,7 +382,6 @@ abstract class CssUtils
             return IGKMedia::Clone($i);
         }, $medias);
     }
-
     /**
      * render primary theme with definied colors
      * @param mixed $a_theme 
@@ -359,7 +390,7 @@ abstract class CssUtils
      * @param bool $theme_export 
      * @return mixed 
      */
-    public static function RenderPrimaryTheme(HtmlDocTheme $a_theme, array $colors = null, $minfile = false, $theme_export = false)
+    public static function RenderPrimaryTheme(HtmlDocTheme $a_theme, ?array $colors = null, $minfile = false, $theme_export = false)
     {
         $s = '';
         $bck = $a_theme->getCl();
@@ -368,7 +399,6 @@ abstract class CssUtils
         }
         $s = $a_theme->get_css_def($minfile, $theme_export);
         $a_theme->setColors($bck);
-
         return $s;
     }
     /**
@@ -398,87 +428,121 @@ abstract class CssUtils
                 return;
             }
         }
-        $def = []; 
-        ArrayUtils::PrependAfterSearch($tdef, $primaryTheme); 
+        $def = [];
+        ArrayUtils::PrependAfterSearch($tdef, $primaryTheme);
         $v_render_primary = false;
         $tab = $a_theme->getdef()->getAttributes() ?? [];
         $medias = $a_theme->getMedias();
-        //  ob_end_clean();
-
         $opt = new CssThemeOptions;
         $opt->skips = ['rules', 'fonts'];
         $opt->rootListener = $rootListener;
-        if ($v_opts = $a_theme->getRenderOptions()){
-            /// TODO: Missing root listener 
+        if ($v_opts = $a_theme->getRenderOptions()) {
+            // + | TODO: Missing root listener 
             $v_opts->rootListener = $rootListener;
         }
-
+        $v_systheme = $a_theme->isSystemTheme(); 
         $v_theme = null;
+        $v_first = $v_systheme;
+        $root_defs = [];
+        $sroot_defs = [];  
+        $v_copy = null;  
         foreach ($tdef as $theme_name) {
-            $s_medias = self::CloneMedia($medias);
             $opt->theme_name = $theme_name;
-            $is_primaryTheme =  $primaryTheme == $theme_name;
+            $opt->is_primary = $primaryTheme == $theme_name;
             $colors = $a_theme->getThemeColorsByName($theme_name);
-
-            if (!$v_render_primary && $is_primaryTheme) {
-                $s = self::RenderPrimaryTheme($a_theme, $colors, true, $theme_export); 
+            if ($v_systheme){
+                $inc_files = $v_theme ? $v_theme->getIncludedFiles() : null;
+                // + | load specific attached theme options... 
+                $v_theme = new HtmlDocTheme(null, "temp", HtmlDocTheme::TEMP_TYPE);
+                // + | $v_theme->replaceMediaList($s_medias);
+                $inc_files && $v_theme->setIncludeFileListListener($inc_files);
+                // + | store theming color before binding so no need to override color in target definition 
+                if ($colors) {
+                    $v_theme->setColors($colors);
+                } 
+            }
+            else {
+                // $v_theme = $a_theme;
+                $v_copy = $v_copy ?? $a_theme->to_array();
+                $v_theme = new HtmlDocTheme(null, "temp", HtmlDocTheme::TEMP_TYPE);
+                $v_theme->load_data($v_copy);
+            } 
+                // + | set options before bind style
+                $v_theme->setRenderOptions($opt); 
+                 // + | load bind style with theme 
+                 $controller->bindCssStyle($v_theme, true);
+           //  $ctab = array_merge($v_theme->getDef()->getAttributes() ?? [], $tab);
+            if ($v_first) {
+                // define global definition 
+                $core = $a_theme->get_css_def(true, true);
+                // $s = self::RenderPrimaryTheme($a_theme, $colors, true, $theme_export);
                 // bind primary color   
                 array_unshift($def, implode("\n", [
-                    "/* begin-theme: primary */",
-                    $s, 
-                    "/* end-theme: primary */"
-                ])); 
+                    "/* begin: core-theme: */",
+                    $core,
+                    "/* end: core-theme:*/",
+                    ''
+                ]));
                 $v_render_primary = true; 
+            }  
+            if ($opt->is_primary  && ($s = $v_theme->get_css_def(true, true))){
+                $def[] = $theme_export ? $s : implode("\n", ["/* begin: primary-theme */", $s, "/*end: primary-theme*/"]);
             }
-            $inc_files = $v_theme ? $v_theme->getIncludedFiles(): null;
-            // load specific attached theme options... 
-            $v_theme = new HtmlDocTheme(null, "temp", "temporary");
-            $v_theme->replaceMediaList($s_medias);
-            $inc_files && $v_theme->setIncludeFileListListener($inc_files);
-            // + | store theming color before binding so no need to override color in target definition 
-            if ($colors) {
-                $v_theme->setColors($colors);
-            }
-            // + | set options before bind style
-            $v_theme->setRenderOptions($opt);
-            // + | load bind style with theme 
-            $controller->bindCssStyle($v_theme, true);
-            $ctab = array_merge($v_theme->getDef()->getAttributes() ?? [], $tab);
-            // } 
-            // + | render and bind media
-             self::MapMediaCssTheme(
+            self::MapMediaCssTheme(
                 $v_theme,
                 $theme_name,
-                $ctab,
-                $s_medias,
-                false
-            );
-            $s = $v_theme->get_css_def(true, true);
-            if (!empty($s)) {
-                $def[] = "\n/* theme: " . $theme_name . " */\n" . $s;
+                $v_theme->def->getAttributes(),
+                null,
+                $opt->is_primary
+            );   
+            self::BindRootDataThemeDefinition($root_defs,$v_theme, $theme_name);
+            if ( $s = $v_theme->get_css_def()){   
+                $def[] = ($theme_export ? "\n/* theme: " . $theme_name . " */\n" : ''). $s; 
+            }  
+            $v_first = false;
+        } 
+        if ($rootListener && ($gv = $rootListener->render()))
+            $def[] = $gv;
+            // + | INJECT ROOT THEME PROPERTIES DEFINITION .
+            // + | PROPERTIES THAT startt with -- (two hyphen must be consider as property )
+        if (count($root_defs)>0){
+            foreach($root_defs as $k=>$v){
+                $gv = [];
+                foreach($v as $rk=>$rv){
+                    if (preg_match("/^--/", $rk)){
+                        $gv[$rk] = $rv;
+                    }
+                }
+                if (count($gv)>0){
+                    $def[]= $k.sprintf('{%s}', self::GlueArrayDefinition($gv));
+                }
             }
         }
-        if ($rootListener)
-            $def[] = $rootListener->render();
         return $def;
     }
-
-    public static function ExportColorAndProperties(BaseController $controller, $theme ){
+    public static function BindRootDataThemeDefinition(array & $rootdef, $theme, string $theme_name){
+        $colors = $theme->getDef()->getCl();
+        $keys = sprintf('html[data-theme="%s"]', $theme_name);
+        if (!isset($rootdef[$keys])){
+            $rootdef[$keys] = [];
+        }
+        $rootdef[$keys] = array_merge($rootdef[$keys], $colors );
+    }
+    public static function ExportColorAndProperties(BaseController $controller, $theme)
+    {
         $tdef = explode('|', CssConstants::SUPPORT_THEME);
         $v_theme = null;
-        $colors = []; $props = [];
+        $colors = [];
+        $props = [];
         foreach ($tdef as $theme_name) {
-            
             // $inc_files = $v_theme ? $v_theme->getIncludedFiles(): null; 
-            $v_theme = new HtmlDocTheme(null, "temp", "temporary"); 
+            $v_theme = new HtmlDocTheme(null, "temp", "temporary");
             // + | load bind style with theme 
             $controller->bindCssStyle($v_theme, true);
-
             $colors = array_merge($colors, $v_theme->getCl());
             $props = array_merge($props, $v_theme->getProperties());
-            
         }
-        return compact('colors','props');
+        return compact('colors', 'props');
     }
     /**
      * 
@@ -492,7 +556,7 @@ abstract class CssUtils
     {
         array_map(function ($v, $k) use (&$g, $lk, &$source_defs) {
             //remove brank definitions  
-            $v = !empty($v) ? CssUtils::RemoveNoTransformPropertyStyle($v):$v;
+            $v = !empty($v) ? CssUtils::RemoveNoTransformPropertyStyle($v) : $v;
             if (empty($v)) {
                 // + | --------------------------------------------------------------------
                 // + | no property found remove from global list
@@ -508,23 +572,42 @@ abstract class CssUtils
      * @param HtmlDocTheme $theme
      * @param string|'dark'|'light' $theme_name 
      * @param ?array $tab definition to map 
-     * @param ?array $medias array of medias list
+     * @param ?array $medias array of medias list to map
      * @param bool $is_primary_theme 
      */
     public static function MapMediaCssTheme(
         HtmlDocTheme $theme,
         string $theme_name,
         ?array $tab,
-        ?array $medias,
-        bool $is_primary_theme=false
+        ?array $medias = null,
+        bool $is_primary_theme = false
     ) {
         $lk = sprintf(CssConstants::THEME_SELECTOR_FORMAT, $theme_name);
+        $theme_medias = $theme->getMedias();
+        $medias = $medias ?? $theme_medias;
         if ($tab) {
             self::MapThemeDefinition($lk, $tab, $theme);
         }
-        $medias && self::MapTheme($medias, $is_primary_theme, $lk, true);
+        if ($medias)
+        {
+            self::MapTheme($medias, $is_primary_theme, $lk, true);
+            // update media list 
+            if ($theme_medias !== $medias){
+                // store media list 
+                foreach($medias as $k=>$v){
+                    if ($v instanceof IGKMedia){
+                        $m = $v->getDef() ?? [];
+                        $g = igk_getv($theme_medias, $k);
+                        if ($g instanceof IGKMedia){
+                            $t = array_merge($g->getDef() ?? [], $m);
+                            $g->clear();
+                            $g->loadDef($t);
+                        }
+                    }
+                }
+            }
+        }
     }
-
     /**
      * render medias
      * @param mixed $medias 
@@ -558,7 +641,6 @@ abstract class CssUtils
                         continue;
                     }
                 }
-
                 $ns = HtmlDocTheme::GetMediaName($k);
                 if (igk_str_startwith($ns, '@')) {
                     $out .= $ns; //'@media'.
@@ -588,7 +670,6 @@ abstract class CssUtils
      */
     public static function TreatValue(string $v)
     {
-
         $g = CssParser::Parse($v);
         $gp = CssUtils::GlueArrayDefinition($g->to_array());
         $s = $gp;
@@ -609,25 +690,26 @@ abstract class CssUtils
         }
     }
     /**
-     * 
-     * @param array $tab 
+     * glue array definition 
+     * @param array<string,array> $tab key
      * @return string|void 
      */
     public static function GlueArrayDefinition(array $tab)
     {
         if (count($tab) > 0)
             return implode(";", array_map(function ($v, $k) {
+                if (is_numeric($k))
+                    return $v;
                 return sprintf('%s:%s', $k, $v);
             }, $tab, array_keys($tab))) . ";";
     }
-
     /**
      * remove {sys:...} expression form css source value
      * @param string $v 
      * @return string 
      */
     public static function RemoveTransformLitteralFrom(string $v)
-    { 
+    {
         // + | --------------------------------------------------------------------
         // + | remove system transform and litteral 
         // + | remove : {sys:...}
@@ -637,39 +719,35 @@ abstract class CssUtils
         $container->begin('{', '}(\\s*;\\s*)?', 'litteral'); // - remove
         $container->begin("(\"|')", "\\1", 'string');        // - leave
         $container->begin("\\(", "\\)", 'parenthese');       // - leave
-        $container->match("\\s*(;|:)\\s*",'operator');
-        $container->match("\\s+",'white-space');
+        $container->match("\\s*(;|:)\\s*", 'operator');
+        $container->match("\\s+", 'white-space');
         $lpos = 0;
-
         $n = '';
         $join = '';
-        $container->treat($v, function($g, $pos, $v)use(& $n, & $lpos, & $join){
-            switch($g->tokenID)
-            {
+        $container->treat($v, function ($g, $pos, $v) use (&$n, &$lpos, &$join) {
+            switch ($g->tokenID) {
                 case 'operator':
-                    $n = trim($n).trim(substr($v, $lpos, $g->from-$lpos)).trim($g->value);
+                    $n = trim($n) . trim(substr($v, $lpos, $g->from - $lpos)) . trim($g->value);
                     $lpos = $pos;
                     break;
                 case 'litteral':
-                case 'white-space': 
+                case 'white-space':
                     // skip litteral - white space 
-                    $n = trim($n.substr($v, $lpos, $g->from-$lpos));
-                    if ($g->tokenID=='white-space'){
-                        $n .=' ';
-                    }else{
+                    $n = trim($n . substr($v, $lpos, $g->from - $lpos));
+                    if ($g->tokenID == 'white-space') {
+                        $n .= ' ';
+                    } else {
                         $join = '';
                     }
                     $lpos = $pos;
-                break;
+                    break;
             }
-        }); 
-        $n.= substr($v, $lpos); 
+        });
+        $n .= substr($v, $lpos);
         return trim($n);
-    
         // $nv = '';
         // $min = false;
         // $offset = 0;
-
         // while ($min === false) {
         //     foreach (["'", '"', '{'] as $c) {
         //         if (false !== ($c = strpos($v, $c, $offset))) {
@@ -693,7 +771,6 @@ abstract class CssUtils
         //                 igk_str_read_brank($v, $pos, '}', '{');
         //                 $pos++;
         //                 $nv .= ltrim(substr($v, $pos));
-
         //                 $offset = $min;
         //                 break;
         //             case '\'':
@@ -730,57 +807,53 @@ abstract class CssUtils
      * @param string $style 
      * @return string 
      */
-    public static function GetBranketOnlyStyle(string $style){
+    public static function GetBranketOnlyStyle(string $style)
+    {
         $container = new RegexMatcherContainer;
         $container->match('\s*[\w\-]+\s*:\s*[^\[\];]+;\s*', 'exclude');
         $container->begin('\[', '\](\\s*;\\s*)?', 'definition');
         $container->begin("(\"|')", "\\1", 'string');
         $ch = '';
         $lpos = 0;
-        $container->treat($style, function($g, $pos, $data)use(& $lpos, & $ch){
+        $container->treat($style, function ($g, $pos, $data) use (&$lpos, &$ch) {
             switch ($g->tokenID) {
                 case 'exclude':
-                    $ch .= substr($data, $lpos, $g->from-$lpos);
+                    $ch .= substr($data, $lpos, $g->from - $lpos);
                     $lpos = $pos;
                     break;
                 case 'definition':
-                    $end = igk_str_endwith(rtrim($g->value),';');
-
-                    $ch .= substr($data, $lpos, $g->from-$lpos).trim($g->value, '; ');
-                    if ($end){
-                        $ch.=';';
+                    $end = igk_str_endwith(rtrim($g->value), ';');
+                    $ch .= substr($data, $lpos, $g->from - $lpos) . trim($g->value, '; ');
+                    if ($end) {
+                        $ch .= ';';
                     }
                     $lpos = $pos;
-                    break;  
+                    break;
             }
         });
-
         return $ch;
     }
     /**
      * treat css detection 
      */
-    public static function TreatCssDefinition($v, $k, &$g, bool $is_primaryTheme, string $lk, array &$source_defs = null)
+    public static function TreatCssDefinition($v, $k, &$g, bool $is_primaryTheme, string $lk, ?array &$source_defs = null)
     {
         $v_ev = false;
         // + | ignore case 
         // + | value is empty or k alreay content lk theme or prefix value contain [litteral] to evaluate
         // DECTECT ONLY STYLE WITH that have request transform  
-        $is_empty = empty($v);//IsGlobalExpression
+        $is_empty = empty($v); //IsGlobalExpression
         $theme_def = strpos($k, CssConstants::THEME_SELECTOR_PREFIX) !== false;
         $need_eval = !$is_empty && preg_match(IGK_CSS_TREAT_REGEX, $v);
-
         if ($theme_def) {
             $g[$k] = null;
             return null;
         }
-
-
         if ($is_empty || $theme_def || $need_eval) {
             if (!$theme_def && $need_eval) {
                 $v_o = igk_getv($g, $k);
                 $g[$k] = null;
-                if (!$is_primaryTheme) {
+                if (!$is_primaryTheme || $need_eval) {
                     $key = self::_prependThemePreKeyToCssSelector($k, $lk);
                     $g[$key] = $v;
                     $source_defs[$key] = [$k, $v_o];
@@ -813,6 +886,9 @@ abstract class CssUtils
         }, $lk));
         return $lk;
     }
+    /**
+     * init sys global document 
+     */
     public static function InitSysGlobal(\IGKHtmlDoc $doc)
     {
         $clear = 0;
@@ -863,7 +939,6 @@ abstract class CssUtils
             }
         }
     }
-
     /**
      * get inline style rendering
      * @param \IGKHtmlDoc $doc 
@@ -874,7 +949,6 @@ abstract class CssUtils
      */
     public static function GetInlineStyleRendering($doc, bool $themeexport)
     {
-
         $bvtheme = new HtmlDocTheme($doc, "temp://files", false);
         $out = "";
         $g = $doc->getTheme()->getInlineStyle(true);
@@ -905,7 +979,6 @@ abstract class CssUtils
         $o .= $bvtheme->get_css_def(false, false, null, $doc);
         if ($clear)
             $sys->resetSysGlobal();
-
         if (!empty($o)) {
             $s = igk_create_node("style");
             $s["id"] = "tempsp";
@@ -914,7 +987,6 @@ abstract class CssUtils
         }
         return null;
     }
-
     /**
      * helper append inline style
      * @param string #Parameter#cfa1602d 
@@ -929,7 +1001,6 @@ abstract class CssUtils
             $doc->getTheme()->addInlineStyle($ctrl, $file);
         }
     }
-
     /**
      * 
      * @param string $file 
@@ -945,6 +1016,14 @@ abstract class CssUtils
         return $theme->getDef();
     }
     /**
+     * helper: get css class name 
+     * @param BaseController $ctrl 
+     * @return string 
+     */
+    public static function GetCssClassName(BaseController $ctrl){
+        return strtolower(igk_css_str2class_name($ctrl->getName()));
+    }
+    /**
      * include pcss binding files
      * @param string $file file to incluce
      * @param ?BaseController $ctrl controller
@@ -956,14 +1035,11 @@ abstract class CssUtils
     public static function Include(
         string $file,
         ?BaseController $ctrl = null,
-        HtmlDocTheme  $theme = null,
+        ?HtmlDocTheme  $theme = null,
         ?string $theme_name = null
     ) {
         $context = \IGK\Css\CSSContext::Init($ctrl, $theme);
         require_once __DIR__ . "/theme_functions.php";
-
-      
-
         $xsm_screen = $theme->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
         $sm_screen = $theme->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
         $lg_screen = $theme->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
@@ -987,8 +1063,6 @@ abstract class CssUtils
         $def = $theme->def;
         $cltab = &$theme->getCl();
         $cl = IGKCssColorHost::Create($cltab);
-
-
         $prop = &$theme->getProperties();
         $referrer = igk_server()->get("HTTP_REFERER", "igk://system");
         igk_environment()->push(IGKEnvironmentConstants::CSS_UTIL_ARGS, get_defined_vars());
@@ -1017,15 +1091,17 @@ abstract class CssUtils
         ob_start();
         include($file);
         $src = ob_get_contents();
-        ob_end_clean();  
-        if ($src){ 
-            //+ | inject css style - no render -  
+        ob_end_clean();
+        if ($src) {
+            //+ | inject css style - no render -              
+            if ($bcss_handler = FileHandler::GetFileHandlerFromExtension( Constants::BCSS_EXTENSION )){
+                $src = $bcss_handler->transform($src);
+            }            
             $theme[] = $src;
-        } 
+        }
         igk_environment()->pop(IGKEnvironmentConstants::CSS_UTIL_ARGS);
         // + remove binding properties args
     }
-
     static $old_theme;
     /**
      * priority to file that match the current theme style in theme folder 
@@ -1039,9 +1115,9 @@ abstract class CssUtils
         $rf = igk_io_basenamewithoutext($file);
         $v_dir = Path::Combine(dirname($file), IGK_THEMES_FOLDER);
         // + | fix list of theme file accorging to cibling styles file
-        foreach (['', $rf.'.'] as $tf) {
+        foreach (['', $rf . '.'] as $tf) {
             $f = $v_dir . "/" . $tf . $theme_name . CssConstants::THEME_FILE_EXT;;
-            if (file_exists($f)) {
+            if (igk_io_file_exists($f, true)) {
                 igk_include_if_exists(
                     $f,
                     $args
@@ -1049,8 +1125,6 @@ abstract class CssUtils
             }
         }
     }
-
-
     /**
      * 
      * @param string $content 
@@ -1095,15 +1169,15 @@ abstract class CssUtils
         sort($tkeys);
         return $tkeys;
     }
-
-    public static function GetRootPropsArray(array $list){
-         // only detected properties must be update as root definition 
-         $mk = [];
-         foreach(array_keys($list) as $k){
-             if (preg_match('/^--/',$k)){
-                 $mk[$k] = $list[$k];
-             }
-         }
-         return $mk;
+    public static function GetRootPropsArray(array $list)
+    {
+        // only detected properties must be update as root definition 
+        $mk = [];
+        foreach (array_keys($list) as $k) {
+            if (preg_match('/^--/', $k)) {
+                $mk[$k] = $list[$k];
+            }
+        }
+        return $mk;
     }
 }

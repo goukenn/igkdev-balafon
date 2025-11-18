@@ -3,11 +3,8 @@
 // @filename: SysDbControllerManager.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Controllers;
-
 use IGKException;
-
 /**
  * get system's database info
  * @package IGK\Controllers
@@ -53,6 +50,5 @@ class SysDbControllerManager{
         }else 
             $g = $ctrl->getDataTableDefinition($tablename);
         return $g;
-       
     }
 }

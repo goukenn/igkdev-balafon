@@ -2,17 +2,12 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: IGKAppMethodFlag.php
 // @date: 20230201 07:59:09
- 
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK
 */
 class IGKAppMethodFlag{
     private $m_f;
-
     /**
      * 
      * @return bool 

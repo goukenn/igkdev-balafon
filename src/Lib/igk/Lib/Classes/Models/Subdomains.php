@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Subdomains.php
-// @date: 20240922 19:45:48
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>store sub domain</summary>
 /**
 * store sub domain
 * @package IGK\Models
@@ -19,13 +15,13 @@ use IGK\Models\ModelBase;
 * @property string|datetime $clDeactivate_At
 * @property string|datetime $clCreate_At ="Now()"
 * @property string|datetime $clUpdate_At ="Now()"
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_NAME() - `clName` full column name 
-* @method static string FD_CL_CTRL() - `clCtrl` full column name 
-* @method static string FD_CL_VIEW() - `clView` full column name 
-* @method static string FD_CL_DEACTIVATE_AT() - `clDeactivate_At` full column name 
-* @method static string FD_CL_CREATE_AT() - `clCreate_At` full column name 
-* @method static string FD_CL_UPDATE_AT() - `clUpdate_At` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_NAME() - `clName` full column name 
+* @method static string FN_CL_CTRL() - `clCtrl` full column name 
+* @method static string FN_CL_VIEW() - `clView` full column name 
+* @method static string FN_CL_DEACTIVATE_AT() - `clDeactivate_At` full column name 
+* @method static string FN_CL_CREATE_AT() - `clCreate_At` full column name 
+* @method static string FN_CL_UPDATE_AT() - `clUpdate_At` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clName, string $clCtrl, string $clView, string|datetime $clDeactivate_At, string|datetime $clCreate_At ="Now()", string|datetime $clUpdate_At ="Now()") add entry helper
@@ -45,4 +41,8 @@ class Subdomains extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%subdomains";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

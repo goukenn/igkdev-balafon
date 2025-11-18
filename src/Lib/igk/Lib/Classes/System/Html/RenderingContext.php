@@ -3,9 +3,6 @@
 // @file: RenderingContext.php
 // @date: 20221109 09:37:10
 namespace IGK\System\Html;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html

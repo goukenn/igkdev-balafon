@@ -3,9 +3,6 @@
 // @file: HtmlTagExpressionName.php
 // @date: 20221018 11:21:15
 namespace IGK\System\Html;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html

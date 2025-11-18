@@ -13,7 +13,7 @@
 
 $s  = igk_dir(IGK_LIB_DIR."/Scripts/winui/igk.winui.navigationbar.js");
 
-// if (file_exists($s) == false)
+// if (igk_io_file_exists($s) == false)
 // {
 	// igk_wln("base dir :  ".IGK_LIB_DIR);
 	// igk_wln( "current working dir : ". getcwd());

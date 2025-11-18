@@ -3,11 +3,7 @@
 // @filename: ControllerConfigurationData.php
 // @date: 20220803 13:48:57
 // @desc: 
- 
-
-
 namespace IGK\System\Configuration;
-
 use ArrayAccess;
 use IGK\Controllers\RootControllerBase;  
 use IGK\System\Html\HtmlContext;
@@ -16,12 +12,8 @@ use IGKEnvironment;
 use IGKException;
 use IGKObject;
 use function igk_resources_gets as __;
- 
- 
 require_once IGK_LIB_CLASSES_DIR. "/System/Html/XML/XmlConfigurationNode.php";
 require_once IGK_LIB_CLASSES_DIR. "/System/Configuration/SysConfigExpression.php";
-
-///<summary>Controller configuration data</summary>
 /**
 * Controller configuration data
 */
@@ -31,7 +23,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     private $m_changed=0;   
     private $m_autosave; 
     private $m_secrets = [];
-
     /**
      * check if configuration setting is a secret
      * @param string $key 
@@ -50,8 +41,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function to_json(){
         return json_encode($this->m_configs);
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -59,14 +48,11 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function __construct($ctrl){
         if(!$ctrl)
             igk_die(__("ctrl can't be null"));
- 
         $this->ctrl=$ctrl;
         $this->m_changed=0;
         $this->m_autosave = true;
         $this->m_configs=igk_createobj();       
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -74,8 +60,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function __get($n){
         return $this->get($n, null);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -83,9 +67,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function __isset($n){
         return isset($this->m_configs->$n);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $n
@@ -104,7 +85,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         igk_conf_set($this->m_configs, $v, $n);
         $this->m_changed=1;
     }
-    ///<summary>get configuration file</summary>
     /**
      * get configuration file
     * @return string 
@@ -112,8 +92,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     public function getConfigFile(){
         return igk_dir($this->ctrl->getConfigFile());
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
     * 
     * @param mixed $t
@@ -130,8 +108,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
                 return true;
             }, ARRAY_FILTER_USE_BOTH);
         };
-        if(!is_null($f) && file_exists($f)){
-            
+        if(!is_null($f) && igk_io_file_exists($f, true)){
             igk_environment()->task = 'load-config: '.$f;
             igk_environment()->loading_context =  HtmlContext::XML;
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
@@ -186,15 +163,10 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
         igk_environment()->loading_context = null;
         return $t;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function LoadSetting(){}
-   
-   
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -217,7 +189,6 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     private function setupCtrlConfigSettings(){
         igk_die(__METHOD__." Not implement");
     }
-    ///<summary></summary>
     /**
     * 
     */

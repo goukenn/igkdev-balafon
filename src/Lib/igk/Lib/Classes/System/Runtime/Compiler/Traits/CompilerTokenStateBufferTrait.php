@@ -3,9 +3,6 @@
 // @file: CompilerTokenStateBufferTrait.php
 // @date: 20221021 09:50:56
 namespace IGK\System\Runtime\Compiler\Traits;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\Traits

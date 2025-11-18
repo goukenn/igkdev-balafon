@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookTypes.php
-// @date: 20240922 19:45:49
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>Phone book's type</summary>
 /**
 * Phone book's type
 * @package IGK\Models
@@ -18,12 +14,12 @@ use IGK\Models\ModelBase;
 * @property int $Cardinality cardinality of the entry
 * @property string|datetime $Create_At ="Now()"
 * @property string|datetime $Update_At ="Now()"
-* @method static string FD_ID() - `Id` full column name 
-* @method static string FD_NAME() - `Name` full column name 
-* @method static string FD_CAT() - `Cat` full column name 
-* @method static string FD_CARDINALITY() - `Cardinality` full column name 
-* @method static string FD_CREATE_AT() - `Create_At` full column name 
-* @method static string FD_UPDATE_AT() - `Update_At` full column name 
+* @method static string FN_ID() - `Id` full column name 
+* @method static string FN_NAME() - `Name` full column name 
+* @method static string FN_CAT() - `Cat` full column name 
+* @method static string FN_CARDINALITY() - `Cardinality` full column name 
+* @method static string FN_CREATE_AT() - `Create_At` full column name 
+* @method static string FN_UPDATE_AT() - `Update_At` full column name 
 * @method static ?array joinOnRcphbtId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbtId() - macros function
 * @method static ?self Add(string $Name, string $Cat, int $Cardinality, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
@@ -48,4 +44,8 @@ class PhoneBookTypes extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "rcphbt_Id";
+	/**
+	*override display key
+	*/
+	protected $display = "rcphbt_Name";
 }

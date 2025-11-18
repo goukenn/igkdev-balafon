@@ -4,28 +4,21 @@
 // @copyright: igkdev © 2019
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Middlewares;
-
 use ReflectionClass;
-
-///<summary>Represente class: IGKBalafonMiddleware</summary>
 /**
-* Represente IGKBalafonMiddleware class
+* Represent IGKBalafonMiddleware class
 */
 abstract class BalafonMiddleware{
     private $_next;
     private static $sm_manager;
-    ///<summary></summary>
+    var $chainFlag;
     /**
     * 
     */
     protected function __construct(){}
-    ///<summary> attach the middleware</summary>
-    ///<param name="middle">the middleware to attach</summary>
-    ///<param name="service">application service to initialize</param>
-    ///<param name="wherelist"> list that store the all middleware for chain list</param>
     /**
     *  attach the middleware
     * @param mixed $middlethe middleware to attach
@@ -39,10 +32,6 @@ abstract class BalafonMiddleware{
         $service->Attach($middle);
         $middle->initialize($middle);
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="args" default="null"></param>
-    ///<param name="service" default="null"></param>
     /**
     * 
     * @param mixed $name
@@ -68,7 +57,6 @@ abstract class BalafonMiddleware{
         }
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -78,28 +66,24 @@ abstract class BalafonMiddleware{
         }
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getService(){
         return self::GetManager();
     }
-    ///<summary>initialize the middleware </summary>
     ///<param name="service">IIGKBalafonApplicationMiddlewareService instance</summary>
     /**
     * initialize the middleware
     * @param mixed $serviceIIGKBalafonApplicationMiddlewareService instance
     */
     protected function initialize($service){}
-    ///<summary></summary>
     /**
     * 
     */
     public function invoke(){
         $this->next();
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -108,9 +92,6 @@ abstract class BalafonMiddleware{
             $this->_next->invoke();
         }
     }
-    ///<summary></summary>
-    ///<param name="service"></param>
-    ///<param name="wherelist"></param>
     /**
     * 
     * @param mixed $service
@@ -126,7 +107,6 @@ abstract class BalafonMiddleware{
         }
         array_shift(self::$sm_manager);
     }
-    ///<summary></summary>
     /**
     * 
     */

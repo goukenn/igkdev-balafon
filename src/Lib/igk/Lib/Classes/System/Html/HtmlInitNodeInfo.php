@@ -3,14 +3,10 @@
 // @filename: HtmlInitNodeInfo.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use IGK\Helper\SysUtils;
 use IGKException;
 use IGKObject;
-
 class HtmlInitNodeInfo extends IGKObject{
     /**
      * 
@@ -22,7 +18,6 @@ class HtmlInitNodeInfo extends IGKObject{
      * @var string
      */
     var $name;
-
     /**
      * use array to initialize info
      * @param array $tag 

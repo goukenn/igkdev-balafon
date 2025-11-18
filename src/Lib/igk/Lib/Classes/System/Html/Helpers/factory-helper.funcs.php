@@ -2,14 +2,11 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: factory-helper.funcs.php 
 // @desc: helper dom factory helper initiator
-
 /**
  * factory helpe
  */
-
 use IGK\Helper\Activator;
 use IGK\System\Html\Dom\Factory;
-
 Factory::form("initfield", function () {
 	if ($f = igk_html_parent_node()) {
 		igk_html_form_initfield($f);
@@ -93,7 +90,6 @@ Factory::form("cref", function () {
 	}
 	return $f;
 });
-
 /**
  * add field to form tag 
  * @param array[<string,IFieldInfo>,string]| $fields list of field info 
@@ -108,10 +104,10 @@ Factory::form("fields", function ($fields, $datasource_or_callback = null, ?obje
 /**
  * register file input helper
  */
-Factory::form("file", function (string $name, string $id=null, string $class) {
+Factory::form("file", function (string $name, ?string $id=null, ?string $class = null) {
 	if ($f = igk_html_parent_node()) {
 		$input = $f->addInput(); // Fields(...func_get_args());
-		$f['enctype'] = 'multipart/form-data';
+		$f['enctype'] = IGK_HTML_ENCTYPE;
 		$input['type'] = 'file';
 		$input['name'] = $name;
 		$input['id'] = $id ?? $name;
@@ -119,7 +115,6 @@ Factory::form("file", function (string $name, string $id=null, string $class) {
 	} 
 	return $f;
 });
-
 /**
  * help build table definition 
  */
@@ -194,9 +189,6 @@ Factory::table('build', function ($data, $headers = null, $captions = null) {
 		}
 	}
 });
-
-
-
 // + | button
 Factory::button('setValue', function($v){
     if ($q = igk_html_parent_node()){
@@ -205,7 +197,6 @@ Factory::button('setValue', function($v){
     }
     return $q;
 });
-
 /**
  * attach uri to button 
  */

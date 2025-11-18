@@ -3,35 +3,34 @@
 // @file: ApplicationUserProfile.php
 // @date: 20230129 13:34:47
 namespace IGK\System\Applications;
-
+use Exception;
 use IGK\Controllers\BaseController;
+use IGK\Helper\ViewHelper;
 use IGK\Models\ModelBase as ModelsModelBase;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\SystemUserProfile;
- 
-
-///<summary></summary>
+use IGKUserInfo;
 /**
 * 
 * @package IGK\System\Application
 */
 class ApplicationUserProfile extends SystemUserProfile implements ICustomUserProfile{
-
     private $m_user;
     private $m_app_user; 
-
     protected function registerProfile() { }
-
     public function user(): ModelsModelBase {
         return $this->m_app_user;
      } 
-
+    /**
+     * use use info profile 
+     * @param mixed $userInfo 
+     * @return void 
+     */
     public function setUserInfo($userInfo) {
         $this->m_profile = $userInfo;
      }
-
     public function getUserInfo(){ 
         return $this->m_profile;
     } 
@@ -45,10 +44,18 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
     public function model(): Users { 
         return $this->m_user;
     }
-
-    public function __construct(Users $user) {
+    /**
+     * construct use model 
+     * @param Users $user 
+     * @return void 
+     * @throws Exception 
+     */
+    public function __construct(Users $user, ?BaseController $ctrl=null, ?IGKUserInfo $profile = null) {
         Users::IsMockInstance($user) && igk_die('mock instance not allowed');
+        $ctrl = $ctrl ?? igk_current_ctrl();
         $this->m_user = $user; 
+        $this->m_controller = $ctrl;
+        $this->m_profile = $profile ?? $ctrl->getUser();
         parent::__construct();
     }
     /**
@@ -69,6 +76,6 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @return static 
      */
     protected static function _CreateClassInstance($user){
-        return new static($user);
+        return new static($user, ...array_slice(func_get_args(),1));
     }
 }

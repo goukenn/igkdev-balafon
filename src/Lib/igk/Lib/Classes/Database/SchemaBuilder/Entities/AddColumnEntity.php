@@ -3,20 +3,15 @@
 // @file: AddColumnEntity.php
 // @date: 20231224 14:29:52
 namespace IGK\Database\SchemaBuilder\Entities;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Database\SchemaBuilderMigration;
 use IGKException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\Database\SchemaBuilder\Entities
  */
 class AddColumnEntity extends Factory implements IDiagramVisitorEntity
 {
-
-
     public function updateSchema($schemaInfo, $operation = 'up')
     {
         // add manually update 
@@ -43,7 +38,6 @@ class AddColumnEntity extends Factory implements IDiagramVisitorEntity
         $this->_controller = $controller;
         $this->_props = $props;
         $this->_schema = $schema;
-
         $mig = new SchemaBuilderMigration;
         $mig->controller = $controller;
         $mig->listener = $this;

@@ -3,9 +3,6 @@
 // @file: IGKEnvironmentServices.php
 // @date: 20240929 13:45:10
 namespace IGK;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK
@@ -14,7 +11,6 @@ namespace IGK;
 class IGKEnvironmentServices{
     private $m_creator;
     private $m_services;
-
     public function __construct()
     {
         $this->m_services = [];

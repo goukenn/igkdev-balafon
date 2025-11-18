@@ -24,7 +24,7 @@ class IGKProcessDocument extends NonVisibleControllerBase
 	public function processFile($file=null)
 	{
 		$file = $file == null? base64_decode(igk_getr("file")): $file;
-		if (file_exists($file))
+		if (igk_io_file_exists($file))
 		{
 			//
 			$str = IO::ReadAllText($file);

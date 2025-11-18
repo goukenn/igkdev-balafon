@@ -3,17 +3,12 @@
 // @filename: HtmlSearchNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
-///<summary>Represente class: HtmlSearchNode</summary>
-
 namespace IGK\System\Html\Dom;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Html\HtmlUtils;
 use IGKValueListener;
-
 /**
-* Represente HtmlSearchNode class
+* Represent HtmlSearchNode class
 */
 final class HtmlSearchNode extends HtmlNode {
     private $m_AJX;
@@ -27,12 +22,6 @@ final class HtmlSearchNode extends HtmlNode {
     private $m_prop;
     private $m_search;
     private $m_uri;
-    ///<summary></summary>
-    ///<param name="uri" default="null"></param>
-    ///<param name="search" default="null"></param>
-    ///<param name="prop" default="q"></param>
-    ///<param name="ajx"></param>
-    ///<param name="target" default="null"></param>
     /**
     * 
     * @param mixed $uri the default value is null
@@ -53,35 +42,30 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_TargetId=$target;
         $this->initView();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getAJX(){
         return $this->m_AJX;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getMethod(){
         return $this->m_method;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getTargetId(){
         return $this->m_TargetId;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getUri(){
         return $this->m_uri;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -136,8 +120,6 @@ final class HtmlSearchNode extends HtmlNode {
             $frm["igk-ajx-form-target"]=null;
         }
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -146,8 +128,6 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_AJX=$v;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -156,8 +136,6 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_method=$v;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -166,8 +144,6 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_TargetId=$v;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -176,8 +152,6 @@ final class HtmlSearchNode extends HtmlNode {
         $this->m_uri=$v;
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v

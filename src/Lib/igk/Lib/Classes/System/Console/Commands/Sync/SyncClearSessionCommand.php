@@ -1,15 +1,12 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SyncProjectCommand.php
 // @date: 20220502 12:51:36
 // @desc: sync project to an througth ftp 
 namespace IGK\System\Console\Commands\Sync;
-
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\Logger;
 use IGK\System\IO\Path;
-
 /**
  * clear sites session 
  *  */
@@ -18,7 +15,6 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
     var $command = "--sync:clearsession";
     var $category = "sync";
     var $desc = "sync:ftp clear session";
-
     public function exec($command)
     { 
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
@@ -30,11 +26,11 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
         $sess_dir = Path::FlattenPath($setting[self::SESSION_DIR] ?? $setting[self::APP_DIR]."/../sesstemp"); //  ?? igk_die("no session dir provided");
         Logger::info("remove all lived session : ". $sess_dir);
         igk_set_timeout(0);
-
         $script_install = igk_io_sys_tempnam("blf_module_script");
         $uri = $setting["site_uri"];
         $pdir = $setting["public_dir"];
         $sb = self::GetScriptInstall([
+            'installer-core-function.pinc',
             "installer-helper.pinc",
             "sync.command.pinc"
         ], $token, "remove session");
@@ -54,7 +50,7 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             [
                 "dir"=>$sess_dir,
                 "cmd"=>"clearsession",
-                "home_dir"=>$setting["home_dir"],
+                "home_dir"=>$setting[self::HOME_DIR],
             ],
             null,
             [
@@ -65,7 +61,8 @@ class SyncClearSessionCommand extends SyncAppExecCommandBase
             Logger::print("response: ");
             Logger::print($output);
         } else {
-            Logger::danger("failed to exec"); 
+            $st = igk_curl_status();
+            Logger::danger("something bad happend. failed to exec ". $st); 
         }
         unlink($script_install);
         Logger::info('remove script');

@@ -3,12 +3,9 @@
 // @file: CheckRequirementCommand.php
 // @date: 20231019 14:09:26
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Requirement;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -28,6 +25,5 @@ class CheckRequirementCommand extends AppExecCommand{
 			return -1;
 		}
 		Logger::success('all php requirements passed');
-	
 	}
 }

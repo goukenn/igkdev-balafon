@@ -3,9 +3,6 @@
 // @file: IFormValidationField.php
 // @date: 20240104 13:47:09
 namespace IGK\System\Html\Forms;
-
-
-///<summary></summary>
 /**
  * represent a validated field info
  * @package IGK\System\Html\Forms

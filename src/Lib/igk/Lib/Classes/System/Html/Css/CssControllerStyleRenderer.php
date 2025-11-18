@@ -3,7 +3,6 @@
 // @file: CssControllerStyleRenderer.php
 // @date: 20240214 22:21:19
 namespace IGK\System\Html\Css;
-
 use Error;
 use Exception;
 use IGK\Controllers\BaseController;
@@ -16,8 +15,6 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGKOb;
 use ReflectionException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css
@@ -39,9 +36,7 @@ class CssControllerStyleRenderer{
      * @var mixed
      */
     var $theme;
-
     var $doc_id;
-
     /**
      * render style
      * @param null|BaseController $ctrl controller base of the rendering
@@ -84,10 +79,8 @@ class CssControllerStyleRenderer{
         $doc =  $this->doc;
         $cnfPath = null;
         $primaryTheme = $this->primaryTheme ?? igk_getr("theme", CssThemeOptions::DEFAULT_THEME_NAME);
-
         $vtheme = $this->theme ?? ($doc ? $doc->getTheme(false): null) ?? igk_die('no rendering theme');
         $is_ref_cache =  $doc_id = null;
-     
         if ($debug) {
             echo ("/* ------------------------------------------------ */\n");
             echo ("/* BALAFON Css DEBUG INFO : */\n");
@@ -103,7 +96,6 @@ class CssControllerStyleRenderer{
             $vdef = $vtheme->getDef();
             $in_config = igk_app()->settings->appInfo->config;
             $v_no_theme_rendering =  $in_config && $vtheme->getDef()->unsetStyleFlag('no_theme_rendering');
-    
             if ($ref && $cnfPath) {
                 if (strpos($ref, $cnfPath) !== 0) {
                     $v_no_theme_rendering = false;
@@ -111,7 +103,6 @@ class CssControllerStyleRenderer{
                     $vtheme->getDef()->setStyleFlag('page', null);
                 }
             }
-          
             // + | ----------------------------------------------------
             // + | get binding temporary theme that need to be included
             // + | clear the list before save the session
@@ -122,8 +113,9 @@ class CssControllerStyleRenderer{
             $seridata = $vtheme->to_array();
             $vtheme->reset();
             igk_sess_write_close();
-    
             $vtheme->load_data($seridata);
+           
+            
             // + | ---------------------------------------------------------------
             // + | bind controller definition   
             if ($ctrl && !$v_no_theme_rendering) {
@@ -141,20 +133,19 @@ class CssControllerStyleRenderer{
             // + | passing data to document with css
             // + |        
             if (igk_configs()->css_view_state) {
-              
                 echo ("/* document " . $ref . "::::*/  body:before{content:'referer {$ref} cached: {$is_ref_cache} {$doc_id} controller : {$ctrl} ';}");
             }
-    
             // + | compile render systheme
-            \IGK\Css\CssThemeCompiler::CompileAndRenderTheme(
-                $vsystheme,
-                $doc->getId(),
-                "sys:global",
-                true,
-                true,
-                false,
-                null
-            );
+             
+             \IGK\Css\CssThemeCompiler::CompileAndRenderTheme(
+                 $vsystheme,
+                 $doc->getId(),
+                 "sys:global",
+                 true,
+                 true,
+                 false,
+                 null
+                ); 
             if ($this->noCoreStyleDefinition){
                 ob_end_clean();
             } 
@@ -168,7 +159,6 @@ class CssControllerStyleRenderer{
         }
         $c = IGKOb::Content();
         IGKOb::Clear();
-    
         if (!igk_sys_env_production() && (igk_getr("recursion") == 1)) {
             $g = igk_get_env("sys://theme/colorrecursion");
             if (igk_count($g) === 0) {
@@ -186,7 +176,5 @@ class CssControllerStyleRenderer{
         $response->file = $referer;
         $response->no_cache = true;
         return $response;
-        
     }
-
 }

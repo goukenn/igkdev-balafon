@@ -30,7 +30,6 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
         return self::EvalBindingExpression($this->m_value, (array)$context); // "data";
     }
 }
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\System\Html\Dom
@@ -38,6 +37,11 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
  */
 class LoopHostTest extends BaseTestCase
 {
+    /**
+     * 
+     * @param string $content 
+     * @return HtmlEvalExpression 
+     */
     private function evalExpression(string $content)
     {
         return new HtmlEvalExpression($content);
@@ -50,21 +54,21 @@ class LoopHostTest extends BaseTestCase
     private function _loop_build($data): ?string
     {
         $node = igk_create_notagnode();
-        $n = new HtmlNodeBuilder($node);  
+        $n = new HtmlNodeBuilder($node);
         $n($data, null, (object)[
             'ctrl' => SysDbController::ctrl(),
             'raw' => [
                 'x' => 44,
                 'count' => 3
             ]
-        ]); 
+        ]);
         return $node->render();
     }
 
     public function test_loop_with_range()
     {
         $this->assertEquals(
-            '<span><li>item 2</li><li>item 3</li></span><p>after 44</p>',
+            '<span><li>item 2</li></span><span><li>item 3</li></span><p>after 44</p>',
             $this->_loop_build([
                 'span > loop(2..3)' => [
                     'li' => 'item {{ $raw }}'
@@ -76,7 +80,7 @@ class LoopHostTest extends BaseTestCase
     public function test_loop_with_sub_range()
     {
         $this->assertEquals(
-            '<span><ul><li>item 2</li></ul><ul><li>item 3</li></ul></span><p>after 44</p>',
+            '<span><ul><li>item 2</li></ul></span><span><ul><li>item 3</li></ul></span><p>after 44</p>',
             $this->_loop_build([
                 'span > loop(2..3) > ul' => [
                     'li' => 'item {{ $raw }}'
@@ -88,29 +92,30 @@ class LoopHostTest extends BaseTestCase
     public function test_loop_complex()
     {
         $this->assertEquals(
-            '<span><ul><li>item = 2</li></ul><ul><li>item = 3</li></ul><li>select : {"x":44,"count":3}</li> item 0  item 1  item 2  </span><p>after 44</p>',
+            '<span><ul><li>item = 2</li></ul></span><span><ul><li>item = 3</li></ul></span><li>select : {"x":44,"count":3}</li><span>item 0</span><span>item 1</span><span>item 2</span><p>after 44</p>',
             $this->_loop_build([
                 'span' => [
                     'loop(2..3) > ul' => [
                         'li' => 'item = {{ $raw }}',
                     ],
-                    ['li'=>$this->evalExpression('select : {{ $raw }}')],
-                    'loop([[:@raw["count"]]])' => 'item {{ $raw }}'
+                    ['li' => $this->evalExpression('select : {{ $raw }}')],
+                    'loop([[:@raw->count]])' => 'item {{ $raw }}'
                 ],
                 'p' => $this->evalExpression('after {{ $raw->x | json }}')
             ])
         );
     }
-    public function test_loop_complex_loop()
+    public function test_loop_second_complex_loop()
     {
         $this->assertEquals(
-            '<span><ul><li><div>subb : 2</div><span> child .... 2</span></li></ul><ul><li><div>subb : 3</div><span> child .... 3</span></li></ul></span><p>after 44</p>',
+            '<span><ul><div>subb : 2</div><span> child .... 0</span><span> child .... 1</span><span> child .... 2</span></ul></span><span><ul><div>subb : 3</div><span> child .... 0</span><span> child .... 1</span><span> child .... 2</span><span> child .... 3</span></ul></span><p>after 44</p>',
             $this->_loop_build([
                 'span' => [
                     'loop(2..3) > ul' => [
-                        'li' =>[
-                            'div'=>'subb : {{ $raw }}',
-                            'loop($raw) > span'=>' child .... {{ $raw }}'],
+                        'li' => [
+                            'div' => 'subb : {{ $raw }}',
+                            'loop($raw) > span' => ' child .... {{ $raw }}'
+                        ],
                     ],
                     // ['li'=>$this->evalExpression('select : {{ $raw }}')],
                     // 'loop([[:@raw["count"]]])' => 'item {{ $raw }}'
@@ -118,5 +123,16 @@ class LoopHostTest extends BaseTestCase
                 'p' => $this->evalExpression('after {{ $raw->x | json }}')
             ])
         );
+    }
+
+    public function test_loop_html_rendering()
+    {
+        $n = igk_create_node('div');
+        $loop = $n->span()->setAttributes([
+            'class' => 'indigo',
+        ])->loop(range(1, 3));
+        $loop->content = 'one';
+        $s = $n->render();
+        $this->assertEquals('<div><span class="indigo">one</span><span class="indigo">one</span><span class="indigo">one</span></div>',$s);
     }
 }

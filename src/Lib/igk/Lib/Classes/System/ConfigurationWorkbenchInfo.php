@@ -3,9 +3,6 @@
 // @file: ConfigurationWorkbenchInfo.php
 // @date: 20240816 08:12:34
 namespace IGK\System;
-
-
-///<summary></summary>
 /**
  * the workbench information
  * @package IGK\System
@@ -13,7 +10,6 @@ namespace IGK\System;
  */
 class ConfigurationWorkbenchInfo
 {
-
     /**
      * target controller entry point
      * @var mixed

@@ -3,11 +3,8 @@
 // @file: ReadTokenStructInfo.php
 // @date: 20221019 20:50:30
 namespace IGK\System\Runtime\Compiler;
-
 use IGK\System\IO\StringBuilder;
 use IGKException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler
@@ -20,7 +17,6 @@ class ReadTokenStructInfo
      * @var string
      */
     var $type;
-
     /**
      * name of the struct
      * @var ?string
@@ -36,67 +32,54 @@ class ReadTokenStructInfo
      * @var ?string
      */
     var $phpDoc;
-
     /**
      * buffer string. store read data
      * @var string
      */
     var $buffer;
-
     /**
      * modifier attached
      * @var ?array
      */
     var $modifiers;
-
     /**
      * depth read
      * @var int
      */
     var $depth = 0;
-
     /**
      * 
      * @var ReadTokenStructInfo
      */
     var $parent;
-
     /**
      * read code flag
      * @var bool
      */
     var $readCode = false;
-
     var $extends;
-
     var $implements;
-
     /**
      * child structs 
      * @var array
      */
     var $structs = [];
-
     /**
      * child uses
      * @var array
      */
     var $uses = [];
-
     /**
      * store variable
      * @var array
      */
     var $variables = [];
-
     /**
      * store code ouput
      * @var mixed
      */
     protected $m_output;
-
     var $mergeVariable =false;
-
     public function __construct(string $type)
     {
         if (!in_array($type, ["trait", "interface", "class", "function"])) {
@@ -123,7 +106,7 @@ class ReadTokenStructInfo
         $depth = str_repeat("\t", $this->depth + 1);
         $noComment = $options && $options->noComment; 
         if (!$noComment){
-            $comment = $this->comment ?? "///<summary></summary>";
+            $comment = $this->comment ?? ''; 
             $phpDoc = $this->phpDoc ?? "/**\n* \n*/";
             $sb->appendLine($comment);
             $sb->appendLine($phpDoc);
@@ -148,7 +131,6 @@ class ReadTokenStructInfo
             $sb->appendLine(rtrim(ReadTokenUtility::GenerateVariables($this->variables, $this->mergeVariable))); 
             $sb->appendLine();
         }
-
         if ($this->structs){
             $sb->appendLine();
             $sb->appendLine(rtrim(ReadTokenUtility::GenerateStruct($this->structs, false, $options)));
@@ -163,7 +145,6 @@ class ReadTokenStructInfo
      * @return mixed 
      */
     public function output(?IReadTokenMergeOption $options=null){ 
-        
         $bck = & $this->buffer ;
         $this->m_output = "";
         $this->buffer = & $this->m_output;
@@ -172,7 +153,6 @@ class ReadTokenStructInfo
         $this->buffer = & $bck;
         return $this->m_output;
     }
-
     public function initFlagOption(ReadTokenOptions $options){
         return ["op"=>"name"];
     }

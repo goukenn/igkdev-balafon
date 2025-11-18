@@ -5,18 +5,15 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\UsersConfigurationController;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\JsonResponse;
 use IGKResourceUriResolver;
-
 /**
  * represent system controller
  * @package IGK\Controllers
@@ -28,7 +25,6 @@ final class SystemController extends NonVisibleControllerBase{
         return implode("/", [$uri, $path]);        
     }
     public function logout(){
-     
         UsersConfigurationController::ctrl()->logout();   
         if ($sess = igk_app()->getApplication()->getLibrary()->session){
             $sess->destroy();            
@@ -37,12 +33,9 @@ final class SystemController extends NonVisibleControllerBase{
         $redirect = urldecode(igk_getr("redirect_uri", "/")); 
         igk_navto($redirect);
     }
-    ///<summary></summary>
     public function __construct(){
         parent::__construct();
     }
-    ///<summary></summary>
-    ///<param name="frm"></param>
     private function _buildForm($frm){
         $this->m_fontList=$this->_getFontList();
         igk_notifyctrl()->setNotifyHost($frm->div());
@@ -64,7 +57,7 @@ final class SystemController extends NonVisibleControllerBase{
                     "igk-font-name"=>base64_encode($k),
                     "onclick"=>"javascript:window.igk.system.fonts.installFont(this, '{$uri}'); return false;"
                 ));
-                if(file_exists($f))
+                if(igk_io_file_exists($f))
                     $cdiv["style"] .= "color:#9A9A9A;";
                 else
                     $cdiv["style"] .= "color:#3A3A3A;";
@@ -76,10 +69,9 @@ final class SystemController extends NonVisibleControllerBase{
             $div->addNotifyBox("danger")->Content="/!\ No fonts definition found";
         }
     }
-    ///<summary></summary>
     private function _getFontList(){
         $file=igk_sys_cgi_folder()."/cscgi/fontlist.cgi";
-        if(file_exists($file)){
+        if(igk_io_file_exists($file)){
             $count=0;
             $resolver=IGKResourceUriResolver::getInstance();
             $resolver->fulluri=1;
@@ -102,8 +94,6 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="lang" default="null"></param>
     public function changeLang_ajx($lang=null){ 
         $doc=igk_get_last_rendered_document();   
         if($doc !== null){
@@ -132,8 +122,6 @@ final class SystemController extends NonVisibleControllerBase{
         }
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     public function changeTheme($name){
         $s=igk_sys_srv_referer();
         if(empty($s)){
@@ -144,11 +132,9 @@ final class SystemController extends NonVisibleControllerBase{
         igk_css_render_balafon_style(igk_app()->getDoc());
         igk_exit();
     }
-    ///<summary></summary>
     public function getFontDir(){
         return igk_io_syspath(IGK_RES_FONTS);
     }
-    ///<summary></summary>
     public function getFontList(){
         static $fontlist=null;
         if($fontlist === null){
@@ -160,16 +146,12 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return $fontlist;
     }
-    ///<summary></summary>
     public function getName(){
         return IGK_SYS_CTRL;
     }
-    ///<summary></summary>
     protected function initComplete($context=null){
         parent::initComplete();
     }
-    ///<summary></summary>
-    ///<param name="name" default="null"></param>
     public function installfont($name=null){
         $n=($name == null) ? base64_decode(igk_getr("n")): $name;
         if($this->m_fontList && isset($this->m_fontList->fonts[$n])){
@@ -182,7 +164,6 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return false;
     }
-    ///<summary></summary>
     public function installfont_ajx(){
         if(igk_parsebool($this->installfont())){
             $node=$this->getParam("sys:viewnode");
@@ -197,12 +178,9 @@ final class SystemController extends NonVisibleControllerBase{
             $frm->renderAJX();
         }
     }
-    ///<summary>Represente IsFunctionExposed function</summary>
-    ///<param name="n"></param>
     public function IsFunctionExposed($n){
         return true;
     }
-    ///<summary></summary>
     public function mod_rewrite(){
         if(igk_getv($_SERVER, 'IGK_REWRITE_MOD') || (igk_server()->REDIRECT_URL && (igk_getr('rwc') > 0))){
             igk_wl(1);
@@ -211,20 +189,14 @@ final class SystemController extends NonVisibleControllerBase{
         igk_wl(0);
         igk_exit();
     }
-    ///<summary></summary>
     public function update(){    }
-    ///<summary></summary>
     public function upload(){
         igk_wln_e("upload file ");
     }
-    ///<summary></summary>
     public function viewFontList(){
         $r=$this->_getFontList();
         igk_wl($r);
     }
-    ///<summary></summary>
-    ///<param name="node"></param>
-    ///<param name="ctrl" default="null"></param>
     public function viewInstallFontForm($node, $ctrl=null){
         $frm=$node->addForm();
         $this->setParam("sys:binding", array("form"=>$frm, "ctrl"=>$ctrl));

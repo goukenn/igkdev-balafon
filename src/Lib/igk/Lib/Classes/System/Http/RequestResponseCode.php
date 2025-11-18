@@ -3,9 +3,7 @@
 // @filename: RequestResponseCode.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Http;
-
 /**
  * request code 
  * @package IGK\System\Http
@@ -16,7 +14,6 @@ abstract class RequestResponseCode{
     const MovePermanently = 301;
     const Found = 302;
     const SeeOther = 303;
-
     const BadRequest = 400;
     const Unauthorized = 401;
     const PaymentRequired=402;

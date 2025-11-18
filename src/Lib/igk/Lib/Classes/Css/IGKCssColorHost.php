@@ -3,12 +3,9 @@
 // @filename: IGKCssColorHost.php
 // @date: 20220729 08:59:16
 // @desc: 
-
 namespace IGK\Css;
-
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
 class IGKCssColorHost implements ArrayAccess{
     use ArrayAccessSelfTrait;
     const PRIMARY_COLOR = 'inherit';

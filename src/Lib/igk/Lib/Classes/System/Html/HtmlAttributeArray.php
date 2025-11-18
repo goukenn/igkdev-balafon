@@ -3,19 +3,14 @@
 // @filename: HtmlAttributeArray.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use ArrayAccess;
 use IGK\System\Collections\ArrayList;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
 use ReflectionException;
-
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlActiveAttrib.php";
-
 class HtmlAttributeArray extends ArrayList implements ArrayAccess
 {
     use ArrayAccessSelfTrait;
@@ -81,7 +76,6 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
     protected function _access_OffsetGet($n)
     {
-      
         if ($this->m_protectedList && isset($this->m_protectedList[$n])) {
             return $this->m_protectedList[$n];
         }

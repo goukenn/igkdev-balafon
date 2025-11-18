@@ -1,25 +1,20 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: FormHelper.php
 // @date: 20220531 11:45:52
 // @desc: 
 namespace IGK\System\Html\Forms;
-
 use Closure;
 use IGKException;
-
 /**
  * helper to get basic hml form
  * @package 
  */
 class FormHelper{
-
     public static function ConvertToInputDateTimelocal(string $datevalue) {
         $i =  strtotime($datevalue);
         return date('Y-m-d', $i).'T'.date('H:i', $i);
     }
-
     /**
      * get submit callable
      * @return Closure 
@@ -47,9 +42,7 @@ class FormHelper{
     public static function SelectOptions($data, string $key, string  $name,?array $options=null){
         if ($options && !key_exists('no_sort_text', $options))
             $options['no_sort_text'] = 1;
- 
        $data = FormUtils::SelectData($data, $key, $name, $options); 
-    
         return implode("", array_map(self::_InitOption($options), $data));
     }
     /**
@@ -59,7 +52,6 @@ class FormHelper{
      */
     public static function  _InitOption($options){
         //
-        
         return function ($d)use($options){
             $k_data = "";
             $bas = isset($options["selected"]) ? $options["selected"] : null;
@@ -67,14 +59,12 @@ class FormHelper{
                 $k_data = " data=\"" . $m_data . "\"";
             }
             if ($bas && ($bas == $d['i'])){
-                
                 // igk_wln_e("selected ".$bas, $d['i']);
                 $k_data.= ' selected="selected"';
             }
             return '<option value="'.$d['i'].'"'.$k_data.'>'.$d['t'].'</option>';
         };
     }
-
     /**
      * helper : create a month selection
      * @param null|string $year 

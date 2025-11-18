@@ -3,11 +3,7 @@
 // @filename: AuthorisationController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\Authorization;
 use IGK\Helper\NotifyHelper;
@@ -24,9 +20,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Views;
 use IGKSysUtil;
-
 use function igk_resources_gets as __;
-
 class AuthorisationController extends ConfigControllerBase{
     public function getName(){
         return  IGK_AUTH_CTRL;
@@ -42,16 +36,14 @@ class AuthorisationController extends ConfigControllerBase{
     {
         return true;
     }
-     ///<summary>Represente getConfigCategory function</summary>
-    /**
-    * Represente getConfigCategory function
+     /**
+    * Represent getConfigCategory function
     */
     public function getConfigCategory(){
         return "administration";
     }
-    ///<summary>Represente getConfigPage function</summary>
     /**
-    * Represente getConfigPage function
+    * Represent getConfigPage function
     */
     public function getConfigPage(){
         return "auth";
@@ -67,23 +59,16 @@ class AuthorisationController extends ConfigControllerBase{
             "administration")
         );
     }
-    
-   
-    ///<summary>Represente _auth_options function</summary>
-    ///<param name="frm"></param>
     /**
-    * Represente _auth_options function
+    * Represent _auth_options function
     * @param  $frm
     */
     private function _auth_options($frm){
         $frm->span()->ajxa($this->getUri("auth_add_authorisation_ajx"))->Content = igk_svg_use("add");
         // IGKHtmlUtils::AddImgLnk($frm->addspan(), igk_js_post_frame($this->getUri("auth_add_authorisation_ajx")), "add_16x16");
     }
-    ///<summary>Represente _isAuth function</summary>
-    ///<param name="q"></param>
-    ///<param name="t"></param>
     /**
-    * Represente _isAuth function
+    * Represent _isAuth function
     * @param  $q
     * @param  $t
     */
@@ -100,12 +85,10 @@ class AuthorisationController extends ConfigControllerBase{
     //     $limit = null;
     //     if ($c>0){
     //         $blimit = igk_getv($options, "Limit", PageLayout::ItemLimits());
-            
     //         if ($c < $blimit){
     //             $pan = new Pagination();
     //             $options["Limit"] = $pan->getLimit();
     //         }
-
     //         if ($r= $model::select_all($conditions, $options)){
     //             foreach($r as $v){
     //                 $callback($target, $v);
@@ -116,7 +99,7 @@ class AuthorisationController extends ConfigControllerBase{
     // }
     ///<summary>Represente auth function</summary>
     /**
-    * Represente auth function
+    * Represent auth function
     */
     public function auth(){ 
         $r = igk_create_notagnode();
@@ -127,7 +110,6 @@ class AuthorisationController extends ConfigControllerBase{
         $this->_auth_options($frm);
         $table=$frm->div()->setClass("overflow-x-a")->table();
         $table["class"]="igk-table igk-table-striped igk-table-hover";
-        
         $tr=$table->addTr();
         $tr->th()->addSpace();
         $tr->th()->setClass("fitw")->Content=R::ngets("lb.clName");
@@ -151,9 +133,8 @@ class AuthorisationController extends ConfigControllerBase{
         $this->auth()->renderAJX();
         igk_exit();
     }
-    ///<summary>Represente auth_add_authorisation_ajx function</summary>
     /**
-    * Represente auth_add_authorisation_ajx function
+    * Represent auth_add_authorisation_ajx function
     */
     public function auth_add_authorisation_ajx(){
         if(igk_qr_confirm()){
@@ -178,11 +159,9 @@ class AuthorisationController extends ConfigControllerBase{
         $frm->confirm();
         $frm->submit("submit");
         igk_ajx_panel_dialog(__("add auth"), $d);
-      
     }
-    ///<summary>Represente auth_add_group_ajx function</summary>
     /**
-    * Represente auth_add_group_ajx function
+    * Represent auth_add_group_ajx function
     */
     public function auth_add_group_ajx(){
         $id=igk_getr("clId");
@@ -229,7 +208,6 @@ class AuthorisationController extends ConfigControllerBase{
             $frame->RenderAJX();
         }
     }
-    ///<summary>check user auth </summary>
     /**
     * check user auth 
     */
@@ -250,17 +228,14 @@ class AuthorisationController extends ConfigControllerBase{
         $d->addObData($v_r);
         $d->div()->Content="Autorisation : ".$v_r;
         $b->addMsg($d, $t);
-        
         if (igk_is_ajx_demand()){
             igk_ajx_toast($t);
         }else{
-            
         }
         //igk_navto($this->getUri('showConfig').'#'.__FUNCTION__);
     }
-    ///<summary>Represente auth_delete_authorisation_ajx function</summary>
     /**
-    * Represente auth_delete_authorisation_ajx function
+    * Represent auth_delete_authorisation_ajx function
     */
     public function auth_delete_authorisation_ajx(){
         $id=igk_getr("clId");
@@ -277,9 +252,8 @@ class AuthorisationController extends ConfigControllerBase{
             $frame->RenderAJX();
         }
     }
-    ///<summary>Represente auth_edit_frame_ajx function</summary>
     /**
-    * Represente auth_edit_frame_ajx function
+    * Represent auth_edit_frame_ajx function
     */
     public function auth_edit_frame_ajx(){
         $id=igk_getr("clId");
@@ -339,9 +313,8 @@ class AuthorisationController extends ConfigControllerBase{
             $frame->RenderAJX();
         }
     }
-    ///<summary>Represente auth_remove_group_ajx function</summary>
     /**
-    * Represente auth_remove_group_ajx function
+    * Represent auth_remove_group_ajx function
     */
     public function auth_remove_group_ajx(){
         if(igk_qr_confirm()){
@@ -366,9 +339,8 @@ class AuthorisationController extends ConfigControllerBase{
             $frame->RenderAJX();
         }
     }
-    ///<summary>Represente checkauth function</summary>
     /**
-    * Represente checkauth function
+    * Represent checkauth function
     */
     public function checkauth(){
         $d=igk_create_node("div");
@@ -382,10 +354,7 @@ class AuthorisationController extends ConfigControllerBase{
         $li=$ul->addLi();
         $li->addLabel()->Content=R::ngets("lb.users");
         $select=$li->addSelect("clUser");
-
        //  Users::select_fetch();
-
-
         $r= Users::select_all(); // igk_db_table_select_where(IGK_TB_USERS, null, $this);
         $cg = Authorizations::select_all(['!clController'=>null], ['Distinct'=>true, 'OrderBy'=>[
             'clController'
@@ -396,7 +365,6 @@ class AuthorisationController extends ConfigControllerBase{
             'empty'=>['text'=>'no controller', 'value'=>0],
             'offset'=>1
         ]);
- 
         $select->add("option");
         if($r) foreach($r as  $v){
             if($v->clLastName == "IGKSystem")
@@ -411,26 +379,17 @@ class AuthorisationController extends ConfigControllerBase{
             // 'clController'=>[],
             'clController'=>['type'=>'select', 'data'=>$data]
         ]); 
-        $frm->actionbar(FormHelper::submit()); // null, __("Check autorisation")));
+        $frm->actionbar(FormHelper::submit()); // null, __("Check authorisation")));
         return $d;
     }
-   
-     
-    
-    ///<summary>Represente getDataTableName function</summary>
     /**
-    * Represente getDataTableName function
+    * Represent getDataTableName function
     */
     public function getDataTableName(): ?string{
         return Groupauthorizations::table(); 
     }
-    ///<summary>Represente IsUserAuthorized function</summary>
-    ///<param name="s"></param>
-    ///<param name="actionName"></param>
-    ///<param name="authTable" default="IGK_TB_AUTHORISATIONS"></param>
-    ///<param name="userGroupTable" default="IGK_TB_GROUPAUTHS"></param>
     /**
-    * Represente IsUserAuthorized function
+    * Represent IsUserAuthorized function
     * @param  $s
     * @param  $actionName
     * @param  $authTable the default value is IGK_TB_AUTHORISATIONS
@@ -443,10 +402,8 @@ class AuthorisationController extends ConfigControllerBase{
             return true;
         return igk_db_is_user_authorized($s, $actionName, $authTable, $userGroupTable);
     }
-   
-    ///<summary>Represente View function</summary>
     /**
-    * Represente View function
+    * Represent View function
     */
     public function View():BaseController{ 
         $t = $this->getTargetNode();
@@ -496,7 +453,6 @@ class AuthorisationController extends ConfigControllerBase{
         }
         $buri=igk_register_temp_uri(__CLASS__);
         $g_group_uri = $buri.'/list_group_ajx';
-        
         $frm = $n->form($buri."/".__FUNCTION__);
         $frm->div()->notifyhost(__FUNCTION__);
         $frm->ajx();
@@ -545,7 +501,6 @@ class AuthorisationController extends ConfigControllerBase{
     igk.ready(_NS.init);
 })();
 JS;
-         
         return $n;
     }
     public function list_group_ajx(){
@@ -557,8 +512,6 @@ JS;
         ->execute();
         $n = igk_create_notagnode();
         $n->Content = FormHelper::SelectOptions($g->to_array(), "clId", "clName");
-        
         return $n;
-
     }
 }

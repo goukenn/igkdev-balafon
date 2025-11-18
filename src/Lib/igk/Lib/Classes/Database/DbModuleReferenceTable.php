@@ -3,14 +3,11 @@
 // @file: DbModuleReferenceTable.php
 // @date: 20221116 12:24:15
 namespace IGK\Database;
-
 use ArrayAccess;
 use IDbGetTableReferenceHandler;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Database
@@ -59,7 +56,6 @@ class DbModuleReferenceTable implements ArrayAccess{
         // possibility of definition in global system 
         /** load only definition without altering the table */
         $table = $this->m_controller->resolvTableDefinition($n);
-      
         if (is_null($table) || is_array($table)){
             igk_wln_e(__FILE__.":".__LINE__,  "global table not found ",$n, $table);
         }
@@ -68,8 +64,5 @@ class DbModuleReferenceTable implements ArrayAccess{
         //     get_class($host);
         $this->m_request_changed[$n] = & $table; 
         return $table;
-        
     }
 }
-
-

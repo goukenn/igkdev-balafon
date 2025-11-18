@@ -3,11 +3,6 @@
 // @filename: IGKLog.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
-///<summary>Represente class: IGKLog</summary>
-
 use IGK\Database\DataAdapterBase;
 use IGK\Helper\ExceptionUtils;
 use IGK\Helper\IO;
@@ -16,10 +11,8 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\NotImplementException;
- 
-
 /**
- * Represente IGKLog class
+ * Represent IGKLog class
  */
 final class IGKLog extends IGKObject
 { 
@@ -29,14 +22,12 @@ final class IGKLog extends IGKObject
      */
     private static $sm_loggin = false;
     private static $sm_instance;
-    ///<summary></summary>
     /**
      * 
      */
     private function __construct()
     {
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -49,7 +40,6 @@ final class IGKLog extends IGKObject
     public function write_i_data(){
         throw new NotImplementException(__METHOD__);
     }
-    ///<summary></summary>
     /**
      * @return static
      */
@@ -76,7 +66,6 @@ final class IGKLog extends IGKObject
         }
         return $f;
     }
-    ///<summary>write log to IGK_LOG_FILE</summary>
     /**
      * write log to IGK_LOG_FILE
      * @param mixed $msg
@@ -89,7 +78,6 @@ final class IGKLog extends IGKObject
             return;
         }
         self::$sm_loggin = true;
-
         if (!defined('IGK_NO_TRACELOG')) {
             if (!igk_sys_env_production()) {
                 igk_ilog_trace(igk_trace_function(2 + $traceindex));
@@ -100,9 +88,7 @@ final class IGKLog extends IGKObject
             $tag = IGK_LOG_SYS;
         } 
         $f = self::GetSystemLogFile();
-       
         igk_log_append($f, $msg, $tag);
-        
         if (is_array($msg)) {
             $s = "Array(" . count($msg) . "):[\n";
             foreach ($msg as $k => $v) {
@@ -118,11 +104,9 @@ final class IGKLog extends IGKObject
             $s .= "]";
             $msg = $s;
         }
-        
         if (igk_environment()->isDev()) {
             error_log("[{$tag}] - $msg");
         }
-
         // + | ---------------------------------------------------
         // + | log running data to running app
         // + |
@@ -179,22 +163,28 @@ final class IGKLog extends IGKObject
         }
         return false;
     }
-    ///<summary></summary>
     /**
-     * 
+     * get writing log file 
+     * @return string
      */
     public function getLogFile()
     {  
         return igk_getv(igk_configs(), "LogFile") ?? $this->getDefaultLogFile(); 
     }
-    public function getDefaultLogFile(){
-        return igk_io_cachedir()."/Data/Logs/.global." . igk_environment()->getToDay() . ".log"; 
+    /**
+     * get default log file
+     * @return string 
+     */
+    public function getDefaultLogFile():string{
+        return igk_io_cachedir()."/Data/Logs/.global." . igk_environment()->getToDay() . IGK_LOG_FILE_EXT; 
     }
-    public function getDefaultErrorLogFile(){
-        return igk_io_cachedir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . ".log"; 
+    /**
+     * get default log file
+     * @return string 
+     */
+    public function getDefaultErrorLogFile():string{
+        return igk_io_cachedir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . IGK_LOG_FILE_EXT; 
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     /**
      * 
      * @param mixed $msg
@@ -203,10 +193,6 @@ final class IGKLog extends IGKObject
     {
         $this->write_i("IGKLOG", $msg);
     }
-    ///<summary></summary>
-    ///<param name="tag"></param>
-    ///<param name="message"></param>
-    ///<param name="eval" default="1"></param>
     /**
      * 
      * @param mixed $tag
@@ -227,9 +213,9 @@ final class IGKLog extends IGKObject
             $message = "Array[" . $c . "]";
         }
         $r = null;
-        if (!file_exists($f) && !IO::CreateDir(dirname($f)))
+        if (!igk_io_file_exists($f) && !IO::CreateDir(dirname($f)))
             return;
-        $r = @fopen($f, file_exists($f) ? "a+" : "w+");
+        $r = @fopen($f, igk_io_file_exists($f) ? "a+" : "w+");
         if (is_array($message)) {
             IGKOb::Start();
             var_dump($message);

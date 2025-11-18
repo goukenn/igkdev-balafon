@@ -3,9 +3,6 @@
 // @file: IDiagramSchemaColumn.php
 // @date: 20231222 14:34:12
 namespace IGK\Database\SchemaBuilder;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\SchemaBuilder

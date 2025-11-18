@@ -7,7 +7,6 @@ namespace IGK\Tests\System\DBUtilityTests;
 use IGK\System\Database\Helper\DbUtility;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\DBUtilityTests

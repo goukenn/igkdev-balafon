@@ -19,14 +19,14 @@ class HtmlLoopTest extends BaseTestCase
         $t->div()->loop(3)->div()->host(function ($a) {
             $a["*class"] = [
                 "presentation" => true,
-            //     "info" => false
+                //     "info" => false
             ];
             $a->Content = " welcome {{ \$raw }} ";
         });
         $b = $t->render();
-        
-        $this->assertEquals(            
-            '<div><div><div class="presentation"> welcome 0 </div><div class="presentation"> welcome 1 </div><div class="presentation"> welcome 2 </div></div></div>',
+
+        $this->assertEquals(
+            '<div><div><div class="presentation"> welcome 0 </div></div><div><div class="presentation"> welcome 1 </div></div><div><div class="presentation"> welcome 2 </div></div></div>',
             $b,
         );
     }
@@ -48,41 +48,42 @@ class HtmlLoopTest extends BaseTestCase
             $a["*class"] = "igk_css_litteral([\$raw==1 ? 'item-2':null, \$raw==2 ? 'item-3': null])";
             $a->Content = " welcome {{ \$raw }} ";
         });
-
+        $s = $t->render();
         $this->assertEquals(
-            '<div><div><div class=""> welcome 0 </div><div class="item-2"> welcome 1 </div><div class="item-3"> welcome 2 </div></div></div>',
-            $t->render(),
+            '<div><div><div class=""> welcome 0 </div></div><div><div class="item-2"> welcome 1 </div></div><div><div class="item-3"> welcome 2 </div></div></div>',
+            $s,
         );
     }
 
     public function test_loop_class_href()
     {
-        $t = new HtmlNode("div");
+        $t = new HtmlNode("p");
         $t->div()->loop(3)->div()->host(function ($a) {
             $a["*class"] = "igk_css_litteral([\$raw==1 ?\"item-2\":null, \$raw==2 ? \"item-3\": null])";
-            $a->a('#')->setAttribute("*href", '$raw')->Content = "data";
+            $lnk = $a->a('#')->setAttribute("*href", '$raw');
+            $lnk->Content = "data";
             $a->Content = " welcome {{ \$raw }} ";
         });
-        $options = (object)["PreserveAttribOrder"=>true];
-        $options = (object)["PreserveAttribOrder"=>false];
- 
+        $options = ["PreserveAttribOrder" => false];
+        $s = $t->render($options);
+
         $this->assertEquals(
-            '<div><div><div class=""> welcome 0 <a href="0">data</a></div><div class="item-2"> welcome 1 <a href="1">data</a></div><div class="item-3"> welcome 2 <a href="2">data</a></div></div></div>',
-            $t->render($options),
+            '<p><div><div class=""> welcome 0 <a href="0">data</a></div></div><div><div class="item-2"> welcome 1 <a href="1">data</a></div></div><div><div class="item-3"> welcome 2 <a href="2">data</a></div></div></p>',
+            $s
         );
     }
 
     public function test_loop_class_key()
-    { 
+    {
         $t = new HtmlNode("div");
-        $t->div()->loop(3)->div()->host(function ($a) {
+        $t->p()->loop(3)->div()->host(function ($a) {
             $a->a('#')->setAttribute("*href", '$raw')->Content = "data";
             $a->Content = " welcome {{ \$raw }} - {{ \$key }}";
         });
         $s = $t->render();
         $this->assertEquals(
-            '<div><div><div> welcome 0 - 0<a href="0">data</a></div><div> welcome 1 - 1<a href="1">data</a></div><div> welcome 2 - 2<a href="2">data</a></div></div></div>',
-           $s
+            '<div><p><div> welcome 0 - 0<a href="0">data</a></div></p><p><div> welcome 1 - 1<a href="1">data</a></div></p><p><div> welcome 2 - 2<a href="2">data</a></div></p></div>',
+            $s
         );
     }
 
@@ -101,6 +102,27 @@ class HtmlLoopTest extends BaseTestCase
             $s,
         );
     }
+
+    /**
+     * writing with loop and host method 
+     * @return void 
+     */
+    public function test_coredom_loop()
+    {
+        $n = igk_create_notagnode();
+        // loop interre node 
+        $n->div()->loop([1, 2, 3])->li()->Content = 'hello world';
+        $this->assertEquals('<div><li>hello world</li></div><div><li>hello world</li></div><div><li>hello world</li></div>', $n->render(), 
+        'Looping entirely node failed');
+
+        $n = igk_create_notagnode();
+        $n->div()->loop([1, 2, 3])->host(function ($n, $i) {
+            $n->li()->Content = sprintf('hello world %s', $i);
+        });
+        $this->assertEquals('<div><li>hello world 1</li><li>hello world 2</li><li>hello world 3</li></div>', $n->render(),
+        'Loop host failed');
+    }
+
 
     // public function test_loop_with_class_array_off_expression()
     // {

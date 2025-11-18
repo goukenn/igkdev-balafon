@@ -1,9 +1,6 @@
 <?php
-
 namespace IGK\System\Html\Css;
-
 use IGK\System\IO\Configuration\ConfigurationReader;
-
 /**
  * gobal css parser
  * @package IGK\System\Html\Css
@@ -13,7 +10,6 @@ class GlobalCssParser{
     var $source;
     private function __construct()
     {
-        
     }
     public static function Parse(string $content){
         $ln = strlen($content);
@@ -44,7 +40,6 @@ class GlobalCssParser{
             $def = new self;
             $def->definition = $pg;
             $def->source = $content;
-
         }
         return $def;
     }

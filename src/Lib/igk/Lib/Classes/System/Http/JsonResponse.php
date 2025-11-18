@@ -3,14 +3,9 @@
 // @filename: JsonResponse.php
 // @date: 20220803 13:48:55
 // @desc: 
-
- 
-
 namespace IGK\System\Http;
-
 use Exception;
 use IGK\Helper\Utility;
-
 /**
  * represent request response
  * @package IGK\System\Http
@@ -34,7 +29,6 @@ class JsonResponse extends RequestResponse{
             $headers = array_filter($headers, function($f){
                 return !igk_str_startwith($f,'Content-Type');
             });
-
             $this->headers = array_merge($headers, $this->headers);
         }
         parent::__construct();

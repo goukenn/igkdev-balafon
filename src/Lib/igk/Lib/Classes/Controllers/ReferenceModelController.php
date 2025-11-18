@@ -3,23 +3,14 @@
 // @filename: ReferenceModelController.php
 // @date: 20220311 15:59:05
 // @desc: reference model controller
-
 namespace IGK\Controllers;
-
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\ReferenceModels;
 use IGK\System\Number;
-
-///<summary> used for referencing global value data</summary>
 /**
 *  used for referencing global value data
 */
 final class ReferenceModelController extends NonVisibleControllerBase{
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="model" default="null"></param>
-    ///<param name="base" default="36"></param>
-    ///<param name="ref" default="6"></param>
     /**
     * 
     * @param mixed $ctrl
@@ -30,31 +21,24 @@ final class ReferenceModelController extends NonVisibleControllerBase{
     public function get_ref($ctrl, $model=null, $base=36, $ref=6){
         return \IGK\Models\ReferenceModels::get_ref($ctrl, $model, $base, $ref); 
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getDataTableName(): ?string{
         return \IGK\Models\ReferenceModels::table(); 
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getName(){
         return IGK_CB_REF_CTRL;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
-    ///<param name="productTypeTable"></param>
-    ///<param name="prefix" default="null"></param>
     /**
     * 
     * @param mixed $t

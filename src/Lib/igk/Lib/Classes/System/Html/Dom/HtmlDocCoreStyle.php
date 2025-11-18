@@ -1,14 +1,11 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: HtmlDocCoreStyle.php
 // @date: 20220823 14:11:34
 // @desc: core style uri
 namespace IGK\System\Html\Dom;
-
 use IGK\Helper\ViewHelper;
 use IGK\System\Html\Dom\HtmlCssLinkNode;
-
 /**
  * Document core style manager
  * @package IGK\System\Html\Dom

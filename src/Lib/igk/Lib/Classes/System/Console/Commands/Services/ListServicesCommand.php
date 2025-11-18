@@ -1,0 +1,30 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: ListServicesCommand.php
+// @date: 20250815 16:38:34
+namespace IGK\System\Console\Commands\Services;
+
+use IGK\System\Console\AppExecCommand;
+use IGKServices;
+
+/**
+* 
+* @package IGK\System\Console\Commands\Services
+* @author C.A.D. BONDJE DOUE
+*/
+class ListServicesCommand extends AppExecCommand{
+	var $command='--services:list';
+	var $desc='list registrated services provider';
+	/* var $options=[]; */
+	/* var $category = ''; */
+	var $usage = '[options]';
+	public function exec($command) { 
+		$ic = IGKServices::getInstance();
+		if ($ic instanceof IGKServices){
+			$l = $ic->services();
+			$v_keys = array_keys($l);
+			sort($v_keys);
+			igk_wln_e(json_encode(array_keys($l), JSON_PRETTY_PRINT));
+		}
+	}
+}

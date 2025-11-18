@@ -3,8 +3,9 @@
 // @file: SelectCommand.php
 // @date: 20230725 12:03:45
 namespace IGK\System\Console\Commands\Database;
-
+use IGK\Database\DbColumnInfo;
 use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
 use IGK\Helper\SysUtils;
 use IGK\Models\ModelBase;
 use IGK\System\Console\AppExecCommand;
@@ -13,8 +14,6 @@ use IGK\System\Database\Mapping\DefaultMap;
 use IGK\System\Database\Mapping\MappedData;
 use IGK\System\IO\Configuration\ConfigurationReader;
 use IGK\System\Mapping\Helper\ArrayMapHelper;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands\Database
@@ -31,6 +30,7 @@ class SelectCommand extends AppExecCommand
 		'--map:column=map,...' => 'map list column',
 		'--like:expression' => 'select with search expression.',
 		'--arg:[value]+' => 'argument for macros function',
+		'--pretty'=>'flag: pretty print json result'
 	];
 	var $category = 'db';
 	var $usage = '[controller] model[.macrosFunction] [options]';
@@ -48,14 +48,15 @@ class SelectCommand extends AppExecCommand
 		$columns = igk_getv($command->options, '--columns');
 		$like = igk_getv($command->options, '--like');
 		$map = igk_getv($command->options, '--map');
+		$pretty = property_exists($command->options, '--pretty');
 		if ($limit) {
 			$limit = array_map([ArrayMapHelper::class, 'DieNumberMap'], explode($v_sep, $limit, 2));
 		}
-
 		$ctrl = self::GetController($ctrl);
 		$tab = explode('.', $model, 2);
 		$model = array_shift($tab);
 		$m = $ctrl->model($model) ?? igk_die(sprintf("missing model - [%s]", $model));
+		$v_private_fields = $m->getColumnPrivateFields();
 		if (count($tab) > 0) {
 			$args = igk_getv($command->options, '--arg', []);
 			if ($method = trim(array_shift($tab))) {
@@ -70,7 +71,6 @@ class SelectCommand extends AppExecCommand
 				igk_exit();
 			}
 		}
-
 		$count = property_exists($command->options, '--count');
 		if ($count) {
 			echo "count(*) " . $m->count() . PHP_EOL;
@@ -94,6 +94,13 @@ class SelectCommand extends AppExecCommand
 			$like = $conf->read($like);
 			$v_cond = (array)$like;
 		}
+		$v_ckeys = array_keys($v_private_fields);
+		$options['@callback']=function($row)use ($v_ckeys){
+			foreach($v_ckeys as $k){
+				unset($row->{$k});
+			}
+			return $row;
+		};
 		$g = $m->select_all($v_cond, $options);
 		if ($map) {
 			// mapping
@@ -101,7 +108,8 @@ class SelectCommand extends AppExecCommand
 			$map = $v_conf->read($map);
 			$g = DefaultMap::MapModelData($map, $g);
 		}
-		echo JSon::Encode($g); // + |
+		$flag = $pretty ? JSON_PRETTY_PRINT : 0;
+		echo JSon::Encode($g, JSonEncodeOption::IgnoreEmpty(), $flag), PHP_EOL; // + |
 		igk_exit();
 	}
 	/**
@@ -110,10 +118,7 @@ class SelectCommand extends AppExecCommand
 	 * @return void 
 	 */
 	public static function PrintResult($g)
-	{
-
-
-
+	{ 
 		if ($g instanceof ModelBase) {
 			echo $g->to_json();
 			return;
@@ -130,9 +135,9 @@ class SelectCommand extends AppExecCommand
 				return;
 			}
 		}
- 
 		if (is_string($g)) {
 			Logger::print($g);
+			echo PHP_EOL;
 		} else {
 			foreach ($g as $row) {
 				// $f = 1;

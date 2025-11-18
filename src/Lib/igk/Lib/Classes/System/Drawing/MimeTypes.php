@@ -3,16 +3,12 @@
 // @file: MimeTypes.php
 // @date: 20221001 16:11:28
 namespace IGK\System\Drawing;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Drawing
 */
 class MimeTypes{
     public const SVG = "image/svg+xml";
-
     public static function Format(string $data, string $type, $code="base64"){
         return sprintf("data:%s;%s,%s", $type, $code, $data);
     }

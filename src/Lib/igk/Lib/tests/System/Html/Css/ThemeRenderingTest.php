@@ -17,7 +17,6 @@ use ReflectionException;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\System\Html\Css
@@ -25,8 +24,11 @@ use PHPUnit\Framework\ExpectationFailedException;
 */
 class ThemeRenderingTest extends BaseTestCase{
     private $m_root;
-
+    private static function _CreateTheme($id){
+        return new HtmlDocTheme( null, $id , false);
+    }
     public function setUp():void{ 
+    
     }
     /**
      * test creation 
@@ -40,12 +42,12 @@ class ThemeRenderingTest extends BaseTestCase{
      * @throws ExpectationFailedException 
      */
     public function test_empty_render(){
-        $theme = new HtmlDocTheme( null, "test");
+        $theme = self::_CreateTheme('test');
         $s = $theme->get_css_def();
         $this->assertEquals('', $s);
     }
     public function test_empty_render_no_semicolumn(){
-        $theme = new HtmlDocTheme( null, "test");
+        $theme = self::_CreateTheme('test');
         $def = $theme->getDef();
         $def[".igk-fsl-4"] = "font-size:2.8em";
         $def[".igk-fsl-5"] = "font-size:4.8em";
@@ -54,7 +56,7 @@ class ThemeRenderingTest extends BaseTestCase{
         $this->assertEquals('.igk-fsl-4{font-size:2.8em;}.igk-fsl-5{font-size:4.8em;}', $s);
     }
     public function test_empty_render_replace(){
-        $theme = new HtmlDocTheme( null, "test");
+        $theme = self::_CreateTheme('test');
         $def = $theme->getDef();
         $def[".igk-fsl-4"] = "font-size:2.8em";
         $def[".igk-fsl-4"] = "font-size:4.8em";
@@ -64,14 +66,13 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     public function test_cssrendering_treatbranket(){
-        $theme = new HtmlDocTheme(null, 'test');
-        // $theme['.basic'] = '{sys:dispib, alignc}; [bgcl:--fillcolor]'; 
+        $theme = self::_CreateTheme('test');
         $theme->def[".igk-progressbar"] = "{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444]; height:16px;";
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('.igk-progressbar{background-color:progressBarBackgroundColor;height:16px;}', $s);
     }
     public function test_cssrendering_maptheme(){
-        $theme = new HtmlDocTheme(null, 'test');
+        $theme = self::_CreateTheme('test');
         $theme['.igk-progressbar'] = '{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444] height:16px;';
         $medias = null;
         $tab = $theme->getdef()->getAttributes() ?? [];
@@ -80,7 +81,7 @@ class ThemeRenderingTest extends BaseTestCase{
         $this->assertEquals('html[data-theme=\'dark\'] .igk-progressbar{background-color:progressBarBackgroundColor;}', $s);
     }
     public function test_cssrendering_maptheme_include(){
-        $theme = new HtmlDocTheme(null, 'test');
+        $theme = self::_CreateTheme('test');
         
         $theme['.igk-progressbar'] = '(sys:.igk-def-c); overflow:hidden;';
         $medias = null;
@@ -92,7 +93,7 @@ class ThemeRenderingTest extends BaseTestCase{
         $this->assertEquals('', $s);
     }
     public function test_cssrendering_maptheme_bar(){ 
-        $theme = new HtmlDocTheme(null, 'test');
+        $theme = self::_CreateTheme('test');
         $tab = [];
         $tab['.basic'] = "content:' *'; display:inline-block; white-space:pre; [fcl:igk-required-mark-fcl]"; 
         CssUtils::MapMediaCssTheme(
@@ -107,7 +108,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     public function test_cssrendering_maptheme_3(){
-        $theme = new HtmlDocTheme(null, 'test');
+        $theme = self::_CreateTheme('test');
         $theme['.igk-progressbar'] = '{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444] {sys:fitw} height:16px; color: [cl:red]';
         $medias = null;
         $tab = $theme->getdef()->getAttributes();
@@ -127,7 +128,7 @@ class ThemeRenderingTest extends BaseTestCase{
         // + | theme createion
         // + |
         
-        $theme = new HtmlDocTheme( null, "test");
+        $theme = self::_CreateTheme('test');
         $theme['body'] = 'background-color:red;';
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('body{background-color:red;}', $s);
@@ -151,7 +152,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     public function test_theme_render(){
-        $theme = new HtmlDocTheme( null, "test");
+        $theme = self::_CreateTheme('test');
         $theme->setColors(
             [
                 '--igk-red'=>"#cf3232"
@@ -164,7 +165,7 @@ class ThemeRenderingTest extends BaseTestCase{
 
     public function test_controller_theme_render(){
         require_once IGK_LIB_DIR.'/Styles/igk_css_colors.phtml';
-        $theme = new HtmlDocTheme( null, "test");
+        $theme = self::_CreateTheme('test');
         $theme->setColors(
                 [
                 '--igk-red'=>"#cf3232"
@@ -182,7 +183,8 @@ class ThemeRenderingTest extends BaseTestCase{
                 '--igk-red'=>'yellow'
             ]
         ]);
-        $g = CssControllerStyleRenderer::RenderStyle(MockThemeRenderer::ctrl(), $theme); 
+        $ctrl = MockThemeRenderer::ctrl();
+        $g = CssControllerStyleRenderer::RenderStyle($ctrl, $theme); 
         ob_start();
         $g->render().''; 
         $s = ob_get_contents();
@@ -191,9 +193,27 @@ class ThemeRenderingTest extends BaseTestCase{
             false !== strpos($s, "html[data-theme='dark']")
         );
     }
+
+
+    function test_csstreatment_treatglobal_theme(){
+        $th = new HtmlDocTheme(null);
+        $sth = new HtmlDocTheme(null);
+        $sth['.dispib'] = 'display:inline-block;';
+        $sth['.no-float'] = 'clear:both;';
+
+        $r = igk_css_treat_bracket('{sys:dispib,no-float}', $th, $sth);
+        $this->assertEquals('display:inline-block;clear:both;', $r);
+
+
+        $r = igk_css_treat_bracket('{sys:dispib no-float}', $th, $sth);
+        $this->assertEquals('display:inline-block;clear:both;', $r);
+
+        $r = igk_css_treat_bracket('{sys:dispib; no-float}', $th, $sth);
+        $this->assertEquals('display:inline-block;clear:both;', $r);
+
+    }
 }
 
 
-class MockThemeRenderer extends BaseController{
-
+class MockThemeRenderer extends BaseController{ 
 }

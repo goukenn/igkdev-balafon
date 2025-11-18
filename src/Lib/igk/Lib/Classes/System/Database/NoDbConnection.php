@@ -3,17 +3,12 @@
 // @filename: NoDbConnection.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Database;
-
-///<summary>Represente class: IGKNoDbConnection</summary>
 /**
-* Represente IGKNoDbConnection class
+* Represent IGKNoDbConnection class
 */
 class NoDbConnection{
     var $db_name;
-
     public function __toString()
     {
         return __CLASS__;
@@ -22,36 +17,30 @@ class NoDbConnection{
     {
         return [];
     }
-    ///<summary></summary>
     /**
     * 
     */
     function close(){}
-    ///<summary></summary>
     /**
     * 
     */
     function closeAll(){}
-    ///<summary></summary>
     /**
     * 
     */
     function connect(){
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     function initForInitDb(){}
-    ///<summary></summary>
     /**
     * 
     */
     function insert(){
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -61,8 +50,6 @@ class NoDbConnection{
     public function isConnect(){
         return false;
     }
-    ///<summary></summary>
-    ///<param name="query"></param>
     /**
     * 
     * @param mixed $query
@@ -70,12 +57,10 @@ class NoDbConnection{
     function sendQuery($query){
         return null;
     }
-    ///<summary></summary>
     /**
     * 
     */
     function setCloseCallback(){}
-    ///<summary></summary>
     /**
     * 
     */
@@ -85,7 +70,6 @@ class NoDbConnection{
     function getVersion():string{
         return '';
     }
-
     public function __call($n, $name){
         return null;
     }

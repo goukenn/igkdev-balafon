@@ -3,9 +3,6 @@
 // @file: IReadTokenOptions.php
 // @date: 20221021 19:14:59
 namespace IGK\System\Runtime\Compiler;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler
@@ -15,5 +12,4 @@ namespace IGK\System\Runtime\Compiler;
 * @property ?bool $noComment
 */
 interface IReadTokenOptions{
-
 }

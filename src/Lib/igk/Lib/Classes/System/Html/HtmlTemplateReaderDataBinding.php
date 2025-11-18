@@ -3,17 +3,13 @@
 // @filename: HtmlTemplateReaderDataBinding.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Html\Templates\BindingConstants;
 use IGKException;
-
 /**
  * represent loop data binding
  */
@@ -28,7 +24,6 @@ class HtmlTemplateReaderDataBinding
      * @var ?HtmlLoadingContextOptions
      */
     var $context;
-
     /**
      * .ctr
      * @param HtmlItemBase $node 
@@ -61,7 +56,6 @@ class HtmlTemplateReaderDataBinding
         //$script_obj = igk_html_databinding_getobjforscripting($ctrl);
         $v_gtag = $cnode->getCanRenderTag() ? $cnode->tagName : null;        
         $transformToEval = ($ctx = $this->context)? $ctx->transformToEval : false;
-        
         // + | --------------------------------------------------------------------
         // + | binding attribute - $raw with
         // + |  

@@ -3,8 +3,8 @@
 // @file: RequestCommand.php
 // @date: 20221114 01:53:54
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\SysUtils;
+use IGK\Helper\ViewHelper;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
@@ -14,8 +14,6 @@ use IGK\System\Html\HtmlContext;
 use IGK\System\Uri;
 use IGKException;
 use ReflectionException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -23,9 +21,8 @@ use ReflectionException;
 class RequestViewCommand extends AppExecCommand
 {
     var $command = '--request:view';
-
     var $desc = 'request view call';
-  
+    var $usage = 'controller request [options]';
     public function showOptions()
     {
         // + | ----------------------------------
@@ -34,7 +31,7 @@ class RequestViewCommand extends AppExecCommand
         $opts = [
             "--method:[TYPE]" => "request method type. default is GET",
             "--user:[ID]" => "user id to use",
-            "--render[:type]" => "render default view, (doc|body|head|view) default is view",
+            "--render:[:type]" => "render default view, (doc|body|head|view) default is view",
             "--ajx" => "enable ajx render mode",
             "--json:[file]"=>"file to load as json data",
             "--content-type:[]" => "set render content type. default is 'text/html'",
@@ -49,7 +46,6 @@ class RequestViewCommand extends AppExecCommand
         $this->options = $opts;
         parent::showOptions();
     }
- 
     public function exec($command, $controller = null, ?string $request = null)
     {
         $ctrl = $controller ?? igk_getv($command->options, '--controller');
@@ -62,17 +58,12 @@ class RequestViewCommand extends AppExecCommand
         $_SERVER['REQUEST_URI'] = '/' . $path; 
         $_SERVER['HTTP_IGK_AJX'] =  property_exists($command->options, "--ajx");
         $_SERVER['CONTENT_TYPE'] = igk_getv($command->options, "--content-type", "text/html");
-        DbCommandHelper::Init($command);
         ServerCommandHelper::Init($command);
-
         $ctrl->register_autoload();
-
-        if ($id = intval(igk_getv($command->options, '--user'))) {
-            self::BindUser($ctrl, $id);
-        }
+        self::BindUserCommand($ctrl, $command);
         $render = property_exists($command->options, '--render');
         if ($json = igk_getv($command->options, '--json')) {
-            if (file_exists($json)) {
+            if (igk_io_file_exists($json)) {
                 $json = file_get_contents($json);
                 igk_environment()->FakerInput = new ServerFakerInput($json);
             } else {
@@ -83,8 +74,6 @@ class RequestViewCommand extends AppExecCommand
         igk_configs()->default_controller = $ctrl->getName();
         $ctrl->getConfigs()->no_auto_cache_view = property_exists($command->options, '--no-cache');
         $this->doRequest($command, $path);
-
-
         if ($render) {
             $v_render_type = igk_getv($command->options, '--render', 'view');
             $doc = $ctrl->getDoc();
@@ -109,7 +98,6 @@ class RequestViewCommand extends AppExecCommand
                 default: 
                     $t->renderAJX($xml_render_option);
                 break;
-                
             }
             echo "\n";
         }
@@ -131,8 +119,15 @@ class RequestViewCommand extends AppExecCommand
         $g = new Uri('bcl://request-command.local/'.$path);
         $path = $g->getPath();
         $_SERVER['REQUEST_URI'] = $g->getRequestUri();
-        $_SERVER['QUERY_STRING'] = $g->getQuery();
+        if ($query = $_SERVER['QUERY_STRING'] = $g->getQuery()){
+            parse_str($query, $_REQUEST); 
+        }
         igk_server()->prepareServerInfo();
-        $ctrl->setCurrentView($path);
+        list($view, $args) = ViewHelper::PrepareViewArgFromPath($path); 
+        if ($args){
+            $view .= '/'.implode("/", $args);
+            $args = [];
+        }
+        $ctrl->setCurrentView($view, true, null, $args);
     }
 }

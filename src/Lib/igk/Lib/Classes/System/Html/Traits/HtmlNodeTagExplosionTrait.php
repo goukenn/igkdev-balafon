@@ -3,9 +3,6 @@
 // @file: HtmlNodeTagExplosionTrait.php
 // @date: 20240119 11:47:11
 namespace IGK\System\Html\Traits;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Traits

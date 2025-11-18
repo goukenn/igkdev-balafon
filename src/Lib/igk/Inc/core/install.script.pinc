@@ -7,98 +7,14 @@
 // @param: $corelib 
 
 
-if (!function_exists("igk_getr")) {
-    function igk_getr($n, $default = null)
-    {
-        if (isset($_REQUEST[$n])) {
-            return $_REQUEST[$n];
-        }
-        return $default;
-    }
-}
-if (!function_exists("igk_count")) {
-    function igk_count($n)
-    {
-        return count($n);
-    }
-}
 
-if (!function_exists("igk_dir")) {
-    function igk_dir($dir, $separator = DIRECTORY_SEPARATOR)
-    {
-        if ($dir === null) {
-            return $dir;
-        }
-        $d = $separator;
-        $out = IGK_STR_EMPTY;
-        if (ord($d) == 92) {
-            $out = preg_replace("/\//", '\\', $dir);
-            $out = str_replace("\\", "\\", $out);
-        } else {
-            $d = "/[\\\\]/";
-            $out = preg_replace($d, '/', $dir);
-            $out = str_replace("//", "/", $out);
-        }
-        return $out;
-    }
-}
-if (!function_exists("igk_io_rmdir")) {
-    function igk_io_rmdir($dir, $recursive = true, $callback = null)
-    {
-        if (!is_dir($dir))
-            return false;
-        $pdir = array($dir);
-        $kdir = array($dir);
-        $d = 1;
-        while ($dir = array_pop($pdir)) {
-            $hdir = opendir($dir);
-            if (!$hdir)
-                return false;
-            while (($f = readdir($hdir))) {
-                if (($f == ".") || ($f == ".."))
-                    continue;
-                $v = igk_dir($dir . "/" . $f);
 
-                if ($callback && !$callback($v)) {
-                    continue;
-                }
-                if (is_link($v)) {
-                    @unlink($v);
-                    continue;
-                }
-                if (is_dir($v)) {
-                    if ($recursive) {
-                        array_push($pdir, $v);
-                        array_push($kdir, $v);
-                    } else {
-                        $d = 0;
-                        break;
-                    }
-                } else if (is_file($v) || is_link($v)) {
-                    if ($recursive)
-                        unlink($v);
-                    else {
-                        $d = 0;
-                        break;
-                    }
-                }
-            }
-            closedir($hdir);
-        }
-        while ($d && ($dir = array_pop($kdir))) {
-            if (is_link($dir)) {
-                unlink($dir);
-            } else {
-                @rmdir($dir);
-            }
-        }
-        return igk_count($kdir) == 0;
-    }
-}
+
+
 //#{{@Inc(installer-helper.pinc)}}
 //#{{@Inc(class.InstallerResponse.pinc)}}
- 
- 
+
+
 
 defined("IGK_BL") || define("IGK_BL", "<br />\n");
 defined("IGK_STR_EMPTY") || define("IGK_STR_EMPTY", "");
@@ -129,9 +45,8 @@ if (!file_exists($corelib)) {
 }
 
 $install_dir = igk_getr("install_dir");
-// echo "HOME DEFINED ? ".isset($_SERVER["HOME"]).PHP_EOL;
-// echo "ftp home dir : ".$ftp_home_dir. " ".$install_dir. " ".$home . " ".realpath($ftp_home_dir);
- 
+
+
 if ($install_dir)
     $install_dir = implode("/", array_filter([$home == '/' ? null : $home, trim($install_dir, "/")]));
 else
@@ -145,8 +60,10 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
     // + | backupd - lib
     // + | 
     $tmp_name = tempnam($install_dir . "/../", "bck." . basename($install_dir));
-    $archive = new \ZipArchive();
-    if ($archive->open($tmp_name, ZipArchive::CREATE)) {
+    $archive = new ZipArchive();
+    if ($archive->open($tmp_name,ZipArchive::OVERWRITE)) {
+    // $archive = new \ZipArchive();
+    // if ($archive->open($tmp_name, ZipArchive::CREATE)) {
         $thdir = [$install_dir];
         $ln = strlen($install_dir);
         while (count($thdir) > 0) {
@@ -181,10 +98,9 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
         $cid .= "-1";
     }
     $o = rename($tmp_name, $opath = dirname($tmp_name) . "/" . $cid . ".zip");
- 
 } else {
     if (!is_dir($install_dir) && !@mkdir($install_dir, 0775, true)) {
-        echo "try to create directory : ".getcwd() . " vs " .$install_dir;
+        echo "try to create directory : " . getcwd() . " vs " . $install_dir;
         exit;
         $response->die("failed created dir: " . $install_dir, 500);
     }
@@ -193,6 +109,11 @@ if (is_dir($install_dir) && !igk_getr('no_backup')) {
 if (!($install_dir = realpath($install_dir))) {
     $response->die("install_dir missing", 500);
 }
+
+
+
+
+
 $app_dir = igk_getr("app_dir");
 $temp_dir = tempnam(dirname($install_dir), "balafonInstaller");
 @unlink($temp_dir);
@@ -252,6 +173,9 @@ if ($archive->open($corelib)) {
 } else {
     $response->die("can't open archive", 501);
 }
+
+
+
 $_vart = compact("error", "install_dir", "count_file", "author", "version", "appName", "steps");
 if (!empty($error_msg)) {
     $_vart["error_msg"] = $error_msg;

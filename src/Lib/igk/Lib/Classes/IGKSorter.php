@@ -5,23 +5,14 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use function igk_resources_gets as __;
-
-
 final class IGKSorter{
     var $asc, $key;
-    ///<summary></summary>
     public function __construct(){
         $this->asc=true;
     }
-    ///<summary></summary>
-    ///<param name="tab" ref="true"></param>
-    ///<param name="key"></param>
-    ///<param name="asc" default="true"></param>
-    ///<param name="funcname"></param>
     private static function __SortValue(& $tab, $key, $asc, $funcname){
         $t=new IGKSorter();
         $t->key=$key;
@@ -36,9 +27,6 @@ final class IGKSorter{
         }
         return $tab;
     }
-    ///<summary></summary>
-    ///<param name="tab" ref="true"></param>
-    ///<param name="key" default="null"></param>
     public function Sort(& $tab, $key=null){
         if(is_array($tab)){
             usort($tab, array($this, "SortValue"));
@@ -57,23 +45,12 @@ final class IGKSorter{
             $tab=$b;
         }
     }
-    ///<summary></summary>
-    ///<param name="tab"></param>
-    ///<param name="key"></param>
-    ///<param name="asc" default="true"></param>
     public static function SortByDisplay($tab, $key, $asc=true){
         return self::__SortValue($tab, $key, $asc, "SortKeyValue");
     }
-    ///<summary></summary>
-    ///<param name="tab"></param>
-    ///<param name="key"></param>
-    ///<param name="asc" default="true"></param>
     public static function SortByValue($tab, $key, $asc=true){
         return self::__SortValue($tab, $key, $asc, "SortValue");
     }
-    ///<summary></summary>
-    ///<param name="a"></param>
-    ///<param name="b"></param>
     public function SortKeyValue($a, $b){
         $k=$this->key;
         $s1=strtolower(__($a->$k));
@@ -81,9 +58,6 @@ final class IGKSorter{
         $i=strcmp($s1, $s2);
         return $i;
     }
-    ///<summary></summary>
-    ///<param name="a"></param>
-    ///<param name="b"></param>
     public function SortValue($a, $b){
         $tk=$this->key;
         if(is_string($tk))

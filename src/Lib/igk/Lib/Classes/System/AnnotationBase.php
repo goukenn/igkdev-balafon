@@ -3,16 +3,14 @@
 // @file: AnnotationBase.php
 // @date: 20230731 09:37:23
 namespace IGK\System;
-
-
-///<summary></summary>
+use IGK\System\Traits\PropertyObjectTrait;
 /**
 * 
 * @package IGK\System
 */
 abstract class AnnotationBase implements IAnnotation{
     private $m_params;
-
+    use PropertyObjectTrait;
     /**
      * set parameter changed
      * @param array $params 

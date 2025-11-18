@@ -3,7 +3,6 @@
 // @file: RegisterUserActionTrait.php
 // @date: 20221114 18:28:41
 namespace IGK\Actions\Traits;
- 
 use Exception;
 use IGK\Actions\SystemUserActionContants; 
 use IGK\Helper\ActionHelper;
@@ -26,10 +25,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException; 
-
 use function igk_resources_gets as __;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\Actions\Traits
@@ -40,7 +36,6 @@ trait RegisterUserActionTrait
     use NotifyActionTrait;
     use SysUserPasswordManagementActionTrait;
     use FormLoginActionTrait;
-
     var $registerOptions = [];
     var $registerController = null;
     var $noticationName;
@@ -84,12 +79,10 @@ trait RegisterUserActionTrait
             igk_ilog('not a valid pwd');
             return false;
         }
-
         if (empty($login)) {
             igk_ilog('login is empty');
             return false;
         }
-
         if (!IGKValidator::IsEmail($login)) {
             if (empty($domain)) {
                 igk_ilog('domain not specified');
@@ -122,7 +115,6 @@ trait RegisterUserActionTrait
             $this->redirect = base64_decode($uri);
         }
     }
-
     protected function _init_trait_RegisterUserActionTrait($ctrl)
     {
         $this->registerOptions = [
@@ -151,37 +143,30 @@ trait RegisterUserActionTrait
         $login = $user->clLogin;
         $uri = $this->getRegistrationActionvationLink($user);
         $unreg_uri = $this->getRegistrationUnregActionvationLink($user);
-
-        
         $v_reg_info = CronJobProcess::Register("mail", "mail.register.php", $info = (object)[
             "to" => $user->clLogin,
+            "email" => $login,
             "title" => __("Registration"),
             "msg" => $this->getRegistrationMailMessage($user, $uri), 
             "msg-fr" => null,
             "msg-nl" => null,
-            "email" => $login,
             "activate_uri" => $uri,
             "unregister_uri" => $unreg_uri,
             "fromTitle" => ""
         ], $this->getController());
- 
         $mail = new Mail();
         $mail->addTo($info->to);
         $from = sprintf('"%s" <%s>', strtoupper('Toner Afrika'), igk_configs()->mail_user);
         $mail->From = $from;
         $mail->setHtmlMsg($info->msg);
         $mail->setTitle($info->title); 
-
         $rep = $mail->sendMail();
-
         if ($rep) {
             $v_reg_info->crons_status = 1;
             $v_reg_info->save();
         } 
         return (object)["registrated" => 1];
     }
-
-    
     /**
      * get registration mail
      * @param mixed $login 
@@ -209,7 +194,6 @@ trait RegisterUserActionTrait
             $content = file_get_contents($file);
         }
         $token = ActionHelper::GenerateUserRegistrationLinkToken($user);
-        
         $uri = $registerUri ?? $ctrl::uri('activate?token=' . $token);
         $n = $node->span()->h2();
         $n->Content = $domain;
@@ -225,7 +209,6 @@ trait RegisterUserActionTrait
         $n->loop([$user])->div()->Content = $c;
         return $node->render();
     }
-
     protected function getRegistrationActionvationLink(Users $user)
     {
         return null;
@@ -238,7 +221,6 @@ trait RegisterUserActionTrait
     {
         return $this->getController()->getConfig('domain');
     }
-
     /**
      * present registration form
      * @param mixed $form 
@@ -246,15 +228,12 @@ trait RegisterUserActionTrait
      */
     public function form_subscribe($form, $options = null)
     {
-
         $ctrl = $this->getController();
         if ($ctrl->getEnvParam("registrationSuccess")) {
             $form->div()->h1()->Content = __("Registration success");
             return;
         }
-
         /// igk_notifyctrl($this->registerServiceNotifyName)->info("Basic")->setAutohide(false);
-
         $form->div()->h1()->Content = __("Subscribe");
         $form->notifyHost($this->registerServiceNotifyName, false);
         // $form->div()->setClass('igk-panel igk-success')->Content = 'data check';
@@ -279,13 +258,10 @@ trait RegisterUserActionTrait
                 "password" => ["type" => "password", "placeholder" => __("password"), 'required' => 1],
                 "repassword" => ["type" => "password", "placeholder" => __("confirm password"), 'required' => 1]
             ]);
-
             $reg_options = $this->registerOptions;
-
             if ($reg_options) {
                 $t->fields($reg_options);
             }
-
             $t->actionbar(FormHelper::submit());
             $subbar = $t->div()->actionbar()->setClass('+footer');
             $subbar->a($ctrl::uri($this->formLoginSigninView))->Content = __("Login") . " ";
@@ -295,8 +271,6 @@ trait RegisterUserActionTrait
                 ->Content = __("Forgot password ?");
         });
     }
-
- 
     /**
      * activate user account
      */
@@ -315,19 +289,15 @@ trait RegisterUserActionTrait
         $this->notify(__('account activation failed'), 'igk-danger');
         $this->redirect = $ctrl::uri('');
     }
-
     protected $registerUserActionNoticationName = 'register';
     protected $registerUserActionCompleteUri = 'ServiceLogin';
     protected $logoutUri = 'logout';  
-
-
     public function deleteAccount_delete(?\IGK\Models\Users $id = null)
     {
         return $this->deleteAccount_post($id);
     }
     public function deleteAccount_post(?\IGK\Models\Users $id = null)
     {
-
         $cuser = ActionHelper::CurrentActionUserModel($this);
         $user = $id ?? $cuser;
         $ctrl = $this->getController();
@@ -358,13 +328,11 @@ trait RegisterUserActionTrait
     {
         return SystemUserActionContants::DEACTIVATED_ACCOUNT_PREFIX;
     }
-
     public function confirmRegistration()
     {
         // + | -------------------------------------------------------------------------
         // + | access to this only if no in log_in - in and receive confirmation service
         // + |
-
         $mode = 'registration';
         $user = ActionHelper::CurrentActionUserModel($this);
         if (!is_null($user) || !$this->getController()->getParam('confirmRegistration')) {
@@ -376,17 +344,14 @@ trait RegisterUserActionTrait
             'user_model' => $user
         ];
     }
-
     // + | --------------------------------------------------------------------
     // + | PASSWORD MANAGEMENT
     // + |
-    
     protected function forgotPassword_get()
     {
         if ($token = igk_getr('token')){
             return $this->error('token is empty');
         }
-
     }
     protected function forgotPassword_post(?string $account=null){
         $account = $account ?? igk_getr('account'); 
@@ -415,7 +380,6 @@ trait RegisterUserActionTrait
         }
         return null;
     }
-
     protected function sendResetPasswordLink(Users $user){
         ActionHelper::SendMail($this->getController(), 
             $user->clLogin, igk_configs()->mail_user, __("reset password"), 
@@ -459,7 +423,6 @@ trait RegisterUserActionTrait
         $n->loop([$user])->div()->Content = $c;
         return $node->render();
     }
-
     /**
      * form forgot password
      * @param mixed $a 

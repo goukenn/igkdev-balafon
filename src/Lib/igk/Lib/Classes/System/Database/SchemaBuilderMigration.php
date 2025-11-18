@@ -3,19 +3,29 @@
 // @filename: SchemaBuilderMigration.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Database;
- 
 use IGKException;
-
 /**
  * update schema migrations
  * @package IGK\System\Database
  */
 class SchemaBuilderMigration{
     var $controller;
+    /**
+     * listerner call after
+     * @var mixed
+     */
     var $listener;
+    /**
+     * 
+     * @var mixed
+     */
     private $items; 
+    /**
+     * migration info listener 
+     * @var ?IMi
+     */
+    var $migrationListener;
     /**
      * use method to add migrations data 
      * @param mixed $name 
@@ -36,9 +46,14 @@ class SchemaBuilderMigration{
         }
         throw new IGKException("schema builder not allowed : $cl::".$name);
     } 
+    /**
+     * 
+     * @return bool 
+     */
     public function upgrade(){
         if (!$this->items)return false;
         foreach($this->items as $c){
+            // passing migration info listener 
             $c->up();
         }
         if ($this->listener){
@@ -59,5 +74,4 @@ class SchemaBuilderMigration{
     }
     public function __construct(){
     }
-     
 }

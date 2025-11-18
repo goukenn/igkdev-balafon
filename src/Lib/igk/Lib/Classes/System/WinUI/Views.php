@@ -3,8 +3,6 @@
 // @filename: Views.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\WinUI;
 use function igk_resources_gets as __;
 /**
@@ -32,7 +30,6 @@ class Views {
         }
         $s->span()->Content = igk_getv($info, "text", $key ? __($key):null);       
     }
-
     public static function ModelViewLimit($target, $model, callable $callback, $conditions=null, $options=null, $key = "page") {
         $options = $options ?? [];
         $c = $model::count($conditions, $options);
@@ -57,12 +54,9 @@ class Views {
             $host->add($limit->list());
         }
     }
-
     public static function ViewActionBarConfirmDialog($a, ?array $options=null){        
         $title = null;
         $title = igk_getv($options, "lb.submit");
- 
-
         $a->input("c.cancel", "button", __("Cancel"))->on("click", "igk.winui.controls.panelDialog.close(); return false;");
         $a->submit()->assertNode(!empty($title))->host(function($a, $title){
             $a["value"] = $title;

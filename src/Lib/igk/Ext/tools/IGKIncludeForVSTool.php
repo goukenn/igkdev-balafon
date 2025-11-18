@@ -29,7 +29,7 @@ class IGKIncludeForVSTool extends ToolControllerBase
 				{
 					$this->LoadFile($node, $pattern."\\".$s, $dname);
 				}
-				else if (file_exists($dname))
+				else if (igk_io_file_exists($dname))
 				{
 					$node->add("None", array("Include"=>realpath($dname)))->add("Link")->Content = $pattern."\\".$s;
 				}

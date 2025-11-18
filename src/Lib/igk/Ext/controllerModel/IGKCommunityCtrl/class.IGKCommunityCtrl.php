@@ -6,8 +6,6 @@
 
 //controller code class declaration
 //file is a part of the controller tab list
-///<summary>used to manage comomunity site</summary>
-
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
 use IGK\Helper\Activator;

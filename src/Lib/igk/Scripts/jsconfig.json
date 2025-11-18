@@ -1,5 +1,9 @@
 {
     "compilerOptions": {
-        "allowJs": false
-    }
+        "checkJs": false
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": ["**/*"]
 }

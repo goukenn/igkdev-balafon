@@ -1,15 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: CssThemeRenderer.php
 // @date: 20220828 15:17:14
 // @desc: 
-
-
 namespace IGK\Css;
-
 use IGK\System\Diagnostics\Benchmark;
-
 /**
  * use to render theme
  * @package 
@@ -31,7 +26,6 @@ class CssThemeRenderer
      * @var mixed
      */
     var $themeExport;
-
     /**
      * resource resolver
      * @var ICssResourceResolver
@@ -57,8 +51,6 @@ class CssThemeRenderer
      * @var no systheme
      */
     private $m_noSysTheme;
-
-
     /**
      * 
      * @param string $globaId global id
@@ -74,7 +66,6 @@ class CssThemeRenderer
         }
         $this->m_globalId = $globaId;
     }
-
     private function _renderSystemTheme()
     {
         $s = "";
@@ -94,7 +85,6 @@ class CssThemeRenderer
         ob_end_clean();
         return $s;
     }
-
     /**
      * render global theme [sysTheme] + [controller theme] ?
      */
@@ -103,17 +93,14 @@ class CssThemeRenderer
         $s = $this->_renderSystemTheme();
         list($minfile, $doc, $no_systheme, $themeexport)
             = [$this->minfile, $this->doc, $this->m_noSysTheme, $this->exportTheme];
-
         $o = IGK_STR_EMPTY;
         $srh = array();
         $el = $minfile ? IGK_STR_EMPTY : IGK_LF;
         $data = array();
-
         $theme = $doc->getTheme();
         if ($this->controller) {
             $this->controller->bindCssStyle($theme, true);
         }
-
         if (!$no_systheme) {
             $data[] = array("name" => "systheme", "theme" => $doc->getSysTheme());
             $data[] = igk_css_init_style_def_workflow($doc);
@@ -133,7 +120,6 @@ class CssThemeRenderer
                 $srh[] = $v["doc"]->getTemporaryCssDef($minfile, $themeexport) . $el;
             }
         }
-
         $o = $s . PHP_EOL . implode(PHP_EOL, $srh);
         return $o;
     }

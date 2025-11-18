@@ -3,18 +3,15 @@
 // @filename: CoreGeneration.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Configuration;
-
 class CoreGeneration
 {
     public function GetTestRequireAutoload()
-    {
-        // 'require_once $_ENV["IGK_APP_DIR"]."/Lib/igk/Lib/Tests/autoload.php";'
+    { 
         $doc = <<<'EOF'
 require_once (function ($name) {
-    // init environment    
+    // init environment   
+    $_key_app_dir = $name; 
     foreach (['IGK_BASE_DIR', 'IGK_TEST_CONTROLLER', 'IGK_APP_DIR'] as $m) {
         if (defined($m))
             continue;
@@ -25,7 +22,7 @@ require_once (function ($name) {
             }
         }
     }
-    if (!defined('IGK_APP_DIR')) {
+    if (!defined( $_key_app_dir )) {
         $resolv_path = function ($dir, $value) {
             $p = realpath($value);
             if (empty($p)) {
@@ -38,7 +35,7 @@ require_once (function ($name) {
         if (function_exists('simplexml_load_file')) {
             $tconfigFile = null;
             while (!empty($bdir)) {
-                if (file_exists($configFile = $bdir . "/%%balafon_config_file%%")) {
+                if (igk_io_file_exists($configFile = $bdir . "/%%balafon_config_file%%")) {
                     $tconfigFile = $configFile;
                     break;
                 }
@@ -64,12 +61,11 @@ require_once (function ($name) {
                 }
             }
         }
-        !defined('IGK_APP_DIR') && define('IGK_APP_DIR', $bdir);
+        !defined( $name ) && define( $name, $bdir);
     }
     return constant($name);
 })('IGK_APP_DIR') . "/Lib/igk/Lib/Tests/autoload.php";
 EOF;
-        
         foreach(["%%balafon_config_file%%"=>IGK_BALAFON_CONFIG] as $k=>$v){
             $doc = str_replace($k, $v, $doc);
         }

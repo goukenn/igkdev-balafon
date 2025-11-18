@@ -3,17 +3,12 @@
 // @filename: ExtensionUtils.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\System;
-
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use ReflectionMethod;
-
 class ExtensionUtils{
-
     /**
      * retrieve extension method for 
      * @param mixed $array 

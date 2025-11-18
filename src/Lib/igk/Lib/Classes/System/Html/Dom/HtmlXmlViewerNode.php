@@ -3,23 +3,17 @@
 // @filename: HtmlXmlViewerNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\XML\XmlCDATA;
 use IGK\XML\XMLNodeType;
-
-///<summary>Represente class: IGKHtmlXmlViewerItem</summary>
 /**
-* Represente IGKHtmlXmlViewerItem class
+* Represent IGKHtmlXmlViewerItem class
 */
 final class HtmlXmlViewerNode extends HtmlNode {
     private $m_cdata;
-    ///<summary>.ctr</summary>
     /**
     * contruct xml viewer
     */
@@ -27,7 +21,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
         parent::__construct("div");
         $this["class"]="igk-xml-viewer";
         $this->m_cdata = new HtmlCommentNode();
-
     }
     public function getContent($options = null){ 
         return null;
@@ -41,9 +34,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
         $this->m_cdata->Content = $v; 
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="depth"></param>
     /**
     * 
     * @param mixed $target
@@ -64,8 +54,6 @@ final class HtmlXmlViewerNode extends HtmlNode {
     {
         return false;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
     * 
     * @param mixed $t
@@ -76,8 +64,7 @@ final class HtmlXmlViewerNode extends HtmlNode {
         $this->ClearChilds();
         $this->Load(<<<EOF
 <demo attr_1="attrib_definition" >The viewer<i >sample</i></demo>
-EOF
-        , HtmlContext::XML);
+EOF        , HtmlContext::XML);
     }
     ///<summary></summary>
     ///<param name="content"></param>
@@ -87,10 +74,9 @@ EOF
     * @param mixed $content
     * @param mixed $context the default value is XML
     */
-    public function load($content, $context=HtmlContext::XML, callable $creator=null){
+    public function load($content, $context=HtmlContext::XML, ?callable $creator=null){
         if(empty($content))
             return;
-        
         $c= HtmlReader::Load($content, $context, $creator);
         $root=null;
         foreach($c->Childs as  $v){
@@ -151,6 +137,4 @@ EOF
             $target->add("span")->setClass("s")->Content="/&gt;";
         }
     }
-
-    
 }

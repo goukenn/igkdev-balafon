@@ -3,9 +3,6 @@
 // @file: FileMatcher.php
 // @date: 20230307 22:33:16
 namespace IGK\System\Regex;
-
-
-///<summary></summary>
 /**
  * helper used the match callable for directory
  * @package IGK\System\Regex
@@ -13,19 +10,12 @@ namespace IGK\System\Regex;
 class FileMatcher
 {
     const NOT_MATCH = 1;
-
     var $type = 0;
-
     var $base_dir;
-
     var $regex;
-
     var $flags = 0;
-
     var $tab;
-    
     private $m_init;
-
     /**
      * parse matcher
      * @return null|string 
@@ -59,7 +49,6 @@ class FileMatcher
         }
         return $r;
     }
-
     public function __invoke(?string $file)
     {
         return $this->match($file);

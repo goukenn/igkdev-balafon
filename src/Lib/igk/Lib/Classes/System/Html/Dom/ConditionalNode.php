@@ -3,11 +3,8 @@
 // @file: ConditionalNode.php
 // @date: 20221130 13:37:59
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\StringBuilder;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Dom
@@ -18,7 +15,6 @@ class ConditionalNode extends HtmlNode
     const LOWER_OR_EQUAL_TO_IE9 = 'if lte IE 9';
     var $tagname = "igk:condition";
     var $condition = "";
-
     public function getCanRenderTag()
     {
         return false;
@@ -37,7 +33,6 @@ class ConditionalNode extends HtmlNode
             $sb->appendLine(implode("", array_map(function ($a) use ($options) {
                 return HtmlRenderer::Render($a, $options);
             }, $childs)));
-
         $sb->append(sprintf("<![endif]-->"));
         return $sb . '';
     }

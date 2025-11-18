@@ -3,11 +3,8 @@
 // @file: ConditionBlockNode.php
 // @date: 20221011 13:13:48
 namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\IO\StringBuilder;
-
-///<summary></summary>
 /**
 * render php compiled condition node
 * @package IGK\System\Runtime\Compiler\Html
@@ -42,7 +39,6 @@ class ConditionBlockNode extends HtmlNode{
         if (empty($_out)){
             $t_pos = strpos($_out, "<?php");           
         }
-
         $sb = new StringBuilder();
         $sb->append("<?php ");        
         $sb->append(sprintf('%s%s:', $this->type, $this->condition)); 

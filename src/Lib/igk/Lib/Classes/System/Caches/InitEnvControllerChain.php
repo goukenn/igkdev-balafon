@@ -3,14 +3,11 @@
 // @file: InitEnvControllerChain.php
 // @date: 20220906 11:18:32
 namespace IGK\System\Caches;
-
 use IGK\Controllers\ApplicationModuleController; 
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
 use IGKException;
 use ReflectionException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Caches
@@ -50,7 +47,6 @@ class InitEnvControllerChain{
                 'ctrl'=>null,
                 'source'=>$this
             ];
-        
         foreach ($tab as $cl) {
             if (// is_subclass_of($cl, BaseController::class) &&
             !in_array($cl, $no_def))

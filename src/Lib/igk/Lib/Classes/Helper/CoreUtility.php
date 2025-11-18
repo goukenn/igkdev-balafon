@@ -3,11 +3,8 @@
 // @file: CoreUtility.php
 // @date: 20230313 19:49:53
 namespace IGK\Helper;
-
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper

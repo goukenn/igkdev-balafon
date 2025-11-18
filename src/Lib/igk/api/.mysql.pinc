@@ -5,14 +5,16 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
 use IGK\Database\DbColumnInfo;
 use IGK\Database\DbSchemas;
 use IGK\Resources\R;
 use IGK\System\Database\MySQL\DataAdapter;
+use IGK\System\Html\CallableConstants;
 
 use function igk_resources_gets as __;
 ///used to get relation </summary>
@@ -238,6 +240,7 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
     $tconfig = igk_api_mysql_get_config_data_schema($api, false, (object)array("check"=>1));
     if (!isset($tconfig["tbigk_users"])){
       
+        igk_wln($tconfig, igk_configs()->db_name, $api->getDataAdapter()->connect());
         igk_die("users's table not found");
     } 
  
@@ -247,8 +250,8 @@ function igk_api_mysql_check_data_structure($api, $ignore_notused=0, $exit=1, $c
 
     $rep=igk_create_node("data_response");
     $err=$rep->add("error-message");
-    $err->setCallback("getIsVisible", "return \$this->ChildCount>0;");
-    $notused=$rep->add("TableNotUsed")->setCallback("getIsVisible", "return \$this->ChildCount>0;");
+    $err->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
+    $notused=$rep->add("TableNotUsed")->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
     $ubind=array_fill_keys(array_keys($tdb), 1);
     $tcount=0;
     foreach($tconfig as $k=>$v){
@@ -347,7 +350,7 @@ function igk_api_mysql_ctrl_gen_schema($api, $ctrlname){
     $n=igk_html_node_noTagNode();
     $rep->add($n);
     $e=$rep->add("Entries");
-    $e->setCallback("getIsVisible", "return \$this->ChildCount>0;");
+    $e->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
     $c=igk_getctrl($ctrlname);
     $tables=igk_db_get_ctrl_tables($c);
     if($c->Db->connect()){
@@ -454,11 +457,14 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
     $msg=$rep->add("warning-message");
     $err=$rep->add("error-message");
     $not=$rep->add("notice-message");
-    $msg->setCallback("getIsVisible", "return \$this->ChildCount>0;");
-    $not->setCallback("getIsVisible", "return \$this->ChildCount>0;");
-    $err->setCallback("getIsVisible", "return \$this->ChildCount>0;");
+    $msg->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
+    $not->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
+    $err->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
     $tables=array();
     $count=0; 
+    // inject system db controller 
+    array_unshift($ctrl, SysDbController::ctrl());
+
     foreach($ctrl as $v){
         if($v->getCanInitDb() && ($v->getDataAdapterName() == IGK_MYSQL_DATAADAPTER)){
             $b = BaseController::Invoke($v, "getUseDataSchema");
@@ -541,21 +547,29 @@ function igk_api_mysql_get_data_schema($api, $render = 1, $param = null)
     $mysql = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER, true);
     $tables = array();
     $dbname = ($param ? igk_getv($param, "db_name") : null) ?? igk_configs()->db_name;
-    $prefix = $param && igk_getv($param, "prefix-table") ? "%prefix%" : "";
+    $cp = igk_getv($param, "prefix-table");
+    $prefix = $param && $cp ? "%prefix%" : "";
+    $v_filter = igk_getv($param,'filter'); 
+
+
 
     if ($mysql->connect()) {
         if (!($mysql->selectdb($dbname))) {
             $rep->addNode("error")->Content = __("Database {0} not selected", $dbname);
         } else {
-            $r = $mysql->listTables();
+            $r = $mysql->listTables($v_filter);
             if ($r) {
                 $n = "table";
                 $e = false;
                 foreach ($r as $t) {
                     if ($e)
                         igk_exit();
-                    $table_n = $t->$n;
-                    $row = $rep->add(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName" => $prefix . $table_n));
+                    $rn = $table_n = $t->$n;
+                    
+                    if ($cp && $prefix){
+                        $rn = igk_str_rm_start($rn, $cp, 1);
+                    }
+                    $row = $rep->add(DbSchemas::DATA_DEFINITION)->setAttributes(array("TableName" => $prefix . $rn));
                     $tinfo = array();
                     $tt = $mysql->sendQuery("SELECT Count(*) FROM `" . $table_n . "`;");
                     $b = $tt->Columns[0]->name;
@@ -576,7 +590,7 @@ function igk_api_mysql_get_data_schema($api, $render = 1, $param = null)
         $mysql->close();
     }
     if ($render) {
-        $rep->RenderXML();
+        $rep->RenderXML((object)['xmldefinition'=>true]);
         igk_exit();
     }
     $check = igk_getv($param, "check");
@@ -813,7 +827,7 @@ function igk_api_mysql_get_table_definition($api, $row, $table_n, $mysql, $tinfo
 }
 ///<summary>Represente class: IGKMySQLUtilityConstant</summary>
 /**
-* Represente IGKMySQLUtilityConstant class
+* Represent IGKMySQLUtilityConstant class
 */
 class IGKMySQLUtilityConstant{
     const VERSION="2.2";

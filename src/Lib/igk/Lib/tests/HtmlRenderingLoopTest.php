@@ -6,12 +6,29 @@ namespace IGK\Tests;
 
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests
 */
 class HtmlRenderingLoopTest extends BaseTestCase{
+
+    public function test_htmlrender_activate(){
+        $src = implode("\n", [ 
+            '<Column',
+            'clIsUnique ',
+            'clAutoIncrement ',
+            'clIsPrimary',
+            '></Column>'
+        ]);
+        $d = igk_create_node('p');
+        $d->load($src); 
+
+        $this->assertEquals(
+            '<p><Column clAutoIncrement="true" clIsPrimary="true" clIsUnique="true"></Column></p>',
+            $d->render()
+        );
+    }
+
     public function test_loop_on_range(){
         $n = igk_create_node('div');
         $n->ul()->loop(range(1,3))->host(function($a, $i){

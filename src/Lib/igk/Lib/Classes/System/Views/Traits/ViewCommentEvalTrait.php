@@ -3,10 +3,7 @@
 // @file: ViewCommentEvalTrait.php
 // @date: 20230123 11:08:37
 namespace IGK\System\Views\Traits;
-
 use IGK\Helper\StringUtility;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Views\Traits

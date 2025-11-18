@@ -3,9 +3,7 @@
 // @filename: IGKApplication.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\ApplicationLoader;
-
 require_once IGK_LIB_CLASSES_DIR.'/IGKApplicationBase.php';
 /**
  * represent core application
@@ -24,7 +22,7 @@ abstract class IGKApplication extends IGKApplicationBase{
         $app = ApplicationLoader::Boot($type, $bootoptions);       
         // configure the create application 
         if ($app && $boot){
-            //call before return
+            // + | callback before return the application instance 
             $boot($app);
         }
         return $app;

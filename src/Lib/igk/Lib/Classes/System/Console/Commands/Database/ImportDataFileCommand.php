@@ -3,12 +3,9 @@
 // @file: ImportDataFileCommand.php
 // @date: 20240918 16:42:02
 namespace IGK\System\Console\Commands\Database;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Import\DbImportFile;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\\System\Console\Commands\Database
@@ -16,9 +13,11 @@ use IGK\System\Database\Import\DbImportFile;
 */
 class ImportDataFileCommand extends AppExecCommand{
 	var $command='--db:import';
-	var $desc='import data desc';
+	var $desc='import data from description file';
 	var $options=[
 		"-f:file"=>"file to import",
+		"--entry:"=>"set entry definition",
+		"--autoregister"=>"flag: autore register unknow entries"
 		// "-t:type"=>"force file as type json|csv"
 	];
 	var $category="db";
@@ -35,15 +34,17 @@ class ImportDataFileCommand extends AppExecCommand{
 		$file = igk_getv($command->options, '-f') ?? igk_die('missing file');
 		$type = igk_getv($command->options, '-t');
 		$autoregister = property_exists($command->options, '--autoregister');
+		$entry = igk_getv($command->options, '--entry');
+		self::BindUserCommand($ctrl, $command);
 		$model = $ctrl->model($model);
 		if ($model){
-			DbImportFile::Import($model, $file, $type, $autoregister);
+			Logger::info('importing...');
+			DbImportFile::Import($model, $file, $type, $autoregister, $entry);
 			Logger::success('done');
 		}
 		else{
 			Logger::danger('missing model');
 		}		
 		return 0;
-
 	}
 }

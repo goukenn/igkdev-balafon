@@ -1,16 +1,12 @@
 <?php
 namespace IGK\System\IO\File;
-
 use IGK\Helper\IO as IGKIO;
 use IGK\System\Html\Dom\HtmlNode;
 use IGKObject; 
 use ReflectionMethod;
-
 // @author: C.A.D. BONDJE DOUE
 // licence: IGKDEV - Balafon @ 2019
 // desc: wsdl utility class
-
-///<summary>used to generate file</summary>
 /**
 * used to generate file
 */
@@ -25,10 +21,6 @@ class WsdlFile extends IGKObject {
     private $m_srv;
     private $m_uri;
     private $uri;
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="uri"></param>
-    ///<param name="attributes" default="null"></param>
     /**
     * 
     * @param mixed $name
@@ -51,11 +43,6 @@ class WsdlFile extends IGKObject {
         $this->m_binding=$this->m_def->addChildNodeView("binding");
         $this->m_service=$this->m_def->addChildNodeView("service");
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="style" default="rpc"></param>
-    ///<param name="porttype" default="null"></param>
-    ///<param name="enctype" default="'encoded'"></param>
     /**
     * 
     * @param mixed $name
@@ -73,11 +60,6 @@ class WsdlFile extends IGKObject {
         }
         return $c;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="input"></param>
-    ///<param name="output" default="null"></param>
-    ///<param name="porttype" default="null"></param>
     /**
     * 
     * @param mixed $n
@@ -111,11 +93,6 @@ class WsdlFile extends IGKObject {
         $op->addNode("input")->setAttribute("message", "igkns:".$n."Request");
         $op->addNode("output")->setAttribute("message", "igkns:".$n."Response");
     }
-    ///<summary></summary>
-    ///<param name="srvname"></param>
-    ///<param name="doc"></param>
-    ///<param name="srv"></param>
-    ///<param name="loc"></param>
     /**
     * 
     * @param mixed $srvname
@@ -134,11 +111,6 @@ class WsdlFile extends IGKObject {
         $this->m_cservice=$d;
         return $d;
     }
-    ///<summary></summary>
-    ///<param name="srv"></param>
-    ///<param name="name"></param>
-    ///<param name="type" default="encoded"></param>
-    ///<param name="urn" default="sample:demo"></param>
     /**
     * 
     * @param mixed $srv

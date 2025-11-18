@@ -91,8 +91,7 @@ function get_relation($mysql, $tname, $clname,  $dbname=null){
 	
 	//restore db
 	$n = $mysql->selectdb($r);
-	// if ($tname == "tbigk_users_reference_models")
-		// igk_wln($h);
+ 
 	return $h->getRowAtIndex(0);	
 }
 function igk_api_get_columninfo($row, $v, $table_n, $mysql){
@@ -305,9 +304,9 @@ function igk_api_mysql_get_config_data_schema($api, $render=1, $param=null){
 	$msg = $rep->add("warning-message");
 	$err = $rep->add("error-message");
 	$not = $rep->add("notice-message");
-	$msg->setCallback("getIsVisible", "return \$this->ChildCount>0;");
-	$not->setCallback("getIsVisible", "return \$this->ChildCount>0;");
-	$err->setCallback("getIsVisible", "return \$this->ChildCount>0;");	
+	$msg->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
+	$not->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");
+	$err->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");	
 	$tables = array();
 	$count = 0;
 	
@@ -421,9 +420,9 @@ function igk_api_mysql_check_data_structure($api){
 	// igk_wln($tdb["tbigk_humans"]); 
 	$rep = igk_create_node("data_rep");
 	$err = $rep->add("error-message");
-	$err->setCallback("getIsVisible", "return \$this->ChildCount>0;");	
+	$err->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");	
 	
-	$notused = $rep->add("TableNotUsed")->setCallback("getIsVisible", "return \$this->ChildCount>0;");	
+	$notused = $rep->add("TableNotUsed")->setCallback(CallableConstants::IS_VISIBLE_METHOD, "return \$this->ChildCount>0;");	
 	 // igk_wln(array_keys($tconfig));
 	$ubind = (array_keys($tdb));
 	

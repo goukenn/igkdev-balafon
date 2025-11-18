@@ -1,13 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ISysConfigurationData.php
 // @date: 20220813 14:17:07
 // @desc: configuration data
-
-
 namespace IGK\System\Configuration;
-
 /**
 * @property bool $BootStrap
 * @property bool $BootStrap.Enabled
@@ -40,7 +36,8 @@ namespace IGK\System\Configuration;
 * @property bool $default_author
 * @property bool $default_controller
 * @property bool $default_dataadapter
-* @property bool $default_lang
+* @property ?string $default_lang
+* @property ?string $default_user
 * @property bool $display_errors
 * @property bool $error_debug
 * @property bool $error_reporting
@@ -49,6 +46,7 @@ namespace IGK\System\Configuration;
 * @property bool $globaltheme
 * @property bool $help_uri
 * @property bool $informAccessConnection
+* @property ?string $LogFile custom log file 
 * @property bool $mail_admin
 * @property bool $mail_authtype
 * @property bool $mail_contact
@@ -88,5 +86,4 @@ namespace IGK\System\Configuration;
 * @property bool $website_title
 */
 interface ISysConfigurationData{
-
 }

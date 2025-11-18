@@ -1,18 +1,14 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: HtmlLoadingContext.php
 // @date: 20220707 01:38:40
 // @desc: html loading context
 //      - component conatiner can bind context when loading special items
 //      - surround object callback is use to ensure loading on callback context
-
 namespace IGK\System\Html;
-
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKEvents;
-
 /**
  * html loading context 
  * @package 
@@ -23,40 +19,33 @@ class HtmlLoadingContext{
      * @var mixed
      */
     var $name;
-
     /**
      * enable or not loading with setContent
      * @var bool
      */
     var $load_content;
-
     /**
      * enable or not loading expression
      * @var bool
      */
     var $load_expression;
-
     /**
      * source node
      * @var mixed
      */
     var $node;
-
     /**
      * ignore tags on rendering|creation context
      * @var ?array
      */
     var $ignore_tags;
-
     private static $sm_context_loading;
-    
     /**
      * get current loading context
      * @return ?static
      */
     public static function GetCurrentContext(){
         $g= self::$sm_context_loading ? igk_getv(self::$sm_context_loading, 0) : null;// [] igk_environment()->peek(self::class);
-
         return $g ? $g[0] : null;
     }
     private static function  & _RefLoading(){
@@ -76,7 +65,6 @@ class HtmlLoadingContext{
         $sm_context_loading = & self::_RefLoading();
         // $def = [get_class($context), $parent];
         $def = [$context, $parent];
-        
         if ((count($sm_context_loading)<=0) || 
             !(($sm_context_loading[0]== $def) || ($sm_context_loading[0][0]== $def[0]))){ 
             self::_LoadContextAndInitialize($sm_context_loading, $def); 
@@ -109,12 +97,10 @@ class HtmlLoadingContext{
             $v_pop = true; 
         }
         else if (is_array($uninitialize) && ($uninitialize==$c)){
-            
             $v_pop = true;
             $uninitialize = true;
         }
         if ($v_pop){
-
             $c = array_shift(self::$sm_context_loading);
             if ($c && is_bool($uninitialize) && $uninitialize){
                 $c[0]->uninitialize();
@@ -135,10 +121,8 @@ class HtmlLoadingContext{
         return $i;
     }
     protected function initialize(){
-
     }
     protected function uninitialize(){
-
     }
     /**
      * surround container with

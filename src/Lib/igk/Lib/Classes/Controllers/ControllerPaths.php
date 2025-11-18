@@ -3,21 +3,16 @@
 // @filename: ControllerPaths.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Controllers;
-
 use IGK\Helper\StringUtility;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use IGKException;
-
 /**
  * controller path management
  * @package IGK\Controllers
  */
 class ControllerPaths{
-
     /**
      * collapse dir
      * @var mixed
@@ -38,13 +33,11 @@ class ControllerPaths{
      * @var mixed
      */
     var $dataDir;
-
     /**
      * script directory
      * @var mixed
      */
     var $scriptDir;
-
     private function __construt(){
     }
     /**
@@ -58,7 +51,6 @@ class ControllerPaths{
      */
     public static function Gets(BaseController $controller){
         $key = ControllerExtension::getEnvKey($controller, "path_info"); 
-
         if (null === ($inf = igk_environment()->get($key))){
             $dir = $controller->getBaseDir() ?? dirname(igk_io_expand_path(
                 igk_io_collapse_path($controller->getDeclaredFileName())

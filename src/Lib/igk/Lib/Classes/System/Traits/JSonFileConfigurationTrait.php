@@ -3,9 +3,6 @@
 // @file: JSonFileConfigurationTrait.php
 // @date: 20230420 12:43:57
 namespace IGK\System\Traits;
-
-
-///<summary></summary>
 /**
 * for json file configuration 
 * @package IGK\System\Traits
@@ -29,5 +26,4 @@ trait JSonFileConfigurationTrait{
      * @return static 
      */
     public abstract static function CreateFromConfigData($data);
-
 }

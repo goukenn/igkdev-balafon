@@ -3,13 +3,10 @@
 // @file: LayoutRules.php
 // @date: 20240911 10:54:00
 namespace IGK\System\WinUI;
-
 use Exception;
 use IGK\Models\Configurations;
 use IGKException;
 use ReflectionClass;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\WinUI

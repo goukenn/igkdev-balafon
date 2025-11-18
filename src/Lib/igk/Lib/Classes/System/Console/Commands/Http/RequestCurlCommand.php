@@ -3,10 +3,7 @@
 // @file: RequestCurlCommand.php
 // @date: 20241019 21:55:01
 namespace IGK\System\Console\Commands\Http;
-
 use IGK\System\Console\AppExecCommand;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Http
@@ -14,9 +11,9 @@ use IGK\System\Console\AppExecCommand;
 */
 class RequestCurlCommand extends AppExecCommand{
 	var $command='--request:curl';
-	/* var $desc='desc'; */
+    var $desc='invoque with curl'; 
 	/* var $options=[]; */
-	/* var $category = ''; */
+    var $category = 'request'; 
 	var $usage = 'url'; 
 	public function exec($command, ?string $url=null) { 
 		empty($url) && igk_die('missing curl'); 
@@ -25,11 +22,9 @@ class RequestCurlCommand extends AppExecCommand{
 			if ($error){
 				return -2;
 			}
-
 			echo $g;
 		} else{
 			return -1;
 		}
-
 	}
 }

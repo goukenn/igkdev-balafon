@@ -3,9 +3,6 @@
 // @file: StringBlockReader.php
 // @date: 20230105 06:43:43
 namespace IGK\System\IO;
-
-
-///<summary></summary>
 /**
 * read block expression 
 * @package IGK\System\IO
@@ -20,6 +17,16 @@ class StringBlockReader{
     var $start;
     var $end;
     var $offset=0; 
+    /**
+     * create annotation string block reader
+     * @return static 
+     */
+    public static function Annotation(){
+        $l = new static;
+        $l->start = '(';
+        $l->end = ')';
+        return $l;
+    }
     /**
      * read block in string
      * @param mixed $s 

@@ -3,9 +3,7 @@
 // @filename: HtmlVisibleNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom;
-
 /**
  * visibility node
  * @package IGK\System\Html\Dom
@@ -31,7 +29,6 @@ class HtmlVisibleNode extends HtmlNode{
         if ($fc = $this->m_callback){
             if (is_callable($fc))
                 return $fc($this);
-
             if (is_bool($fc))
                 return $fc;
         }

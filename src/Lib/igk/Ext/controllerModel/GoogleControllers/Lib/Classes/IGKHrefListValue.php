@@ -5,36 +5,31 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>Represente namespace: IGK\Core\Ext\Google</summary>
 /**
-* Represente IGK\Core\Ext\Google namespace
+* Represent IGK\Core\Ext\Google namespace
 */
 namespace IGK\Core\Ext\Google;
-// DIRECT RENDERING///<summary>represent list get value storage</summary>
+
 /**
 * represent list get value storage
 */
 final class IGKHrefListValue{
     var $values;
-    ///<summary></summary>
     /**
     * 
     */
     public function __construct(){
         $this->values=func_get_args();
     }
-    ///<summary>display value</summary>
     /**
     * display value
     */
     public function __toString(){
         return $this->getValue();
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     /**
     * 
     * @param mixed $options the default value is null

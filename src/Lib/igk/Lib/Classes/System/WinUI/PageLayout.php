@@ -3,11 +3,8 @@
 // @filename: PageLayout.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\WinUI;
-
 use IGK\System\Configuration\ConfigData;
-
 /**
  * represent a page default layout
  * @package IGK\System\WinUI

@@ -3,13 +3,8 @@
 // @filename: BoolValidator.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Forms\Validations;
-
-
 class BoolValidator extends FormFieldValidatorBase implements IFormValidator{
-
-    
     public function assertValidate($value): bool {
         return is_bool($value);
     }
@@ -20,5 +15,4 @@ class BoolValidator extends FormFieldValidatorBase implements IFormValidator{
             return $default;
         return boolval($value);
     }
-
 }

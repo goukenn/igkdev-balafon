@@ -1,9 +1,6 @@
 <?php
-
 namespace IGK\Helper;
-
 use Closure;
-
 class InvocationHelper{
     /**
      * create inclusion helper 

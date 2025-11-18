@@ -3,31 +3,31 @@
 // @filename: FileSystem.php
 // @date: 20220803 13:48:55
 // @desc: 
- 
 namespace IGK\System\IO;
-
 use IGK\System\Exceptions\ArgumentNotValidException; 
 require_once __DIR__."/CoreFileSystem.php"; 
 /**
  * file system helper 
  */
 class FileSystem extends CoreFileSystem{  
- 
-
+    /**
+     * default extension 
+     * @var mixed
+     */
+    var $default_extension;
     public function __construct(string $dir){
-        if (!file_exists($dir)){
+        if (!self::Exists($dir)){
             throw new ArgumentNotValidException("dir");
         }
         $this->path = $dir;
     }
-    
     /**
      * path to check if exists
      * @param string $path 
      * @return bool 
      */
-    public static function Exists(string $path):bool{
-        return file_exists($path);
+    public static function Exists(string $path):bool{ 
+        return igk_io_file_exists($path, true);
     }
     /**
      * return FileSystem helper
@@ -35,7 +35,7 @@ class FileSystem extends CoreFileSystem{
      * @return FileSystem|null 
      */
     public static function Create(string $path){
-        if (file_exists($path)){
+        if (igk_io_file_exists($path, true)){
             return new static($path);
         }
         return null;
@@ -57,7 +57,10 @@ class FileSystem extends CoreFileSystem{
      * @param string $ext extension to add to path
      * @return string cache path
      */
-    public function getCacheFilePath(string $path, string $ext=".php"): string{
+    public function getCacheFilePath(string $path, ?string $ext=".php"): string{
+        if (is_null($ext)){
+            $ext = $this->default_extension ?? '.php';
+        }
         return implode(DIRECTORY_SEPARATOR, [$this->_getDir(), sha1($path).$ext]);
     }
     /**
@@ -66,7 +69,6 @@ class FileSystem extends CoreFileSystem{
     public function getFullPath(string $path): string {
         return implode(DIRECTORY_SEPARATOR, array_filter([$this->_getDir(), $path]));
     }
-
     /**
      * check if path expired 
      * @param string $path real file to check to filesystem resources
@@ -75,13 +77,11 @@ class FileSystem extends CoreFileSystem{
      */
     public function cacheExpired(string $path, ?string $ext=".php"){
         $p = filemtime($path);
-        if (file_exists($file = $this->getCacheFilePath($path, $ext))){
+        if (is_file($file = $this->getCacheFilePath($path, $ext))){
             return filemtime($file) < $p;
         }
         return true;
     }
-
-
     /**
      * check that file expiere from cache storage
      * @param string $realpath_to_check 
@@ -92,7 +92,7 @@ class FileSystem extends CoreFileSystem{
     public function checkNotExpired(string $realpath_to_check, string $caching_name, $ext='.php'){
         $p = filemtime($realpath_to_check);  
         $vn = $this->getCacheFilePath($caching_name, $ext);
-        if (file_exists($vn)){
+        if (igk_io_file_exists($vn)){
             return filemtime($vn) > $p;
         }
         return false;

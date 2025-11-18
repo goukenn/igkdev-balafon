@@ -3,11 +3,8 @@
 // @file: HtmlColorizer.php
 // @date: 20241030 18:39:33
 namespace IGK\System\Console\Html;
-
 use IGK\System\Console\Colorize;
 use IGK\System\Text\RegexMatcherContainer;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Html
@@ -18,13 +15,11 @@ use IGK\System\Text\RegexMatcherContainer;
  * @package 
  */
 class HtmlColorizer extends Colorize{
-
     protected function _initColor(): array
     {
         return array_merge(parent::_initColor(), [
            'tagname'=>"\e[38;2;170;65;30m" 
         ]);
-
     }
     protected function _initRegexMatcherContainer(RegexMatcherContainer $match)
     {
@@ -37,9 +32,7 @@ class HtmlColorizer extends Colorize{
         $match->begin('<!--', '-->', 'comment');
         $match->match('(?i)<!DOCTYPE\b', 'tagname');
         $match->match('>', 'tagname');
-      
     }
-    
     /**
      * 
      * @param mixed $s 
@@ -53,4 +46,3 @@ class HtmlColorizer extends Colorize{
         return parent::__invoke($s,$match, $filter);
     }
 }
-

@@ -3,25 +3,21 @@
 // @filename: CoreFileSystem.php
 // @date: 20220803 13:48:55
 // @desc: 
- 
- 
 namespace IGK\System\IO;
-
 // igk_trace();
 // igk_wln_e("basic");
-
 /**
  * core file
  * @package IGK\System\IO
  */
 abstract class CoreFileSystem{
+    const INC_EXTENSION = '.pinc';
 
      /**
      * 
      * @var string base path of the file system
      */
     public $path; 
-    
     /**
      * check if path is dir
      * @return bool 
@@ -36,7 +32,6 @@ abstract class CoreFileSystem{
     public function isFile(){
         return is_file($this->path);
     }
-
     /**
      * check if path is expired
      * @param string $path path to cache in file system
@@ -68,7 +63,7 @@ abstract class CoreFileSystem{
      * @return bool 
      */
     public static function Exists(string $path):bool{
-        return file_exists($path);
+        return igk_io_file_exists($path);
     }
     /**
      * return FileSystem helper
@@ -76,7 +71,7 @@ abstract class CoreFileSystem{
      * @return static|null 
      */
     public static function Create(string $path){
-        if ((static::class != self::class) && file_exists($path)){
+        if ((static::class != self::class) && igk_io_file_exists($path)){
             $m = new static($path);
             return $m;
         }
@@ -108,7 +103,6 @@ abstract class CoreFileSystem{
     public function getFullPath(string $path): string {
         return implode(DIRECTORY_SEPARATOR, array_filter([$this->_getDir(), $path]));
     }
-
     /**
      * check if path expired 
      * @param string $path 
@@ -116,12 +110,11 @@ abstract class CoreFileSystem{
      */
     public function cacheExpired(string $path){
         $p = filemtime($path);
-        if (file_exists($file = $this->getCacheFilePath($path))){
+        if (igk_io_file_exists($file = $this->getCacheFilePath($path))){
             return filemtime($file) < $p;
         }
         return true;
     }
-
 //       /**
 //      * check that file expiere from cache storage
 //      * @param string $realpath_to_check 
@@ -132,7 +125,7 @@ abstract class CoreFileSystem{
 //     public function checkNotExpired(string $realpath_to_check, string $caching_name, $ext='.php'){
 //         $p = filemtime($realpath_to_check);  
 //         $vn = $this->getCacheFilePath($caching_name, $ext);
-//         if (file_exists($vn)){
+//         if (igk_io_file_exists($vn)){
 //             return filemtime($vn) < $p;
 //         }
 //         return false;

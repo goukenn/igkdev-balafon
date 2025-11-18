@@ -3,9 +3,6 @@
 // @file: ServiceWorkerHandlerActionTrait.php
 // @date: 20221115 08:49:06
 namespace IGK\Actions\Traits;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions\Traits

@@ -3,12 +3,9 @@
 // @file: ModelMapping.php
 // @date: 20230117 14:15:41
 namespace IGK\Mapping;
-
 use IGK\Helper\MapHelper;
 use IGK\Helper\StringUtility;
 use IGK\Models\ModelBase;
-
-
 /**
  * default model mapping
  */
@@ -18,20 +15,16 @@ class ModelMapping implements IDataMapper{
      * @var ModelBase
      */
     var $model;
-
     /**
      * map references
      * @var ?array
      */
     var $references;
-
     private $m_mapkey;
-
     public function __construct($model_or_model_class)
     {
         (is_string($model_or_model_class) && is_subclass_of($model_or_model_class, \IGK\Models\ModelBase::class)) || 
         (is_object($model_or_model_class) && $model_or_model_class instanceof ModelBase) || igk_die("not a valid parameter");
-
         $this->model = $model_or_model_class::model();
     }
     /**
@@ -42,7 +35,6 @@ class ModelMapping implements IDataMapper{
      * @throws IGKException 
      */
     public function map($key, $value): ?array{        
-
         $map_ref= $key;
         if ($tabinfo = $this->model->getTableInfo()){ 
             $prefix = $tabinfo->prefix;

@@ -3,11 +3,12 @@
 // @filename: IGKCGIServer.php
 // @date: 20220803 13:48:58
 // @desc: 
-
- 
 namespace IGK\CGI;
-use HtmlReader;
-
+use IGK\System\Html\HtmlReader;
+/**
+ * 
+ * @package IGK\CGI
+ */
 class IGKCGIServer
 {
     private static $smTempFile;
@@ -18,9 +19,7 @@ class IGKCGIServer
         return igk_getv(self::$sm_serverInfo, $v);
     }
     private function __construct(){
-
     }
-
     private static function RegFile($file){
         if (!self::$sm_regFileCallback){            
             self::$smTempFile = [];
@@ -45,9 +44,7 @@ class IGKCGIServer
     }
     // prepare cgi server
     public static function Prepare(){
-        
         parse_str(igk_server()->QUERY_STRING, $_GET);
-
         $fin=fopen("php://stdin", "r");
         if(!$fin){
             return false;
@@ -69,13 +66,11 @@ class IGKCGIServer
                     }
                     return self::getInstance();
             }
-
             // case multipart/formdata
             $inf = explode(";", $ctype);
             array_shift($inf);
             $_cattr=  HtmlReader::ReadAttributes(implode(" ", $inf));
             $boundary = igk_getv($_cattr, "boundary"); 
-
             $_type =null;
             $_attr =null;
             $_dtype = null;
@@ -118,15 +113,12 @@ class IGKCGIServer
                                     $cf = null;
                                     // igk_wln("in array : ".$cl);
                                     if (strpos(trim($cl), $key) !== 0){                                        
-                                    
                                         $cf = igk_io_sys_tempnam("cgi");
-                                        
                                         $wfile = fopen($cf,"w+");
                                         if (!$wfile) 
                                             $error = 1; // failed to create temp file
                                         else 
                                             fwrite($wfile, $l);
-                                        
                                         self::RegFile($cf);
                                         while($tl = fgets($fin)){
                                             if (strpos(trim($tl), $key) === 0){
@@ -137,7 +129,6 @@ class IGKCGIServer
                                         }
                                         if ($wfile)
                                             fclose($wfile);
-
                                     } else{
                                         $error = -2;
                                     }
@@ -173,9 +164,7 @@ class IGKCGIServer
                         break;
                     }
                 }
-               
             }
-            
             fseek($fin, 0, SEEK_SET);
             return 1;
         }

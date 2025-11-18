@@ -3,18 +3,13 @@
 // @filename: ArrayExtractor.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\System;
-
 use IGKException;
-
 /**
  * use in array_map
  * @package IGK\System
  */
 class ArrayExtractor{
-
     var $key;
     public function __construct(string $key)
     {

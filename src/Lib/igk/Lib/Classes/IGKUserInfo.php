@@ -5,15 +5,17 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
+use IGK\Controllers\BaseController;
+use IGK\Database\Helpers\AuthorizationHelper;
 use IGK\Models\Caches\CacheModels;
+use IGK\Models\ModelBase;
 use IGK\Models\Users;
+use IGK\System\Database\IUserProfile;
 use IGK\System\IToArray;
 use IGK\System\Traits\StoredPropertiesTrait;
-
-class IGKUserInfo extends IGKObject implements IToArray{
+class IGKUserInfo extends IGKObject implements IToArray{ 
     const DB_INFO_KEY="sys://db/info";
     var $clId;
     var $clLogin;
@@ -21,12 +23,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     // var $clPwd;
     var $csrf;
     use StoredPropertiesTrait;
-
-    ///<summary></summary>
     public function __construct(){    }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="value"></param>
     public function __set($name, $value){
         if(!$this->_setIn($name, $value))
             $this->setProperty($name, $value);
@@ -37,28 +34,33 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return $this->getProperty($key);
     }
-    ///<summary>Represente auth function</summary>
-    ///<param name="name"></param>
-    ///<param name="strict" default="false"></param>
     /**
      * 
      * @param string|array $name 
      * @param bool $strict 
+     * @param ?BaseController $ctrl current - load controller
      * @return mixed 
      */
-    public function auth($name, $strict=false){   
+    public function auth($name, $strict=false, $ctrl=null){   
+        $name = AuthorizationHelper::Map($name, $ctrl);
         return $this->model()->auth($name, $strict);
     }
-    ///<summary>Represente fullname function</summary>
     public function fullname(){
         return igk_user_fullname($this);
     }
+    /**
+     * display user info
+     * @return mixed 
+     * @throws Exception 
+     */
+    public function display():string{
+        if (strlen(trim( $s = $this->fullname())) == 0){
+            $s = $this->clLogin;
+        }
+        return $s;
+    }
     ///get all available authorisation for this user
-    public function getAuths(){
-        // if (igk_environment()->isDev()){
-        //     /// TASK: handle authorisation for all
-        //     return true;
-        // }
+    public function getAuths(){ 
         if($this->clId){
             $tab=array();
             $db=igk_db_table_select_where($this->usergrouptable, array(IGK_FD_USER_ID=>$this->clId));
@@ -80,7 +82,6 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return null;
     }
-    ///<summary></summary>
     public function getGroups(){
         if($this->clId){
             $tab=array();
@@ -95,11 +96,6 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="uinfo"></param>
-    ///<param name="authname"></param>
-    ///<param name="authCtrl" default="null"></param>
-    ///<param name="adapter" default="IGK_MYSQL_DATAADAPTER"></param>
     public static function GetIsAuthorize($uinfo, $authname, $strict=false, $authCtrl=null, $adapter=IGK_MYSQL_DATAADAPTER){
         $s=$uinfo;
         $k=self::DB_INFO_KEY;
@@ -115,16 +111,10 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return igk_db_is_user_authorized($uinfo, $authname, $strict, $v_authtable, $v_usergrouptable, $v_groupauthtable);
     }
-    ///<summary></summary>
-    ///<param name="authname"></param>
-    ///<param name="authCtrl" default="null"></param>
-    ///<param name="adapter" default="IGK_MYSQL_DATAADAPTER"></param>
     public final function IsAuthorize($authname, $authCtrl=null, $adapter=IGK_MYSQL_DATAADAPTER){
         $s=$this;
         return self::GetIsAuthorize($s, $authname, $authCtrl, $adapter);
     }
-    ///<summary></summary>
-    ///<param name="userTableData"></param>
     public function loadData($userTableData){
         if($userTableData){
             foreach($userTableData as $k=>$v){
@@ -132,11 +122,9 @@ class IGKUserInfo extends IGKObject implements IToArray{
             }
         }
     }
-    ///<summary>Represente to_json function</summary>
     public function to_json(){
         return json_encode($this);
     }
-    ///<summary></summary>
     public function toString(){
         return get_class($this);
     }
@@ -152,8 +140,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
         $key = CacheModels::GetCacheKey($model, Users::FD_CL_GUID, $this->clGuid);
         if ($o = CacheModels::Get($key)) {
             return $o;
-        }
-
+        } 
         return IGK\Models\Users::createFromCache($this, ['clGuid'=>$this->clGuid], []);
     }
 }

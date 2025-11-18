@@ -3,18 +3,12 @@
 // @filename: HtmlArticleConfigNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
-
 namespace IGK\System\Html\Dom;
-
 use IGK\System\Html\HtmlUtils;
 use IGKValueListener;
 use IGKViewMode;
-
-///<summary>Represente class: IGKHtmlArticleConfigNode</summary>
 /**
-* Represente IGKHtmlArticleConfigNode class
+* Represent IGKHtmlArticleConfigNode class
 */
 final class HtmlArticleConfigNode extends HtmlNode{
     private $m_ctrl;
@@ -22,11 +16,6 @@ final class HtmlArticleConfigNode extends HtmlNode{
     private $m_filename;
     private $m_forceview;
     private $m_target;
-    ///<summary></summary>
-    ///<param name="ctrl" default="null"></param>
-    ///<param name="target" default="null"></param>
-    ///<param name="filename" default="null"></param>
-    ///<param name="forceview"></param>
     /**
     * 
     * @param mixed $ctrl the default value is null
@@ -49,7 +38,7 @@ final class HtmlArticleConfigNode extends HtmlNode{
         if($config){
             HtmlUtils::AddImgLnk($this, igk_js_post_frame($config->getUri("ca_edit_article_ajx&navigate=1&ctrlid=".$n."&m=1&fc=1&fn=".base64_encode($f)), $ctrl), "edit_16x16");
             HtmlUtils::AddImgLnk($this, igk_js_post_frame($config->getUri("ca_add_article_frame_ajx&ctrlid=".$n."&m=1&fc=1&fn=".base64_encode($f)), $ctrl), "add_16x16");
-            if(file_exists($f)){
+            if(igk_io_file_exists($f)){
                 $this->m_dropfileUri=$config->getUri("ca_drop_article_ajx&navigate=1&ctrlid=".$n."&n=".base64_encode($f));
                 HtmlUtils::AddImgLnk($this, igk_js_post_frame(new IGKValueListener($this, "dropFileUri"), $ctrl), "drop_16x16")->setAlt("droparticle");
             }
@@ -60,22 +49,18 @@ final class HtmlArticleConfigNode extends HtmlNode{
         $target->add($this);
         $this->setIndex(-1000);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getdropFileUri(){
         return $this->m_dropfileUri;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getIsVisible(){
         return $this->m_forceview || (parent::getIsVisible() && IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER));
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v

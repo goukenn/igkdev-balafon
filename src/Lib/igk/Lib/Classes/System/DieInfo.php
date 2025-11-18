@@ -3,9 +3,6 @@
 // @file: DieInfo.php
 // @date: 20230118 18:01:10
 namespace IGK\System;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System
@@ -16,7 +13,6 @@ class DieInfo{
      * @var 
      */
     var $message;
-
     var $options;
     public function __construct(string $message, ?array $options=null)
     {

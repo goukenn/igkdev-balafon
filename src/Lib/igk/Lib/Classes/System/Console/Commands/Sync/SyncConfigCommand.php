@@ -3,10 +3,7 @@
 // @file: SyncConfigCommand.php
 // @date: 20231020 17:12:40
 namespace IGK\System\Console\Commands\Sync;
-
 use IGK\System\Console\Logger;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Sync
@@ -23,6 +20,5 @@ class SyncConfigCommand extends SyncAppExecCommandBase{
 		}
 		$d = $rf;
 		echo json_encode($d, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
-		
 	}
 }

@@ -1,18 +1,14 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: RequestUtility.php
 // @date: 20220531 07:13:31
 // @desc: 
-
 namespace IGK\System\Http;
-
 /**
  * 
  * @package IGK\System\Http
  */
 class RequestUtility{
-    
     /**
      * 
      * @param mixed $paramHandler 

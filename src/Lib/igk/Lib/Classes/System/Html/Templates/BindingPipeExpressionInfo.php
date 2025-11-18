@@ -1,5 +1,4 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: BindingPipeExpressionInfo.php
 // @date: 20220819 15:55:25
@@ -11,7 +10,6 @@ use IGK\Resources\R;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
-
 class BindingPipeExpressionInfo{
     /**
      * create default pipe definition
@@ -79,6 +77,18 @@ class BindingPipeExpressionInfo{
                 return sprintf('%.2f', $v) . " ".$litteral;
             }, 'urlencode' => function ($v){
                 return urlencode($v);
+            },
+            'append'=>function($v, $c=''){
+                if ($v){
+                    return $v.$c;
+                }
+                return $v;
+            },
+            'format'=>function($v, $format=''){
+                if ($v){
+                    return sprintf($format, $v);
+                }
+                return $v;
             }
         ];
     }

@@ -3,9 +3,6 @@
 // @file: RequestResponseInfo.php
 // @date: 20230124 11:45:24
 namespace IGK\System\Http;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http

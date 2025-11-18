@@ -3,9 +3,7 @@
 // @filename: Scaffold.php
 // @date: 20220622 19:06:59
 // @desc: scaffold helper
-
 namespace IGK\System\Console\Commands;
-
 use IGK\Helper\IO;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
@@ -14,7 +12,6 @@ use IGK\System\Console\Scaffold\ActionScaffold;
 use IGK\System\Console\Scaffold\AuthScaffold;
 use IGK\System\Exceptions\ArgumentNotValidException;
 use ReflectionClass;
-
 /**
  * 
  * @package IGK\System\Console\Commands
@@ -22,13 +19,9 @@ use ReflectionClass;
 class ScaffoldCommand extends AppExecCommand
 {
     var $command = "--scaffold";
-
     var $category = "scaffold";
-
     var $desc  = "scaffold command line";
-
     static $sm_scaffold;
-
     var $options = [
     ];
     private static function _InitScaffOfld(){
@@ -50,7 +43,6 @@ class ScaffoldCommand extends AppExecCommand
                 self::$sm_scaffold[strtolower($clname)] = $tc;
             }
         }
-        
     }
     public static function RegisterScaffold(string $name, string $cl){
         if(empty($name)){
@@ -64,7 +56,7 @@ class ScaffoldCommand extends AppExecCommand
             self::$sm_scaffold[$name] = $cl;
         }
     }
-    public function exec($command, string $cmd =null)
+    public function exec($command, ?string $cmd =null)
     {   
         $result = null;
         $failed = false;
@@ -72,7 +64,6 @@ class ScaffoldCommand extends AppExecCommand
             $scaffold_tab = array_merge(self::$sm_scaffold,
              igk_environment()->get("scoffold_commands", [])
             );
-            
             if ($c = igk_getv($scaffold_tab, $cmd)){
                 $m = new $c();
                 $result = $m->exec($command, ...array_slice(func_get_args(), 2));
@@ -85,7 +76,6 @@ class ScaffoldCommand extends AppExecCommand
             return false;
         }
         return $result;
-
     }
     public function help(...$args)
     {
@@ -115,12 +105,9 @@ class ScaffoldCommand extends AppExecCommand
             App::Gets(App::BLUE_I, "type") 
             . " [options]"
         ); 
-    
         Logger::print("");
         Logger::print("list of registrated types");        
         Logger::print("");
-
-
         array_map(function($a)use($scaffold_tab){
             $cl = $scaffold_tab[$a];
             $m = new $cl();
@@ -133,6 +120,5 @@ class ScaffoldCommand extends AppExecCommand
         $this->showOptions();
     }
 }
-
 ScaffoldCommand::RegisterScaffold("action", ActionScaffold::class);
 // ScaffoldCommand::RegisterScaffold("auth", AuthScaffold::class);

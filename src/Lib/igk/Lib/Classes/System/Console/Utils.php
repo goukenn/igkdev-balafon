@@ -3,7 +3,6 @@
 // @filename: Utils.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Console;
 /**
  * console helper
@@ -15,7 +14,7 @@ class Utils{
         $base_uri = igk_get_domain_name($base_uri) ?? '//localhost';
         $init_data->env()->setAttributes(["name" => "IGK_BASE_URI", "value" => $base_uri]);
         $init_data->env()->setAttributes(["name" => "IGK_DOCUMENT_ROOT", "value" => $public_dir]);
-        $init_data->env()->setAttributes(["name" => "IGK_BASE_DIR", "value" => $public_dir]);
+        $init_data->env()->setAttributes(["name" => 'IGK_BASE_DIR', "value" => $public_dir]);
         $init_data->env()->setAttributes(["name" => "IGK_APP_DIR", "value" => $app_dir]);
         $sapp_dir = $app_dir == "./" ? "": $app_dir;
         $init_data->env()->setAttributes(["name" => "IGK_PROJECT_DIR", "value" => $sapp_dir."/Projects"]);

@@ -5,25 +5,18 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\System\Html\HtmlUtils;
-
 final class IGKCoreJSon extends IGKObject
 {
     const ExpressionRegex = "\\{(?<expression>(.)+)\\}";
-    ///<summary></summary>
-    ///<param name="n"></param>
     // private static function json_key($n){
     //     if(preg_match_all("/^(?P<delimiter>('|\")*)(?P<key>(.)+)\\1$/i", $n, $tab)){
     //         return $tab["key"][0];
     //     }
     //     return $n;
     // }
-
-    ///<summary></summary>
-    ///<param name="expression"></param>
     public function ToDictionary($expression, $strict = true){
         $h = self::GetExpression($expression, $strict);
         if (is_int($h) && ($h <= 0))

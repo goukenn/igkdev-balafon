@@ -3,17 +3,13 @@
 // @filename: CssThemeResolver.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Css;
-
 use IGK\Resources\R;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\SVG\SvgRenderer;
 use IGKException;
 use IGKResourceUriResolver;
-
 class CssThemeResolver
 {
     /**
@@ -26,30 +22,21 @@ class CssThemeResolver
      * @var mixed
      */
     var $theme;
-
     /**
      * parent theme
      * @var ?HtmlDocTheme
      */
     var $parent;
-
     var $last;
-
     var $designmode = false;
-
     var $resolv = [];
-
-
     var $start = false;
-
     var $colordef = null;
-
     /**
      * resource resolver
      * @var ?ICssResourceResolver
      */
     var $resolver;
-
     const ATTR_RESOLV = 'resolv';
     const ATTR_TRANS = 'trans';
     const ATTR_TRANSFORM = 'transform';
@@ -75,9 +62,8 @@ class CssThemeResolver
     const ATTR_SYS_FCL = 'sysfcl';
     const ATTR_SYS_COLOR = 'syscl';
     const ATTR_SYS_BCL = 'sysbcl';
-
     const ATTR_G_RESOLV_MODE = 'sys';
-
+    const ATTR_G_THEME_RESOLV_MODE = 'th';
     /**
      * treat theme value
      * @param string $value 
@@ -91,7 +77,6 @@ class CssThemeResolver
             return $this->treatInlineValue($v);
         }
         return $v;
-
     }
     /**
      * treat parser for inline value
@@ -127,7 +112,6 @@ class CssThemeResolver
         if (isset($this->resolv[$value])) {
             return $this->resolv[$value];
         }
-
         if (!$this->start) {
             // initialize 
             $this->start = igk_sys_request_time();
@@ -143,7 +127,6 @@ class CssThemeResolver
         // + | --------------------------------------------------------------------
         // + | resolve link expression 
         // + |
-
         while (($c = preg_match_all($reg3, $v, $match))) {
             for ($i = 0; $i < $c; $i++) {
                 $n = $match[0][$i];
@@ -164,9 +147,9 @@ class CssThemeResolver
                     switch ($type) {
                         case self::ATTR_G_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
-                            $rv = $systheme->$deftheme[$name];
+                            $rv = $systheme->$deftheme[$name]; 
                             break;
-                        case "th":
+                        case self::ATTR_G_THEME_RESOLV_MODE:
                             $v_resolv_names[$name] = 1;
                             $rv = $theme->$deftheme[$name];
                             break;
@@ -185,7 +168,9 @@ class CssThemeResolver
             $vresolv = 0;
             $qlist = [$v];
             $roots = [];
-            while ($g = array_pop($qlist)) {
+            while (count($qlist)>0) {
+                $g = array_pop($qlist);
+                if (!$g) continue;
                 $rtv = null;
                 $pos = 0;
                 if (is_array($g)) {
@@ -205,8 +190,6 @@ class CssThemeResolver
                     if ($this->_nextSplitter($g, $pos)){
                         $stop = ';';
                     }
-                    
-
                     if (($tl = strpos($tv, "[", 1)) !== false) {
                         $q = array("parent" => $tv, "value" => substr($tv, $tl));
                         array_push($qlist, $q);
@@ -224,8 +207,6 @@ class CssThemeResolver
                                 continue;
                             }
                         } 
-                        
-
                         if (($rtv == null) || !isset($roots[$rtv]))
                             $roots[$tv] = $sv;
                         else {
@@ -267,7 +248,6 @@ class CssThemeResolver
                 $vsrc = $v;
             }
         }
-     
         $this->resolv[$v_def] = $v;
         return $v;
     }
@@ -325,7 +305,6 @@ class CssThemeResolver
         $this->resolv = [];
         $this->start = null;
     }
-
     private function _treat_entries(string & $v, $type, $value, $a = "", $stop = "", bool $themeexport = false)
     { 
         $theme = $this->theme;
@@ -340,7 +319,6 @@ class CssThemeResolver
         }
         $gcl = ($d) ? $d : array();
         $stop = trim($stop);
-
         $v_designmode =  $this->designmode;
         $chainColors = array();
         if (($theme != null) && ($gtheme !== $theme) && ($theme !== $systheme)) {
@@ -359,26 +337,25 @@ class CssThemeResolver
         //function ($value) use (&$chainColors, $v_designmode, $gtheme, $systheme, $theme) {
         function ($value) use (&$chainColors, $v_designmode) { 
             $resolved = & $this->themeResolved;
+            // if (strstr($value, 'rgba')){
+            //     Fix color model
+            // }
             // detect color function or var prop
-            if (preg_match("/\s*(?P<name>(rgb(a)|var|hsl))\s*\(/i", $value,$data)){
+            if (preg_match("/\s*(?P<name>(rgb(a)?|var|hsl))\s*\(/i", $value,$data)){
                 if ($data["name"]=="var"){
                     $p = explode(',', rtrim(substr($value, strpos($value,"(") +1), ')'));
                     $root = & $this->theme->getRootReference();
-                    $root[trim($p[0])] = trim(igk_getv($p, 1, "transparent"));
-                    
-                }
-                return $value;
+                    $root[trim($p[0])] = trim(igk_getv($p, 1, "transparent")); 
+                } 
+                if (!preg_match('/^[a-z\\- ]+,/i', $value))
+                    return $value;
             }
-
-            $tab = explode(',', $value);
+            $tab = explode(',', $value, 2);
             $v = trim($tab[0]);
             if ($this->resolver && ($s = $this->resolver->resolveColor($v))){
                 $resolved = true;
                 return $s;
             }
-
-         
-
             $def = count($tab) > 1 ? implode(",", array_slice($tab, 1)) : 'transparent';
             if (!($s = igk_css_treatcolor($chainColors, $v)) || ($v == $s)) {
                 if (defined('IGK_TEST_INIT')){
@@ -472,7 +449,6 @@ class CssThemeResolver
                     $v = str_replace($v_m, 
                         ($tf = $this->_resolve_res($value)) ? "background-image: url('" . $tf. "')" . $stop : "", 
                         $v);
-
                 }else{
                     if (is_file($value)) {
                         $v = str_replace($v_m, "background-image: url('" . igk_io_baseuri($value) . "')" . $stop, $v);
@@ -503,12 +479,12 @@ class CssThemeResolver
                     $b = $this->_get_fcl($b);
                 }
                 $v = str_replace($v_m, $b, $v);
+                igk_ilog('syscolor: '.$cl);
                 break;
             case self::ATTR_SYS_BCL : 
                 $tv = explode(',', $value);
                 $cl = trim($tv[0]);
                 $ncl = igk_css_design_color_value($cl, $gcl, $v_designmode);
-
                 $b = ($ncl != $value) || (($ncl == $value) && igk_css_is_webknowncolor($ncl)) ? igk_css_get_bordercl($ncl) : "";
                 $v = str_replace($v_m, $b, $v);
                 break;
@@ -646,7 +622,6 @@ class CssThemeResolver
      */
     private function _detect_color(array $tv, $cl, $ncl){
         $systheme = $this->parent;
-        
         if (($ncl == $cl) && !igk_css_is_webknowncolor($ncl)) {
             if ($defcl = igk_getv($tv, 1)) {
                 $ncl = trim($defcl);
@@ -662,13 +637,10 @@ class CssThemeResolver
         }
         return trim($ncl);
     }
-
-    protected function _get_bgcl($ncl, bool $themeexport){
-        // igk_css_get_bgcl($ncl, $gtheme, $systheme),
+    protected function _get_bgcl($ncl, bool $themeexport){        
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
     }
     protected function _get_fcl($value, $resolved=false){   
-      
         if ($resolved){
             return sprintf("color: %s;", $value);
         }

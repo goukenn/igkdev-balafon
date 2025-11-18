@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Mailinglists.php
-// @date: 20240922 19:45:48
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>store mailing lists.</summary>
 /**
 * store mailing lists.
 * @package IGK\Models
@@ -21,15 +17,15 @@ use IGK\Models\ModelBase;
 * @property string $clml_agent
 * @property string|datetime $clml_create_at ="NOW()"
 * @property string|datetime $clml_update_at ="NOW()"
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CLML_EMAIL() - `clml_email` full column name 
-* @method static string FD_CLML_STATE() - `clml_state` full column name 
-* @method static string FD_CLML_SOURCE() - `clml_source` full column name 
-* @method static string FD_CLML_LOCALE() - `clml_locale` full column name 
-* @method static string FD_CLML_INIT() - `clml_init` full column name 
-* @method static string FD_CLML_AGENT() - `clml_agent` full column name 
-* @method static string FD_CLML_CREATE_AT() - `clml_create_at` full column name 
-* @method static string FD_CLML_UPDATE_AT() - `clml_update_at` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CLML_EMAIL() - `clml_email` full column name 
+* @method static string FN_CLML_STATE() - `clml_state` full column name 
+* @method static string FN_CLML_SOURCE() - `clml_source` full column name 
+* @method static string FN_CLML_LOCALE() - `clml_locale` full column name 
+* @method static string FN_CLML_INIT() - `clml_init` full column name 
+* @method static string FN_CLML_AGENT() - `clml_agent` full column name 
+* @method static string FN_CLML_CREATE_AT() - `clml_create_at` full column name 
+* @method static string FN_CLML_UPDATE_AT() - `clml_update_at` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clml_email, int $clml_state, string $clml_source, string $clml_init, string $clml_agent, string $clml_locale ="en", string|datetime $clml_create_at ="NOW()", string|datetime $clml_update_at ="NOW()") add entry helper
@@ -49,4 +45,8 @@ class Mailinglists extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%mailinglists";
+	/**
+	*override display key
+	*/
+	protected $display = "clml_email";
 }

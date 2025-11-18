@@ -3,17 +3,13 @@
 // @file: CompilerTokenTrait.php
 // @date: 20221019 16:13:42
 namespace IGK\System\Runtime\Compiler\Traits;
- 
 use IGK\System\Runtime\Compiler\ReadTokenOptions;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenTrait{
     private $m_read_options;
-
     function parseToken(string $source){
         $this->m_read_options = $options = $this->m_read_options ?? $this->createReadOptionsToken() ?? igk_die("failed to create option token"); 
         $this->m_read_options->source = $source;
@@ -26,13 +22,9 @@ trait CompilerTokenTrait{
                 $value = $value[1];
             }
             igk_debug_wln(sprintf("token::%s:%s", $id? token_name($id): $id, $value));
-
             $this->_checkBracket($options, $value);
             $this->_checkHereDocDocument($options, $id, $value);
             $this->_handleWhiteSpace($options, $id, $value);  
-            
-          
-
             $options->close_curl = false;
             if (($value=="{") && ($id== T_CURLY_OPEN)){
                 $options->curl_open = true;

@@ -4,12 +4,11 @@
 // @copyright: igkdev © 2019
 // @license: Microsoft MIT License. For more informartion read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 defined("IGK_FRAMEWORK") || die("REQUIRE FRAMEWORK - No direct access allowed");
 
-///<summary>protect request information</summary>
 /**
 * protect request information
 */
@@ -26,11 +25,6 @@ function igk_protect_request(& $tab){
         $tab[$k]=$v;
     }
 }
-///<summary>represent igk_treat_source function</summary>
-///<param name="source" type="mixed: (string|arrayof(string))">string to treat</param>
-///<param name="callback">callback to call when done</param>
-///<param name="tab" default="null">tab information for algorightm</param>
-///<param name="options" default="null" ref="true">optiosn for treatment</param>
 /**
 * represent igk_treat_source function
 * @param mixed: (string|arrayof(string)) source string to treat
@@ -159,14 +153,12 @@ function igk_treat_source($source, $callback, $tab=null, & $options=null){
     }
     return $out;
 }
-///<summary>Represente class: IGKProtectHtmlField</summary>
 /**
-* Represente IGKProtectHtmlField class
+* Represent IGKProtectHtmlField class
 */
 class IGKProtectHtmlField{
     private $engines;
     private $options;
-    ///<summary></summary>
     /**
     * 
     */
@@ -175,8 +167,6 @@ class IGKProtectHtmlField{
         $this->engines=array();
         $this->_initengines();
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -184,7 +174,6 @@ class IGKProtectHtmlField{
     private function __output($v){
         return $v;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -267,7 +256,6 @@ class IGKProtectHtmlField{
                 }
         ));
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -286,8 +274,6 @@ class IGKProtectHtmlField{
             "DataLF"=>"\n"
         );
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v

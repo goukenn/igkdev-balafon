@@ -3,11 +3,8 @@
 // @file: HtmlNodeContainerTrait.php
 // @date: 20230331 20:20:11
 namespace IGK\System\Html\Dom\Traits;
-
 use IGK\System\Html\Dom\Factory;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom\Traits
@@ -15,7 +12,6 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 trait HtmlNodeContainerTrait{
     use ArrayAccessSelfTrait;
     var $host;
-
     public function getCanRenderTag()
     {
         return false;
@@ -41,7 +37,6 @@ trait HtmlNodeContainerTrait{
         $this->host->setClass($v);
         return $this;
     }
-
     function _access_OffsetSet($n, $v){
         $this->host->_access_OffsetSet($n, $v);
     }
@@ -68,7 +63,6 @@ trait HtmlNodeContainerTrait{
         } 
         return parent::__call($n, $arg); 
     }   
-
     public function getFlag($k, $default = null){
         return $this->host->getFlag($k, $default);
     }

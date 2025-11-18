@@ -6,7 +6,7 @@
 // @copyright: igkdev © 2022
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\Tests\System\Html;
 
@@ -39,9 +39,9 @@ class AttributeTemplateTest extends BaseTestCase{
     }
     public function test_simple_loop(){
         $n = igk_create_notagnode();
-        $n->div()->loop(3)->div()->Content = 'index : {{ $raw }}';
+        $n->div()->loop(3)->p()->Content = 'index : {{ $raw }}';
         $this->assertEquals(
-            "<div><div>index : 0</div><div>index : 1</div><div>index : 2</div></div>",
+            "<div><p>index : 0</p></div><div><p>index : 1</p></div><div><p>index : 2</p></div>",
             $n->render(),
             "attribute bind"
         );

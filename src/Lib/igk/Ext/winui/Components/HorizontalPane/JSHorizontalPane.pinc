@@ -1,12 +1,10 @@
 <?php
-
 ///<summary>horizontal pane panel used to add animation pane on a target node</summary>
-
 use IGK\System\Html\Dom\HtmlNode;
-
+use \IGK\Constants;
+require_once IGK_LIB_CLASSES_DIR . '/Constants.php';
 final class JSHorizontalPane extends IGKObject
 {
-
 	/** @var HtmlNode*/
 	private $m_target;
 	/** @var HtmlNode*/
@@ -20,12 +18,8 @@ final class JSHorizontalPane extends IGKObject
 	private $m_IsAutoAnimate;
 	private $m_AnimType; //translation or fade
 	private $m_AnimPeriod;
-
 	private $m_rootNode;
-
 	const DEFAULTANIMTYPE = HorizontalAnimType::rotation;
-
-
 	public function getpageNode()
 	{
 		return $this->m_pageNode;
@@ -82,7 +76,6 @@ final class JSHorizontalPane extends IGKObject
 	{
 		$this->m_IsAutoAnimate = $value;
 	}
-
 	public function __construct($target)
 	{
 		$this->m_AnimDuration = 500;
@@ -92,15 +85,12 @@ final class JSHorizontalPane extends IGKObject
 		$this->m_IsAutoAnimate = true;
 		$this->m_AnimType = self::DEFAULTANIMTYPE; //IGKHTMLHorizontalAnimType::r "translation";/// fade, rotation
 		//fit parent
-
 		$this->m_pageNode = $target->div();
 		$this->m_pageNode["igk-control-type"] = "igk-pane";
 		$this->m_pageNode->setClass("igk-pane rotation");
 		//global register theme to document directry if this object is created
 		// igk_environment()->debug_msg = igk_app()->getDoc()->id();
-
-		igk_app()->getDoc()->getTheme()->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__) . "/Styles/default.pcss");
-		// igk_wln_e(__FILE__.":".__LINE__ ,  "die js pane ......",  igk_app()->getDoc()->getTheme()->getDef()->getBindTempFiles() );
+		igk_app()->getDoc()->getTheme()->addFile(igk_getctrl(IGK_SYS_CTRL), dirname(__FILE__) . "/Styles/" . Constants::DEFAULT_THEME_STYLE);
 	}
 	/**
 	 * add page 
@@ -128,11 +118,7 @@ final class JSHorizontalPane extends IGKObject
 			$this->m_bulletZone["igk-control-type"] = "hpane-bz";
 			$this->m_bulletZone["class"] = "hpane-bz";
 		}
-
 		if ($this->m_script == null)
 			$this->m_script = $this->m_target->balafonjs();
-		$b = igk_parsebool($this->m_IsAutoAnimate);
-
-  
 	}
 }

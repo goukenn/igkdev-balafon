@@ -3,8 +3,7 @@
 // @filename: IGKCaches.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
+use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\System\Exceptions\LoadArticleException;
 use IGK\System\IO\FileSystem;
@@ -12,24 +11,20 @@ use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Http\WebFileResponse;
-
 require_once IGK_LIB_CLASSES_DIR . '/IGKAppConfig.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigUtils.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
-
-///<summary>cache system support</summary>
 /**
  * cache system 
  * @method static FileSystem view() view file system
  */
 final class IGKCaches
 {
-    private $m_storage = [];
+    private $m_storage = []; 
     /**
      * @var IGKCaches caches
      */
     private static $sm_instance;
-
     public static function getInstance()
     {
         if (self::$sm_instance === null) {
@@ -40,8 +35,6 @@ final class IGKCaches
     private function __construct()
     {
     }
-
-    ////<summary>resolv path from link</summary>
     /**
      * resolv path from link
      * @param mixed $file filename to resolv
@@ -59,23 +52,22 @@ final class IGKCaches
         }
         list($uri, $zip) = self::CacheUri(); 
         $expires = 50000; 
-        if (!IGKCaches::page_filesystem()->expired($uri, $expires)) {
+        $fs = IGKCaches::page_filesystem();
+        if (!$fs->expired($uri, $expires)) {
             // igk_wln_e("load from cache");
-            $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
+            $file = $fs->getCacheFilePath($uri);
             $response = new WebFileResponse($file, "text/html");
             $response->zip = $zip;
             $response->cache_output(igk_configs()->get("cache_output", $expires));
             $response->output();
         }
     }
-
     /**
      * get system cache uri
      * @return (string|bool)[]  uri and zip flag 
      */
     public static function CacheUri($controller = null, ?string $requestUri = null)
     {
-        
         $o = "";
         if ($controller === null) {
             if ($ctrl = igk_get_defaultwebpagectrl()) {
@@ -110,7 +102,7 @@ final class IGKCaches
     {
         list($uri, $zip) = self::CacheUri($controller, $requestUri);
         $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
-        return file_exists($file);
+        return igk_io_file_exists($file,true);
     }
     public static function __callStatic($name, $args)
     {
@@ -120,9 +112,7 @@ final class IGKCaches
         }
         //+ init article to writes
         if (method_exists($i, $fc = "_init_{$name}_caches")) {
-            $o = $i->{$fc}(...$args);
-            // dynamic property is deprecated 
-            // $i->{$name} = $o;
+            ($o = $i->{$fc}(...$args)) ?? igk_die('failed to init cached');             
             $i->m_storage[$name] = $o;
             return $o;
         }
@@ -186,12 +176,12 @@ final class IGKCaches
      * @throws IGKException 
      */
     private function _init_view_caches()
-    {
+    { 
         return self::__init_cache(igk_io_cachedir() . "/storage/views");
     }
     private function _init_ctrl_filesystem_caches(BaseController $ctrl)
     {
-        return self::__init_cache(igk_io_cachedir() . igk_uri("/storage/ctrl/".hash(IGKConstants::FILE_PATH_HASH_ALGO,
+        return self::__init_cache(igk_io_cachedir() . igk_uri("/storage/ctrl/".hash(Constants::FILE_PATH_HASH_ALGO,
          $ctrl->name('cache'))));
     }
     /**
@@ -203,19 +193,30 @@ final class IGKCaches
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/articles"); // igk_environment()->getViewCacheDir());
     }
+    /**
+     * 
+     * @return FileSystem|null 
+     * @throws IGKException 
+     */
     private function _init_page_filesystem_caches()
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/pages");
     }
+    /**
+     * 
+     * @return FileSystem|null 
+     * @throws IGKException 
+     */
     private function _init_js_filesystem_caches()
     {
-        return self::__init_cache(igk_io_cachedir() . "/storage/js");
+        $js = self::__init_cache(igk_io_cachedir() . "/storage/js");
+        $js->default_extension = '.js';
+        return $js;
     }
     private function _init_css_filesystem_caches()
     {
         return self::__init_cache(igk_io_cachedir() . "/storage/css");
     }
-
     /**
      * check array file 
      * @param string[]|array $files files list to check
@@ -225,7 +226,7 @@ final class IGKCaches
     public static function CheckCaches($files, int $mtime, & $file = null):bool
     {
         foreach ($files as $f) {
-            if (!file_exists($f))
+            if (!igk_io_file_exists($f, true))
                 continue;
             if (filemtime($f) > $mtime) {
                 $file = $f;

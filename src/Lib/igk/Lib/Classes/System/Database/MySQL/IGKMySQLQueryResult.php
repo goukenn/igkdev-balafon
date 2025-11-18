@@ -1,12 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: IGKMySQLQueryResult.php
 // @date: 2018
 // @desc: 
-
 namespace IGK\System\Database\MySQL;
-
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSingleValueResult;
 use IGK\Database\DbQueryRowObj;
@@ -16,8 +13,6 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IToArrayResolver;
 use IGKSorter;
 use IIGKQueryResult;
-
-///<summary>Represent MySQL Query result wrapper</summary>
 /**
  * Represent MySQL Query result wrapper
  */
@@ -60,7 +55,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
     {
         return JSon::Encode($this->to_array(), $option, $json_option);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -139,12 +133,9 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
      */
     public static function CreateResult($dbresult, $query = null, $options = null)
     {
-
         // + | -------------------------------------------------------------------------------------------------
         // + | if option callable - filter for fetch array if return is null . stop fetch. if false =>skip fetch
         // + |
-
-
         $_handle = $options && igk_getv($options, 'handle');
         $no_primary = igk_getv($options, "NoPrimaryKey");
         if (!$_handle) {
@@ -161,7 +152,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
             }
             if (is_object($dbresult)) {
                 $cl = strtolower(get_class($dbresult));
-
                 if (!preg_match("/mysql(i)?_result/", $cl)) {
                     $out = new IGKMySQLQueryResult();
                     $out->m_rowcount = 1;
@@ -182,7 +172,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
         if (!igk_db_is_resource($dbresult) || ($dbresult instanceof DbQueryResult)) {
             return $dbresult;
         }
-
         $c = igk_db_num_rows($dbresult);
         $out = new IGKMySQLQueryResult();
         if ($_handle) {
@@ -253,9 +242,6 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
         $out->m_rowcount = $c;
         $out->m_primarykey = $v_primkey;
         $out->m_multitable = $_nn;
-
-
-
         return $out;
     }
     ///<summary></summary>

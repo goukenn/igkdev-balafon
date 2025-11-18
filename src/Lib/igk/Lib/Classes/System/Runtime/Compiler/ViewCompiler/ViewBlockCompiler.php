@@ -3,17 +3,13 @@
 // @file: ViewBlockCompiler.php
 // @date: 20221026 06:53:46
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use Closure;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Runtime\Compiler\ViewCompiler\Html\CompilerNodeModifyDetector;
 use IGK\System\Runtime\Compiler\ViewCompiler\Html\ViewDocumentHandler;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpression;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressionArgHelper;
-
 require_once __DIR__."/helper-functions.php";
-
-///<summary></summary>
 /**
  * process and compile every line block
  * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -25,13 +21,11 @@ class ViewBlockCompiler
     var $variables = [];
     var $m_extract;
     var $header;
-    
     private $m_listener;
     private $m_source;
     private $m_init = false;
     private static $sm_compiler_args = [];
     private static $sm_SOURCE = null;
-
     /**
      * compile source
      * @param string $src 
@@ -45,7 +39,6 @@ class ViewBlockCompiler
     public function __construct(bool $extract=false)
     {
         $this->m_extract = $extract;
-     
     }
     protected function _initialize()
     {
@@ -59,9 +52,7 @@ class ViewBlockCompiler
         $doc = new ViewDocumentHandler;
         $vars["t"] = $v_detector;
         $vars["doc"] = $doc;
-
         // igk_wln_e( __FILE__.":".__LINE__, array_keys($vars));
-
         $v_detector->setDocument($doc); 
         $v_eval = $this->m_listener;
         $header = & $this->header;
@@ -85,9 +76,7 @@ class ViewBlockCompiler
             };
             $v_fc->bindTo($this);
             return $v_fc($src, (object)["data"=>$args], $header ?? "<?php");
-
         })->bindTo($vars["ctrl"]);
-
         // $vars["___IGK_PHP_EXPRESS_VAR___"] = "igk_express_ecapsed_string";
         $vars["___IGK_PHP_EXPRESS_VAR___"] = "igk_express_var";
         // $vars["___IGK_PHP_VAR___"] = "igk_express_litteral_var";
@@ -97,7 +86,6 @@ class ViewBlockCompiler
         //  function($src, $args){  
         //     $fc = Closure::fromCallable(function(){
         //         igk_wln_e("class ", static::class);
-
         //         return call_user_func_array([static::class, 'eval_source'], func_get_args());
         //     })->bindTo($args["ctrl"]);      
         //     return call_user_func_array($fc, [$src, (object)["data"=>$args], $this->header ?? "<?php"]);
@@ -142,7 +130,6 @@ class ViewBlockCompiler
             } else {
                 $___IGK_PHP_RESPONSE___ = eval(func_get_arg(0));
             }
-
             $buffer = trim(ob_get_contents());
             // igk_debug_wln_e("first:".$buffer, "x value:", $x);
             ob_end_clean();
@@ -160,7 +147,6 @@ class ViewBlockCompiler
                 return null;
             }
             // igk_wln_e(array_keys(get_defined_vars()));
-
             if ($___IGK_PHP_SETTER_VAR___->getIsUpdate()) {
                 $g = $___IGK_PHP_SETTER_VAR___->getExpression(func_get_arg(0));
                 $___IGK_PHP_SETTER_VAR___->resetUpdate();
@@ -178,7 +164,6 @@ class ViewBlockCompiler
         $v_eval = $this->m_listener;
         $vars = &$this->variables;
         $v_detector = $this->detector;
-
         // $bck = igk_getv($vars, "t", igk_create_node('notagnode'));
         // $vars["t"] = $v_detector;
         // $v_detector->setDocument(igk_getv($vars, "doc"));
@@ -190,7 +175,6 @@ class ViewBlockCompiler
         // $vars[ViewExpressionArgHelper::GETTER_VAR] = new ViewExpressionGetter($vars);
         // $vars[ViewExpressionArgHelper::EXPRESSION] = new ViewExpression($vars, $v_eval, $this->m_extract);
         // $vars[ViewExpressionArgHelper::RESPONSE] = new ViewExpression($vars, $v_eval, $this->m_extract);
-
         $vars_clone = array_merge($vars);
         ViewExpressionArgHelper::$Variables[] =  (object)[
             "variables" => &$vars
@@ -225,7 +209,6 @@ class ViewBlockCompiler
         array_pop(ViewExpressionArgHelper::$Variables);
         return $n;
     }
-
     public function complete(): ?string{
         $v_detector = $this->detector;
         $vars = &$this->variables;
@@ -252,5 +235,4 @@ class ViewBlockCompiler
         }
         return $n;
     }
-   
 }

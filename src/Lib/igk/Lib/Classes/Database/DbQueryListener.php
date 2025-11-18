@@ -5,17 +5,14 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 final class DbQueryListener{
     var $squery;
     ///query list
     public function __construct(){
         $this->squery="";
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     function sendQuery($s){
         if(preg_match("/^SELECT Count\(\*\) FROM/i", $s)){
             return null;

@@ -1,5 +1,4 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: DataAdapterTypes.php
 // @date: 20221203 17:31:11

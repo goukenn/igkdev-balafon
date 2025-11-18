@@ -3,7 +3,6 @@
 // @filename: IGKAppSystem.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 use IGK\ApplicationLoader;
 use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
@@ -13,10 +12,9 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\InitEnvControllerChain;
 use IGK\System\Exceptions\ArgumentTypeNotValidException; 
 use IGK\System\Caches\EnvControllerCacheList;
-
-///<summary> manage application system</summary>
 class IGKAppSystem
 {
+    const CONF_FILE ='configure';
     /**
      * check if configuration file is initialize
      * @return bool 
@@ -25,12 +23,16 @@ class IGKAppSystem
         if (!IGKApp::IsInit()){
             return false;
         }        
-        return file_exists(self::_GetConfigFile());
+        return igk_io_file_exists(self::_GetConfigFile());
     }
+    /**
+     * retrieve configuration full path 
+     * @return string 
+     */
     private static function _GetConfigFile(){
         $path = Path::getInstance();
         $path->getDataDir();
-        return implode("/", [$path->getDataDir(), "configure"]);
+        return implode("/", [$path->getDataDir(), self::CONF_FILE]);
     }
     /**
      * init application environment
@@ -43,7 +45,6 @@ class IGKAppSystem
      */
     public static function InitEnv(string $dirname, IGKApp $app)
     {
-
         if (!is_dir($dirname))
             return -9;
         if (!defined("IGK_APP_DIR"))
@@ -55,8 +56,7 @@ class IGKAppSystem
         $project_dir = igk_io_projectdir();
         $app_dir = igk_io_applicationdir();
         $confFILE = self::_GetConfigFile(); 
- 
-        if (!(defined('IGK_INIT') && IGK_INIT) && file_exists($confFILE)) {
+        if (!(defined('IGK_INIT') && IGK_INIT) && igk_io_file_exists($confFILE)) {
             foreach ([igk_io_cachedir(), igk_io_basedir() . "/" . IGK_RES_FOLDER] as $cdir) {
                 !is_dir($cdir) && IO::Createdir($cdir);
             }
@@ -67,7 +67,6 @@ class IGKAppSystem
             !defined('IGK_INIT') && define('IGK_INIT', 1);
             return;
         }
-
         // + | ------------------------------------------------------------------
         // + | check if can open directory name 
         $hdir = null;
@@ -76,7 +75,7 @@ class IGKAppSystem
         closedir($hdir);
         igk_environment()->set(IGKEnvironment::INIT_APP, 1);
         $idx = $path->getBaseDir() . "/index.php";
-        if (!file_exists($idx)) {
+        if (!igk_io_file_exists($idx)) {
             $indexsrc = igk_getbaseindex_src(IGK_LIB_FILE);
             igk_io_save_file_as_utf8($idx, $indexsrc);
         }
@@ -93,7 +92,22 @@ class IGKAppSystem
         igk_app()->getConfigs()->reload();
         igk_unreg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::class, __FUNCTION__]);
     }
-
+    /**
+     * install application directory
+     * @param string $idx 
+     * @param string $app_dir 
+     * @param string $dirname 
+     * @param string $project_dir 
+     * @param string $data_dir 
+     * @param string $sys_datadir 
+     * @param null|array $options 
+     * @return void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws Error 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function InstallDir(
         string $idx,
         string $app_dir,
@@ -103,43 +117,46 @@ class IGKAppSystem
         string $sys_datadir,
         ?array $options = null
     ) {
+        igk_debug_wln(__FILE__.":".__LINE__ , 'installing directory ');
+        
         $access = "deny from all";
         $old = umask(0);
         $is_primary = ($app_dir == $dirname);
         $v_access = dirname($idx) . "/.htaccess";
-        if (!file_exists($v_access)) {
-
+        if (!igk_io_file_exists($v_access)) {
             igk_io_save_file_as_utf8($v_access, igk_getbase_access(
                 $dirname
             ), true);
         }
-        $confFILE = StringUtility::UriCombine($data_dir, "configure");
+        $confFILE = StringUtility::UriCombine($data_dir, self::CONF_FILE);
         igk_io_save_file_as_utf8($app_dir . "/Lib/.htaccess", $access, true);
         IO::CreateDir($dirname . "/" . IGK_RES_FOLDER);
         igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/.htaccess", "allow from localhost", true);
-        IO::CreateDir($dirname . "/" . IGK_RES_FOLDER . "/Img");
-        igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/.htaccess", "allow from all", true);
-        IO::CreateDir($dirname . "/" . IGK_RES_FOLDER . "/Layouts");
-        igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/.htaccess", "allow from all", true);
-        IO::CreateDir($dirname . "/" . IGK_RES_FOLDER . "/Styles");
-        igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/.htaccess", "allow from all", true);
-        IO::CreateDir($dirname . "/" . IGK_RES_FOLDER . "/Fonts");
-        igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/Fonts/.htaccess", "allow from all", false);
-        IO::CreateDir($dirname . "/" . IGK_RES_FOLDER . "/Videos");
-        igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/ie.css", "@import url(\"base.css\");", true);
-        igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/mod.css", "@import url(\"base.css\");", true);
-        igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/base.css", igk_css_get_default_style(), true);
-        IO::CreateDir($dirname . "/" . IGK_RES_FOLDER . "/Themes");
+        foreach([
+            $data_dir . "/" . IGK_RES_FOLDER . "/Img",
+            $data_dir . "/" . IGK_RES_FOLDER . "/Layouts",
+            $data_dir . "/" . IGK_RES_FOLDER . "/Styles",
+            $data_dir . "/" . IGK_RES_FOLDER . "/Fonts",
+            $data_dir . "/" . IGK_RES_FOLDER . "/Themes",
+            $data_dir . "/" . IGK_RES_FOLDER . "/Videos",
+        ] as $d){
+           IO::CreateDir($d);
+           igk_io_save_file_as_utf8($d."/.htaccess", "allow from all", true);
+        }
+
+        igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/ie.css", "@import url(\"base.css\");", true);
+        igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/mod.css", "@import url(\"base.css\");", true);
+        igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/base.css", igk_css_get_default_style(), true);
+        
         $theme = IGK_DEFAULT_THEME_FOLDER . "/default.theme";
         $v_f = IO::ReadAllText($theme);
         if (!empty($v_f)) {
-            igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/Themes/default.theme", $v_f, false);
+            igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/Themes/default.theme", $v_f, false);
         }
         IO::CreateDir($project_dir);
         IO::CreateDir($app_dir . "/" . IGK_PACKAGES_FOLDER);
         igk_io_save_file_as_utf8($app_dir . "/" . IGK_PACKAGES_FOLDER . "/.htaccess", $access, false);
         igk_io_save_file_as_utf8($project_dir . "/.htaccess", $access, true);
-
         IO::CreateDir($data_dir);
         IO::CreateDir($data_dir . "/Lang");
         if (is_dir($v_dir = $sys_datadir)) {
@@ -152,7 +169,6 @@ class IGKAppSystem
         igk_io_save_file_as_utf8($app_dir . "/" . IGK_INC_FOLDER . "/.htaccess", "deny from all");
         IO::CreateDir($app_dir . "/" . IGK_CACHE_FOLDER, IGK_DEFAULT_CACHE_FOLDER_MASK);
         igk_io_save_file_as_utf8($app_dir . "/" . IGK_CACHE_FOLDER . "/.htaccess", "deny from all");
-
         // + init cgi-bin 
         IO::CreateDir($app_dir . "/cgi-bin");
         igk_io_save_file_as_utf8($app_dir . "/cgi-bin/.htaccess", "deny from all");
@@ -161,7 +177,7 @@ class IGKAppSystem
         // load library folder  
         //
         self::_LoadEnvFiles();
-        igk_io_save_file_as_utf8($confFILE, "1", false);
+        igk_io_save_file_as_utf8($confFILE, date('Y-m-d h:i:s'), false);
         igk_io_save_file_as_utf8($data_dir . "/domain.conf", igk_getv($options, "domain_name"), true);
         $cgi = IGK_LIB_DIR . "/cgi-bin";
         if (!igk_phar_running() && ($ctab = igk_io_getfiles($cgi, "/\.cgi$/"))) {
@@ -194,11 +210,12 @@ class IGKAppSystem
     public static function LoadEnvironment(IGKApp $app)
     {
         if (!IGKSysCache::LoadCacheLibFiles()) {
-            \IGK\System\Diagnostics\Benchmark::mark("loadlib_cache");
+            $k = 'loadlib_cache';
+            \IGK\System\Diagnostics\Benchmark::mark($k);
             $t_files = self::_LoadEnvFiles();
             igk_reglib($t_files);
             IGKSysCache::CacheLibFiles(true);
-            \IGK\System\Diagnostics\Benchmark::expect("loadlib_cache", 2.00);
+            \IGK\System\Diagnostics\Benchmark::expect($k, 2.00);
         }
         self::_InitControllerEnvironment($app);
     }
@@ -214,21 +231,17 @@ class IGKAppSystem
         // + | --------------------------------------------------------------------
         // + | INIT CONTROLLER ENVIRONMENT
         // + |
-
         $manager = $app->getControllerManager();
         $loader = ApplicationLoader::getInstance();
         $c = new InitEnvControllerChain;
-
         // + | --------------------------------------------------------------------
         // + | LOAD DB SCHEMA CACHE
         // + |
         // EnvControllerCacheDataBase::RegisterToChain($c);
-      
-
         // + | --------------------------------------------------------------------
         // + | LOAD CONTROLLER LISTS
         // + |
-        $tab =  EnvControllerCacheList::GetControllersClasses(); 
+        $tab = EnvControllerCacheList::GetControllersClasses(); 
         $c->load($tab, $manager, $loader);  
     }
     private function __construct()

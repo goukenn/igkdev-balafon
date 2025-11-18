@@ -3,18 +3,14 @@
 // @file: CoreDocMetadata.php
 // @date: 20231221 15:20:59
 namespace IGK\System\Html\Metadatas;
-
 use IGK\Helper\Activator;
 use IGK\Helper\StringUtility;
 use ReflectionProperty;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas
 */
 class CoreDocMetadata extends MetadataGroupEntryBase{
-
     var $applicationName;
     var $generator;
     var $themeColor;
@@ -26,9 +22,7 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
     var $icons;
     var $manifest;
     var $classification;
-
     var $category;
-    
     var $other;
     var $archives;
     var $abstract;
@@ -41,15 +35,11 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
      * @var null|array|IGK\System\Html\Metadatas\formatDetection
      */
     var $formatDetection;
-
     public function map(): array {
         static $mapped = null;
         if (is_null($mapped)){
-
             $mem =  igk_reflection_get_private_member(static::class, ReflectionProperty::IS_PUBLIC);
-            
             $c = array_fill_keys($mem, $mem);
-            
             array_map(function($i, $v)use(& $c){
                 $c[$v] = strtolower(StringUtility::GetSnakeKebab($v, true));
             }, $c, $mem);
@@ -62,7 +52,6 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
         switch($n){
             case 'manifest':
                 $notag = igk_create_notagnode();
-               
                 $link = $notag->link();  
                 $link['rel'] = 'manifest';
                 $link['href'] = $v;
@@ -102,7 +91,6 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
                 return;
             default:
             if (method_exists($this, $fc = 'handle_'.$n)){
-
                 $this->$n = $this->$fc($v, $n);
                 return;
             }
@@ -118,7 +106,6 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
         $link['href'] = $v;
         return $v;
     }
-
     public function handle_formatDetection($v, $n){
         $s = '';
         if(is_array($v)){
@@ -130,9 +117,7 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
             parent::setProperty($n, $s);
             return $s;
         }
-
     }
     public function bindMetaDef($name, $content){
-
     }
 }

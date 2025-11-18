@@ -3,11 +3,8 @@
 // @filename: DBMockingCacheData.php
 // @date: 20221119 15:16:03
 // @desc: help mock data on loading system db cache structure
-
 namespace IGK\System\Caches;
-
 use IGK\Controllers\BaseController;
-
 class DBCacheMockingData {
     var $table;
     var $controller;

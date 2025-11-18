@@ -3,14 +3,11 @@
 // @file: ApiConnectTrait.php
 // @date: 20230725 10:47:20
 namespace IGK\Actions\Traits;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\Request;
 use IGK\System\Http\WebResponse;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\Actions\Traits
@@ -26,7 +23,6 @@ trait ApiConnectTrait
      */
     public function connect_post(Request $request, BaseController $ctrl)
     {
-
         try {
             $user = $this->getUserFromToken();
             // + | already connected 
@@ -35,7 +31,6 @@ trait ApiConnectTrait
             }
         } catch (Exception $ex) {
         }
-
         if ($data = $request->getJsonData()) {
             $rdata = null;
             $error = null;
@@ -53,7 +48,6 @@ trait ApiConnectTrait
         }
         $this->die("connection failed", 401);
     }
-
     /**
      * check bearer connection
      * @responses()

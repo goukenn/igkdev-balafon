@@ -3,7 +3,6 @@
 // @filename: StringUtility.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Helper;
 
 use IGK\Controllers\BaseController;
@@ -11,10 +10,10 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
+use IGK\System\Text\RegexMatcherContainer;
 use IGKException;
 use ReflectionException;
 
-///<summary>String utility helper. store string help function  </summary>
 /**
  * 
  * @package IGK\Helper
@@ -23,59 +22,77 @@ abstract class StringUtility
 {
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
-
     /**
      * get function name
      * @param string $s 
      * @return string 
      */
-    public static function FuncName(string $s):string{
+    public static function FuncName(string $s): string
+    {
         $s = preg_replace("/[^a-z_]/i", "_", $s);
         $s = preg_replace("/_+/i", "_", $s);
         return $s;
     }
-       /**
+    public static function DumpArray(array $tab): string
+    {
+        $sb = new StringBuilder;
+        $ch = '';
+        foreach ($tab as $k => $v) {
+            if (is_numeric($k)) {
+                if (is_numeric($v)) {
+                    $sb->appendLine($ch . $v . '');
+                } else
+                    $sb->appendLine($ch . '"' . $v . '"');
+            } else
+                $sb->appendLine($ch . '"' . $k . '"=>"' . $v . '"');
+            $ch = ',';
+        }
+        return $sb;
+    }
+    /**
      * read line utility class 
      * @param string $content 
      * @param int $pos 
      * @return string 
      */
-    public static function ReadLine(string $content, int & $pos){
-        $lin = strpos($content,"\n", $pos);
+    public static function ReadLine(string $content, int &$pos)
+    {
+        $lin = strpos($content, "\n", $pos);
         $s = 0;
-        if (false === $lin){
+        if (false === $lin) {
             $s = substr($content, $pos);
             $pos = strlen($content);
-        }else{
-            $s = substr($content, $pos, $lin-$pos);
+        } else {
+            $s = substr($content, $pos, $lin - $pos);
             $pos = $lin;
         }
         return $s;
-
     }
-
     /**
      * reduction condition block code 
      * @param string $condition 
      * @return string 
      */
-    public static function ReduceConditionBlock(string $condition){
+    public static function ReduceConditionBlock(string $condition)
+    {
         $g = $condition;
         $v_regex = "/[\(\)\s]/";
-        $g = preg_replace("/\s+/"," ", $g); // reduce white space
-        while (strpos($g,'(')===0){
+        $g = preg_replace("/\s+/", " ", $g); // reduce white space
+        while (strpos($g, '(') === 0) {
             $cpos = 0;
             $tg = trim(igk_str_rm_last(
                 igk_str_rm_start(
-                igk_str_read_brank($g, $cpos, ')','('), '('),
-            ')'));
+                    igk_str_read_brank($g, $cpos, ')', '('),
+                    '('
+                ),
+                ')'
+            ));
             $fg = preg_replace($v_regex, '', $g);
             $ffg = preg_replace($v_regex, '', $tg);
-            if ($fg!==$ffg){                                
+            if ($fg !== $ffg) {
                 break;
             }
             $g = $tg;
-
         }
         return $g;
     }
@@ -85,21 +102,22 @@ abstract class StringUtility
      * @param int $pos 
      * @return mixed 
      */
-    public static function ReadBrank(string $ln, int & $pos ){
+    public static function ReadBrank(string $ln, int &$pos)
+    {
         $ch = $ln[$pos];
-        switch($ch){
+        switch ($ch) {
             case "'":
             case '"':
                 $ch = igk_str_read_brank($ln, $pos, $ch, $ch);
                 break;
             case '{':
-                $ch = igk_str_read_brank($ln, $pos, '}','{');
+                $ch = igk_str_read_brank($ln, $pos, '}', '{');
                 break;
             case '(':
-                    $ch = igk_str_read_brank($ln, $pos, ')','(');
+                $ch = igk_str_read_brank($ln, $pos, ')', '(');
                 break;
             case '[':
-                $ch = igk_str_read_brank($ln, $pos, ']','[');
+                $ch = igk_str_read_brank($ln, $pos, ']', '[');
                 break;
         }
         return $ch;
@@ -135,7 +153,7 @@ abstract class StringUtility
     public static function GetSnakeKebab(string $haystack, ?bool $hiphen = false)
     {
         $s_out = '';
-        $haystack = preg_replace('/[^_a-z]/i','', $haystack);
+        $haystack = preg_replace('/[^_a-z]/i', '', $haystack);
         $ln = strlen($haystack);
         $letter = '_ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $pos = 0;
@@ -146,33 +164,32 @@ abstract class StringUtility
             $ch = $haystack[$pos];
             $in_split = false !== strpos($letter, $ch);
             if (!$m) {
-                if ($in_split) {                  
+                if ($in_split) {
                     if (!empty($word)) {
-                        $s_out .= $sep.ucfirst($word);
+                        $s_out .= $sep . ucfirst($word);
                         $word = '';
                         $sep = '_';
-                    } 
+                    }
                     $m = 1;
                 }
-            }else{
-                if(!$in_split){
+            } else {
+                if (!$in_split) {
                     $m = 0;
                 }
                 $ch = strtolower($ch);
             }
-            if ($ch=='_'){
+            if ($ch == '_') {
                 $ch = '';
             }
             $word .= $ch;
             $pos++;
         }
-        if($w = ucfirst(trim($word)))
-            $s_out .= $sep.$w;
-        if ($hiphen){
-            return str_replace('_','-', $s_out);
-
+        if ($w = ucfirst(trim($word)))
+            $s_out .= $sep . $w;
+        if ($hiphen) {
+            return str_replace('_', '-', $s_out);
         }
-        return $s_out; 
+        return $s_out;
     }
     /**
      * remove quote from string 
@@ -193,13 +210,27 @@ abstract class StringUtility
         return $data;
     }
     /**
+     * 
+     * @param string $text 
+     * @return string 
+     */
+    public static function RemoveAccents(string $text){
+         $accents = [
+            'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a',
+            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+            'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+            'ç' => 'c', 'ñ' => 'n', '@' => 'a', 'ô' => 'o','ö'=>'o',
+            'ÿ' => 'y', 
+        ];
+        return strtr($text, $accents); 
+    }
+    /**
      * get name_space 
      * @param string $namespace 
      * @return string 
      */
     public static function NS(string $namespace): string
     {
-
         $ns = str_replace("/", "\\", $namespace);
         $ns = trim(str_replace(" ", "", $ns));
         return $ns;
@@ -247,14 +278,11 @@ abstract class StringUtility
      */
     public static function UriStart(string $haystack, string $compare): bool
     {
-
         $haystack = rtrim($haystack, "/");
         $compare = rtrim($compare, "/");
         if (strpos($haystack, $compare) === 0) {
             $u = rtrim(parse_url($haystack)["path"], "/");
             $v = rtrim(parse_url($compare)["path"], "/");
-
-
             return (bool)preg_match("#" . $v . "(/(.+)|\?|\#|$)#", $u);
         }
         return false;
@@ -277,7 +305,7 @@ abstract class StringUtility
     }
     public static function RmSubString(string $str, $offset, int $length)
     {
-         return substr($str, 0, $offset) . substr($str, $offset + $length);
+        return substr($str, 0, $offset) . substr($str, $offset + $length);
     }
     /**
      * get camel class name
@@ -291,7 +319,6 @@ abstract class StringUtility
         $name = preg_replace("#[^0-9a-z]#i", "_", $name);
         return str_replace("_", "", ucwords(ucfirst($name), "_"));
     }
-
     public static function Identifier(string $n)
     {
         $rx =  "/^" . IGK_IDENTIFIER_RX . "$/i";
@@ -339,10 +366,6 @@ abstract class StringUtility
         $g = str_replace("/", $dir, $g);
         return $g;
     }
-
-    ///<summary></summary>
-    ///<param name="text"></param>
-    ///<param name="pattern"></param>
     /**
      * 
      * @param mixed $text
@@ -354,9 +377,6 @@ abstract class StringUtility
             return (strstr($text, $pattern) != null);
         return true;
     }
-    ///<summary></summary>
-    ///<param name="chaine"></param>
-    ///<param name="pattern"></param>
     /**
      * 
      * @param mixed $chaine
@@ -364,7 +384,7 @@ abstract class StringUtility
      */
     public static function EndWith($chaine, $pattern)
     {
-        $chaine = trim($chaine);
+        // $chaine = trim($chaine);
         $c = strlen($chaine);
         $p = strlen($pattern);
         $i = strripos($chaine, $pattern);
@@ -375,8 +395,6 @@ abstract class StringUtility
             return true;
         return false;
     }
-    ///<summary></summary>
-    ///<param name="s"></param>
     /**
      * regex detection of formatted string
      * @param string $s formatted string. 
@@ -390,17 +408,13 @@ abstract class StringUtility
                 $index = $match["value"][$i];
                 if (is_numeric($index)) {
                     $index = intval($index);
-                    $a = igk_getv($args, $index);                    
-                    $s = str_replace($match[0][$i], HtmlUtils::GetValue($a) ?? '', $s);                    
+                    $a = igk_getv($args, $index);
+                    $s = str_replace($match[0][$i], HtmlUtils::GetValue($a) ?? '', $s);
                 }
             }
         }
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="chaine"></param>
-    ///<param name="research"></param>
-    ///<param name="offset"></param>
     //@chaine : string where to operate
     /**
      * 
@@ -417,10 +431,6 @@ abstract class StringUtility
             return -1;
         return $i;
     }
-    ///<summary></summary>
-    ///<param name="tab"></param>
-    ///<param name="separator" default=","></param>
-    ///<param name="key" default="true"></param>
     /**
      * 
      * @param mixed $tab
@@ -444,9 +454,6 @@ abstract class StringUtility
         }
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="chaine"></param>
-    ///<param name="pattern"></param>
     /**
      * 
      * @param mixed $chaine
@@ -456,10 +463,6 @@ abstract class StringUtility
     {
         return (self::IndexOf($chaine, $pattern) == 0);
     }
-    ///<summary></summary>
-    ///<param name="chaine"></param>
-    ///<param name="start"></param>
-    ///<param name="length" default="null"></param>
     //@personal sub
     /**
      * 
@@ -474,7 +477,6 @@ abstract class StringUtility
         } else
             return substr($chaine, $start);
     }
-
     /**
      * read identifier token
      * @param string $hastack 
@@ -505,6 +507,21 @@ abstract class StringUtility
         }, explode("\n", $data)));
         return $data;
     }
+    public static function SingleQuoteReplace(string $src)
+    {
+        $ctn = new RegexMatcherContainer;
+        $s = $ctn->begin("(')", "\\1", 'string-to-quote')->last();
+        $s->match("\\\\.", 'espaced');
+        $s = $ctn->begin("(\")", "\\1", 'stringLitteral')->last();
+        $s->match("\\\\.", 'espaced');
+        $src = $ctn->replace($src, function ($e, $o, &$toffset) {
+            if ($e->tokenID == "string-to-quote") {
+                return sprintf('"%s"', igk_str_remove_quote($e->value));
+            }
+            return $e->value;
+        });
+        return $src;
+    }
     /**
      * 
      * @param string $data 
@@ -519,6 +536,7 @@ abstract class StringUtility
         if (preg_match("/['\"]/", $separator)) {
             igk_die("separator not valid");
         }
+        $data = self::SingleQuoteReplace($data);
         $ln = strlen($data);
         $args = [];
         $pos = 0;
@@ -530,19 +548,19 @@ abstract class StringUtility
                 case "'":
                 case '"':
                     $ps = self::StringValue(igk_str_read_brank($data, $pos, $ch, $ch, null, false, 1), $ch);
-                    if (!empty($k)){
+                    if (!empty($k)) {
                         $args[$k] = $ps;
-                    }else{
+                    } else {
                         $args[] = $ps;
                     }
                     $v = "";
                     $k = '';
                     break;
                 case $separator:
-                    if (!empty($v)){
-                        if (empty($k)){
+                    if (!empty($v)) {
+                        if (empty($k)) {
                             $args[] = $v;
-                        }else{
+                        } else {
                             $args[$k] = $v;
                         }
                     }
@@ -554,19 +572,107 @@ abstract class StringUtility
                     $v = '';
                     break;
                 default:
+                    // if support json string
+                    if ($ch == "{") {
+                        $b = igk_str_read_brank($data, $pos, '}', $ch);
+                        if ($tab = json_decode($b)) {
+                            if (!empty($k)) {
+                                $args[$k] = $tab;
+                            } else {
+                                $args[] = $tab;
+                            }
+                            $k = $v = '';
+                        } else {
+                            $v .= $b;
+                        }
+                        $ch = '';
+                    }
+                    if ($ch == "[") {
+                        // + support read array 
+                        $b = igk_str_read_brank($data, $pos, ']', $ch);
+                        // convert array to expression 
+                        if ($tab = json_decode($b)) {
+                            if (!empty($k)) {
+                                $args[$k] = $tab;
+                            } else {
+                                $args[] = $tab;
+                            }
+                            $k = $v = '';
+                        } else {
+                            $error = json_last_error_msg();
+                            // read array of constant to handle doc comment
+                            $l = self::ReadArrayConstants($b);
+                            $args = array_merge($args, [$l]);
+                        }
+                        $ch = '';
+                    }
                     $v .= $ch;
                     break;
             }
             $pos++;
         }
-        if (!empty($v)){
+        if (!empty($v)) {
             $v = trim($v);
             if (!empty($k))
                 $args[$k] = $v;
-            else 
+            else
                 $args[] = $v;
         }
         return $args;
+    }
+    public static function ReadArrayConstants($v)
+    {
+        $c = new RegexMatcherContainer;
+        $g = $c->begin('\[', '\]')->last();
+        $string = $c->appendStringDetection('string')->last();
+        $constant = $c->match("(?i)([a-z_][a-z0-9_]*)", 'constants')->last();
+        $sep = $c->match(",", 'sep')->last();
+        $glue = $c->match("\.", 'glue')->last();
+        $g->patterns = [
+            $string,
+            $constant,
+            $glue,
+            $sep,
+            $g
+        ];
+        $pos = 0;
+        $temp = '';
+        $r = [];
+        $glue = false;
+        while ($g = $c->detect($v, $pos)) {
+            if ($e = $c->end($g, $v, $pos)) {
+                if ($e->tokenID == 'sep') {
+                    if ($temp) {
+                        $r[] = $temp;
+                        $temp = '';
+                    }
+                    continue;
+                }
+                if ($e->tokenID == 'glue') {
+                    $glue = true;
+                    continue;
+                }
+                if ($e->tokenID) {
+                    $tv = $e->value;
+                    if ($e->tokenID == 'string') {
+                        $tv = igk_str_remove_quote($tv);
+                    }
+                    if ($temp) {
+                        if ($glue) {
+                            $temp .= $tv;
+                            $glue =  false;
+                        }
+                    } else {
+                        $temp = $tv;
+                        $glue = false;
+                    }
+                }
+            }
+        }
+        if ($temp) {
+            $r[] = $temp;
+        }
+        return $r;
     }
     /**
      * get inner string value
@@ -583,7 +689,6 @@ abstract class StringUtility
         }
         return $v;
     }
-
     /**
      * insert string at offset
      * @param string $haystack string to modify 
@@ -606,14 +711,12 @@ abstract class StringUtility
      */
     public static function ReplaceAtOffset(string $haystack, string $insert, int $offset, int $length)
     {
-
         return  substr($haystack, 0, $offset) .
             $insert . substr(
                 $haystack,
                 $offset + $length
             );
     }
-
     public static function DisplayAddress(
         ?string $street = null,
         ?string $number = null,
@@ -672,27 +775,27 @@ abstract class StringUtility
         $identifer = $rp->replace(trim($identifer));
         return $identifer;
     }
-
     /**
      * array to environment - filter value
      * @param mixed $tab 
      * @return string 
      */
-    public static function ArrayToEnvironment($tab):string{   
-       return implode("\n", array_filter(array_map(function($v,$k){
-            if (!$v){
+    public static function ArrayToEnvironment($tab): string
+    {
+        return implode("\n", array_filter(array_map(function ($v, $k) {
+            if (!$v) {
                 return null;
             }
-            return $k.'='.$v;
+            return $k . '=' . $v;
         }, $tab, array_keys($tab))));
     }
-
     /**
      * 
      * @param string $value 
      * @return string 
      */
-    public static function ConstantToCamelCaseClassName(string $value):string{
+    public static function ConstantToCamelCaseClassName(string $value): string
+    {
         return implode("", array_map("ucfirst", array_map("strtolower", explode("_", $value))));
     }
 }

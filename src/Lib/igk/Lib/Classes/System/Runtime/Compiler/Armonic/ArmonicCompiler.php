@@ -3,7 +3,6 @@
 // @file: ArmonicCompiler.php
 // @date: 20221023 10:51:56
 namespace IGK\System\Runtime\Compiler\Armonic;
-
 use IGK\Helper\Activator;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Runtime\Compiler\ICompiler;
@@ -25,8 +24,6 @@ use IGK\System\Runtime\Compiler\Traits\CompilerTokenTrait;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerConstants;
 use IGKException;
 use ReflectionException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\Armonic
@@ -39,14 +36,9 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     use CompilerTokenReadStructHandlerTrait;
     use CompilerTokenCompileTrait;
     use CompilerTokenMergeSourceTrait;
-
-
     const OPERATOR_SYMBOL = ViewCompilerConstants::OPERATOR_SYMBOL;
-
     var $flagHandler;
-
     var $tab_stop;
-    
     // var $flagHandler;
     /**
      * handle white space
@@ -69,7 +61,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             $options->skipWhiteSpace = 0;
         }
     }
-
     /**
      * get tab stop
      * @param mixed $options 
@@ -82,16 +73,13 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         // + |
         return str_repeat($this->tab_stop, $options->bracketDepth);
     }
-
     public function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $v_buffer = &$options->buffer;
         $v_flag = &$options->flag;
-
         if ($v_flag && $this->_handleFlag($options, $id, $value)) {
             return true;
         }
-
         switch ($id) {
             case T_OPEN_TAG:
                 if ($options->startReadFlag) {
@@ -174,7 +162,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     protected static function IsOperator(string $value): bool{
         return in_array($value, explode(',', self::OPERATOR_SYMBOL));
     }
-
     protected function _handleReadConst(ReadTokenOptions $options, $id, $value)
     {
         if (is_null($options->flagOptions)) {
@@ -228,7 +215,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
-
     #region FUNCTIONS
     // + | -------------------------------------------------------------------------------
     // + | READ FUNCTIONS
@@ -451,9 +437,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             }
         }
     }
-
     #endregion
-
     protected function _pushFlag(ReadTokenOptions $options)
     {
         array_push($options->flags, [
@@ -476,7 +460,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $options->buffers[] = ["buffer" => &$options->buffer, "id" => $id];
         $options->buffer = &$buffer;
     }
-    protected function _popBuffer(ReadTokenOptions $options, string $id = null)
+    protected function _popBuffer(ReadTokenOptions $options, ?string $id = null)
     {
         if ($op = array_pop($options->buffers)) {
             $buff = &$op["buffer"];
@@ -488,19 +472,16 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     protected function _handleFlag(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $flag = &$options->flag;
-
         if ($this->flagHandler) {
             $fc = $this->flagHandler;
             return $fc($options, $id, $value);
         }
-
         if ($flag == CompilerFlagState::READ_CONDITION_BLOCK) {
             return $this->_handleConditionBlock($options, $id, $value);
         }
         if ($flag == CompilerFlagState::READ_CONST) {
             return $this->_handleReadConst($options, $id, $value);
         }
-
         if ($options->flag == CompilerFlagState::READ_VARIABLE) {
             return $this->_handleReadVariable($options, $id, $value);
         }
@@ -513,7 +494,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         if ($options->flag == CompilerFlagState::READ_STRUCT) {
             return $this->_handleReadStruct($options, $id, $value);
         }
-
         // + | read struct
         if ($flag == CompilerFlagState::READ_STRUCT) {
             return $this->handleReadClass($flag, $options, $id, $value);
@@ -555,15 +535,11 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             }
             return true;
         }
-
-
         if (method_exists(static::class, $flag)) {
             return call_user_func_array([$this, $flag], [$options, $id, $value]);
         }
-
         return false;
     }
-
     #region STRUCTS
     // + | -------------------------------------------------------------------------------
     // + | READ STRUCTS
@@ -583,14 +559,12 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $struct->modifiers = $options->modifiers;
         $options->flagOptions->buffer = &$struct->buffer;
         $options->struct_info = $struct;
-
         $this->_resetCommentAndModifier($options);
     }
     protected function _handleReadStruct(ReadTokenOptions $options, $id, $value): bool
     {
         $struct = $options->struct_info;
         $flagOptions = $options->flagOptions;
-
         switch ($id) {
             case T_STRING:
                 if (!$struct->readCode) {
@@ -652,9 +626,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         // igk_debug_wln_e(__FILE__.":".__LINE__, $options->structs, $struct->output());
         return true;
     }
-
     #endregion
-
     #region VARIABLES
     // + | -------------------------------------------------------------------------------
     // + | -------------------------------------------------------------------------------
@@ -668,7 +640,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                 igk_die("-- variable not allowed in interface -- ", true);
             }
         }
-
         $this->_pushFlag($options);
         $options->flag = CompilerFlagState::READ_VARIABLE;
         $options->flagOptions = ReadTokenVariableFlagOption::CreateFlag([
@@ -680,7 +651,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         ]);
         $this->_resetCommentAndModifier($options);
     }
-
     /**
      * append variable
      * @param ReadTokenOptions $options 
@@ -705,7 +675,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             $v_new = true;
         }
         $this->_popFlag($options);
-
         if ($options->flag) {
             // + | passing to parent
             if (!$v_new || !$options->struct_info || ($flagOptions->render)) {
@@ -751,7 +720,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
                         $flagOptions->buffer .= " = ";
                     }
                 }
-
                 $this->_readExpression($options, $value);
                 break;
             case '}':
@@ -765,9 +733,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
-
     #endregion
-
     #region EXPRESSION
     //----------------------------------------------------------------------------
     // EXPRESSION
@@ -802,7 +768,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     protected function _endReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $fop = $options->flagOptions;
-
         // switch ($value) {
         //     case ';':
         //     case ',':
@@ -829,7 +794,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             case "[":
                 $this->_popBuffer($options);
                 $this->_popFlag($options);
-
                 if ($options->flag === CompilerFlagState::READ_VARIABLE) {
                     $options->flagOptions->dependOn = true;
                     $options->flagOptions->render = 1;
@@ -947,7 +911,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             $fop->ignoreDependency = false;
             $fop->functionDepth = null;
         }
-
         switch ($value) {
             case ';':
             case ',':
@@ -983,9 +946,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
-
     #endregion
-
     protected function _bindToFlag(ReadTokenOptions $options, string $s, $id, $value)
     {
         if ($options->flag) {
@@ -996,8 +957,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
-
-
     private static function IsModifier($id)
     {
         switch ($id) {
@@ -1014,7 +973,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return false;
     }
-
     #region CONDITION BLOCK
     /**
      * read condition block
@@ -1055,7 +1013,6 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
-
     /**
      * 
      * @param ReadTokenOptions $options 
@@ -1070,6 +1027,5 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $this->_popBuffer($options, CompilerFlagState::READ_CONDITION_BLOCK);
         $this->_appendToFlagOptionBuffer($options, $fop->buffer);
     }
-
     #endregion
 }

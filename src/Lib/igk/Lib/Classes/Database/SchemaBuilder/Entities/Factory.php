@@ -3,10 +3,7 @@
 // @file: Factory.php
 // @date: 20231224 14:26:48
 namespace IGK\Database\SchemaBuilder\Entities;
-
 use IGK\Resources\R;
-
-///<summary></summary>
 /**
 * Entity factory helper 
 * @package IGK\Database\SchemaBuilder\Entities
@@ -17,15 +14,12 @@ abstract class Factory implements IDiagramVisitorEntity{
     protected $_controller;
     protected $_props;
     protected $_schema;
-
-    
     public function up(){
         $this->updateSchema($this->_schema, 'up');
     }
     public function down(){
         $this->updateSchema($this->_schema, 'down');
     }
-
     /**
      * create entity  from migration type
      * @param string $migration_type 

@@ -3,9 +3,6 @@
 // @file: CssClassNameDetector.php
 // @date: 20240913 09:08:04
 namespace IGK\System\Html\Css;
-
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Css
@@ -23,7 +20,6 @@ class CssClassNameDetector
      * @var array<ICssClassList>
      */
     var $list;
-
     const CL_REGEX = "/\.\b[a-z][a-z0-9\-]*\b((?::\w+|(?:\[[a-z][a-z0-9\-]*\])))?/i";
     const MEDIA_KEY = '@media';
     private $m_references;
@@ -80,7 +76,6 @@ class CssClassNameDetector
                         $g[] = self::_RenderList($tv, $tk, $option, $detector);
                     }
                     $k = CssUtils::TreatMediaCondition($k);
-
                     $tc[] = sprintf('@media %s{%s}', $k, implode($option->lf, $g));
                 }
                 $option->medias[] = implode($lf, $tc);
@@ -89,7 +84,6 @@ class CssClassNameDetector
                 return self::_RenderList($d, $c, $option, $detector);
             }
         }, $resolv_definition, array_keys($resolv_definition)));
-
         if ($option->frames) {
             //$_tout[] = "/* frames */";
             foreach ($option->frames as $i) {
@@ -158,7 +152,7 @@ class CssClassNameDetector
      * @param array|null $references 
      * @throws Exception 
      */
-    public function resolv(string $src, array &$references = null)
+    public function resolv(string $src, ?array &$references = null)
     {
         $v_c_mkey = self::MEDIA_KEY;
         if ($dc = $this->getMatchRegex()) { 
@@ -175,7 +169,6 @@ class CssClassNameDetector
                 if (!is_null($references)) {
                     unset($references[$v_c_mkey]);
                 }
-
                 while (count($tab[0]) > 0) {
                     $q = array_shift($tab[0]);
                     if ($tc = $this->getReference($q)) {
@@ -200,7 +193,6 @@ class CssClassNameDetector
             }
         }
     }
-
     /**
      * 
      * @param int $index 
@@ -216,8 +208,6 @@ class CssClassNameDetector
         }
         return null;
     }
-
-
     /**
      * 
      * @param string $sourcekey 
@@ -249,7 +239,6 @@ class CssClassNameDetector
         }
         return null;
     }
-
     /**
      * get regex definition 
      * @return string 
@@ -385,7 +374,6 @@ class CssClassNameDetector
         $q = $detector ?? new static;
         $q->source = $a;
         $tlist = array_keys($a);
-
         array_map(function ($i) use ($q) {
             if ($c = preg_match_all("/\.\b[a-z][a-z0-9\-]*\b(\[[a-z][a-z0-9\-]*\])?/i", $i, $a)) {
                 $ii = 0;

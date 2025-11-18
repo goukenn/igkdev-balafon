@@ -1,7 +1,5 @@
 <?php
-
 namespace IGK\PhoneBook;
-
 /**
  * entry phone
  * @package IGK\PhoneBook

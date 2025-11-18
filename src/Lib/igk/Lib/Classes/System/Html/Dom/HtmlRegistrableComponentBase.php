@@ -3,10 +3,7 @@
 // @file: HtmlRegistrableComponentBase.php
 // @date: 20230307 07:20:54
 namespace IGK\System\Html\Dom;
- 
 use IGK\System\Html\IHtmlRegistrableComponent;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom

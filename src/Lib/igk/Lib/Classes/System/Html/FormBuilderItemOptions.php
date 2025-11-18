@@ -3,18 +3,14 @@
 // @file: FormBuilderItemOptions.php
 // @date: 20230626 14:49:52
 namespace IGK\System\Html;
-
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
-
-///<summary></summary>
 /**
 * item properties options to pass to form builder
 * @package IGK\System\Html
 */
 class FormBuilderItemOptions implements ArrayAccess{
     use ArrayAccessSelfTrait;
-
     var $name;
     /**
      * text to litteral presentation
@@ -26,11 +22,30 @@ class FormBuilderItemOptions implements ArrayAccess{
      * @var string|FormBuilderItemAbstractType items text|
      */
     var $type;
+    /**
+     * 
+     * @var mixed
+     */
     var $allow_empty;
+    /**
+     * 
+     * @var mixed
+     */
     var $empty_value;
-
+    /**
+     * label attribute 
+     * @var mixed
+     */
     var $label_attr;
+    /**
+     * 
+     * @var mixed
+     */
     var $required;
+    /**
+     * 
+     * @var mixed
+     */
     var $placeholder;
     /**
      * id to attach to input or text area
@@ -42,13 +57,11 @@ class FormBuilderItemOptions implements ArrayAccess{
      * @var mixed
      */
     var $attribs;
-
     /**
      * array of data for combobox
      * @var mixed
      */
     var $data;
-
     function _access_offsetGet($n){
         return $this->$n;
     }

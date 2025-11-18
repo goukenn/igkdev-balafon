@@ -3,7 +3,6 @@
 // @file: ViewCompilerUtility.php
 // @date: 20221025 14:29:43
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -15,8 +14,6 @@ use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerOptions;
 use IGK\System\Runtime\Compiler\ViewCompilerBockInfo;
 use IGK\System\ViewEnvironmentArgs;
 use IGKException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Runtime\Compiler\ViewCompiler
@@ -77,7 +74,6 @@ abstract class ViewCompilerUtility
             }
         }
     }
-
     /**
      * compile instruction block
      * @param array|mixed $blocks 
@@ -106,7 +102,6 @@ abstract class ViewCompilerUtility
         $n = [];
         $buffers = [];
         $depth = 0;
-
         $blockCompiler = new ViewBlockCompiler();
         $blockCompiler->detector = new CompilerNodeModifyDetector;
         $blockCompiler->controller = $controller ?? SysDbController::ctrl();
@@ -121,14 +116,11 @@ abstract class ViewCompilerUtility
             if (!empty($attr))
                 $sb->appendLine(sprintf("%s(%s);", '$__igk_attr__', var_export($attr, true)));
         }
-
         $vars =  (array)$options;
         if ($variable){
             $vars = array_merge($variable, $vars);
         }
-
         $blockCompiler->variables = $vars;
-       
         $init = CompilerNodeModifyDetector::Init();
         $ss = null;
         while (count($tab) > 0) {
@@ -142,7 +134,6 @@ abstract class ViewCompilerUtility
                     if (!empty($ss = $blockCompiler->complete())) {
                         $sb->appendLine($ss);
                     }
-
                     if (!$sb->isEmpty()) {
                         $sb->tabstop = str_repeat("   ", $depth - 1);
                         $sb->prependLine($p->startBlock());
@@ -166,7 +157,6 @@ abstract class ViewCompilerUtility
                     $p = $q;
                     $n[] = $p;
                     $buffers[] = $sb;
-
                     if ($ss = $blockCompiler->complete())
                         $sb->appendLine($ss);
                     $sb = new StringBuilder;

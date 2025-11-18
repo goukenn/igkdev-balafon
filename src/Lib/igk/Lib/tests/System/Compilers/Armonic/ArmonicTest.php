@@ -238,7 +238,6 @@ PHP);
             <<<'PHP'
 <?php
 
-///<summary></summary>
 /**
 * 
 * @return mixed
@@ -262,13 +261,12 @@ PHP,
 function A($ax , $bx=10, $cx=80){
 return $ax + $bx;
 }
-PHP);
+PHP); 
  
         $this->assertEquals(
 <<<'PHP'
 <?php
 
-///<summary></summary>
 /**
 * 
 * @param mixed $ax
@@ -317,13 +315,12 @@ final class B{
     var $x;
     public $y = 0; 
 }
-PHP);
-// igk_wln_e(__FILE__.":".__LINE__, $g);
+PHP);  
+// igk_wln_e(__FILE__.":".__LINE__ , $g);
         $this->assertEquals(
             <<<'PHP'
 <?php
 
-///<summary></summary>
 /**
 * 
 */
@@ -333,7 +330,6 @@ var $info;
 
 }
 
-///<summary></summary>
 /**
 * 
 */
@@ -373,7 +369,6 @@ PHP);
 <<<'PHP'
 <?php
 
-///<summary></summary>
 /**
 * 
 */
@@ -382,7 +377,6 @@ class A{
 var $info;
 
 
-///<summary></summary>
 /**
 * 
 * @return mixed
@@ -411,7 +405,8 @@ static $g;
 global $x;$a += $x . "presentation";
 $a["baseic"]="data";
 }
-PHP); 
+PHP);  
+
         $this->assertEquals(<<<'PHP'
 <?php
 
@@ -422,7 +417,6 @@ global $x;
 $a += $x . "presentation";
 $a["baseic"] = "data";
 }
-
 
 $x = 85;
 PHP,

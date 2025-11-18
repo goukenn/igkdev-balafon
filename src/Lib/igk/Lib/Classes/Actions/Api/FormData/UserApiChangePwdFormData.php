@@ -3,11 +3,8 @@
 // @file: UserApiChangePwdFormData.php
 // @date: 20230505 11:04:34
 namespace IGK\Actions\Api\FormData;
-
 use IGK\System\Http\Request;
 use IGK\System\WinUI\Forms\FormData;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions\Api\FormData

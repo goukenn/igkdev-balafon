@@ -12,7 +12,6 @@ use IGK\System\Http\Request;
 use IGK\Tests\BaseTestCase;
 
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\System\Html\Forms\Helper
@@ -44,28 +43,31 @@ class FormFieldHelperTest extends BaseTestCase
 
         $dummy = new DummyDataForm;
         $request = Request::getInstance();
-        $_REQUEST = ["title" => "Book of balafon", "desc" => "wiki", "age"=>18];
+        $_REQUEST = ["title" => "Book of balafon", "desc" => "wiki", "age" => 18];
         $error = [];
         $c = $dummy->validateFromRequest($request, $error);
         $this->assertTrue($c);
 
         $error = [];
-        $_REQUEST = ["title" => null, "desc" => "wiki", "age"=>12];
+        $_REQUEST = ["title" => null, "desc" => "wiki", "age" => 12];
         $c = $dummy->validateFromRequest($request, $error);
-        $this->assertTrue(!$c); 
+        $this->assertTrue(!$c);
 
         $error = [];
-        $_REQUEST = ["title" => "Mr. Paul", "desc" => "wiki", "age"=>"undefined"]; 
-        $c = $dummy->validateFromRequest($request, $error); 
-        $this->assertTrue(!$c); 
-        if ($c){
+        $_REQUEST = ["title" => "Mr. Paul", "desc" => "wiki", "age" => "undefined"];
+        $c = $dummy->validateFromRequest($request, $error);
+        $this->assertTrue(!$c);
+        if ($c) {
             $this->assertEquals('', json_encode($dummy));
         }
     }
 }
 
 
-
+/**
+ * dummy test form base 
+ * @package IGK\Tests\System\Html\Forms\Helper
+ */
 class DummyDataForm extends InspectorFormFieldValidationBase
 {
     /**

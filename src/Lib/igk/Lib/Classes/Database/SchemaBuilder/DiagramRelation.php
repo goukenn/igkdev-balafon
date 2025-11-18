@@ -1,15 +1,9 @@
 <?php
-
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: DiagramRelation.php
 // @date: 20220531 16:28:07
 // @desc: 
-
-
 namespace IGK\Database\SchemaBuilder;
-
-
 /**
  * 
  * @package igk\db\schemaBuilder
@@ -28,7 +22,6 @@ class DiagramRelation extends DiagramPropertiesHost{
         if (is_null($endEntity)){
             die("endEntity is null");
         }
-
         $this->name = $relationName;
         $this->sc = $sourceEntity;
         $this->dc = $endEntity;
@@ -44,5 +37,4 @@ class DiagramRelation extends DiagramPropertiesHost{
             $this->endType,
         ])));
     }
-  
 }

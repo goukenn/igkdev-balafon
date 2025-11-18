@@ -3,14 +3,11 @@
 // @file: ExecModelUtilittyCommand.php
 // @date: 20240917 19:29:12
 namespace IGK\System\Console\Commands;
-
 use IGK\Actions\Dispatcher;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Colorize;
 use IGK\System\Console\Logger;
 use ReflectionMethod;
-
-///<summary></summary>
 /**
 * execute command db utility to handle action base on modelUtility 
 * @package IGK\System\Console\Commands
@@ -23,7 +20,6 @@ class ExecModelUtilittyCommand extends AppExecCommand{
 	'--list'=>'list function'];
 	var $category = 'db';
 	var $usage = 'utilityName.methods ...args [options]';
-
 	public function exec($command , ?string $utility_name_call = null ) { 
 		if (is_null($utility_name_call)){
 			igk_die('required model utility');
@@ -50,8 +46,6 @@ class ExecModelUtilittyCommand extends AppExecCommand{
 				igk_exit(0);
 			}
 		}
-
-
 		Logger::success('done');
 	}
 	public function showList($utility){
@@ -71,5 +65,4 @@ class ExecModelUtilittyCommand extends AppExecCommand{
 			Logger::print(implode("\n", $l));
 		}
 	}
-
 }

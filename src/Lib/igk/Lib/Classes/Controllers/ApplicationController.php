@@ -3,14 +3,9 @@
 // @filename: ApplicationController.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Controllers;
-
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/CacheConfigs.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Database/IDatabaseHost.php";
-
-
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\Models\Groups;
@@ -31,8 +26,6 @@ use IGKHtmlDoc;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
-
-///<summary>base application controller</summary>
 abstract class ApplicationController extends  PageControllerBase
 implements IDatabaseHost
 {
@@ -41,10 +34,6 @@ implements IDatabaseHost
     const IGK_CTRL_APP_TEMPLATE = self::IGK_CTRL_APPS_KEY + 2;
     private static $INIT;
     private static $sm_apps;
-
-    ///<summary></summary>
-    ///<param name="news" default="false"></param>
-    ///<param name="funcrequest" default="null"></param>
     /**
      * 
      * @param mixed $news the default value is false
@@ -54,8 +43,6 @@ implements IDatabaseHost
     {
         return igk_sys_getfunclist($this, $news, $funcrequest);
     }
-    ///<summary> override this method to handle shortcut evaluationUri according to function and param</summary>
-    ///<return> true if handled otherwise false</return>
     /**
      *  override this method to handle shortcut evaluationUri according to function and param
      */
@@ -63,7 +50,6 @@ implements IDatabaseHost
     {
         return false;
     }
-    ///<summary>override to create the application db utility intance </summary>
     /**
      * override to create the application db utility intance
      */
@@ -71,7 +57,6 @@ implements IDatabaseHost
     {
         return new IGKDbModelUtility($this);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -87,9 +72,6 @@ implements IDatabaseHost
         $div->addA($this->getAppUri(""))->setClass("glyphicons no-decoration")->Content = "&#xe021;";
         $doc->renderAJX();
     }
-    ///<summary></summary>
-    ///<param name="func"></param>
-    ///<param name="args"></param>
     /**
      * 
      * @param mixed $func
@@ -106,7 +88,6 @@ implements IDatabaseHost
         }
         return false;
     }
-    ///<summary>check before controller add</summary>
     /**
      * check before controller add
      */
@@ -123,8 +104,6 @@ implements IDatabaseHost
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="funcname"></param>
     /**
      * 
      * @param mixed $funcname
@@ -138,9 +117,6 @@ implements IDatabaseHost
         igk_exit();
         return false;
     }
-
-    ///<summary></summary>
-    ///<param name="node" default="null"></param>
     /**
      * 
      * @param mixed $node the default value is null
@@ -174,8 +150,6 @@ implements IDatabaseHost
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="clear" default="false"></param>
     /**
      * 
      * @param mixed $clear the default value is false
@@ -193,10 +167,8 @@ implements IDatabaseHost
             $doc->body->clearChilds();
         else
             $doc->body->getBodyBox()->clearChilds();
-
         return $doc;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -245,7 +217,6 @@ implements IDatabaseHost
         }
         igk_navto($this->getAppUri());
     }
-    ///<summary>drop application table from system config</summary>
     /**
      * drop application table from system config
      */
@@ -255,7 +226,6 @@ implements IDatabaseHost
             return;
         }
         $s = $force || igk_is_conf_connected() || $c->IsUserAllowedTo($c->Name . ":" . __FUNCTION__);
-
         if ($s) {
             $args = func_get_args();
             $db = [ControllerExtension::class, __FUNCTION__];
@@ -266,7 +236,6 @@ implements IDatabaseHost
             igk_navto($c->getAppUri());
         }
     }
-    ///<summary>use to handle redirection uri</summary>
     /**
      * use to handle redirection uri
      */
@@ -279,7 +248,6 @@ implements IDatabaseHost
         $this->handle_redirection_uri($inf);
         igk_exit();
     }
-    ///<summary>List Exposed Functions</summary>
     /**
      * List Exposed Functions
      */
@@ -318,7 +286,6 @@ implements IDatabaseHost
         $b->addButton("btn.init")->setAttribute("value", "init function list")->setAttribute("onclick", "javascript: ns_igk.form.posturi('" . $u . "'); return false;");
         $doc->renderAJX();
     }
-    ///<summary></summary>
     /**
      * retrieve data schame definition
      */
@@ -330,7 +297,7 @@ implements IDatabaseHost
             igk_exit();
         }
         $f = $this->getDataSchemaFile();
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $s = HtmlReader::LoadFile($f);
             $s->renderXML();
         } else {
@@ -339,7 +306,6 @@ implements IDatabaseHost
         }
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * primary configuration additional configuration 
      * @return <string,ConfigInfo
@@ -355,7 +321,6 @@ implements IDatabaseHost
             IGK_CTRL_CNF_APPNOTACTIVE => igk_create_additional_config_info(array("clType" => "bool", "clDefaultValue" => "0"))
         );
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -377,7 +342,6 @@ EOF;
     {
         return 0;
     }
-
     ///<summary></summary>
     /**
      * 
@@ -434,7 +398,6 @@ EOF;
     {
         return $this->getConfig(IGK_CTRL_CNF_TITLE);
     }
-
     ///<summary>Basic uri pattern</summary>
     /**
      * Basic uri pattern
@@ -443,7 +406,6 @@ EOF;
     {
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, IGK_CTRL_CNF_BASEURIPATTERN);
     }
-
     ///<summary>return application uri</summary>
     /**
      * return application uri
@@ -472,7 +434,6 @@ EOF;
                 $function = dirname($function);
             }
         }
-
         if ($this::IsEntryController()) {
             if ($subdomain = SysUtils::GetApplicationLibrary("subdomain")) {
                 if ($subdomain->subdomain === $this) {
@@ -502,7 +463,6 @@ EOF;
         }
         return $buri;
     }
-
     ///<summary></summary>
     /**
      * 
@@ -511,7 +471,6 @@ EOF;
     {
         return false;
     }
-
     ///<summary></summary>
     /**
      * 
@@ -575,7 +534,6 @@ EOF;
     {
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
-
     ///<summary>get sub application app uri </summary>
     /**
      * get sub application app uri
@@ -635,8 +593,8 @@ EOF;
      */
     public function handle_redirection_uri($u, $forcehandle = 1)
     {  
-        igk_sys_handle_uri();
-    
+        // D: base handle 
+        // time: 200ms. -- need to optimize
         $page= $k =
         $pattern = $p= $c=
         $param =
@@ -647,7 +605,6 @@ EOF;
         igk_set_env(IGKEnvironment::CURRENT_CTRL, $this);
         $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc); 
         $this->_initRequiredModules();
-        
         // + | PARSE DATA and extract matching pattern 
         if (is_string($u)) {
             if (empty($u)){
@@ -657,8 +614,6 @@ EOF;
             $k = $this->getDomainUriAction();
             $pattern = igk_pattern_matcher_get_pattern($k);
             $p = igk_pattern_get_matches($pattern, $page[0], array_merge(["lang"], igk_str_get_pattern_keys($k)));
-            // extract(igk_pattern_view_extract($this, $p, 1));
-            // igk_ctrl_change_lang($this, $p);
         } else {
             unset($u->ctrl);
             $page = explode("?", $u->uri);
@@ -672,10 +627,8 @@ EOF;
         $query_options = igk_getv($p, 'options');
         //passing ctrl to view for sitepam
         igk_bind_sitemap(["ctrl" => $this, "c" => $c]);
-
         // include(IGK_LIB_DIR."/Inc/igk_sitemap.pinc");
         $tn = $this->getTargetNode();
-
         if ($this->_handle_uri_param($c, $param, $query_options)) {
             $forcehandle && igk_exit();
             return;
@@ -691,7 +644,6 @@ EOF;
             $this->renderDefaultDoc($this->getConfig("/default/document", 'default'));
             igk_exit();
         }
-      
         $this->setEnvParam(IGK_VIEW_OPTIONS, $query_options);
         if (igk_sys_is_subdomain()) {
             //check of uri access ... 
@@ -715,14 +667,17 @@ EOF;
                 }
             }
         }
- 
-        // + | NAVIGATE TO CURRENT VIEW
+        // + | NAVIGATE TO CURRENT VIEW 
         $this->setCurrentView($c, true, null, $param, $query_options);         
         $this->resetCurrentView(null);
         if (igk_is_ajx_demand()) {
-            igk_ajx_replace_node($tn, "#" . $tn["id"]);
+            if (is_null($tn["id"]) || $tn->getRenderOnly()){
+                $tn->renderAJX();
+            }else 
+                igk_ajx_replace_node($tn, "#" . $tn["id"]);
         } else {
             $ctx = $this->getEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY);
+            // + | render document view  
             if ($ctx == "docview") {
                 igk_app()->getDoc()->renderAJX();
             } else {
@@ -783,14 +738,12 @@ EOF;
                 // get_class($this));
             });
         }
-        
     }
     protected function _registerApp()
     {
         if ($n = get_class($this)) {
             $n = str_replace("\\", ".", $n);
             $c = self::GetApps();
-
             if (($def = preg_match(IGK_IS_FQN_NS_REGEX, $n)) && !isset($c->_[$n])) {
                 $c->_[$n] = $this->getName();
             } else {
@@ -812,14 +765,20 @@ EOF;
         $this->_initMacros();
         $this->_registerApp();
         $this->_registerAction();
+        if ($d = $this->forceSessionUris()){
+            igk_environment()->mergeSessionUri($d); 
+        } 
         if (!isset(self::$INIT)) {
             igk_reg_hook(IGK_EVENT_DROP_CTRL, "igk_app_ctrl_dropped_callback");
             self::$INIT = true;
         }
         OwnViewCtrl::RegViewCtrl($this, 0);
     }
-
-
+    /**
+     * force session uris 
+     * @return ?array 
+     */
+    protected function forceSessionUris(){ return null; }
     ///<summary></summary>
     ///<param name="ctrl"></param>
     /**
@@ -837,8 +796,7 @@ EOF;
                 igk_io_w2file($ctrl->getDataDir() . IGK_APP_LOGO, $s->renderText(), true);
             }
             igk_io_w2file(
-                $ctrl->getDataDir() . IGK_APP_LOGO . ".gkds",
-                <<<EOF
+                $ctrl->getDataDir() . IGK_APP_LOGO . ".gkds",<<<EOF
 <gkds>
   <Project>
     <SurfaceType>IconSurface</SurfaceType>
@@ -895,7 +853,6 @@ EOF,
      */
     protected function IsFuncUriAvailable(&$func)
     {
-
         $c = new ReflectionMethod($this, $func);
         if (!$c->isPublic()) {
             return false;
@@ -907,7 +864,6 @@ EOF,
             return true;
         return false;
     }
-
     ///<summary></summary>
     /**
      * 
@@ -987,7 +943,6 @@ EOF;
      */
     protected function renderDefaultDoc($view = 'default', $doc = null, $render = true)
     {
-
         $d = $doc ?? $this->getAppDocument(true);
         // $d= $doc ?? $this->getDoc();// true);
         if ($d === igk_app()->getDoc()) {
@@ -1001,7 +956,6 @@ EOF;
             $title = __("title.app_1", $wt);
         }
         $d->Title = $title;
-
         $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $d);
         $bbox = $d->Body->getBodyBox();
         igk_doc_set_favicon($d, $this->getResourcesDir() . "/Img/favicon.ico");
@@ -1021,7 +975,7 @@ EOF;
     {
         igk_dev_wln_e(__FILE__ . "." . __LINE__, "RenderError document");
         $f = igk_io_baseDir("Pages/error_404.html");
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             include($f);
         } else {
             $d = $this->getAppDocument();
@@ -1033,7 +987,6 @@ EOF;
             igk_exit();
         }
     }
-
     ///<summary> save data schema</summary>
     /**
      *  save data schema

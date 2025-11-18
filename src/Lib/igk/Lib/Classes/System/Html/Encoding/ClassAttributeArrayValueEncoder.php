@@ -3,9 +3,6 @@
 // @file: ClassAttributeArrayValueEncoder.php
 // @date: 20230316 11:14:17
 namespace IGK\System\Html\Encoding;
-
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html\Encoding
@@ -20,9 +17,7 @@ class ClassAttributeArrayValueEncoder extends AttributeEncoder
      * @var false
      */
     var $strip_expression = false;
-
     private $m_litteral_start;
-
     public static function DetectArrayList(string $value)
     {
         return $value && preg_match("/^\[[^\]]+\]$/", trim($value));
@@ -113,8 +108,6 @@ class ClassAttributeArrayValueEncoder extends AttributeEncoder
                     break;
             }
             $pos++;
-
-          
             if ($lpos && !empty($ch)) {
                 $this->_appendOutput($func_callback, $out, $v, $lpos, $start, $this->strip_expression, $express_start);
                 $lpos = 0;

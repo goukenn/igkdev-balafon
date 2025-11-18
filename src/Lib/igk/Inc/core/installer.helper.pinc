@@ -1,16 +1,132 @@
 <?php
 
 // installer.helper.pinc
-
+/**
+ * installer helper 
+ * @package 
+ */
 class InstallerHelper
 {
-    public static function GetFiles(string $dir, $pattern)
+    use IGKBacktickHelperCommandTrait;
+
+    /**
+     * 
+     * @param string $bdir 
+     * @param int $count 
+     * @return string 
+     */
+    public static function LocateBaseDir(string $bdir, int $count){
+        $_ISUNIX = in_array(strtolower(PHP_OS), ['linux', 'darwin']);
+        $v_lregex = "/^[a-z]:\/$/i";
+        while($count>0){
+            $bdir = dirname($bdir);
+            $count--;
+            if ($_ISUNIX){
+                if ($bdir=='.'){
+                    return '/';
+                }
+                if ($bdir == '/')
+                    return $bdir;
+            } else {
+                // os 
+                if (preg_match($v_lregex, $bdir)){
+                    return $bdir;
+                }
+            }
+        }
+        return $bdir;
+    }
+   
+    /**
+     * retrieve php binarary location 
+     * @return string 
+     */
+    public static function GetPhpBinary(){
+        // depending of provider 
+
+        if (empty(PHP_BINARY)){
+            $php_ini = php_ini_loaded_file();
+            list($v,$m) = array_slice(explode('.', PHP_VERSION), 0, 2);
+            $core = $v.'.'.$m;
+            $f = sprintf('/usr/local/php%s/bin/php', $core);
+            if (file_exists($f)){
+                return $f;
+            }
+
+            $tab = [
+                '8.2'=>'/usr/local/php8.2/bin/php'
+            ];
+
+            if (isset($tab[$core])){
+                $f = $tab[$core];
+                if (file_exists($f))
+                    return $f;
+            }
+            if (file_exists($f = dirname($php_ini).'/bin/php')){
+                return $f;
+            }
+        }
+        return PHP_BINARY;
+    } 
+
+    /**
+     * remove all files - recursivily 
+     * @param string $dir 
+     * @param mixed $pattern 
+     * @return false|mixed 
+     */
+    public static function RmFiles(string $dir, ?string $pattern='/.+/'){
+        if (!is_dir($dir)){
+            return false;
+        }
+        
+        $tf = [$dir];
+        $rmdir = [];
+        while(count($tf)>0){
+            $dir = array_shift($tf);
+            $cf = self::GetFiles($dir, $pattern);
+            $rm  = 0;
+            while(!is_null($cf) && (count($cf)>0)){
+                $q = array_shift($cf);
+                if (($q=='.') || ($q=='..')){
+                    continue;
+                }
+                $dd = $dir . DIRECTORY_SEPARATOR . $q;
+                if (is_dir($dd)){
+                    array_unshift($tf, $dd);
+                } else {
+                    @unlink($dd); 
+                }
+                $rm = 1;
+            }
+            if ($rm){
+                array_unshift($rmdir, $dir);
+            } else {
+                rmdir($dir);
+            } 
+        }
+        while(count($rmdir)>0){
+            $d = array_shift($rmdir);
+            @rmdir($d);
+        }
+    }
+    /**
+     * get files
+     * @param mixed $dir 
+     * @param string $pattern 
+     * @return null|string[] 
+     */
+    public static function GetFiles(string $dir, ?string $pattern='/.+/')
     {
         $out = null;
         if ($hdir = opendir($dir)) {
             while ($m = readdir($hdir)) {
-                if ($pattern && preg_match($pattern, $m)) {
-                    if (is_null($out)) $out = [];
+                if (($m=='.') || ($m=='..')){
+                    continue;
+                }   
+                if (!$pattern || preg_match($pattern, $m)) {
+                    if (is_null($out)) 
+                        $out = [];
                     $out[] = $m;
                 }
             }

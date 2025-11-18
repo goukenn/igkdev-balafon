@@ -3,9 +3,6 @@
 // @file: ScopedNodeTrait.php
 // @date: 20241016 13:35:45
 namespace IGK\System\Html\Rendering\Traits;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Rendering\Trait
@@ -25,13 +22,11 @@ trait ScopedNodeTrait{
     public function afterRender($callable){
         $this->m_afterRender = $callable;
     }
-
     public function beforeRenderCallback($options, $setting) {
         if ($c = $this->m_beforeRender){            
             $c($options, $setting);
         }
     }
-
     public function afterRenderCallback($options, $setting) { 
         if ($c = $this->m_afterRender){            
             $c($options, $setting);

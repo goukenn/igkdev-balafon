@@ -3,13 +3,8 @@
 // @filename: XsdBuilderUtility.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
 namespace IGK\XSD;
-
 use IGK\System\Html\Dom\HtmlItemBase;
-
-
 abstract class XsdBuilderUtility
 {
     const SEQUENCE = "xs:sequence";
@@ -29,9 +24,7 @@ abstract class XsdBuilderUtility
                     ->setAttribute("processContents", "skip");
                 continue;
             }
-
             if (is_object($v) && $v instanceof IXsdReference) {
-
                 $m = $s->add($v->getRefType())->setAttribute("ref", $v->getRef());
                 if (isset($v->attributes)) {
                     $m->setAttributes($v->attributes);
@@ -59,9 +52,7 @@ abstract class XsdBuilderUtility
             $s = $b->add($ctype);
             if ($tattributes)
                 $s->setAttributes($tattributes);
-
             self::BuildDef($s, $defs);
-
             // foreach ($defs as $k => $v) {
             //     if ($v === -1) {
             //         $s->add("xs:any")->setAttribute("minOccurs", "0")
@@ -75,9 +66,7 @@ abstract class XsdBuilderUtility
             //             ->setAttribute("processContents", "skip");
             //         continue;
             //     }
-
             //     if (is_object($v) && $v instanceof IXsdReference) {
-
             //         $m = $s->add($v->getRefType())->setAttribute("ref", $v->getRef());
             //         if (isset($v->attributes)) {
             //             $m->setAttributes($v->attributes);
@@ -135,7 +124,6 @@ abstract class XsdBuilderUtility
                 $e->setAttribute("default", $o->default);
             }
         } else {
-
             $e->setAttribute("type", $value);
         }
     }

@@ -3,12 +3,9 @@
 // @file: CurlHttpClient.php
 // @date: 20230913 07:31:13
 namespace IGK\System\Http;
-
 use IGK\System\IO\Path;
 use IGKException;
 use IGKValidator;
-
-///<summary></summary>
 /**
 * represent a core curl http client
 * @package IGK\System\Http
@@ -26,25 +23,21 @@ class CurlHttpClient implements IHttpClient{
      * @var bool
      */
     var $followLocation = false;
-
     /**
      * accept content type
      * @var string
      */
     var $accept = '*/*';
-
     /**
      * get or set base uri
      * @var ?string
      */
     var $base;
-
     /**
      * base controller 
      * @var mixed
      */
     var $controller;
-
     /**
      * get request status
      * @var mixed
@@ -56,7 +49,6 @@ class CurlHttpClient implements IHttpClient{
      * @var mixed
      */
     private $m_headers;
-
     public function __destruct()
     {
         if ($this->m_session_file){
@@ -71,7 +63,6 @@ class CurlHttpClient implements IHttpClient{
     public function getRequestHeaderResponse(): ?array {
         return $this->m_requestInfo; 
     }
-
     /**
      * get last request status code
      * @return mixed 
@@ -79,13 +70,9 @@ class CurlHttpClient implements IHttpClient{
     public function getStatus():int{
         return $this->m_status;
     }
-
     public function download(string $url, IHttpClientOptions $options) { }
-
     public function get(string $url) { }
-
     public function post(string $url, array $data = []) { } 
-
     /**
      * 
      * @param string $url 
@@ -95,11 +82,9 @@ class CurlHttpClient implements IHttpClient{
         $v_is_uri = IGKValidator::IsUri($url);
         if ($this->controller){
             if (!$v_is_uri){
-
                 // get inline resource
                 $path = explode('?', Path::Combine(igk_io_basedir(), $url))[0];
-
-                if (file_exists($f = $path)){
+                if (igk_io_file_exists($f = $path)){
                     $response = file_get_contents($f);
                     $ext = igk_io_path_ext($f);
                     HttpUtility::GetContentTypeFromExtension($ext);
@@ -107,10 +92,8 @@ class CurlHttpClient implements IHttpClient{
                     $this->m_requestInfo = [
                         'Content-Type'=>HttpUtility::GetContentTypeFromExtension($ext)
                     ];
-                     
                     return $response;
                 }
-
                 // $view = $this->controller->getViewFile($url);
                 // try handle request - 
                 // $this->controller->setCurrentView($url);
@@ -118,7 +101,6 @@ class CurlHttpClient implements IHttpClient{
                 // return $doc->render();
             }
         }
-
         if (!$v_is_uri && $this->base){
             $url = igk_uri(Path::Combine($this->base, $url));
         }
@@ -136,7 +118,6 @@ class CurlHttpClient implements IHttpClient{
         $this->m_status = -1;
         $c = igk_curl_post_uri($url, $args, $this->_getOptions(), $this->_getHeaders());
         $this->m_status = igk_curl_status();
-
         $t_info = igk_curl_info();          
         $this->m_requestInfo = $t_info;        
         if ($v_cookie_list = igk_getv($t_info, 'Cookie-List')){
@@ -161,7 +142,6 @@ class CurlHttpClient implements IHttpClient{
                 CURLOPT_HTTPHEADER=>"Headers", 
         ], $key);
     }
-
     /**
      * get headers
      * @return null|array 
@@ -184,9 +164,10 @@ class CurlHttpClient implements IHttpClient{
             $options[CURLOPT_FOLLOWLOCATION] = 1;
         }
         if ($this->session){
-            $this->m_session_file = $this->m_session_file ??  igk_io_tempfile('sess_');
-            $options[CURLOPT_COOKIESESSION] = true;
-            $options[CURLOPT_COOKIEFILE] = $this->m_session_file;
+            $f = $this->m_session_file = $this->m_session_file ??  igk_io_tempfile('sess_');
+            // $options[CURLOPT_COOKIESESSION] = true; 
+            $options[CURLOPT_COOKIEJAR] = 
+            $options[CURLOPT_COOKIEFILE] = $f;
             $options['session_id'] = $this->m_session_id;
             $options['session_name'] = $this->m_session_name;
         }

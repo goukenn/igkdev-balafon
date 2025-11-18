@@ -3,15 +3,13 @@
 // @filename: DbUtils.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Database;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\RootControllerBase;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbConstants;
+use IGK\Database\DbSchemas;
 use IGK\Database\IDbColumnInfo;
 use IGK\Models\ModelBase;
 use IGK\System\Caches\DBCaches;
@@ -20,15 +18,12 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionClass;
 use ReflectionException;
-
 class DbUtils
 {
-
     /**
      * order controller callback
      */
     const OrderController = self::class . "::OrderController";
-
     /**
      * get dump files 
      * @param array $table_info 
@@ -54,13 +49,43 @@ class DbUtils
         if (is_null($c->clIsDumpField)){
             // auto determine if c column info is a dump field
             $d = strtolower($c->clType); 
-
             return !(($c->clAutoIncrement) || 
                 (($d=='datetime') && $c->clInsertFunction ||(strtolower($c->clDefault.'') == 'now()')) ||
                 (($d=='varchar') && ($c->clInsertFunction == 'IGK_PASSWD_ENCRYPT')));
         }
         return $c->clIsDumpField;
     }
+    /**
+     * resolve column link table name 
+     * @param mixed $info 
+     * @param mixed $ctrl 
+     * @param mixed &$bck old table link
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     */
+    public static function ResolveColumnLink($info, $ctrl, & $bck){
+        $newCl = null;
+        $k = $info->clLinkColumn;
+        $ctabinfo = DbSchemas::GetTableColumnInfo($info->clLinkType);
+        if ($k && !isset($ctabinfo[$k])){
+            if (($toinfo = DBCaches::GetTableInfo($info->clLinkType, $ctrl)) && ($prefix = $toinfo->prefix)){
+                $prefix = $toinfo->prefix;
+                $v = sprintf('%s%s', $prefix, $k);
+                if (isset($ctabinfo[$v])){ 
+                    $bck = $k;
+                    $newCl = $v;
+                }
+                $info->clLinkColumn = $newCl;
+            } 
+        } 
+    }
+    /**
+     * 
+     * @param mixed $a 
+     * @param mixed $b 
+     * @return int 
+     */
     public static function OrderController($a, $b)
     {
         if (get_class($a) == \IGK\Controllers\SysDbController::class) {
@@ -134,7 +159,6 @@ class DbUtils
             return true;
         }
     }
-
     /**
      * only column regex filter 
      * @param mixed $column 
@@ -146,7 +170,6 @@ class DbUtils
         }
         return sprintf("/\b(?!%s)\b[\w][\w\d_]*\b/i", $column);
     }
-
     /**
      * get columns columns
      * @param ModelBase $model 
@@ -185,16 +208,13 @@ class DbUtils
             }
         }
         return $l;
-
     }
-
     /**
      * 
      * @param IDbColumnInfo $column_info 
      * @return bool 
      */
     public static function IsJoinTableLinkCandidate($column_info):bool{
-        
         return (
             $column_info->clIsIndex || $column_info->clIsPrimary || $column_info->clAutoIncrement
         ); 

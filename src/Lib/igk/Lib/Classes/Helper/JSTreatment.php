@@ -3,10 +3,7 @@
 // @file: JSTreatment.php
 // @date: 20241020 18:28:14
 namespace IGK\Helper;
-
 use IGK\System\Text\RegexMatcherContainer;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Helper
@@ -18,7 +15,6 @@ class JSTreatment{
         $rgex->begin("(\"|')", "\\1","string");
         $rgex->match('\\\(n|r)', "symbol");
         $pos = 0;
-     
         while($g = $rgex->detect($t, $pos)){
             $rpos = $pos;
             $g = $rgex->end($g, $t, $pos);

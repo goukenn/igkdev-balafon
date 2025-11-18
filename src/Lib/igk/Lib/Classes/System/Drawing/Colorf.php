@@ -5,22 +5,17 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Drawing;
-
 use Exception;
 use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
 use function igk_clamp as clamp;
-
 class Colorf extends IGKObject
 {
     private $m_A, $m_B, $m_G, $m_R;
-    ///<summary></summary>
-    ///<param name="cl"></param>
-    ///<param name="v"></param>
     private static function __bindStringData($cl, $v)
     {
         if ($v === null)
@@ -75,8 +70,6 @@ class Colorf extends IGKObject
         }
         return [$r, $g, $b, $a];
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public static function FromString($v)
     {
         $t = igk_css_get_color_value($v);
@@ -91,63 +84,58 @@ class Colorf extends IGKObject
         self::__bindStringData($cl, $t);
         return $cl;
     }
-    ///<summary></summary>
     public function getA()
     {
         return $this->m_A;
     }
-    ///<summary></summary>
     public function getB()
     {
         return $this->m_B;
     }
-    ///<summary></summary>
     public function getG()
     {
         return $this->m_G;
     }
-    ///<summary></summary>
     public function getR()
     {
         return $this->m_R;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     public function loadw($v)
     {
         self::__bindStringData($this, $v);
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setA($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_A = $value;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setB($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_B = $value;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setG($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_G = $value;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     public function setR($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_R = $value;
     }
-    ///<summary></summary>
+    /**
+     * convert to byte data 
+     */
     public function toByte()
     {
         return Color::FromFloat($this->R, $this->G, $this->B, $this->A);
+    }
+    /**
+     * convert to webcolor 
+     * @return string 
+     */
+    public function toWebColor(){
+        return Color::FromFloat($this->R, $this->G, $this->B, $this->A)->toWebColor();
     }
 }

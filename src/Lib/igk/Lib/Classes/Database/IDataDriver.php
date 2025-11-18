@@ -1,14 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: IDataDriver.php
 // @date: 20220610 13:55:11
 // @desc: 
-
 namespace IGK\Database;
-
 use IGK\System\Database\SQLGrammar;
-
 /**
  * represent data driver
  * @package 
@@ -20,7 +16,6 @@ interface IDataDriver{
      * @return null|string 
      */
     function getDbName():?string;
-
     function getVersion():string;
     function getType():string;
     /**
@@ -46,7 +41,6 @@ interface IDataDriver{
     function isAutoIncrementType(string $type):bool;
     function tableExists(string $table, bool $throwex=true): bool;
     function sendQuery(string $query, $throwex=true, $options=null, $autoclose=false);
-
     /**
      * retrieve used date time format
      * @return string 
@@ -59,22 +53,18 @@ interface IDataDriver{
      * @return mixed 
      */
     function getDataValue($value, $tinf);
-
     /**
      * check if data type support length
      * @param string $type 
      * @return bool 
      */
     function getIsLengthData(string $type) : bool;
-
     /**
      * get if support engine
      * @return bool 
      */
     function getEngineSupport():bool;
-
     function createAlterTableFormat():string;
-
     /**
      * 
      * @param mixed $columninfo 
@@ -82,7 +72,6 @@ interface IDataDriver{
      * @return bool 
      */
     function filterColumn($columninfo, $value):bool;
-
     /**
      * resolv driver parameter
      * @param string $key as auto_increment_word
@@ -91,15 +80,12 @@ interface IDataDriver{
      * @return null|string 
      */
     function getParam(string $key, $rowInfo=null, $tableInfo=null) : ?string;
-
-
     /**
      * get format created table 
      * @param null|array $options 
      * @return string 
      */
     function getCreateTableFormat(?array $options=null): ?string;
-
     /**
      * create table info query
      * @param SQLGrammar $grammar 
@@ -108,7 +94,6 @@ interface IDataDriver{
      * @return string 
      */
     function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column, string $dbname):string;
-
     /**
      * check that a constraint exists
      * @param string $name 
@@ -123,12 +108,16 @@ interface IDataDriver{
      * @return null|string 
      */
     function remove_foreign(string $name, string $column):?string;
-
     /**
      * flag data
      * @param bool $flag 
      * @return mixed 
      */
     function setForeignKeyCheck($flag);
-
+    /**
+     * in query builder retrieve column charset 
+     * @param string $charset 
+     * @return ?string 
+     */
+    function queryColumnCharset(string $charset):?string;
 }

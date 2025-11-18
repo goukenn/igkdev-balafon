@@ -3,13 +3,8 @@
 // @filename: TemplateArgInfo.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Templates;
-
 use IGK\Controllers\BaseController;
-
-
 /**
  * template argument information
  * @package IGK\System\Templates
@@ -42,7 +37,6 @@ class TemplateArgInfo
             return htmlentities(implode(", ", $l));
         }
         return implode(", ", array_keys($this->args));
-
         //return "@@ctrl, @@args";
     }
     public function push($params)

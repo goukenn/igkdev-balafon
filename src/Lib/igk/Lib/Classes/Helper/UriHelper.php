@@ -3,13 +3,10 @@
 // @filename: UriHelper.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Helper;
-
 use IGK\Controllers\BaseController;
+use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGKException;
-
 abstract class UriHelper{
     const URI_SYS_REPLACE = "base|base_config";
     /**
@@ -20,7 +17,7 @@ abstract class UriHelper{
      * @param mixed $port 
      * @return string 
      */
-    public static function GetCmdAction(BaseController $ctrl, $u = null, $type = 'sys', $port = null){
+    public static function GetCmdAction(BaseController $ctrl, $u = null, $type = SystemUriActionController::AC_SYS_URI, $port = null){
         if ($port)
             $port = ":" . $port;
         return igk_io_baseuri() . $port . "/!@{$type}//{$ctrl->getName()}/{$u}";
@@ -33,7 +30,7 @@ abstract class UriHelper{
                 case "base":
                 return igk_io_baseuri();
                 case "base_config":
-                return igk_io_baseuri()."/Configs/";
+                return igk_io_baseuri().igk_server()->getConfigurationPath()."/";
             }
             return $m;
         }

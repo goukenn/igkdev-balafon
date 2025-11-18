@@ -16,6 +16,10 @@
 
 use IGK\System\Html\Dom\HtmlDocThemeMediaType; 
 use IGK\System\WinUI\LayoutRules;
+
+ 
+
+
 $pad1 = "8px";
 $pad2 = "10px";
 $pad22 = "20px";
@@ -187,6 +191,7 @@ $def[".igk-black-border"] = "{sys:bdr-1}";
 for ($i = 0; $i < 5; $i++) {
     $t = 4 * (1 << $i);
     $def[".igk-pad-" . $t] = "padding:" . $t . "px;";
+    $def[".igk-gap-" . $t] = "gap:" . $t . "px;";
 }
 for ($i = 2; $i < 6; $i++) {
     $def[".fitw-" .
@@ -288,7 +293,7 @@ $def[".igk-lborder.pull-right"] = "height:auto; width:4px; {sys:loc_t, loc_b} le
 
 $def[".igk-bullet"] = "width:32px; height:32px; background-repeat:no-repeat;";
 $def[".igk-bullet.igk-active"] = "background-position:-32px 0px;";
-$theme->reg_keyFrames($def, "igk-progress-frame", " from {background-position: 0px 0; } to { background-position: 40px 0; }");
+$theme->registerKeyFrame($def, "igk-progress-frame", " from {background-position: 0px 0; } to { background-position: 40px 0; }");
 $def[".igk-progressbar"] = "{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444] height:16px;";
 $def[".igk-progressbar:after"] = "display:inline-block; width: 0%; content: ' '; height:100%; background-color:[cl:progressBarCur, red];";
 $def[".igk-progressbar-cur"] = "height:16px; {sys:dispb} [sysbgcl:progressCursorBackground]";
@@ -323,7 +328,7 @@ $def[".igk-title"] = "font-size: 1.333em; padding:{$pad_title};";
 $def[".igk-header"] = "[sysbgcl:igk-header-bgcl] [sysfcl:igk-header-fcl] padding:{$pad1};";
 $def[".igk-horizontal-menu"] = "padding:0px;";
 $def[".igk-horizontal-menu li"] = "{sys:dispib}";
-$def[".igk-horizontal-menu li a"] = "{sys:dispb, nodecoration}";
+$def[".igk-horizontal-menu li a"] = "{sys:dispb, no-decoreation}";
 $def[".igk-horizontal-menu li:not(:first-child)"] = "margin-left:{$pad1};";
 $def[".igk-horizontal-menu .igk-selected-menuitem"] = "border-bottom : 2px solid red; ";
 $def[".igk-pagination"] = "{sys:dispflex} margin-left:auto; margin-right:auto; min-width: 200px;";
@@ -470,7 +475,7 @@ $def[".igk-table > tbody  th"] = "{sys:no-wrap};";
 $def[".igk-table.th-left > tbody  th"] = "{sys:alignl};";
 $def[".igk-table.th-right > tbody  th"] = "{sys:alignr};";
 $def[".igk-table > tbody > tr.alignl th"] = "text-align:left;";
-$def[".igk-table > tbody > tr:first-child > td, .igk-table > tbody > tr:first-child > th"] = "padding:8px;";
+$def[".igk-table > tbody > tr:first-child > th"] = "padding:8px;";
 $def[".igk-table > tbody > tr:not(:first-child) > td, .igk-table > tbody > tr:not(:first-child) > th"]
     = "border-top: none;";
 // $def[".igk-table tr td"] = "padding:{$pad1};";
@@ -671,9 +676,11 @@ $def[".igk-configpage-editor select"] = "vertical-align:middle; border:none;";
 $def[".igk-configpage-editor .close-bar"] = "background-color: #888";
 $def[".igk-configpage-editor .close-bar:hover"] = "background-color: #eee";
 $def[".igk-bodypage"] = "{sys:fitw,fith,posr} overflow:hidden;";
-$def["body .igk-session-block"] = "{sys:posfix} [sysbgcl:sessionBlockBackground] [sysfcl:sessionBlockColor] box-shadow: 0px 4px 16px; border-radius: 4px;";
+$def["body .igk-session-block"] = "{sys:posfix} [sysbgcl: sessionBlockBackground] [sysfcl: sessionBlockColor] box-shadow: 0px 4px 16px; border-radius: 4px;";
 $def[".igk-session-block .cllabel"] = "{sys:dispib, alignt,alignl}";
 $def[".igk-session-block .action-group"] = "max-height:300px";
+$def[".sm .igk-session-block"] = 
+$def[".xsm .igk-session-block"] = "display:none !important;";
 $def[".igk-session-button"] = "[res:session_btn]; [trans: all 0.2s] cursor:pointer; z-index:{$ctrl_session_zindex}; top:0px; opacity:0.1";
 $def[".igk-session-button:hover"] = "opacity:1.0";
 $def[".sm .igk-session-button"] = "display:none !important;";
@@ -681,7 +688,7 @@ $def[".xsm .igk-session-button"] = "display:none !important;";
 $def[".igk-round-chart .bar1"] = "color:#444";
 $def[".igk-round-chart .bar2"] = "color:#ccc";
 $def[".igk-round-chart .text"] = "color:#888";
-$def[".igk-dev-struct div"] = "border : 1px dotted #aaa";
+$def[".igk-dev-struct div"] = "border : 1px dotted #aaa"; 
 
 //+ background layer
 $def[".igk-background-layer"] = "{sys:posfix, loc_t, loc_l, fitw, fith, no-overflow} [sysbgcl:igk-background-layer-bg] z-index:-100";
@@ -691,6 +698,12 @@ $lg_screen[".igk-background-layer img"] =
     $xxlg_screen[".igk-background-layer img"] =
     "{sys:fit, fitc}";
 
+    // igk_trace();
+    // igk_wln("colors", $theme, json_encode($cl, JSON_PRETTY_PRINT));
+    // igk_wln('check theme? ', igk_app()->getDoc()->getSysTheme() === $theme);
+    // if (igk_env_count(__FILE__)>1){
+    //     igk_wln_e('stop....');
+    // }
 
 $def[".igk-wc-splitter .w_1"] = "color:#B42431;";
 $def[".igk-wc-splitter .w_2"] = "color:#FFB73C;";
@@ -782,14 +795,14 @@ $def[".igk-hline-sep"] = "border-top:1px solid [syscl:HLineSeparatorColor] ; mar
 $def[".igk-hline-sep:before"] = "content:' '; display:block; height:16px";
 $def["input.igk-state-btn[type='checkbox']"] = "height:1px;width:0px;overflow:hidden;padding:0px;position:absolute;clip:rect(0,0,0,0);";
 // $sm_screen[".igk-container > .igk-row"]="padding:0px; margin:0px;";
-$sm_screen[".igk-sm-dispn"] = $xsm_screen[".igk-xsm-dispn"]
-    = "{sys:dispn}";
+$sm_screen[".igk-sm-dispn"] = 
+$xsm_screen[".igk-xsm-dispn"] = "{sys:dispn}";
 $def[".igk-bgfilter-blur"] = "";
 $def[".igk-body.igk-bgfilter-blur > div:not(.igk-js-notify-box)"] = "filter:blur(4px) grayscale(100%);";
 $def[".igk-body.igk-bgfilter-blur > div.igk-js-notify-box"] = "filter:none !important;";
 $def[".igk-body.igk-bgfilter-blur > div.mceDropDown"] = "filter:none !important;";
 $def[".igk-body.igk-bgfilter-blur > .mce-widget, .igk-body.igk-bgfilter-blur .mce-container"] =
-    $def[".igk-body.igk-bgfilter-blur .igk-powered"] = "filter:none !important;";
+$def[".igk-body.igk-bgfilter-blur .igk-powered"] = "filter:none !important;";
 $def[".igk-body.igk-bgfilter-blur .igk-bodybox"] = "overflow:hidden !important";
 $sm_screen[".igk-bodybox"] = "overflow-x:hidden !important";
 $def[".igk-truncate.igk-show"] = "text-overflow: ellipsis;  white-space: nowrap;  overflow: hidden; height:2em";
@@ -879,6 +892,11 @@ $def["code[lang='php'] span.s"] = "color: #FF5D83;";
 $def["code[lang='php'] span.cm "] = "color: #005C00; ";
 $def["code[lang='php'] span.v "] = " color:#6B214F;";
 $def["code[lang='php'] span.pc"] = " color:#4a8;	font-weight:900; ";
+
+// + | --------------------------------------------------------------------
+// + | flex positionning
+// + |
+
 $def[".igk-flex-container"] = "display: flex;";
 $def[".igk-flex-container.dir-c"] = "flex-direction: column;";
 $def[".igk-flex-container.dir-rc"] = "flex-direction: column-reverse;";
@@ -887,16 +905,26 @@ $def[".igk-flex-container.dir-rr"] = "flex-direction: row-reverse;";
 $def[".igk-flex-container.no-wrap"] = "flex-wrap: nowrap;";
 $def[".igk-flex-container.r-wrap"] = "flex-wrap: wrap-reverse;";
 $def[".igk-flex-container.wrap"] = "flex-wrap: wrap;";
-$def[".igk-flex-container.justify-c"] = "justify-content: center;";
-$def[".igk-flex-container.justify-s"] = "justify-content: flex-start;";
-$def[".igk-flex-container.justify-e"] = "justify-content: flex-end;";
-$def[".igk-flex-container.justify-space-a"] = "justify-content: space-around;";
-$def[".igk-flex-container.justify-space-b"] = "justify-content: space-between;";
+$def[".justify-c"] = "justify-content: center;";
+$def[".justify-s"] = "justify-content: flex-start;";
+$def[".justify-e"] = "justify-content: flex-end;";
+$def[".justify-space-a"] = "justify-content: space-around;";
+$def[".justify-space-b"] = "justify-content: space-between;";
 $def[".igk-flex-container.align-c"] = "align-items: center;";
 $def[".igk-flex-container.align-s"] = "align-items: flex-start;";
 $def[".igk-flex-container.align-e"] = "align-items: flex-end;";
 $def[".igk-flex-container.align-b"] = "align-items: baseline;";
 $def[".igk-flex-container.align-stretch"] = "align-items: stretch;";
+
+
+// binding flex positioning
+foreach(['baseline', 'end', 'center','start','normal','stretch'] as $a){
+    $def['.flex-'.$a] = 'justify-content: '.$a.';';
+    $def['.flex-cross-'.$a] = 'align-items: '.$a.';';
+}
+
+
+
 $def[".igk-winui-more-view"] = "cursor: pointer;";
 $def[".igk-winui-more-view.igk-hide ~ *"] = "display: none !important;";
 $def[".igk-code"] = "font-family: 'consolas', sans-serif; font-size:8pt; background-color:[cl:codeBgColor, #eee]; " . "border-radius:4px;" . "padding:4px; ";
@@ -930,17 +958,24 @@ $def["ul.debug-panel > li"] = "float:left;";
 igk_set_env("sys://globalcolor", 1);
 igk_set_env("sys://globalcolor", 0);
 
-foreach ([4, 10, 16, 20] as $pad) {
-    $def[".pad-" . $pad] = "padding: {$pad}px;";
-    $def[".marg-" . $pad] = "margin: {$pad}px;";
-    $def[".pad-b-" . $pad] = "padding-bottom: {$pad}px;";
-    $def[".pad-t-" . $pad] = "padding-top: {$pad}px;";
-    $def[".pad-l-" . $pad] = "padding-left: {$pad}px;";
-    $def[".pad-r-" . $pad] = "padding-right: {$pad}px;";
-    $def[".marg-b-" . $pad] = "margin-bottom: {$pad}px;";
-    $def[".marg-t-" . $pad] = "margin-top: {$pad}px;";
-    $def[".marg-l-" . $pad] = "margin-left: {$pad}px;";
-    $def[".marg-r-" . $pad] = "margin-right: {$pad}px;";
+// dimension zone
+foreach ([4, 8, 10, 16, 20, 24, 30, 32, 48] as $pad) {
+    $def['.pad-' . $pad] = "padding: {$pad}px;";
+    $def['.marg-' . $pad] = "margin: {$pad}px;";
+    $def['.pad-b-' . $pad] = "padding-bottom: {$pad}px;";
+    $def['.pad-t-' . $pad] = "padding-top: {$pad}px;";
+    $def['.pad-l-' . $pad] = "padding-left: {$pad}px;";
+    $def['.pad-r-' . $pad] = "padding-right: {$pad}px;";
+    $def['.marg-b-' . $pad] = "margin-bottom: {$pad}px;";
+    $def['.marg-t-' . $pad] = "margin-top: {$pad}px;";
+    $def['.marg-l-' . $pad] = "margin-left: {$pad}px;";
+    $def['.marg-r-' . $pad] = "margin-right: {$pad}px;";
+    $def['.gap-' . $pad] = "gap: {$pad}px;";
+    // round-corner
+    $def['.rc-'.$pad] = 'border-radius: '.$pad.'px;';
+    // rounder
+    $def['.round-'.$pad] = 'border-radius: '.$pad.'px;';
+
 }
 $def[".igk-font-title-1"] = "font-family: 'Roboto', 'Helvetica', 'Arial' , sans-serif; font-size: 3em;font-weight: 200;";
 $def[".clcheckbox"] = "margin-right:{$pad_size};";
@@ -958,6 +993,23 @@ $def[".igk-winui-combobox + ul"] = "background-color:#444; color: white";
 $def[".igk-winui-combobox + ul > li"] = "padding:4px;";
 
 
+foreach([
+    'b'=>'baseline', 
+'c'=>'center',
+'e'=>'end',
+'s'=>'start',
+'normal'=>'normal',
+'unsafe'=>'unsafe',
+'unset'=>'unset',
+'flex-start'=>'flex-start',
+'flex-end'=>'flex-end',
+'r'=>'revert',
+'rl'=>'revert-layer',
+'stretch'=>'stretch',
+'safe'=>'safe',
+'self-end'=>'self-end'
+] as $k=>$v)
+$def['.align-items-'.$k] = 'align-items: '.$v.';';
 
 
 
@@ -984,7 +1036,7 @@ $def["select.igk-form-control"] = "cursor: pointer;";
 // animation notification
 $def[".igk-notify-host.anim-autohide"] = "[anim: 0.85s 1.5s 1 anim-autohide]";
 // define animation 
-$theme->reg_keyFrames($def, "anim-autohide", "from { opacity: 1.0; } to { opacity: 0; }");
+$theme->registerKeyFrame($def, "anim-autohide", "from { opacity: 1.0; } to { opacity: 0; }");
 
 
 
@@ -1020,7 +1072,7 @@ $def[".igk-code.code-php .cm"] = "color: #167d16; ";
 $def[".igk-code.code-php .s"] = "color: #c10000; ";
 $def[".igk-code.code-php .w.r"] = "color: #602795; ";
 $def[".igk-code.code-php .pc + .w "] = "color: var(--igk-code-php-method-cl,  #023c60); font-weight: bold;";
-$def[".igk-code.code-php .num "] = "color: blue";
+ 
 $def[".igk-code.code-php span.litteral"] = "font-style: italic; font-weight:200; [fcl:codeLitteralColor, #19668c]";
 
 
@@ -1080,7 +1132,8 @@ $def[".igk-svg-host.svg-fill > svg"] = "{sys: fit}";
 /**
  * defined selection color 
  */
-$def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, transparent]";
+// $def["::selection"] = "[fcl:selectionColor,#4361ee] [bgcl:selectionBgColor, transparent]";
+$def["::selection"] = "[fcl:--igk-selection-color,#4361ee] [bgcl:--igk-selection-bg-color, transparent]";
 
 
 // + | ----------------------------------------------------------------------------------------
@@ -1095,9 +1148,7 @@ $root['--igk-panelBoxBackgroundColor'] = '#233233';
 // + Material design definitions
 // + ----------------------------------------------------------------------------------------
 
-foreach (["2" => "8px"] as $k => $v) {
-    $def[".pad-" . $k] = "padding: " . $v . ";";
-}
+ 
 foreach (["2" => "8px", "4"=>"16px"] as $k => $v) {
     $def[".mar-b-" . $k] = "margin-bottom: " . $v . ";";
 }
@@ -1194,14 +1245,15 @@ $def['.igk-btn.margin-i'] = 'margin:inherit';
 // + | --------------------------------------------------------------------
 // + | Padding definition
 // + |
-foreach([2,4,8, 16,20,24,48] as $k){
+$dimensions = [2,4,8,16,20,24,32,48,50,100]; 
+foreach($dimensions as $k){
     $def['.pad-'.$k] = 'padding:'.$k.'px;';
 }
 // + | --------------------------------------------------------------------
 // + | size definition
 // + |
 
-foreach([16,24,32,48,64] as $k){
+foreach($dimensions as $k){
     $def['.size-'.$k] = 'width:'.$k.'px; height:'.$k.'px;';
 }
  
@@ -1224,6 +1276,14 @@ $cl['codeMethodColor'] = '#20a3d7'; // default php code fore color
 
 $def['.width-a'] = "width:auto;";
 $def['.height-a'] = "height:auto;";
+$def['.dispflex.alignc'] = 'justify-content: center; align-items: center;';
+
+// spacer 
+$def['.igk-spacer-container'] = '';
+$def['.spacer:before'] = 
+$def['.spacer:after'] = '{sys:dispb} content: " ";align-self:center; flex-grow: 1;';
+$def['.spacer.line-style:before'] = 
+$def['.spacer.line-style:after'] =  'height:1px; border-bottom: 1px solid #3338;'; 
 
 
 include_once __DIR__.'/winui/session.pcss';
@@ -1240,3 +1300,9 @@ $xlg_screen['.no-device-container .igk-container'] =
 $xxlg_screen['.no-device-container .igk-container'] = 'width: var(--blf-container-page-width, auto);';
 
 $root['--blf-container-page-width']='';
+
+
+$def['.dispflex.alignm'] = 'align-items: center;';
+$def['.dispflex.alignc'] = 'justify-content: center;';
+
+$def['.no-focus-styled:focus'] = 'outline:none; box-shadow:none; border:none !important;';

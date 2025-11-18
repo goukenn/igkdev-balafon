@@ -1,16 +1,11 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: Paginator.php
 // @date: 20220729 16:03:22
 // @desc: 
-
-
 namespace IGK\System\WinUI;
-
 use IGK\System\Html\HtmlUtils;
 use IGK\System\IO\StringBuilder;
-
 /**
  * simple pagination class helper
  */
@@ -21,7 +16,6 @@ class Paginator{
     public function Paginator($maxEntry, $queryTag="p"){
         $this->maxEntry = $maxEntry;
         $this->page = igk_getr($queryTag, 1);
-
     }   
     public function get_links(){
         $c = igk_create_node("ul");

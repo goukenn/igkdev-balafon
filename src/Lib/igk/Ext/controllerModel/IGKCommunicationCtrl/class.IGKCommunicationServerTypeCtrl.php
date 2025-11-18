@@ -5,31 +5,27 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary>represent a communication controller base</summary>
-
 use IGK\Controllers\ApplicationController;
+use IGK\System\Http\AcceptMimeTypes;
 
 /**
 * represent a communication controller base
 */
 abstract class IGKCommunicationServerCtrl extends ApplicationController{
-    const HTTP_ACCEPT="text/event-stream";
-    ///<summary></summary>
+    const HTTP_ACCEPT= AcceptMimeTypes::EventStream;
     /**
     * 
     */
     private function getSocketFile(){
         return $this->getDataDir()."/server.socket";
     }
-    ///<summary>override this to handle server</summary>
     /**
     * override this to handle server
     */
     abstract public function handle();
-    ///<summary></summary>
     /**
     * 
     */

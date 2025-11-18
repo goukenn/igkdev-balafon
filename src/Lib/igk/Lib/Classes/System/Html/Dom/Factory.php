@@ -3,9 +3,7 @@
 // @filename: Factory.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Dom;
-
 /**
  * dom factory to handle custom node method extension
  * @package 
@@ -22,7 +20,6 @@ class Factory{
         }
         return self::$sm_instance; 
     }
-
     public static function Register($tagname, $funcName, callable $callback){
         if (!isset(self::getInstance()->m_actions[$tagname])){
             self::getInstance()->m_actions[$tagname] = [];
@@ -44,7 +41,6 @@ class Factory{
         }
         return null; // $callback(...$arguments); // call_user_func_array()
     }
-
     public static function InvokeOn(HtmlItemBase $host, string $tgname, $name, $arguments){
         $instance = self::getInstance();
         if ($instance->handle($tgname, $name)) {
@@ -56,4 +52,3 @@ class Factory{
         return null;
     }
 }
-

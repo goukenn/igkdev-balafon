@@ -5,33 +5,25 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html;
-
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\XML\XmlNode;
-
 class HtmlAttribExpressionNode extends XmlNode
 {
     var  $node_args;
     var  $target_node;
-    ///<summary>Represente __construct function</summary>
-    ///<param name="c"></param>
-    ///<param name="context" default="null"></param>
     public function __construct(HtmlItemBase $cnode, array $c)
     {        
         parent::__construct(IGK_ENGINE_ATTR_EXPRESSION_NODE);
         $this->node_args = $c; 
         $this->target_node = $cnode; 
     }
-    ///<summary>Represente getCanAddChild function</summary>
     public function getCanAddChild()
     {
         return false;
     }
-    ///<summary>Represente loadingComplete function</summary>
     public function loadingComplete()
     { 
         $context = null;

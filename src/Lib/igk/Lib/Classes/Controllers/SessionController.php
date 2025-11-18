@@ -5,11 +5,9 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Controllers;
-
 use IGKOb; 
 use IGKUserAgent;
 use IGKValidator;
@@ -20,14 +18,10 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSessionBlockNode;
 use IGK\System\Http\Cookies;
 use IGKEvents;
-
 final class SessionController extends BaseController{
-    ///<summary></summary>
     private function _viewTarget(){
         $this->getTargetNode()->clearChilds();
     }
-  
-    ///<summary></summary>
     public function changeviewmode(){
         if(!igk_is_conf_connected()){
             return;        }
@@ -42,7 +36,6 @@ final class SessionController extends BaseController{
         igk_navto_referer();
         igk_exit();
     }
-    ///<summary></summary>
     public function ClearAllS(){
         igk_kill_all_sessions();
         $l=igk_sys_srv_referer();
@@ -50,7 +43,6 @@ final class SessionController extends BaseController{
             $l=igk_io_baseuri();
         igk_navto($l);
     }
-    ///<summary></summary>
     public function clearAllSession(){
         $exclude=igk_getr("exclude");
         if(igk_is_conf_connected() || igk_server_is_local()){
@@ -70,27 +62,22 @@ final class SessionController extends BaseController{
             igk_navtobaseuri();
         }
     }
-    ///<summary></summary>
     public function clearcache(){
         if(Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()){
             igk_clear_cache();
         }
         igk_navto_referer();
     }
-
     // protected function IsFunctionExposed($funcname){     
     //     $g = parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $funcname]);        
     //     return $g;
     // }
-    ///<summary> clear session and navigate</summary>
     public function ClearS($navigate=true){
- 
         if ($session = igk_app()->getApplication()->getLibrary()->session){
             $session->destroy(); 
         } 
         $_rcu=explode("?", igk_io_request_uri())[0];
         if($navigate){
-
             $buri=0;
             $s=$_rcu;
             if($s && IGKString::EndWith($s, "/clr")){
@@ -115,39 +102,32 @@ final class SessionController extends BaseController{
             igk_navto(igk_io_baseuri());
         } 
     }
-    ///<summary></summary>
     public function configPropertyChanged(){
         $this->View();
     }
-    ///<summary></summary>
     public function ConfUserChanged(){
         $this->View();
     }
-    ///<summary>call system force view on session controller</summary>
     public function forceview(){ 
         if ($doc=igk_app()->getDoc()){
             igk_hook(IGKEvents::HOOK_FORCE_VIEW, [$this]);
         }
     }
-    ///<summary></summary>
     public function getIsVisible():bool{
         if(igk_get_env("sys://error"))
             return false;
         return !defined('IGK_NO_WEB') && !igk_const_defined('IGK_NO_SESSION_BUTTON') && (Server::IsLocal() || (!IGKUserAgent::isMobileDevice() && igk_is_conf_connected() && igk_configs()->allow_debugging));
     }
-    ///<summary></summary>
     public function getName(){
         return IGK_SESSION_CTRL;
     }
-    
-    ///<summary></summary>
     protected function initComplete($context=null){   
         parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
             return; 
- 
         $n=igk_get_cookie_name(igk_sys_domain_name()."/".Cookies::USER_ID);
         $rs=igk_getv($_COOKIE, $n);
+        $v_user_ctrl = igk_getctrl(IGK_USER_CTRL);
         if(!empty($rs)){ 
             try {
                 $uid = igk_getv(explode(':', $rs), 0);
@@ -158,16 +138,13 @@ final class SessionController extends BaseController{
                 if($v && ($v->clValue == $d)){
                     $r=igk_get_user($uid);
                     if($r){
-                        igk_getctrl(IGK_USER_CTRL)->setUser($r);
+                        $v_user_ctrl->setUser($r);
                         igk_user_store_tokenid($r);
                     }
-                } else {
-                    
+                } else { 
                     unset($_COOKIE[$rs]);
-                    igk_getctrl(IGK_USER_CTRL)->setUser(null);
-                    igk_clear_cookie('uid');
-                    // igk_wln_e("token not found".$n, $_COOKIE, $rs, $_SESSION);
-
+                    $v_user_ctrl->setUser(null);
+                    igk_clear_cookie('uid');  
                 } 
             }
             catch(\Exception $db){
@@ -176,19 +153,15 @@ final class SessionController extends BaseController{
             }
         }
         OwnViewCtrl::RegViewCtrl($this, 0);
-    
         igk_reg_hook(IGKEvents::HOOK_HTML_BODY, function($e){            
             $options = igk_getv($e->args, "options");
             echo $this->getTargetNode()->render($options); 
             // igk_wln_e("init session controller --- ");
         });
     }
-    
-    ///<summary></summary>
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return  new HtmlSessionBlockNode($this);
     }
-    ///<summary></summary>
     public function invmodule(){
         if(igk_get_env(__METHOD__))
             igk_die("Can't invoke module twice");
@@ -212,13 +185,10 @@ final class SessionController extends BaseController{
         igk_set_env(__METHOD__, null);
         igk_exit();
     }
-    ///<summary></summary>
     public function notify_forceview(){
         R::LoadLang();
         $this->View();
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     public function onHandleSystemEvent($msg){
         switch($msg){
             case IGK_ENV_NEW_DOC_CREATED:
@@ -227,9 +197,6 @@ final class SessionController extends BaseController{
             break;
         }
     }
-    ///<summary></summary>
-    ///<param name="o">object that initiate</param>
-    ///<param name="e">document</param>
     private function onSessionNewDocCreated($o, $e){
         if($e && !igk_const_defined('IGK_NO_SESSION_BUTTON')){
             $this->_viewTarget();
@@ -239,11 +206,9 @@ final class SessionController extends BaseController{
             igk_html_add($n, $e->body);
         }
     }
-    ///<summary></summary>
     public function PageChanged(){
         $this->View();
     }
-    ///<summary>Session Controller Run Crons ----- </summary>
     public function RunCron(){
         $c=igk_getr("ctrl");
         if($c){
@@ -254,11 +219,10 @@ final class SessionController extends BaseController{
         $tab=array();
         $server="BALAFON";
         $cookie_name = igk_environment()->session_cookie_name;
-
         $sessid=igk_getv($_COOKIE, $cookie_name, session_id());
         $strCookie= $cookie_name.'='.$sessid.'; path='.igk_get_cookie_path();
         $f=igk_data_get_cron_file();
-        if(file_exists($f))
+        if(igk_io_file_exists($f))
             $tab=igk_json_parse(igk_io_read_allfile($f));
         else
             $tab[]=igk_io_baseuri().$this->getUri("RunCron&ctrl=baobabtv");
@@ -287,9 +251,7 @@ final class SessionController extends BaseController{
         $doc->Dispose();
         igk_exit();
     }
-    ///<summary></summary>
     public function update_setting(){
         $this->View();
     }
-   
 }

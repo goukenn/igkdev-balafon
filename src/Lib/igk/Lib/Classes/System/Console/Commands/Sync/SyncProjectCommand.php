@@ -1,11 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SyncProjectCommand.php
 // @date: 20220502 12:51:36
 // @desc: sync project to an througth ftp 
 namespace IGK\System\Console\Commands\Sync;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Helper\BackupUtility;
@@ -22,10 +20,15 @@ use IGK\System\IO\Path;
 use IGK\System\Regex\Replacement;
 use IGKException;
 use ReflectionException;
-
 /**
  * sync ftp project
  * @package IGK\System\Console\Commands
+ * - sysnc p roject 
+ * check for [pre-publish].php 
+ *      if exists run it in balafon context
+ * run install.project to the ftp server
+ * check for [post-publish].php of php server 
+ *      run it on balafon context 
  */
 class SyncProjectCommand extends SyncAppExecCommandBase
 {
@@ -44,7 +47,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      */
     var $use_zip;
     private $remove_cache = false;
-
     public function syncSingleFile($command, $project, $setting){
         $rf = igk_getv($command->options, "--file");
         if (!is_array($rf)){
@@ -61,12 +63,11 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         // }
         // $g = ftp_nlist($h, $setting[$path_key]);
         // $o_dir = $setting[$path_key] . "/" . $project;
-
         $files = [];
         while(count($rf)>0){
             $q = array_shift($rf);
             if (!$q)continue;
-            if (file_exists($f = $dir."/".$q) || file_exists($f = $q)){
+            if (igk_io_file_exists($f = $dir."/".$q) || igk_io_file_exists($f = $q)){
                $files[] = $f;
             }   
         }
@@ -87,30 +88,21 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         $o_dir = $setting[$path_key] . "/" . $project;
         return $o_dir;
     }
-
     public function exec($command, ?string $project = null)
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
-        }
-
-
-
-
+        } 
         $exclude_file_extension = "vscode|balafon|DS_Store|gkds";
         $options = igk_getv($command, "options");
         $arg =  property_exists($options, "--list") ? "l" : (property_exists($options, "--restore") ? "r" :
-            "");
-
-
-
+            ""); 
         if (is_null($project)) {
             Logger::danger("project name or controller is required");
             return -1;
         }
         $this->remove_cache = property_exists($options, "--clearcache");
         $this->use_zip = !property_exists($options, "--no-zip");
-        
         $pdir = null;
         if ($ctrl = self::GetController($project, false)) {
             if (BaseController::IsSysController($ctrl)) {
@@ -150,11 +142,8 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     if ($cl  = $ctrl->resolveClass(EntryClassResolution::SysSyncProject)) {
                         $resolv_files = new $cl();
                     }
-                }
-
-
+                } 
                 SyncProjectSettings::InitProjectExcludeDir($pdir, $excludedir);
-
                 if ($this->use_zip) {
                     $controller = null;
                     // get project in pdir
@@ -179,14 +168,11 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                         Logger::danger(sprintf("no controller found in : %s", $pdir));
                     }
                 } else {
-
                     // sync project
                     $path_key = self::PROJECT_DIR;
                     if (is_null($setting[$path_key])) {
                         igk_die("[project_dir] is required");
-                    }
-
-
+                    }  
                     $g = ftp_nlist($h, $setting[$path_key]);
                     $o_dir = $setting[$path_key] . "/" . $project;
                     if (!in_array($project, $g)) {
@@ -207,15 +193,14 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                     $cdir = [];
                     $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();
                     // + | check 
-                    if (file_exists($fc = Path::Combine($pdir, '.balafon-sync.project.json'))) {
+                    if (igk_io_file_exists($fc = Path::Combine($pdir, '.balafon-sync.project.json'))) {
                         $g = SyncProjectSettings::Load(json_decode(file_get_contents($fc)));
                         if ($g->ignoredirs) {
                             $v_ignores =  array_fill_keys($g->ignoredirs, 1);
                             $excludedir = array_merge($excludedir, $v_ignores);
                         }
                     }
-
-                    $fc = function ($f, array &$excludedir = null) use ($exclude_file_extension, $resolv_files) {
+                    $fc = function ($f, ?array &$excludedir = null) use ($exclude_file_extension, $resolv_files) {
                         $dir = dirname($f);
                         $basename = basename($f);
                         if ($resolv_files) {
@@ -254,7 +239,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         error_clear_last();
     }
     static function SyncFiles($v_files, $o_dir,  $h , $pdir,  & $cdir, string $project){
-
         foreach ($v_files as $f) {
             $g = substr($f, strlen($pdir));
             if ((($_cdir = dirname($g)) != "/") && !in_array($_cdir, $cdir)) {
@@ -263,7 +247,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             }
             Logger::print("upload : " . $f);
             $tfile =  $o_dir . $g;   
-
             $rf = FtpHelper::CreateDir($h, dirname($tfile)); 
             if (!ftp_put($h, $o_dir . $g, $f, FTP_BINARY)) {
                 Logger::danger("failed to upload :  " . $f);
@@ -276,7 +259,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             parent::removeCache($ftp, $app_dir . "/.Caches");
         }
     }
-
     private function  _listRelease($ftp, $path, $project)
     {
         $bckdir = $path;
@@ -301,7 +283,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         sort($g);
         return $g;
     }
-
     /**
      * restore project release ... 
      * @param mixed $ftp 
@@ -311,7 +292,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      */
     private function _restoreRelease($ftp, $project, array $setting)
     {
-
         $projectPath = $setting["path"];
         $path = $setting[self::RELEASE_DIR];
         $bckdir = $path;
@@ -320,7 +300,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         } else {
             if ($g = $this->_getRelease($ftp, $project)) {
                 $g = array_shift($g);
-
                 $target = $projectPath . "/" . $project;
                 // $cwd = ftp_pwd($ftp);  
                 Logger::info("remove $target");
@@ -353,13 +332,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         Logger::info("zip project : " . $controller->getName());
         igk_sys_zip_project($controller, $file, $exclude);
         rename($file, $file .= '.zip');
-
         $archive = "install_project.zip";
         // $file = '/private/var/folders/sp/f7bfk6cx359b61kd9cfp414h0000gn/T/blfqjEpbP.zip';
         Logger::info("archive : " . $file);
         if ($sb = $this->_getInstallScript($token, $archive)) {
             $script_install = igk_io_sys_tempnam("blf_project");
-            igk_io_w2file($script_install, $sb);
+            igk_io_w2file($script_install, $sb.'');
             self::SyncAndInstall(
                 $h,
                 basename($controller->getDeclaredDir()),
@@ -372,17 +350,24 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             );
             unlink($script_install);
         }
-
         Logger::info("done : " . $file);
         return $file;
     }
-
+    /**
+     * run install project tokens
+     * @param mixed &$token 
+     * @param mixed $name 
+     * @return false|string 
+     * @throws Exception 
+     */
     private function _getInstallScript(&$token, $name)
     {
         return self::GetScriptInstall(
-            [
+            [  
+                IGK_LIB_CLASSES_DIR . "/IGKBacktickHelperCommandTrait.php",
+                'installer-core-function.pinc',
                 "installer-helper.pinc", // entry helper
-                "installer.helper.pinc", // class
+                "installer.helper.pinc", // intaller helper class 
                 'install.project.script.pinc'
             ],
             $token,
@@ -412,11 +397,9 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         string $script_install,
         $install_path_name = 'install_script.php'
     ) {
-
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
         $install_dir =  $setting["application_dir"] . "/Projects";
-
         Logger::info("sync to : " . $pdir);
         Logger::print("upload project archive");
         ftp_put($h, $lib =  $pdir . "/" . ltrim($name,'/'), $file, FTP_BINARY);
@@ -429,6 +412,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 "token" => $token,
                 "app_dir" => $setting["application_dir"],
                 "project_folder" => $project_name,
+                'project_name'=>$project_name,
                 "project_entry" => $project_entry,
                 "archive" => $name,
                 "home_dir" => igk_getv($setting, "home_dir")
@@ -439,15 +423,13 @@ class SyncProjectCommand extends SyncAppExecCommandBase
                 "archive" => $name,
             ]
         );
-
-
         // FtpHelper::RmFile($h, $lib);
         // FtpHelper::RmFile($h, $install);
-
         if (($status = igk_curl_status()) == 200) {
             Logger::info("curl response \n" . App::Gets(App::BLUE, $response));
             $rep = json_decode($response);
-            if ($rep && !$rep->error) {
+            list($error) = igk_extract($rep ?? [], 'error'); 
+            if (!$error) {
                 Logger::success("install complete");
             }
         } else {
@@ -456,7 +438,6 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             Logger::warn($response);
         }
     }
-
     public function showUsage()
     {
         parent::showUsage();

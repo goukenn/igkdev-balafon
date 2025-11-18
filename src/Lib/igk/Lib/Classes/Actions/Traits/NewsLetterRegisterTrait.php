@@ -3,7 +3,6 @@
 // @file: NewsLetterRegisterTrait.php
 // @date: 20221115 08:45:03
 namespace IGK\Actions\Traits;
-
 use Exception;
 use IGK\Helper\ActionHelper;
 use IGK\Models\Mailinglists;
@@ -21,15 +20,12 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 use ReflectionException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions\Traits
 */
 trait NewsLetterRegisterTrait{
     use NewsLetterFormActionTrait;
-
     /**
      * register to mail service
      * @param string $mail 
@@ -79,17 +75,7 @@ trait NewsLetterRegisterTrait{
                     $ctrl->getConfig('mail_title')
                 )){
                     return true;
-                }
-                // CronJobProcess::Register("mail", "mail.register.php", (object)[
-                //     "title"=>"registration",
-                //     "msg"=>"welcome to , local.com<br /><p>please <a href=\"".$uri."\">click here to actived </a> your new letter</p>".
-                //     "Unregister use this linked <a href=\"".$un_reguri."\">Unregister</a>",
-                //     "msg-fr"=>null,
-                //     "msg-nl"=>null,
-                //     "email"=>$mail,
-                //     "activate_uri"=>$uri,
-                //     "unregister_uri"=>$un_reguri,
-                // ], $this->getController());
+                }      
             }
         }
         return false;
@@ -126,5 +112,4 @@ trait NewsLetterRegisterTrait{
         }
         igk_navto(igk_server()->HTTP_REFERER ?? $this->getController()->uri());
     }
-   
 }

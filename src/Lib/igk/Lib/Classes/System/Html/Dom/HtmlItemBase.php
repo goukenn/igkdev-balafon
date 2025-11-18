@@ -3,14 +3,10 @@
 // @filename: HtmlItemBase.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 require_once IGK_LIB_CLASSES_DIR . "/IGKObject.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/Factory.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/DomNodeBase.php";
-
 use ArrayAccess;
 use Closure;
 use Error;
@@ -38,31 +34,28 @@ use IGK\XML\XMLNodeType;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
-
 /**
  * abstract html item base
  */
 abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
 {
-    use  ArrayAccessSelfTrait;
-    // static $BasicMethod = array(
-    //     "AcceptRender"=>"_acceptRender",
-    //     "RenderComplete"=>"__RenderComplete"
-    // );
+    use  ArrayAccessSelfTrait; 
     const EVENTS = 0xa1;
     const ACTIVATE = 1;
     const ATTRIBS = 2;
     const ITERATOR = 3;
     const OWNER = 4;
-    const CALLBACK_SUFFIX = "Params";
     const FLAG_INIT = IGK_NODETYPE_FLAG;
     const PREFILTER_ATTRIBUTE = 5;
+    const RENDER_ONLY = 6; 
+    const CALLBACK_SUFFIX = 'Params';
+    const OVERRIDE_PARENT_TAG_FLAG = 'override_parent_tag_flag';
+    const CONTENT_FIELD = 'Content';
     /**
      * property flag container
      * @var array
      */
     private $_f = [];
-
     /**
      * 
      * @var mixed
@@ -73,41 +66,47 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @var ?bool
      */
     protected $canLoadContent;
-
-    public function setPrefilterAttribute(?IHtmlPrefilterAttribute $attribFilter){
+    public function setPrefilterAttribute(?IHtmlPrefilterAttribute $attribFilter)
+    {
         $this->setParam(self::PREFILTER_ATTRIBUTE, $attribFilter);
         return $this;
     }
-    public function getPrefilterAttribute(): ?IHtmlPrefilterAttribute{
+    public function getPrefilterAttribute(): ?IHtmlPrefilterAttribute
+    {
         return $this->getParam(self::PREFILTER_ATTRIBUTE);
-    } 
-
+    }
+    public function getRenderOnly(){
+        return $this->getParam(self::RENDER_ONLY);
+    }
+    public function getLastNode(){
+        return $this->m_childs->last();
+    }
+    public function getFirstNode(){
+        return $this->m_childs->first();
+    }
     /**
      * current node content
      * @var mixed
      */
     protected $content = null;
-
     /**
      * 
-     * @var HtmlChildArray
+     * @var ?HtmlChildArray
      */
     protected $m_childs;
-
     /**
      * 
      * @var HtmlAttributeArray
      */
     protected $m_attributes;
-
     protected $m_callexclude = [];
-
     /**
      * set class name list 
      * @param ?string|array $class_name_list 
      * @return mixed 
      */
-    public function setClassName($class_name_list){
+    public function setClassName($class_name_list)
+    {
         return $this->setClass($class_name_list);
     }
     /**
@@ -115,7 +114,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @param null|string $content 
      * @return $this 
      */
-    public function setTextContent(?string $content){
+    public function setTextContent(?string $content)
+    {
         $this->content = $content;
         return $this;
     }
@@ -133,9 +133,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @var HtmlItemBase node parent
      */
     protected $m_parent;
-
     protected static $sm_macros;
-
     /**
      * return 
      * @return string node type  
@@ -144,14 +142,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return HtmlNodeType::Node;
     }
-
     public function Dispose()
     {
         $this->remove();
         parent::Dispose();
     }
-    ///<summary></summary>
-    ///<param name="host"></param>
     /**
      * 
      * @param mixed $host
@@ -206,7 +201,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
     protected static function _invokeMacros($name, $argument, &$response = null)
     {
-
         if (self::$sm_macros) {
             if (is_array(self::$sm_macros->preload)) {
                 foreach (self::$sm_macros->preload as $context => $v) {
@@ -229,20 +223,19 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 }
                 if ($tab = igk_getv(self::$sm_macros->context_funcs, $g->name)) {
                     if ($fc = igk_getv($tab, $name)) {
-                        if (!is_callable($fc)){
-                            if (is_array($fc)){
+                        if (!is_callable($fc)) {
+                            if (is_array($fc)) {
                                 $argument += array_slice($fc, 2);
                                 $fc = array_slice($fc, 0, 2);
-                            } 
-                            // igk_wln_e("not a callable : ", $g->name, $name, is_callable($fc),   $argument );
+                            }
                         }
                         if (is_callable($fc) && ($fc = closure::fromCallable($fc))) {
-                            // igk_wln_e("invoking....");
+                            // igk_dev_wln_e("invoking....");
                             $response =  $fc(...$argument);
                             return true;
                         }
                     }
-                } 
+                }
             } else {
                 return;
             }
@@ -254,7 +247,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             }
         }
     }
-
     public function __construct()
     {
         $this->m_attributes = $this->createAttributeArray();
@@ -270,23 +262,21 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return $attrib;
     }
-    ///<summary>get if this tag is consider as an empty tag</summary>
     /**
      * get if this tag is consider as an empty tag
      * @return bool
      */
-    public function isEmptyTag() : bool
+    public function isEmptyTag(): bool
     {
-        if (!empty($n =$this->getTagName()))
+        if (!empty($n = $this->getTagName()))
             return isset(HtmlOptions::$EmptyTag[strtolower($n)]);
         return true;
     }
-
     /**
      * get if this node contains children
      * @return bool 
      */
-    public function getHasChilds():bool
+    public function getHasChilds(): bool
     {
         return igk_count($this->m_childs) > 0;
     }
@@ -294,13 +284,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * get if this node is empty
      * @return bool 
      */
-    public function isEmpty():bool{
+    public function isEmpty(): bool
+    {
         return !$this->getHasChilds() && empty(trim($this->getContent() ?? ''));
     }
-
-    ///<summary></summary>
-    ///<param name="className"></param>
-    ///<param name="context"></param>
     /**
      * 
      * @param mixed $className
@@ -314,8 +301,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $this->setFlag(IGK_LOADINGCONTEXT_FLAG, $context);
         $this->setFlag(IGK_ISLOADING_FLAG, 1);
     }
-    ///<summary>update: get visible</summary>
-    ///<return>true if flag not set. if callable evaluate callable if 1 visibile</return>
     /**
      * update: get visible
      */
@@ -333,10 +318,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             $s = 1;
         return $s;
     }
-
-    ///<summary>set is visible and maintain chain</summary>
     /**
      * set is visible and maintain chain
+     * @var ?bool $value
      */
     public function setIsVisible($value)
     {
@@ -355,11 +339,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->m_childs;
     }
-    ///<summary> get if this node accept rendering. and initialeze it  </summary>
     /**
      *  get if this node accept rendering. and initialeze it
      */
-    protected function _acceptRender($options = null):bool
+    protected function _acceptRender($options = null): bool
     {
         $s = $this->getIsVisible();
         return $s;
@@ -371,6 +354,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     protected function _getRenderingChildren($options = null)
     {
+        if ($this->isEmptyTag()){
+            return [];
+        } 
         return $this->m_childs ?  $this->m_childs->to_array() : [];
     }
     public function getAttributes()
@@ -386,9 +372,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->_getRenderingChildren($options);
     }
-
-    ///<summary></summary>
-    ///<param name="item"></param>
     /**
      * 
      * @param mixed $item
@@ -402,9 +385,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return $this;
     }
-    ///<summary>set node attibute</summary>
-    ///<param name="key">attribute name</param>
-    ///<param name="value">attribute value</param>
     /**
      * 
      * @param mixed $key
@@ -420,11 +400,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @param string $key 
      * @return mixed 
      */
-    public function getAttribute(string $key){
+    public function getAttribute(string $key)
+    {
         return $this[$key];
     }
-
-    ///<summary></summary>
     /**
      * 
      */
@@ -432,7 +411,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return XMLNodeType::ELEMENT;
     }
-    ///<summary>html item get param implementation</summary>
     /**
      * html item get param implementation
      */
@@ -454,29 +432,33 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @return mixed 
      * @throws IGKException 
      */
-    public function getInheritedParam($key, $default=null){
+    public function getInheritedParam($key, $default = null)
+    {
         $rp = [$this];
-        while(count($rp)>0){
+        while (count($rp) > 0) {
             $q = array_shift($rp);
-            if ($p = $q->getFlag(IGK_PARAMS_FLAG)){
-                if (key_exists($key, $p)){
+            if ($p = $q->getFlag(IGK_PARAMS_FLAG)) {
+                if (key_exists($key, $p)) {
                     return igk_getv($p, $key, $default);
                 }
             }
-            if ($tp = $q->getParentNode()){
+            if ($tp = $q->getParentNode()) {
                 array_push($rp, $tp);
             }
         }
         return $default;
-
     }
     /**
      * @return bool get if close tag
      */
-    public function closeTag():bool
+    public function closeTag(): bool
     {
         return true;
     }
+    /**
+     * get if can render tag
+     * @return bool
+     */
     public function getCanRenderTag()
     {
         return true;
@@ -495,14 +477,13 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @return bool 
      */
     protected function getcanLoadContent($value): bool
-    {   
-        if (!is_string($value) || !$this->getCanAddChilds()){
+    {
+        if (!is_string($value) || !$this->getCanAddChilds()) {
             return false;
-        } 
-        if (is_bool($this->canLoadContent) && $this->canLoadContent){
+        }
+        if (is_bool($this->canLoadContent) && $this->canLoadContent) {
             return $this->canLoadContent;
         }
-
         $ctx = HtmlLoadingContext::GetCurrentContext();
         return is_string($value) && $this->getCanAddChilds() && HtmlUtils::IsHtmlContent($value)
             && (!$ctx || $ctx->load_content);
@@ -515,32 +496,32 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     public function setContent($value)
     {
-        // igk_debug_wln(__FILE__.":".__LINE__,  "setting node ....------".$value);
-        if (func_num_args()>1){
+        // igk_debug_wln(__FILE__.":".__LINE__,  "setting node ... ".$value);
+        if (func_num_args() > 1) {
             $tab = func_get_args();
-            while(count($tab)>0){
-                if (!($q = array_shift($tab))){
+            while (count($tab) > 0) {
+                if (!($q = array_shift($tab))) {
                     continue;
-                } 
-                if (is_array($q)){
+                }
+                if (is_array($q)) {
                     $this->obdata($q);
                     continue;
-                } 
-                if ($q instanceof self){
+                }
+                if ($q instanceof self) {
                     $this->add($q);
                     continue;
-                }              
-                if ($this->getcanLoadContent($q)){
+                }
+                if ($this->getcanLoadContent($q)) {
                     $this->load($q);
-                }else{
-                    if (!empty($this->content)){
-                        $this->content .= $q;    
-                    }else{
+                } else {
+                    if (!empty($this->content)) {
+                        $this->content .= $q;
+                    } else {
                         $this->content = $q;
                     }
                 }
             }
-        }else{
+        } else {
             if ($this->getcanLoadContent($value)) {
                 $this->load($value);
             } else {
@@ -549,7 +530,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return $this;
     }
-  
     /**
      * get tagname
      * @param mixed $options 
@@ -559,7 +539,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->tagname;
     }
-
     public function getChildCount()
     {
         if ($c = $this->getChilds()) {
@@ -575,7 +554,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      */
     public final function AcceptRender($options = null)
     {
-
         if ($this->iscallback(__FUNCTION__)) {
             $o = null;
             if ($this->evalCallback(__FUNCTION__, $o, compact("options")))
@@ -583,12 +561,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return $this->_acceptRender($options);
     }
-
     public final function RenderComplete($options = null)
     {
         $this->__RenderComplete($options = null);
     }
-
     public function __get($name)
     {
         if (strpos($name, 'get') === 0) {
@@ -598,8 +574,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         if (method_exists($this, $fc = "get" . ucfirst($name))) {
             return call_user_func_array([$this, $fc], []);
-        } 
-        if (method_exists($this, $fc = 'getProperty')){
+        }
+        if (method_exists($this, $fc = 'getProperty')) {
             return $this->getProperty($name);
         };
     }
@@ -633,11 +609,16 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @param bool $force bypass can add childs check
      * @return bool 
      */
-    protected function _add($n, bool $force = false):bool
-    { 
+    protected function _add($n, bool $force = false): bool
+    {
         if (($force || $this->getCanAddChilds()) && $n && ($n !== $this)) {
             if ($n->m_parent) {
                 $n->remove();
+            }
+            if ($force){
+                if (!$this->m_childs || is_array($this->m_childs)){
+                    $this->m_childs = new HtmlChildArray();
+                }
             }
             $this->m_childs[] = $n;
             $n->m_parent = $this;
@@ -649,47 +630,48 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * 
      * @param mixed|string|HtmlItemBase script $n 
      * @param mixed $attributes 
-     * @param mixed $args 
+     * @param null|string|array $args indexed array or variable binding for php 8
      * @return mixed 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
     public function add($n, $attributes = null, $args = null)
     {
-        if ($invoking = $this->getFlag('__call')){
+        if ($invoking = $this->getFlag('__call')) {
             $this->setFlag('__call', null);
         }
-        $skip = false; 
-
-
+        $skip = false;
         #region view compilation model
         ///TODO : remove compilation in core HtmlItemBase 
         // compilation node add
-        if ($n instanceof \IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressArg){
+        if ($n instanceof \IGK\System\Runtime\Compiler\ViewCompiler\ViewExpressArg) {
             $n = $n->createExpressionNode();
         }
-        if ($n instanceof \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression){
+        if ($n instanceof \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression) {
             // $v = \IGK\System\Runtime\Compiler\ViewCompiler\ViewGetterExpression::GetRealValue($n);
             // if ($v instanceof self){
             //     $n = $v;
             // }
             // else {
-                $n = $n->createExpressionNode();
+            $n = $n->createExpressionNode();
             // }
         }
         #endregion 
-        $lastchild = null; 
-        if (is_string($n)){
+        $lastchild = null;
+        if (is_string($n)) {
             igk_html_push_node_parent($this);
-            if (!$invoking && (strpos($n, ">")!==false) && (strpos($n, "?") === false)){       
-                $n = HtmlNodeTagExplosionDefinition::Core()->builder->setup($n,
-                [], $lastchild);
+            if (!$invoking && (strpos($n, ">") !== false) && (strpos($n, "?") === false)) {
+                $n = HtmlNodeTagExplosionDefinition::Core()->builder->setup(
+                    $n,
+                    [],
+                    $lastchild
+                );
             } else {
                 $n = static::CreateWebNode($n, $attributes, $args);
             }
             $skip = igk_html_is_skipped();
             igk_html_pop_node_parent();
-        } 
+        }
         if ($n && ($skip || ($this->_add($n) !== false))) {
             return $lastchild ?? $n;
         }
@@ -699,8 +681,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->add($nodeName);
     }
-
-    ///<summary>used to add non declared element by namespace</summary>
     /**
      * used to add non declared element by namespace
      */
@@ -722,13 +702,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $k = "add" . $name;
         return call_user_func_array(array($this, $k), $p);
     }
-    ///<summary>special function add a node as a callback. if name defined return the name or create and add it with the callback</summary>
     /**
      * special function add a node as a callback. if name defined return the name or create and add it with the callback
      */
     public function addNodeCallback($name, $callback, $host = null)
     {
-
         $host = $host ?? $this;
         $c = $host->getParam(IGK_NAMED_NODE_PARAM) ?? array();
         if ($n = igk_getv($c, $name)) {
@@ -740,41 +718,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             return $h;
         }
         return null;
-
-
-        igk_die("not implement " . __METHOD__);
-
-        // if(empty($name)){
-        //     igk_die("name must be set");
-        // }
-        // //+ change the node callback behaviour - store the setting in session
-        // $host=$host ?? $this;
-        // $c=$host->getParam(IGK_NAMED_NODE_PARAM, array());
-        // $f = null;
-        // if(isset($c[$name])){
-        //     // get setting
-        //     $f = $c[$name];
-        //     $this->add($f); 
-        //     return $f;
-        // }
-        // $h = $callback($this);
-        // if($h){
-        //     if (method_exists($h, "getSetting"))
-        //         $c[$name]= $h->getSetting();
-        //     else {
-        //         $c[$name] = (object)[];
-        //     }
-        //     $h->setParam(IGK_NAMED_ID_PARAM, $name);
-        //     $host->setParam(IGK_NAMED_NODE_PARAM, $c);
-        //     return $h;
-        // }
-        // return null;
     }
-    ///<param name="o" ref="true"></param>
     /**
-     * 
-     * @param mixed $name
-     * @param mixed * $o
+     * calling eval callback
+     * @param string $name
+     * @param mixed * $o reference object to pass 
      */
     protected final function evalCallback($name, &$o)
     {
@@ -804,8 +752,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 }
                 if (func_num_args() > 2) {
                     $t = array($this);
-                    $t = array_merge($t, igk_getv(array_slice(func_get_args(), 2), 0));
+                    $t = array_values(array_merge($t, igk_getv(array_slice(func_get_args(), 2), 0)));
+                    $this->setCallback($name, null); // backup  
                     $o = call_user_func_array($b, $t);
+                    $this->setCallback($name, $b); // restore callback
                     return true;
                 } else {
                     $o = $b($this);
@@ -870,7 +820,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return false;
     }
-    ///<summary>free callback node</summary>
     /**
      * free callback node
      */
@@ -884,10 +833,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         $this->setParam(IGK_NAMED_NODE_PARAM, $c);
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    /**
-     * 
+    /** 
      * @param mixed $name
      */
     public function getCallbackNode($name)
@@ -895,7 +841,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $c = $this->getParam(IGK_NAMED_NODE_PARAM);
         return igk_getv($c, $name);
     }
-    ///<summary>get the generated node type</summary>
     /**
      * get the generated node type
      */
@@ -903,8 +848,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->getFlag(IGK_NODETYPE_FLAG);
     }
-
-    ///<summary></summary>
     /**
      * 
      */
@@ -912,8 +855,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->getFlag(IGK_ISLOADING_FLAG, 0);
     }
-
-    ///<summary>get the generated node type Name or parameters</summary>
     /**
      * get the generated node type Name or parameters
      */
@@ -925,7 +866,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return HtmlRenderer::GetInnerHtml($this);
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -961,8 +901,8 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @throws ReflectionException 
      */
     public function __call($name, $arguments)
-    { 
-        $this->setFlag(__FUNCTION__,1);
+    {
+        $this->setFlag(__FUNCTION__, 1);
         if ($name === "set") {
             igk_dev_wln_e('magic call with "set" only name is not allowed.');
             igk_environment()->isDev() && igk_trace();
@@ -993,19 +933,19 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         // + | --------------------------------------------------------------------                
         // + | invoke macros 
         // + | 
-        if ($this instanceof IHtmlContextContainer){
+        if ($this instanceof IHtmlContextContainer) {
             // class not found method in         
-            $response = null; 
-            if (HtmlLoadingContext::SurroundWith($this, function($name, $arguments, & $response){
+            $response = null;
+            if (HtmlLoadingContext::SurroundWith($this, function ($name, $arguments, &$response) {
                 $t = static::_invokeMacros($name, array_merge([$this], $arguments), $response);
-                if (is_bool($t)){
+                if (is_bool($t)) {
                     return $t;
                 }
                 return false;
-            },$name, $arguments, $response)){
+            }, $name, $arguments, $response)) {
                 return $response;
             }
-        }else{
+        } else {
             if (static::_invokeMacros($name, array_merge([$this], $arguments), $response)) {
                 return $response;
             }
@@ -1027,7 +967,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                         return call_user_func_array(array($this, "addNS"), $arg);
                     } else {
                         $g = $this->getParam(IGK_NS_PARAM_KEY);
-
                         if (!empty($g)) {
                             $arg = array_merge(array($g, $k), $arguments);
                             return call_user_func_array(array($this, "addNS"), $arg);
@@ -1038,11 +977,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 }
             }
             if (igk_environment()->isDev()) {
-                if (strpos($name, "get") === 0) { 
+                if (strpos($name, "get") === 0) {
                     igk_die("'try to call : " . __METHOD__ . " " . $name);
                 }
-                if (strpos($name, "set") === 0) { 
-                    igk_trace(); 
+                if (strpos($name, "set") === 0) {
+                    igk_trace();
                     igk_die("'try to call : " . __METHOD__ . " " . $name);
                 }
             }
@@ -1051,6 +990,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                     return call_user_func_array([$this, $fc], $arguments);
                 }
             }
+            // + | Add default/custom node 
             $tab = array($name, null, $arguments);
             return call_user_func_array([$this, IGK_ADD_PREFIX], $tab);
         } else {
@@ -1058,19 +998,16 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 return call_user_func_array([$this, $fc], $arguments);
             }
         }
-        if (igk_environment()->is('DEV')){
+        if (igk_environment()->is('DEV')) {
             igk_wln(__FILE__ . ":" . __LINE__,  get_class($this));
             igk_trace();
-            igk_die("call_expression not allowed. " . $name);
-        }
+            igk_die("<b>call_expression not allowed. <font color=\"red\">" . $name."</font></b>");
+        }         
     }
     public function getHasAttributes()
     {
         return igk_count($this->m_attributes);
     }
-    ///<summary></summary>
-    ///<param name="flag"></param>
-    ///<param name="default" default="null"></param>
     /**
      * 
      * @param mixed $flag
@@ -1081,7 +1018,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return igk_getv($this->_f, $flag, $default);
     }
-    ///<summary></summary>
     /**
      * retrieve the current loading context
      */
@@ -1089,18 +1025,16 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->getFlag(IGK_LOADINGCONTEXT_FLAG, 0);
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
     /**
-     * 
-     * @param mixed $name
+     * is a callable function 
+     * @param string $name
+     * @return int|boolean
      */
-    protected final function iscallback($name)
+    protected final function iscallback(string $name)
     {
         $g = $this->getFlag(IGK_CALLBACK_FLAG);
         return $g ? isset($g[$name]) : 0;
     }
-    ///<summary>get the parent document </summary>
     /**
      * get the parent document
      */
@@ -1110,12 +1044,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         while (($p = $q->getParentNode())) {
             if (get_class($p) == IGKHtmlDoc::class) {
                 return $p;
-            } 
+            }
             $q = $p;
-        } 
+        }
         return null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1124,19 +1057,18 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         return $this->getTempFlag("creationargs");
     }
     /**
-     * 
-     * @param mixed $n 
-     * @param mixed $attributes 
+     * create a web node 
+     * @param mixed|string $n 
+     * @param mixed|array $attributes 
      * @param mixed $indexOrArgs 
      * @return mixed 
      * @throws IGKException 
      */
     public static function CreateWebNode($n, $attributes = null, $indexOrArgs = null)
-    {  
+    {
         if ($n = HtmlUtils::CreateHtmlComponent($n, $indexOrArgs)) {
-            if ($attributes) {
-                $n->setAttributes($attributes);
-            }
+            if ($attributes)
+                self::BindDefaultContent($n, $attributes); 
         }
         return $n;
     }
@@ -1153,11 +1085,24 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         (new \IGK\System\Http\WebResponse($this->render()))->output();
     }
+    /**
+     * render node 
+     * @param mixed $options 
+     * @return null|string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public function render($options = null)
     {
         return HtmlRenderer::Render($this, $options);
     }
-
+    /**
+     * clear children
+     * @return $this 
+     */
     public function clearChilds()
     {
         $this->m_childs->clear();
@@ -1207,12 +1152,13 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
-    public function replaceWith(HtmlItemBase $node){
+    public function replaceWith(HtmlItemBase $node)
+    {
         $p = $this->getParentNode();
-        if ($p){
+        if ($p) {
             $this->remove();
             $p->add($node);
-        } 
+        }
     }
     protected function _access_OffsetGet($k)
     {
@@ -1236,14 +1182,20 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return $this->m_attributes->keyExists($n);
     }
-    ///<summary>compatibility with previous version</summary>
+    /**
+     * just write to buffer output
+     * @param mixed $options 
+     * @return void 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     final function renderAJX($options = null)
     {
         echo $this->render($options);
     }
-    ///<summary></summary>
-    ///<param name="flag"></param>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $flag
@@ -1260,7 +1212,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         } else
             $this->_f[$flag] = $v;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -1275,36 +1226,32 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @param callable|null $creator 
      * @return mixed 
      */
-    public function load(string $source, $contextObj = null, callable $creator = null)
+    public function load(string $source, $contextObj = null, ?callable $creator = null)
     {
         return self::LoadInContext($this, $source, $contextObj ?? HtmlContext::Html, $creator);
     }
-    ///<summary>Load html content to this node </summary>
-    ///<param name="content">source string to load</param>
-    ///<param name="context">context of the loading. mixed string or object</param>
-    ///<remark>Data will be evaluated. if you don't what IGK system balafon evaluation used LoadExpression</remark>
     /**
      * Load html content to this node
      * @param static $t
      * @param mixed $content source string to load
      * @param mixed|HtmlLoadingContextOptions $context context of the loading. mixed string or object
      */
-    public static function LoadInContext(HtmlItemBase $t, string $content, $context = null, callable $creator = null)
+    public static function LoadInContext(HtmlItemBase $t, string $content, $context = null, ?callable $creator = null)
     {
         if (is_null($creator)) {
             // creator that require a function class with loading creator implementation
             $creator = Closure::fromCallable([get_class($t), 'LoadingNodeCreator']);
         }
-        $expression = false;        
-        if ($context ){
-            $expression = 
-                ($context == HtmlContext::XML) || 
+        $expression = false;
+        if ($context) {
+            $expression =
+                ($context == HtmlContext::XML) ||
                 (is_object($context) && igk_getv($context, "Context") == HtmlContext::XML);
         }
-        $d = $expression? 
-         HtmlReader::LoadExpression($content, $context):
-         HtmlReader::Load($content, $context, $creator);
-        if ($d){
+        $d = $expression ?
+            HtmlReader::LoadExpression($content, $context) :
+            HtmlReader::Load($content, $context, $creator);
+        if ($d) {
             $d->CopyTo($t);
             return true;
         }
@@ -1318,28 +1265,38 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
      * @throws IGKException 
      */
     public static function LoadingNodeCreator(string $name, ?array $param = null)
-    { 
+    {
         static $tag_creating = null;
         if (strpos($name, 'igk:') === 0) {
             $f = igk_create_node(substr($name, 4), null, $param);
             if ($f)
                 return $f;
         }
-        $tb = explode(':', $name);
-        if (count($tb) == 1) {
+        $tb = explode(':', $name, 2);
+        if ((($tc = count($tb)) == 1)  || (($tc==2)&& ($tb[0]=='web'))){
+            if (($tc==2)&& ($tb[0]=='web')){
+                $name = $tb[1];
+            }
             // + | -------------------------------------------------------
             // + | concepts:html: create a simple tag name
             // + | 
             $b =  new HtmlNode($name);
-            if ($param){
-                list($content) = $param;
-                static::BindDefaultContent($b, $content);
+            if ($param) {
+                list($content) = [igk_getv($param,0)];
+                if ($content){
+                    static::BindDefaultContent($b, $content);
+                    unset($param[0]);
+                }
+                if ($param){
+                    $b->setAttributes($param);
+                }
             }
             return $b;
-        } 
+        }
         // + | passing complex tag t_:code as exemple must be handle by the default - tag 
-        if ($tag_creating == $name){
-            // detect try to create a tag - 
+        if ($tag_creating == $name) {
+            // detect try to create a tag -
+            igk_wln_e(__FILE__.":".__LINE__ , 'create ....in '.$name);
             igk_die(sprintf("not handle tag name [%s]", $name));
         }
         $tag_creating = $name;
@@ -1347,24 +1304,43 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $tag_creating = null;
         return null;
     }
-
     /**
-     * bind default content accorgin to conent 
-     * @param mixed $node 
-     * @param mixed $content 
+     * bind default content according to content 
+     * @param mixed|self $node 
+     * @param mixed $content content to bind 
      * @return void 
      */
-    public static function BindDefaultContent($node, $content){
+    public static function BindDefaultContent($node, $content)
+    {
         $b = $node;
-        if (is_string($content)){
+        if (is_string($content) || is_numeric($content)) {
             $b->setContent($content);
         } else if (is_array($content)){
-            $b->setAttributes($content); 
-        } else if ($content instanceof HtmlItemBase){
+            // + | retrieve real content key in the array to avoid content miss spealing
+            $m = array_keys($content);
+            $v_k = self::CONTENT_FIELD;
+            $ts = strtolower($v_k); 
+            while(count($m)){
+                $q = array_shift($m);
+                if (strtolower($q)==$ts){
+                    $v_k = $q;
+                    break;
+                }
+            }
+            if ($c = igk_getv($content, $v_k)){
+                unset($content[$v_k]);
+                $b->setContent($c);
+            }
+            $b->setAttributes($content);
+
+        } else if ($content instanceof HtmlItemBase) {
             $b->add($content);
+        } else if ($content instanceof Closure) {
+            $content($b);
+        } else if (is_object($content)){
+            $b->text(json_encode($content));
         }
     }
-    ///<summary> load file content .xphtml </summary>
     /**
      *  load file content .xphtml
      * @var string $file file to load
@@ -1375,10 +1351,10 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         if (!is_file($file))
             return false;
-            $content = IO::ReadAllText($file);
-            if (empty($content)) {
-                return $this;
-            }
+        $content = IO::ReadAllText($file);
+        if (empty($content)) {
+            return $this;
+        }
         $op = null;
         if (is_string($options)) {
             $op = ["Context" => $options];
@@ -1393,12 +1369,9 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             $args = (object)$args;
         else {
             $args = $options;
-        } 
+        }
         return $this->load($content, $args);
     }
-
-    ///<summary></summary>
-    ///<param name="flag"></param>
     /**
      * 
      * @param mixed $flag
@@ -1407,7 +1380,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         unset($this->_f[$flag]);
     }
-    ///<summary>override this method to initialize your component</summary>
     /**
      * override this method to initialize your component
      */
@@ -1435,9 +1407,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="articlename"></param>
     /**
      * 
      * @param mixed $ctrl
@@ -1451,18 +1420,15 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 $this->Load($c);
         }
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="callable"></param>
     /**
-     * 
-     * @param mixed $n
-     * @param mixed $callable
+     * register callback function for dynamic node mecanism
+     * @param string|'' $n callback name 
+     * @param callable|string $callable callable to call. expression to evaluate 
      */
-    public function setCallback($n, $callable)
+    public function setCallback(string $n, $callable)
     {
         $g = $this->getFlag(IGK_CALLBACK_FLAG);
-        $k = $n . "Params";
+        $k = $n . self::CALLBACK_SUFFIX;
         if ($callable == null) {
             unset($g[$n]);
             $this->setParam($k, null);
@@ -1475,24 +1441,20 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             if (!$g) {
                 $g = array();
             }
-        }
-
+        } 
         if (igk_count($g) == 0)
             $this->unsetFlag(IGK_CALLBACK_FLAG);
         else
             $this->setFlag(IGK_CALLBACK_FLAG, $g);
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     /**
      * set node tempory properties
      * @param mixed $key
      * @param mixed $value
      */
     public function setParam($key, $value)
-    { 
+    {
         $p = $this->getFlag(IGK_PARAMS_FLAG, array());
         if ($value == null) {
             unset($p[$key]);
@@ -1500,8 +1462,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             $p[$key] = $value;
         $this->setFlag(IGK_PARAMS_FLAG, $p);
     }
-    ///<summary></summary>
-    ///<param name="options" default="null"></param>
     /**
      * 
      * @param object $options the default value is null
@@ -1515,14 +1475,18 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (igk_getv($opt, 'xmldefinition') == 1) {
             $xml = new \IGK\System\Html\XML\XmlProcessor("xml");
             $xml["version"] = igk_getv($opt, "version") ?? "1.0";
-            $xml["encoding"] = igk_getv($opt, "encoding") ?? "utf8";
+            if ($stand_alone = igk_getv($opt, "standalone")){
+                $xml['standalone'] = $stand_alone;
+            }
+
+            // $xml["encoding"] = igk_getv($opt, "encoding") ?? "UTF-8";
+            // $xml["encoding"] = igk_getv($opt, "encoding") ?? "UTF-8";
             $xml->renderAJX();
         }
         $this->renderAJX($opt);
         if ($exit)
             igk_exit();
     }
-    ///<summary> get temp flag for node</summary>
     /**
      *  get temp flag for node
      */
@@ -1535,9 +1499,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         }
         return null;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $n
@@ -1553,13 +1514,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $t[$h][$n] = $v;
         igk_set_env("sys://node/temp/flags", $t);
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
-    ///<param name="autoindex" default="false"></param>
     /**
      * 
      * @param mixed $value
      * @param mixed $autoindex the default value is false
+     * @return static
      */
     public function setIndex($value, $autoindex = false)
     {
@@ -1575,17 +1534,14 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         if (!$autoindex) {
             $this->setAutoIndex(-1);
         }
+        return $this;
     }
-    ///<summary></summary>
     /**
-     * 
+     * get index flag 
      */
-    public function getIndex()
-    {
+    public function getIndex(){
         return $this->getFlag(IGK_ZINDEX_FLAG);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
      * 
      * @param mixed $v
@@ -1595,12 +1551,11 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $this->setFlag(IGK_AUTODINDEX_FLAG, $v);
         return $this;
     }
-    ///<summary> get if tag is close tag</summary>
     /**
      * get if tag is close tag
      * @return bool is close tag
      */
-    public function isCloseTag($tag)
+    public function isCloseTag($tag):bool
     {
         if (0 === strpos($tag, "igk:"))
             $tag = substr($tag, 4);
@@ -1612,8 +1567,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     {
         return false;
     }
-    ///<summary></summary>
-    ///<param name="id"></param>
     /**
      * 
      * @param mixed $id
@@ -1649,9 +1602,6 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
             return $tab[0];
         return $tab;
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<return refout="true"></return>
     /**
      * search for item by tagname
      * @param string|callable $name tag to search
@@ -1664,17 +1614,16 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         $tab = array();
         $s = '';
         $fc = $name;
-        if (is_string($name)){
-            $fc = function($n)use($name){
-                return $n->getTagName()== $name;
+        if (is_string($name)) {
+            $fc = function ($n) use ($name) {
+                return $n->getTagName() == $name;
             };
             $s = strtolower($name);
-        } else if (!is_callable($name)){
+        } else if (!is_callable($name)) {
             igk_die("expect a callable. ");
         }
         $c = $this->getChilds();
         $ctab = [$this];
-
         while ($q = array_shift($ctab)) {
             $c = $q->getChilds();
             if (!$c)
@@ -1694,24 +1643,22 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
                 // + | --------------------------------------------------------------------
                 // + | update search with path aglo expression 
                 // + |
-                
                 $result = [];
-                while(count($c_c)>0){
+                while (count($c_c) > 0) {
                     $p = array_shift($c_c);
-                    if ($fc($p)){
+                    if ($fc($p)) {
                         $result[] = $p;
                         if ($stop_first)
                             break;
                     }
-                    if ($ct = $p->getChilds()){
+                    if ($ct = $p->getChilds()) {
                         if ($cp = $ct->to_array())
                             array_unshift($c_c, ...$cp);
                     }
                 }
                 return $result;
-               
             }
         }
-        return $tab;        
+        return $tab;
     }
 }

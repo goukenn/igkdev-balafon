@@ -5,6 +5,7 @@
 // @date: 20220729 14:31:53
 // @desc: install module script
 
+
 if (!function_exists("igk_getr")) {
     function igk_getr($n, $default = null)
     {
@@ -139,7 +140,6 @@ if (!function_exists('igk_server_resolv_home')){
 // %token%
 
 defined("IGK_BL") || define("IGK_BL", "<br />\n");
-defined("IGK_STR_EMPTY") || define("IGK_STR_EMPTY", "");
 
 $home = isset($_SERVER["HOME"]) ? $_SERVER["HOME"] : igk_server_resolv_home();
 $archive =  isset($archive) ? $archive : 
@@ -163,8 +163,9 @@ if (!class_exists(ZipArchive::class)) {
 if (!class_exists(SimpleXMLElement::class)) {
     $response->die("zip simple xml element not present", 500);
 }
+$steps[] = "check archive ".$archive;
 if (!file_exists($archive)) {
-    $response->die("missing archive", 500);
+    $response->die("module archive is missing.", 500);
 }
 
 $install_dir = igk_getr("install_dir");
@@ -188,7 +189,7 @@ $install_dir = realpath($install_dir);
 $temp_dir = tempnam(dirname($install_dir), "balafonInstaller");
 @unlink($temp_dir);
 @unlink($install_dir);
-mkdir($temp_dir);
+@mkdir($temp_dir);
 
 
  
@@ -215,15 +216,19 @@ if ($hzip->open($archive)) {
         $dc = (array)simplexml_load_string($data);
         isset($dc["author"]) ? $author = $dc["author"] : $error = true;
         isset($dc["version"]) ? $version = $dc["version"] : $error = true;
+        $attribs = $dc["@attributes"];
         if (isset($dc["@attributes"]["appName"])) {
             $appName = $dc["@attributes"]["appName"];
         } else {
             $error = true;
             $error_msg = "AppName is missing in manifest";
         }
-        $module_name = $dc["@attributes"]["module_name"];
-        $module_path = $dc["@attributes"]["module_path"];
-        $module_version = $dc["@attributes"]["module_version"];
+        
+        $module_name = $attribs["module_name"];
+        $module_path = $attribs["module_path"];
+        $module_version = isset($attribs["module_version"]) ? $attribs["module_version"] : '1.0';
+
+    
 
         
         if ($module_path){
@@ -235,13 +240,11 @@ if ($hzip->open($archive)) {
       
 
         if (!$error) {
-        
-            $ln = strlen($path);
+           
             for ($i = 0; $i < $hzip->numFiles; $i++) {
                 $fname = $hzip->getNameIndex($i);
                 // echo $fname.PHP_EOL;
-                if (preg_match("#^".$zip_out_dirname."#", $fname) && ($fname[strlen($fname) - 1] != "/")) {
-                    // $path = implode("/", [$install_dir, trim(substr($fname, $ln), "/")]);
+                if (preg_match("#^".$zip_out_dirname."#", $fname) && ($fname[strlen($fname) - 1] != "/")) { 
                     $hzip->extractTo($temp_dir, $fname);
                     $count_file++;
                 }
@@ -252,9 +255,11 @@ if ($hzip->open($archive)) {
         $error_msg = "manifest file not found";
     }
     $hzip->close();
+
+    
     if (!$error) {
         igk_io_rmdir($outdir);
-        mkdir(dirname($outdir), 0775, true);
+        @mkdir(dirname($outdir), 0775, true);
         rename($temp_dir."/".$zip_out_dirname, $outdir);
         igk_io_rmdir($temp_dir);
         unset($temp_dir);

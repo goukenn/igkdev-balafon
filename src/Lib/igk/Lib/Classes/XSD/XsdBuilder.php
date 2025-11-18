@@ -3,26 +3,19 @@
 // @filename: XsdBuilder.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-
 namespace IGK\XSD;
-
 use ArrayAccess;
 use Exception; 
-
 /**
  * 
  * @package IGK\XSD
  */
 class XsdBuilder extends XsdElement implements ArrayAccess{
-  
     const SCHEMA = "http://www.w3.org/2001/XMLSchema";
     const ANY_ATTRIBUTE = -1; //strict any attribute
     const ANY_ATTRIBUTE_LAX = -2; //strict any attribute
     const ANY_ATTRIBUTE_SKIP = -3; //strict any attribute
     private $m_notation;
-
     /**
      * Create a group element
      * @param mixed $name group name
@@ -34,9 +27,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         if (!in_array($type, explode("|", "choice|sequence|all"))){
             die("type not valie");
         } 
-
         $n = $this->_buildGroup($name, $items, "xs:group", "xs:all");
-        
         $g = new XsdGroup($this, $n);        
         $g->name = $name;
         $g->attributes = $attributes;
@@ -60,7 +51,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
      * @return $this 
      */
     public function setNotation($appinfo, $documentation=""){
-
         $notation = $this->m_notation ?? $this->m_node->add("xs:annotation");
         $notation->clearChilds();
         $notation->add("xs:appinfo")->Content = $appinfo;
@@ -76,7 +66,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     public function render(){
         return $this->m_node->render();
     }
-
     /**
      * add type element
      * @return XsdElementBuilder
@@ -106,7 +95,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         return $e;
     }
     public function addGroupElement($name, $items){
-        
         $this->_buildGroup($name, $items);
         return $this;
     }
@@ -122,7 +110,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         }
         return $this;
     }
-
     public function addEnumElement($name, $items){
         $e = $this->m_node->add("xs:element")->setAttribute("name", $name);
         $res = $e->add("xs:simpleType")->add("xs:restriction");
@@ -169,7 +156,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
         $res->add("xs:maxLength")->setAttribute("value", $maxLength);        
         return $this;
     }
-
     /**
      * define complex type
      * @param mixed $name 
@@ -180,7 +166,6 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     XsdBuilderUtility::SEQUENCE): XsdBuilder{
         $e = XsdBuilderUtility::BuildComplexType($this->m_node, $sequences, $ctype);
         $e->setAttribute("name", $name);
-        
         if ($attributes){
             if (!XsdBuilderUtility::BindAnyAttribute($e, $attributes)){                
                 foreach($attributes as $k=>$c){

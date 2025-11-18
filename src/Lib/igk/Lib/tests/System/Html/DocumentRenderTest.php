@@ -84,7 +84,7 @@ $g = trim($v->getinnerHtml());
 
         // resolv with file exists - in lib 
         // resolv and create link 
-        if (file_exists($file = igk_io_basedir()."/assets/_lib_/Scripts/igk.js")){
+        if (igk_io_file_exists($file = igk_io_basedir()."/assets/_lib_/Scripts/igk.js")){
             
         } else if (is_link($file)){
             $this->addWarning("core link file create but not matching requirement.");
@@ -97,7 +97,7 @@ $g = trim($v->getinnerHtml());
             (new IGKHtmlRelativeUriValueAttribute(IGK_LIB_DIR."/Scripts/igk.js"))->getValue(),
             "resolv path 2");
         if (is_link($file)){
-            if (!file_exists($file)){
+            if (!igk_io_file_exists($file)){
 
                 $this->fail("create link not matching requirement");
             }
@@ -126,19 +126,19 @@ $g = trim($v->getinnerHtml());
             "data: relative path not match 2");
     }
     function test_igk_html_get_system_uri(){
-
+        $v_access = '/Configs';
         $this->assertEquals(
-            "./Configs",
-            igk_html_get_system_uri("/Configs"),
+            ".{$v_access}",
+            igk_html_get_system_uri($v_access),
             "data:");
 
         igk_server()->REQUEST_URI = "/test/test/";
 
         
         $this->assertEquals(
-            igk_io_baseuri("/Configs"),
-            igk_html_get_system_uri("/Configs", (object)["StandAlone"=>true, "Context"=>"XML"]),
-            "data: fulle paht not matching");
+            igk_io_baseuri($v_access),
+            igk_html_get_system_uri($v_access, (object)["StandAlone"=>true, "Context"=>"XML"]),
+            "data: fulle path not matching");
 
     }
 

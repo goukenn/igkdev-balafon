@@ -3,14 +3,10 @@
 // @filename: TemplateEngine.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Templates;
-
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Html\HtmlUtils;
 use ReflectionFunction;
-
 /**
  * represent a rendering template engine
  * @package IGK\System\Templates
@@ -18,7 +14,7 @@ use ReflectionFunction;
 class TemplateEngine
 {
     var $start;
-    private function getFuncArgInfo($rffunc, array $creationargs = null)
+    private function getFuncArgInfo($rffunc, ?array $creationargs = null)
     {
         $info = new TemplateArgInfo();
         $info->setCreationArg($creationargs); 
@@ -41,7 +37,6 @@ class TemplateEngine
             "rdinfo" => null,
             "tagname" => null
         ];
-        
         $s = "";
         if ($options === null) {
             $options = igk_createobj();
@@ -67,12 +62,9 @@ class TemplateEngine
             }
             $attr = "";
             $tagname = HtmlUtils::GetGeneratedTagname($node);
-            
-      
             if (!empty($rdinfo->content)){
                 $s .= $rdinfo->content;
             }
-
             if ($fc = $node->getFlag(IGK_NODETYPENAME_FLAG)) {
                 if (!($info = igk_getv($infos, $fc))) {
                     $d = new ReflectionFunction($fc);
@@ -94,12 +86,9 @@ class TemplateEngine
             }
             // echo "<!-- ".$tagname .":".$rdinfo->tagname."-->\n";
             // if ($tagname=="igk:article"){
-
             //     igk_wln_e($p === $rdinfo->parent, $rdinfo->tagname);
             // }
-
             $s .= $lf . $indent_str . "<" . $tagname;
-
             if (!empty($attr)) {
                 $s .= " " . $attr;
             }
@@ -107,16 +96,13 @@ class TemplateEngine
                 $s .= " xmlns:igk=\"https://schemas.igkdev.com/template\"";
                 $this->start = true;
             }
-
             $inner = IGK_STR_EMPTY;
             if (!$node->getFlag("NO_CHILD")) {
                 $c_childs = $node->getRenderedChilds($options);
                 $c_tchild = igk_count($c_childs);
                 if (!$node->getFlag("NO_CONTENT"))
                     $inner .= HtmlUtils::GetContentValue($node, $options);
-
                 if ($c_tchild > 0) {
-
                     $s .= ">";
                     $rdinfo = (object) [
                         "parent" => $node,
@@ -134,7 +120,6 @@ class TemplateEngine
                     continue;
                 }
             }
-
             if (trim($inner) == "") {
                 $s .= "/>";
             } else {
@@ -143,7 +128,6 @@ class TemplateEngine
                 $s .= "</" . $tagname . ">";
             }
             $rdinfo->count--;
-        
             if ($rdinfo->count <= 0) {
                 //close rd  - info - tils parent
                 do{
@@ -170,14 +154,12 @@ class TemplateEngine
             $rdinfo = $rdinfo->rdinfo;
         }
         $this->start = false;
-
         if (!$options->noUseTemplateData) {
             $data = "";
             foreach ($options->templateData as $k => $v) {
                 $data .= "\$" . $k . " = unserialize('" . serialize($v) . "');\n";
             }
             if (!empty($data)) {
-
                 $data .= "<?php \n" . $data . " ?>\n";
             }
             $s = $data . $s;

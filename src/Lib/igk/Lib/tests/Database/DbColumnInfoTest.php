@@ -8,7 +8,6 @@ use IGK\Database\DbColumnInfo;
 use IGK\Database\DbDataTypes;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Database

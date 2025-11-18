@@ -346,10 +346,10 @@ $l["e.productnotadded"] = "Erreur a l'ajout du produit";
 $l["e.productttypenotadded"] = "La catégories n'a pas été ajouté";
 $l["e.producttypenotadded"] = "Type de produit non mis à jour";
 $l["e.qtenotavailable"] = "En rupture de stock";
-$l["e.registrationnotpossible"] = "Impossible de vous enregistrer une erreur est survenu ou l'utilisateur est déjàinscrit.";
+$l["e.registrationnotpossible"] = "Impossible de vous enregistrer une erreur est survenu ou l'utilisateur est déjà inscrit.";
 $l["e.somethingwong_1"] = "Une erreur est survenue: {0}";
 $l["e.youmustaccepttermandcondition"] = "Vous devez accepter les conditions d'utilisations.";
-$l["e.passwordnotmatchrequirement"] = "les mots de passe ne correspondent pas.";
+$l["e.passwordnotmatchrequirement"] = "les mots de passe ne correspondent pas / critères de validation de mot passe.";
 $l["edit"] = "Modifier";
 $l["editpage"] = "Modifier la page";
 $l["encode"] = "Encoder";
@@ -1730,3 +1730,7 @@ $l['lb.cldeactivate_at'] = "Désactiver";
 $l['lb.provider'] = "Fournisseur - Social";
 $l['password changed'] = "Mot de passe modifié";
 
+
+$l['WebAuthRequirement'] = 'authentification web requise';
+$l['Create WebAuthentication'] = 'Enregistrer votre clef de sécurité.';
+$l['Renew WebAuthentication'] = 'Renouveller votre clef de sécurité.';

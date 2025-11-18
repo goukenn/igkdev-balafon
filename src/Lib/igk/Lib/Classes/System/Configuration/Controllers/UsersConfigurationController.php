@@ -3,10 +3,7 @@
 // @filename: UsersConfigurationController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace  IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\ActionHelper;
 use IGK\Helper\StringUtility;
@@ -30,10 +27,7 @@ use IGKHtmlDoc;
 use IGKSysUtil;
 use IGKValidator;
 use ReflectionException;
-
 use function igk_resources_gets as __;
-
-///<summary>class used to register global user in system</summary>
 /**
  * class used to register global user in system
  */
@@ -41,7 +35,6 @@ class UsersConfigurationController extends ConfigControllerBase
 {
     const view_action = self::class . "::ViewAction";
     const NOTIFY_KEY = 'sys://uc/auf';
-    ///<summary></summary>
     /**
      * 
      */
@@ -58,7 +51,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $this->setParam("search", igk_getr("search"));
         $this->View();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -83,15 +75,12 @@ class UsersConfigurationController extends ConfigControllerBase
         $doc->renderAJX();
         igk_exit();
     }
-    ///<summary>General connection method</summary>
-    ///<param name="log">display login</param>
-    ///<param name="pwd">clear pwd</param>
     /**
      * General connection method
      * @param mixed $log display login
      * @param mixed $pwd clear pwd
      */
-    public function connect($log = null, $pwd = null)
+    public function connect(?string $log = null, ?string $pwd = null)
     {
         $u = igk_app()->session->User;
         if ($u !== null)
@@ -111,22 +100,8 @@ class UsersConfigurationController extends ConfigControllerBase
         } else {
             $rm_me = 1;
         }
-        $condition = [];
-
-        if (!IGKValidator::IsEmail($log)) {
-            $condition[] = (object)[
-                "operand" => "OR",
-                "conditions" => [
-                    "clLogin" => $log,
-                    "clLogin" => $log . "@" . igk_configs()->website_domain
-                ]
-            ];
-        } else {
-            $condition['clLogin'] = $log;
-        }
-        $crypt_pwd = igk_encrypt($pwd);
-        $condition["clPwd"] = $crypt_pwd;
-        if ($r = Users::select_row($condition)) {
+        $condition = self::GetCheckCondition($log, $pwd); 
+        if ($r = Users::select_row($condition)){
             if ($r->clStatus == 1) {
                 igk_app()->session->lastLogin = $r->clLastLogin;
                 //+ | update the last login 
@@ -154,7 +129,8 @@ class UsersConfigurationController extends ConfigControllerBase
             if (!preg_match("/@(.)+$/i", $log)) {
                 $log = $log . "@" . igk_configs()->website_domain;
             }
-            $tab = ["clLogin" => $log, "clPwd" => $crypt_pwd];
+            $tab = self::GetCheckCondition($log, $pwd); 
+            // $tab = ["clLogin" => $log, "clPwd" => $crypt_pwd];
             $t = $e->searchEqual($tab);
             if ($t && is_object($t)) {
                 if ($t->clStatus == 1) {
@@ -175,7 +151,42 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return false;
     }
-    ///<summary></summary>
+    /**
+     * 
+     * @param string $login 
+     * @param string $pwd 
+     * @return array 
+     */
+    public static function GetCheckCondition(string $login, string $pwd){
+        $condition = [];
+        if (!IGKValidator::IsEmail($login)) {
+            $condition[] = (object)[
+                "operand" => "OR",
+                "conditions" => [
+                    "clLogin" => $login,
+                    "clLogin" => $login . "@" . igk_configs()->website_domain
+                ]
+            ];
+        } else {
+            $condition['clLogin'] = $login;
+        }
+        $crypt_pwd = igk_encrypt($pwd);
+        $condition["clPwd"] = $crypt_pwd;
+        return $condition;
+    }
+    /**
+     * check login 
+     * @param string $login 
+     * @param string $pwd 
+     * @return Users|false 
+     */
+    public function checkLogin(string $login, string $pwd){
+        $condition = self::GetCheckCondition($login, $pwd);
+        if ($r = Users::select_row($condition)){
+            return $r;
+        }
+        return false;
+    }
     /**
      * 
      */
@@ -200,7 +211,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $doc->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * setting config page name
      */
@@ -208,7 +218,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return "users";
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -216,7 +225,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return null;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -224,8 +232,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return igk_db_get_table_name(IGK_TB_USERS);
     }
-
-    ///<summary></summary>
     /**
      * 
      */
@@ -242,7 +248,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return $db;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -250,8 +255,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return IGK_USER_CTRL;
     }
-    ///<summary></summary>
-    ///<param name="u" default="null"></param>
     /**
      * 
      * @param mixed $u the default value is null
@@ -276,8 +279,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return $u;
     }
-    ///<summary></summary>
-    ///<param name="u" default="null"></param>
     /**
      * 
      * @param mixed $u the default value is null
@@ -297,15 +298,11 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return null;
     }
-
     protected function initComplete($context = null)
     {
         parent::initComplete();
         if ( ($v_type = igk_environment()->context()) != IGKAppType::balafon){
-            
             return;
-
-
             igk_reg_hook(IGKEvents::HOOK_DB_TABLECREATED, function ($e) {
                 if (($e->args["1"] == Users::table())) {
                     // TODO : wait for init complete to init data
@@ -332,9 +329,6 @@ class UsersConfigurationController extends ConfigControllerBase
             Users::InitSystemUsers(); 
         }
     }
-
-    ///<summary></summary>
-    ///<param name="func"></param>
     /**
      * @param mixed $func
      */
@@ -342,7 +336,6 @@ class UsersConfigurationController extends ConfigControllerBase
     {
         return true;
     }
-    ///<summary></summary>
     /**
      * logout the current user
      */
@@ -363,7 +356,6 @@ class UsersConfigurationController extends ConfigControllerBase
         igk_clear_cookie(Cookies::USER_ID);
         return true;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -372,8 +364,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $this->logout();
         igk_navto(igk_io_baseuri());
     }
-    ///<summary>List user group</summary>
-    ///<param name="id" default="null"></param>
     /**
      * List user group
      * @param mixed $id the default value is null
@@ -439,7 +429,6 @@ class UsersConfigurationController extends ConfigControllerBase
             $type = "danger";
             $msg = __("failed to remove user from group");
         }
-
         if (igk_is_ajx_demand()) {
             igk_ajx_toast($msg, $type);
             igk_exit();
@@ -447,13 +436,6 @@ class UsersConfigurationController extends ConfigControllerBase
         igk_notifyctrl("base")->setResponse(["msg" => $msg, "type" => $type]);
         igk_navto_referer();
     }
-    ///<summary></summary>
-    ///<param name="login"></param>
-    ///<param name="pwd"></param>
-    ///<param name="firstname"></param>
-    ///<param name="lastname"></param>
-    ///<param name="parentclass" default="null"></param>
-    ///<param name="level" default="1"></param>
     /**
      * 
      * @param mixed $login
@@ -477,12 +459,10 @@ class UsersConfigurationController extends ConfigControllerBase
         $result = Users::insert($row);       
         return $result;
     }
-    ///<summary>register or connect </summary>
     public function registerOrConnect($_edata)
     {
         if (igk_is_uri_demand($this->getUri(__FUNCTION__)))
             igk_die("uri request not allowed");
-
         if (!($user = igk_get_user_bylogin($_edata->email))) {
             $user = $this->register(
                 $_edata->email,
@@ -502,7 +482,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return $user;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -515,26 +494,20 @@ class UsersConfigurationController extends ConfigControllerBase
             }
         });
     }
-    ///<summary></summary>
-    ///<param name="u"></param>
     /**
-     * 
+     * store sessgin global user info
      * @param mixed $u
      */
-    public function setGlobalUser($u)
-    {
+    public function setGlobalUser($u){
         igk_app()->session->setUser($u, $this);
     }
-    ///<summary></summary>
-    ///<param name="u"></param>
     /**
      * 
      * @param mixed $u
      */
     public function setUser($u)
-    {
-        if (is_object($u)) {
-            $tb = $this->getDataTableName();
+    { 
+        if (is_object($u)){ 
             //+ check that the current user exists
             $tu = ["clId" => $u->clId, "clLogin" => $u->clLogin];
             $k = Users::select_row($tu);
@@ -545,7 +518,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return 0;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -567,7 +539,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $doc->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * toggle lock activate
      */
@@ -576,21 +547,22 @@ class UsersConfigurationController extends ConfigControllerBase
         if (!igk_sys_authorize('sys://auth/blockuser')) {
             igk_exit();
         }
-        $u = $this->getuser(igk_getr("id"));
+        $u = $this->getUser(igk_getr("id"));
         if ($u) {
             // too
             if ($u->clStatus == 1) {
                 $u->clStatus = 2;
             } else
                 $u->clStatus = 1;
-            $u->save();
+                if (method_exists($u, $fc='save')){
+                    call_user_func_array([$u, $fc], []);
+                }
             igk_notifyctrl(self::NOTIFY_KEY)->addSuccessr("msg.user.inforupdated");
             $this->View();
         }
         igk_wl($this->ConfigNode->getinnerHtml());
         igk_exit();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -603,7 +575,6 @@ class UsersConfigurationController extends ConfigControllerBase
         igk_getctrl(IGK_MYSQL_DB_CTRL)->db_edit_entry_frame($this, igk_configs()->db_name, $this->getDataTableName(), $id, IGK_FD_ID, true);
         SysUtils::exitOnAJX();
     }
-    ///<summary>add user frame</summary>
     /**
      * add user frame - - 
      */
@@ -661,9 +632,9 @@ class UsersConfigurationController extends ConfigControllerBase
             $frm = igk_create_node("form");
             $frm["action"] = $this->getUri(__FUNCTION__);
             $frm["autocomplete"] = "off";
-            $frm->cref()->ajx(); // ["autocomplete"] = "off";
+            $frm->cref()->ajx();  
             $ul = $frm->add("ul");
-            igk_html_build_form($ul, array(
+            $frm->fields([
                 "clFirstName" => array("require" => 0),
                 "clLastName" => array("require" => 1),
                 "clLogin" => array("require" => 1, "attribs" => array("autocomplete" => "nope")),
@@ -678,7 +649,7 @@ class UsersConfigurationController extends ConfigControllerBase
                     "attribs" => array("autocomplete" => "off")
                 ),
                 "clLevel" => array("require" => 1, "attribs" => array("value" => "0"))
-            ));
+            ], $ul);
             $frm->addInput("confirm", "hidden", 1);
             $frm->addInput("conf", "hidden", 1);
             $frm->addHSep();
@@ -688,8 +659,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="frm"></param>
     /**
      * 
      * @param mixed $frm
@@ -699,7 +668,6 @@ class UsersConfigurationController extends ConfigControllerBase
         $g = $frm->addActionBar();
         HtmlUtils::AddImgLnk($g, igk_js_post_frame($this->getUri("uc_auf")), "add_16x16")->setClass("igk-btn");
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -708,7 +676,6 @@ class UsersConfigurationController extends ConfigControllerBase
         /**
          * @var mixed $e
          */
-
         $rp = igk_getquery_args(base64_decode(igk_getr("q")));
         $email = igk_getv($rp, "u");
         $gooduri = igk_getv($rp, "redirect");
@@ -728,7 +695,7 @@ class UsersConfigurationController extends ConfigControllerBase
                 igk_exit();
             }
             $f = igk_io_basedir() . "/pages/signup_confirmation.php";
-            if (file_exists($f)) {
+            if (igk_io_file_exists($f)) {
                 $f = igk_uri(igk_io_baseuri() . "/" . igk_io_basepath($f));
                 igk_hook("user/activate_login", $this);
                 igk_navto($f);
@@ -736,7 +703,6 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         igk_navtocurrent();
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -756,7 +722,6 @@ class UsersConfigurationController extends ConfigControllerBase
             igk_navtocurrent();
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -767,7 +732,6 @@ class UsersConfigurationController extends ConfigControllerBase
          */
         $npwd = igk_getr("clNewPwd");
         $e = $this->getDbEntries();
-
         $t = $e->searchEqual(array("clPwd" => igk_getr("clLogin")));
         if ($t && is_object($t)) {
             $t->clStatus = 1;
@@ -777,7 +741,6 @@ class UsersConfigurationController extends ConfigControllerBase
             igk_navtocurrent();
         }
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -802,7 +765,6 @@ class UsersConfigurationController extends ConfigControllerBase
                 ]
             ]];
         }
-
         $t->clearChilds();
         $t = $t->addPanelBox();
         igk_html_add_title($t, __("System's Users"));
@@ -851,18 +813,14 @@ class UsersConfigurationController extends ConfigControllerBase
                 ->setAttribute("title", __("change password"))
                 ->Content =
                 igk_svg_use("cog-outline");
-
-
             HtmlUtils::AddImgLnk($tr->addTd(), igk_js_post_frame($lock_uri, '^.igk-cnf-content'), 
                 $v->clStatus == 2 ? 'active_16x16': "drop_16x16" );
         }, $condition, null);
-
         // if (igk_environment()->isDev()){
         //     $frm->ajxa($this->getUri('update_ajx'))->Content = 'update_ajx';       
         // }
         return $this;
     }
-     
     // public function update_ajx(){
     //     Users::delete(['clLogin'=>'dummy@igkdev.com']);
     //     $_REQUEST = [
@@ -904,9 +862,8 @@ class UsersConfigurationController extends ConfigControllerBase
      * @throws ReflectionException 
      * @throws CrefNotValidException 
      */
-    public function changePassword(int $id = null)
+    public function changePassword(?int $id = null)
     {
-
         if (!igk_is_conf_connected()) {
             igk_get_header_status(403);
         }
@@ -919,7 +876,6 @@ class UsersConfigurationController extends ConfigControllerBase
         if (!$rid) {
             igk_die("user not found", 403);
         }
-
         if (igk_server()->method("POST")) {
             if (!igk_valid_cref(1)) {
                 igk_die("not a valid cref", 500);
@@ -933,13 +889,11 @@ class UsersConfigurationController extends ConfigControllerBase
             igk_ajx_panel_dialog_close();
             SysUtils::exitOnAJX();
         }
-
         $form = igk_create_node("form");
         $form["action"] = $this->getUri(__FUNCTION__);
         $form["igk-ajx-form"] = 1;
         $form->setStyle("min-width: 360px;");
         igk_html_form_initfield($form);
-
         $form->div()->setStyle("margin-bottom:2.1em")->Content = igk_user_fullname($rid);
         $form->span()->fields([
             "pwd" => ["type" => "password", "label_text" => __("Password"), 'placeholder' => __('password')],

@@ -1,5 +1,4 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: Untitled-1
 // @date: 20220505 15:11:46
@@ -23,23 +22,20 @@
 //      <home_dir>ftp home directory to use in case of missing $_SERVER['HOME']</home_dir>  
 // 	</ftp-sync>
 // ...
-
-
 namespace IGK\System\Console\Commands\Sync;
-
 use com\igkdev\projects\AppBalafon\AppBalafonConstants;
+use Exception;
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
-
+use IGKException;
 abstract class SyncAppExecCommandBase extends AppExecCommand{
-
     var $category = "sync";
-    
     // + | entry config tagname
     const SELF_KEY_CONFIG = 'ftp-sync';
     // + | configuration keys
@@ -49,11 +45,16 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     const RELEASE_DIR = "release_dir";
     const SITE_DIR = "site_dir";
     const HOME_DIR = "home_dir";
-
+    /**
+     * initialize setting 
+     * @param mixed $command 
+     * @param mixed &$setting 
+     * @return mixed 
+     * @throws Exception 
+     */
     protected function initSyncSetting($command, & $setting){
         $setting = null;
         $sync = $command->app->getConfigs()->get(self::SELF_KEY_CONFIG); 
-
         if (!$sync) {
             Logger::danger(sprintf("[%s] - No [%s] configuration setup", 
                 AppBalafonConstants::TAG,
@@ -88,7 +89,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             Logger::danger(sprintf("no default %s configuration found.", self::SELF_KEY_CONFIG));
             return -201;
         }
-
         $app = $sync->application;
         $pwd = "";
         if (is_object($sync->password)){
@@ -118,7 +118,15 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             self::HOME_DIR=>igk_getv($sync , self::HOME_DIR),
         ];
         return $sync;
-
+    }
+    protected function start($command, &$setting){
+        if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
+            return $c;
+        } 
+        if (!is_object($h = $this->connect($setting["server"],$setting["user"], $setting["password"]))){
+            return false;
+        }
+        return $h;
     }
     protected function connect($server, $user, $pwd){
         $h = null;
@@ -135,7 +143,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         }
         return $h;
     }
-
     protected function removeCache($ftp, $app_dir){        
         FtpHelper::RmDir($ftp, $app_dir."/.Caches"); 
     }
@@ -149,7 +156,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         FtpHelper::RmDir($ftp, $dir); 
         FtpHelper::CreateDir($ftp, $dir);
     }
-
     /**
      * get install script 
      * @param array|string installed script 
@@ -160,7 +166,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         $v_bdir = IGK_LIB_DIR . "/Inc/core/";
         if (is_array($script)){
             $tab = array_filter(array_map(function($a)use($v_bdir){
-                if (is_file($f = $v_bdir.$a)){
+                if (igk_io_cache_file_exists($f = $a) || is_file($f = $v_bdir.$a)){
                     return $f;
                 }
                 return null;
@@ -168,15 +174,12 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             $src = PHPScriptBuilderUtility::MergeSource(        
                 ...$tab        
             );
-         
         }else{
-           
             $file  = $v_bdir.$script;
-            if (!file_exists($file)){
+            if (!igk_io_cache_file_exists($file)){
                 return false;
             }
             $src = file_get_contents($file);            
-            
         }
         if (empty($src)){
             return false;
@@ -189,21 +192,38 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             return "?>".file_get_contents($fn);
         });  
         $src = $rep->replace($src);
-
         $sb = new StringBuilder();
-        $token = date("Ymd") . rand(2, 85) . igk_create_guid();
+        $token = self::GenerateSyncCommandToken();
         $sb->appendLine(implode("\n", array_filter([
             "\$token = '" . $token . "';",
            $name ?  "\$archive= '" . $name . "';" : null,
         ])));
-
         $src = str_replace("// %token%", $sb."", $src);
         $sb->clear();
         $sb->appendLine($src);
         $sb->appendLine("@unlink(__FILE__);");        
         return $sb."";
     }
-
+    /**
+     * generate sync command token-
+     * @return string 
+     */
+    protected static function GenerateSyncCommandToken(){
+        return base64_encode(date("Ymd") .'-'.rand(2, 85) . igk_create_guid());
+    }
+    protected function getMergedScripts(){
+        return [];
+    }
+    /**
+     * 
+     * @param mixed $command 
+     * @param mixed $script 
+     * @param mixed $args 
+     * @return mixed|void 
+     * @throws Exception 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
     protected function syncScriptCommand($command, $script, $args){
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
@@ -213,10 +233,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         } 
         $file = tempnam(sys_get_temp_dir(), "blf");
         unlink($file);
-
         $content = PHPScriptBuilderUtility::MergeSource( ...$this->getMergedScripts());  
-
-
         $pdir = $setting["public_dir"];
         $uri = $setting["site_uri"];
         $install = $pdir."/".$script;
@@ -227,7 +244,6 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             set_time_limit(0);
             $curl_options[CURLOPT_TIMEOUT] = 0;
         }
-        
         $token = date("Ymd").rand(2, 85).igk_create_guid();
         $response = igk_curl_post_uri(
             $uri . "/".$script,
@@ -249,6 +265,8 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         Logger::info("response");
         if ($response){
             Logger::print($response);
+        } else {
+            Logger::danger(igk_curl_status());
         }
     }
     public function getHelpOptions(){

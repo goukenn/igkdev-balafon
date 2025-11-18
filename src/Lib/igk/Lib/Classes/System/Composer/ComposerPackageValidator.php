@@ -3,14 +3,11 @@
 // @file: ComposerPackageValidator.php
 // @date: 20230414 16:08:43
 namespace IGK\System\Composer;
-
 use IGK\Helper\StringUtility;
 use IGK\System\Composer\Traits\ComposerPackageFileTrait;
 use IGK\System\Regex\Replacement;
 use IGK\System\Traits\ObjectFormDataTrait;
 use IGK\System\WinUI\Forms\FormData;
-
-///<summary></summary>
 /**
 * validate json data
 * @package IGK\System\Composer
@@ -51,7 +48,6 @@ class ComposerPackageValidator extends FormData{
             return $n;
         }
     }
-    
     /**
      * expression to check that 
      * @return null|array 
@@ -59,9 +55,7 @@ class ComposerPackageValidator extends FormData{
     function getNotRequired(): ?array
     {        
         return [function($a){
-            
             return true;
         }]; 
     }
-    
 }

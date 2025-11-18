@@ -9,7 +9,6 @@ use igk\devtools\DocumentParser\UriDetector;
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
 * test uri detected in css - or other - data 
 * @package IGK\Tests\DocumentParser

@@ -5,11 +5,9 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
-
 abstract class HtmlOptions{
     static $CloseWithCloseTags=array(
             "style"=>"style",
@@ -55,7 +53,6 @@ abstract class HtmlOptions{
             "source"=>"source",
             "embed"=>"embed"
         );
-
     public static function IsAllowedAttribute(string $name){
         // ---------------------------------------------------------------------------------
         // ignore igk:param cause have a special meaning for loading template - it will call setParam methoe- will pass data

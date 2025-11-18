@@ -3,14 +3,11 @@
 // @file: ViewCommandArgs.php
 // @date: 20230123 10:38:46
 namespace IGK\System\Views;
-
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompileProcessCommandHandler;
 use IGK\System\Views\Traits\ViewCommentEvalTrait;
 use ReflectionException;
-
-///<summary></summary>
 /**
 * store comment detected on a view 
 * @package IGK\System\View
@@ -23,7 +20,6 @@ class ViewCommentArgs{
         "MainLayout"
     ];
     const COMMENT_EXPRESSION_REGEX =  "/\/\/#\s*\{\{%(?P<expression>.+)%\}\}\s*$/";
-    
     /**
      * 
      * @param mixed $comment 

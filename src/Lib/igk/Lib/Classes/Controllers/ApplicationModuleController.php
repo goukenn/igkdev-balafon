@@ -1,10 +1,12 @@
 <?php
 namespace IGK\Controllers;
-
 use Error;
 use Exception;
 use IGK\Helper\IO; 
 use IGK\ApplicationLoader;
+use IGK\Constants;
+use IGK\Helper\Activator;
+use IGK\System\Configuration\ModuleConfiguration;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Controllers\ControllerMethods;
 use IGK\System\Exceptions\ApplicationModuleInitException;
@@ -15,19 +17,16 @@ use IGK\System\IO\Path;
 use ReflectionException;
 use Throwable;
 use TypeError;
-
 // @author: C.A.D. BONDJE DOUE
 // @licence: IGKDEV - Balafon @ 2019
 // @Description: Use to add extra module to system. that module include function declared on .module.pinc file with the $reg array
- 
-///<summary>represent application module class </summary>
 /**
 * represent application module class
 * @method function initDoc($doc, ...$args) initialize document
 */
 final class ApplicationModuleController extends BaseController{
-    const INIT_METHOD = "initDoc";
-    const CONF_MODULE = "balafon.module.json";
+    const INIT_DOC_METHOD = "initDoc";
+    const CONF_MODULE = Constants::MODULE_CONF_FILE; 
     const MODULE_INITIALIZER_FNAME = ".module.pinc";
     private $m_dir;
     private $m_doc;
@@ -36,7 +35,6 @@ final class ApplicationModuleController extends BaseController{
     private $m_src;             // source code 
     private $m_initializer;     // used to extend module class properties
     private $m_configs;         // configuration 
-    private $mm_fclist;
     var $boot;
     /**
      * get application module configuration value
@@ -71,22 +69,22 @@ final class ApplicationModuleController extends BaseController{
     public function supportMethod($method):bool{
         return is_callable(igk_getv($this->m_fclist, $method));
     }
-
     public function initClass($classname){
         if (class_exists($classname)){
             $this->m_initializer = new $classname();
         }
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="args"></param>
+    public function environmentSettings(){
+        $e = igk_environment();
+        $v_k = str_replace('.', '\\', trim($this->getName(), '.'));
+        return $e->get($e->find($v_k));
+    }
     /**
     * 
     * @param mixed $n
     * @param mixed $args
     */
     function __call($n, $args){
-
         $fc=igk_getv($this->m_fclist, $n);
         if($fc){
             // + | check that in methods can be initialize
@@ -104,8 +102,6 @@ final class ApplicationModuleController extends BaseController{
         } 
         return null;
     }
-    
-    
     protected function getModuleKey($name=""){
         $s = "module://".$this->name;
         if (!empty($name = trim($name, "/"))){
@@ -153,8 +149,6 @@ final class ApplicationModuleController extends BaseController{
         }
         return Path::Combine($this->getDeclaredDir(),"/Data/assets");
     }
-    ///<summary></summary>
-    ///<param name="dir"></param>
     /**
     * 
     * @param mixed $dir base directory 
@@ -162,10 +156,10 @@ final class ApplicationModuleController extends BaseController{
     public function __construct(string $dir){
         parent::__construct();
         $this->m_dir=IO::GetDir($dir);
-        $this->mm_fclist=array(); 
+        $this->m_fclist=array(); 
         // $tf = $dir."/Lib/".self::;
         // $c=realpath($tf);
-        // if(!file_exists($c)){
+        // if(!igk_io_file_exists($c)){
         //     $configs=array();
         //     $this->_initconfig($configs);
         //     $o="<?php\n";
@@ -178,9 +172,14 @@ final class ApplicationModuleController extends BaseController{
         // } 
         $this->_initModuleClasses();
         $c=realpath($dir."/.module.pinc");
-        if(file_exists($c)){
+        if(igk_io_file_exists($c, true)){
             $this->_init($c);
         }  
+        igk_reg_hook('sys://module/didInitModule', function($e){
+            if ($e->args['module'] === $this){
+                $this->didInitModule();
+            }
+        });
     }
     private function _initModuleClasses(){
         $dir = $this->getDeclaredDir();
@@ -194,28 +193,26 @@ final class ApplicationModuleController extends BaseController{
             } 
             $entry_ns =  str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($dir)));
             $libdir=$classLib;  
-            
             $fc = function($n)use($entry_ns, $libdir){ 
                 $fc = "";
                 //  if ($n ==\igk\js\Vue3\Components\VueApplicationNode::class){
-
                 //   igk_wln_e("try load ".$n . " ".$this->getName(), $entry_ns, $dir = $this->getDeclaredDir());
                 //  }
                 if (!empty($entry_ns) && (strpos( strtolower($n), strtolower($entry_ns.'\\'))===0)){
                     // and matching start of the entry namespace
                     $cl = ltrim(substr($n, strlen($entry_ns)), "\\");
-                    if (file_exists($fc = igk_dir($libdir."/".$cl.".php"))){                         
+                    if (igk_io_file_exists($fc = igk_dir($libdir."/".$cl.".php"), true)){                         
                         include($fc);                        
                         if (!class_exists($n, false) && !interface_exists($n, false) && !trait_exists($n, false)){               
                             igk_die("file loaded but {$n}, interface or trait not exists");
                         }
                         return 1;
                     }
-                    if (defined("IGK_TEST_INIT")){
+                    if (igk_environment()->isTesting()){
                         $pos = $entry_ns."\\Tests\\";
                         if (strpos($n, $pos)=== 0){ 
                             $cl = ltrim(substr($n, strlen($pos)), "\\");
-                            if (file_exists($fc = $this->getTestClassesDir()."/".$cl.".php")){
+                            if (igk_io_file_exists($fc = $this->getTestClassesDir()."/".$cl.".php", true)){
                                 include($fc);
                                 if (!class_exists($n, false) && !interface_exists($n, false)){               
                                     igk_die("file loaded but class $cl does not exists");
@@ -229,7 +226,6 @@ final class ApplicationModuleController extends BaseController{
             ApplicationLoader::RegisterAutoload($fc, $libdir);
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -238,27 +234,24 @@ final class ApplicationModuleController extends BaseController{
         $this->m_src=null;
         return array("m_dir");
     }
-    ///<summary></summary>
     /**
     * 
     */
     function __wakeup(){
         $this->_init();
     }
-    ///<summary></summary>
-    ///<param name="c" default="null"></param>
     /**
-    * 
+    * init module 
     * @param mixed $c the default value is null
     */
     private function _init($c=null){
- 
         $s=igk_io_read_allfile($c ?? $this->m_dir."/".self::MODULE_INITIALIZER_FNAME);
+        $c_f = self::CONF_MODULE;
         // + | --------------------------------------------------------------------
         // + | $reg is a function used to register additional function 
         // + |         
-        if (!is_file($file =  $this->m_dir."/".self::CONF_MODULE)){
-            igk_die(sprintf("%s is missing in %s",self::CONF_MODULE, $this->m_dir));
+        if (!is_file($file =  $this->m_dir."/".$c_f)){
+            igk_die(sprintf("%s is missing in %s",$c_f, $this->m_dir));
         }
         $definition = (array)json_decode(file_get_contents($file));
         try{ 
@@ -282,12 +275,11 @@ final class ApplicationModuleController extends BaseController{
         }
         $this->m_src = $s;
         if ($data){
-            $this->m_configs = $data; 
+            $this->m_configs = Activator::CreateNewInstance(ModuleConfiguration::class, $data); 
         }
         // + | --------------------------------------------------------------------
         // + | unset source for production
         // + |
-        
         unset($this->m_src);
     }
     /**
@@ -297,8 +289,6 @@ final class ApplicationModuleController extends BaseController{
     public function getModuleConfig(){
         return $this->m_configs;
     }
-    ///<summary></summary>
-    ///<param name="configs" ref="true"></param>
     /**
     * 
     * @param  * $configs
@@ -306,8 +296,6 @@ final class ApplicationModuleController extends BaseController{
     protected function _initconfig(& $configs){
         $configs["libdir"]= igk_io_collapse_path(IGK_LIB_DIR); 
     }
-    ///<summary></summary>
-    ///<param name="msg"></param>
     /**
     * 
     * @param mixed $msg
@@ -315,15 +303,12 @@ final class ApplicationModuleController extends BaseController{
     private function bindError($msg){
         $this->setParam(__METHOD__, $msg);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getAppDocument(){
         return null;
     }
-    ///<summary></summary>
-    ///<param name="c" default="null"></param>
     /**
     * 
     * @param mixed $function the default value is null
@@ -336,42 +321,36 @@ final class ApplicationModuleController extends BaseController{
         $s=base64_encode($u);
         return igk_getctrl(IGK_SESSION_CTRL)->getUri("invmodule&q=".$s);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getCallee(){
         return igk_peek_env(__CLASS__."/callee");
     }
-    ///<summary>get the inline calling function</summary>
     /**
     * get the inline calling function
     */
     public function getCaller(){
         return $this->m_caller;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public static function GetCanCreateFrameworkInstance(){
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getCurrentDoc(){
         return $this->m_doc;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getDeclaredDir():string{
         return $this->m_dir;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -381,7 +360,6 @@ final class ApplicationModuleController extends BaseController{
     public function getLibDir(){
         return implode("/", [$this->getDeclaredDir(), IGK_LIB_FOLDER]);
     }
-    ///<summary>get module environment configuration</summary>
     /**
     * get module environment configuration
     */
@@ -395,7 +373,7 @@ final class ApplicationModuleController extends BaseController{
         if(isset($_configs[$_hash])){
             return $_configs[$_hash];
         }
-        if(file_exists($c)){
+        if(igk_io_file_exists($c)){
             $c = realpath($this->m_dir."/Lib/.config.php");
             $config=array();
             include($c);
@@ -403,25 +381,18 @@ final class ApplicationModuleController extends BaseController{
         }
         return $_configs[$_hash];
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getListener(){
         return $this->m_listener ?? igk_ctrl_current_view_ctrl();
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getName(){
         return strtolower(str_replace("/", ".", igk_uri(substr($this->m_dir, strlen(igk_get_module_dir())))));
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="def" default="null"></param>
-    ///<param name="register" default="false"></param>
-    ///<return refout="true"></return>
     /**
     * 
     * @param mixed $n
@@ -437,8 +408,6 @@ final class ApplicationModuleController extends BaseController{
         }
         return $h;
     }
-    ///<summary></summary>
-    ///<param name="c" default="null"></param>
     /**
     * 
     * @param mixed $c the default value is null
@@ -446,8 +415,6 @@ final class ApplicationModuleController extends BaseController{
     public function getUri($c=null){
         return $this->getAppUri($c);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -455,9 +422,6 @@ final class ApplicationModuleController extends BaseController{
     public function methodExists($n){
         return isset($this->m_fclist[$n]);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="fc"></param>
     /**
     * 
     * @param mixed $n
@@ -469,8 +433,6 @@ final class ApplicationModuleController extends BaseController{
         }
         $this->m_fclist[$n]=$fc;
     }
-    ///<summary></summary>
-    ///<param name="doc"></param>
     /**
     * attach to current document
     * @param mixed $doc
@@ -478,8 +440,6 @@ final class ApplicationModuleController extends BaseController{
     private function setCurrentDoc($doc){
         $this->m_doc=$doc;
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -487,9 +447,6 @@ final class ApplicationModuleController extends BaseController{
     public function setListener($v){
         $this->m_listener=$v;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $n
@@ -507,7 +464,6 @@ final class ApplicationModuleController extends BaseController{
     public function get($name, $default=null){
         return $this->getEnvParam($name, $default);
     }
-
     public function View(): BaseController{
         if ($this->methodExists(__FUNCTION__)){
             $fc = igk_getv($this->m_fclist, __FUNCTION__);
@@ -526,7 +482,7 @@ final class ApplicationModuleController extends BaseController{
     {        
         if(igk_environment()->isDev() && ($name=== ControllerMethods::register_autoload)){       
             igk_ilog("module app - invoke static method not allowed - ".$name);         
-        }
+        }  
         return null; 
     }
     public function exposeAssets(){
@@ -550,8 +506,19 @@ final class ApplicationModuleController extends BaseController{
     public function getUseDataSchema():bool{ 
         return true;
     }
+    /**
+     * retrieve db schema file 
+     * @return string 
+     * @throws IGKException 
+     */
     public function getDataSchemaFile(){
         return ControllerExtension::getDataSchemaFile($this);
+    }
+    public function initDbFromSchemas(){
+        return ControllerExtension::initDbFromSchemas($this);
+    }
+    public function loadDataAndNewEntriesFromSchemas(){
+        return ControllerExtension::loadDataAndNewEntriesFromSchemas($this);
     }
     /**
      * all module can participate to init db by default
@@ -564,7 +531,6 @@ final class ApplicationModuleController extends BaseController{
     {
         return sprintf("%s - [%s]", __CLASS__, $this->getName());
     }
-
     /**
      * resolve local class
      * @param string $name 
@@ -573,5 +539,8 @@ final class ApplicationModuleController extends BaseController{
     public function resolveClass(string $name){
         $m = ControllerExtension::resolveClass($this, $name);
         return $m;
+    }
+    public static function GetSettingKey(ApplicationModuleController $ctrl){
+        return sprintf('module://%s', trim($ctrl->getName(),'. '));
     }
 }

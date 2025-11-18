@@ -3,15 +3,12 @@
 // @filename: MacrosHelper.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 //
 // @file: MacrosHelper.php
 // @author: C.A.D. BONDJE DOUE
 // version: 1.0
 //
 namespace IGK\Helper;
-
-use IGK\Models\Groupauthorizations;
 use IGK\Models\Users;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
@@ -19,7 +16,6 @@ use IGKException;
 use IGKObjStorage;
 use ModelBase;
 use ReflectionException;
-
 /**
  * macro helper expressions
  * @package IGK\Helper
@@ -27,7 +23,6 @@ use ReflectionException;
 class MacrosHelper
 {
     private static $macros;
-
     public static function Get($name)
     {
         return self::__callStatic($name, null);
@@ -37,40 +32,53 @@ class MacrosHelper
         if (self::$macros == null) {
             //init global macros function 
             self::$macros = [
-                "auth" => function ($auths, $strict = false) { 
+                'auth' => function ($auths, $strict = false) { 
                     /**
                      * @var \IGK\Models\Users $q 
+                     * @var mixed|string|string[] $auths
                      */
                     $q = $this;
-                    return self::GetAuth($q, $auths, $strict);                    
+                    return self::_CheckAuth($q, $auths, $strict);                    
                 },
-                "currentUser"=>function()
-                {
+                /**
+                 * retrieve current user from cache .... 
+                 */
+                'currentUser'=>function(){
                     if ($u = igk_app()->session->getUser()){
-                        return \IGK\Models\Users::createFromCache($u, null);
+                        $l = \IGK\Models\Users::createFromCache($u, null); 
+                        return $l;
                     }
                     return null;
                 },
-                "addUser2"=>function($data){
+                'addUser2'=>function($data){
                     /**
                      * @var \IGK\Models\Users $q 
                      */
                     $q = $this;
                     return self::AddUser($q, $data);
+                },
+                'checkLogin'=>function(string $login, string $pwd){
+                    $ctrl = igk_getctrl(IGK_USER_CTRL);
+                    if ($p = $ctrl->checkLogin($login, $pwd)){
+                        return $p;
+                    }
+                    return false;
                 }
             ];
         }
         return igk_getv(self::$macros, $name);
     }
-
     /**
-     * get user auth 
+     * check user's auth 
      * @param Users $user 
-     * @param mixed $auths 
+     * @param string|array $auths 
      * @param bool $strict 
      * @return bool 
      */
-    private static function GetAuth(\IGK\Models\Users $user, $auths, $strict= false):bool{
+    private static function _CheckAuth(\IGK\Models\Users $user, $auths, bool $strict= false):bool{
+        /**
+         * @var mixed $b
+         */
         /// MARK: auth users 
         // if (igk_environment()->isDev())
         //     return true;
@@ -79,7 +87,7 @@ class MacrosHelper
          * */
         if ($user->is_mock()){
             return false;
-        }
+        }  
         $q = $user;
         $key = \IGK\Models\ModelBase::AuthKey;
         $is_auth = false;
@@ -87,44 +95,41 @@ class MacrosHelper
             if (!is_string($auths)) {
                 return false;
             }
-            $auths = [$auths];
+            $auths = explode('|', $auths); // [$auths];
         } 
         // $data = $q->to_array();
         if (($g = $q->{$key}) === null) {
             $g = [];
             if ($q->clId !==null){
                 if ($b = $user->auths()) {
-                    // ::getUserAuths($q->clId)
                     foreach ($b as $t) {
                         $g[] = $t->name;
-                    } 
+                    }
                 }
                 $q->set($key, $g);
             } else 
                 return false;
         }
-        if (($is_auths = count($g) > 0)) {
-
+        if (($is_auth = count($g) > 0)) {
             if ($strict) {
-                while ($is_auths && ($auth = array_shift($auths))) {
+                while ($is_auth && ($auth = array_shift($auths))) {
                     // check all auths
-                    if (!($is_auths = in_array($auth, $g))) {
+                    if (!($is_auth = in_array($auth, $g))) {
                         break;
                     }
                 }
             } else {
-                $is_auths = false;
+                $is_auth = false;
                 while ($auth = array_shift($auths)) {
                     if (in_array($auth, $g)) {
-                        $is_auths = true;
+                        $is_auth = true;
                         break;
                     }
                 }
             }
         }
-        return $is_auths;
+        return $is_auth;
     }
-
     /**
      * add User with storage data
      * @param Users $user 
@@ -137,9 +142,8 @@ class MacrosHelper
     public static function AddUser(\IGK\Models\Users $user, ?array $data){
         $storage = new IGKObjStorage($data); 
         $r = null; 
-        // Users::delete($id);
         if (!empty($storage->clLogin) && ($r = Users::select_row([Users::FD_CL_LOGIN=>$storage->clLogin]))){
-            // user aleady exists
+            // + user aleady exists
             igk_hook(IGKEvents::HOOK_USER_EXISTS, [$r]);
             $r = Users::select_row(["clId"=>$r->clId]);
         } else {

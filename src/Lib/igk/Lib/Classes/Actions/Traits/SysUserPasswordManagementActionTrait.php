@@ -1,21 +1,17 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: SysUserPasswordManagementActionTrait.php
 // @date: 20221117 22:55:33
 // @desc: 
 namespace IGK\Actions\Traits;
-
 use IGK\Controllers\BaseController;
 use IGK\Helper\ActionHelper;
 use IGK\Models\Users;
 use IGK\System\Html\Forms\FormHelper;
 use IGKValidator;
-
 trait SysUserPasswordManagementActionTrait
 {
     use RedirectHelperActionTrait;
-
     public function resetPassword_get(BaseController $ctrl)
     {
         if (!($token = igk_getr('token'))) {
@@ -23,7 +19,6 @@ trait SysUserPasswordManagementActionTrait
         }
         $ctrl = $this->getController();
         $current_user = ActionHelper::CurrentActionUserModel($this);
-
         if ($current_user){
             // + | --------------------------------------------------------------------
             // + | ALREADY CONNECTER - with an account
@@ -32,7 +27,6 @@ trait SysUserPasswordManagementActionTrait
             $this->redirectTo(null);
             return $current_user;
         } 
-
         if ($token) {
             // activate first
             $linkLoken = ActionHelper::GetAliveToken($token);
@@ -53,7 +47,6 @@ trait SysUserPasswordManagementActionTrait
                 }
             }
             else {
-
             }
             igk_wln_e(__FILE__.":".__LINE__, $linkLoken.'');
         }
@@ -70,12 +63,9 @@ trait SysUserPasswordManagementActionTrait
         if($r = ActionHelper::ChangePassword($u, $password, $repassword)){
             return $r;
         } else {
-            
             return false;
         }
-       
     }
-
     /**
      * protected form action 
      * @param mixed $t 
@@ -83,8 +73,6 @@ trait SysUserPasswordManagementActionTrait
      */
     protected function form_reset_password($a)
     {   
-        
-        
         $a->h2()->Content = __("Reset password"); 
         $a->notifyhost($this->notifyActionName, true); //->setAutohide(true);
         $a->div()->Content  = ""; 

@@ -3,11 +3,8 @@
 // @file: IActionRequestValidator.php
 // @date: 20230126 19:30:39
 namespace IGK\Actions;
-
 use IGK\System\Data\IDataValidator;
 use IGK\System\Http\Request;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Actions
@@ -22,7 +19,6 @@ interface IActionRequestValidator extends IDataValidator{
      * @return bool 
      */
     function validate($data, array $mapper,  ?array $defaultValues, ?array $not_required, & $requestData = null,  ?array & $error=null): bool;
-
     /**
      * validate request json 
      * @param IGK\Actions\Request $request 

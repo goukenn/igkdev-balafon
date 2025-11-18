@@ -3,9 +3,6 @@
 // @file: HtmlBindingRawTransform.php
 // @date: 20221010 14:35:02
 namespace IGK\System\Html;
-
-
-///<summary></summary>
 /**
  * use to transform binding data
  * @package IGK\System\Html
@@ -27,21 +24,17 @@ class HtmlBindingRawTransform
      * @var mixed
      */
     var $pipe;
-
     var $root_context;
-
     /**
      * controller
      * @var ?BaseController 
      */
     var $controller;
-
     /**
      * data key
      * @var mixed
      */
     var $key;
-
     public function __construct(string $name)
     {
         $this->name = $name;

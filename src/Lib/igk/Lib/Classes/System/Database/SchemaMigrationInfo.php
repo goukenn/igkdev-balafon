@@ -3,9 +3,7 @@
 // @filename: SchemaMigrationInfo.php
 // @date: 20220804 08:20:25
 // @desc: 
-
 namespace IGK\System\Database;
-
 use ArrayAccess;
 use IGK\Controllers\BaseController;
 use IGK\Database\DbColumnInfo;
@@ -14,7 +12,6 @@ use IGK\Models\ModelBase;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
-
 /**
  * schema migration info
  * @package IGK\System\Database
@@ -22,7 +19,6 @@ use IGKException;
 class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
 {
     use ArrayAccessSelfTrait;
-
     var $defTableName;
     var $columnInfo;
     /**
@@ -42,28 +38,22 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * @var ?string
      */
     var $display;
-
     /**
      * constant used
      * @param mixed $n 
      * @return ?bool
      */
     // var $constant;
-
-
     /**
      * 
      * @var ?array<SchemaForeignConstraintInfo>
      */
     var $foreignConstraint;
-
-
     /**
      * configured prefix
      * @var ?string
      */
     var $prefix;
-
     public function _access_OffsetGet($n)
     {
         if (property_exists($this, $n)) {
@@ -92,7 +82,6 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
             'prefix' => igk_getv($d, 'prefix')
         ]);
     }
-
     /**
      * return model instance
      * @return ?ModelBase 

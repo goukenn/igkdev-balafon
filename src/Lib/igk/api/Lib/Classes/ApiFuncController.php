@@ -1,7 +1,5 @@
 <?php
 
-///<summary>Represente class: IGKApiFunctionCtrl</summary>
-
 use IGK\Controllers\ApplicationController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\IO;
@@ -10,18 +8,16 @@ use IGK\System\Html\HtmlReader;
 use IGK\System\Html\HtmlRenderer;
 
 /**
-* Represente IGKApiFunctionCtrl class
+* Represent IGKApiFunctionCtrl class
 */
 final class ApiFunctionController extends ApplicationController {
     const LIBNAME=IGK_API_MYSQLPINC;
-    ///<summary></summary>
     /**
     * 
     */
     public function about(){
         igk_wln_e(__FILE__.":".__LINE__, "About");
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -46,8 +42,6 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="cmd" default="null"></param>
     /**
     * 
     * @param mixed $cmd the default value is null
@@ -103,7 +97,7 @@ final class ApiFunctionController extends ApplicationController {
             igk_nav_session();
         };
         $file=IO::GetDir(dirname(__FILE__)."/.ctrl.inc");
-        if(file_exists($file)){
+        if(igk_io_file_exists($file)){
             include_once($file);
         }
         if(isset($_data[$cmd])){
@@ -120,7 +114,6 @@ final class ApiFunctionController extends ApplicationController {
         igk_exit();
         return 1;
     }
-    ///<summary>represent a function database function list</summary>
     /**
     * represent a function database function list
     */
@@ -131,7 +124,7 @@ final class ApiFunctionController extends ApplicationController {
          */
 
         $file = self::LIBNAME;
-        if(file_exists($file)){
+        if(igk_io_file_exists($file)){
             include_once($file);
         }
         $args=array_slice(func_get_args(), 1);
@@ -184,9 +177,6 @@ final class ApiFunctionController extends ApplicationController {
                             $this->datadb("loadsyncdata", $c, $u->clLogin, $ctrl->getName());
                         }
                         igk_exit();
-                        header("Content-Type: application/xml");
-                        igk_wl($g);
-                        igk_exit();
                     }
                     if(!$error){
                         $rep->addNode("Status")->Content=0;
@@ -213,9 +203,8 @@ final class ApiFunctionController extends ApplicationController {
                         $this->datadb("syncdata", $ctrl->getName(), $u->clLogin);
                         $c=IGKOB::Content();
                         IGKOb::Clear();
-                        $g=igk_curl_post_uri($srv."/api/v2/datadb/loadsyncdata", array("data"=>$c, "login"=>$u->clLogin, "ctrl"=>$ctrl->getName()));
-                        header("Content-Type: application/xml");
-                        igk_wl($g);
+                        $g=igk_curl_post_uri($srv."/api/v2/datadb/loadsyncdata", array("data"=>$c, "login"=>$u->clLogin, "ctrl"=>$ctrl->getName()));                        
+                        igk_xml($g);
                         igk_exit();
                     }
                     if(!$error){
@@ -295,10 +284,8 @@ final class ApiFunctionController extends ApplicationController {
                     $n= implode("\\", $args);//igk_getv($args, 0);
                     $ctrl=igk_getctrl($n);
                     if($ctrl){
-                        $schema=igk_db_backup_ctrl($ctrl, 1);
-                        header("Content-Type:application/xml");
-                        igk_wl(igk_xml_header()); 
-                        igk_wl($schema->render());
+                        $schema=igk_db_backup_ctrl($ctrl, 1);                        
+                        igk_xml(igk_xml_header().$schema->render());
                         igk_exit(); 
                     }
                     else{
@@ -486,7 +473,6 @@ final class ApiFunctionController extends ApplicationController {
         igk_exit();
         return 1;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -499,7 +485,6 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -510,19 +495,16 @@ final class ApiFunctionController extends ApplicationController {
     protected function getEntryNameSpace(){
         return "IGKApi";
     }
-    ///<summary></summary>
     /**
     * 
     */
     
-    ///<summary></summary>
     /**
     * 
     */
     public function getIsVisible():bool{
         return false;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -532,22 +514,18 @@ final class ApiFunctionController extends ApplicationController {
     public function getAppName(){
         return IGK_API_CTRL;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getRegUriAction(){
         return IGK_API_URI.IGK_REG_ACTION_METH_OPTIONS;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getVersion(){
         return IGK_API_VERSION;
     }
-    ///<summary></summary>
-    ///<param name="function"></param>
     /**
     * 
     * @param mixed $function
@@ -555,7 +533,6 @@ final class ApiFunctionController extends ApplicationController {
     public function IsFunctionExposed($function){
         return true;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -568,7 +545,7 @@ final class ApiFunctionController extends ApplicationController {
             $this->ConfigCtrl->connect($u, $pwd, false);
         }
         if($this->ConfigCtrl->IsConnected){
-            session_start();
+            @session_start();
             $q=base64_decode(igk_getr("q"));
             igk_resetr();
             igk_loadr($q);
@@ -578,7 +555,6 @@ final class ApiFunctionController extends ApplicationController {
 
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -595,8 +571,6 @@ final class ApiFunctionController extends ApplicationController {
         $node->renderAJX();
         igk_exit();
     }
-    ///<summary></summary>
-    ///<param name="cmd" default="null"></param>
     /**
     * 
     * @param mixed $cmd the default value is null
@@ -605,7 +579,6 @@ final class ApiFunctionController extends ApplicationController {
         igk_wln(__FUNCTION__." command");
         igk_exit();
     }
-    ///<summary></summary>
     /**
     * 
     */

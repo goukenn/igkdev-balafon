@@ -3,7 +3,6 @@
 // @file: MakeformValidationCommand.php
 // @date: 20240923 09:26:30
 namespace IGK\System\Console\Commands\Winui\FormValidation;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\System\Console\AppExecCommand;
@@ -17,8 +16,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path;
 use IGK\System\WinUI\Forms\FormValidationData;
 use Logger;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands\Winui\FormValidation
@@ -32,21 +29,16 @@ class MakeformValidationCommand extends AppExecCommand{
 	var $usage = '[controller] name [options]'; 
 	public function exec($command, ?string $controller=null, ?string $name=null) {
 		self::ContextController($command, $controller, $name);
-		
 		empty($name) && igk_die("name required");
-
 		$ctrl = self::GetController($controller);
 		$dir = Path::Combine($ctrl->getClassesDir(), EntryClassResolution::WinUI_Form_Validation);
 		$bind = $this->_bindingList($dir, $ctrl, $name);
 		Utility::MakeBindFiles($command, $bind, false);
-
 		ConsoleLogger::success('done');
 	 }
 	 protected function _bindingList(string $dir, BaseController $ctrl, $name){
 		$bind = [];
 		$name = igk_str_add_suffix(ucfirst(igk_ns_name($name)), 'FormData');
-
-
 		$bind[$dir."/".$name.".php"] = function($file)use($ctrl, $name){
 			$ens = igk_ns_name(Path::Combine($ctrl->getEntryNamespace(),EntryClassResolution::WinUI_Form_Validation));
 			$sb = new PHPScriptBuilder;

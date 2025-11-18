@@ -3,10 +3,7 @@
 // @file: ArrayMapKeyValue.php
 // @date: 20230329 20:11:07
 namespace IGK\System;
-
 use Closure;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System

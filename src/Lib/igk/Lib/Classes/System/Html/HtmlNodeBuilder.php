@@ -6,7 +6,9 @@ namespace IGK\System\Html;
 
 use Closure;
 use Error;
-use Exception; 
+use Exception;
+use IGK\System\Core\EngineReadArgs;
+use IGK\System\DataArgs;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -14,12 +16,12 @@ use IGK\System\Html\Dom\HtmlCommentNode;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlLooperNode;
 use IGK\System\Html\Dom\HtmlNode;
-use IGK\System\Html\Dom\HtmlTextNode; 
+use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\IToArray;
 use IGKException;
+use ReflectionClass;
 use ReflectionException;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Html
@@ -29,6 +31,11 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     private $m_context_tab = [];
     private $m_template = [];
     var $fallbackTagName = 'div';
+    /**
+     * class name user to handle data view args context 
+     * @var ?string
+     */
+    var $contextDataArgsClass;
     var $t;
     /**
      * building context
@@ -39,10 +46,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @var false
      */
     public $preserveTagCase = false;
-
     const KEY_CONDITION = '@_if:';
-
- 
     /**
      * get node property 
      */
@@ -63,7 +67,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * attribute activation key ["_@"]=[]
      */
     const KEY_ATTRIBS_ACTIVATION = '_@';
-
     const KEY_CALLBACK_HOST = 'fn()';
     const KEY_INVOKE_ON_LAST = '::';
     const KEY_INVOKE_ON_PARENT_LAST = '::@';
@@ -71,41 +74,40 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * should be use with string method name, ['::fn()'=>function()]
      */
     const KEY_INVOKE_FUNC = '::fn()';
-
     const TAG_KEY = ':tag';
     /**
      * tag exploder
      */
     protected $explode;
-
-    public function pushContext($new_context) { 
+    public function pushContext($new_context)
+    {
         $l_context = $this->m_context;
-        if ($l_context){
-            array_push($this->m_context_tab , $l_context);
+        if ($l_context) {
+            array_push($this->m_context_tab, $l_context);
         }
         $this->m_context = $new_context;
         return $l_context;
     }
-
-    public function popContext() { 
+    public function popContext()
+    {
         $l_context = $this->m_context;
         $this->m_context = array_pop($this->m_context_tab);
         return $l_context;
     }
-
     /**
      * set context object 
      */
-    public function setContext(?object $context){
+    public function setContext(?object $context)
+    {
         $this->m_context = $context;
     }
     /**
      * 
      */
-    public function getContext(): ?object{
+    public function getContext(): ?object
+    {
         return $this->m_context;
     }
-
     /**
      * string builder
      * @return null|string 
@@ -119,32 +121,40 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     {
         return $this->t->render();
     }
-    public function isInTemplateDefinition(){
-        return count($this->m_template)>0;
+    public function isInTemplateDefinition()
+    {
+        return count($this->m_template) > 0;
     }
     /**
      * create an html builder 
      * @param HtmlItemBase $node core node
      * @return void 
      */
-    public function __construct(HtmlItemBase $node)
+    public function __construct(?HtmlItemBase $node = null)
     {
-        $this->t = $node;
+        $this->t = $node ?? igk_create_notagnode();
         $this->explode = new HtmlNodeTagExplosionDefinition($this);
     }
     /**
      * build node an return the last rendered element 
      * @param mixed $data 
      * @param null|HtmlItemBase $target 
+     * @param null|HtmlItemBase $target 
+     * @param ?object $context 
      * @return HtmlItemBase 
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    public function build($data, ?HtmlItemBase $target = null, ?IHtmlNodeBuilderVisitor $visitor=null,  $context=null)
+    public function build($data, ?HtmlItemBase $target = null, ?IHtmlNodeBuilderVisitor $visitor = null,  $context = null)
     {
         $this->m_context = $context ?? $this->m_context;
-        if ($visitor){
+        if ($visitor) {
             $visitor->setContext($context);
+        }
+        if (!($this->m_context instanceof DataArgs)){
+            if (($raw = igk_getv($this->m_context, $k = 'raw')) && !($raw instanceof DataArgs)) {
+                igk_setv($this->m_context, $k, new DataArgs($raw));
+            }
         }
         return self::Init($target ?? $this->t, $data, $visitor ?? $this);
     }
@@ -171,17 +181,15 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $lastchild = self::Init($tnode, $data);
         if ($first) {
             $node = $node->getChilds()[0];
-            
-        } 
+        }
         return $node;
     }
     /**
-     * 
+     * build node definition 
      * @param array|string $def_or_tag_expression 
      * @param array|HtmlItemBase|null $target if def_or_tag_expression is string target must be an array
      * @param ?object $context context defintion 
-     * @param null|HtmlItemBase $target 
-     * @return HtmlItemBase 
+     * @return HtmlItemBase last create node
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
@@ -201,11 +209,18 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             $data = $def_or_tag_expression;
             $target = $v_num_args >= 2 ? func_get_arg(1) : null;
             $v_context = $v_num_args >= 3 ? func_get_arg(2) : null;
-            if ($v_context instanceof IHtmlNodeBuilderVisitor){
-                $v_visitor = $v_context; 
+            if ($v_context instanceof IHtmlNodeBuilderVisitor) {
+                $v_visitor = $v_context;
                 $v_context = $v_num_args >= 4 ? func_get_arg(2) : null;
+            } else if (is_array($v_context)) {
+                $v_context = (object)$v_context;
             }
-
+        }
+        if (($cl = $this->contextDataArgsClass) && !($v_context instanceof DataArgs) &&
+            (($cl == DataArgs::class) ||
+                is_subclass_of($cl, DataArgs::class))
+        ) {            
+            $v_context->context = new $cl((array)$v_context);
         }
         return $this->build($data, $target, $v_visitor,  $v_context);
     }
@@ -230,13 +245,12 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     {
         return $this->explode->explode($tag, $node, $context ?? $this->getContext());
     }
-
     /**
      * parse item to node builder presentations
      * @param HtmlItemBase $n 
      * @return string 
      */
-    public static function Generate(HtmlItemBase $n, bool $ignore_empty_string = true):string
+    public static function Generate(HtmlItemBase $n, bool $ignore_empty_string = true): string
     {
         $g = new HtmlVisitor($n);
         $tab = [];
@@ -262,14 +276,12 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 }
                 $skip_space = false;
             }
-
             $tagname = $t->getTagName();
             $v_can_render_tag = $t->getCanRenderTag();
             $s = '';
             $g = null;
             if ($tagname && $v_can_render_tag) {
                 $s .= $tagname;
-
                 if ($l = $t['id']) {
                     $s .= '#' . $l;
                 }
@@ -328,7 +340,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
         };
         $g->visit();
-
         return sprintf('$builder(%s);', igk_array_dump_short($tab, function ($v, $rp) {
             $v = HtmlUtils::GetValue($v);
             $v = $rp->replace($v);
@@ -359,7 +370,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $context_container = [];  //current context container
         $tcounter = 0;
         $_fallbackTagName = ($visitor instanceof static ? $visitor->fallbackTagName : null) ?? 'div';
-        $b_counter = HtmlLoadingContext::CountCountext(); 
+        $b_counter = HtmlLoadingContext::CountCountext();
         while (count($list) > 0) {
             // $v_inner = HtmlLoadingContext::CountCountext(); // to remove 
             extract(array_shift($list), EXTR_OVERWRITE);
@@ -371,14 +382,14 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 // igk_html_push_node_parent($n);  
                 if ($n instanceof IHtmlContextContainer) {
                     if (!$context_container || ($context_container[0] !== $n)) {
-                        array_unshift($context_container, $n); 
+                        array_unshift($context_container, $n);
                     }
                 }
                 self::_Loop($visitor, $n, $q, $keys, $next, $list, $v_chain_info, $_last, $_is_php8, $context_container, $_fallbackTagName);
             }
             $tcounter++;
             // $v_inner = HtmlLoadingContext::CountCountext(); // to remove 
-            if ($next) { 
+            if ($next) {
                 //+ | move to next list item to stop 
                 continue;
             }
@@ -386,16 +397,13 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             // if (get_class($n) == VueComponent::class){
             //     Logger::warn("before view : ".$v_inner);
             // }
-            self::_RemoveNode($n, $context_container); 
+            self::_RemoveNode($n, $context_container);
             $visitor->onClose($n);
         }
-      
         $ref_count = HtmlLoadingContext::CountCountext();
-
         if ($b_counter != $ref_count) {
             igk_die("counter context not the same " . $b_counter . " vs " . $ref_count);
         }
-
         if ($context_container) {
             if ((count($context_container) == 1) && ($context_container[0] === $visitor->t)) {
                 self::_RemoveNode($visitor->t, $context_container);
@@ -421,23 +429,25 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
         }
     }
-    private static function _DetectDefinition(HtmlItemBase & $n, array & $v , & $k, 
-        & $attribs, 
-        & $args,
-        & $conds,
-        & $activate,
-        & $fn_c)
-    {
-        $v_keys = array_keys($v); 
-        if (key_exists(self::KEY_ATTRIBS, $v)){ 
+    private static function _DetectDefinition(
+        HtmlItemBase &$n,
+        array &$v,
+        &$k,
+        &$attribs,
+        &$args,
+        &$conds,
+        &$activate,
+        &$fn_c
+    ) {
+        // $v_keys = array_keys($v);
+        if (key_exists(self::KEY_ATTRIBS, $v)) {
             $attribs = $v[self::KEY_ATTRIBS];
             unset($v[self::KEY_ATTRIBS]);
         }
-        if (key_exists(self::TAG_KEY, $v)){
+        if (key_exists(self::TAG_KEY, $v)) {
             $k = $v[self::TAG_KEY];
             unset($v[self::TAG_KEY]);
         }
-
         if (key_exists('@', $v)) {
             $args = $v['@'];
             if (!is_array($args)) {
@@ -445,8 +455,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
             unset($v['@']);
         }
-
-        if (key_exists($v_ck = self::KEY_CONDITION, $v)) {// must bind condition
+        if (key_exists($v_ck = self::KEY_CONDITION, $v)) { // must bind condition
             $conds = $v[$v_ck];
             if (!is_array($args)) {
                 $conds = [$args];
@@ -459,41 +468,39 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         }
         if (key_exists($v_ck = self::KEY_ATTRIBS_ACTIVATION, $v)) {
             $activate = $v[$v_ck];
-
             unset($v[$v_ck]);
         }
     }
-
-    private static function _HandleDefinition(HtmlItemBase & $n, array & $v, & $k){
-        $attribs = $args = $fn_c= $attribs= $activate= $conds= null;
+    private static function _HandleDefinition(HtmlItemBase &$n, array &$v, &$k)
+    {
+        $attribs = $args = $fn_c = $attribs = $activate = $conds = null;
         $tag = null;
-        self::_DetectDefinition($n, $v, $tag, $attribs, $args,$conds,$activate, $fn_c);
-        if ($tag){
+        self::_DetectDefinition($n, $v, $tag, $attribs, $args, $conds, $activate, $fn_c);
+        if ($tag) {
             // create a new tag definition
             $n = call_user_func_array([$n, $tag], $args ?? []) ?? igk_die(sprintf('failed to create a tag node [%s]', $tag));
-           // $k = $tag;
+            // $k = $tag;
         }
-
-        if ($attribs ){
-            if (is_callable($attribs)){
-                $attribs = $attribs($n,$k);
+        if ($attribs) {
+            if (is_callable($attribs)) {
+                $attribs = $attribs($n, $k);
             }
             if (is_array($attribs))
-            $n->setAttributes($attribs);
+                $n->setAttributes($attribs);
         }
     }
-
-    private static function _BindArray($visitor, HtmlItemBase &$n, array $v){
+    private static function _BindArray($visitor, HtmlItemBase &$n, array $v)
+    {
         $s = null;
         self::_HandleDefinition($n, $v, $s);
-        if (!empty($v)){ 
-            if ($s){
-                $v[] = [self::TAG_KEY=>$s];
+        if (!empty($v)) {
+            if ($s) {
+                $v[] = [self::TAG_KEY => $s];
             }
             $v_pg = new static($n);
             //+| passing context to the new created item 
             $v_pg->m_context = $visitor->getContext();
-            $v_pg($v); 
+            $v_pg($v);
         }
     }
     /**
@@ -501,31 +508,26 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      */
     private static function _Loop($visitor, HtmlItemBase &$n, $q, &$keys, &$next, &$list, &$v_chain_info, &$_last, $_is_php8, &$context_container, string $fallbackTagName)
     {
-
         /**
          * @var mixed $v_chain_info 
          */
         $tpnode = null;/* will store top node */
         $v_new_chain_info = null;
+        $glue = '';
         // $v_chain_info = null;
         while (!$next && (count($keys) > 0)) {
             $k = array_shift($keys);
             $v = $q[$k];
             $v_from_key = !is_numeric($k);
             $v_invoke_func  = false;
-
-
             // if ($v instanceof IHtmlNodeEvaluableExpression){
             //     $v = $v->evaluate((array)$visitor->getContext());
             // }
-
             // + | array list item detection - append to current node 
             if (!$v_from_key && is_array($v) && $n) {
                 self::_BindArray($visitor, $n, $v);
                 continue;
             }
-
-
             // + | check for boolean value : if false continue
             if (is_bool($v)) {
                 if (!$v) {
@@ -544,7 +546,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $n->add($v);
                 continue;
             }
-
             if (!$v_from_key) {
                 if (is_string($v)) {
                     if (strpos($v, self::KEY_CUSTOM_TARGET_PREFIX) === 0) {
@@ -555,7 +556,8 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                         if ($_last && $v_chain_info) {
                             $cn = $v_chain_info->n;
                             if ($cn) {
-                                $cn->text($v);
+                                $cn->text($glue . $v);
+                                $glue = ' ';
                                 continue;
                             }
                         }
@@ -573,7 +575,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                         if ($_last) {
                             self::_RemoveNode($_last, $context_container);
                             self::_RemoveTarget($_last);
-
                             $_last = null;
                         }
                     }
@@ -582,8 +583,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                     if ($k == self::KEY_INVOKE_FUNC) {
                         $v_invoke_func = true;
                     } else {
-
-
                         $k = trim(substr($k, 2));
                         $target_fc = $_last;
                         if ($k[0] == '@') {
@@ -612,7 +611,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                                 $v_tn->setAttributes($attribs);
                                 unset($v[self::KEY_ATTRIBS]);
                             }
-
                             $v_new_chain_info = (object)['next' => null, "n" => $v_tn, 'parent' => $v_chain_info, 'formkey' => $v_from_key];
                             array_unshift($list, ['q' => $q, 'keys' => $keys, 'n' => $n, 'v_chain_info' => $v_chain_info]);
                             array_unshift($list, ['q' => $v, 'keys' => null, 'n' => $v_tn,  'v_chain_info' => $v_new_chain_info]);
@@ -626,22 +624,18 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                     continue;
                 }
             }
-
             $args = [];
             $attribs = [];
             $conds = null;
             $fn_c = null;
             $activate = null;
-
-            if ($v_invoke_func){
+            if ($v_invoke_func) {
                 $fn_call_intarget = $v;
-                if ($_last){
+                if ($_last) {
                     self::_InvokeInLast($_last, $fn_call_intarget, $list, $v_chain_info, $next);
                 }
                 continue;
             }
-
-
             if (is_array($v) && (count($v) > 0)) {
                 if (key_exists($v_key = self::KEY_INVOKE_FUNC, $v)) {
                     $fn_call_intarget = $v[$v_key];
@@ -671,7 +665,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                         continue;
                     }
                 }
-                self::_DetectDefinition($n, $v, $k, $attribs, $args,$conds,$activate,$fn_c); 
+                self::_DetectDefinition($n, $v, $k, $attribs, $args, $conds, $activate, $fn_c);
             }
             // + | phhp 7.3 not allow key to be upkaced
             if ($_is_php8) {
@@ -683,16 +677,14 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 if (!$n) {
                     igk_die('missing target node');
                 }
-                if ($result = $v($n)){
-                    if (is_array($result)){
+                if ($result = $v($n)) {
+                    if (is_array($result)) {
                         self::_BindArray($visitor, $n, $result);
                     }
                 }
                 continue;
             }
-
-
-            $tpnode = $n;
+            $tpnode = $n; $glue = '';
             list($tagname, $id, $class, $iargs, $v_name, $iattr) = $visitor->explodeTag($k, $n);
             if ($tpnode === $n) {
                 $tpnode = null;
@@ -707,20 +699,25 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                     $args = $iargs;
                 }
             }
-
-            // special case handler
+            // + | special case handler for php7 
+            $tlist = [];
+            \IGK\Helper\ArrayUtils::UnpackArrayKeys($args, $tlist);
             $c = $n->$tagname(...$args);
-
+            if ($tlist) {
+                self::_BindPackArgs($c, $tlist);
+            }
             $c && $visitor->onCreate($c);
             // + | evaluable expression
-            if ($v instanceof IHtmlNodeEvaluableExpression){
-                if ($visitor->isInTemplateDefinition()){
-                    $v = $v->getValue();
-                }else{
-                    $v = $v->evaluate((array)$visitor->getContext());
+            if ($v instanceof IHtmlNodeEvaluableExpression) {
+                $v_context = (array)$visitor->getContext(); 
+                if ($visitor->isInTemplateDefinition()) {
+                    if (($v = $v->getValue()) && $v_context)
+                        $v = EngineReadArgs::TreatGlobalArgs($v, $v_context);
+
+                } else {
+                    $v = $v->evaluate($v_context);
                 }
             }
-
             if (($c instanceof HtmlItemBase) && ($n !== $c)) {
                 // + | for new created items .
                 if ($id) {
@@ -728,7 +725,9 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 }
                 if ($class) {
                     $c['class'] = $class;
-                    HtmlUtils::UpdateCoreAttribute($class, $attribs);
+                    if (is_string($class)) {
+                        HtmlUtils::UpdateCoreAttribute($class, $attribs);
+                    }
                 }
                 if ($v_name) {
                     $c["name"] = $v_name;
@@ -747,12 +746,12 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 }
             }
             //add($k, $attribs, $args);
-            if (!is_null($conds)) { 
+            if (!is_null($conds)) {
                 //+ | evaluate in global context
-                if ($conds instanceof IHtmlNodeConditionEvaluableAttribute){
-                    $conds = $conds->evaluate($visitor->getContext()); 
-                } 
-                if (!$conds){
+                if ($conds instanceof IHtmlNodeConditionEvaluableAttribute) {
+                    $conds = $conds->evaluate($visitor->getContext());
+                }
+                if (!$conds) {
                     $c->remove();
                     continue;
                 }
@@ -765,9 +764,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
             $_last = $c;
             $v_new_chain_info = (object)['next' => null, "n" => $c, 'parent' => $v_chain_info, 'formkey' => $v_from_key, 'root' => $tpnode];
-
-            
-
             if (!$v) {
                 continue;
             }
@@ -807,8 +803,22 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $c->Content = $v;
             }
             if ($tpnode) {
-                $visitor->onClose($c);//popTemplateContext($c);
+                $visitor->onClose($c); //popTemplateContext($c);
                 $n = $tpnode;
+            }
+        }
+    }
+    private function _BindPackArgs($node, $list)
+    {
+        $fc_className = function ($node, $v, $k) {
+            $node->setClass($v);
+        };
+        $handler = ['class' => $fc_className, 'content' => function ($node, $v, $k) {
+            $node->content = $v;
+        }];
+        foreach ($list as $k => $v) {
+            if ($h = igk_getv($handler, $k)) {
+                $h($node, $v, $k);
             }
         }
     }
@@ -817,15 +827,14 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param HtmlItemBase $node 
      * @return void 
      */
-    private function _popTemplateContext(HtmlItemBase $node){
-        if (count($this->m_template)>0){
-            // if ($this->m_template[0]===$node){
-            //     array_shift($this->m_template);
-            // }
+    private function _popTemplateContext(HtmlItemBase $node)
+    {
+        if (count($this->m_template) > 0) {
             array_shift($this->m_template);
         }
     }
-    private static function _InvokeInLast($_last, $fn_call_intarget, &$list, $v_chain_info, &$next){
+    private static function _InvokeInLast($_last, $fn_call_intarget, &$list, $v_chain_info, &$next)
+    {
         $v_fc_call = null;
         $args = null;
         if ($fn_call_intarget instanceof Closure) {
@@ -856,7 +865,6 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     {
         $_t->remove();
     }
-
     /**
      * activate attributes
      * @param mixed $node 
@@ -883,17 +891,18 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $s = new static($node);
         return $s($definition);
     }
-    private function _checkForTemplate($n){
-        if ($n instanceof HtmlLooperNode){
+    private function _checkForTemplate($n)
+    {
+        if ($n instanceof HtmlLooperNode) {
             array_unshift($this->m_template, $n);
         }
     }
     /**
      * call on create node 
      */
-    public function onCreate(HtmlItemBase $node){ 
-        $this->_checkForTemplate($node); 
-        // igk_debug_wln("create node: ".$node->getTagName());
+    public function onCreate(HtmlItemBase $node)
+    {
+        $this->_checkForTemplate($node);
     }
     /**
      * call on close node 
@@ -901,8 +910,8 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @return void 
      * @throws Error 
      */
-    public function onClose(HtmlItemBase $node){
-        // igk_debug_wln("close node :".$node->getTagName());
+    public function onClose(HtmlItemBase $node)
+    {
         $this->_popTemplateContext($node);
     }
 }

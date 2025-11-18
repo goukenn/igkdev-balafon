@@ -3,9 +3,6 @@
 // @file: TextBrackerBlockInfo.php
 // @date: 20221023 10:15:46
 namespace IGK\System\Text;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Text
@@ -19,7 +16,6 @@ class TextBrackerBlockInfo{
      * @var TextBrackerBlockInfo
      */
     var $parent;
-
     public function __toString(){
         return "info: ".$this->count;
     }

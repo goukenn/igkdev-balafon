@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: DataTypes.php
-// @date: 20240922 19:45:48
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>Store framework data types</summary>
 /**
 * Store framework data types
 * @package IGK\Models
@@ -16,10 +12,10 @@ use IGK\Models\ModelBase;
 * @property string $clName
 * @property string $clDescription data description
 * @property string $clRegex Regex used to validate data
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_NAME() - `clName` full column name 
-* @method static string FD_CL_DESCRIPTION() - `clDescription` full column name 
-* @method static string FD_CL_REGEX() - `clRegex` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_NAME() - `clName` full column name 
+* @method static string FN_CL_DESCRIPTION() - `clDescription` full column name 
+* @method static string FN_CL_REGEX() - `clRegex` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clName, string $clDescription, string $clRegex) add entry helper
@@ -34,4 +30,8 @@ class DataTypes extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%data_types";
+	/**
+	*override display key
+	*/
+	protected $display = "clName";
 }

@@ -3,18 +3,13 @@
 // @file: PropertyMapper.php
 // @date: 20230120 22:09:22
 namespace IGK\Mapping;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Mapping
 */
 class PropertyMapper{
     var $property;
-
     var $default;
-
     public function __construct(string $propety){
         $this->property = $propety;
     }

@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PhoneBookUserAssociations.php
-// @date: 20240922 19:45:49
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>User's Phone books</summary>
 /**
 * User's Phone books
 * @package IGK\Models
@@ -17,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid
 * @property string|datetime $usrphb_Create_At ="Now()"
 * @property string|datetime $usrphb_Update_At ="Now()"
-* @method static string FD_USRPHB_ID() - `usrphb_Id` full column name 
-* @method static string FD_USRPHB_USER_GUID() - `usrphb_UserGuid` full column name 
-* @method static string FD_USRPHB_PHONE_BOOK_ENTRY_GUID() - `usrphb_PhoneBookEntryGuid` full column name 
-* @method static string FD_USRPHB_CREATE_AT() - `usrphb_Create_At` full column name 
-* @method static string FD_USRPHB_UPDATE_AT() - `usrphb_Update_At` full column name 
+* @method static string FN_USRPHB_ID() - `usrphb_Id` full column name 
+* @method static string FN_USRPHB_USER_GUID() - `usrphb_UserGuid` full column name 
+* @method static string FN_USRPHB_PHONE_BOOK_ENTRY_GUID() - `usrphb_PhoneBookEntryGuid` full column name 
+* @method static string FN_USRPHB_CREATE_AT() - `usrphb_Create_At` full column name 
+* @method static string FN_USRPHB_UPDATE_AT() - `usrphb_Update_At` full column name 
 * @method static ?array joinOnRcphbUsrphbId($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnRcphbUsrphbId() - macros function
 * @method static ?self Add(string $usrphb_UserGuid, string|\IGK\Models\PhoneBookEntries $usrphb_PhoneBookEntryGuid, string|datetime $usrphb_Create_At ="Now()", string|datetime $usrphb_Update_At ="Now()") add entry helper
@@ -46,6 +42,10 @@ class PhoneBookUserAssociations extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "rcphb_usrphb_Id";
+	/**
+	*override display key
+	*/
+	protected $display = "rcphb_usrphb_UserGuid";
 	protected $unique_columns = array (
 	  0 => 
 	  array (

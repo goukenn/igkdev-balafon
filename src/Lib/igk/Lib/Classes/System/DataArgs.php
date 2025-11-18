@@ -3,41 +3,61 @@
 // @file: DataArgs.php
 // @date: 20230129 12:59:40
 namespace IGK\System;
-
 use ArrayAccess;
 use ArrayIterator;
+use Exception;
 use IGK\System\Core\IProxyDataArgs;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+use IGK\System\Polyfill\JsonSerializableTrait;
 use IteratorAggregate;
+use JsonSerializable;
 use Traversable;
-
-///<summary></summary>
 /**
-* 
+* readonly data argument
 * @package IGK\System
 */
-class DataArgs implements IProxyDataArgs, IteratorAggregate{
+class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     use ArrayAccessSelfTrait;
-    protected $p_data; 
- 
+    use JsonSerializableTrait;
+    protected $p_data;
+
+    public function _json_serialize(){ 
+        return self::Extract($this);
+    } 
+    /**
+     * 
+     * @return Traversable<mixed, mixed>|mixed[] 
+     */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->p_data, 0);
     }
-
+    /**
+     * retrieve affected data
+     * @return mixed 
+     */
     public function getData(){
         return $this->p_data;
     }
-
     public function _access_OffsetGet($index)
     {
         return igk_getv($this->p_data, $index);
     }
+    public function _access_offsetExists($n){
+        if (is_object($this->p_data))
+            return isset($this->p_data->{$n});
+        return isset($this->p_data[$n]);
+    }
+    /**
+     * 
+     * @param mixed $name 
+     * @return mixed 
+     * @throws Exception 
+     */
     public function __get($name)
     {
         return igk_getv($this->p_data, $name);
     }
-
     public function __construct($data)
     {
         $this->p_data = $data;
@@ -55,12 +75,31 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate{
         }
         return json_encode($this->p_data);
     }
-
     public function __call($name, $arguments)
     {
         if (is_object($this->p_data)) {
             return call_user_func_array([$this->p_data, $name], $arguments);
         }
     }
-    
+    /**
+     * mapt to Array object 
+     * @param array $mapping_table 
+     * @return array 
+     * @throws Exception 
+     */
+    public function mapToArray(array $mapping_table, ?callable $treat_value = null){
+        $c = [];
+        foreach($mapping_table as $k=>$v){
+            $tv = igk_getv($this->p_data, $k);
+            $c[$v] = $treat_value ? $treat_value($tv, $k) : $tv;
+        }
+        return $c;
+    }
+    public static function Extract($raw){
+        $c = $raw;
+        while($c instanceof static){
+            $c = $c->getData();
+        }
+        return $c;
+    }
 }

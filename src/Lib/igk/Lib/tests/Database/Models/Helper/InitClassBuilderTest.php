@@ -13,7 +13,6 @@ use IGK\System\Database\Helper\DbUtility;
 use IGK\Tests\BaseTestCase;
 use TBN\Tests\DummyCtrl;
 
-///<summary></summary>
 /**
 * 
 * @package IGK\Tests\Database\Models\Helper

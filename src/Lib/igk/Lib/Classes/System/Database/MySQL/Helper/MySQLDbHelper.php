@@ -3,13 +3,10 @@
 // @file: MySQLDbHelper.php
 // @date: 20231017 14:17:09
 namespace IGK\System\Database\MySQL\Helper;
-
 use IGK\System\Console\Logger;
 use IGKCSVDataAdapter;
 use IGK\System\Database\MySQL\DataAdapter as MySQLDbAdapter;
 use IGK\System\IO\StringBuilder;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Database\MySQL\Helper
@@ -57,7 +54,6 @@ class MySQLDbHelper
         }
         return $out;
     }
-
     public static function BackupToSQL(MySQLDbAdapter $mysql, $tables)
     {
         self::$sm_ad = $mysql;
@@ -78,12 +74,8 @@ class MySQLDbHelper
 /*!40101 SET character_set_client = utf8 */;
 EOF);
             // CREATE TABLE QUERY
-
             $sb->appendLine(self::GetDatableCreateQuery($mysql, $t));  
-
             $sb->appendLine('/*!40101 SET character_set_client = @saved_cs_client */;');
-
-
             $sb->appendLine(
                 implode("\n", [
                     "--",
@@ -91,7 +83,6 @@ EOF);
                     "--"
                 ])
             );
-
             $sb->appendLine(sprintf('LOCK TABLES `%s` WRITE;', $t));
             $sb->appendLine(sprintf('/*!40000 ALTER TABLE `%s` DISABLE KEYS */;', $t));
             // + | generate inter query value 
@@ -109,42 +100,40 @@ EOF);
             //     );
             //     $ch = ',';
             // }, $mysql->select_all($t)->to_array());
-
             if (!empty($q)) {
                 $sb->appendLine(sprintf('INSERT INTO `%s` VALUES %s', $t, $q . ';'));
             }
-
             // + | restore sql keys 
             $sb->appendLine(sprintf('/*!40000 ALTER TABLE `%s` ENABLE KEYS */;', $t));
             $sb->appendLine('UNLOCK TABLES;');
             $sb->appendLine();
         }
-
         return $sb . '';
     }
+    /**
+     * 
+     * @param mixed $ad 
+     * @param string $table 
+     * @return string 
+     */
     public static function GetDatableCreateQuery($ad, string $table){
         $db_name = $ad->getDbName();
         $table_comment = null;
         $tr= $ad->sendQuery(sprintf("SELECT table_comment AS 'comment' FROM information_schema.tables ".
         "WHERE (table_schema = '%s' AND table_name='%s'".
         ")", $db_name, $table))->to_array();
-
         if ($tr){
             $table_comment = $tr[0]->comment ;
         }
-
         $options = 'ENGINE=InnoDB DEFAULT CHARSET=utf8';
         $q = sprintf("CREATE TABLE IF NOT EXISTS `%s`(", $table);
-
         // $g = $ad->sendQuery(sprintf("DESCRIBE `%s` FULL", $table))->to_array();
         $g = $ad->sendQuery(sprintf("SHOW FULL COLUMNS FROM `%s`", $table))->to_array();
-
         $fields = [];
         $info = [];
         $primary = [];
         foreach($g as $r){
             Logger::info(json_encode($r->to_array()));
-
             $n = $r->Field;
             $key = $r->Key;
             $t = $r->Type ?? 'Int(9)';
@@ -178,7 +167,6 @@ EOF);
             }
         }
         $q.= "\n".implode(",\n", $fields);
-
         if (!empty($primary)){
             $q.= ",\n".sprintf('PRIMARY KEY(`%s`)',implode("`,`", $primary));
         }
@@ -192,9 +180,7 @@ EOF);
             $q.="\n"."Comment '".$ad->escape_string($table_comment)."'";
         }
         $q.=";";
-
         Logger::info($q);
-
         return $q;
     }
     public static function DumpValue($v)
@@ -216,7 +202,6 @@ EOF);
         //$v = stripslashes($v);
         return igk_str_surround($v, "'");
     }
-
     public static function DumpInsertTable($rows):string{
         $q = new StringBuilder;
         $ch = '';

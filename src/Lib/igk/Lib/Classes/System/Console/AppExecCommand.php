@@ -3,18 +3,15 @@
 // @filename: AppExecCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace  IGK\System\Console;
-
 use Error;
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
-
 abstract class AppExecCommand extends AppCommand{
     protected $handle;
     private $m_colorizer;
@@ -37,7 +34,24 @@ abstract class AppExecCommand extends AppCommand{
             }
         }
     }
- 
+    /**
+     * bind user command
+     * @param mixed $ctrl 
+     * @param mixed $command 
+     * @param string $arg 
+     * @return void 
+     * @throws Exception 
+     */
+    public static function BindUserCommand($ctrl, $command, $arg='--user'){
+        $uref = null;
+        if ($id = intval($uref = igk_getv($command->options, $arg))) {
+            self::BindUser($ctrl, $id);
+        }else if ($uref){
+            if ($g = igk_get_user_bylogin($uref)){
+                self::BindUser($ctrl, $g->clId);
+            }
+        }
+    }
     /**
      * check if has options set in command
      * @param mixed $command 
@@ -89,12 +103,10 @@ abstract class AppExecCommand extends AppCommand{
                 $fc = $this->handle;
                 $args = func_get_args();
                 return $fc(...$args);
-
             };
         }
     }
     public abstract function exec($command);
-
     /**
      * get controller helper
      * @param string $controller 

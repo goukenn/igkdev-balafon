@@ -3,9 +3,6 @@
 // @file: ReplacementObject.php
 // @date: 20221206 07:34:12
 namespace IGK\System\Regex;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Regex
@@ -21,7 +18,6 @@ class ReplacementObject{
      * @var ?string|callable
      */
     var $replace;
-
     /**
      * add a callable 
      * @var ?string

@@ -18,8 +18,8 @@ $def[".igk-google-circle-waiter .igk-anim-time-board.i-2"] = "width:0px; [trans:
 
 
 
-$theme->reg_keyFrames($def,"google-linewaiter-infinite", "0%{right:100%} 60%{right:0px} 100%{ right: 0px; }");
-$theme->reg_keyFrames($def,"google-linewaiter-infinite2", "0%{left:0px} 20%{left: 0px} 100%{left:100%}");
+$theme->registerKeyFrame($def,"google-linewaiter-infinite", "0%{right:100%} 60%{right:0px} 100%{ right: 0px; }");
+$theme->registerKeyFrame($def,"google-linewaiter-infinite2", "0%{left:0px} 20%{left: 0px} 100%{left:100%}");
 
 //google line waiter
 $def[".igk-google-line-waiter"] = "{sys:no-overflow, fitw} height:4px; background-color:var(--igk-google-line-waiter-background,#e6e6e6);";

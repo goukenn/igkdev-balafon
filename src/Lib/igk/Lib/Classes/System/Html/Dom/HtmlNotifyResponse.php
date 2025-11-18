@@ -3,10 +3,7 @@
 // @filename: HtmlNotifyResponse.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 /**
  * return a notify response
  * @package IGK\System\Html\Dom
@@ -34,7 +31,6 @@ class HtmlNotifyResponse extends HtmlNode{
         $this->autohide = $autohide;
         $this->name = $name;
         parent::__construct();
-        
     }
     protected function initialize()
     {

@@ -3,14 +3,11 @@
 // @file: Converter.php
 // @date: 20221006 10:33:53
 namespace IGK\System\Html\Converters;
-
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGKException;
-
-///<summary></summary>
 /**
- * 
+ * tool to convert object to html presentation 
  * @package IGK\System\Html\Converters
  */
 class Converter
@@ -18,7 +15,6 @@ class Converter
     var $ignoreEmpty = 1;
     var $tag = "notagnode";
     var $numeric_array_tag = "item";
-
     /**
      * convert to node
      * @param array|object $o object to convert

@@ -27,6 +27,13 @@
             };
         },
         focus: function(id) { var q = document.getElementById(id); if (q) q.focus(); },
+        /**
+         * 
+         * @param {*} node 
+         * @param {*} parent 
+         * @param {*} onw 
+         * @param {*} onh 
+         */
         fitfix2: function(node, parent, onw, onh) {
             var t = $igk(node);
             var l = $igk(parent);

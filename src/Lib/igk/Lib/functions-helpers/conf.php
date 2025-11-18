@@ -12,11 +12,6 @@ use IGK\XML\XMLNodeType;
 require_once __DIR__ . '/io.php';
 require_once __DIR__ . '/xml.php';
 
-///<summary>used to load configuration file.</summary>
-///<doc>configuration file are xml file that store primary </doc>
-///<param name="file">xml file to load</param>
-///<param name="tag">root name tag</param>
-///<param name="obj">object where to load</param>
 /**
  * used to load configuration file.
  * @param mixed $file xml file to load
@@ -30,10 +25,6 @@ function igk_conf_load_file($file, $tag = IGK_CNF_TAG, $obj = null)
     return $o;
 }
 
-///<summary></summary>
-///<param name="s"></param>
-///<param name="tag" default="configs"></param>
-///<param name="deftext" default="text"></param>
 /**
  * 
  * @param mixed $s 
@@ -97,9 +88,6 @@ function igk_conf_load_content($s, $tag = "configs", $deftext = "text")
 }
 
 
-///<summary></summary>
-///<param name="t" ref="true"></param>
-///<param name="d"></param>
 /**
  * 
  * @param mixed $t 
@@ -115,9 +103,6 @@ function igk_conf_load_attribs(&$t, $d)
 }
 
 
-///<summary>used to load configuration settings</summary>
-///<param name="obj">output object</param>
-///<param name="n">igk html node to load</param>
 /**
  * used to load configuration settings
  * @param mixed $obj output object

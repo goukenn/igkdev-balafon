@@ -3,17 +3,13 @@
 // @file: Requirement.php
 // @date: 20231019 10:54:25
 namespace IGK\System;
-
 use ZipArchive;
-
-///<summary></summary>
 /**
 * check system requirem 
 * @package IGK\System
 */
 class Requirement{
     private $m_requirements;
-
     /**
      * after check get requirement
      * @return mixed 

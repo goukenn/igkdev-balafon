@@ -5,6 +5,7 @@
 // @date: 20210723 13:22:40
 namespace IGK\System\IO;
 
+use igk;
 
 /**
  * string builder helper
@@ -13,7 +14,7 @@ namespace IGK\System\IO;
 class StringBuilder{
     protected $m_src;
     private $m_instop;
-    
+    const TRIM_CHARLIST = " \t\n\r\0\x0B";
     /**
      * line feed symbol
      * @var string
@@ -24,7 +25,6 @@ class StringBuilder{
      * @var string
      */
     var $tabstop='';
-    
     public function __construct(?string & $src = null)
     {
         if ($src===null){
@@ -32,7 +32,14 @@ class StringBuilder{
         } 
         $this->m_src = & $src;
     }
-    public function replaceWithFrom(string $text, int $offset, int $length=null){
+    /**
+     * 
+     * @param string $text 
+     * @param int $offset 
+     * @param null|int $length 
+     * @return $this 
+     */
+    public function replaceWithFrom(string $text, int $offset, ?int $length=null){
         $g = igk_str_rm($this->m_src, $offset, $length);
         $g = igk_str_insert($text, $g, $offset);
         $this->m_src = $g;
@@ -85,16 +92,20 @@ class StringBuilder{
      * @param string $text 
      * @return static 
      */
-    public function append(string $text){     
+    public function append(string $text): StringBuilder{      
         $this->m_src .= $text;   
         return $this;    
+    }
+    public function rmLast(string $text, $number=1): StringBuilder{
+        $this->m_src = igk_str_rm_last($this->m_src, $text, $number);
+        return $this;
     }
     /**
      * rtrim
      * @param string $charlist 
      * @return $this 
      */
-    public function rtrim(string $charlist=" \t\n\r\0\x0B"){
+    public function rtrim(string $charlist=self::TRIM_CHARLIST){
         $this->m_src = rtrim($this->m_src, $charlist);
         return $this;
     }
@@ -103,17 +114,16 @@ class StringBuilder{
      * @param string $charlist 
      * @return $this 
      */
-    public function ltrim(string $charlist=" \t\n\r\0\x0B"){
+    public function ltrim(string $charlist=self::TRIM_CHARLIST){
         $this->m_src = ltrim($this->m_src, $charlist);
         return $this;
-
     }
     /**
      * trim data
      * @param string $charlist 
      * @return $this 
      */
-    public function trim(string $charlist=" \t\n\r\0\x0B"){
+    public function trim(string $charlist= self::TRIM_CHARLIST){
         $this->m_src = trim($this->m_src, $charlist);
         return $this;
     }
@@ -138,7 +148,6 @@ class StringBuilder{
     public function isEmpty(){
         return empty($this->m_src);
     }
-
     /**
      * replace string
      * @param string $hastack 

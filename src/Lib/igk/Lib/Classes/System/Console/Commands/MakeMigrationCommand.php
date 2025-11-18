@@ -3,7 +3,6 @@
 // @file: MakeMigrationCommand.php
 // @date: 20221111 22:58:34
 namespace IGK\System\Console\Commands;
-
 use Error;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
@@ -18,8 +17,6 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGKException;
 use ReflectionException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Console\Commands
@@ -28,12 +25,9 @@ class MakeMigrationCommand extends AppExecCommand{
     var $command = '--migrate'; 
     var $category = "db";
     var $desc = "migrate utility";
-
     var $options = [
         '--all'=>'flag: in up|down action migrate all data'
     ];
-
-
     public function showUsage()
     {
         Logger::print('--migrate action [controller] [options]');
@@ -45,7 +39,6 @@ class MakeMigrationCommand extends AppExecCommand{
             }
         }
         Logger::print('');
-
         Logger::print(implode("\n",[
             '# new : create a new migration file',
             'new %sys% migration_name',
@@ -57,7 +50,6 @@ class MakeMigrationCommand extends AppExecCommand{
         Logger::print(implode("\n",[
             '# down : downgrade migration','','',
         ]));
-
         Logger::print(implode("\n",[
             '# rm : remove migration by downgrade it first and unlink the file',
             'rm %sys% migration_name',
@@ -73,7 +65,6 @@ class MakeMigrationCommand extends AppExecCommand{
      * @throws IGKException 
      */
     public function exec($command, ?string $action = null, ?string $controller = null ) { 
-   
         $offset = 2;
         if ($mcontroller = igk_getv_nil($command->options, '--controller')){
             // second parameter is action 
@@ -125,12 +116,10 @@ class MakeMigrationCommand extends AppExecCommand{
             $name = implode("_", $name);
         } 
         $clname = StringUtility::CamelClassName($name);
-
         $name = strtolower($clname);
         $file = "migration_".date('YmdHis').'_'.$name.'.php';
         $file = $ctrl->getClassesDir()."/Database/Migrations/".$file;
         $sb = new StringBuilder;
-
         $sb->appendLine(implode(' \n', [
             file_get_contents(implode('/', [IGK_LIB_DIR, IGK_INC_FOLDER, 'core/migration.pinc']))
         ]));
@@ -142,14 +131,10 @@ class MakeMigrationCommand extends AppExecCommand{
         ->defs($sb.'')
         ->uses([\IGK\System\Database\SchemaMigrationBuilder::class])
         ->name($clname);
-
-
         igk_io_w2file($file, $builder->render());
         Logger::success('gen file: '.$file);
     }
-     
     public function migrate_up($command,  ?BaseController $ctrl ){
-
         $v_all = $this->_forAll($command);
         $migHandle = new MigrationHandler($ctrl);
         return $migHandle->up(!$v_all); 
@@ -159,7 +144,6 @@ class MakeMigrationCommand extends AppExecCommand{
         $migHandle = new MigrationHandler($ctrl);
         return $migHandle->down(!$v_all); 
     }
-
     public function migrate_rm($command, ?BaseController $ctrl, ?string $name=null){
         if (empty($name)){
             igk_die("missing name");
@@ -167,7 +151,6 @@ class MakeMigrationCommand extends AppExecCommand{
         $migHandle = new MigrationHandler($ctrl);
         return $migHandle->remove($name); 
     }
-
     /**
      * list available migration 
      * @param mixed $command 
@@ -180,14 +163,12 @@ class MakeMigrationCommand extends AppExecCommand{
      * @throws ReflectionException 
      */
     public function migrate_ls($command, ?BaseController $ctrl){
-        
         $migHandle = new MigrationHandler($ctrl);
         $m = $migHandle->getList(); 
         foreach($m as $r){
             Logger::print(
                 implode('|', [$r->migration_name."\r\t\t\t\t\t\t ", $r->state])
             );
-
         }
     }
 }

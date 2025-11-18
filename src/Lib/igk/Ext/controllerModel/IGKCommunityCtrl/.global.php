@@ -56,7 +56,6 @@ function igk_html_node_FollowUsButton($name, $uid){
 	}
 	return null;
 }
-///<summary>get follows entries list</summary>
 function igk_community_get_follow_entries($cnf){
 	$tab = igk_community_get_followus_service();
 	if (!$tab){

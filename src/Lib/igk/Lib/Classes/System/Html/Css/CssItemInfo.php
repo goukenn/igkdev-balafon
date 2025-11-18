@@ -3,10 +3,7 @@
 // @file: CssItemInfo.php
 // @date: 20240913 09:09:00
 namespace IGK\System\Html\Css;
- 
 use JsonSerializable;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css
@@ -23,7 +20,6 @@ class CssItemInfo implements JsonSerializable, ICssClassList
     {
         $this->id = $id;
     }
-
     /**
      * 
      * @return bool 

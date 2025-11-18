@@ -3,9 +3,9 @@
 // @filename: MYSQLQueryFetchResult.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Database\MySQL;
- 
+use Exception;
+use IGK\Database\DbConstants;
 use IGK\Database\DbQueryResult;
 use IGK\Database\DbSingleValueResult;  
 use IGK\Database\DbQueryRowObj;
@@ -16,13 +16,17 @@ use IGKSorter;
 use IIGKQueryResult;
 use Iterator;
 use ModelBase;
-
 ///<summary>implement fetch result/summary>
 /**
 *  implement fetch result
 */
 final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryResult, IDbQueryFetchResult{
     var $init;
+    /**
+     * get or define resources options
+     * @var mixed
+     */
+    var $options;
     private $m_query;
     private $m_rowcount;
     private $m_fieldcount;
@@ -33,24 +37,19 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     private $m_model;
     private $m_driver;
     use IteratorTrait;
-
     // public function to_json($option = null, int $flag = 0) { }
-
     public function to_array(): ?array {
         return null;// yield $this->fetch();
     }
     public function generate(){
         return yield $this->fetch();
     }
-
     public function getRowAtIndex($index) { 
         return null;
     }
-
     protected function _iterator_key() { 
         return null;
     }
-
     public function handle($result){
         $this->m_result = $result; 
         $this->m_fieldcount= igk_db_num_fields($result);
@@ -73,7 +72,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     public function getRowCount(){
         return $this->m_rowcount;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -99,15 +97,12 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     public function __toString(){
         return __CLASS__." [RowCount: ".$this->RowCount."]";
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getColumnCount(){
         return igk_count($this->m_columns);
     }
-    ///<summary></summary>
-    ///<param name="columnname"></param>
     /**
     * 
     * @param mixed $columnname
@@ -118,75 +113,74 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
         }
         return -1;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getColumns(){
         return $this->m_columns;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getHasRow(){
         return ($this->getRowCount() > 0);
     }
-    ///<summary></summary>
     /**
     * retrieve the query
     */
     public function getQuery(){
         return $this->m_query;
     }
-   
-    ///<summary>get the type of result. boolean|numeric|db_result</summary>
     /**
     * get the type of result. boolean|numeric|db_result
     */
     public function getResultType(){
         return "fetch";
     }   
-  
-    ///<summary></summary>
     /**
     * 
     */
     public function getTables(){
         return $this->m_tables;
     }
-    ///<summary>get the request value</summary>
     /**
     * get the request value
     */
     public function getValue(){
         return $this->m_value;
     }
-    
-   
-
+    /**
+     * fetch result
+     * @return bool 
+     * @throws Exception 
+     */
     public function fetch():bool{
         //create and transform to db query row object
-        if ($this->m_rowdef = igk_db_fetch_assoc($this->m_result)){ 
+        $callback = $this->options ? igk_getv($this->options, DbConstants::CALLBACK_OPTS) : null;
+        $this->m_rowdef = null;
+        if ($v_tr = igk_db_fetch_assoc($this->m_result)){ 
+            $v_otr = DbQueryRowObj::Create($v_tr);
+            if ($callback){
+                $callback($v_otr);
+                $v_tr = $v_otr->to_array();
+            }
             if ($this->m_model){
                 $cl = $this->m_model;
-                $this->m_rowdef = new $cl($this->m_rowdef);
+                $this->m_rowdef = new $cl($v_tr);
             }else {
-                $this->m_rowdef = DbQueryRowObj::Create($this->m_rowdef);
+                $this->m_rowdef = $v_otr;
             }
         }
         return $this->m_rowdef !== null;
     }
     public function _iterator_rewind(){
-
         $dbresult = $this->m_result;
         if (!$dbresult)
             return false;
         if (!$this->init && $dbresult){
             $this->m_fieldcount= igk_db_num_fields($dbresult);
             $this->m_rowcount = igk_db_num_rows($dbresult);
-            $this->init = true;
-          
+            $this->init = true; 
         }
         igk_db_seek($dbresult, 0);
         $this->fetch(); 
@@ -201,7 +195,6 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryRes
     public function _iterator_next(){
         $this->fetch();
     }
-
     /**
      * 
      * @return null|object|DbQueryRowObj

@@ -3,14 +3,10 @@
 // @file: ApplicationUserProfileTrait.php
 // @date: 20221208 17:31:33
 namespace IGK\Controllers\Traits;
-
- 
 use IGK\System\Database\ICustomUserProfile;
 use IGK\System\Database\IUserProfile;
 use IGK\Models\ModelBase as coreModelBase;
 use IGK\System\EntryClassResolution;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Controllers\Traits
@@ -43,7 +39,7 @@ trait ApplicationUserProfileTrait{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    protected function initUserFromSysUser(object $u): IUserProfile
+    protected function initUserFromSysUser(object $u): ?IUserProfile
     { 
         if (!$u || !$u->clGuid) {
             return null;
@@ -54,7 +50,6 @@ trait ApplicationUserProfileTrait{
             return $u;
         }
         $model = $this->model($model);
-
         $profile_class = $this->resolveClass(EntryClassResolution::UserProfile) ?? \IGK\System\Applications\ApplicationUserProfile::class;
         $key = $model->getPrimaryKey();
         if (method_exists($this, 'getInitFormSysUserCondition')){
@@ -62,7 +57,6 @@ trait ApplicationUserProfileTrait{
         }else{
             $condition = [$key=>$u->clGuid];
         }
-
         return $this->createCustomUserProfile(
             $u,
             $profile_class,
@@ -93,8 +87,8 @@ trait ApplicationUserProfileTrait{
         $userInfo,
         string $profileClassName,
         coreModelBase $customModel,
-        $condition,
-        $newDefinition
+        array $condition,
+        ?callable $newDefinition
     ): ?ICustomUserProfile {
         if (!$profileClassName && !class_exists($profileClassName)) {
             return null;
@@ -104,7 +98,6 @@ trait ApplicationUserProfileTrait{
         $roles = $this->resolveClass(EntryClassResolution::Roles); 
         // check that the user exists
         $row = $customModel::select_row($condition);
-       
         $m = null;
         if ($row){
             if (!$coreuser->memberOf()){
@@ -121,9 +114,9 @@ trait ApplicationUserProfileTrait{
                 igk_die(__("failed to register current user"));
             }
             if ($row->isNew()){
-                $roles::InitRole($this, $coreuser );  
+                $roles::InitRole($this, $coreuser);  
             }
-            $m = $c->bindInfo($userInfo, $row );
+            $m = $c->bindInfo($userInfo, $row);
         }
         if ($m === null) {
             igk_notifyctrl()->addError(__("not a member"));

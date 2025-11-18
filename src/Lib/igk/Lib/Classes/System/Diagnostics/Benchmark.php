@@ -3,15 +3,12 @@
 // @filename: Benchmark.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 // @file: Benchmark.php
 // @author: CA.D.D BONDJE DOUE
 // @date : 20220112
 namespace IGK\System\Diagnostics;
-
 use IGKException;
 use stdClass;
-
 /**
  * represent balafon benchmark
  * @package IGK\System\Diagnostics
@@ -56,7 +53,6 @@ class Benchmark{
             return;
         } 
         $v_i = self::getInstance();
-
         $m = & $v_i->mark;
         if (isset($m[$name])){
             $time = igk_sys_request_time();
@@ -137,5 +133,4 @@ class Benchmark{
             return self::$m(...$arguments);
         }
     }
-     
 }

@@ -7,7 +7,6 @@
 
 namespace IGK\Core\Ext\Google\OAuth;
 
-///<summary></summary>
 /**
  * @desc client
  *
@@ -59,7 +58,7 @@ class Client{
     private function _get_wellknow_config(){
         $f = null;
         if (function_exists("igk_google_data_dir")){
-            if (file_exists($f = igk_google_data_dir()."/wellknow.config.json")){
+            if (igk_io_file_exists($f = igk_google_data_dir()."/wellknow.config.json")){
                 return json_decode(file_get_contents($f));
             }
         }

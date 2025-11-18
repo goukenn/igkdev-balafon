@@ -3,17 +3,12 @@
 // @filename: ModuleListCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 namespace IGK\System\Console\Commands;
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Console\App;
 use igk\System\Console\Commands\Utility;
-
 use function igk_resources_gets as __;
-
 /**
  * module base command
  * @package IGK\System\Console\Commands
@@ -23,9 +18,7 @@ class ModuleCommand extends AppExecCommand{
     var $category = "module";
     var $desc  = "module management command";
     var $options = [];
-
     var $usage = "action [options]";
-
     protected function showUsage()
     {
         parent::showUsage();

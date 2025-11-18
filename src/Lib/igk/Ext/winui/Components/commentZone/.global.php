@@ -8,6 +8,7 @@
 //comment zone control
 
 use IGK\Resources\R;
+use IGK\System\IO\Path;
 
 igk_ctrl_zone_init(__FILE__);
 
@@ -26,7 +27,6 @@ function igk_comment_time($data){
 	return R::ngets("btv.comment_time_2", $data[0], R::ngets('time.i.'.$data[1].($s?'s':'')
 	)); //"Il Y a 3 Jour";
 }
-///<summary>a comment zone template</summary>
 function igk_comment_zone($ctrl, $n, $title="", $msg=null, $since=null, $id_reply=null,
 	$likes=1,
 	$have_child=false,
@@ -93,8 +93,8 @@ function igk_comment_init($a,$b,$c){
 	if (igk_is_ajx_demand()){
 		igk_close_session();
 	}
-
-	igk_css_bind_wuistyle_file($c->Document, $CF->getStylesDir()."/default.pcss");
+	$path = Path::Combine($CF->getStylesDir(), ConstantsULT_THEME_STYLE);
+	igk_css_bind_wuistyle_file($c->Document, $path);
 	igk_js_bind_wuiscript($c->Document, $CF, ".commentZone.js", $a);
 	return 1;
 }

@@ -3,10 +3,7 @@
 // @filename: ResponseHtmlRenderer.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Http;
-
 class ResponseHtmlRenderer{
     private $m_node;
     private $m_obj;
@@ -14,7 +11,6 @@ class ResponseHtmlRenderer{
     public function __construct($node, $object){
         $this->m_node = $node;
         $this->m_obj = $object;
-        
     }
     public function render(){
         $this->m_refs = [];
@@ -23,7 +19,6 @@ class ResponseHtmlRenderer{
             $this->m_node->addDt()->Content = "$k";
             $c = $this->m_node->addDD();
             $this->visitDd($c, $m);
-
         }
         // $this->m_node->addObData($this->m_obj);
         return $this->m_node->render();
@@ -31,7 +26,6 @@ class ResponseHtmlRenderer{
     public function visitDd($c, $m){
         $cp = [[$c, $m]];
         while($q = array_pop($cp)){
-            
             $c = $q[0];
             $m = $q[1];
         if (is_object($m)){
@@ -44,7 +38,6 @@ class ResponseHtmlRenderer{
                     $this->m_refs[$id] = $m;
                 }
             }
-
             $u = $c->add("ul");
             foreach($m as $k=>$v){
                 $li = $u->add("li");

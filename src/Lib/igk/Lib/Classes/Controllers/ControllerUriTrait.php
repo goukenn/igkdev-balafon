@@ -3,14 +3,9 @@
 // @filename: ControllerUriTrait.php
 // @date: 20220803 13:48:58
 // @desc: 
-
 namespace IGK\Controllers;
-
-
 trait ControllerUriTrait {
-     ///<summary></summary>
-    ///<param name="function" default="null"></param>
-    /**
+     /**
     * 
     * @param mixed $function the default value is null
     */
@@ -28,9 +23,6 @@ trait ControllerUriTrait {
         }
         return "./?".http_build_query($out).$g;
     }
-
-    ///<summary></summary>
-    ///<param name="uri"></param>
     /**
     * 
     * @param mixed $uri
@@ -41,9 +33,6 @@ trait ControllerUriTrait {
             $out .= "&".$uri;
         return $out;
     }
-
-    ///<summary></summary>
-    ///<param name="page"></param>
     /**
     * 
     * @param mixed $page

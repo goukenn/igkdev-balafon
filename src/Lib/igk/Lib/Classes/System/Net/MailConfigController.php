@@ -5,13 +5,10 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Net;
-
 use function igk_resources_gets as __;
-
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
@@ -21,26 +18,20 @@ use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGKException;
 use IGKValidator;
 use ReflectionException;
-
 /**
  * mail configuration controller
  * @package IGK\System\Net
  */
 class MailConfigController extends ConfigControllerBase
 {
-
-    ///<summary></summary>
     public function getConfigPage()
     {
         return "mailserver";
     }
-    ///<summary></summary>
     public function getName()
     {
         return IGK_MAIL_CTRL;
     }
-    ///<summary>initialize system mail configuration</summary>
-    ///<param name="mail">mail object</param>
     private function init_mail_config($mail)
     {
         $mail->UseAuth = igk_configs()->mail_useauth;
@@ -50,15 +41,12 @@ class MailConfigController extends ConfigControllerBase
         $mail->SmtpHost = igk_configs()->mail_server;
         $mail->SocketType = igk_configs()->mail_authtype;
     }
-    ///<summary></summary>
     public function initMailSetting()
     {
         ini_set("smpt_port", igk_configs()->mail_port);
         ini_set("SMTP", igk_configs()->mail_server);
         ini_set("sendmail_from", igk_configs()->mail_admin);
     }
-    ///<summary></summary>
-    ///<param name="func" default="null"></param>
     public function IsFunctionExposed($func)
     {
         $tab = igk_array_createkeyarray(array("sendmailto", "register"), 1);
@@ -66,7 +54,6 @@ class MailConfigController extends ConfigControllerBase
             return true;
         return parent::IsFunctionExposed($func);
     }
-    ///<summary></summary>
     public function lock_mail()
     {
         if (!($maillist = constant('IGK_TB_MAINLINGLISTS'))) {
@@ -77,9 +64,6 @@ class MailConfigController extends ConfigControllerBase
         igk_sys_force_view();
         igk_navtocurrent();
     }
-
-
-    ///<summary>send test mail</summary>
     /**
      * send test mail
      * @return void 
@@ -87,9 +71,9 @@ class MailConfigController extends ConfigControllerBase
      */
     public function mail_testmail()
     {
-
         $app = igk_app();
         $to = igk_getr("clTestMail");
+        $msbox = igk_create_node();
         if (empty($subject = igk_getr("subject")))
             $subject = __("Mail test: {0}", $app->getConfigs()->website_domain);
         if (empty($msg = igk_getr("msg")))
@@ -112,11 +96,11 @@ class MailConfigController extends ConfigControllerBase
                 igk_notifyctrl("mail:notifyResponse")->addError(__("msg.mailnotsend") . " " . $mailctrl->ErrorMsg . " " . igk_debuggerview()->getMessage());
             }
         } else {
-            $this->msbox->addError("error ... " . $app->getConfigs()->mail_contact);
+            $msbox->addError("error ... " . $app->getConfigs()->mail_contact);
         }
-        igk_set_env("replace_uri", igk_io_request_uri_path()); 
+        igk_environment()->replace_uri = igk_io_baseuri().igk_io_request_uri_path(); 
+        $this->msbox = $msbox;
     }
-    ///<summary></summary>
     public function mail_update()
     {
         $server = igk_getr("server");
@@ -155,13 +139,10 @@ class MailConfigController extends ConfigControllerBase
         }
         igk_navtocurrent();
     }
-    ///<summary></summary>
-    ///<param name="args"></param>
     public function onMailSended($args)
     {
         igk_hook("MailSend", array($this, $args));
     }
-    ///<summary></summary>
     public function register()
     {
         $tb_maillist = constant('IGK_TB_MAINLINGLISTS');
@@ -180,16 +161,10 @@ class MailConfigController extends ConfigControllerBase
         igk_sys_force_view();
         igk_navtocurrent();
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="func"></param>
     public function removeMailSendEvent($obj, $func)
     {
         igk_die(__METHOD__ . " Not Obselete");
     }
-    ///<summary></summary>
-    ///<param name="fromName"></param>
-    ///<param name="message" default="null"></param>
     public function send_contactmail($fromName, $message = null)
     {
         $obj = igk_get_robj();
@@ -226,14 +201,6 @@ class MailConfigController extends ConfigControllerBase
             return array(false, $enode);
         }
     }
-    ///<summary></summary>
-    ///<param name="from"></param>
-    ///<param name="to"></param>
-    ///<param name="subject"></param>
-    ///<param name="message"></param>
-    ///<param name="reply" default="null"></param>
-    ///<param name="attachement" default="null"></param>
-    ///<param name="type" default="text/html"></param>
     /**
      * controller send mail
      * @param null|string $from email. if whant to pass From title ["" <email@domain>"]
@@ -262,7 +229,6 @@ class MailConfigController extends ConfigControllerBase
         }
         return Mail::Mail($to, $subject, $message, $from, $reply, $attachement, $type, $fromTitle);
     }
-    ///<summary></summary>
     public function sendmailto()
     {
         $to = igk_getr("n");
@@ -271,7 +237,6 @@ class MailConfigController extends ConfigControllerBase
         $m->Content = <<<EOF
 window.open("mailto:$to?subject=$s","sendmail");
 EOF;
-
         igk_app()->Doc->body->add(new HtmlSingleNodeViewerNode($m));
         igk_navtocurrent();
     }
@@ -283,11 +248,8 @@ EOF;
             igk_html_rm($c);
             return $this;
         }
-
         $cnf = igk_app()->getConfigs();
-
         $this->getConfigNode()->add($c);
-
         $c = $c->ClearChilds()->addPanelBox();
         igk_html_add_title($c, "title.configmailserver");
         $c->addPanel()->article($this, "mailserver");
@@ -300,7 +262,6 @@ EOF;
         igk_html_form_initfield($frm);
         $attribs = ["class" => "fitw igk-form-control form-control"];
         $frm->setClass("webmail-config");
-
         $frm->div()->fields([
             'server' => [
                 'value' => $cnf->mail_server,
@@ -310,23 +271,14 @@ EOF;
                 'tip' => __('admin mail'),
                 'attribs' => $attribs,
             ],
-
-
-        ]);
-        // $frm->div()->addSLabelInput("server", "text", $cnf->mail_server, $attribs);
-        // $frm->div()->addSLabelInput("baseFrom", "text", $cnf->mail_admin, $attribs);
-        // $frm->div()->addSLabelInput("port", "text", $cnf->mail_port, $attribs);
-        // $o=$frm->div()->addSLabelInput("useauth", "checkbox", $cnf->mail_useauth, $attribs);
-        // $o->input["value"]="1";
-        // $o->setclass("dispib")->setStyle("width: 32px;");
-
+        ]); 
         $secure_div = $frm->div()->setClass('section');
         $secure_div->div()->fields([
             'useauth' => [
                 'type' => 'checkbox',
                 'value' => '1',
                 'checked' => $cnf->mail_useauth,
-                'attribs' => array_merge($attribs,  ["class" => "fitw-a igk-form-control form-control dispb width-auto"]),
+                'attribs' => array_merge($attribs,  ["class" => "fitw-a dispb width-auto"]),
                 'label_text' => __('mail.Useauth')
             ],
             'port' => [
@@ -353,9 +305,7 @@ EOF;
                 'type' => 'password',
                 'placeholder' => __('confirm password'),
             ],
-
         ]);
-
         $frm->div()->setClass('section')->fields([
             'clContactTo' => [
                 'type' => 'email',
@@ -374,19 +324,18 @@ EOF;
             $t->addBtn("btn_update", __("Update"));
         });
         $frm = $div->addForm();
-
-
         $frm->notifyHost('mail:notifyResponse');
         $frm["method"] = "POST";
         $frm["action"] = $this->getUri("mail_testmail");
         $frm["class"] = "+send-mail-form";
         $fs = $frm->add("fieldset");
         $fs["style"] = "padding: 15px; margin-left:-15px; margin-right: -15px; margin-bottom: 10px; border-bottom:none;";
+        // build form 
         $fs->add("legend")->setContent(__("Test send mail"));
         $frm->host(function ($f) {
             $dv = $f->div();
-            $dv->label()->Content = __("From");
-            $dv->addInput("from", "text", igk_configs()->mail_contact)->setClass("igk-form-control")->setAttribute("disabled", "true");
+            // $dv->label()->Content = __("From");
+            // $dv->addInput("from", "text", igk_configs()->mail_contact)->setClass("igk-form-control");//->setAttribute("disabled", "true");
             $f->div()->addSLabelInput("clTestMail", "text", igk_configs()->mail_testmail);
             $g = $f->div()->addSLabelInput("subject", "text", "");
             $g->input->setAttribute("placeholder", __("Subject"));
@@ -398,7 +347,7 @@ EOF;
             $dv->add("label")->Content = "&nbsp;";
             $dv->actionbar()->setClass("dispib")->addBtn("btn_testmail", __("Send"));
         });
-        if ($rp = igk_get_env("replace_uri")) {
+        if ($rp = igk_environment()->replace_uri) {
             $c->addObData(function () use ($rp) {
                 igk_ajx_replace_uri($rp);
             });

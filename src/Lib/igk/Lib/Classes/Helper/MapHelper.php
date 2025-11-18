@@ -3,13 +3,10 @@
 // @file: MapHelper.php
 // @date: 20221120 17:53:28
 namespace IGK\Helper;
-
 use Closure;
 use IGK\Mapping\IDataMapper;
 use IGK\Models\ModelBase;
 use IGKException;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\Help
@@ -48,7 +45,6 @@ class MapHelper
             return $content;
         };
     }
-
     /**
      * mapp data to object
      * @param mixed $data 
@@ -78,7 +74,6 @@ class MapHelper
         }
         return null;
     }
-
    /**
     * 
     * @param mixed|array|ModelBase $data data to mapper 
@@ -111,7 +106,6 @@ class MapHelper
                 $c->$k = igk_getv($r, $flip[$k]);
             }
             $v_out[] = $c;
-            
         }
         return $v_out;
     } 

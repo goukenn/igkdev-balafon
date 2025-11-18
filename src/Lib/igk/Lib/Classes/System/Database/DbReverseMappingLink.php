@@ -3,9 +3,6 @@
 // @file: DbReverseMappingLink.php
 // @date: 20240919 09:11:07
 namespace IGK\System\Database;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Database

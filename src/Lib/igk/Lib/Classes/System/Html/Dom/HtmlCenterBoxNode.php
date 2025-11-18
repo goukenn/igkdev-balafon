@@ -3,10 +3,7 @@
 // @filename: HtmlCenterBoxNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
 namespace IGK\System\Html\Dom;
-
 class HtmlCenterBoxNode extends HtmlNode
 {
     private $content_node;

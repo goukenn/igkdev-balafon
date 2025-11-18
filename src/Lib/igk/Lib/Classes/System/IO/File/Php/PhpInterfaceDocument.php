@@ -1,14 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: PhpInterfaceDocument.php
 // @date: 20220601 14:25:25
 // @desc: php interface document 
-
 namespace IGK\System\IO\File\Php;
-
 use IGK\System\IO\File\PHPScriptBuilder;
-
 class PhpInterfaceDocument{
     public $type = "interface";
     public $name;
@@ -16,7 +12,6 @@ class PhpInterfaceDocument{
     public $file;
     public $doc;
     private $m_listener;
-
     /**
      * 
      * @param ?callable|IInvokeAction #phpDocListener
@@ -26,7 +21,6 @@ class PhpInterfaceDocument{
     {
         $this->m_listener = $phpDocListener;
     }
-
     public function generate(){
         $o = $this->_getPhpDoc();
         $builder = new PHPScriptBuilder();        
@@ -48,4 +42,3 @@ class PhpInterfaceDocument{
         }
     }
 }
-

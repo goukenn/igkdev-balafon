@@ -3,9 +3,7 @@
 // @filename: MacrosConstant.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\Traits;
-
 /**
  * global macros constants
  * @package IGK\System\Traits

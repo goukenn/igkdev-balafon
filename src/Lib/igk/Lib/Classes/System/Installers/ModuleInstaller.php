@@ -3,9 +3,6 @@
 // @file: ModuleInstaller.php
 // @date: 20230702 19:14:57
 namespace IGK\System\Installers;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Installers
@@ -36,8 +33,6 @@ class ModuleInstaller{
      * @var mixed
      */
     var $version;
-
     public function install(){
-        
     }
 }

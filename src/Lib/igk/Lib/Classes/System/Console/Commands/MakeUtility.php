@@ -3,13 +3,10 @@
 // @file: MakeUtility.php
 // @date: 20230303 10:11:38
 namespace IGK\System\Console\Commands;
-
 use IGK\Resources\R;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\StringBuilder;
 use IGKException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Commmands
@@ -17,10 +14,8 @@ use IGKException;
 class MakeUtility {
     public static function CreateEmptyScriptCallback(){
         return function($file){
-
             $sb = new StringBuilder();
             $sb->appendLine('$l["title.default"] = "Home";');
-
             $g = new PHPScriptBuilder;
             $g->type("function");
             $g->file(igk_io_collapse_path($file));

@@ -3,9 +3,6 @@
 // @file: ViewExpressionValueInfo.php
 // @date: 20221015 12:29:53
 namespace IGK\System\Runtime\Compiler\ViewCompiler;
-
-
-///<summary></summary>
 /**
 * for setter expression value
 * @package IGK\System\Runtime\Compiler

@@ -3,10 +3,7 @@
 // @file: HtmlContentValidator.php
 // @date: 20230303 21:32:35
 namespace IGK\System\Security\Web;
-
 use IGK\System\Html\HtmlRenderer;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Security\Web
@@ -18,7 +15,6 @@ class HtmlContentValidator extends MapContentValidatorBase{
      * @var string[]
      */
     var $skipTag = ['style','script'];
-
     protected  function validate(&$value, $key) :bool {   
         $skip_data = function(string $a) {           
             $dv = igk_create_notagnode(); 
@@ -38,5 +34,4 @@ class HtmlContentValidator extends MapContentValidatorBase{
         }
         return false;
     }
-
 }

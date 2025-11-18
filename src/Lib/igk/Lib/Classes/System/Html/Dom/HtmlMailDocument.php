@@ -5,23 +5,17 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Net\MailAttachementContainer;
-
 final class IGKHtmlMailDoc extends HtmlNode{
     private $_attachement, $m_app, $m_message, $m_theme;
-    
-    ///<summary></summary>
-    ///<param name="opt" default="null"></param>
     public function _acceptRender($options=null){
         return true;
     }
-    ///<summary>Construct mail document</summary>
     public function __construct(){
         $this->m_app=igk_app();
         if($this->m_app == null)
@@ -33,9 +27,6 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $this->m_message=$this->div();
         $this->setId("message");
     }
-    ///<summary></summary>
-    ///<param name="target"></param>
-    ///<param name="source"></param>
     private function _copyAddBuildDefinition($target, $source){
         $selector=array();
         foreach($source->def->Attributes as $k=>$v){
@@ -58,10 +49,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
             }
         }
     }
-    ///<summary></summary>
     private function _initTheme(){    }
-    ///<summary></summary>
-    ///<param name="doc"></param>
     public static function CreateFromDocument($doc){
         if($doc == null)
             return null;
@@ -69,20 +57,15 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $c->m_doc=$doc;
         return $c;
     }
-    ///<summary></summary>
     public function getAttachement(){
         return $this->_attachement;
     }
-    ///<summary>get the message node in this mail definition</summary>
     public function getMessage(){
         return $this->m_message;
     }
-    ///<summary>get the theme used in this mail definition</summary>
     public function getTheme(){
         return $this->m_theme;
     }
-    ///<summary></summary>
-    ///<param name="options" default="null" ref="true"></param>
     protected function innerHTML(& $options=null){
         $out="";
         $s=new HtmlStyleNode();        
@@ -99,8 +82,6 @@ final class IGKHtmlMailDoc extends HtmlNode{
         unset($s);
         return $out;
     }
-    ///<summary></summary>
-    ///<param name="theme"></param>
     /**
      * load theme
      * @param mixed $theme 
@@ -114,12 +95,9 @@ final class IGKHtmlMailDoc extends HtmlNode{
                 $this->_copyAddBuildDefinition($r, $m);
         }
     }
-    ///<summary></summary>
-    ///<param name="o" default="null"></param>
     public function render($o=null){
         return $this->renderDoc();
     }
-    ///<summary></summary>
     public function renderDoc(){
         $this->_attachement=new MailAttachementContainer();
         $p= HtmlRenderer::CreateRenderOptions();
@@ -133,10 +111,6 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $s .= "</html>";
         return $s;
     }
-    ///<summary></summary>
-    ///<param name="to"></param>
-    ///<param name="from"></param>
-    ///<param name="subject"></param>
     public function sendMail($to, $from, $subject){
         $src=$this->render();
         $g=igk_mail_sendmail($to, $from, $subject, $src, null, $this->_attachement ? $this->_attachement->getList(): null, "text/html");

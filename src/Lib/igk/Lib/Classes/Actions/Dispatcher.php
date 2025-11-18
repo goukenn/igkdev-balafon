@@ -3,10 +3,7 @@
 // @filename: Dispatcher.php
 // @date: 20220803 13:48:58
 // @desc: action dispatcher 
-
-
 namespace IGK\Actions;
-
 use Closure;
 use Exception;
 use IGK\Actions\IActionProcessor;
@@ -21,6 +18,8 @@ use IGK\System\Services\InjectorProvider;
 use IGK\Actions\ActionBase;
 use IGK\Controllers\ControllerParams;
 use IGK\Helper\ViewHelper;
+use IGK\Models\Injectors\ModelBaseInjector;
+use IGK\Models\Users;
 use IGK\System\Exceptions\OperationNotAllowedException;
 use IGKException;
 use IGKType;
@@ -29,7 +28,6 @@ use ReflectionFunction;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
 use TypeError;
-
 /**
  * default action dispactcher
  */
@@ -46,7 +44,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         "int" => MatchPattern::Int,
         "float" => MatchPattern::Float,
     ];
-
     ///<sumary>.ctr</summary>
     /**
      * .ctr
@@ -57,12 +54,15 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         $this->m_host = $host;
     }
-
+    /**
+     * 
+     * @param string $actionName 
+     * @return void 
+     */
     public function setBaseActionName(string $actionName)
     {
         $this->m_host->baseActionName = $actionName;
     }
-
     public function getBaseActionName(): string
     {
         return $this->m_host->baseActionName;
@@ -74,6 +74,13 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     public function getHost()
     {
         return $this->m_host;
+    }
+    public function skipVerbCheck(string $action_name){
+        $h = $this->getHost();
+        if (method_exists($h, $fc = ucfirst(__FUNCTION__))){
+            return call_user_func_array([get_class($h), $fc], [$h, $action_name]);
+        }
+        return false;
     }
     /**
      * 
@@ -95,7 +102,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             throw $ex;
         } catch (TypeError $ex) {
             // + | call to function but arguments injection no valid
-
             throw new OperationNotAllowedException('Dispatcher failed: '.$ex->getMessage(), 405, $ex);
         }
     }
@@ -104,7 +110,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         if (self::$sm_macro === null) {
             self::$sm_macro = [];
             self::$sm_macro[self::DISPATCH_METHOD] = function ($fc, ...$args) {
-
                 return static::_HandleDispatch($fc, ...$args);
             };
         }
@@ -119,17 +124,15 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
     public function __call($name, $arguments)
     {
-        // igk_wln_e(__FILE__.":".__LINE__, "call in dispacher....", $name, $this->host instanceof IActionProcessor, 
-        // "???".method_exists($this, $name) );
-        // igk_wln_e("the host ", $this->host, $name, "?".method_exists($this, $name), is_callable($g =  [$this->host, $name]));
-        // igk_wln_e("but", $this->host, $name, get_class_methods($this->host), $this->host instanceof IActionProcessor);
         $v_host = $this->m_host;
         if (
             method_exists($v_host, $name)
             && (!(new ReflectionMethod($v_host, $name))->isStatic())
             && ($fc = Closure::fromCallable([$v_host, $name])->bindTo($v_host))
         ) {
-            $v_host->getController()->{ControllerParams::REPLACE_URI} = true;
+            // initialize replace uri 
+            $v_host->getController()->{ControllerParams::REPLACE_URI} = 
+            $v_host->getDefaultEntryMethod() != $name;
             $targs = array_merge([$fc], $arguments);
             return self::__callStatic(self::DISPATCH_METHOD, $targs);
         } else {
@@ -142,7 +145,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         throw new ActionNotFoundException($name);
     }
-
     /**
      * @param ReflectionFunction #Parameter#cd4a68c3 
      * @param IGK\Actions\ref #Parameter#ca4a640a 
@@ -153,7 +155,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         $args = self::GetInjectArgs($g, $args);
     }
-
     /**
      * get argument to inject or dispatch
      * @param mixed $parameters 
@@ -169,7 +170,6 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         self::_GetInjectedParameters($targs, $parameters, $args);
         return $targs;
     }
-
     /**
      * get injected args
      * @param ReflectionFunctionAbstract $g 
@@ -179,85 +179,14 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args): array
+    public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args, $host=null): array
     {
         $parameters = $g->getParameters();
         if (count($parameters) == 0) {
             return $args;
         }
         $targs = [];
-        self::_GetInjectedParameters($targs, $parameters, $args);
-
-        // $injectors = InjectorProvider::GetInjectors();
-        // $ctrl = ViewHelper::CurrentCtrl();
-        // $i = 0;
-        // $services = null;
-        // if ($ctrl) {
-        //     // + | --------------------------------------------------------------------
-        //     // + | resolving services for injection
-        //     // + |            
-        //     $services = file_exists($fservice = $ctrl->configFile('services')) ?
-        //         ViewHelper::Inc($fservice, ['ctrl' => $ctrl]) : null;
-        // }
-
-        // foreach ($parameters as $k) {
-        //     $arg = igk_getv($args, $i);
-        //     $c = $arg;
-
-        //     if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
-        //         if ($type == 'string') {
-        //             $targs[] = $c;
-        //             $i++;
-        //             continue;
-        //         }
-        //         if ($type == "array") {
-        //             $c = $c ? explode(',', $c) : []; // implode(",", $args[$i]);                                    
-        //         } else {
-        //             $pattern = igk_getv(self::$sm_matches, $type, ".+");
-        //             if (is_string($c) && $c && !preg_match_all("#^" . $pattern . "$#", $c)) {
-        //                 throw new ArgumentTypeNotValidException($i);
-        //             }
-        //         }
-        //         // + | get inject table class printer service
-
-
-        //         if (!IGKType::IsPrimaryType($type) && is_subclass_of($type, IInjectable::class) && $services && isset($services[$type])) {
-        //             $rtype = $services[$type];
-        //             $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);
-        //             continue;
-        //         }
-
-        //         $v_primary = IGKType::IsPrimaryType($type);
-
-        //         if (!$v_primary && class_exists($type)) {
-
-        //             if (is_subclass_of($type, IInjectable::class)) {
-        //                 $targs[] = self::_GetInjectable($type, $args);
-        //                 continue;
-        //             }
-        //             $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));
-        //             if ($j &&  ($c = $j->resolv($arg, $p))) {
-        //                 $targs[] = $c;
-        //                 continue;
-        //             }
-        //         } else if ($v_primary && is_null($c)) {
-        //             if ($k->isDefaultValueAvailable()) {
-        //                 $c =  $k->getDefaultValue();
-        //             } else {
-        //                 $c = preg_match("/(int|float|double|decimal)/i", $type) ? 0 : $c;
-        //             }
-        //         }
-        //     } else {
-        //         if ($arg === null && $k->isDefaultValueAvailable()) {
-        //             $c = $k->getDefaultValue();
-        //         }
-        //     }
-        //     $targs[] = $c;
-        //     $i++;
-        // }
-        // if ($i < count($args)) {
-        //     $targs = array_merge($targs, array_slice($args, $i));
-        // }
+        self::_GetInjectedParameters($targs, $parameters, $args, $host); 
         return $targs;
     }
     /**
@@ -275,6 +204,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         $targs = [];
         $injectors = InjectorProvider::GetInjectors();
         $ctrl = ViewHelper::CurrentCtrl();
+        // igk_wln_e(__FILE__.":".__LINE__ , 'current ctrl', $ctrl );
         $i = 0;
         $services = null;
         if ($ctrl) {
@@ -282,18 +212,19 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             // + | resolving services for injection
             // + |            
             if ($fservice = $ctrl->configFile('services')){ 
-                $services = file_exists($fservice) ?
+                $services = igk_io_file_exists($fservice, true) ?
                 ViewHelper::Inc($fservice, ['ctrl' => $ctrl]) : null;
             }
         }
-
+        $v_inject = false;
         foreach ($parameters as $k) {
-            $arg = igk_getv($args, $i);
-            $c = $arg;
-
+            $c = $arg = igk_getv($args, $i);
+            if (is_null($c) && $k->isDefaultValueAvailable()){
+                $c = $k->getDefaultValue();
+            }
             if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
-                if ($type == 'string') {
-                    $targs[] = $c;
+                if ($type == 'string') {   
+                    $targs[] = $v_inject ? '': $c;
                     $i++;
                     continue;
                 }
@@ -306,23 +237,37 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     }
                 }
                 // + | get inject table class printer service
+                $v_primary = IGKType::IsPrimaryType($type);
+                $v_injectable = !$v_primary && IGKType::IsInjectable($type);
 
-
-                if (!IGKType::IsPrimaryType($type) && is_subclass_of($type, IInjectable::class) && $services && isset($services[$type])) {
+                if ($v_injectable &&
+                    $services && isset($services[$type])) {
                     $rtype = $services[$type];
                     $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);
                     continue;
                 }
-
-                $v_primary = IGKType::IsPrimaryType($type);
-
-                if (!$v_primary && class_exists($type)) {
-                    if (is_subclass_of($type, IInjectable::class)) {
-                        $targs[] = self::_GetInjectable($type, $args);                        
+                if (!$v_primary && class_exists($type)) 
+                {
+                    if ($v_injectable){
+                        $targs[] = self::_GetInjectable($type, $args);   
+                        $v_inject = true; 
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));
-                    if ($j &&  ($c = $j->resolve($arg, $p))) {
+                    $j_allow_null =  $k->allowsNull();
+                    if($j && (is_null($arg) && $j_allow_null))
+                    {
+                        $c = null;
+                        if ($j instanceof ModelBaseInjector){
+                            if ($j->getModel() instanceof Users){
+                                ($u = $ctrl->getUser()) && ($c = $u->model());
+                            }
+                        }
+                        $targs[] = $c;
+                        $i++;
+                        continue;
+                    }
+                    if ($j && ($c = $j->resolve($arg, $p))){ 
                         $targs[] = $c;
                         $i++;
                         continue;

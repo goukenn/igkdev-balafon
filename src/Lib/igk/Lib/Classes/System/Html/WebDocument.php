@@ -3,11 +3,8 @@
 // @file: WebDocument.php
 // @date: 20230918 19:28:20
 namespace IGK\System\Html;
-
 use IGK\System\Html\Dom\HtmlNode;
 use IGKObject;
-
-///<summary></summary>
 /**
 * represent a simple web document 
 * @package IGK\System\Html
@@ -18,10 +15,8 @@ class WebDocument extends IGKObject{
     private $m_body;
     private $m_title;
     private $m_charset;
-
     public $docType = 'html';
     public $charset = 'UTF-8';
-
     public function __construct()
     {
         $this->_initialize();
@@ -32,7 +27,6 @@ class WebDocument extends IGKObject{
         $this->m_html_document = new HtmlNode('html');
         $this->m_head = $this->m_html_document->head();
         $this->m_body = $this->m_html_document->body();
-
         $this->m_charset = $this->m_head->meta();
         $this->m_charset['charset'] = new HtmlAttributeValueListener(function(){
             return $this->charset;
@@ -54,5 +48,4 @@ class WebDocument extends IGKObject{
             $this->m_html_document->render($options)
         ]);
     }
-
 }

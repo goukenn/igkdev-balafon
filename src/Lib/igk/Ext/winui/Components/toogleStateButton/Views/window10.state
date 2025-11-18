@@ -4,6 +4,7 @@
 //parameter : $node is a parent node that add a addOnRenderCallback node
 // igk_wln(array_keys(get_defined_vars()));
 // igk_wln($i_value);
+use function igk_resources_gets as __;
 
 
 igk_css_bind_wuistyle($doc, $CF, $type);
@@ -18,13 +19,14 @@ if ($c)
 $i["checked"]=1; //igk_getv($i_value, "c");
 
 $attrs = array(
-// "data-off"=>R::ngets("Off"),
-// "data-on"=>R::ngets("On"), 
+"data-off"=>__("Off"),
+"data-on"=>__("On"), 
 // "checked"=>igk_getv($i_value, "c"),
 'igk-balafonjs'=>'igk.winui.stateBtn.init(this);'
 );
+$rdiv = $div->div();
+$rdiv->setAttributes($attrs);
 if ($c){
-    $attrs["checked"] = 1;
+    $rdiv->activate('checked');
+    //$attrs["checked"] = 1;
 }
-
-$div->div()->setAttributes($attrs);

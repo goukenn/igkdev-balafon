@@ -3,9 +3,6 @@
 // @file: CompilerFlagState.php
 // @date: 20221019 16:33:19
 namespace IGK\System\Runtime\Compiler;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler

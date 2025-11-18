@@ -3,10 +3,7 @@
 // @filename: DbColumnInfoTrait.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Database\Traits;
-
 /**
  * use to definie property to load 
  */
@@ -31,7 +28,6 @@ trait DbDataDefinitionTrait{
      * @var ?string
      */
     var $Prefix;
-
     /**
      * table column display name
      */

@@ -3,12 +3,9 @@
 // @filename: FixLangCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
-
-
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-
 /**
  * 
  * @package 
@@ -23,22 +20,19 @@ class FixLangCommand extends AppExecCommand{
     public function exec($command, $path=null)
     { 
         Logger::info("fix lang file");
-        if (file_exists($f = realpath($path))){
+        if (igk_io_file_exists($f = realpath($path))){
             $ext = igk_io_path_ext($f);
             if ('.'.$ext!= IGK_LANG_FILE_EXTENSION){
                 return -1;
             } 
-
             $l = [];
             include($f);
             ksort($l, SORT_NATURAL | SORT_FLAG_CASE);
             $o = "";
-
             foreach($l as $k=>$v){
                $o.= "\$l['".addslashes($k)."'] = \"{$v}\";".PHP_EOL;
             }
             $author = $this->getAuthor($command);
-       
             $builder = new PHPScriptBuilder();
             $builder->desc("lang file")->type("function")
             ->author($author)
@@ -46,6 +40,5 @@ class FixLangCommand extends AppExecCommand{
             igk_io_w2file($f, $builder->render()); 
             Logger::success("fix lang file: ".$f);
         }
-
     }
 }

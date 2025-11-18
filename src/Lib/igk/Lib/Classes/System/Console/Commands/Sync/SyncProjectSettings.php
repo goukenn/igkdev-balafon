@@ -3,11 +3,8 @@
 // @file: ProjectSettings.php
 // @date: 20230128 20:23:57
 namespace IGK\System\Console\Commands\Sync;
-
 use IGK\Helper\Activator;
 use IGK\System\IO\Path;
-
-///<summary></summary>
 /**
 * sync project settings
 * @package IGK\System\Console\Commands\Sync
@@ -35,7 +32,7 @@ class SyncProjectSettings{
      */
     public static function InitProjectExcludeDir(string $pdir, & $excludedir){
         $excludedir = \IGK\Helper\Project::IgnoreDefaultDir();
-        if (file_exists($fc = Path::Combine($pdir, self::P_FILE))){
+        if (igk_io_file_exists($fc = Path::Combine($pdir, self::P_FILE))){
             $g = SyncProjectSettings::Load(json_decode(file_get_contents($fc)));
             if ($g->ignoredirs ){
                 $v_ignores =  array_fill_keys($g->ignoredirs , 1);

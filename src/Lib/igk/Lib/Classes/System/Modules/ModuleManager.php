@@ -1,12 +1,10 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: ModuleManager.php
 // @date: 20220829 09:41:42
 // @desc: 
-
 namespace IGK\System\Modules;
-
+use Exception;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Exceptions\EnvironmentArrayException;
@@ -14,9 +12,7 @@ use IGK\System\Modules\Helpers\Utility;
 use IGK\System\Regex\Replacement;
 use IGKException;
 use IGKHtmlDoc;
-
 use function PHPSTORM_META\map;
-
 /**
  * manager module
  * 
@@ -27,14 +23,12 @@ class ModuleManager
      * @var array
      */
     private $m_modules;
-
     private $m_boot_modules = [];
     /**
      * 
      * @var ModuleInitializer
      */
     private $m_init;
-
     public function __construct()
     {
         $this->m_modules =  & igk_environment()->require_modules();
@@ -106,6 +100,12 @@ class ModuleManager
         $cf = json_decode(igk_io_read_allfile($d));
         return (array)$cf;
     }
+    /**
+     * 
+     * @return array 
+     * @throws Exception 
+     * @throws IGKException 
+     */
     private static function _InitModules(){
         $d = ApplicationModules::GetCacheFile();
         $modir = igk_get_module_dir();
@@ -116,7 +116,6 @@ class ModuleManager
             foreach ($modules as $f) {
                 $name = self::_SanitizeName(substr(dirname($f), $ln));
                 $obj = json_decode(file_get_contents($f));
-  
                 if ($obj && igk_is_valid_module_info($obj)) {
                     if ($obj->name != $name) {
                         igk_ilog("module not a valid name :" . $name . " vs " . $obj->name);
@@ -166,7 +165,7 @@ class ModuleManager
     public static function Bootstrap()
     { 
         $boot_cache = igk_io_cachedir()."/.modules.boot.cache";
-        if (file_exists($boot_cache)){
+        if (igk_io_file_exists($boot_cache)){
             if (($seri = unserialize(file_get_contents($boot_cache)))!==false){
                 foreach($seri as $k){
                     self::_BootModule($k);
@@ -174,9 +173,8 @@ class ModuleManager
                 return;
             }
         }
-
         $f = ApplicationModules::GetCacheFile();
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $tab = (array)json_decode(file_get_contents($f));
         } else {
             $tab = self::GetInstalledModules();
@@ -189,7 +187,6 @@ class ModuleManager
                 }
                 return null;
             }, $tab));
-
             igk_io_w2file($boot_cache, serialize(array_keys($info)));
         }
     }
@@ -201,7 +198,6 @@ class ModuleManager
         $manager = igk_environment()->getModulesManager();
         $manager->registerBoot($mod);
         return $mod;
-
     }
     /**
      * register boot module

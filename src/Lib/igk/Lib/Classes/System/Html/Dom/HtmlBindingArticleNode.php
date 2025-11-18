@@ -3,11 +3,8 @@
 // @file: HtmlBindingArticleNode.php
 // @date: 20221010 12:55:19
 namespace IGK\System\Html\Dom;
-
 use IGK\System\IO\StringBuilder;
 use IGK\System\Runtime\Compiler\CompilerConstants;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Dom
@@ -24,11 +21,8 @@ class HtmlBindingArticleNode extends HtmlNode{
      * @var false
      */
     var $caching = false;
-
     // binding counter:
-
     private static $sm_Count;
-
     public static function ResetBindingCounter(){
         static::$sm_Count = 0;
     }
@@ -67,7 +61,6 @@ class HtmlBindingArticleNode extends HtmlNode{
                     "\$context_raw = \$raw;"
                 ]
             );
-
             $sb->appendLine("?>".$this->target->render());
             $is_array &&  $sb->append("<?php endforeach;\n?>");       
             return $sb;
@@ -91,5 +84,4 @@ class HtmlBindingArticleNode extends HtmlNode{
             $n->setFlag("NO_CHILD", 1);
         }
     }
- 
 }

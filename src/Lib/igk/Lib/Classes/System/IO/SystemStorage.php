@@ -3,12 +3,8 @@
 // @filename: SystemStorage.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\IO;
-
 use IGKException;
-
 /**
  * local system file application storage
  * @package IGK\System\IO
@@ -23,16 +19,14 @@ class SystemStorage extends Storage{
         return igk_io_combine($this->root_dir, $path); 
     }
     public function exists($path): bool { 
-        return file_exists($this->_full_path($path));
+        return igk_io_file_exists($this->_full_path($path));
     }   
-
     public function get($path): ?object { 
         return (object)[
             "fullpath"=>$this->_full_path($path),
             "exists"=>$this->exists($path)
         ];
     }   
-
     public function unlink($path) {
         if ($this->exists($path)){
             unlink($this->_full_path($path));

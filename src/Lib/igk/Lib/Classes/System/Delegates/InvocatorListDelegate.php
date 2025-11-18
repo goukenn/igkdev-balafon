@@ -3,9 +3,6 @@
 // @file: InvocatorListDelegate.php
 // @date: 20221117 11:41:35
 namespace IGK\System\Delegates;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Delegates
@@ -19,7 +16,6 @@ class InvocatorListDelegate{
     }
     private function __construct()
     {
-        
     }
     public static function Create(array $array, callable $callback){
         $invocator = new self;        
@@ -28,7 +24,6 @@ class InvocatorListDelegate{
         self::$sm_shared_intances = $invocator;
         return $invocator;
     }
-   
     public function __call($name, $arguments){
         foreach($this->m_hostlist as $b){
             call_user_func_array([$b, $name], $arguments);

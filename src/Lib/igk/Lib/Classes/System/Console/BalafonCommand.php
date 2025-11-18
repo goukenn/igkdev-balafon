@@ -1,18 +1,21 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: BalafonCommand.php
 // @date: 20220605 01:21:10
 // @desc: command
-
 namespace IGK\System\Console;
-
 use IGK\System\Shell\OsShell;
-
+/**
+ * 
+ * @package IGK\System\Console
+ */
 class BalafonCommand{
+    /**
+     * primary 
+     * @return void 
+     */
     protected function __construct()
     {
-        
     }
     /**
      * execute balafon command
@@ -22,11 +25,10 @@ class BalafonCommand{
     public static function Exec(string $commandArgs){
         if (! ($b = OsShell::Where("balafon"))){
             $path = getenv('PATH');
-            putenv("PATH", $path.PATH_SEPARATOR.dirname(IGK_LIB_BIN));
+            putenv("PATH=". $path.PATH_SEPARATOR.dirname(IGK_LIB_BIN));
         }
         $c = new static();
         return $c->run($commandArgs);
-        
     }
     /**
      * return command args

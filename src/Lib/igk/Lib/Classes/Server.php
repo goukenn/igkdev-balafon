@@ -3,15 +3,12 @@
 // @filename: IGKServer.php
 // @date: 20220803 13:48:54
 // @desc: server info
-
 namespace IGK;
 use IGK\Helper\StringUtility;
-use IGK\System\IToArray;
-use IGK\System\DataArgs;
-use IGK\System\Security\Web\HeaderAccessObject;
-use IGKType;
-
-///<summary>represent server management </summary>
+use IGK\System\Configuration\Controllers\SystemUriActionController;
+use IGK\System\Http\AcceptMimeTypes;
+use IGK\System\IToArray; 
+use IGK\System\Security\Web\HeaderAccessObject; 
 /**
 * represent server management
 * @property string $root_dir system root directory
@@ -32,7 +29,6 @@ final class Server implements IToArray{
     private $m_access_control;
     private $m_access_object;
     private static $sm_server;
-
     /**
      * get if server request in access control
      * @return ?bool 
@@ -47,7 +43,6 @@ final class Server implements IToArray{
     public function getAccessObject():?HeaderAccessObject{
         return $this->m_access_object;
     }
-    ///<summary></summary>
     /**
      * 
      */
@@ -65,7 +60,6 @@ final class Server implements IToArray{
         $v=($v_srddr == "::1") || ($v_saddr == $v_srddr) || ($v_saddr && preg_match("/^127\.(.)/i", $v_saddr));
         return $v;
     }
-    ///<summary>get remote ip</summary>
     /**
      * get remote ip
      * @return mixed 
@@ -73,19 +67,22 @@ final class Server implements IToArray{
     public static function RemoteIp(){
         return self::getInstance()->REMOTE_ADDR;
     }
-    ///<summary></summary>
     public static function ServerAddress(){
         return self::getInstance()->SERVER_ADDR;
     }
-    ///<summary></summary>
+    /**
+     * check server is url  encoded data
+     * @return bool 
+     */
+    public function isURLEncoded(){
+        return $this->CONTENT_TYPE == 'application/x-www-form-urlencoded';
+    }
     /**
     * 
     */
     private function __construct(){ 
         $this->prepareServerInfo();
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -110,8 +107,6 @@ final class Server implements IToArray{
         }
         return false;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
     /**
     * 
     * @param mixed $n
@@ -119,9 +114,6 @@ final class Server implements IToArray{
     public function __isset($n){
         return isset($this->data[$n]);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $n
@@ -137,7 +129,6 @@ final class Server implements IToArray{
         else
             $this->data[$n]=$v;
     }
-    ///<summary>return if server accept return type</summary>
     public function accept($type="html"){
         static $accept_type= null;
         if ($accept_type===null){
@@ -154,11 +145,9 @@ final class Server implements IToArray{
         $mtype = igk_getv($accept_type, $type, null);
         return $mtype && in_array($mtype, $a);
     }
-
     public function get($name, $default=null){
         return igk_getv($this->data, $name, $default);
     }
-    ///<summary>get server instance</summary>
     /**
     * @return Server
     */
@@ -168,8 +157,9 @@ final class Server implements IToArray{
         }
         return self::$sm_server;
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
+    public function eventStreamRequest(){
+        return $this->HTTP_ACCEPT == AcceptMimeTypes::EventStream;
+    }
     /**
     * 
     * @param mixed $file
@@ -177,14 +167,12 @@ final class Server implements IToArray{
     public function IsEntryFile($file){
         return $file === realpath($this->SCRIPT_FILENAME);
     }
-    ///<summary>check if this request is POST</summary>
     /**
     * check if this request is POST
     */
     public function ispost(){
         return $this->REQUEST_METHOD == "POST";
     }
-    ///<summary>check for method. if type is null return the REQUEST_METHOD</summary>
     /**
     * check for method
     */
@@ -194,7 +182,7 @@ final class Server implements IToArray{
         return $this->REQUEST_METHOD == $type;
     }
     public function isMultipartFormData(){
-        return strpos($this->CONTENT_TYPE, "multipart/form-data") === 0;
+        return strpos($this->CONTENT_TYPE, IGK_HTML_ENCTYPE) === 0;
     }
     /**
      * @return ?string
@@ -205,12 +193,10 @@ final class Server implements IToArray{
         }
         return null;
     }
-    ///<summary>prpare server information</summary>
     /**
     * preparet server information 
     */
     public function prepareServerInfo(){
-    
         $this->data=array();
         foreach($_SERVER as $k=>$v){          
             $this->data[$k]=$v;
@@ -234,14 +220,10 @@ final class Server implements IToArray{
             $this->m_access_object = HeaderAccessObject::ActivateNew($v_access_object);
         }
         // + header 
-
-
         $this->IGK_SCRIPT_FILENAME=StringUtility::Uri(realpath($this->SCRIPT_FILENAME));
         $this->IGK_DOCUMENT_ROOT= StringUtility::Uri(realpath($this->DOCUMENT_ROOT))."/";
         $sym_root=$this->IGK_DOCUMENT_ROOT !== $this->DOCUMENT_ROOT;
         $c_script=$this->IGK_SCRIPT_FILENAME;
-
-        
         if(!$sym_root)
             $c_script=$this->SCRIPT_FILENAME;
         if(!empty($doc_root=$this->IGK_DOCUMENT_ROOT)){
@@ -261,8 +243,9 @@ final class Server implements IToArray{
         $this->IGK_CONTEXT=($t_=isset($this->HTTP_HOST)) ? "html": "cmd";
         $this->LF=$t_ ? "\n": "<br />";
         // + | environment setting mo
-        if(empty($this->ENVIRONMENT)){
-            $this->ENVIRONMENT= defined('IGK_ENVIRONMENT') ? constant('IGK_ENVIRONMENT') : "development";
+        $v_envkey = 'IGK_ENVIRONMENT';
+        if(empty($this->ENVIRONMENT) || defined($v_envkey)){ // force defined environment
+            $this->ENVIRONMENT= defined($v_envkey) ? constant($v_envkey) : "development";
         }
         if(!isset($this->WINDIR)){
             $this->WINDIR=($this->OS == "Windows_NT");
@@ -275,7 +258,6 @@ final class Server implements IToArray{
             $_SERVER["QUERY_STRING"]=http_build_query($_get);
         }
         $this->REQUEST_PATH = !empty(($ruri = $this->REQUEST_URI)) ? explode("?", $ruri)[0] :  "/";
-     
         if  (empty($_SERVER['REQUEST_SCHEME']) && !igk_is_cmd()){
             $scheme = "http";
             if ($this->HTTPS == "on"){
@@ -284,22 +266,15 @@ final class Server implements IToArray{
             $this->REQUEST_SCHEME = $scheme;
         }
         $uri = $this->REQUEST_URI;
-
         $this->full_request_uri = !empty($uri) ? StringUtility::Uri(urldecode(rtrim(
             implode("/", array_filter([$this->GetRootUri(), ltrim($this->REQUEST_URI, '/')])), "/"))) : ""; 
-
         if (!empty($doc_root = $this->IGK_DOCUMENT_ROOT) || (defined('IGK_APP_DIR') && !empty($doc_root = constant('IGK_APP_DIR')))) {
             $doc_root = rtrim(StringUtility::Dir($doc_root), "/");
         }
-        $this->root_dir = $doc_root;
+        $this->root_dir = realpath($doc_root);
          // + | internal stus code
         $this->STATUS_CODE = $this->REDIRECT_CODE ?? $this->REDIRECT_STATUS ?? $this->STATUS ?? 400;
         $this->IS_WEBAPP = isset($_SERVER['REQUEST_URI']) && !empty($_SERVER['DOCUMENT_ROOT']); 
-
-        // if (defined('__TEST_REQUEST_POST__')){
-         
-        //     igk_wln(__FILE__.":".__LINE__ , "prepare.....", $_SERVER['REQUEST_METHOD']);
-        // }
     }
     /**
      * check weather access control required
@@ -307,7 +282,6 @@ final class Server implements IToArray{
      * @return bool 
      */
     private function _checkAccessHeader($headers){
-        
         foreach(['AUTHORIZATION', 'X_AUTHORIZATION', 'ACCESS_CONTROL_REQUEST_METHOD', 'ORIGIN'] as $k){
             if (isset($headers[$k]) || isset($headers["X_".$k])){
                 return true;
@@ -317,7 +291,6 @@ final class Server implements IToArray{
     }
     public function GetRootUri($secured=false){
         // return "";
-
         if(!$secured && $this->is_secure())
             $secured=true;
         if($secured){
@@ -344,23 +317,19 @@ final class Server implements IToArray{
             return $p;
         return null;
     }
-
     public function is_secure(){
         return $this->HTTPS == "on";
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function to_array(): ?array{
         return $this->data;
     }
-
     public static function RequestTime(){
         $time = $_SERVER["REQUEST_TIME_FLOAT"];
         return (microtime(true) - $time);
     }
-
     /**
      * get upload info
      * @var IGK\getUploadAJXInfo
@@ -375,5 +344,14 @@ final class Server implements IToArray{
 			];
 		}
         return $finfo;
+    }
+    /**
+     * retrieve the configuration path
+     */
+    public function getConfigurationPath():string{
+        return SystemUriActionController::GetConfigurationPath();
+    }
+    public function getConfigurationSettingPath():string{
+        return sprintf('%s!settings', $this->getConfigurationPath());
     }
 }

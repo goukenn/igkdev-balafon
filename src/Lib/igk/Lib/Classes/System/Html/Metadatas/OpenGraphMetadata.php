@@ -3,11 +3,8 @@
 // @file: OpenGraphMetadata.php
 // @date: 20231127 21:26:15
 namespace IGK\System\Html\Metadatas;
-
 use Base;
 use IGK\System\IO\StringBuilder;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Metadatas\Traits
@@ -37,7 +34,4 @@ class OpenGraphMetadata extends MetadataGroupEntryBase{
             'ogUrl'=>'og:url'
         ];
     }
-   
-   
-  
 }

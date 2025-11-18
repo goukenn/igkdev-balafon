@@ -3,11 +3,8 @@
 // @filename: HtmlTextNode.php
 // @date: 20220309 08:58:17
 // @desc: text node
-
 namespace IGK\System\Html\Dom;
-
 use IGK\XML\XMLNodeType;
-
 /**
  * represent text done
  */
@@ -22,7 +19,6 @@ class HtmlTextNode extends HtmlItemBase{
     public function getNodeType(){
         return XMLNodeType::TEXT;
     }
-    ///<summary>.ctr</summary>
     public function __construct($content=""){
         parent::__construct();
         $this->content = $content;

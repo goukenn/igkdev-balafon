@@ -1,0 +1,26 @@
+<?php
+
+// init hooks
+
+use IGK\Controllers\BaseController;
+use IGK\Helper\Authorization;
+use IGK\Models\Usergroups;
+use IGK\System\EntryClassResolution;
+
+igk_reg_hook(IGKEvents::HOOK_USER_ADDED, function ($e) {
+    list($user, $ctrl) = igk_extract($e->args, 'user|ctrl');
+    if ($ctrl && !BaseController::IsSysController(get_class($ctrl))) {
+        if (method_exists($ctrl,  EntryClassResolution::CTRL_METHOD_INIT_USER_FROM_SYSUSER)) {
+            $ctrl->initUserFromSysUser($user);
+        } else {
+            $ctrl::bindUserDefaultProfiles($user); 
+        }
+    }
+});
+
+igk_reg_hook(IGKEvents::HOOK_USER_DROP, function ($e) {
+    list($user) = igk_extract($e->args, 'user');
+    if ($e->args['$ref']->commit) {
+        Usergroups::delete([Usergroups::FD_CL_USER_ID => $user->clId]);
+    }
+});

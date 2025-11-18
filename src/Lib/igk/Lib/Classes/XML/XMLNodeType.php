@@ -5,10 +5,9 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\XML;
-
 abstract class XMLNodeType{
     const CDATA=5;
     const COMMENT=3;
@@ -19,9 +18,6 @@ abstract class XMLNodeType{
     const TEXT=6;
     const INNER_TEXT = 7;
     const DOCTYPE=8;
-
-    ///<summary></summary>
-    ///<param name="i"></param>
     public static function GetString($i){
         switch($i){
             case self::NONE:

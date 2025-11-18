@@ -5,11 +5,9 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary></summary>
-///<param name="callback"></param>
 /**
 * 
 * @param mixed $callback
@@ -21,13 +19,6 @@ function igk_html_ob($callback){
     ob_end_clean();
     igk_wl($s);
 }
-///<summary></summary>
-///<param name="id"></param>
-///<param name="options"></param>
-///<param name="selected" default="null"></param>
-///<param name="display" default="null"></param>
-///<param name="attribs" default="null"></param>
-///<param name="render" default="1"></param>
 /**
 * 
 * @param mixed $id
@@ -66,11 +57,6 @@ function igk_html_ob_select($id, $options, $selected=null, $display=null, $attri
         igk_wl($o);
     return $o;
 }
-///<summary></summary>
-///<param name="id"></param>
-///<param name="text"></param>
-///<param name="attribs" default="null"></param>
-///<param name="render" default="1"></param>
 /**
 * 
 * @param mixed $id

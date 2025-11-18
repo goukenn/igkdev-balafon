@@ -5,7 +5,6 @@
 // @date: 20220831 14:18:33
 // @desc: 
 
-///<summary>create xml node</summary>
 /**
  * create xml node
  */
@@ -14,7 +13,6 @@ function igk_create_xmlnode($d)
     $c = new \IGK\System\Html\XML\XmlNode($d);
     return $c;
 }
-///<summary>shorcut to create xml data</summary>
 /**
  * shorcut to create xml data
  */
@@ -24,7 +22,6 @@ function igk_create_xml_cdata()
 }
 
 
-///<summary>create xlst node</summary>
 /**
  * create xlst node
  */

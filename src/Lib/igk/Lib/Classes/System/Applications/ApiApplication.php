@@ -3,11 +3,9 @@
 // @filename: IGKApiApplication.php
 // @date: 20220803 13:48:54
 // @desc: 
-
 namespace IGK\System\Applications; 
 use IGKApp;
 use IGKApplicationBase;
-
 /**
  * represent api application entry - 
  * @package 
@@ -19,7 +17,6 @@ class ApiApplication extends IGKApplicationBase
      * @var mixed
      */
     var $controller; 
-
     public function bootstrap() {       
         $this->library("mysql");
     }
@@ -33,7 +30,6 @@ class ApiApplication extends IGKApplicationBase
         igk_wl($c);
         ob_flush();
         igk_exit();
-
         // $app = IGKApp::getInstance();
     }
 }

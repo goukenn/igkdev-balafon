@@ -5,11 +5,9 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Configuration\Controllers;
-
 use IGK\Controllers\BaseController;
 use IGK\Controllers\PageControllerBase;
 use IGK\Database\DbColumnDataType;
@@ -27,7 +25,6 @@ use IGKOb;
 use IGKValidator;
 use stdClass;
 use function igk_resources_gets as __;
-
 /**
  * configuration , controller and article controller page
  * @package IGK\System\Configuration\Controllers
@@ -39,10 +36,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
      * hook name when a controller require to config option 
      */
     const hookControllerConfigOptionName = 'controllerConfigData';
-
-
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
     private function __updateview($ctrl)
     {
         if ($ctrl && $ctrl->getIsVisible()) {
@@ -52,7 +45,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
                 $ctrl->View();
         }
     }
-
     private static function GetSysProject()
     {
         static $projects;
@@ -61,8 +53,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         return $projects;
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     private function __viewDefaultPageCtrl($t)
     {
         $frm = $t->addForm();
@@ -78,7 +68,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             $sl = $ul->li()->add("select")->setClass("igk-form-control");
             $sl["id"] = $sl["name"] = "clDefaultCtrl";
             $sl["onchange"] = "javascript:window.igk.ajx.post('" . $this->getUri('setdefaultpage_ajx') . "&'+this.id+'='+this.value, null, null);";
-
             $this->setup_defaultpage($ctrltab);
             $v_kn = strtolower(igk_app()->getConfigs()->default_controller);
             foreach ($ctrltab["@base"] as $k) {
@@ -106,8 +95,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         // $frm->div()->add("noscript")->addInput("btn_add", "submit");
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     /**
      * 
      * @param mixed $t 
@@ -140,10 +127,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         //     $frm->div()->add("noscript")->addInput("btn_add", "submit");
         // }
     }
-    ///<summary></summary>
-    ///<param name="file"></param>
-    ///<param name="v_content"></param>
-    ///<param name="property" default="null"></param>
     private function __write_article_for_tiny($file, $v_content, $property = null)
     {
         if (empty($file))
@@ -185,9 +168,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         igk_io_save_file_as_utf8($file, $v_content, true);
         return true;
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="p"></param>
     public function _buildAdditionalInfo($ctrl, $p)
     {
         $d =
@@ -240,14 +220,10 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="div"></param>
-    ///<param name="ctrl" default="null"></param>
     private function _buildViewArticle($div, $ctrl = null)
     {
         $div->div()->Content = "Not Implement: " . __FUNCTION__;
     }
-    ///<summary>build adapter selection list</summary>
     private function _ca_add_adapter($node, $k, $default = null, $nonevalue = false)
     {
         $t = \IGK\DataBase\DataAdapterBase::GetAdapters();
@@ -266,11 +242,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         }
         $node->div()->setClass("igk-db-ad")->Content = "";
     }
-    ///<summary></summary>
-    ///<param name="li"></param>
-    ///<param name="name"></param>
-    ///<param name="value" default="null"></param>
-    ///<param name="showspace" default="true"></param>
     private function _frm_tablevisiblectrl($li, $name, $value = null, $showspace = true)
     {
         $tab = self::GetSysProject();
@@ -291,18 +262,14 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             }
         }
     }
-    ///<summary></summary>
     private function _getarticleid()
     {
         return $this->getName() . "_articles";
     }
-    ///<summary></summary>
     private function _getviewid()
     {
         $this->getName() . "_views";
     }
-    ///<summary></summary>
-    ///<param name="col"></param>
     private function _view_ctrl_EditCtrl($col)
     {
         $frm = $col->addColViewBox()->addForm();
@@ -320,7 +287,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             $select["class"] = "igk-form-control";
             $select["name"] =
                 $select["id"] = "controller";
-
             $g = null;
             if (($ts = $this->SelectedController) && !($g = igk_getctrl($this->SelectedController, false))) {
                 $this->SelectedController = null;
@@ -343,9 +309,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             $ul->li()->Content = __("no sys controller found.");
         }
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="target"></param>
     protected function _view_ctrl_info($ctrl, $target)
     {
         if ($ctrl == null)
@@ -418,9 +381,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         $div = $p->div();
         $this->_view_ctrl_options($ctrl, $div);
     }
-    ///<summary></summary>
-    ///<param name="ctrl"></param>
-    ///<param name="dv"></param>
     private function _view_ctrl_options(\IGK\Controllers\BaseController $ctrl, $dv)
     {
         $dv["class"] = "+c-opts";
@@ -448,8 +408,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         HtmlUtils::AddImgLnk($groups, igk_js_post_frame($this->getUri("ca_ctrl_drop")), "drop_16x16")
             ->setClass("igk-btn");
     }
-    ///<summary></summary>
-    ///<param name="t"></param>
     private function _view_default_tab($t)
     {
         $t->addNotifyHost();
@@ -459,7 +417,6 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         $row = $t->addRow();
         $this->_view_ctrl_EditCtrl($row->addCol("igk-col-3-3")->setId("edit_ctrl"));
         $v_dv = $row->addCol("igk-col-3-3")->div()->setClass("cnf-edit-view-result igk-row");
-      
         $this->_viewCtrlEditResult($v_dv);
         if (igk_get_defaultwebpagectrl() == null) {
             $_dv = $row->addCol("igk-col-3-3")->div();
@@ -474,10 +431,8 @@ EOF;
     ///<param name="v_dv"></param>
     private function _viewCtrlEditResult($v_dv)
     {
-        
         if (!($c = $this->SelectedController))
             return;
-
             $txb = $v_dv->addCol("igk-col-3-3")->addColViewBox()->addComponent(
                 $this,
                 HtmlComponents::AJXTabControl,
@@ -626,7 +581,6 @@ EOF;
         $frm->div()->addNotifyHost('controller');
         $frm->addInput('notification', 'hidden', 'controller');
         $ul = $frm->ul()->setClass("add_ctrl_ul")->setStyle("overflow-y:auto; max-height:300px");
-
         $ul->li()->addSLabelInput(IGK_FD_NAME, "text", null, null, true);
         $ul->li()->addSLabelInput("clDisplayName");
         $h = $ul->li()->addSLabelInput("clRegisterName");
@@ -696,8 +650,6 @@ if (!r)
 		ns_igk.ctrl.ca_ctrl_change('{$this->getUri("ca_get_ctrl_type_info_ajx&n=")}', q.o);
 });
 JS;
-
-
         return $frame;
     }
     ///<summary>view add controller frame</summary>
@@ -736,7 +688,6 @@ JS;
     ///<summary>Request add controller</summary>
     public function ca_addCtrl()
     {
-
         if (igk_qr_confirm() && $this->ConfigCtrl->getIsConnected() && ($ctrl = igk_getctrl(IGK_CTRL_MANAGER, false))) {
             $g = 0;
             $msg = "msg.ctrl.notadded";
@@ -778,7 +729,7 @@ JS;
     {
         $this->setParam("ctrl:ca_tabInfo", null);
         $f = igk_getctrl($this->SelectedController)->getDataSchemaFile();
-        if (file_exists($f))
+        if (igk_io_file_exists($f))
             @unlink($f);
         igk_wl($this->ca_getTableInfo()->render());
     }
@@ -800,7 +751,7 @@ JS;
     public function ca_db_drop_db_file_ajx()
     {
         $f = igk_getctrl($this->SelectedController)->getDataSchemaFile();
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             unlink($f);
             $this->View();
             igk_frame_close("add_edit_db_frame");
@@ -815,7 +766,7 @@ JS;
         if (($ctrl == null) || !isset($n))
             return null;
         $f = igk_dir(igk_getctrl($ctrl)->getViewDir() . "/" . $n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             igk_download_file(basename($f), $f);
             igk_exit();
         }
@@ -827,7 +778,7 @@ JS;
         $ctrl = ($c = igk_getr("ctrlid", null)) ? igk_getctrl($c) : $this->SelectedController;
         $f = igk_realpath($n);
         $_FRAMENAME = "frame_" . __FUNCTION__;
-        if (!file_exists($f)) {
+        if (!igk_io_file_exists($f)) {
             if (($ctrl == null) || !isset($n)) {
                 igk_notifyctrl()->addErrorr("err.nocontroller.selected");
                 igk_notifyctrl()->TargetNode->renderAJX();
@@ -836,7 +787,7 @@ JS;
             }
             $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
         }
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             if (igk_qr_confirm()) {
                 unlink($f);
                 $this->View();
@@ -863,7 +814,6 @@ JS;
     public function ca_drop_controller_ajx($ctrl = null, $reconnect = 1)
     {
         $a = $ctrl ? $ctrl : (($ctrl = igk_getr("clController")) ? $ctrl : igk_getr("n"));
-
         if ($a) {
             $ctrl = igk_getctrl($a, false);
             if ($ctrl == null) {
@@ -931,9 +881,9 @@ JS;
         if (($ctrl == null) || !isset($n))
             return null;
         $f = igk_dir(igk_getctrl($ctrl)->getViewDir() . "/" . $n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             if (igk_qr_confirm()) {
-                if (file_exists($f))
+                if (igk_io_file_exists($f))
                     unlink($f);
                 $this->View();
                 if (igk_is_ajx_demand()) {
@@ -977,8 +927,8 @@ JS;
         $f = base64_decode(igk_getr("fn"));
         $ctrlid = $ctrlid ?? igk_getr("ctrlid");
         $ctrl = igk_getctrl($ctrlid);
-        $f = file_exists($f) ? $f : $ctrl->getArticle($f);
-        if (file_exists($f)) {
+        $f = igk_io_file_exists($f) ? $f : $ctrl->getArticle($f);
+        if (igk_io_file_exists($f)) {
             $str = igk_io_read_allfile($f);
             $t = igk_create_node("div");
             $t->div()->Content = "Path: " . igk_io_basepath(igk_io_basedir($f));
@@ -1013,13 +963,13 @@ JS;
         $ctrl = igk_getctrl($ctrlid ? $ctrlid : igk_getr("ctrlid"), false);
         $n = $name ? $name : igk_getr("n");
         $f = igk_realpath(base64_decode($n));
-        if (!file_exists($f)) {
+        if (!igk_io_file_exists($f)) {
             if (($ctrl == null) || !isset($n))
                 return null;
             if ($mode == 0)
                 $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         }
-        if ($force || file_exists($f)) {
+        if ($force || igk_io_file_exists($f)) {
             $articleid = $this->_getarticleid();
             $frame = igk_html_frame($this, "frame_edit_article", $ajx == 1 ? null : "#" . $articleid);
             $frame->clearChilds();
@@ -1045,7 +995,7 @@ JS;
     {
         $q = igk_getr("q");
         $h = igk_uri(IGK_APP_DIR . base64_decode($q));
-        if (file_exists($h)) {
+        if (igk_io_file_exists($h)) {
             if (igk_server()->method("POST")) {
                 if (igk_getr("btn_save")) {
                     igk_header_set_contenttype("txt");
@@ -1097,7 +1047,7 @@ JS;
             $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         else
             $f = base64_decode($n);
-        if ($force || file_exists($f)) {
+        if ($force || igk_io_file_exists($f)) {
             $str = IO::ReadAllText($f);
             $frm = igk_create_node('form');
             $frm["action"] = $this->getUri("ca_update_articlewtiny_f");
@@ -1130,7 +1080,7 @@ JS;
             $f = igk_dir($ctrl->getArticlesDir() . "/" . $n);
         else
             $f = base64_decode($n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $articleid = $this->_getarticleid();
             $frame = igk_html_frame($this, "frame_edit_article", $ajx == 1 ? null : "#" . $articleid);
             $frame->clearChilds();
@@ -1161,7 +1111,7 @@ JS;
         if ($ctrl == null)
             return null;
         $f = igk_dir($ctrl->getDeclaredFileName());
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $frame = igk_create_node("div");
             $frame->clearChilds();
             $frame->Title = __("title.editctrl", basename($f));
@@ -1317,7 +1267,7 @@ JS;
         $a["onclick"] = igk_js_ajx_post_auri($this->getUri("ca_ClearTableList_ajx"), "window.igk.ctrl.ca_updatetable");
         $frm->addInput("btn.update", "submit", __("Update"));
         $f = $ctrl->getDataSchemaFile();
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $frm->addInput("btn.update", "button", __("btn.dropdb"))->setAttribute("onclick", igk_js_ajx_post_auri("ca_db_drop_db_file_ajx"));
         }
         igk_wl($frame->render());
@@ -1340,7 +1290,7 @@ JS;
         if (($ctrl == null) || !isset($n))
             return null;
         $f = igk_dir($ctrl->getViewDir() . "/" . $n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             $frame = igk_html_frame($this, "frame_edit_view", "#" . $this->_getviewid());
             $frame->clearChilds();
             $frame->Title = __("title.editview_1", basename($f));
@@ -1442,7 +1392,7 @@ JS;
         }
         $tr->add("th")->Content = IGK_HTML_SPACE;
         if ($table == null) {
-            if (file_exists($ctrl->getDataSchemaFile())) {
+            if (igk_io_file_exists($ctrl->getDataSchemaFile())) {
                 $tab = $ctrl->getDataTableInfo();
                 foreach ($tab as $k) {
                     $tb->add($this->ca_getFieldInfo($k));
@@ -1533,7 +1483,6 @@ JS;
     ///<summary></summary>
     public function ca_tabv_ajx()
     {
-    
         if (!igk_is_ajx_demand()) {
             // igk_dev_wln_e('not ajx demand');
             igk_navto(igk_io_baseuri());
@@ -1677,7 +1626,7 @@ JS;
     {
         // igk_dev_wln('write info tab');
         $t = igk_create_node("div")->setClass("igk-tab-container");
-        if (file_exists($file = $this->getViewFile("tab." . $view, 0))) {
+        if (igk_io_file_exists($file = $this->getViewFile("tab." . $view, 0))) {
             $this->loader->view($file, ["t" => $t, "viewid" => $this->_getviewid(), "s_ctrl" => igk_getctrl($this->SelectedController), "articleid" => $this->_getarticleid()]);
             $this->setParam("tab:editresult", $view);
         } else {
@@ -1694,7 +1643,7 @@ JS;
         if (($ctrl == null) || !isset($n))
             return null;
         $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             igk_download_file(basename($f), $f);
             igk_navtocurrent();
             igk_exit();
@@ -1709,7 +1658,7 @@ JS;
             return null;
         $f = igk_dir(igk_getctrl($ctrl)->getArticlesDir() . "/" . $n);
         $_FRAMENAME = "frame_drop_article_confirmation";
-        if (file_exists($f)) {
+        if (igk_io_file_exists($f)) {
             if (igk_qr_confirm()) {
                 unlink($f);
                 igk_wln_e("drop article");
@@ -1908,7 +1857,7 @@ JS;
         $id = igk_getr("clctrl");
         $ctrl = igk_getctrl($id, false);
         $n = igk_getr("n");
-        if ($n && !file_exists($f) && $ctrl) {
+        if ($n && !igk_io_file_exists($f) && $ctrl) {
             $f = $ctrl->getArticle($n);
         }
         if (!empty($f)) {

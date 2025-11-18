@@ -3,10 +3,7 @@
 // @file: ReflectionHelper.php
 // @date: 20231017 08:56:03
 namespace IGK\System\Reflection\Helper;
-
 use ReflectionProperty;
-
-///<summary></summary>
 /**
  * 
  * @package IGK\System\Reflection\Helper
@@ -19,14 +16,13 @@ class ReflectionHelper
      * @param callable|null $filter 
      * @return void 
      */
-    public static function GetParameterInfo(array $parameters, callable $callable = null)
+    public static function GetParameterInfo(array $parameters, ?callable $callable = null)
     {
         // + | --------------------------------------------------------------------
         // + | get parameter dispatche info
         // + |    
         $v_params = [];
         $v_is_v8 = version_compare(PHP_VERSION, '8.0', '>=');
-        
         foreach ($parameters as $info) {
             $n = $info->getName();
             $t = null;
@@ -53,11 +49,26 @@ class ReflectionHelper
         }
         return $v_params;
     }
-
     public static function PropertyHasType(ReflectionProperty $prop){
         if (method_exists($prop, 'hasType')){
             return $prop->hasType();
         }
         return false;
+    }
+
+    /**
+     * 
+     * @param mixed $i 
+     * @return array 
+     */
+    public static function DebugOnlyPublicMember($i):array{
+        $r = [];
+        $tab = (array)$i;
+        foreach($tab as $k=>$v){
+            if (false === strpos($k, "\0")){
+                $r[$k] = $v;
+            }
+        }
+        return $r;
     }
 }

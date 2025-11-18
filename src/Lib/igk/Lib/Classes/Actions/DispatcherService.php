@@ -3,17 +3,14 @@
 // @filename: DispatcherService.php
 // @date: 20230706 10:43:00
 // @desc: dispatcher service 
-
 namespace IGK\Actions;
 use IGK\Controllers\BaseController;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IInjectable;
 use ReflectionException;
-
 abstract class DispatcherService{
     static $sm_services = [];
-
     /**
      * 
      * @param BaseController $ctrl 
@@ -46,7 +43,6 @@ abstract class DispatcherService{
                 }
             }
         }
-
         return $p;
     }
     public static function  GetServiceInstance(BaseController $ctrl, string $class_name, ...$args){

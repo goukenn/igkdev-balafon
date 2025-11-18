@@ -3,23 +3,18 @@
 // @file: SysDbMapping.php
 // @date: 20231005 11:49:46
 namespace IGK\Database\Mapping;
-
 use IGK\Controllers\SysDbController;
 use IGK\Models\ModelBase;
 use IGK\System\Database\Mapping\DefaultMap;
 use IGK\System\Database\Mapping\ModelMappingBase;
 use IGK\System\EntryClassResolution;
 use IGKException;
-
-///<summary></summary>
 /**
 * map database column field to object
 * @package IGK\Database\Mapping
 */
 class SysDbMapping extends ModelMappingBase{
     protected $m_info;
-
-
     public function __invoke($o){
         return $this->map($o);
     }
@@ -31,6 +26,11 @@ class SysDbMapping extends ModelMappingBase{
     public function mapArray(array $arr){
         return array_map($this, $arr);
     }
+    /**
+     * map data 
+     * @param ModelBase $model
+     * @return object
+     */
     public function map(ModelBase $model){
         $this->m_info  = $this->m_info ?? $this->initInfoFromModel($model);        
         $prefix = $this->m_info['prefix'];
@@ -83,12 +83,13 @@ class SysDbMapping extends ModelMappingBase{
         $o->m_info = $o->initInfoFromModel($model);
         return $o;
     }
+    /**
+     * 
+     */
     protected function initInfoFromModel($model){
         $v_tabInfo = $model->getTableInfo();//->columns();
-        $v_prefix = $v_tabInfo->prefix ?? 'cl';
+        $v_prefix = $v_tabInfo->prefix ?? IGK_FIELD_PREFIX;
         $v_columns = $v_tabInfo->columnInfo;
-   
         return ['columns'=>$v_columns, 'prefix'=>$v_prefix];
     }
-   
 }

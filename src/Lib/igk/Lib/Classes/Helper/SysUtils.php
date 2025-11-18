@@ -3,11 +3,9 @@
 // @filename: SysUtils.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Helper;
-
 use Error;
+use Exception;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Configuration\Controllers\ConfigControllerRegistry;
 use IGKApp;
@@ -19,10 +17,10 @@ use IGK\Controllers\SysDbController;
 use IGK\System\Configuration\ApplicationConfigConstants;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
+use IGK\System\Database\IUserProfile;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use TypeError;
-
 class SysUtils{
     /**
      * helper to secure web port 
@@ -43,13 +41,19 @@ class SysUtils{
             }
         }    
     }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @return null|IUserProfile 
+     * @throws Exception 
+     */
     public static function TryServerAutoConnect(BaseController $ctrl){          
         $a = igk_server()->HTTP_USER_AGENT;
         $chek = igk_configs()->{ApplicationConfigConstants::allow_auto_connect_agents} ?? []; 
         if ( ($a && in_array($a, $chek))){ 
             if ($uid = igk_getv(igk_get_allheaders(), 'IGK_CURRENT_USER_ID')){           
                 if ($user = \IGK\Models\Users::Get('clId', $uid)){
-                    if ($r = $ctrl::login($user, null, false)){
+                    if ($ctrl::login($user, null, false)){
                         $user = $ctrl->getUser();
                         return $user;
                     }               
@@ -81,7 +85,7 @@ class SysUtils{
         }
         extract(func_get_arg(1));
         try{ 
-            if (!igk_environment()->NoLogEval && igk_environment()->isDev()){
+            if (igk_is_debug() && !igk_environment()->NoLogEval && igk_environment()->isDev()){
                 igk_ilog('eval : '.func_get_arg(0));
             }
             eval("?>".func_get_arg(0));
@@ -93,6 +97,12 @@ class SysUtils{
             igk_ilog($error_msg);
         }
     }
+    /**
+     * use to include file with extra args 
+     * @param string $arg0 file to include
+     * @param ?array $arg1 arguments to include 
+     * @return mixed 
+     */
     public static function Include(){
         if ((func_num_args()==2) && (is_array(func_get_arg(1)))){
             extract(func_get_arg(1));
@@ -132,10 +142,21 @@ class SysUtils{
         if ($ctrl == AppExecCommand::SYS_CTRL_PLACEHOLDER){
             return SysDbController::ctrl();
         }
+        $suffix = IGK_PROJECT_CTRL_SUFFIX;
         $ctrl = str_replace("/", "\\", $ctrl);  
-        return  (IGKApp::IsInit() && class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class) ) ?
-                $ctrl::ctrl() : 
-                igk_app()->getControllerManager()->getController($ctrl, $throwex);
+        $tb = [$ctrl];
+        if (!igk_str_endwith($ctrl, $suffix)){
+            $tb[] = $ctrl.$suffix;
+        }
+        if(IGKApp::IsInit()){
+            while(count($tb)>0){
+                $ctrl = array_shift($tb); 
+                if (class_exists($ctrl) && is_subclass_of($ctrl, BaseController::class)){
+                    return $ctrl::ctrl();
+                }
+            }
+        } 
+        return igk_app()->getControllerManager()->getController($ctrl, $throwex);
     }
     /**
      * get application module from entry file
@@ -149,7 +170,7 @@ class SysUtils{
     /**
      * @return array list of controller installed in project folder
      */
-    public static function GetProjectControllers(callable $filter=null){
+    public static function GetProjectControllers(?callable $filter=null){
         if (!IGKApp::IsInit()) {
             return null;
         }
@@ -158,7 +179,6 @@ class SysUtils{
         $projects_ctrl = [];
         foreach ($c as $k){
             $ccpath = igk_io_collapse_path($k->getDeclaredDir());;
-            
             if (strstr($ccpath, $dir)) {
                 if (!$filter || $filter($k))
                     $projects_ctrl[] = $k;
@@ -177,8 +197,6 @@ class SysUtils{
                 return $n;
             return null;
         },$ref->getMethods( ReflectionMethod::IS_PUBLIC)));
-
-
     }
      /**
      * 
@@ -193,8 +211,6 @@ class SysUtils{
             return $n;
         return $n->to_array();
     } 
-
-     ///<summary>Notifify message</summary>
      public static function Notify($message, $type="default"){
         if (igk_is_ajx_demand()){
             igk_ajx_toast($message, $type);
@@ -202,7 +218,6 @@ class SysUtils{
             igk_notifyctrl()->bind($message, $type);
         }
     }
-    ///<summary>exist on ajx deman</summary>
     /**
      * exit on ajx demand
      * @return void 
@@ -215,7 +230,6 @@ class SysUtils{
         } 
         igk_exit();
     }
-
     public static function InitClassFields($c, $object){
         $properties = igk_relection_get_properties_keys(get_class($c)); 
         foreach($object as $k=>$v){
@@ -232,7 +246,6 @@ class SysUtils{
         foreach(get_class_vars(get_class($n)) as $k=>$c){ 
             $n->$k = igk_getv($tag, $k, $c);
         } 
-
     }
     public static function assert_notify($condition, $successmsg, $errormessage, $name=null){
         $check = igk_check($condition);
@@ -243,7 +256,6 @@ class SysUtils{
             $notify->error($errormessage);
         }
     }
-    ///<summary>assert toation on ajx demand condition</summary>
     /**
      * assert toation on ajx demand condition
      * @param mixed $condition 
@@ -264,7 +276,6 @@ class SysUtils{
         }
         igk_ajx_toast($d["msg"], $d["type"]);
     }
-
     /**
      * get subdomain controller 
      * @return null|BaseController subdomain controller
@@ -281,7 +292,6 @@ class SysUtils{
      */
     public static function CurrentBaseController(){
         // $a = igk_app();
-
         return igk_environment()->subdomainctrl ??
             igk_app()->getBaseCurrentCtrl() ?? igk_get_defaultwebpagectrl();
     }
@@ -293,9 +303,7 @@ class SysUtils{
     public static function GetApplicationLibrary(string $name){
         return igk_getv(igk_app()->getApplication()->getLibrary(), $name);
     }
-
      ///JUST: store to controller
-    ///<summary>clear cache for base dir</summary>
     /**
      * clear cache for base dir
      */
@@ -314,10 +322,10 @@ class SysUtils{
             Logger::info("rm :" . $bdir);
             IO::CleanDir($bdir);
             igk_io_w2file($bdir . "/.htaccess", "deny from all", false);
-            igk_hook("sys://cache/clear");
         }
+        igk_environment()->set('flag://clear_cache', true);
+        igk_hook(IGKEvents::HOOK_APP_CLEAN_CACHE);
     }
-
     /**
      * resolv link path
      * @param string $rp 
@@ -325,7 +333,6 @@ class SysUtils{
      * @throws IGKException 
      */
     public static function ResolvLinkPath(string $rp){
-
         if (is_null(igk_server()->HOME) && ($p = igk_configs()->get('access_home_dir'))){
             $home_dir = "/home/".igk_server()->USER;
             if (strpos($rp, $home_dir) === 0 ){

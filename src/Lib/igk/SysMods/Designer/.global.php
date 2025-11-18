@@ -5,12 +5,9 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
-///<summary></summary>
-///<param name="doc"></param>
-///<param name="v" default="1"></param>
 /**
 * 
 * @param mixed $doc

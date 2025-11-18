@@ -7,7 +7,6 @@ namespace IGK\Tests\System\Css;
 use IGK\Css\CssConverter;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\System\Css

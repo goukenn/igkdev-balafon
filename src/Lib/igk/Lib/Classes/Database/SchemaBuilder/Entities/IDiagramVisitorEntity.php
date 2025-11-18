@@ -3,11 +3,8 @@
 // @file: IDiagramVisitorEntity.php
 // @date: 20231224 14:28:45
 namespace IGK\Database\SchemaBuilder\Entities;
-
 use IGK\Controllers\BaseController;
 use IGK\System\Database\SchemaBuilderMigration;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\Database\SchemaBuilder\Entities

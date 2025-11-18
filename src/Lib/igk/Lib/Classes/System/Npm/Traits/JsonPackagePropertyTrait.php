@@ -3,9 +3,6 @@
 // @file: JsonPackagePropertyTrait.php
 // @date: 20230330 12:58:39
 namespace IGK\System\Npm\Traits;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Npm\Traits
@@ -25,9 +22,7 @@ trait JsonPackagePropertyTrait{
     var $license;
     var $dependencies;
     var $devDependencies;
-
     var $module;
-
     /**
      * type of the module
      * @var ?string module|commonjs
@@ -38,7 +33,6 @@ trait JsonPackagePropertyTrait{
      * @var ?bool
      */
     var $private;
-
     /**
      * configuration setting
      * @var mixed

@@ -3,9 +3,6 @@
 // @file: ModelCacheFilterBase.php
 // @date: 20230120 19:29:25
 namespace IGK\Database\Mapping;
-
-
-///<summary></summary>
 /**
 * model cache filter, used to validate and filter recieved data 
 * @package IGK\Database\Mapping
@@ -17,22 +14,18 @@ abstract class ModelCacheFilterBase{
      * @var mixed
      */
     var $auto_insert;
-
     /**
      * 
      * @var mixed
      */
     var $column;
-
     /**
      * default value
      * @var mixed
      */
     var $default;
-
     protected function __construct()
     {
-        
     }
     public function __invoke(?string $data, ?string $column_name = null){
         return $this->map($data, $column_name);
@@ -44,7 +37,6 @@ abstract class ModelCacheFilterBase{
      * @return mixed 
      */
     abstract function map(?string $data, ?string $column_name = null);
-
     /**
      * create the filter
      * @param mixed $model 

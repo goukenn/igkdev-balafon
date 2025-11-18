@@ -3,10 +3,7 @@
 // @file: CssStringConverter.php
 // @date: 20230106 15:39:28
 namespace IGK\System\Html\Css;
-
 use IGK\System\IO\Configuration\ConfigurationReader;
-
-///<summary></summary>
 /**
 * use to parse css litteral
 * @package IGK\System\Html\Css
@@ -14,7 +11,6 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 class CssStringConverter extends ConfigurationReader{
     var $delimiter = ";";
     var $separator = ":";
-
     protected function _readValue(): ?string
     {
         // + | --------------------------------------------------------------------
@@ -42,7 +38,6 @@ class CssStringConverter extends ConfigurationReader{
                     // litteral consideration
                     $d.= igk_str_read_brank($this->m_text, $this->m_offset, $ch, $ch,null,1, 1);                   
                 break;
-                
                 default:
                     if (is_null($d)){
                         $d = "";
@@ -50,7 +45,6 @@ class CssStringConverter extends ConfigurationReader{
                     $d .= $ch;
                     break;
                 case $end: 
-                    
                     $this->m_offset--;
                     return !is_null($d) ? trim($d) : null; 
             }

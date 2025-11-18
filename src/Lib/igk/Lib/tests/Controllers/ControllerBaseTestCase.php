@@ -12,18 +12,28 @@ use IGK\Tests\BaseTestCase;
 
 abstract class ControllerBaseTestCase extends BaseTestCase{
     protected $controller;
-
-    public function __construct(?BaseController $ctrl = null){
-        parent::__construct();
+    // FOR PHP+8 disable construct of 
+    public function setUp():void{
+        parent::setUp();
+        $ctrl = $this->controller;
         if ($ctrl === null){
             if ($c = igk_getv($_ENV, "IGK_TEST_CONTROLER")){
                 $this->controller = igk_getctrl($c); 
             }
         }else{
             $this->controller = $ctrl;
-        } 
-       
+        }  
     }
+    // public function __construct(?BaseController $ctrl = null){
+    //     parent::__construct();
+    //     if ($ctrl === null){
+    //         if ($c = igk_getv($_ENV, "IGK_TEST_CONTROLER")){
+    //             $this->controller = igk_getctrl($c); 
+    //         }
+    //     }else{
+    //         $this->controller = $ctrl;
+    //     }  
+    // }
     /**
      * handle request and return a request response
      * @param string $uri 

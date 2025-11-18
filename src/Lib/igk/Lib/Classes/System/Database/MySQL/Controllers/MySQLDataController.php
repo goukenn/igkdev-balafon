@@ -3,29 +3,22 @@
 // @filename: MySQLDataController.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Database\MySQL\Controllers;
-
-///<summary>Represente class: IGKMySQLDataCtrl</summary>
-
 use IGK\Controllers\BaseController;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 use IGK\System\Database\MySQL\DataAdapter;
 use IGK\System\Html\Dom\HtmlNode; 
-
 /**
-* Represente IGKMySQLDataCtrl class
+* Represent IGKMySQLDataCtrl class
 */
 class MySQLDataController extends BaseController{
     use NoDbActiveControllerTrait;
     const DROP_TABLE_QUERY = 'Drop Table IF EXISTS `%s`;';
     const TABLE_CONSTRAINTS =  DataAdapter::DB_INFORMATION_SCHEMA.'.`TABLE_CONSTRAINTS`';
-
     protected function getAutoGenerateModels(){
         return false;
     }
-   
     ////!\ not realible
     ///<summar>/!\ delete all table from data base. return a node of</summary>
     /**
@@ -33,9 +26,8 @@ class MySQLDataController extends BaseController{
     */
     public function drop_all_tables(){
         $d=igk_get_data_adapter($this);
-        $node=null;
-        igk_trace();
-        igk_wln_e("trop all table....");
+        $node=null; 
+        igk_ilog("drop all tables ....");
         if($d->connect()){
             $node=igk_create_node("div");
             $r=$d->sendQuery("SHOW TABLES");
@@ -62,9 +54,6 @@ class MySQLDataController extends BaseController{
         }
         return $node;
     }
-    ///<summary>remove all constraint attached to this database</summary>
-    ///<param name="adapt"></param>
-    ///<param name="dbname"></param>
     /**
     * drop all constraint attached to this database
     * @param mixed $adapt
@@ -78,12 +67,8 @@ class MySQLDataController extends BaseController{
         $adapt->selectdb($bck);
         return $g;
     }
-    ///<summary></summary>
-    ///<param name="adapt"></param>
-    ///<param name="dbname"></param>
-    ///<param name="qregex"></param>
     /**
-    * 
+    * drop all constraint
     * @param mixed $adapt
     * @param mixed $dbname
     * @param mixed $qregex
@@ -113,8 +98,6 @@ class MySQLDataController extends BaseController{
         $adapt->selectdb($dbname);
         return $r;
     }
-    ///<summary>drop table</summary>
-    ///<param name="tbname" type="mixed">mixed single table name or array of table name</param>
     /**
     * drop table
     * @param array|mixed tbname mixed single table name or array of table name
@@ -122,9 +105,10 @@ class MySQLDataController extends BaseController{
     * @param string $node response node
     */
     public static function DropTable($adapter, $tbname, $dbname, $node=null){
-  
+        /**
+         * @var mixed $node
+         */
         if(is_array($tbname)){
-
             $tablelist=array();
             $deleted=array();
             foreach($tbname as $k=>$v){
@@ -143,12 +127,11 @@ class MySQLDataController extends BaseController{
                 ){
                     if($node)
                         $node->addNotifyBox("danger")->Content="Table ".$ktbname. " not deleted ".igk_mysql_db_error();
-                    $r=false;
+                    // $r=false;
                 }
             }
             $adapter->restoreRelationChecking();
             igk_hook(IGK_NOTIFICATION_DB_TABLEDROPPED, [$adapter, $tbname]);
-
         }
         else{
             $delete=null;
@@ -161,13 +144,6 @@ class MySQLDataController extends BaseController{
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="adapter"></param>
-    ///<param name="tbname"></param>
-    ///<param name="dbname"></param>
-    ///<param name="tablelist" default="null"></param>
-    ///<param name="deleted" default="null" ref="true"></param>
-    ///<param name="node" default="null"></param>
     /**
     * 
     * @param mixed $adapter
@@ -180,7 +156,6 @@ class MySQLDataController extends BaseController{
     public static function DropTableRelation($adapter, $tbname, $dbname, $tablelist=null, & $deleted=null, $node=null){
         $d=$adapter;
         $bck=$dbname;
-       
         // $rp = $d->selectdb(DataAdapter::DB_INFORMATION_SCHEMA); 
         $table = self::TABLE_CONSTRAINTS;
         $h=$d->sendQuery(
@@ -226,9 +201,6 @@ class MySQLDataController extends BaseController{
         }
         return $r;
     }
-    ///<summary></summary>
-    ///<param name="adapt"></param>
-    ///<param name="dbname"></param>
     /**
     * 
     * @param mixed $adapt
@@ -242,10 +214,6 @@ class MySQLDataController extends BaseController{
         $adapt->selectdb($bck);
         return $g;
     }
-    ///<summary></summary>
-    ///<param name="a"></param>
-    ///<param name="b"></param>
-    ///<param name="tbase"></param>
     /**
     * 
     * @param mixed $a
@@ -269,21 +237,15 @@ class MySQLDataController extends BaseController{
         $a->selectdb($bck);
         return max($i, $max + 1);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getDataAdapterName():string{
         return IGK_MYSQL_DATAADAPTER;
     }
-    ///<summary></summary>
     /**
     * 
     */
-   
-  
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
     * 
     * @param mixed $tbname
@@ -292,8 +254,6 @@ class MySQLDataController extends BaseController{
         $v=$this->getInfo($tbname);
         return ($v == null) ? null: $v->Entries;
     }
-    ///<summary></summary>
-    ///<param name="tbname"></param>
     /**
     * 
     * @param mixed $tbname
@@ -301,7 +261,6 @@ class MySQLDataController extends BaseController{
     public function getInfo($tbname){
         return igk_getv($this->m_dictionary, $tbname);
     }
-    ///<summary></summary>
     /**
     * not visible controller
     */
@@ -313,11 +272,6 @@ class MySQLDataController extends BaseController{
        //do nothing
        return null;
     }
-     
-    ///<summary></summary>
-    ///<param name="adapt"></param>
-    ///<param name="dbname"></param>
-    ///<param name="e"></param>
     /**
     * 
     * @param mixed $adapt
@@ -327,5 +281,4 @@ class MySQLDataController extends BaseController{
     public static function RestoreRelations($adapt, $dbname, $e){
         throw new \IGK\System\Exceptions\NotImplementException(__METHOD__); 
     }
- 
 }

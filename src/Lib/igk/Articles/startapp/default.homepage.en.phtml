@@ -5,7 +5,7 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
 ?>
@@ -38,10 +38,14 @@ $c->addRow()->addCol("igk-col-3-3 igk-col-xsm-3-3  igk-col-sm-3-3")->div()->addO
 For more information please read the <a href="//igkdev.com/balafon/wiki"> Documentation </a>
 </div>
 <?php
+/* baseuri + conf_uri*/
+/**
+ * @var mixed $conf_uri
+ */
 		if (!igk_environment()->noWebConfiguration()):
 		?> 
 			<div class="mfo">
-				<a class="igk-btn no-border" href="<?= $buri ?>/Configs">Configuration</a>
+				<a class="igk-btn no-border" href="<?= $conf_uri  ?>">Configuration</a>
 			</div>
 		<?php
 		endif;

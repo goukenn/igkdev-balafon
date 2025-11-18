@@ -1,16 +1,12 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: FactoryBase.php
 // @date: 20220728 18:17:44
 // @desc: 
-
 namespace IGK\System\Database\Factories;
-
 use Exception;
 use IGK\Models\ModelBase;
 use IGK\System\Console\Logger;
-
 /**
  * p
  * @package IGK\System\Database\Factories
@@ -21,8 +17,6 @@ abstract class FactoryBase {
     protected $index;
     protected $data;
     protected $m_errors = [];
-
-
     /**
      * helper retrieve model utility
      */
@@ -39,15 +33,12 @@ abstract class FactoryBase {
     protected function can(){
         return rand(0,1) === 1;
     }
-
     public function __set($n, $v){
         igk_die("Not allowed: ".$n);
     }
-
     public function __get($n){
         igk_die("Not allowed: ".$n);
     }
-    
     public function __construct(ModelBase $model, int $count=1, ?array $data=null){
         $this->count = $count;
         $this->model = $model; 
@@ -59,7 +50,6 @@ abstract class FactoryBase {
      * @return void 
      */
     protected function reset(){
-
     }
     /**
      * set error handler
@@ -70,7 +60,6 @@ abstract class FactoryBase {
         $this->m_errors = & $error;
         return $this;
     }
-
     /**
      * initilize dependency and return the number of max created element
      * @return void 
@@ -78,7 +67,6 @@ abstract class FactoryBase {
     protected function dependOn(int $max){
         return $max;
     }
-
     /**
      * create model and return response
      * @return ?array|mixed
@@ -88,12 +76,10 @@ abstract class FactoryBase {
         $g = $this->dependOn($this->count);
         $mod = $this->model;
         $table = $mod->getTable();
-
         for($i = 0; $i < $g; $i++){
             $this->index = $i;
             $def = $this->definition($i); 
             if (empty($def)){
-                
                 continue;
             }
             try{
@@ -105,7 +91,6 @@ abstract class FactoryBase {
                     }
                     $response [] = $v_r;
                 }
-
             } catch(Exception $ex){
                 $this->m_errors[] = $ex->getMessage();
                 Logger::danger('failed: '.$ex->getMessage());
@@ -115,7 +100,6 @@ abstract class FactoryBase {
         $this->reset();
         return $response;
     }
-    ///<summary>override definition</summary>
     /**
      * return new entry definition. Fake
      * @return ?array 

@@ -3,9 +3,6 @@
 // @file: CompilerConstants.php
 // @date: 20221028 20:25:03
 namespace IGK\System\Runtime\Compiler;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Runtime\Compiler

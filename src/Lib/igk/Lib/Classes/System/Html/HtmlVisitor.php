@@ -3,11 +3,8 @@
 // @file: HtmlVisitor.php
 // @date: 20230322 19:37:54
 namespace IGK\System\Html;
-
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\Dom\HtmlTextNode;
-
-///<summary>used to visit html node</summary>
 /**
  * used to visit html node
  * @package IGK\System\Html
@@ -29,19 +26,16 @@ class HtmlVisitor
      * @var callable ($n, $first_child, $has_child):?bool
      */
     var $startVisitorListener;
-
     /**
      * skip treatment
      * @var mixed
      */
     protected $skip;
-
     /**
      * skip end flag
      * @var mixed
      */
     protected $skip_end;
-
     public function __construct(HtmlItemBase $t)
     {
         $this->target = $t;
@@ -71,7 +65,6 @@ class HtmlVisitor
         while (count($tq) > 0) {
             $t = array_shift($tq);
             extract($t, EXTR_OVERWRITE);
-
             if (!$visit) {
                 if (!$n->AcceptRender()) {
                     continue;
@@ -126,7 +119,6 @@ class HtmlVisitor
                     }
                 }
             }
-            
             if (!$this->skip_end)
                 $v_endc($n, $has_child, $last_child, count($tq)==0);
             else{

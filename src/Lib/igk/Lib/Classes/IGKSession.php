@@ -3,15 +3,8 @@
 // @filename: IGKSession.php
 // @date: 20220803 13:48:54
 // @desc: 
-
-
-///<summary>represent handle session service</summary>
-///<remark> only create when required . from session param</remark>
-
 use IGK\Resources\R;
 use function igk_resources_gets as __;
-
-
 /**
 * represent handle session service
 * @property $services stored services
@@ -35,9 +28,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
 	const GLOBALVARS = (self::BASE_SESS_PARAM + 0x0100);
     private $m_instances;
     private $m_sessionParams;
-    ///<summary></summary>
-    ///<param name="App"></param>
-    ///<param name="params" ref="true"></param>
     /**
     * 
     * @param mixed $App
@@ -57,8 +47,29 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
 		}
 		return $r;
 	}
-    ///<summary></summary>
-    ///<param name="key"></param>
+    /**
+     * auto inject or update the value 
+     * @param string $name 
+     * @param null|array $args 
+     * @return mixed|void 
+     * @throws Exception 
+     */
+    public function __call(string $name, ?array $args){
+        if ($args && (($fc=igk_getv($args, 0)) instanceof Closure)){
+            return $this->updateProperty($name, $fc); 
+        }
+    }
+    /**
+     * update property 
+     * @param string $name 
+     * @param callable $callable 
+     * @return mixed 
+     */
+    public function updateProperty(string $name, callable $callable){
+        $c = $this->$name;
+        $c = $this->$name = $callable($c) ?? $c;
+        return $c;
+    }
     /**
     * 
     * @param mixed $key
@@ -67,7 +78,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
 		$g = null;
         if(method_exists($this, "get".$key)){
             $g= call_user_func(array($this, "get".$key), null);
-
         }
         else if(isset($this->m_sessionParams[$key])){
             return $this->m_sessionParams[$key];
@@ -91,9 +101,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function id(){
         return session_id();
     }
-    ///<summary></summary>
-    ///<param name="key"></param>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $key
@@ -115,33 +122,24 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         //+ ASS: Appliation session storage
         return get_class($this)."[::ASS]";
     }
-    ///<summary></summary>
     /**
     * 
     */
     private function _onUserChanged(){
         igk_invoke_session_event(__CLASS__."::UserChanged", array($this, null));
     }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="method"></param>
     /**
     * 
     * @param mixed $obj
     * @param mixed $method
     */
     public function addInitializeSessionEvent($obj, $method){}
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="method"></param>
     /**
     * 
     * @param mixed $obj
     * @param mixed $method
     */
     public function addUserChangedEvent($obj, $method){}
-    ///<summary></summary>
-    ///<param name="key"></param>
     /**
     * 
     * @param mixed $key
@@ -150,7 +148,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         if(isset($this->m_sessionParams[$key]))
             unset($this->m_sessionParams[$key]);
     }
-    ///<summary>register a custom uri compoent to reg uris</summary>
     /**
     * register a custom uri compoent to reg uris
     */
@@ -162,7 +159,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         $c[$uri]=$setting;
         $this->regUris=$c;
     }
-    ///<summary>create instance item for session</summary>
     /**
     * create instance item for session
     */
@@ -188,7 +184,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         $this->m_instances[$class]=$cl;
         return $cl;
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -197,14 +192,12 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
 		igk_app()->getSettings()->{IGK_FORM_CREF} = $cref; 
         return $cref;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getApp(){
         return igk_app();
     }
-    ///<summary>get controller params</summary>
     /**
     * get controller params 
     */
@@ -212,14 +205,12 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         $p = & igk_app()->settings->appInfo->ctrlParams;
         return $p;
     }
-	///<summary>store here general form setting</summary>
 	public function getForm(){
 		if (!igk_app()->settings->form){
 			igk_app()->settings->form = (object)[];
 		}
 		return igk_app()->settings->form;
 	}
-    ///<summary></summary>
     /**
     * 
     */
@@ -229,8 +220,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         })(); 
         return $cref;
     }
-    ///<summary>get session data</summary>
-    ///<return refout="true">data array</return>
     /**
     * get session data
     * @return mixed|array params
@@ -241,21 +230,18 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function NoStore($data){
         return $this->m_sessionParams === $data;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getDomain(){
         return $this->getParam(self::SESS_DOMAIN);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getDomainBaseDir(){
         return $this->getParam(self::IGK_DOMAINBASEDIR_SESS_PARAM);
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -266,14 +252,12 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }
         return $c;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getEvents(){
         return $this->getParam(self::SESS_SESSION_EVENTS);
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -281,7 +265,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
 		$g = igk_app()->getSettings()->{self::SESS_LANG_KEY};
         return $g ??  R::GetDefaultLang();
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -291,9 +274,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }
         return IGK_HOME_PAGEFOLDER;
     }
-    ///<summary>session get parameter</summary>
-    ///<param name="key"></param>
-    ///<param name="default" default="null"></param>
     /**
     * 
     * @param mixed $key
@@ -312,14 +292,12 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }
         return $default;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getParamKeys(){
         return array_keys($this->m_sessionParams);
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -336,39 +314,30 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }
         return $i;
     }
-    ///<summary></summary>
-    ///<param name="classname"></param>
-    ///<return refout="true"></return>
     /**
     * 
     * @param mixed $classname
     * @return mixed|array controller parameters
     */
     public function & getRegisteredControllerParams($classname){
-        igk_trace();
-        igk_wln_e("data .... ");
         $g=null;
 		$t = & $this->getControllerParams();
 		if (isset($t[$classname]))
 			$g = & $t[$classname];       
         return $g;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getUser(){
         return $this->getParam(self::SESS_USER_KEY);
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getUserChangedEvent(){
         return $this->m_UserChangedEvent;
     }
-    ///<summary></summary>
-    ///<param name="app"></param>
     /**
     * 
     * @param mixed $app
@@ -378,7 +347,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
             $this->m_initializeSessionEvent->Call($this, null);
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -391,40 +359,18 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         igk_get_env("sys://session/redirecttask", $g);
         return $g;
     }
-    ///<summary></summary>
-    ///<param name="classname"></param>
-    ///<param name="tab" ref="true"></param>
-    /**
-    * 
-    * @param mixed $classname
-    * @param mixed * $tab
-    */
-    // public function registerControllerParams($classname, & $tab){
-	// 	$p = & $this->getControllerParams();
-	// 	$p[$classname] = & $tab;
-    // }
-	//  public function unregisterControllerParams($classname){
-	// 	$p = & $this->getControllerParams();
-	// 	unset($p[$classname]);
-    // }
-    ///<summary></summary>
-    ///<param name="obj"></param>
-    ///<param name="method"></param>
     /**
     * 
     * @param mixed $obj
     * @param mixed $method
     */
     public function removeInitializeSessionEvent($obj, $method){}
-    ///<summary>reset param </summary>
     /**
     * reset param 
     */
     public function resetParam(){
         $this->m_sessionParams=array();
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -432,8 +378,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function setDomain($v){
         $this->setParam(self::SESS_DOMAIN, $v);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -441,8 +385,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function setDomainBaseDir($v){
         $this->setParam(self::IGK_DOMAINBASEDIR_SESS_PARAM, $v);
     }
-    ///<summary></summary>
-    ///<param name="v"></param>
     /**
     * 
     * @param mixed $v
@@ -454,8 +396,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }
         return $this->setParam(self::SESS_DOMAIN_BASEFILE, $v);
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $value
@@ -463,8 +403,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function setEvents($value){
         $this->setParam(self::SESS_SESSION_EVENTS, $value);
     }
-    ///<summary></summary>
-    ///<param name="lang"></param>
     /**
     * 
     * @param mixed $lang
@@ -477,8 +415,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         }
         return $this;
     }
-    ///<summary></summary>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $value
@@ -486,7 +422,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
     public function setPageFolder($value){
         $this->setParam(self::SESS_PAGEFOLDER_KEY, $value);
     }
-    ///<summary>set session param</summary>
     /**
     * set session param
     */
@@ -505,9 +440,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
             }
         }
     }
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="value"></param>
     /**
     * 
     * @param mixed $name
@@ -523,17 +455,20 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
             $g[$name]=$value;
         $this->{"REDIREC_TASK"}=$g;
     }
-    ///<summary></summary>
-    ///<param name="user"></param>
-    ///<param name="context"></param>
     /**
-    * 
+     * just logout 
+     * @return void 
+     */
+    public function logout(){
+        $this->setParam(self::SESS_USER_KEY, null);
+    }
+    /**
+    * set user 
     * @param mixed $user
-    * @param mixed $context
+    * @param mixed $context require context only USER_CTRL can call this method
     */
-    public function setUser($user, $context){
+    public function setUser($user, $context){  
         $u=$this->getUser();
-    
         if(($context !== null) && ($context == igk_getctrl(IGK_USER_CTRL))){
             if($u !== $user){
                 if ($user && (get_class($user) !== IGKUserInfo::class)){
@@ -556,7 +491,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
         if($this->m_updateSessionEvent != null)
             $this->m_updateSessionEvent->Call($this, null);
     }
-
     public function getServices(){
         return $this->getParam(self::SESS_SERVICE);
     }
@@ -567,7 +501,6 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
             $this->m_sessionParams[self::SESS_SERVICE] =$service; 
         }
     } 
-
     /**
      * update store value
      * @param mixed $key 
@@ -595,5 +528,25 @@ final class IGKSession extends IGKObject implements IIGKParamHostService {
             return session_id();
         }
         return -1;
+    }
+    /**
+     * retrieve value of key 
+     * @param string $key 
+     * @param mixed $default 
+     * @return mixed 
+     */
+    public function get(string $key, $default){
+        if (isset($this->$key)){
+            return $this->$key;
+        }
+        return $default;
+    }
+    /**
+     * get value and reset 
+     */
+    public function getr(string $key, $default){
+        $m = $this->get($key, $default);
+        $this->{$key} = null;
+        return $m;
     }
 }

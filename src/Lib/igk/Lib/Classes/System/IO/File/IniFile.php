@@ -3,16 +3,13 @@
 // @filename: IniFile.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\IO\File;
-
 /**
  * represent ini file
  * @package 
  */
 class IniFile{
     private $m_configs = [];
-
     public function __get($n){
         return igk_getv($this->m_configs, $n);
     }
@@ -48,7 +45,6 @@ class IniFile{
         $conf = [];
         array_map(
             function($d)use(& $conf){
-         
                 $d = trim($d);
                 // if (strpos($d, "#")===0)
                 //     return null;
@@ -61,12 +57,10 @@ class IniFile{
             },
             array_filter(explode("\n", file_get_contents($file)))
         );
-
         $c = new self();
         $c->m_configs = $conf;
         return $c;
     }
-
     //store to file
     public function store(string $file){
         $m = "";

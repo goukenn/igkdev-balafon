@@ -3,9 +3,6 @@
 // @file: ICssRenderOption.php
 // @date: 20240913 08:58:32
 namespace IGK\System\Html\Css;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html\Css

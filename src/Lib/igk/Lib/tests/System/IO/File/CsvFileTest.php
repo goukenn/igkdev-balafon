@@ -7,7 +7,6 @@ namespace IGK\Tests\System\IO\File;
 use IGK\System\IO\File\CsvFile;
 use IGK\Tests\BaseTestCase;
 
-///<summary></summary>
 /**
  * 
  * @package IGK\Tests\System\IO\File
@@ -122,7 +121,7 @@ EOF
         $data = $file->parseData("cocacola,50001A2334,1.5");
         $mapper = [
             "name",
-            "codebar"=>function(?string $v, int $i=null){ return strtolower($v);},
+            "codebar"=>function(?string $v, ?int $i=null){ return strtolower($v);},
             "price"
         ];
         $this->assertEquals(

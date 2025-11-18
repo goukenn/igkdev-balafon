@@ -5,27 +5,24 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\System\Configuration\Controllers;
 
+use Exception;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\Models\Subdomains;
+use IGKException;
 use IGKSubDomainManager;
 use function igk_resources_gets as __;
-
-
+/**
+ * 
+ * @package IGK\System\Configuration\Controllers
+ */
 final class SubDomainController extends ConfigControllerBase
 {
-    // public function __construct()
-    // {
-    //     parent::__construct();
-    //     igk_trace();
-    //     igk_wln("create ");
-    // }
-    ///<summary>Represente __init_domain function</summary>
+   
     private function __init_domain()
     {
         if (igk_is_cmd() || defined('IGK_NO_WEB') || defined('IGK_FRAMEWORK_ATOMIC'))
@@ -39,7 +36,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-    ///<summary>Represente _updateview function</summary>
     private function _updateview()
     {
         igk_getctrl(IGK_CONF_CTRL)->setSelectedConfigCtrl($this);
@@ -48,7 +44,6 @@ final class SubDomainController extends ConfigControllerBase
         $this->View();
         igk_ajx_replace_node($s, "#igk-cnf-content");
     }
-    ///<summary></summary>
     public function dom_add_db_domain_ajx()
     { 
         if (!igk_is_ajx_demand()) {
@@ -77,13 +72,12 @@ final class SubDomainController extends ConfigControllerBase
             $s = $this->getConfigNode();
             $this->View();
             $s->add($this->getTargetNode());
-
             igk_ajx_replace_node($s, "#igk-cnf-content");
-            igk_ajx_replace_uri(igk_io_baseuri() . "/Configs/#!p=" . $this->getConfigPage());
+            igk_ajx_replace_uri(sprintf('%s%s', igk_io_baseuri(), igk_server()->getConfigurationPath()). "/#!p=" . $this->getConfigPage());
             igk_ajx_panel_dialog_close();
             igk_resetr();
         }
-        $dv = igk_create_node();
+        $dv = igk_create_node('div');
         $frm = $dv->addForm();
         $frm["action"] = $this->getUri(__FUNCTION__);
         $frm["igk-ajx-form"] = 1;
@@ -92,7 +86,6 @@ final class SubDomainController extends ConfigControllerBase
         igk_html_form_initfield($frm);
         igk_ajx_panel_dialog(__("Add domain"), $dv);
     }
-    ///<summary></summary>
     public function dom_add_db_edit_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -117,7 +110,6 @@ final class SubDomainController extends ConfigControllerBase
         $frm->addConfirm(1);
         igk_ajx_panel_dialog(__("Edit Domain"), $dv);
     }
-    ///<summary></summary>
     public function dom_drop_db_s_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -151,7 +143,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-    ///<summary></summary>
     public function dom_drop_domain_ajx()
     {
         $id = igk_getr("i");
@@ -167,7 +158,7 @@ final class SubDomainController extends ConfigControllerBase
                 $msg = __("Failed to drop domain");
             }
             $this->_updateview();
-            igk_ajx_replace_uri(igk_io_baseuri() . "/Configs/#!p=" . $this->getConfigPage());
+            igk_ajx_replace_uri(sprintf('%s%s', igk_io_baseuri(), igk_server()->getConfigurationPath()). "#!p=" . $this->getConfigPage());
             igk_ajx_toast($msg, $type);
             igk_notifyctrl()->bind($msg, $type);
             igk_ajx_panel_dialog_close();
@@ -186,13 +177,11 @@ final class SubDomainController extends ConfigControllerBase
         });
         $form->input("i", "hidden", $id);
         igk_ajx_panel_dialog(__("Confirm dialog"), $form);
-
         // $frame=igk_frame_add_confirm($this, __FUNCTION__, $this->getUri(__FUNCTION__));
         // $frame->Form->Div->Content=__("confirm.delete");
         // $frame->Form->addHidden("i", igk_getr("i"));
         // $frame->renderAJX();
     }
-    ///<summary></summary>
     public function dom_drop_domaintable()
     {
         if (!igk_is_conf_connected())
@@ -221,7 +210,6 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
-    ///<summary> edit domain ajx </summary>
     public function dom_edit_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -251,7 +239,6 @@ final class SubDomainController extends ConfigControllerBase
         }
         igk_flush_data();
     }
-    ///<summary></summary>
     public function getConfigPage()
     {
         return "domain";
@@ -259,8 +246,7 @@ final class SubDomainController extends ConfigControllerBase
     ///get the controller that contain domain from setting. for the first usage
     public function getDomainCtrl($n, &$row)
     {
-        $g = Subdomains::select([IGK_FD_NAME => $n]);
-        // $g=igk_db_select_wherec($this, array(IGK_FD_NAME=>$n));
+        $g = Subdomains::select([IGK_FD_NAME => $n]); 
         if ($g && (igk_count($g) == 1)) {
             $row = $g[0];
             if ($ctrl = igk_getctrl($row->clCtrl, false)) {
@@ -270,25 +256,35 @@ final class SubDomainController extends ConfigControllerBase
         }
         return null;
     }
-
-    ///<summary></summary>
-    public function getName()
-    {
+    /**
+     * controller name 
+     * @return string 
+     */
+    public function getName(){
         return IGK_SUBDOMAINNAME_CTRL;
     }
-
-    ///<summary></summary>
-    public function View():BaseController
-    {
+    /**
+     * 
+     * @return static 
+     * @throws Exception 
+     * @throws IGKException 
+     */
+    public function View():BaseController{
         $t = $this->TargetNode;
         if (!$this->getIsVisible()) {
             $t->remove();
         } else {
             $box = $t->clearChilds()->addPanelBox()->div();
+            $box->h2()->Content = __('Subdomain Configuration');
             igk_include_view($this, $box, "subdomain.config");
         }
         return $this;
     }
+    /**
+     * 
+     * @param mixed $n 
+     * @return void 
+     */
     protected function subdomain_view($n)
     {
         $ctrl = $this;
@@ -298,7 +294,6 @@ final class SubDomainController extends ConfigControllerBase
         $tdv = $n->div();
         $tdv["class"] = "c-z igk-write";
         // $tdv->div()->addTitleLevel(5)->Content = R::ngets("title.DatbaseRegisteredDomain");
-         
         $tdv->notifyhost("domain/dbz");
         // \opcache_reset(); 
         //igk_notifyctrl()->setNotifyHost($tdv->div(), "domain/dbz");
@@ -336,12 +331,18 @@ final class SubDomainController extends ConfigControllerBase
                 $tdv->div()->addText($c);
             }
         }
-
        // $n->ajxa($this->getUri("update-view-list_ajx"))->Content = "Updatelist:";
     }
     private function update_view_list_ajx(){
-        $n = igk_create_node("div");
+        $n = igk_create_node_arg("div.sub-domain-config");
+        $n->h2()->Content = 'subdomain_config';
         $this->subdomain_view($n);  
         igk_ajx_replace_node($n, ".subdomain-listview");
     }
+
+    public function showConfig()
+    {
+        parent::showConfig();     
+    }
+  
 }

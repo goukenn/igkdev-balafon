@@ -3,15 +3,12 @@
 // @filename: ExceptionUtils.php
 // @date: 20220803 13:48:58
 // @desc: 
-
-
 namespace IGK\Helper;
-
 use Exception;
 use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Resources\R;
 use IGKResourceUriResolver;
-
+use IGKException;
 /**
  * 
  */
@@ -73,7 +70,7 @@ abstract class ExceptionUtils
         $trace_css = "";
         $trace_css .= igk_io_read_allfile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/exception.css");
         $trace_css .= igk_io_read_allfile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/trace.css");
-        if ((get_class($Ex) == IGKException::class) || is_subclass_of($Ex, IGKException::class)) {
+        if ((get_class($Ex) == \IGKException::class) || is_subclass_of($Ex, \IGKException::class)) {
             if (!($s = $Ex->getCode())) {
                 $s = 500;
             }
@@ -92,7 +89,7 @@ abstract class ExceptionUtils
             $corejs = '<script language="javascript" type="text/javascript" src="' . $balafon_js . '"></script>';
         }
         $style_link = "";
-        if (file_exists($d = igk_io_resourcesdir() . "/Fonts/google/Roboto100,200,400,700,900.css")) {
+        if (igk_io_cache_file_exists($d = igk_io_resourcesdir() . "/Fonts/google/Roboto100,200,400,700,900.css")) {
             $style_link .= "<!-- style link  -->";
             $style_link .= "<link rel=\"stylesheet\" href='" . igk_uri(igk_io_baseuri() . "/" . igk_io_baserelativepath($d)) . "'/>";
             $style_link .= "<!-- end:style link  -->";
@@ -137,9 +134,7 @@ abstract class ExceptionUtils
 })();
 </script>
 EOF;
-
 $end_point = GoogleAPIEndPoints::CssEndPoint;
-
         if (igk_is_ajx_demand()) {
             $doc = <<<EOF
 {$scripts}

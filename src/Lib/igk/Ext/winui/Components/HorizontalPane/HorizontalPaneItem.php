@@ -4,10 +4,14 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
+use IGK\Constants;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
 use IGK\Helper\ViewHelper;
 use IGK\Resources\R;
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Exceptions\EnvironmentArrayException;
+use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlNode;
@@ -23,9 +27,9 @@ require_once __DIR__. "/HorizontalPaneManager.pinc";
 require_once __DIR__. "/HorizontalAnimType.pinc"; 
 require_once __DIR__. "/JSHorizontalPane.pinc"; 
 require_once __DIR__. "/HorizontalPage.pinc"; 
+require_once __DIR__. "/IIGKHorizontalPaneListener.php"; 
  
 
-///<summary>external html item. Add to View</summary>
 final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 {
 	private $m_pane;
@@ -92,7 +96,6 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 		$this->configure();
 		$this->flush();
 	}
-	///<summary>call it first</summary>
 	public function setCtrl($ctrl, $folder = null)
 	{
 		$this->clearPages();
@@ -106,7 +109,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	{
 		$f = $this->Folder . "/" . $this->ConfigFileName;
 
-		if (!file_exists($f))
+		if (!igk_io_file_exists($f))
 			return;
 		$div =  HtmlReader::LoadFile($f);
 		$d = igk_getv($div->getElementsByTagName("config"), 0);
@@ -300,11 +303,22 @@ EOF;
 			}
 		}
 	}
-	public static function InitComponent($doc, BaseController $ctrl=null){
+	/**
+	 * 
+	 * @param mixed $doc 
+	 * @param BaseController|null $ctrl 
+	 * @return void 
+	 * @throws IGKException 
+	 * @throws ArgumentTypeNotValidException 
+	 * @throws ReflectionException 
+	 * @throws EnvironmentArrayException 
+	 * @throws CssParserException 
+	 */
+	public static function InitComponent($doc, ?BaseController $ctrl=null){
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl(); 
 		$doc->addTempScript( __DIR__."/Scripts/igk.winui.horizontalScrollPane.js", ["v"=>IGK_VERSION])->activate('defer'); 
 		if (igk_environment()->isOPS()){ 
-			CssUtils::InjectStyleContent($doc, __DIR__."/Styles/default.pcss");	 
+			CssUtils::InjectStyleContent($doc, __DIR__."/Styles/".Constants::DEFAULT_THEME_STYLE);	 
 		}
 	}
 }

@@ -3,17 +3,13 @@
 // @filename: SysConfigExpressionFactory.php
 // @date: 20220803 13:48:57
 // @desc: 
-
 namespace IGK\System\Configuration;
-
-
-
+use IGK\System\Html\XML\XmlConfigurationNode;
 /**
  * class factory for configuration
  * @package IGK\System\Configuration
  */
 class SysConfigExpressionFactory{    
-
     const KEY = self::class."/factories";
     /**
      * register prefix
@@ -33,7 +29,7 @@ class SysConfigExpressionFactory{
         igk_environment()->unsetInArray(self::KEY, $prefix);
     }
     public static function GetRegisterRegex(){
-        $s = ["sys","app"];
+        $s = [XmlConfigurationNode::SYS_CONFIG, XmlConfigurationNode::APP_CONFIG];
         if (is_array($t = igk_environment()->get(self::KEY))){
             $s = array_unique(array_merge($s, array_keys($t)));
         }

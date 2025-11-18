@@ -3,9 +3,6 @@
 // @file: HookHandler.php
 // @date: 20220905 10:05:13
 namespace IGK\System;
-
-
-///<summary>hook handler</summary>
 /**
 * hook handler
 * @package IGK\System

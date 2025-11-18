@@ -5,20 +5,14 @@
 // @copyright: igkdev © 2020
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 namespace IGK\Manager;
-
-///<summary>Framework manager</summary>
 /**
 * Framework manager
 */
 class BalafonFrameworkManager{
     var $handleAllAction;
-    ///<summary></summary>
-    ///<param name="name"></param>
-    ///<param name="args"></param>
     /**
     * 
     * @param mixed $name
@@ -33,35 +27,30 @@ class BalafonFrameworkManager{
             echo "command [{$name}] not found";
         }
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function __construct(){
         $this->handleAllAction=1;
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function clear_cache(){
         igk_clear_cache();
     }
-    ///<summary></summary>
     /**
     * echo help message
     */
     public function help(){
         echo "help ";
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function install(){
         echo "running install";
     }
-    ///<summary></summary>
     /**
     * 
     */

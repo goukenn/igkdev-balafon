@@ -1,17 +1,12 @@
 <?php
-
 namespace IGK\System\Html\Dom;
-
 use IGKEvents;
-
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
-
 class HtmlBodyBoxNode extends HtmlNode{
     protected $tagname = "div";
- 
     public function __construct(HtmlNode $parent)
     {
         $this->m_parent = $parent;

@@ -3,9 +3,6 @@
 // @file: ViewRef.php
 // @date: 20221231 16:35:05
 namespace IGK\System\Html;
-
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Html

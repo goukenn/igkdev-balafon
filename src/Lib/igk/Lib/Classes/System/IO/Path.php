@@ -3,23 +3,18 @@
 // @filename: Path.php
 // @date: 20220803 13:48:55
 // @desc: 
-
 namespace IGK\System\IO;
-
 use Exception;
+use IGK\Constants;
 use IGK\Helper\StringUtility as str_helper;
 use IGK\Helper\IO;
 use IGKException; 
-
-///<summary>core path manipulation class</summary>
-///<note>for better directory manipulation.</note>
 /**
  * core path manipulation class 
  * @package IGK\System\IO
  */
 class Path
 {
-
     protected $lib_dir;
     protected $class_dir;
     protected $app_dir;
@@ -36,10 +31,7 @@ class Path
     protected $temp_dir;
     protected $cache_dir;
     protected $public_assets_dir;
-
-
     private static $sm_instance;
-
     /**
      * get temp directory 
      * @return mixed 
@@ -65,12 +57,12 @@ class Path
      */
     public static function GetExistingFile(&$path, array $extension = []): bool
     {
-        if (file_exists($path)) {
+        if (igk_io_file_exists($path)) {
             return true;
         }
         while (count($extension) > 0) {
             $q = array_shift($extension);
-            if (file_exists($g = $path . $q)) {
+            if (igk_io_file_exists($g = $path . $q)) {
                 $path = $g;
                 return true;
             }
@@ -88,7 +80,6 @@ class Path
         }
         return self::$sm_instance;
     }
-
     /**
      * get the backup directory
      * @return mixed 
@@ -119,11 +110,14 @@ class Path
     public function getCacheDir(){
         return $this->cache_dir;
     }
+    /**
+     * 
+     */
     public function prepareData()
     {
-        if (!defined('IGK_BASE_DIR')){
-            igk_trace();
-            igk_wln_e('please setup IGK_BASE_DIR before.');
+        if (!defined('IGK_BASE_DIR')){   
+            igk_environment()->isDev() && igk_trace();         
+            igk_dev_wln_e(__FILE__.":".__LINE__ , 'please setup IGK_BASE_DIR before.');
         }
         $v_is_webapp = igk_is_webapp();
         $this->app_dir = str_helper::Uri(IGK_APP_DIR);
@@ -133,8 +127,6 @@ class Path
         $this->package_dir = str_helper::Uri(IGK_PACKAGE_DIR);
         $this->module_dir = str_helper::Uri(IGK_MODULE_DIR);
         $this->class_dir = str_helper::UriCombine(IGK_LIB_DIR, IGK_LIB_FOLDER, IGK_CLASSES_FOLDER);
-
-
         $this->cache_dir =  $this->app_dir . DIRECTORY_SEPARATOR . IGK_CACHE_FOLDER;
         $this->public_assets_dir = Path::Combine($this->base_dir, IGK_RES_FOLDER);
         // check an create cache folder on init - build - hook - context 
@@ -142,12 +134,10 @@ class Path
             // create cache directory for web app
             IO::CreateDir($this->cache_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
         } 
-
         if ($v_is_webapp && $this->public_assets_dir && !is_dir($this->public_assets_dir)){
             // + | init create asset directory for web app
             IO::CreateDir($this->public_assets_dir, IGK_DEFAULT_CACHE_FOLDER_MASK);
         }
-
         $b = ["v" => IGK_VERSION];
         if (igk_environment()->isDev() && igk_getr("XDEBUG_TRIGGER")) {
             $b["XDEBUG_TRIGGER"] = 1;
@@ -188,12 +178,27 @@ class Path
      */
     public function getStyleUri()
     {
-        return $this->baseuri($this->css_path);
+        $d = $this->css_path;
+        $t = explode('?', $d,2);
+        $d = array_shift($t); 
+        $u = [$this->baseuri($d)]; 
+        if ($t){
+            $u[] = $t[0];
+        }
+        return implode('?', $u); 
     }
+    /**
+     * retrieve setup system app directory
+     * @return ?string 
+     */
     public function getApplicationDir()
     {
         return $this->app_dir;
     }
+    /**
+     * retrieve setupe system class directory
+     * @return mixed 
+     */
     public function getClassDir()
     {
         return $this->class_dir;
@@ -222,8 +227,6 @@ class Path
     {
         return $this->sys_data_dir;
     }
-
-
     /**
      * 
      * @param mixed|null $dir 
@@ -239,7 +242,7 @@ class Path
             return $bdir;
         $l = igk_dir($bdir);
         $_r = null;
-        if (file_exists($dir) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
+        if (igk_io_file_exists($dir, true) && (($hdir = igk_dir($dir)) == igk_realpath($dir))) {
             $rpath = self::GetRelativePath($hdir, $l);
             $_r = ($rpath) ? igk_dir($l . DIRECTORY_SEPARATOR . $rpath) : $dir;
         } else {
@@ -308,7 +311,7 @@ class Path
         if ($o = realpath($path)) {
             return $o;
         } else {
-            //check if contains
+            // + | check 
             $found = 0;
             while (($pos = strpos($path, "../", $offset)) !== false) {
                 $found = 1;
@@ -321,7 +324,6 @@ class Path
             if (!$found)
                 return null;
         }
-
         return $path;
     }
     /**
@@ -364,7 +366,6 @@ class Path
             $link = rtrim($link, "/") . "/";
         }
         return self::GetRelativePath(str_helper::uri($spath), str_helper::uri($link));
-
         // $d1 = explode("/", ltrim(str_helper::uri($spath), "/"));
         // $d2 = explode("/", ltrim(str_helper::uri($link), "/"));
         // $i = 0;
@@ -379,9 +380,6 @@ class Path
         // $dnew = str_repeat("../", count($d2)). implode("/", array_slice($d1,$i));
         // return $dnew;
     }
-
-
-    ////<summary>get relative path</summary>
     /**
      * Get relative path
      * @param mixed $source 
@@ -411,7 +409,6 @@ class Path
             }
             $vtarget = $v_cpath;
         }
-
         if ($v_found || ($vtarget == '/')) {
             $l = '';
             if (strpos($vsource, $v_cpath) !== 0) {
@@ -436,10 +433,7 @@ class Path
             return $out;
         }
         return null; 
-
-       
     }
-
     /**
      * 
      * @param string $path 
@@ -460,19 +454,22 @@ class Path
     public static function Combine(...$path)
     {
         $sep = '/';
-        $path = array_values(array_filter(array_values($path)));
+        $filter_callback = function($a){
+            return !is_null($a) && (is_numeric($a) || (is_string($a) && !empty($a)));
+        };
+        $path = array_values(array_filter(array_values($path), $filter_callback));
         if ($path) {
             $p = rtrim($path[0], $sep);           
             $path = array_slice($path, 1);
             $path = array_map(self::class . "::TrimDir", $path);
             $r = '';
-            if (!empty($p)){
+            if (is_numeric($p) || !empty($p)){
                 array_unshift($path, $p);
             }
             else{
                 $r = $sep;
             }
-            return $r.igk_uri(implode($sep, array_filter($path)));
+            return $r.igk_uri(implode($sep, array_filter($path, $filter_callback)));
         }
         return null;
     }
@@ -549,7 +546,6 @@ class Path
         }
         return $s;
     }
-
     /**
      * combine an flatten path
      * @param ?string[] $path 
@@ -559,7 +555,6 @@ class Path
     {
         return self::FlattenPath(self::Combine(...$path));
     }
-
     /**
      * detect that path is in library
      * @param string $path 
@@ -578,12 +573,11 @@ class Path
     public static function DetectPathMode(string $path): ?string
     {
         $p = igk_io_collapse_path($path);
-        if (preg_match(\IGKConstants::PATH_VAR_DETECT_MODEL_REGEX, $p, $tab)) {
+        if (preg_match(Constants::PATH_VAR_DETECT_MODEL_REGEX, $p, $tab)) {
             return $tab['name'];
         }
         return null;
     }
-
     /**
      * resolve path with include path list 
      * @param string $path 
@@ -595,7 +589,7 @@ class Path
         }
         if (($p = realpath($path))===false){
             $t = array_filter(array_map(function($n)use($path){
-                if (file_exists($f = self::CombineAndFlattenPath($n, $path))){
+                if (igk_io_file_exists($f = self::CombineAndFlattenPath($n, $path))){
                     return $f;
                 }
                 return null;

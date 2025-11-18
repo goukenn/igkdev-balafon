@@ -3,19 +3,12 @@
 // @filename: HtmlMemoryUsageInfoNode.php
 // @date: 20220803 13:48:56
 // @desc: 
-
-
-
 ///<summary>represent language selection options</items>
-
 namespace IGK\System\Html\Dom;
-
 use IGK\Resources\R;
 use IGK\System\Number;
 use IGKValueListener;
 use function igk_resources_gets as __;
-
-
 /**
 * represent language selection options
 */
@@ -24,7 +17,6 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
         $m = [];
         return $m;
     }
-    ///<summary></summary>
     /**
     * .ctr
     */
@@ -34,16 +26,14 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
         $this->add("div")->Content=new IGKValueListener($this, "MemoryPeekInUsed");
         $this->add("div")->Content=new IGKValueListener($this, "Components"); 
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function clear_component(){
         igk_getctrl(IGK_COMPONENT_MANAGER_CTRL)->DisposeAll();
-        session_destroy();
+        igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); session_destroy();
         igk_navtobaseuri();
     }
-    ///<summary></summary>
     /**
     * 
     */
@@ -63,28 +53,24 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
         igk_ajx_notify_dialog(R::Gets("title.componentinfo"), $d);
         igk_exit();
     }
-    ///<summary>Get componsent strings </summary>
     /**
     * 
     */
     public function getComponents(){
         return __("Component : {0}",  igk_count(igk_getctrl(IGK_COMPONENT_MANAGER_CTRL)->getComponents()));
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getMemoryInUsed(){
         return Number::GetMemorySize(memory_get_usage());
     }
-    ///<summary></summary>
     /**
     * 
     */
     public function getMemoryPeekInUsed(){
         return Number::GetMemorySize(memory_get_peak_usage());
     }
-    ///<summary></summary>
     /**
     * 
     */

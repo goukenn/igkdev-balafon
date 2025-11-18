@@ -1,13 +1,9 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: WhoUses.php
-// @date: 20240922 19:45:49
+// @date: 20250516 07:24:40
 namespace IGK\Models;
-
-
 use IGK\Models\ModelBase;
-
-///<summary>Track who use the framework</summary>
 /**
 * Track who use the framework
 * @package IGK\Models
@@ -17,11 +13,11 @@ use IGK\Models\ModelBase;
 * @property int $clState
 * @property string|datetime $clDateTime
 * @property string $clIP
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_WEB_SITE() - `clWebSite` full column name 
-* @method static string FD_CL_STATE() - `clState` full column name 
-* @method static string FD_CL_DATE_TIME() - `clDateTime` full column name 
-* @method static string FD_CL_IP() - `clIP` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_WEB_SITE() - `clWebSite` full column name 
+* @method static string FN_CL_STATE() - `clState` full column name 
+* @method static string FN_CL_DATE_TIME() - `clDateTime` full column name 
+* @method static string FN_CL_IP() - `clIP` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clWebSite, int $clState, string|datetime $clDateTime, string $clIP) add entry helper
@@ -37,4 +33,8 @@ class WhoUses extends ModelBase{
 	* table's name
 	*/
 	protected $table = "%prefix%who_uses";
+	/**
+	*override display key
+	*/
+	protected $display = "clWebSite";
 }

@@ -5,19 +5,19 @@
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
-// @mail: bondje.doue@igkdev.com
+// @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-
 use IGK\Css\CssSupport;
+use IGK\Css\ICssAnimation;
 use IGK\Css\ICssStyleContainer;
 use IGK\System\Exceptions\CssParserException;
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\IO\StringBuilder;
-
 /**
  * media management 
  * @package 
  */
-final class IGKMedia implements ArrayAccess, ICssStyleContainer
+final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
 {
     use IGK\System\Polyfill\IGKMediaArrayAccessTrait;
     const CUSTOM_COLOR = 0x1;
@@ -26,21 +26,32 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
     const FONT_THEME = 0x3;
     const MEDIA_ID = 0x0;
     const PROPERTIES_THEME = 0x4;
+    const ANIMATIONS = 0x06;
     private $_;
-    ///<summary>.ctr media </summary>
     public function __construct($type, $name)
     {
         $this->_ = array();
         $this->_[self::MEDIA_ID] = $type . ":" . $name;
     }
-
+    /**
+     * register animation 
+     * @param string $name 
+     * @param mixed $definition 
+     * @return mixed 
+     */
+    public function animation(string $name, $definition) {
+        $d = CssUtils::BlockDefinition($definition);
+        if (!isset($this->_[self::ANIMATIONS])){
+            $this->_[self::ANIMATIONS] = [];
+        }
+        $this->_[self::ANIMATIONS][$name] = sprintf('@keyframes %s{%s}', $name, $d);
+    }
     public static function Clone(IGKMedia $media)
     {
         $c = new static('', '');
         $c->_ = array_combine(array_keys($media->_), array_values($media->_)); //merge($media->_);
         return $c;
     }
-
     /**
      * 
      * @return string 
@@ -57,14 +68,12 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
     {
         return igk_getv($this->_, self::PROPERTIES_THEME);
     }
-
     public function Clear()
     {
         $id = igk_getv($this->_, self::MEDIA_ID);
         $this->_ = [];
         $this->_[self::MEDIA_ID] = $id;
     }
-
     /**
      * support css rules 
      * @param string $rule 
@@ -98,7 +107,8 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
             self::DEFAULT_THEME => "def",
             self::CUSTOM_COLOR => "color",
             self::FILES_THEME => "file",
-            self::FONT_THEME => "font"
+            self::FONT_THEME => "font",
+            self::ANIMATIONS => 'anims'
         ] as $t => $n) {
             $out[$n] = igk_getv($this->_, $t);
         }
@@ -111,28 +121,23 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
      */
     public function load_data(array $data)
     {
-
         $this->_ = [
-            self::MEDIA_ID =>
-            $this->getId()
+            self::MEDIA_ID => $this->getId()
         ];
         foreach ([
             self::DEFAULT_THEME => "def",
             self::CUSTOM_COLOR => "color",
             self::FILES_THEME => "file",
             self::FONT_THEME => "font",
-            self::PROPERTIES_THEME => 'props'
+            self::PROPERTIES_THEME => 'props',
+            self::ANIMATIONS=>'anims'
         ] as $t => $n) {
-
             if (is_array($g = igk_getv($data, $n))) {
                 $this->_[$t] = $g;
             }
         }
         return true;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<return refout="true"></return>
     public function &__get($n)
     {
         $o = null;
@@ -141,14 +146,10 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
         }
         return $o;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     public function __set($n, $v)
     {
         // do nothing
     }
-    ///<summary></summary>
     public function __sleep()
     {
         if (empty($this->_)) {
@@ -156,7 +157,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
         }
         return array("\0" . __CLASS__ . "\0_");
     }
-    ///<summary>get media definition</summary>
     /**
      * get css style presentation
      * @param ICssStyleContainer $theme 
@@ -173,7 +173,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
         $minfile = true,
         $themeexport = true
     ): ?string {
-
         $o = "";
         $lineseparator = $minfile ? "" : IGK_LF;
         $def = $this->getDef();
@@ -181,7 +180,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
             foreach ($def as $k => $v) {
                 if (is_null($v) || empty($v))
                     continue;
-
                 // if (is_array($v)){
                 //     // + | store array definition
                 //     $sb = new \IGK\System\IO\StringBuilder; // StringBuilder;
@@ -209,8 +207,12 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
                     }
                 }
             }
+        } 
+        if ($anims = igk_getv($this->_, self::ANIMATIONS)){
+            // igk_wln_e(__FILE__.":".__LINE__ , "load aminations.....");
+            ksort($anims);
+            $o.= implode('', $anims);
         }
-
         $o .= $this->getPropertiesCssDef($theme, $systheme, $minfile, $themeexport);
         return $o;
     }
@@ -227,16 +229,13 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
                 if (is_object($v)) {
                     $v = $v->getDefinition();
                     continue;
-                }
-
+                } 
                 $kv = trim(igk_css_treat($v, $themeexport, $theme, $systheme));
                 $sb->append($k . ':' . $kv . ';');
             }
         }
         return $sb . '';
     }
-    ///<summary></summary>
-    ///<return refout="true"></return>
     /**
      * get theme definition
      * @return array|null 
@@ -245,9 +244,6 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
     {
         return $this->getFlag(self::DEFAULT_THEME);
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<return refout="true">get flags</return>
     private function &getFlag($n)
     {
         $g = null;
@@ -256,12 +252,10 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
         }
         return $g;
     }
-    ///<summary></summary>
     public function getId()
     {
         return $this->getFlag(self::MEDIA_ID);
     }
-    ///<summary>get if this media storage is empty</summary>
     /**
      * get if this media storage is empty
      * @return bool 
@@ -270,12 +264,15 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer
     {
         return count($this->_) == 0;
     }
-    ///<summary></summary>
-    ///<param name="n"></param>
-    ///<param name="v"></param>
     private function setFlag($n, $v)
     {
         $this->_[$n] = $v;
+        return $this;
+    }
+    public function loadDef(array $def){
+        foreach($def as $k=>$v){
+            $this[$k]=$v;
+        }
         return $this;
     }
 }

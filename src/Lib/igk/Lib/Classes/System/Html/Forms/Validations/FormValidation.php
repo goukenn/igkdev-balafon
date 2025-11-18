@@ -3,15 +3,12 @@
 // @filename: FormValidation.php
 // @date: 20220803 13:48:56
 // @desc: 
-
 namespace IGK\System\Html\Forms\Validations;
-
 use IGK\Helper\Activator;
 use IGK\Helper\StringUtility;
 use IGKException;
 use IGKObjStorage;
 use function igk_resources_gets  as __;
-
 require_once __DIR__ . "/IFormValidator.php";
 require_once __DIR__ . "/IFormPatternValidator.php";
 /**
@@ -20,7 +17,6 @@ require_once __DIR__ . "/IFormPatternValidator.php";
  */
 class FormValidation
 {
-
     /**
      * @
      */
@@ -30,7 +26,6 @@ class FormValidation
      * @var mixed
      */
     var $uri;
-
     /**
      * use storage data object in case of good data
      * @var true
@@ -41,19 +36,16 @@ class FormValidation
      * @var mixed
      */
     private $_fields;
-
     /**
      * error message
      * @var mixed
      */
     private $m_errors;
-
     /**
      * register custom validator
      * @var array
      */
     private $m_validators = [];
-
     /**
      * return stored error
      * @return array
@@ -72,8 +64,6 @@ class FormValidation
         $this->_fields = $fields;
         return $this;
     }
-
-
     /**
      * register validator
      * @param mixed $name 
@@ -107,8 +97,8 @@ class FormValidation
         foreach ($this->_fields as $k => $data) {
             if (igk_getv($data, "type") == "file") { // filter files
                 $validator = new FileValidator();
-                $validator->fieldInfo = $data;
-                $validator->name = $k;
+                // $validator->fieldInfo = $data;
+                // $validator->name = $k;
                 $storage = new IGKObjStorage($data);
                 $storage->name = $k;
                 $v = igk_getv($filedata, $k);
@@ -131,7 +121,6 @@ class FormValidation
         // + | reset the error list
         $this->m_errors = [];
         $result = false;
-
         if (empty($request)) {
             $this->m_errors[] = __("validation: empty request not allowed");
         }
@@ -139,7 +128,6 @@ class FormValidation
             $this->m_errors[] = __("no validator setup");
         }
         if (count($this->m_errors) == 0) {
-
             // + | stats validation propcess 
             /**
              * @var ?IGKObjStorage $storage 
@@ -152,7 +140,6 @@ class FormValidation
                 $v_dof = array_shift($v_rfd);
                 $out_data = &$v_dof['o']; 
                 $request = $v_dof['v']; 
-
                 foreach ($v_dof['f'] as $k => $data) {
                     if (is_numeric($k)) {
                         if (is_string($data)) {
@@ -165,7 +152,6 @@ class FormValidation
                             continue;
                         }
                     }
-
                     $v = igk_getv($request, $k);
                     $storage = new FormFieldObjStorage($data);
                     $storage->name = $k;
@@ -178,7 +164,6 @@ class FormValidation
                     if(is_null($v) && $this->skipNullValue){
                         continue;
                     }
-
                     //+ object field validation 
                     //+ in order to disable recursion just use props data while
                     if (is_object($v) || is_array($v)) {
@@ -204,8 +189,6 @@ class FormValidation
                     //     $this->m_errors[] = __("form validation {0} is required", $k);
                     //     continue;
                     // }
-
-
                     // validate field 
                     $_v = $this->getValidator($storage->type);
                     if ($_v instanceof IFormPatternValidator) {
@@ -224,7 +207,6 @@ class FormValidation
                     $v_value->error = &$v_e;
                     // $v = $_v->validate($v, $storage->default, $v_e, $storage->isRequired, $storage->allowNull);                    
                     $v = $_v->validate($v_value); // , $storage->default, $v_e, $storage->isRequired, $storage->allowNull);                    
-
                     if (empty($v_e)) {
                         $out_data[$k] = $v;
                     } else {
@@ -241,10 +223,8 @@ class FormValidation
                     $result = $out_data;
             }
         }
-
         return $result;
     }
-
     /**
      * 
      * @param null|string $type 
@@ -255,7 +235,7 @@ class FormValidation
         $cl = DefaultValidator::class;
         if ($type !== null) {
             $m = StringUtility::CamelClassName($type . "_Validator");
-            if (file_exists($file = __DIR__ . "/{$m}.php")) {
+            if (igk_io_file_exists($file = __DIR__ . "/{$m}.php")) {
                 require_once $file;
             }
             $m = __NAMESPACE__ . "\\" . $m;
@@ -287,7 +267,6 @@ class FormValidation
         }
         return false;
     }
-
     /**
      * validation has error
      * @return bool 

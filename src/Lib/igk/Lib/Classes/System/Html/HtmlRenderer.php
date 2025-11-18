@@ -3,31 +3,27 @@
 // @filename: HtmlRenderer.php
 // @date: 20220803 13:48:55
 // @desc: 
-
-
 namespace IGK\System\Html;
 
 use Exception;
 use IGK\Controllers\ControllerEnvParams;
+use IGK\Helper\Activator;
 use IGK\Helper\JSon;
 use IGK\Helper\JSonEncodeOption;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\CssParserException;
-use IGK\System\Html\Css\CssUtils; 
+use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\Dom\HtmlItemBase;
+use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\Html\Rendering\IHtmlRederingCallback;
 use IGK\System\Http\IHeaderResponse;
+use IGK\System\Http\RequestResponseCode;
 use IGKApp;
 use IGKException;
 use IGKHtmlDoc;
 use ReflectionException;
 use ReflectionMethod;
 
-function rgtrim($v)
-{
-    igk_wln("render:" . $v);
-    return "-=" . $v;
-}
 /**
  * represent base renderer engine
  * @package IGK\System\Html
@@ -36,6 +32,57 @@ class HtmlRenderer
 {
     const reflect_class = 'reflec_class';
     const render_method = 'render';
+    /**
+     * 
+     * @param HtmlItemBase $n 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function SplitterJoin(HtmlItemBase $n, $separator='')
+    {
+        $s = '';
+        $attr = '';
+        $close = '';
+        $t = $n->getTagName();
+        if ($n->getCanRenderTag()) {
+            if ($attr = HtmlRenderer::GetAttributeString($n, null)) {
+                $attr = ' ' . $attr;
+            }
+            if ($n->isEmptyTag()) {
+                $s = sprintf('<%s%s/>'.$separator, $t, $attr);
+            } else {
+                $close = sprintf("</%s>", $t).$separator;
+                $s = sprintf('%s<%s%s>', $close, $t, $attr);
+            }
+        }
+        return $s;
+    }
+    /**
+     * 
+     * @param HtmlItemBase $s 
+     * @param mixed $g 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function Encapsulate(HtmlItemBase $s, $g): string
+    {
+        $t = $s->getTagName();
+        if ($attr = HtmlRenderer::GetAttributeString($s, null)) {
+            $attr = ' ' . $attr;
+        }
+        if ($s->isEmptyTag()) {
+            return sprintf("<%s%s/>", $t, $attr) . $g;
+        }
+        return sprintf("<%s%s>%s</%s>", $t, $attr, $g, $t);
+    }
     /**
      * append after rendering element
      * @param mixed $option 
@@ -62,13 +109,28 @@ class HtmlRenderer
         self::InitRendererOption($o);
         return $o;
     }
-    public static function InitRendererOption($o){
+    /**
+     * 
+     */
+    public static function InitRendererOption($o)
+    {
         $o->Cache = igk_sys_cache_require();
         if ($o->Cache) {
             $o->CacheUri = base64_decode(igk_sys_cache_uri());
             $o->CacheUriLevel = explode("/", $o->CacheUri);
         }
     }
+    /**
+     * 
+     * @param mixed $o 
+     * @param mixed $options 
+     * @return ?string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     public static function GetValue($o, $options = null)
     {
         if ($o instanceof IHtmlGetValue) {
@@ -77,8 +139,8 @@ class HtmlRenderer
         if ($o instanceof HtmlItemBase) {
             return $o->render($options);
         }
+        return null;
     }
-    ///<summary>force to render global html document</summary>
     /**
      * force to render global html document
      */
@@ -120,18 +182,22 @@ class HtmlRenderer
     public static function OutputDocument(IGKHtmldoc $doc)
     {
         $headers = [];
+        $code = $doc->getResponseStatus() ?? RequestResponseCode::Ok;
         if ($doc instanceof IHeaderResponse) {
             $headers = array_merge($headers, $doc->getResponseHeaders() ?? []);
         }
-        //igk_dev_wln_e(__FILE__.":".__LINE__,  "data ", $headers);
-        $response = new \IGK\System\Http\WebResponse($doc, 200, $headers);
+        $response = new \IGK\System\Http\WebResponse($doc, $code, $headers);
         $response->cache = !igk_environment()->no_cache && igk_configs()->allow_page_cache;
         $response->output();
     }
-    public static function SanitizeOptions($options)
+    /**
+     * sanitize rendering option 
+     * @param object 
+     */
+    public static function SanitizeOptions(object $options)
     {
-        if (!isset($options->__sanitize)) {
-            $options->__sanitize = 1;
+        if (!isset($options->sanitizeRendering)) {
+            $options->sanitizeRendering = 1;
         } else {
             return;
         }
@@ -142,7 +208,6 @@ class HtmlRenderer
             "Indent" => false,
             "header" => null,
         ]);
-
         foreach ($cmp as $k => $v) {
             if (!isset($options->$k)) {
                 $options->$k = $v;
@@ -155,6 +220,9 @@ class HtmlRenderer
             $options = self::CreateRenderOptions();
         } else {
             // sanitize options property
+            if (is_array($options)){
+                $options = Activator::CreateNewInstance( HtmlRendererOptions::class, $options);  
+            }
             self::SanitizeOptions($options);
         }
         $options->LF = $options->Indent ? "\n" : "";
@@ -173,6 +241,12 @@ class HtmlRenderer
         }
         return $s;
     }
+    /**
+     * update invoke method
+     * @param string $method 
+     * @param mixed $options 
+     * @return void 
+     */
     public static function UpdateInvoke(string $method, $options)
     {
         if (!isset($options->__invoke[$method])) {
@@ -181,6 +255,16 @@ class HtmlRenderer
             $options->__invoke[$method]++;
         }
     }
+    /**
+     * 
+     * @param mixed|string $o 
+     * @return null|string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
     private static function _GetHeader($o): ?string
     {
         if (is_string($o)) {
@@ -189,10 +273,10 @@ class HtmlRenderer
         if (is_object($o)) {
             return self::GetValue($o);
         }
+        return null;
     }
     private static function reduceDepth($options, $tag = null)
     {
-
         $options->Depth = max(0, $options->Depth - 1);
         // igk_debug_wln("\nreduct to : ".$options->Depth.": ".$tag);
     }
@@ -207,12 +291,16 @@ class HtmlRenderer
             ["item" => $item, "close" => false]
         ];
         $options->Source = $item;
+        $is_html_redering = in_array( igk_getv($options, 'Context', HtmlRenderingContext::Html),  [
+            HtmlRenderingContext::Html, 
+            HtmlRenderingContext::XML]
+        ); 
         //count the parent invoker
         self::UpdateInvoke(__METHOD__, $options);
         $s = "";
         $reflect = [];
         $ln = $options->LF;
-        $engine = igk_getv($options, "Engine"); 
+        $engine = $options->Engine; // igk_getv($options, "Engine");
         if ($options->header) {
             $s = self::_GetHeader($options->header);
             $options->header = null;
@@ -220,6 +308,7 @@ class HtmlRenderer
         $filter = $options->filterListener;
         $close_ln = '';
         $child_render = 0;
+        $v_renderingNSContext = [];
         while ((count($tab) > 0) && !$options->Stop) {
             if (!($q = array_pop($tab))) {
                 // |+ filter null items 
@@ -234,17 +323,17 @@ class HtmlRenderer
                 $q = ["item" => $i, "close" => false];
             }
             if (!$q["close"]) {
-                $s.=$close_ln;
-                $close_ln='';
+                $s .= $close_ln;
+                $close_ln = '';
                 if (($ln && ($options->Depth > 0))) {
-                    $s .= self::GetTabStop($options); 
-                }  
+                    $s .= self::GetTabStop($options);
+                }
                 if ($i instanceof HtmlItemBase) {
-                    if ($filter && $filter($i)){
+                    if ($filter && $filter($i)) {
                         continue;
                     }
                     // + | check for visibility
-                    if ($options->skipTags && (in_array($i->getTagName(), $options->skipTags))){                        
+                    if ($options->skipTags && (in_array($i->getTagName(), $options->skipTags))) {
                         continue;
                     }
                     if (!$i->AcceptRender($options)) {
@@ -255,19 +344,27 @@ class HtmlRenderer
                         unset($options->__append__);
                     }
                 }
-
                 if ($engine) {
-                    $s .= $engine->render($i, $options);
-                    self::reduceDepth($options, 'engine');
-                    continue;
+                    $l = $engine->render($i, $options);
+                    if ($l || ($skipEngineNode = igk_getv($options, 'skipEngineNode'))) {
+                        if (isset($skipEngineNode) && $skipEngineNode) {
+                            $options->skipRenderNode = false;
+                        }
+                        $s .= is_bool($l) ? '' : $l;
+                        self::reduceDepth($options, 'engine');
+                        continue;
+                    }
                 }
                 if ($options->Source !== $i) {
+                    if (is_string($i)) {
+                        $i = new HtmlTextNode($i);
+                    }
                     if (!isset($reflect[$cl = get_class($i)])) {
                         $reflect[$cl] = HtmlItemBase::class != (new ReflectionMethod($i, self::render_method))->getDeclaringClass()->name;
                     }
                     if ($reflect[$cl]) {
                         $options->lastRendering = $i;
-                        if (!empty($v_c = $i->render($options))) {
+                        if (!empty($v_c = $i->render($options))) { 
                             $s .=  $v_c . $ln;
                             continue;
                         }
@@ -275,17 +372,18 @@ class HtmlRenderer
                         continue;
                     }
                 }
-                $options->lastRendering = $i;
-                $tag = $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
-                $havTag = !empty($tag); 
-                if ($i instanceof IHtmlRederingCallback ) 
-                    $i->beforeRenderCallback($options, ['output'=>& $s]);
-                 if (!$havTag && $ln) {
-                     $s = rtrim($s); 
-                     $close_ln = $ln;
+                $options->lastRendering = $i; 
+                $tag_support = $is_html_redering && !$i->getFlag(HtmlItemBase::OVERRIDE_PARENT_TAG_FLAG);
+                $tag = $tag_support && $i->getCanRenderTag($options) ? $i->getTagName($options) : "";
+                $havTag = !empty($tag);
+                if ($i instanceof IHtmlRederingCallback)
+                    $i->beforeRenderCallback($options, ['output' => &$s]);
+                if (!$havTag && $ln) {
+                    $s = rtrim($s);
+                    $close_ln = $ln;
                     //  self::reduceDepth($options, 'notagnode');
                     //  $q['next_depth'] = $options->Depth;
-                 }
+                }
                 if ($havTag) {
                     $s .= "<" . $tag . "";
                     // render attribute 
@@ -296,15 +394,13 @@ class HtmlRenderer
                 }
                 $content = $i->getContent($options);
                 $childs = $i->getRenderedChilds($options);
-
-                
                 // + | --------------------------------------------------------------------
                 // + | aside array of node that might be render after the cibling node
                 // + |                
-                if (isset($options->aside)) { 
+                if (isset($options->aside)) {
                     $rf = array_reverse($options->aside);
                     $tab = array_merge($tab, $rf);
-                    unset($options->aside, $rf); 
+                    unset($options->aside, $rf);
                 }
                 $have_childs = $childs && (count($childs) > 0);
                 $have_content = $have_childs || !empty($content);
@@ -316,7 +412,6 @@ class HtmlRenderer
                     $s = rtrim($s) . ">";
                 }
                 $q['child_render'] = strlen($s);
-
                 if (!empty($content) || is_numeric($content)) {
                     if (is_object($content)) {
                         $s .= HtmlRenderer::GetValue($content, $options);
@@ -327,13 +422,15 @@ class HtmlRenderer
                             $s .= $content;
                     }
                 }
-
                 if ($have_childs) {
                     if ($havTag)
                         $s .= $ln;
                     array_push($tab, $q);
                     $childs = array_reverse($childs);
                     $tab = array_merge($tab, $childs);
+                    if ($options->NamespaceContext && ($i === $options->NamespaceSource)) {
+                        array_push($v_renderingNSContext, $options->NamespaceContext);
+                    }
                     continue;
                 }
             } else {
@@ -343,25 +440,30 @@ class HtmlRenderer
             if (!empty($tag)) {
                 self::reduceDepth($options);
                 if ($q["close_tag"]) {
-                    if ($ln){                        
+                    if ($ln) {
                         if ($q["have_childs"]) {
                             // + | determine child contains
-                            $ts = !empty(trim(substr($s,$q['child_render'])));
+                            $ts = !empty(trim(substr($s, $q['child_render'])));
                             if ($ts)
-                                $s = rtrim($s).$ln;
-                            if($options->Depth > 0){
-                                $s.= self::GetTabStop($options);
+                                $s = rtrim($s) . $ln;
+                            if ($options->Depth > 0) {
+                                $s .= self::GetTabStop($options);
                             }
                         }
-                    }  
+                    }
                     $s .=  "</" . $tag . ">" . $ln;
                 } else {
                     $s .= "/>" . $ln;
                 }
             }
-            if ($i instanceof IHtmlRederingCallback ) 
-                $i->afterRenderCallback($options, ['output'=>& $s]);
+            if ($i instanceof IHtmlRederingCallback)
+                $i->afterRenderCallback($options, ['output' => &$s]);
+            if ($options->NamespaceContext && ($i === $options->NamespaceSource)) {
+                array_pop($v_renderingNSContext);
+                $options->NamespaceContext = $v_renderingNSContext ? igk_array_peek_last($v_renderingNSContext) : null;
+            }
         }
+        $options->child_renderCount = $child_render;
         return $s; // leave space after
     }
     public static function MailThemeRendering(HtmlItemBase $item, &$attribs = [],  $options = null)
@@ -372,10 +474,8 @@ class HtmlRenderer
             $options->renderTheme = $th; // doc->getTheme();
             CssUtils::BindCoreFile($th); //->renderTheme);
         }
-
         if ($attribs) {
-
-            $g = $attribs["style"];
+            $v_old_style = $g = $attribs["style"];
             $cl = $attribs["class"];
             if (!empty($g)) {
                 $g = rtrim($g, ";") . "; ";
@@ -424,10 +524,9 @@ class HtmlRenderer
             $v_fattribs = new HtmlFilterAttributeArray($attribs);
             $attribs = $filter->filter($v_fattribs);
         }
-
         $out = IGK_STR_EMPTY;
         igk_get_defined_ns($item, $out, $options);
-        if ($options && ($options->Context == "mail")) {
+        if ($options && ($options->Context == HtmlRenderingContext::Mail)) {
             self::MailThemeRendering($item, $attribs, $options);
         }
         if ($item->getHasAttributes()) {
@@ -469,28 +568,25 @@ class HtmlRenderer
         $encode_options = new JSonEncodeOption;
         $encode_options->ignore_empty = 1;
         $encode_options->ignore_null = 1;
-        if (!igk_getv($options, 'PreserveAttribOrder')){
-            if (!is_array($attrs)){
+        if (!igk_getv($options, 'PreserveAttribOrder')) {
+            if (!is_array($attrs)) {
                 $attrs->sortKeys();
-               //  igk_dev_wln_e(__FILE__.":".__LINE__ , ' GetAttribute ::: not and array ', get_class($attrs));
-             
             } else {
                 ksort($attrs);
             }
         }
         foreach ($attrs as $k => $v) {
             if ((($k == "@activated") && is_array($v))
-             || ((is_numeric($k) && is_string($v) && ($v = [$v=>$v])))
-             )
-             { 
+                || ((is_numeric($k) && is_string($v) && ($v = [$v => $v])))
+            ) {
                 foreach ($v as $ak => $av) {
-                    if ($av && !isset($ac_keys[$k])){
-                        if (is_bool($av)){
-                            if ($av){
-                                $out .= $ak . "=\"".$av."\" ";     
+                    if ($av && !isset($ac_keys[$k])) {
+                        if (is_bool($av)) {
+                            if ($av) {
+                                $out .= $ak . "=\"" . $av . "\" ";
                             }
-                        }else{
-                            $out .= $ak . " ";  
+                        } else {
+                            $out .= $ak . " ";
                         }
                         $ac_keys[$k] = 1;
                     }
@@ -499,33 +595,32 @@ class HtmlRenderer
             }
             $v_is_obj = is_object($v);
             if ($v_is_obj && ($v instanceof HtmlActiveAttrib)) {
-                $active.= $k. ' ';
-               
+                $active .= $k . ' ';
                 continue;
             }
- 
             if (is_array($v)) {
-                if (strpos($k,"igk:")===0){
+                if (strpos($k, "igk:") === 0) {
                     $v = json_encode($v);
-                 }else{
+                } else {
                     $v = JSon::EncodeForHtmlAttribute($v, $encode_options);
                 }
             }
             if ($v_is_obj && ($v instanceof HtmlExpressionAttribute))
                 $c = $v->getValue();
             else {
-              
                 if ($v_is_obj && ($v instanceof IHtmlGetValue)) {
                     $v_cv = $v->getValue($options);
                     if ($v_cv instanceof IHtmlTemplateAttribute) {
-                        $vc = addslashes( json_encode(
-                            [$k, $v_cv->expression()])
+                        $vc = addslashes(
+                            json_encode(
+                                [$k, $v_cv->expression()]
+                            )
                         );
-                        $out .= 'igk:template-attr="'.$vc.'" ';
+                        $out .= 'igk:template-attr="' . $vc . '" ';
                     } else {
-                        if (is_object($v_cv )){
-                            $v_cv = "".$v_cv;
-                        } else if (is_array($v_cv)){
+                        if (is_object($v_cv)) {
+                            $v_cv = "" . $v_cv;
+                        } else if (is_array($v_cv)) {
                             igk_dev_wln_e("binding array to attributes", $v_cv);
                         }
                         if (!empty($v_cv) && is_string($v_cv)) {
@@ -533,25 +628,24 @@ class HtmlRenderer
                         }
                     }
                     continue;
-                } else if ($v_is_obj && ($v instanceof IHtmlAttributeHandler)){
+                } else if ($v_is_obj && ($v instanceof IHtmlAttributeHandler)) {
                     $out .= $v->getAttributeValue($k);
                     continue;
-                }                
-                else {
+                } else {
                     $c = static::GetStringAttribute($v, $options);
                 }
             }
             if (is_numeric($c) || !empty($c)) {
                 // + | check that it doesnt contains quotes
-                if (preg_match("/[\"]/", trim($c, " \""))){
-                    $c = igk_str_surround(addslashes($c));
+                if (preg_match("/[\"]/", trim($c, " \""))) {
+                    $c = '"' . htmlentities($c) . '"';
                 }
                 if ($options && !$v_is_obj  && igk_getv($options, "DocumentType") == 'xml') {
                     $c = str_replace('&', '&amp;', $c);
                 }
                 $usekey = true;
-                if ($v_is_obj  && is_object($v)){ 
-                    $usekey = method_exists($v, 'useAttribName') && $v->useAttribName(); 
+                if ($v_is_obj  && is_object($v)) {
+                    $usekey = method_exists($v, 'useAttribName') && $v->useAttribName();
                 }
                 if (!$usekey) {
                     $out .= $c . " ";
@@ -559,9 +653,8 @@ class HtmlRenderer
                     $out .= $k . "=" . $c . " ";
             }
         }
-        return trim(rtrim($out).' '.rtrim($active));
+        return trim(rtrim($out) . ' ' . rtrim($active));
     }
-
     /**
      * return attribute array 
      * @param HtmlItemBase $item 
@@ -574,7 +667,6 @@ class HtmlRenderer
     public static function GetAttributeArray(HtmlItemBase $item, $options = null): array
     {
         $attribs = $item->getAttributes();
-
         $_result = [];
         $k = null;
         $v = null;
@@ -612,7 +704,6 @@ class HtmlRenderer
                     $_result[$k] = $k . '';
                     continue;
                 }
-
                 $r = (is_object($v) && ($v instanceof HtmlExpressionAttribute));
                 if ($r)
                     $c = $v->getValue();
@@ -652,11 +743,6 @@ class HtmlRenderer
         }
         return  $_result;
     }
-
-
-    ///<summary>get attribute string</summary>
-    ///<param name="v"></param>
-    ///<param name="options"></param>
     /**
      * get attribute string
      * @param mixed $v
@@ -669,7 +755,6 @@ class HtmlRenderer
         }
         if (empty($v) && !is_numeric($v))
             return null;
-
         while (is_object($v)) {
             $v = HtmlUtils::GetValueObj($v, $options);
         }
@@ -677,13 +762,13 @@ class HtmlRenderer
             return null;
         }
         if (is_string($v)) {
-            $v= stripslashes($v);
-            if ((strpos($v, "\"") !== false)||(strpos($v, "\'") !== false)) {
-                if(igk_getv($options, 'Context') ==HtmlContext::Html){
+            $v = stripslashes($v);
+            if ((strpos($v, "\"") !== false) || (strpos($v, "\'") !== false)) {
+                if (igk_getv($options, 'Context') == HtmlContext::Html) {
                     return igk_str_surround(HtmlUtils::EncodeAttribute($v), '"');
                 }
                 return $v;
-            } 
+            }
         }
         if (is_array($v)) {
             $v = JSon::Encode($v);
@@ -705,7 +790,7 @@ class HtmlRenderer
                     },
                     $v
                 );
-            }           
+            }
             $v = HtmlUtils::EncodeAttribute($v);
         } else {
             $v = str_replace("\"", "\\\"", $v);
@@ -715,7 +800,6 @@ class HtmlRenderer
         // return "\"" . $v . "\"";
         return igk_str_surround($v);
     }
-    ///<summary>get node item inner content</summary>
     /**
      * get node item inner content
      * @param HtmlItemBase $item 
@@ -738,6 +822,43 @@ class HtmlRenderer
         if (count($childs) > 0) {
             foreach ($childs as $k) {
                 $s .= self::Render($k, $options);
+            }
+        }
+        return $s;
+    }
+    /**
+     * get inner text 
+     * @param HtmlItemBase $item 
+     * @param mixed $options 
+     * @return string 
+     * @throws IGKException 
+     * @throws Exception 
+     * @throws CssParserException 
+     * @throws ArgumentTypeNotValidException 
+     * @throws ReflectionException 
+     */
+    public static function GetInneText(HtmlItemBase $item, $options = null): string
+    {
+        $s = "";
+        $rc_content = function (&$s, $item, $options) {
+            $content = $item->getContent();
+            if (!empty($content)) {
+                if (is_object($content)) {
+                    $s .= HtmlRenderer::GetValue($content, $options);
+                } else {
+                    $s .= $content;
+                }
+            }
+        };
+        $rc_content($s, $item, $options);
+        $childs = $item->getRenderedChilds($options);
+        while (count($childs) > 0) {
+            $q = array_shift($childs);
+            $rc_content($s, $q, $options);
+            $tchilds = $q->getRenderedChilds($options);
+            if (count($tchilds) > 0) {
+                array_reverse($tchilds);
+                array_unshift($childs, ...$tchilds);
             }
         }
         return $s;

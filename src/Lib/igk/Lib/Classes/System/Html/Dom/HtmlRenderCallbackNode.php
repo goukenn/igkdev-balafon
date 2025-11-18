@@ -1,13 +1,9 @@
 <?php
-
 // @author: C.A.D. BONDJE DOUE
 // @filename: HtmlRenderCallbackNode.php
 // @date: 20220428 06:45:18
 // @desc: render callback node
-
 namespace IGK\System\Html\Dom;
-
-
 /**
  * on render callback call
  * @package IGK\System\Html\Dom
@@ -22,7 +18,6 @@ class HtmlRenderCallbackNode extends HtmlNode{
         parent::__construct();
         $this->m_callbackobj = $callbackobj;
     }
-
     protected function _acceptRender($options = null):bool
     {
         $param = [ $options ]; 

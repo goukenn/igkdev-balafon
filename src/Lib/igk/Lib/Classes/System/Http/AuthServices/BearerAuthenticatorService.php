@@ -3,7 +3,6 @@
 // @file: BearerAuthenticatorService.php
 // @date: 20230707 21:30:43
 namespace IGK\System\Http\AuthServices;
-
 use IGK\Actions\Traits\Authenticator\BearerAuthenticatorTrait;
 use IGK\Controllers\BaseController;
 use IGK\Models\ModelBase;
@@ -14,15 +13,12 @@ use IGK\System\Exceptions\NotImplementException;
 use IGK\System\Http\IAuthenticatorService;
 use IGKException;
 use ReflectionException;
-
-///<summary></summary>
 /**
 * 
 * @package IGK\System\Http\AuthServices
 */
 class BearerAuthenticatorService implements IAuthenticatorService{
     use BearerAuthenticatorTrait;
-
     /**
      * get user from token
      * @param bool $update 
@@ -39,8 +35,6 @@ class BearerAuthenticatorService implements IAuthenticatorService{
     protected function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile{
         throw new NotImplementException(__METHOD__);
     }
-
-
     public function resolveBearerToken(bool $update, & $token =null){
         return $this->getUserFromToken($update, $token);
     }
