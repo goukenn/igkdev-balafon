@@ -2,7 +2,7 @@
     "name":"igkdev/balafon",
     "description":"BALAFON PHP Framework",
     "license": "MIT",
-    "version": "1.0",
+    "version": "1.0.1",
     "require":{  
         "php":">=7.3"      
     },
@@ -14,7 +14,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "IGK": "src/Lib/igk/Lib/Classes"
+            "IGK\\": "src/Lib/igk/Lib/Classes"
         }
     }
 }
