@@ -2,7 +2,6 @@
     "name":"igkdev/balafon",
     "description":"BALAFON PHP Framework",
     "license": "MIT",
-    "version": "1.0.1",
     "require":{  
         "php":">=7.3"      
     },
