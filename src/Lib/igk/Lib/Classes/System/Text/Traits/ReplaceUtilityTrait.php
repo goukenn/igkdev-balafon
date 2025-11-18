@@ -87,12 +87,12 @@ trait ReplaceUtilityTrait
     }
     /**
      * 
-     * @param string $s 
-     * @param string $pattern 
-     * @param string $replace 
-     * @return string|string[]|null 
+     * @param string $s target
+     * @param string $pattern regex
+     * @param string $replace replace data
+     * @return string 
      */
-    public static function ReplaceCaptureData(string $s, string $pattern, string $replace)
+    public static function ReplaceCaptureData(string $s, string $pattern, string $replace): string
     {
         if (false !== strpos($s, "\n")) {
             $pattern = '/^([\s\S]+)\s*$/m';

@@ -4,6 +4,9 @@
 // @desc: String builder helper
 // @date: 20210723 13:22:40
 namespace IGK\System\IO;
+
+use igk;
+
 /**
  * string builder helper
  * @package IGK\System\IO
@@ -89,11 +92,11 @@ class StringBuilder{
      * @param string $text 
      * @return static 
      */
-    public function append(string $text){     
+    public function append(string $text): StringBuilder{      
         $this->m_src .= $text;   
         return $this;    
     }
-    public function rmLast(string $text, $number=1){
+    public function rmLast(string $text, $number=1): StringBuilder{
         $this->m_src = igk_str_rm_last($this->m_src, $text, $number);
         return $this;
     }

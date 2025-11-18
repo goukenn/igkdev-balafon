@@ -154,6 +154,13 @@ class IGKEvents extends IGKObject
     // + |
     const HOOK_WINUI_SETTING_MENU = 'sys://user/settings/menu';
 
+
+    // + | --------------------------------------------------------------------
+    // + | module hook
+    // + |
+    const HOOK_MODULE_DID_INIT_MODULE = 'sys://module/didInitModule';
+
+
     const VIEWCOMPLETE = 0x1;
     const HOOK_CRUNJOB = 'on_do_cronjob';
     private $m_methods;

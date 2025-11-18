@@ -45,4 +45,10 @@ abstract class EntityConfigurationSchema{
      * @var ?string
      */
     var $url;
+
+    /**
+     * general description to display
+     * @var mixed
+     */
+    var $description; 
 }

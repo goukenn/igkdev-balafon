@@ -1,0 +1,8 @@
+{
+    "name":"igkdev/balafon",
+    "description":"BALAFON PHP Framework",
+    "license": "MIT",
+    "require":{
+        "php":">=7.3"
+    }
+}

@@ -558,6 +558,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
         return defined('IGK_DEBUG') ? constant('IGK_DEBUG') : igk_environment()->get(self::DEBUG);
     }
     /**
+     * is in testing mode - phpunit core
+     * @return bool 
+     */
+    public function isTesting():bool{
+        return defined('IGK_TEST_INIT');
+    }
+    /**
      * 
      */
     public function IsWebApp()

@@ -11,7 +11,7 @@ use IGK\System\IO\Path;
 use IGKException;
 
 /**
-* represent project configuration 
+* represent project configuration settings
 * @package IGK\System\Configuration
 */
 class ProjectConfiguration extends EntityConfigurationSchema{

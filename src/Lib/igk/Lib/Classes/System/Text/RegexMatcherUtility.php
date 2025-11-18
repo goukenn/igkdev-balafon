@@ -22,27 +22,28 @@ abstract class RegexMatcherUtility
 
     /**
      * 
-     * @param string $v 
-     * @param mixed $rp 
-     * @param mixed $e 
+     * @param string $v source to replace
+     * @param mixed|Closure|string|string[] $replacement new value
+     * @param mixed $pattern 
      * @param mixed $g 
      * @param mixed $replaceCapturedDataCallback
      * @return void 
      */
-    public static function ReplaceWith(string $s, $rp, $e, $g , ?Closure $replaceCapturedDataCallback = null){
+    public static function ReplaceWith(string $source, $replacement, $pattern, $g , ?Closure $replaceCapturedDataCallback = null){
         
-            if ($rp instanceof Closure) {
-                $s = $rp($s, $g, $e);
+            if ($replacement instanceof Closure) {
+                $source = $replacement($source, $g, $pattern);
             } else {
-                if (is_array($rp)){
-                    $s = strtr($s, $rp);
+                if (is_array($replacement)){
+                    $source = strtr($source, $replacement);
                 } else {
                     if ($replaceCapturedDataCallback){
-                        return $replaceCapturedDataCallback($s, $g, $rp);
+                        // return $replaceCapturedDataCallback($s, $e, $rp); // update e with g
+                        return $replaceCapturedDataCallback($source, $pattern, $replacement); // update e with g
                     }
                 }
             }
-            return $s;
+            return $source;
     }
     /**
      * 

@@ -8,6 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
+
+use IGK\System\Console\Logger;
 use IGKObject;
 /**
  * mark an attribute to be activated
@@ -22,5 +24,9 @@ final class HtmlActiveAttrib extends IGKObject{
         $b=new self();
         igk_set_env($key, $b);
         return $b;
-    }
+    } 
+    public function __construct()
+        {
+            Logger::info('loading.');
+        }
 }

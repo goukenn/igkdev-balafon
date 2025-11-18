@@ -50,7 +50,7 @@ abstract class RootControllerBase extends IGKObject{
     protected function auto_load_class($n){        
         $entryNS=$this->getEntryNameSpace() ?? "";
         $classdir = $this->getClassesDir();
-        if (defined('IGK_TEST_INIT')){
+        if (igk_environment()->isTesting()){
             $classdir = [
                 $classdir, $this->getTestClassesDir()
             ];

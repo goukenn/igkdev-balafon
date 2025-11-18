@@ -285,7 +285,7 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
         }
         $v_init->register($path, $ob);
     }
-    igk_hook('sys://module/didInitModule', ['module'=>$ob]);    
+    igk_hook(IGKEvents::HOOK_MODULE_DID_INIT_MODULE, ['module'=>$ob]);    
     return $ob;
 }
 

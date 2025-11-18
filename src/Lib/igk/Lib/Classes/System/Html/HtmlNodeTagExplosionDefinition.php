@@ -122,7 +122,7 @@ class HtmlNodeTagExplosionDefinition
             if ($name) {
                 $n->setAttribute('name', $name);
             }
-        } 
+        }
         $tagname = array_shift($defs);
         list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($tagname, $context);
         return [trim($tagname), $id, $classes, $args, $name, $attr];
@@ -208,11 +208,7 @@ class HtmlNodeTagExplosionDefinition
             $a = substr($g, 1, -1);
             // $attr = igk_engine_get_attr_arg($a, $context);
             $tagname = igk_str_rm($tagname, $start,  $pos - $start + 1);
-            $r = new ConfigurationReader();
-            $r->separator = ':';
-            $r->delimiter = ',';
-            $r->escape_start = "[";
-            $r->escape_end = ']';
+            $r = self::InitConfigurationReader();
             $v_activa_attrib = self::_GetActiveAttribute($a);
             $attr = ArrayMapKeyValue::Map(function ($k, $v) {
                 if (is_null($v)) {
@@ -280,7 +276,7 @@ class HtmlNodeTagExplosionDefinition
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
 
-     
+
 
     /**
      * explode tag 2
@@ -290,7 +286,7 @@ class HtmlNodeTagExplosionDefinition
      * @throws IGKException 
      * @throws Exception 
      */
-    public static function ExplodeTag2(string $tagname, $context=null): array
+    public static function ExplodeTag2(string $tagname, $context = null): array
     {
         $regex = new RegexMatcherContainer;
         $v_s = $regex->appendStringDetection('string', true)->last();
@@ -302,7 +298,7 @@ class HtmlNodeTagExplosionDefinition
         $regex->resetTreatment();
 
         $pbrank->patterns = [
-            
+
             $pbrank
         ];
 
@@ -321,8 +317,8 @@ class HtmlNodeTagExplosionDefinition
             'args' => null,
         ];
         $list = [
-            'tag-litteral'=>function(& $def, $e){
-                  self::_SetTagName($e,$def);
+            'tag-litteral' => function (&$def, $e) {
+                self::_SetTagName($e, $def);
             },
             'litteral' => function (&$def, $e) {
                 if ($c = igk_getv($e->beginCaptures, 1)) {
@@ -341,11 +337,10 @@ class HtmlNodeTagExplosionDefinition
                         case '#':
                             $def['id'] = $t;
                             break;
-
                     }
                 } else {
-                    self::_SetTagName($e,$def); 
-                } 
+                    self::_SetTagName($e, $def);
+                }
             },
             'pbrank' => function (&$def,  $e) use ($context) {
                 $def['args'] && igk_die('params already passed');
@@ -353,42 +348,31 @@ class HtmlNodeTagExplosionDefinition
                 $args = igk_engine_get_attr_arg($a, $context);
                 if ($args) {
                     $args = array_map([HtmlNodeTagExplosionDefinition::class, self::DEF_METHOD], $args);
-                    
                 }
                 $def['args'] = $args;
             },
             'cbrank' => function (&$def, $e) use ($context) {
                 $a = substr($e->value, 1, -1);
-
-                if ($e->parentInfo){
-                    if ($e->parentInfo->match->tokenID=='cbrank'){
+                if ($e->parentInfo) {
+                    if ($e->parentInfo->match->tokenID == 'cbrank') {
                         return;
                     }
                 }
-
-                // $attr = igk_engine_get_attr_arg($a, $context);
-                $r = new ConfigurationReader();
-                $r->activeAttribute = new HtmlActiveAttrib;
-                $r->separator = ':';
-                $r->delimiter = ',';
-                $r->escape_start = '[';
-                $r->escape_end = ']';
-                $v_activa_attrib = []; // HtmlNodeTagExplosionDefinition::_GetActiveAttribute($a);
-                $attr = ArrayMapKeyValue::Map(function ($k, $v) {
-                    if (is_null($v)) {
-                        if (strpos($k, "@") === 0) {
-                            return [$k = ltrim($k, '@'), new HtmlActiveAttrib];
+                $r = self::InitConfigurationReader();
+                $attr = ArrayMapKeyValue::Map(function ($k, $v) use (&$v_active_attrib) {
+                    if (strpos($k, "@") === 0) {
+                        $nk = ltrim($k, '@');
+                        if (is_null($v)) {
+                            return [$nk, new HtmlActiveAttrib];
+                        } else {
+                            if ($v instanceof HtmlActiveAttrib) {
+                                return [$nk, $v];
+                            }
+                            return null;
                         }
-                        return null;
                     }
                     return [$k, $v];
                 }, (array)$r->read($a));
-                if ($v_activa_attrib) {
-                    foreach (array_keys($v_activa_attrib) as $m) {
-                        if (isset($attr[$m])) continue;
-                        $attr[$m] = new HtmlActiveAttrib;
-                    }
-                }
                 $def['attr'] = array_merge($def['attr'] ?? [], $attr);
             }
         ];
@@ -403,7 +387,22 @@ class HtmlNodeTagExplosionDefinition
         }
         return igk_extract($definition, 'tagname|id|classes|args|name|attr');
     }
-    private static function _SetTagName($e, & $def){
+    /**
+     * 
+     * @return ConfigurationReader 
+     */
+    protected static function InitConfigurationReader()
+    {
+        $r = new ConfigurationReader();
+        $r->activeAttribute = new HtmlActiveAttrib;
+        $r->separator = ':';
+        $r->delimiter = ',';
+        $r->escape_start = '[';
+        $r->escape_end = ']';
+        return $r;
+    }
+    private static function _SetTagName($e, &$def)
+    {
         $t = $e->value;
         if (isset($def['tagname']))
             throw new HtmlNodeTagExplosionTagNameAlreadyDefineException($t);

@@ -1120,8 +1120,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $v_skip_detect = null;
         if ($p = $this->m_parent) {
             if (($this->m_last_offset == $offset) && ($this->m_last_detect === $p)) {
-                igk_die('parent not updated. matcher misconfiguration #' . $p->id());
-                //Logger::danger('parent not updated. matcher misconfiguration #' . $p->id());
+                igk_die('regexmatchercontainer > parent not updated. matcher misconfiguration #' . $p->id());                
             }
             $this->m_last_offset = $offset;
             $this->m_last_detect = $p;

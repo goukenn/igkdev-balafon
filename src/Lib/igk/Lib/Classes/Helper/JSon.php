@@ -409,7 +409,7 @@ class JSon
      * @throws IGKException 
      * @throws Exception 
      */
-    public static function EncodeWithNonEmpty($data){
+    public static function EncodeWithNoEmpty($data){
         return self::Encode($data, JSonEncodeOption::IgnoreEmpty(), JSON_UNESCAPED_SLASHES);
     }
 }

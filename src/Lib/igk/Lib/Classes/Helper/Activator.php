@@ -237,6 +237,9 @@ class Activator
         $check_version = true;
         if (is_callable($class_name)) {
             $g = $class_name(...$args);
+            if (is_object($g)){
+                $class_vars = get_class_vars(get_class($g));
+            }
         } else {
             if ((new ReflectionClass($class_name))->isInterface()) {
                 $g = self::CreateFromInterface($class_name);

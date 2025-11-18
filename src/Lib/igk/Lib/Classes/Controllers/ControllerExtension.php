@@ -1103,7 +1103,7 @@ abstract class ControllerExtension
         $loader =  ApplicationLoader::getInstance();
         // igk_wln("udpate ....  ", $ctrl->getName() . "check ".igk_environment()->NO_PROJECT_AUTOLOAD) ;
         if ($loader->registerLoading($ns, $cldir)) {
-            if (defined('IGK_TEST_INIT')) {
+            if (igk_environment()->isTesting()) {
                 $cldir = $ctrl->getTestClassesDir();
                 $loader->registerLoading($ns . "\\Tests", $cldir);
             }

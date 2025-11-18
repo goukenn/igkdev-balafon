@@ -67,14 +67,13 @@ class BalafonApplication extends IGKApplicationBase
      * */
     public static function InitModule($v_pdir, $conf, &$argv)
     {
-        if (!preg_match("/--module:/", implode(' ', $argv))) {
-            $cdir = getcwd();
+        if (!preg_match("/--module:/", implode(' ', $argv))) {            
             $gd = igk_get_packages_dir();
-            $module = igk_conf_get($conf, 'name') ?? $gd; // igk_sys_detect_project_controller($v_pdir);
+            $module = igk_conf_get($conf, 'name') ?? $gd;
             if ($module)
                 $argv[] = "--module:" . $module;
         }
-        igk_environment()->console = json_decode('{"type":"module"}');
+        igk_environment()->console = (object)['type'=>'module']; 
     }
     /**
      * init command project modules

@@ -5,6 +5,8 @@ use Exception;
 use IGK\Helper\IO; 
 use IGK\ApplicationLoader;
 use IGK\Constants;
+use IGK\Helper\Activator;
+use IGK\System\Configuration\ModuleConfiguration;
 use IGK\System\Controllers\ApplicationModules;
 use IGK\System\Controllers\ControllerMethods;
 use IGK\System\Exceptions\ApplicationModuleInitException;
@@ -206,7 +208,7 @@ final class ApplicationModuleController extends BaseController{
                         }
                         return 1;
                     }
-                    if (defined("IGK_TEST_INIT")){
+                    if (igk_environment()->isTesting()){
                         $pos = $entry_ns."\\Tests\\";
                         if (strpos($n, $pos)=== 0){ 
                             $cl = ltrim(substr($n, strlen($pos)), "\\");
@@ -244,11 +246,12 @@ final class ApplicationModuleController extends BaseController{
     */
     private function _init($c=null){
         $s=igk_io_read_allfile($c ?? $this->m_dir."/".self::MODULE_INITIALIZER_FNAME);
+        $c_f = self::CONF_MODULE;
         // + | --------------------------------------------------------------------
         // + | $reg is a function used to register additional function 
         // + |         
-        if (!is_file($file =  $this->m_dir."/".self::CONF_MODULE)){
-            igk_die(sprintf("%s is missing in %s",self::CONF_MODULE, $this->m_dir));
+        if (!is_file($file =  $this->m_dir."/".$c_f)){
+            igk_die(sprintf("%s is missing in %s",$c_f, $this->m_dir));
         }
         $definition = (array)json_decode(file_get_contents($file));
         try{ 
@@ -272,7 +275,7 @@ final class ApplicationModuleController extends BaseController{
         }
         $this->m_src = $s;
         if ($data){
-            $this->m_configs = $data; 
+            $this->m_configs = Activator::CreateNewInstance(ModuleConfiguration::class, $data); 
         }
         // + | --------------------------------------------------------------------
         // + | unset source for production
