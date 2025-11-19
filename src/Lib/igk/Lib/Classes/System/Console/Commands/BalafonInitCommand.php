@@ -15,11 +15,13 @@ class BalafonInitCommand extends AppExecCommand{
 	var $options=[
 		'--noconfig'=>'flag: enabled ',
 		'--force'=>'flag: fore re-creation', 
-		'--primary'=>'flag: if --noconfig initialize activate the primary file generation'
+		'--primary'=>'flag: if --noconfig initialize activate the primary file generation',
+		'--reset'=>'flag: use to reset application environment on --noconfig'
 	]; 
 	var $category='system';
-	var $usage = '[options]'; 
-	public function exec($command) {
-		return (new BalafonInitEnvironment())->run($command); 
+	var $usage = 'install_dir [options]'; 
+	public function exec($command, ?string $install_dir='src') {
+		$install_dir = empty($install_dir) ? 'src' : $install_dir;
+		return (new BalafonInitEnvironment())->run($command, $install_dir); 
 	 }
 }

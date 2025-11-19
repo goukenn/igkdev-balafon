@@ -4,11 +4,8 @@
 // @date: 20230303 18:15:13
 namespace IGK\Helper;
 use Exception;
-use IGK\Controllers\ApplicationModuleConfigurationInfo;
-use IGK\Controllers\ApplicationModuleController;
-use IGK\Controllers\BaseController;
-use IGK\System\Controllers\ApplicationModules;
-use IGK\System\Modules\ModuleManager;
+use IGK\Controllers\ApplicationModuleConfigurationInfo; 
+use IGK\Controllers\BaseController; 
 use IGKEvents;
 use IGKException;
 use stdClass;
@@ -23,7 +20,7 @@ class ApplicationModuleHelper
      * get module name form class 
      * @var  $class_name get module name form class 
      */
-    public static function GetModuleNameFromTestClass(string $class_name): string
+    public static function GetModuleNameFromTestClass(string $class_name): ?string
     {
         $dir = igk_io_collapse_path(dirname(igk_sys_reflect_class($class_name)->getFileName()));
         $dir = igk_str_rm_start($dir, "%modules%/");
@@ -53,8 +50,8 @@ class ApplicationModuleHelper
             if (empty($n)) return;
             $module = igk_require_module($n);
             if ($module && $module->supportMethod(\IGK\Controllers\ApplicationModuleController::INIT_DOC_METHOD)) {
-                $info = self::CreateApplicationModuleConfigurationInfo($required_conf[$n]);
-                if ($info->initDoc !== false) {
+                $l = igk_getv($required_conf, $n);                
+                if (($info = ($l ? self::CreateApplicationModuleConfigurationInfo($l):null)) && ($info->initDoc !== false)) {
                     igk_reg_hook(IGKEvents::HOOK_INIT_INC_VIEW, function () use ($module, $ctrl) {
                         $doc = $ctrl->getCurrentDoc() ?? igk_die('require document');
                         igk_module_init_doc($module, $doc);

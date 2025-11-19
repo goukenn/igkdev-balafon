@@ -4,8 +4,10 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Controllers;
+
 require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/CacheConfigs.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Database/IDatabaseHost.php";
+
 use IGK\Helper\IO;
 use IGK\Helper\SysUtils;
 use IGK\Models\Groups;
@@ -26,6 +28,7 @@ use IGKHtmlDoc;
 use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
+
 abstract class ApplicationController extends  PageControllerBase
 implements IDatabaseHost
 {
@@ -221,7 +224,7 @@ implements IDatabaseHost
      * drop application table from system config
      */
     protected static function dropDb($navigate = true, $force = false)
-    { 
+    {
         if (!($c = igk_getctrl(static::class, false))) {
             return;
         }
@@ -316,7 +319,7 @@ implements IDatabaseHost
             IGK_CTRL_CNF_TITLE => igk_create_additional_config_info(array("clRequire" => 1)),
             IGK_CTRL_CNF_APPNAME => igk_create_additional_config_info(array("clRequire" => 1)),
             IGK_CTRL_CNF_BASEURIPATTERN => igk_create_additional_config_info(array("clRequire" => 1)),
-            IGK_CTRL_CNF_USE_DATASCHEMA=> igk_create_additional_config_info(array("clRequire" => 1, "clType"=>"bool", 'clDefaultValue'=>'0')),
+            IGK_CTRL_CNF_USE_DATASCHEMA => igk_create_additional_config_info(array("clRequire" => 1, "clType" => "bool", 'clDefaultValue' => '0')),
             IGK_CTRL_CNF_TABLEPREFIX => igk_create_additional_config_info(array("clRequire" => 1, "clDefaultValue" => "tbigk_")),
             IGK_CTRL_CNF_APPNOTACTIVE => igk_create_additional_config_info(array("clType" => "bool", "clDefaultValue" => "0"))
         );
@@ -419,7 +422,7 @@ EOF;
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function getAppUri(?string $function = null, bool $full=true): ?string
+    public function getAppUri(?string $function = null, bool $full = true): ?string
     {
         if (is_null($function)) {
             $function = "";
@@ -453,13 +456,13 @@ EOF;
                 $function = $s . $rt . (!empty($function) ? "/" . $function : '');
             }
         }
-        if ($full){
+        if ($full) {
             $buri = igk_io_baseuri() ?? "/";
             if ($function) {
                 return igk_str_rm_last($buri, '/') . "/" . $function;
             }
-        } else{
-            $buri = '/'.ltrim($function, '/');
+        } else {
+            $buri = '/' . ltrim($function, '/');
         }
         return $buri;
     }
@@ -518,12 +521,13 @@ EOF;
     public function getIsVisible(): bool
     {
         parent::getIsVisible();
-        return ControllerExtension::getIsVisible($this); 
+        return ControllerExtension::getIsVisible($this);
         //  parent::__callStatic("invokeMacros", ["getIsVisible", $this]);
         // return $g;
     }
     ///<summary> application by default not allowed global action</summary>
-    public function getNoGlobalAction(){
+    public function getNoGlobalAction()
+    {
         return true;
     }
     ///<summary></summary>
@@ -592,22 +596,22 @@ EOF;
      * @param bool $forcehandle default is true. will stop the script
      */
     public function handle_redirection_uri($u, $forcehandle = 1)
-    {  
+    {
         // D: base handle 
         // time: 200ms. -- need to optimize
-        $page= $k =
-        $pattern = $p= $c=
-        $param =
-        $viewdefault=
-        $query_options = 0; 
+        $page = $k =
+            $pattern = $p = $c =
+            $param =
+            $viewdefault =
+            $query_options = 0;
         $doc = $this->getAppDocument();
         // + | configure view environment 
         igk_set_env(IGKEnvironment::CURRENT_CTRL, $this);
-        $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc); 
+        $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
         $this->_initRequiredModules();
         // + | PARSE DATA and extract matching pattern 
         if (is_string($u)) {
-            if (empty($u)){
+            if (empty($u)) {
                 igk_die('handle_redirection_uri, empty uri request');
             }
             $page = explode("?", $u);
@@ -622,7 +626,7 @@ EOF;
             $viewdefault = 1;
         }
         extract(igk_pattern_view_extract($this, $p, 1));
-        igk_ctrl_change_lang($this, $p);   
+        igk_ctrl_change_lang($this, $p);
         // + | get request query options 
         $query_options = igk_getv($p, 'options');
         //passing ctrl to view for sitepam
@@ -632,14 +636,14 @@ EOF;
         if ($this->_handle_uri_param($c, $param, $query_options)) {
             $forcehandle && igk_exit();
             return;
-        }       
+        }
         // reset system variable
         $this->regSystemVars(null);
         if (empty($param))
             $param = array();
         else if (!is_array($param)) {
             $param = array($param);
-        } 
+        }
         if (empty($c) &&  $viewdefault) {
             $this->renderDefaultDoc($this->getConfig("/default/document", 'default'));
             igk_exit();
@@ -657,7 +661,7 @@ EOF;
                             "<br />" . $this->getName() .
                             "<br />";
                         throw new UriActionException($m, $u, 0x1a001);
-                    } else { 
+                    } else {
                         throw new \IGKException("Subdomain request for entry path");
                     }
                 } else {
@@ -668,12 +672,12 @@ EOF;
             }
         }
         // + | NAVIGATE TO CURRENT VIEW 
-        $this->setCurrentView($c, true, null, $param, $query_options);         
+        $this->setCurrentView($c, true, null, $param, $query_options);
         $this->resetCurrentView(null);
         if (igk_is_ajx_demand()) {
-            if (is_null($tn["id"]) || $tn->getRenderOnly()){
+            if (is_null($tn["id"]) || $tn->getRenderOnly()) {
                 $tn->renderAJX();
-            }else 
+            } else
                 igk_ajx_replace_node($tn, "#" . $tn["id"]);
         } else {
             $ctx = $this->getEnvParam(IGK_CTRL_VIEW_CONTEXT_PARAM_KEY);
@@ -685,7 +689,7 @@ EOF;
                 HtmlRenderer::RenderDocument($doc, 0, $this);
             }
         }
-        $forcehandle && igk_exit(); 
+        $forcehandle && igk_exit();
     }
     ///<summary></summary>
     ///<param name="code"></param>
@@ -706,7 +710,7 @@ EOF;
      */
     protected function initMacros()
     {
-        if (is_null($cl = $this->resolveClass(EntryClassResolution::DbInitMacros))){
+        if (is_null($cl = $this->resolveClass(EntryClassResolution::DbInitMacros))) {
             return;
         }
         $m = new $cl();
@@ -718,21 +722,21 @@ EOF;
      * @throws IGKException 
      */
     protected function _initMacros()
-    {  
-        if (self::IsSysController(static::class)){
+    {
+        if (self::IsSysController(static::class)) {
             return;
-        }       
+        }
         if (\IGK\Models\ModelBase::IsMacrosInitialize()) {
             $this->initMacros();
         } else {
-            igk_reg_hook($this::hookName("register_autoload"), function($e){
-            // igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
-                 // $op_start = igk_sys_request_time();
-                 // if (\IGK\Models\ModelBase::IsMacrosInitialize()){
-                 // + | changed   
-                 if (!igk_environment()->NO_PROJECT_AUTOLOAD){
+            igk_reg_hook($this::hookName("register_autoload"), function ($e) {
+                // igk_reg_hook(\IGKEvents::HOOK_MODEL_INIT, function () {
+                // $op_start = igk_sys_request_time();
+                // if (\IGK\Models\ModelBase::IsMacrosInitialize()){
+                // + | changed   
+                if (!igk_environment()->NO_PROJECT_AUTOLOAD) {
                     $this->initMacros();
-                 }
+                }
                 //}
                 // igk_ilog("init macros duration: ". (igk_sys_request_time() - $op_start) . " ".
                 // get_class($this));
@@ -765,9 +769,9 @@ EOF;
         $this->_initMacros();
         $this->_registerApp();
         $this->_registerAction();
-        if ($d = $this->forceSessionUris()){
-            igk_environment()->mergeSessionUri($d); 
-        } 
+        if ($d = $this->forceSessionUris()) {
+            igk_environment()->mergeSessionUri($d);
+        }
         if (!isset(self::$INIT)) {
             igk_reg_hook(IGK_EVENT_DROP_CTRL, "igk_app_ctrl_dropped_callback");
             self::$INIT = true;
@@ -778,7 +782,10 @@ EOF;
      * force session uris 
      * @return ?array 
      */
-    protected function forceSessionUris(){ return null; }
+    protected function forceSessionUris()
+    {
+        return null;
+    }
     ///<summary></summary>
     ///<param name="ctrl"></param>
     /**
@@ -796,19 +803,23 @@ EOF;
                 igk_io_w2file($ctrl->getDataDir() . IGK_APP_LOGO, $s->renderText(), true);
             }
             igk_io_w2file(
-                $ctrl->getDataDir() . IGK_APP_LOGO . ".gkds",<<<EOF
-<gkds>
-  <Project>
-    <SurfaceType>IconSurface</SurfaceType>
-  </Project>
-  <Documents>
-    <LayerDocument PixelOffset="None" BackgroundTransparent="True" Width="256" Height="128" Id="{$n}">
-      <Layer Id="layer_{$n}">
-      </Layer>
-    </LayerDocument>
-  </Documents>
-</gkds>
-EOF,
+                $ctrl->getDataDir() . IGK_APP_LOGO . ".gkds",
+                implode(
+                    "\n",
+                    [
+                        '<gkds>',
+                        '  <Project>',
+                        '    <SurfaceType>IconSurface</SurfaceType>',
+                        '  </Project>',
+                        '  <Documents>',
+                        '    <LayerDocument PixelOffset="None" BackgroundTransparent="True" Width="256" Height="128" Id="{$n}">',
+                        '      <Layer Id="layer_{$n}">',
+                        '      </Layer>',
+                        '    </LayerDocument>',
+                        '  </Documents>',
+                        '</gkds>',
+                    ]
+                ),
                 true
             );
         }

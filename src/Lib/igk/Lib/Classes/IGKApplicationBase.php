@@ -16,6 +16,10 @@ abstract class IGKApplicationBase{
     private $lib = [];
     private $m_library;
     private $m_appBuilder;
+    /**
+     * disable environment initialisation
+     * @var ?bool
+     */
     protected $no_init_environment;
     /**
      * retrieve entry file

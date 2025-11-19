@@ -52,6 +52,7 @@ class IGKAppSystem
         if (defined("IGK_INIT") && IGK_INIT) {
             return;
         }
+
         $path = Path::getInstance();
         $project_dir = igk_io_projectdir();
         $app_dir = igk_io_applicationdir();
@@ -61,7 +62,7 @@ class IGKAppSystem
                 !is_dir($cdir) && IO::Createdir($cdir);
             }
             // + | -----------------------------------------
-            // + | expected load lib cache for max 5ms
+            // + | expected load lib cache
             // + | 
             self::LoadEnvironment($app);
             !defined('IGK_INIT') && define('IGK_INIT', 1);
@@ -117,7 +118,7 @@ class IGKAppSystem
         string $sys_datadir,
         ?array $options = null
     ) {
-        igk_debug_wln(__FILE__.":".__LINE__ , 'installing directory ');
+        igk_debug_wln(__FILE__.":".__LINE__ , 'installing directory '.$app_dir);
         
         $access = "deny from all";
         $old = umask(0);

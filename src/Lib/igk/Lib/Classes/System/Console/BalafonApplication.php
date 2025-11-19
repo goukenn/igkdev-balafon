@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console;
+
 use Exception;
 use Google\Service\TagManager\Environment;
 use IGK\Controllers\BaseController;
@@ -29,7 +30,7 @@ use IGK\System\SystemUserProfile;
 use IGK\System\ViewEnvironmentArgs;
 use IGKApp;
 use IGKApplicationBase;
-use IGKAppType; 
+use IGKAppType;
 use IGKEnvironment;
 use IGKException;
 use IGKModuleListMigration;
@@ -42,7 +43,7 @@ use function igk_resources_gets as __;
 // + | global options
 // + |  --set-env: set environment definition
 // + |  --set-server: set server Global value
-require_once IGK_LIB_CLASSES_DIR. "/Helper/Traits/IOPathCheckerTrait.php";
+require_once IGK_LIB_CLASSES_DIR . "/Helper/Traits/IOPathCheckerTrait.php";
 /** @package  */
 class BalafonApplication extends IGKApplicationBase
 {
@@ -67,13 +68,13 @@ class BalafonApplication extends IGKApplicationBase
      * */
     public static function InitModule($v_pdir, $conf, &$argv)
     {
-        if (!preg_match("/--module:/", implode(' ', $argv))) {            
+        if (!preg_match("/--module:/", implode(' ', $argv))) {
             $gd = igk_get_packages_dir();
             $module = igk_conf_get($conf, 'name') ?? $gd;
             if ($module)
                 $argv[] = "--module:" . $module;
         }
-        igk_environment()->console = (object)['type'=>'module']; 
+        igk_environment()->console = (object)['type' => 'module'];
     }
     /**
      * init command project modules
@@ -112,7 +113,7 @@ class BalafonApplication extends IGKApplicationBase
             $g = strtolower(trim(implode('', array_slice(explode(":", $a), 1))));
             if (in_array($g, ["production", "development", "test"])) {
                 // + | mark environment mode - priority to custom variable - fix environment mode 
-                defined( $v_envkey) || define( $v_envkey, $g);
+                defined($v_envkey) || define($v_envkey, $g);
                 // + |  set property mode 
                 $_SERVER[$v_envkey] = $g;
                 igk_server()->prepareServerInfo();
@@ -189,7 +190,7 @@ class BalafonApplication extends IGKApplicationBase
         $configFile = self::GetTopLevelConfigFile($bdir);
         try {
             if (!empty($configFile) && igk_io_file_exists($configFile)) {
-                $this->configs = AppConfigs::LoadConfigurationFile($configFile);  
+                $this->configs = AppConfigs::LoadConfigurationFile($configFile);
             } else {
                 $this->configs = new XPathConfig((object)[]);
                 // + | tempory environment loading 
@@ -208,7 +209,7 @@ class BalafonApplication extends IGKApplicationBase
         } catch (Exception $ex) {
             igk_wln_e("boostrap-application error : .... " . $ex->getMessage());
         }
-        defined('IGK_APP_DIR') || define("IGK_APP_DIR", igk_getv($_SERVER,'IGK_APP_DIR', $wd));
+        defined('IGK_APP_DIR') || define("IGK_APP_DIR", igk_getv($_SERVER, 'IGK_APP_DIR', $wd));
         defined('IGK_BASE_DIR') || define('IGK_BASE_DIR', $wd);
         // setup the log folder
         if (!defined('IGK_LOG_FILE') && ($logFolder = $this->configs->logFolder)) {
@@ -235,7 +236,6 @@ class BalafonApplication extends IGKApplicationBase
         igk_hook("console::app_cli_bootstrap", $this);
         // + | force register base formatter service as a Formatter service container
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
-
     }
     /**
      * 
@@ -252,7 +252,7 @@ class BalafonApplication extends IGKApplicationBase
         // + | --------------------------------------------------------------------------
         // + | configure engine to start
         // + |
-        $this->no_init_environment = igk_server()->IGK_NO_INIT_ENVIRONEMT; // $this->configs->isTemp;
+        $this->no_init_environment = $this->no_init_environment ?? igk_server()->IGK_NO_INIT_ENVIRONMENT;
         $_env = igk_environment();
         $_env->set("app_type", IGKAppType::balafon);
         $_env->no_lib_cache = 1;
@@ -299,7 +299,7 @@ class BalafonApplication extends IGKApplicationBase
                         ksort($tab);
                         foreach ($tab as $k => $v) {
                             if (!$pattern ||  preg_match("/$pattern/i", $k)) {
-                                if (is_array($v)){
+                                if (is_array($v)) {
                                     $v = json_encode($v, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
                                 }
                                 Logger::print($command->app::gets(App::BLUE, $k) . "=" . $v);
@@ -493,12 +493,12 @@ class BalafonApplication extends IGKApplicationBase
             '--run' => [
                 function ($v, $command = null) {
                     $command->exec = function ($command, ?string $file = null) {
-                       
-                        if (property_exists($command->options, '--command:ls')){
+
+                        if (property_exists($command->options, '--command:ls')) {
 
                             $def = EnvironmentCommandScripts::GetCacheDefinition();
                             Logger::print('commands');
-                            foreach($def as $k=>$v){
+                            foreach ($def as $k => $v) {
                                 Logger::info($k);
                             }
 
@@ -508,7 +508,7 @@ class BalafonApplication extends IGKApplicationBase
                             Logger::danger(__("args: require file"));
                             return -1;
                         }
-                        if(!file_exists($file)){
+                        if (!file_exists($file)) {
                             $file = EnvironmentCommandScripts::GetCommandFile($file) ?? igk_die('missing arg command');
                         }
                         DbCommandHelper::Init($command);
@@ -582,9 +582,9 @@ class BalafonApplication extends IGKApplicationBase
                         Logger::info(implode(
                             "\n",
                             [
-                                App::Gets(App::GREEN, "--run")."[options] [dbcommand] scriptfile",
-                                App::Gets(App::GREEN, "--controller").":[targetController]\r\n\t\t\t\tset base project controller",
-                                App::Gets(App::GREEN, "--user").":id\r\n\t\t\t\tglobal user to use",
+                                App::Gets(App::GREEN, "--run") . "[options] [dbcommand] scriptfile",
+                                App::Gets(App::GREEN, "--controller") . ":[targetController]\r\n\t\t\t\tset base project controller",
+                                App::Gets(App::GREEN, "--user") . ":id\r\n\t\t\t\tglobal user to use",
                             ]
                         ));
                     }
@@ -609,8 +609,8 @@ class BalafonApplication extends IGKApplicationBase
                         Logger::print(App::version);
                         Logger::info("Author:");
                         echo IGK_AUTHOR . "\n";
-                         Logger::info("PHP_VERSION:");
-                        echo PHP_VERSION. "\n";
+                        Logger::info("PHP_VERSION:");
+                        echo PHP_VERSION . "\n";
                         try {
                             if (defined('IGK_WORKING_DIR'))
                                 echo 'working-dir: ' . constant('IGK_WORKING_DIR'), PHP_EOL;
@@ -620,8 +620,8 @@ class BalafonApplication extends IGKApplicationBase
                                 'project_dir' => igk_io_projectdir(),
                                 'package_dir' => Path::getInstance()->getPackagesDir(),
                                 'module_dir' => Path::getInstance()->getModuleDir(),
-                                'server_info'=>$_SERVER,
-                                'env'=>$_ENV
+                                'server_info' => $_SERVER,
+                                'env' => $_ENV
                             ];
                         } catch (\Exception $ex) {
                             echo "failed : " . $ex->getMessage();
@@ -648,16 +648,26 @@ class BalafonApplication extends IGKApplicationBase
         $this->initCommand($command, $argv);
         return $command;
     }
-    protected function initCommand(array $command, array $argv){
+    protected function initCommand(array $command, array $argv)
+    {
         if (in_array("--debug", $argv)) {
             $fc = $command["--debug"][0];
             $fc([], $command);
         }
-        if (in_array('--report-error', $argv)){
+        if (in_array('--report-error', $argv)) {
             // activate error reporting
             ini_set('display_errors', 1);
-            error_reporting(-1); 
-        }  
+            error_reporting(-1);
+        }
+        if (1 == array_search('--init', $argv)) {
+            $this->no_init_environment = true;
+            if (in_array('--noconfig', $argv)) {
+                // remove configuration 
+                if (file_exists($cf = getcwd() . '/' . IGK_BALAFON_CONFIG)) {
+                    unlink($cf);
+                }
+            }
+        }
     }
     /**
      * 
@@ -666,15 +676,15 @@ class BalafonApplication extends IGKApplicationBase
      * @return void 
      * @throws Exception 
      */
-    public static function BindCommandUser($command, ?BaseController $ctrl = null, & $user = null)
+    public static function BindCommandUser($command, ?BaseController $ctrl = null, &$user = null)
     {
         $user = null;
         if ($id = intval($login = igk_getv($command->options, '--user'))) {
             $user = \IGK\Models\Users::Get('clId', $id);
-        } else if (!empty($login)){
+        } else if (!empty($login)) {
             $user = igk_get_user_bylogin($login);
         }
-        if ($user && $ctrl){
+        if ($user && $ctrl) {
             $ctrl::login($user, null, false);
         }
     }
@@ -703,44 +713,47 @@ class BalafonApplication extends IGKApplicationBase
      * @param mixed &$argv 
      * @return void 
      */
-    public static function InitAndTreatArgument(& $argv){
+    public static function InitAndTreatArgument(&$argv)
+    {
         (function (&$argv) {
-            require_once IGK_LIB_DIR.'/Lib/'.IGK_CLASSES_FOLDER.'/Constants.php';
+            require_once IGK_LIB_DIR . '/Lib/' . IGK_CLASSES_FOLDER . '/Constants.php';
             // start by filtering
-            if(!isset($_SERVER['PWD'])){
+            if (!isset($_SERVER['PWD'])) {
                 $cwd = getcwd();
                 $rf = igk_getv($_SERVER, 'SCRIPT_FILENAME');
-                if (!self::IsRootPath($rf)){
+                if (!self::IsRootPath($rf)) {
                     $rf = Path::CombineAndFlattenPath($cwd, $rf);
-                } 
+                }
                 $fc_local = false;
-                while(!$fc_local && $rf){
+                while (!$fc_local && $rf) {
                     $tf = $rf;
-                    if ($tf == ($rf = dirname($rf))){
+                    if ($tf == ($rf = dirname($rf))) {
                         // for both UNIX and WINDOW
                         break;
                     }
-                    $v_conf = $rf.DIRECTORY_SEPARATOR.AppConfigs::ConfigurationFileName;
-                    if (igk_io_file_exists($v_conf)){
+                    $v_conf = $rf . DIRECTORY_SEPARATOR . AppConfigs::ConfigurationFileName;
+                    if (igk_io_file_exists($v_conf)) {
                         $fc_local = true;
                         $cwd = $rf;
                         break;
                     }
-                }             
+                }
                 // resolv util sites found . 
                 $_SERVER['PWD'] = $cwd;
                 chdir($cwd);
             }
-            $cwd = $_SERVER['PWD']; 
-            $r = array_map(BalafonApplication::class. "::FilterArgs", $argv);
-            $argv = array_filter($r, function($i){ return !is_null($i); });
-            $proj_conf = '/'.Constants::PROJECT_CONF_FILE;
-            $mod_conf = '/'.Constants::MODULE_CONF_FILE;
+            $cwd = $_SERVER['PWD'];
+            $r = array_map(BalafonApplication::class . "::FilterArgs", $argv);
+            $argv = array_filter($r, function ($i) {
+                return !is_null($i);
+            });
+            $proj_conf = '/' . Constants::PROJECT_CONF_FILE;
+            $mod_conf = '/' . Constants::MODULE_CONF_FILE;
             $_filter = false;
-            if ($cwd != ($rcwd = getcwd())){
+            if ($cwd != ($rcwd = getcwd())) {
                 $_SERVER['PWD'] = $rcwd;
                 $_filter = true;
-            } 
+            }
             foreach (
                 [
                     $proj_conf => [BalafonApplication::class, 'InitProject'],
@@ -750,7 +763,7 @@ class BalafonApplication extends IGKApplicationBase
                 if (igk_io_file_exists($cf = $_SERVER['PWD'] . $k)) {
                     $v_pdir = dirname($cf);
                     if ($conf = json_decode(file_get_contents($cf))) {
-                         // + | change workbench current working directory 
+                        // + | change workbench current working directory 
                         $wb = igk_conf_get($conf, "workbench/cwd") ?? getenv('IGK_WORKING_DIR');
                         if ($wb && is_dir($wb)) {
                             chdir($wb);
@@ -766,17 +779,17 @@ class BalafonApplication extends IGKApplicationBase
             // + | --------------------------------------------------------------------
             // + | so working dir fallback
             // + | 
-            if (!$_filter && ($wdir = getenv('IGK_WORKING_DIR')) && ($wdir != $_SERVER['PWD'])){
-                if (is_dir($wdir)){ 
+            if (!$_filter && ($wdir = getenv('IGK_WORKING_DIR')) && ($wdir != $_SERVER['PWD'])) {
+                if (is_dir($wdir)) {
                     // add include path to path separator
-                    set_include_path(get_include_path().PATH_SEPARATOR.$cwd);
+                    set_include_path(get_include_path() . PATH_SEPARATOR . $cwd);
                     $_SERVER['PWD'] = $wdir;
                     chdir($wdir);
                     $_SERVER['IGK_COMMAND_PWD'] = $cwd;
                 }
-            } 
+            }
             // + | no reach fallback
-            if (igk_io_file_exists($cf = $_SERVER['PWD'] . '/'. Constants::PROJECT_CONF_FILE)) {
+            if (igk_io_file_exists($cf = $_SERVER['PWD'] . '/' . Constants::PROJECT_CONF_FILE)) {
                 $v_pdir = dirname($cf);
                 if ($conf = json_decode(file_get_contents($cf))) {
                     // + | change workbench current working directory 
@@ -791,7 +804,7 @@ class BalafonApplication extends IGKApplicationBase
                         if ($controller)
                             $argv[] = "--controller:" . $controller;
                     }
-                    set_include_path($v_pdir .PATH_SEPARATOR. get_include_path());
+                    set_include_path($v_pdir . PATH_SEPARATOR . get_include_path());
                 }
             }
         })($argv);

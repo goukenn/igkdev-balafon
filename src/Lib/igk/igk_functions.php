@@ -9985,7 +9985,7 @@ EOF
 if (!version_compare(PHP_VERSION, "7.3", ">=")){
     die("mandory version required. 7.3<=");
 }
-
+(function(){
 {$showError}
 // + |------------------------------------------------------------
 // + | require framework
@@ -10011,7 +10011,8 @@ unset(\$appdir);
 // + |------------------------------------------------------------
 // + | boot and run application 
 // + |
-IGKApplication::Boot('web')->run(__FILE__); 
+return IGKApplication::Boot('web')->run(__FILE__); 
+})();
 EOF;
 
     return $s;

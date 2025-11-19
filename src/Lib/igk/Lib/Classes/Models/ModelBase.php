@@ -8,6 +8,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
 /**
  * Model base - entry macros definition.
  * @package IGK\Models
+ * @property ?string $primaryKey
  * @method static ?static|bool create(array|object|static $definition, bool $update=true, bool $raise_exception=true) - create a row entries
  * @method static static createEmptyRow() - create an empty stdClass object that will represent a row . 
  * @method static \IGK\Database\DataAdapterBase|null DataAdapter driver() - get the data adapter

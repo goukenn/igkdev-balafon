@@ -80,9 +80,9 @@ class InitCommand extends AppExecCommand
                 //}
             }
         }
-        igk_is_debug() && Logger::info("init - module > ");
         $mod = igk_get_modules();
         if ($mod  && (count($mod) > 0)) {
+            igk_is_debug() && Logger::info("init - module commands ");
             $base_cl =  igk_uri(self::BASECLASS_COMMAND)."/";
             $system_cl_command = igk_uri($v_bserie);
             foreach ($mod as $k => $v) {
