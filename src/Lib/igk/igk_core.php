@@ -1038,9 +1038,16 @@ function igk_encrypt($data, $prefix = null)
 {
     return IGKSysUtil::Encrypt($data, $prefix);
 }
-function igk_sys_copyright()
+/**
+ * get the copyright 
+ * @param null|bool $long 
+ * @return string 
+ */
+function igk_sys_copyright(?bool $long=false): string
 {
-    return "IGKDEV &copy; 2011-" . date('Y') . " " . __("all rights reserved");
+    if ($long)
+        return "IGKDEV &copy; 2011-" . date('Y') . " " . __("all rights reserved");
+    return 'IGKDEV &copy; '.date('Y');
 }
 /**
  * trace utility in buffer

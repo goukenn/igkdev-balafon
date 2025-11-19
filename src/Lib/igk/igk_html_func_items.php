@@ -310,7 +310,7 @@ if (!function_exists("igk_html_node_a")) {
 			$attributes = ['target' => $attributes];
 		}
 		if ($content) {
-			$a->content =  $content;
+			$a->Content =  $content;
 		}
 		if ($attributes && is_array($attributes)) {
 			$a->setAttributes($attributes);
@@ -2714,7 +2714,7 @@ if (!function_exists("igk_html_node_igkcopyright")) {
 			$g = new IGKValueListener($n, "getCopyright");
 			$n->Content = $g;
 		} else {
-			$n->content = $title;
+			$n->Content = $title;
 		}
 		return $n;
 	}
@@ -5301,7 +5301,7 @@ if (!function_exists("igk_html_node_usesvg")) {
 	function igk_html_node_usesvg(string $name)
 	{
 		$s = igk_create_node("span");
-		$s->content = igk_svg_use($name);
+		$s->Content = igk_svg_use($name);
 		return $s;
 	}
 }
@@ -6009,7 +6009,7 @@ if (!function_exists('igk_html_node_spacer')) {
 		if ($_content instanceof HtmlItemBase) {
 			$t->add($_content);
 		} else {
-			$t->content = $_content;
+			$t->Content = $_content;
 		}
 		return $n;
 	}

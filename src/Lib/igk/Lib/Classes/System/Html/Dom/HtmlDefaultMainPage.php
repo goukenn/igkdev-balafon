@@ -8,8 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
+
 use IGK\Resources\R;
 use IGKException;
+use function igk_html_host  as _h; 
+
 /**
  * defaut home page
  * @package IGK\System\Html\Dom
@@ -17,33 +20,45 @@ use IGKException;
 final class HtmlDefaultMainPage extends HtmlNode
 {
     static $sm_instance;
-    protected function _acceptRender($options = null):bool
+    protected function _acceptRender($options = null): bool
     {
         if (!$this->getIsVisible()) {
             return false;
         }
         igk_set_env("sys://nopowered", 1);
-        $this->clearChilds();
+       
+        $this->clearChilds(); 
         $n = $this->container()->addCol('fitw')->addRow();
         $n->setClass("default-home-page")->addObData(
             function () {
                 if ($f = igk_env_file(IGK_LIB_DIR . "/Articles/startapp/default.homepage." . R::GetCurrentLang(), IGK_VIEW_FILE_EXT)) {
-                    include($f);
+                    \IGK\Helper\SysUtils::Include($f, [
+                        'document_uri' => "//balafon.igkdev.com/wiki",
+                        'conf_buri' => !igk_environment()->noWebConfiguration() ? igk_io_baseuri() . '/Configs' : null
+                    ]);
                 }
             },
             null
         );
         // attach author community - node 
-        $this->author_community();
+        $g = igk_create_notagnode();
+        $g->author_community(); 
         $doc = $options->Document;
         if ($doc) {
-            if (function_exists('igk_google_addfont'))
+            if (function_exists('igk_google_addfont')){
                 igk_google_addfont($doc, "Roboto");
-            $doc->Title = igk_sys_getconfig("website_title");
+            }
+            $doc->title = igk_sys_getconfig("website_title");
             $doc->Theme->addTempFile(IGK_LIB_DIR . "/" . IGK_STYLE_FOLDER . "/default.homepage.pcss");
-            $doc->body["class"] = "+google-Roboto";
-            $t = $doc->body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode;
-            $t->container()->row()->col()->addIGKCopyRight()->setClass("google-Roboto no-wrap")->setStyle("position:absolute; bottom:0px;padding:10px; z-index:10;");
+            // $doc->body["class"] = "+google-Roboto";
+            // $t = $doc->body->getAppendContent()->addSingleNodeViewer(IGK_HTML_NOTAG_ELEMENT)->targetNode;
+            $this->container()->row()->col('fitw')->add(
+                igk_html_host(
+                    'div.dispflex.flex-row.flex-justify-sb',
+                    _h('igkcopyright(false).google-Roboto.no-wrap'),
+                    $g,
+                )
+            );
         }
         return 1;
     }
@@ -54,7 +69,7 @@ final class HtmlDefaultMainPage extends HtmlNode
     private function __construct()
     {
         parent::__construct("div");
-        $this["class"] = "igk-project-start google-Roboto igk-parent-scroll";
+        $this["class"] = "igk-project-start google-Roboto igk-parentscroll dispflex flex-column fith flex-justify-sb overflow-y-a";
     }
     /**
      * 

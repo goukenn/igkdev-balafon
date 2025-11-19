@@ -9,6 +9,7 @@
 // @url: https://www.igkdev.com
 // @requireby: HtmlDefaultMainPage.php
 
+ 
 
 ?>
 <div class="igk-container">
@@ -24,7 +25,8 @@
 </div>
 <?php
 $c=igk_create_node("container");
-$c->addRow()->addCol("igk-col-3-3 igk-col-xsm-3-3  igk-col-sm-3-3")->div()->addObData(function(){
+$c->addRow()->addCol("igk-col-3-3 igk-col-xsm-3-3  igk-col-sm-3-3")->div()->addObData(
+	function() use ($document_uri){
 	$buri = igk_io_baseuri();
     ?>
 <div style="line-height:2.8em">
@@ -32,15 +34,15 @@ $c->addRow()->addCol("igk-col-3-3 igk-col-xsm-3-3  igk-col-sm-3-3")->div()->addO
 	<p class="igk-danger igk-panel" style="line-height:1.8em; font-size: 0.8em; font-weight: 100;">
 		Oups!!! Le system ne détecte pas de contrôleur principal.
 	</p>
-	<div class="mfo" style="margin-top:20px" >
-		<a class="igk-btn no-border" href="//igkdev.com/balafon/wiki"><b>Documentation</b></a>
+	<div class="mfo dispflex flex-row gap-10" style="margin-top:20px" >
+		<a class="igk-btn no-border" href="<?= $document_uri ?>">Documentation</a>
 		<?php
 		/**
 		 * @var mixed $conf_buri
 		 */
-		if (!igk_environment()->noWebConfiguration()):
+		if ($conf_buri):
 		?>
-			<a class="igk-btn no-border" href="<?= $conf_buri ?>" class="">Configuration</a>
+			<a class="igk-btn no-border" href="<?= $conf_buri ?>">Configuration</a>
 		<?php
 		endif;
 		?>

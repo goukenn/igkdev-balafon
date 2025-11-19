@@ -814,6 +814,7 @@ class IO
     {
         if ($size == 0)
             return "0 Bytes";
+        $i = 0;
         $sizes = array(
             'Bytes',
             'KB',
