@@ -18,5 +18,10 @@
         "psr-4": {
             "IGK\\": "src/Lib/igk/Lib/Classes"
         }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "chown -R www-data:www-data src/Lib/igk"
+        ]
     }
 }
