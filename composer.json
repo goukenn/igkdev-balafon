@@ -33,7 +33,7 @@
         "post-update-cmd": [
             "echo 'update balafon core '",
             "IGK\\Composer\\Installer::PostUpdate",
-            "chown -R www-data:www-data vendor/balafon/src/Lib/igk"
+            "chown -R www-data:www-data src/Lib/igk"
         ]
     }
 }
