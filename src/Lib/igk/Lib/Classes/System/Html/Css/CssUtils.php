@@ -897,7 +897,9 @@ abstract class CssUtils
             $sys->initGlobalDefinition();
             $clear = 1;
             if (!defined("IGK_FORCSS")) {
-                register_shutdown_function(function () use ($sys) {
+                //register_shutdown_function(
+                  igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, 
+                    function () use ($sys) {
                     $sys->resetSysGlobal();
                 });
             }

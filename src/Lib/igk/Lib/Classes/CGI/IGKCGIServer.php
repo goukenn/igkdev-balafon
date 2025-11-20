@@ -26,7 +26,7 @@ class IGKCGIServer
             self::$sm_regFileCallback = 1;
             register_shutdown_function(function(){
                 foreach(self::$smTempFile as $k){
-                    unlink($k);
+                    @unlink($k);
                 } 
             });
         }

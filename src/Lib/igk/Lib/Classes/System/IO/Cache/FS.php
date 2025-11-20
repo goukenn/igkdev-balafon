@@ -76,10 +76,11 @@ class FS{
         igk_reg_hook(IGKEvents::HOOK_APP_CLEAN_CACHE, function()use(& $clean_cache){
             $clean_cache = true;
         });
-        register_shutdown_function(function()use(& $clean_cache){
-            if (!$clean_cache){
-                $this->storeCache(); 
-            }
+        igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, 
+            function()use(& $clean_cache){
+                if (!$clean_cache){
+                    $this->storeCache(); 
+                }
         });
     }
     /**

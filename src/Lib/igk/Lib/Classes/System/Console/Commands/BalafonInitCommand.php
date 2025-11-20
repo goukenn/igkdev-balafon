@@ -21,6 +21,7 @@ class BalafonInitCommand extends AppExecCommand{
 		'--primary'=>'flag: if --noconfig initialize activate the primary file generation',
 		'--reset'=>'flag: use to reset application environment on --noconfig',
 		'--vendor-dir:[dir]'=>'composer vendor directory',
+		'--app-dir:[dir]'=>'application directory',
 		'--env-only'=>'flag: init environment only. disable all other flag.'
 	]; 
 	var $category='system';

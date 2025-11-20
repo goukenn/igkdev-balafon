@@ -3,6 +3,8 @@
 // @file: CookieManager.php
 // @date: 20221009 04:10:08
 namespace IGK\System\Http;
+
+use IGKEvents;
 use IGKException;
 /**
 * with session start, used to manage application manage cookies
@@ -65,7 +67,9 @@ class CookieManager{
     }
     private function __construct()
     {
-        register_shutdown_function(function(){
+        //register_shutdown_function(
+            igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, 
+            function(){
             if ($this->m_saved){
                 $this->m_saved = false;
                 $_COOKIE[$this->m_name] = json_encode($_COOKIE);

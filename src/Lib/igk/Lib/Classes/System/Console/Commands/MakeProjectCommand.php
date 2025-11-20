@@ -430,6 +430,12 @@ EOF;
         igk_hook(IGKEvents::HOOK_COMMAND, ['cmd' => $this, 'dir' => $dir, 'name' => $controller, 'args' => func_get_args()]);
         \IGK\Helper\SysUtils::ClearCache(null, true);
         Logger::info("output: " . $dir);
+
+        if (empty($ctrl = igk_configs()->default_controller)){
+            $cnf = igk_configs();
+            $cnf->default_controller = $controller;
+            $cnf->saveData(true);
+        }
         Logger::success("done\n");
     }
     protected function _store_article($f)

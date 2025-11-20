@@ -78,7 +78,7 @@ php composer require igkdev/balafon
 - as created project 
 
 ```sh
-php composer create-project igkdev/balafo project_name
+php composer create-project igkdev/balafon project_name
 cd project_name
 ```
 

@@ -13,6 +13,8 @@ use IGK\System\Database\NoDbConnection;
 use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\NotImplementException;
 use IGK\Constants;
+use IGKEvents;
+
 // if (!defined(__FILE__)){
 //     define(__FILE__, 1);
 /**
@@ -65,7 +67,9 @@ abstract class DataAdapterBase extends SQLDataAdapter
             $this->m_dbManager->setOpenCallback(array($this, 'openCallback'));
         }
         if ($this->connect()) {
-            register_shutdown_function(function () {
+            register_shutdown_function(
+             // igk_reg_hook(IGKEvents::HOOK_APP_SHUTDOWN, 
+                function () {
                 $c = $this->OpenCount();
                 while ($this->OpenCount() > 0) {
                     $this->close();

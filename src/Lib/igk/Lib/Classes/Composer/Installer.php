@@ -33,11 +33,13 @@ class Installer{
         if (is_dir($vendor_dir)){
             $args['--vendor-dir'] = Path::GetRelativePath( $chdir,$vendor_dir);
         }
+        $args['--app-dir'] = Path::GetRelativePath( $chdir,$chdir.'/src/application');
         $cm = Utility::BuildArgs($args).' ';
         $cli = IGK_LIB_DIR.'/bin/balafon';
+       
         // $wdir = IGK_LIB_DIR;
         // + | init project 
-        `cd {$chdir} && $cli --init --noconfig --reset {$cm}./`;
+        echo `cd {$chdir} && $cli --init --noconfig --reset {$cm}./`;
     }
     /**
      * 
