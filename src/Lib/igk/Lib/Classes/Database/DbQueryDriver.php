@@ -680,11 +680,16 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
     {
         return self::Is(self::DRIVER_MYSQLI);
     }
-    public static function Is($driverName)
+    /**
+     * check for driver name
+     * @param string $driverName 
+     * @return bool 
+     */
+    public static function Is(string $driverName): bool
     {
+        // + | 
         $s = self::$Config["db"];
         return ($s == strtolower($driverName));
-        // DRIVER_MYSQLI
     }
     ///get the last inserted id
     /**
