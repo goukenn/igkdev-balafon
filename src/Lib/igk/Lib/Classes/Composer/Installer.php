@@ -9,7 +9,7 @@ use IGK\System\Console\Commands\Utility;
 defined('IGK_VERSION') && die('already defined');
 
 require_once __DIR__.'/../../../igk_framework.php';
-require_once IGK_LIB_CLASSES_DIR.'/System/Console/Commnads/Utility.php';
+require_once IGK_LIB_CLASSES_DIR.'/System/Console/Commands/Utility.php';
 
 /**
 * 
