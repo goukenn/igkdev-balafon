@@ -35,12 +35,17 @@ class BalafonInitEnvironment{
      */
     public function run($command, string $install_dir='src'){
         igk_environment()->isDev() && Logger::info("--init");
-        $file = getcwd() . "/" . AppConfigs::ConfigurationFileName;
+        $cwd =  getcwd();
+        $file = $cwd. "/" . AppConfigs::ConfigurationFileName;
         $options = igk_getv($command, "options") ?? new stdClass();
         if (igk_io_file_exists($file) && !property_exists($options, "--force")) {
             Logger::danger("Balafon already initialized configuration.");
             return;
         }
+        if ($install_dir == './'){
+            $install_dir = '.'; // getcwd();
+        }
+
         $v_reset = igk_getv($options, '--reset');        
         $v_no_config = property_exists($options, "--noconfig");
         $v_primary = property_exists($options, "--primary");
@@ -72,7 +77,7 @@ class BalafonInitEnvironment{
             $init_data->env()->setAttributes(["name" => "IGK_DOCUMENT_ROOT", "value" => $public_dir]);
             $init_data->env()->setAttributes(["name" => 'IGK_BASE_DIR', "value" => $public_dir]);
             $init_data->env()->setAttributes(["name" => "IGK_APP_DIR", "value" => $app_dir]);
-            $sapp_dir = $app_dir == "./" ? "" : $app_dir;
+            $sapp_dir = $app_dir == "./" ? "." : $app_dir;
             $init_data->env()->setAttributes(["name" => "IGK_PROJECT_DIR", "value" => $sapp_dir . "/Projects"]);
             $init_data->env()->setAttributes(["name" => "IGK_PACKAGE_DIR", "value" => $sapp_dir . "/Packages"]);
             $init_data->env()->setAttributes(["name" => "IGK_MODULE_DIR", "value" => $sapp_dir . "/Packages/Modules"]);

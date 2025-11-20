@@ -23,9 +23,7 @@ if (!igk_is_function_disable("shell_exec")) {
     $install_dir = realpath(getcwd() . "/../../");
     $index = $install_dir . "/index.php";
     $code = 0;
-    if (!igk_io_file_exists($index)) {
-        // echo "init configuration : $b \n";
-        // echo "--".shell_exec($b ." --init --noconfig --wdir:".getcwd());
+    if (!igk_io_file_exists($index)) { 
         error_log("install site : \n");
         exec($b . " --install-site --wdir:'" . $install_dir . "' --force &2> /dev/null > /dev/null", $output, $code);
         error_log("install site done ", $code);
