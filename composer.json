@@ -20,20 +20,17 @@
         }
     },
     "scripts": {
-        "post-autoload-dump": [
-            "echo 'install balafon core '",
-            "IGK\\Composer\\Installer::PostInstall",
-            "chown -R www-data:www-data src/Lib/igk"
+        "post-autoload-dump": [ 
+            "echo 'autoload-dump '",
+            "IGK\\Composer\\Installer::PostInstall"
         ],
         "post-install-cmd": [
             "echo 'install balafon core '",
-            "IGK\\Composer\\Installer::PostInstall",
-            "chown -R www-data:www-data src/Lib/igk"
+            "IGK\\Composer\\Installer::PostInstall"
         ],
         "post-update-cmd": [
             "echo 'update balafon core '",
-            "IGK\\Composer\\Installer::PostUpdate",
-            "chown -R www-data:www-data src/Lib/igk"
+            "IGK\\Composer\\Installer::PostUpdate"
         ]
     }
 }
