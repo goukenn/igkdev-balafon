@@ -23,12 +23,12 @@
         "post-autoload-dump": [
             "echo 'install balafon core '",
             "IGK\\Composer\\Installer::PostInstall",
-            "chown -R www-data:www-data vendor/igkdev/balafon/src/Lib/igk"
+            "chown -R www-data:www-data src/Lib/igk"
         ],
         "post-install-cmd": [
             "echo 'install balafon core '",
             "IGK\\Composer\\Installer::PostInstall",
-            "chown -R www-data:www-data vendor/igkdev/balafon/src/Lib/igk"
+            "chown -R www-data:www-data src/Lib/igk"
         ],
         "post-update-cmd": [
             "echo 'update balafon core '",
