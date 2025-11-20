@@ -21,12 +21,12 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "chown -R www-data:www-data igkdev/balafon/src/Lib/igk",
-            "IGK\\Composer\\Installer::PostInstall"
+            "IGK\\Composer\\Installer::PostInstall",
+            "chown -R www-data:www-data vendor/igkdev/balafon/src/Lib/igk"
         ],
         "post-update-cmd": [
-            "chown -R www-data:www-data igkdev/balafon/src/Lib/igk",
-            "IGK\\Composer\\Installer::PostUpdate"
+            "IGK\\Composer\\Installer::PostUpdate",
+            "chown -R www-data:www-data vendor/balafon/src/Lib/igk"
         ]
     }
 }
