@@ -8,6 +8,11 @@
 * @author C.A.D. BONDJE DOUE
 */
 trait IGKBacktickHelperCommandTrait{
+    /**
+     * 
+     * @param mixed $back_tick_command_result 
+     * @return null|array 
+     */
     public static function HandleBacktickCommand($back_tick_command_result){
         if (is_null($back_tick_command_result)){
             return null;
