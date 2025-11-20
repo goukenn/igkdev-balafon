@@ -21,7 +21,12 @@
     },
     "scripts": {
         "post-install-cmd": [
-            "chown -R www-data:www-data src/Lib/igk"
+            "chown -R www-data:www-data src/Lib/igk",
+            "IGK\\Composer\\Installer::PostInstall"
+        ],
+        "post-update-cmd": [
+            "chown -R www-data:www-data src/Lib/igk",
+            "IGK\\Composer\\Installer::PostUpdate"
         ]
     }
 }
