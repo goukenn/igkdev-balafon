@@ -23,7 +23,7 @@ class Installer{
      * @return never 
      */
     public static function PostInstall(){        
-         echo 'running post install', PHP_EOL;
+        echo 'running post install', PHP_EOL;
         $chdir = getcwd();
         $argv = igk_getv($_SERVER, 'argv');
         igk_wln('VERSION: '.IGK_VERSION);
@@ -34,13 +34,15 @@ class Installer{
             $args['--vendor-dir'] = Path::GetRelativePath( $chdir,$vendor_dir);
         }
         $cm = Utility::BuildArgs($args).' ';
-        // igk_wln($argv, $cm);
-
         $cli = IGK_LIB_DIR.'/bin/balafon';
-        $wdir = IGK_LIB_DIR;
+        // $wdir = IGK_LIB_DIR;
         // + | init project 
         `cd {$chdir} && $cli --init --noconfig --reset {$cm}./`;
     }
+    /**
+     * 
+     * @return void 
+     */
     public static function PostUpdate(){
         // echo 'running post update', PHP_EOL;        
     }
