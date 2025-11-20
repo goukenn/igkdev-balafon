@@ -11,6 +11,9 @@
             "email":"cbondje@igkdev.com"
         }
     ],
+    "bin": [
+        "src/Lib/igk/bin/balafon"
+    ],
     "autoload": {
         "psr-4": {
             "IGK\\": "src/Lib/igk/Lib/Classes"
