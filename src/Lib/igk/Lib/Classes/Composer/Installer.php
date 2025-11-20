@@ -5,6 +5,7 @@
 namespace IGK\Composer;
 
 use IGK\System\Console\Commands\Utility;
+use IGK\System\IO\Path;
 
 defined('IGK_VERSION') && die('already defined');
 
@@ -30,19 +31,17 @@ class Installer{
         $vendor_dir = $chdir.'/vendor';
         $args = [];
         if (is_dir($vendor_dir)){
-            $args['--vendor-dir'] =$vendor_dir;
+            $args['--vendor-dir'] = Path::GetRelativePath( $chdir,$vendor_dir);
         }
         $cm = Utility::BuildArgs($args).' ';
-        igk_wln($argv, $cm);
+        // igk_wln($argv, $cm);
 
         $cli = IGK_LIB_DIR.'/bin/balafon';
         $wdir = IGK_LIB_DIR;
-        `chown -R www-data:www-data {$wdir}`;
         // + | init project 
         `cd {$chdir} && $cli --init --noconfig --reset {$cm}./`;
     }
     public static function PostUpdate(){
-        echo 'running post update', PHP_EOL;
-        
+        echo 'running post update', PHP_EOL;        
     }
 }

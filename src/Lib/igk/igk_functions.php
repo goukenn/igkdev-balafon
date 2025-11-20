@@ -15619,7 +15619,7 @@ function igk_io_rootrequesturi()
 function igk_io_save_file_as_utf8($filename, $content, $override = true, $transform = true)
 {
     $r = $transform ? igk_ansi2utf8(igk_str_encode_to_utf8($content)) : $content;
-    return IO::WriteToFile($filename, $r, $override);
+    return igk_io_w2file($filename, $r, $override);
 }
 ///<summary>shortcut to igk_io_save_file_as_utf8</summary>
 /**

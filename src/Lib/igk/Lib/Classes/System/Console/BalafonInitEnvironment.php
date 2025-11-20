@@ -5,6 +5,7 @@
 namespace IGK\System\Console;
 use IGK\System\Html\HtmlRenderer;
 use IGKAppSystem;
+use IGKEvents;
 use stdClass;
 /**
 * init environment balafon environment configuration
@@ -46,7 +47,7 @@ class BalafonInitEnvironment{
             $install_dir = '.'; // getcwd();
         }
 
-        $v_reset = igk_getv($options, '--reset');        
+        $v_reset = property_exists($options, '--reset');        
         $v_no_config = property_exists($options, "--noconfig");
         $v_primary = property_exists($options, "--primary");
         $v_in_vendor = igk_getv($options, '--vendor-dir') ?? self::GetVendorDir(IGK_LIB_DIR);
@@ -98,14 +99,24 @@ class BalafonInitEnvironment{
         $opts->Indent = true;
         Logger::info('store : '.$file);
         igk_io_w2file($file, $init_data->render($opts));
+        igk_hook(IGKEvents::HOOK_SYS_INIT_CONFIG, ['reset'=>$v_reset]);
 
-        IGKAppSystem::InitEnv($app_dir, igk_app());
         igk_environment()->isUnix() && (function($d, $command){            
             `chmod -R 755 {$d}`;
             $o = igk_getv($command->options, '--owner', 'www-data');
             `chown -R {$o}:{$o} {$d}`;
             igk_wln("load-".$d);
         })(realpath(dirname($app_dir)), $command);
-
+         
+        if ($v_reset){
+            IGKEvents::ClearHooks();
+            // - init environment 
+            // reset environement 
+            $argv = igk_getv($_SERVER, 'argv');
+            register_shutdown_function(function()use($argv, $app_dir){
+                $cli = $argv[0];
+                echo `$cli --init --env-only '{$app_dir}'`;
+            }); 
+        }
     }
 }

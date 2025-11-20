@@ -20,6 +20,7 @@ class IGKEvents extends IGKObject
 {
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
     const HOOK_SESS_START = "sys_session_start";
+    const HOOK_SYS_INIT_CONFIG = 'sys://init_config';
     /**
      * reset uset authentications 
      */
@@ -491,5 +492,17 @@ class IGKEvents extends IGKObject
             }
         }
         return 0;
+    }
+
+
+        /**
+     * clear all hooks
+     * @return void 
+     */
+    public static function ClearHooks(){
+        $hooks = & igk_environment()->get(self::ENV_KEY);
+        $hooks = [];
+        unset($hooks);
+        igk_environment()->set(self::ENV_KEY, null);
     }
 }
