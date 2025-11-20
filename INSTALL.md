@@ -1,7 +1,5 @@
 # install BALAFON PHP FRAMEWORK
 
-
-
 ## In docker
 
 - Create a image container from ```ubuntu``` image
@@ -17,6 +15,29 @@ apt-get isntall php-zip -y && \
 apt-get isntall php-mysqli -y && \
 apt-get isntall php-curl -y 
 ```
+
+## apache configuration 
+
+```conf
+
+DocumentRoot path_to_public_root_folder
+
+<Directory path_to_public_root_folder>
+    Options +FollowSymLinks -MultiViews -Indexes
+    Order deny,allow
+    AllowOverride none
+    Allow from all
+    Require all granted
+
+    <IfModule rewrite_module>
+        RewriteEngine on
+        RewriteCond "%{REQUEST_FILENAME}" !-d
+        RewriteCond "%{REQUEST_FILENAME}" !-f
+        RewriteRule ^(.)+$ "/index.php?rwc=1" [QSA,L]
+    </IfModule>
+</Directory>
+```
+
 
 - activate mod rewrite
 

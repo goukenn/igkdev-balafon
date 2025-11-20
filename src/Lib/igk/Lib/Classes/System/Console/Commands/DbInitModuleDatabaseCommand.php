@@ -11,8 +11,8 @@ use IGKModuleListMigration;
 * @author C.A.D. BONDJE DOUE
 */
 class DbInitModuleDatabaseCommand extends AppExecCommand{
-	var $command='--db:module-initdb';
-	/* var $desc='desc'; */
+	var $command='--module:initdb';
+	var $desc='init module database';
 	var $options=[ '--force'=>'flag: force init db'];
 	var $category = 'module';
 	var $usage = 'module_id [option]'; 

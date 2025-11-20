@@ -15,12 +15,12 @@ use IGK\System\Regex\RegexHelper;
 class FaviconCommand extends AppExecCommand
 {
 	var $command = '--favicon';
-	/* var $desc='desc'; */
+	var $desc ='retrieve default icon';
 	var $options=[
 		"--html"=>"flag: active html rendering",
 		"--type:expected_type"=>"'base64' | 'html' | 'svg' | 'png' default is 'base64'"
 	];
-	/* var $category = ''; */
+	var $category = 'sys';
 	var $usage = '[options]';
 	private static function CheckType(string $type){
 		if (in_array($type, explode("|", "base64|svg|html|png")))

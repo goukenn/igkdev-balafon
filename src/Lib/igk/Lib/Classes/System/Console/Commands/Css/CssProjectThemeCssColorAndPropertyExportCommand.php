@@ -17,9 +17,9 @@ use IGK\System\IO\Path;
 */
 class CssProjectThemeCssColorAndPropertyExportCommand extends AppExecCommand{
 	var $command='--project:css-export';
-	/* var $desc='use to export css properties/color'; */
+	var $desc='use to export project\'s css';
 	var $options=[]; 
-	var $category = 'project-css';
+	var $category = 'project';
 	var $usage = 'controller [option]';
 	public function exec($command, ?string $controller=null) {
 		$ctrl = self::ResolveController($command, $controller, false) ?? igk_die('required controller'); 

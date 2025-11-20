@@ -13,10 +13,10 @@ use IGK\System\Console\Logger;
 */
 class ChangePasswordCommand extends AppExecCommand{
 	var $command='--user:change-pwd';
-	var $desc='change password'; 
-	/* var $options=[]; */
-	var $category = 'user'; 
-	var $usage = 'user password'; 
+	var $desc='change user\'s password'; 
+	var $options=[];
+	var $category = 'users'; 
+	var $usage = 'user new_password [options]'; 
 	public function exec($command, ?string $user=null, ?string $newPassword = null) { 
 		if ($newPassword && $user && ($v_tu = igk_get_user_bylogin($user))){ 
 			$v_tu->changePassword($newPassword);
