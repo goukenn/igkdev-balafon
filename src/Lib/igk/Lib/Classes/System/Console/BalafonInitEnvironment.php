@@ -60,7 +60,7 @@ class BalafonInitEnvironment{
              * disable configuration
              */
             $primary = $v_primary;
-            $app_dir = $primary ? "./" :  $install_dir."/application";
+            $app_dir = igk_getv($options, '--app-dir') ?? ( $primary ? "./" :  $install_dir."/application");
             $public_dir = $primary ? "./" : $install_dir."/public";
             $sess_dir = $primary ? null : $install_dir."/sesstemp";
 
