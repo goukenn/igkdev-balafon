@@ -69,5 +69,18 @@ balafon --install-site --root_dir:src/public --application:src/application
 ```
 
 
+### with composer
+
+- as dependent project 
+```sh
+php composer require igkdev/balafon
+```
+- as created project 
+
+```sh
+php composer create-project igkdev/balafo project_name
+```
+
+
 # NOTE
 you can check balafon cli --help for more options.

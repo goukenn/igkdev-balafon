@@ -27,10 +27,6 @@
         "post-install-cmd": [
             "echo 'install balafon core '",
             "IGK\\Composer\\Installer::PostInstall"
-        ],
-        "post-update-cmd": [
-            "echo 'update balafon core '",
-            "IGK\\Composer\\Installer::PostUpdate"
-        ]
+        ]        
     }
 }

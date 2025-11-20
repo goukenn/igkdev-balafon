@@ -42,6 +42,6 @@ class Installer{
         `cd {$chdir} && $cli --init --noconfig --reset {$cm}./`;
     }
     public static function PostUpdate(){
-        echo 'running post update', PHP_EOL;        
+        // echo 'running post update', PHP_EOL;        
     }
 }
