@@ -44,10 +44,7 @@ class BalafonInitEnvironment{
         $v_reset = igk_getv($options, '--reset');        
         $v_no_config = property_exists($options, "--noconfig");
         $v_primary = property_exists($options, "--primary");
-
-        $v_in_vendor = preg_match('/\/vendor\//', IGK_LIB_DIR) ? 
-            self::GetVendorDir(IGK_LIB_DIR)
-        : null;
+        $v_in_vendor = igk_getv($options, '--vendor-dir') ?? self::GetVendorDir(IGK_LIB_DIR);
      
         $init_data = igk_create_xmlnode("balafon");
         $config = new \IGK\System\Console\AppConfigs();
