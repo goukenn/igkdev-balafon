@@ -2,15 +2,21 @@
     "name":"igkdev/balafon",
     "description":"BALAFON PHP Framework",
     "license": "MIT",
-    "require":{  
+    "require":{          
         "php":">=7.3"      
     },
+    "keywords": [
+        "Balafon", "IGKDEV", "C.A.D", "BONDJE"
+    ],
     "authors": [
         {
             "name":"C.A.D BONDJE DOUE<goukenn>",
             "email":"cbondje@igkdev.com"
         }
     ],
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
     "bin": [
         "src/Lib/igk/bin/balafon"
     ],
@@ -27,6 +33,10 @@
         "post-install-cmd": [
             "echo 'install balafon core '",
             "IGK\\Composer\\Installer::PostInstall"
-        ]        
+        ] ,
+        "test:phpunit": "phpunit" ,
+        "test":[
+            "@test:phpunit"
+        ]      
     }
 }
