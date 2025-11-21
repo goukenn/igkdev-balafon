@@ -12,6 +12,10 @@ use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\InitEnvControllerChain;
 use IGK\System\Exceptions\ArgumentTypeNotValidException; 
 use IGK\System\Caches\EnvControllerCacheList;
+/**
+ * system core 
+ * @package 
+ */
 class IGKAppSystem
 {
     const CONF_FILE ='configure';

@@ -1,7 +1,23 @@
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: core.func.helper.php
+// @date: 20251121 10:41:27
+// @desc: define fonction in IGK namespace
+
+// + | --------------------------------------------------------------------
+// + | 
+// + |
+
 namespace IGK;
+
+
 if (!function_exists('typeof')){
-    function typeof($o){
+    /**
+     * type of definition 
+     * @param mixed $o mixed object 
+     * @return null|string 
+     */
+    function typeof($o): ?string{
         if (is_null($o)){
             return 'null';
         }
@@ -20,5 +36,6 @@ if (!function_exists('typeof')){
         if (is_int($o)){
             return 'int';
         }
+        return null;
     }
 }

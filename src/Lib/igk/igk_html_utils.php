@@ -921,13 +921,13 @@ function igk_html_js_lang($ns, $e)
 {
     $data = json_encode((object)$e);
     $s = igk_create_node("script");
-    $s->Content = <<<EFO
-(function(){
-	if (typeof(igk)!='undefined'){
-		igk.system.createNS('{$ns}', {$data});
-	}
-})();
-EFO;
+    $s->Content = implode("\n", [
+        "(function(){",
+        "	if (typeof(igk)!='undefined'){",
+        "		igk.system.createNS('{$ns}', {$data});",
+        "	}",
+        "})();",
+    ]);
     $o = $s->render(null);
     unset($s);
     igk_wl($o);
@@ -1489,15 +1489,15 @@ if (!function_exists('igk_html_host')) {
         $root = $last = null;
         if (is_string($p)) {
             switch ($p) {
-                case HtmlNode::LOOP_HOST_TAG: 
+                case HtmlNode::LOOP_HOST_TAG:
                     $last = $root = igk_create_notagnode();
                     $root->loop(...$params[0]);
                     $params = array_slice($params, 1);
                     break;
                 case HtmlNode::FIELDS_HOST_TAG:
-                     $params = igk_getv($params, 0);// array_slice($params, 1);
-                     //igk_wln_e("create a field params ", $params);
-                    return function($n)use($params){
+                    $params = igk_getv($params, 0); // array_slice($params, 1);
+                    //igk_wln_e("create a field params ", $params);
+                    return function ($n) use ($params) {
                         return $n->fields($params);
                     };
                     break;
@@ -1551,9 +1551,10 @@ if (!function_exists('igk_html_host')) {
     }
 }
 
-if (!function_exists('igk_html_title_domain')){
-    function igk_html_title_domain(string $s, ?string $domain=null){
-        return sprintf('%s [ %s ]',$s, $domain ?? igk_configs()->website_domain );
+if (!function_exists('igk_html_title_domain')) {
+    function igk_html_title_domain(string $s, ?string $domain = null)
+    {
+        return sprintf('%s [ %s ]', $s, $domain ?? igk_configs()->website_domain);
     }
 }
 

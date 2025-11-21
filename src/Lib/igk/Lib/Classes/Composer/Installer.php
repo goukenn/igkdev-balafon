@@ -40,6 +40,7 @@ class Installer{
         // $wdir = IGK_LIB_DIR;
         // + | init project 
         echo `cd {$chdir} && $cli --init --noconfig --reset {$cm}./`;
+        symlink($cli, $chdir.'/balafon');
     }
     /**
      * 

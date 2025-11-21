@@ -238,6 +238,9 @@ class ViewHelper
              * @var string file 
              * @var array params
              */
+            /**
+             * @var array
+             */
             $tg = ["t" => $a];
             if (!is_null($param)) {
                 $tg["params"] = $param;
