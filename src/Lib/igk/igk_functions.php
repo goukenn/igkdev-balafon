@@ -9952,6 +9952,7 @@ function igk_getbase_access(
 ///<summary>return the base index.php content</summary>
 /**
  * return the base index.php content
+ * @param string expected index.php location 
  * @return string
  */
 function igk_getbaseindex_src(string $libfile): string
@@ -9966,6 +9967,7 @@ function igk_getbaseindex_src(string $libfile): string
     $inf->lib = $libfile;
     $relative = "./";
     if (IGK_APP_DIR != IGK_BASE_DIR) {
+        // + | get relative application directory 
         $relative = "";
         $wdir = igk_io_workingdir();
         $bdir = IGK_BASE_DIR;
@@ -9977,7 +9979,7 @@ function igk_getbaseindex_src(string $libfile): string
     $sess_location = '';
     if (defined('IGK_SESS_DIR')) {
         $sess_location = constant('IGK_SESS_DIR');
-    }
+    } 
     $inf->app_dir = $v_fc_resolv_dir($libfile, IGK_APP_DIR);
     $inf->projects_dir = $v_fc_resolv_dir($libfile, IGK_PROJECT_DIR);
     $inf->sess_dir = !empty($sess_location) ? $v_fc_resolv_dir($libfile, $sess_location) : $sess_location;
