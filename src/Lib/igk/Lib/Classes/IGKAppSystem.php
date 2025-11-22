@@ -81,7 +81,7 @@ class IGKAppSystem
         igk_environment()->set(IGKEnvironment::INIT_APP, 1);
         $idx = $path->getBaseDir() . "/index.php";
         if (!igk_io_file_exists($idx)) {
-            $indexsrc = igk_getbaseindex_src(IGK_LIB_FILE);
+            $indexsrc = igk_getbaseindex_src($idx);
             igk_io_save_file_as_utf8($idx, $indexsrc);
         }
         $ips = igk_server_name();
