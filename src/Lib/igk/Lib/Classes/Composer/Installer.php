@@ -25,7 +25,7 @@ class Installer{
     public static function PostInstall(){        
         echo 'running post install', PHP_EOL;
         $chdir = getcwd();
-        $argv = igk_getv($_SERVER, 'argv');
+        //$argv = igk_getv($_SERVER, 'argv');
         igk_wln('VERSION: '.IGK_VERSION);
         igk_wln('cwd: '.$chdir); 
         $vendor_dir = $chdir.'/vendor';
