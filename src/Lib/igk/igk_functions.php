@@ -9959,7 +9959,7 @@ function igk_getbaseindex_src(string $libfile): string
 {
     $v_fc_resolv_dir = function (string $libfile, string $target) {
         $cp = Path::GetRelativePath($libfile, $target);
-        return ltrim($cp, '.');
+        return '/'.ltrim($cp, './');
     };
     $showError = "";
     $inf = igk_createobj();
