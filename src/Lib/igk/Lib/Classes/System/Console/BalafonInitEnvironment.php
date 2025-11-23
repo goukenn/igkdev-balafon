@@ -12,6 +12,7 @@ use stdClass;
 * @package IGK\System\Console
 */
 class BalafonInitEnvironment{
+    const AppLibCore = '/Lib/igk';
     /**
      * retrieve vendor directory 
      * @param string $dir 
@@ -38,7 +39,7 @@ class BalafonInitEnvironment{
      * @param string $cwd 
      * @return string 
      */
-    private static function _CurrentRelativeDir(string $dir, string $cwd): string{
+    private static function _CurrentSubRelativeDir(string $dir, string $cwd): string{
         if (strstr($dir, $cwd.DIRECTORY_SEPARATOR) == $dir){
             $dir=substr($dir, strlen($cwd)+1);
         }
@@ -49,7 +50,7 @@ class BalafonInitEnvironment{
      * @param mixed $command 
      * @return void 
      */
-    public function run($command, string $install_dir='src'){
+    public function run($command, string $install_dir='src', string $appLibCore = self::AppLibCore){
         igk_environment()->isDev() && Logger::info("--[init]--");
         $cwd =  getcwd();
         $file = $cwd. "/" . AppConfigs::ConfigurationFileName;
@@ -76,8 +77,8 @@ class BalafonInitEnvironment{
             $app_dir = igk_getv($options, '--app-dir') ?? ( $primary ? "./" :  $install_dir."/application");
             $public_dir = $primary ? "./" : $install_dir."/public";
             $sess_dir = $primary ? null : $install_dir."/sesstemp";
-            $app_dir = self::_CurrentRelativeDir($app_dir, $cwd);
-            $v_in_vendor = $v_in_vendor ? self::_CurrentRelativeDir($v_in_vendor, $cwd) : null;
+            $app_dir = self::_CurrentSubRelativeDir($app_dir, $cwd);
+            $v_in_vendor = $v_in_vendor ? self::_CurrentSubRelativeDir($v_in_vendor, $cwd) : null;
             if ($v_reset){
                 // + | --------------------------------------------------------------------
                 // + | reset configuration 
@@ -100,10 +101,14 @@ class BalafonInitEnvironment{
                 $init_data->env()->setAttributes(["name" => "IGK_SESS_DIR", "value" => $sess_dir]);
             igk_io_createdir($app_dir);
             igk_io_createdir($public_dir);
-            if (!file_exists($lib = $app_dir . "/Lib/igk")) {
+
+            $lib = $app_dir . $appLibCore;
+            if (!file_exists($lib)) {
                 igk_io_createdir(dirname($lib));
-                symlink(IGK_LIB_DIR, $lib);
-            }
+                $core_lib = self::_CurrentSubRelativeDir(IGK_LIB_DIR, $cwd);
+                $lkinks = \IGK\System\IO\Path::GetRelativePath($lib, $core_lib); //, IGK_LIB_DIR);
+                @symlink($lkinks, $lib);
+            } 
         } else {
             $config->init($init_data);
         }

@@ -3,6 +3,8 @@
 // @file: DeployCurrentCommand.php
 // @date: 20230705 09:57:39
 namespace IGK\System\Console\Commands;
+
+use IGK\Helper\IO;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 /**
@@ -19,6 +21,7 @@ class DeployCurrentCommand extends AppExecCommand{
 		if (is_link('current'))
         	@unlink('current');
 		$dir = $folder;
+		IO::CreateDir($dir);
 		// + | target , file
 		symlink($dir, 'current');
 		Logger::success('done. current => '.realpath($dir));
