@@ -19,7 +19,6 @@ use IGK\Helper\StringUtility;
 use IGK\Helper\SysUtils;
 use IGK\Resources\R;
 use IGK\System\Configuration\CoreGeneration;
-use \IGKControllerManagerObject;
 use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\BalafonConfiguration;
@@ -432,9 +431,9 @@ EOF;
         \IGK\Helper\SysUtils::ClearCache(null, true);
         Logger::info("output: " . $dir);
 
-        if (empty($ctrl = igk_configs()->default_controller)){
+        if (empty(igk_configs()->default_controller)){
             $cnf = igk_configs();
-            $cnf->default_controller = $controller;
+            $cnf->default_controller = $clname;
             $cnf->saveData(true);
         }
         Logger::success("done\n");

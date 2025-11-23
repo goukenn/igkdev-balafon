@@ -71,7 +71,7 @@ class BalafonInitEnvironment{
         $config->author = igk_environment()->balafon_author;
         if ($v_no_config) {
             $_git_contents = [
-                '.vscode',
+                '.vscode', 
                 '*/node_modules/**',
             ];
             /**
@@ -104,8 +104,10 @@ class BalafonInitEnvironment{
                 $_vendor]);
                 $_git_contents[] = $_vendor;
             }
-            if ($sess_dir)
+            if ($sess_dir){
                 $init_data->env()->setAttributes(["name" => "IGK_SESS_DIR", "value" => $sess_dir]);
+                $_git_contents[] = $sess_dir;
+            }
             igk_io_createdir($app_dir);
             igk_io_createdir($public_dir);
 
@@ -118,7 +120,7 @@ class BalafonInitEnvironment{
             } 
             $_git_contents[] = $lib;
 
-            igk_io_w2file('.git', implode("\n", $_git_contents));
+            igk_io_w2file('.gitignore', implode("\n", $_git_contents));
 
 
         } else {
