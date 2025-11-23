@@ -70,6 +70,10 @@ class BalafonInitEnvironment{
         $config = new \IGK\System\Console\AppConfigs();
         $config->author = igk_environment()->balafon_author;
         if ($v_no_config) {
+            $_git_contents = [
+                '.vscode',
+                '*/node_modules/**',
+            ];
             /**
              * disable configuration
              */
@@ -95,8 +99,11 @@ class BalafonInitEnvironment{
             $init_data->env()->setAttributes(["name" => "IGK_PROJECT_DIR", "value" => $sapp_dir . "/Projects"]);
             $init_data->env()->setAttributes(["name" => "IGK_PACKAGE_DIR", "value" => $sapp_dir . "/Packages"]);
             $init_data->env()->setAttributes(["name" => "IGK_MODULE_DIR", "value" => $sapp_dir . "/Packages/Modules"]);
-            $init_data->env()->setAttributes(["name" => "IGK_VENDOR_DIR", "value" => 
-            $v_in_vendor ?? $sapp_dir . "/Packages/vendor"]);
+            if($_vendor = $v_in_vendor ?? $sapp_dir . "/Packages/vendor"){
+                $init_data->env()->setAttributes(["name" => "IGK_VENDOR_DIR", "value" => 
+                $_vendor]);
+                $_git_contents[] = $_vendor;
+            }
             if ($sess_dir)
                 $init_data->env()->setAttributes(["name" => "IGK_SESS_DIR", "value" => $sess_dir]);
             igk_io_createdir($app_dir);
@@ -106,9 +113,14 @@ class BalafonInitEnvironment{
             if (!file_exists($lib)) {
                 igk_io_createdir(dirname($lib));
                 $core_lib = self::_CurrentSubRelativeDir(IGK_LIB_DIR, $cwd);
-                $lkinks = \IGK\System\IO\Path::GetRelativePath($lib, $core_lib); //, IGK_LIB_DIR);
+                $lkinks = \IGK\System\IO\Path::GetRelativePath($lib, $core_lib); 
                 @symlink($lkinks, $lib);
             } 
+            $_git_contents[] = $lib;
+
+            igk_io_w2file('.git', implode("\n", $_git_contents));
+
+
         } else {
             $config->init($init_data);
         }
