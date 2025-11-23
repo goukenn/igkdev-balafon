@@ -129,23 +129,32 @@ class BalafonInitEnvironment{
         Logger::info('store : '.$file);
         igk_io_w2file($file, $init_data->render($opts));
         igk_hook(IGKEvents::HOOK_SYS_INIT_CONFIG, ['reset'=>$v_reset]);
-        // + | fix mod and owner
-        igk_environment()->isUnix() && (function($d, $command){            
-            `chmod -R 755 {$d}`;
-            $o = igk_getv($command->options, '--owner', 'www-data');
-            `chown -R {$o}:{$o} {$d}`; 
-        })(realpath(dirname($app_dir)), $command);
+       
         if ($v_reset){
             IGKEvents::ClearHooks();
             // - init environment 
             // reset environement 
             $argv = igk_getv($_SERVER, 'argv');
-            register_shutdown_function(function()use($argv, $app_dir){
+            register_shutdown_function(function()use($argv, $app_dir, $command, $public_dir){
                 $cli = $argv[0];
                 $cmd ="$cli --init --env-only '{$app_dir}'";
                 echo "launch: ".$cmd, PHP_EOL;
                 echo `$cmd`;
+
+                self::_InitIOFileAuth($command, $app_dir);
+                self::_InitIOFileAuth($command, $public_dir);
             });  
+        } else {
+            self::_InitIOFileAuth($command, $app_dir);
+            self::_InitIOFileAuth($command, $public_dir);
         }
+    }
+    static function _InitIOFileAuth($command, $app_dir){
+         // + | fix mod and owner
+        igk_environment()->isUnix() && (function($d, $command){            
+            `chmod -R 755 {$d}`;
+            $o = igk_getv($command->options, '--owner', 'www-data');
+            `chown -R {$o}:{$o} {$d}`; 
+        })(realpath(dirname($app_dir)), $command);
     }
 }
