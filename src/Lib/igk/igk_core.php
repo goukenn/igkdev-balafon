@@ -2455,3 +2455,20 @@ if (!function_exists('igk_controller_from_dir')) {
         return null;
     }
 }
+
+
+if (!function_exists('igk_read_line')) {
+    /**
+     * write read line
+     * @param string $prompt 
+     * @return string|false 
+     */
+    function igk_read_line(string $prompt)
+    {
+        if (version_compare(PHP_VERSION, '8.0', '>=')) {
+            return readline($prompt);
+        }
+        fwrite(STDERR, $prompt);
+        return readline();
+    }
+}

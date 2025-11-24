@@ -48,7 +48,7 @@ class DbCleanCommand extends AppExecCommand
         ob_end_clean();
         if (count($tb) > 0) {
             try {
-                if ((strtolower($y = readline($prompt . " (y/n) "))) == "y") {
+                if ((strtolower($y = \igk_read_line($prompt . " (y/n) "))) == "y") {
                     $db->stopRelationChecking();
                     foreach ($tb as $table) {
                         Logger::info("drop table : " . $table);

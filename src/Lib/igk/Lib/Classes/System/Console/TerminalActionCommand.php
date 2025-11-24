@@ -89,13 +89,3 @@ class TerminalActionCommand
         return $cmd;
     }
 }
-if (!function_exists('igk_read_line')) {
-    function igk_read_line(string $prompt)
-    {
-        if (version_compare(PHP_VERSION, '8.0', '>=')) {
-            return readline($prompt);
-        }
-        fwrite(STDERR, $prompt);
-        return readline();
-    }
-}

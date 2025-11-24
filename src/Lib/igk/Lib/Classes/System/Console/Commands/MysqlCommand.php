@@ -8,6 +8,7 @@ use Error;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\ArrayUtils;
 use IGK\Helper\JSon;
+use IGK\System\Console\App;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
@@ -118,7 +119,8 @@ class MySQLCommand extends AppExecCommand
                         Logger::info('filter : '.$filter);
                     } else {
                         if (function_exists('readline')){
-                            $c = readline('confirm you want to drop all tables ? (y|n)');
+                            $c = igk_read_line(
+                            sprintf('confirm you want to drop all tables ? %s', App::Gets(App::GRAY, '(y|n)')));
                             if ($c=='n'){
                                 return -1;
                             }

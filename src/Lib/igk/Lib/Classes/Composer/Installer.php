@@ -27,7 +27,7 @@ class Installer
     {
         echo 'running post install', PHP_EOL;
         $chdir = getcwd();
-        //$argv = igk_getv($_SERVER, 'argv');
+        $argv = igk_getv($_SERVER, 'argv');
         igk_wln('VERSION: ' . IGK_VERSION);
         igk_wln('cwd: ' . $chdir);
         $vendor_dir = $chdir . '/vendor';
@@ -36,12 +36,20 @@ class Installer
             $args['--vendor-dir'] = Path::GetRelativePath($chdir, $vendor_dir);
         }
         $args['--app-dir'] = Path::GetRelativePath($chdir, $chdir . '/src/application');
+
+        $ct = false;
+        if (false !== $idx = array_search('create-project', $argv)){
+            $ct = array_slice($argv, $idx +2);
+            $args = array_merge($args, $ct);
+        }
+        if (!$ct || !Utility::HaveArg($ct))
+            $args[] = './';
         $cm = Utility::BuildArgs($args) . ' ';
         $cli = IGK_LIB_DIR . '/bin/balafon';
 
         // $wdir = IGK_LIB_DIR;
         // + | init project 
-        echo `cd {$chdir} && $cli --init --noconfig --reset {$cm}./`;
+        echo `cd {$chdir} && $cli --init --noconfig --reset {$cm}`;
         // + | create a symlink to balafon cli
         $fs = $chdir . '/balafon';
         // + | create a symlink to balafon cli - reference link 

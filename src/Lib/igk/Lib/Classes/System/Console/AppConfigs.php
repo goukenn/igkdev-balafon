@@ -7,8 +7,11 @@ namespace IGK\System\Console;
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Configuration\XPathConfig;
-use IGKException;
-use function readline;
+use IGKException; 
+/**
+ * configuration builder 
+ * @package IGK\System\Console
+ */
 class AppConfigs
 {
     var $author;
@@ -46,25 +49,25 @@ class AppConfigs
         if (method_exists($this, $n = strtolower("read_" . $name))) {
             return $this->$n(...$args);
         }
-        return readline(...$args);
+        return igk_read_line(...$args);
     }
     private function read_author()
     {
-        if (empty(trim($s = readline("author : ")))) {
+        if (empty(trim($s = igk_read_line("author : ")))) {
             $s = IGK_AUTHOR;
         }
         return $s;
     }
     private function read_env_igk_base_uri($prompt)
     {
-        if (empty(trim($s = readline($prompt)))) {
+        if (empty(trim($s = igk_read_line($prompt)))) {
             $s = "http://localhost";
         }
         return $s;
     }
     private function read_env_igk_document_root($prompt)
     {
-        if (empty(trim($s = readline($prompt)))) {
+        if (empty(trim($s = igk_read_line($prompt)))) {
             if (is_dir($dir = getcwd() . "/src/public")) {
                 $s = "src/public";
             }
@@ -73,7 +76,7 @@ class AppConfigs
     }
     private function read_env_igk_base_dir($prompt)
     {
-        if (empty(trim($s = readline($prompt)))) {
+        if (empty(trim($s = igk_read_line($prompt)))) {
             if (is_dir($dir = getcwd() . "/src/public")) {
                 $s = "src/public";
             }
@@ -82,7 +85,7 @@ class AppConfigs
     }
     private function read_env_igk_app_dir($prompt)
     {
-        if (empty(trim($s = readline($prompt)))) {
+        if (empty(trim($s = igk_read_line($prompt)))) {
             if (is_dir($dir = getcwd() . "/src/application")) {
                 $s = "src/application";
             }
@@ -91,7 +94,7 @@ class AppConfigs
     }
     private function read_env_igk_project_dir($prompt)
     {
-        if (empty(trim($s = readline($prompt)))) {
+        if (empty(trim($s = igk_read_line($prompt)))) {
             if (is_dir($dir = getcwd() . "/src/application/Projects")) {
                 $s = "src/application/Projects";
             }
@@ -100,7 +103,7 @@ class AppConfigs
     }
     private function read_env_igk_vendor_dir($prompt)
     {
-        if (empty(trim($s = readline($prompt)))) {
+        if (empty(trim($s = igk_read_line($prompt)))) {
             if (is_dir($dir = getcwd() . "/src/application/Packages/vendor")) {
                 $s = "src/application/Packages/vendor";
             }
@@ -109,7 +112,7 @@ class AppConfigs
     }
     private function read_env_igk_module_dir($prompt)
     {
-        if (empty(trim($s = readline($prompt)))) {
+        if (empty(trim($s = igk_read_line($prompt)))) {
             if (is_dir($dir = getcwd() . "/src/application/Packages/Modules")) {
                 $s = "src/application/Packages/Modules";
             }

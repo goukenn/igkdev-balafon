@@ -204,8 +204,8 @@ EOF;
                                 $def = $def($prop);
                             }
                         }
-                        igk_wl(igk_getv($names, $key, $key) . " = ");
-                        $v_v = readline();
+                        $l = igk_getv($names, $key, $key) . " = ";
+                        $v_v = igk_read_line($l);
                         $config->$key = empty($v_v) && !is_null($def) ? $def : $v_v;
                     }
                 }

@@ -106,6 +106,21 @@ abstract class ConsoleUtility
     }
 
     /**
+     * determine if argument list avec arguments
+     * @param array $arg 
+     * @return bool 
+     */
+    public static function HaveArg(array $arg):bool{
+        while(count($arg)){
+            $q = array_shift($arg);
+            if (!preg_match("/^-/", $q)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * build argument 
      * @param array $arg 
      * @return string 
