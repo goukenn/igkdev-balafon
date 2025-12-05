@@ -39,7 +39,8 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
             $row = $cl::createRow();
             if (property_exists($command->options, '--create-query')){
                 $ad = $ctrl->getDataAdapter();
-                $query = $ad->getGrammar()->createTableQuery($cl::table(), (array) $cl::model()->getTableInfo());
+                $query = $ad->getGrammar()->createTableQuery($cl::table(), 
+                    (array) $cl::model()->getTableInfo());
                 Logger::print($query);
                 Logger::print("# - ");
                 $a = 1;

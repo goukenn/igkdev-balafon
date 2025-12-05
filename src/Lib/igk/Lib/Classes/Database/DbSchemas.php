@@ -41,6 +41,7 @@ abstract class DbSchemas
     const GEN_COLUMNS = IGK_GEN_COLUMS;
     const RT_REQUIRESCHEMA_TAG = "RequireSchema";
     const RT_SCHEMA_TAG = IGK_SCHEMA_TAGNAME;
+    const Index = 'Index';
     /**
      * 
      * @var mixed
@@ -71,6 +72,12 @@ abstract class DbSchemas
             unset($v_tab[$file]);
         }
     }
+    /**
+     * 
+     * @param mixed $schema 
+     * @param mixed $data 
+     * @return mixed 
+     */
     public static function LoadRelations($schema, $data)
     {
         $n = $schema->add(self::RELATIONS_TAG);
@@ -79,6 +86,12 @@ abstract class DbSchemas
         }
         return $n;
     }
+    /**
+     * 
+     * @param mixed $schema 
+     * @param mixed $data 
+     * @return mixed 
+     */
     public static function LoadMigrations($schema, $data)
     {
         $n = $schema->add(self::MIGRATIONS_TAG);
@@ -137,9 +150,9 @@ abstract class DbSchemas
             self::$sm_isLoadingFromSchema = true;
             try {
                 $data = self::GetDefinition($xcode, $ctrl, $resolvname, $operation);
-                // + init Check and update data
+                // + |init Check and update data
                 if ($ctrl && ($cl = $ctrl->resolveClass(\IGK\System\EntryClassResolution::DbSchemaBuilder))) {
-                    // resolv core entries 
+                    // + | resolv core entries 
                     $b = new $cl();
                     $tr = DiagramEntityAssociation::LoadFromXMLSchema($data);
                     if ($operation == DbSchemasConstants::Downgrade) {
@@ -290,7 +303,7 @@ abstract class DbSchemas
      * @param array<IDbColumnInfo>|object<IDbColumnInfo> $tableRowReference 
      * @param mixed $dataobj object to reference of
      */
-    public static function CreateObjFromInfo($tableRowReference, $dataobj = null): ?object
+    public static function CreateObjFromInfo($tableRowReference, $dataobj = null, ?string $prefix = null): ?object
     {
         // + | --------------------------------------------------------------------
         // + | tableRowRefence [ column = > IDbColumInfo ]
@@ -319,8 +332,8 @@ abstract class DbSchemas
                     $obj->$k = null;
                 }
             }
-        }
-        return $obj;
+        }        
+        return $obj; 
     }
     /**
      * init data schemas

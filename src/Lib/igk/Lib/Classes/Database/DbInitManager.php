@@ -7,7 +7,7 @@ namespace IGK\Database;
 use Exception;
 use Error;
 use IGK\Controllers\BaseController;
-use IGK\Database\Helper\DbInitManagement;
+use IGK\Database\Helpers\DbInitManagement;
 use IGK\Models\Authorizations;
 use IGK\Models\Groupauthorizations;
 use IGK\Models\Groups;
@@ -33,7 +33,7 @@ class DbInitManager{
      * @throws IGKException 
      */
     protected function initProfile(BaseController $controller){
-        igk_debug_wln('init controller profiles ... ');
+        // igk_debug_wln('init controller profiles ... ');
         DbInitManagement::InitControllerProfile($controller);
     }
     /**

@@ -20,6 +20,29 @@ require_once IGK_LIB_CLASSES_DIR . '/IGKBacktickHelperCommandTrait.php';
 abstract class ConsoleUtility
 {
     /**
+     * 
+     * @return null|string 
+     */
+    public static function GetClipboardData(): ?string{
+        // + | GET CLIP BOARD DATA
+        $c = null;
+		switch (strtolower(PHP_OS)) {
+			case 'darwin':
+				# code...
+				$c = shell_exec('pbpaste');
+				break;
+			default:
+				if (!igk_environment()->isUnix()){
+					$c = shell_exec('powershell Get-Clipboard');
+				} else{
+					$c = shell_exec('xclip -o -selection clipboard');
+				}
+				# code...
+				break;
+		}
+        return $c;
+    }
+    /**
      * show db result 
      */
     static function ShowJSonDdResult($result)

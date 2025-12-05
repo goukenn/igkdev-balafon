@@ -371,12 +371,29 @@ abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function createTable(string $tbname, array $columninfo, $entries = null, $desc = null,  $dbname=null, ?string $prefix=null)
+    public function createTable(string $tbname, array $columninfo, $entries = null, $desc = null,  $dbname=null, ?string $prefix=null, $extra=null)
     {
         if (!$this->getIsConnect())
             return false;
-        if ($grammar = $this->m_adapter->getGrammar()) {          
-            $query = $grammar->createTableQuery($tbname, $columninfo, $desc,  $dbname, $prefix);
+        if ($grammar = $this->m_adapter->getGrammar()) {    
+            // + | --------------------------------------------------------------------
+            // + | load extra definition on query driver 
+            // + |
+            
+            $d = [
+                'description'=>$desc,  
+                'dbname'=>$dbname, 
+                'prefix'=>$prefix
+            ];
+            if ($extra){
+                list($indexes, $Engine) = igk_extract($extra, 'indexes|Engine');
+                if ($indexes)
+                    $d['indexes'] = $indexes;
+                if ($Engine){
+                    $d['Engine']= $Engine;
+                }
+            }    
+            $query = $grammar->createTableQuery($tbname, $columninfo, $d);
             if ($this->sendQuery($query)) {
                 if ($entries) {
                     $this->m_adapter->pushEntries($tbname, $entries, $columninfo);

@@ -5,7 +5,9 @@
 // @desc: 
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;
-if (!version_compare(PHP_VERSION, "7.2", ">")){
+if (!version_compare(implode('.',array_slice(explode('.',PHP_VERSION), 0,2)),
+"7.2",
+">")){
     die ("php require version must be greather that 7.2");
 }
 if (defined("IGK_TEST_INIT")){

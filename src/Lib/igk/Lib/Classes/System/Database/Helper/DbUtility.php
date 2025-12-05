@@ -204,7 +204,7 @@ abstract class DbUtility
      * @param mixed $conditions 
      * @return array<string|int, mixed> 
      */
-    public static function TreatSelectCondition($columns, $conditions, ?string $prefix = null)
+    public static function TreatSelectCondition(array $columns, array $conditions, ?string $prefix = null)
     {
         $keys = array_keys($conditions);
         $count = 0;

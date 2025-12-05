@@ -528,7 +528,7 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($v_host && ($v_host instanceof static)){
                     $v_host->_handleThrowable($ex);
                 }
-                igk_wln_e(__FILE__.":".__LINE__ , 'is host ', $v_host );
+                igk_dev_wln_e(__FILE__.":".__LINE__ , 'is host ', $v_host );
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;

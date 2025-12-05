@@ -10,6 +10,10 @@ foreach (['IGK_BASE_DIR', 'IGK_TEST_CONTROLLER', 'IGK_APP_DIR'] as $m) {
         continue;
     foreach ([$_SERVER, $_ENV] as $tab) {
         if (isset($tab[$m])) {
+            $l = $tab[$m];
+            if (preg_match('/_DIR$/', $m)){
+                $l = realpath($l);
+            }
             define($m, $tab[$m]);
             break;
         }

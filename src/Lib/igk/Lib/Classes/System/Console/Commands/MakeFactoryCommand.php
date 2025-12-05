@@ -5,6 +5,7 @@
 // @desc: make factory class
 namespace IGK\System\Console\Commands;
 use IGK\Controllers\SysDbController;
+use IGK\Models\ModelEntryExtension;
 use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
 use igk\System\Console\Commands\Utility;
@@ -53,17 +54,18 @@ class MakeFactoryCommand extends AppExecCommand
         $fields = []; 
         $ctrl->register_autoload(); 
         if ($g = $ctrl::model($modelname)){
-            $fields = (array)$g::createEmptyRow();
+            $fields = ModelEntryExtension::GetArrayFromColumnFields($g);
         } else {
-            Logger::warn(sprintf('missing model [%s]', $modelname));
+            Logger::warn(sprintf('missing model [%s]', $modelname));  
         }
-        $fields = var_export($fields, true);  
+        $fields = igk_map_array_to_str($fields);// var_export($fields, true);   
+
         $bind[$ctrl::classdir() . "/Database/Factories/" . $clname . ".php"] = function ($file) use ($clname, $author, $ns, $fields) {
             $builder = new PHPScriptBuilder();
             $fname = basename($file);
             $builder->type("class")->name($clname)
                 ->author($author)
-                ->defs("public function definition(): ?array{\n\treturn $fields;\n}")
+                ->defs("public function definition(): ?array{\n\treturn [\n$fields];\n}")
                 ->doc("factory")
                 ->file($fname)
                 ->namespace($ns)

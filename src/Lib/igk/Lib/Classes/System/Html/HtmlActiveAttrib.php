@@ -24,9 +24,5 @@ final class HtmlActiveAttrib extends IGKObject{
         $b=new self();
         igk_set_env($key, $b);
         return $b;
-    } 
-    public function __construct()
-        {
-            Logger::info('loading.');
-        }
+    }  
 }

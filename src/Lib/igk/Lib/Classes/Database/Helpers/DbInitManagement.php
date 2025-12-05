@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: DbInitManagement.php
 // @date: 20251112 14:45:20
-namespace IGK\Database\Helper;
+namespace IGK\Database\Helpers;
 
 use IGK\Controllers\BaseController;
 use IGK\Models\Authorizations;

@@ -23,6 +23,7 @@ use IGKException;
 class InitClassBuilder
 {
     /**
+     * build model class 
      * @param string $name
      * @param string $table
      * @param mixed|IDbMigrationInfo $migrationInfo
@@ -34,7 +35,7 @@ class InitClassBuilder
     public static function BuildInitialModelClass(string $name, string $table, $migrationInfo, BaseController $ctrl, 
         ?string $comment = null, ?string $prefix = null, ?string $display_expression =null,
         ?callable $property_call_info=null,
-        ?callable $arg_call_info=null)
+        ?callable $arg_call_info=null): string
     {
         if ($display_expression ){
             // + | --------------------------------------------------------------------
@@ -56,7 +57,7 @@ class InitClassBuilder
         $gc = 0;
         $extends = implode("\\", array_filter([$ns, "Models\\ModelBase"]));
         $c = $ctrl->getClassesDir() . "/Models/";
-        if (($name != "ModelBase") && igk_io_file_exists($c . "/ModelBase.php")) {
+        if (($name != "ModelBase") && file_exists($c . "/ModelBase.php")) {
             $uses[] =  implode("\\", array_filter([$ns, "Models\\ModelBase"]));
             $gc = 1;
         } else {
@@ -66,7 +67,7 @@ class InitClassBuilder
         $o .= "protected \$table = \"{$table}\";" . PHP_EOL;
         if (!$gc && $ctrl) {
             $cl = get_class($ctrl);
-            $uses[] = "$cl::class";
+            $uses[] = $cl;
             $o .= "/**\n* controller class name\n* @var string*/\n";
             $o .= "protected \$controller = {$cl}::class;" . PHP_EOL;
         }

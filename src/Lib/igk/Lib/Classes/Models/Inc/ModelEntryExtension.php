@@ -14,9 +14,11 @@ use IGK\Database\DbQueryCondition;
 use IGK\Database\DbQueryOptions;
 use IGK\System\Database\QueryBuilder;
 use IGK\Database\DbQueryResult;
+use IGK\Database\DbRowDefEntry;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDbQueryResult;
 use IGK\Database\RefColumnMapping;
+use IGK\Helper\Database;
 use IGK\Helper\JSon;
 use IGK\Models\Caches\CacheModels;
 use IGK\System\Console\Logger;
@@ -50,6 +52,24 @@ abstract class ModelEntryExtension
 {
     use ModelExtensionTrait;
     use ModelInitDbExtensionTrait;
+
+    /**
+     * 
+     * @param ModelBase $model 
+     * @return null|array 
+     */
+    public static function GetArrayFromColumnFields(ModelBase $model): ?array{
+        $r = $model::createEmptyRow();
+        if ($r instanceof stdClass){
+            return (array)$r;
+        }
+        if (is_array($r)){
+            return $r;
+        }
+        if ($r instanceof DbRowDefEntry)
+            return $r->getEntryValues();
+        return null;
+    }
     /**
      * get model instance
      * @param ModelBase $model 
@@ -131,12 +151,19 @@ abstract class ModelEntryExtension
     /**
      * 
      * @param ModelBase $model 
-     * @return stdClass|null 
+     * @param bool $strict $in DbRowDefEntry
+     * @param bool $force creation of DbRowDefEntry in all case
+     * @return stdClass|null|DbRowDefEntry
      * @throws IGKException 
      */
-    public static function createEmptyRow(ModelBase $model)
+    public static function createEmptyRow(ModelBase $model, bool $strict = true, bool $force = false)
     {
-        return DbSchemas::CreateRow($model->getTable(), $model->getController());
+        $p   = $model->getTableInfo()->prefix;
+        $row = DbSchemas::CreateRow($model->getTable(), $model->getController());
+        if ($p || $force){
+            return new DbRowDefEntry($row, $p, $strict, $model);
+        }
+        return $row;
     }
     /**
      * create a model from an object. 
@@ -612,7 +639,7 @@ abstract class ModelEntryExtension
         }
         $def = $model->getTableInfo();
         $columns = $model->getTableColumnInfo();
-        $conditions = DbUtility::TreatSelectCondition($columns, $conditions, $def->prefix);
+        $conditions = DbUtility::TreatSelectCondition($columns, $conditions ?? [], $def->prefix);
         return $driver->delete($model->getTable(), $conditions);
     }
     /**
@@ -1100,6 +1127,10 @@ abstract class ModelEntryExtension
                 $autoinsert($model);
             } else if (is_array($autoinsert)) {
                 $tab = $autoinsert;
+            } else if ($cl = Database::GetMacroClass($model)) {
+                if (method_exists($cl, $fc = Database::AutoInsertCacheMethod)) {
+                    return call_user_func_array([$model, $fc], [$id, $tab]);
+                }
             }
             $r = $model::insert($tab);
         }
@@ -1144,10 +1175,16 @@ abstract class ModelEntryExtension
         if ($o = CacheModels::Get($key)) {
             return $o;
         }
-        if ($o = self::Get($model, $cl, $id, $autoinsert)) {
+        if (is_object($o = self::Get($model, $cl, $id, $autoinsert))) {
             CacheModels::Register($key, $o);
         }
         if (is_bool($o)) {
+            if ($o) {
+                if ($to = $model::select_row([$column => $id])) {
+                    CacheModels::Register($key, $to);
+                    return $to;
+                }
+            }
             return null;
         }
         return $o;
@@ -1803,5 +1840,13 @@ abstract class ModelEntryExtension
             $link_column,
             $conditions
         );
+    }
+    /**
+     * clean all entries
+     * @return void 
+     */
+    public static function clean(ModelBase $model)
+    {
+        $model::delete();
     }
 }

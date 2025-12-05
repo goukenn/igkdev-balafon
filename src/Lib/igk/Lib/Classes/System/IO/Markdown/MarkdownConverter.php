@@ -58,7 +58,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     var $documentLinks;
     /**
      * store emojies
-     * @var emojies
+     * @var emojies[]
      */
     private $m_emojies;
     /**
@@ -808,23 +808,18 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             return $n->render();
         }
     }
+    /**
+     * remove accent
+     * @param mixed $text 
+     * @return string 
+     */
     protected function removeAccents($text)
     {
         return StringUtility::RemoveAccents($text);
     }
-    protected function _slugify(string $v)
+    protected function _slugify(string $v): string
     {
-        $text =  $v; // trim(strtolower(preg_replace('/\\s+/', '-', $v)));
-
-        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
-        // $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
-        $text = $this->removeAccents($text);
-        $text = preg_replace('~[^-\w]+~', '', $text);
-        $text = trim($text, '-');
-        $text = preg_replace('~-+~', '-', $text);
-        $text = strtolower($text);
-        $text = preg_replace("/^d+-/", '', $text);
-        return $text;
+        return StringUtility::Slugify($v);
     }
     protected function _treat_text_quote(string $v)
     {

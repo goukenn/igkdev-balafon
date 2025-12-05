@@ -331,7 +331,8 @@ class MySQLCommand extends AppExecCommand
                 $tb = igk_db_get_table_name($table, $ctrl);
                 $def = igk_db_get_table_info($tb);
                 if ($def) {
-                    $query = $ad->getGrammar()->createTableQuery($tb, $def["ColumnInfo"], $def["Descriptions"]);
+                    $query = $ad->getGrammar()->createTableQuery($tb, $def["ColumnInfo"], 
+                    ['description'=>$def["Descriptions"]]);
                     Logger::print($query);
                 }
                 $ad->setSendDbQueryListener(null);

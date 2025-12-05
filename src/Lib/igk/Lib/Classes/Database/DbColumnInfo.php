@@ -185,6 +185,9 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
         } else if (preg_match($rgx = self::TYPE_LENGTH_REGEX, $q->clType, $tab)) {
             $q->clType = trim(preg_replace($rgx, '', $q->clType));
             $q->clTypeLength = intval($tab['size']);
+        } else if (preg_match('/(?P<name>decimal)\((?P<size>\\d+(?:,(?P<d>\\d+))?)\)/', $q->clType, $tab)){ 
+            $q->clType = $tab['name'];
+            $q->clTypeLength = $tab['size'];
         }
         switch (strtolower($q->clType)) {
             case 'guid':

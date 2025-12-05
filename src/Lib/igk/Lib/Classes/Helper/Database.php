@@ -33,6 +33,7 @@ class Database
 {
     // + | init data field constants 
     const InsertExtraFieldsMethod = 'InsertExtraFields';
+    const AutoInsertCacheMethod = 'AutoInsertCache';
     static $sm_shared_info;
     /**
      * 
@@ -291,7 +292,9 @@ class Database
             if ($dbname) {
                 $n = sprintf('`%s`.%s', $dbname, $adapter->escape_table_name($n));
             }
-            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName, $v->prefix)) {
+            if (!$adapter->createTable($n, $columnInfo, $data, $v->description, $adapter->DbName, $v->prefix, [
+                'indexes'=>$v->indexes
+            ])) {
                 igk_push_env("db_init_schema", sprintf("failed to create  : %s", $n));
                 igk_ilog("failed to create " . $n);
             } else {
@@ -433,13 +436,7 @@ class Database
      * @param null|string $prefix 
      * @return string 
      */
-    public static function AutoPrefixColumn(string $column, ?string $prefix=null){
-        if(empty($prefix)){
-            return $column;
-        }
-        if (!igk_str_startwith($column, $prefix)){
-            $column = $prefix.$column;
-        }
-        return $column;
+    public static function AutoPrefixColumn(string $column, ?string $prefix=null): string{
+        return StringUtility::AutoPrefix($column, $prefix);        
     }
 }

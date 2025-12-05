@@ -13,12 +13,12 @@ interface IDbQueryGrammar extends IGrammar {
     /**
      * create a table query 
      * @param string $table_name 
-     * @param array $columninfo 
-     * @param mixed $desc 
-     * @param mixed $options 
+     * @param array $columninfo list of column information
+     * @param ?string|array $desc table description or extra option to create query 
+     * - association array . description|prefix|indexes|Engine
      * @return mixed 
      */
-    function createTableQuery(string $table_name, array $columninfo, $desc = null, $options = null);
+    function createTableQuery(string $table_name, array $columninfo, $desc = null);
     /**
      * create a select query
      * @param string $table_name 

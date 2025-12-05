@@ -311,12 +311,13 @@
         this.reg_event("mouseout", function () {
             // igk.show_prop(store);
             if (q.isCssSupportAnimation()) {
+                const transition = ['all',rmduration, effect].join(' ');
                 if (tq.select) {
                     q.select(tq.select)
-                        .setCss({ transition: 'all ' + rmduration + ' ' + effect })
+                        .setCss({ transition })
                         .setCss(store);
                 } else {
-                    q.setCss({ transition: 'all ' + rmduration + ' ' + effect })
+                    q.setCss({ transition })
                         .setCss(store)
                         .timeOut(0, () => { });
                 }
@@ -829,7 +830,8 @@
             var m = null;
             if (c) {
                 m = "igk.highlightjs." + c;
-                m = _eval("return new " + m + "();");
+                let p = igk.system.getNS(m);                
+                m = p ? _eval("return new " + m + "();") : new igk_e();
             } else {
                 m = new igk_e();
             }
@@ -882,7 +884,7 @@
                 ch = inf.s[inf.pos];
                 // TODO TRADITIONAL WAY               
                 c = ch.toLowerCase().charCodeAt(0);
-                if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || (ch == '_')||(ch == '-')) {
+                if (((c >= 48) && (c <= 57)) || ((c >= 97) && (c <= 122)) || ((c >= 230) && (c <= 240)) || (ch == '_')||(ch == '-')) {
                     w += ch;
                 } else {
                     break;
@@ -1045,8 +1047,11 @@
                                 case "\n":
                                     break;
                                 default:
-                                    if (/[^\w\d\s<>\.\-\+\|\*%,=!:;\(\)\[\]\{\}\/\?]/.test(ch)){ 
-                                        sp.add("span").setHtml(' '); 
+                                    if (/[^\w\d\s\\<>#\.\-\+\|\*%,=!:;\(\)\[\]\{\}\/\?]/.test(ch)){ 
+                                        sp.add("span")
+                                            .setHtml('&nbsp;')
+                                            .addClass('no-char'); 
+
                                         break;
                                     }
                                     if (inf.mode == 0) {
@@ -1066,6 +1071,16 @@
                                         } else {
                                             w = _readWord();
                                             var _cl = "w";
+                                            ch = s[inf.pos];
+                                            if (ch=='\\'){
+                                                // + | php namespace detection
+                                                let r = /(\\[a-zA-Z_][a-zA-Z0-9]*)*/.exec(s.substr(inf.pos));
+                                                if (r){
+                                                    _cl+=' ns';
+                                                    w+= r[0];
+                                                    inf.pos+=r[0].length;
+                                                }
+                                            }
                                             if (/[0-9.]+/.test(w)) {
                                                 _cl = "num";
                                             }
@@ -1075,9 +1090,7 @@
                                             }
                                             inf.pos--;
                                         }
-                                        // inf.read = 0;
                                     }
-                                    // sp.add("span").addClass("w").setHtml(w);
                                     break;
                             }
                             inf.pos++;

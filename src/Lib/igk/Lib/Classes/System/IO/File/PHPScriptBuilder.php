@@ -21,7 +21,7 @@ use IGKException;
  * @method self phpdoc(?string $phpdoc) set phpdoc
  * @method self file(string $phpdoc) set file 
  * @method self desc(?string $phpdoc) set description  
- * @method self class_modifier(?string modifier) set the class type modifier 
+ * @method self class_modifier(?string $modifier) set the class type modifier 
  */
 class PHPScriptBuilder
 {

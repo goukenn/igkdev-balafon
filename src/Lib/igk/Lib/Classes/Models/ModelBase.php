@@ -10,7 +10,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @package IGK\Models
  * @property ?string $primaryKey
  * @method static ?static|bool create(array|object|static $definition, bool $update=true, bool $raise_exception=true) - create a row entries
- * @method static static createEmptyRow() - create an empty stdClass object that will represent a row . 
+ * @method static static|\IGK\Database\DbRowDefEntry createEmptyRow(bool $strict=true, bool $force=false) - create an empty dbEntry record object that will represent a row. 
  * @method static \IGK\Database\DataAdapterBase|null DataAdapter driver() - get the data adapter
  * @method static null|bool|\IGK\Database\DataAdapterBase insertIfNotExists(array $conditions, ?array $option_with_extra = null, ?bool $update_with_selected_row=false) macros:Insert if condition not meet.
  * @method static object|null insert() macros function - DefaultModelEntryExtension
@@ -39,7 +39,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static mixed insertOrUpdate() macros function
  * @method static void last_error() macros function
  * @method static void last_id() macros function
- * @method static ?static last() return last instance function
+ * @method static ?static last() return last instance
  * @method static void linkCondition() macros function
  * @method static static model() macros function return Model mock instance
  * @method static \IGK\System\Database\QueryBuilder prepare() macros function prepare data query builder

@@ -76,6 +76,7 @@ class SchemaMigration
         // + |
         $reload = $this->reload;
         $n = $this->node;
+        $indexes = [];
         $resolvname = $this->resolvname;
         $version = $this->node['version'];
         $author = $n['author'];
@@ -188,6 +189,14 @@ class SchemaMigration
                     $foreignKeyName = $vv["foreignKeyName"];
                     $fconstraints = Activator::CreateNewInstance(SchemaForeignConstraintInfo::class, compact('on', 'from', 'columns', 'foreignKeyName'));
                 }
+                // + | load indexed
+                $t_index = $v->getElementsByTagName(DbSchemas::Index);
+                if ($t_index){   
+                    call_user_func_array([$this, '_load_index'], [$t_index, & $indexes]); 
+                }
+
+
+
                 $info = new SchemaMigrationInfo;
                 $info->defTableName = $stb;
                 $info->columnInfo = $c;
@@ -203,6 +212,7 @@ class SchemaMigration
                 $info->modelClass = IGKSysUtil::GetModelTypeName($stb, $ctrl);
                 // $info->constant = $constant ? igk_bool_val($constant) : null;
                 $info->foreignConstraint = $fconstraints;
+                $info->indexes = $indexes;
                 $tables[$tb] =  $info;
             }
             if (
@@ -247,6 +257,7 @@ class SchemaMigration
             "migrations",
             "relations",
             "links",
+            'indexes',
             // info that used - to create 
             "version",
             "author",
@@ -259,6 +270,20 @@ class SchemaMigration
         if ($prefix) {
             $cl->clName = DbUtility::TreatColumnName($cl->clName, $prefix); 
         } 
+    }
+    /**
+     * column column tables index
+     * @param mixed $list 
+     * @param mixed &$indexes 
+     * @return void 
+     */
+    protected function _load_index($list, & $indexes){
+        while(count($list)>0){
+            $q = array_shift($list);
+            $tab = igk_to_array($q->Attributes);
+            $info = Activator::CreateNewInstance(SchemaIndexInfo::class, $tab);
+            $indexes[] = $info;
+        }
     }
     /**
      * udpate the generated columns

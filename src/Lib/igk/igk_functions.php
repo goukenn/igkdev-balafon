@@ -66,6 +66,7 @@ use IGK\System\Drawing\SysColor as sysCL;
 use function igk_resources_gets as __;
 use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
+use IGK\Models\ReferenceModels;
 use IGK\Server;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGK\System\Console\Commands\SitemapGeneratorCommand;
@@ -4467,21 +4468,19 @@ function igk_db_create_expression($value)
  * @param int $base encoding counter base
  * @param int $length expected number 
  */
-function igk_db_create_identifier($key, $user = null, $base = 36, $length = 3)
+function igk_db_create_identifier(string $key, $user = null, $base = 36, $length = 3, ?string $format=null): string
 {
     $u = $user ?? igk_app()->session->User;
     if ($u == null) {
         $u = igk_get_system_user();
     }
-    $ct = igk_getctrl(IGK_UCB_REF_CTRL);
-    $number = intval($ct->get_ref_nextnumber($u->clId, $key));
-    $c = intval(date("Ymd") . $u->clId);
-    $bill_ref = Number::ToBase($number, $base, $length);
-    $ct->update_ref_nextnumber($u->clId, $key);
-    $c = intval(date("Ymd") . $u->clId);
-    $format = Number::ToBase($c, 36, 8);
-    $bill_ref = $format . "-" . Number::ToBase($number, 36, 3);
-    igk_set_env(__FUNCTION__ . "/number", $number);
+    $uid = $u->clId;
+    $model = ReferenceModels::model();
+    $number = intval($model->get_ref_nextnumber($uid, $key));    
+    $model->update_ref_nextnumber($uid, $key);    
+
+    $format = $format ?? Number::ToBase(intval(date("Ymd") . $uid), 36, 8);
+    $bill_ref = $format . "-" . Number::ToBase($number, $base, $length);    
     return $bill_ref;
 }
 ///<summary></summary>
@@ -4510,9 +4509,9 @@ function igk_db_create_opt_obj()
  * @param mixed $base 
  * @param mixed $length 
  */
-function igk_db_create_ref($ctrl, $model = null, $base = 36, $length = 4)
+function igk_db_create_ref(BaseController $ctrl, $model = null, $base = 36, $length = 4)
 {
-    return igk_getctrl(IGK_CB_REF_CTRL)->get_ref($ctrl, $model, $base, $length);
+    return ReferenceModels::model()->get_ref($ctrl, $model, $base, $length);
 }
 ///<summary>create and empty row from global system datatable name</summary>
 ///<param name="tablename">registrated global sql data table</param>
@@ -17412,7 +17411,7 @@ function igk_mail_stylesheet()
  * Represent igk_map_array_to_str function
  * @param mixed $tab 
  */
-function igk_map_array_to_str($tab, $usekey = true)
+function igk_map_array_to_str($tab, $usekey = true): string
 {
     $m = "";
     array_map(

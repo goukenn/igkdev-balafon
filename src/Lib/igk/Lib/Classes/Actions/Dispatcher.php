@@ -229,7 +229,9 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                     continue;
                 }
                 if ($type == "array") {
-                    $c = $c ? explode(',', $c) : []; // implode(",", $args[$i]);                                    
+                    if (!is_array($c)){
+                        $c = $c ? explode(',', $c) : [];                                    
+                    }
                 } else {
                     $pattern = igk_getv(self::$sm_matches, $type, ".+");
                     if (is_string($c) && $c && !preg_match_all("#^" . $pattern . "$#", $c)) {

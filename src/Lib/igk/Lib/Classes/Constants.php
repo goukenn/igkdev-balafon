@@ -67,9 +67,13 @@ final class Constants{
         list($major, $minor)= explode(".", PHP_VERSION);
         return $major.".".$minor;
     }
-    public static function EnvironmentConstants(){
+    /**
+     * 
+     * @return array 
+     */
+    public static function EnvironmentConstants(): array{
         return [
             'IGK_ENV_NO_AUTOCACHEVIEW' // to disable global constant key 
         ];
-    }
+    } 
 }

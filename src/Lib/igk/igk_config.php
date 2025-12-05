@@ -823,15 +823,13 @@ define('IGK_ERR_FUNCNOTAVAILABLE', 65547);
 //    define('IGK_DOC_CONF_ID', "sys://document/ids/config");
 
 
-//+ system user login
+// + | system user login
 !defined('IGK_SYS_USER_LOGIN') &&  define('IGK_SYS_USER_LOGIN', "igk.system@igkdev.com");
 //
-define('IGK_ENV_GLOBAL_SCRIPT_KEY', "sys://globalscript");
- 
-
 defined('IGK_PWD_PREFIX') || define('IGK_PWD_PREFIX', "(!)8Zmb90-&");
-define('IGK_LIB_CLASSES_DIR', IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);
 defined('IGK_CONF_DEF_PWD') || define('IGK_CONF_DEF_PWD', "admin@123");
-
-
 defined('T_NAME_QUALIFIED') || define('T_NAME_QUALIFIED', 265);
+
+
+define('IGK_ENV_GLOBAL_SCRIPT_KEY', "sys://globalscript");
+define('IGK_LIB_CLASSES_DIR', IGK_LIB_DIR . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER);

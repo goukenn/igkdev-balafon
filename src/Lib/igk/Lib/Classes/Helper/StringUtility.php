@@ -33,6 +33,27 @@ abstract class StringUtility
         $s = preg_replace("/_+/i", "_", $s);
         return $s;
     }
+    /**
+     * 
+     * @param string $column 
+     * @param null|string $prefix 
+     * @return string 
+     */
+    public static function AutoPrefix(string $column, ?string $prefix = null): string
+    {
+        if (empty($prefix)) {
+            return $column;
+        }
+        if (!igk_str_startwith($column, $prefix)) {
+            $column = $prefix . $column;
+        }
+        return $column;
+    }
+    /**
+     * 
+     * @param array $tab 
+     * @return string 
+     */
     public static function DumpArray(array $tab): string
     {
         $sb = new StringBuilder;
@@ -214,15 +235,47 @@ abstract class StringUtility
      * @param string $text 
      * @return string 
      */
-    public static function RemoveAccents(string $text){
-         $accents = [
-            'à' => 'a', 'á' => 'a', 'â' => 'a', 'ä' => 'a',
-            'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
-            'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
-            'ç' => 'c', 'ñ' => 'n', '@' => 'a', 'ô' => 'o','ö'=>'o',
-            'ÿ' => 'y', 
+    public static function RemoveAccents(string $text)
+    {
+        $accents = [
+            'à' => 'a',
+            'á' => 'a',
+            'â' => 'a',
+            'ä' => 'a',
+            'è' => 'e',
+            'é' => 'e',
+            'ê' => 'e',
+            'ë' => 'e',
+            'ù' => 'u',
+            'ú' => 'u',
+            'û' => 'u',
+            'ü' => 'u',
+            'ç' => 'c',
+            'ñ' => 'n',
+            '@' => 'a',
+            'ô' => 'o',
+            'ö' => 'o',
+            'ÿ' => 'y',
         ];
-        return strtr($text, $accents); 
+        return strtr($text, $accents);
+    }
+    /**
+     * slugify text
+     * @param string $text 
+     * @return string 
+     */
+    public static function Slugify(string $text): string
+    {
+
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+        // $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        $text = self::RemoveAccents($text);
+        $text = preg_replace('~[^-\w]+~', '', $text);
+        $text = trim($text, '-');
+        $text = preg_replace('~-+~', '-', $text);
+        $text = strtolower($text);
+        $text = preg_replace("/^d+-/", '', $text);
+        return $text;
     }
     /**
      * get name_space 

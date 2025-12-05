@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Database;
+
 use function igk_die as fdie;
 use function igk_getv as getv;
 use function igk_getev as getev;
@@ -21,6 +22,7 @@ use IGK\Database\DbLitteralExpression;
 use IGK\Database\DbSchemas;
 use IGK\Database\IDataDriver;
 use IGK\Database\IDbColumnInfo;
+use IGK\Database\IDbEntryDefinition;
 use IGK\Database\SQLQueryUtils;
 use IGK\Helper\Database;
 use IGK\Helper\StringUtility;
@@ -33,6 +35,7 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 use IGKException;
 use IGKSysUtil;
 use stdClass;
+
 /**
  * represent sql default grammar. Root is mysql behaviour
  * @package IGK\System\Database
@@ -355,14 +358,23 @@ class SQLGrammar implements IDbQueryGrammar
      * create table query
      * @param mixed $tbname 
      * @param mixed $columninfo 
-     * @param mixed $desc 
+     * @param ?string|array[] $desc 
      * @param int $engine_name set engine name 
      * @param int $nocomment 
      * @return string 
      * @throws IGKException 
      */
-    public function createTablequery(string $tablename, array $columninfo, $desc = null, $options = null, ?string $prefix = null)
+    public function createTablequery(string $tablename, array $columninfo, $desc_or_options = null, $options = null, ?string $prefix = null, ?array $extra = null)
     {
+        $desc = '';
+        $Engine = null;
+        if (is_string($desc_or_options)) {
+            $desc = $desc_or_options;
+            $Engine = igk_getv($options, 'Engine');
+        } else if (is_array($desc_or_options)) {
+            list($desc, $prefix, $indexes, $Engine) = igk_extract($desc_or_options, 'description|prefix|indexes|Engine');
+            $extra = compact('prefix', 'indexes');
+        }
         $driver = $this->m_driver;
         $query = '';
         $query .= $this->m_driver->escape_table_name($tablename);
@@ -373,16 +385,17 @@ class SQLGrammar implements IDbQueryGrammar
         $funique = "";
         $findex = "";
         $fautoindex = "";
+        $findexes = "";
         $uniques = array();
         $primkey = "";
         $tinf = array();
         $defvalue = static::AllowedDefValue();
         $resovlType = igk_environment()->getResolvSQLType();
         $support = $driver->getEngineSupport();
-        $engine_name = ($options ? igk_getv($options, 'Engine') : null) ??
-            $support ? 0 : null;
+        $engine_name = $Engine ?? ($support ? 0 : null);
         $nocomment = 0;
         $length_regex = DbColumnInfo::TYPE_LENGTH_REGEX;
+        $v_real_column_names = [];
         foreach ($columninfo as $k => $v) {
             if (($v == null) || !is_object($v)) {
                 fdie(__CLASS__ . " :::Error table column info is not an object error for " . $tablename);
@@ -404,6 +417,7 @@ class SQLGrammar implements IDbQueryGrammar
                 }
                 $v_type = trim(preg_replace($length_regex, '', $v_type));
             }
+            $v_real_column_names[$v_name] = $v_name;
             $primkey = "noprimkey://" . $v_name;
             $v_name = $driver->escape_string($v_name);
             $query .= "" . self::GetKey($v_name,  $driver) . " ";
@@ -430,9 +444,9 @@ class SQLGrammar implements IDbQueryGrammar
                     }
                 }
                 if (!$e_sv)
-                    $query .= "(" . implode(",", array_map(function ($i) use ($driver) {
+                    $query .= "(" . implode(",", array_map(function (string $i) use ($driver) {
                         return "'" . $driver->escape_string($i) . "'";
-                    }, array_filter(explode(',', $e_ev), function ($c) {
+                    }, array_filter(explode(',', $e_ev), function (string $c) {
                         return (strlen(trim($c)) > 0);
                     }))) . ")";
             }
@@ -480,7 +494,7 @@ class SQLGrammar implements IDbQueryGrammar
             }
             if ($v->clDescription && !$nocomment) {
                 // description per column
-                $query .= " COMMENT '" . $this->m_driver->escape_string($v->clDescription) . "' ";
+                $query .= "COMMENT '" . $this->m_driver->escape_string($v->clDescription) . "' ";
             }
             // "remove end line"
             $query = rtrim($query);
@@ -495,8 +509,8 @@ class SQLGrammar implements IDbQueryGrammar
                     $v_unique_columns_index = '0';
                 } else {
                     $p = $v->clColumnMemberIndex;
-                    if (is_array($p)){
-                        $p = implode(',', $p); 
+                    if (is_array($p)) {
+                        $p = implode(',', $p);
                     }
                     $v_unique_columns_index = '' . $p;
                 }
@@ -541,6 +555,26 @@ class SQLGrammar implements IDbQueryGrammar
             }
             unset($tinf[$primkey]);
         }
+
+        if ($extra) {
+            (function ($extra, $columns) use (&$findexes, $prefix) {
+                list($indexes, $prefix) = igk_extract($extra, 'indexes|prefix');
+                $g = [];
+                if ($indexes) {
+                    foreach ($indexes as $k) {
+                        if (!empty($cl = self::CheckColumn($k->columns, $columns, $prefix, $error))) {
+                            $key = '';
+                            $key .= $k->isUnique ? 'UNIQUE ' : '';
+                            $g[] = sprintf($key . 'INDEX ' . $k->name . ' (%s)', $cl);
+                        } else {
+                            throw new \IGK\System\Database\Exceptions\SQLGrammarException('missing column reference');
+                        }
+                    }
+                    $findexes = implode(",\n", $g);
+                }
+            })($extra, $v_real_column_names);
+        }
+
         if (!empty($primary)) {
             $query .= ", PRIMARY KEY (" . $primary . ")";
         }
@@ -559,6 +593,11 @@ class SQLGrammar implements IDbQueryGrammar
         }
         if (!empty($findex))
             $query .= ", " . $findex;
+
+        if (!empty($findexes)) {
+            $query .= ", " . $findexes;
+        }
+
         $query =  rtrim($query) . ")";
         if (!$engine_name) {
             $query .= ' ENGINE=InnoDB';
@@ -571,8 +610,24 @@ class SQLGrammar implements IDbQueryGrammar
         if ($desc) {
             $query .= " COMMENT='" . $this->m_driver->escape_string($desc) . "' ";
         }
-        $query = sprintf($driver->getCreateTableFormat(["checkTable" => 1]), trim($query));        
+        $query = sprintf($driver->getCreateTableFormat(["checkTable" => 1]), trim($query));
         return $query;
+    }
+    private static function CheckColumn(string $column, array $columns, ?string $prefix = null, &$error = null): string
+    {
+        $ct = explode(',', $column);
+        $g = [];
+        while (count($ct) > 0) {
+            if ($q = trim(array_shift($ct))) {
+                $r = $q;
+                if (isset($columns[$q]) || ($prefix && isset($columns[$q = $prefix . $q]))) {
+                    $g[] = $q;
+                    continue;
+                }
+                $error[] = $r;
+            }
+        }
+        return implode(',', $g);
     }
     /**
      * get enum value string from data definition 
@@ -817,7 +872,7 @@ class SQLGrammar implements IDbQueryGrammar
         $q = "ALTER TABLE ";
         $q .= "`" . $table . "` CHANGE ";
         $q .= $adapter->escape($column) . " " . $new_name . " " . rtrim($this->getColumnInfo($info));
-        
+
         $q .= ';';
         return $q;
     }
@@ -837,7 +892,7 @@ class SQLGrammar implements IDbQueryGrammar
      */
     public function isNumber(string $s): bool
     {
-        return in_array($s, ['int', 'float']);
+        return in_array($s, ['int', 'float', 'decimal']);
     }
     /**
      * get grammar column definition
@@ -909,9 +964,9 @@ class SQLGrammar implements IDbQueryGrammar
                 $query .= " ON UPDATE {$_def}";
             }
         }
-         if ($v->clCharset) {
-                $query .= sprintf('CHARSET %s ', $v->clCharset);
-            }
+        if ($v->clCharset) {
+            $query .= sprintf('CHARSET %s ', $v->clCharset);
+        }
         if ($v->clDescription && !$nocomment) {
             $query .= "COMMENT '" . $adapter->escape_string($v->clDescription) . "' ";
         }
@@ -936,6 +991,9 @@ class SQLGrammar implements IDbQueryGrammar
         $query = "INSERT INTO " . $_tbname . "(";
         $v_v = "";
         $v_c = 0;
+        if ($values instanceof IDbEntryDefinition) {
+            $values = $values->getEntryValues();
+        }
         $tvalues = static::GetValues($this->m_driver, $values, $tableInfo);
         foreach ($tvalues as $k => $v) {
             if ($v_c != 0) {
@@ -974,7 +1032,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
-    public function createUpdateQuery(string $tbname, $values, $condition = null, $tableInfo = null, ?bool $filter=null): ?string
+    public function createUpdateQuery(string $tbname, $values, $condition = null, $tableInfo = null, ?bool $filter = null): ?string
     {
         if (is_null($values)) {
             igk_die(__("{0} [{1}] is null", __METHOD__, "value"));
@@ -1227,7 +1285,7 @@ class SQLGrammar implements IDbQueryGrammar
                 return $s;
             }
         }
-        if ($value instanceof DbQueryExpression){
+        if ($value instanceof DbQueryExpression) {
             return $value->getValue();
         }
         if ($tinf) {
@@ -1476,13 +1534,13 @@ class SQLGrammar implements IDbQueryGrammar
                         $query .= $v;
                         $t = 1;
                         continue;
-                    } else if (is_array($v) && (count($v)== 1) && !is_numeric(key($v))){
+                    } else if (is_array($v) && (count($v) == 1) && !is_numeric(key($v))) {
                         $k = key($v);
                         $v = $v[$k];
                     }
                 }
-                if ($v instanceof ModelBase){
-                    $v= $v->id();
+                if ($v instanceof ModelBase) {
+                    $v = $v->id();
                 }
                 if (is_object($v)) {
                     if ($v instanceof \IGK\Database\DbQueryCondition) {
@@ -1814,9 +1872,9 @@ class SQLGrammar implements IDbQueryGrammar
                         if ($a)
                             $query .= sprintf("GROUP BY %s", $g_by);
                     }
-                    break; 
+                    break;
                 case queryConstant::OrderBy:
-                    SQLQueryUtils::BuildOrderBy($v, $optset, $k, $ad, $defOrder); 
+                    SQLQueryUtils::BuildOrderBy($v, $optset, $k, $ad, $defOrder);
                     break;
                 case queryConstant::Columns:
                     $a = 0;
@@ -1878,15 +1936,15 @@ class SQLGrammar implements IDbQueryGrammar
      */
     protected static function GetGroupKey($columns, string $type, $adapter): string
     {
-        return SQLQueryUtils::GetGroupKey($columns, $type, $adapter);  
+        return SQLQueryUtils::GetGroupKey($columns, $type, $adapter);
     }
-/**
- * 
- * @param mixed $tbname 
- * @param mixed $condition 
- * @return string 
- * @throws Exception 
- */
+    /**
+     * 
+     * @param mixed $tbname 
+     * @param mixed $condition 
+     * @return string 
+     * @throws Exception 
+     */
     public function createDeleteQuery($tbname, $condition = null)
     {
         $c = "";
@@ -1900,16 +1958,18 @@ class SQLGrammar implements IDbQueryGrammar
      * @param null|string $filter 
      * @return array 
      */
-    public function listTables(?string $filter=null)
+    public function listTables(?string $filter = null)
     {
         $tables = [];
-        $col = null;// "Tables_in_" . $this->m_driver->getDbName();
-        $query = sprintf("SHOW TABLES%s;",$filter? sprintf(' like \'%s\'', 
-        $this->m_driver->escape_string($filter)) :'');
+        $col = null; // "Tables_in_" . $this->m_driver->getDbName();
+        $query = sprintf("SHOW TABLES%s;", $filter ? sprintf(
+            ' like \'%s\'',
+            $this->m_driver->escape_string($filter)
+        ) : '');
 
         $this->m_driver->sendQuery($query, true, [
-            IGKMySQLQueryResult::CALLBACK_OPTS => function ($row) use (&$tables, & $col) {
-                if (is_null($col)){
+            IGKMySQLQueryResult::CALLBACK_OPTS => function ($row) use (&$tables, &$col) {
+                if (is_null($col)) {
                     $col = $row->column(0);
                 }
                 $tables[] =  (object)["table" => $row->{$col}];

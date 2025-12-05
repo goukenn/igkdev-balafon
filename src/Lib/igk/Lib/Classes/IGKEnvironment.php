@@ -16,6 +16,7 @@ use IGK\System\IO\FakeInput;
 use IGK\System\Providers\ClassProvider;
 use Spatie\PhpUnitWatcher\Screens\Phpunit;
 use function igk_getv as getv;
+
 require_once IGK_LIB_CLASSES_DIR . "/System/IHistoryEnvironmentProperty.php";
 /**
  * use to manage Server Environment configuration poperties
@@ -42,11 +43,31 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
 {
     private static $sm_instance;
     private static $sm_states = [];
+
+    public static function GetGlobalConfigurationPath(string $dir, string $configuration_name = IGK_BALAFON_CONFIG)
+    {
+
+        $conf = $configuration_name; 
+        $p = $dir = getcwd();
+        while ($dir) {
+            $cf = $dir . DIRECTORY_SEPARATOR . $conf;
+            if (is_file($cf)) {
+                return $cf;
+            }
+            $p = dirname($dir);
+            if ($p == $dir) {
+                break;
+            }
+            $dir = $p;
+        }
+        return null;
+    }
     /**
      * retrieve shared cache info
      * @return object|null 
      */
-    public function cacheInfo(){
+    public function cacheInfo()
+    {
         return igk_io_cacheinfo();
     }
     public static function saveState(array $environment_new_state)
@@ -282,21 +303,23 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
      * @param array $uris 
      * @return array new list of fored uri session  
      */
-    public function mergeSessionUri(array $uris){
-        $tb = & $this->getRefArray('session_uris');
+    public function mergeSessionUri(array $uris)
+    {
+        $tb = &$this->getRefArray('session_uris');
         $tb = array_merge($tb, $uris);
-        return $tb; 
+        return $tb;
     }
     /**
      * get registered array 
      * @param string $key 
      * @return mixed 
      */
-    public function & getRefArray(string $key){
-        $tab = & $this->get($key);
-        if (is_null($tab)){
+    public function &getRefArray(string $key)
+    {
+        $tab = &$this->get($key);
+        if (is_null($tab)) {
             $tab = [];
-            $this->m_envs[$key] = & $tab;
+            $this->m_envs[$key] = &$tab;
         }
         return $tab;
     }
@@ -447,14 +470,15 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
      * @param mixed $key 
      * @return mixed 
      */
-    public function find($key){
-        if (isset($this->m_envs[$key])){
+    public function find($key)
+    {
+        if (isset($this->m_envs[$key])) {
             return $key;
         }
         $c = array_keys($this->m_envs);
         $key = strtolower($key);
-        foreach($c as $k){
-            if (strtolower($k)==$key){
+        foreach ($c as $k) {
+            if (strtolower($k) == $key) {
                 return $k;
             }
         }
@@ -513,10 +537,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     public function &require_modules()
     {
         $k = IGKEnvironmentConstants::REQUIRE_MODULES;
-        $v_k = & $this->get($k);
+        $v_k = &$this->get($k);
         if (!$v_k) {
             $v_k = [];
-            $this->m_envs[$k] = & $v_k;
+            $this->m_envs[$k] = &$v_k;
         }
         return $v_k;
     }
@@ -554,14 +578,16 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
      * get if environment is in debug mode
      * @return boolean
      */
-    public function isDebug(){
+    public function isDebug()
+    {
         return defined('IGK_DEBUG') ? constant('IGK_DEBUG') : igk_environment()->get(self::DEBUG);
     }
     /**
      * is in testing mode - phpunit core
      * @return bool 
      */
-    public function isTesting():bool{
+    public function isTesting(): bool
+    {
         return defined('IGK_TEST_INIT');
     }
     /**
@@ -862,9 +888,10 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
      * get environment exposed services
      * @return IGKEnvironmentServices 
      */
-    public function getServices(){
+    public function getServices()
+    {
         $r = igk_environment()->services;
-        if (!($r instanceof IGKEnvironmentServices)){
+        if (!($r instanceof IGKEnvironmentServices)) {
             $r = new IGKEnvironmentServices;
             igk_environment()->services = $r;
         }
@@ -874,25 +901,27 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
      * use to bind references in global environment definition. each referenc may be a guid 
      * @return void 
      */
-    public function getuniqueReferences(){
+    public function getuniqueReferences()
+    {
         $r = $this->references;
-        if (is_null($r)){
+        if (is_null($r)) {
             $r = new EnvironmentUniqueReferences();
-            $this->references =$r;
+            $this->references = $r;
         }
         return $r;
     }
     /**
      * @return Debugger
      */
-    public function getDebugger(){
+    public function getDebugger()
+    {
         // 
         // + | Debugger
         //
-        return igk_get_class_instance(Debugger::class, function(){
+        return igk_get_class_instance(Debugger::class, function () {
             // igk_trace();
             // igk_wln_e("file ", $f);
             return new Debugger;
-        }); 
+        });
     }
 }

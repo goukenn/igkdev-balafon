@@ -32,6 +32,7 @@ use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Traits\MacrosConstant;
 use IGK\Constants;
+use IGK\Database\DbRowDefEntry;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
@@ -472,17 +473,17 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         // + | copy raw if not instance 
         // + | 
         if ($raw && ($raw !== $this->raw)) {
-            $props = array_fill_keys(array_keys((array)$this->raw), 1);
+            $trow = ($this->raw instanceof DbRowDefEntry) ? $this->raw->initDefArray() :
+                array_fill_keys(array_keys((array)$this->raw), 1);
+            $props = $trow; //array_fill_keys(array_keys((array)$this->raw), 1);
             if ($unset && $this->hidden) {
                 foreach ($this->hidden as $k) {
                     $props[$k] = 0;
                 }
             }
             foreach ($raw as $k => $v) {
-                if (property_exists($this->raw, $k)) {
-                    if ($props[$k]) {
-                        $this->raw->$k = Database::GetValueFromLayoutInfo($v, $k, $v_inf);
-                    }
+                if (key_exists($k, $props)) {
+                    $this->raw->$k = Database::GetValueFromLayoutInfo($v, $k, $v_inf);
                     unset($props[$k]);
                 }
             }
@@ -533,9 +534,10 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                 $name = igk_getv($rp, $name);
             }
         }
-        if (igk_environment()->isDev()) {
-            if ($name && !property_exists($this->raw, $name) && (strpos($name, "::") !== 0)) {
-                igk_die("property [" . static::class . "::$name] not present");
+        if (igk_environment()->isDev() && $name && (strpos($name, "::") !== 0)) {
+            if ((($this->raw instanceof DbRowDefEntry) && !$this->raw->keyExists($name)) &&
+                (!property_exists($this->raw, $name))){
+                igk_die("model property [" . static::class . "::$name] not present");
             }
         }
         return igk_getv($this->raw, $name);
@@ -802,6 +804,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      */
     private static function _InvokeMacros($macros, $name, $instance, $arguments, &$failed = false)
     {
+        $R_macros =  & self::$sm_macros;
         $key = static::class . self::StaticSperator . $name;
         if ($fc = igk_getv($macros, $key)) {
             // static closure
@@ -835,26 +838,26 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             return $fc(...$arguments);
         }
         $key = igk_uri('@auto_register/' . get_class($instance));
-        if (!isset(self::$sm_macros[$key])) {
+        if (!isset($R_macros[$key])) {
             // auto register load - macros class 
             if ($cl = Database::GetMacroClass($instance)) {
                 $instance::registerExtension($cl);
                 if (method_exists($cl, $name)) {
                     $fc = [$cl, $name];
-                    self::$sm_macros[$name] = $fc;
+                    $R_macros[$name] = $fc;
                     $parameters = (new ReflectionMethod($cl, $name))->getParameters();
                     array_shift($parameters);
                     $arguments = Dispatcher::GetInjectArgsByParameters($parameters, $arguments);
                     $instance && array_unshift($arguments, $instance);
                     return $fc(...$arguments);
                 }
-                self::$sm_macros[$key] = 1;
+                $R_macros[$key] = $cl;
             }
         }
         // $f = igk_sys_reflect_class(ModelEntryExtension::class);
         if (method_exists(ModelEntryExtension::class, $name)) {
             $fc = [ModelEntryExtension::class, $name];
-            self::$sm_macros[$name] = $fc;
+            $R_macros[$name] = $fc;
             $instance && array_unshift($arguments, $instance);
             return $fc(...$arguments);
         }

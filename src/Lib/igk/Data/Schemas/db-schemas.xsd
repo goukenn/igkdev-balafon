@@ -60,10 +60,16 @@
         <xs:attribute name="name" type="xs:string" use="optional"></xs:attribute>
         <xs:attribute name="date" type="xs:dateTime"></xs:attribute>
     </xs:complexType>
+    <xs:complexType name="tindexcolumns">
+        <xs:attribute name="columns" type="xs:string" use="required"></xs:attribute>
+        <xs:attribute name="name" type="xs:string" use="optional"></xs:attribute>
+        <xs:attribute name="isUnique" type="xs:string" use="optional"></xs:attribute>
+    </xs:complexType>
     <xs:complexType name="tdatadefinition">
         <xs:sequence>
             <xs:element name="Column" minOccurs="0" maxOccurs="unbounded" type="tcolumns" />
             <xs:element name="GenColumn" minOccurs="0" maxOccurs="unbounded" type="tgencolumns" />
+            <xs:element name="Index" minOccurs="0" maxOccurs="unbounded" type="tindexcolumns" />
             <xs:element name="ForeignConstraint" type="tForeignConstraint" maxOccurs="unbounded"
                 minOccurs="0"></xs:element>
         </xs:sequence>

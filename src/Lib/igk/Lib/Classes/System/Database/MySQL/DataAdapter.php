@@ -483,21 +483,10 @@ class DataAdapter extends DataAdapterBase implements
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
-    public function isTypeSupported($type): bool
+    public function isTypeSupported(string $type): bool
     {
         if (self::$supportedList === null) {
-            self::_InitSupportedTypes($this);
-            // self::$supportedList = [];
-            // if ($g = $this->sendQueryAndLeaveOpen(self::SELECT_DATA_TYPE_QUERY)) {
-            //     foreach ($g->getRows() as $r) {
-            //         self::$supportedList[] = strtolower($r->type);
-            //     }
-            //     // + | update timestamp if support datetime - OVH MISSING DATA
-            //     $t = &self::$supportedList;
-            //     if (!in_array('timestamp', $t) && in_array('datetime', $t)) {
-            //         $t[] = 'timestamp';
-            //     }
-            // }
+            self::_InitSupportedTypes($this); 
         }
         return in_array(strtolower($type),  self::$supportedList);
     }
@@ -568,6 +557,11 @@ class DataAdapter extends DataAdapterBase implements
         }
         return null;
     }
+    /**
+     * 
+     * @param null|string $v 
+     * @return string 
+     */
     public function escape_string(?string $v = null): string
     {
         if (is_null($v)) {
@@ -722,12 +716,12 @@ class DataAdapter extends DataAdapterBase implements
      * @param mixed $desc the default value is null
      * @param string $dbname the default value is null
      */
-    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $dbname = null, ?string $prefix=null)
+    public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $dbname = null, ?string $prefix=null, $extra=null)
     {
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
             if (!($this->tableExists($tablename, false))) {
                 igk_ilog('db try to create table > ' . $tablename);
-                $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $dbname, $prefix);
+                $s = $this->m_dbManager->createTable($tablename, $columninfoArray, $entries, $desc, $dbname, $prefix, $extra);
                 if (!$s) {
                     igk_ilog("failed to create table [" . $tablename . "] - " . $this->m_dbManager->getError());
                     igk_ilog(get_class($this->m_dbManager), __METHOD__);
@@ -786,7 +780,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * adapter send query with grammar helper
      * @param mixed $tablename
-     * @param mixed $entry
+     * @param mixed $entry table entries
      * @param mixed $tableinfo the default value is null
      */
     public function insert($tablename, $entry, $tableinfo = null, bool $throwException = true, $options = null, $autoclose = false)

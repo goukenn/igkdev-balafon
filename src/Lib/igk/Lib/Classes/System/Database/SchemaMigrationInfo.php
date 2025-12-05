@@ -54,6 +54,15 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * @var ?string
      */
     var $prefix;
+
+    /**
+     * confiugred indexed
+     * @param mixed $n 
+     * @return ?array 
+     */
+    var $indexes;
+
+
     public function _access_OffsetGet($n)
     {
         if (property_exists($this, $n)) {

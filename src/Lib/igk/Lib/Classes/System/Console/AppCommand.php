@@ -84,7 +84,7 @@ abstract class AppCommand {
      * @return void 
      */
     public static function BindUser(BaseController $controller, int $id){
-        if ($user = \IGK\Models\Users::Get('clId', $id)){
+        if ($user = \IGK\Models\Users::Get(\IGK\Models\Users::FD_CL_ID, $id)){
             $controller::login($user, null, false);
         }
     }
