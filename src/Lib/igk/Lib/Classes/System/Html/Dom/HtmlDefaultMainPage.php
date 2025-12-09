@@ -10,6 +10,7 @@
 namespace IGK\System\Html\Dom;
 
 use IGK\Resources\R;
+use IGKEvents;
 use IGKException;
 use function igk_html_host  as _h; 
 
@@ -20,14 +21,19 @@ use function igk_html_host  as _h;
 final class HtmlDefaultMainPage extends HtmlNode
 {
     static $sm_instance;
+    /**
+     * 
+     * @param mixed $options 
+     * @return bool 
+     */
     protected function _acceptRender($options = null): bool
     {
         if (!$this->getIsVisible()) {
             return false;
         }
         igk_set_env("sys://nopowered", 1);
-       
-        $this->clearChilds(); 
+        $doc = $options->Document;
+        $this->clearChilds();   
         $n = $this->container()->addCol('fitw')->addRow();
         $n->setClass("default-home-page")->addObData(
             function () {
@@ -43,7 +49,7 @@ final class HtmlDefaultMainPage extends HtmlNode
         // attach author community - node 
         $g = igk_create_notagnode();
         $g->author_community(); 
-        $doc = $options->Document;
+
         if ($doc) {
             if (function_exists('igk_google_addfont')){
                 igk_google_addfont($doc, "Roboto");
@@ -70,6 +76,16 @@ final class HtmlDefaultMainPage extends HtmlNode
     {
         parent::__construct("div");
         $this["class"] = "igk-project-start google-Roboto igk-parentscroll dispflex flex-column fith flex-justify-sb overflow-y-a";
+        igk_reg_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, function($e){
+            return $this->beforeRenderDoc($e);
+        }); 
+    }
+    protected function beforeRenderDoc($e){
+        list($doc) = igk_extract($e->args, 'doc');
+        if ($this->getIsVisible()){
+            $doc->title = 'Balafon MainPage';
+        }
+        igk_wln_e("lkjkkkk::::::");
     }
     /**
      * 
