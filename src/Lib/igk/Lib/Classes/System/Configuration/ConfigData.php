@@ -263,7 +263,8 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     }
     public function reload()
     {
-        $this->m_configEntries = include ($this->m_confile) ?? [];
+        if (file_exists($this->m_confile))
+            $this->m_configEntries = include ($this->m_confile) ?? [];
     }
     /**
      * get the primary configuration file

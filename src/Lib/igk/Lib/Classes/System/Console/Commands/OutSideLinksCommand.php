@@ -12,7 +12,7 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use ControllerInitListener;
 use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
-use \IGKControllerManagerObject;
+
 use Illuminate\Support\Facades\Log;
 class OutSideLinksCommand extends AppExecCommand{
     var $command = "--outsidelinks"; 

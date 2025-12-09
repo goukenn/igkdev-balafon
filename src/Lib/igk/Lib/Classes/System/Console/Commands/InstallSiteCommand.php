@@ -17,7 +17,7 @@ use IGK\Helper\IO;
 use IGK\Helper\StringUtility;
 use IGK\System\Installers\LaravelMixInstaller;
 use IGKCaches;
-use \IGKControllerManagerObject;
+
 use IGKEvents;
 class InstallSiteCommand extends AppExecCommand
 {

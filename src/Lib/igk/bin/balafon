@@ -43,6 +43,8 @@ $command = $app->getPrimaryCommand($argv) ?? igk_die('primary command not found'
 // |
 $app->command = $command;
 $app->environment = igk_environment()->name();
+
+
 // | run application
 // |
 $status = $app->run(__FILE__, false);

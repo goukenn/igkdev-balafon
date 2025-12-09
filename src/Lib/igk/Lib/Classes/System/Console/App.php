@@ -120,7 +120,8 @@ class App
         $app->_configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));
         $app->boot();
-        if (!igk_io_cache_file_exists($fc = AppCommandConstant::GetCacheFile())) {
+   
+        if (!igk_io_cache_file_exists($fc = AppCommandConstant::GetCacheFile(), true)) {
             Logger::warn("balafon - missing cache ".$fc);
             $v_cmd = self::CreateCommand($app);
             $cmd = new InitCommand();
@@ -128,6 +129,8 @@ class App
             unset($v_cmd);
         }
         $command_args = AppCommand::GetCommands($app);
+ 
+ 
         if ($command_args) {
             foreach ($command_args as $c) {
                 $callbable = null;
@@ -153,6 +156,7 @@ class App
                 $handle[trim($n)] = $b;
             }
         }
+    
         ksort($command);
         $app->command = $command;
         $tab = array_slice(igk_server()->argv, 1);
@@ -161,6 +165,7 @@ class App
             chdir($_SERVER[$v_c]);
             unset($_SERVER[$v_c]);
         }
+   
         return self::Exec($app, $tab) ?? 0;
     }
     /**

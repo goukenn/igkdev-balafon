@@ -2472,3 +2472,18 @@ if (!function_exists('igk_read_line')) {
         return readline();
     }
 }
+
+
+
+/**
+ * just find a user
+ * @param string $name 
+ * @return Users|mixed 
+ */
+function igk_sys_find_auth_user(string $name){
+    if ($user = igk_get_user_bylogin($name)){
+        return $user;
+    }
+    $r = igk_hook(IGKEvents::HOOK_FIND_USER, ['name'=>$name]);
+    return $r;
+}

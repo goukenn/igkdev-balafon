@@ -62,12 +62,12 @@ use IGK\Models\ModelBase;
 * @method static mixed auths() macros function
 * @method static void bindToGroup(\IGK\Controllers\BaseController $ctrl,string $groupname) macros function
 * @method static void changePassword(string $newPassword) macros function
-* @method static void fullName() macros function
+* @method static ?string fullName() macros function
 * @method static void getPhoneBookEntries() macros function
 * @method static void getPhoneBookEntry() macros function
 * @method static void getPhoneBookEntryByType(?string $type= IGK\System\Constants\PhonebookTypeNames::PHT_PHONE) macros function
-* @method static void isActive() macros function
-* @method static arraybool removeFromGroup(string $groupName) macros function
+* @method static ?bool isActive() macros function
+* @method static array|bool removeFromGroup(string $groupName) macros function
 * */
 class Users extends ModelBase{
 	const FD_CL_ID="clId";

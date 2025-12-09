@@ -14,7 +14,7 @@ return [
     'webauthn_required' => 0,
     'webauthn_serie_key' => null,
     'default_adm_pwd' => null,
-    'noWebConfiguration' => null,
+    'no_web_configuration' => null,
     'BootStrap.Enabled' => 0,
     'BootStrap.JsEnabled' => 0,
     'JQuery.Enabled' => "1",

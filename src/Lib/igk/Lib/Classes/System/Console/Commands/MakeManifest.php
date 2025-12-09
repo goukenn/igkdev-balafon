@@ -4,18 +4,16 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console\Commands;
-use IGK\System\Console\App;
-use IGK\System\Console\AppCommand;
+use IGK\System\Console\App; 
 use IGK\System\Console\AppExecCommand;
-use IGK\System\Console\Logger;
-use IGK\System\IO\File\PHPScriptBuilder;
-use IGK\Actions\ActionBase;
-use ControllerInitListener;
-use IGK\Helper\IO as IGKIO;
-use \ApplicationController;
+use IGK\System\Console\Logger; 
 use igk\System\Console\Commands\Utility;
-use IGK\System\EntryClassResolution;
-use \IGKControllerManagerObject;
+use IGK\System\EntryClassResolution; 
+
+/**
+ * 
+ * @package IGK\System\Console\Commands
+ */
 class MakeManifestCommand extends AppExecCommand{
     var $command = "--make:manifest"; 
     var $category = "make";

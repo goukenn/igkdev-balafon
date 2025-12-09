@@ -77,20 +77,33 @@ class IGKAppSystem
         $hdir = null;
         if (!is_dir($dirname) || !($hdir = opendir($dirname)))
             return;
-        closedir($hdir);
-        igk_environment()->set(IGKEnvironment::INIT_APP, 1);
-        $idx = $path->getBaseDir() . "/index.php";
+        $env = igk_environment();
+        closedir($hdir); 
+        $env->set(IGKEnvironment::INIT_APP, 1); 
+        !$env->NoAppInitFileStruct && self::_InitEnvironmentFileStructure($dirname, $app_dir, $project_dir, $path);       
+        $env->NoAppInitFileStruct = false;
+        igk_raise_initenv_callback();
+        $env->set(IGKEnvironment::INIT_APP, null);
+        igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::class, "reloadConfigCallback"]);
+    }
+    /**
+     * init base environment file structure 
+     * @param string $dirname 
+     * @param string $app_dir 
+     * @param string $project_dir 
+     * @param mixed $path 
+     * @return void 
+     */
+    private static function _InitEnvironmentFileStructure(string $dirname, string $app_dir, string $project_dir, $path){
+         $idx = $path->getBaseDir() . "/index.php";
         if (!igk_io_file_exists($idx)) {
-            $indexsrc = igk_getbaseindex_src($idx);
+            $indexsrc = igk_getbaseindex_src($idx). "\n";
             igk_io_save_file_as_utf8($idx, $indexsrc);
         }
         $ips = igk_server_name();
         self::InstallDir($idx, $app_dir, $dirname, $project_dir, $path->getDataDir(), $path->getSysDataDir(), [
             "domain_name" => !IGKValidator::IsIPAddress($ips) ? $ips : IGK_DOMAIN,
         ]);
-        igk_raise_initenv_callback();
-        igk_environment()->set(IGKEnvironment::INIT_APP, null);
-        igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::class, "reloadConfigCallback"]);
     }
     public static function reloadConfigCallback()
     {

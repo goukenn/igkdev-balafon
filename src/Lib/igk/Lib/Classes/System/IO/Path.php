@@ -411,8 +411,8 @@ class Path
         }
         if ($v_found || ($vtarget == '/')) {
             $l = '';
-            if (strpos($vsource, $v_cpath) !== 0) {
-                igk_die("no matching");
+            if (strpos($vsource, $v_cpath) !== 0) { 
+                igk_die("no matching relative path");
             }
             if ($v_cpath == '/') {
                 $v_cpath = '';

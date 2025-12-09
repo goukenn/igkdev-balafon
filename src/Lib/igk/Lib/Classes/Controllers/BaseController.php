@@ -119,7 +119,8 @@ use function igk_resources_gets as __;
  * 
  * @method static void logout() macros function
  * @method static void migrate() macros function
- * @method static ?\IGK\Models\ModelBase model(string $modelName model name) macros function search for model by name. 
+ * @method static ?\IGK\Models\ModelBase model(string $modelName) macros function search for model by name. 
+ *  - `modelName`: name of the model
  * @method static object|null modelUtility() macros function 
  * @method static void notifyKey() macros function
  * @method static string ns(string $path) macros function

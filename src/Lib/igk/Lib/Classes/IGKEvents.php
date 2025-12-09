@@ -7,6 +7,9 @@ use IGK\Actions\Dispatcher;
 use IGK\HookOptions;
 use IGK\IHookOptions;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\Security\Authentications\Traits\UserCommunityAuthenticationTrait;
+
+require_once IGK_LIB_CLASSES_DIR.'/System/Security/Authentications/Traits/UserCommunityAuthenticationTrait.php';
 /**
  * represent app - system - controller - public hook
  * Hooking system 
@@ -18,6 +21,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
  */
 class IGKEvents extends IGKObject
 {
+    use UserCommunityAuthenticationTrait;
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
     const HOOK_SESS_START = "sys_session_start";
     const HOOK_SYS_INIT_CONFIG = 'sys://init_config';
@@ -76,6 +80,7 @@ class IGKEvents extends IGKObject
     const HOOK_USER_DELETE = "sys_user_delete"; // just make it inactive
     const HOOK_USER_DROP = "sys_user_drop"; // full user removed
     const HOOK_USER_CLEAN = 'sys_user_clean'; // clean user data for database
+    const HOOK_FIND_USER = 'sys_user_find_user_by_value';
     // + | --------------------------------------------------------------------
     // + | DB HOOK
     // + |
@@ -145,6 +150,8 @@ class IGKEvents extends IGKObject
     const HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN = 'MiddleWareAction:/CheckAccessToken';
     const HOOK_ON_MODULE_ADDED = 'command:/module/added';
     const HOOK_USER_AUTHENTICATE = 'sys:/user/authenticate';
+    const HOOK_AUTH_USER_BY_COMMUNITY = 'authentication://community-request';
+    const FILTER_LIST_AUTH_TYPE = 'filter://authentication_type';
 
     /**
      * raise when a new document created

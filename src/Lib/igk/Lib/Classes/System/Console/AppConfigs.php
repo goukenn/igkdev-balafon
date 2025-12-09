@@ -4,10 +4,13 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console;
+
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Configuration\XPathConfig;
-use IGKException; 
+use IGK\System\Core\Configuration\DirectoriesInstallsConstants;
+use IGKException;
+
 /**
  * configuration builder 
  * @package IGK\System\Console
@@ -21,22 +24,19 @@ class AppConfigs
     const ConfigurationFileName = IGK_BALAFON_CONFIG;
     public function init($init_data)
     {
-        if (!function_exists('readdline')){
+        if (!function_exists('readline')) {
+            // + | missing readline
             return;
         }
         if (empty($this->author)) {
             $init_data->add("author")->Content  = $this->read_author();
         }
-        foreach ([
+        $tc = array_merge([
             "IGK_DOCUMENT_ROOT",
-            'IGK_BASE_DIR',
-            "IGK_PROJECT_DIR",
-            "IGK_APP_DIR",
-            "IGK_PACKAGE_DIR",
-            "IGK_MODULE_DIR",
-            "IGK_VENDOR_DIR",
             "IGK_BASE_URI",
-        ] as $envprop) {
+        ], DirectoriesInstallsConstants::GetInstallableDirConstants());
+        foreach ($tc as $envprop
+        ) {
             $key = "env_" . strtolower($envprop);
             if ($n = $this->$key("{$envprop} :")) {
                 $init_data->add("env")->setAttribute("name", $envprop)
@@ -51,6 +51,10 @@ class AppConfigs
         }
         return igk_read_line(...$args);
     }
+    /**
+     * 
+     * @return string|false 
+     */
     private function read_author()
     {
         if (empty(trim($s = igk_read_line("author : ")))) {
@@ -74,48 +78,55 @@ class AppConfigs
         }
         return $s;
     }
+    /**
+     * 
+     * @param mixed $cwd 
+     * @param mixed $l 
+     * @param mixed $d 
+     * @return string 
+     */
+    private static function _GetLocationDir($cwd, $l, $d): string
+    {
+        if (is_dir($cwd . $l)) {
+            $s = "src/public";
+        } else {
+            $s = $d;
+        }
+        return $s;
+    }
     private function read_env_igk_base_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
-            if (is_dir($dir = getcwd() . "/src/public")) {
-                $s = "src/public";
-            }
+            $l = '/src/public';
+            $s = self::_GetLocationDir(getcwd(), '/src/public', './');
         }
         return $s;
     }
     private function read_env_igk_app_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
-            if (is_dir($dir = getcwd() . "/src/application")) {
-                $s = "src/application";
-            }
+            $s = self::_GetLocationDir(getcwd(), "/src/application", "./");
         }
         return $s;
     }
     private function read_env_igk_project_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
-            if (is_dir($dir = getcwd() . "/src/application/Projects")) {
-                $s = "src/application/Projects";
-            }
+            $s = self::_GetLocationDir(getcwd(), "/src/application/Projects", "./Projects");
         }
         return $s;
     }
     private function read_env_igk_vendor_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
-            if (is_dir($dir = getcwd() . "/src/application/Packages/vendor")) {
-                $s = "src/application/Packages/vendor";
-            }
+            $s = self::_GetLocationDir(getcwd(), "/src/application/Packages/vendor", "./Packages/vendor");
         }
         return $s;
     }
     private function read_env_igk_module_dir($prompt)
     {
         if (empty(trim($s = igk_read_line($prompt)))) {
-            if (is_dir($dir = getcwd() . "/src/application/Packages/Modules")) {
-                $s = "src/application/Packages/Modules";
-            }
+            $s = self::_GetLocationDir(getcwd(), "/src/application/Packages/Modules", "./Packages/Modules");
         }
         return $s;
     }
@@ -126,7 +137,8 @@ class AppConfigs
      * @throws IGKException 
      * @throws Exception 
      */
-    public static function LoadConfigurationFile(string $configFile){
+    public static function LoadConfigurationFile(string $configFile)
+    {
         $wd = dirname($configFile);
         $c = igk_conf_load_file($configFile, "balafon");
         $configs = new XPathConfig($c);
@@ -149,9 +161,10 @@ class AppConfigs
      * @param mixed $config 
      * @return void 
      */
-    public static function InitEnvironment($config){
-        foreach(['IGK_MYSQL_DB_SERVER'=>'db_server'] as $k=>$v){
-            if ($env = getenv($k)){
+    public static function InitEnvironment($config)
+    {
+        foreach (['IGK_MYSQL_DB_SERVER' => 'db_server'] as $k => $v) {
+            if ($env = getenv($k)) {
                 $config->{$v} = $env;
             }
         }

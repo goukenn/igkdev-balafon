@@ -4,6 +4,7 @@
 // @date: 20231019 12:57:36
 namespace IGK\System\Console;
 use IGK\System\Html\HtmlRenderer;
+use IGK\System\IO\Path;
 use IGKAppSystem;
 use IGKEvents;
 use stdClass;
@@ -48,6 +49,8 @@ class BalafonInitEnvironment{
     /**
      * 
      * @param mixed $command 
+     * @param mixed $install_dir 
+     * @param mixed $appLibCore
      * @return void 
      */
     public function run($command, string $install_dir='src', string $appLibCore = self::AppLibCore){
@@ -69,9 +72,12 @@ class BalafonInitEnvironment{
         $init_data = igk_create_xmlnode("balafon");
         $config = new \IGK\System\Console\AppConfigs();
         $config->author = igk_environment()->balafon_author;
+        $app_dir = '';
+        $public_dir = '';
         if ($v_no_config) {
             $_git_contents = [
                 '.vscode', 
+                '.gitignore',
                 '*/node_modules/**',
             ];
             /**
@@ -99,6 +105,7 @@ class BalafonInitEnvironment{
             $init_data->env()->setAttributes(["name" => "IGK_PROJECT_DIR", "value" => $sapp_dir . "/Projects"]);
             $init_data->env()->setAttributes(["name" => "IGK_PACKAGE_DIR", "value" => $sapp_dir . "/Packages"]);
             $init_data->env()->setAttributes(["name" => "IGK_MODULE_DIR", "value" => $sapp_dir . "/Packages/Modules"]);
+            $init_data->env()->setAttributes(["name" => "IGK_NODE_MODULES_DIR", "value" => $sapp_dir . "/Packages/node_modules"]);
             if($_vendor = $v_in_vendor ?? $sapp_dir . "/Packages/vendor"){
                 $init_data->env()->setAttributes(["name" => "IGK_VENDOR_DIR", "value" => 
                 $_vendor]);
@@ -111,24 +118,25 @@ class BalafonInitEnvironment{
             igk_io_createdir($app_dir);
             igk_io_createdir($public_dir);
 
-            $lib = $app_dir . $appLibCore;
+            $lib = ($app_dir== './'? getcwd() : '') . $appLibCore;
             if (!file_exists($lib)) {
                 igk_io_createdir(dirname($lib));
                 $core_lib = self::_CurrentSubRelativeDir(IGK_LIB_DIR, $cwd);
-                $lkinks = \IGK\System\IO\Path::GetRelativePath($lib, $core_lib); 
-                @symlink($lkinks, $lib);
+                $v_link = \IGK\System\IO\Path::GetRelativePath($lib, $core_lib); 
+                //igk_wln_e(compact('app_dir', 'appLibCore', 'lib', 'core_lib', 'v_link'));
+                @symlink($v_link, $lib);
             } 
-            $_git_contents[] = $lib;
+            $_git_contents[] = Path::GetRelativePath($cwd, $lib);
 
             igk_io_w2file('.gitignore', implode("\n", $_git_contents));
-
-
         } else {
+            Logger::info('auto init data');
             $config->init($init_data);
         }
         $opts = HtmlRenderer::CreateRenderOptions();
         $opts->Indent = true;
-        Logger::info('store : '.$file);
+        Logger::info('store-global-config-data : '.$file); 
+
         igk_io_w2file($file, $init_data->render($opts));
         igk_hook(IGKEvents::HOOK_SYS_INIT_CONFIG, ['reset'=>$v_reset]);
        
@@ -142,7 +150,6 @@ class BalafonInitEnvironment{
                 $cmd ="$cli --init --env-only '{$app_dir}'";
                 echo "launch: ".$cmd, PHP_EOL;
                 echo `$cmd`;
-
                 self::_InitIOFileAuth($command, $app_dir);
                 self::_InitIOFileAuth($command, $public_dir);
             });  

@@ -38,12 +38,16 @@ require_once IGK_LIB_CLASSES_DIR . "/System/IHistoryEnvironmentProperty.php";
  * @property bool $NoLogEval disable eval log - 
  * @property bool $NoConsoleLogger disable console logger - 
  * @property bool $NoLoadAction disable console logger - 
+ * @property bool $NoAppInitFileStruct disable file structure initialization - 
  */
 final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEnvironmentProperty
 {
     private static $sm_instance;
     private static $sm_states = [];
 
+    /**
+     * retrieve the globalc configuration path 
+     */
     public static function GetGlobalConfigurationPath(string $dir, string $configuration_name = IGK_BALAFON_CONFIG)
     {
 
@@ -102,9 +106,9 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     /**
      * check if environment support webconfiguration
      */
-    public function  noWebConfiguration(): ?bool
+    public function  no_web_configuration(): ?bool
     {
-        return defined('IGK_NO_WEBCONFIG') || igk_configs()->get("noWebConfiguration");
+        return defined('IGK_NO_WEBCONFIG') || igk_configs()->get("no_web_configuration");
     }
     /**
      * key name

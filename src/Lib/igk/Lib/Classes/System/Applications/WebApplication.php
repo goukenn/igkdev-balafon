@@ -246,7 +246,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             // + |-------------------------------------------------------
             // + | configuration handle
             // + |
-            if (!igk_environment()->noWebConfiguration()) { 
+            if (!igk_environment()->no_web_configuration()) { 
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
                 }, $file))->handle_route($path_info, function()use($requestHandler, $path_info, $_redirectArgs){

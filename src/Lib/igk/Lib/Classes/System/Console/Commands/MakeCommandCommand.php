@@ -18,13 +18,13 @@ class MakeCommandCommand extends AppExecCommand
 {
     var $command = '--make:command';
     var $category = "make";
-    var $desc = "help build command.contextual command.";
+    var $desc = "make CLI command.";
     public function __construct()
     {
         parent::__construct();
         $this->usage = implode("\n", [
-            "[controller] command",
-            "{in :module-context:} command",
+            "[controller] command [options]",
+            "\t\t{in :module-context:} command [option]",
         ]);
     } 
     public function exec($command, ?string $controller = null, ?string $command_name = null){

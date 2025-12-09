@@ -281,20 +281,27 @@ abstract class ModelEntryExtension
             $row = self::insert($model, $conditions, $update);
         } else {
             if ($count == 1) {
-
                 $row = $model->select_row($t_select);
-                if ($update) {
-                    if ($extra) {
-                        foreach ($extra as $k => $v) {
-                            $row->{$k} = $v;
-                        }
+                if ($update && $extra) {
+                    foreach ($extra as $k => $v) {
+                        $row->{$k} = $v;
                     }
-                    return $row->update();
+                    $c = $row->update();
+                    if (!$c || !$c->success()){
+                        $row = null;
+                    }
                 }
             }
         }
         return $row;
     }
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param mixed $condition 
+     * @param mixed $update_extras 
+     * @return null|ModelBase|bool|IGK\Models\IIGKQueryResult 
+     */
     public static function updateOrCreateIfNotExists(ModelBase $model, $condition, $update_extras = null)
     {
         if (!($row = $model->select_row($condition))) {

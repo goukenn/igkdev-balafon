@@ -34,7 +34,7 @@ final class HtmlDefaultMainPage extends HtmlNode
                 if ($f = igk_env_file(IGK_LIB_DIR . "/Articles/startapp/default.homepage." . R::GetCurrentLang(), IGK_VIEW_FILE_EXT)) {
                     \IGK\Helper\SysUtils::Include($f, [
                         'document_uri' => "//balafon.igkdev.com/wiki",
-                        'conf_buri' => !igk_environment()->noWebConfiguration() ? igk_io_baseuri() . '/Configs' : null
+                        'conf_buri' => !igk_environment()->no_web_configuration() ? igk_io_baseuri() . '/Configs' : null
                     ]);
                 }
             },

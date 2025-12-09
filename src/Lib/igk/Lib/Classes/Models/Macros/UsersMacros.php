@@ -7,6 +7,7 @@ namespace IGK\Models\Macros;
 use Exception;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
+use IGK\Database\DataAdapterBase;
 use IGK\Models\Groups;
 use IGK\Models\ModelBase;
 use IGK\Models\Usergroups;
@@ -150,11 +151,11 @@ abstract class UsersMacros
      */
     public static function getGroupNames(Users $model)
     {
-        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FN_CL_NAME), $model->groups());
+        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FN_CL_NAME()), $model->groups());
     }
     public static function getAuthorizationNames(Users $model)
     {
-        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FN_CL_NAME), $model->auths());
+        return array_map(new \IGK\Mapping\PropertyMapper(Groups::FN_CL_NAME()), $model->auths());
     }
     /**
      * get user form guid :
@@ -163,6 +164,10 @@ abstract class UsersMacros
     {
         return $model->GetCache(Users::FD_CL_GUID, $guid);
     }
+    /**
+     * initialize system user 
+     * @return void 
+     */
     public static function InitSystemUsers()
     {
         $d = igk_configs()->website_domain;
@@ -224,5 +229,34 @@ abstract class UsersMacros
             "clLocale" => "fr",
             "clGuid" => igk_create_guid(),
         ));
+        /**
+         * from configuration default users 
+         */
+        $defuser = [];
+        foreach($defuser as $u){
+            Users::create($u);
+        }
+    }
+
+    /**
+     * just register an user
+     * @param Users $model 
+     * @param string $login 
+     * @param null|string $pwd 
+     * @param null|array $extra 
+     * @return null|bool|DataAdapterBase|Users 
+     */
+    public static function registerUserByLoginPassAndExtra(Users $model, string $login, ?string $pwd=null, ?array $extra=null){
+        return Users::insertIfNotExists(
+			[
+				Users::FD_CL_LOGIN => $login,
+				Users::FD_CL_PWD =>$pwd
+			],
+			[
+				'extra' => $extra
+			],
+			true
+		);
+
     }
 }

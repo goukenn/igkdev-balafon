@@ -91,7 +91,7 @@ class subdomain{
             require_once IGK_LIB_DIR . "/igk_request_handle.php";       
             igk_sys_handle_ctrl_request_uri($uri, true); 
             $path_info = $uri;
-            if (!igk_environment()->noWebConfiguration()) {
+            if (!igk_environment()->no_web_configuration()) {
                 (new  ConfigurationPageHandler(function (bool $display) {
                     // $this->runEngine($display);                    
                 }, $file))->handle_route($path_info, null);

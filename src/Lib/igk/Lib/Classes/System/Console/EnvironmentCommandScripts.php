@@ -88,14 +88,20 @@ class EnvironmentCommandScripts
      * @return ?string
      */
     public static function DefaultCommandLocation(){
-        return igk_configs()->commands_dir ?? Path::Combine(Path::getInstance()->getApplicationDir(), 'Lib/igk/scripts/commands');
+        return igk_configs()->commands_dir ??
+        igk_app()->getApplication()->configs->commands_dir ?? 
+        Path::Combine(Path::getInstance()->getApplicationDir(), 'Lib/igk/scripts/commands');
     }
 
     /**
      * 
      */
-    public static function GetCommandFile(string $file)
+    public static function GetCommandFile(string $file, ?string $dir = null)
     {
+        if ($dir){        
+            $def = self::DetectCachingCommand($dir);
+            return igk_getv($def, $file);
+        }
         if (is_null(self::$sm_caches)) {
             self::EnvLoad();
             if (!file_exists(self::GetCacheFile())) {

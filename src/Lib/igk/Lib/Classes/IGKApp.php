@@ -287,8 +287,8 @@ class IGKApp extends IGKObject
         self::$sm_instance->m_application = $app;
         $_hookArgs = ["app"=>self::$sm_instance, "render"=>$render];
         $_env->set(IGK_ENV_APP_CONTEXT, IGKAppContext::starting); 
-        if (!$app->getNoEnvironment()){
-            IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir(), self::$sm_instance);        
+        if (!$app->getNoEnvironment()){            
+                IGKAppSystem::InitEnv(Path::getInstance()->getBaseDir(), self::$sm_instance);                    
         }   
         self::_InitHookLogic($_hookArgs);   
     }

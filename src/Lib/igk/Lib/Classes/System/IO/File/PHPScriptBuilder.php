@@ -4,9 +4,11 @@
 // @desc: PhpScript builder helper
 // @date: 20210723 13:22:40
 namespace IGK\System\IO\File;
+
 use IGK\Helper\StringUtility;
 use IGK\System\Traits\StoredPropertiesTrait;
 use IGKException;
+
 /**
  * php script builder
  * @package IGK\System\IO\File
@@ -22,14 +24,16 @@ use IGKException;
  * @method self file(string $phpdoc) set file 
  * @method self desc(?string $phpdoc) set description  
  * @method self class_modifier(?string $modifier) set the class type modifier 
+ * @method self strict(?bool $strict_declare) set the class type modifier 
  */
 class PHPScriptBuilder
 {
     var $no_header_comment;
     var $author;
     use StoredPropertiesTrait;
-    public static function CreateEmptyScriptCallback(){
-        return function($file){
+    public static function CreateEmptyScriptCallback()
+    {
+        return function ($file) {
             $g = new self;
             $g->type("function");
             igk_io_w2file($file, $g->render());
@@ -91,18 +95,19 @@ class PHPScriptBuilder
         igk_io_w2file($file, $builder->render());
     }
     public function render()
-    { 
-        $_setPhDoc = function($d, $ns,$author){
+    {
+        $lf = "\n";
+        $_setPhDoc = function ($d, $ns, $author) {
             $o = "";
             $o .= "/**\n";
-            $o .="* " . implode("\n*", explode("\n", trim($d)))."\n";
-            if ($ns){
-                $o .= "* @package {$ns}\n"; 
+            $o .= "* " . implode("\n*", explode("\n", trim($d))) . "\n";
+            if ($ns) {
+                $o .= "* @package {$ns}\n";
             }
             if ($author)
                 $o .= "* @author {$author}\n";
-            if ($phpdoc = $this->phpdoc){
-                $o.= "* ".implode("\n* ", explode("\n", $phpdoc));
+            if ($phpdoc = $this->phpdoc) {
+                $o .= "* " . implode("\n* ", explode("\n", $phpdoc));
             }
             $o .= "*/\n";
             return $o;
@@ -110,27 +115,32 @@ class PHPScriptBuilder
         $o = "";
         $h = "";
         $v_author = ($this->author ?? IGK_AUTHOR);
-        if (!$this->no_header_comment){
+        if (!$this->no_header_comment) {
             $h = implode("\n", array_filter([
                 "// @author: " . $v_author,
                 $this->file ? "// @file: " . $this->file : null,
-                $this->desc ? "// @desc: " . implode("\n//", explode("\n", $this->desc)) : null,
+                $this->desc ? "// @desc: " . implode($lf . "//", explode("\n", $this->desc)) : null,
                 "// @date: " . date("Ymd H:i:s")
-            ])) . "\n";
+            ])) . $lf;
         }
+
+        if ($this->strict) {
+            $h .= 'declare(strict_types=1);' . $lf;
+        }
+
+
         if ($ns = $this->namespace) {
             $h .= "namespace " . $ns . ";\n\n";
         }
         $t_uses = [];
-        if ($_uses = $this->uses){      
-            if (is_string($_uses))
-            {
+        if ($_uses = $this->uses) {
+            if (is_string($_uses)) {
                 $_uses = [$_uses];
             }
         }
         $defs = "";
         if ($e = $this->defs) {
-            $defs .= StringUtility::IndentContent($e)."\n";
+            $defs .= StringUtility::IndentContent($e) . "\n";
             // implode("\n", array_map(function ($s) {
             //     return "\t" . $s;
             // }, explode("\n", $e))) . "\n";
@@ -142,13 +152,14 @@ class PHPScriptBuilder
             case "class":
             case "interface":
             case "trait":
+            case 'enum':
                 if ($d = $this->doc) {
                     // documents
                     // $o .= "///<summary>" . implode("///", explode("\n", trim($d))). "</summary>\n";  
                     $o .= $_setPhDoc($d, $ns, $v_author);
                 } else {
                     // $o .= "///<summary></summary>\n";
-                    $o .= $_setPhDoc("", $ns, $v_author); 
+                    $o .= $_setPhDoc("", $ns, $v_author);
                 }
                 if (!empty($modifier = $this->class_modifier)) {
                     $modifier .= " ";
@@ -161,65 +172,71 @@ class PHPScriptBuilder
                 //     $e = array_unique($e);
                 //     array_map($this->_getHeaderMap($h, $_uses), $e);
                 // }
-                $o .= $modifier . $this->type . " " . $this->name;
-                if ($e = $this->extends) {
-                    $cu = igk_uri($e);
-                    if (!empty($ns) || (count(explode("/", $cu)) > 1)){
-                        if (!isset($_uses[$e])){
-                            // $h .= "use " . $e . ";\n";
-                            $_uses[$e] = $e;
+                if ('enum' == $this->type) {
+                    $o .= $this->type . " " . $this->name;
+                } else {
+                    $o .= $modifier . $this->type . " " . $this->name;
+                    if ($e = $this->extends) {
+                        $cu = igk_uri($e);
+                        if (!empty($ns) || (count(explode("/", $cu)) > 1)) {
+                            if (!isset($_uses[$e])) {
+                                // $h .= "use " . $e . ";\n";
+                                $_uses[$e] = $e;
+                            }
+                        }
+                        $v_as = igk_getv($_uses, $e);
+                        if (($this->type == 'class') && interface_exists($e)) {
+                            $implements = $this->implements ?? [];
+                            $implements[] = $e;
+                            $this->implements($implements);
+                        } else {
+                            $o .= " extends " . ($v_as ? basename(igk_uri($v_as)) :  "\\" . $e);
                         }
                     }
-                    $v_as = igk_getv($_uses, $e);  
-                    if (($this->type == 'class') && interface_exists($e)){
-                        $implements = $this->implements ?? [];
-                        $implements[] = $e;                       
-                        $this->implements($implements);
-                    } else{
-                        $o .= " extends " .( $v_as ? basename(igk_uri($v_as)) :  "\\".$e);
+                    if ($e = $this->implements) {
+                        if (!is_array($e)) {
+                            $e = [$e];
+                        }
+                        $e = array_unique($e);
+                        array_map($this->_getHeaderMap($h, $_uses), $e);
+                        $o .= " implements " . implode(",", array_map(function ($a) {
+                            return basename(igk_uri($a));
+                        }, $e));
                     }
-                }
-                if ($e = $this->implements) {
-                    if (!is_array($e)) {
-                        $e = [$e];
-                    }
-                    $e = array_unique($e);
-                    array_map($this->_getHeaderMap($h, $_uses), $e);
-                    $o .= " implements " . implode(",", array_map(function($a){ return basename(igk_uri($a)); }, $e));
                 }
                 $o .= "{\n";
-                if (in_array($this->type, ['class', 'trait']) && ($traits = $this->traits)){
-                    $o.= implode("\n", array_map(function($a) use (& $_uses){
+                if (in_array($this->type, ['class', 'trait']) && ($traits = $this->traits)) {
+                    $o .= implode("\n", array_map(function ($a) use (&$_uses) {
                         $_uses[$a] = $a;
-                        return "\tuse ".basename(igk_uri($a)).";";
-                    } , $traits))."\n";
-                } 
+                        return "\tuse " . basename(igk_uri($a)) . ";";
+                    }, $traits)) . "\n";
+                }
                 $o .= rtrim($defs);
                 $o .= "\n}";
             default:
                 break;
         }
-        if ($_uses){
+        if ($_uses) {
             // ksort($_uses);
-            $v_uses = array_map(function($n, $k) use (& $t_uses){
+            $t_uses = [];
+            $v_uses = array_map(function ($n, $k) use (&$t_uses) {
                 $cl = $n;
-                if (!is_int($k)){
+                if (!is_int($k)) {
                     $cl = $k;
                 }
-                if (key_exists($cl, $t_uses)){
+                if (key_exists($cl, $t_uses)) {
                     return null;
                 }
                 $t_uses[$cl] = basename(igk_dir($cl));
-                if (is_int($k) || ($k==$n)){
-                    return "use ".$n.";";
-                }
-                else{
+                if (is_int($k) || ($k == $n)) {
+                    return "use " . $n . ";";
+                } else {
                     $t_uses[$cl] = $n;
                     return sprintf("use %s as %s;", $k, $n);
                 }
             }, $_uses, array_keys($_uses));
             sort($v_uses);
-            $h .= implode("\n", $v_uses).PHP_EOL;
+            $h .= implode("\n", $v_uses) . PHP_EOL;
         }
         return "<?php\n" . $h . "\n" . $o;
     }
@@ -227,32 +244,35 @@ class PHPScriptBuilder
      * get script file header
      * @return string
      */
-    public static function GenScriptFileHeader($options){
-        $l = igk_extract_var($options, 
-        'author|file|version|date|desc');
+    public static function GenScriptFileHeader($options)
+    {
+        $l = igk_extract_var(
+            $options,
+            'author|file|version|date|desc'
+        );
         $tb = [];
-        foreach($l as $k=>$v){
+        foreach ($l as $k => $v) {
             if (!$v) continue;
-            $tb[] = "// @".$k.": ".$v;
+            $tb[] = "// @" . $k . ": " . $v;
         }
         return implode("\n", $tb);
     }
-    private function _getHeaderMap(& $h,& $_uses)
+    private function _getHeaderMap(&$h, &$_uses)
     {
-        return function($e)use(& $h, & $_uses){             
+        return function ($e) use (&$h, &$_uses) {
             $as = "";
             $ms = "";
-            if (is_array($e)){
+            if (is_array($e)) {
                 $key = array_key_first($e);
                 $as = $e[$key];
-                $ms = " as ".$as;
+                $ms = " as " . $as;
                 $e = $key;
-            }  
-            if (!in_array($e, $_uses)){
+            }
+            if (!in_array($e, $_uses)) {
                 // $h .= "use " . $e . $ms.";\n";
                 $_uses[] = $e;
-                if (!empty($as)){
-                    $_uses[$e]=$as;
+                if (!empty($as)) {
+                    $_uses[$e] = $as;
                 }
             }
         };

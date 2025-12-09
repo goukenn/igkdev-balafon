@@ -5,8 +5,7 @@
 // @desc: 
 namespace IGK\System\Console;
 
-use Exception;
-use Google\Service\TagManager\Environment;
+use Exception; 
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerTask;
 use IGK\Controllers\SysDbController;
@@ -17,16 +16,10 @@ use IGK\Constants;
 use IGK\Models\Users;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
-use IGK\System\Console\Commands\ServerCommandHelper;
-use IGK\System\Database\DbUtils;
-use IGK\System\Database\MySQL\Controllers\DbConfigController;
-use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\Html\Dom\HtmlCtrlNode;
-use IGK\System\Html\Dom\HtmlNode;
-use IGK\System\Html\HtmlRenderer;
+use IGK\System\Console\Commands\ServerCommandHelper; 
+use IGK\System\Exceptions\ArgumentTypeNotValidException;  
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGK\System\IO\Path;
-use IGK\System\SystemUserProfile;
+use IGK\System\IO\Path; 
 use IGK\System\ViewEnvironmentArgs;
 use IGKApp;
 use IGKApplicationBase;
@@ -62,7 +55,15 @@ class BalafonApplication extends IGKApplicationBase
      * @var mixed
      */
     public $configs;
-    public $environment;
+    public $environment; 
+
+    /**
+     * 
+     * @return mixed 
+     */
+    public function getInitEnvironmentFileStructure(){
+        return igk_environment()->NoAppInitFileStruct;
+    }
     /**
      * initialize application modules 
      * */
@@ -441,55 +442,7 @@ class BalafonApplication extends IGKApplicationBase
                     Logger::print(implode("\n", $t));
                     return 1;
                 };
-            }, __("list all controller"), "controller"],
-            "--make:page" => [
-                function ($v, $command) {
-                    //igk_wl("v ", $v);
-                    $command->exec = function ($command, $ctrl = null, $page = null) use ($v) {
-                        if (empty($ctrl)) {
-                            $command->app->showHelp($v);
-                            return -1;
-                        }
-                        $ctrl = str_replace("/", "\\", $ctrl);
-                        Logger::info("make page:" . $ctrl);
-                        if (($c = igk_getctrl($ctrl, false)) || ($c = $ctrl::ctrl())) {
-                            $path = "Pages/" . ucfirst($page) . "Page";
-                            if (!($t = $c->resolveClass($path))) {
-                                $name = ucfirst($page);
-                                if (strrpos($name, "Page", 4) === false) {
-                                    $name .= "Page";
-                                }
-                                $builder = new PHPScriptBuilder();
-                                $builder
-                                    ->author($command->app->getConfigs()->get("author", IGK_AUTHOR))
-                                    ->type("class")
-                                    ->file("$path.php")
-                                    ->name($name)
-                                    ->extends(ControllerTask::class)
-                                    ->implements()
-                                    ->desc(igk_getv($command->options, "--desc"))
-                                    ->defs("public function index(){\n}")
-                                    ->namespace($c::ns("Pages"));
-                                $file = $c::classdir() . "/{$path}.php";
-                                igk_io_w2file($file, $builder->render());
-                                Logger::success("complete page: " . $path);
-                                Logger::info("file: " . $file);
-                            }
-                            return 200;
-                        } else {
-                            Logger::danger("failed : controller not found");
-                        }
-                    };
-                },
-                [
-                    "desc" => __("make a new page. controller name [options]"),
-                    "help" => function () {
-                        Logger::danger("\n--make:pag [options] ctrl pagename\n");
-                        Logger::print("make a controller's page\n");
-                    }
-                ],
-                "make"
-            ],
+            }, __("list all controller"), "controller"],            
             '--run' => [
                 function ($v, $command = null) {
                     $command->exec = function ($command, ?string $file = null) {
@@ -508,8 +461,9 @@ class BalafonApplication extends IGKApplicationBase
                             Logger::danger(__("args: require file"));
                             return -1;
                         }
-                        if (!file_exists($file)) {
-                            $file = EnvironmentCommandScripts::GetCommandFile($file) ?? igk_die('missing arg command');
+                        if (!file_exists($file)){
+                            $dir = igk_getv($command->options , '--commands_dir');
+                            $file = EnvironmentCommandScripts::GetCommandFile($file, $dir) ?? igk_die('missing arg command');
                         }
                         DbCommandHelper::Init($command);
                         ServerCommandHelper::Init($command);
@@ -574,17 +528,19 @@ class BalafonApplication extends IGKApplicationBase
                             // initialize command 
                             $fc = $command->app->command['--run'][0];
                             $targs = func_get_args();
-                            $margs = array_merge([null], func_get_args());
+                           // $margs = array_merge([null], func_get_args());
                             call_user_func_array($fc, array_merge([null], func_get_args()));
                             // invoke the running
                             return call_user_func_array($command->exec, $targs);
                         }
                         Logger::info(implode(
-                            "\n",
+                            "\n\n",
                             [
                                 App::Gets(App::GREEN, "--run") . "[options] [dbcommand] scriptfile",
+                                App::Gets(App::GREEN, "--command:ls") . "list all registrated command",
                                 App::Gets(App::GREEN, "--controller") . ":[targetController]\r\n\t\t\t\tset base project controller",
                                 App::Gets(App::GREEN, "--user") . ":id\r\n\t\t\t\tglobal user to use",
+                                App::Gets(App::GREEN, "--commands_dir") . ":dir\r\n\t\t\t\tglobal directory that contains scripts to run",
                             ]
                         ));
                     }
@@ -648,8 +604,15 @@ class BalafonApplication extends IGKApplicationBase
         $this->initCommand($command, $argv);
         return $command;
     }
+    /**
+     * initialize command
+     * @param array $command 
+     * @param array $argv 
+     * @return void 
+     */
     protected function initCommand(array $command, array $argv)
     {
+        igk_environment()->NoAppInitFileStruct = true;
         if (in_array("--debug", $argv)) {
             $fc = $command["--debug"][0];
             $fc([], $command);
@@ -660,11 +623,12 @@ class BalafonApplication extends IGKApplicationBase
             error_reporting(-1);
         }
         if (1 == array_search('--init', $argv)) {
-            $this->no_init_environment = true;
+            $this->no_init_environment = false;
+            igk_environment()->NoAppInitFileStruct = false;            
             if (in_array('--noconfig', $argv)) {
                 // remove configuration 
                 if (file_exists($cf = getcwd() . '/' . IGK_BALAFON_CONFIG)) {
-                    unlink($cf);
+                    @unlink($cf);
                 }
             }
         }

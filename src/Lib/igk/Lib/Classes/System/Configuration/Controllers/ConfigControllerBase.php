@@ -181,7 +181,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
      */
     protected function IsFunctionExposed(string $function)
     {
-        if (!igk_is_conf_connected() || igk_configs()->get("noWebConfiguration")) {
+        if (!igk_is_conf_connected() || igk_configs()->get("no_web_configuration")) {
             return false;
         }
         return true; // parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $function]);

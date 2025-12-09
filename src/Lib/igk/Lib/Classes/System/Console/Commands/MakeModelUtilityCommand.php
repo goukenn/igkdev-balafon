@@ -9,7 +9,7 @@ use IGK\System\Console\AppExecCommand;
 use igk\System\Console\Commands\Utility;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
-use \IGKControllerManagerObject;
+
 use IGKDbModelUtility;
 class MakeModelUtilityCommand extends AppExecCommand
 {
