@@ -109,6 +109,7 @@ class BalafonCacheViewCompiler{
             foreach($binding_args as $k=>$v){
                 $$k = & $binding_args[$k];
             }  
+            unset($v, $k);
             include(func_get_arg(0));
             // $layout->PARAMS = array_merge($layout->PARAMS ?? ["inforamation"], get_defined_vars());
             // igk_wln_e(__FILE__.":".__LINE__,  "layout ---- ", $layout);

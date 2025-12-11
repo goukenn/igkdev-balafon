@@ -1358,15 +1358,16 @@ function igk_io_basepath(string $dir, string $sep = DIRECTORY_SEPARATOR)
 }
 /**
  * get path from base directory
+ * @return string
  */
-function igk_io_basedir(?string $dir = null)
+function igk_io_basedir(?string $dir = null): string
 {
     return Path::getInstance()->basedir($dir);
 }
 /**
  * retrieve the data folder shortuct
  */
-function igk_io_sys_datadir()
+function igk_io_sys_datadir(): string
 {
     return Path::getInstance()->getSysDataDir();
 }

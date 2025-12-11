@@ -36,19 +36,28 @@ class HtmlNotifyResponse extends HtmlNode{
     {
         $this["class"] = "igk-notify-host";
         if ($this->autohide) {
-            $this["class"] = "+anim-autohide";
+            $this["class"] = "+igk-anim-autohide";
         }
         if (igk_environment()->isDev()) {
             $this["title"] = $this->name;
         } 
     }
+    /**
+     * 
+     * @return false 
+     */
     public function getCanAddChilds()
     {
         return false;
     }
-    public function getIsVisible()
+    /**
+     * 
+     * @return bool 
+     */
+    public function getIsVisible(): bool
     {
-        return ($not = igk_notifyctrl($this->name)) && ($t = $not->getTab()) && (count($t)> 0);
+        $not = igk_notifyctrl($this->name);
+        return $not && ($t = $not->getTab()) && (count($t)> 0);
     }
     protected function _acceptRender($options = null):bool{
         if (!$this->getIsVisible()){
@@ -56,10 +65,10 @@ class HtmlNotifyResponse extends HtmlNode{
         }
         $not = igk_notifyctrl($this->name);
         if ((is_null($this->autohide) && !$not->getAutohide()) || (is_bool($this->autohide) &&  !$this->autohide)){ 
-            $this["class"] = '-anim-autohide';
+            $this["class"] = '-igk-anim-autohide';
         } 
         else 
-            $this["class"] = '+anim-autohide'; 
+            $this["class"] = '+igk-anim-autohide'; 
         return true;
     }
     public function getRenderedChilds($options = null)

@@ -221,9 +221,9 @@ class Path
     }
     /**
      * return sys data directory
-     * @return mixed 
+     * @return string 
      */
-    public function getSysDataDir()
+    public function getSysDataDir(): string
     {
         return $this->sys_data_dir;
     }

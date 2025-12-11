@@ -15319,6 +15319,8 @@ function igk_io_query_info()
         $obj->ctrl = null;
         $obj->entryuri = igk_io_request_uri_path();
         $obj->root_uri = igk_io_root_entryuri();
+
+        
         $v_query = $obj->fullentry = igk_io_baseuri() . $obj->entryuri;
         $obj->query_options = (($s = igk_getv(explode(';', $v_query, 2), 1)) ? igk_get_query_options($s) : null);
 

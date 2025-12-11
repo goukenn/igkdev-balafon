@@ -28,9 +28,8 @@ $def[".igk-google-line-waiter:after"] = "{sys:fith,posab, loc_l} content:' '; ba
 
 
 $def[".igk-card-id"] = "width:200px; height:200px;";
-$def[".google-button"] = "{sys:dispib, posr, no-overflow}padding:10px; cursor:pointer; ";
-$def[".google-button > .cur.trans"] = "[trans:all 0.5s ease-in-out]; border-radius:50%;";
-$def[".google-button > .cur"] = "{sys:dispib, posab, loc_l, loc_t} cursor:inherit; width: 1px; height:10px; margin:-5px; background-color:black; opacity:0.5;  ";
-// $def[".google-button:after"]="content:attr(cury); position:absolute; width:0px; height:0px; top: attr(cury); left:attr(curx); [trans:all 0.2s ease-in-out]; background-color:black; opacity:0.5;";
-$def[".google-button.igk-show-cur > .cur"]="left:0px; width:100%";
+$def[".igk-google-button"] = "{sys:dispib, posr, no-overflow}padding:10px; cursor:pointer; ";
+$def[".igk-google-button > .cur.trans"] = "[trans:all 0.5s ease-in-out]; border-radius:50%;";
+$def[".igk-google-button > .cur"] = "{sys:dispib, posab, loc_l, loc_t} cursor:inherit; width: 1px; height:10px; margin:-5px; background-color:black; opacity:0.5;  ";
+$def[".igk-google-button.igk-show-cur > .cur"]="left:0px; width:100%";
 

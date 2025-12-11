@@ -11,6 +11,7 @@ use IGK\System\Console\Logger;
 use IGK\System\Console\ServerFakerInput;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\HtmlContext;
+use IGK\System\Http\RequestPreparer;
 use IGK\System\Uri;
 use IGKException;
 use ReflectionException;
@@ -116,12 +117,7 @@ class RequestViewCommand extends AppExecCommand
     {
         $ctrl = self::GetController(igk_configs()->default_controller, false)
             ?? igk_die("no controller found");
-        $g = new Uri('bcl://request-command.local/'.$path);
-        $path = $g->getPath();
-        $_SERVER['REQUEST_URI'] = $g->getRequestUri();
-        if ($query = $_SERVER['QUERY_STRING'] = $g->getQuery()){
-            parse_str($query, $_REQUEST); 
-        }
+        $path = RequestPreparer::PrepareForRequest($path,  'bcl://request-command.local/');         
         igk_server()->prepareServerInfo();
         list($view, $args) = ViewHelper::PrepareViewArgFromPath($path); 
         if ($args){

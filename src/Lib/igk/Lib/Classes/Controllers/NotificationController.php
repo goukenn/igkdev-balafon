@@ -17,6 +17,14 @@ use function igk_resources_gets as __;
 final class NotificationController extends BaseController implements IIGKNotifyMessage {
     private static $NotifyType=["success"=>"addSuccess", "danger"=>'addError'];
     private $m_marks;
+
+    /**
+     * notification list table 
+     * @return array 
+     */
+    public function getTab():array{
+        return [];
+    }
     public function __call($name, $c){
         if(method_exists($this, $fc="add".$name)){
             return $this->$fc(...$c);
@@ -148,7 +156,7 @@ final class NotificationController extends BaseController implements IIGKNotifyM
             $c=igk_notifyctrl($name);
         if($c){
             if(!$c->autohide){
-                $host["class"]="-anim-autohide";
+                $host["class"]="-igk-anim-autohide";
             }
             $tab=$c->getTab();
             if(is_array($tab) && (count($tab) > 0)){

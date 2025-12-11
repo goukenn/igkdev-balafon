@@ -1680,7 +1680,7 @@ EOF;
             $this->ConfigNode = $cnf_n;
         }
         $cnf_n->clearChilds();
-        $cnf_n->notifyhost(); //igk_notify_sethost($cnf_n->div()); 
+        $cnf_n->notifyhost(); 
         $args = ["ctrl" => $this, "app" => igk_app()];
         switch ($p) {
             case "configurationmenusetting":

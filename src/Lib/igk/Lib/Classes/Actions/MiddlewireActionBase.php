@@ -113,6 +113,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
     public static function __callStatic($name, $arguments)
     {
         return (function ($a) {
+            self::InitSelfAction($a);
             return $a;
         })(new static())->$name(...$arguments);
     }

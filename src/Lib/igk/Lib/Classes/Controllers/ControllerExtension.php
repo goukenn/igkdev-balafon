@@ -65,6 +65,8 @@ use IGK\System\WinUI\ViewLayout;
 use IGK\Constants;
 use IGK\Helper\Authorization;
 use IGK\System\Controllers\ControllerParamKeys;
+use IGK\System\Controllers\Traits\AuthorizationHelpers;
+use IGKActionBase;
 use IGKEnvironment;
 use IGKEvents;
 use IGKModuleListMigration;
@@ -82,6 +84,9 @@ require_once __DIR__ . '/Traits/AtricleManagerControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/IOControllerExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerDbExtensionTrait.php';
 require_once __DIR__ . '/Traits/ControllerRequestExtensionTrait.php';
+// require_once __DIR__ . '/Traits/AuthorizationHelpers.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Controllers/Traits/AuthorizationHelpers.php';
+require_once IGK_LIB_CLASSES_DIR . '/System/Controllers/Traits/ControllerRequestExtensionTrait.php';
 /**
  * controller macros extension
  */
@@ -91,6 +96,8 @@ abstract class ControllerExtension
     use IOControllerExtensionTrait;
     use ControllerDbExtensionTrait;
     use ControllerRequestExtensionTrait;
+    use AuthorizationHelpers;
+    use \IGK\System\Controllers\Traits\ControllerRequestExtensionTrait;
     // use ControllerViewLayoutExtensionTrait;
     static $sm_instances_inclass = [];
     /**
@@ -472,16 +479,17 @@ abstract class ControllerExtension
      * @return null|string 
      * @throws IGKException 
      */
-    public static function uri(BaseController $ctrl, ?string $name_uri = Constants::BASE_VIEW_URI)
+    public static function uri(BaseController $ctrl, ?string $name_uri = Constants::BASE_VIEW_URI, bool $full_uri=true, bool $force_access = false, ?bool $entry_controller=null)
     {
         $v_uri = $name_uri ?? '';
-        if (strpos($v_uri, Constants::BASE_VIEW_URI) === 0) {
-            if (Constants::BASE_VIEW_URI == '@/')
+        $v_bu = Constants::BASE_VIEW_URI;
+        if (strpos($v_uri, $v_bu) === 0) {
+            if ($v_bu == '@/')
                 $v_uri = ltrim($v_uri, '@');
             else
                 $v_uri = substr($v_uri, strpos($v_uri, '/'));
         }
-        return $ctrl->getAppUri($v_uri ?? '');
+        return $ctrl->getAppUri($v_uri ?? '', $full_uri, $force_access, $entry_controller);
     }
     /**
      * return base path 
@@ -647,7 +655,13 @@ abstract class ControllerExtension
      */
     public static function notifyKey(BaseController $ctrl, $name = null)
     {
-        return static::name($ctrl, "notify" . ($name ? "/" . $name : ""));
+        return static::name($ctrl, "notify" . ($name ? "://" . $name : ""));
+    }
+    public static function actionKey(BaseController $ctrl, ?IGKActionBase $action=null){
+        if ($action){
+            return $ctrl->notifyKey($action->getNotifyName());
+        }
+        return null;
     }
     /**
      * return system controller hook name
@@ -1414,16 +1428,16 @@ abstract class ControllerExtension
     /**
      * check user auth demand level
      */
-    public static function IsUserAllowedTo(BaseController $controller, $authDemand = null)
-    {
-        $user = $controller->getUser();
-        if ($user === null) {
-            return false;
-        }
-        if ($user->clLevel == -1)
-            return true;
-        return $user->auth($authDemand);
-    }
+    // public static function IsUserAllowedTo(BaseController $controller, $authDemand = null)
+    // {
+    //     $user = $controller->getUser();
+    //     if ($user === null) {
+    //         return false;
+    //     }
+    //     if ($user->clLevel == -1)
+    //         return true;
+    //     return $user->auth($authDemand);
+    // }
     /**
      * 
      * @param mixed $ctrl

@@ -409,6 +409,26 @@ EOF;
     {
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, IGK_CTRL_CNF_BASEURIPATTERN);
     }
+    /**
+     * application asscess uri
+     * @param string $function 
+     * @return string 
+     */
+    protected function getAppAccessUri(string $function): string
+    {
+        $s = "";
+        if ($this->getEnvParam(self::IGK_ENV_PARAM_LANGCHANGE_KEY)) {
+            $s .= R::GetCurrentLang() . "/";
+        }
+        // + | --------------------------------------------------------------------
+        // + | retrieve root access list from pattern management
+        // + |
+        $rt = $this->getRootPattern(); 
+        if ($rt || $s) {
+            $function = $s . $rt . (!empty($function) ? "/" . $function : '');
+        }
+        return $function;
+    }
     ///<summary>return application uri</summary>
     /**
      * return application uri
@@ -422,8 +442,9 @@ EOF;
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function getAppUri(?string $function = null, bool $full = true): ?string
+    public function getAppUri(?string $function = null, bool $full = true, bool $force_access=false, ?bool $entry_controller = false): ?string
     {
+        $entry_controller = $entry_controller ?? $this::IsEntryController();
         if (is_null($function)) {
             $function = "";
         }
@@ -437,7 +458,11 @@ EOF;
                 $function = dirname($function);
             }
         }
-        if ($this::IsEntryController()) {
+        if (!$force_access && $entry_controller) {
+            // + | --------------------------------------------------------------------
+            // + | as entry controller must provide direct access base uri
+            // + |
+
             if ($subdomain = SysUtils::GetApplicationLibrary("subdomain")) {
                 if ($subdomain->subdomain === $this) {
                     $g = $subdomain->subdomainInfo->clView;
@@ -447,14 +472,7 @@ EOF;
                 }
             }
         } else {
-            $s = "";
-            if ($this->getEnvParam(self::IGK_ENV_PARAM_LANGCHANGE_KEY)) {
-                $s .= R::GetCurrentLang() . "/";
-            }
-            $rt = $this->getRootPattern();
-            if ($rt || $s) {
-                $function = $s . $rt . (!empty($function) ? "/" . $function : '');
-            }
+            $function = $this->getAppAccessUri($function);
         }
         if ($full) {
             $buri = igk_io_baseuri() ?? "/";

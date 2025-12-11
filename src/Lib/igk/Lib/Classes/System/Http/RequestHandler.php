@@ -4,8 +4,7 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Http;
-use Exception;
-use IGK\Controllers\ApplicationModuleController;
+use Exception; 
 use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 use IGKApp;
@@ -13,9 +12,7 @@ use IGKApplicationBase;
 use IGKException;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
-use IGK\System\Html\Dom\HtmlDefaultMainPage;
 use IGK\System\Html\HtmlRenderer;
-use IGK\System\Http\Routes;
 use IGKApplication;
 use IGKEvents;
 use ReflectionException;
@@ -378,8 +375,8 @@ class RequestHandler
                 if ($file && igk_io_file_exists($file)) {
                     include($file);
                 } else {
-                    HtmlDefaultMainPage::getInstance()->setIsVisible(false);
                     $doc = igk_get_document("RedirectError"); 
+                    $doc->getDefaultMainPage()->setIsVisible(false);
                     $h = igk_create_node("div");
                     $h->div()->container()->panel()->h1()->Content = __("Page not found");
                     $doc->body->clearChilds()->div()->add($h);

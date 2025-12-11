@@ -6078,10 +6078,9 @@
     })();
     (function () {
         // auto hide core component
-        igk.winui.initClassControl("anim-autohide", function () {
-            var q = this;
-            q.reg_event("animationend", function (e) {
-                // console.log("anim end", e);
+        igk.winui.initClassControl("igk-anim-autohide", function () {
+            var q = this; 
+            q.reg_event("animationend", function (e) {                
                 if (e.animationName == "anim-autohide") {
                     q.remove();
                 }

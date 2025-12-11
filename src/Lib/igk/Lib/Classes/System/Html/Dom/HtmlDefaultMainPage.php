@@ -21,6 +21,10 @@ use function igk_html_host  as _h;
 final class HtmlDefaultMainPage extends HtmlNode
 {
     static $sm_instance;
+
+    public function getPageTitle():string{
+        return 'Balafon Startup Page!';
+    }
     /**
      * 
      * @param mixed $options 
@@ -76,20 +80,11 @@ final class HtmlDefaultMainPage extends HtmlNode
     {
         parent::__construct("div");
         $this["class"] = "igk-project-start google-Roboto igk-parentscroll dispflex flex-column fith flex-justify-sb overflow-y-a";
-        igk_reg_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, function($e){
-            return $this->beforeRenderDoc($e);
-        }); 
     }
-    protected function beforeRenderDoc($e){
-        list($doc) = igk_extract($e->args, 'doc');
-        if ($this->getIsVisible()){
-            $doc->title = 'Balafon MainPage';
-        }
-        igk_wln_e("lkjkkkk::::::");
-    }
+     
     /**
-     * 
-     * @return HtmlDefaultMainPage current application instance 
+     * singleton instance 
+     * @return static 
      */
     public static function getInstance()
     {

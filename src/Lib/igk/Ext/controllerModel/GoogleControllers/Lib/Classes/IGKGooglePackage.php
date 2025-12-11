@@ -12,7 +12,8 @@
 * Represent IGK\Core\Ext\Google namespace
 */
 namespace IGK\Core\Ext\Google;
-// DIRECT RENDERING/**
+// DIRECT RENDERING
+/**
 * use for google package
 */
 class IGKGooglePackage{
@@ -21,7 +22,7 @@ class IGKGooglePackage{
     */
     public function Button(){
         $n=igk_create_node("div");
-        $n["class"]="google-button";
+        $n["class"]="igk-google-button";
         $n["curx"]="10px";
         $n["cury"]="10px";
         $n->Content="Google Button";

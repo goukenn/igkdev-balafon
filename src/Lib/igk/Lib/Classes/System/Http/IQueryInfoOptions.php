@@ -13,7 +13,7 @@ namespace IGK\System\Http;
 * @property ?string $root_uri
 * @property ?string $fullentry
 * @property ?string $entryuri
-* @property ?array $query_options
+* @property ?array $query_options can update depending on prepared request state
 * @property ?string $fname
 * @property ?\IGK\BaseController $ctrl
 */

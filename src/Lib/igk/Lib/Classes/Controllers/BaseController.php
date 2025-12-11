@@ -132,7 +132,7 @@ use function igk_resources_gets as __;
  * @method static void seed() macros function
  * @method static void setEnvParam(key, value) macros function
  * @method static void storeConfigSettings() macros function
- * @method static string uri(?string $path) macros function 
+ * @method static string uri(?string $path, ?bool $full=true, ?bool $force_app_access=false) macros function 
  * @method static string loadMigrationFile() macros function 
  * @method bool checkUser(bool $redirect, ?string $redirectUri=null ) macros function check if user or navigate
  * @method static string getErrorViewFile(int code) macros function get controller error file
@@ -357,7 +357,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
         //+ |   
         $srv = igk_server();
         $is_ajx = $is_ajx ?? (($srv->CONTENT_TYPE == "application/json") || igk_is_ajx_demand());
-        $is_view = $is_view ?? igk_getr('view');
+        $is_view = $is_view ?? igk_getr('view') ?? Request::getInstance()->requestView(); // getQueryInfo();
         if (
             !$this->getEnvParam(self::NO_ACTION_FLAG) &&
             ($handler = $this->getActionHandler($fname, $rep = new ActionResolutionInfo, $params, $is_ajx))
@@ -429,6 +429,10 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             'ctrl' => $this,
             'file' => $file
         ]);
+        // + | --------------------------------------------------------------------
+        // + | action  and action_handler object
+        // + |
+        
         $action = $action_handler = null;
         try {
             // + | binding environment 

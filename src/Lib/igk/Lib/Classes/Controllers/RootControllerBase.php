@@ -92,8 +92,8 @@ abstract class RootControllerBase extends IGKObject{
     }
     /**
      * macros override
-     * @param mixed $name 
-     * @param mixed $arguments 
+     * @param string $name 
+     * @param array $arguments 
      * @return mixed 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
@@ -171,7 +171,7 @@ abstract class RootControllerBase extends IGKObject{
 	}
 	public function __call($name, $argument){     
         // + | --------------------------------------------------------------------
-        // + | by pass method propected call - internally
+        // + | by pass method protected call - internally
         // + |
         if (method_exists($this, $name) && (in_array(strtolower($name), ["initcomplete"]))){
             return call_user_func_array([$this, $name], $argument);

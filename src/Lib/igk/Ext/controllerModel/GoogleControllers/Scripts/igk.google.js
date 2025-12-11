@@ -392,5 +392,5 @@
             });
         });
     }
-    igk.winui.initClassControl("google-button", __init_google_button);
+    igk.winui.initClassControl("igk-google-button", __init_google_button);
 })();

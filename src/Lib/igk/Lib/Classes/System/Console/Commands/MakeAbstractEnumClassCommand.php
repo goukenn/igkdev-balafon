@@ -30,10 +30,9 @@ class MakeAbstractEnumClassCommand extends AppExecCommand
 	var $usage = 'controller name value [options]';
 	public function exec($command, ?string $controller = null, ?string $name = null, ?string $value = null)
 	{
-
 		$ctrl = self::GetController($controller);
 		$name || igk_die('missing name');
-		$value || igk_die('missing values');
+		$value = $value ?? '';
 		$n = StringUtility::AutoPrefix(StringUtility::FuncName($name), "Enum");
 		$force = property_exists($command->options, '--force');
 		$enum = property_exists($command->options, '--enum');

@@ -9,6 +9,7 @@ use Exception;
 use IGK\Resources\R;
 use IGK\System\Html\HtmlRenderer;
 use IGKEvents;
+/** @package IGK\System\Html\Dom */
 class HtmlDocumentNode extends HtmlItemBase{
     protected $m_head;
     protected $m_body;
@@ -72,6 +73,13 @@ class HtmlDocumentNode extends HtmlItemBase{
         $this->m_head = $head ?? $this->add(new HtmlHeadNode());
         $this->m_body = $body ?? $this->add(new HtmlBodyNode());
     }
+    /**
+     * 
+     * @return HtmlDefaultMainPage 
+     */
+    public function getDefaultMainPage(): HtmlDefaultMainPage{
+        return HtmlDefaultMainPage::getInstance();
+    }
     public function render($options=null){
         HtmlRenderer::DefOptions($options); 
         $options->Document = $this; 
@@ -101,7 +109,11 @@ class HtmlDocumentNode extends HtmlItemBase{
         // + | --------------------------------------------------------------------
         // + | hook global event before render document 
         // + |
+        $tr = $this->getDefaultMainPage();
         igk_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, ["doc"=>$this]);
+        if ($tr && $tr->getIsVisible()){
+            $this->title = $tr->getPageTitle();
+        }
         if (!empty($head = HtmlRenderer::Render($this->m_head, $options))){
             $s.= $head.$ln;
         }

@@ -78,6 +78,10 @@ class IGKNotifyStorage{
     public function getName(){
         return $this->m_name;
     }
+    /**
+     * notity storage 
+     * @return mixed 
+     */
     public function & getTab(){  
         return $this->tab;
     }

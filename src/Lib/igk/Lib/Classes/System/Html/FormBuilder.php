@@ -589,7 +589,7 @@ class FormBuilder
      */
     protected function isHtmlType(string $type)
     {
-        return preg_match("/(text|checkbox|password|datetime|email|hidden|fieldset|button|submit|reset|datalist|select|number)/", $type);
+        return preg_match("/(text|checkbox|password|datetime|email|hidden|fieldset|button|submit|reset|datalist|select|number|file)/", $type);
     }
     /**
      * 

@@ -615,8 +615,8 @@ class IO
     }
     /**
      * retrieve only list on current folder 
-     * @param mixed $folder 
-     * @return false|(string|string[])[] 
+     * @param  string|string[] $folder folder list 
+     * @return false|string|string[] 
      */
     public static function GetList($folder)
     {

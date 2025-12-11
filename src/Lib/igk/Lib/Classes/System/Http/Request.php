@@ -22,6 +22,8 @@ class Request implements IInjectable, IContentSecurityProvider
     const REQUEST_JSON_DATA_ENV_KEY = 'RequestFakeJsonInput';
     const FILES_FIELD = "\$files";
     const ARRAY_RESPONSE_CODE = '@__response_code';
+    const QUERY_OPTIONS = 'query_options';
+
     /**
      * 
      * @param mixed $args 
@@ -156,6 +158,35 @@ class Request implements IInjectable, IContentSecurityProvider
         if (self::$sm_instance === null)
             self::$sm_instance = new self();
         return self::$sm_instance;
+    }
+    /**
+     * request view
+     * @return bool 
+     */
+    public function requestView(): bool{
+
+        if ($q = igk_getv($this->getQueryInfo(), self::QUERY_OPTIONS)){
+            $r = (igk_getv($q, 'fmt') == 'html') || 
+                (igk_getv($q, 'render') == 'web');
+            return $r;
+        } 
+        return false;
+    }
+    /**
+     * parse current query options 
+     * @return string 
+     */
+    public function parseOptions(?bool $full=false):string{
+        $s = '';
+        if ($q = igk_getv($this->getQueryInfo(), self::QUERY_OPTIONS)){
+            $s = implode(";", array_map(function($v, $k){
+                return implode("=",[$k,$v]);
+            }, $q, array_keys($q)));
+            if ($full){
+                return ';'.$s;
+            }
+        }
+        return $s;
     }
     /**
      * 

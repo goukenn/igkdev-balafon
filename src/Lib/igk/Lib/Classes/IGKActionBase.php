@@ -78,6 +78,10 @@ abstract class IGKActionBase implements IActionProcessor
     protected $defineHandle = [
         self::FAILED_STATUS => "handleError"
     ];
+    /**
+     * the notification name
+     * @var ?string
+     */
     protected $notify_name;
     /**
      * change the controller
@@ -92,14 +96,25 @@ abstract class IGKActionBase implements IActionProcessor
      * get default entry method
      * @return string 
      */
-    public function getDefaultEntryMethod(){
+    public function getDefaultEntryMethod(): string{
         return $this->defaultEntryMethod;
     }
+    /**
+     * .ctr
+     * @return void 
+     */
     public function __construct()
     {
         if (empty($this->notify_name)) {
-            $this->notify_name = static::class;
+            $this->notify_name = igk_uri(static::class);
         } 
+    }
+    /**
+     * 
+     * @return mixed 
+     */
+    public function getNotifyName(){
+        return $this->notify_name;
     }
     /**
      * called before invoke - used to initialize 
@@ -211,10 +226,18 @@ abstract class IGKActionBase implements IActionProcessor
         $o->initialize($ctrl);
         return $o;
     }
+    /**
+     * init self static action 
+     * @param static $action 
+     * @return void 
+     */
+    protected static function InitSelfAction( $action){
+        igk_environment()->action_handler_instance = $action ; 
+    }
     public static function __callStatic($name, $arguments)
     {
         $c =  (new static);
-        igk_environment()->action_handler_instance = $c ; 
+        self::InitSelfAction($c);
         return $c->$name(...$arguments);
     }
     /**
@@ -528,7 +551,9 @@ abstract class IGKActionBase implements IActionProcessor
                 if ($v_host && ($v_host instanceof static)){
                     $v_host->_handleThrowable($ex);
                 }
-                igk_dev_wln_e(__FILE__.":".__LINE__ , 'is host ', $v_host );
+                igk_dev_wln_e(__FILE__.":".__LINE__ , 'error: ', $ex->getMessage(),
+                'code:', $ex->getCode(), 
+                    'is host ',  $v_host );
                 throw new IGKException($ex->getMessage(), $ex->getCode(), $ex);
             }
             return $c;
