@@ -39,9 +39,49 @@ class IGKSessionFileSaveHandler{
             return;
         }
         $handler = new self();
-        session_set_save_handler([$handler, "open"], [$handler, "close"], array($handler, 'read'), array($handler, 'write'), array($handler, 'destroy'), array($handler, 'gc'));
+        if (version_compare(PHP_VERSION, '8.4', '>=')) {
+            session_set_save_handler($handler->getSessionHandlers()); 
+        } else {
+            session_set_save_handler([$handler, "open"], [$handler, "close"], array($handler, 'read'), array($handler, 'write'), array($handler, 'destroy'), array($handler, 'gc'));
+        }
         register_shutdown_function('igk_sess_write_close');
     }
+    /**
+     * new in session handle to just register a single object 
+     * @return SessionHandlerInterface 
+     */
+    public function getSessionHandlers(): SessionHandlerInterface {
+
+        $handler = new class implements SessionHandlerInterface{
+            var $host;
+            function close(): bool {
+                return $this->host->close();
+            }
+            function destroy(string $id): bool {
+                return $this->host->destroy($id);
+            }
+            function gc(int $maxlifetime): int{
+                return $this->host->gc($maxlifetime);
+            }
+            function open(string $save_path, string $session_name): bool {
+                return $this->host->open($save_path, $session_name);
+            }
+            function read(string $id): string {
+                return $this->host->read($id);
+            }
+            function write(string $id, string $data): bool {
+                return $this->host->write($id, $data);
+            }          
+        };
+        $handler->host = $this;
+        return $handler;
+       
+    }
+     /**
+     * @param string $savepath 
+     * @param string $sessname 
+     * @return bool 
+     */
     public function open($savepath, $sessname){
         if(defined("IGK_SESS_DIR")){
             $savepath=IGK_SESS_DIR;

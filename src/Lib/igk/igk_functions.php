@@ -640,11 +640,11 @@ function igk_app_version()
 ///<param name="cond"></param>
 ///<param name="msg"></param>
 /**
- * 
- * @param mixed $cond 
- * @param mixed $msg 
+ * assert condition 
+ * @param bool $cond 
+ * @param string $msg 
  */
-function igk_assert_die($cond, $msg)
+function igk_assert_die(bool $cond, $msg)
 {
     if ($cond) {
         igk_die($msg);

@@ -160,6 +160,7 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
     { 
         // $v = parent::_getRenderingChildren();
         $n = new HtmlNode("div");
+        $n['class'] = 'igk-sys-session-block-node no-print';
         $this->__buildview($n);
         $v =[
             $n,

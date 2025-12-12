@@ -97,7 +97,26 @@ class MardownConverterTest extends BaseTestCase
     {
         $src = '@igkdev is the best';
         $d = $this->_transform($src);
-        $this->assertEquals('<a href="/@igkdev"><span class="mention">@igkdev</span></a><p> is the best</p>', $d);
+        $this->assertEquals('<a href="/@igkdev"><span class="mention">@igkdev</span></a> is the best', $d);
+    }
+    public function test_check_order()
+    {
+        $n = igk_create_notagnode();
+        $n->markdown(implode("\n", [
+            "# Hello sample",
+            "- printing demonstration",
+            "- left",
+            "```sh",
+            "# shel code ",
+            "```",
+            "info"
+        ]));
+        $s = $n->render();
+        $this->assertEquals(
+            $s,
+            '<div class="md-doc"><h1>Hello sample</h1><ul class="list"><li class="i">printing demonstration</li><li class="i">left</li></ul><code class="igk-code code-sh"># shel code</code><p>info</p></div>',
+            'missing order definition'
+        );
     }
     public function test_mdconverter_escaped()
     {
@@ -191,7 +210,7 @@ class MardownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals(implode("\n", [
             '<h2>Docker - </h2><code class="igk-code">docker compose down</code>'
-        ]), $d);
+        ]), $d, 'ignore starting empty line ');
     }
 
     public function test_mdconverter_document_link()
@@ -248,7 +267,7 @@ data la sample
 EOF
         ]), false);
 
-        $this->assertEquals("<code>sample</code> : line1 \nline2<h2>the-code</h2><p>data la sample </p>", $d);
+        $this->assertEquals("<p><code>sample</code> : line1 line2 </p><h2>the-code</h2><p>data la sample </p>", $d);
     }
 
     public function test_mdconverter_load_def_resource()
@@ -258,7 +277,7 @@ EOF
             "# intro {#click-me} ",
         ]), true);
 
-        $this->assertEquals('<a href="#click-me">click</a><h1 id="click-me">intro </h1>', $d);
+        $this->assertEquals('<p><a href="#click-me">click</a> </p><h1 id="click-me">intro </h1>', $d);
     }
     public function test_mdconverter_chain_state()
     {
@@ -278,9 +297,9 @@ EOF
         $src = implode("\n", [
             '| a | b |',
             '|------------|-----------|',
-            '| `.xsm` | Écran < 576px |', 
+            '| `.xsm` | Écran < 576px |',
         ]);
-         $d = $this->_transform($src, true);
+        $d = $this->_transform($src, true);
         $this->assertEquals('<table class="igk-table"><tr><th>a</th><th>b</th></tr><tr><td><code>.xsm</code></td><td>Écran &lt; 576px</td></tr></table>', $d);
     }
     public function test_mdconverter_inline_code_with_html_entities()
@@ -288,7 +307,37 @@ EOF
         $src = implode("\n", [
             'the heredoc `<<<EOR ... EOR`',
         ]);
-         $d = $this->_transform($src, true);
+        $d = $this->_transform($src, true);
         $this->assertEquals('the heredoc <code>&lt;&lt;&lt;EOR ... EOR</code>', $d);
+    }
+    public function test_mdconverter_node_multiple()
+    {
+        $n = igk_create_notagnode();
+        $n->markdown(implode("\n", [
+            "info case ",
+            "- printing **demonstration** base",
+            "marker"
+        ]));
+        $s = $n->render();
+        $this->assertEquals(
+            $s,
+            '<div class="md-doc"><p>info case </p><ul class="list"><li class="i">printing <b>demonstration</b> base</li></ul><p>marker</p></div>',
+            'merging definition',
+        );
+    }
+    public function test_mdconverter_node_multiple_after_header()
+    {
+        $n = igk_create_notagnode();
+        $n->markdown(implode("\n", [
+            "info case ",
+            "## title",
+            "marker"
+        ]));
+        $s = $n->render();
+        $this->assertEquals(
+            $s,
+            '<div class="md-doc"><p>info case </p><h2>title</h2><p>marker</p></div>',
+            'merging definition',
+        );
     }
 }
