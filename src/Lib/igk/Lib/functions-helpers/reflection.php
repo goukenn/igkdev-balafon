@@ -76,6 +76,7 @@ function igk_reflection_class_implement($objOrClassName, $name)
 }
 /**
  * check if class name is an abstract class
+ * @return bool|int bool if class exist -1 if not class
  */
 function igk_reflection_class_isabstract($name, $autoload = true)
 {

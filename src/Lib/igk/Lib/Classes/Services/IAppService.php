@@ -10,7 +10,7 @@ namespace IGK\Services;
 // + |
 
 /**
-* balafon service that can be register
+* balafon service that can be registered
 * @package IGK\Services
 */
 interface IAppService{

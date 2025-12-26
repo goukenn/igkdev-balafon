@@ -924,7 +924,7 @@ if (!function_exists("igk_html_node_attr_expression")) {
 }
 if (!function_exists("igk_html_node_author_community")) {
 	/**
-	 * render autho community node - system community link
+	 * render autocommunity node - system community link
 	 * @return HtmlItemBase 
 	 * @throws IGKException 
 	 */
@@ -6091,9 +6091,10 @@ if (!function_exists('igk_html_node_breadcrumbs')) {
 
 if (!function_exists('igk_html_node_markdown')){
     function igk_html_node_markdown(string $content, $options=null){
-        list($allowlinks) = igk_extract($options, 'allowLinkDocument');
+        list($allowlinks,$allowBreakLine) = igk_extract($options, 'allowLinkDocument|allowBreakLine');
         $conv = new \IGK\System\IO\Markdown\MarkdownConverter;
-        $conv->allowLinkDocument = $allowlinks;
+        $conv->allowLinkDocument = $allowlinks ?? false;
+        $conv->allowBreakLine = $allowBreakLine ?? true;
         $conv->encapsulateTextInTag = true;
         $n = igk_html_host('div.md-doc'); 
         $n->text($conv->transformToHtml($content));

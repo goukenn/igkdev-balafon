@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:58
 // @desc: action dispatcher 
 namespace IGK\Actions;
+
 use Closure;
 use Exception;
 use IGK\Actions\IActionProcessor;
@@ -19,21 +20,28 @@ use IGK\Actions\ActionBase;
 use IGK\Controllers\ControllerParams;
 use IGK\Helper\ViewHelper;
 use IGK\Models\Injectors\ModelBaseInjector;
+use IGK\Models\ModelBase;
 use IGK\Models\Users;
 use IGK\System\Exceptions\OperationNotAllowedException;
+use IGK\System\IInjectedArgHost;
 use IGKException;
+use IGKServices;
 use IGKType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionFunctionAbstract;
 use ReflectionMethod;
 use TypeError;
+use function igk_resources_gets as __;
+use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
+
 /**
  * default action dispactcher
  */
 class Dispatcher implements IActionProcessor, IActionDispatcher
 {
     const DISPATCH_METHOD = 'Dispatch';
+    const INSTANCE = IGKServices::KEY_INSTANCE;
     /**
      * 
      * @var null|ActionBase|IActionProcessor|object
@@ -75,9 +83,10 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     {
         return $this->m_host;
     }
-    public function skipVerbCheck(string $action_name){
+    public function skipVerbCheck(string $action_name)
+    {
         $h = $this->getHost();
-        if (method_exists($h, $fc = ucfirst(__FUNCTION__))){
+        if (method_exists($h, $fc = ucfirst(__FUNCTION__))) {
             return call_user_func_array([get_class($h), $fc], [$h, $action_name]);
         }
         return false;
@@ -102,7 +111,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             throw $ex;
         } catch (TypeError $ex) {
             // + | call to function but arguments injection no valid
-            throw new OperationNotAllowedException('Dispatcher failed: '.$ex->getMessage(), 405, $ex);
+            throw new OperationNotAllowedException('Dispatcher failed: ' . $ex->getMessage(), 405, $ex);
         }
     }
     public static function __callStatic($name, $args)
@@ -131,8 +140,8 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             && ($fc = Closure::fromCallable([$v_host, $name])->bindTo($v_host))
         ) {
             // initialize replace uri 
-            $v_host->getController()->{ControllerParams::REPLACE_URI} = 
-            $v_host->getDefaultEntryMethod() != $name;
+            $v_host->getController()->{ControllerParams::REPLACE_URI} =
+                $v_host->getDefaultEntryMethod() != $name;
             $targs = array_merge([$fc], $arguments);
             return self::__callStatic(self::DISPATCH_METHOD, $targs);
         } else {
@@ -174,19 +183,20 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * get injected args
      * @param ReflectionFunctionAbstract $g 
      * @param mixed $args 
+     * @param ?IInjectedArgHost $host host that will retreive parameters
      * @return array 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args, $host=null): array
+    public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args, ?IInjectedArgHost $host = null): array
     {
         $parameters = $g->getParameters();
         if (count($parameters) == 0) {
             return $args;
         }
         $targs = [];
-        self::_GetInjectedParameters($targs, $parameters, $args, $host); 
+        self::_GetInjectedParameters($targs, $parameters, $args, $host);
         return $targs;
     }
     /**
@@ -194,43 +204,58 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param array $targs 
      * @param mixed $parameters 
      * @param mixed $args 
+     * @param ?IInjectedArgHost $host injected argument host
      * @return array 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    private static function _GetInjectedParameters(array &$targs, $parameters, $args)
+    private static function _GetInjectedParameters(array &$targs, $parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];
         $injectors = InjectorProvider::GetInjectors();
-        $ctrl = ViewHelper::CurrentCtrl();
-        // igk_wln_e(__FILE__.":".__LINE__ , 'current ctrl', $ctrl );
+        $v_host = $host ?? ViewHelper::CurrentCtrl();
+        $v_injector = InjectorProvider::getInstance();
         $i = 0;
         $services = null;
-        if ($ctrl) {
+        if ($v_host) {
             // + | --------------------------------------------------------------------
             // + | resolving services for injection
             // + |            
-            if ($fservice = $ctrl->configFile('services')){ 
+            if ($fservice = $v_host->configFile('services')) {
                 $services = igk_io_file_exists($fservice, true) ?
-                ViewHelper::Inc($fservice, ['ctrl' => $ctrl]) : null;
+                ViewHelper::Inc($fservice, ['ctrl' => $v_host]) : null;
+                self::_UpdateService($services);
             }
         }
         $v_inject = false;
         foreach ($parameters as $k) {
             $c = $arg = igk_getv($args, $i);
-            if (is_null($c) && $k->isDefaultValueAvailable()){
+            $c_update_i = false;
+            $v_precision = null;
+            if (is_null($c) && $k->isDefaultValueAvailable()) {
                 $c = $k->getDefaultValue();
             }
             if (($p = $k->getType()) && ($type = IGKType::GetName($p))) {
-                if ($type == 'string') {   
-                    $targs[] = $v_inject ? '': $c;
+                if (is_object($c)) {
+                    if ((get_class($c) == $type) || is_subclass_of($c, $type)) {
+                        $targs[] = $c;
+                        $i++;
+                        continue;
+                    }
+                    igk_die(sprintf(__('argument %s not matching'), $i));
+                }
+
+
+
+                if ($type == 'string') {
+                    $targs[] = $v_inject ? '' : $c;
                     $i++;
                     continue;
                 }
                 if ($type == "array") {
-                    if (!is_array($c)){
-                        $c = $c ? explode(',', $c) : [];                                    
+                    if (!is_array($c)) {
+                        $c = $c ? explode(',', $c) : [];
                     }
                 } else {
                     $pattern = igk_getv(self::$sm_matches, $type, ".+");
@@ -241,35 +266,73 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 // + | get inject table class printer service
                 $v_primary = IGKType::IsPrimaryType($type);
                 $v_injectable = !$v_primary && IGKType::IsInjectable($type);
+                $v_ci = null;
 
-                if ($v_injectable &&
-                    $services && isset($services[$type])) {
-                    $rtype = $services[$type];
-                    $targs[] = DispatcherService::CreateOrGetServiceInstance($ctrl, $rtype);
-                    continue;
+
+                if (is_string($c) && $v_injectable && !$v_injector->injector($type) && class_exists($c) && is_subclass_of($c, $type)) {
+                    $v_refcl = igk_sys_reflect_class($c);
+                    $v_precision = $c;
+                    $c_update_i = true;
+                    if (!isset($services[$type])) {
+                        $v_params = [];
+                        $cl = IGKServices::CreateServiceNewInstance($v_refcl, $v_params);
+                        $services[$type] = [
+                            IGKServices::KEY_INSTANCE => $cl
+                        ];
+                    } else {
+                        $c_instance = igk_getv($services[$type], self::INSTANCE);
+                        if ($c_instance && (get_class($c_instance) != $c))
+                        {
+                            $v_ci = IGKServices::CreateServiceNewInstance($v_refcl, $v_params);
+                        } 
+                    }
                 }
-                if (!$v_primary && class_exists($type)) 
-                {
-                    if ($v_injectable){
-                        $targs[] = self::_GetInjectable($type, $args);   
-                        $v_inject = true; 
+
+                if (
+                    $v_injectable &&
+                    $services && isset($services[$type])
+                ) {
+                    if ($rtype = $services[$type]) {
+                        unset($rtype[DispatcherService::TYPE_PRECISION]);
+                        if (!$v_ci && $v_precision){
+                            if (!igk_getv($rtype, $v_precision)){
+                                $rtype[$v_precision] = [];
+                            }
+                            $rtype[DispatcherService::TYPE_PRECISION] = $v_precision;
+                        }
+
+                        $v_ci = $v_ci ?? self::GetInstanceServiceFromArrayDefinition($rtype, $type, $services);
+                        // + | --------------------------------------------------------------------
+                        // + | retrieve service instance definition
+                        // + |  
+                        $targs[] = $v_ci ?? DispatcherService::CreateOrGetServiceInstance($v_host, $rtype);
+                        if ($c_update_i){
+                            $i++;
+                        }
+                        continue;
+                    }
+                }
+                if (!$v_primary && class_exists($type)) {
+                    if ($v_injectable && ($v_tc = self::_GetInjectable($type, $args))) {
+                        // system injectable list 
+                        $targs[] = $v_tc;
+                        $v_inject = true;
                         continue;
                     }
                     $j = igk_getv($injectors, $type, InjectorProvider::getInstance()->injector($type));
                     $j_allow_null =  $k->allowsNull();
-                    if($j && (is_null($arg) && $j_allow_null))
-                    {
+                    if ($j && (is_null($arg) && $j_allow_null)) {
                         $c = null;
-                        if ($j instanceof ModelBaseInjector){
-                            if ($j->getModel() instanceof Users){
-                                ($u = $ctrl->getUser()) && ($c = $u->model());
+                        if ($j instanceof ModelBaseInjector) {
+                            if ($j->getModel() instanceof Users) {
+                                ($u = $v_host->getUser()) && ($c = $u->model());
                             }
                         }
                         $targs[] = $c;
                         $i++;
                         continue;
                     }
-                    if ($j && ($c = $j->resolve($arg, $p))){ 
+                    if ($j && ($c = $j->resolve($arg, $p))) {
                         $targs[] = $c;
                         $i++;
                         continue;
@@ -294,6 +357,43 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         return $targs;
     }
+
+    /**
+     * 
+     * @param mixed &$services 
+     * @return void 
+     */
+    protected static function _UpdateService(&$services)
+    {
+        $lbService = IGKServices::getInstance()->services();
+        foreach ($lbService as $k => $m) {
+            if (isset($services[$k])) {
+                $g = $services[$k];
+                $m = array_merge($m, $g);
+                $services[$k] = $m;
+            } else {
+                $services[$k] = $m;
+            }
+        }
+    }
+    /**
+     * retrive a service instance 
+     * @param array $rtype 
+     * @param mixed $type 
+     * @return ?mixed 
+     */
+    public static function GetInstanceServiceFromArrayDefinition(array $rtype, $type)
+    {
+        $v_ci = null;
+        if (isset($rtype[IGKServices::KEY_DEF])) {
+            IGKServices::SetDefinition($rtype);
+            $v_ci = IGKServices::Get($type);
+            IGKServices::SetDefinition(null);
+        } else if (isset($rtype[$i = IGKServices::KEY_INSTANCE])) {
+            $v_ci = $rtype[$i];
+        }
+        return $v_ci;
+    }
     /**
      * retrieve injectable from deispacther
      * @param mixed $class_name 
@@ -301,9 +401,16 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @return mixed 
      * @throws IGKException 
      */
-    public static function GetInjectTypeInstance($class_name){
+    public static function GetInjectTypeInstance($class_name)
+    {
         return self::_GetInjectable($class_name, []);
     }
+    /**
+     * get global injectable 
+     * @param mixed $type 
+     * @param mixed $args 
+     * @return mixed 
+     */
     private static function _GetInjectable($type, $args)
     {
         static $injects = null;
@@ -318,6 +425,11 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
                 RequestResponse::class => RequestResponse::CreateResponse(),
             ];
             // extract injector server 
+        }
+
+        if (is_subclass_of($type, ModelBase::class)) {
+            // use injector to register injection -
+            return null;
         }
         if (!($m = igk_getv($injects, $type))) {
             $m = new $type();

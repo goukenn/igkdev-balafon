@@ -99,7 +99,7 @@ class MardownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<a href="/@igkdev"><span class="mention">@igkdev</span></a> is the best', $d);
     }
-    public function test_check_order()
+    public function test_mdconverter_order()
     {
         $n = igk_create_notagnode();
         $n->markdown(implode("\n", [
@@ -113,8 +113,8 @@ class MardownConverterTest extends BaseTestCase
         ]));
         $s = $n->render();
         $this->assertEquals(
-            $s,
             '<div class="md-doc"><h1>Hello sample</h1><ul class="list"><li class="i">printing demonstration</li><li class="i">left</li></ul><code class="igk-code code-sh"># shel code</code><p>info</p></div>',
+            $s,
             'missing order definition'
         );
     }
@@ -185,8 +185,7 @@ class MardownConverterTest extends BaseTestCase
         ]);
         $d = $this->_transform($src);
         $this->assertEquals(implode("\n", [
-            '<h4>Views options</h4>passing parameters to layout',
-            '<code class="igk-code code-php">//#{{% expression %}}</code><h5>default expression</h5>'
+            '<h4>Views options</h4><p>passing parameters to layout</p><code class="igk-code code-php">//#{{% expression %}}</code><h5>default expression</h5>'
         ]), $d);
     }
     public function test_mdconverter_leave_md()
@@ -267,7 +266,10 @@ data la sample
 EOF
         ]), false);
 
-        $this->assertEquals("<p><code>sample</code> : line1 line2 </p><h2>the-code</h2><p>data la sample </p>", $d);
+        $this->assertEquals(
+        // "<p><code>sample</code> : line1 <br/>line2 </p><h2>the-code</h2><p>data la sample </p>", 
+        '<p><code>sample</code> : line1 <br/>line2 </p><h2>the-code</h2><p>data la sample </p>',
+        $d);
     }
 
     public function test_mdconverter_load_def_resource()
@@ -290,7 +292,7 @@ EOF
             "martyr"
         ]), true);
 
-        $this->assertEquals("<code class=\"igk-code code-php\">\$x = 4;</code><b>Cas d'usage :</b><p>martyr</p>", $d);
+        $this->assertEquals("<code class=\"igk-code code-php\">\$x = 4;</code><p><b>Cas d'usage :</b><br/>martyr</p>", $d);
     }
     public function test_mdconverter_load_array()
     {
@@ -320,8 +322,8 @@ EOF
         ]));
         $s = $n->render();
         $this->assertEquals(
-            $s,
             '<div class="md-doc"><p>info case </p><ul class="list"><li class="i">printing <b>demonstration</b> base</li></ul><p>marker</p></div>',
+            $s,
             'merging definition',
         );
     }
@@ -335,9 +337,56 @@ EOF
         ]));
         $s = $n->render();
         $this->assertEquals(
-            $s,
             '<div class="md-doc"><p>info case </p><h2>title</h2><p>marker</p></div>',
+            $s,
             'merging definition',
+        );
+    }
+    public function test_mdconverter_node_mixed()
+    {
+        $n = igk_create_notagnode();
+        $n->markdown(implode("\n", [
+            "a ",
+            "- b ",
+            "c ",
+            "# d",
+            "m"
+        ]));
+        $s = $n->render();
+        $this->assertEquals(
+            '<div class="md-doc"><p>a </p><ul class="list"><li class="i">b </li></ul><p>c </p><h1>d</h1><p>m</p></div>',
+            $s,
+            'merging definition',
+        );
+    }
+    public function test_mdconverter_line_feed()
+    {
+        $n = igk_create_notagnode();
+        $n->markdown(implode("\n", [
+            "** b ** info",
+            "du jour ",
+            "- b ",
+        ]));
+        $s = $n->render();
+        $this->assertEquals(
+            '<div class="md-doc"><p><b> b </b> info<br/>du jour </p><ul class="list"><li class="i">b </li></ul></div>',
+            $s,
+            'line feed '.__METHOD__,
+        );
+    }
+    public function test_mdconverter_quote_marker()
+    {
+        $n = igk_create_notagnode();
+        $n->markdown(implode("\n", [
+            "> this is a",
+            "> quote ",
+            "x ",
+        ]));
+        $s = $n->render();
+        $this->assertEquals(
+            '<div class="md-doc"><blockquote>this is a<br/>quote </blockquote><p>x </p></div>',
+            $s,
+            'quote marker '.__METHOD__,
         );
     }
 }

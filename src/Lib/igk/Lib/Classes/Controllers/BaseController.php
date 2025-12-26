@@ -39,6 +39,7 @@ use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGK\Constants;
 use IGK\System\EntryClassResolution;
+use IGK\System\IInjectedArgHost;
 use IGKEnvironment;
 use IGKEvents;
 use IGKException;
@@ -47,6 +48,8 @@ use IIGKDataController;
 use ReflectionClass;
 use ReflectionException;
 use function igk_resources_gets as __;
+
+require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
 
 /**
  * @package IGK\Controllers
@@ -143,7 +146,7 @@ use function igk_resources_gets as __;
  * @method static mixed getActionHandler(string $name, ActionResolutionInfo $action_resolution, ?array $params =null) macros function load temp inline pcss
  * @method static array getCachedDataTableDefinition() macros function get cached datable table definitions 
  */
-abstract class BaseController extends RootControllerBase implements IIGKDataController
+abstract class BaseController extends RootControllerBase implements IIGKDataController, IInjectedArgHost
 {
     const CHILDS_FLAG = 5;
     const CURRENT_VIEW = IGK_CURRENT_CTRL_VIEW;

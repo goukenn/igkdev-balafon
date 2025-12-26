@@ -33,6 +33,8 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Traits\MacrosConstant;
 use IGK\Constants;
 use IGK\Database\DbRowDefEntry;
+use IGK\Helper\StringDisplay;
+use IGK\System\IInjectable;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
@@ -42,7 +44,7 @@ require_once IGK_LIB_CLASSES_DIR . '/Models/Inc/ModelEntryExtension.php';
  * root model base 
  * @package IGK\System\Models
  */
-abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResult
+abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResult, IInjectable
 {
     use ArrayAccessSelfTrait;
     use JsonSerializableTrait;
@@ -185,7 +187,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      * column use for display
      * @var string
      */
-    protected $display = "clName";
+    protected $display = null;
     /**
      * model controller class name 
      * @var string
@@ -285,14 +287,18 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      */
     public function display()
     {
-        $d = $this->display;
-        if (isset($this->raw->{$d}))
-            return $this->{$d};
         $cl = get_class($this);
-        if (is_callable($fc = $cl::__callStatic("getMacro", ["display"]))) {
-            return $fc($this);
+        if (is_callable($fc = $cl::__callStatic("getMacro", ["display"]))){
+            $fc = $fc->bindTo($this);
+            $v_reflect_func = new ReflectionFunction($fc);
+            $params = Dispatcher::GetInjectArgs($v_reflect_func, [], $this->getController());
+            return call_user_func_array($fc, $params);
         }
-        return null; // $this->to_json();
+        $d = $this->display;
+        if ($d){
+            return StringDisplay::Display($d, array_keys($this->to_array()), $this);
+        } 
+        return null;
     }
     /**
      * get reference primary key column
@@ -794,11 +800,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * invoke registrated macros function 
-     * @param mixed $macros 
-     * @param mixed $name 
-     * @param mixed $instance 
-     * @param mixed $arguments 
-     * @param bool $failed 
+     * @param mixed $macros macros list 
+     * @param string $name to get 
+     * @param mixed $instance that will call the 
+     * @param mixed $arguments arguments to pass 
+     * @param bool $failed ref failed result 
      * @return mixed 
      * @throws IGKException 
      */
@@ -808,7 +814,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         $key = static::class . self::StaticSperator . $name;
         if ($fc = igk_getv($macros, $key)) {
             // static closure
-            if ($arguments) {
+            // if ($arguments) {
                 // + | try to inject argument
                 $tc = $fc;
                 if (is_array($tc)) {
@@ -817,7 +823,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                 $parameters = (new ReflectionFunction($tc))->getParameters();
                 array_shift($parameters);
                 $arguments = Dispatcher::GetInjectArgsByParameters($parameters, $arguments);
-            }
+            // }
             array_unshift($arguments, $instance);
             return $fc(...$arguments);
         }

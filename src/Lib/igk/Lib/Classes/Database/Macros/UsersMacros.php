@@ -284,4 +284,18 @@ abstract class UsersMacros
         igk_hook(IGKEvents::HOOK_USER_CLEAN, ['user'=>$model]); 
         $model->delete();
     }
+
+    /**
+     * resolution macros
+     * @param Users $model 
+     * @param mixed $data 
+     * @return null|Users 
+     */
+    public static function resolve(Users $model, $data){
+        if (is_string($data)){
+            $r = $model::GetCache($model::FD_CL_LOGIN, $data);
+            return $r;
+        }
+        return null;
+    }
 }

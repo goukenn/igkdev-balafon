@@ -137,7 +137,7 @@ class QueryBuilder
      *      alias_name* alias of the table to use in condition
      * @return $this 
      * @example \
-     * ::prepare()->join(["table1"=>["table1.id=table2.id", "type"="left", "alias"=>"GTab"]])
+     * ::prepare()->join(["table1"=>["table1.id=table2.id", "type"=>"left", "alias"=>"GTab"]])
      */
     public function join(array $join)
     {
@@ -407,7 +407,7 @@ class QueryBuilder
      * @param mixed $ctrl BaseController 
      * @param null|string $table 
      * @param string|null $property 
-     * @return array[tablename, linkcolumn, source_table, require_property]
+     * @return array table to return [tablename, linkcolumn, source_table, require_property]
      */
     private static function _GetLinks(array $ref, $ctrl, ?string $table = null, ?string $property = null)
     {

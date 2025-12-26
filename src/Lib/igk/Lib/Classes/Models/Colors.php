@@ -1,9 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Colors.php
-// @date: 20250516 07:24:40
+// @date: 20251226 14:59:11
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
+
 /**
 * use to store named colors.
 * @package IGK\Models
@@ -11,9 +14,9 @@ use IGK\Models\ModelBase;
 * @property int $clId
 * @property string $clName
 * @property string $clValue
-* @method static string FD_CL_ID() - `clId` full column name 
-* @method static string FD_CL_NAME() - `clName` full column name 
-* @method static string FD_CL_VALUE() - `clValue` full column name 
+* @method static string FN_CL_ID() - `clId` full column name 
+* @method static string FN_CL_NAME() - `clName` full column name 
+* @method static string FN_CL_VALUE() - `clValue` full column name 
 * @method static ?array joinOnClid($call=null, ?string $type=null, string $op=\IGK\System\Database\JoinTableOp::EQUAL) - macros function 
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clName, string $clValue) add entry helper

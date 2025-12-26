@@ -16,7 +16,7 @@ abstract class PhonebookTypeNames{
     const PHT_FIRSTNAME = 'firstname';
     const PHT_SURNAME = 'surname';
     const PHT_COMPANY = "company";
-    const PHT_ORGANISATION = "organisation";
+    const PHT_ORGANIZATION = "organization";
     const PHT_PROFESSION = "profession";
     const PHT_PHONE = "phone";
     const PHT_TEL = "tel";

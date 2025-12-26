@@ -4,13 +4,27 @@
 // @date: 20230706 10:43:00
 // @desc: dispatcher service 
 namespace IGK\Actions;
+
 use IGK\Controllers\BaseController;
+use IGK\Services\IAppService;
+use IGK\System\DependencyInjection\LifeTime;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IInjectable;
+use IGKServices;
 use ReflectionException;
-abstract class DispatcherService{
+use ReflectionMethod;
+
+/**
+ * dispatcher to handle method call 
+ * @package IGK\Actions
+ */
+abstract class DispatcherService
+{
     static $sm_services = [];
+    private static $sm_last_initService;
+    const INIT_ARGS = '@args';
+    const TYPE_PRECISION = '@precision';
     /**
      * 
      * @param BaseController $ctrl 
@@ -20,37 +34,105 @@ abstract class DispatcherService{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public static function CreateOrGetServiceInstance(BaseController $ctrl, $rtype, string $typecheck = IInjectable::class){
+    public static function CreateOrGetServiceInstance(BaseController $ctrl, $rtype, string $typecheck = IInjectable::class)
+    {
         $arguments = null;
         $m = null;
-        if (is_array($rtype)){
-            $nkey = igk_getv(array_keys($rtype), 0);
+        $c_tg = self::INIT_ARGS;
+        $v_transient = false;
+        if (is_array($rtype)) {
+            $bind = igk_getv($rtype, self::TYPE_PRECISION);
+            $nkey = $bind ?? igk_getv(array_keys($rtype), 0);
             $m = (array)$rtype[$nkey];
-            $arguments = igk_getv($m, 'arguments') ?? [];            
+            $arguments = igk_getv($m, $c_tg) ?? [];
+            $v_transient = igk_getv($m, IGKServices::KEY_LIFETIME) ==  LifeTime::TRANSIENT;
             $rtype = $nkey;
         }
-        if (is_string($rtype)){ 
+        if (is_string($rtype)) {
             is_subclass_of($rtype, $typecheck) || igk_die('misconfiguration target type not injectable');
         }
-        $p =  DispatcherService::GetServiceInstance($ctrl, $rtype, $arguments);
-        if ($m && $p){
-            unset($m['arguments']);
-            foreach ($m as $key => $value) {
-                if (method_exists($p, $fc = 'set'.ucfirst($key))){
-                    $p->$fc($value);
-                } else if (property_exists($p, $key)){
-                    $p->$key = $value;
-                }
-            }
+        $p = DispatcherService::GetServiceInstance($ctrl, $rtype, $v_transient, $arguments);
+        if ($m && $p && self::IsServiceNewInstance()) {
+            unset($m[$c_tg]);
+            DispatcherService::SetupServiceInstance($p, $m);
         }
         return $p;
     }
-    public static function  GetServiceInstance(BaseController $ctrl, string $class_name, ...$args){
-        $key= $ctrl->name(igk_uri('/services/'.$class_name));
-        if (!isset(self::$sm_services[$key])){
-            self::$sm_services[$key] = new $class_name(...$args);
+    /**
+     * get register injectable or service
+     * @param BaseController $ctrl 
+     * @param string $class_name 
+     * @param bool $transient 
+     * @param mixed ...$args 
+     * @return mixed 
+     */
+    public static function  GetServiceInstance(BaseController $ctrl, string $class_name, $transient=false,  ...$args)
+    {
+        self::$sm_last_initService = null;
+        $key = $ctrl->name(igk_uri('/services/' . $class_name));
+        if ($transient || !isset(self::$sm_services[$key])) {
+            if (is_array($args) && (count($args) == 1)) {
+                $args = $args[key($args)];
+            }
+            $obj = IGKServices::CreateServiceNewInstance(igk_sys_reflect_class($class_name), $args);
+            if (!$transient){
+                self::$sm_services[$key] = $obj;
+            }
+            self::$sm_last_initService = $obj;
+            return $obj;
         }
         $m = igk_getv(self::$sm_services, $key);
         return $m;
+    }
+    /**
+     * 
+     * @return bool 
+     */
+    public static function IsServiceNewInstance():bool{
+        return !is_null(self::$sm_last_initService);
+    }
+
+    /**
+     * setup service properties 
+     * @param mixed $p 
+     * @param mixed $m 
+     * @return void 
+     */
+    public static function SetupServiceInstance($p, $m)
+    {
+        $fc_bindprop = function ($p, $m) {
+            foreach ($m as $key => $value) {
+                if (method_exists($p, $fc = 'set' . ucfirst($key))) {
+                    if ($parameters = (new ReflectionMethod($p, $fc))->getParameters()){
+                        $arguments = Dispatcher::GetInjectArgsByParameters($parameters, [$value]);     
+                        $value = array_shift($arguments);
+                    }
+                    $p->$fc($value);
+                } else if (property_exists($p, $key)) {
+                    $p->$key = $value;
+                }
+            }
+        };
+        if ($p instanceof IAppService) {
+            $cnf = self::ConfigPropertyList($p->getConfigurableProperties());
+            $fc_bindprop($p, igk_extract_assoc($m, $cnf)); 
+        } else {
+            $fc_bindprop($p, $m); 
+        }
+    }
+    /**
+     * transform to properties list 
+     * @param mixed $p 
+     * @return mixed[] 
+     */
+    public static function ConfigPropertyList($p){
+        $o = [];
+        foreach(array_keys($p) as $t){
+            if (is_numeric($t)){
+                $t = $p[$t];
+            }
+            $o[] = $t;
+        }
+        return $o;
     }
 }

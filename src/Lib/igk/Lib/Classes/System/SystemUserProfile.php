@@ -152,7 +152,7 @@ abstract class SystemUserProfile implements IUserProfile
         return $this->clLogin;
     }
     /** display full name */
-    public function display(){
+    public function display(): string{
         return implode(' ', array_filter([$this->clFirstName, $this->clLastName]));
     }
     public function __get($name){

@@ -1,9 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Guids.php
-// @date: 20250516 07:24:40
+// @date: 20251226 14:59:11
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
+
 /**
 * Store guid on db for living purpose. link to change password for exemple.
 * @package IGK\Models

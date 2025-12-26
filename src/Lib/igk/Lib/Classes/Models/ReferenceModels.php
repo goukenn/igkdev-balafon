@@ -1,9 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ReferenceModels.php
-// @date: 20250516 07:24:40
+// @date: 20251226 14:59:11
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
+
 /**
 * Store reference domain
 * @package IGK\Models
@@ -18,6 +21,8 @@ use IGK\Models\ModelBase;
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clModel, int $clNextValue) add entry helper
 * @method static ?self AddIfNotExists(string $clModel, int $clNextValue) add entry if not exists. check for unique column.
+* @method static void get_ref_nextnumber(int $uid,string $modelname) macros function
+* @method static ?\IGK\Models\ReferenceModels update_ref_nextnumber(int $uid,string $modelname) macros function
 * */
 class ReferenceModels extends ModelBase{
 	const FD_CL_ID="clId";

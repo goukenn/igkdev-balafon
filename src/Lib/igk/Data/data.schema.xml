@@ -375,7 +375,7 @@
 		<GenColumn name="updateTime" prefix="usrphb_"></GenColumn>
 	</DataDefinition>
 
-	<DataDefinition Description="Phone books" Prefix="rcphb_" TableName="%prefix%phoneBooks">
+	<DataDefinition Description="Phone books" Prefix="rcphb_" TableName="%prefix%phoneBooks" Display="Value">
 		<Column clAutoIncrement="1" clIsPrimary="1" clName="rcphb_Id" clType="Int"></Column>
 
 		<Column clIsUnique="False" clLinkColumn="rcphbe_Guid"

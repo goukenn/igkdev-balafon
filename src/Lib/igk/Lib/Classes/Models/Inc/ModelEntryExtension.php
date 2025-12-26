@@ -584,6 +584,38 @@ abstract class ModelEntryExtension
     {
         return null;
     }
+
+    /**
+     * get first items 
+     * @param ModelBase $model 
+     * @param null|array $conds 
+     * @param null|string $column 
+     * @return mixed|null 
+     */
+    public static function firstByColumn(ModelBase $model, ?array $conds = null, ?string $column=null){
+        $cond = $conds ?? [];
+        $options = ['Limit'=>1];
+        if ($column){
+            $options['OrderBy']=[$column.'|Asc'];
+        }
+        $g = $model::select_all($cond, $options);
+        if (count($g)==1){
+            return $g[key($g)];
+        }
+        return null;
+    }
+    public static function lastByColumn(ModelBase $model, ?array $conds = null, ?string $column=null){
+        $cond = $conds ?? [];
+        $options = ['Limit'=>1];
+        if ($column){
+            $options['OrderBy']=[$column.'|Desc'];
+        }
+        $g = $model::select_all($cond, $options);
+        if (count($g)==1){
+            return $g[key($g)];
+        }
+        return null;
+    }
     /**
      * update model 
      * @param ModelBase $model 

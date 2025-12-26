@@ -1,9 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: PoolingProcess.php
-// @date: 20250516 07:24:40
+// @date: 20251226 14:59:11
 namespace IGK\Models;
+
+
 use IGK\Models\ModelBase;
+
 /**
 * Pooling process
 * @package IGK\Models

@@ -6,14 +6,19 @@
 // @desc: service property trait 
 namespace IGK\System\Services\Traits;
 
+use IGK\Actions\DispatcherService;
 use IGK\Helper\Activator;
 use IGK\System\Services\IAppServiceProperty;
+use IGKException;
 
 use function igk_resources_gets as __;
 
+/**
+ * 
+ */
 trait ServicePropertyTrait{
    /**
-     * 
+     * retrieve service configuration properties 
      * @return IAppServiceProperty[] 
      */
     public function getConfigurableProperties(): array { 
@@ -22,14 +27,20 @@ trait ServicePropertyTrait{
         $tab = [];
         foreach($props as $p=>$v){
             if (($l = Activator::CreateNewInstance(IAppServiceProperty::class)) instanceof IAppServiceProperty){
-                // $t = $v->hasType() ? $v->getType() : null;
-                $l->required = false;
+                $t = $v->hasType() ? $v->getType() : null; 
+                $l->required = (!$t || !$t->allowsNull())? false : true;
                 $l->name = $v->name;
             }
             $tab[$v->name] = $l;
         }
         return $tab;
     }
+    /**
+     * 
+     * @param mixed $configs 
+     * @return void 
+     * @throws IGKException 
+     */
     public function validate($configs){
 
         $props = $this->getConfigurableProperties();
@@ -40,14 +51,26 @@ trait ServicePropertyTrait{
             $l = igk_getv($configs, $n);
             if ($p->required && !isset($l)){
                 $v_validate = false;
+                $n .='*';
             }
             $conf_props[] = $n;
         }
         if (!$v_validate){
+            sort($conf_props);
             throw new \IGKException(
-                sprintf(__('invalid configuration properties, %s'),
+                sprintf(__('invalid configuration properties[ %s ]'),
                 implode(', ', $conf_props))
             );
         }
+    }
+    /**
+     * 
+     * @param mixed $configs 
+     * @return bool 
+     */
+    public function init($configs=null):bool{
+        $this->validate($configs);
+        DispatcherService::SetupServiceInstance($this, $configs);
+        return true;
     }
 }

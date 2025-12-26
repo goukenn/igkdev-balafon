@@ -8,8 +8,18 @@ namespace IGK\Tests;
 
 use IGK\Controllers\BaseController;
 
+/**
+ * utility test class 
+ * @package IGK\Tests
+ */
 class Utils{
-    public static function CreateController($classname){
+    /**
+     * create a controller
+     * @param string $classname 
+     * @return object 
+     * @throws mixed 
+     */
+    public static function CreateController(string $classname): ?BaseController{
     
         if (class_exists($classname) && is_subclass_of($classname , BaseController::class) && !igk_reflection_class_isabstract($classname)){
         
@@ -22,13 +32,25 @@ class Utils{
         } 
         throw new \Exception("Class [ {$classname} ] not found");
     }
-    public static function GetDefaultController($classname){
+    /**
+     * get default controller 
+     * @param mixed $classname 
+     * @return object|null 
+     */
+    public static function GetDefaultController(string $classname): ?BaseController{
         $controller = $app = igk_get_defaultwebpagectrl();
         if (!$app || (get_class($app)!== $classname))
             $controller = Utils::CreateController($classname);
         return $controller;
     }
 
+    /**
+     * 
+     * @param mixed $test 
+     * @param mixed $controllerClass 
+     * @param mixed $model 
+     * @return bool|void
+     */
     public static function CheckControllerDataBase($test, $controllerClass, $model=null){        
         $controller = $controllerClass;
         if (is_string($controllerClass) && !($controller = self::CreateController($controllerClass))){
@@ -58,9 +80,14 @@ class Utils{
     }
     public static function SendView(BaseController $controller, $view="default", $params=null, $method="GET"){
         igk_server()->REQUEST_METHOD = $method;
-        $controller->loader->View($view, ["params"=>self::GetParams($params)]);
+        $controller->loader->View($view, ["params"=>self::_GetParams($params)]);
     }
-    private static function GetParams(...$params){
+    /**
+     * 
+     * @param mixed ...$params 
+     * @return string[]|mixed[]|array 
+     */
+    private static function _GetParams(...$params){
         if (is_string($params)){
             return explode("/", $params);
         }

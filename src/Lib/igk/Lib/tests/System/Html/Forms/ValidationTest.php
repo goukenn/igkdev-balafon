@@ -116,35 +116,7 @@ class ValidationTest extends BaseTestCase
         ])->validate(["x" => "basic", "default" => true]), [
             "x" => "handle-custom:basic",
         ], "bool validation failed");
-    }
-
-    public function _test_password_validator()
-    {
-        // TODO: test_password_validator
-        //custom type validate
-        $validation = new FormValidation();
-        $validation->storage = false;
-        // $g =    $validation->fields([
-        //     "x" => ["type" => "password", "default" => null]
-        // ])->validate(["x" => "basic", "default" => true]);
-
-        // igk_wln_e($g);
-
-        // $this->assertEquals(
-        //     false,
-        //     $g ,
-        //     "password return value"
-        // );
-
-        // $this->assertEquals(
-        //     ["x" => "basic@Host123"],
-        //     $validation->fields([
-        //         "x" => ["type" => "password", "default" => null]
-        //     ])->validate(["x" => "basic@Host123", "default" => true]),
-        //     "password return value"
-        // );
-    }
-
+    } 
     public function test_pattern_validator()
     {
         //custom type validate

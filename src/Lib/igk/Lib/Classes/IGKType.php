@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:54
 // @desc: 
 use IGK\Controllers\BaseController;
+use IGK\Models\ModelBase;
 use IGK\System\IInjectable;
 /**
  * manage type helper 
@@ -72,12 +73,14 @@ class IGKType{
      * @return bool 
      */
     public static function IsInjectable(string $type):bool{
-        if(igk_reflection_class_isabstract($type)){
-            return false;
-        }
+        if( is_bool($v = igk_reflection_class_isabstract($type))){
+            if ($v){
+                return false;
+            }
+        } 
 
         return is_subclass_of($type, IInjectable::class) || 
-               is_subclass_of($type, BaseController::class) ;
+               is_subclass_of($type, BaseController::class);
     }
     /**
      * get if methodName is a magic function

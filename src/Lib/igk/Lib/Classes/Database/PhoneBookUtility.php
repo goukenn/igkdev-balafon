@@ -69,7 +69,7 @@ class PhoneBookUtility
         'firstname' => 'N',
         'lastname'=>'FN',
         'tel' => 'TEL', 
-        'organisation'=>'ORG',
+        'organization'=>'ORG',
         'gsm'=>'TEL', 'phone'=>'TEL'], strtolower($type));
     }
     /**
@@ -125,12 +125,12 @@ class PhoneBookUtility
         foreach ($cards as $c) {
             $firstname = null;
             $lastname = null;
-            list($fullname, $name, $tel, $email,$birthdate, $organisation, $url) = 
+            list($fullname, $name, $tel, $email,$birthdate, $organization, $url) = 
             igk_extract($c, 'FN|N|TEL|EMAIL|BDAY|ORG|URL');
             $v_tpnames = explode(';', $name ?? '');
             list($firstname, $lastname) = igk_extract($v_tpnames,'0|1');
             $data = [];
-            foreach (['firstname', 'lastname', 'tel', 'email', 'birthdate','organisation', 'url'] as $r) {
+            foreach (['firstname', 'lastname', 'tel', 'email', 'birthdate','organization', 'url'] as $r) {
                 if ($$r) {
                     $data[$r] = $$r;
                 }

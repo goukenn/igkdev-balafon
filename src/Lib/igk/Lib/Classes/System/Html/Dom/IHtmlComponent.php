@@ -38,7 +38,7 @@
 * @method self article($ctrl, $name, $raw= [], $showAdminOption= '1') bind article
 * @method self assertnode(bool $condition,  ...$args) 
 * @method self attr_expression($p= null) 
-* @method self author_community() render autho community node
+* @method self author_community() render autocommunity node
 * @method self backgroundlayer($imgPath= null) create winui-backgroundlayer
 * @method self badge($v) 
 * @method self balafoncomponentjs() 

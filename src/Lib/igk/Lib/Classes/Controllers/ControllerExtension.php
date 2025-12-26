@@ -452,6 +452,11 @@ abstract class ControllerExtension
         if (strpos($bs, '.') === false) {
             $name .= '.php';
         }
+        if ($ctrl instanceof SysDbController){
+            return igk_io_sys_datadir()."/{$name}";
+        }
+
+
         return self::configDir($ctrl) . "/{$name}";
     }
     /**

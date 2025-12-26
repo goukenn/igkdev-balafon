@@ -14,9 +14,18 @@ abstract class BaseTestCase extends TestCase{
     protected function setUp():void{ 
         igk_server()->prepareServerInfo();
     }
+    /**
+     * 
+     * @param mixed $classname 
+     * @return object 
+     */
     protected function CreateController($classname){
         return Utils::CreateController($classname);
     }
+    /**
+     * write to buffer 
+     * @return void 
+     */
     public function wln(){
         ob_start();
         $fc = "igk_wln";
