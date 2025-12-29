@@ -5,6 +5,8 @@
 namespace IGK\System\Html;
 
 use Exception;
+use IGK\Core\EvalBinding;
+use IGK\Helper\ViewHelper;
 use IGK\System\ArrayMapKeyValue;
 use IGK\System\Console\Logger;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -125,6 +127,9 @@ class HtmlNodeTagExplosionDefinition
         }
         $tagname = array_shift($defs);
         list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($tagname, $context);
+        if (is_null($tagname)){
+            igk_die('missing tag definition');
+        }
         return [trim($tagname), $id, $classes, $args, $name, $attr];
     }
     /**
@@ -359,7 +364,8 @@ class HtmlNodeTagExplosionDefinition
                     }
                 }
                 $r = self::InitConfigurationReader();
-                $attr = ArrayMapKeyValue::Map(function ($k, $v) use (&$v_active_attrib) {
+                $attr = ArrayMapKeyValue::Map(function ($k, $v) use (&$v_active_attrib, $context) {
+                    $k = trim($k);
                     if (strpos($k, "@") === 0) {
                         $nk = ltrim($k, '@');
                         if (is_null($v)) {
@@ -370,6 +376,13 @@ class HtmlNodeTagExplosionDefinition
                             }
                             return null;
                         }
+                    }
+                    if (igk_str_endwith($k, '*')){
+                        // + | binding attrib 
+                        $k = igk_str_rm_last($k, '*');
+                        if (!empty($v)){
+                            $v = EvalBinding::EvalContentOnContext($v, (array)$context);  
+                        }                        
                     }
                     return [$k, $v];
                 }, (array)$r->read($a));
@@ -399,6 +412,7 @@ class HtmlNodeTagExplosionDefinition
         $r->delimiter = ',';
         $r->escape_start = '[';
         $r->escape_end = ']';
+        $r->valueEscapeDelimiter = "()";
         return $r;
     }
     private static function _SetTagName($e, &$def)

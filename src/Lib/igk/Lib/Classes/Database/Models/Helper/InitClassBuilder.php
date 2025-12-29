@@ -194,7 +194,7 @@ class InitClassBuilder
             $php_doc .= "@method static ?self AddIfNotExists(" . $t_args . ") add entry if not exists. check for unique column.\n";
         }
         if ($macros_cl = $ctrl->resolveClass(Constants::NS_MACROS_CLASS . '\\' . $name . 'Macros')) {
-            $m = Database::GetPhpDocMacrosDefintionToInjectFromMacroClass($macros_cl);
+            $m = Database::GetPhpDocMacrosDefinitionToInjectFromMacroClass($macros_cl);
             $php_doc .= $m;
         }
         if ($key != "clId") {

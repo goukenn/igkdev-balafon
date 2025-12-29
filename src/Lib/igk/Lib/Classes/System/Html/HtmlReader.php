@@ -8,8 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
+
 require_once IGK_LIB_DIR . "/igk_html_utils.php";
 require_once IGK_LIB_CLASSES_DIR . '/System/Html/Dom/HtmlProcessInstructionNode.php';
+
 use Closure;
 use Exception;
 use IGK\Helper\Activator;
@@ -18,6 +20,7 @@ use IGK\System\Html\Dom\HtmlTextNode;
 use IGK\System\XML\XMLExpressionAttribute;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Console\Logger;
+use IGK\System\DataArgs;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlCommentNode;
 use IGK\System\Html\Dom\HtmlDoctype;
@@ -35,6 +38,7 @@ use IGKException;
 use IGKObject;
 use ReflectionException;
 use function igk_resources_gets as __;
+
 final class HtmlReader extends IGKObject
 {
     const EXPRESSION_ARGS = "[[:@raw]], [[:@ctrl]]";
@@ -60,7 +64,7 @@ final class HtmlReader extends IGKObject
     private $m_errors = [];
     private static $sm_ItemCreatorListener, $sm_openertype = [];
     private $m_length;
-    private static $sm_loop_binding_depth; 
+    private static $sm_loop_binding_depth;
     /**
      * skip element data
      * @var ?bool
@@ -91,7 +95,7 @@ final class HtmlReader extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    private static function _BindTemplate($reader, &$cnode,& $template)
+    private static function _BindTemplate($reader, &$cnode, &$template)
     {
         $binding_args = sprintf("$%s", CompilerConstants::LOOP_CONTEXT_DATA_VAR);
         $engine = "";
@@ -107,39 +111,47 @@ final class HtmlReader extends IGKObject
                 $n_options = (object)["Indent" => 0, "Depth" => 0, "Context" => "html", "RContext" => $n_context, "ctrl" => $ctrl];
                 igk_set_env("sys:://expression_context", $n_options);
                 if ($cnode->getIsVisible() && $data) {
-                        $v_bcontext = $reader->m_context;
-                        $v_bind = new HtmlTemplateReaderDataBinding($cnode, $src, $ctrl, $data, $v_bcontext);
-                        $v_ts = $v_bind->treat();
-                        if ($v_bcontext->transformToEval) {
-                            $v_expression = $v_bcontext->hookExpression ?? $binding_args ;
-                            $v_comment = igk_is_debug() ? ' /* in ' . __METHOD__ . ' */ ' : "";
-                            $sb = new StringBuilder;
-                            $sb->appendLine('<?php');
-                            $_state = self::$sm_loop_binding_depth > 1 ;
-                            if (   $_state ){
-                                $sb->appendLine("/* save state */");
-                                $sb->appendLine("\$v_states[] = compact('raw', 'key', '".CompilerConstants::LOOP_CONTEXT_DATA_VAR."'); $".
-                                CompilerConstants::LOOP_CONTEXT_DATA_VAR."= \$__fc_loop_ref(\$raw);");
-                            }
-                            $sb->appendLine("if (isset($v_expression)):\nforeach($v_expression as \$key=>\$raw$v_comment):\n?>");
-                            $sb->append($v_ts);
-                            $sb->appendLine("<?php endforeach; ");    
-                            if ( $_state ){
-                                  $sb->appendLine("/* restore save state */");
-                                  $sb->appendLine("extract(array_pop(\$v_states));");
-                            }                        
-                            $sb->appendLine("endif; ?>");
-                            if ($v_expression==$binding_args ){
-                                //+ | passing sub to function 
-                                // $sb = sprintf('<?php (function(%s){ %s ? >%s<?php })($raw); ? >', 
-                                //     $v_expression,
-                                //      $v_expression.' = '.str_replace("%s", $v_expression, 
-                                //         'isset(%s) && !is_array(%s)&& !is_object(%s) ? [%s] : %s;'), //.$v_expression.'];',
-                                //     $sb.'');
-                            }
-                            $v_ts = $sb;
+                    $v_bcontext = $reader->m_context;
+
+
+                    $v_bind = new HtmlTemplateReaderDataBinding(
+                        $cnode,
+                        $src,
+                        $ctrl,
+                        self::ToBindingArrayDefinition($data),
+                        $v_bcontext
+                    );
+                    $v_ts = $v_bind->treat();
+                    if ($v_bcontext->transformToEval) {
+                        $v_expression = $v_bcontext->hookExpression ?? $binding_args;
+                        $v_comment = igk_is_debug() ? ' /* in ' . __METHOD__ . ' */ ' : "";
+                        $sb = new StringBuilder;
+                        $sb->appendLine('<?php');
+                        $_state = self::$sm_loop_binding_depth > 1;
+                        if ($_state) {
+                            $sb->appendLine("/* save state */");
+                            $sb->appendLine("\$v_states[] = compact('raw', 'key', '" . CompilerConstants::LOOP_CONTEXT_DATA_VAR . "'); $" .
+                                CompilerConstants::LOOP_CONTEXT_DATA_VAR . "= \$__fc_loop_ref(\$raw);");
                         }
-                        $engine .= $v_ts;  
+                        $sb->appendLine("if (isset($v_expression)):\nforeach($v_expression as \$key=>\$raw$v_comment):\n?>");
+                        $sb->append($v_ts);
+                        $sb->appendLine("<?php endforeach; ");
+                        if ($_state) {
+                            $sb->appendLine("/* restore save state */");
+                            $sb->appendLine("extract(array_pop(\$v_states));");
+                        }
+                        $sb->appendLine("endif; ?>");
+                        // if ($v_expression==$binding_args ){
+                        //+ | passing sub to function 
+                        // $sb = sprintf('<?php (function(%s){ %s ? >%s<?php })($raw); ? >', 
+                        //     $v_expression,
+                        //      $v_expression.' = '.str_replace("%s", $v_expression, 
+                        //         'isset(%s) && !is_array(%s)&& !is_object(%s) ? [%s] : %s;'), //.$v_expression.'];',
+                        //     $sb.'');
+                        //}
+                        $v_ts = $sb;
+                    }
+                    $engine .= $v_ts;
                 }
                 igk_set_env("sys:://expression_context", null);
             } else {
@@ -157,6 +169,23 @@ final class HtmlReader extends IGKObject
             $cnode = $v;
         }
         return 1;
+    }
+    /**
+     * 
+     * @param mixed $data 
+     * @return null|array 
+     */
+    public static function ToBindingArrayDefinition($data): ?array
+    {
+        if (is_int($data)) {
+            if ($data > 0) {
+                // | + update range definition on for loop
+                $data = range(0, $data - 1);
+            } else $data = [];
+        } else if ($data instanceof DataArgs){
+            return $data->getData();
+        } 
+        return $data;
     }
     ///<summary></summary>
     ///<param name="text"></param>
@@ -223,7 +252,7 @@ final class HtmlReader extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    private static function _SkipContent($reader,string $text, &$offset, string $tag, bool $replacement = false, bool $replace_expression=true)
+    private static function _SkipContent($reader, string $text, &$offset, string $tag, bool $replacement = false, bool $replace_expression = true)
     {
         $ln = strlen($text);
         $name = $ch = $o = "";
@@ -231,11 +260,11 @@ final class HtmlReader extends IGKObject
         $level = 0;
         $end = 1;
         $tpos = 0;
-        $intag = 0; 
+        $intag = 0;
         $eval_context = $reader->m_context->transformToEval ?? false;
         $expressionRead = false;
         $tnames = [$tag];
-        $reader->m_skip_content_mode = true; 
+        $reader->m_skip_content_mode = true;
         $v_is_multiline_comment_support = in_array($tag, ['script', 'style', 'code']);
         $v_support_litteral_string = in_array($tag, ["style", "script", "code"]);
         if (in_array($tag, ['script', 'textarea'])) {
@@ -350,8 +379,8 @@ final class HtmlReader extends IGKObject
                     $v .= substr($text, $offset, ($next + 2) - $offset);
                     $offset = $next + 2;
                 } else {
-                    if (preg_match("/<\/".$tag."\\b.*>/",$text, $end_tag, PREG_OFFSET_CAPTURE, $offset)){
-                        $v .= substr($text, $offset, $size= $end_tag[0][1] - $offset).$end_tag[0][0]; 
+                    if (preg_match("/<\/" . $tag . "\\b.*>/", $text, $end_tag, PREG_OFFSET_CAPTURE, $offset)) {
+                        $v .= substr($text, $offset, $size = $end_tag[0][1] - $offset) . $end_tag[0][0];
                         $v_contents[] = $v;
                         $offset += $size + strlen($end_tag[0][0]);
                         $v = '';
@@ -359,16 +388,16 @@ final class HtmlReader extends IGKObject
                         $intag = false;
                         array_pop($tnames);
                         break;
-                    }else{
-                    $v .= substr($text, $offset);
-                    $offset = $ln;
+                    } else {
+                        $v .= substr($text, $offset);
+                        $offset = $ln;
                     }
                 }
                 //$offset++;
                 continue;
             }
-            if ($single_quote){
-                if ($ch == "\n"){
+            if ($single_quote) {
+                if ($ch == "\n") {
                     $single_quote = false;
                 }
             }
@@ -379,18 +408,18 @@ final class HtmlReader extends IGKObject
                         $end = 0;
                     }
                     $intag = 0;
-                    if ($v_start_tag_flag){
+                    if ($v_start_tag_flag) {
                         // start tag mark 
                         $v_contents[] = $v;
                         $v = '';
                         $v_start_tag_flag = false;
                     }
                     if ($v_end_tag_flag) {
-                        if (($name == 'code') && ($v_can_replace_detected) && !$single_quote){
+                        if (($name == 'code') && ($v_can_replace_detected) && !$single_quote) {
                             // remove last 
                             $dv = substr($v, 0, $endpos = strrpos($v, '</'));
                             $dv = self::_ReplaceLitteralExpression($reader, $dv, $replace_expression, false);
-                            $v = $dv.substr($v, $endpos);
+                            $v = $dv . substr($v, $endpos);
                         }
                         $v_contents[] = $v; // (object)['offset'=>$offset, 'sb'=>'', 'name'=>$name];
                         $v = '';
@@ -408,10 +437,10 @@ final class HtmlReader extends IGKObject
                         array_pop($tnames);
                     }
                     if (igk_str_endwith($v, '//')) {
-                       $single_quote = self::_SupportSingleQuote($tag);
-                       if ($single_quote){
-                           $single_end = $name;
-                       }
+                        $single_quote = self::_SupportSingleQuote($tag);
+                        if ($single_quote) {
+                            $single_end = $name;
+                        }
                     }
                     break;
                 case "<":
@@ -454,8 +483,8 @@ final class HtmlReader extends IGKObject
                                 }
                                 $offset--;
                                 $v_end_tag_flag = true;
-                                if ($single_quote){
-                                    if ($single_end == $tmix){
+                                if ($single_quote) {
+                                    if ($single_end == $tmix) {
                                         $single_quote = false;
                                     }
                                 }
@@ -503,17 +532,17 @@ final class HtmlReader extends IGKObject
                     } else {
                         $v .= $ch;
                     }
-                    break;                    
+                    break;
                 default:
                     $v .= $ch;
                     break;
             }
             $offset++;
-        } 
-        if ($v_can_replace_detected && !empty($v)) {
-            $v = self::_ReplaceLitteralExpression($reader, $v, $replace_expression);           
         }
-        $v = implode('', $v_contents).$v;
+        if ($v_can_replace_detected && !empty($v)) {
+            $v = self::_ReplaceLitteralExpression($reader, $v, $replace_expression);
+        }
+        $v = implode('', $v_contents) . $v;
         //remove last tag....
         $v = substr($v, 0, $endpos = strrpos($v, '</'));
         if (($intag) || (count($tnames) > 0)) {
@@ -530,11 +559,12 @@ final class HtmlReader extends IGKObject
                 '---',
                 substr($reader->m_text, $reader->m_offset - 20, 40)
             ));
-        } 
+        }
         return $v;
     }
-    private static function _SupportSingleQuote(string $name){
-        return in_array($name,['code','script']);
+    private static function _SupportSingleQuote(string $name)
+    {
+        return in_array($name, ['code', 'script']);
     }
     /**
      * replace litteral expression 
@@ -546,14 +576,15 @@ final class HtmlReader extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    private static function _ReplaceLitteralExpression($reader, string $v, bool $replace_expression, $skip=true):string{
+    private static function _ReplaceLitteralExpression($reader, string $v, bool $replace_expression, $skip = true): string
+    {
         if (self::_ReplaceDetectedExpression(
             $reader,
             $v,
-            $rv, 
+            $rv,
             $replace_expression,
             $skip
-        )) { 
+        )) {
             $v = $rv;
         }
         return $v;
@@ -582,7 +613,7 @@ final class HtmlReader extends IGKObject
     private function _readTextValue(string $prefix = "")
     {
         $_pre = ($this->m_name == 'pre') && ($this->m_nodetype == 1);
-        $_cread = 1; 
+        $_cread = 1;
         $this->m_name = null;
         $ch = null;
         $v = $prefix;
@@ -602,17 +633,17 @@ final class HtmlReader extends IGKObject
             switch ($ch) {
                 case '<':
                     $_cread = 0;
-                    break 2; 
+                    break 2;
             }
             $this->m_offset++;
             $v .= $ch;
         }
         if (($v == '0') || !empty($v)) {
-            if ($this->GetStringContext() == HtmlContext::Html) {                                 
-                if (is_object($this->m_context) && !property_exists($this->m_context, 'transformToEval')){
+            if ($this->GetStringContext() == HtmlContext::Html) {
+                if (is_object($this->m_context) && !property_exists($this->m_context, 'transformToEval')) {
                     igk_wln_e("die..... missing");
                 }
-                $transformToEval = is_object($this->m_context) ? $this->m_context->transformToEval : false;                
+                $transformToEval = is_object($this->m_context) ? $this->m_context->transformToEval : false;
                 if (!empty(trim($v)) && self::_ReplaceDetectedExpression($this, $v, $cv, $transformToEval, 0)) {
                     $v = $cv;
                 }
@@ -658,11 +689,11 @@ final class HtmlReader extends IGKObject
     {
         /**
          * @var IHtmlReadContextOptions $n_context
-         */ 
-        if (!is_object($reader->m_context)) {  
+         */
+        if (!is_object($reader->m_context)) {
             return false;
         }
-        if ($reader->m_context->noInterpolation){
+        if ($reader->m_context->noInterpolation) {
             $v = $text;
             return true;
         }
@@ -677,14 +708,14 @@ final class HtmlReader extends IGKObject
             self::ARGS_ATTRIBUTE => self::EXPRESSION_ARGS
         ];
         if (igk_getv($n_context, 'type') == BindingConstants::OP_LOOP) {
-            $exp_reader->transformToEval = $n_context->transformToEval;            
-            $sdata = $exp_reader->treatContent($text, $data );
+            $exp_reader->transformToEval = $n_context->transformToEval;
+            $sdata = $exp_reader->treatContent($text, $data);
             $exp_reader->transformToEval = $transformToEval;
         } else {
             $sdata = $exp_reader->treatContent($text, $data);
         }
         $v = $sdata;
-        return true; 
+        return true;
     }
     ///<summary></summary>
     ///<param name="cnode"></param>
@@ -787,7 +818,7 @@ final class HtmlReader extends IGKObject
                     $pnode->loadingComplete();
                     $pnode = $pnode->getParentNode();
                 }
-                if ($d && ($pnode === $d)){
+                if ($d && ($pnode === $d)) {
                     $pnode = $d->getParentNode();
                 }
             }
@@ -842,7 +873,7 @@ final class HtmlReader extends IGKObject
         $pro_expr = "";
         $expr_attrib = false;
         $reader->m_selfClose = false; // detect that the attribute list is self closed
-        $fc_store_active = function(& $attribs, $v_n, $callback){
+        $fc_store_active = function (&$attribs, $v_n, $callback) {
             $attribs[$v_n] = true;
             if ($callback) {
                 $callback($v_n, true);
@@ -887,12 +918,12 @@ final class HtmlReader extends IGKObject
                     }
                     break;
                 case "'":
-                case "\"": 
+                case "\"":
                     if ($mode == 0) {
                         igk_wln($attribs);
                         igk_die(
                             implode("\n", [
-                                __CLASS__." not valid attribute: [$v] - {$v_n} - $mode " .
+                                __CLASS__ . " not valid attribute: [$v] - {$v_n} - $mode " .
                                     "offset : " . $reader->m_offset
                             ])
                         );
@@ -974,7 +1005,7 @@ final class HtmlReader extends IGKObject
                     }
                     if ($v_n == "/") {
                         $v_n = null;
-                    } 
+                    }
                     if (!is_null($v_n))
                         $v_n = rtrim($v_n, '/ ');
                     break;
@@ -985,15 +1016,16 @@ final class HtmlReader extends IGKObject
                         } else {
                             if (!empty($v_n)) { // + | resolve attribute or activable attribute 
                                 // + | skip empty char 
-                                while(($reader->m_offset < $reader->m_length ) && 
-                                    !trim($v_ch = $reader->m_text[$reader->m_offset])){
+                                while (($reader->m_offset < $reader->m_length) &&
+                                    !trim($v_ch = $reader->m_text[$reader->m_offset])
+                                ) {
                                     $reader->m_offset++;
                                 }
-                                if ($v_ch!='='){
+                                if ($v_ch != '=') {
                                     // + | store active attribute 
                                     $fc_store_active($attribs, $v_n, $callback);
                                     $v_n = '';
-                                } 
+                                }
                             } else {
                                 $mode = 1;
                             }
@@ -1062,7 +1094,7 @@ final class HtmlReader extends IGKObject
                     if (!$reader->m_skipElement)
                         self::_ReadModelEndElement($reader, $v_tags, $cnode, $tab_doc, $caller_context);
                     // else{
-                        // igk_wln_e(__FILE__.":".__LINE__, "element skiped");
+                    // igk_wln_e(__FILE__.":".__LINE__, "element skiped");
                     // }
                     break;
                 case XMLNodeType::TEXT:
@@ -1162,8 +1194,10 @@ final class HtmlReader extends IGKObject
                             }
                         } else {
                             if (($n == $t) || $cnode->closeTag() || $cnode->isCloseTag($n) || $reader->IsResolved($cnode, $n)) {
-                                if ($reader->m_last_read_node && 
-                                ($reader->m_last_read_node->getTagName()==$n)){
+                                if (
+                                    $reader->m_last_read_node &&
+                                    ($reader->m_last_read_node->getTagName() == $n)
+                                ) {
                                     $reader->m_last_read_node = null;
                                     break;
                                 }
@@ -1357,7 +1391,7 @@ final class HtmlReader extends IGKObject
                 }
                 if ($reader->IsEmpty() && $cnode) {
                     // move to parent if node is empty 
-                    if (!$reader->getSelfClosed()){
+                    if (!$reader->getSelfClosed()) {
                         $reader->m_last_read_node = $cnode;
                     }
                     $cnode = $reader->_LoadComplete($cnode, $v_n);
@@ -1563,10 +1597,16 @@ final class HtmlReader extends IGKObject
     {
         $tab_doc = null;
         $b_context = false;
-        if ((is_object($context) || (is_array($context))) && !($context instanceof HtmlLoadingContextOptions)){
+        if ((is_object($context) || (is_array($context))) && !($context instanceof HtmlLoadingContextOptions)) {
             // + | transform object to loading context - setting
             $context = Activator::CreateNewInstance(HtmlLoadingContextOptions::class, $context);
-        } 
+            if (is_array($context->raw)) {
+                // + | --------------------------------------------------------------------
+                // + | transform loading context to DataArgs
+                // + |
+                $context->raw = new DataArgs($context->raw);
+            }
+        }
         if ((self::GetOpenerContext() === null) && ($context !== null)) {
             self::_PushContext($context);
             $b_context = true;
@@ -1700,8 +1740,9 @@ final class HtmlReader extends IGKObject
      * @param string $tag 
      * @return bool 
      */
-    public function isSupportedExpressionTag(string $tag):bool {
-        return in_array($tag,explode('|', 'script|style|code|textarea'));
+    public function isSupportedExpressionTag(string $tag): bool
+    {
+        return in_array($tag, explode('|', 'script|style|code|textarea'));
     }
     ///<summary>read content</summary>
     /**
@@ -1889,7 +1930,8 @@ final class HtmlReader extends IGKObject
         $this->m_name = $this->ReadName();
         if (empty($this->m_name)) {
             Logger::danger(implode("\n", [
-                __FILE__ . ":" . __LINE__,  "empty name ",
+                __FILE__ . ":" . __LINE__,
+                "empty name ",
                 $this->m_context,
                 substr($this->m_text, $this->m_offset - 10, 30)
             ]));
@@ -1914,7 +1956,7 @@ final class HtmlReader extends IGKObject
             $v_not_visible = (array_key_exists($v_key_attrib, $this->m_attribs) && ($this->m_attribs[$v_key_attrib] == false));
             if ($v_not_visible || ($binfo->skipcontent && !$this->m_isEmpty)) {
                 $v_content = null;
-                if ($binfo->skipcontent && !$this->m_isEmpty){ 
+                if ($binfo->skipcontent && !$this->m_isEmpty) {
                     $v_content = self::_SkipContent($this, $this->m_text, $this->m_offset, $this->m_name, false);
                 }
                 $this->m_attribs[IGK_ENGINE_ATTR_TEMPLATE_CONTENT] = $v_not_visible ? null : array_merge(
@@ -1923,7 +1965,7 @@ final class HtmlReader extends IGKObject
                 );
                 $this->m_isEmpty = true;
                 $this->m_skipElement = $binfo->skipcontent && ($binfo->operation == BindingConstants::OP_CONDITION);
-            } else if ($this->m_isEmpty){
+            } else if ($this->m_isEmpty) {
                 $this->m_skipElement = $binfo->skipcontent && ($binfo->operation == BindingConstants::OP_CONDITION);
             }
         }
@@ -1948,7 +1990,7 @@ final class HtmlReader extends IGKObject
     }
     private function _setText(?string $value = "")
     {
-        if ((strlen($value)>0) && empty(trim($value)) && (strpos($value,"\n ")===0)){
+        if ((strlen($value) > 0) && empty(trim($value)) && (strpos($value, "\n ") === 0)) {
             $value = '';
         }
         $this->m_v = $value;
@@ -1971,7 +2013,8 @@ final class HtmlReader extends IGKObject
      * get if element is self closed
      * @return ?bool 
      */
-    public function getSelfClosed(){
+    public function getSelfClosed()
+    {
         return $this->m_selfClose;
     }
     ///<summary>Represente ReadProcessText function</summary>

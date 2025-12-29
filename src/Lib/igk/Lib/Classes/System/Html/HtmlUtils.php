@@ -37,6 +37,8 @@ require_once IGK_LIB_DIR . "/igk_html_func_items.php";
  */
 abstract class HtmlUtils extends DomNodeBase
 {
+    const DOM_USE_ATTRIB_NAME_METHOD = 'useAttributeName';
+    const DOM_GET_VALUE_METHOD = IGK_FC_GETVALUE;
     /**
      * convert to json data attribute
      * @param mixed $data 
@@ -592,7 +594,7 @@ abstract class HtmlUtils extends DomNodeBase
             $out .= $c;
         } else {
             $out = $c;
-        }
+        } 
         return $out;
     }
     /**
@@ -602,7 +604,7 @@ abstract class HtmlUtils extends DomNodeBase
      */
     public static function GetValueObj($v, $options)
     {
-        if (method_exists(get_class($v), IGK_FC_GETVALUE)) {
+        if (method_exists(get_class($v), self::DOM_GET_VALUE_METHOD)) {
             $v = $v->getValue($options);
         } else {
             switch (igk_getv($v, IGK_OBJ_TYPE_FD)) {

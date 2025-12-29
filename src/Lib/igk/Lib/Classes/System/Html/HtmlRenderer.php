@@ -645,7 +645,8 @@ class HtmlRenderer
                 }
                 $usekey = true;
                 if ($v_is_obj  && is_object($v)) {
-                    $usekey = method_exists($v, 'useAttribName') && $v->useAttribName();
+                    $usekey = method_exists($v, $fc = HtmlUtils::DOM_USE_ATTRIB_NAME_METHOD) && 
+                        call_user_func([$v, $fc],[]);
                 }
                 if (!$usekey) {
                     $out .= $c . " ";

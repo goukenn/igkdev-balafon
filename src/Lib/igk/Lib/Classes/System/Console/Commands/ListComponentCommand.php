@@ -19,7 +19,7 @@ use ReflectionFunction;
 class ListComponentCommand extends AppExecCommand
 {
 	var $command = '--list:components';
-	var $desc = 'view installed component';
+	var $desc = 'list installed component';
 	var $options=[
 		"--count"=>"flag: show number of definded functions",
 		"--files"=>"flag: group with file",

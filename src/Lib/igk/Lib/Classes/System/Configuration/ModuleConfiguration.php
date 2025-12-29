@@ -27,4 +27,10 @@ class ModuleConfiguration extends EntityConfigurationSchema{
      * @var ?string
      */
     var $icon;
+
+    /**
+     * entry namespace
+     * @var ?string
+     */
+    var $entry_NS;
 }

@@ -373,12 +373,4 @@ abstract class DbSchemas
     {
         self::$sm_schemas = [];
     }
-}
-// function observe_schemas()
-// {
-//     return 8;
-    // if ($tab = array_values(DbSchemas::$sm_schemas)) {
-    //     $r = $tab[0]['definition']->tables['tbigk_mailinglists'];
-    //     return $r;
-    // }
-// }
+} 

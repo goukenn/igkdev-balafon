@@ -49,9 +49,15 @@ class Database
         if (!($cl = self::GetMacroClass($model_class))) {
             return null;
         }
-        return self::GetPhpDocMacrosDefintionToInjectFromMacroClass($cl);
+        return self::GetPhpDocMacrosDefinitionToInjectFromMacroClass($cl);
     }
-    public static function GetPhpDocMacrosDefintionToInjectFromMacroClass(string $macro_class, ?string $model_class=null):?string{
+    /**
+     * init definition model 
+     * @param string $macro_class 
+     * @param null|string $model_class 
+     * @return null|string 
+     */
+    public static function GetPhpDocMacrosDefinitionToInjectFromMacroClass(string $macro_class, ?string $model_class=null):?string{
         $v_macro_class = $macro_class;
         $g = igk_sys_reflect_class($v_macro_class);
         $methods = $g->getMethods(ReflectionMethod::IS_PUBLIC || ReflectionMethod::IS_STATIC);
@@ -60,8 +66,11 @@ class Database
         });
         $sb = new StringBuilder;
         $s = '';
-        foreach ($methods as $method) {
-            $t = 'void ';
+        // + | ----------------------------------------------------------------------------------
+        // + | return type to avoid mixed
+        // + |
+        foreach($methods as $method) {
+            $t = 'mixed ';
             $params = $method->getParameters();
             if (!($method->getNumberOfRequiredParameters() > 0))
                 continue;
@@ -86,7 +95,7 @@ class Database
                 }
                 $s .= $tg;
                 $t = $s . ' ';
-            } 
+            }
             $sb->appendLine(sprintf("@method static %s%s(%s) macros function", $t, $method->getName(), $ps));
         }
         return $sb.'';

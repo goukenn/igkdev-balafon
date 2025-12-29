@@ -3,6 +3,9 @@
 // @file: HtmlLoadingContextOptions.php
 // @date: 20221010 13:26:14
 namespace IGK\System\Html;
+
+use IGK\System\DataArgs;
+
 /**
 * use with HtmlReader to set object context 
 * @package IGK\System\Html
@@ -13,9 +16,11 @@ class HtmlLoadingContextOptions{
      * @var mixed
      */
     var $ctrl;
+
     /**
      * raw data
      * @var mixed
+     * @ConvertFromArrayAnnotation(DataArgs)
      */
     var $raw;
     /**
@@ -50,5 +55,6 @@ class HtmlLoadingContextOptions{
     public function __get($name){
         igk_trace();
         igk_wln_e("try = ".$name);
+
     }
 }

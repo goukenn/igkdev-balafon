@@ -30,9 +30,9 @@ return [
         return null;
     },
     self::MACRO_INITDB_METHOD=>function(RootControllerBase $controller, $force=false, $clean=false){
-        return include(IGK_LIB_DIR."/Inc/igk_db_ctrl_initdb.pinc"); 
+        return include(IGK_LIB_DIR.'/Inc/igk_db_ctrl_initdb.pinc'); 
     },
     self::MACRO_RESETDB_METHOD=>function(RootControllerBase $controller, $navigate=true, $force=false, $clean=false){              
-         return include(IGK_LIB_DIR."/Inc/igk_db_ctrl_resetdb.pinc");
+         return include(IGK_LIB_DIR.'/Inc/igk_db_ctrl_resetdb.pinc');
     }, 				 
 ];

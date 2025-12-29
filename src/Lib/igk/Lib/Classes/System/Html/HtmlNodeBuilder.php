@@ -31,6 +31,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     private $m_context_tab = [];
     private $m_template = [];
     var $fallbackTagName = 'div';
+    const RAW_CONTEXT_FIELD = 'raw';
     /**
      * class name user to handle data view args context 
      * @var ?string
@@ -152,7 +153,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             $visitor->setContext($context);
         }
         if (!($this->m_context instanceof DataArgs)){
-            if (($raw = igk_getv($this->m_context, $k = 'raw')) && !($raw instanceof DataArgs)) {
+            if (($raw = igk_getv($this->m_context, $k = self::RAW_CONTEXT_FIELD)) && !($raw instanceof DataArgs)) {
                 igk_setv($this->m_context, $k, new DataArgs($raw));
             }
         }
@@ -213,6 +214,9 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
                 $v_visitor = $v_context;
                 $v_context = $v_num_args >= 4 ? func_get_arg(2) : null;
             } else if (is_array($v_context)) {
+                if (!isset($v_context[$v_raw = self::RAW_CONTEXT_FIELD])){
+                    $v_context = [$v_raw=>$v_context];
+                }
                 $v_context = (object)$v_context;
             }
         }
@@ -808,7 +812,13 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
             }
         }
     }
-    private function _BindPackArgs($node, $list)
+    /**
+     * bind pack argument 
+     * @param mixed $node 
+     * @param mixed $list 
+     * @return void 
+     */
+    private static function _BindPackArgs($node, $list)
     {
         $fc_className = function ($node, $v, $k) {
             $node->setClass($v);

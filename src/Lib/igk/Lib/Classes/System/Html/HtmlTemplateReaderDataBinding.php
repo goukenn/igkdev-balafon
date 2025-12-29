@@ -110,7 +110,7 @@ class HtmlTemplateReaderDataBinding
         $ldcontext = Activator::CreateNewInstance(HtmlBindingContextOptions::class, (object)array_merge([
             "_data_type" => __FUNCTION__,
             "ctrl" => $this->ctrl,
-            "engineNode" => $this->node
+            "engineNode" => $this->node,
         ], $data));
         $target = igk_create_notagnode();
         $target->Load($this->source, $ldcontext);

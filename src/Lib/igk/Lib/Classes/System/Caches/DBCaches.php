@@ -313,7 +313,7 @@ class DBCaches
                 }
                 if (key_exists($tablen, $this->m_tableInfo)) {
                     if ($info->controller != $sysctrl ){
-                        Logger::warn(sprintf('%s\'s table will enter in conflict width %s', $info->controller , $tablen));
+                        Logger::warn(sprintf('%s\'s table will enter in conflict with %s', $info->controller , $tablen));
                     }
                     continue;
                 }

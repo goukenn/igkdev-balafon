@@ -3,6 +3,13 @@
 // @author: C.A.D. BONDJE DOUE
 // @desc: 
 
+
+
+
+/**
+ * @var BaseController $controller
+*/
+use IGK\Controllers\BaseController;
 use IGK\Constants;
 use IGK\Database\DbSchemas;
 use IGK\Helper\Database;

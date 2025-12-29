@@ -872,6 +872,10 @@ abstract class ControllerExtension
         $force = false,
         $clean = false
     ) {
+        // + | --------------------------------------------------------------------
+        // + | INIT CONTROLLER MODELS 
+        // + |
+        
         if ($ctrl instanceof  IGKModuleListMigration) {
             Logger::warn('debug modules.extension');
         }
@@ -1247,7 +1251,12 @@ abstract class ControllerExtension
         $p[] = strtolower($cinfo->clType);
         return implode("|", $p);
     }
-    private static function GetDefaultModelBaseSource(BaseController $ctrl)
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @return string 
+     */
+    private static function GetDefaultModelBaseSource(BaseController $ctrl): string
     {
         $o = "";
         $cl = "";

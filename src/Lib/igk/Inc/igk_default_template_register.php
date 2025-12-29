@@ -8,11 +8,15 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+use IGK\Core\EvalBinding;
+use IGK\System\DataArgs;
+use IGK\System\Dom\TemplateAttributeToEvalExpression;
 use IGK\System\Html\Encoding\ClassAttributeArrayValueEncoder;
 use IGK\System\Html\HtmlAttributeExpression;
 use IGK\System\Html\HtmlUtils;
 use IGK\System\Html\Templates\BindingConstants;
 use IGK\System\Html\Templates\BindingPipeExpressionInfo;
+use PhpMyAdmin\Template;
 
 // +| definition of extra template depend on eval function 
 
@@ -35,7 +39,7 @@ if (!function_exists('igk_template_if_attrib_expression')) {
                 igk_die("argument script not valid");
             }
             if (!is_string($context) && igk_getv($context, 'transformToEval')) {
-                $readerInfo->setAttribute("igk:condition", (bool)func_get_arg(0)); 
+                $readerInfo->setAttribute("igk:condition", (bool)func_get_arg(0));
                 return null;
             }
             extract(igk_to_array($context));
@@ -44,7 +48,7 @@ if (!function_exists('igk_template_if_attrib_expression')) {
             }
 
             $s = "return " . func_get_arg(0) . ";";
-            $_v = (bool)eval($s); 
+            $_v = (bool)eval($s);
             $readerInfo->skipcontent = !$_v;
             $readerInfo->operation = BindingConstants::OP_CONDITION;
             // $setattrib("igk:isvisible", $_v);
@@ -67,7 +71,15 @@ function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattr
     })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 }
-
+/**
+ * 
+ * @param mixed $n 
+ * @param mixed $attr 
+ * @param mixed $v 
+ * @param mixed $context 
+ * @param mixed $setattrib 
+ * @return null 
+ */
 function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $setattrib)
 {
     $attrname = $attr;
@@ -80,12 +92,19 @@ function igk_template_update_attrib_piped_expression($n, $attr, $v, $context, $s
     })(HtmlUtils::GetAttributeValue($v, $context, true));
     return null;
 }
-
+/**
+ * 
+ * @param mixed $rv 
+ * @param mixed $context 
+ * @return mixed 
+ * @throws mixed 
+ */
 function igk_template_get_piped_value($rv, $context)
 {
-    extract(igk_to_array($context));
+    $tcontext = igk_to_array($context);
+    extract($tcontext);
     list($v, $pipe) = igk_str_pipe_args($rv, $c, 0);
-    // language = 
+    error_clear_last();
     $tv = trim($v);
     $info = BindingPipeExpressionInfo::ReadInfo($tv);
     if ($info["type"] == "litteral") {
@@ -93,10 +112,25 @@ function igk_template_get_piped_value($rv, $context)
         $v = sprintf('"%s"', addslashes(igk_resources_gets($tv)));
     }
     try {
-        $v = @eval("return $v;");
-        if ($e = error_get_last()) {
-            igk_dev_wln_e(__FUNCTION__ . "::Error:  ", $e, "source:" . $rv, "output:" . $v, $raw, $context);
+
+        list($transformToEval) = igk_extract($context, 'transformToEval');
+        if ($transformToEval) {
+            if ($pipe) {
+                $v = new TemplateAttributeToEvalExpression($v, $pipe);
+            } else
+                $v = '<?= ' . $v . ' ?>';
+            return $v;
+        } else {
+
+            if ($raw instanceof DataArgs) {
+                $tcontext = array_merge($raw->getData(), igk_to_array($context));
+            }
+            $v = EvalBinding::EvalContentOnContext($v, $tcontext);
         }
+        // $v = @eval("return $v;");
+        // if ($e = error_get_last()) {
+        //     igk_dev_wln_e(__FUNCTION__ . "::Error:  ", $e, "source:" . $rv, "output:" . $v, $raw, $context);
+        // }
     } catch (ParseError $ex) {
         igk_ilog("parse failed : ", $rv);
         if (igk_environment()->isDev()) {
@@ -194,14 +228,17 @@ igk_reg_template_bindingattributes("*for", function ($reader, $attr, $v, $contex
             $t->root_context = $context['root_context'];
             return [$t];
         }
-        extract(igk_to_array($context));  
+        extract(igk_to_array($context));
         return @eval((function () {
             if (func_num_args() == 1)
                 return "return " . func_get_arg(0) . ";";
         })(HtmlUtils::GetAttributeValue($script, $context, true)));
     })($v);
     $reader->setInfos([
-        "skipcontent" => 1, "attribute" => $attr, "context-data" => $g, "context" => "expression",
+        "skipcontent" => 1,
+        "attribute" => $attr,
+        "context-data" => $g,
+        "context" => "expression",
         "operation" => BindingConstants::OP_LOOP,
         "for" => $reader->getName()
     ]);

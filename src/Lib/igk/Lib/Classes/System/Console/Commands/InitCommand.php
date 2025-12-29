@@ -72,7 +72,7 @@ class InitCommand extends AppExecCommand
                                     $commands_list[$classname] = [];
                                 }
                                 $commands_list[$classname][] = $clpath;
-                                Logger::success("register: " . $clpath);
+                                Logger::success("[register-command]: " . $clpath);
                             }
                         }
                         $commands[$cldir] = 1;
@@ -89,8 +89,8 @@ class InitCommand extends AppExecCommand
                 $cmod = igk_get_module($k);
                 $ns = $cmod->config("entry_NS");
                 $dir = $cmod->getDeclaredDir() . "/.commands.php";
-                if (igk_io_file_exists($dir)) {
-                    igk_is_debug() && Logger::info("try include - ".$dir);
+                if (file_exists($dir)) {
+                    igk_is_debug() && Logger::info("try include - module command ".$dir);
                     if (is_array($td = include($dir))) {
                         $commands_list = array_merge($commands_list, $td);
                     }
@@ -113,7 +113,7 @@ class InitCommand extends AppExecCommand
                             $v = igk_regex_get("/\/(?P<name>(.+))Command\.php$/", "name", $mf);
                             if (empty($v)) 
                             continue;
-                            $classname = str_replace("/", "\\", ($ns ? $ns : "") . $base_cl . $v) . "Command";
+                            $classname = ltrim(str_replace("/", "\\", ($ns ? $ns : "") . $base_cl . $v) . "Command", '\\');
                             if (isset($commands_list[$classname])){
                                 igk_debug_wln_e("[Module] - classname already set", $classname, $tf);
                                 continue;
@@ -124,6 +124,7 @@ class InitCommand extends AppExecCommand
                                 continue;
                             }
                             $commands_list[$classname] = $tf;
+                            Logger::success("[register-command]: " . $tf);
                         }
                     }
                 }

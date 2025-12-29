@@ -29,14 +29,14 @@ use IGK\Models\ModelBase;
 * @method static ?string targetOnRcphbId() - macros function
 * @method static ?self Add(string|\IGK\Models\PhoneBookEntries $EntryGuid, int|\IGK\Models\PhoneBookTypes $Type, string $Value, string $is_preferred, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry helper
 * @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $EntryGuid, int|\IGK\Models\PhoneBookTypes $Type, string $Value, string $is_preferred, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
-* @method static void GetEntries(?string $entry= null) macros function
-* @method static void addPhoneBookEntry(\IGK\Models\Users $user,$value,$type= IGK\System\Constants\PhonebookTypeNames::PHT_PHONE) macros function
-* @method static void deleteEntry() macros function
-* @method static void getPhoneBookEntry(\IGK\Models\Users $user) macros function
-* @method static void getPhoneDetails(?\IGK\System\Database\IPhoneBookDetailVisitor $visitor= null) macros function
-* @method static void searchForEntry(string $search) macros function
-* @method static void userPhoneEntries(\IGK\Models\Users $user,?string $type= IGK\Database\Macros\PhoneBooksMacros::PHONE_DEFAULT_TEL,?string $search= null) macros function
-* @method static void userSearchPhoneEntries(\IGK\Models\Users $user,string $search,?string $type= IGK\Database\Macros\PhoneBooksMacros::PHONE_DEFAULT_TEL) macros function
+* @method static mixed GetEntries(?string $entry= null) macros function
+* @method static mixed addPhoneBookEntry(\IGK\Models\Users $user,$value,$type= IGK\System\Constants\PhonebookTypeNames::PHT_PHONE) macros function
+* @method static mixed deleteEntry() macros function
+* @method static mixed getPhoneBookEntry(\IGK\Models\Users $user) macros function
+* @method static mixed getPhoneDetails(?\IGK\System\Database\IPhoneBookDetailVisitor $visitor= null) macros function
+* @method static mixed searchForEntry(string $search) macros function
+* @method static mixed userPhoneEntries(\IGK\Models\Users $user,?string $type= IGK\Database\Macros\PhoneBooksMacros::PHONE_DEFAULT_TEL,?string $search= null) macros function
+* @method static mixed userSearchPhoneEntries(\IGK\Models\Users $user,string $search,?string $type= IGK\Database\Macros\PhoneBooksMacros::PHONE_DEFAULT_TEL) macros function
 * */
 class PhoneBooks extends ModelBase{
 	const FD_ID="rcphb_Id";
