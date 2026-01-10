@@ -108,9 +108,11 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
                 return true;
             }, ARRAY_FILTER_USE_BOTH);
         };
+        $v_env = igk_environment();
         if(!is_null($f) && igk_io_file_exists($f, true)){
-            igk_environment()->task = 'load-config: '.$f;
-            igk_environment()->loading_context =  HtmlContext::XML;
+            $v_env->task = 'load-config: '.$f;
+            $v_env->loading_context =  HtmlContext::XML;
+            $v_env->controller_config_loading = $this->ctrl;
             $def = strtolower(IGKEnvironment::ResolvEnvironment(igk_server()->ENVIRONMENT));
             $confNode = new \IGK\System\Html\XML\XmlConfigurationNode("dummy-configs"); // igk_create_xmlnode("dummy-configs");             
             $confNode->loadFile($f, HtmlContext::XML, null);           
@@ -122,8 +124,8 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
                     }  
                     $key = $k->TagName;
                     $secret = igk_bool($k['secret']) == true;
-                    if($k->ChildCount<=0){
-                        $t->{$key}=$k->getInnerHtml();
+                    if($k->ChildCount<=0){ 
+                        $t->{$key}=$k->getInnerHtml(); 
                     }
                     else{
                         $v_ob=igk_createobj();
@@ -135,6 +137,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
                     }
                 }
             } 
+            unset($v_env->controller_config_loading);
             // | ----------------------------------------------------------
             // | UPDATE the configuration file to match allowed environment
             // | ---------------------------------------------------------- 

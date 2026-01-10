@@ -895,18 +895,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             $param[$cl] = [];
         }
         $g = &$param[$cl];
-        return $g;
-        // $classname = get_class($this);
-        // if (($r = IGKFv::Get($classname)) === null) {
-        //     $c = & igk_app()->getSession()->getRegisteredControllerParams($classname);
-        //     if ($c !== null) {
-        //         $r = IGKFv::Create($classname, $c);
-        //         return $r;
-        //     }
-        //     $tab = array();
-        //     $r = IGKFv::Create($classname, $tab);
-        // }
-        // return $r;
+        return $g;      
     }
     /**
      * get the flag value

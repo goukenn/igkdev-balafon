@@ -472,7 +472,7 @@ class ViewHelper
         $ctrl->{ControllerParams::REPLACE_URI} = false;
     }
     /**
-     * retrive the included view file
+     * retrieve the included view file
      * @return string
      */
     public static function File()
@@ -500,6 +500,10 @@ class ViewHelper
     {
         return igk_environment()->get(IGKEnvironment::CURRENT_CTRL);
     }
+    /**
+     * 
+     * @return null|BaseController 
+     */
     public static function BaseController(): ?BaseController
     {
         return SysUtils::CurrentBaseController();

@@ -158,6 +158,12 @@ class BalafonInitEnvironment{
             self::_InitIOFileAuth($command, $public_dir);
         }
     }
+    /**
+     * 
+     * @param mixed $command 
+     * @param mixed $app_dir 
+     * @return void 
+     */
     static function _InitIOFileAuth($command, $app_dir){
          // + | fix mod and owner
         igk_environment()->isUnix() && (function($d, $command){            

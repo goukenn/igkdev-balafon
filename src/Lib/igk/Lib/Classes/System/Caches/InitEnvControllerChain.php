@@ -14,7 +14,7 @@ use ReflectionException;
 */
 class InitEnvControllerChain{
     private $m_chain = [];
-    public function add($chain){
+    public function add($chain): InitEnvControllerChain{
         array_push($this->m_chain, $chain);
         return $this;
     }

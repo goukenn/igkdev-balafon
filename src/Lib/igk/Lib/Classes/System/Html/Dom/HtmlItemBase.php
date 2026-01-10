@@ -1296,7 +1296,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         // + | passing complex tag t_:code as exemple must be handle by the default - tag 
         if ($tag_creating == $name) {
             // detect try to create a tag -
-            igk_wln_e(__FILE__.":".__LINE__ , 'create ....in '.$name);
+            igk_wln_e(__FILE__.":".__LINE__ , 'create ....in '.$name, $tag_creating);
             igk_die(sprintf("not handle tag name [%s]", $name));
         }
         $tag_creating = $name;

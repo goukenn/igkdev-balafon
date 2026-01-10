@@ -6,7 +6,7 @@
 namespace IGK\System\Configuration;
 use IGK\System\Html\XML\XmlConfigurationNode;
 /**
- * class factory for configuration
+ * configuration expression class factory
  * @package IGK\System\Configuration
  */
 class SysConfigExpressionFactory{    
@@ -25,16 +25,26 @@ class SysConfigExpressionFactory{
      * @param mixed $prefix 
      * @return void 
      */
-    public static function UnRegister($prefix){
+    public static function UnRegister(string $prefix){
         igk_environment()->unsetInArray(self::KEY, $prefix);
     }
-    public static function GetRegisterRegex(){
+    /**
+     * get registration configuration definition 
+     * @return string 
+     */
+    public static function GetRegisterRegex(): string{
         $s = [XmlConfigurationNode::SYS_CONFIG, XmlConfigurationNode::APP_CONFIG];
         if (is_array($t = igk_environment()->get(self::KEY))){
             $s = array_unique(array_merge($s, array_keys($t)));
         }
         return implode("|",$s);
     }
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $expression 
+     * @return object|null 
+     */
     public static function Create($name, $expression){
         if ($g = igk_environment()->getArray(self::KEY, $name)){
             if (strpos($expression, $name.".") === 0){

@@ -15,7 +15,7 @@ use function igk_resources_gets as __;
 require_once __DIR__ . "/IService.php";
 class IGKServices extends ListOfCoreServices
 {
-    static $sm_instance;
+    private static $sm_instance;
     private $m_services = [];
     /**
      * store init transient service 

@@ -93,9 +93,9 @@ Users::registerMacro('checkLogin', MacrosHelper::checkLogin());
 // --------------------------------------------------------------
 //+ | add user 
 // Users::registerMacro("addUser", [MacrosHelper::class, "addUser"]);
-Users::registerMacro("addUser", MacrosHelper::addUser2());
+Users::registerMacro('addUser', MacrosHelper::addUser2());
 //+ |  get user by login
-Users::registerMacro("GetUserByLogin", function($login){
+Users::registerMacro('GetUserByLogin', function(string $login){
 $conditions = [];
 if (!IGKValidator::IsEmail($login)) {
     // append login domain 
@@ -106,7 +106,7 @@ if (!IGKValidator::IsEmail($login)) {
 return \IGK\Models\Users::select_row($conditions);
 });
 
-Users::registerMacro("grantAuthorization", function($group, $auth, $grant=1){
+Users::registerMacro("grantAuthorization", function(string $group, string $auth, int $grant=1){
     $result = false;
     $this->beginTransaction();
     $gr = Groups::select_row(["clName"=>$group]);    

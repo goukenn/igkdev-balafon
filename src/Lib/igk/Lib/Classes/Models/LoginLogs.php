@@ -1,14 +1,14 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: LoginLogs.php
-// @date: 20251226 14:59:11
+// @date: 20260102 09:35:11
 namespace IGK\Models;
 
 
 use IGK\Models\ModelBase;
 
 /**
-* Store connexion history
+* Store connection history
 * @package IGK\Models
 * @author C.A.D. BONDJE DOUE
 * @property int $loglogs_Id

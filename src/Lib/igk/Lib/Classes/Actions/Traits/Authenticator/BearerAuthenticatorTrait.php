@@ -3,101 +3,111 @@
 // @file: BearerAuthenticatorTrait.php
 // @date: 20230515 10:40:52
 namespace IGK\Actions\Traits\Authenticator;
+
 use IGK\Controllers\BaseController;
+use IGK\Controllers\SysDbController;
+use IGK\Helper\Activator;
+use IGK\Models\Connections;
+use IGK\Models\Connexions;
 use IGK\Models\ModelBase;
 use IGK\Models\Users;
+use IGK\System\Core\Security\AuthenticationInfo;
 use IGK\System\Database\IUserProfile;
 use IGK\System\Http\ErrorRequestResponse;
 use IGK\System\Http\Responses\UserResponse;
+
 /**
-* 
-* @package IGK\Actions\Traits\Authenticator
-*/
-trait BearerAuthenticatorTrait{
+ * 
+ * @package IGK\Actions\Traits\Authenticator
+ */
+trait BearerAuthenticatorTrait
+{
     protected $_bearerAuthenticatorCookieLife = 3600;
     protected $_bearerAuthenticatorTokenHash = "-t-!#@4746QD-";
-    protected $_bearerAuthenticatorCookieLifeConstants = 60*60*60*24;    // 60 days
+    protected $_bearerAuthenticatorCookieLifeConstants = 60 * 60 * 60 * 24;    // 60 days
     /**
      * retrieve user from server token service - connexion must be store in action's controller table
      * @param bool $update 
      * @param mixed &$token 
      * @return null|ModelBase 
      */
-    protected abstract function getUserFromToken(bool $update = true, & $token=null ): ?ModelBase;
+    protected abstract function getUserFromToken(bool $update = true, &$token = null): ?ModelBase;
     /**
      * create use profile from application'user
      */
     protected abstract function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile;
-  /**
+    /**
      * get token user or die
      * @return ?ModelBase
      * @throws IGKException 
      */
-    protected function getUserFromTokenOrDie($update=true, & $token=null){
+    protected function getUserFromTokenOrDie($update = true, &$token = null)
+    {
         $user = $this->getUserFromToken($update, $token) ?? igk_do_response(new ErrorRequestResponse(401, "unauthenticated"));
         return $user;
-    } 
+    }
     /**
      * generate token hash code 
      * @param mixed $user 
      * @return string 
      */
-    protected function bearerAuthenticatorCreateToken($user, string $prefix="blf-"){
-        $str = $this->_bearerAuthenticatorTokenHash.date('YmdHis').$user->clGuid;
-        return $prefix.sha1($str);
+    protected function bearerAuthenticatorCreateToken($user, string $prefix = "blf-"): string
+    {
+        $str = $this->_bearerAuthenticatorTokenHash . date('YmdHis') . $user->clGuid;
+        return $prefix . sha1($str);
     }
     /**
      * create and register bearer token for active user
      * @param mixed $users 
      * @return ?array 
      */
-    protected function bearerAuthenticatorRegisterToken(Users $user, BaseController $ctrl, bool $rememberme=false):?array{
-        if ($user->clStatus != 1){
+    protected function bearerAuthenticatorRegisterToken(Users $user, BaseController $ctrl, bool $rememberme = false): ?array
+    {
+        if ($user->clStatus != 1) {
             return null;
-        } 
-        $connexion = $ctrl->model(\Connections::class) ?? igk_die('missing connection model'); 
-        $format = $connexion->getDataAdapter()->getDateTimeFormat();
-        $token = ''; 
+        }
+        $v_con = Connections::model();
+        $format = $v_con->getDataAdapter()->getDateTimeFormat();
+        $token = '';
         $token = $this->bearerAuthenticatorCreateToken($user);
-        $condition = ['cnx_token' => $token];
-        $row = $connexion::select_row($condition);
+        $condition = [Connections::FD_CL_TOKEN => $token];
+        $row = $v_con::select_row($condition);
         $time = ($this->_bearerAuthenticatorCookieLifeConstants / 60.0);
         $v_time = time();
         $expiration_date = strtotime("+$time minutes", $v_time);
         $exp_format = date('Y-m-d H:i:s', $expiration_date);
-        $rememberbe = false;
+        $rememberbe =  $info->remembeme ?? false;
         $start = null;
-        if ($row){
-            $info = json_decode($row->cnx_token_info);
-            // if (!property_exists($info, 'start')){
-            //     $info->start = $info->
-            // }
+        if ($row) {
+            $info = json_decode($row->{Connections::FD_CL_TOKEN_INFO});
             $info->expire = $exp_format;
-            $rememberme = $info->remembeme;
-            $connexion::update([
-                'cnx_Expire_At' => $exp_format
-            ],$condition);
-        }else{
-            $tokeninfo = (object)[
-                'agent'=>igk_server()->HTTP_USER_AGENT,
-                'ip'=>igk_server()->REMOTE_ADDR,
-                'expire'=>$exp_format,
-                'start'=>$start = date($format, $v_time),
-                'rememberme'=>$rememberme
-            ];
+            $rememberme = $rememberbe;
+            $v_con::update([
+                Connections::FD_CL_TOKEN_INFO => $info
+            ], $condition);
+        } else {
+            $tokeninfo = Activator::CreateNewInstance(
+                AuthenticationInfo::class,
+                (object)[
+                    'agent' => igk_server()->HTTP_USER_AGENT,
+                    'ip' => igk_server()->REMOTE_ADDR,
+                    'expire' => $exp_format,
+                    'start' => $start = date($format, $v_time),
+                    'rememberme' => $rememberme
+                ]
+            );
             // connexion token - 
-            $connexion::create([
-                'cnx_user_guid' => $user->clGuid,
-                'cnx_token' => $token,
-                'cnx_token_info' => json_encode($tokeninfo),
-                'cnx_logout_At' => NULL,
-                'cnx_Expire_At' =>  $tokeninfo->expire, 
+            $v_con::create([
+                $v_con::FD_CL_USER_GUID => $user->clGuid,
+                $v_con::FD_CL_TOKEN => $token,
+                $v_con::FD_CL_TOKEN_INFO => json_encode($tokeninfo),
             ]);
-        }  
+        }
         igk_set_cookie('token', $token, true, $this->_bearerAuthenticatorCookieLife);
-        return ['token'=>$token, 'expire'=>$exp_format, 'start'=>$start, 'remember-me'=>$rememberme];
+        return ['token' => $token, 'expire' => $exp_format, 'start' => $start, 'remember-me' => $rememberme];
     }
-    protected function bearerAuthenticatorGetUserProfileInfo(\IGK\Models\Users $user){
-        return UserResponse::CreateResponseFromUserModel($user); 
+    protected function bearerAuthenticatorGetUserProfileInfo(\IGK\Models\Users $user)
+    {
+        return UserResponse::CreateResponseFromUserModel($user);
     }
 }

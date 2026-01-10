@@ -55,8 +55,11 @@ abstract class ApiActionBase extends MiddlewireActionBase{
     protected function _handleThrowable(Throwable $ex)
     { 
         $this->die(
-            igk_environment()->isDev()? ['type'=>get_class($ex), 
+            igk_environment()->isDev()? 
+            ['type'=>get_class($ex), 
             'ex_message'=>($p = $ex->getPrevious()) ? $p->getMessage() : null, 
-            'message'=>"misconfiguration. Action handle throwable"] : null, $ex->getCode());  
+            'message'=>"misconfiguration. Action handle throwable",
+            'real_message'=>$ex->getMessage()
+            ] : null, $ex->getCode());  
     } 
 }

@@ -805,7 +805,7 @@ abstract class HtmlUtils extends DomNodeBase
                     $creator[$name] = ["callback", "count" => 1];
                     return $comp;
                 }
-                $cc = $package[$g]["callback"];
+                $cc = igk_getv($package[$g], 'callback') ?? igk_die('callback missing');
                 $fc = function () use ($cc) {
                     return call_user_func_array($cc, func_get_args());
                 };

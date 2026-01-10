@@ -100,8 +100,12 @@ class IGKApp extends IGKObject
      * @throws Exception 
      */
     public function getSettings(){
+        $app = $this->getApplication();
+        if (is_null($app)){
+            igk_die('application not initialize');
+        }
         $app_key = IGK_APP_SESSION_KEY;
-        $use_session = $this->getApplication()->lib('session');
+        $use_session = $app->lib('session');
         $v_bstart = null;        
         //$reset = 0;
         if ($this->m_settings && $use_session && isset($_SESSION) && (!isset($_SESSION[$app_key]) || ($_SESSION[$app_key] !==  $this->m_settings->getInfo())) ){

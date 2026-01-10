@@ -1399,6 +1399,10 @@ abstract class ControllerExtension
             $uid = $user->clId;
             $bclLastLogin = $user->clLastLogin;
             $user->clLastLogin = date(Constants::MYSQL_DATETIME_FORMAT);
+            // + | --------------------------------------------------------------------
+            // + | unset the pwd in order to not update the password before save
+            // + |
+            unset($user->clPwd);
             $user->save();
             $server = igk_server();
             igk_hook(IGKEvents::HOOK_USER_LOGIN, [

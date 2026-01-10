@@ -13,5 +13,4 @@ namespace IGK\System\DependencyInjection;
 abstract class LifeTime{
     const SINGLETON = 'singleton';
     const TRANSIENT = 'transient';
-
 }

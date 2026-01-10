@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @file: Connexions.php
-// @date: 20251226 14:59:11
+// @file: Connections.php
+// @date: 20260102 09:35:11
 namespace IGK\Models;
 
 
@@ -32,7 +32,7 @@ use IGK\Models\ModelBase;
 * @method static ?self Add(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry helper
 * @method static ?self AddIfNotExists(string|\IGK\Models\Users $clUser_Id, string $clToken, string $clTokenInfo, string|datetime $clDateTime, string $clFrom, string|datetime $cnx_updateAt, string|datetime $cnx_createAt ="NOW()") add entry if not exists. check for unique column.
 * */
-class Connexions extends ModelBase{
+class Connections extends ModelBase{
 	const FD_CL_ID="clId";
 	const FD_CL_USER_GUID="clUser_Guid";
 	const FD_CL_TOKEN="clToken";
@@ -44,7 +44,7 @@ class Connexions extends ModelBase{
 	/**
 	* table's name
 	*/
-	protected $table = "%prefix%connexions";
+	protected $table = "%prefix%connections";
 	/**
 	*override display key
 	*/

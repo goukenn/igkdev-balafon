@@ -53,7 +53,14 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
             "clDataType"=>$expression
         );
     }
-    public function & getm_userTypeInfo(){
+      private function setUserTypeInfo($t){
+        $this->setParam("usertypeinfo", $t);
+    }
+    /**
+     * 
+     * @return mixed 
+     */
+    public function & getuserTypeInfo(){
         $r=$this->getParam("usertypeinfo");
         return $r;
     }
@@ -91,7 +98,5 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
         $utypeinfo[$name]=$tab;
         $this->setUserTypeInfo($utypeinfo);
     }
-    private function setUserTypeInfo($t){
-        $this->setParam("usertypeinfo", $t);
-    }
+  
 }

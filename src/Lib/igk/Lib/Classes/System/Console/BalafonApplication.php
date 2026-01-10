@@ -17,7 +17,8 @@ use IGK\Models\Users;
 use IGK\System\Configuration\XPathConfig;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Commands\ServerCommandHelper; 
-use IGK\System\Exceptions\ArgumentTypeNotValidException;  
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
+use IGK\System\IO\DotEnvConfiguration;
 use IGK\System\IO\File\PHPScriptBuilder;
 use IGK\System\IO\Path; 
 use IGK\System\ViewEnvironmentArgs;
@@ -234,6 +235,7 @@ class BalafonApplication extends IGKApplicationBase
         if (extension_loaded("gd")) {
             $this->library("gd");
         }
+        \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
         igk_hook("console::app_cli_bootstrap", $this);
         // + | force register base formatter service as a Formatter service container
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);

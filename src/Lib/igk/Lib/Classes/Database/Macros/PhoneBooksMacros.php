@@ -37,15 +37,17 @@ class PhoneBooksMacros
      * @param null|string $search 
      * @return bool|null|IDbQueryResult|IToJSon 
      */
-    public static function userPhoneEntries(PhoneBooks $model, Users $user, string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL, ?string $search = null)
+    public static function userPhoneEntries(PhoneBooks $model, Users $user, ?string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL, ?string $search = null)
     {
 
         $T1 = get_class($model);
         $cond = [];
-        foreach (explode("|", $type) as $t) {
-            if ($r = PhoneBookTypes::GetCache(PhoneBookTypes::FD_NAME, $t)) {
-                $bt_id = $r->Id;
-                $cond[] = [$T1::FD_TYPE, $bt_id];
+        if ($type != '@@') {
+            foreach (explode("|", $type) as $t) {
+                if ($r = PhoneBookTypes::GetCache(PhoneBookTypes::FD_NAME, $t)) {
+                    $bt_id = $r->Id;
+                    $cond[] = [$T1::FD_TYPE, $bt_id];
+                }
             }
         }
         $bc = [
@@ -81,9 +83,9 @@ class PhoneBooksMacros
      * @param string $type 
      * @return mixed 
      */
-    public static function userSearchPhoneEntries(PhoneBooks $model, Users $user, ?string $search, string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL)
+    public static function userSearchPhoneEntries(PhoneBooks $model, ?Users $user, ?string $search, ?string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL)
     {
-        return $model::userPhoneEntries($user, $type, $search);
+        return $model::userPhoneEntries($user, $type ?? '@@', $search);
     }
 
     /**
@@ -109,11 +111,11 @@ class PhoneBooksMacros
         return $user->getPhoneBookEntry();
     }
     /**
-     * retreive entries for a phone book
+     * retrieve entries for a phonebook
      * @param PhoneBooks $model 
      * @return void 
      */
-    public static function GetEntries(PhoneBooks $model, ?string $entry = null)
+    public static function getEntries(PhoneBooks $model, ?string $entry = null)
     {
         if ($entry) {
             return array_map(
@@ -161,11 +163,16 @@ class PhoneBooksMacros
      */
     public static function getPhoneDetails(PhoneBooks $phone, ?IPhoneBookDetailVisitor $visitor = null)
     {
+        $phone->is_mock() && igk_die('require non mocking instance object');
+
+        $rh = PhoneBooks::select_all([
+            PhoneBooks::FD_ENTRY_GUID => $phone->EntryGuid
+        ]);
+
         $inf = Activator::CreateNewInstance(PhoneBookEntryDetails::class, []);
         foreach (
-            PhoneBooks::select_all([
-                PhoneBooks::FD_ENTRY_GUID => $phone->EntryGuid
-            ]) as $srow
+            $rh
+            as $srow
         ) {
             $type = PhoneBookTypes::GetCache(PhoneBookTypes::FD_ID, $srow->Type);
             $n = PhoneBookEntryDetails::GetPropertyName(strtolower($type->Name));
@@ -194,5 +201,43 @@ class PhoneBooksMacros
             $inf->{$n} = $v;
         }
         return $inf;
+    }
+    /**
+     * resolve and return the first phonebooks entries if exists
+     * @param PhoneBooks $phone 
+     * @param mixed $search 
+     * @return mixed 
+     */
+    public static function resolve(PhoneBooks $phone, $search)
+    {
+        if (is_numeric($search)) {
+            $cl = PhoneBooks::FD_ID;
+        } else if (is_string($search)) {
+            $cl = PhoneBooks::FD_ENTRY_GUID;
+        }
+        $r = PhoneBooks::select_all([$cl => $search]);
+        return $r ? igk_getv($r, 0) : null;
+    }
+
+
+    public static function vcard(PhoneBooks $phone, Users $user, $search)
+    {
+        /**
+         * @var PhoneBooks $row
+         */
+        $r = self::userSearchPhoneEntries($phone, $user, $search, null);
+        $ids = [];
+        foreach ($r->to_array() as $row) {
+            /**
+             * @var PhoneBooks
+             */
+            $_id = $row->{PhoneBooks::FD_ENTRY_GUID};
+            if (!isset($ids[$_id])) {
+                if ($trow = PhoneBooks::select_first([PhoneBooks::FD_ENTRY_GUID => $_id])) {
+                    $ids[$_id] = self::getPhoneDetails($trow);
+                }
+            }
+        }
+        return $ids;
     }
 }

@@ -11,11 +11,13 @@ namespace IGK\System\Traits;
 abstract class MacrosConstant
 {
     const ClosureSeparator = "@";
-    const StaticSeparator = ":";
+    const StaticSeparator = "::";
     const RegisterExtensionMethod = "registerExtension";
     const UnRegisterExtensionMethod = "unRegisterExtension";
     const RegisterMacroMethod = 'registerMacro';
     const getMacroMethod = 'getMacro';
     const getInstanceMethod = 'getInstance';
     const getMacroKeysMethod = 'getMacroKeys';
+    const REF_MACROS = '@ref-macros';
+    
 }

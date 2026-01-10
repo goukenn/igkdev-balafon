@@ -23,6 +23,23 @@ abstract class StringUtility
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
     /**
+     * 
+     * @param string $name 
+     * @param array *71280add 
+     * @return bool 
+     */
+    public static function StrArrayContains(string $name, array $list): bool
+    {
+        $l = $list;
+        while (count($l)) {
+            $q = array_shift($l);
+            if (strpos($name, $q) !== false) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
      * get function name
      * @param string $s 
      * @return string 
@@ -288,6 +305,12 @@ abstract class StringUtility
         $ns = trim(str_replace(" ", "", $ns));
         return $ns;
     }
+    /**
+     * 
+     * @param string $name 
+     * @param null|string $controller 
+     * @return string 
+     */
     public static function AuthorizationPath(string $name, ?string $controller): string
     {
         return implode("@", array_filter([$controller, $name]));
@@ -655,7 +678,9 @@ abstract class StringUtility
                             $error = json_last_error_msg();
                             // read array of constant to handle doc comment
                             $l = self::ReadArrayConstants($b);
-                            $args = array_merge($args, [$l]);
+                            $c = empty($k) ?
+                                [$l] : [$k => $l];
+                            $args = array_merge($args, $c);
                         }
                         $ch = '';
                     }

@@ -13647,11 +13647,13 @@ function igk_include_view($ctrl, $target, string $file, $args = null, $create = 
 ///<param name="file"></param>
 /**
  * Represent igk_include_view_file function
- * @param mixed $ctrl 
+ * @param BaseController $ctrl 
  * @param string $file 
  * @param bool $no_cache 
+ * support extra argument 
+ * @return mixed
  */
-function igk_include_view_file($ctrl, $file, $no_cache = false)
+function igk_include_view_file(BaseController $ctrl, string $file, $no_cache = false)
 {
     $ext = igk_io_path_ext($file);
     $handler = null;
@@ -13669,6 +13671,7 @@ function igk_include_view_file($ctrl, $file, $no_cache = false)
             else if ($response) {
                 igk_wl($response);
             }
+            igk_environment()->pop($key);
             return;
         }
     }
@@ -13696,7 +13699,7 @@ function igk_include_view_file($ctrl, $file, $no_cache = false)
         }
         array_unshift($args, $_f);
     }
-    $response = null;
+    $response = null; 
     try {
         $response = $_bindfc(...$args);
     } catch (TypeError $ex) {
@@ -18948,6 +18951,7 @@ function igk_reg_handle_file_request($s)
  * @param string $name
  * @param closure callback
  * @param ?string packages name space 
+ * @deprecated use igk_reg_component_package insteed
  */
 function igk_reg_html_component(string $name, $callback, $ns = Constants::SYS_DEFAULT_HTML_PACKAGE)
 {

@@ -26,7 +26,7 @@ if (!in_array("zip", get_loaded_extensions(false))){
  */
 function igk_zip_content(string $temp_file, string $name, string $content, $closearchive=1){
     $zip=new ZipArchive();
-    if(!$zip->open($temp_file, ZIPARCHIVE::CREATE)){
+    if(!$zip->open($temp_file, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE )){
         $zip->close();
         return 0;
     }

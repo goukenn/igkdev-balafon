@@ -50,7 +50,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     use JsonSerializableTrait;
     const AuthKey = '::auth';
     const ClosureSeperator = "@";
-    const StaticSperator = "::";
+    const StaticSeparator = "::";
     const EXTRA_FIELD_OPTION = 'extra';
     /**
      * 
@@ -669,13 +669,14 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     {
         return null;
     }
+
     private static function &_InitDbMacros()
     {
         // ---------------------------------------------------------------------------
         // + initialize macro definition
         //
         $macros = [
-            MacrosConstant::RegisterMacroMethod => function ($name, callable $callback) use (&$macros) {
+            MacrosConstant::RegisterMacroMethod => function (string $name, callable $callback) use (&$macros) {
                 if (is_callable($callback)) {
                     $callback = Closure::fromCallable($callback);
                 }
@@ -685,26 +686,32 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                     $macros[static::class . self::ClosureSeperator . $name] = $callback;
                 }
             },
-            MacrosConstant::UnRegisterExtensionMethod   => function ($name) use (&$macros) {
+            MacrosConstant::UnRegisterExtensionMethod   => function (string $name) use (&$macros) {
                 unset($macros[static::class . self::ClosureSeperator . $name]);
             },
             /**
              * return the callable
              */
-            "getMacro" => function ($name) use (&$macros): ?callable {
-                return igk_getv($macros, static::class . self::ClosureSeperator . $name);
+            MacrosConstant::getMacroMethod => function (string $name) use (&$macros): ?callable { 
+                $l = [self::ClosureSeperator, self::StaticSeparator];
+                $r = null;
+                if (StringUtility::StrArrayContains($name, $l)){
+                    $r= igk_getv($macros, $name);
+                }             
+                else $r = igk_getv($macros, static::class . self::ClosureSeperator . $name);                
+                return (is_null($r) || is_callable($r)) ? $r : null;
             },
-            "updateRaw" => function (ModelBase $target, ModelBase $g) {
+            "updateRawFrom" => function (ModelBase $target, ModelBase $g) {
                 if (get_class($target) == get_class($g)) {
                     $target->raw = $g->raw;
                 }
             },
             MacrosConstant::RegisterExtensionMethod => function ($classname) use (&$macros) {
-                $cl = static::class;
+                $cl = igk_getv($macros, MacrosConstant::REF_MACROS) ?? static::class;                
                 $f = igk_sys_reflect_class($classname);
                 foreach ($f->getMethods() as $k) {
                     if ($k->isStatic()) {
-                        $macros[$cl . self::StaticSperator . $k->getName()] = [$classname, $k->getName()];
+                        $macros[$cl . self::StaticSeparator . $k->getName()] = [$classname, $k->getName()];
                     }
                 }
             },
@@ -811,7 +818,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     private static function _InvokeMacros($macros, $name, $instance, $arguments, &$failed = false)
     {
         $R_macros =  & self::$sm_macros;
-        $key = static::class . self::StaticSperator . $name;
+        $key = static::class . self::StaticSeparator . $name;
         if ($fc = igk_getv($macros, $key)) {
             // static closure
             // if ($arguments) {
@@ -837,17 +844,22 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             return $fc(...$arguments);
         }
         if ($fc = igk_getv($macros, $name)) {
+            // + | --------------------------------------------------------------------
+            // + | call direct macros
+            // + |            
             if (is_callable($fc)) {
-                $fc = Closure::fromCallable($fc);
+                $fc = Closure::fromCallable($fc); 
             }
-            array_unshift($arguments, $instance);
             return $fc(...$arguments);
         }
         $key = igk_uri('@auto_register/' . get_class($instance));
         if (!isset($R_macros[$key])) {
             // auto register load - macros class 
             if ($cl = Database::GetMacroClass($instance)) {
-                $instance::registerExtension($cl);
+                $R_macros[MacrosConstant::REF_MACROS] = get_class($instance);
+                $reg_ext_fc = igk_getv($R_macros, MacrosConstant::RegisterExtensionMethod);
+                call_user_func_array($reg_ext_fc, [$cl]); 
+                unset($R_macros[MacrosConstant::REF_MACROS]);
                 if (method_exists($cl, $name)) {
                     $fc = [$cl, $name];
                     $R_macros[$name] = $fc;
@@ -860,10 +872,11 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
                 $R_macros[$key] = $cl;
             }
         }
-        // $f = igk_sys_reflect_class(ModelEntryExtension::class);
-        if (method_exists(ModelEntryExtension::class, $name)) {
-            $fc = [ModelEntryExtension::class, $name];
-            $R_macros[$name] = $fc;
+        if (method_exists($T1 = ModelEntryExtension::class, $name)) {
+            $fc = [$T1, $name];
+            $key = implode(MacrosConstant::StaticSeparator,$fc);
+            if (!isset($R_macros[$key]))
+                $R_macros[$key] = $fc;
             $instance && array_unshift($arguments, $instance);
             return $fc(...$arguments);
         }

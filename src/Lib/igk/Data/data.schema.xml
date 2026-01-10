@@ -268,7 +268,7 @@
 		<Column clName="clDateTime" clNotNull="True" clType="DateTime"></Column>
 		<Column clName="clIP" clType="VarChar" clTypeLength="15"></Column>
 	</DataDefinition>
-	<DataDefinition Description="Store started connexions" TableName="%prefix%connexions">
+	<DataDefinition Description="Store started connexions" TableName="%prefix%connections">
 		<Column clAutoIncrement="True" clIsPrimary="True" clName="clId" clNotNull="True"
 			clType="Int" clTypeLength="11"></Column>
 
@@ -500,7 +500,7 @@
 			</addColumn>
 		</Migration>
 		<Migration date="20221114" description="store connexion attempts">
-			<createTable description="Store Connexion attempts" table="%prefix%connect_attempts">
+			<createTable description="Store connection attempts" table="%prefix%connect_attempts">
 				<Column clDescription="provided ip" clIsPrimary="true" clName="cxnId"
 					clNotNull="true" clType="text"></Column>
 
@@ -546,7 +546,7 @@
 				<Column clDefault="NOW()" clInsertFunction="NOW()" clName="regLinkUpdate_At"
 					clNotNull="true" clType="DATETIME" clUpdateFunction="NOW()"></Column>
 			</createTable>
-			<createTable description="Store connexion history" table="%prefix%login_logs">
+			<createTable description="Store connection history" table="%prefix%login_logs">
 				<Column clAutoIncrement="True" clIsPrimary="True" clName="loglogs_Id"
 					clNotNull="True" clType="Int" clTypeLength="11"></Column>
 
@@ -687,7 +687,7 @@
 		</Migration>
 
 		<Migration>
-			<addColumn after="clUser_Id" table="%prefix%connexions">
+			<addColumn after="clUser_Id" table="%prefix%connections">
 				<Column clIsUnique="true" clName="clToken" clNotNull="true" clType="VarChar"
 					clTypeLength="80"></Column>
 
@@ -696,7 +696,7 @@
 			</addColumn>
 		</Migration>
 		<Migration>
-			<addColumn after="clFrom" table="%prefix%connexions">
+			<addColumn after="clFrom" table="%prefix%connections">
 				<Column clDefault="NOW()" clDescription="Now" clName="cnx_createAt" clNotNull="True"
 					clType="DateTime"></Column>
 
@@ -705,7 +705,7 @@
 			</addColumn>
 		</Migration>
 		<Migration>
-			<changeColumn column="clUser_Id" table="%prefix%connexions">
+			<changeColumn column="clUser_Id" table="%prefix%connections">
 				<Column clDescription="user request authentication" clIsUnique="0"
 					clLinkColumn="clGuid" clLinkType="%prefix%users" clName="clUser_Guid"
 					clNotNull="True" clType="Guid"></Column>

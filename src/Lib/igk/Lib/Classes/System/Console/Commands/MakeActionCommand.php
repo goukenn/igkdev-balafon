@@ -4,22 +4,15 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console\Commands;
-
-use IGK\System\Console\App;
-use IGK\System\Console\AppCommand;
+ 
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
-use IGK\Actions\ActionBase;
-use IGKActionBase;
-use ControllerInitListener;
-use IGK\Helper\IO as IGKIO;
-use \ApplicationController;
+use IGK\Actions\ActionBase; 
 use IGK\Actions\ApiActionBase;
 use IGK\Actions\MiddlewireActionBase;
 use IGK\Actions\ProjectDefaultAction;
-use IGK\Helper\StringUtility;
-use IGK\Helper\Utility;
+use IGK\Helper\StringUtility; 
 use igk\System\Console\Commands\Utility as CommandsUtility;
 
 class MakeActionCommand extends AppExecCommand
@@ -28,10 +21,9 @@ class MakeActionCommand extends AppExecCommand
     var $category = "make";
     var $desc = "make new project's action. Contextual command.";
     var $options = [
-        "--type" => "defaut Model type class. 'api'|'def'|'project'|'middlewire'",
-        "--force" => "force create action"
-    ];
-    var $help = "[options] controller actionName";
+        "--type:type" => "defaut Model type class. 'api'|'def'|'project'|'middlewire'",
+        "--force" => "flag: force create action"
+    ]; 
     /**
      * 
      * @var callable
@@ -47,19 +39,21 @@ class MakeActionCommand extends AppExecCommand
      * @var string $controller Controller
      * @var string $actionName the action to create 
      */
-    public function exec($command, ?string $controller = null, ?string $macroName = null)
+    public function exec($command, ?string $controller = null, ?string $action_name = null)
     {
-        if (is_null($macroName) && !empty($controller)) {
+        if (is_null($action_name) && !empty($controller)) {
             if (property_exists($command->options, "--controller")) {
                 $ctrl = self::ResolveController($command, null, false) ?? igk_die("missing controller");
-                $macroName = $controller;
+                $action_name = $controller;
                 $controller = $ctrl->getName();
+            } else {
+                igk_die('required balafon\'s controller project');
             }
         }
         if (empty($controller)) {
             return false;
         }
-        if (empty($macroName)) {
+        if (empty($action_name)) {
             Logger::danger("action name required");
             return false;
         }
@@ -84,12 +78,12 @@ class MakeActionCommand extends AppExecCommand
         $ns = $ctrl->getEntryNamespace();
         $dir = $ctrl::classdir();
         $bind = [];
-        $macroName = implode("/", array_map('ucfirst', explode('/', $macroName)));
-        if ((($pos = strrpos(strtolower($macroName), 'action')) > 0) && (($pos + 6) == strlen($macroName))) {
-            $macroName = substr($macroName, 0, -6);
+        $action_name = implode("/", array_map('ucfirst', explode('/', $action_name)));
+        if ((($pos = strrpos(strtolower($action_name), 'action')) > 0) && (($pos + 6) == strlen($action_name))) {
+            $action_name = substr($action_name, 0, -6);
         }
-        $macroName = preg_replace("/[^a-z0-9\/]/i", "", $macroName);
-        $path = $macroName;
+        $action_name = preg_replace("/[^a-z0-9\/]/i", "", $action_name);
+        $path = $action_name;
         $tcl =  explode("/", StringUtility::Uri($path));
         array_pop($tcl);
         if (!empty($ns)) {
@@ -101,7 +95,7 @@ class MakeActionCommand extends AppExecCommand
         }
         $acfile = $dir . "/Actions/{$path}Action.php";
         $bind[$acfile] = function ($file) use (
-            $macroName,
+            $action_name,
             $author,
             $ns,
             $type
@@ -109,7 +103,7 @@ class MakeActionCommand extends AppExecCommand
             $content = $this->_getContent();
             $v_uses = $this->_getUses() ?? [];
             $builder = new PHPScriptBuilder();
-            $fname = $macroName . IGK_VIEW_FILE_EXT;
+            $fname = $action_name . IGK_VIEW_FILE_EXT;
             $builder->type("class")->name(igk_io_basenamewithoutext($file))
                 ->uses($v_uses)
                 ->author($author)
@@ -118,7 +112,7 @@ class MakeActionCommand extends AppExecCommand
                 ->doc("view action")
                 ->file($fname)
                 ->extends($type)
-                ->desc("view action " . $macroName);
+                ->desc("view action " . $action_name);
             igk_io_w2file($file,  $builder->render());
         };
         CommandsUtility::MakeBindFiles($command, $bind, property_exists($command->options, "--force"));
@@ -141,12 +135,5 @@ class MakeActionCommand extends AppExecCommand
         }
         return [];
     }
-    public function help()
-    {
-        Logger::print("-");
-        Logger::info("Make new Balafon's PROJECT action");
-        Logger::print("-\n");
-        Logger::print("Usage : " . App::Gets(App::GREEN, $this->command) . " controller name [options]");
-        Logger::print("\n\n");
-    }
+     
 }

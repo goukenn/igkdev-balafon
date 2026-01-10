@@ -5,13 +5,16 @@ declare(strict_types=1);
 // @date: 20251219 08:09:01
 namespace IGK\System\Database;
 
+use IGK\Helper\JSon;
+use IGK\Helper\JSonEncodeOption;
+use IGK\System\IToJSon;
 
 /**
  * 
  * @package IGK\System\Database
  * @author C.A.D. BONDJE DOUE
  */
-class PhoneBookEntryDetails
+class PhoneBookEntryDetails implements IToJSon
 {
     var $firstname;
     var $lastname;
@@ -43,6 +46,18 @@ class PhoneBookEntryDetails
     var $vcard;
     var $notes;
     var $organization;
+
+    /**
+     * 
+     * @param mixed $option 
+     * @param int $flag 
+     * @return false|string 
+     */
+    public function to_json($option = null, int $flag = 0)
+    {
+        $c = $option ?? JSonEncodeOption::IgnoreEmpty();
+        return JSon::Encode((array)$this, $c, $flag); 
+    }
 
 
     public static function GetPropertyName(string $name): string

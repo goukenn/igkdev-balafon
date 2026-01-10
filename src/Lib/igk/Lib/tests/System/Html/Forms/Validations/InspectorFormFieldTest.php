@@ -29,7 +29,7 @@ class InspectorFormFieldTest extends BaseTestCase{
     }
     public function test_inspectorformfield_required(){
         $r = new DummyRequiredValidator; 
-        $gt = $r->getFields();
+        // $gt = $r->getFields();
         $g = $r->validate(["y"=>"45.0"]);
 
         $this->assertTrue(false === $g, 'required field not check.');  

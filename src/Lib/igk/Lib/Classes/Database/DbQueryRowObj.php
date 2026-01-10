@@ -54,8 +54,8 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		$c = $this->m_rows;
 		return array_pop($c);
 	}
-    public function to_json(){
-        return Utility::To_JSON($this->m_rows, null);
+    public function to_json($flag = null){
+        return Utility::To_JSON($this->m_rows, null, $flag);
     }
 	public static function Create($tab){
 		if (!$tab || !is_array($tab))

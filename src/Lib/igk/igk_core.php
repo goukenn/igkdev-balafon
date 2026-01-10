@@ -1196,8 +1196,9 @@ function igk_server_name(): ?string
  */
 function igk_is_callable($tab)
 {
-    if ($tab == null)
+    if (($tab == null)||is_numeric($tab))
         return 0;
+
     if (is_callable($tab))
         return true;
     if (is_array($tab) && count($tab) > 2) {

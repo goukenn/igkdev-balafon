@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: Subdomains.php
-// @date: 20251226 14:59:11
+// @date: 20260102 09:35:11
 namespace IGK\Models;
 
 
@@ -29,8 +29,8 @@ use IGK\Models\ModelBase;
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clName, string $clCtrl, string $clView, string|datetime $clDeactivate_At, string|datetime $clCreate_At ="Now()", string|datetime $clUpdate_At ="Now()") add entry helper
 * @method static ?self AddIfNotExists(string $clName, string $clCtrl, string $clView, string|datetime $clDeactivate_At, string|datetime $clCreate_At ="Now()", string|datetime $clUpdate_At ="Now()") add entry if not exists. check for unique column.
-* @method static void GetAllActivateDomain() macros function
-* @method static void RegisterSubDomain(string $domain,\IGK\Controllers\BaseController $controller,?string $view= null) macros function
+* @method static mixed GetAllActivateDomain() macros function
+* @method static mixed RegisterSubDomain(string $domain,\IGK\Controllers\BaseController $controller,?string $view= null) macros function
 * */
 class Subdomains extends ModelBase{
 	const FD_CL_ID="clId";

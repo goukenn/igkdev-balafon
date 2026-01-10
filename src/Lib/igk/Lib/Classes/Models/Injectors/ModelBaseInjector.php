@@ -31,7 +31,7 @@ class ModelBaseInjector implements IInjector{
      */
     public function resolve($id, ?string $type=null){
         if (is_null($id)){ 
-            igk_die("failed to resolve from id can not be null");
+            igk_die("failed to resolve from [id] can not be null");
         } 
         if (is_numeric($id)){
             return $this->model::select_row($id);

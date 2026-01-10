@@ -85,7 +85,7 @@ class MakeMigrationCommand extends AppExecCommand{
                 Logger::success('execute:'.igk_sys_request_time());
                 }
             } else {
-                Logger::danger(sprintf('missing %s action', $action));
+                Logger::danger(sprintf('missing [%s] action', $action));
                 $this->showUsage();
             }
         } else {

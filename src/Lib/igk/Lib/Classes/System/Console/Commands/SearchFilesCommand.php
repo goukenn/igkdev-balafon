@@ -29,14 +29,18 @@ class SearchFilesCommand extends AppExecCommand
 		$real = property_exists($command->options, '--real-only');
 		$pattern = $pattern ? '/' . $pattern . '/' : '/.*/';
 		//if (is_link($dir)){
+		$dirs = [];
 		if ($dir = realpath($dir)) {
 			//}
-			 IO::GetFiles($dir, function ($f) use ($pattern, &$T, $real) {
-				if (!$real || (realpath($f) == $f)) {
+			 IO::GetFiles($dir, function ($f) use ($pattern, &$T, $real, $dirs) {
+				$p = realpath($f);
+				if (!$real || ($p == $f)) {
+					$c_dir = dirname($p);
 					if (preg_match($pattern, $f)) {
 						Logger::print($f);
 						$T++;
 					}
+					$dirs[$c_dir] = 1;
 				}
 			}, true);
 		}

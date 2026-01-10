@@ -141,12 +141,18 @@ abstract class ModelEntryExtension
                 return null;
             }
             if ($g instanceof $model) {
-                $c->updateRaw($g);
+                $c::updateRawFrom($c, $g);
             } else {
                 return null;
             }
         }
         return $c;
+    }
+    public static function updateRaw(ModelBase $target, ModelBase $g){
+        if (get_class($target) == get_class($g)) {
+            $target::updateRawFrom($target, $g);
+           
+        }
     }
     /**
      * 
@@ -490,7 +496,7 @@ abstract class ModelEntryExtension
     public static function select_first(ModelBase $model, $conditions = null, $options = null, $autoclose = false)
     {
         if (is_null($options)) {
-            $options = ["Limit" => "1"];
+            $options = ["Limit" => 1];
         } else {
             $options["Limit"] = 1;
         }

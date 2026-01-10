@@ -22,13 +22,22 @@ class InstallCommand extends AppExecCommand
 {
 	var $command = '--module:install';
 	const URL = Constants::MODULE_PACKAGE_LIST_URI;
-	var $desc = 'install module package info';
-	/* var $options=[]; */
+	var $desc = 'install module package';
+	var $options=[
+		'--force'=>'flag: for new installation'
+	];
 	var $category = 'module';
 	public function exec($command, ?string $module_name = null)
 	{
 		empty($module_name) && igk_die('required module name');
-		if ($result = igk_curl_post_uri(self::URL . $module_name, null, null, [
+		$force = property_exists($command->options, '--force');
+		$mod = igk_get_module($module_name);
+		if (!$force && $mod){
+			igk_die('module already exists');
+		}
+
+
+		if ($result = igk_curl_post_uri(self::URL . base64_encode($module_name), null, null, [
 			'Content-Type:application/json'
 		])) {
 			$status = igk_curl_status();

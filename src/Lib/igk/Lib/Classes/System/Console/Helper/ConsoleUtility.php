@@ -49,6 +49,11 @@ abstract class ConsoleUtility
     {
         echo ($result ? Utility::TO_JSON($result, null, JSON_PRETTY_PRINT) : '') . PHP_EOL;
     }
+    
+
+    const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
+    use IGKBacktickHelperCommandTrait;
+
     /**
      * bind and make file 
      * @param array $bind 
@@ -59,9 +64,30 @@ abstract class ConsoleUtility
     {
         return CommandsUtility::MakeBindFiles($command, $bind, $force);
     }
-
-    const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
-    use IGKBacktickHelperCommandTrait;
+  /**
+     * bind files 
+     * @param mixed $command 
+     * @param mixed $bind 
+     * @param bool $is_force 
+     * @return bool
+     */
+    public static function MakeBindFiles($command, $bind, $is_force = false): bool
+    {
+        $gen = false;
+        foreach ($bind as $n => $c) {
+            if ($is_force || !igk_io_cache_file_exists($n)) {
+                $gen = true;
+                if ($c instanceof Closure)
+                    $c($n, $command);
+                else {
+                    $code = is_string($c) ? $c : '';
+                    igk_io_w2file($n, $code);
+                }
+                Logger::info("generate : " . $n);
+            }
+        }
+        return $gen;
+    }
     /**
      * 
      * @param mixed $opts 
@@ -92,30 +118,7 @@ abstract class ConsoleUtility
             return igk_io_w2file($file, $content, $override);
         };
     }
-    /**
-     * bind files 
-     * @param mixed $command 
-     * @param mixed $bind 
-     * @param bool $is_force 
-     * @return bool
-     */
-    public static function MakeBindFiles($command, $bind, $is_force = false): bool
-    {
-        $gen = false;
-        foreach ($bind as $n => $c) {
-            if ($is_force || !igk_io_cache_file_exists($n)) {
-                $gen = true;
-                if ($c instanceof Closure)
-                    $c($n, $command);
-                else {
-                    $code = is_string($c) ? $c : '';
-                    igk_io_w2file($n, $code);
-                }
-                Logger::info("generate : " . $n);
-            }
-        }
-        return $gen;
-    }
+  
     /**
      * build package json author
      * @param mixed $command 

@@ -15,6 +15,7 @@ use IGK\System\Polyfill\JsonSerializableTrait;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Traits\DynamicActivableTrait;
 use IGKException;
+use IGKType;
 use JsonSerializable;
 use ReflectionClass;
 use ReflectionProperty;
@@ -269,8 +270,8 @@ class Activator
                         $g->$fc($v);
                         continue;
                     }
+                    $v_p = new ReflectionProperty($g, $k);
                     if ($check_version && $c_8_1) {
-                        $v_p = new ReflectionProperty($g, $k);
                         if ($v_p->isReadOnly()) {
                             continue;
                         }

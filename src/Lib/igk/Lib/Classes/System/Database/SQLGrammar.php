@@ -763,9 +763,9 @@ class SQLGrammar implements IDbQueryGrammar
     }
     /**
      * create add column alter query
-     * @param mixed $table 
-     * @param mixed $info 
-     * @param mixed $after 
+     * @param mixed $table table 
+     * @param mixed $info column info
+     * @param mixed $after after columns
      * @return string 
      */
     public function add_column(string $table, $info, ?string $after = null)

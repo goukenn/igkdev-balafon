@@ -1,7 +1,7 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
 // @file: ReferenceModels.php
-// @date: 20251226 14:59:11
+// @date: 20260102 09:35:11
 namespace IGK\Models;
 
 
@@ -21,7 +21,7 @@ use IGK\Models\ModelBase;
 * @method static ?string targetOnClid() - macros function
 * @method static ?self Add(string $clModel, int $clNextValue) add entry helper
 * @method static ?self AddIfNotExists(string $clModel, int $clNextValue) add entry if not exists. check for unique column.
-* @method static void get_ref_nextnumber(int $uid,string $modelname) macros function
+* @method static mixed get_ref_nextnumber(int $uid,string $modelname) macros function
 * @method static ?\IGK\Models\ReferenceModels update_ref_nextnumber(int $uid,string $modelname) macros function
 * */
 class ReferenceModels extends ModelBase{

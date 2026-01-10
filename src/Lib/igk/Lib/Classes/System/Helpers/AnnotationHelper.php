@@ -218,7 +218,7 @@ final class AnnotationHelper
             }
             $r_annotations = [];
             $v_loads = [];
-            foreach ($p->getAnnotations() as $a) {
+            foreach ($p->getAnnotations() as $k=>$a) {
                 if ($a instanceof IAnnotation) {
                     $cl = get_class($a);
                     if (!isset($v_loads[$cl])) {
@@ -231,7 +231,10 @@ final class AnnotationHelper
                     }
                     if (in_array('method',  $port)|| in_array('*', $port)) {
                         if (($info->count == 0) || ($info->multiple)) {
-                            $r_annotations[] = $a;
+                            if (!is_numeric($k)){
+                                $r_annotations[$k] = $a;
+                            }
+                            $r_annotations[] = $a;                            
                             $info->count++;
                         }
                     }

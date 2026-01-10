@@ -18,6 +18,7 @@ use IGK\System\Html\HtmlRenderer;
 use IGK\System\Http\ConfigurationPageHandler;
 use IGK\System\Http\IRequestFileHandler;
 use IGK\System\Http\RequestException;
+use IGK\System\IO\DotEnvConfiguration;
 use IGKApp; 
 use IGKApplicationBase;
 use IGKApplicationBootOptions; 
@@ -93,14 +94,8 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         igk_reg_component_package('xml', function(string $n){
             return new  \IGK\System\Html\XML\XmlNode($n);
         });
-        // bootstrap web application
-        // + initialize library
-        // $this->library("subdomain");
-        // $this->library("session");
-        // $this->library("mysql");
-        // $this->library("zip");
-        // $this->library("gd");
-        // $this->library("curl");
+        // + | bootstrap web application
+        // + | initialize library 
         self::InitWebAppLibrary($this); 
       
         if ($loader){             
@@ -323,12 +318,19 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
             ExceptionUtils::ShowException($ex);
         }
     }
+    /**
+     * init web application library 
+     * @param mixed $app 
+     * @return void 
+     */
     public static function InitWebAppLibrary($app){
-        $app->library("subdomain");
-        $app->library("session");
-        $app->library("mysql");
-        $app->library("zip");
-        $app->library("gd");
-        $app->library("curl");
+        $app->library('subdomain');
+        $app->library('session');
+        $app->library('mysql');
+        $app->library('zip');
+        $app->library('gd');
+        $app->library('curl');
+        // register core config expression
+        \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
     }
 }

@@ -28,7 +28,7 @@ abstract class DispatcherService
     /**
      * 
      * @param BaseController $ctrl 
-     * @param mixed $rtype mixed type
+     * @param mixed $rtype mixed type to inject 
      * @return mixed 
      * @throws IGKException 
      * @throws ArgumentTypeNotValidException 
@@ -42,14 +42,25 @@ abstract class DispatcherService
         $v_transient = false;
         if (is_array($rtype)) {
             $bind = igk_getv($rtype, self::TYPE_PRECISION);
-            $nkey = $bind ?? igk_getv(array_keys($rtype), 0);
+            $nkey = $bind ?? self::GetFirstClassTypeFromArray($rtype, $ctrl); 
+            if (is_null($nkey)){
+                return null;
+            }
             $m = (array)$rtype[$nkey];
             $arguments = igk_getv($m, $c_tg) ?? [];
             $v_transient = igk_getv($m, IGKServices::KEY_LIFETIME) ==  LifeTime::TRANSIENT;
             $rtype = $nkey;
+            if ($arguments && !is_array($arguments)){
+                $arguments = [$arguments];
+            }
         }
-        if (is_string($rtype)) {
-            is_subclass_of($rtype, $typecheck) || igk_die('misconfiguration target type not injectable');
+        if (!$typecheck || is_string($rtype)) {
+            if (!$typecheck){
+                igk_die('typecheck is not defined');
+            }
+            (class_exists($rtype) && is_subclass_of($rtype, $typecheck)) || igk_die(
+                sprintf('misconfiguration target type not injectable [%s]', $rtype)
+            );
         }
         $p = DispatcherService::GetServiceInstance($ctrl, $rtype, $v_transient, $arguments);
         if ($m && $p && self::IsServiceNewInstance()) {
@@ -57,6 +68,21 @@ abstract class DispatcherService
             DispatcherService::SetupServiceInstance($p, $m);
         }
         return $p;
+    }
+    /**
+     * 
+     * @param mixed $array 
+     * @return int|string|null 
+     */
+    public static function GetFirstClassTypeFromArray($array){
+        while(count($array)>0){
+            $key = key($array);
+            $q = array_shift($array);
+            if (is_array($q) && class_exists($key)){
+                return $key;
+            }
+        }
+        return null;
     }
     /**
      * get register injectable or service

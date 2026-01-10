@@ -103,7 +103,11 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
                 $ocl = Activator::CreateNewInstance($cl, $tcontent);
                 if ($ocl instanceof IAnnotation)
                     $ocl->setParams($tcontent);
-                $this->m_annotations[] = $ocl;
+                if ($sp){
+                   $this->m_annotations[$name] = $ocl;  
+                } else{
+                   $this->m_annotations[] = $ocl;
+                }
             }
         }
     }

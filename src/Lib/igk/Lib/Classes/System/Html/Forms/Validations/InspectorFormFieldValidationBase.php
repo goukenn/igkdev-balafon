@@ -60,6 +60,7 @@ abstract class InspectorFormFieldValidationBase implements
             if (is_string($s)){
                 $d = new FormFieldInfo;
                 $d->id = $s; 
+                $d->required = true;
                 $k = $s;
                 $s = $d;
             }else {

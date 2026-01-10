@@ -14,8 +14,11 @@ use IGK\System\Http\Route;
 use IGK\System\Http\RouteActionHandler;
 use IGK\Actions\ActionBase;
 use IGK\Actions\Traits\Authenticator\BearerAuthenticatorTrait;
+use IGK\Controllers\BaseController;
 use IGK\Helper\ActionHelper;
 use IGK\Helper\StringUtility;
+use IGK\System\Core\Security\Annotations\AuthAnnotation;
+use IGK\System\Core\Security\Annotations\SecurityAnnotation;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Helpers\AnnotationHelper;
 use IGK\System\Http\Helper\Response;
@@ -177,7 +180,7 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                             self::_VerifMethodAccess($this, $v_refmethod, $v_user);
                         }
                         $handle = true;
-                        $arguments =  Dispatcher::GetInjectArgs($v_refmethod, $arguments, []);
+                        $arguments = Dispatcher::GetInjectArgs($v_refmethod, $arguments);
                         return $this->$name(...$arguments);
                     }
                 }
@@ -260,11 +263,11 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                     // + | bind action
                     array_unshift($arguments, $name);
                     array_unshift($arguments, $this->ctrl);
-                    
+
                     return RouteActionHandler::Handle($v, ...$arguments);
                 } else {
                     // + | is accessible but route verbs not matching 
-                    if ($v->isAccessible($path, $method)){
+                    if ($v->isAccessible($path, $method)) {
                         // route not matching
                         $m = __('route not valid');
                         throw new ActionRequestException($m, RequestResponseCode::BadRequest);
@@ -301,32 +304,59 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      */
     private static function _VerifMethodAccess($host, ReflectionMethod $v_refmethod, $user)
     {
+        $v_uses = [
+            SecurityAnnotation::class => 'security'
+        ];
+        $annotations = AnnotationHelper::GetAnnotations($v_refmethod, $v_uses);
+        if ($annotations) {
+            $security = igk_getv($annotations, 'security');
+            if ($security instanceof SecurityAnnotation) {
+                $ctrl = $host->getController();
+                self::_HandleSecurity($ctrl, $user, $security->auth ?? []);
+                return;
+            }
+        }
+
+
+
         if ($security = self::_ParseSecurity($v_refmethod, $p)) {
             $ctrl = $host->getController();
             $reader = StringBlockReader::Annotation();
             $src =  $reader->read($security);
             $args = StringUtility::ReadArgs($src);
-            $ack = (object)[
-                'security' => null,
-                'access' => false,
-                'controller' => $ctrl,
-                'user' => $user
-            ];
-            while (!$ack->access  && (count($args) > 0)) {
-                $t = array_shift($args);
-                if (!is_array($t))
-                    $t = [$t];
-                foreach ($t as $sec) {
-                    $ack->security = $sec;
-                    igk_hook(IGKEvents::HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN, $ack);
-                    if ($ack->access) {
-                        break;
-                    }
+            self::_HandleSecurity($ctrl, $user, $args);
+        }
+    }
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @param mixed $user 
+     * @param mixed $args 
+     * @return void 
+     * @throws IGKException 
+     */
+    private static function _HandleSecurity(BaseController $ctrl, $user, $args)
+    {
+        $ack = (object)[
+            'security' => null,
+            'access' => false,
+            'controller' => $ctrl,
+            'user' => $user
+        ];
+        while (!$ack->access  && (count($args) > 0)) {
+            $t = array_shift($args);
+            if (!is_array($t))
+                $t = [$t];
+            foreach ($t as $sec) {
+                $ack->security = $sec;
+                igk_hook(IGKEvents::HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN, $ack);
+                if ($ack->access) {
+                    break;
                 }
             }
-            if (!$ack->access) {
-                throw new IGKException("invalid token ", 500);
-            }
+        }
+        if (!$ack->access) {
+            throw new IGKException("invalid token", 500);
         }
     }
     /**
@@ -351,86 +381,115 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
      */
     private static function _CheckMethodAccess($host, ReflectionMethod $v_refmethod, $global_security = null, $global_auth = null, $global_strict_auth = false)
     {
-        $c_mid_key = IGKEvents::HOOK_MIDDLEWARE_ACTION;
-        $auth = '';
+
+        $v_uses = [
+            SecurityAnnotation::class => 'security',
+            AuthAnnotation::class=>'auth'
+        ];
+        $annotations = AnnotationHelper::GetAnnotations($v_refmethod, $v_uses);
+
+        if ($annotations) {
+            list($security, $auth) = igk_extract($annotations, 'security|auth');
+            if ($security instanceof SecurityAnnotation) {
+                $ctrl = $host->getController();
+                $p = (object)[
+                    'security-annotation'=>$security,
+                    'security'=>$security->security,
+                    'auth'=>$security->auth ??( $auth?$auth->auth:null),
+                    'strict'=>$security->strict ?? ($auth?$auth->strict:null)
+                ];
+                $p->args = is_array($security->security) ? $security->security : [$security->security];
+                return self::_HandleMethodAccessSecurity($ctrl, $p, $global_security, $global_auth, $global_strict_auth);
+            }
+        } 
         $p = null;
         $security = self::_ParseSecurity($v_refmethod, $p) ?? $global_security;
-        if ($security) {
+        if ($security) { 
             if (is_null($p)) {
                 $p = (object)['security' => $security, 'auth' => $global_auth, 'strict_auth' => $global_strict_auth];
-            }
-            $fc_auth = function ($e) {
-                if ($e->args->access) {
-                    return;
-                }
-                $c = igk_server()->getAccessObject();
-                if (is_null($c)) {
-                    igk_json([
-                        'error' => true,
-                        'message' => 'require auth to access object',
-                        // 'headers'=>igk_get_allheaders(),
-                        // 'server'=>$_SERVER
-                    ], RequestResponseCode::Forbiden);
-                    return;
-                }
-                $arg = $e->args;
-                $login = $pwd = null;
-                list($security, $controller) = igk_extract($arg, 'security|controller');
-                $is_bearer = in_array($security, [Security::BEARER_AUTH]);
-                $token = $is_bearer ? $c->getBearerToken() : $c->getBasicToken();
-                if ($token) {
-                    list($login, $pwd) = explode(':', base64_decode($token), 2);
-                } else {
-                    if (in_array($security, [Security::BASIC_AUTH])) {
-                        list($login, $pwd) = $c::HandleBasicAuth();
-                    }
-                }
-                if ($login && $pwd) {
-                    $connected = $controller->login($login, $pwd, false);
-                    $e->args->access = $connected;
-                }
-            };
-            igk_reg_hook($c_mid_key, $fc_auth);
-            $auth = $p->auth;
-            $strict = $p->strict_auth;
+            } 
             $ctrl = $host->getController();
             $reader = StringBlockReader::Annotation();
             $src =  $reader->read($security);
             $args = StringUtility::ReadArgs($src);
-            $ack = (object)[
-                'security' => null,
-                'access' => false,
-                'controller' => $ctrl
-            ];
-            if ($auth) {
-                $auth = array_map(function ($a) use ($ctrl) {
-                    return $ctrl->authName($a);
-                }, $auth);
-            }
-            while (!$ack->access  && (count($args) > 0)) {
-                $t = array_shift($args);
-                if (!is_array($t))
-                    $t = [$t];
-                foreach ($t as $sec) {
-                    $ack->security = $sec;
-                    igk_hook($c_mid_key, $ack);
-                    if ($ack->access) {
-                        break;
-                    }
-                }
-            }
-            igk_unreg_hook($c_mid_key, $fc_auth);
-            if (!$ack->access) {
-                throw new IGKException("Security issue. Missing User.", RequestResponseCode::Forbiden);
-            }
-            $ctrl->checkUser(false, false);
-            $userProfile = $ctrl->userProfile;
-            if ($auth && (($userProfile && !$userProfile->auth($auth, $strict)) || !$ctrl->getUser()->auth($auth, $strict))) {
-                throw new IGKException("Security issue.", RequestResponseCode::Unauthorized);
-            }
-            return true;
+            $p->args = $args;
+            self::_HandleMethodAccessSecurity($ctrl, $p, $global_security, $global_auth, $global_strict_auth);
         }
         return false;
+    }
+    private static function _HandleMethodAccessSecurity(BaseController $ctrl, $p, $global_security = null, $global_auth = null, $global_strict_auth = false)
+    {
+
+        $c_mid_key = IGKEvents::HOOK_MIDDLEWARE_ACTION;
+        list($strict, $auth, $args) = igk_extract($p, 'strict|auth|args'); 
+
+        $fc_auth = function ($e) {
+            if ($e->args->access) {
+                return;
+            }
+            $c = igk_server()->getAccessObject();
+            if (is_null($c)) {
+                igk_json([
+                    'error' => true,
+                    'message' => 'require auth to access object',
+                    // 'headers'=>igk_get_allheaders(),
+                    // 'server'=>$_SERVER
+                ], RequestResponseCode::Forbiden);
+                return;
+            }
+            $arg = $e->args;
+            $login = $pwd = null;
+            list($security, $controller) = igk_extract($arg, 'security|controller');
+            $is_bearer = in_array($security, [Security::BEARER_AUTH]);
+            $token = $is_bearer ? $c->getBearerToken() : $c->getBasicToken();
+            if ($token) {
+                list($login, $pwd) = explode(':', base64_decode($token), 2);
+            } else {
+                if (in_array($security, [Security::BASIC_AUTH])) {
+                    list($login, $pwd) = $c::HandleBasicAuth();
+                }
+            }
+            if ($login && $pwd) {
+                $connected = $controller->login($login, $pwd, false);
+                $e->args->access = $connected;
+            }
+        };
+        igk_reg_hook($c_mid_key, $fc_auth);
+        $ack = (object)[
+            'security' => null,
+            'access' => false,
+            'controller' => $ctrl
+        ];
+        // + | --------------------------------------------------------------------
+        // + | authentication access
+        // + |
+        if ($auth) {
+            $auth = array_map(function ($a) use ($ctrl): string {
+                return $ctrl->authName($a);
+            }, $auth);
+        }
+        while (!$ack->access  && (count($args) > 0)) {
+            $t = array_shift($args);
+            if (!is_array($t))
+                $t = [$t];
+            foreach ($t as $sec) {
+                $ack->security = $sec;
+                igk_hook($c_mid_key, $ack);
+                if ($ack->access) {
+                    break;
+                }
+            }
+        }
+        igk_unreg_hook($c_mid_key, $fc_auth);
+        if (!$ack->access) {
+            throw new IGKException("Security issue. Missing User.", RequestResponseCode::Forbiden);
+        }
+        $ctrl->checkUser(false, false);
+        $userProfile = $ctrl->userProfile;
+        if ($auth && (($userProfile && !$userProfile->auth($auth, $strict)) || !$ctrl->getUser()->auth($auth, $strict))) {
+            throw new IGKException("Security issue.", RequestResponseCode::Unauthorized);
+        }
+        return true;
     }
     /**
      * redirect code 

@@ -4,6 +4,9 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\XML;
+
+use IGK\System\Configuration\SysAppConfigExpression;
+use IGK\System\Configuration\SysConfigExpression;
 use IGK\System\Html\HtmlUtils;
 /**
  * configuration node
@@ -12,6 +15,7 @@ use IGK\System\Html\HtmlUtils;
 class XmlConfigurationNode extends XmlNode{
     const SYS_CONFIG = 'sys';
     const APP_CONFIG = 'app';
+
     public function __construct($tagname)
     {
         parent::__construct($tagname);
@@ -57,6 +61,10 @@ class XmlConfigurationNode extends XmlNode{
         }
         return $g; 
     }
+    /**
+     * 
+     * @return SysAppConfigExpression|SysConfigExpression|null|object|string 
+     */
     public function getInnerHtml()
     {
         $s = trim(parent::getInnerHtml());     
@@ -65,14 +73,15 @@ class XmlConfigurationNode extends XmlNode{
         // if (!empty($s) && preg_match("/\{\{(?P<exp>.+)\}\}/i", $s, $tab)){
         if (!empty($s) && preg_match("/\{\{(?P<exp>\s*((?P<name>$gps)\.)?.+)\}\}/i", $s, $tab)){
             $m = trim($tab["exp"]);
-            switch($tab["name"]){
+            $n = igk_getv($tab, 'name');
+            switch($n){
                 case self::APP_CONFIG:
                     return new \IGK\System\Configuration\SysAppConfigExpression(substr($m , 4));
                     break;
                 case self::SYS_CONFIG:
                     return new \IGK\System\Configuration\SysConfigExpression(substr($m , 4));
                 default:
-                    if (empty($tab["name"])){
+                    if (empty($n)){
                         return null;
                     }
                     if ($c = \IGK\System\Configuration\SysConfigExpressionFactory::Create($tab["name"], $m)){

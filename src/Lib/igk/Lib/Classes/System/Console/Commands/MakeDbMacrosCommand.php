@@ -47,12 +47,12 @@ class MakeDbMacrosCommand extends AppExecCommand{
      * @var string $controller Controller
      * @var string $actionName the action to create 
      */
-    public function exec($command, $controller="", $macroName=""){
+    public function exec($command, $controller="", $action_name=""){
         if (empty($controller)){
             Logger::danger("controller is required");
             return false;
         } 
-        if (empty($macroName)){
+        if (empty($action_name)){
             Logger::danger("macro name name required");
             return false;
         } 
@@ -77,11 +77,11 @@ class MakeDbMacrosCommand extends AppExecCommand{
         $ns = $ctrl->getEntryNamespace();
         $dir = $ctrl::classdir(); 
         $bind = [];
-        $macroName = ucfirst($macroName);
-        if ((($pos = strrpos(strtolower($macroName), 'macros'))>0) && (($pos+6)==strlen($macroName))){
-            $macroName = substr($macroName,0, -6);
+        $action_name = ucfirst($action_name);
+        if ((($pos = strrpos(strtolower($action_name), 'macros'))>0) && (($pos+6)==strlen($action_name))){
+            $action_name = substr($action_name,0, -6);
         }
-        $path = $macroName;
+        $path = $action_name;
         $tcl =  explode("/", StringUtility::Uri($path ));
         array_pop( $tcl); 
         if (!empty($ns)){
@@ -100,12 +100,12 @@ class MakeDbMacrosCommand extends AppExecCommand{
                 $m
             ]);
         };
-        $bind[$dir."/Database/Macros/{$path}Macros.php"] = function($file)use($macroName, 
+        $bind[$dir."/Database/Macros/{$path}Macros.php"] = function($file)use($action_name, 
             $author, $ns){          
             $content = $this->_getContent(); 
             $v_uses = $this->_getUses() ?? [];
             $builder = new PHPScriptBuilder();
-            $fname = $macroName.IGK_VIEW_FILE_EXT;           
+            $fname = $action_name.IGK_VIEW_FILE_EXT;           
             $builder->type("class")->name(igk_io_basenamewithoutext($file))
             ->class_modifier('abstract')
             ->uses($v_uses)
@@ -113,7 +113,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
             ->namespace($ns)
             ->defs($content) 
             ->file($fname) 
-            ->desc("macros for model ".$macroName);
+            ->desc("macros for model ".$action_name);
             igk_io_w2file( $file,  $builder->render());
         };
         CommandsUtility::MakeBindFiles($command, $bind, property_exists($command->options, "--force"));
