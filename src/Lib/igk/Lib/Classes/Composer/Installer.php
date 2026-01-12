@@ -49,7 +49,7 @@ class Installer
             $args[] = './';
         $cm = Utility::BuildArgs($args) . ' ';
         $cli = IGK_LIB_DIR . '/bin/balafon';
-
+igk_exit();
         // $wdir = IGK_LIB_DIR;
         // + | init project 
         echo `cd {$chdir} && $cli --init --noconfig --reset {$cm}`;
