@@ -79,6 +79,7 @@ class Installer
         $app_dir = $dir.'/src/application';
         IO::CreateDir($app_dir);
         rename($dir.'/src/Lib', $app_dir.'/Lib');
+        unlink($file);
         igk_io_a2file($file, '/////clean////');
         igk_wln('new package ....', $src);
     }
