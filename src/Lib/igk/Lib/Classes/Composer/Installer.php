@@ -50,7 +50,7 @@ class Installer
             // + | 
             $ct = array_slice($argv, $idx +2);
             $args = array_merge($args, $ct);
-            igk_wln('reorganize the package directory...');
+            igk_wln('re-organize the package directory...', $args);
             self::_ReorguanizPackage($chdir);
             $cli = $chdir.'/src/application/Lib/igk/bin/balafon';
         }
