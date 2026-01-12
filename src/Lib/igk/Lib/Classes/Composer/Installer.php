@@ -33,6 +33,7 @@ class Installer
         $argv = igk_getv($_SERVER, 'argv');
         igk_wln('VERSION: ' . IGK_VERSION);
         igk_wln('cwd: ' . $chdir);
+        igk_wln('argv: ' .json_encode( $argv));
         $vendor_dir = $chdir . '/vendor';
         $args = [];
         if (is_dir($vendor_dir)) {
@@ -50,6 +51,7 @@ class Installer
         $cm = Utility::BuildArgs($args) . ' ';
         $cli = IGK_LIB_DIR . '/bin/balafon';
         igk_wln('CLI : '.$cli);
+        self::_CoreMoveToVendorDir();
 igk_exit();
         // $wdir = IGK_LIB_DIR;
         // + | init project 
@@ -62,6 +64,9 @@ igk_exit();
             @symlink($reflink, $fs);
         }
     }
+    private static function _CoreMoveToVendorDir(){
+
+    }   
     /**
      * 
      * @return void 
