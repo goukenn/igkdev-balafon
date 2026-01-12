@@ -42,18 +42,21 @@ class Installer
         $args['--app-dir'] = Path::GetRelativePath($chdir, $chdir . '/src/application');
 
         $ct = false;
-        if (false !== $idx = array_search('create-project', $argv)){
+        if (false !== ($idx = array_search('create-project', $argv))){
+            // + | ---------------------------------------------------
+            // + | create in composer.phar with create-project command
+            // + |
             $ct = array_slice($argv, $idx +2);
             $args = array_merge($args, $ct);
+            igk_wln('reorganize the package directory...');
+            self::_ReorguanizPackage($chdir);
         }
         if (!$ct || !Utility::HaveArg($ct))
             $args[] = './';
         $cm = Utility::BuildArgs($args) . ' ';
         $cli = IGK_LIB_DIR . '/bin/balafon';
         igk_wln('CLI : '.$cli);
-        self::_CoreMoveToVendorDir();
-igk_exit();
-        // $wdir = IGK_LIB_DIR;
+        self::_CoreMoveToVendorDir();  
         // + | init project 
         echo `cd {$chdir} && $cli --init --noconfig --reset {$cm}`;
         // + | create a symlink to balafon cli
@@ -64,7 +67,20 @@ igk_exit();
             @symlink($reflink, $fs);
         }
     }
-    private static function _CoreMoveToVendorDir(){
+    private static function _ReorguanizPackage($dir){
+        $src = file_get_contents($file = $dir.'/composer.json');
+        $src = str_replace('src/Lib/igk/', 'src/application/Lib/igk',$src);
+
+        rename($dir.'/src/Lib', $dir.'/src/application/Lib');
+        igk_io_a2file($file, $src);
+
+    }
+    /**
+     * 
+     * @param null|string $vendor_dir 
+     * @return void 
+     */
+    private static function _CoreMoveToVendorDir(?string $vendor_dir){
 
     }   
     /**
