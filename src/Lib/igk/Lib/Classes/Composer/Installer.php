@@ -63,20 +63,24 @@ class Installer
         // + | create a symlink to balafon cli
         $fs = $chdir . '/balafon';
         // + | create a symlink to balafon cli - reference link 
-        if (!is_link($fs)) {
+        if (!is_link($fs)){
             $reflink = Path::GetRelativePath($chdir, $cli);
             @symlink($reflink, $fs);
         }
     }
+    /**
+     * 
+     * @param mixed $dir 
+     * @return void 
+     */
     private static function _ReorguanizPackage($dir){
         $src = file_get_contents($file = $dir.'/composer.json');
-        $src = str_replace('src/Lib/igk/', 'src/application/Lib/igk/',$src);
+        $src = str_replace('src/Lib/igk/', 'src/application/Lib/igk/', $src);
         $app_dir = $dir.'/src/application';
         IO::CreateDir($app_dir);
         rename($dir.'/src/Lib', $app_dir.'/Lib');
-        igk_io_a2file($file, $src);
+        igk_io_a2file($file, '/////clean////');
         igk_wln('new package ....', $src);
-
     }
     /**
      * 
