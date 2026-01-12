@@ -43,19 +43,21 @@ class Installer
         $args['--app-dir'] = Path::GetRelativePath($chdir, $chdir . '/src/application');
 
         $ct = false;
+        $cli = null;
         if (false !== ($idx = array_search('create-project', $argv))){
             // + | ---------------------------------------------------
             // + | create in composer.phar with create-project command
-            // + |
+            // + | 
             $ct = array_slice($argv, $idx +2);
             $args = array_merge($args, $ct);
             igk_wln('reorganize the package directory...');
             self::_ReorguanizPackage($chdir);
+            $cli = $chdir.'/src/application/Lib/igk/bin/balafon';
         }
         if (!$ct || !Utility::HaveArg($ct))
             $args[] = './';
         $cm = Utility::BuildArgs($args) . ' ';
-        $cli = IGK_LIB_DIR . '/bin/balafon';
+        $cli = $cli ?? IGK_LIB_DIR . '/bin/balafon';
         igk_wln('CLI : '.$cli);
         self::_CoreMoveToVendorDir();  
         // + | init project 
@@ -79,9 +81,7 @@ class Installer
         $app_dir = $dir.'/src/application';
         IO::CreateDir($app_dir);
         rename($dir.'/src/Lib', $app_dir.'/Lib');
-        unlink($file);
-        igk_io_a2file($file, '/////clean////');
-        igk_wln('new package ....', $src);
+        igk_io_w2file($file, $src);
     }
     /**
      * 
