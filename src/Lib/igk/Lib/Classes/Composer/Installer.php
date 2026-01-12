@@ -4,6 +4,7 @@
 // @date: 20251120 16:01:35
 namespace IGK\Composer;
 
+use IGK\Helper\IO;
 use IGK\System\Console\Commands\Utility;
 use IGK\System\IO\Path;
 
@@ -69,9 +70,10 @@ class Installer
     }
     private static function _ReorguanizPackage($dir){
         $src = file_get_contents($file = $dir.'/composer.json');
-        $src = str_replace('src/Lib/igk/', 'src/application/Lib/igk',$src);
-
-        rename($dir.'/src/Lib', $dir.'/src/application/Lib');
+        $src = str_replace('src/Lib/igk/', 'src/application/Lib/igk/',$src);
+        $app_dir = $dir.'/src/application';
+        IO::CreateDir($app_dir);
+        rename($dir.'/src/Lib', $app_dir.'/Lib');
         igk_io_a2file($file, $src);
 
     }
