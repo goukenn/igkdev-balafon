@@ -75,6 +75,7 @@ class Installer
         IO::CreateDir($app_dir);
         rename($dir.'/src/Lib', $app_dir.'/Lib');
         igk_io_a2file($file, $src);
+        igk_wln('new package ....', $src);
 
     }
     /**
@@ -82,7 +83,7 @@ class Installer
      * @param null|string $vendor_dir 
      * @return void 
      */
-    private static function _CoreMoveToVendorDir(?string $vendor_dir){
+    private static function _CoreMoveToVendorDir(?string $vendor_dir=null){
 
     }   
     /**
