@@ -1,6 +1,7 @@
 {
     "name":"igkdev/balafon",
     "description":"BALAFON PHP Framework",
+    "type":"project",
     "license": "MIT",
     "require":{          
         "php":">=7.3"      
@@ -27,11 +28,9 @@
     },
     "scripts": {
         "post-autoload-dump": [ 
-            "echo 'autoload-dump '",
             "IGK\\Composer\\Installer::PostInstall"
         ],
         "post-install-cmd": [
-            "echo 'install balafon core '",
             "IGK\\Composer\\Installer::PostInstall"
         ] ,
         "test:phpunit": "phpunit" ,

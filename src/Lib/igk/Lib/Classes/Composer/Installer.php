@@ -7,8 +7,7 @@ namespace IGK\Composer;
 use IGK\System\Console\Commands\Utility;
 use IGK\System\IO\Path;
 
-defined('IGK_VERSION') && die('already defined');
-
+defined('IGK_COMPOSE_DEBUG_INSTALLER') || (defined('IGK_VERSION') && die('balafon framework. already defined')); 
 require_once __DIR__ . '/../../../igk_framework.php';
 require_once IGK_LIB_CLASSES_DIR . '/System/Console/Commands/Utility.php';
 
@@ -25,7 +24,11 @@ class Installer
      */
     public static function PostInstall()
     {
-        echo 'running post install', PHP_EOL;
+        echo '* --------------------------------------------------------',PHP_EOL;
+        echo '* running post install', PHP_EOL;
+        echo '* --------------------------------------------------------',PHP_EOL;
+
+
         $chdir = getcwd();
         $argv = igk_getv($_SERVER, 'argv');
         igk_wln('VERSION: ' . IGK_VERSION);
