@@ -33,7 +33,7 @@ class IGKAppSystem
      * retrieve configuration full path 
      * @return string 
      */
-    private static function _GetConfigFile(){
+    private static function _GetConfigFile(): string{
         $path = Path::getInstance();
         $path->getDataDir();
         return implode("/", [$path->getDataDir(), self::CONF_FILE]);
@@ -82,6 +82,18 @@ class IGKAppSystem
         $env->set(IGKEnvironment::INIT_APP, 1); 
         !$env->NoAppInitFileStruct && self::_InitEnvironmentFileStructure($dirname, $app_dir, $project_dir, $path);       
         $env->NoAppInitFileStruct = false;
+
+        $v_cpath = Path::getInstance();
+        $v_tdirs = [
+            $v_cpath->getModuleDir(),
+            IGK_NODE_MODULES_DIR,
+            IGK_VENDOR_DIR,
+        ];
+        foreach($v_tdirs as $k){
+            if ($k && !is_dir($k)){
+                IO::CreateDir($k);
+            }
+        }
         igk_raise_initenv_callback();
         $env->set(IGKEnvironment::INIT_APP, null);
         igk_reg_hook(IGKEvents::HOOK_BEFORE_INIT_APP, [self::class, "reloadConfigCallback"]);

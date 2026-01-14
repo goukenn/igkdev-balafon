@@ -351,6 +351,9 @@ class Path
         }
         return $this->baserelativepath($p, null, $sep);
     }
+    /**
+     * 
+     */
     public function baserelativepath($dir, $basedir = null, $sep = DIRECTORY_SEPARATOR)
     {
         if (empty($dir)) {
@@ -360,25 +363,16 @@ class Path
         $bdir = str_helper::uri($basedir == null ? $this->basedir() : $basedir);
         return $this->relativepath($dir, $bdir);
     }
+    /**
+     * 
+     */
     public function relativepath($spath, $link)
     {
         if (is_dir($link)) {
             $link = rtrim($link, "/") . "/";
         }
         return self::GetRelativePath(str_helper::uri($spath), str_helper::uri($link));
-        // $d1 = explode("/", ltrim(str_helper::uri($spath), "/"));
-        // $d2 = explode("/", ltrim(str_helper::uri($link), "/"));
-        // $i = 0;
-        // $c1 =count($d1);
-        // while(($i < $c1) && ($d = array_shift($d2)) && ($d == $d1[$i])){
-        //     //determine        
-        //     $i++;
-        // }
-        // if ($i==0){
-        //     return false; // die("path not match");
-        // }
-        // $dnew = str_repeat("../", count($d2)). implode("/", array_slice($d1,$i));
-        // return $dnew;
+     
     }
     /**
      * Get relative path
@@ -600,4 +594,27 @@ class Path
         }
         return $p;
     }
+    /**
+ * get string local path
+ */
+public static function ToLocalPath(string $path, ?string $cwd=null):string{
+    $cwd = $cwd ?? getcwd();
+    $c = igk_uri($path);
+    $absolute = false;
+    if (PHP_OS_FAMILY=='Window'){
+        $absolute = !preg_match('/^([a-zA-Z]:|\/\/)/', $c);
+    } else {
+        $absolute = ($c[0] == '/');
+    }
+
+    if (!$absolute){
+        $c = Path::FlattenPath(Path::Combine($cwd, $c));
+    } 
+    return igk_dir($c);
+}
+public static function SubLocalPath(string $path, string $cwd): ?string{
+     $g = self::ToLocalPath($path, $cwd);
+return \IGK\System\IO\Path::GetRelativePath($cwd, $g); //
+
+}
 }

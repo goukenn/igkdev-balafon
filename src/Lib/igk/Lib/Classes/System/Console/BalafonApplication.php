@@ -26,6 +26,7 @@ use IGKApp;
 use IGKApplicationBase;
 use IGKAppType;
 use IGKEnvironment;
+use IGKEvents;
 use IGKException;
 use IGKModuleListMigration;
 use IGKServices;
@@ -38,8 +39,9 @@ use function igk_resources_gets as __;
 // + |  --set-env: set environment definition
 // + |  --set-server: set server Global value
 require_once IGK_LIB_CLASSES_DIR . "/Helper/Traits/IOPathCheckerTrait.php";
+require_once IGK_LIB_CLASSES_DIR . "/System/Console/ICLICommandApp.php";
 /** @package  */
-class BalafonApplication extends IGKApplicationBase
+class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
 {
     use IOPathCheckerTrait;
     /**
@@ -262,8 +264,15 @@ class BalafonApplication extends IGKApplicationBase
         $_env->no_db_route = 1;
         igk_configs()->no_db_route = 1;
         igk_register_service('balafon', 'cli', new BalafonCLIService);
+        $argv = & $_SERVER['argv'];
+ 
+        // preprocess command line arguments 
+        $hook_options = [];
+        if ($e = igk_hook(IGKEvents::HOOK_PREPROCESS_COMMAND_LINE, ['argv'=>&$argv, 'app'=>$this], $hook_options)){
+            return 0;
+        }
+ 
         IGKApp::StartEngine($this);
-
         return \IGK\System\Console\App::Run($this->command, $this->basePath, $this->configs);
     }
     /**
@@ -633,6 +642,9 @@ class BalafonApplication extends IGKApplicationBase
                     @unlink($cf);
                 }
             }
+            if (!in_array('--env-only', $argv)) {
+            new \IGK\System\Console\Commands\BalafonInitCommand;
+            }
         }
     }
     /**
@@ -772,7 +784,7 @@ class BalafonApplication extends IGKApplicationBase
                     }
                     set_include_path($v_pdir . PATH_SEPARATOR . get_include_path());
                 }
-            }
+            } 
         })($argv);
     }
 }

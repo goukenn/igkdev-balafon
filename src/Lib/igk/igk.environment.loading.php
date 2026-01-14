@@ -11,6 +11,8 @@ require_once(IGK_LIB_CLASSES_DIR . "/interfaces.php");
 require_once(IGK_LIB_CLASSES_DIR . "/IGKObject.php");
 require_once(IGK_LIB_CLASSES_DIR . "/IGKApplicationBase.php");
 require_once(IGK_LIB_CLASSES_DIR . "/Resources/R.php");
+
+require_once(IGK_LIB_CLASSES_DIR . "/System/Console/ICLICommandApp.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Console/App.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Console/BalafonApplication.php");
 require_once(IGK_LIB_CLASSES_DIR . "/System/Console/Logger.php");

@@ -9,8 +9,10 @@ use IGK\Helper\Utility;
 use IGK\System\Console\App;
 use IGK\System\Console\AppCommand;
 use igk\System\Console\Commands\Utility as CommandsUtility;
+use IGK\System\Console\ICLICommandApp;
 use IGK\System\Console\Logger;
 use IGKBacktickHelperCommandTrait;
+use stdClass;
 
 require_once IGK_LIB_CLASSES_DIR . '/IGKBacktickHelperCommandTrait.php';
 /**
@@ -167,5 +169,70 @@ abstract class ConsoleUtility
             return implode(':', [$k, $v]);
         }, $arg, array_keys($arg))));
         return $cm;
+    }
+    /**
+     * 
+     * @param IGK\System\Console\ICLICommandApp $app 
+     * @param mixed $argv 
+     * @param array &$args 
+     * @return stdClass|mixed 
+     */
+    public static function TreatCommandArgs(ICLICommandApp $app, $argv, array & $args, ?array $handle=null){
+        $command = igk_createobj();
+        $command->app = $app;
+        $command->command = $app->command;
+        $command->exec = null;
+        $command->storage = array();
+        $command->waitForNextEntryFlag = false;
+        $command->options = new \stdClass();
+        $tab = $argv;
+        $handle = $handle ?? [];
+        $args = [];
+        $split = false;
+        $c = null;
+        foreach ($tab as $id => $v) {
+            if (!$split && $v == '--') {
+                $split = true;
+                continue;
+            }
+            if ($split) {
+                $args[] = $v;
+                continue;
+            }
+            if ($command->waitForNextEntryFlag) {
+                $action($v, $command, []);
+                $command->waitForNextEntryFlag = false;
+            }
+            if (isset($handle[$v])) {
+                $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
+                $action($v, $command, $c ? implode(":", array_slice($c, 1)): []);
+            } else {
+                $c = explode(":", $v);
+                $v_ts =  implode(":", array_slice($c, 1));
+                if (isset($handle[$c[0]])) {
+                    if (isset($handle[$v])) {
+                        $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
+                        $action($v, $command, $v_ts);
+                    } else {
+                        $command->options->{$c[0]} = $v_ts;
+                    }
+                } else {
+                    if ($c[0] && ($c[0][0] == "-") && ($v!='-') && (strlen($c[0])>1)){
+                        if (!property_exists($command->options, $c[0])) {
+                            $command->options->{$c[0]} = $v_ts;
+                        } else {
+                            if (!is_array($command->options->{$c[0]})) {
+                                $command->options->{$c[0]} = [$command->options->{$c[0]}];
+                            }
+                            $command->options->{$c[0]}[] = $v_ts;
+                        }
+                        unset($command->command[$id]);
+                    } else
+                        $args[] = $v;
+                }
+            }
+        }
+
+        return $command;
     }
 }

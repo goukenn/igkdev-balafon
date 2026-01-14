@@ -25,6 +25,7 @@ class IGKEvents extends IGKObject
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
     const HOOK_SESS_START = "sys_session_start";
     const HOOK_SYS_INIT_CONFIG = 'sys://init_config';
+    const HOOK_PREPROCESS_COMMAND_LINE = 'sys://cli/preprocess-command-line';
     
     /**
      * reset uset authentications 

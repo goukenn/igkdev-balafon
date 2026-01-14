@@ -3,32 +3,37 @@
 // @file: BalafonInitEnvironment.php
 // @date: 20231019 12:57:36
 namespace IGK\System\Console;
+
+use IGK\Helper\IO;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\IO\Path;
 use IGKAppSystem;
 use IGKEvents;
 use stdClass;
+
 /**
-* init environment balafon environment configuration
-* @package IGK\System\Console
-*/
-class BalafonInitEnvironment{
+ * init environment balafon environment configuration
+ * @package IGK\System\Console
+ */
+class BalafonInitEnvironment
+{
     const AppLibCore = '/Lib/igk';
     /**
      * retrieve vendor directory 
      * @param string $dir 
      * @return string|null 
      */
-    public static function GetVendorDir(string $dir): ?string{
-        while($dir && ($dir!='.')){
+    public static function GetVendorDir(string $dir): ?string
+    {
+        while ($dir && ($dir != '.')) {
             $n = basename($dir);
-            if ($n=='vendor'){
-                if (file_exists($dir.'/autoload.php')){
+            if ($n == 'vendor') {
+                if (file_exists($dir . '/autoload.php')) {
                     return $dir;
                 }
             }
             $pdir = $dir;
-            if ($pdir === ($dir = dirname($dir))){
+            if ($pdir === ($dir = dirname($dir))) {
                 break;
             }
         }
@@ -40,9 +45,10 @@ class BalafonInitEnvironment{
      * @param string $cwd 
      * @return string 
      */
-    private static function _CurrentSubRelativeDir(string $dir, string $cwd): string{
-        if (strstr($dir, $cwd.DIRECTORY_SEPARATOR) == $dir){
-            $dir=substr($dir, strlen($cwd)+1);
+    private static function _CurrentSubRelativeDir(string $dir, string $cwd): string
+    {
+        if (strstr($dir, $cwd . DIRECTORY_SEPARATOR) == $dir) {
+            $dir = substr($dir, strlen($cwd) + 1);
         }
         return $dir;
     }
@@ -53,22 +59,30 @@ class BalafonInitEnvironment{
      * @param mixed $appLibCore
      * @return void 
      */
-    public function run($command, string $install_dir='src', string $appLibCore = self::AppLibCore){
+    public function run($command, string $install_dir = 'src', string $appLibCore = self::AppLibCore)
+    {
         igk_environment()->isDev() && Logger::info("--[init]--");
-        $cwd =  getcwd();
-        $file = $cwd. "/" . AppConfigs::ConfigurationFileName;
+        $cwd = getcwd();
+        if (property_exists($command->options, '--clean'))
+            IO::CleanDir($cwd);
+        $file = $cwd . "/" . AppConfigs::ConfigurationFileName;
         $options = igk_getv($command, "options") ?? new stdClass();
         if (file_exists($file) && !property_exists($options, "--force")) {
-            Logger::danger("Balafon already initialized configuration. dddd - ".$file);
-            return; 
+            Logger::danger("Balafon already initialized configuration. dddd - " . $file);
+            return;
         }
-        if ($install_dir == './'){
-            $install_dir = '.'; // getcwd();
+        if ($install_dir == './') {
+            $install_dir = '.';
+        } else {
+            $g = Path::ToLocalPath($install_dir, $cwd);
+            $install_dir = \IGK\System\IO\Path::GetRelativePath($cwd, $g); // Path::ToLocalPath($install_dir, $cwd), $cwd);
+
         }
-        $v_reset = property_exists($options, '--reset');        
+
+        $v_reset = property_exists($options, '--reset');
         $v_no_config = property_exists($options, "--noconfig");
         $v_primary = property_exists($options, "--primary");
-        $v_in_vendor = igk_getv($options, '--vendor-dir') ?? self::GetVendorDir(IGK_LIB_DIR);     
+        $v_in_vendor = igk_getv($options, '--vendor-dir') ?? self::GetVendorDir(IGK_LIB_DIR);
         $init_data = igk_create_xmlnode("balafon");
         $config = new \IGK\System\Console\AppConfigs();
         $config->author = igk_environment()->balafon_author;
@@ -76,24 +90,26 @@ class BalafonInitEnvironment{
         $public_dir = '';
         if ($v_no_config) {
             $_git_contents = [
-                '.vscode', 
+                '.vscode',
                 '.gitignore',
                 '*/node_modules/**',
             ];
             /**
              * disable configuration
              */
-            $primary = $v_primary;
-            $app_dir = igk_getv($options, '--app-dir') ?? ( $primary ? "./" :  $install_dir."/application");
-            $public_dir = $primary ? "./" : $install_dir."/public";
-            $sess_dir = $primary ? null : $install_dir."/sesstemp";
+            $v_primary = $v_primary;
+            $app_dir = Path::SubLocalPath(igk_getv($options, '--app-dir') ?? ($v_primary ? "./" :  $install_dir . "/application"), $cwd);
+
+
+            $public_dir = $v_primary ? "./" : $install_dir . "/public";
+            $sess_dir = $v_primary ? null : $install_dir . "/sesstemp";
             $app_dir = self::_CurrentSubRelativeDir($app_dir, $cwd);
             $v_in_vendor = $v_in_vendor ? self::_CurrentSubRelativeDir($v_in_vendor, $cwd) : null;
-            if ($v_reset){
+            if ($v_reset) {
                 // + | --------------------------------------------------------------------
                 // + | reset configuration 
                 // + |                
-                if (is_file($f = $app_dir.'/Data/configure')){
+                if (is_file($f = $app_dir . '/Data/configure')) {
                     @unlink($f);
                 }
             }
@@ -106,27 +122,46 @@ class BalafonInitEnvironment{
             $init_data->env()->setAttributes(["name" => "IGK_PACKAGE_DIR", "value" => $sapp_dir . "/Packages"]);
             $init_data->env()->setAttributes(["name" => "IGK_MODULE_DIR", "value" => $sapp_dir . "/Packages/Modules"]);
             $init_data->env()->setAttributes(["name" => "IGK_NODE_MODULES_DIR", "value" => $sapp_dir . "/Packages/node_modules"]);
-            if($_vendor = $v_in_vendor ?? $sapp_dir . "/Packages/vendor"){
-                $init_data->env()->setAttributes(["name" => "IGK_VENDOR_DIR", "value" => 
+            $v_tvendor = $sapp_dir . "/Packages/vendor";
+            $links = [];
+            if ($_vendor = $v_in_vendor ?? $v_tvendor) {
+                $init_data->env()->setAttributes(["name" => "IGK_VENDOR_DIR", "value" =>
                 $_vendor]);
                 $_git_contents[] = $_vendor;
+                if ($v_tvendor != $_vendor) {
+                    $links[$v_tvendor] = $_vendor;
+                }
             }
-            if ($sess_dir){
+            if ($sess_dir) {
                 $init_data->env()->setAttributes(["name" => "IGK_SESS_DIR", "value" => $sess_dir]);
                 $_git_contents[] = $sess_dir;
             }
             igk_io_createdir($app_dir);
             igk_io_createdir($public_dir);
 
-            $lib = ($app_dir== './'? getcwd() : '') . $appLibCore;
+            $lib = ($app_dir == './' ? getcwd() : $app_dir) . $appLibCore;
             if (!file_exists($lib)) {
-                igk_io_createdir(dirname($lib));
+                igk_io_createdir($dir = dirname($lib));
                 $core_lib = self::_CurrentSubRelativeDir(IGK_LIB_DIR, $cwd);
-                $v_link = \IGK\System\IO\Path::GetRelativePath($lib, $core_lib); 
-                //igk_wln_e(compact('app_dir', 'appLibCore', 'lib', 'core_lib', 'v_link'));
+                $v_link = null;
+                $v_lk = $lib;
+                if ($core_lib == IGK_LIB_DIR) {
+                    // not a sub folder 
+                    $v_lk = Path::Combine(realpath($dir), basename($lib));
+                }
+                $v_link = \IGK\System\IO\Path::GetRelativePath($v_lk, $core_lib);
                 @symlink($v_link, $lib);
-            } 
+            }
             $_git_contents[] = Path::GetRelativePath($cwd, $lib);
+
+            // + | create links target => location
+            foreach ($links as $c => $d) {
+                if (file_exists($c)) {
+                    IO::CreateDir(dirname($c));
+                    $v_link = \IGK\System\IO\Path::GetRelativePath($c, $d);
+                    @symlink($v_link, $c);
+                }
+            }
 
             igk_io_w2file('.gitignore', implode("\n", $_git_contents));
         } else {
@@ -135,28 +170,35 @@ class BalafonInitEnvironment{
         }
         $opts = HtmlRenderer::CreateRenderOptions();
         $opts->Indent = true;
-        Logger::info('store-global-config-data : '.$file); 
+        Logger::info('store-global-config-data : ' . $file);
 
+        $init_data['init'] = date('Y-m-d');
         igk_io_w2file($file, $init_data->render($opts));
-        igk_hook(IGKEvents::HOOK_SYS_INIT_CONFIG, ['reset'=>$v_reset]);
-       
-        if ($v_reset){
+        // + | create a symlink to balafon command line interface 
+        @symlink(Path::Combine($lib, 'bin', 'balafon'), 'balafon');
+        igk_hook(IGKEvents::HOOK_SYS_INIT_CONFIG, ['reset' => $v_reset]);
+
+
+
+        if ($v_reset) {
             IGKEvents::ClearHooks();
-            // - init environment 
-            // reset environement 
+            // - reset environment  
             $argv = igk_getv($_SERVER, 'argv');
-            register_shutdown_function(function()use($argv, $app_dir, $command, $public_dir){
+            register_shutdown_function(function () use ($argv, $app_dir, $command, $public_dir) {
                 $cli = $argv[0];
-                $cmd ="$cli --init --env-only '{$app_dir}'";
-                echo "launch: ".$cmd, PHP_EOL;
+                $cmd = "$cli --init --env-only '{$app_dir}'";
+                echo "launch: " . $cmd, PHP_EOL;
                 echo `$cmd`;
-                self::_InitIOFileAuth($command, $app_dir);
-                self::_InitIOFileAuth($command, $public_dir);
-            });  
+                self::_AuthFiles($command, [$app_dir, $public_dir]);
+            });
         } else {
-            self::_InitIOFileAuth($command, $app_dir);
-            self::_InitIOFileAuth($command, $public_dir);
+            self::_AuthFiles($command, [$app_dir, $public_dir]);
         }
+    }
+    private static function _AuthFiles($command, $dirs)
+    {
+        foreach ($dirs as $d)
+            self::_InitIOFileAuth($command, $d);
     }
     /**
      * 
@@ -164,12 +206,16 @@ class BalafonInitEnvironment{
      * @param mixed $app_dir 
      * @return void 
      */
-    static function _InitIOFileAuth($command, $app_dir){
-         // + | fix mod and owner
-        igk_environment()->isUnix() && (function($d, $command){            
+    static function _InitIOFileAuth($command, $app_dir)
+    {
+        // + | fix mod and owner
+        igk_environment()->isUnix() && (function ($d, $command) {
             `chmod -R 755 {$d}`;
-            $o = igk_getv($command->options, '--owner', 'www-data');
-            `chown -R {$o}:{$o} {$d}`; 
+            $o = igk_getv($command->options, '--file-usergroup', 'www-data:www-data');
+            if (false === strpos($o, ':')) {
+                $o = $o . ':' . $o;
+            }
+            `chown -R {$o} {$d}`;
         })(realpath(dirname($app_dir)), $command);
     }
 }

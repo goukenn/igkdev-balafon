@@ -51,7 +51,7 @@ class Installer
             $ct = array_slice($argv, $idx +2);
             $args = array_merge($args, $ct);
             igk_wln('re-organize the package directory...', $args);
-            self::_ReorguanizPackage($chdir);
+            self::_ReorguanisePackage($chdir);
             $cli = $chdir.'/src/application/Lib/igk/bin/balafon';
         }
         if (!$ct || !Utility::HaveArg($ct))
@@ -75,7 +75,7 @@ class Installer
      * @param mixed $dir 
      * @return void 
      */
-    private static function _ReorguanizPackage($dir){
+    private static function _ReorguanisePackage($dir){
         $src = file_get_contents($file = $dir.'/composer.json');
         $src = str_replace('src/Lib/igk/', 'src/application/Lib/igk/', $src);
         $app_dir = $dir.'/src/application';

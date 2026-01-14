@@ -13,45 +13,44 @@ if (isset($__igk_balafon_cmd_auto_clean)){
         ob_end_clean();
     }
 }
-
     
-require_once __DIR__."/../igk.environment.loading.php";
- 
+require_once __DIR__."/../igk.environment.loading.php"; 
 require_once(IGK_LIB_DIR . "/Lib/functions-helpers/balafon-cli.php");
 
 ignore_user_abort(false);
 $_SERVER["HTTP_USER_AGENT"] = "balafon - CLI";
-// + | ---------------------------------------------------------------------------------- 
+
+// + | ------------------------------------------------------------------------------
 // + | register application type
 // + |
 ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::class);
 
-// + | --------------------------------------------------------------------
-// + | check for command and working directory  
+// + | ------------------------------------------------------------------------------
+// + | check for command and working directory handle 
 // + |
 \IGK\System\Console\BalafonApplication::InitAndTreatArgument($argv);
 /**
  * @var \IGK\System\Console\BalafonApplication $app 
  */
 $app = ApplicationLoader::Boot("balafon");
-// + | --------------------------------------------------------------------
-// + | get primary action command
+// + | ------------------------------------------------------------------------------
+// + | get primary action command 
 // + |
 $command = $app->getPrimaryCommand($argv) ?? igk_die('primary command not found'); 
-//--------------------------------------------------------------------------------
+// | --------------------------------------------------------------------------------
 // | Run the application
 // |
 $app->command = $command;
 $app->environment = igk_environment()->name();
 
-
+// | --------------------------------------------------------------------------------
 // | run application
 // |
+
 $status = $app->run(__FILE__, false);
-//--------------------------------------------------------------------------------
+// | --------------------------------------------------------------------------------
 // | finish with status code
-// |
- 
+// | 
 if (isset($__igk_balafon_in_func)){
  
     return $status;

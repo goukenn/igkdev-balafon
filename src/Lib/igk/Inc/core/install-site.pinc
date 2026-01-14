@@ -71,7 +71,7 @@ if (!function_exists("igk_install_site")) {
             //-------------------------------------------------------------------------
             // | initialize balafon configuration 
             // |
-            $fc = $command["--init"][0];
+            $fc = $command['--init'][0];
             $carg = [];
             if (in_array("--noconfig", $argv)) {
                 $carg["--noconfig"] = 1;

@@ -9,14 +9,19 @@ use Closure;
 use Exception;
 use IGK\Helper\IO;
 use IGK\System\Console\Commands\InitCommand;
+use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGKAppType;
 use IGKException;
 use ReflectionException;
 use stdClass;
-use Throwable;
-class App
+use Throwable; 
+/**
+ * 
+ * @package IGK\System\Console
+ */
+class App implements ICLICommandApp
 {
     const GREEN = "\e[1;32m";
     const GRAY = "\e[1;90m";
@@ -113,9 +118,10 @@ class App
                 error_clear_last();
             }
         });
-        igk_environment()->NO_DB_LOG = 1;
-        igk_environment()->NO_SESSION = 1;
-        igk_environment()->set("workingDir", $wdir);
+        $v_env = igk_environment();
+        $v_env->NO_DB_LOG = 1;
+        $v_env->NO_SESSION = 1;
+        $v_env->workingDir = $wdir;
         $app->_basePath = $basePath;
         $app->_configs = $configs;
         Logger::SetLogger(new ConsoleLogger($app));
@@ -127,7 +133,7 @@ class App
             $cmd = new InitCommand();
             $cmd->exec($v_cmd);
             unset($v_cmd);
-        }
+        } // + | load commands 
         $command_args = AppCommand::GetCommands($app);
  
  
@@ -176,17 +182,9 @@ class App
     {
         return $this->_basePath;
     }
-    /**
-     * execute argument
-     * @param App $app 
-     * @param array $args 
-     * @return mixed 
-     * @throws IGKException 
-     * @throws EnvironmentArrayException 
-     */
-    public static function Exec(App $app, array $args)
-    {
-        $command = $app->command;
+    private static function __InitExecCommand(App $app, & $handle){
+        $handle = [];
+        $v_tcommands = $app->command;
         $v_cnf = $app->getConfigs();
         $v_basePath = $app->_basePath;
         $app = new static();
@@ -201,15 +199,15 @@ class App
                 } else {
                     $callbable = $c->callable;
                 }
-                $command[$c->command] = [
+                $v_tcommands[$c->command] = [
                     $callbable,
                     $c->desc,
                     $c->category
                 ];
             }
         }
-        $handle = [];
-        foreach ($command as $n => $b) {
+  
+        foreach ($v_tcommands as $n => $b) {
             if (count($c = explode(',', $n)) > 1) {
                 array_map(function ($i) use (&$handle, $b) {
                     $handle[trim($i)] = $b;
@@ -218,62 +216,80 @@ class App
                 $handle[trim($n)] = $b;
             }
         }
-        ksort($command);
-        $app->command = $command;
+        ksort($v_tcommands);
+        // + | update app command list 
+        $app->command = $v_tcommands;
+    }
+    /**
+     * execute argument
+     * @param App $app 
+     * @param array $args 
+     * @return mixed 
+     * @throws IGKException 
+     * @throws EnvironmentArrayException 
+     */
+    public static function Exec(App $app, array $args)
+    {
+        self::__InitExecCommand($app, $handle);
         $tab = $args;
-        $command = igk_createobj();
-        $command->app = $app;
-        $command->command = $tab;
-        $command->exec = null;
-        $command->storage = array();
-        $command->waitForNextEntryFlag = false;
-        $command->options = new stdClass();
-        $action = null;
-        $args = [];
+        $args =[];
         $show_help = true;
-        $split = false;
-        foreach ($tab as $id => $v) {
-            if (!$split && $v == '--') {
-                $split = true;
-                continue;
-            }
-            if ($split) {
-                $args[] = $v;
-                continue;
-            }
-            if ($command->waitForNextEntryFlag) {
-                $action($v, $command, []);
-                $command->waitForNextEntryFlag = false;
-            }
-            if (isset($handle[$v])) {
-                $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
-                $action($v, $command, implode(":", array_slice($c, 1)));
-            } else {
-                $c = explode(":", $v);
-                $v_ts =  implode(":", array_slice($c, 1));
-                if (isset($handle[$c[0]])) {
-                    if (isset($handle[$v])) {
-                        $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
-                        $action($v, $command, $v_ts);
-                    } else {
-                        $command->options->{$c[0]} = $v_ts;
-                    }
-                } else {
-                    if ($c[0] && ($c[0][0] == "-") && ($v!='-') && (strlen($c[0])>1)){
-                        if (!property_exists($command->options, $c[0])) {
-                            $command->options->{$c[0]} = $v_ts;
-                        } else {
-                            if (!is_array($command->options->{$c[0]})) {
-                                $command->options->{$c[0]} = [$command->options->{$c[0]}];
-                            }
-                            $command->options->{$c[0]}[] = $v_ts;
-                        }
-                        unset($command->command[$id]);
-                    } else
-                        $args[] = $v;
-                }
-            }
-        }
+        // create command object
+        $command = ConsoleUtility::TreatCommandArgs($app, $tab, $args, $handle);
+        // $command = igk_createobj();
+        // $command->app = $app;
+        // $command->command = $tab;
+        // $command->exec = null;
+        // $command->storage = array();
+        // $command->waitForNextEntryFlag = false;
+        // $command->options = new stdClass();
+        // $action = null;
+        // $args = [];
+        // $show_help = true;
+        // $split = false;
+        // $c = null;
+        // foreach ($tab as $id => $v) {
+        //     if (!$split && $v == '--') {
+        //         $split = true;
+        //         continue;
+        //     }
+        //     if ($split) {
+        //         $args[] = $v;
+        //         continue;
+        //     }
+        //     if ($command->waitForNextEntryFlag) {
+        //         $action($v, $command, []);
+        //         $command->waitForNextEntryFlag = false;
+        //     }
+        //     if (isset($handle[$v])) {
+        //         $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
+        //         $action($v, $command, $c ? implode(":", array_slice($c, 1)) : null);
+        //     } else {
+        //         $c = explode(":", $v);
+        //         $v_ts =  implode(":", array_slice($c, 1));
+        //         if (isset($handle[$c[0]])) {
+        //             if (isset($handle[$v])) {
+        //                 $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
+        //                 $action($v, $command, $v_ts);
+        //             } else {
+        //                 $command->options->{$c[0]} = $v_ts;
+        //             }
+        //         } else {
+        //             if ($c[0] && ($c[0][0] == "-") && ($v!='-') && (strlen($c[0])>1)){
+        //                 if (!property_exists($command->options, $c[0])) {
+        //                     $command->options->{$c[0]} = $v_ts;
+        //                 } else {
+        //                     if (!is_array($command->options->{$c[0]})) {
+        //                         $command->options->{$c[0]} = [$command->options->{$c[0]}];
+        //                     }
+        //                     $command->options->{$c[0]}[] = $v_ts;
+        //                 }
+        //                 unset($command->command[$id]);
+        //             } else
+        //                 $args[] = $v;
+        //         }
+        //     }
+        // }
         try {
             $action = $command->exec; //($v, $command, implode(":", array_slice($c,1)));
             if ($action) {

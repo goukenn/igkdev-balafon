@@ -1853,7 +1853,7 @@ function igk_is_class_incomplete($n)
     return get_class($n) === __PHP_Incomplete_Class::class;
 }
 /**
- * get realpah helper
+ * get realpath helper
  * @param mixed $p 
  * @return string|false|null 
  * @throws IGKException 

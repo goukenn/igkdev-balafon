@@ -373,6 +373,7 @@ class IO
      */
     public static function CreateDir(string $dirname, $mode = IGK_DEFAULT_FOLDER_MASK)
     {
+        // \IGK\System\Console\Logger::debug('create dir : '.$dirname);
         return FileWriter::CreateDir($dirname, $mode);
     }
     /**
@@ -1083,14 +1084,26 @@ class IO
         return null;
     }
     /**
-     * check if this path exists and is abolutes path
+     * check if this path exists and is abolute path
      * @param mixed $uri
      */
-    public static function IsAbsolutePath($uri)
+    public static function IsAbsolutePath($uri): bool
     {
         $uri = igk_dir($uri);
         return igk_io_file_exists($uri) && ($uri == igk_realpath($uri));
     }
+    public static function IsDetectedAbsolutePath(string $path): bool
+{
+    if (PHP_OS_FAMILY === 'Windows') {
+        // Windows: starts with C:\ or \\server\share
+        return preg_match('#^[a-zA-Z]:\\\\|^\\\\\\\\#', $path) === 1;
+    } else {
+        // Unix: starts with /
+        return str_starts_with($path, '/');
+    }
+}
+
+
     /**
      * 
      * @param mixed $dir
