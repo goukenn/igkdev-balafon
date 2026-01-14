@@ -9,7 +9,6 @@ use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
 use IGK\Helper\SysUtils;
 use IGK\System\Caches\DBCaches;
-use IGK\System\Caches\DBCachesModelInitializer;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
