@@ -23,7 +23,6 @@
 // 	</ftp-sync>
 // ...
 namespace IGK\System\Console\Commands\Sync;
-use com\igkdev\projects\AppBalafon\AppBalafonConstants;
 use Exception;
 use IGK\Helper\FtpHelper;
 use IGK\System\Console\AppExecCommand;

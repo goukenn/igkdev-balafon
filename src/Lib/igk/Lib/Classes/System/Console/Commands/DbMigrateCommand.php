@@ -4,7 +4,6 @@
 // @date: 20221111 22:30:40
 // @desc: 
 namespace System\Console\Commands;
-use com\igkdev\projects\AppBalafon\AppBalafonConstants;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbSchemas;
