@@ -56,7 +56,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         $sync = $command->app->getConfigs()->get(self::SELF_KEY_CONFIG); 
         if (!$sync) {
             Logger::danger(sprintf("[%s] - No [%s] configuration setup", 
-                AppBalafonConstants::TAG,
+                'cli',
                 self::SELF_KEY_CONFIG));
             return -100;
         }        
