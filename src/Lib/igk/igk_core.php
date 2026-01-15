@@ -186,7 +186,7 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
             }
         }
         !defined('IGK_TEST_INIT') && igk_is_debug() && error_log(sprintf('%s - %s', '[BLF_EX]', $msg));
-        // + | Last Exception  
+        // + | Last Exception   
         throw new IGKException($msg, $code);
     } else {
         ob_get_level() && ob_clean();

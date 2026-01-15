@@ -241,65 +241,13 @@ class App implements ICLICommandApp
         $show_help = true;
         // create command object
         $command = ConsoleUtility::TreatCommandArgs($app, $tab, $args, $handle);
-        // $command = igk_createobj();
-        // $command->app = $app;
-        // $command->command = $tab;
-        // $command->exec = null;
-        // $command->storage = array();
-        // $command->waitForNextEntryFlag = false;
-        // $command->options = new stdClass();
-        // $action = null;
-        // $args = [];
-        // $show_help = true;
-        // $split = false;
-        // $c = null;
-        // foreach ($tab as $id => $v) {
-        //     if (!$split && $v == '--') {
-        //         $split = true;
-        //         continue;
-        //     }
-        //     if ($split) {
-        //         $args[] = $v;
-        //         continue;
-        //     }
-        //     if ($command->waitForNextEntryFlag) {
-        //         $action($v, $command, []);
-        //         $command->waitForNextEntryFlag = false;
-        //     }
-        //     if (isset($handle[$v])) {
-        //         $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
-        //         $action($v, $command, $c ? implode(":", array_slice($c, 1)) : null);
-        //     } else {
-        //         $c = explode(":", $v);
-        //         $v_ts =  implode(":", array_slice($c, 1));
-        //         if (isset($handle[$c[0]])) {
-        //             if (isset($handle[$v])) {
-        //                 $action = is_callable($handle[$v]) ? $handle[$v] : $handle[$v][0];
-        //                 $action($v, $command, $v_ts);
-        //             } else {
-        //                 $command->options->{$c[0]} = $v_ts;
-        //             }
-        //         } else {
-        //             if ($c[0] && ($c[0][0] == "-") && ($v!='-') && (strlen($c[0])>1)){
-        //                 if (!property_exists($command->options, $c[0])) {
-        //                     $command->options->{$c[0]} = $v_ts;
-        //                 } else {
-        //                     if (!is_array($command->options->{$c[0]})) {
-        //                         $command->options->{$c[0]} = [$command->options->{$c[0]}];
-        //                     }
-        //                     $command->options->{$c[0]}[] = $v_ts;
-        //                 }
-        //                 unset($command->command[$id]);
-        //             } else
-        //                 $args[] = $v;
-        //         }
-        //     }
-        // }
+        
+         
         try {
-            $action = $command->exec; //($v, $command, implode(":", array_slice($c,1)));
+            $action = $command->exec;  
             if ($action) {
                 if (property_exists($command->options, "--help")) {
-                    $targs = [$command->command[0], $command];
+                    $targs = array_filter([igk_getv($tab, 0), $command]);
                     foreach ($args as $v) {
                         $targs[] = $v;
                     }

@@ -179,6 +179,9 @@ class Activator
     {
         return get_class_vars($class_name);
     }
+    /**
+     * create new instanace and validate
+     */
     static function CreateNewInstanceWithValidation(string $class_name, $data, IContentSecurityProvider $request, IActionRequestValidator $validator, &$errors = null)
     {
         $validation = (method_exists($class_name, $fc = 'ValidationData') ?
@@ -236,6 +239,7 @@ class Activator
         }
         $class_vars  = null;
         $check_version = true;
+        $v_interface = false;
         if (is_callable($class_name)) {
             $g = $class_name(...$args);
             if (is_object($g)){
@@ -246,6 +250,7 @@ class Activator
                 $g = self::CreateFromInterface($class_name);
                 $class_vars = $g->to_array();
                 $check_version = false;
+                $v_interface = true;
             } else {
                 $g = new $class_name(...$args);
                 $class_vars = get_class_vars(get_class($g));
@@ -270,10 +275,12 @@ class Activator
                         $g->$fc($v);
                         continue;
                     }
-                    $v_p = new ReflectionProperty($g, $k);
-                    if ($check_version && $c_8_1) {
-                        if ($v_p->isReadOnly()) {
-                            continue;
+                    if (!$v_interface){
+                        $v_p = new ReflectionProperty($g, $k);
+                        if ($check_version && $c_8_1) {
+                            if ($v_p->isReadOnly()) {
+                                continue;
+                            }
                         }
                     }
                     $g->{$k} = $v;

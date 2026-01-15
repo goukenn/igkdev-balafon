@@ -471,8 +471,8 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         while (count($thost) > 0) {
             $v_host = array_shift($thost);
             if ($fservice = $v_host->configFile('services')) {
-                $v_services = igk_io_file_exists($fservice, true) ?
-                    ViewHelper::Inc($fservice, ['ctrl' => $v_host]) : null;
+                $v_services = (igk_io_file_exists($fservice, true) ?
+                    ViewHelper::Inc($fservice, ['ctrl' => $v_host]) : null) ?? [];
                 if (is_null($services)){
                     $services = $v_services;
                 } else 

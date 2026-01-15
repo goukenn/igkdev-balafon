@@ -362,7 +362,8 @@ class ApplicationLoader
             self::$sm_instance->_coreload = true;
         }
         //return null;
-        ($app = ApplicationFactory::Create($type)) || igk_die("failed to create application: " . $type);
+        ($app = ApplicationFactory::Create($type)) || igk_die(sprintf("failed to create application: 
+        `%s`" , $type));
         if ($boot) {
             $boot = false;
             try { 

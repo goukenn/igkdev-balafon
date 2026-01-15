@@ -185,6 +185,7 @@ abstract class ConsoleUtility
         $command->storage = array();
         $command->waitForNextEntryFlag = false;
         $command->options = new \stdClass();
+        $command->args = $args;
         $tab = $argv;
         $handle = $handle ?? [];
         $args = [];

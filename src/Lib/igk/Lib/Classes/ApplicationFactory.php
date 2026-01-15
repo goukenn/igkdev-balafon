@@ -9,7 +9,7 @@ namespace IGK;
  * @package IGK
  */
 abstract class ApplicationFactory{
-    const APP_CLASS = 'IGK\\System\\Framework\\Application';
+    const APP_CLASS = 'IGK\\System\\Applications';
     private static $sm_factory = [
         'framework'=>self::APP_CLASS
     ];
