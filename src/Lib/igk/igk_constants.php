@@ -10,7 +10,7 @@ define("IGK_BALAFON_JS_VERSION", "4.6.0.0408");
 defined("IGK_FRAMEWORK") || define("IGK_FRAMEWORK", "IGKDEV-WFM");
 // manually set display version 
 !defined("IGK_WEBFRAMEWORK") && define("IGK_WEBFRAMEWORK", '2026.0'); 
-!defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".0.01151");
+!defined("IGK_VERSION") && define("IGK_VERSION", IGK_WEBFRAMEWORK.".0.01152");
 define("IGK_CORE_VERSION", "22.0");
 define("IGK_AUTHOR", "C.A.D. BONDJE DOUE");
 define("IGK_AUTHOR_CONTACT", "c.bondje.doue@igkdev.com");
