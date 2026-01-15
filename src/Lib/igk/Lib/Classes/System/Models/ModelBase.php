@@ -733,6 +733,16 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
         ];
         return $macros;
     }
+    private static function _InitMacros(){
+         if (self::$sm_macros === null) {
+            self::$sm_macros = &self::_InitDbMacros();
+            require_once(IGK_LIB_CLASSES_DIR . "/Models/Inc/DefaultModelEntryExtensions.pinc");
+            // + | ----------------------------------------------------
+            // + | init all model
+            // + |
+            igk_hook(IGKEvents::HOOK_MODEL_INIT, [static::class]);
+        }
+    }
     /**
      * calling static member function
      * @param mixed $name 
@@ -742,14 +752,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      */
     public static function __callStatic($name, $arguments)
     {
-        if (self::$sm_macros === null) {
-            self::$sm_macros = &self::_InitDbMacros();
-            require_once(IGK_LIB_CLASSES_DIR . "/Models/Inc/DefaultModelEntryExtensions.pinc");
-            // + | ----------------------------------------------------
-            // + | init all model
-            // + |
-            igk_hook(IGKEvents::HOOK_MODEL_INIT, [static::class]);
-        }
+        self::_InitMacros();
         $_instance_class = static::CreateMockInstance(static::class);
         if ($fc = igk_getv(self::$sm_macros, $name)) {
             $bind = 1;
@@ -918,6 +921,9 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
             throw new IGKException("invalid call : " . self::TargetOnMethodPrefix);
         }
         $failed = false;
+        if (is_null(self::$sm_macros)){
+            self::_InitMacros();
+        }
         $result = self::_InvokeMacros(self::$sm_macros, $name, $this, $arguments, $failed);
         if ($failed && igk_environment()->isDev()) {
             $msg = sprintf("failed to call macros %s::%s", static::class, $name);
