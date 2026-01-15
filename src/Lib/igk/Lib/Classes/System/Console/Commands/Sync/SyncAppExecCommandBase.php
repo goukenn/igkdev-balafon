@@ -55,9 +55,10 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         $setting = null;
         $sync = $command->app->getConfigs()->get(self::SELF_KEY_CONFIG); 
         if (!$sync) {
-            Logger::danger(sprintf("[%s] - No [%s] configuration setup", 
+            Logger::danger(sprintf("[%s] - Missing [%s] sync - configuration setup", 
                 'cli',
                 self::SELF_KEY_CONFIG));
+            Logger::info('need to add <ftp-sync></ftp-sync> info configuration.');
             return -100;
         }        
         $name = igk_getv($command->options, "--name"); 

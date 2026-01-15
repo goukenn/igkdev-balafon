@@ -80,7 +80,7 @@ class BalafonInitEnvironment
         }
 
         $v_reset = property_exists($options, '--reset');
-        $v_no_config = property_exists($options, "--noconfig");
+        $v_no_config = property_exists($options, "--no-config");
         $v_primary = property_exists($options, "--primary");
         $v_in_vendor = igk_getv($options, '--vendor-dir') ?? self::GetVendorDir(IGK_LIB_DIR);
         $init_data = igk_create_xmlnode("balafon");
@@ -90,6 +90,7 @@ class BalafonInitEnvironment
         $public_dir = '';
         if ($v_no_config) {
             $_git_contents = [
+                '.balafon',
                 '.vscode',
                 '.gitignore',
                 '*/node_modules/**',
@@ -162,8 +163,8 @@ class BalafonInitEnvironment
                     @symlink($v_link, $c);
                 }
             }
-
-            igk_io_w2file('.gitignore', implode("\n", $_git_contents));
+            if (!file_exists('.gitignore'))
+                igk_io_w2file('.gitignore', implode("\n", $_git_contents));
         } else {
             Logger::info('auto init data');
             $config->init($init_data);
@@ -184,9 +185,10 @@ class BalafonInitEnvironment
             IGKEvents::ClearHooks();
             // - reset environment  
             $argv = igk_getv($_SERVER, 'argv');
-            register_shutdown_function(function () use ($argv, $app_dir, $command, $public_dir) {
+            $argv[0] = Path::Combine($cwd ,'/balafon');
+            register_shutdown_function(function () use ($argv, $app_dir, $command, $public_dir, $cwd) {
                 $cli = $argv[0];
-                $cmd = "$cli --init --env-only '{$app_dir}'";
+                $cmd = "$cli --init --env-only --wdir:'{$cwd}' '{$app_dir}'";
                 echo "launch: " . $cmd, PHP_EOL;
                 echo `$cmd`;
                 self::_AuthFiles($command, [$app_dir, $public_dir]);
@@ -206,16 +208,22 @@ class BalafonInitEnvironment
      * @param mixed $app_dir 
      * @return void 
      */
-    static function _InitIOFileAuth($command, $app_dir)
+    static function _InitIOFileAuth($command, string $app_dir)
     {
         // + | fix mod and owner
-        igk_environment()->isUnix() && (function ($d, $command) {
+        igk_environment()->isUnix() && ('darwin' != strtolower(PHP_OS)) && (function ($d, $command) {
             `chmod -R 755 {$d}`;
-            $o = igk_getv($command->options, '--file-usergroup', 'www-data:www-data');
+            $o = igk_getv($command->options, '--file-usergroup', self::_DefaultUserGroup());
             if (false === strpos($o, ':')) {
                 $o = $o . ':' . $o;
             }
             `chown -R {$o} {$d}`;
         })(realpath(dirname($app_dir)), $command);
+    }
+    static function _DefaultUserGroup(){
+        if (strtolower(PHP_OS)=='darwin'){
+            return '_www:_www';
+        }
+        return 'www-data:www-data';
     }
 }

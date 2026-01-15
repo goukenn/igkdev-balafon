@@ -149,7 +149,7 @@ class AppConfigs
             foreach ($c as $env) {
                 defined($env->name) || define(
                     $env->name,
-                    preg_match("/_DIR$/", $env->name) ? IO::ResolvPathConstant($wd, $env->value) :
+                    preg_match("/(\\bIGK_DOCUMENT_ROOT\\b|_DIR$)/", $env->name) ? IO::ResolvPathConstant($wd, $env->value) :
                         $env->value
                 );
             }

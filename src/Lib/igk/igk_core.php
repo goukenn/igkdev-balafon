@@ -513,12 +513,12 @@ function igk_io_get_script($f, $args = null)
  * @var sstring $name
  * @return mixed|int
  */
-function igk_const($name)
+function igk_const($name, $default = null)
 {
     if (defined($name)){
         return constant($name);
     }
-    return null;
+    return $default;
 }
 /**
  * check value for assertion
@@ -1578,7 +1578,7 @@ function igk_sys_handle_uri($uri = null)
  * */
 function igk_loadlib(string $dir, string $ext = ".php", ?array $excludedir = null): ?array
 {
-    igk_debug_wln('load library ' . $dir);
+    igk_debug_wln('['.__FUNCTION__.'] - ' . $dir);
     $sdir = is_dir($dir) ? $dir : igk_dir(igk_realpath($dir));
     if (empty($sdir)) {
         return null;

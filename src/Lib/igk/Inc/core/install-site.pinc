@@ -67,7 +67,7 @@ if (!function_exists("igk_install_site")) {
         //-----------------------------------------------------------------------------
         // + | handle default
         // + |
-        if (isset($argv[1]) && $argv[1] == "--init") {
+        if (isset($argv[1]) && $argv[1] == '--init') {
             //-------------------------------------------------------------------------
             // | initialize balafon configuration 
             // |

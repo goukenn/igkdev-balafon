@@ -6,7 +6,7 @@
 namespace IGK;
 use Closure;
 use IGK\Helper\IO;
-use IGK\System\IO\Path as IGKPath;
+use IGK\System\IO\Path;
 use IGK\helper\StringUtility;
 use IGK\System\EntryClassResolution;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
@@ -412,7 +412,7 @@ class ApplicationLoader
             return false;
         }
         self::InitConstants();
-        $this->path = IGKPath::getInstance();
+        $this->path = Path::getInstance();
         $package_dir = $this->path->getPackagesDir();
         // + | -----------------------------------------------------
         // + | Autoloading composer packages

@@ -10,30 +10,33 @@ use IGK\System\IO\Path;
 use IGK\Cache\SystemFileCache as IGKSysCache;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Caches\InitEnvControllerChain;
-use IGK\System\Exceptions\ArgumentTypeNotValidException; 
+use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Caches\EnvControllerCacheList;
+
 /**
  * system core 
  * @package 
  */
 class IGKAppSystem
 {
-    const CONF_FILE ='configure';
+    const CONF_FILE = 'configure';
     /**
      * check if configuration file is initialize
      * @return bool 
      */
-    public static function IsConfigured():bool{
-        if (!IGKApp::IsInit()){
+    public static function IsConfigured(): bool
+    {
+        if (!IGKApp::IsInit()) {
             return false;
-        }        
+        }
         return igk_io_file_exists(self::_GetConfigFile());
     }
     /**
      * retrieve configuration full path 
      * @return string 
      */
-    private static function _GetConfigFile(): string{
+    private static function _GetConfigFile(): string
+    {
         $path = Path::getInstance();
         $path->getDataDir();
         return implode("/", [$path->getDataDir(), self::CONF_FILE]);
@@ -60,7 +63,7 @@ class IGKAppSystem
         $path = Path::getInstance();
         $project_dir = igk_io_projectdir();
         $app_dir = igk_io_applicationdir();
-        $confFILE = self::_GetConfigFile(); 
+        $confFILE = self::_GetConfigFile();
         if (!(defined('IGK_INIT') && IGK_INIT) && igk_io_file_exists($confFILE)) {
             foreach ([igk_io_cachedir(), igk_io_basedir() . "/" . IGK_RES_FOLDER] as $cdir) {
                 !is_dir($cdir) && IO::Createdir($cdir);
@@ -78,20 +81,23 @@ class IGKAppSystem
         if (!is_dir($dirname) || !($hdir = opendir($dirname)))
             return;
         $env = igk_environment();
-        closedir($hdir); 
-        $env->set(IGKEnvironment::INIT_APP, 1); 
-        !$env->NoAppInitFileStruct && self::_InitEnvironmentFileStructure($dirname, $app_dir, $project_dir, $path);       
-        $env->NoAppInitFileStruct = false;
+        closedir($hdir);
+        $env->set(IGKEnvironment::INIT_APP, 1);
+        if (!$env->NoAppInitFileStruct) {
 
-        $v_cpath = Path::getInstance();
-        $v_tdirs = [
-            $v_cpath->getModuleDir(),
-            IGK_NODE_MODULES_DIR,
-            IGK_VENDOR_DIR,
-        ];
-        foreach($v_tdirs as $k){
-            if ($k && !is_dir($k)){
-                IO::CreateDir($k);
+            self::_InitEnvironmentFileStructure($dirname, $app_dir, $project_dir, $path);
+            $env->NoAppInitFileStruct = false;
+
+            $v_cpath = Path::getInstance();
+            $v_tdirs = array_filter([
+                $v_cpath->getModuleDir(),
+                igk_const('IGK_NODE_MODULES_DIR'),
+                igk_const('IGK_VENDOR_DIR')
+            ]);
+            foreach ($v_tdirs as $k) {
+                if ($k && !is_dir($k)) {
+                    IO::CreateDir($k);
+                }
             }
         }
         igk_raise_initenv_callback();
@@ -106,10 +112,11 @@ class IGKAppSystem
      * @param mixed $path 
      * @return void 
      */
-    private static function _InitEnvironmentFileStructure(string $dirname, string $app_dir, string $project_dir, $path){
-         $idx = $path->getBaseDir() . "/index.php";
+    private static function _InitEnvironmentFileStructure(string $dirname, string $app_dir, string $project_dir, $path)
+    {
+        $idx = $path->getBaseDir() . "/index.php";
         if (!igk_io_file_exists($idx)) {
-            $indexsrc = igk_getbaseindex_src($idx). "\n";
+            $indexsrc = igk_getbaseindex_src($idx) . "\n";
             igk_io_save_file_as_utf8($idx, $indexsrc);
         }
         $ips = igk_server_name();
@@ -147,8 +154,8 @@ class IGKAppSystem
         string $sys_datadir,
         ?array $options = null
     ) {
-        igk_debug_wln(__FILE__.":".__LINE__ , 'installing directory '.$app_dir);
-        
+        igk_debug_wln(__FILE__ . ":" . __LINE__, 'installing directory ' . $app_dir);
+
         $access = "deny from all";
         $old = umask(0);
         $is_primary = ($app_dir == $dirname);
@@ -162,22 +169,24 @@ class IGKAppSystem
         igk_io_save_file_as_utf8($app_dir . "/Lib/.htaccess", $access, true);
         IO::CreateDir($dirname . "/" . IGK_RES_FOLDER);
         igk_io_save_file_as_utf8($dirname . "/" . IGK_RES_FOLDER . "/.htaccess", "allow from localhost", true);
-        foreach([
-            $data_dir . "/" . IGK_RES_FOLDER . "/Img",
-            $data_dir . "/" . IGK_RES_FOLDER . "/Layouts",
-            $data_dir . "/" . IGK_RES_FOLDER . "/Styles",
-            $data_dir . "/" . IGK_RES_FOLDER . "/Fonts",
-            $data_dir . "/" . IGK_RES_FOLDER . "/Themes",
-            $data_dir . "/" . IGK_RES_FOLDER . "/Videos",
-        ] as $d){
-           IO::CreateDir($d);
-           igk_io_save_file_as_utf8($d."/.htaccess", "allow from all", true);
+        foreach (
+            [
+                $data_dir . "/" . IGK_RES_FOLDER . "/Img",
+                $data_dir . "/" . IGK_RES_FOLDER . "/Layouts",
+                $data_dir . "/" . IGK_RES_FOLDER . "/Styles",
+                $data_dir . "/" . IGK_RES_FOLDER . "/Fonts",
+                $data_dir . "/" . IGK_RES_FOLDER . "/Themes",
+                $data_dir . "/" . IGK_RES_FOLDER . "/Videos",
+            ] as $d
+        ) {
+            IO::CreateDir($d);
+            igk_io_save_file_as_utf8($d . "/.htaccess", "allow from all", true);
         }
 
         igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/ie.css", "@import url(\"base.css\");", true);
         igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/mod.css", "@import url(\"base.css\");", true);
         igk_io_save_file_as_utf8($data_dir . "/" . IGK_RES_FOLDER . "/" . IGK_STYLE_FOLDER . "/base.css", igk_css_get_default_style(), true);
-        
+
         $theme = IGK_DEFAULT_THEME_FOLDER . "/default.theme";
         $v_f = IO::ReadAllText($theme);
         if (!empty($v_f)) {
@@ -271,10 +280,8 @@ class IGKAppSystem
         // + | --------------------------------------------------------------------
         // + | LOAD CONTROLLER LISTS
         // + |
-        $tab = EnvControllerCacheList::GetControllersClasses(); 
-        $c->load($tab, $manager, $loader);  
+        $tab = EnvControllerCacheList::GetControllersClasses();
+        $c->load($tab, $manager, $loader);
     }
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 }

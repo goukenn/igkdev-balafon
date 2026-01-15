@@ -557,7 +557,7 @@ define('IGK_HOME_PAGEFOLDER', 'home');
 define('IGK_HOME_PAGE', 'home');
 define('IGK_FIELD_PREFIX', 'cl');
 define('IGK_TABLE_PREFIX', 'tb');
-define('IGK_BALAFON_CONFIG', "balafon.config.xml");
+define('IGK_BALAFON_CONFIG', 'balafon.config.xml');
 
 define('IGK_MODELS_CLASS', 'Models');
 define('IGK_DATABASE_CLASS', 'Database');

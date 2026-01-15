@@ -201,7 +201,7 @@ class IO
     {
         $p = realpath($value);
         if (empty($p)) {
-            return str_replace("\\", "/", $dir . "/" . $value);
+            return Path::FlattenPath(str_replace("\\", "/", $dir . "/" . $value));
         }
         return $p;
     }

@@ -229,7 +229,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         // $v_inject = false;
         $v_is_debug = igk_is_debug() || igk_environment()->get('debug/dispatcher');
         foreach ($parameters as $k) {
-            $v_is_debug && Logger::info(sprintf('update : %s next %s', $k, $i));
+            $v_is_debug && Logger::info(sprintf('update-dispatcher : %s next %s', $k, $i));
 
             $c = $arg = igk_getv($args, $i);
             $c_update_i = false;

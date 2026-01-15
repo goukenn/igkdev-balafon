@@ -4,14 +4,14 @@
 // @date: 20231019 13:07:41
 namespace IGK\System\Console\Commands;
 
+use IGK\Constants;
 use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\App;
 use IGK\System\Console\BalafonInitEnvironment;
 use IGK\System\Console\Helper\ConsoleUtility;
 use IGK\System\Console\Logger;
 use IGKAppSystem;
-use IGKEvents;
-
- //igk_wln(__FILE__.':'.__LINE__, 'loading ... initialize');
+use IGKEvents; 
 
 /**
  * 
@@ -19,21 +19,39 @@ use IGKEvents;
  */
 class BalafonInitCommand extends AppExecCommand
 {
-	var $command = '--init';
+	var $command = Constants::INIT_COMMAND;
 	var $desc = 'initiliaze environment';
 	var $options = [
-		'--noconfig' => 'flag: enabled ',
+		'--no-config' => 'flag: reset balafon.config.xml',
 		'--force' => 'flag: fore re-creation',
-		'--primary' => 'flag: if --noconfig initialize activate the primary file generation',
-		'--reset' => 'flag: use to reset application environment on --noconfig',
+		'--primary' => 'flag: if --no-config initialize activate the primary file generation',
+		'--reset' => 'flag: use to reset application environment on --no-config',
 		'--vendor-dir:[dir]' => 'composer vendor directory',
 		'--app-dir:[dir]' => 'application directory',
 		'--env-only' => 'flag: init environment only. disable all other flag.',
 		'--file-usergroup:user-group' => 'set uxix file access group',
-		'--clean'=>'flag: clean install directory'
+		'--clean'=>'flag: clean install directory',
+		'--install-dir'=>'change the install diectory'
 	];
 	var $category = 'system';
 	var $usage = 'install_dir [options]';
+
+	/**
+	 * 
+	 * @param mixed $app 
+	 * @param mixed $argv 
+	 * @return void 
+	 */
+	public static function Handle(& $no_init_environment, array $argv){
+		$v_env = igk_environment();
+		$no_init_environment = false;
+    	$v_env->NoAppInitFileStruct = false;  
+		if (!in_array('--env-only', $argv)) {
+			new static;
+		}else{
+			$no_init_environment = true;
+		}
+	}
 	/**
 	 * 
 	 * @param IExecCommand $command 
@@ -44,15 +62,24 @@ class BalafonInitCommand extends AppExecCommand
 	{
 		$install_dir = empty($install_dir) ? 'src' : $install_dir;
 		if (property_exists($command->options, '--env-only')) {
-			Logger::info('init environment only');
-			IGKAppSystem::InitEnv($install_dir, igk_app(), [
-				'user-group'=>igk_getv($command->options, '--file-usergroup', 'www-data:www-data')
-			]);
+			Logger::info(sprintf('--[%s] - init environment only]--', IGK_CODE_NAME));
+			IGKAppSystem::InitEnv($install_dir, igk_app());
 			return;
 		}
-
-		 
-
+		$cwd = null;
+		if ($cwd = igk_getv($command->options, '--install-dir')){
+			if (is_dir($cwd)){
+				chdir($cwd);
+			}
+		}
+		$cwd = $cwd ?? getcwd();
+		if (property_exists($command->options, '--no-config')) {
+			// remove configuration 
+			if (file_exists($cf = $cwd . '/' . IGK_BALAFON_CONFIG)) {
+				@unlink($cf); 
+			}
+		}  
+		igk_wln("install: ".$install_dir);
 		return (new BalafonInitEnvironment())->run($command, $install_dir);
 	}
 	public function __construct()
@@ -61,15 +88,16 @@ class BalafonInitCommand extends AppExecCommand
 		$this->registerHook();
 	}
 	public function registerHook()
-	{
-		// igk_ilog('register .... hook');
+	{		
 		$fc = null;
 		igk_reg_hook(IGKEvents::HOOK_PREPROCESS_COMMAND_LINE, $fc = function ($e) use (& $fc) {
 			igk_unreg_hook(IGKEvents::HOOK_PREPROCESS_COMMAND_LINE, $fc);
 			$argv = &$e->args['argv'];
 			$app = $e->args['app'];
-			$l = array_search('--env-only', $argv);
+			$l = array_search('--env-only', $argv); 
+			
 			if (($argv[1] == $this->command) && (false===$l)) {
+	 			App::ResetCommandWorkingDir();
 				$args = [];
 				$targ = array_slice($argv,1);
 				$command = ConsoleUtility::TreatCommandArgs($app, $targ, $args);  

@@ -9,8 +9,9 @@ namespace IGK;
  * @package IGK
  */
 abstract class ApplicationFactory{
+    const APP_CLASS = 'IGK\\System\\Framework\\Application';
     private static $sm_factory = [
-        'framework'=>\IGK\System\Framework\Application::class
+        'framework'=>self::APP_CLASS
     ];
     public static function Register($name, $class){
         if (class_exists($class, false) && is_subclass_of($class, \IGKApplicationBase::class)){
@@ -26,7 +27,7 @@ abstract class ApplicationFactory{
         if (isset(self::$sm_factory[$type])){
             $cl = self::$sm_factory[$type];
         } else {
-            $cl = \IGK\System\Applications::class."\\".ucfirst($type)."Application";
+            $cl = self::APP_CLASS."\\".ucfirst($type)."Application";
             if (!class_exists($cl)){
                 return null;
             }

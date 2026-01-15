@@ -24,7 +24,6 @@ $_SERVER["HTTP_USER_AGENT"] = "balafon - CLI";
 // + | register application type
 // + |
 ApplicationFactory::Register("balafon", \IGK\System\Console\BalafonApplication::class);
-
 // + | ------------------------------------------------------------------------------
 // + | check for command and working directory handle 
 // + |

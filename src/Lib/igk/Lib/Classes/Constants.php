@@ -59,6 +59,8 @@ final class Constants{
 
     const DB_MODEL_FIELD_PREFIX = 'FD_';
     const DB_MODEL_FULLNAME_FIELD_PREFIX = 'FN_';
+
+    const INIT_COMMAND = '--init';
     /**
      * get the core version 
      * @return string 

@@ -167,12 +167,17 @@ class App implements ICLICommandApp
         $app->command = $command;
         $tab = array_slice(igk_server()->argv, 1);
         // + | before execute a command move the working directory to server PWD
+        self::ResetCommandWorkingDir();       
+        return self::Exec($app, $tab) ?? 0;
+    }
+    /**
+     * reset working directory
+     */
+    public static function ResetCommandWorkingDir(){
         if (isset($_SERVER[$v_c = 'IGK_COMMAND_PWD'])) {
             chdir($_SERVER[$v_c]);
             unset($_SERVER[$v_c]);
-        }
-   
-        return self::Exec($app, $tab) ?? 0;
+        }   
     }
     /**
      * expose start base path
