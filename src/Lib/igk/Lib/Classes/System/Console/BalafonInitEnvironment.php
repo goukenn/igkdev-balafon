@@ -88,6 +88,7 @@ class BalafonInitEnvironment
         $config->author = igk_environment()->balafon_author;
         $app_dir = '';
         $public_dir = '';
+        $lib = null;
         if ($v_no_config) {
             $_git_contents = [
                 '.balafon',
@@ -100,8 +101,6 @@ class BalafonInitEnvironment
              */
             $v_primary = $v_primary;
             $app_dir = Path::SubLocalPath(igk_getv($options, '--app-dir') ?? ($v_primary ? "./" :  $install_dir . "/application"), $cwd);
-
-
             $public_dir = $v_primary ? "./" : $install_dir . "/public";
             $sess_dir = $v_primary ? null : $install_dir . "/sesstemp";
             $app_dir = self::_CurrentSubRelativeDir($app_dir, $cwd);
@@ -154,7 +153,6 @@ class BalafonInitEnvironment
                 @symlink($v_link, $lib);
             }
             $_git_contents[] = Path::GetRelativePath($cwd, $lib);
-
             // + | create links target => location
             foreach ($links as $c => $d) {
                 if (file_exists($c)) {
@@ -168,6 +166,7 @@ class BalafonInitEnvironment
         } else {
             Logger::info('auto init data');
             $config->init($init_data);
+            $lib = \IGK\System\IO\Path::GetRelativePath( $cwd, IGK_LIB_DIR);  
         }
         $opts = HtmlRenderer::CreateRenderOptions();
         $opts->Indent = true;
@@ -176,7 +175,9 @@ class BalafonInitEnvironment
         $init_data['init'] = date('Y-m-d');
         igk_io_w2file($file, $init_data->render($opts));
         // + | create a symlink to balafon command line interface 
-        @symlink(Path::Combine($lib, 'bin', 'balafon'), 'balafon');
+        if (!file_exists('balafon')){
+            @symlink(Path::Combine($lib, 'bin', 'balafon'), 'balafon');
+        }
         igk_hook(IGKEvents::HOOK_SYS_INIT_CONFIG, ['reset' => $v_reset]);
 
 

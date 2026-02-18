@@ -32,13 +32,17 @@ class AppConfigs
             $init_data->add("author")->Content  = $this->read_author();
         }
         $tc = array_merge([
-            "IGK_DOCUMENT_ROOT",
-            "IGK_BASE_URI",
+            "IGK_DOCUMENT_ROOT"=>'document root',
+            "IGK_BASE_URI"=>'base uri',
         ], DirectoriesInstallsConstants::GetInstallableDirConstants());
-        foreach ($tc as $envprop
+        foreach ($tc as $envprop => $title
         ) {
+            if (is_numeric($envprop)){
+                $envprop = $title;
+            }
+
             $key = "env_" . strtolower($envprop);
-            if ($n = $this->$key("{$envprop} :")) {
+            if ($n = $this->$key("{$title} :")) {
                 $init_data->add("env")->setAttribute("name", $envprop)
                     ->setAttribute("value", $n);
             }
