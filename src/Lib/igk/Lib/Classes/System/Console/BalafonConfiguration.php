@@ -12,10 +12,31 @@ use IGKException;
 * @package IGK\System\Console
 */
 class BalafonConfiguration{
+    /**
+     * 
+     * @var string
+     */
     var $name;
+    /**
+     * project author 
+     * @var ?string|string[]
+     */
     var $author;
+    /**
+     * string presentations 
+     * @var ?string
+     */
     var $version;
+    /**
+     * description of the project 
+     * @var mixed
+     */
     var $description;
+    /**
+     * keys word to used 
+     * @var ?string[]
+     */
+    var $keywords;
     /**
      * array of require module
      * @var ?array
@@ -26,8 +47,13 @@ class BalafonConfiguration{
      * @var mixed
      */
     var $build;
-    public static function GetConfigFile(BaseController $ctrl){
-        return Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE );
+    /**
+     * 
+     * @param BaseController $ctrl 
+     * @return string 
+     */
+    public static function GetConfigFile(BaseController $ctrl): string{
+        return Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE);
     }
     /**
      * load balafon configuration 

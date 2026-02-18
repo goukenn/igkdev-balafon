@@ -8,6 +8,7 @@ use IGK\Actions\Dispatcher;
 use IGK\Actions\DispatcherService;
 use IGK\Controllers\ServiceController;
 use IGK\Services\IAppService;
+use IGK\Services\IAppServiceContainer;
 use IGK\System\Core\ListOfCoreServices;
 use IGK\System\DependencyInjection\LifeTime;
 use function igk_resources_gets as __;
@@ -26,6 +27,7 @@ class IGKServices extends ListOfCoreServices
     const KEY_LIFETIME = '@lifetime';
     const INIT_ARGS = DispatcherService::INIT_ARGS;
     const KEY_INSTANCE = 'instance';
+    const PATH_SEPARATOR = '::';
 
     private static $sm_initDef;
 
@@ -193,7 +195,7 @@ class IGKServices extends ListOfCoreServices
         if (empty($path)){
             $path = $n;
         }else{
-            $path = $path . '::' . $n;
+            $path = $path . self::PATH_SEPARATOR . $n;
         }
     }
     /**
@@ -247,6 +249,9 @@ class IGKServices extends ListOfCoreServices
                 self::KEY_INSTANCE => $cl,
                 "file" => $file
             ];
+            if ($cl instanceof IAppServiceContainer){
+                $cl->setName($serviceName);
+            }
             ServiceController::register($className, igk_io_collapse_path($file));
         }
         unset($initializing[$className]);
@@ -293,6 +298,12 @@ class IGKServices extends ListOfCoreServices
         $gkey = implode('/', $tab);
         return true;
     }
+    /**
+     * 
+     * @param mixed $configuration 
+     * @param string $gkey 
+     * @return mixed 
+     */
     private static function _GetFallingConfiguration($configuration, string $gkey)
     {
         $fc_unset_args = function($l): bool{

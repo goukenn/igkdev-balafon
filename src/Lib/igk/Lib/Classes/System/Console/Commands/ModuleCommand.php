@@ -7,6 +7,7 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Console\App;
+use IGK\System\Console\Colorize;
 use igk\System\Console\Commands\Utility;
 use function igk_resources_gets as __;
 /**
@@ -23,7 +24,8 @@ class ModuleCommand extends AppExecCommand{
     {
         parent::showUsage();
         $v_actions = [
-            'ls'=>'list all installed module'
+            'ls'=>'list all installed module',
+            'check'=>'check installed module',
         ];
         Logger::print('');
         Logger::print('action*');
@@ -31,12 +33,35 @@ class ModuleCommand extends AppExecCommand{
         Utility::PrintCommand($v_actions);
     }
     public function exec($command, $args="ls"){
-       $args = "ls";
+       $args = $args ?? "ls";
        switch($args){
+            case 'ls':
+                $this->listCommand();
+            break;
            default:
-            $this->listCommand();
+                if (method_exists($this, $fc = '_'.$args.'Command')){
+                    $targ = array_slice(func_get_args(), 2);
+                    array_unshift($targ, $command);
+                    call_user_func_array([$this, $fc], $targ); 
+                } else{
+                     $this->listCommand();
+                }
            break;
        }
+    }
+    private function _checkCommand($command, ?string $module=null){
+        $mod = igk_get_module($module) ?? igk_die('module not found');
+        $conf = $mod->getConfigs();
+        $ls_mod = igk_get_modules();
+        $info = (object)[
+            'declaredDir'=>$mod->getDeclaredDir(),
+            'name'=>$mod->getName(),
+            'version'=>$mod->version,
+            'author'=>$mod->author,
+            'description'=>$mod->description
+        ];
+        Logger::SetColorizer(new Colorize());
+        igk_wln_e('module found:', $mod->getDeclaredDir(), json_encode($info, JSON_PRETTY_PRINT, JSON_UNESCAPED_SLASHES));
     }
     private function listCommand(){
         $mod = igk_get_modules();

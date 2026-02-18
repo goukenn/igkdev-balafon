@@ -32,7 +32,7 @@ class RequestViewCommand extends AppExecCommand
         $opts = [
             "--method:[TYPE]" => "request method type. default is GET",
             "--user:[ID]" => "user id to use",
-            "--render:[:type]" => "render default view, (doc|body|head|view) default is view",
+            "--render:[:type]" => "render default view, (doc|body|head|view|content) default is view",
             "--ajx" => "enable ajx render mode",
             "--json:[file]"=>"file to load as json data",
             "--content-type:[]" => "set render content type. default is 'text/html'",
@@ -94,6 +94,9 @@ class RequestViewCommand extends AppExecCommand
                     break;
                 case 'head':
                     $doc->getHead()->renderAJX($xml_render_option);
+                    break;
+                case 'content':
+                    echo $t->getInnerHtml($xml_render_option);
                     break;
                 case 'view':
                 default: 

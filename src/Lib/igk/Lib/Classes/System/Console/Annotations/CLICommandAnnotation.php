@@ -4,12 +4,12 @@
 // @date: 20240821 00:42:43
 namespace IGK\System\Console\Annotations;
 use IGK\System\Annotations\AnnotationBase;
-use IGK\System\Annotations\AnnotationInfo;
+use IGK\System\Annotations\AnnotationInfoAnnotation as Info;
 /**
 * annotation that indicate the cli command to be a top level command.
 * @package IGK\System\Console\Annotations
 * @author C.A.D. BONDJE DOUE
-* @AnnotationInfo(isMutiple=false, type=class)
+* @Info(isMutiple=false, type=class)
 */
 class CLICommandAnnotation extends AnnotationBase{
 }

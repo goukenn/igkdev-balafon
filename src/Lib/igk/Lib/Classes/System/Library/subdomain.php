@@ -7,6 +7,7 @@ namespace IGK\System\Library;
 use function igk_resources_gets as __;
 use Exception;
 use IGK\Helper\SysUtils;
+use IGK\System\Controllers\ControllerSysKeyConstants;
 use IGK\System\Http\ConfigurationPageHandler;
 use IGKEvents;
 use IGKException;
@@ -134,7 +135,12 @@ class subdomain{
                 if(igk_server()->REQUEST_PATH == '/'){
                     $msg=__("Subdomain not accessible : {0}", $s);
                     if($def_ctrl=igk_get_defaultwebpagectrl()){
-                        $def_ctrl->handleException(new IGKException($msg, 500), "subdomain error"); //.$def_ctrl->getTitle());
+                        if ($def_ctrl->getConfigs()->subdomain_handle_undefined_domain){
+                            // passing 
+                            $def_ctrl->setEnvParam(ControllerSysKeyConstants::subdomain, $s);
+                        }else{                            
+                            $def_ctrl->handleException(new IGKException($msg, 500), __("Subdomain error"));
+                        }
                     }
                     else{
                         igk_set_header(500);

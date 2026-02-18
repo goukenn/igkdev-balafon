@@ -117,7 +117,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
  * handle cron script
  * @return void 
  */
-function handle_cron_script()
+function igk_handle_cron_script()
 {
     $s = new CronScriptHandler;
     return call_user_func_array([$s, 'handle'], func_get_args());
@@ -151,6 +151,6 @@ if (!class_exists('CommandHelper', false))
  
 // get cron job request 
 $crons = Crons::select_all();
-CronJob::ExecuteCronList($crons, 'handle_cron_script', __FILE__); 
+CronJob::ExecuteCronList($crons, 'igk_handle_cron_script', __FILE__); 
 igk_wln_e("cronjob complete : " . date('Y-m-d H:i:s'));
 igk_exit(1, 0);

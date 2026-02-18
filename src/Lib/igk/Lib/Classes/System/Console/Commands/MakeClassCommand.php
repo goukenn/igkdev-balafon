@@ -77,6 +77,10 @@ class MakeClassCommand extends AppExecCommand
         while (count($file) > 0) {
             $q = array_shift($file);
             if (!$q) continue;
+            if (file_exists($q) && !$force){
+                Logger::danger('file exists');
+                continue;
+            }
             $name = igk_str_ns(igk_io_basenamewithoutext($q));
             $builder = new PHPScriptBuilder();
             $builder->type($type)

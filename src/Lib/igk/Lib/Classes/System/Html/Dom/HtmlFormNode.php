@@ -14,16 +14,31 @@ final class HtmlFormNode extends HtmlNode
 {
     use HostableItemTrait;
     const URLEncoded = "application/x-www-form-urlencoded";
-    private $bodydiv;
-    private $footdiv;
+    private $m_bodydiv;
+    private $m_footdiv;
     private $m_definition;
     private $m_encType;
     private $m_nofoot;
     private $m_notitle;
-    private $topdiv;
+    private $m_topdiv;
     private $_max_file_size;
     private $_max_upload_file;
     private $_prevent_max_file_upload;
+
+    /**
+     * 
+     * @return HtmlItemBase 
+     */
+    public function getBodyContent(): HtmlItemBase{
+        return $this->m_bodydiv;
+    }
+    /**
+     * 
+     * @return HtmlItemBase 
+     */
+    public function getFooterContent(): HtmlItemBase{
+        return $this->m_footdiv;
+    }
     /**
      * 
      * @return $this 
@@ -39,9 +54,9 @@ final class HtmlFormNode extends HtmlNode
      */
     protected function _acceptRender($options = null): bool
     {
-        $e = $this->topdiv->Content;
-        $this->topdiv->setIsVisible(!empty($e) && !$this->m_notitle);
-        $this->footdiv->setIsVisible($this->footdiv->gethasContent() && !$this->m_nofoot);
+        $e = $this->m_topdiv->Content;
+        $this->m_topdiv->setIsVisible(!empty($e) && !$this->m_notitle);
+        $this->m_footdiv->setIsVisible($this->m_footdiv->gethasContent() && !$this->m_nofoot);
         return true;
     }
     /**
@@ -66,13 +81,13 @@ final class HtmlFormNode extends HtmlNode
         $this->m_notitle = $notitle;
         $this->m_nofoot = $nofoot;
         $this["class"] = "igk-form";
-        $this->topdiv = new HtmlFormTitleNode();
-        $this->bodydiv = igk_create_node("div")->setAttributes(["class" => 'content']);
-        $this->footdiv = igk_create_node("div")->setAttributes(["class" => "foot"]);
+        $this->m_topdiv = new HtmlFormTitleNode();
+        $this->m_bodydiv = igk_create_node("div")->setAttributes(["class" => 'content']);
+        $this->m_footdiv = igk_create_node("div")->setAttributes(["class" => "foot"]);
         $this->m_definition = new HtmlFormInnerNode($this);
-        $this->m_definition->Add($this->topdiv);
-        $this->m_definition->Add($this->bodydiv);
-        $this->m_definition->Add($this->footdiv);
+        $this->m_definition->Add($this->m_topdiv);
+        $this->m_definition->Add($this->m_bodydiv);
+        $this->m_definition->Add($this->m_footdiv);
         parent::_Add($this->m_definition);
     }
     public function setMAX_FILE_SIZE($size)
@@ -115,7 +130,7 @@ final class HtmlFormNode extends HtmlNode
      */
     protected function _Add($item, $index = null): bool
     {
-        return $this->bodydiv->_Add($item);
+        return $this->m_bodydiv->_Add($item);
     }
     /**
      * 
@@ -125,7 +140,7 @@ final class HtmlFormNode extends HtmlNode
      */
     public function add($nameoritem, $attributes = null, $index = null)
     {
-        return $this->bodydiv->add($nameoritem, $attributes, $index);
+        return $this->m_bodydiv->add($nameoritem, $attributes, $index);
     }
     /**
      * input environement confirmation
@@ -160,7 +175,7 @@ final class HtmlFormNode extends HtmlNode
      */
     public function ClearChilds()
     {
-        $this->bodydiv->clearChilds();
+        $this->m_bodydiv->clearChilds();
     }
     /**
      * 
@@ -174,7 +189,7 @@ final class HtmlFormNode extends HtmlNode
      */
     public function getBox()
     {
-        return $this->bodydiv;
+        return $this->m_bodydiv;
     }
     /**
      * 
@@ -195,7 +210,7 @@ final class HtmlFormNode extends HtmlNode
      */
     public function getFooter()
     {
-        return $this->footdiv;
+        return $this->m_footdiv;
     }
     /**
      * 
@@ -223,7 +238,7 @@ final class HtmlFormNode extends HtmlNode
      */
     public function getTitle()
     {
-        return $this->topdiv->Content;
+        return $this->m_topdiv->Content;
     }
     /**
      * 
@@ -240,7 +255,7 @@ final class HtmlFormNode extends HtmlNode
      */
     public function setContent($v)
     {
-        $this->bodydiv->setContent($v);
+        $this->m_bodydiv->setContent($v);
         return $this;
     }
     /**
@@ -286,7 +301,7 @@ final class HtmlFormNode extends HtmlNode
      */
     public function setTitle($value)
     {
-        $this->topdiv->Content = $value;
+        $this->m_topdiv->Content = $value;
         return $this;
     }
 }

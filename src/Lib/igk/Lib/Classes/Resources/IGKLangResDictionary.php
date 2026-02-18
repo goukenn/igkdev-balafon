@@ -68,7 +68,7 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
         $fc = Closure::fromCallable(function(){
             extract ((array)func_get_arg(1));
             include(func_get_arg(0)); 
-            return $l;
+            return $l ?? [];
         })->bindTo(null);
         $this->_f = array_change_key_case($fc($file, ["l"=> $this->_f]), CASE_LOWER);        
     }
@@ -77,5 +77,21 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     }
     public function getIterator(): Traversable {
         return new ArrayIterator($this->_f);
+    }
+    /**
+     * clear dictionary
+     * @return void 
+     */
+    public function clear(){
+        $this->_f = [];
+    }
+    /**
+     * sort keys array 
+     * @return array 
+     */
+    public function sortKeys(): array{
+        $tab = array_keys($this->_f);
+        ksort($tab);
+        return $tab;
     }
 }

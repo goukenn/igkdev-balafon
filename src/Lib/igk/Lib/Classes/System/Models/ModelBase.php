@@ -442,7 +442,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
     /**
      * initialize the model
-     * @param mixed $raw 
+     * @param mixed|array|object $raw 
      * @param int $mock 
      * @param bool $unset 
      * @return void 
@@ -455,6 +455,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
      */
     protected function _initialize($raw = null, $mock = 0, $unset = false)
     {
+        ($raw && !is_array($raw) && !is_object($raw)) && igk_die('raw not a valid data');
         $t =  $this->getTable();
         $ctrl = $this->getController();
         $tableReference = null;

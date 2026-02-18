@@ -208,9 +208,9 @@ if (!function_exists('igk_resources_gets')) {
     /**
      * helper: shortcut to resource string dictionary get __
      * @param string|array<string> $text formatted key
-     * @param string|null $default default value
+     * @param string|null ...$parameters parameter 
      */
-    function igk_resources_gets($text, $default = null)
+    function igk_resources_gets($text, $parameters = null)
     {
         $args = func_get_args();
         if (is_array($text)) {
@@ -504,10 +504,7 @@ function igk_io_get_script($f, $args = null)
     }
     return null;
 }
-// function & igk_to_array($tab){
-// 	$t = (array)$tab;
-//     return $t;
-// }
+ 
 /**
  * evalute constant and get the value
  * @var sstring $name
@@ -678,6 +675,9 @@ function igk_io_applicationdir()
  */
 function igk_is_cmd()
 {
+    if (php_sapi_name() == 'cli'){
+        return true;
+    }
     if (isset($_SERVER["SERVER_PROTOCOL"])) {
         return false;
     }

@@ -49,7 +49,8 @@ trait FormatterSplitterTrait
      * @param array $args 
      * @return mixed 
      */
-    protected function _dispatch($e, string $fname, array $args){
+    protected function _dispatch($e, string $fname, array $args)
+    {
         return call_user_func_array([$e, $fname], $args);
     }
     /**
@@ -62,24 +63,24 @@ trait FormatterSplitterTrait
     protected function _treatChains(RegexMatcherCapture $e, $chains, ?callable $chainCallback = null)
     {
         $n = $cp = null;
-        if ($engine = $this->m_host_engine){
-            $cp = $this->_dispatch($engine, __FUNCTION__, func_get_args());    
-            if (is_array($cp)){
+        if ($engine = $this->m_host_engine) {
+            $cp = $this->_dispatch($engine, __FUNCTION__, func_get_args());
+            if (is_array($cp)) {
                 return $cp;
             }
         }
-
-
         $v_marked = &$this->m_marked;
         $offset = 0;
         $v = $e->value;
         $n = '';
         $dt = [];
         $skipline = false;
+        // UPDATE: skip next line before join the content flag
+        $v_skipNextSplitLine = false;
 
         while (count($chains)) {
             $r = array_shift($chains);
-
+            //$v_skipNextSplitLine = $this->getFlag('line-flag');
             if ($chainCallback) {
                 $chainCallback($r);
             }
@@ -93,6 +94,9 @@ trait FormatterSplitterTrait
             } else {
                 $sp = $r->match->splitLine;
                 if ($sp) {
+                    // if ($v_skipNextSplitLine) {
+                    //     $this->unsetFlag('line-flag'); 
+                    // }
                     //if (!empty($n)){
                     $dt[] = !empty($n) ? $n : '';
                     $skipline = true;
@@ -103,17 +107,24 @@ trait FormatterSplitterTrait
                         $skipline = false;
                     } else
                         $n = '';
+                    $v_skipNextSplitLine = true;
                 } else {
                     $n .= $r->value;
                 }
             }
-            $offset = $r->to - $e->from;
+            if ($r->match->flags) {
+                $this->updateFlags($r->match->flags);
+            }
+            $offset = $r->to - $e->from; 
         }
         $n .= substr($v, $offset);
         if ($dt) {
-            if (!empty($n))
-                $dt[] = $n;
-            else {
+            if (!empty($n)) {
+                if ($v_skipNextSplitLine) {
+                    $dt[count($dt)-1] .= $n;
+                } else
+                    $dt[] = $n;
+            } else {
                 if ($skipline) {
                     $dt[] = '';
                 }
@@ -122,8 +133,8 @@ trait FormatterSplitterTrait
             // marked splitter content 
             return $dt;
         }
-        if ($cp && ($cp!= $n)){
-            igk_wln_e('-----------------------','cp', $cp, 'cn', $n ?? '');
+        if ($cp && ($cp != $n)) {
+            igk_debug_wln_e(__FILE__ . ":" . __LINE__, '-----------------------', 'cp', $cp, 'cn', $n ?? '');
         }
         return $n;
     }
@@ -149,9 +160,9 @@ trait FormatterSplitterTrait
                     array_unshift($dt, $scap);
                 }
             }
-            if ($ecap = $e->endCaptures[0][0]){
-                $end = $dt[count($dt)-1];
-                if (igk_str_endwith($end, $ecap)){
+            if ($e->endCaptures && ($ecap = $e->endCaptures[0][0])) {
+                $end = $dt[count($dt) - 1];
+                if (igk_str_endwith($end, $ecap)) {
                     $l = igk_str_rm_last($end, $ecap, 1);
                     array_pop($dt);
                     array_push($dt, $l);
@@ -166,17 +177,18 @@ trait FormatterSplitterTrait
      * @return void 
      * @throws Exception 
      */
-    protected function _treatFlags(IReplaceCapturedFormatDefinition $e){
-        if (!$flags = $e->match->flags){
+    protected function _treatFlags(IReplaceCapturedFormatDefinition $e)
+    {
+        if (!$flags = $e->match->flags) {
             return;
         }
         $flags = (array)$flags;
-        if (($j = igk_getv($flags, 'no-tab')) || ($j = in_array('no-tab', $flags))){
+        if (($j = igk_getv($flags, 'no-tab')) || ($j = in_array('no-tab', $flags))) {
             $s = true;
-            if ($j instanceof Closure){
+            if ($j instanceof Closure) {
                 $s = $j($e, $this);
             }
-             $this->setFlag('no-tab', $s);
+            $this->setFlag('no-tab', $s);
         }
     }
     /**
@@ -187,7 +199,7 @@ trait FormatterSplitterTrait
     public function transform(IReplaceCapturedFormatDefinition $e): string
     {
         $tv = $e->value;
-        
+
 
         if (!is_array($tv)) {
             $tv = [$tv];
@@ -199,7 +211,7 @@ trait FormatterSplitterTrait
         $_will_prefix = false;
         // save state 
         $_bflag = $this->getFlag('no-tab');
-        $this->_treatFlags($e);  
+        $this->_treatFlags($e);
         while (($tc = count($tv)) > 0) {
             $c = array_shift($tv);
             if (is_null($c)) {

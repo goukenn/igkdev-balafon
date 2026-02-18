@@ -3,11 +3,9 @@
 // @file: RegexMatcherUtility.php
 // @date: 20241031 17:45:12
 namespace IGK\System\Text;
-
 use Closure;
 use IGKException;
 use Exception;
-
 /**
  * regex utility method
  * @package IGK\System\Text
@@ -19,7 +17,12 @@ abstract class RegexMatcherUtility
     const REGEX_MOVEMENT_CAPTURE  = "/(|)?\(\?(=|<|!).+?[^\\\]\)(|)?/";
     const REGEX_EMPTY_LINE = '^\\h*(?=\\n)';
     const REGEX_CAPTURE_REPLACE = "/^\\s*(.+)\\s*$/";
-
+    public static function EscapeCharList(array $list){
+        $t = str_split('.)(*+[]/', 1);
+        return array_map(function($a)use ($t){
+                return in_array($a , $t) ? '\\'.$a: $a;
+        }, $list);
+    }
     /**
      * 
      * @param string $v source to replace
@@ -30,7 +33,6 @@ abstract class RegexMatcherUtility
      * @return void 
      */
     public static function ReplaceWith(string $source, $replacement, $pattern, $g , ?Closure $replaceCapturedDataCallback = null){
-        
             if ($replacement instanceof Closure) {
                 $source = $replacement($source, $g, $pattern);
             } else {
@@ -67,9 +69,6 @@ abstract class RegexMatcherUtility
     public static function RemoveMovementCapture(string $regex)
     {
         $src = $regex;
-
-
-
         $regex = new RegexMatcherContainer;
         $cbranck = $regex->begin('(\|)?\(\?((<|!)?=)', '\)(\|)?', 'c-branket')->last();
         $sbranck = $regex->createPattern([
@@ -86,11 +85,8 @@ abstract class RegexMatcherUtility
             $sbranck,
             $cbranck,
         ];
-
-
         $pos = 0;
         // define
-
         $sb = '';
         $toffset = 0;
         while ($g = $regex->detect($src, $pos)) {
@@ -360,7 +356,6 @@ abstract class RegexMatcherUtility
         }
         return $chain;
     }
-
     /**
      * remove empty captured group ()
      * @param string $regex 

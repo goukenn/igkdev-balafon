@@ -292,6 +292,10 @@ abstract class UsersMacros
      * @return null|Users 
      */
     public static function resolve(Users $model, $data){
+        if (is_numeric($data)){
+            $r = $model::GetCache($model::FD_CL_ID, $data);
+            return $r;
+        }
         if (is_string($data)){
             $r = $model::GetCache($model::FD_CL_LOGIN, $data);
             return $r;

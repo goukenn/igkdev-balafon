@@ -12,6 +12,7 @@ use IGK\System\AnnotationBase;
 * @author C.A.D. BONDJE DOUE
 */
 class SecurityAnnotation extends AnnotationBase{
+    const BEARER_AUTH = 'BearerAuth';
     /**
      * authentication list 
      * @var ?string|array
@@ -28,9 +29,14 @@ class SecurityAnnotation extends AnnotationBase{
      */
     var $strict;
 
-    public function __construct(?string $security)
+    /**
+     * 
+     * @param null|string $security security type 
+     * @return void 
+     */
+    public function __construct(?string $security = self::BEARER_AUTH)
     {
-        $this->security = $security;
+        $this->security = $security ?? self::BEARER_AUTH;
     }
     public function setStrict(?bool $strict){
         $this->strict = $strict;

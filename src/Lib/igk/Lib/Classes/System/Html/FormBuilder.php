@@ -34,6 +34,10 @@ class FormBuilder
      */
     var $datasource;
     const ENV_CSS = IGKEnvironmentConstants::CSS_ENV_STYLE_KEY;
+    /**
+     * 
+     * @var array{number: 'text', tel: 'text', float: 'text', int: 'text', email: 'email', password: 'password', text: 'text', date: 'date', datetime: 'datetime-local', json: 'text', radio: 'radio', checkbox: 'checkbox', file: 'file', hidden: 'hidden', datetime-local: 'datetime-local'}
+     */
     static $ResolvType = [
         "number" => "text",
         "tel" => "text",
@@ -51,6 +55,10 @@ class FormBuilder
         "hidden" => "hidden",
         "datetime-local" => "datetime-local"
     ];
+    /**
+     * 
+     * @var array{float: 'igk-form-control number', double: 'igk-form-control number', number: 'igk-form-control number', int: 'igk-form-control integer', text: 'igk-form-control text', mail: 'igk-form-control mail', url: 'igk-form-control url', password: 'igk-form-control password', email: 'igk-form-control email', datetime: 'igk-form-control datetime', datetime-local: 'igk-form-control datetime-local'}
+     */
     private static $ResolvClass = [
         "float" => "igk-form-control number",
         "double" => "igk-form-control number",
@@ -239,7 +247,7 @@ class FormBuilder
             $_is_required = isset($v["required"]) ? $v["required"] : 0;
             $label_text = ucfirst(igk_getv($v, "label_text", __($k)));
             $bind_class_name = igk_getv($v, 'class_name');
-           
+
             if (!$this->isHtmlType($_type) && is_subclass_of($_type, FormBuilderItemAbstractType::class)) {
                 $v_ctype = new $_type();
                 $v_ctype->setName($k);
@@ -255,12 +263,11 @@ class FormBuilder
             if ($v_error) {
                 $class_style .= ' igk-danger';
             }
-            if ($_class_name){
+            if ($_class_name) {
                 $class_style .=  $_class_name;
             }
             if ($bind_class_name) {
                 $class_style .= ' ' . $bind_class_name;
-                
             } else {
                 // class name 
                 $class_style .= ' ' . igk_css_str2class_name(strtolower($k));
@@ -281,7 +288,7 @@ class FormBuilder
                 $g = HtmlUtils::GetFilteredAttributeString("label", array_merge([
                     'class' => "igk-form-label" . ($v_error ? ' igk-text-danger error' : '')
                 ], $tcc));
-                $c_id = ($t_id) ? "for='{$t_id}'" : "";
+                $c_id = ($t_id) ? "for=\"{$t_id}\"" : "";
                 $o .= "<label {$c_id}$g>" . $label_text . "</label>";
             }
             // + | component 
@@ -370,7 +377,11 @@ class FormBuilder
                                     $o .= "data-tip=\"" . $row['data-tip'] . "\" ";
                                 }
                                 $o .= ">";
-                                $o .= $row["t"];
+                                if (isset($row['t'])) {
+                                    $o .= igk_resources_gets($row["t"]);
+                                } else if (isset($row['label'])) {
+                                    $o .= $row["label"];
+                                }
                                 $o .= "</option>";
                             }
                         }
@@ -435,20 +446,20 @@ class FormBuilder
                         if ($tmp_tattribs = self::_GetAttribArgs($v, true)) {
                             self::_LoadClassDefinition($tattrib, $tmp_tattribs);
                             $v['attribs'] = $tmp_tattribs;
-                            unset($tattrib['attribs']); 
+                            unset($tattrib['attribs']);
                         }
                         // + | -------------------------------------------------
                         // + | filter attribs
                         // + | 
-                        if ($p = igk_getv($v, 'attribs')) {
-                            $tattrib = array_merge($tattrib, $p ?? []);
+                        if ($p = igk_getv($v, 'attribs')){
+                            self::_MergeAttributes($tattrib, $p);
                         }
                         $jp = [
                             "type" => $_otype,
                             "id" => $t_id,
                             "value" => $_value,
                         ] + $tattrib;
-                        $attrib = new HtmlFilterAttributeArray($jp); 
+                        $attrib = new HtmlFilterAttributeArray($jp);
                         if ($_is_required) {
                             $attrib["required"] = 1;
                         }
@@ -469,7 +480,7 @@ class FormBuilder
                 $o .= '<div class="error-tip">' . __($v_error) . '</div>';
             }
 
-            if ($acomponent) {                
+            if ($acomponent) {
                 $o .= self::RenderComponent($acomponent);
             }
 
@@ -513,18 +524,23 @@ class FormBuilder
                 // + |                
                 $name = substr($k, 0, $cpos);
                 if (is_array($v)) {
-                    $ct = count($v);
-                    $jc = 0;
-                    for ($i = 0; $i < $ct; $i++) {
-                        $b = $v[$i];
-                        if ($b instanceof FormFieldAttribute) {
-                            $b->attribs;
-                            continue;
+                    if (igk_array_is_assoc_only($v)) {
+                        $bindValue($o, $fieldset, $name, $v);
+                    } else {
+
+                        $ct = count($v);
+                        $jc = 0;
+                        for ($i = 0; $i < $ct; $i++) {
+                            $b = igk_getv($v, $i);
+                            if (!$b || ($b instanceof FormFieldAttribute)) {
+                                //$b->attribs;
+                                continue;
+                            }
+                            $b['id'] = $name . str_pad($jc . '', 2, STR_PAD_LEFT, '0');
+                            $b["name"] = $k;
+                            $bindValue($o, $fieldset, $name, $b);
+                            $jc++;
                         }
-                        $b['id'] = $name . str_pad($jc . '', 2, STR_PAD_LEFT, '0');
-                        $b["name"] = $k;
-                        $bindValue($o, $fieldset, $name, $b);
-                        $jc++;
                     }
                 } else if ($v instanceof FormFieldAttribute) {
                     $data = $v->attribs;
@@ -542,6 +558,11 @@ class FormBuilder
                             $c++;
                         }
                     }
+                } else if ($k == $v) {
+                    // + | string definition
+                    $b['name'] = $k;
+                    $b['id'] = $name;
+                    $bindValue($o, $fieldset, $name, $b);
                 }
                 continue;
             }
@@ -554,7 +575,6 @@ class FormBuilder
             echo $o;
         }
         return $o;
-        
     }
     /**
      * render component
@@ -568,7 +588,7 @@ class FormBuilder
      */
     public static function RenderComponent($component)
     {
-        $o ='';
+        $o = '';
         if (!is_array($component)) {
             $component = [$component];
         }
@@ -581,6 +601,20 @@ class FormBuilder
             }
         }
         return $o;
+    }
+    private static function _MergeAttributes(& $tattrib, $p){
+        if (!is_array($p)){
+            $p= [$p];
+        }
+        foreach($p as $k=>$v){
+            if (is_numeric($k)){
+                if (!in_array($v, $tattrib)){
+                    $tattrib[] = $v;
+                }
+            }else{
+                $tattrib[$k]=$v;
+            }
+        }
     }
     /**
      * check whether a string type is html type
@@ -600,7 +634,19 @@ class FormBuilder
      */
     protected static function _SelectSortBySorkByText($a, $b)
     {
-        return strcmp(igk_getv($a, 't'), igk_getv($b, 't'));
+        $getv = function ($a, $tab) {
+            while (count($tab) > 0) {
+                $q = array_shift($tab);
+                if (isset($a[$q])) {
+                    return $a[$q];
+                }
+            }
+            return '';
+        };
+        $k = ['t', 'label'];
+        $a1 = $getv($a, $k);
+        $b1 = $getv($b, $k);
+        return strcmp($a1, $b1); // igk_getv($a, 't'), igk_getv($b, 't'));
     }
     /**
      * get retrieve value data
@@ -623,6 +669,12 @@ class FormBuilder
         }
         return $_value;
     }
+    /**
+     * 
+     * @param string $id 
+     * @param null|array $def_data 
+     * @return mixed|null|array 
+     */
     public function _getSelectDataOptions(string $id, ?array $def_data = null)
     {
         $_source = $this->datasource;
@@ -684,6 +736,7 @@ class FormBuilder
                 unset($arg[$ck]);
             }
         }
+        // update merged attribes
         $tm = array_merge($tm, $arg);
     }
     public function build_button(string &$o, $attrib)

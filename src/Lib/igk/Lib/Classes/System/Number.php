@@ -8,8 +8,14 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System;
+
 use Exception;
 use function igk_resources_gets as __;
+
+/**
+ * use to manager number 
+ * @package IGK\System
+ */
 final class Number
 {
     static $sm_sizeFormat = array(
@@ -19,6 +25,18 @@ final class Number
         "Kb" => 1024,
         "B" => 1
     );
+
+    /**
+     * check if number is roman litteral 
+     * @param mixed $string 
+     * @return bool 
+     */
+    static function IsRomanNumeral($string): bool
+    {
+        // Pattern pour les chiffres romains valides
+        $pattern = '/^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/'; 
+        return preg_match($pattern, $string) === 1;
+    }
     private static function __GetValue($d)
     {
         if (is_int($d) || preg_match("/[0-9]/i", $d)) {

@@ -27,6 +27,7 @@ class IGKEvents extends IGKObject
     const HOOK_SYS_INIT_CONFIG = 'sys://init_config';
     const HOOK_PREPROCESS_COMMAND_LINE = 'sys://cli/preprocess-command-line';
     
+    const HOOK_INIT_WEB_APP_LIBRARY = 'sys://webapplication/init_library';
     /**
      * reset uset authentications 
      */
@@ -39,6 +40,7 @@ class IGKEvents extends IGKObject
     const HOOK_APP_BOOT = "sys://app_boot";
     const HOOK_APP_SETTING_RESET = "app_setting_reset";
     const HOOK_APP_CLEAN_CACHE = 'sys://cache/clear';
+    const HOOK_LANG_CHANGED = 'sys://lang/changed';
     // + | --------------------------------------------------------------------
     // + | command event constant : 
     // + |
@@ -468,20 +470,20 @@ class IGKEvents extends IGKObject
      */
     public static function unreg_hook($name, $callback, $all = true)
     {
-        $hooks = igk_environment()->createArray(self::ENV_KEY);
+        $hooks = &igk_environment()->createArray(self::ENV_KEY);
         if (!$hooks) {
             return 0;
         }
         if (is_null($callback)) {
-            unset($hooks[$name]);
+            unset($hooks[$name]);            
             return true;
         }
         if (!isset($hooks[$name])) {
             return false;
-        }
+        }        
         if (!isset($hooks[$name]->list)) {
             $hooks[$name]->list = [];
-        }
+        }       
         $tb = &$hooks[$name]->list;
         if ($all) {
             $c = 0;

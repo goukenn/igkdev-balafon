@@ -78,10 +78,9 @@ if (defined('IGK_GOOGLE_MODULE')) {
             $head->addDeferCssLink((object)['callback' => 'igk_google_local_uri_callback', 'params' => [$key, $family], 'refName' => $key], $temp);
         }
         $theme = igk_environment()->isOPS() ?
-            $doc->getInlineTheme() 
+            $doc->getInlineTheme()
             :
-            $doc->getTheme()
-            ;
+            $doc->getTheme();
         if ($theme)
             igk_google_css_setfont($theme->def, $family, $extra);
         IGKEvents::hook(GoogleEvents::init_component, "font");
@@ -182,33 +181,7 @@ if (defined('IGK_GOOGLE_MODULE')) {
         return "//googledrive.com/host/" . $folderid . "/" . $filename;
     }
 
-    if (function_exists("igk_curl_post_uri")) {
-        /**
-         * download google font to file
-         */
-        function igk_google_get_font($ft = "Open Sans", $dir = null)
-        {
-            igk_ilog("get font : " . $ft);
-            $files = array();
-            $ft = str_replace(" ", "+", $ft);
-            $options = "";
-            $url = igk_google_font_api_uri($ft, $options);
-            $g = post_uri($url);
-            if (preg_match_all(IGK_GOOGLE_URI_REGEX, $g, $tab) > 0) {
-                $dir = $dir ?? igk_google_get_fontdir();
-                $dir = "{$dir}/{$ft}";
-                igk_io_createdir($dir);
-                foreach ($tab["link"] as $v) {
-                    if (isset($files[$v])) {
-                        continue;
-                    }
-                    $files[$v] = igk_dir($dir . "/" . basename($v));
-                }
-            }
-            igk_ilog(json_encode(["the output : ", $g]));
-            return $files;
-        }
-    }
+
     /**
      * 
      */
@@ -221,53 +194,7 @@ if (defined('IGK_GOOGLE_MODULE')) {
         return implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), IGK_DATA_FOLDER]);
     }
 
-    if (function_exists("igk_curl_post_uri")) {
-        /**
-         * 
-         * @param mixed $family
-         * @param mixed $sizes
-         */
-        function igk_google_installfont($family, $sizes, $file = null)
-        {
-            $fdir = igk_google_get_fontdir();
-            if (!igk_io_createdir($fdir)) {
-                return 0;
-            }
-            $uri = igk_google_font_api_uri($family, $sizes);
 
-            $name = str_replace(" ", "+", $family);
-            $_installdir = $fdir . DIRECTORY_SEPARATOR . $name;
-            $result = array();
-            foreach (explode(';', $sizes) as $k) {
-                $huri = igk_google_font_api_uri($family, trim($k));
-                $s = post_uri($huri . "&display=swap");
-                $info = igk_curl_info();
-                if (($ts = $info["Status"]) == 200) {
-                    if (preg_match_all(IGK_GOOGLE_URI_REGEX, $s, $tab) > 0) {
-                        $lnk = $tab["link"];
-                        foreach ($lnk as $bs) {
-                            $b = post_uri($bs);
-                            $sr = str_replace(" ", "+", basename($bs));
-                            igk_io_w2file($_installdir . "/" . $sr, $b);
-                            $s = str_replace($bs, "./" . $name . "/" . $sr, $s);
-                        }
-                        igk_google_regfont($uri, $family);
-                    }
-                    $result[] = $s;
-                } else {
-                    igk_ilog("queryfailed: uri:" . $huri . " status:" . $ts);
-                }
-            }
-            if (igk_count($result) > 0) {
-                $cfam = igk_google_condensedfamilyname($family);
-                if ($file === null)
-                    $file = igk_google_filefromfamily($family);
-                igk_io_w2file($file, implode("\n", $result));
-                return 1;
-            }
-            return 0;
-        }
-    }
     /**
      * 
      * @param mixed $n
@@ -337,33 +264,7 @@ if (defined('IGK_GOOGLE_MODULE')) {
         igk_io_w2file(IGK_GOOGLE_SETTINGS_FILE, json_encode($g ?? igk_google_settings(),  JSON_FORCE_OBJECT |  JSON_UNESCAPED_SLASHES));
     }
 
-    if (function_exists("igk_curl_post_uri")) {
-        /**
-         * 
-         * @param mixed $links
-         * @param mixed $download the default value is 1
-         */
-        function igk_google_zip_fontlist($links, $download = 1)
-        {
-            $zip = null;
-            $temp = tempnam(sys_get_temp_dir(), "fxip");
-            foreach ($links as $v) {
-                $b = post_uri($v);
-                if ($zip === null) {
-                    $zip = igk_zip_content($temp, basename($v), $b, 0);
-                } else {
-                    $zip->addFromString(basename($v), $b);
-                }
-            }
-            $zip->close();
-            if ($download) {
-                igk_download_file("fonts.zip", $temp);
-                unlink($temp);
-                return null;
-            }
-            return $temp;
-        }
-    }
+
     /**
      * 
      */
@@ -535,7 +436,7 @@ EOF;
         //google - bind local style
         if (!igk_get_env("google::init_global_style")) {
             igk_set_env("google::init_global_style", 1);
-            $f = dirname(__FILE__) . "/Styles/igk.google.pgcss"; 
+            $f = dirname(__FILE__) . "/Styles/igk.google.pgcss";
             $theme = ViewHelper::CurrentDocument()->getTheme();
             igk_css_bind_file($theme, null, $f);
         }
@@ -607,6 +508,101 @@ EOF;
 
 
         if (function_exists("igk_curl_post_uri")) {
+            /**
+             * 
+             * @param mixed $family
+             * @param mixed $sizes
+             */
+            function igk_google_installfont($family, $sizes, $file = null)
+            {
+                $fdir = igk_google_get_fontdir();
+                if (!igk_io_createdir($fdir)) {
+                    return 0;
+                }
+                $uri = igk_google_font_api_uri($family, $sizes);
+
+                $name = str_replace(" ", "+", $family);
+                $_installdir = $fdir . DIRECTORY_SEPARATOR . $name;
+                $result = array();
+                foreach (explode(';', $sizes) as $k) {
+                    $huri = igk_google_font_api_uri($family, trim($k));
+                    $s = post_uri($huri . "&display=swap");
+                    $info = igk_curl_info();
+                    if (($ts = $info["Status"]) == 200) {
+                        if (preg_match_all(IGK_GOOGLE_URI_REGEX, $s, $tab) > 0) {
+                            $lnk = $tab["link"];
+                            foreach ($lnk as $bs) {
+                                $b = post_uri($bs);
+                                $sr = str_replace(" ", "+", basename($bs));
+                                igk_io_w2file($_installdir . "/" . $sr, $b);
+                                $s = str_replace($bs, "./" . $name . "/" . $sr, $s);
+                            }
+                            igk_google_regfont($uri, $family);
+                        }
+                        $result[] = $s;
+                    } else {
+                        igk_ilog("queryfailed: uri:" . $huri . " status:" . $ts);
+                    }
+                }
+                if (igk_count($result) > 0) {
+                    $cfam = igk_google_condensedfamilyname($family);
+                    if ($file === null)
+                        $file = igk_google_filefromfamily($family);
+                    igk_io_w2file($file, implode("\n", $result));
+                    return 1;
+                }
+                return 0;
+            }
+            /**
+             * download google font to file
+             */
+            function igk_google_get_font($ft = "Open Sans", $dir = null)
+            {
+                igk_ilog("get font : " . $ft);
+                $files = array();
+                $ft = str_replace(" ", "+", $ft);
+                $options = "";
+                $url = igk_google_font_api_uri($ft, $options);
+                $g = post_uri($url);
+                if (preg_match_all(IGK_GOOGLE_URI_REGEX, $g, $tab) > 0) {
+                    $dir = $dir ?? igk_google_get_fontdir();
+                    $dir = "{$dir}/{$ft}";
+                    igk_io_createdir($dir);
+                    foreach ($tab["link"] as $v) {
+                        if (isset($files[$v])) {
+                            continue;
+                        }
+                        $files[$v] = igk_dir($dir . "/" . basename($v));
+                    }
+                }
+                igk_ilog(json_encode(["the output : ", $g]));
+                return $files;
+            }
+            /**
+             * 
+             * @param mixed $links
+             * @param mixed $download the default value is 1
+             */
+            function igk_google_zip_fontlist($links, $download = 1)
+            {
+                $zip = null;
+                $temp = tempnam(sys_get_temp_dir(), "fxip");
+                foreach ($links as $v) {
+                    $b = post_uri($v);
+                    if ($zip === null) {
+                        $zip = igk_zip_content($temp, basename($v), $b, 0);
+                    } else {
+                        $zip->addFromString(basename($v), $b);
+                    }
+                }
+                $zip->close();
+                if ($download) {
+                    igk_download_file("fonts.zip", $temp);
+                    unlink($temp);
+                    return null;
+                }
+                return $temp;
+            }
             IGKRoutes::Register(
                 "^/!@res/(/)?getgooglefont[%q%]",
                 function ($c) {
@@ -770,11 +766,11 @@ EOF;
             igk_reg_hook(IGKEvents::HOOK_HTML_BEFORE_RENDER_DOC, function ($e) use ($siteKey) {
                 $siteKey = \IGK\Helper\ConfigHelper::GetConfig(ViewHelper::CurrentCtrl(), "google.recaptcha_key", $siteKey) ??
                     igk_die("no recaptcha");
-                $doc = $e->args['doc']; 
+                $doc = $e->args['doc'];
 
                 $query = http_build_query([
-                    'hl'=> GoogleEndPoints::GetLang(),
-                    'render'=>$siteKey
+                    'hl' => GoogleEndPoints::GetLang(),
+                    'render' => $siteKey
                 ]);
                 $doc->head->script()->setId("repatcha")
                     ->activate('defer')

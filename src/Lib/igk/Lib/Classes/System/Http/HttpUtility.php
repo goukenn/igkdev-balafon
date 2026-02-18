@@ -10,15 +10,15 @@ use IGKException;
 */
 abstract class HttpUtility{
     const EXT_MIME_TYPES = [
-        "css"=>"text/css",
-        "txt"=>"text/plain",
-        "html"=>"text/html",
-        "js"=>"application/javascript",
-        "json"=>"application/json",
-        "svg"=>"image/svg+xml",
-        "png"=>"image/png",
-        "jpg"=>"image/jpg",
-        "jpeg"=>"image/jpg",
+        'css'=>"text/css",
+        'txt'=>"text/plain",
+        'html'=>"text/html",
+        'js'=>"application/javascript",
+        'json'=>"application/json",
+        'svg'=>"image/svg+xml",
+        'png'=>"image/png",
+        'jpg'=>"image/jpg",
+        'jpeg'=>"image/jpg",
     ];
     /**
      * resolv string and return mime type

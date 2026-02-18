@@ -15,11 +15,13 @@ class OpenSiteCommand extends AppExecCommand{
 	var $command='--open';
 	var $desc='desc';
 	var $options=[];
-	var $category = '';
-	var $usage = '';
+	var $category = 'dev';
+	var $usage = 'location';
+	
 	public function exec($command, ?string $location=null) {
 		$agent = 'firefox';
-		$page = 'https://local.com:7300';
-		`open -a {$agent} {$page}/{$location}`;
+		if ($page = getenv('IGK_WEB_URL')){
+			`open -a {$agent} {$page}/{$location}`;
+		}
 	}
 }

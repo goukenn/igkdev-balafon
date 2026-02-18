@@ -560,6 +560,15 @@ class Path
         return self::DetectPathMode($path) == 'lib';
     }
     /**
+     * chane name extension 
+     * @param string $path 
+     * @param string $new_extension 
+     * @return string 
+     */
+    public static function ChangeExtensionTo(string $path, string $new_extension): string{
+        return self::Combine(dirname($path), igk_io_basenamewithoutext($path).$new_extension);
+    }
+    /**
      * detect path mode 
      * @param string $path 
      * @return ?string 

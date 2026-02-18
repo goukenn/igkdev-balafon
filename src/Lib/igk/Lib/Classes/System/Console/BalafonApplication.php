@@ -20,7 +20,10 @@ use IGK\System\Console\Commands\ServerCommandHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\DotEnvConfiguration;
 use IGK\System\IO\File\PHPScriptBuilder;
+use IGK\System\IO\FileHandler;
+use IGK\System\IO\Markdown\MarkdownFileHandler;
 use IGK\System\IO\Path;
+use IGK\System\IO\TextFileHandler;
 use IGK\System\ViewEnvironmentArgs;
 use IGKApp;
 use IGKApplicationBase;
@@ -238,7 +241,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         if (extension_loaded("gd")) {
             $this->library("gd");
         }
-        \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
+       
+        $this->InitCoreSystemComponent();
+        // init sys components -  
+
+        
         igk_hook("console::app_cli_bootstrap", $this);
         // + | force register base formatter service as a Formatter service container
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
@@ -607,11 +614,11 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                     $command->options->{"--help"} = "1";
                 } else {
                     $command->exec = function ($command) {
-                        $command->app->showHelp();
+                        $command->app->showHelp(null, igk_getv($command->options, '--filter'));
                         return 0;
                     };
                 }
-            }, ["desc" => "show help or activate help option for a command"], ""],
+            }, ["desc" => "show help or activate help option for a command"], "sys"],
         ];
         $this->initCommand($command, $argv);
         return $command;

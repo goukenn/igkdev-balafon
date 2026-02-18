@@ -12,6 +12,7 @@ namespace IGK\System\Services;
 * @property bool $required
 * @property string $name
 * @property mixed $type
+* @property ?string $description
 */
 interface IAppServiceProperty{
 

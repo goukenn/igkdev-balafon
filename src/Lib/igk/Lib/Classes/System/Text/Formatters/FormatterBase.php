@@ -422,7 +422,8 @@ abstract class FormatterBase extends IGKObject
             array_unshift($sub, $e);
         } else {
             $prev = $this->getFlag('prev'); // previous chain block 
-            $skipped = $this->getFlag('skipped');
+            $skipped = $this->getFlag('skipped'); // skipped 
+            $line_flag = $this->getFlag('line-flag'); // skipped 
 
 
             if ($source) {

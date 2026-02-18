@@ -9,8 +9,10 @@ use IGK\Controllers\BaseController;
 use IGK\Helper\Activator;
 use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
+use IGK\System\Controllers\ControllerSysKeyConstants;
 use IGK\System\Html\Css\CssUtils;
 use IGK\System\Html\HtmlNodeBuilder;
+use IGK\System\Http\Request;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException; 
 /**
@@ -189,6 +191,14 @@ class ViewEnvironmentArgs implements ArrayAccess{
      * @var mixed
      */
     var $error;
+
+    /**
+     * the attached submit domain 
+     * @var ?string
+     */
+    var $subdomain;
+
+     
     /** 
      * get context view argument  
      * @param BaseController $controller source controller
@@ -219,11 +229,13 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $session = igk_app()->getSession(); 
         $base_uri = $controller::uri('/');
         $builder = $builder ?? $t ? new HtmlNodeBuilder($t) : null;
-        $_dir_ = ViewHelper::Dir() ?? dirname($file);    
+        $_dir_ = ViewHelper::Dir() ?? dirname($file); 
+        $subdomain = $controller->getEnvParam(ControllerSysKeyConstants::subdomain);
         if ($css_m = CssUtils::GetCssClassName($controller)){
             $css_m = '.'.$css_m;
         }
         $def = $doc->getTheme();
+        $request = Request::getInstance();
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }

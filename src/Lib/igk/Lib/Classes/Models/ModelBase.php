@@ -33,7 +33,7 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static string display() macros function return a string used for display
  * @method static array|Iterable|null formFields($edit=false, ?array $unsetKeys=null) macros function
  * @method static array formSelectData() macros function : form selection data
- * @method static void form_select_all() macros function
+ * @method static ?array form_select_all() macros function
  * @method static string id() macros function - get row identification. by default the auto_increment primary field.
  * @method static mixed insert() macros function
  * @method static mixed insertOrUpdate() macros function

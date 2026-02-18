@@ -53,6 +53,12 @@ class ProjectConfiguration extends EntityConfigurationSchema{
     var $entryNamespace;
 
     /**
+     * keys word to used 
+     * @var ?string[]|string
+     */
+    var $keywords;
+
+    /**
      * configuration file workbench information 
      * @var ?ConfigurationWorkbenchInfo
      */ 
@@ -63,6 +69,17 @@ class ProjectConfiguration extends EntityConfigurationSchema{
      * @var mixed
      */
     var $default_user_profile;
+
+    /**
+     * contribution of this project 
+     * @var ?array
+     */
+    var $contributions;
+    /**
+     * exposed hook 
+     * @var ?array 
+     */
+    var $events;
     /**
      * 
      * @var ?string

@@ -20,6 +20,10 @@ final class AnnotationHelper
 {
     const REGEX_USES = "/use\s+(?P<name>[^\s;]+)(\s+as\s+(?P<alias>[^\s+;]+))?/im";
     private static $sm_cacheData;
+    /**
+     * 
+     * @return mixed 
+     */
     private static function &_GetCacheData()
     {
         return self::$sm_cacheData;
@@ -191,13 +195,13 @@ final class AnnotationHelper
     /**
      * get method annotation 
      * @param Reflector|ReflectionMethod $method 
-     * @param array $v_use list of use
+     * @param array $uses list of use
      * @param ?array $filter array for annotation to retrieve
      * @param ?array $output array for annotation to retrieve
      * @return array|null 
      * @throws IGKException 
      */
-    public static function GetAnnotations(Reflector $method, &$v_use = null, ?array $filter = null, ?array &$output = null)
+    public static function GetAnnotations(Reflector $method, &$uses = null, ?array $filter = null, ?array &$output = null)
     {
         $ref_class = function ($method) {
             $class = null;
@@ -208,7 +212,7 @@ final class AnnotationHelper
             }
             return $class ? self::GetUses($class) : [];
         };
-        $v_uses = $v_use ?? $ref_class($method);
+        $v_uses = $uses ?? $ref_class($method);
         $comment = $method->getDocComment();
         if ($comment) {
             $reader = new PhpDocBlocReader;
@@ -251,7 +255,7 @@ final class AnnotationHelper
      * @throws IGKException 
      * @throws Exception 
      */
-    static function GetAnnotationInfo(string $class_name)
+    static function GetAnnotationInfo(string $class_name): object
     {
         $info = self::GetClassAnnotations($class_name);
         $pinfo = igk_getv($info, 0);

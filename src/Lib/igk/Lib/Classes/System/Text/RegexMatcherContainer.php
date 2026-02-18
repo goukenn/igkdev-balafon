@@ -1386,7 +1386,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
      * @return void 
      * @throws Exception 
      */
-    public function treat(string $src, callable $callable, string $end_token_id = '__end__')
+    public function treat(string & $src, callable $callable, string $end_token_id = '__end__')
     {
         $pos = 0;
         $skip = false;
@@ -1395,8 +1395,10 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         $v_otl = $this->ouputTreatmentListener;
         $v_ref = false;
         if ($v_otl instanceof RegexMatcherOutputListener) {
-            $v_otl->output = $src;
-            $src = &$v_otl;
+            // + | --------------------------------------------------------------------
+            // + | do not change output treatment
+            // + |            
+            $v_otl->output = $src; 
             $v_ref = true;
         }
 
@@ -1428,7 +1430,8 @@ class RegexMatcherContainer implements IRegexMatcherContainer
                 $pos = 0;
             }
         } else {
-            if (!$skip) { // set the position according to the base source string
+            if (!$skip) { 
+                // set the position according to the base source string
                 $src_len = strlen($src);
                 // new length 
                 if (!is_null($this->m_last_offset)) {
@@ -1477,6 +1480,22 @@ class RegexMatcherContainer implements IRegexMatcherContainer
         }
         return $this;
     }
+    /**
+     * create string pattern 
+     * @param string $tokenID 
+     * @param bool $escaped 
+     * @return RegexMatcherPattern 
+     */
+    public function createStringPattern($tokenID = 'string', bool $escaped = false): RegexMatcherPattern{
+         $l = $this->createPattern(['begin'=>"(\"|')", "end"=>"\\1", "tokenID"=>$tokenID]);
+         if ($escaped){
+             $l->patterns = [
+                $this->createPattern(['match' => '\\\\.'])
+            ];
+         }
+         return $l;
+    }
+    
     /**
      * helper mark some definition 
      * @param string $mark 

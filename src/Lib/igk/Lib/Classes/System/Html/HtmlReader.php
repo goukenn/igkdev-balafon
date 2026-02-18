@@ -472,7 +472,7 @@ final class HtmlReader extends IGKObject
                                         substr($text, max(0, $offset - 30),  80),
                                         ''
                                     );
-                                    igk_die("xml reading not valid : " . $tmix . " # [" . $name . "] level " . $level);
+                                    igk_die("xml reading not valid : (" . $tmix . ") # tab=[" . $name . "] level " . $level);
                                 }
                                 $v .= $name;
                                 if (($level == 0) && ($name == $tag)) {
@@ -543,6 +543,9 @@ final class HtmlReader extends IGKObject
             $v = self::_ReplaceLitteralExpression($reader, $v, $replace_expression);
         }
         $v = implode('', $v_contents) . $v;
+        if (($ch == "'") &&  igk_str_endwith($v, "'")){
+            $v = igk_str_rm_last($v, "'", 1).'</end-string>';
+        }
         //remove last tag....
         $v = substr($v, 0, $endpos = strrpos($v, '</'));
         if (($intag) || (count($tnames) > 0)) {
@@ -555,7 +558,8 @@ final class HtmlReader extends IGKObject
                 }
             }
             igk_die(sprintf(
-                "Syntax error intag but failed read data. %s, offset: %s",
+                "[%s]-Syntax error intag but failed read data. %s, offset: [%s]",
+                'blf-html-reader',
                 '---',
                 substr($reader->m_text, $reader->m_offset - 20, 40)
             ));

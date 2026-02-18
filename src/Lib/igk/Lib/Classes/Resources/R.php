@@ -14,6 +14,7 @@ use IGK\System\Console\Logger;
 use IGKAppType; 
 use IGK\System\Html\HtmlReader;
 use IGK\System\IO\FileSystem;
+use IGKEvents;
 use IGKException; 
 use IGKUserAgent;
 use function igk_resources_gets as __;
@@ -122,12 +123,14 @@ final class R extends IGKObject {
         return $r;
     }
     /**
-    * 
+    * @
     */
-    public static function ClearLang(){
+    public static function ClearLang($autosave=true){
         $v=self::getInstance();
-        $v->langRes=array();
-        self::SaveLang(null);
+        $v->langRes->clear();
+        if ($autosave){
+            self::SaveLang(null);
+        }
     }
     /**
     * 
@@ -246,7 +249,30 @@ final class R extends IGKObject {
         if(func_num_args() > 1){
             return igk_str_format(...array_merge(array($key), array_slice(func_get_args(), 1)));
         }
+        if (preg_match('/^(?P<n>\\w+)\\.[\\w\\d\-\_]+\\b$/', $key, $tab)){
+            $n = $tab['n'];
+            if ($fc = $i->handleLangPrefix($n)){
+                return $fc($key);
+            }
+        }
         return $key;
+    }
+    /**
+     * 
+     * @param string $name 
+     * @return mixed 
+     */
+    public function handleLangPrefix(string $name){
+        $nkey = function($n){
+            return explode('.', $n,2)[1];
+        };
+        return igk_getv([
+            'enum'=>function($s){
+                return substr($s, 5);
+            },
+            'lb'=>$nkey,
+            'btn'=>$nkey,
+        ], $name);
     }
     /**
     * prepare support lang
@@ -342,6 +368,14 @@ EOF;
     }
     static function Exists(string $file){
         return FileSystem::Exists($file);
+    }
+    /**
+     * reload language definition 
+     * @return void 
+     */
+    public static function Reload(){
+        self::getInstance()->m_langloaded = false;
+        self::LoadLang();
     }
     ///<summary></summary>
     /**
@@ -470,8 +504,8 @@ EOF;
     * 
     * @param mixed $key
     */
-    protected function OnLangChangedEvent($key){
-        igk_die(__METHOD__." Obselete");
+    protected function OnLangChangedEvent($key){        
+        igk_hook(IGKEvents::HOOK_LANG_CHANGED, []);
     }
     ///<summary></summary>
     /**
@@ -530,11 +564,14 @@ EOF;
         $instance=self::getInstance();
         $out="<?php \n//Balafon Generated language file ".IGK_LF;
         $tab=$instance->langRes;
-        if($tab == null){
+        if(is_null($tab)){
             self::LoadLang();
             $tab=& $instance->langRes; 
+            if (is_array($tab)){
+                ksort($tab);
+            }
         }
-        $ktab=$tab->sortKeys();
+        $ktab= is_array($tab) ? array_keys($tab) : $tab->sortKeys();
         if($ktab){
             foreach($ktab as $k){
                 $k=trim($k);

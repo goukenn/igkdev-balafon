@@ -11,15 +11,22 @@ use IGK\System\Console\Logger;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Html\Dom\HtmlNode;
-use IGK\System\Html\HtmlUtils;
-use IGK\System\Text\Formatters\FormatterBase;
+use IGK\System\Html\HtmlUtils; 
 use IGK\System\Text\IRegexMatchPatternOutpuTreatmentListener;
 use IGK\System\Text\IRegexMatchPatternStateListener;
 use IGK\System\Text\RegexMatcherCapture;
 use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 use IGKException;
+use IGKServices;
 use ReflectionException;
+
+
+// foreach(range(1, 300) as $k){
+//     $i = 8100 + $k;
+//     echo "\\uc0\\u".$i ." = ".$i."\\\n";
+// }
+// exit;
 
 /**
  * helper use to convert markdown text to html
@@ -29,8 +36,46 @@ use ReflectionException;
 class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchPatternOutpuTreatmentListener
 {
 
+/**
+ * INLINE ITEM BLOCK
+ */
     const MARK_ITEM_INLINE = 0;
+    /**
+     * single item block
+     */
     const MARK_ITEM_BLOCK = 1;
+    const FENCE_MARKER = '```';
+    const BR = "<br/>";
+    private $m_setOutputTreatmentListener;
+
+    /**
+     * 
+     * @param mixed $listener 
+     * @return void 
+     */
+    public function setOutputTreatmentListener($listener)
+    {
+        if ($this->m_setOutputTreatmentListener  && ($this->m_setOutputTreatmentListener !==$listener)){
+            $this->m_setOutputTreatmentListener->appendOutputListener = null;
+        }
+        if ($this->m_setOutputTreatmentListener = $listener){
+            $listener->appendOutputListener = function($s){
+                $this->_appendToOutput($s);
+            };
+        }
+    }
+
+    /**
+     * line feed flag 
+     * @var ?bool
+     */
+    private $m_line_feed;
+    /**
+     * the id reference 
+     * @var ?string
+     */
+    private $m_ref_id;
+
     /**
      * use code formatter service
      * @var ?bool
@@ -60,11 +105,18 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     var $allowBreakLine;
 
-        /**
+    /**
      * allow document link
      * @var ?bool
      */
     var $allowLinkDocument;
+
+
+    /**
+     * format codeblock on server 
+     * @var ?bool
+     */
+    var $formatCodeBlock;
     /**
      * store document link
      * @var ?array
@@ -105,6 +157,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @var IGK\System\IO\Markdown\m_useTag
      */
     private $m_useTag;
+
+    /**
+     * code formatter engine
+     * @var mixed
+     */
+    private $m_codeFormatter;
     /**
      * 
      * @var array<keyOf<'a' | 'quote' >, array<['class']>>
@@ -123,7 +181,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     private $m_buffer;
     /**
-     * 
+     * single definition flag. use to mark element
      * @var mixed
      */
     private $m_is_single_definition;
@@ -169,6 +227,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_stores = [];
         $this->m_buffer = '';
         $this->allowBreakLine = true;
+        $this->formatCodeBlock = false;
     }
     /**
      * retrieve current output
@@ -178,14 +237,18 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         return $this->m_output;
     }
+    /**
+     * 
+     * @return void 
+     */
     public function saveState()
     {
         $this->m_stores[] = [
             'pos' => $this->m_lpos,
             'output' => $this->m_output, // current output 
             'buffer' => $this->m_buffer, // save buffer 
-            'lf'=>$this->m_lf,
-            'is_single_definition'=> $this->m_is_single_definition,
+            'lf' => $this->m_lf,
+            'is_single_definition' => $this->m_is_single_definition,
             'render_state' => [
                 $this->m_table,
                 $this->m_rows,
@@ -214,15 +277,16 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * 
      * @return bool 
      */
-    protected function getStateDepth():bool{
-        return count($this->m_stores)>0;
+    protected function getStateDepth(): bool
+    {
+        return count($this->m_stores) > 0;
     }
     /**
      * restore state
      * @return void 
      */
     public function restoreState()
-    {    
+    {
         if ($p = array_pop($this->m_stores)) {
             $this->m_lpos = $p['pos'];
             $this->m_output = $p['output'];
@@ -251,6 +315,27 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         $this->m_classStyles[$style] = $def;
     }
+    /**
+     * TreatMarkdowSubItem list 
+     * @param string $value 
+     * @return ?object 
+     */
+    public static function TreatMarkdownSubItem(string $value): ?object{
+        $depth = 0;
+        if (preg_match("/^(?P<depth>( {4}|\\t)+)?- /", $value, $tab)) {
+            if ($c = igk_getv($tab, 'depth')) {
+                $depth = strlen($c) * ($c[0] == "\t" ? 1 : 1/4.0);
+            }
+            $value = substr($value, strlen($tab[0]));
+        }else{
+            if (preg_match("/^\\s*(-|\\d+\\.) /", $value, $tab)){
+                $value = substr($value, strlen($tab[0]));
+            }else{
+                return null;
+            }
+        }
+        return (object)compact('depth', 'value');
+    }
     protected function _initialize()
     {
         $m = new RegexMatcherContainer;
@@ -263,24 +348,19 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         // + | 
         // + |
         // $m->match("\\n","end-line");
-        $quote = $m->match("^> .+", "text-quote")->last();
+        $quote = $m->match("^> (.+)?", "text-quote")->last();
         $v_tag_defition = $m->match('(<|>|≤)', 'tag-definition')->last();
         $m->match('^(\|| *)?(?:-+(?: )*\|){1,}(?:(?: )*-+( )*)?(?=\\n)?', 'table-segment');
         $table_entry = $m->match('^(\|)?(?:(?:[^\\n\|]+)\|){1,}(?:[^\\n\|]+)?(?=\\n)?', 'table-entry')->last();
         $header = $m->match('^#{1,6}(?: (?P<title>.+))?', "text-header")->last();
 
-        $header->patterns = [
-            $m->createPattern([
-                'begin' => '\{',
-                'end' => '\}',
-                'tokenID' => 'header-ref-id'
-            ])
-        ];
-  
+       
+        
+
         $escaped_string = $m->referenceOnly()->match('\\\\.', "escaped");
         $mention_string = $m->match("@\b\w+\b", "at-mention")->last();
         $litteral_string = $m->begin("(\")", "\\1", "text-litteral-string")->last();
-        $sub_list_item = $m->match('^\t+- .+(?=\n)?', "sub-list-item")->last();
+        $sub_list_item = $m->match('^(?P<depth>( {4}|\\t)+)- .+(?=\n)?', "sub-list-item")->last();
         $sub_ordered_list_item = $m->match('(^\t+\*)[^\n]+', "sub-ordered-list-item")->last();
         $sub_ordered_list_item->captures = [
             1 => function ($v, $sourceValue, $captureIndex, $handle) {
@@ -295,13 +375,13 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         //         $s = preg_match('/(?<=^[\t])\t*\*.+/', "\t\t*rivc a info", $tab,  PREG_OFFSET_CAPTURE);
         //         print_r($tab);
         // igk_wln_e("data", $s, $tab);
-        $ordered_list_item = $m->match('^[0-9]\. .+(?=\n)?', "order-list-item")->last();
+        $ordered_list_item = $m->match('^[0-9]+\. .+(?=\n)?', "order-list-item")->last();
         $fence_code = $m->begin("```(?P<name>\w+\b)?", "```", "fence-code")->last();
         $bold = $m->begin("(\\*\\*|__)", "\\1", "text-bold")->last();
         $task_list_item = $m->match("^- \[(?P<type> |x|-)\]\s+(?P<value>.+)(?=\\n)?", "task-list-item")->last();
         $list_item = $m->match("^- .+", "list-item")->last();
         $hr_item = $m->match("^---.*$", "hr")->last();
-        
+
         $v_word = $m->createPattern(['match' => "[\\w_\\$][a-zA-Z0-9_\\-\\$]*", "tokenID" => "word"]); // ->last();
         $emphasis = $m->begin("(\\*|_)", "\\1", "text-italic")->last();
         $code_block = $m->begin('`', '`', 'code-block')->last();
@@ -319,6 +399,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $fence_code,
             $v_tag_defition
         ];
+        $litteral_string->patterns = array_merge( $litteral_string->patterns ??[], [
+            $bold,
+            $emphasis,
+        ]);
 
         $quote->patterns = [
             $litteral_string,
@@ -328,12 +412,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $emoji_block,
             $mention_string,
             $escaped_string,
-            $fence_code,          
+            $fence_code,
         ];
         $image_block = $m->match("!\[(?P<text>[^\\n]+)\]\((?P<uri>[^\(\)\\n]+)\)", "image")->last();
         $uri_block = $m->match("\[(?P<text>[^\\n]+)\]\((?P<uri>[^\(\)\\n]+)\)", "text-uri-block")->last();
 
-        
+
         $emphasis->patterns = [
             $bold,
             $code_block,
@@ -377,10 +461,32 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $code_block->patterns = [
             $v_tag_defition
         ];
-        $m->match('(\\$)?[a-zA-Z_][a-zA-Z_\\S]*\\b', 'skip-word-match');
+        $cp = $m->begin('\[\\\\([a-zA-Z\\-]+)\](?=\\{)', '(?<=\\})', 'md-instruction-start')->last();
+        $cp->patterns = [
+            $m->createStringPattern()
+        ];
+        $m->match('\[\\\\([a-zA-Z\\-]+)\](?:\{([^\\}]+)\})?', 'md-instruction');
+        $m->match('(\\$)?[a-zA-Z_0-9]+', 'skip-word-match');
+
+        $header->patterns = [
+            $code_block,
+            $m->createPattern([
+               'begin' => '\{\\s*#',
+               'end' => '\}',
+               'tokenID' => 'header-ref-id'
+           ])
+       ];
+        $header->patterns[] = $uri_block;
+
+        
         $this->m_context = $context;
         return $m;
     }
+    /**
+     * 
+     * @param mixed $v 
+     * @return mixed 
+     */
     protected function _treat_word($v)
     {
         return $v;
@@ -393,51 +499,110 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     protected function _appendToOutput(string $s)
     {
         $this->m_output .= $s;
+
+        // + | --------------------------------------------------------------------
+        // + | RESET FLAGS
+        // + | 
+        $this->m_ltrim = false;
     }
     /**
-     * 
-     * @param string $html 
+     * transform markdown
+     * @param string $markdown 
+     * @param null|IRegexMatchPatternOutpuTreatmentListener $outputTreatment 
+     * @param null|IRegexMatchPatternStateListener $matchPatternStateListener 
      * @return string 
      */
-    public function transformToHtml(string $html): string
+    public function transform(
+        string $markdown,
+        ?\IGK\System\Text\IRegexMatchPatternOutpuTreatmentListener $outputTreatment,
+        ?\IGK\System\Text\IRegexMatchPatternStateListener $matchPatternStateListener
+    ): string {
+        $this->_prepare_transform();
+        $this->m_container->matchPatternStateListener = $matchPatternStateListener ?? $this;
+        $this->m_container->ouputTreatmentListener = $outputTreatment ?? $this;
+        return $this->_treat_data($markdown);
+    }
+    private function _prepare_transform()
     {
         $this->m_lpos = 0;
         $this->m_output = '';
         $this->m_buffer = '';
         $this->m_is_single_definition = true;
+    }
+    /**
+     * transform markdown to html
+     * @param string $markdown mardown to transform to html 
+     * @return string 
+     */
+    public function transformToHtml(string $markdown): string
+    {
+        $this->_prepare_transform();
         //  $this->m_container->host = $this;
         $this->m_container->matchPatternStateListener = $this;
         $this->m_container->ouputTreatmentListener = $this;
-        $this->m_container->treat($html, [$this, self::TREAT_METHOD]);
+        return $this->_treat_data($markdown);
+         
+    }
+    protected function _treat_data($markdown): string
+    {
+        $this->m_container->treat($markdown, [$this, self::TREAT_METHOD]);
+        $fc_handle_single = null;
         // + | last entry segment
         $gs = [];
-        if ($this->m_buffer){
-            $gs[] = $this->m_buffer;
+        if ($sb = $this->m_buffer) {
+            // fix multi space at end of the document 
+            $sb = preg_replace("/\\s+$/m", "\n", $sb);
+            $gs[] = $sb;
+            // clear remaining buffer 
             $this->m_buffer = '';
-        } 
+        }
+        if ($l = $this->m_setOutputTreatmentListener){
+            if ($s = $l->endState()){
+                $gs[0] = $s.igk_getv($gs, 0, ''); 
+            }
+            $fc_handle_single = function(& $output)use($l){
+                $l->didHandleOutput($this->m_is_single_definition, $output);
+            };
+        }
         if ($this->m_state) {
             // depending on document state  
-            if ($gs){
+            if ($gs) {
                 $this->_appendToOutput($gs[0]);
                 $gs = [];
             }
             $this->_appendToOutput($this->endStateState());
             $this->m_state = null;
         }
-        if (($str = substr($html, $this->m_lpos)) || $gs) {
+        if (($str = substr($markdown, $this->m_lpos)) || $gs){
+            if ($fc_handle_single && !empty($str)){
+                $str = $this->default($str, true);
+            }
             if ($gs)
                 $gs[0] .=  $str;
             else
                 $gs[0] = $str;
-            $str = $gs[0];
-
-            $this->m_output = rtrim($this->m_output);
-            if (!$this->m_is_single_definition) {
+            $str = $gs[0]; 
+            $this->_rTrimOutput($this->m_output);
+            $fc_handle_single && $fc_handle_single($this->m_output);
+            if (!$this->getIsSingleDefinition()) {
                 $str = $this->default($str);
             }
             $this->_appendToOutput($str);
-        } 
+        }
         return ltrim($this->m_output);
+    }
+    /**
+     * 
+     * @param mixed $n 
+     * @param mixed ...$args 
+     * @return object|null 
+     */
+    private function _handle_outputstream($n, ...$args)
+    {
+        if ($l = $this->m_setOutputTreatmentListener) {
+            $g = call_user_func_array([$l, $n],  $args);
+            return (object)['output' => $g];
+        }
     }
     /**
      * 
@@ -451,12 +616,23 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     private function default(string $str, $force = false)
     {
         if ($this->m_useTag || $force) {
+            $src = self::_StreatContent(igk_str_rm_start($str, "\n", 1));
+            if ($c = $this->_handle_outputstream(__FUNCTION__, $src)) {
+                return $c->output;
+            }
             $l = igk_create_node_arg($this->tag);
-            $l->content = self::_StreatContent(igk_str_rm_start($str, "\n", 1));
+            $l->content = $src;
             return $l->render();
         }
         return $str;
     }
+    /**
+     * 
+     * @param mixed $table 
+     * @param mixed $rows 
+     * @param bool $header 
+     * @return void 
+     */
     protected function bindRow($table, $rows, $header = false)
     {
         $tr = $table->tr();
@@ -480,7 +656,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $tch = self::_StreatContent($tch);
         $ch .= $tch;
         $pos = $next_pos;
-    } 
+    }
     /**
      * 
      * @return void 
@@ -491,31 +667,33 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $v_debug = igk_is_debug();
         $tid = $g->tokenID;
         $v_item_type = self::MARK_ITEM_INLINE;
-        
+
         if ($tid) {
             $fc = igk_getv($this->m_context, $tid) ?? '_treat_' . ltrim(StringUtility::FuncName($tid), '_');
         }
+        $is_sub = $this->getStateDepth();
         if ($g->getisRootCaptured()) {
             // + | --------------------------------------------------------------------
             // + | buffer manager  
             // + |
             $v_buffer = &$this->m_buffer;
-            $is_sub = $this->getStateDepth();
             $v_is_linefeed = ($tid == 'line-feed');
-            $v_close_buffer = false; 
-            $v_close_lf = false; 
+            $v_close_buffer = false;
+            $v_close_lf = false;
             $v_debug && Logger::info('root-captured: ' . $next_pos . ':' . $tid . ' : ' . App::Gets(App::BLUE_I, json_encode($g->value)));
             if ($this->m_line_feed) {
                 if (!empty(trim($g->value))) {
                     $v_debug && Logger::warn("::> close line-feed");
                     $this->m_line_feed = false;
+                    //$this->m_lf = false;
                     $v_close_lf = true;
                 }
             }
-            
+            $l = $this->m_setOutputTreatmentListener;
             if ($fc && method_exists($this, $fc)) {
                 $tc = '';
                 self::Skip($g, $next_pos, $data, $this->m_lpos, $tc);
+                // Logger::warn('MDConverter - skip : '. $this->m_lpos);
                 $not_empty = (strlen(trim($tc)) > 0);
                 if ($not_empty && $this->m_ltrim) {
                     $tc = ltrim($tc);
@@ -525,7 +703,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 $this->m_useTag = $this->m_useTag || !in_array($tid, ['emoji']);
                 // + | mark mode 
                 $this->m_markmode = null;
-                $s = call_user_func_array([$this, $fc], [$g->value, $g]);
+                $s = $this->_treat_callback($fc, $g, true, $is_sub); //call_user_func_array([$this, $fc], [$g->value, $g]);
                 $v_item_type = $this->m_markmode ?? $this->_getMarkMode($tid);
                 $v_close_buffer = !$is_sub && ($v_item_type != self::MARK_ITEM_INLINE);
                 $u_state = true;
@@ -534,10 +712,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                     $u_state = $this->m_state && $this->continueStateAgainst($tid);
                 } else {
                     // + | update to fix state 2025
-                    $u_state = !empty($tc) || ($this->m_state && !$this->_continue_update($tid) &&  ($v_close_buffer || $v_close_lf ));
+                    $v_continue_state = ($this->m_state && $this->_continue_update($tid));
+                    $u_state = !empty($tc) || (!$v_continue_state &&  ($v_close_buffer || $v_close_lf));
                 }
                 if ($u_state && $this->m_state) {
-                    if (!empty($v_buffer)){
+                    if (!empty($v_buffer)) {
                         $this->_appendToOutput($v_buffer);
                         $v_buffer = '';
                     }
@@ -545,55 +724,131 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 }
                 // + | prepend to buffer line 
                 if (!empty($tc)) {
-                    $this->_appendBufferLine($this->m_lf, $v_buffer); 
-                    $v_buffer .= $tc;
+                    $this->_appendBufferLine($this->m_lf, $v_buffer);
+                    $tc = $this->_prepareTextBeforeAppendToBuffer($tc);
+                    $this->_appendToBuffer($tc);
                 }
-                if ($v_close_buffer){
+                if ($v_close_buffer) {
 
-                    $tc = !empty(trim($v_buffer)) ? $this->default($v_buffer): '';
-                    $v_buffer = '';
+                    $tc = !empty(trim($v_buffer)) ? $this->default($v_buffer) : '';
+                    $this->_clearBuffer(); 
                     $this->m_lf = false;
                     $this->_appendToOutput($tc . $s);
-                    $this->m_is_single_definition = false;
-                }else{
-                    if ($is_sub){
-                        $this->_appendToOutput( $tc. $s) ;
-                    }else{
-                        if ($v_is_linefeed){
-                            $this->m_lf = true;
+                    $this->setIsSingleDefinition(false);
+                } else {
+                    if ($is_sub) {
+                        $this->_appendToOutput($tc . $s);
+                    } else {
+                        if ($v_is_linefeed) {
+                            $this->_lineFeedToBuffer();
+                            $this->m_lf = true; // mark for next line - 
                         } else {
-                            if ($s){
-                                if (empty($v_buffer) && ($v_item_type==self::MARK_ITEM_BLOCK)){
+                            if ($s) {
+                                if (empty($v_buffer) && ($v_item_type == self::MARK_ITEM_BLOCK)) {
                                     $this->_appendToOutput($s);
-                                }else{
-                                    $v_buffer.=$s;
+                                } else {
+                                    $this->_appendToBuffer($s); 
+                                    $this->m_lf = false;
                                 }
                             }
                         }
                     }
                 }
-
             } else {
-                 $this->_appendBufferLine($this->m_lf, $v_buffer); 
-            } 
+                $l && $l->beforeBufferLine($g, $this, $this->m_lf);
+                $this->_appendBufferLine($this->m_lf, $v_buffer);
+            }
         } else {
             if ($fc && method_exists($this, $fc)) {
                 $v_debug && Logger::info('[mdc] tokenID: ' . $g->tokenID . sprintf(": value : [%s]", $g->value));
-                $s = call_user_func_array([$this, $fc], [$g->value, $g]);
-                if (!empty($s)) {
+                $s = $this->_treat_callback($fc, $g, false, $is_sub); // call_user_func_array([$this, $fc], [$g->value, $g]);
+                if (!empty($s)) { // change the definition 
                     $data = substr($data, 0, $g->from) . $s . substr($data, $g->to);
                     $next_pos = $g->from + strlen($s);
                 }
             }
         }
     }
+    protected function _prepareTextBeforeAppendToBuffer($tc){
+        if ($l = $this->m_setOutputTreatmentListener){
+            $tc = $l->prepareTextBeforeAppendToBuffer($tc);
+        }
+        return $tc;
+    }
+    protected function _treat_md_instruction(){
+        return null;
+    }
+    protected function _treat_md_instruction_start(){
+        return null;
+    }
+    /**
+     * 
+     * @return void 
+     */
+    protected function _lineFeedToBuffer(){
+        if ($l = $this->m_setOutputTreatmentListener){
+            if ($s = $l->endLineFeedToBuffer($this->m_lf)){
+                $this->_appendToBuffer($s);
+            }
+        }
+    }
+    /**
+     * set output is single definition 
+     * @param mixed $v 
+     * @return void 
+     */
+    protected function setIsSingleDefinition($v){
+        $this->m_is_single_definition = $v;
+    }
+    protected function getIsSingleDefinition(){
+        return $this->m_is_single_definition; 
+    }
+    private function _clearBuffer(){
+        $this->m_buffer = '';
+    }
+    /**
+     * append to current buffer 
+     * @param string $s 
+     * @return void 
+     */
+    private function _appendToBuffer(string $s){
+        $this->m_buffer.= $s;
+    }
+    /**
+     * 
+     * @param string $fc 
+     * @param mixed $g 
+     * @param bool $isroot 
+     * @return mixed|null 
+     */
+    private function _treat_callback(string $fc, $g, bool $isroot, bool $is_substate){
+        $fc_call = function()use($fc, $g){
+            return call_user_func_array([$this, $fc], [$g->value, $g]);
+        };
+        if ($l = $this->m_setOutputTreatmentListener){
+            $options = [
+                'buffer'=>& $this->m_buffer,
+                'output'=>& $this->m_output,
+                'isSubState'=>$is_substate
+            ];
+            if ($r = $l->filter($g->tokenID, $g->value, $isroot, $fc_call,  $g, $options)){
+                if (!is_bool($r)){
+                    return $r->output;
+                }
+                return;
+            }
+        }
+        return $fc_call();  
+
+    }
     /**
      * 
      * @return bool 
      */
-    protected function _continue_update(string $tid): bool{
+    protected function _continue_update(string $tid): bool
+    {
         $t = $this->m_state;
-        if (method_exists($this, $fc = __FUNCTION__.'_'.StringUtility::FuncName($t))){
+        if (method_exists($this, $fc = __FUNCTION__ . '_' . StringUtility::FuncName($t))) {
             return call_user_func_array([$this, $fc], [$tid]);
         }
         return false;
@@ -604,8 +859,10 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @param string $tid 
      * @return 1|0 
      */
-    protected function _getMarkMode(string $tid){
-        if (in_array($tid, explode('|','text-header|fence-code|table-entry|hr|list-item'))){
+    protected function _getMarkMode(string $tid)
+    {
+        // if (in_array($tid, explode('|', 'text-header|fence-code|table-entry|hr|list-item'))) {
+        if (in_array($tid, explode('|', 'text-header|text-quote|fence-code|table-entry|hr|list-item'))) {
             return self::MARK_ITEM_BLOCK;
         }
         return self::MARK_ITEM_INLINE;
@@ -616,10 +873,13 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @param string &$buffer 
      * @return void 
      */
-    protected function _appendBufferLine(?bool & $lf,string & $buffer){
-        
-        if ($this->allowBreakLine && $lf && !empty($buffer)){
-            $buffer .='<br/>';
+    protected function _appendBufferLine(?bool &$lf, string &$buffer)
+    {
+
+        if ($this->allowBreakLine && $lf && !empty($buffer)) {
+            $lf = (($l = $this->m_setOutputTreatmentListener) ? 
+                    $l->lf : null) ?? self::BR;
+            $buffer .= $lf;
         }
         $lf = false;
     }
@@ -644,6 +904,17 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             return $n->render();
         }
         return sprintf('<b>%s</b>', $v);
+    }
+    /**
+     * retrieve the setting to add 
+     * @param string $key 
+     * @param null|string $default 
+     * @return null|string 
+     */
+    public function getSetting(string $key, ?string $default = null)
+    {
+
+        return $default;
     }
     /**
      * litteral string
@@ -682,7 +953,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         return sprintf('<i>%s</i>', $v);
     }
     protected function _treat_codeblock($v)
-    { 
+    {
         $s  = igk_getv($this->m_classStyles, 'code');
         $v = substr(substr($v, 1), 0, -1);
         if (empty(trim($v))) return '';
@@ -754,15 +1025,23 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         return (($this->m_state) ? $this->endStateState() : null) ?? '';
     }
+    /**
+     * 
+     * @return void 
+     */
     protected function checkOutputDefinition()
     {
-        if ($this->m_is_single_definition) {
+        if ($this->getIsSingleDefinition()) {
             if (!empty(trim($this->m_output))) {
                 $this->m_output = $this->default($this->m_output);
             }
-            $this->m_is_single_definition = false;
+            $this->setIsSingleDefinition(false);
         }
     }
+    /**
+     * end state
+     * @return string 
+     */
     protected function endStateState(): string
     {
         $this->checkOutputDefinition();
@@ -867,9 +1146,11 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     protected function _treat_sub_list_item(string $v)
     {
         $sb = '';
-        preg_match("/^(?:\t)+/", $v, $ct);
-        $depth = strlen($ct[0]);
-        $v = ltrim($v, "- \t");
+        $c = MarkdownConverter::TreatMarkdownSubItem($v) ?? igk_die('not a valid sub list item value');
+        list($depth, $v) = igk_extract($c, 'depth|value');
+        // $p = preg_match("/^(?:\t)+/", $v, $ct);
+        // $depth = strlen($ct[0]);
+        // $v = ltrim($v, "- \t");
         if ($this->m_state == 'list') {
             // + | chain subitem by default the depth is 1:
             // + |
@@ -948,8 +1229,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_li_depth = $depth;
     }
     function continueStateAgainst(string $nstate): bool
-    {        
-        if (in_array($nstate,['fence-code', 'hr'])) {
+    {
+        if (in_array($nstate, ['fence-code', 'hr'])) {
             return true;
         }
         return false;
@@ -960,8 +1241,16 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     private function _rtrimOutput()
     {
+        if ($this->m_setOutputTreatmentListener) {
+            $this->m_output = $this->m_setOutputTreatmentListener->rtrimOutput($this->m_output);
+            return;
+        }
         $this->m_output = rtrim($this->m_output);
     }
+    /**
+     * 
+     * @return void 
+     */
     private function _closeState()
     {
         if ($this->m_state) {
@@ -971,11 +1260,15 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     protected function _updatePreviousOutput()
     {
         if (!$this->m_state) {
-            if ($this->m_is_single_definition && !empty(trim($this->m_output))) {
-                $this->m_output = $this->default($this->m_output);
-                $this->m_is_single_definition = false;
-            }
+            $this->checkOutputDefinition();         
         }
+    }
+    /**
+     * retrieve the stored listener 
+     * @return mixed 
+     */
+    public function getOutputTreatmentListener(){
+        return $this->m_setOutputTreatmentListener;
     }
     /**
      * treat text header 
@@ -988,8 +1281,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         if (empty(ltrim($v, '# '))) {
             return '';
         }
+        $v = preg_replace('/ +/', ' ', $v);
         $this->_updatePreviousOutput();
-
         $this->_closeState();
 
         $regex = "/^#{1,6} /";
@@ -1004,19 +1297,24 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         if (!empty($v)) {
             $v = self::_StreatContent($v);
             $attr = igk_getv($this->m_classStyles, 'header');
-            $n = igk_create_node('h' . $count)->setContent($v);
-            if ($attr) {
-                $n->setAttributes($attr);
-            }
             if ($v_slug && $this->allowLinkDocument) {
                 if (!isset($this->documentLinks[$v_slug])) {
-                    $n->setAttribute('id', $v_slug);
                     $this->documentLinks[$v_slug] = 1;
+                    $attr['id'] = $v_slug;
                 }
             }
             $this->_rtrimOutput();
             $this->m_ltrim = true;
-            $this->m_is_single_definition = false;
+            $this->setIsSingleDefinition(false);
+
+            if ($this->m_setOutputTreatmentListener) {
+                // $this->m_ltrim = false;
+                return $this->m_setOutputTreatmentListener->title($v, $count, $v_slug);
+            }
+            $n = igk_create_node('h' . $count)->setContent($v);
+            if ($attr) {
+                $n->setAttributes($attr);
+            }
             return $n->render();
         }
     }
@@ -1025,14 +1323,17 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      * @param string $tid 
      * @return bool 
      */
-    protected function _continue_update_table(string $tid): bool{
+    protected function _continue_update_table(string $tid): bool
+    {
         return ($this->m_state == 'table') && (in_array($tid,  ['table-segment', 'table-entry']));
     }
-    protected function _continue_update_list(string $tid): bool{
+    protected function _continue_update_list(string $tid): bool
+    {
         return ($this->m_state == 'list') && (in_array($tid,  ['list-item']));
     }
-    protected function _continue_update_quote(string $tid): bool{
-        return ($this->m_state == 'text-quote') && (in_array($tid,  ['text-quote']));
+    protected function _continue_update_quote(string $tid): bool
+    {
+        return ($this->m_state == 'quote') && (in_array($tid,  ['text-quote']));
     }
     /**
      * remove accent
@@ -1044,7 +1345,15 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         return StringUtility::RemoveAccents($text);
     }
     protected function _slugify(string $v): string
-    {
+    {   
+        if (preg_match("/^[\\d\.]+ /", $v , $tab)){
+            $g = $tab[0];
+            $m = str_replace('.','', $g);
+            $m = str_replace(' ','---', $m);
+            $v = $m.StringUtility::Slugify(substr($v, strlen($g)));
+            return $v;
+        }
+
         return StringUtility::Slugify($v);
     }
     protected function _treat_text_quote(string $v)
@@ -1121,7 +1430,8 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
      */
     public static function _StreatContent(string $v)
     {
-        return preg_replace("/\\s{2,}/", " ", $v);
+        //replace multiple empty line with only one empty line 
+        return preg_replace("/\\n{2,}/", "\n", $v);
     }
     /**
      * treat block code 
@@ -1138,19 +1448,47 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         $tname = $captures ? igk_getv($captures->beginCaptures, 'name') : null;
         $name = $tname ? $tname[0] : '';
-        $v = trim(igk_str_rm_start(trim($v, '```'), $name)); 
+        $v = trim(igk_str_rm_start(trim($v, self::FENCE_MARKER), $name));
 
         if (!empty($v)) {
             $this->_updatePreviousOutput();
+            $this->m_ltrim = true;
+            $this->setIsSingleDefinition(false);
+            if ($this->formatCodeBlock) {
+                $engine = $this->m_codeFormatter;
+                if (is_null($engine)) {
+                    if ($service = IGKServices::Get(sprintf('formatters.%s', $name))) {
+                        return $service->format($v);
+                    }
+                    $heighlight = igk_app()->getService(IGKServices::CORE_CODE_HIGHLIGHT) ?? igk_die('core code highlight is missing');
+                    $v = $this->_beforeFormatCode($v, $name);
+                    $v = $heighlight->format($v, $name);
+                    $n = new HtmlNode('div');
+                    $n->setClass($this->getSetting('code-box-classes', 'code-box'));
+                    $n->text($v);
+                    return $n->render();
+                }
+                return $v;
+            }
             $n = new HtmlNode('code');
             $attr_class = igk_getv($this->m_classStyles, 'code-fence') ?? "igk-code -code-php " . ($name ? 'code-' . $name : '');
             $n->setClass($attr_class);
             // $n->text(htmlentities($v));
             $n->text($v);
-            $this->m_ltrim = true;
-            $this->m_is_single_definition = false;
             return $n->render();
         }
+    }
+    /**
+     * 
+     * @param mixed $v 
+     * @param mixed $type 
+     * @return string 
+     */
+    protected function _beforeFormatCode($v, $type)
+    {
+        //igk_getv($this->treatFormatter, $name);
+
+        return strtr($v, ['&gt;' => '>', '&lt;' => '<']);
     }
     /**
      * treat task list item capture
@@ -1220,9 +1558,15 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $v = RegexMatcherUtility::ReplaceWithOnly($v, $rp, $e);
         return $v;
     }
+    /**
+     * 
+     * @param string $v 
+     * @param mixed $e 
+     * @return string 
+     */
     protected function _treat_line_feed(string $v, $e): string
     {
-        $lf = & $this->m_line_feed;
+        $lf = &$this->m_line_feed;
         if ($lf) {
             $this->_appendToOutput($this->_treat_empty_line());
             $lf = false;
@@ -1230,7 +1574,7 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         }
         $lf = true;
         if ($this->m_state || $this->m_ltrim) {
-           return '';
+            return '';
         }
         return $v;
     }
@@ -1248,14 +1592,4 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         $this->m_ref_id = $v;
         return '';
     }
-    /**
-     * line feed flag 
-     * @var ?bool
-     */
-    private $m_line_feed;
-    /**
-     * the id reference 
-     * @var ?string
-     */
-    private $m_ref_id;
 }

@@ -121,7 +121,9 @@ class Activator
                             $name = $e->value;
                             break;
                         default:
-                            $properties[substr($name, 1)] = $resolver($type);
+                            if (!is_null($name)){
+                                $properties[substr($name, 1)] = $resolver($type);
+                            }
                             $name = $type = null;
                             break;
                     }

@@ -22,6 +22,13 @@ class SearchFilesCommand extends AppExecCommand
 	];
 	var $category = 'sys';
 	var $usage = 'directory pattern [options]';
+	/**
+	 * 
+	 * @param mixed $command 
+	 * @param null|string $dir 
+	 * @param null|string $pattern 
+	 * @return void 
+	 */
 	public function exec($command, ?string $dir = null, ?string $pattern = null)
 	{
 		$dir ?? igk_die('missing directory');

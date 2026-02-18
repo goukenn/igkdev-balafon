@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:54
 // @desc: 
 use IGK\ApplicationLoader;
+use IGK\System\IO\DotEnvConfiguration;
+use IGK\System\IO\FileHandler;
+use IGK\System\IO\Markdown\MarkdownFileHandler;
+use IGK\System\IO\TextFileHandler;
+
 /**
  * 
  * @package 
@@ -116,5 +121,16 @@ abstract class IGKApplicationBase{
     }
     public function getEntryFile(){
         return $this->_entry_file;
+    }
+    /**
+     * init core system component
+     * @return void 
+     */
+    protected function initCoreSystemComponent(){
+        \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
+
+        FileHandler::Register('.md|'.FileHandler::FILE_CONTEXT_VIEW, new MarkdownFileHandler);
+        FileHandler::Register('.txt|'.FileHandler::FILE_CONTEXT_VIEW, new TextFileHandler);
+
     }
 }

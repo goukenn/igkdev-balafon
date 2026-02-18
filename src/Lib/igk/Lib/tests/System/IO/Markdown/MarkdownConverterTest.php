@@ -19,7 +19,7 @@ use ReflectionException;
  * @package IGK\Tests\System\IO\Markdown
  * @author C.A.D. BONDJE DOUE
  */
-class MardownConverterTest extends BaseTestCase
+class MarkdownConverterTest extends BaseTestCase
 {
     // public static function suite(){
     //     return new TestSuite(static::class);//  'markdown';
@@ -262,7 +262,7 @@ class MardownConverterTest extends BaseTestCase
             "line2 ",
             <<<EOF
 ## the-code
-data la sample   
+data la sample 
 EOF
         ]), false);
 
@@ -387,6 +387,23 @@ EOF
             '<div class="md-doc"><blockquote>this is a<br/>quote </blockquote><p>x </p></div>',
             $s,
             'quote marker '.__METHOD__,
+        );
+    }
+    public function test_mdconverter_subitem(){
+        $g = MarkdownConverter::TreatMarkdownSubItem("        - info");
+        $this->assertEquals(
+            json_encode(["depth"=>2, "value"=>"info"]),
+            json_encode($g)
+        );
+        $g = MarkdownConverter::TreatMarkdownSubItem("       - info");
+        $this->assertEquals(
+            json_encode(["depth"=>0, "value"=>"info"]),
+            json_encode($g)
+        );
+        $g = MarkdownConverter::TreatMarkdownSubItem("\t\t\t- info");
+        $this->assertEquals(
+            json_encode(["depth"=>3, "value"=>"info"]),
+            json_encode($g)
         );
     }
 }

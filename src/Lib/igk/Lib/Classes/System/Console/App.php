@@ -247,7 +247,7 @@ class App implements ICLICommandApp
             $action = $command->exec;  
             if ($action) {
                 if (property_exists($command->options, "--help")) {
-                    $targs = array_filter([igk_getv($tab, 0), $command]);
+                    $targs = array_filter([igk_getv($tab, 0)]);
                     foreach ($args as $v) {
                         $targs[] = $v;
                     }
@@ -325,7 +325,13 @@ class App implements ICLICommandApp
         if (igk_is_debug())
             $this->print_off(...$text);
     }
-    public function showHelp($command = null)
+    /**
+     * show help 
+     * @param mixed $command 
+     * @param null|string $filter in case $command is null just filter filter only command group
+     * @return void 
+     */
+    public function showHelp($command = null, ?string $filter=null)
     {
         if (!empty($command) && ($cmd = $this->command[$command])) {
             if (is_array($inf = igk_getv($cmd, 1))) {
@@ -361,18 +367,22 @@ class App implements ICLICommandApp
         $this->print("");
         $groups = [];
         array_walk($this->command, function ($c, $key) use (&$groups) {
-            $cat = null;
+            $cat = null; //'..z-group';
             if (is_array($c)) {
                 if (($l = igk_getv($c, 1)) && (is_array($l))) {
-                    $cat = igk_getv($l, "category");
+                    if ($c_ = igk_getv($l, "category"))
+                    $cat = trim($c_);
                 }
             }
-            $cat = $cat ?? igk_getv($c, self::GroupIndex, "");
+            $cat = strtolower(trim($cat ?? igk_getv($c, self::GroupIndex, '..z-group')));
             if (!isset($groups[$cat]))
                 $groups[$cat] = [];
             $groups[$cat][$key] = $c;
         });
-        ksort($groups,  SORT_FLAG_CASE | SORT_STRING);
+        if ($filter && isset($groups[$filter])){
+            $groups = [$groups[$filter]];
+        }
+        ksort($groups,  SORT_FLAG_CASE | SORT_STRING | SORT_NATURAL);
         $key = key($groups);
         while ((count($groups) > 0) && ($g = array_shift($groups))) {
             if (!empty($key)) {

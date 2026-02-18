@@ -1,0 +1,25 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: EnumFormConstantData.php
+// @date: 20260207 17:39:35
+namespace IGK\System\Traits;
+
+
+/**
+ * 
+ * @package IGK\System\Traits
+ * @author C.A.D. BONDJE DOUE
+ */
+trait EnumFormConstantData
+{
+    use EnumeratesConstants;
+
+    public static function FormSelectData()
+    {
+        $l = [];
+        foreach (static::GetConstants() as $k => $v) {
+            $l[] = ['i' => $v, 't' => 'enum.' . strtolower($v)];
+        }
+        return $l;
+    }
+}

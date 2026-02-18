@@ -39,7 +39,8 @@ class SelectCommand extends AppExecCommand
 		'--arg:[value]+' => 'argument for macros function',
 		'--pretty' => 'flag: pretty print json result',
 		'--user:login' => 'set attached user',
-		'--for:id' => 'id to resolve mocking reference'
+		'--for:id' => 'id to resolve mocking reference',
+		'--json:arg' => 'passing sigle json string definition',
 	];
 	var $category = 'db';
 	var $usage = '[controller] model[.macrosFunction] [options]';
@@ -77,7 +78,13 @@ class SelectCommand extends AppExecCommand
 		}
 		$v_private_fields = $m->getColumnPrivateFields();
 		if (count($tab) > 0) {
-			$args = igk_getv($command->options, '--arg') ?? array_slice(func_get_args(), 3);
+			$args = null;
+			if ($targ = igk_getv($command->options, '--json')){
+				if ($args = igk_json_parse($targ)){
+					$args = [$args];
+				}
+			}
+			$args = $args ?? igk_getv($command->options, '--arg') ?? array_slice(func_get_args(), 3);
 			if ($method = trim(array_shift($tab))) {
 				if (!is_array($args)) {
 					$args = [$args];

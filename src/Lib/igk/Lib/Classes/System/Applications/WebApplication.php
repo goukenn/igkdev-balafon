@@ -19,6 +19,9 @@ use IGK\System\Http\ConfigurationPageHandler;
 use IGK\System\Http\IRequestFileHandler;
 use IGK\System\Http\RequestException;
 use IGK\System\IO\DotEnvConfiguration;
+use IGK\System\IO\FileHandler;
+use IGK\System\IO\Markdown\MarkdownFileHandler;
+use IGK\System\IO\TextFileHandler;
 use IGKApp; 
 use IGKApplicationBase;
 use IGKApplicationBootOptions; 
@@ -82,10 +85,11 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         require_once IGK_LIB_CLASSES_DIR.'/Resources/R.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/translation.php';
         require_once IGK_LIB_DIR.'/Lib/functions-helpers/db.php';
-
+        // - 
 
         IGKServices::Register(IGKServices::FORMATTER_SERVICE, \IGK\System\Text\Formatters\FormatterServiceContainer::class);
 
+        $this->InitCoreSystemComponent();
 
         // + | init registratation domain
         igk_reg_component_package('web', function(string $n){
@@ -332,5 +336,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
         $app->library('curl');
         // register core config expression
         \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
+
+        igk_hook(IGKEvents::HOOK_INIT_WEB_APP_LIBRARY, ['app'=>$app]);
     }
 }

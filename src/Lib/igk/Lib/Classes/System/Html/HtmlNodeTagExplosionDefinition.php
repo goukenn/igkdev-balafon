@@ -392,7 +392,7 @@ class HtmlNodeTagExplosionDefinition
         $s = $tagname;
         while ($g = $regex->detect($s, $pos)) {
             if ($e = $regex->end($g, $s, $pos)) {
-                igk_is_debug() && Logger::info($e->tokenID . ':' . $e->value);
+                igk_is_debug() && Logger::info('[html-node-tag-explosion] :: '.$e->tokenID . ':' . $e->value);
                 if ($fc = igk_getv($list, $e->tokenID)) {
                     $fc($definition, $e);
                 }

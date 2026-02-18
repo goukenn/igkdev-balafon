@@ -6906,14 +6906,22 @@ function igk_download_content($name, $size, $content, $mimeType = null, $encodin
     if ($exit)
         igk_exit();
 }
-///ask to download file
+///
 /**
+ * ask to download file
+ * @param string $name
+ * @param string $filename
+ * @param ?string $mimeType
+ * @param ?string $encoding
+ * @param int $exit
  */
-function igk_download_file($name, $filename, $mimeType = null, $encoding = "binary", $exit = 1)
+function igk_download_file(string $name, string $filename, $mimeType = null, $encoding = "binary", $exit = 1)
 {
-    if (igk_io_file_exists($filename)) {
+    if (file_exists($filename)) {
         $size = @filesize($filename);
         igk_download_content($name, $size, IO::ReadAllText($filename), $mimeType, $encoding, $exit);
+    } else {
+        igk_die('missing download file');
     }
 }
 ///<summary>dump value</summary>

@@ -11,8 +11,10 @@ namespace IGK\Services;
 * @author C.A.D. BONDJE DOUE
 */
 interface IAppServiceContainer extends IAppService{
+    function setName(?string $name);
+    function getName():?string;
     function get(string $name) : ?IAppService ;
     function register(string $name, IAppService $service): bool;
     function count():int;
-
+    function listServicesKeys():array;
 }

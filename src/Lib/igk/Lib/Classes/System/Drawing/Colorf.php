@@ -126,8 +126,9 @@ class Colorf extends IGKObject
     }
     /**
      * convert to byte data 
+     * @return Color
      */
-    public function toByte()
+    public function toByte(): Color
     {
         return Color::FromFloat($this->R, $this->G, $this->B, $this->A);
     }
@@ -135,7 +136,7 @@ class Colorf extends IGKObject
      * convert to webcolor 
      * @return string 
      */
-    public function toWebColor(){
+    public function toWebColor(): string{
         return Color::FromFloat($this->R, $this->G, $this->B, $this->A)->toWebColor();
     }
 }

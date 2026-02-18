@@ -227,7 +227,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             self::LoadInjectableAndServices($services, $v_host);
         }
         // $v_inject = false;
-        $v_is_debug = igk_is_debug() || igk_environment()->get('debug/dispatcher');
+        $v_is_debug = igk_is_debug() && igk_environment()->get('debug/dispatcher');
         foreach ($parameters as $k) {
             $v_is_debug && Logger::info(sprintf('update-dispatcher : %s next %s', $k, $i));
 

@@ -6,13 +6,13 @@ namespace IGK\System\Html\Forms\Validations\Annotations;
 use IGK\Helper\Activator;
 use IGK\System\Annotations\AnnotationBase;
 use IGK\System\IAnnotation;
-use IGK\System\Annotations\AnnotationInfo;
+use IGK\System\Annotations\AnnotationInfoAnnotation as Info;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
 /**
  * Use to validate a property on a fields list
  * @package IGK\System\Html\Forms\Validations\Annotations
  * @author C.A.D. BONDJE DOUE
- * @AnnotationInfo(isMutiple=false, type=property)
+ * @Info(isMutiple=false, type=property)
  */
 class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
 {

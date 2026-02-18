@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: RequireModuleCommand.php
 // @date: 20231016 15:30:01
-namespace IGK\System\Console\Commands\Project;
+namespace IGK\System\Console\Commands\Projects;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\BalafonConfiguration;
 use stdClass;

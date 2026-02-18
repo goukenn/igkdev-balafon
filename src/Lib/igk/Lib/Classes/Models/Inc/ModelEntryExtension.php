@@ -123,12 +123,13 @@ abstract class ModelEntryExtension
     /**
      * 
      * @param ModelBase $model 
-     * @param mixed $raw 
+     * @param ?array|object $raw 
      * @param bool $idresult 
      * @return null|object 
      */
     public static function create(ModelBase $model, $raw = null, bool $update = true, bool $throwException = true)
     {
+        $raw && (!is_array($raw) && !is_object($raw)) && igk_die('raw not a valid data');
         //+ | fix db create result 
         $cl = get_class($model);
         $c = new $cl($raw);
@@ -610,6 +611,13 @@ abstract class ModelEntryExtension
         }
         return null;
     }
+    /**
+     * 
+     * @param ModelBase $model 
+     * @param null|array $conds 
+     * @param null|string $column 
+     * @return mixed|null 
+     */
     public static function lastByColumn(ModelBase $model, ?array $conds = null, ?string $column=null){
         $cond = $conds ?? [];
         $options = ['Limit'=>1];
@@ -832,30 +840,7 @@ abstract class ModelEntryExtension
     {
         return "display:" . $model->to_json();
     }
-    /**
-     * return the selected data
-     * @param ModelBase $model 
-     * @return string 
-     * @throws Exception 
-     */
-    public static function formSelectData(ModelBase $model, $selected = null, ?callable $callback = null)
-    {
-        $data = [];
-        foreach ($model::select_all() as $m) {
-            if ($callback) {
-                if ($g = $callback($m)) {
-                    $data[] = $g;
-                }
-                continue;
-            }
-            $g = ["i" => $m->{$m->getPrimaryKey()}, "t" => $m->display()];
-            if ((is_callable($selected) && $selected($m)) || ($selected && ($selected == $g["i"]))) {
-                $g["selected"] = true;
-            }
-            $data[] = $g;
-        }
-        return $data;
-    }
+   
     /**
      * column keys
      */
@@ -1358,6 +1343,31 @@ abstract class ModelEntryExtension
             };
         $model::select_all($condition, $options);
         return $tab;
+    }
+     /**
+     * return the selected data
+     * @param ModelBase $model 
+     * @param ?callable $selected 
+     * @return string 
+     * @throws Exception 
+     */
+    public static function formSelectData(ModelBase $model, $selected = null, ?callable $callback = null)
+    {
+        $data = [];
+        foreach ($model::select_all() as $m) {
+            if ($callback) {
+                if ($g = $callback($m)) {
+                    $data[] = $g;
+                }
+                continue;
+            }
+            $g = ["i" => $m->{$m->getPrimaryKey()}, "t" => $m->display()];
+            if ((is_callable($selected) && $selected($m)) || ($selected && ($selected == $g["i"]))) {
+                $g["selected"] = true;
+            }
+            $data[] = $g;
+        }
+        return $data;
     }
     /**
      * 

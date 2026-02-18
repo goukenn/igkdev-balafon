@@ -1,0 +1,32 @@
+<?php
+// @author: C.A.D. BONDJE DOUE
+// @file: AttachControllerSubDomainCommand.php
+// @date: 20260117 15:27:51
+namespace IGK\System\Console\Commands;
+
+use IGK\Models\Subdomains;
+use IGK\System\Console\AppExecCommand;
+use IGK\System\Console\Logger;
+
+/**
+* 
+* @package IGK\System\Console\Commands
+* @author C.A.D. BONDJE DOUE
+*/
+class AttachControllerSubDomainCommand extends AppExecCommand{
+	var $command='--subdomain:attach';
+	var $desc='attach controller subdomain'; 
+	var $options=[];
+	var $category = 'sys'; 
+	var $usage = 'controller name [entry_point] [options...]';
+	public function exec($command, ?string $controller=null, ?string $name=null, ?string $entry_point=null) { 
+		$ctrl = self::GetController($controller) ?? igk_die('require controller');	
+		$c = Subdomains::Add($name, $ctrl->getName(), $entry_point);
+		if ($c)
+			Logger::success('subdomain '.$name);
+		else{
+			Logger::danger('failed to add domain');
+			return -1;
+		}
+	}
+}

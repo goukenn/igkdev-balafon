@@ -442,7 +442,7 @@ EOF;
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
-    public function getAppUri(?string $function = null, bool $full = true, bool $force_access=false, ?bool $entry_controller = false): ?string
+    public function getAppUri(?string $function = null, bool $full = true, bool $force_access=false, ?bool $entry_controller = null): ?string
     {
         $entry_controller = $entry_controller ?? $this::IsEntryController();
         if (is_null($function)) {
@@ -516,7 +516,7 @@ EOF;
     /**
      * 
      */
-    public function getDomainUriAction()
+    public function getDomainUriAction(): string
     {
         return "^(/(?P<lang>" . R::GetSupportLangRegex() . "))?" . IGK_REG_ACTION_METH_OPTIONS;
     }
@@ -552,7 +552,7 @@ EOF;
     /**
      * 
      */
-    public function getRegInvokeUri()
+    public function getRegInvokeUri(): string
     {
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
@@ -560,7 +560,7 @@ EOF;
     /**
      * get sub application app uri
      */
-    public function getRegUriAction()
+    public function getRegUriAction(): ?string
     {
         $primary = $this->getBasicUriPattern();
         if (empty($primary))
@@ -610,8 +610,7 @@ EOF;
     /**
      *  base application uri handle
      * @param mixed|string|\IGK\System\Http\UriHandleObject $u
-     * @param mixed $forcehandle default is true. will stop the script
-     * @param bool $forcehandle default is true. will stop the script
+     * @param mixed $forcehandle default is true. will stop the script 
      */
     public function handle_redirection_uri($u, $forcehandle = 1)
     {
@@ -673,7 +672,7 @@ EOF;
             $m = $actionctrl->matche($page[0]);
             $ck = $this->getEnvParam("appkeys");
             if ($m !== null) {
-                if ($m->action == $ck) {
+                if ($m->action == $ck) { // + | same uri 
                     if ((igk_get_defaultwebpagectrl()) === $this) {
                         $m = "Misconfiguration. Subsequent call of domain controller is not allowed. " . igk_io_request_uri() .
                             "<br />" . $this->getName() .
@@ -683,9 +682,12 @@ EOF;
                         throw new \IGKException("Subdomain request for entry path");
                     }
                 } else {
-                    $actionctrl->invokeUriPattern($m);
-                    $forcehandle && igk_exit();
-                    return;
+                    $alone = $this->getConfigs()->subdomain_stand_alone; 
+                    if (!$alone){ 
+                        $actionctrl->invokeUriPattern($m);
+                        $forcehandle && igk_exit();
+                        return;
+                    }
                 }
             }
         }

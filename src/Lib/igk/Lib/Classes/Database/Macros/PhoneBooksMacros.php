@@ -218,9 +218,14 @@ class PhoneBooksMacros
         $r = PhoneBooks::select_all([$cl => $search]);
         return $r ? igk_getv($r, 0) : null;
     }
-
-
-    public static function vcard(PhoneBooks $phone, Users $user, $search)
+    /**
+     * 
+     * @param PhoneBooks $phone 
+     * @param Users $user 
+     * @param mixed $search 
+     * @return array<\IGK\Models\PhoneBooks, mixed> 
+     */
+    public static function vcard(PhoneBooks $phone, ?Users $user, $search)
     {
         /**
          * @var PhoneBooks $row

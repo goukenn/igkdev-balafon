@@ -1,6 +1,6 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @file: AnnotationInfo.php
+// @file: AnnotationInfoAnnotation.php
 // @date: 20230731 11:37:49
 namespace IGK\System\Annotations;
 use IGK\System\AnnotationBase;
@@ -9,7 +9,7 @@ use IGK\System\IAnnotation;
 * balafon's annotation for describe an annotation
 * @package IGK\System\Annotations
 */
-class AnnotationInfo extends AnnotationBase implements IAnnotation{
+class AnnotationInfoAnnotation extends AnnotationBase implements IAnnotation{
     /**
      * class | method | property
      * @var ?string
@@ -19,6 +19,11 @@ class AnnotationInfo extends AnnotationBase implements IAnnotation{
      * allow multiple
      */
     var $multiple = false;
+    /**
+     * 
+     * @param null|string $m 
+     * @return void 
+     */
     public function setMultiple(?string $m){
         if (is_null($m))
             $this->multiple = false;

@@ -1,5 +1,6 @@
 <?php
 
+use Google\Service\Spanner\Instance;
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
 use IGK\Helper\IO;
@@ -207,6 +208,34 @@ function igk_require_module(string $modulename, ?callable $init = null, $loadall
     }
     return $mod;
 }
+/**
+ * get if module loaded
+ * @param string $id 
+ * @return bool 
+ */
+function igk_is_module_loaded(string $id): bool{
+    $mod = igk_environment()->require_modules();
+    $g = strtolower(igk_uri($id));
+    return igk_getv($mod, $g) instanceof ApplicationModuleController;
+}
+
+/**
+ * 
+ * @return mixed 
+ */
+function igk_loaded_modules(){
+    $mod= igk_environment()->require_modules();
+    foreach($mod as $k => $v){
+        if (preg_match("/^::/", $k)){
+            unset($mod[$k]);
+        }
+    }
+    return $mod;
+}
+/**
+ * enable all module 
+ * @return array 
+ */
 function igk_module_inject_all()
 {
     $mod = igk_get_modules();
