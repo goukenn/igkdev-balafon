@@ -334,7 +334,8 @@ implements IDatabaseHost
 use IGK\\Resources\\R;
 \$t->clearChilds();
 \$t->div()->addSectionTitle(4)->Content = R::ngets("Title.App_1", \$this->AppTitle);
-\$t->inflate(igk_dir(\$dir."/".\$fname));
+
+
 EOF;
     }
     ///<summary></summary>
