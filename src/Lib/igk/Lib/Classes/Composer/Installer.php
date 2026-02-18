@@ -57,10 +57,11 @@ class Installer
         foreach ($fc_handlers as $f => $fc) {
             if (false !== ($idx = array_search($f, $argv))) {
                 $fc($chdir, $argv, $args, $cli, $idx);
+                $ct = true;
                 break;
             }
         }
-        if (!$ct || !Utility::HaveArg($ct))
+        if (!$ct)
             $args[] = './src';
         $cm = Utility::BuildArgs($args) . ' ';
         $cli = $cli ?? IGK_LIB_DIR . '/bin/balafon';
