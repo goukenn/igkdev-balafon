@@ -4,8 +4,11 @@
 // @date: 20251120 16:01:35
 namespace IGK\Composer;
 
+use IGK\ApplicationFactory;
+use IGK\ApplicationLoader;
 use IGK\Helper\IO;
 use IGK\System\Console\Commands\Utility;
+use IGK\System\Installers\InstallSite;
 use IGK\System\IO\Path;
 
 defined('IGK_COMPOSE_DEBUG_INSTALLER') || (defined('IGK_VERSION') && die('balafon framework. already defined'));
@@ -25,6 +28,7 @@ class Installer
      */
     public static function PostInstall()
     {
+        require_once __DIR__.'/PostInstallApplication.php';
         echo '* --------------------------------------------------------', PHP_EOL;
         echo '* running post install', PHP_EOL;
         echo '* --------------------------------------------------------', PHP_EOL;
@@ -75,6 +79,13 @@ class Installer
             $reflink = Path::GetRelativePath($chdir, $cli);
             @symlink($reflink, $fs);
         }
+        // + | TO use loading class as priority 
+        ApplicationFactory::Register('composer-post-install', PostInstallApplication::class);
+        // + | boot post installer 
+        ApplicationLoader::Boot('composer-post-install'); 
+        // 
+        InstallSite::CreateApacheVHostFile('composer-server', $chdir, $chdir, $chdir.'/src/public');
+        InstallSite::CreatePhpUnitConfig($chdir, $chdir . '/src/application',  $chdir . '/src/public');
     }
     private static function _composer_install(string $chdir, &$argv, &$args, ?string &$cli, $idx) {}
     private static function _composer_create_project(string $chdir, &$argv, &$args, ?string &$cli, $idx)

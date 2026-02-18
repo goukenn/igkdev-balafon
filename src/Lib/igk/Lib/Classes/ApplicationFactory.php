@@ -13,6 +13,12 @@ abstract class ApplicationFactory{
     private static $sm_factory = [
         'framework'=>self::APP_CLASS
     ];
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $class 
+     * @return void 
+     */
     public static function Register($name, $class){
         if (class_exists($class, false) && is_subclass_of($class, \IGKApplicationBase::class)){
             self::$sm_factory[$name] = $class;
@@ -26,7 +32,7 @@ abstract class ApplicationFactory{
     public static function Create(string $type){      
         if (isset(self::$sm_factory[$type])){
             $cl = self::$sm_factory[$type];
-        } else {
+        } else {  
             $cl = self::APP_CLASS."\\".ucfirst($type)."Application";
             if (!class_exists($cl)){
                 return null;
