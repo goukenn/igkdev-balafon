@@ -94,7 +94,10 @@ class Installer
         // + | create in composer.phar with create-project command
         // + | 
         $ct = array_slice($argv, $idx + 2);
-        $args = array_merge($args, $ct);
+        if (false !== ($idx = array_search('--', $ct))){
+            array_shift($ct);
+            $args = array_merge($args, $ct);  
+        }
         $lib = $chdir . '/src/application/Lib/igk';
         $c = is_link($lib);
         $core_lib = $chdir . '/src/Lib/igk';
