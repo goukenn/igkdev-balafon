@@ -17,6 +17,10 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
 use function igk_resources_gets as __;
+/**
+ * initialize balafon cli command cache 
+ * @package IGK\System\Console\Commands
+ */
 class InitCommand extends AppExecCommand
 {
     var $command = "--command:init";

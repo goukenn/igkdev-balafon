@@ -56,8 +56,7 @@ class Installer
         ];
         foreach ($fc_handlers as $f => $fc) {
             if (false !== ($idx = array_search($f, $argv))) {
-                $fc($chdir, $argv, $args, $cli, $idx);
-                $ct = true;
+                $fc($chdir, $argv, $args, $cli, $idx);              
                 break;
             }
         }
@@ -65,7 +64,7 @@ class Installer
             $args[] = './src';
         $cm = Utility::BuildArgs($args) . ' ';
         $cli = $cli ?? IGK_LIB_DIR . '/bin/balafon';
-        igk_wln('CLI : ' . $cli);
+        igk_wln('CLI: ' . $cli);
         if ($v_moveto_vendor) {
             self::_CoreMoveToVendorDir();
         }
@@ -106,8 +105,7 @@ class Installer
             $link = Path::GetRelativePath($lib, $core_lib);
             IO::CreateDir(dirname($lib));
             @symlink($link, $lib);
-        }
-        self::_ReorguanisePackage($chdir);
+        } 
         $cli = $chdir . '/src/application/Lib/igk/bin/balafon';
         if (file_exists($git = $chdir.'/.gitignore')){
             $data = explode("\n", file_get_contents($git));
@@ -115,24 +113,7 @@ class Installer
             igk_io_w2file( $git, implode("\n", $data) );
         }
     }
-    /**
-     * 
-     * @param mixed $dir 
-     * @return void 
-     */
-    private static function _ReorguanisePackage(string $dir)
-    {
-        // $src = file_get_contents($file = $dir . '/composer.json');
-        // $src = str_replace('src/Lib/igk/', 'src/application/Lib/igk/', $src);
-        // $app_dir = $dir . '/src/application';
-        // IO::CreateDir($app_dir);
-        // rename($dir . '/src/Lib', $app_dir . '/Lib');
-        // if (is_link($file)){
-        //     @unlink($file);
-        // }
-        // igk_io_w2file($file, $src);
-        // igk_wln_e($src);
-    }
+    
     /**
      * 
      * @param null|string $vendor_dir 
