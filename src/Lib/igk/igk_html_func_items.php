@@ -2041,14 +2041,14 @@ if (!function_exists("igk_html_node_definitions")) {
 		return $q;
 	}
 }
-if (!function_exists("igk_html_node_dialog")) {
+if (!function_exists("igk_html_node_winui_dialog")) {
 	///<summary>create a dialog host that will not being displayed</summary>
 	///<param name="title"></param>
 	/**
 	 *  create a dialog host that will not being displayed<
 	 * @param mixed $title
 	 */
-	function igk_html_node_dialog($title = null)
+	function igk_html_node_winui_dialog($title = null)
 	{
 		$n = igk_create_node("div");
 		$n["class"] = "igk-dialog dispn";

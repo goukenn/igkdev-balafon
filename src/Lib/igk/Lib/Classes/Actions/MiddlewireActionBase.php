@@ -208,8 +208,13 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
             // + | must use the route technique to validate the path
             // + | 
             $ctrl = $this->getController();
+            $v_taccess = [];
+            $v_defaultEntry = $this->defaultEntryMethod;
             foreach ($routes as $v) {
-                if ($v->match($path, $method)) {
+                /**
+                 * @var \IGK\System\Http\RouteActionHandler $v
+                 */
+                if ($v->match($path, $method, $v_defaultEntry)) {
                     $redirect =  $v->getRedirectTo();
                     $security = $v->getSecurity();
                     if (!$user && $security) {
@@ -267,12 +272,16 @@ abstract class MiddlewireActionBase extends ActionBase implements IActionMiddleW
                     return RouteActionHandler::Handle($v, ...$arguments);
                 } else {
                     // + | is accessible but route verbs not matching 
-                    if ($v->isAccessible($path, $method)) {
-                        // route not matching
-                        $m = __('route not valid');
-                        throw new ActionRequestException($m, RequestResponseCode::BadRequest);
+                    if ($v->isAccessible($path, $v_defaultEntry)) {
+                        $v_taccess[] = $v; 
                     }
                 }
+            }
+            if ($v_taccess){
+                // found path but not accessible 
+                // route not matching
+                $m = __('route not valid');
+                throw new ActionRequestException($m, RequestResponseCode::BadRequest);
             }
             // + | --------------------------------------------------------------------
             // + | missing route : check that the view is present then do some with args

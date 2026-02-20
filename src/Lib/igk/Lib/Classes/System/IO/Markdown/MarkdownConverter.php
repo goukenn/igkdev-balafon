@@ -20,14 +20,7 @@ use IGK\System\Text\RegexMatcherUtility;
 use IGKException;
 use IGKServices;
 use ReflectionException;
-
-
-// foreach(range(1, 300) as $k){
-//     $i = 8100 + $k;
-//     echo "\\uc0\\u".$i ." = ".$i."\\\n";
-// }
-// exit;
-
+ 
 /**
  * helper use to convert markdown text to html
  * @package IGK\System\IO\Markdown
@@ -463,9 +456,14 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
         ];
         $cp = $m->begin('\[\\\\([a-zA-Z\\-]+)\](?=\\{)', '(?<=\\})', 'md-instruction-start')->last();
         $cp->patterns = [
-            $m->createStringPattern()
+            $m->createStringPattern(),
+            $m->createPattern([
+                'tokenID'=>'instruct-block',
+                'begin'=>"\(",
+                'end'=>"\)"
+            ]),
         ];
-        $m->match('\[\\\\([a-zA-Z\\-]+)\](?:\{([^\\}]+)\})?', 'md-instruction');
+        $m->match('\[\\\\([a-zA-Z\\-]+)\](?:\{([^\\}]+)\}|\(\))?', 'md-instruction');
         $m->match('(\\$)?[a-zA-Z_0-9]+', 'skip-word-match');
 
         $header->patterns = [

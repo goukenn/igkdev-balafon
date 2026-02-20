@@ -59,7 +59,9 @@ abstract class ApiActionBase extends MiddlewireActionBase{
             ['type'=>get_class($ex), 
             'ex_message'=>($p = $ex->getPrevious()) ? $p->getMessage() : null, 
             'message'=>"misconfiguration. Action handle throwable",
-            'real_message'=>$ex->getMessage()
+            'real_message'=>$ex->getMessage(),
+            'at'=>$ex->getFile().":".$ex->getLine(),
+            
             ] : null, $ex->getCode());  
     } 
 }

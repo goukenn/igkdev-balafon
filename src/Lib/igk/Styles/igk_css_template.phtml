@@ -553,7 +553,8 @@ $def[".igk-panel"] = "[sysfcl:igk-panel-fcl] [sysbgcl:igk-panel-bcl] margin:auto
 $def[".igk-btn"] =
     $def[".igk-btn-lnk"] =
     $def[".clsubmit"] =
-    $def[".clbutton"] = "font-size: [var:--igk-primaryButtonFontSize, 1em]; font-family: inherit; display:inline-block; margin:auto; padding: {$pad2}; border:1px solid [cl:buttonBorderColor, rgb(221,221,221)]; border-radius: 4px; cursor:pointer;";
+    $def[".clbutton"] = "font-size: [var:--igk-primaryButtonFontSize, 1em]; font-family: inherit; padding: {$pad2}; border:1px solid [cl:buttonBorderColor, rgb(221,221,221)]; border-radius: 4px; cursor:pointer;";
+// removed display:inline-block; margin:auto;
 // $def[".igk-btn.igk-active"] = "border-left: solid 4px #FFBF00; color: #683500";
 $def[".igk-btn-connect, input.igk-btn-connect, .igk-btn-connect a"] = "[sysbgcl:igk-btn-connect-bg] [sysfcl:igk-btn-connect-fcl]";
 $def[".igk-form-control, .cltext, .clpassword, .clemail, .clnumber, .clsearch, .cltel, .clselect"] = "{sys:fitw} padding:{$pad2}; margin:0px;[trans: 0.1s color ease-in] [sysfcl:igk-input-cl]";
@@ -1288,6 +1289,7 @@ $def['.spacer.line-style:after'] =  'height:1px; border-bottom: 1px solid #3338;
 
 include_once __DIR__.'/winui/session.pcss';
 include_once __DIR__.'/winui/controls.pcss';
+include_once __DIR__.'/winui/macos.pcss';
 
 
 // $def['html > body '] = 'color: #dde; background-color: #040816 important !;';

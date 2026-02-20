@@ -41,12 +41,12 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
         return empty($this->p_data);
     }
     /**
-     * 
-     * @param string $key 
-     * @param mixed $def_value 
+     * data
+     * @param string $key key to get
+     * @param mixed $def_value default value 
      * @return void 
      */
-    public function get(string $key, $def_value){
+    public function get(string $key, $def_value=null){
         return igk_getv($this->p_data, $key, $def_value);
     }
 }

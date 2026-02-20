@@ -17,6 +17,7 @@ use IGK\System\Database\MySQL\BooleanQueryResult;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKEvents;
+use IGKValidator;
 use ReflectionException;
 /**
  * used for macros injection 
@@ -297,6 +298,11 @@ abstract class UsersMacros
             return $r;
         }
         if (is_string($data)){
+            if (IGKValidator::IsGUID($guid = "{".$data."}")){
+                if ($r = $model::GetCache($model::FD_CL_GUID, $guid)){
+                    return $r;
+                }
+            }
             $r = $model::GetCache($model::FD_CL_LOGIN, $data);
             return $r;
         }

@@ -941,11 +941,12 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     /**
      * model to json
      * @param mixed|null $options 
+     * @param mixed|null $json_flag json flag
      * @return string|false 
      */
-    public function to_json($options = null)
+    public function to_json($options = null, int $json_flag=0)
     {
-        return Utility::To_JSON($this->raw, $options);
+        return Utility::To_JSON($this->raw, $options, $json_flag);
     }
     public function is_mock()
     {

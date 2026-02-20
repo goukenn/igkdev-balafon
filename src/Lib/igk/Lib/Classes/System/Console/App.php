@@ -59,6 +59,11 @@ class App implements ICLICommandApp
      * store application configuration
      */
     protected $_configs;
+    /**
+     * only to pass current command definition
+     * @var mixed
+     */
+    private $m_helpCommand;
     public function getConfigs()
     {
         return $this->_configs;
@@ -251,6 +256,7 @@ class App implements ICLICommandApp
                     foreach ($args as $v) {
                         $targs[] = $v;
                     }
+                    $app->m_helpCommand = $command;
                     return call_user_func_array([$app, 'showHelp'], $targs);
                 }
                 return $action($command, ...$args);
@@ -327,7 +333,7 @@ class App implements ICLICommandApp
     }
     /**
      * show help 
-     * @param mixed $command 
+     * @param null|string $command command string
      * @param null|string $filter in case $command is null just filter filter only command group
      * @return void 
      */
@@ -336,9 +342,11 @@ class App implements ICLICommandApp
         if (!empty($command) && ($cmd = $this->command[$command])) {
             if (is_array($inf = igk_getv($cmd, 1))) {
                 $cf = $inf["help"];
+                $cmd = $this->m_helpCommand;
                 if ($cf instanceof Closure) {
                     $fc = $cf->bindTo($this);
                     $args = array_slice(func_get_args(), 1);
+                    array_unshift($args, $cmd);
                     call_user_func_array($fc, $args);
                 } else {
                     igk_wln($cf);

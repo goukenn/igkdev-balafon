@@ -552,12 +552,13 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
                             // invoke the running
                             return call_user_func_array($command->exec, $targs);
                         }
+                        $sp = "\r\n\t\t\t\t";
                         Logger::info(implode(
                             "\n\n",
                             [
-                                App::Gets(App::GREEN, "--run") . "[options] [dbcommand] scriptfile",
-                                App::Gets(App::GREEN, "--command:ls") . "list all registrated command",
+                                App::Gets(App::BLUE_B, "--run usage") . $sp. " [options*] [dbcommand*] scriptfile",
                                 App::Gets(App::GREEN, "--controller") . ":[targetController]\r\n\t\t\t\tset base project controller",
+                                App::Gets(App::GREEN, "--command:ls") . $sp."list all registrated command",
                                 App::Gets(App::GREEN, "--user") . ":id\r\n\t\t\t\tglobal user to use",
                                 App::Gets(App::GREEN, "--commands_dir") . ":dir\r\n\t\t\t\tglobal directory that contains scripts to run",
                             ]

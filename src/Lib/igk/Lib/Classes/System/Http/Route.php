@@ -23,6 +23,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
  */
 class Route
 {
+    const DEFAULT_ENTRY_METHOD = 'index';
     static $sm_controller;
     /**
      * action register
@@ -166,6 +167,13 @@ class Route
     {
         return igk_getv(self::$sm_actions, $actionClass);
     }
+    /**
+     * 
+     * @param mixed $name 
+     * @param mixed $arguments 
+     * @return RouteActionHandler|RouteHandler 
+     * @throws IGKException 
+     */
     public static function __callStatic($name, $arguments)
     {
         $verbs = explode('|', self::SUPPORT_VERBS);

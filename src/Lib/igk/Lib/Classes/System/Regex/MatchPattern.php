@@ -25,4 +25,9 @@ abstract class MatchPattern{
      * date search pattern
      */
     const DateSearch = "[0-9]{4}((-|\/)([0-9]{2}))?";
+    /**
+     * 
+     */
+    const Guid = "(?:\{[0-9a-fA-F]+(-[0-9a-fA-F]+){4}\})";
+    const ShortGuid = "(?:[0-9a-fA-F]+(-[0-9a-fA-F]+){4})";
 }

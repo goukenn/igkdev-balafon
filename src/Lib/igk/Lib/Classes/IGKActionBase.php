@@ -292,7 +292,25 @@ abstract class IGKActionBase implements IActionProcessor
         }
         $this->_verb = $verb;
         $this->_user = $user;
+        if ($args && !$this->checkMethodExists($args[0]) && ($em = $this->defaultEntryMethod)){
+            array_unshift($args, $em);
+        }
         return self::HandleActions($fname, $b, $args, $exit, $flag);
+    }
+    protected function checkMethodExists(string $m){
+        $tab = [$m];
+        $p = ActionHelper::SanitizeMethodName($m);
+        if (false!== ($ipos = stripos($p, '_', 0))){
+            $verb = substr($m, $ipos+1);
+            if (in_array(strtoupper($verb), explode('|', Route::SUPPORT_VERBS))){
+                $tab[] = substr($m, 0, $ipos);
+            }
+        }        
+        foreach($tab as $m){
+            if (method_exists($this, $m))
+                return true;
+        }
+        return false;
     }
     /**
      * invoke actions 
@@ -461,7 +479,7 @@ abstract class IGKActionBase implements IActionProcessor
         // + | -------------------------------------------------------------
         // + | handle object action
         $actionMethod = "";
-        $env = igk_environment();
+        $v_env = igk_environment();
         $redirect_status = igk_server()->REDIRECT_STATUS;
         $v_host = null;
         if ($redirect_status && ($redirect_status != 200)) {
@@ -474,9 +492,9 @@ abstract class IGKActionBase implements IActionProcessor
         }
         if (!empty($actionMethod)) {
             $args = array_slice($params, 1);
-            $env->set(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
-            $env->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
-            $env->set(IGKEnvironment::VIEW_ACTION_PARAMS, $args);
+            $v_env->set(IGKEnvironment::VIEW_CURRENT_ACTION, $actionMethod);
+            $v_env->set(IGKEnvironment::VIEW_CURRENT_VIEW_NAME, $fname);
+            $v_env->set(IGKEnvironment::VIEW_ACTION_PARAMS, $args);
             $verbs = ['']; 
             $skip_check = false; 
             $v_host = $object instanceof IActionProcessor ? $object->getHost() : null;

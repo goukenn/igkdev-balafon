@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\System\Http;
 use IGK\Actions\Dispatcher;
+use IGK\System\Regex\MatchPattern;
 use IGKException;
 use ReflectionMethod;
 /**
@@ -194,13 +195,13 @@ class RouteHandler
      * @return bool
      * @throws Exception 
      */
-    public function match($path, $verb = 'GET'):bool
+    public function match($path, $verb = 'GET', string $defaultEntryMethod='index'):bool
     { 
         // + match verb
         if (!in_array(strtoupper($verb), $this->verbs)) {
             return false;
         }        
-        $regex = $this->getPatternRegex();   
+        $regex = $this->getPatternRegex($defaultEntryMethod);   
         if ($r = preg_match($regex, $path)) {
             if ($this->ajx && !igk_is_ajx_demand()) {
                 throw new RequestException(400);
@@ -219,12 +220,12 @@ class RouteHandler
      * @param string $path 
      * @return bool 
      */
-    public function isAccessible(string $path):bool{
-        if (!$this->m_expressions){
-            return false;
-        }
-        $regex = static::GetRouteRegex($this->path, []);
-
+    public function isAccessible(string $path, string $defaultEntryMethod=Route::DEFAULT_ENTRY_METHOD):bool{
+        // if (!$this->m_expressions){
+        //     return false;
+        // }
+        // each expression must be optional 
+        $regex = static::GetRouteRegex($this->path, null,true, $defaultEntryMethod);
         return preg_match($regex, $path);
     }
     /**
@@ -232,29 +233,64 @@ class RouteHandler
      * @return string 
      * @throws Exception 
      */
-    protected function getPatternRegex()
+    protected function getPatternRegex(string $defaultEntryMethod= Route::DEFAULT_ENTRY_METHOD): string
     {
-        return static::GetRouteRegex($this->path, $this->m_expressions);         
+        return static::GetRouteRegex($this->path, $this->m_expressions ?? [], true, $defaultEntryMethod);
     }
-    public static function GetRouteRegex(string $path, ?array $expressions=null, bool $strict_dir = true){
-        $croute = "/" . ltrim($path, "/");
-        if (preg_match_all("/(?P<mark1>\/)?(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})(?P<mark2>\/)?/i", $croute, $tab)) {
+    /**
+     * 
+     * @param string $type 
+     * @return string 
+     */
+    public static function GetTypePattern(string $type):string{
+        return igk_getv([
+            'guid'=>MatchPattern::Guid,
+            'sguid'=>MatchPattern::ShortGuid,
+            'int'=>MatchPattern::Int,
+            'float'=>MatchPattern::Float,
+            'single'=>MatchPattern::Single,
+        ], strtolower($type), '[^/]+');
+    }
+    /**
+     * 
+     * @param string $path 
+     * @param null|array $expressions 
+     * @param bool $strict_dir 
+     * @return string 
+     */
+    public static function GetRouteRegex(string $path, ?array $expressions=null, bool $strict_dir = true, 
+        ?string $defaultEntryMethod=Route::DEFAULT_ENTRY_METHOD,
+        ?string $format=null): string{
+        $cbroute = $croute = "/" . ltrim($path, "/");
+        $uoffset = 0;
+        $cout = '';
+        $all_optional = is_null($expressions);
+        $format= $format ??  ($all_optional ? "#^%s#": "#^%s$#"); 
+
+        if (preg_match_all("/(?P<mark1>\/)?(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*(?::(?P<type>[a-zA-Z][a-zA-Z0-9]*))?\})(?P<mark2>\/)?/i", $croute, $tab, PREG_OFFSET_CAPTURE)) {
             $count = 0;
             $optional = false;
+            $expressions = $expressions ?? [];
+    
             foreach ($tab["name"] as $i) {
-                $c = trim($i);
-                $s = $tab[0][$count];
-                $opt = igk_getv($tab["option"], $count) == "*";
-                $mark1 = igk_getv($tab["mark1"], $count);
-                $mark2 = igk_getv($tab["mark2"], $count);
-                // if ($mark1 && ($mark1 == $mark2)){
-                //     // inside mark
-                // }
+                $c = trim($i[0]);
+                $s = $tab[0][$count][0];
+                $roffset = $tab[0][$count][1];
+                $opt = $all_optional || (igk_getv(igk_getv($tab["option"], $count), 0) == "*");
+                $mark1 = igk_getv(igk_getv($tab["mark1"], $count), 0);
+                $mark2 = igk_getv(igk_getv($tab["mark2"], $count), 0);
+                $type =  igk_getv(igk_getv($tab["type"], $count), 0);
+               
+
                 if ($g = igk_getv($expressions, $c, ".*")) {
                     if ($g == ".*"){
-                        $g = "[^/]+";
+                        if (!$all_optional && $type){
+                            $g = self::GetTypePattern($type);
+                        } else {
+                            $g = "[^/]+";
+                        }
                     }                   
-                    $rp = "(?P<".$i.">" . $g . ")";
+                    $rp = "(?P<".$c.">" . $g . ")";
                     if ($opt) { 
                         $optional = true;
                         $rp.="?";
@@ -268,18 +304,26 @@ class RouteHandler
                             {
                                 $rp .="?";
                             }
-                    }
-                    $croute = str_replace($s, $rp, $croute);
+                    }                  
+                   // $croute = str_replace($s, $rp, $croute);
+                }
+                if (($count==0) && ($roffset==0)){
+                    $cout .= '/'.$defaultEntryMethod;
                 }
                 $count++;
-            }
+                $cout .= substr($cbroute, $uoffset, $roffset-$uoffset).$rp;
+                $uoffset = $roffset + strlen($s);
+            } 
+            
         }
+        $cout .= substr($cbroute, $uoffset);
+        $croute = $cout;
         if (!$strict_dir){
             if (strrpos($croute, "(/)",-3) !== false){
                 $croute .= "?";
             }
         }
-        return "#^" . $croute . "$#";
+        return sprintf($format, $croute );
     }
     /**
      * retrive resolved uri
@@ -310,6 +354,7 @@ class RouteHandler
                 $count++;
             }
         }
+      
         if ($baseUri != null){
             $croute = $baseUri . $croute;
         }
