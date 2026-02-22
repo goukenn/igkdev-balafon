@@ -4,9 +4,10 @@
 // @date: 20221116 12:24:15
 namespace IGK\Database;
 use ArrayAccess;
-use IDbGetTableReferenceHandler;
+
 use IGK\Controllers\ApplicationModuleController;
 use IGK\Controllers\BaseController;
+use IGK\IDbGetTableReferenceHandler;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 /**
 * 

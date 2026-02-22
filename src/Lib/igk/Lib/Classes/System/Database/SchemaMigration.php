@@ -4,8 +4,8 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Database;
+
 use Exception;
-use IDbGetTableReferenceHandler;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Database\DbColumnInfo;
@@ -22,6 +22,7 @@ use IGK\Helper\Activator;
 use IGK\Helper\Database;
 use IGK\Helper\IO;
 use IGK\Helper\JSon;
+use IGK\IDbGetTableReferenceHandler;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
 use IGK\System\Database\Helper\DbUtility;
