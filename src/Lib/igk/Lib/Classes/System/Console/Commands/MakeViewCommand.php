@@ -123,6 +123,12 @@ class MakeViewCommand extends AppExecCommand
         }
         Logger::info('CLI command: ');
         Logger::info('balafon --request:view  ' . $ctrl->getName() . ' ' . $viewname);
+        if ($action){
+            $v_cmd = new MakeActionCommand;
+            $tf = igk_io_remove_ext($viewname);
+            $v_t = $command->app::CreateCommand($command->app);
+            $v_cmd->exec($v_t, $controller, $tf);
+        }
         Logger::success("done\n");
     }
     public function help()

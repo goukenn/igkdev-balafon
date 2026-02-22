@@ -1,5 +1,5 @@
 <?php
-// @file: IIGKBalafonApplicationMiddlewareService.php
+// @file: IBalafonApplicationMiddlewareService.php
 // @author: C.A.D. BONDJE DOUE
 // @copyright: igkdev © 2019
 // @license: Microsoft MIT License. For more information read license.txt
@@ -9,7 +9,7 @@
 namespace IGK\System\Services;
 use ArrayAccess;
 /**
-* Represent IIGKBalafonApplicationMiddlewareService interface
+* Represent IBalafonApplicationMiddlewareService interface
 */
 interface IBalafonApplicationMiddlewareService extends ArrayAccess{
     /**

@@ -7,7 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-final class IGKCtrlZone extends IGKObject implements IIGKCtrlDirManagement{
+
+use IGK\ICtrlDirManagement;
+
+final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     private $m_filename;
     public function __construct($fname){
         $this->m_filename=$fname;

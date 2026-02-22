@@ -7,7 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-class IGKParamStorage extends IGKObject implements IIGKParamHostService{
+class IGKParamStorage extends IGKObject implements IParamHostService{
     private $m_params;
     public function __construct(){
         $this->m_params=array();

@@ -1,13 +1,15 @@
 <?php
 
 // installer.helper.pinc
+// use IGK\Traits\BacktickHelperCommandTrait;
+
 /**
  * installer helper 
  * @package 
  */
 class InstallerHelper
 {
-    use IGKBacktickHelperCommandTrait;
+    use BacktickHelperCommandTrait;
 
     /**
      * 
@@ -38,7 +40,7 @@ class InstallerHelper
     }
    
     /**
-     * retrieve php binarary location 
+     * retrieve php binary location 
      * @return string 
      */
     public static function GetPhpBinary(){

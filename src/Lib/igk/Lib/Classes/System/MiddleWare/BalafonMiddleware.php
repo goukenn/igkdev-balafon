@@ -72,10 +72,10 @@ abstract class BalafonMiddleware{
     public function getService(){
         return self::GetManager();
     }
-    ///<param name="service">IIGKBalafonApplicationMiddlewareService instance</summary>
+    ///<param name="service">IBalafonApplicationMiddlewareService instance</summary>
     /**
     * initialize the middleware
-    * @param mixed $serviceIIGKBalafonApplicationMiddlewareService instance
+    * @param mixed $serviceIBalafonApplicationMiddlewareService instance
     */
     protected function initialize($service){}
     /**

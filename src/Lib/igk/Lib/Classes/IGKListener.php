@@ -7,7 +7,7 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-class IGKListener implements IIGKListener{
+class IGKListener implements IListener{
     private $listener;
     public function __call($n, $args){
         $f=igk_getv($this->listener, $n);

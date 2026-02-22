@@ -9,7 +9,8 @@ namespace IGK\Ext;
 
 /**
  * to serve video stream
- * represent videos stream
+ * @package IGK\Ext
+ * @author C.A.D. BONDJE DOUE
  * */
 class VideoStream
 {

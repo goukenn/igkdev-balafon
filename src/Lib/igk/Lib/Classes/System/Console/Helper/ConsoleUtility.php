@@ -11,10 +11,10 @@ use IGK\System\Console\AppCommand;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\Console\ICLICommandApp;
 use IGK\System\Console\Logger;
-use IGKBacktickHelperCommandTrait;
+use IGK\Traits\BacktickHelperCommandTrait;
 use stdClass;
 
-require_once IGK_LIB_CLASSES_DIR . '/IGKBacktickHelperCommandTrait.php';
+require_once IGK_LIB_CLASSES_DIR . '/Traits/BacktickHelperCommandTrait.php';
 /**
  * 
  * @package IGK\System\Console\Helper
@@ -54,7 +54,7 @@ abstract class ConsoleUtility
     
 
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
-    use IGKBacktickHelperCommandTrait;
+    use BacktickHelperCommandTrait;
 
     /**
      * bind and make file 

@@ -66,6 +66,8 @@ use IGK\System\Drawing\SysColor as sysCL;
 use function igk_resources_gets as __;
 use IGK\Helper\StringUtility;
 use IGK\Helper\ViewHelper;
+use IGK\IControllerInitListener;
+use IGK\IUriActionRegistrableController;
 use IGK\Models\ReferenceModels;
 use IGK\Server;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
@@ -6216,7 +6218,7 @@ function igk_db_util_init_row_script($table, $name = "c")
  */
 function igk_db_view_result_node($result, $uri, $selected, $max = -1, $target = null)
 {
-    if (!$result || !igk_reflection_class_implement($result, 'IIGKQueryResult')) {
+    if (!$result || !igk_reflection_class_implement($result, 'IQueryResult')) {
         return null;
     }
     $n = igk_create_notagnode();
@@ -7933,7 +7935,7 @@ function igk_get_all_uri_page_ctrl()
 {
     $t = array(
         "@base" => igk_app()->getControllerManager()->getUserControllers(function ($v) {
-            return $v instanceof IIGKUriActionRegistrableController;
+            return $v instanceof \IGK\IUriActionRegistrableController;
         }),
         "@templates" => function_exists('igk_template_get_ctrls') ? call_user_func_array("igk_template_get_ctrls", []) : []
     );
@@ -13779,9 +13781,9 @@ function igk_init_context_array_diff($args)
 ///<summary>init controller with a source creation listener</summary>
 /**
  * init controller with a source creation listener
- * @var IIGKControllerInitListener $listener 
+ * @var IControllerInitListener $listener 
  */
-function igk_init_controller(IIGKControllerInitListener $listener)
+function igk_init_controller(IControllerInitListener $listener)
 {
     $grantaccess = "allow from all";
     $denyaccess = 'deny from all';

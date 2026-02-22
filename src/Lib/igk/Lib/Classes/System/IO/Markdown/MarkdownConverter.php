@@ -545,11 +545,12 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
     {
         $this->m_container->treat($markdown, [$this, self::TREAT_METHOD]);
         $fc_handle_single = null;
+        $fc_posttreat_output = null;
         // + | last entry segment
         $gs = [];
         if ($sb = $this->m_buffer) {
             // fix multi space at end of the document 
-            $sb = preg_replace("/\\s+$/m", "\n", $sb);
+            $sb = preg_replace("/(\\n\\s*)+$/m", "\n", $sb);
             $gs[] = $sb;
             // clear remaining buffer 
             $this->m_buffer = '';
@@ -561,6 +562,14 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
             $fc_handle_single = function(& $output)use($l){
                 $l->didHandleOutput($this->m_is_single_definition, $output);
             };
+
+            $fc_posttreat_output = (function(& $output){
+                /**
+                 * @var mixed $g
+                 */
+                $g = $this;
+                $output = $g->postTreatOutput($output);
+            })->bindTo($l);
         }
         if ($this->m_state) {
             // depending on document state  
@@ -586,6 +595,9 @@ class MarkdownConverter implements IRegexMatchPatternStateListener, IRegexMatchP
                 $str = $this->default($str);
             }
             $this->_appendToOutput($str);
+        }
+        if ($fc_posttreat_output){
+            $fc_posttreat_output($this->m_output);
         }
         return ltrim($this->m_output);
     }

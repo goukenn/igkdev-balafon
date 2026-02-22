@@ -12,9 +12,9 @@ use IGK\System\Html\Dom\HtmlNotificationItemNode;
 use IGK\System\Html\Dom\HtmlSingleNodeViewerNode;
 use IGKException;
 use IGKNotifyStorage;
-use IIGKNotifyMessage;
+use IGK\INotifyMessage;
 use function igk_resources_gets as __;
-final class NotificationController extends BaseController implements IIGKNotifyMessage {
+final class NotificationController extends BaseController implements INotifyMessage {
     private static $NotifyType=["success"=>"addSuccess", "danger"=>'addError'];
     private $m_marks;
 

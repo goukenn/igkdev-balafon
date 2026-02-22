@@ -8,8 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
-use IIGKFormBuilderEngine;
-class FormBuilderEngine implements IIGKFormBuilderEngine{
+use IGK\IFormBuilderEngine;
+class FormBuilderEngine implements IFormBuilderEngine{
     protected $frm;
     var $group;
     public function __call($n, $arguments){

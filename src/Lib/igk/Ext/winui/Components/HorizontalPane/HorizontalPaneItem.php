@@ -3,6 +3,7 @@
 // @filename: class.winui.horizontalpane.php
 // @date: 20220803 13:48:58
 // @desc: 
+namespace IGK\Ext\WinUI\Components\HorizontalPane;
 
 use IGK\Constants;
 use IGK\Controllers\BaseController;
@@ -13,13 +14,11 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\Exceptions\CssParserException;
 use IGK\System\Html\Css\CssUtils;
-use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlRegistrableComponentBase;
 use IGK\System\Html\HtmlNodeType;
 use IGK\System\Html\HtmlReader;
-
-
+use IGKViewMode;
 
 require_once __DIR__. "/func.helper.pinc";
 require_once __DIR__. "/HorizontalPaneInfoBox.php";
@@ -27,7 +26,7 @@ require_once __DIR__. "/HorizontalPaneManager.pinc";
 require_once __DIR__. "/HorizontalAnimType.pinc"; 
 require_once __DIR__. "/JSHorizontalPane.pinc"; 
 require_once __DIR__. "/HorizontalPage.pinc"; 
-require_once __DIR__. "/IIGKHorizontalPaneListener.php"; 
+require_once __DIR__. "/IHorizontalPaneListener.php"; 
  
 
 final class HorizontalPaneItem extends HtmlRegistrableComponentBase
@@ -249,7 +248,7 @@ EOF;
 	} 
 	public function setPageViewListener($listener)
 	{
-		if (($listener == null) || !igk_reflection_class_implement($listener, IIGKHorizontalPaneListener::class))
+		if (($listener == null) || !igk_reflection_class_implement($listener, IHorizontalPaneListener::class))
 			igk_die("listener is not a valid value ");
 		$this->m_pagelistener = $listener;
 	}

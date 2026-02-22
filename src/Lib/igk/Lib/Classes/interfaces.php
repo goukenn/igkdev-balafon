@@ -3,27 +3,48 @@
 // @filename: interfaces.php
 // @date: 20220803 13:48:54
 // @desc: 
-use IGK\Database\IIGKDatabaseCreator;
+namespace IGK;
+
+use IGK\Database\IDatabaseCreator;
 use IGK\System\Configuration\Controllers\IConfigController;
+
+
+ /**
+  * 
+  * @package 
+  * @property array $objs object list
+  * @property array $ids id list
+  * @property array $uris uri list 
+  * @property array $srcs src list
+  */
+ interface IComponentInfo{
+ }
+
+ interface IDbGetTableReferenceHandler{
+    public function getDataTablesReference(& $table);
+    public function resolvTableDefinition(string $table);
+}
+
+
 /**
 * represent IIAction Result interface
 */
-interface IIGKActionResult{
+interface IActionResult{
     /**
     * 
     */
     function index();
 } 
 /**
-* Represent IIGKController interface
+* RepresentIController interface
 */
-interface IIGKController{
+interface IController{
     /**
     * 
     */
     function getName();
 }
-interface IIGKNodeController extends IIGKController{
+interface INodeController extends IController{
     /**
     * 
     */
@@ -33,13 +54,13 @@ interface IIGKNodeController extends IIGKController{
     */
     function getTargetNodeId();
 }
-interface IIGKViewController{    
+interface IViewController{    
     function View();
 }
 /**
-* Represent IIGKControllerInitListener interface
+* RepresentIControllerInitListener interface
 */
-interface IIGKControllerInitListener{
+interface IControllerInitListener{
     /**
     * 
     * @param mixed $name
@@ -53,9 +74,9 @@ interface IIGKControllerInitListener{
     function addSource($name, $source, $override=true);
 }
 /**
-* Represent IIGKCssCtrlHost interface
+* RepresentICssCtrlHost interface
 */
-interface IIGKCssCtrlHost{
+interface ICssCtrlHost{
     /**
     * 
     */
@@ -67,9 +88,9 @@ interface IIGKCssCtrlHost{
     function getIsCssActive($doc=null);
 }
 /**
-* Represent IIGKCtrlDirManagement interface
+* RepresentICtrlDirManagement interface
 */
-interface IIGKCtrlDirManagement{
+interface ICtrlDirManagement{
     /**
     * 
     */
@@ -96,9 +117,9 @@ interface IIGKCtrlDirManagement{
     function getViewDir();
 }
 /**
-* Represent IIGKDataAdapter interface
+* base data adapter operation
 */
-interface IIGKDataAdapter{
+interface IDataAdapter{
     /**
     * 
     */
@@ -109,13 +130,13 @@ interface IIGKDataAdapter{
     function setForeignKeyCheck($check);
 }
 /**
-* Represent IIGKDataTable interface
+* RepresentIDataTable interface
 */
-interface IIGKDataTable{}
+interface IDataTable{}
 /**
-* Represent IIGKDbUtility interface
+* RepresentIDbUtility interface
 */
-interface IIGKDbUtility{
+interface IDbUtility{
     /**
     * 
     * @param string $table table name
@@ -124,14 +145,14 @@ interface IIGKDbUtility{
     */
     function insertIfNotExists(string $table, $obj, $leaveopen=false);
 }
-interface IIGKDbModel{
+interface IDbModel{
 	function getTable();
 }
 ///<note>all id are mixed of string or array properties</summary>
 /**
 * engine form builder interface
 */
-interface IIGKFormBuilderEngine{
+interface IFormBuilderEngine{
     /**
     * 
     * @param mixed $id
@@ -215,9 +236,9 @@ interface IIGKFormBuilderEngine{
     function setView($host);
 }
 /**
-* Represent IIGKFrameController interface
+* RepresentIFrameController interface
 */
-interface IIGKFrameController{
+interface IFrameController{
     /**
     * 
     * @param mixed $id
@@ -227,9 +248,9 @@ interface IIGKFrameController{
     function ContainFrame($id, $frame, $remove=true);
 }
 /**
-* Represent IIGKHtmlComponent interface
+* Represent a web component interface
 */
-interface IIGKHtmlComponent{
+interface IHtmlComponent{
     /**
     * 
     */
@@ -253,7 +274,7 @@ interface IIGKHtmlComponent{
 /**
 * use to indicate that an element can store a cookie to client size
 */
-interface IIGKHtmlCookieItem{
+interface IHtmlCookieItem{
     /**
     * 
     */
@@ -265,9 +286,9 @@ interface IIGKHtmlCookieItem{
     function setCookieId($v);
 }
 /**
-* Represent IIGKHtmlLoadContent interface
+* RepresentIHtmlLoadContent interface
 */
-interface IIGKHtmlLoadContent {
+interface IHtmlLoadContent {
     /**
     * 
     * @param mixed $data
@@ -287,9 +308,9 @@ interface IIGKHtmlLoadContent {
     function LoadView($ctr, $article);
 }
 /**
-* Represent IIGKHtmlUriItem interface
+* RepresentIHtmlUriItem interface
 */
-interface IIGKHtmlUriItem{
+interface IHtmlUriItem{
     /**
     * 
     */
@@ -300,13 +321,13 @@ interface IIGKHtmlUriItem{
     */
     function setUri($v);
 }
-interface IIGKListener{
+interface IListener{
     function register($name, $callback);
 }
 /**
-* Represent IIGKMailAttachmentContainer interface
+* RepresentIMailAttachmentContainer interface
 */
-interface IIGKMailAttachmentContainer{
+interface IMailAttachmentContainer{
     /**
     * 
     * @param mixed $content
@@ -325,7 +346,7 @@ interface IIGKMailAttachmentContainer{
 /**
 * notification message
 */
-interface IIGKNotifyMessage {
+interface INotifyMessage {
     /**
     * 
     * @param mixed $message
@@ -378,9 +399,9 @@ interface IIGKNotifyMessage {
     function addWarningr($keymessage);
 }
 /**
-* Represent IIGKParamHostService interface
+* RepresentIParamHostService interface
 */
-interface IIGKParamHostService{
+interface IParamHostService{
     /**
     * 
     * @param mixed $name
@@ -403,9 +424,9 @@ interface IIGKParamHostService{
     function setParam($name, $value);
 }
 /**
-* Represent IIGKParentDocumentHost interface
+* RepresentIParentDocumentHost interface
 */
-interface IIGKParentDocumentHost{
+interface IParentDocumentHost{
     /**
     * 
     * @param mixed $document
@@ -419,7 +440,7 @@ interface IIGKParentDocumentHost{
 /**
 *  represent query result interface
 */
-interface IIGKQueryResult{
+interface IQueryResult{
     /**
     * 
     * @param mixed $index
@@ -437,18 +458,18 @@ interface IIGKQueryResult{
     function getColumns();
 }
 /**
-* Represent IIGKSystemUser interface
+* RepresentISystemUser interface
 */
-interface IIGKSystemUser {
+interface ISystemUser {
     /**
     * 
     */
     function getLogin();
 }
 /**
-* Represent IIGKUriActionListener interface
+* RepresentIUriActionListener interface
 */
-interface IIGKUriActionListener{
+interface IUriActionListener{
     /**
     * 
     * @param mixed $e
@@ -462,9 +483,9 @@ interface IIGKUriActionListener{
     function matche($uri);
 }
 /**
-* Represent IIGKUriActionRegistrableController interface
+* RepresentIUriActionRegistrableController interface
 */
-interface IIGKUriActionRegistrableController{
+interface IUriActionRegistrableController{
     /**
     * 
     */
@@ -479,9 +500,9 @@ interface IIGKUriActionRegistrableController{
     function getRegUriAction();
 }
 /**
-* Represent IIGKUserController interface
+* RepresentIUserController interface
 */
-interface IIGKUserController{
+interface IUserController{
     /**
     * 
     */
@@ -492,18 +513,18 @@ interface IIGKUserController{
     function signup();
 }
 /**
-* Represent IIGKWebAdministrativeCtrl interface
+* RepresentIWebAdministrativeCtrl interface
 */
-interface IIGKWebAdministrativeCtrl {
+interface IWebAdministrativeCtrl {
     /**
     * 
     */
     function getConfigNode();
 }
 /**
-* Represent IIGKWebPageChildCtrontroller interface
+* RepresentIWebPageChildCtrontroller interface
 */
-interface IIGKWebPageChildCtrontroller{
+interface IWebPageChildCtrontroller{
     /**
     * 
     */
@@ -512,7 +533,7 @@ interface IIGKWebPageChildCtrontroller{
 /**
 * db manager interface
 */
-interface IIGKdbManager {
+interface IDbManager {
     /**
     * 
     * @param mixed $leaveopen the default value is false
@@ -531,7 +552,7 @@ interface IIGKdbManager {
 /**
 * represent a module listener interface
 */
-// interface IIGKAppModuleListener extends IConfigController{
+// interface IAppModuleListener extends IConfigController{
 //     const DATA=1;
 //     const DATA2=self::DATA + 5;
 //     const DATA3=self::DATA2;
@@ -550,9 +571,9 @@ interface IIGKdbManager {
 //     function getTable($n);
 // }
 /**
-* Represent IIGKDataController interface
+* RepresentIDataController interface
 */
-interface IIGKDataController extends IIGKController {
+interface IDataController extends IController {
     /**
     * 
     */
@@ -567,9 +588,9 @@ interface IIGKDataController extends IIGKController {
     function getDataTableName();
 }
 /**
-* Represent IIGKWebController interface
+* RepresentIWebController interface
 */
-interface IIGKWebController extends IIGKController {
+interface IWebController extends IController {
     /**
     * 
     */
@@ -585,7 +606,7 @@ interface IIGKWebController extends IIGKController {
     */
     function unregChildController($ctrl);
 }
-interface IIGKGetValue{
+interface IGetValue{
     /**
      * return a value
      * @return mixed 
@@ -593,9 +614,9 @@ interface IIGKGetValue{
     function getValue();
 }
 /**
-* Represent IIGKQueryConditionalExpression interface
+* RepresentIQueryConditionalExpression interface
 */
-interface IIGKQueryConditionalExpression extends IIGKGetValue {
+interface IQueryConditionalExpression extends IGetValue {
     /**
     * 
     * @param mixed $expression
@@ -613,9 +634,9 @@ interface IIGKQueryConditionalExpression extends IIGKGetValue {
     function remove($expression);
 }
 /**
-* Represent IIGKWebPageController interface
+* RepresentIWebPageController interface
 */
-interface IIGKWebPageController{
+interface IWebPageController{
     /**
     * 
     * @param mixed $file

@@ -8,5 +8,9 @@ namespace IGK\System;
 * @package IGK\System\Array
 */
 interface IToArray{
+    /**
+     * convert to array 
+     * @return null|array 
+     */
     public function to_array(): ?array;
 }

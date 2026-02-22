@@ -92,7 +92,7 @@ abstract class UsersMacros
      * set user password
      * @param Users $user 
      * @param string $newPassword 
-     * @return null|IGK\Models\IIGKQueryResult 
+     * @return null|IGK\Models\IQueryResult 
      */
     public static function changePassword(Users $user, string $newPassword)
     {

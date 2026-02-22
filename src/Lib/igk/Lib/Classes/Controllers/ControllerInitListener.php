@@ -9,11 +9,11 @@
 // @url: https://www.igkdev.com
 namespace IGK\Controllers;
 use IGK\Helper\IO;
-use IIGKControllerInitListener;
+use IGK\IControllerInitListener;
 /**
  * represent a listener object used to initialize ontroller environment
  */
-class ControllerInitListener implements IIGKControllerInitListener{
+class ControllerInitListener implements IControllerInitListener{
     private $m_folder, $m_type;
     public function __construct($folder, $type=null){
         $this->m_folder=$folder;

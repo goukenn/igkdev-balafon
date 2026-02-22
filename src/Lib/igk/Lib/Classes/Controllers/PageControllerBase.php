@@ -15,14 +15,14 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\EntryClassResolution;
 use IGK\System\SystemUserProfile;
 use IGKSession;
-use IIGKUriActionRegistrableController;
+use IGK\IUriActionRegistrableController;
 use ReflectionClass;
 /**
  * 
  * @package IGK\Controllers
  */
 abstract class PageControllerBase extends ControllerTypeBase 
-    implements IIGKUriActionRegistrableController, ILibaryController
+    implements IUriActionRegistrableController, ILibaryController
 {
     const PAGE_CONSTANT= IGK_USER_SETTING + 0xB;
     const PAGE_USER=self::PAGE_CONSTANT + 1;

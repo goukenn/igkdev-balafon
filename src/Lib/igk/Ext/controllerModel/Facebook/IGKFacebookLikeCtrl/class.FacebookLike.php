@@ -7,6 +7,7 @@
 ///</summary>controller used to a a like on page � the target points</summary>
 
 use IGK\Controllers\BaseController;
+use IGK\IHtmlUriItem;
 use IGK\System\Html\Dom\HtmlNode;
 
 /** @package  */
@@ -40,7 +41,7 @@ return $this;
 }
 
 final class IGKHtmlFacebookLikeItem extends HtmlNode
-implements IIGKHtmlUriItem
+implements IHtmlUriItem
 {
 	private $m_uri;
 

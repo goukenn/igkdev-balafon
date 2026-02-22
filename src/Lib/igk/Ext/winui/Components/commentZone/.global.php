@@ -9,6 +9,7 @@
 
 use IGK\Resources\R;
 use IGK\System\IO\Path;
+use IGK\Constants;
 
 igk_ctrl_zone_init(__FILE__);
 
@@ -93,7 +94,7 @@ function igk_comment_init($a,$b,$c){
 	if (igk_is_ajx_demand()){
 		igk_close_session();
 	}
-	$path = Path::Combine($CF->getStylesDir(), ConstantsULT_THEME_STYLE);
+	$path = Path::Combine($CF->getStylesDir(), Constants::DEFAULT_THEME_STYLE);
 	igk_css_bind_wuistyle_file($c->Document, $path);
 	igk_js_bind_wuiscript($c->Document, $CF, ".commentZone.js", $a);
 	return 1;
@@ -105,11 +106,6 @@ function igk_comment_zone_callback($n, $callback, $params=null){
 	return call_user_func_array($callback, $params);
 }
 
+ 
 
 
-
-interface IIGKCommentZoneListener {
-	function comment_add_ajx($i);
-	function comment_drop_ajx($i);
-	function comment_viewmore_ajx($id);
-} 

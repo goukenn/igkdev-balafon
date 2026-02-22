@@ -314,7 +314,7 @@ abstract class HtmlUtils extends DomNodeBase
     private static $gRendering;
     /**
      * 
-     * @param array|\IIGKArrayObject $n  item to convert
+     * @param array|\IArrayObject $n  item to convert
      * @return array 
      */
     public static function ToArray($n)

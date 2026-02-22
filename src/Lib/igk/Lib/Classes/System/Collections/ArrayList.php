@@ -5,13 +5,13 @@
 // @desc: 
 namespace IGK\System\Collections;
 use ArrayAccess;
-use Countable;
+use Countable; 
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGK\System\Polyfill\IteratorTrait;
 use IGKIterator;
-use IIGKArrayObject;
+use IGK\IArrayObject;
 use Iterator;
-class ArrayList implements ArrayAccess, Countable, IIGKArrayObject, Iterator{
+class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     use ArrayAccessSelfTrait; 
     use IteratorTrait;
     /**

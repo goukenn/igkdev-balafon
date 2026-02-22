@@ -333,7 +333,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
         return $this;
     }
     /**
-     * @return array|\IIGKArrayObject return list of children
+     * @return array|\IArrayObject return list of children
      */
     public function getChilds()
     {

@@ -13,6 +13,8 @@ namespace IGK\System\IO\Markdown;
 interface IMarkdownFilterHost{
     function initMenuList($i);
     function getListTable();
+    function getListTableNewIds():?int;
+    function popupBulletList(string $root);
     /**
      * 
      * @param string $text 

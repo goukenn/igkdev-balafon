@@ -32,20 +32,17 @@ use IGK\System\Http\PageNotFoundException;
 use IGK\System\Http\Request;
 use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
-use IGK\System\Modules\ModuleManager;
 use IGK\System\Uri;
 use IGK\System\ViewDataArgs;
 use IGK\System\ViewEnvironmentArgs;
 use IGK\System\WinUI\IViewLayoutLoader;
 use IGK\Constants;
+use IGK\IDataController; 
 use IGK\System\EntryClassResolution;
 use IGK\System\IInjectedArgHost;
 use IGKEnvironment;
 use IGKEvents;
 use IGKException;
-use IGKFv;
-use IIGKDataController;
-use ReflectionClass;
 use ReflectionException;
 use function igk_resources_gets as __;
 
@@ -78,7 +75,7 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  * @method static BaseController ctrl(bool $register_autoload=false) macros function get controller instance
  * @method static void db_add_column() macros function
  * @method static void db_change_column() macros function
- * @method static \IIGKQueryResult db_query(string $query) macros function
+ * @method static \IQueryResult db_query(string $query) macros function
  * @method static void db_rename_column() macros function
  * @method static void db_rm_column() macros function
  * @method static void dispatchToModelUtility() macros function
@@ -146,7 +143,7 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  * @method static mixed getActionHandler(string $name, ActionResolutionInfo $action_resolution, ?array $params =null) macros function load temp inline pcss
  * @method static array getCachedDataTableDefinition() macros function get cached datable table definitions 
  */
-abstract class BaseController extends RootControllerBase implements IIGKDataController, IInjectedArgHost
+abstract class BaseController extends RootControllerBase implements IDataController, IInjectedArgHost
 {
     const CHILDS_FLAG = 5;
     const CURRENT_VIEW = IGK_CURRENT_CTRL_VIEW;
@@ -376,7 +373,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
     }
     protected function _config_entries($fname)
     {
-        $conf = $this->configFile('views');
+        $conf = $this->configFile(ConfigFiles::views);
         $redirect_request = null;
         if (igk_io_file_exists($conf, true)) {
             $inc = function () {
@@ -441,7 +438,7 @@ abstract class BaseController extends RootControllerBase implements IIGKDataCont
             // + | binding environment 
             $this->_config_entries($fname);
             try {
-                $middle = $this->configFile('middlewares');
+                $middle = $this->configFile(ConfigFiles::middlewares);
                 if ($middle && igk_io_cache_file_exists($middle)) {
                     $cm = include($middle);
                     if ($fc = igk_getv($cm, '/' . $fname)) {

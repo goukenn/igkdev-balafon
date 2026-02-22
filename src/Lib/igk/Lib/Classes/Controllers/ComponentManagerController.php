@@ -4,6 +4,10 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Controllers;
+
+use __PHP_Incomplete_Class;
+use stdClass;
+
 // // /**
 // * component manager controller
 // */
@@ -193,17 +197,7 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     * @param mixed $componentInterface the default value is true
     */
     public function Register($obj, $componentInterface=true){
-		return;
-		///TODO : register component
-        // if(($obj == null) || $this->Exists($obj) || ($componentInterface && !igk_reflection_class_implement($obj, "IIGKHtmlComponent")))
-        //     return false;
-        // $setting=$this->getSettings();
-        // $setting->objs[]=$obj;
-        // $s=igk_new_id();
-        // $setting->ids[$s]=$obj;
-        // $setting->srcs[$s]=igk_reflection_getdeclared_filename($obj);
-        // $obj->setParam(IGK_COMPONENT_ID_PARAM, $s);
-        // return true;
+		return; 
     }
     /**
     * 

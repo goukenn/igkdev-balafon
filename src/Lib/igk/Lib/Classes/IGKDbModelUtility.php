@@ -3,11 +3,14 @@
 // @filename: IGKDbUtility.php
 // @date: 20220803 13:48:54
 // @desc: base model utility class declaration 
+
+use IGK\IDbUtility;
+
 use function igk_resources_gets as __;
 /**
 * class used to manage database for a controller
 */
-class IGKDbModelUtility extends IGKObject implements IIGKDbUtility {
+class IGKDbModelUtility extends IGKObject implements IDbUtility {
     ///note : it used clId as id by default if you don't want to used clId by default for row identification
     private $m_Ctrl;
     private $m_ad;

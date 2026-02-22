@@ -71,7 +71,7 @@ abstract class ActionHelper
      * @param string $password password
      * @param string $repassword confirm password
      * @param mixed $not notification handler
-     * @return IGK\Models\IIGKQueryResult|false 
+     * @return IGK\Models\IQueryResult|false 
      */
     public static function ChangePassword(Users $u, string $password, string $repassword, $not = null)
     {

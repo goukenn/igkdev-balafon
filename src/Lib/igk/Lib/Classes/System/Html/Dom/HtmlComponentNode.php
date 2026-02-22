@@ -5,11 +5,11 @@
 // @desc: 
 namespace IGK\System\Html\Dom;
 use IGK\Controllers\ComponentManagerController;
-use IIGKHtmlComponent;
+use IGK\IHtmlComponent;
 /**
 * represent the base component node item
 */
-abstract class HtmlComponentNode extends HtmlNode implements IIGKHtmlComponent {
+abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
     const IGK_COMPONENT_CTRL_FLAG=0xc001;
     /**
     * 

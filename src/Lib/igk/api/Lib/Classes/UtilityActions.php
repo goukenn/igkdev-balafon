@@ -11,7 +11,10 @@
 /**
 * Represent IGKApi namespace
 */
-namespace IGKApi;
+namespace IGK\api;
+
+use IGK\Helper\IO;
+
 // DIRECT RENDERINGuse IGK\Helper\IO as IGKIO;
 /**
 * Represent UtilityActions class
@@ -37,7 +40,7 @@ class UtilityActions{
             $f=igk_dir(igk_io_basedir());
             $d=igk_io_basedir()."/__temp_dir";
             rename($f."/".$n, $d);
-            \IO::RmDir($d); 
+            IO::RmDir($d); 
         }
     }
 }

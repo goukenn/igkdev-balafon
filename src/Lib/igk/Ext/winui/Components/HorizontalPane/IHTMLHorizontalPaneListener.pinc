@@ -1,7 +1,8 @@
 <?php
+namespace IGK\Ext\WinUI\Components\HorizontalPane;
 
 //horizontal pane item
-interface IIGKHTMLHorizontalPaneListener
+interface IHTMLHorizontalPaneListener
 {
 	function getAddHorizontalPageUri();
 	function buildPages($horizontalPane);

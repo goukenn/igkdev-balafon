@@ -564,7 +564,7 @@ function igk_create_instance($class_name, &$obj, $callback)
  * @param string $fname
  */
 function igk_io_basenamewithoutext(string $file)
-{
+{    
     return igk_io_remove_ext(basename($file));
 }
 /**
@@ -584,7 +584,7 @@ function igk_io_path_ext(string $fname)
 function igk_io_remove_ext($name)
 {
     if (empty($name))
-        return null;
+        return '';
     $t = explode(".", $name);
     if (count($t) > 1) {
         $s = substr($name, 0, strlen($name) - strlen($t[count($t) - 1]) - 1);

@@ -5,7 +5,7 @@
 // @desc: 
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlUtils;
-use IGKValueListener;
+use IGK\ValueListener;
 use IGKViewMode;
 /**
 * Represent IGKHtmlArticleConfigNode class
@@ -40,7 +40,7 @@ final class HtmlArticleConfigNode extends HtmlNode{
             HtmlUtils::AddImgLnk($this, igk_js_post_frame($config->getUri("ca_add_article_frame_ajx&ctrlid=".$n."&m=1&fc=1&fn=".base64_encode($f)), $ctrl), "add_16x16");
             if(igk_io_file_exists($f)){
                 $this->m_dropfileUri=$config->getUri("ca_drop_article_ajx&navigate=1&ctrlid=".$n."&n=".base64_encode($f));
-                HtmlUtils::AddImgLnk($this, igk_js_post_frame(new IGKValueListener($this, "dropFileUri"), $ctrl), "drop_16x16")->setAlt("droparticle");
+                HtmlUtils::AddImgLnk($this, igk_js_post_frame(new ValueListener($this, "dropFileUri"), $ctrl), "drop_16x16")->setAlt("droparticle");
             }
         }
         else{

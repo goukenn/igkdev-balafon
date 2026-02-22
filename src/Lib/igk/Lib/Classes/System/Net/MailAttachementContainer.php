@@ -9,8 +9,8 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Net;
 use IGKObject;
-use IIGKMailAttachmentContainer;
-final class MailAttachementContainer extends IGKObject implements IIGKMailAttachmentContainer{
+use IGK\IMailAttachmentContainer;
+final class MailAttachementContainer extends IGKObject implements IMailAttachmentContainer{
     private $m_files, $m_ids;
     public function __construct(){
         $this->m_files=array();

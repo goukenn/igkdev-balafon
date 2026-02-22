@@ -3,7 +3,7 @@
 // @filename: ModuleConfigurationController.php
 // @date: 20220803 13:48:58
 // @desc: 
-namespace igk\Ext\Controllers;
+namespace IGK\Ext\Controllers;
 
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;

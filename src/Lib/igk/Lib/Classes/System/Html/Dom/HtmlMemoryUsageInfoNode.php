@@ -7,7 +7,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\Resources\R;
 use IGK\System\Number;
-use IGKValueListener;
+use IGK\ValueListener;
 use function igk_resources_gets as __;
 /**
 * represent language selection options
@@ -22,9 +22,9 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
     */
     public function __construct(){
         parent::__construct("div");
-        $this->add("div")->Content=new IGKValueListener($this, "MemoryInUsed");
-        $this->add("div")->Content=new IGKValueListener($this, "MemoryPeekInUsed");
-        $this->add("div")->Content=new IGKValueListener($this, "Components"); 
+        $this->add("div")->Content=new ValueListener($this, "MemoryInUsed");
+        $this->add("div")->Content=new ValueListener($this, "MemoryPeekInUsed");
+        $this->add("div")->Content=new ValueListener($this, "Components"); 
     }
     /**
     * 

@@ -12,11 +12,11 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\HtmlRenderer;
 use IGKException;
 use IGKObject;
-use IIGKMailAttachmentContainer;
+use IGK\IMailAttachmentContainer;
 /**
  * Represent a mail
  */
-class Mail extends IGKObject implements IIGKMailAttachmentContainer
+class Mail extends IGKObject implements IMailAttachmentContainer
 {
     const CONTENT_HTML_TEXT = "text/html";
     const CONTENT_IMG_PNG = "image/png";

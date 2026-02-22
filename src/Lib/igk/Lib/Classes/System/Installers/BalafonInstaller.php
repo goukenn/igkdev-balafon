@@ -10,7 +10,7 @@
 namespace IGK\System\Installers;
 use IGK\Controllers\SystemController;
 use IGK\System\Http\AcceptMimeTypes;
-use IIGKActionResult;
+use IGK\IActionResult;
 use Throwable;
 use function igk_resources_gets as __;
 require_once(IGK_LIB_CLASSES_DIR . "/Helper/Activator.php");
@@ -19,7 +19,7 @@ require_once IGK_LIB_CLASSES_DIR . "/HookOptions.php";
 /**
  * use to update core framework
  */
-class BalafonInstaller implements IIGKActionResult , IBalafonInstaller
+class BalafonInstaller implements IActionResult , IBalafonInstaller
 {
     const INSTALLER_KEY = "installer://uploadfile";
     protected $zipcore = true;

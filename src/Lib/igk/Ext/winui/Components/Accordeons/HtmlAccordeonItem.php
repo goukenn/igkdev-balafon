@@ -4,14 +4,15 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
-
+use IGK\IHtmlCookieItem;
 use IGK\System\Html\Dom\HtmlNode;
+use IGK\ValueListener;
 
 require_once __DIR__."/AccordeonCookiePanel.php";
 
 
 final class HtmlAccordeonItem extends HtmlNode
-implements IIGKHtmlCookieItem
+implements IHtmlCookieItem
 {
 	private $m_CookieId;
 	private $m_panCount;
@@ -23,7 +24,7 @@ implements IIGKHtmlCookieItem
 		parent::__construct("div");
 		// igk-panel-group panel-group
 		$this["class"] = "igk-accordeon";
-		$this->setAttribute("igk-js-toggle-cookies", new IGKValueListener($this, "CookieId"));
+		$this->setAttribute("igk-js-toggle-cookies", new ValueListener($this, "CookieId"));
 		$this->m_script = igk_create_node("balafonJS");
 		$this->m_script->Content = "if (igk.winui.accordeon)igk.winui.accordeon.init();";
 	}
@@ -58,7 +59,7 @@ EOF;
 		->setClass("igk-panel-heading")		;
 		$m = $h->div()//A("#")
 		//->setAttribute("igk-js-toggle","{parent:'^.igk-panel', target:'.igk-c', data:'igk-collapse'}")
-		->setAttribute("igk-js-toggle-cookies", new IGKValueListener(new AccordeonCookiePanel($this, $this->m_panCount), "CookieId"));
+		->setAttribute("igk-js-toggle-cookies", new ValueListener(new AccordeonCookiePanel($this, $this->m_panCount), "CookieId"));
 		$m->Content = $title;
 
 		//$active

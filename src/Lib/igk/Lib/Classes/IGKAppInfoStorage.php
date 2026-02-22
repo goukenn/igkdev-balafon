@@ -4,22 +4,13 @@
 // @date: 20220803 13:48:54
 // @desc: 
 use IGK\System\ApplicationSessionStorage;
- /**
-  * 
-  * @package 
-  * @property array $objs object list
-  * @property array $ids id list
-  * @property array $uris uri list 
-  * @property array $srcs src list
-  */
- interface IIGKComponentInfo{
- }
+
 /**
  * application session info storage. help reduce the coast of session file 
  * @package IGK
  * @property array $controllers;
  * @property array $documents
- * @property IIGKComponentInfo $components
+ * @property \IGK\IComponentInfo $components
  * @property array $session user's custom session data storage
  * @property array $ctrlParams controller parameters
  * @property bool $config in config mode

@@ -876,4 +876,14 @@ abstract class StringUtility
     {
         return implode("", array_map("ucfirst", array_map("strtolower", explode("_", $value))));
     }
+    /**
+     * convert path to class name 
+     * @param string $value 
+     * @return string 
+     */
+    public static function PathToClassName(string $value):string{
+        $value = str_replace('-', '_',$value);
+        $action_name = implode('', array_map('ucfirst',  array_filter(explode('_',$value))));
+        return implode("/", array_map('ucfirst', explode('/', $action_name)));
+    }
 }

@@ -1,5 +1,12 @@
 #!/usr/bin/env php
 <?php
+// @author: C.A.D. BONDJE DOUE
+// @filename: cron-tab.php
+// @date: 20260222 16:10:14
+// @desc: cront application 
+
+
+namespace IGK\System\Console\Application;
 
 use IGK\ApplicationFactory;
 use IGK\ApplicationLoader;

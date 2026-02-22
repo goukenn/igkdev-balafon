@@ -200,7 +200,7 @@ class SysUtils{
     }
      /**
      * 
-     * @param array|\IIGKArrayObject $n  item to convert
+     * @param array|\IayObject $n  item to convert
      * @return array 
      */
     public static function ToArray($n){

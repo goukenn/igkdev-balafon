@@ -3,9 +3,15 @@
 // @filename: FixCssCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
+namespace IGK\System\Console\Commands;
+
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
+/**
+ * fix css CLI command 
+ * @package IGK\System\Console\Commands
+ */
 class FixCssCommand extends AppExecCommand{
     var $command = "--fix:css";
     var $category = "Fixing";

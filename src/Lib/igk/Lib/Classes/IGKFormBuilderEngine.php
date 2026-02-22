@@ -7,7 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-class IGKFormBuilderEngine implements IIGKFormBuilderEngine{
+
+use IGK\IFormBuilderEngine;
+
+class IGKFormBuilderEngine implements IFormBuilderEngine{
     protected $frm;
     var $group;
     public function __call($n, $arguments){

@@ -4,7 +4,7 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
-use IGKValueListener;
+use IGK\ValueListener;
 /**
 * Represent IGKHtmlNotifyDialogBoxItem class
 */
@@ -19,8 +19,8 @@ final class HtmlNotifyDialogBoxItem extends HtmlNode {
         $this["class"]="igk-notify-box";
         $nv=$this->div();
         $nv["class"]="content";
-        $nv->div()->setClass("title")->Content=new IGKValueListener($this, 'Title');
-        $nv->div()->setClass("msg")->Content=new IGKValueListener($this, 'Message');
+        $nv->div()->setClass("title")->Content=new ValueListener($this, 'Title');
+        $nv->div()->setClass("msg")->Content=new ValueListener($this, 'Message');
         $nv->script()->Content=<<<EOF
 if(ns_igk)ns_igk.winui.notify.init();
 EOF;

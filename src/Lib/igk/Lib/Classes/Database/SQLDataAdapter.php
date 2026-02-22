@@ -5,6 +5,7 @@
 // @desc: 
 namespace IGK\Database;
 use Exception;
+use IGK\Database\IDatabaseCreator;
 use IGK\System\Database\IDbSendQueryListener;
 use IGK\System\Database\IDbSendQueryListenerSupport;
 use IGK\System\Database\SQLGrammar;
@@ -17,7 +18,7 @@ use function igk_resources_gets as __;
 /**
 * Represent IGKSQLDataAdapter class
 */
-abstract class SQLDataAdapter extends DataAdapterBase implements IIGKDatabaseCreator, IDbSendQueryListenerSupport{
+abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreator, IDbSendQueryListenerSupport{
     const DB_INFORMATION_SCHEMA = "information_schema";
     private $m_listener;
     public function setSendDbQueryListener(?IDbSendQueryListener $listener) {

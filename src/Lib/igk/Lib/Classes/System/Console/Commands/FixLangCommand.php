@@ -3,11 +3,12 @@
 // @filename: FixLangCommand.php
 // @date: 20220803 13:48:57
 // @desc: 
+namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 /**
- * 
+ * Fix lang command 
  * @package 
  */
 class FixLangCommand extends AppExecCommand{

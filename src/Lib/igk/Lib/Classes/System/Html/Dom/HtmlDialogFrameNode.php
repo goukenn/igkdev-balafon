@@ -27,8 +27,8 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
     public function __construct($framectrl, $id=null, $owner=null, $reloadcallback=null){
         parent::__construct("div");
-        if(!igk_reflection_class_implement($framectrl, "IIGKFrameController")){
-            igk_die("required IIGKFrameController");
+        if(!igk_reflection_class_implement($framectrl, "IFrameController")){
+            igk_die("required IFrameController");
         }
         $this->m_framectrl=$framectrl;
         $this->m_closeCallBackEvent=new IGKEvents($this, "closeCallBackEvent");

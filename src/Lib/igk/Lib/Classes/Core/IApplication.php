@@ -1,11 +1,12 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @filename: IIGKApplication.php
+// @filename: IApplication.php
 // @date: 20220803 13:48:54
-// @desc: 
+// @desc: a core application 
+namespace IGK\Core;
 /**
  * an application interface
 */
-interface IIGKApplication {
+interface IApplication {
     function bootstrap();
 }

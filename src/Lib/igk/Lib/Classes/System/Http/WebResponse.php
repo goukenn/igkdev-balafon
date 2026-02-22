@@ -4,16 +4,19 @@
 // @date: 20220425 15:39:28
 // @desc: web response
 namespace IGK\System\Http;
+
 use IGK\System\Html\HtmlRenderer;
 use IGKCaches;
 use IGKEvents;
 use IGKHtmlDoc;
 use IHeaderResponse;
+
 /**
  * represent a web rendering result
  * @package IGK\System\Http
  */
-class WebResponse extends RequestResponse{
+class WebResponse extends RequestResponse
+{
     private $node;
     /**
      * enable cache on rendering
@@ -30,27 +33,29 @@ class WebResponse extends RequestResponse{
      * @param mixed $header 
      * @return void 
      */
-    public function __construct($node_or_message, int $code=200, $header=null){
-        $this->code = $code; 
+    public function __construct($node_or_message, int $code = 200, $header = null)
+    {
+        $this->code = $code;
         $this->node = $node_or_message;
-        if ($header){
+        if ($header) {
             $this->headers = $header;
         }
     }
-    public function render() { 
-        if (is_string($this->node)){
+    public function render()
+    {
+        if (is_string($this->node)) {
             igk_wl($this->node);
             return;
-        } 
-        if (is_object($this->node)){
-            if (method_exists($this->node, "renderAJX")){
+        }
+        if (is_object($this->node)) {
+            if (method_exists($this->node, "renderAJX")) {
                 $options = HtmlRenderer::CreateRenderOptions();
                 $options->Cache = $this->cache;
                 $options->AJX = igk_is_ajx_demand();
-                $this->node->renderAJX($options); 
+                $this->node->renderAJX($options);
                 // raise ajx end reponse in order to add extra data to svg list 
-                if ($options->AJX){ 
-                    igk_hook( IGKEvents::HOOK_AJX_END_RESPONSE, [$this]);
+                if ($options->AJX) {
+                    igk_hook(IGKEvents::HOOK_AJX_END_RESPONSE, [$this]);
                 }
             }
         }
@@ -58,56 +63,61 @@ class WebResponse extends RequestResponse{
     /**
      * output web document
      */
-    public function output(){   
+    public function output()
+    {
         $cache = $this->cache;
         $no_iframe = false;
         // + | priority to document cache setting
-        if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)){
+        if ($cache && is_object($this->node) &&  ($this->node instanceof IGKHtmlDoc)) {
             $doc = $this->node;
-            $cache = !$this->node->noCache; 
+            $cache = !$this->node->noCache;
             $no_iframe = $doc->noIFrame;
-            if ($no_iframe){ 
+            if ($no_iframe) {
                 $this->headers[] = "Content-Security-Policy: frame-src 'none'";
                 // deny viewing in other in frame policy 
-                $this->headers[] = "X-Frame-Options: DENY"; 
+                $this->headers[] = "X-Frame-Options: DENY";
+            } else {
+                $this->headers[] = "X-Frame-Options: SAMEORIGIN";
             }
-        } 
+            //igk_wln_e(__FILE__ . ":" . __LINE__, $this->headers);
+        }
         $this->_setHeader();
-        ob_start();   
+        ob_start();
         $this->render();
-        $s = ob_get_clean();  
-        $zip = 0; 
-        if ($cache){ 
+        $s = ob_get_clean();
+        $zip = 0;
+        if ($cache) {
             // + |----------------------------------------------------------------
             // + | CACHE THE DOCUMENT URI
             // + |
-            list($uri, $zip) = IGKCaches::CacheUri();                      
-            $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);  
-            $zip = $zip;  
-            if ($zip){
-                if (ob_get_level()){
+            list($uri, $zip) = IGKCaches::CacheUri();
+            $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
+            $zip = $zip;
+            if ($zip) {
+                if (ob_get_level()) {
                     ob_end_clean();
-                } 
+                }
                 ob_start();
                 igk_zip_output($s, 0, 1);
                 $s = ob_get_clean();
-            }            
+            }
             // + |----------------------------------------------------------------
             // + | cache document for zip and no zip content
             // + |
             igk_io_w2file(
-                $file, 
-                $s);
-            if ($zip){ 
+                $file,
+                $s
+            );
+            if ($zip) {
                 echo $s;
                 igk_exit();
             }
-        } 
-        if ($zip){    
-            igk_zip_output($s);   
+        }
+        if ($zip) {
+            igk_zip_output($s);
         } else {
             echo $s;
         }
         igk_exit();
-    } 
+    }
 }

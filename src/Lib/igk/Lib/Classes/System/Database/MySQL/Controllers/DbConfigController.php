@@ -6,12 +6,10 @@
 namespace IGK\System\Database\MySQL\Controllers;
 use Error;
 use Exception;
-use IGK\Controllers\BaseController;
-use IGK\Controllers\ControllerExtension;
-use IGK\Controllers\SysDbController;
-use IGK\Database\DbColumnInfo;
+use IGK\Controllers\BaseController; 
+use IGK\Controllers\SysDbController; 
 use IGK\Database\DbSchemas;
-use IGK\Database\IIGKDatabaseCreator;
+use IGK\Database\IDatabaseCreator;
 use IGK\Helper\Database;
 use IGK\Helper\IO;
 use IGK\Helper\NotifyHelper;
@@ -46,7 +44,7 @@ use IGKEvents;
 use IGKException;
 use IGKLog;
 use IGKModuleListMigration;
-use IIGKDataAdapter;
+use IGK\IDataAdapter;
 use mysqli;
 use ReflectionException;
 use TypeError;
@@ -1247,12 +1245,12 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
         igk_ilog("START: drop system database...");
         $time = igk_start_time(__METHOD__);
         $adapter->initForInitDb();
-        if ($adapter instanceof IIGKDataAdapter)
+        if ($adapter instanceof IDataAdapter)
             $adapter->setForeignKeyCheck(0);
         foreach ($tables as $t) {
             $adapter->dropTable($t->table);
         }
-        if ($adapter instanceof IIGKDataAdapter)
+        if ($adapter instanceof IDataAdapter)
             $adapter->setForeignKeyCheck(1);
         $adapter->flushForInitDb();
         igk_ilog("END: drop system database " . igk_execute_time(__METHOD__, $time));
@@ -1989,7 +1987,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $callable = array($this, "init_table");
             $db_name = igk_configs()->db_name;
             igk_reg_hook(IGK_NOTIFICATION_INITTABLE, $callable);
-            if ($ad instanceof IIGKDatabaseCreator) {
+            if ($ad instanceof IDatabaseCreator) {
                 $ad->createdb($db_name);
                 $ad->selectdb($db_name);
             }
@@ -2264,8 +2262,8 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
             $pan = $div->addPanelBox();
             $pan->div()->Content = sprintf(__("DataBase : %s"), "MySQL");
             $pan->div()->Content = sprintf(__("Available : %s"), igk_parsebool(defined("IGK_MSQL_DB_Adapter")));
-            $pan->div()->Content = "MySQL : " . (defined('IGK_MSQL_DB_AdapterFunc') ? igk_parsebool(IGK_MSQL_DB_AdapterFunc) : 0);
-            $pan->div()->Content = "MySQLi : " . (defined('IGK_MSQLi_DB_AdapterFunc') ? igk_parsebool(IGK_MSQLi_DB_AdapterFunc) : 0);
+            $pan->div()->Content = "MySQL : " . (defined('IGK_MSQL_DB_AdapterFunc') ? igk_parsebool(constant('IGK_MSQL_DB_AdapterFunc')) : 0);
+            $pan->div()->Content = "MySQLi : " . (defined('IGK_MSQLi_DB_AdapterFunc') ? igk_parsebool(constant('IGK_MSQLi_DB_AdapterFunc')) : 0);
             $cview = $this->getParam("tabview");
             $tab = $div->addComponent($this, HtmlComponents::AJXTabControl, "db:tab-control", 1);
             $tab->addTabPage(__("General"), $this->getUri("view&v=general"), empty($cview) || $cview == 'general');

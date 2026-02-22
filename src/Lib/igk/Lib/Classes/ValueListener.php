@@ -7,13 +7,17 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+namespace IGK;
+
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Html\HtmlUtils;
+use IGKObject;
+
 /**
  * represent a value helper
  * @package 
  */
-final class IGKValueListener extends IGKObject implements IHtmlGetValue{
+final class ValueListener extends IGKObject implements IHtmlGetValue{
     private $m_attr, $m_owner;
     public function __construct($owner, $attr){
         $this->m_owner=$owner;

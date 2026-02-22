@@ -7,10 +7,13 @@
 
 
 use IGK\Controllers\DefaultPageController;
+use IGK\IUriActionRegistrableController;
 
-abstract class IGKTemplateHostCtrl extends DefaultPageController
-
-implements IIGKUriActionRegistrableController
+/**
+ * exposed template host controller 
+ * @package 
+ */
+abstract class IGKTemplateHostCtrl extends DefaultPageController implements IUriActionRegistrableController
 {
 	public function LoadTemplate(){
 		throw new IGKException(__METHOD__. " Not Implement");

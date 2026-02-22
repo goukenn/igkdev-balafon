@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Dom;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Html\HtmlUtils;
-use IGKValueListener;
+use IGK\ValueListener;
 /**
 * Represent HtmlSearchNode class
 */
@@ -97,7 +97,7 @@ final class HtmlSearchNode extends HtmlNode {
         $frm->clearChilds();
         $frm["action"]=$uri;
         $frm["id"]="search_item";
-        $frm["method"]=new IGKValueListener($this, "Method");
+        $frm["method"]=new ValueListener($this, "Method");
         $frm->div()->setClass("igk-underline-div");
         $frm->NoTitle=true;
         $frm->NoFoot=true;

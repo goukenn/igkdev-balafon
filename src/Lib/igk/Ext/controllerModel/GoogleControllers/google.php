@@ -5,7 +5,9 @@
 // version: 1.0
 // annotation: none, vertical-bubble, bubble
 // default: 
+namespace IGK\Ext\Controllers\Google;
 
+use GoogleEndPoints;
 use IGK\Core\Ext\Google\GoogleAPIEndPoints;
 use IGK\Core\Ext\Google\GoogleEvents;
 use IGK\Core\Ext\Google\IGKGoogleCssUri as GoogleCssUri;
@@ -14,6 +16,10 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Html\CallableConstants;
 use IGK\System\Http\RequestResponseCode;
 use IGK\System\Regex\Replacement;
+use IGKEvents;
+use IGKHtmlRelativeUriValueAttribute;
+use IGKResourceUriResolver;
+use IGKRoutes;
 
 use function igk_resources_gets as __;
 use function igk_curl_post_uri as post_uri;
@@ -232,7 +238,7 @@ if (defined('IGK_GOOGLE_MODULE')) {
         $s = igk_google_settings();
         $fonts = igk_conf_get($s, "fonts");
         if (!$fonts || !is_object($fonts)) {
-            $fonts = new Stdclass();
+            $fonts = new \Stdclass();
             $s->fonts = $fonts;
         }
         $fonts->{$family} = $uri;

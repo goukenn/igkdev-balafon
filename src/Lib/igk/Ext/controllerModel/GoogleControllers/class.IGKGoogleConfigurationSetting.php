@@ -4,6 +4,7 @@
 // @date: 20220803 13:48:59
 // @desc: 
 
+namespace IGK\Ext\Controllers\Google;
 
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Controllers\Traits\ControllerLocationTrait;

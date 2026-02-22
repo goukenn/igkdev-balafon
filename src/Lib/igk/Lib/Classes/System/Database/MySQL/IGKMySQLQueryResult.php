@@ -12,11 +12,11 @@ use IGKException;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\System\IToArrayResolver;
 use IGKSorter;
-use IIGKQueryResult;
+use IGK\IQueryResult;
 /**
  * Represent MySQL Query result wrapper
  */
-final class IGKMySQLQueryResult extends DbQueryResult implements IIGKQueryResult
+final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
 {
     private $m_adapterName;
     private $m_columns;

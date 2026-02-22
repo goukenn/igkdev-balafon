@@ -1653,7 +1653,7 @@ if (!function_exists("igk_html_node_copyright")) {
 		$n = igk_create_node("div");
 		$n->setClass("igk-copyright");
 		$n->setCallback("getCopyright", igk_create_func_callback("igk_html_code_copyright_callback", [$ctrl]));
-		$n->Content = new IGKValueListener($n, "getCopyright");
+		$n->Content = new \IGK\ValueListener($n, "getCopyright");
 		return $n;
 	}
 }
@@ -2711,7 +2711,7 @@ if (!function_exists("igk_html_node_igkcopyright")) {
 		$n->setClass("igk-copyright");
 		if (is_null($title)) {
 			$n->setCallback("getCopyright", "return igk_sys_copyright();");
-			$g = new IGKValueListener($n, "getCopyright");
+			$g = new \IGK\ValueListener($n, "getCopyright");
 			$n->Content = $g;
 		} else {
 			$n->Content = $title;
@@ -3091,7 +3091,7 @@ if (!function_exists("igk_html_node_jsclonenode")) {
 			throw new IGKException("not a valid item");
 		}
 		$n = igk_create_node("igk-js-clone-node");
-		$n["igk-js-cn"] = new IGKValueListener($n, 'getTargetId');
+		$n["igk-js-cn"] = new \IGK\ValueListener($n, 'getTargetId');
 		$n->setParam("self::targetnode", $node);
 		$n->setCallback(CallableConstants::CAN_RENDER_TAG_METHOD, "return true;");
 		$n->setCallback("getTargetId", "return \$this->getParam('self::targetnode'); ");
@@ -6110,4 +6110,14 @@ if (!function_exists('igk_html_node_x_template')) {
 		$n = new HtmlNode('template');
 		return $n;
 	}
+}
+
+/**
+ * inflate view dans data 
+ * @param string $file 
+ * @param mixed $data 
+ * @return void 
+ */
+function igk_html_node_inflate(string $file, $data = null){
+
 }

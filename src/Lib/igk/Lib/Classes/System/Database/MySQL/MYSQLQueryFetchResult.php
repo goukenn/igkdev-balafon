@@ -13,14 +13,14 @@ use IGK\Database\IDataDriver;
 use IGK\Database\IDbQueryFetchResult;
 use IGK\System\Polyfill\IteratorTrait;
 use IGKSorter;
-use IIGKQueryResult;
+use IGK\IQueryResult;
 use Iterator;
 use ModelBase;
 ///<summary>implement fetch result/summary>
 /**
 *  implement fetch result
 */
-final class MYSQLQueryFetchResult extends DbQueryResult  implements IIGKQueryResult, IDbQueryFetchResult{
+final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult, IDbQueryFetchResult{
     var $init;
     /**
      * get or define resources options

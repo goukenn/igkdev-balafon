@@ -77,8 +77,8 @@ class MakeActionCommand extends AppExecCommand
         }
         $ns = $ctrl->getEntryNamespace();
         $dir = $ctrl::classdir();
-        $bind = [];
-        $action_name = implode("/", array_map('ucfirst', explode('/', $action_name)));
+        $bind = [];        
+        $action_name = StringUtility::PathToClassName($action_name);
         if ((($pos = strrpos(strtolower($action_name), 'action')) > 0) && (($pos + 6) == strlen($action_name))) {
             $action_name = substr($action_name, 0, -6);
         }

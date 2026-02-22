@@ -15,14 +15,14 @@ use IGK\System\Number;
 use IGKEvents;
 use IGKException;
 use IGKObject;
-use IIGKdbManager;
+use IGK\IDbManager;
 use mysqli;
 use ReflectionException;
 use Throwable;
 /**
  * Represent DbQueryDriver class
  */
-abstract class DbQueryDriver extends IGKObject implements IIGKdbManager
+abstract class DbQueryDriver extends IGKObject implements IDbManager
 {
     private $fkeys;
     /**

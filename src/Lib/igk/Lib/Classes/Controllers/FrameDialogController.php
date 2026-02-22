@@ -9,8 +9,8 @@
 // @url: https://www.igkdev.com
 namespace IGK\Controllers;
 use IGK\System\Html\Dom\HtmlDialogFrameNode;
-use IIGKFrameController;
-final class FrameDialogController extends NonVisibleControllerBase implements IIGKFrameController{
+use IGK\IFrameController;
+final class FrameDialogController extends NonVisibleControllerBase implements IFrameController{
     const FRAME_KEYS="FRAMES";
     public function __construct(){
         parent::__construct();

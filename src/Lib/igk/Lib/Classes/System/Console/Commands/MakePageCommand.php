@@ -5,6 +5,7 @@
 namespace IGK\System\Console\Commands;
 
 use IGK\Controllers\ControllerTask;
+use IGK\Helper\StringUtility;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
@@ -27,6 +28,7 @@ class MakePageCommand extends AppExecCommand
 		$page || igk_die('missing page name');
 		Logger::info("make page:" . $ctrl);
 		if (($c = igk_getctrl($ctrl, false)) || ($c = $ctrl::ctrl())) {
+			$page = implode('', array_map('ucfirst', explode('_', StringUtility::FuncName($page))));
 			$path = "Pages/" . ucfirst($page) . "Page";
 			if (!($t = $c->resolveClass($path))) {
 				$name = ucfirst($page);

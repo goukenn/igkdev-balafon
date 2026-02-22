@@ -307,7 +307,7 @@ abstract class ModelEntryExtension
      * @param ModelBase $model 
      * @param mixed $condition 
      * @param mixed $update_extras 
-     * @return null|ModelBase|bool|IGK\Models\IIGKQueryResult 
+     * @return null|ModelBase|bool|IGK\Models\IQueryResult 
      */
     public static function updateOrCreateIfNotExists(ModelBase $model, $condition, $update_extras = null)
     {

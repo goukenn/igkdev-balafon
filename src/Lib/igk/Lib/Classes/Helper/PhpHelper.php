@@ -48,10 +48,12 @@ class PhpHelper{
                 $ll = ltrim($ll,"*");
                 $ll = ltrim($ll);
                 if(strpos($ll,"@")===0)
-                    continue;
+                    break;
+                $ll = preg_replace('/\\\\\s*$/', '', $ll);
                 $c .= $ll; 
             }
         }
+        $c = igk_str_rm_last($c, '*/', 1);
         return $c;
     }
     /**
@@ -91,6 +93,7 @@ class PhpHelper{
                 //igk_wln_e($f, $params, $params[0], $m);
             }
             $c = self::GetCommentSummary($ref->getDocComment());
+
             $o .= "@method {$r} ".$p."($m) {$c}\n"; 
         } 
         return $o;

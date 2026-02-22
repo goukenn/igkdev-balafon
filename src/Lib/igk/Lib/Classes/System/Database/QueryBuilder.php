@@ -265,7 +265,7 @@ class QueryBuilder
     }
     /**
      * send query
-     * @return IGK\Models\IIGKQueryResult 
+     * @return IGK\Models\IQueryResult 
      */
     public function query()
     {

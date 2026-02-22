@@ -13,9 +13,11 @@ use IGKException;
 use IGKHtmlRelativeUriValueAttribute;
 use IGKSystemUriActionPatternInfo;
 use IGKViewMode;
-use IIGKUriActionRegistrableController;
-use IIGKWebPageController;
-abstract class DefaultPageController extends PageControllerBase implements IIGKUriActionRegistrableController, IIGKWebPageController{    
+use IGK\IUriActionRegistrableController;
+use IGK\IWebPageController;
+use IGK\System\Http\RequestResponseCode;
+
+abstract class DefaultPageController extends PageControllerBase implements IUriActionRegistrableController, IWebPageController{    
     /**
      * default handle uri global uri
      * @param mixed $request 

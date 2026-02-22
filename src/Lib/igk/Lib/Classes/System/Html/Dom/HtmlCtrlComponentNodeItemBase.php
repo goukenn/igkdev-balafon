@@ -8,8 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
-use IIGKHtmlComponent;
-abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implements IIGKHtmlComponent{
+use IGK\IHtmlComponent;
+abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implements IHtmlComponent{
     public function __construct($tag){
         $this->m_controller=igk_getctrl(IGK_COMPONENT_MANAGER_CTRL, true);
         parent::__construct($tag);

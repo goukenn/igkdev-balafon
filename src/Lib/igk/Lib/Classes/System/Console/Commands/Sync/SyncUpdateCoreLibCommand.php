@@ -70,7 +70,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
             "\$token = '" . $token . "';",
         ]));
         $src = PHPScriptBuilderUtility::MergeSource(
-            IGK_LIB_CLASSES_DIR . "/IGKBacktickHelperCommandTrait.php",
+            IGK_LIB_CLASSES_DIR . "/Traits/BacktickHelperCommandTrait.php",
             IGK_LIB_DIR . "/Inc/core/installer-core-function.pinc",
             IGK_LIB_DIR . "/Inc/core/class.InstallerResponse.pinc",
             IGK_LIB_DIR . "/Inc/core/installer.helper.pinc",

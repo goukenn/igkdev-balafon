@@ -161,7 +161,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * @param array|string installed script 
      * @param string $token $ref token
      */
-    protected static function GetScriptInstall($script, & $token, $name=null){
+    public static function GetScriptInstall($script, & $token, $name=null){
         $src = null;
         $v_bdir = IGK_LIB_DIR . "/Inc/core/";
         if (is_array($script)){

@@ -8,6 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+namespace IGK\Ext\Controllers\Google;
+
 use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 

@@ -16,8 +16,8 @@ use IGK\System\Http\RequestResponseCode;
 use IGKEvents;
 use IGKException;
 use IGKSystemUriActionPatternInfo;
-use IIGKUriActionListener;
-final class SystemUriActionController extends ConfigControllerBase implements IIGKUriActionListener{
+use IGK\IUriActionListener;
+final class SystemUriActionController extends ConfigControllerBase implements IUriActionListener{
     //+ action routes
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
     const CACHE_FILE = '.routes.cache';

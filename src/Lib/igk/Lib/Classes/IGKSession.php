@@ -3,13 +3,15 @@
 // @filename: IGKSession.php
 // @date: 20220803 13:48:54
 // @desc: 
+
+use IGK\IParamHostService;
 use IGK\Resources\R;
 use function igk_resources_gets as __;
 /**
 * represent handle session service
 * @property $services stored services
 */
-final class IGKSession extends IGKObject implements IIGKParamHostService {
+final class IGKSession extends IGKObject implements IParamHostService {
     const BASE_SESS_PARAM=0x020;
     const IGK_DOMAINBASEDIR_SESS_PARAM=(self::BASE_SESS_PARAM + 0x005);
     const IGK_INSTANCES_SESS_PARAM=(self::BASE_SESS_PARAM + 0x006);

@@ -93,6 +93,11 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
         } 
+        /**
+         * @var mixed $setting
+         * @var mixed $excludedir
+         */
+        $excludedir = '';
         $exclude_file_extension = "vscode|balafon|DS_Store|gkds";
         $options = igk_getv($command, "options");
         $arg =  property_exists($options, "--list") ? "l" : (property_exists($options, "--restore") ? "r" :
@@ -328,6 +333,9 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      */
     private function _installZipProject($controller, $exclude, $h, $setting)
     {
+        /**
+        * @var mixed $token
+        */
         $file = tempnam(sys_get_temp_dir(), "blf");
         Logger::info("zip project : " . $controller->getName());
         igk_sys_zip_project($controller, $file, $exclude);
@@ -364,7 +372,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     {
         return self::GetScriptInstall(
             [  
-                IGK_LIB_CLASSES_DIR . "/IGKBacktickHelperCommandTrait.php",
+                IGK_LIB_CLASSES_DIR . "/Traits/BacktickHelperCommandTrait.php",
                 'installer-core-function.pinc',
                 "installer-helper.pinc", // entry helper
                 "installer.helper.pinc", // intaller helper class 

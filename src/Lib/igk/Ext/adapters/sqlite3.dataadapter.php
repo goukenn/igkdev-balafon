@@ -20,6 +20,7 @@ use IGK\System\Database\SQLGrammar;
 use IGK\System\Exceptions\EnvironmentArrayException;
 use IGK\Ext\Adapters\SQLite3\SQLite3Result;
 use IGK\Helper\Activator;
+use IGK\IDataAdapter;
 use IGK\System\Database\Exceptions\MissingTableException;
 use IGK\System\Database\IDbSendQueryListener;
 
@@ -212,7 +213,7 @@ function igk_sql3lite_tosql_data($d){
 /**
 *  represent SQLite3 database adapter
 */
-class IGKSQLite3DataAdapter extends SQLDataAdapter implements IIGKDataAdapter{
+class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     private $fname;
     private $m_base_file_name;
     private $m_creator;

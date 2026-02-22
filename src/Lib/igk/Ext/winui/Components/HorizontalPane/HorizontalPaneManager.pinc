@@ -5,6 +5,7 @@
 // @desc: 
 
 //private component
+namespace IGK\Ext\WinUI\Components\HorizontalPane;
 
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlComponentNode;

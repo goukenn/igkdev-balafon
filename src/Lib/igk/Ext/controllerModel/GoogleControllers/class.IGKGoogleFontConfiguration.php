@@ -8,6 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 
+namespace IGK\Ext\Controllers\Google;
+
 use IGK\Resources\R;
 use IGK\System\Configuration\Controllers\ConfigControllerBase;
 use IGK\System\Controllers\Traits\ControllerLocationTrait;

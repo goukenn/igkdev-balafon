@@ -281,7 +281,7 @@ final class IGKSubDomainManager extends IGKObject{
     * @param mixed $row the default value is null
     */
     public function reg_domain($n, $ctrl, $row=null){
-        if(empty($n) || !igk_reflection_class_implement($ctrl, IIGKUriActionRegistrableController::class)){
+        if(empty($n) || !igk_reflection_class_implement($ctrl, IUriActionRegistrableController::class)){
             return false;
         } 
         $t=$this->getRegList();

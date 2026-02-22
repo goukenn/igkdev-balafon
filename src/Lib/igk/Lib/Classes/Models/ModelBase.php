@@ -44,17 +44,17 @@ require_once __DIR__ . "/Inc/ModelEntryExtension.php";
  * @method static static model() macros function return Model mock instance
  * @method static \IGK\System\Database\QueryBuilder prepare() macros function prepare data query builder
  * @method static void primaryKey() macros function
- * @method static IIGKQueryResult query(string $query) macros function send query string
+ * @method static IQueryResult query(string $query) macros function send query string
  * @method static object|null|bool requestAdd() macros function add model entry by request
  * @method static void requestUpdate() macros function
  * @method static void rollback() macros function 
  * @method static string get_query($conditions=null, $options=null) macros function get only the query expression to send
- * @method static IIGKQueryResult select_query($conditions=null, $options=null) macros function
+ * @method static IQueryResult select_query($conditions=null, $options=null) macros function
  * @method static null|iterable select_query_rows($conditions=null, $options=null) macros function
  * @method static void select_row_query() macros function
  * @method static \IGK\Database\IDbQueryFetchResult select_fetch(?array $conditions[], array? $options[]) macros function return a fetch result
  * @method static string table() macros function
- * @method static null|IIGKQueryResult update(array $values, $condition=null) macros function
+ * @method static null|IryResult update(array $values, $condition=null) macros function
  * @method static void updateOrCreateIfNotExists() macros function
  * @method static void registerMacro($macroName, Callable|array $callable) register/override model macros
  * @method static \IGK\System\Database\Factories\FactoryBase factory(int $number, ?string $class_name = null, ...$args=null) macros function create a factory object for seeding \

@@ -1,13 +1,13 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @file: IIGKDatabaseCreator.php
+// @file: IDatabaseCreator.php
 // @date: 20230423 10:36:49
 namespace IGK\Database;
 /**
 * database driver selector
 * @package IGK\Database
 */
-interface IIGKDatabaseCreator{
+interface IDatabaseCreator{
     /**
      * select database
      * @param null|string $dbname 

@@ -2,12 +2,13 @@
 // @author: C.A.D. BONDJE DOUE
 // @file: BacktickHelperCommandTrait.php
 // @date: 20250215 11:41:53
+namespace IGK\Traits;
 /**
 * 
 * @package IGK\Traits
 * @author C.A.D. BONDJE DOUE
 */
-trait IGKBacktickHelperCommandTrait{
+trait BacktickHelperCommandTrait{
     /**
      * 
      * @param mixed $back_tick_command_result 

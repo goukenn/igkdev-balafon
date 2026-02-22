@@ -4,12 +4,11 @@
 // @filename: ClassVersionLoaderTraitTest.php
 // @date: 20220909 09:38:33
 // @desc: 
+namespace IGK\Test;
 
 use IGK\System\Traits\ClassFileVersionLoaderTrait;
-use IGK\Test;
-
 use IGK\Tests\BaseTestCase;
-use IGK\Tests\System\Compilers\Dummy;
+
 
 class ClassVersionLoaderTraitTest extends BaseTestCase{
     public function test_load_diff_version(){
