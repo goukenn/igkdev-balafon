@@ -8,6 +8,7 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ControllerExtension;
 use IGK\Controllers\IGlobalModelFileController;
 use IGK\Database\DbSchemasConstants;
+use IGK\IDbGetTableReferenceHandler;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\Logger;
 use IGK\System\Database\DatabaseInitializer;
