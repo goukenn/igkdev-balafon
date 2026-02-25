@@ -260,7 +260,7 @@ final class SubDomainController extends ConfigControllerBase
      * controller name 
      * @return string 
      */
-    public function getName(){
+    public function getName(): string{
         return IGK_SUBDOMAINNAME_CTRL;
     }
     /**

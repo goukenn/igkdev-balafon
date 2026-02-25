@@ -22,7 +22,7 @@ use IGK\System\WinUI\Views;
 use IGKSysUtil;
 use function igk_resources_gets as __;
 class AuthorisationController extends ConfigControllerBase{
-    public function getName(){
+    public function getName(): string{
         return  IGK_AUTH_CTRL;
     }
     public function getIsAvailable(){

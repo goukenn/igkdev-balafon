@@ -6,8 +6,8 @@
 
 
 final class AccordeonCookiePanel extends IGKObject{
-	var $m_pindex;
-	var $m_o;
+	private $m_pindex;
+	private $m_o;
 
 	public function __construct($o, $index){
 		$this->m_o = $o;

@@ -36,7 +36,7 @@ final class ReferenceModelController extends NonVisibleControllerBase{
     /**
     * 
     */
-    public function getName(){
+    public function getName(): string{
         return IGK_CB_REF_CTRL;
     }
     /**

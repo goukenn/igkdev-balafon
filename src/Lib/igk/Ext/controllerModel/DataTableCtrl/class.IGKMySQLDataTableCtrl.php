@@ -30,7 +30,7 @@ abstract class IGKMySqlDataTableCtrl extends \IGK\Controllers\ControllerTypeBase
 	public function getDataAdapterName():string{
 		return IGK_MYSQL_DATAADAPTER;
 	}
-	public function getName(){
+	public function getName(): string{
 		return parent::getName();
 	}
 	public function getDataAdapterTableName(){

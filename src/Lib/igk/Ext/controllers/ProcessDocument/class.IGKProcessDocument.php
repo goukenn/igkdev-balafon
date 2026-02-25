@@ -12,7 +12,7 @@ use IGK\System\Html\Dom\HtmlNode;
 class IGKProcessDocument extends NonVisibleControllerBase
 {
  
-	public function getName(){
+	public function getName(): string{
 		return "process_script";
 	}
 	protected function initComplete($context=null){

@@ -21,7 +21,7 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     {
         parent::__construct(); 
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_DB_CONF_CTRL;
     }
     public function getConfigPage()

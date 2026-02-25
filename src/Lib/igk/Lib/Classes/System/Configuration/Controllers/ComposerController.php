@@ -10,7 +10,7 @@ use function igk_resources_gets as __;
 * class used to register global user in system
 */
 class ComposerController extends ConfigControllerBase {
-    public function getName(){
+    public function getName(): string{
         return IGK_COMPOSER_CTRL;
     }
     public function getConfigPage(){

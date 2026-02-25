@@ -26,7 +26,7 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * 
     */
-    public function getName(){
+    public function getName(): string{
         return IGK_PALETTE_CTRL;
     }
     /**

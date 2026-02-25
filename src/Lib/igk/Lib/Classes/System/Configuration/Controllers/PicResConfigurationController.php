@@ -226,7 +226,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return igk_html_resolv_img_uri(igk_io_basedir($b));
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_PIC_RES_CTRL;
     }
     public function getPicRes(){

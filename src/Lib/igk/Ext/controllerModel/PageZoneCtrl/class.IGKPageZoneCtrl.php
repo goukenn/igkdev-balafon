@@ -53,7 +53,7 @@ abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
     /**
     * 
     */
-    public function getName(){
+    public function getName(): string{
         return get_class($this);
     }
     /**

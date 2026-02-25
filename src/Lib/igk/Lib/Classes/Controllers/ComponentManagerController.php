@@ -97,7 +97,7 @@ final class ComponentManagerController extends NonVisibleControllerBase{
     /**
     * 
     */
-    public function getName(){
+    public function getName(): string{
         return IGK_COMPONENT_MANAGER_CTRL;
     }
     /**

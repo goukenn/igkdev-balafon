@@ -8,7 +8,7 @@ use IGK\Controllers\BaseController;
 
 abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getName(){return get_class($this);}
+	public function getName(): string{return get_class($this);}
 	 
 	public static function GetAdditionnalConfigInfo()
 	{

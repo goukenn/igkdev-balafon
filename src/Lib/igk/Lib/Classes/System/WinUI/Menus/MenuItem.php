@@ -85,7 +85,7 @@ class MenuItem{
     public function getIndex(){
         return igk_getv($this->_, self::POSITION);
     }
-    public function getName(){
+    public function getName(): mixed{
         return igk_getv($this->_, self::NAME);
     }
     public function getTitle(){

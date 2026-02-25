@@ -16,11 +16,11 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 
 /**
- * 
+ * Horizontal navigator controller 
  * @package 
  */
 abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBase {
-	public function getName(){return get_class($this);} 
+	public function getName(): string{return get_class($this);} 
 
 	public function getcanAddChild(){
 		return false;

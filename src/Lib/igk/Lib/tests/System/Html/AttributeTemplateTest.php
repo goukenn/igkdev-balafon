@@ -108,7 +108,7 @@ class AttributeTemplateTest extends BaseTestCase{
  * dummy controller 
  */
 class DummyController extends NotRegistrableControllerBase{
-    public function getName(){
+    public function getName(): string{
         return "::test-dummy";
     }
     public function getAppUri(?string $s=null):?string{            

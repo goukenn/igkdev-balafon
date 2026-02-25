@@ -8,14 +8,14 @@ use IGK\Helper\ViewHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Path;
 
-if (!function_exists('article')) {
-   function article(string $file, $params = null)
+if (!function_exists('igk_article')) {
+   function igk_article(string $file, $params = null)
    {
       return ViewHelper::Article($file, $params);
    }
 }
-if (!function_exists('asset')) {
-   function asset(string $file)
+if (!function_exists('igk_asset')) {
+   function igk_asset(string $file)
    {
       return ViewHelper::CurrentCtrl()->asset($file);
    }

@@ -925,7 +925,7 @@ EOF;
     /**
      * 
      */
-    public function getName()
+    public function getName(): string
     {
         return IGK_CONF_CTRL;
     }

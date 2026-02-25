@@ -54,10 +54,10 @@ if (!function_exists('igk_array_pad')) {
 
 if (!function_exists("igk_array_copy")) {
     /**
-     * 
-     * @param array $$c 
-     * @param mixed $from 
-     * @param mixed $to 
+     * copy array
+     * @param array $c source to copy
+     * @param int $from start index
+     * @param int $to -1 for all or end index .
      */
     function igk_array_copy(array $c, $from = 0, $to = -1)
     {
@@ -173,8 +173,8 @@ if (!function_exists("igk_array_filter")) {
 }
 if (!function_exists("igk_array_first")) {
     /**
-     * 
-     * @param mixed $$c 
+     * first element on array
+     * @param mixed $c 
      */
     function igk_array_first($c)
     {
@@ -187,7 +187,7 @@ if (!function_exists("igk_array_first")) {
 }
 if (!function_exists("igk_array_is_assoc")) {
     /**
-     * get if an array is assoc array. Contain one non number index.
+     * Check if an array is an associative array. It contains at least one non-numeric index.
      */
     function igk_array_is_assoc(array $tab)
     {
@@ -238,8 +238,8 @@ if (!function_exists("igk_array_key_value_toggle")) {
 }
 if (!function_exists("igk_array_last")) {
     /**
-     * 
-     * @param mixed $$c 
+     * last element on array
+     * @param mixed c 
      */
     function igk_array_last($c)
     {

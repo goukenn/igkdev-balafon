@@ -19,7 +19,7 @@ class ViewBlockCompiler
     var $controller;
     var $detector;
     var $variables = [];
-    var $m_extract;
+    private $m_extract;
     var $header;
     private $m_listener;
     private $m_source;

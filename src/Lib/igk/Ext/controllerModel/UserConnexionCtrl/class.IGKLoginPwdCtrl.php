@@ -11,7 +11,7 @@ use IGK\Controllers\BaseController;
 
 abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getName(){return get_class($this);}
+	public function getName(): string{return get_class($this);}
 	protected function initComplete($context=null){
 		parent::initComplete();
 		//please enter your controller declaration complete here

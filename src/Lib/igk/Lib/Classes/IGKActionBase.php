@@ -298,8 +298,8 @@ abstract class IGKActionBase implements IActionProcessor
         return self::HandleActions($fname, $b, $args, $exit, $flag);
     }
     protected function checkMethodExists(string $m){
+        $p = $m = ActionHelper::SanitizeMethodName($m);
         $tab = [$m];
-        $p = ActionHelper::SanitizeMethodName($m);
         if (false!== ($ipos = stripos($p, '_', 0))){
             $verb = substr($m, $ipos+1);
             if (in_array(strtoupper($verb), explode('|', Route::SUPPORT_VERBS))){

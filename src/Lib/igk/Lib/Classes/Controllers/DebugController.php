@@ -12,7 +12,7 @@ use IGK\Server;
 use IGK\System\Html\Dom\HtmlDebuggerViewNode; 
 use IGK\System\Html\HtmlUtils; 
 final class DebugController extends BaseController{
-    public function getName(){
+    public function getName(): string{
         return IGK_DEBUG_CTRL;
     }
     public function addMessage($div){

@@ -235,7 +235,7 @@ OEF;
     /**
     * Represent getName function
     */
-    public function getName(){
+    public function getName(): string{
         return IGK_CTRL_MANAGER;
     }
     ///<summary>Represente IsFunctionExposed function</summary>

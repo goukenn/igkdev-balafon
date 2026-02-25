@@ -136,7 +136,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         igk_navto("mailto:".IGK_AUTHOR_CONTACT);
         igk_exit();
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_SYSACTION_CTRL;
     }
     public function getPatternInfo(){

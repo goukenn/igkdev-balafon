@@ -295,10 +295,15 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         $command = [
             "--wdir" => [null, __("set startup working directory") . "\n--wdir:path_to_working_dir"],
             "--debug" => [
-                function ($v, $command) {
+                function ($v, $command, $debugList=[]) {
                     if (is_array($command))
                         $command["debug"] = true;
                     igk_debug(1);
+                    if ($debugList){
+                        array_map(function($n){
+                            igk_environment()->set('debug_'.$n, true);
+                        }, $debugList);                        
+                    }
                     igk_environment()->querydebug = 1;
                 },
                 ['desc' => __("flag: enable debug"), 'category' => "flag"]
@@ -636,6 +641,18 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
         if (in_array("--debug", $argv)) {
             $fc = $command["--debug"][0];
             $fc([], $command);
+        }else {
+            $tc = array_slice($argv,1);
+            $tdebug = [];
+            foreach($tc as $c){
+                if (preg_match('/^--debug:/', $c)){
+                    $tdebug[] = explode(':', $c,2)[1];
+                }
+            }
+            if ($tdebug){
+                    $fc = $command["--debug"][0];
+                    $fc([], $command, $tdebug);
+            }
         }
         if (in_array('--report-error', $argv)) {
             // activate error reporting

@@ -6,6 +6,7 @@
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Helper\IO;
+use IGK\IUriActionRegistrableController;
 use IGK\Models\Subdomains;
 use IGK\System\Database\MySQL\Controllers\DbConfigController;
 use IGK\System\IO\Path;

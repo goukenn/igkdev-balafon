@@ -64,7 +64,7 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
         $r=$this->getParam("usertypeinfo");
         return $r;
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_SYSDB_CTRL;
     }
     /**

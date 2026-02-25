@@ -42,8 +42,8 @@ final class IGKCaddyInfo
 
 abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	var $m_cadid; //caddy id
-	var $m_caddyinfo;
+	private $m_cadid; //caddy id
+	private $m_caddyinfo;
 
 	public function getCaddyInfo(){
 		return $this->m_caddyinfo;

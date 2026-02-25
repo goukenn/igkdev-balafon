@@ -32,7 +32,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
      * store parameter 
      * @var ?object
      */
-    var $m_params;
+    private $m_params;
     /**
      * header view file
      * @var ?string

@@ -118,7 +118,7 @@ final class SessionController extends BaseController{
             return false;
         return !defined('IGK_NO_WEB') && !igk_const_defined('IGK_NO_SESSION_BUTTON') && (Server::IsLocal() || (!IGKUserAgent::isMobileDevice() && igk_is_conf_connected() && igk_configs()->allow_debugging));
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_SESSION_CTRL;
     }
     protected function initComplete($context=null){   

@@ -1700,7 +1700,7 @@ JS;
         igk_exit();
     }
     ///<summary></summary>
-    public function getName()
+    public function getName(): string
     {
         return IGK_CA_CTRL;
     }

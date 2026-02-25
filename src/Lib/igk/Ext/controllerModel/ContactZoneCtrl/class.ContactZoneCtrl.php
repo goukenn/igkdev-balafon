@@ -18,7 +18,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	private $m_error;
 
 	public function getError(){return $this->m_error; }
-	public function getName(){return get_class($this);}
+	public function getName(): string{return get_class($this);}
 
 	protected function initComplete($context=null){
 		parent::initComplete();

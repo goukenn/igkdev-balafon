@@ -21,7 +21,11 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Configuration/Controllers/IConfigCon
 abstract class ConfigControllerBase extends BaseController implements IConfigController
 {
     use NoDbActiveControllerTrait;
-    public function getName()
+    /**
+     * 
+     * @return string 
+     */
+    public function getName(): string
     {
         return strtolower(static::class);
     }

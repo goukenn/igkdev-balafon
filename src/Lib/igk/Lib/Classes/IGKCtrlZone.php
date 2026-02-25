@@ -24,7 +24,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     public function getDeclaredDir():string{
         return dirname($this->m_filename);
     }
-    public function getName(){
+    public function getName(): string{
         return strtolower(__CLASS__."://".$this->m_filename);
     }
     public function getResourcesDir(){

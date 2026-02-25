@@ -1099,7 +1099,7 @@ function igk_close_session()
 /**
  * 
  * @param mixed $v 
- * @param mixed $$c 
+ * @param mixed $c 
  */
 function igk_cmp_array_value($v, $c)
 {
@@ -7181,8 +7181,8 @@ function igk_eval_in_context($src, $ctrl, $raw)
 ///<summary></summary>
 ///<param name="$c"></param>
 /**
- * 
- * @param mixed $$c 
+ * set last eval keys
+ * @param mixed $c 
  */
 function igk_eval_last_script($c)
 {
@@ -11070,7 +11070,7 @@ function igk_html_binddata($ctrl, $targetnode, $templateArticleName, $entries = 
  * @param mixed $entries 
  * @param mixed $tabinfo 
  * @param mixed $o 
- * @param mixed $$c 
+ * @param mixed $c 
  */
 function igk_html_bindentry($ctrl, $entries, $tabinfo, &$o, &$c)
 {
@@ -11583,9 +11583,9 @@ function igk_html_databinding_read_obj_litteral(&$obj, $value, $ctrl, $row)
 /**
  * treat string data binding response before eval
  * @param mixed $rep response
- * @param mixed $$ctrl controller
- * @param mixed $$row row data to pass
- * @param mixed $$ctx extra context data. 
+ * @param mixed $ctrl controller
+ * @param mixed $row row data to pass
+ * @param mixed $ctx extra context data. 
  */
 function igk_html_databinding_treatresponse($rep, $ctrl, $raw, $ctx = null, $a = 0, $transformEval = false)
 {
@@ -14650,7 +14650,7 @@ function igk_io_fullbaserequesturi()
 ///<param name="base" default="null" ref="true"></param>
 /**
  * 
- * @param mixed $$c 
+ * @param mixed $c 
  * @param mixed $base 
  */
 function igk_io_fullpath($c, &$base = null)
@@ -15176,7 +15176,7 @@ function igk_io_libdiruri($file, $options = null)
 /**
  * 
  * @param mixed $ctrl 
- * @param mixed $$c 
+ * @param mixed $c 
  * @param mixed $p 
  */
 function igk_io_locate_view_file($ctrl, &$c, &$p)
@@ -15382,9 +15382,9 @@ function igk_io_read_header($f, $endpattern)
 ///<param name="$dir" type="string" ></param>
 /**
  * get real path without resolving like realpath does
- * @param string $$dir 
+ * @param string $dir 
  */
-function igk_io_realpath($dir)
+function igk_io_realpath(string $dir)
 {
     return Path::getInstance()->realpath($dir);
 }
@@ -17697,7 +17697,7 @@ function igk_new_response()
 ///<param name="u" > the local uri of the component</param>
 /**
  * get node component uri
- * @param mixed $$c  node to get uri
+ * @param mixed $c  node to get uri
  * @param mixed $u  the local uri of the component
  */
 function igk_node_get_uri($c, $u)
@@ -21020,7 +21020,7 @@ function igk_str_read_bracket_source_code($treat, &$goptions = null)
 /**
  * used to read in brank
  * @param mixed $exp expression
- * @param mixed $$c position offset 
+ * @param mixed $c position offset 
  * @param mixed $end char end
  * @param mixed $start char start 
  * @param mixed $ln ln: size to read
@@ -25585,13 +25585,13 @@ function igk_view_builder_extra($file, $option)
 ///<param name="$c"></param>
 ///<param name="f"></param>
 ///<param name="p" ref="true"></param>
-/**
- * trait parameter
- * @param mixed $ctrl 
- * @param mixed $$c 
- * @param mixed $f 
- * @param mixed $p 
- */
+// /**
+//  * trait parameter
+//  * @param mixed $ctrl 
+//  * @param mixed $c 
+//  * @param mixed $f 
+//  * @param mixed $p 
+//  */
 // function igk_view_dispatch_args($ctrl, $c, $f, &$p)
 // {
 //     $g = substr($f, strlen($ctrl->getViewDir()) + 1);

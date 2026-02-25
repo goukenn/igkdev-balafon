@@ -717,7 +717,7 @@ if (!function_exists("igk_html_node_ajxtabcomponent")) {
 if (!function_exists("igk_html_node_ajxtabcontrol")) {
 	///<summary>function </summary>
 	/**
-	 * function __desc__
+	 * create an ajx tab control component
 	 */
 	function igk_html_node_ajxtabcontrol()
 	{

@@ -76,7 +76,7 @@ class FormValidation
             unset($this->m_validators[$name]);
         } else {
             if (is_callable($callable)) {
-                $callable = new _FormCallableValidator($callable);
+                $callable = new FormCallableValidatorInternal($callable);
             } else if (is_object($callable) && !($callable instanceof IFormValidator)) {
                 return;
             }

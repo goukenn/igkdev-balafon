@@ -14,7 +14,7 @@ use IGK\System\Models\IModelDefinitionInfo;
 
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getName()
+	public function getName(): string
 	{
 		return get_class($this);
 	}

@@ -1843,7 +1843,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     /**
      * 
      */
-    public function getName()
+    public function getName(): string
     {
         return IGK_MYSQL_DB_CTRL;
     }

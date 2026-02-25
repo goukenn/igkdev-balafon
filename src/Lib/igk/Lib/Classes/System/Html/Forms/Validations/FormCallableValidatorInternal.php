@@ -8,7 +8,7 @@ namespace IGK\System\Html\Forms\Validations;
  * internal use of callable validation
  * @package IGK\System\Html\Forms
  */
-class _FormCallableValidator extends FormFieldValidatorBase implements IFormValidator{
+class FormCallableValidatorInternal extends FormFieldValidatorBase implements IFormValidator{
     private $m_callable;
     public function __construct(callable $call)
     {

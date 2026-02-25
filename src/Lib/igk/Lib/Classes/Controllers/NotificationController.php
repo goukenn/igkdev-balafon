@@ -96,7 +96,7 @@ final class NotificationController extends BaseController implements INotifyMess
     public function getMsError(){
         return $this->m_hasmsg;
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_NOTIFICATION_CTRL;
     }
     public function getNotification($name="::global"){

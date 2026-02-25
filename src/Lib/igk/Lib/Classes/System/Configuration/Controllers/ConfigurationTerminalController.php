@@ -9,7 +9,7 @@ namespace IGK\System\Configuration\Controllers;
 * @author C.A.D. BONDJE DOUE
 */
 final class ConfigurationTerminalController extends ConfigControllerBase{
-    public function getName(){
+    public function getName(): string{
         return '{CFBCE372-3778-469B-7C41-D888CC220998}';
     }
     public function getConfigPage(){

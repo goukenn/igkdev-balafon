@@ -29,7 +29,7 @@ final class SharedContentHtmlItemController extends BaseController{
     public function getm_entity(){
         return $this->getEnvParam("entities");
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_SHARED_CONTENT_CTRL;
     }
     protected function initComplete($context=null){

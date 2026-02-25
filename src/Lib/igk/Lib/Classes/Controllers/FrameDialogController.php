@@ -133,7 +133,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     public function getFrames(){
         return $this->getParam(self::FRAME_KEYS);
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_FRAME_CTRL;
     }
     public function IsFrameAvailable($id){

@@ -53,7 +53,7 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     /**
     * 
     */
-    public function getName(){
+    public function getName(): string{
         return __CLASS__; 
     }
     /**

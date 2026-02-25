@@ -571,7 +571,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * @return string default name attached to this controller 
      */
-    public function getName()
+    public function getName(): string
     {
         return strtolower(get_class($this));
     }

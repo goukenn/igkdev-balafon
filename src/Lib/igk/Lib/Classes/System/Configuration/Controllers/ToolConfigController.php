@@ -13,7 +13,7 @@ use function igk_resources_gets as __;
 * Represent IGKToolsCtrl class
 */
 final class ToolConfigController extends ConfigControllerBase {
-    public function getName(){
+    public function getName(): string{
         return IGK_TOOLS_CTRL;
     }
     /**

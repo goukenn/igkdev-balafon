@@ -28,7 +28,7 @@ use function igk_resources_gets as __;
  * @package IGK\System\Configuration\Controllers
  */
 class UserAndGroupController extends ConfigControllerBase{
-    public function getName(){
+    public function getName(): string{
         return IGK_USER_AND_GROUP_CTRL;
     }
     public function getIsConfigPageAvailable(){

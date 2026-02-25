@@ -128,9 +128,10 @@ abstract class ConsoleUtility
      */
     public static function PackageJsonAuthor($command)
     {
-        $name = $command->app->getAuthor();
+        $name = $command->app->getAuthor() ?? IGK_AUTHOR;
+        $url = $command->app->getConfigs()->get('author_url') ?? null;
         $email = IGK_AUTHOR_CONTACT;
-        return (object)['email' => $email, 'name' => $name];
+        return (object)['email' => $email, 'name' => $name, 'url'=>$url];
     }
 
     /**

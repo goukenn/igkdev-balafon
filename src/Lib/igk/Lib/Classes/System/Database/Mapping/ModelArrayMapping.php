@@ -5,6 +5,7 @@
 namespace IGK\System\Database\Mapping;
 use Exception;
 use IGK\Models\ModelBase;
+use IGK\System\Database\SchemaMigrationInfo;
 use IGKException;
 /**
 * 
@@ -12,10 +13,18 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class ModelArrayMapping{
+    /**
+     * info
+     * @var SchemaMigrationInfo|null
+     */
     protected $info;
+    /**
+     * model
+     * @var ModelBase
+     */
     protected $model;
     /**
-     * 
+     * .ctrl
      * @param ModelBase $model base model
      * @return void 
      * @throws IGKException 

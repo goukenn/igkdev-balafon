@@ -13,7 +13,7 @@ use IGK\System\WinUI\Paginator;
 use function igk_resources_gets as __;
 
 class ModuleConfigurationController extends ConfigControllerBase{
-    public function getName(){
+    public function getName(): string{
         return IGK_MODULE_CNF_CTRL;
     }
     public function initConfigMenu()

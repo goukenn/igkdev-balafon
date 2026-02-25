@@ -11,7 +11,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 
 	/** @var HtmlNode$m_viewZone */
 	private $m_viewZone;
-	public function getName(){return get_class($this);}
+	public function getName(): string{return get_class($this);}
 	public function getViewZone(){return $this->m_viewZone;}
 
 	protected function initComplete($context=null){

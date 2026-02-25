@@ -390,7 +390,7 @@ final class ApplicationModuleController extends BaseController{
     /**
     * 
     */
-    public function getName(){
+    public function getName(): string{
         return strtolower(str_replace("/", ".", igk_uri(substr($this->m_dir, strlen(igk_get_module_dir())))));
     }
     /**

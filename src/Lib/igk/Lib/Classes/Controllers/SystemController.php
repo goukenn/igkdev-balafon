@@ -146,7 +146,7 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return $fontlist;
     }
-    public function getName(){
+    public function getName(): string{
         return IGK_SYS_CTRL;
     }
     protected function initComplete($context=null){

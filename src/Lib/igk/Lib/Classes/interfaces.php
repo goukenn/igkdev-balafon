@@ -7,7 +7,7 @@ namespace IGK;
 
 use IGK\Database\IDatabaseCreator;
 use IGK\System\Configuration\Controllers\IConfigController;
-
+use IGK\System\Html\Dom\HtmlNode;
 
  /**
   * 
@@ -40,15 +40,16 @@ interface IActionResult{
 */
 interface IController{
     /**
-    * 
+     * return the controller identifier 
+     * @return string
     */
-    function getName();
+    function getName():string;
 }
 interface INodeController extends IController{
     /**
-    * 
+    * retriev e the target node  
     */
-    function getTargetNode();
+    function getTargetNode() : HtmlNode;
     /**
     * 
     */
@@ -535,19 +536,23 @@ interface IWebPageChildCtrontroller{
 */
 interface IDbManager {
     /**
-    * 
-    * @param mixed $leaveopen the default value is false
+    * close database 
+    * @param ?bool $leaveopen default value is false
     */
     function close($leaveopen=false);
     /**
-    * 
+    * open/connect to data base 
+    * @return mixed
     */
     function connect();
+
+}
+interface IDbSQLManager extends IDbManager{
     /**
     * 
     * @param mixed $tableName
     */
-    function dropTable($tableName);
+    function dropTable(string $tableName);
 }
 /**
 * represent a module listener interface

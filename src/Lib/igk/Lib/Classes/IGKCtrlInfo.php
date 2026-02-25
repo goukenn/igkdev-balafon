@@ -37,7 +37,7 @@ final class IGKCtrlInfo extends IGKObject{
     public function getCreated(){
         return $this->m_typeCreated;
     }
-    public function getName(){
+    public function getName(): mixed{
         return $this->m_name;
     }
     public function getType(){

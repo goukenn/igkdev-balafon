@@ -251,7 +251,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
-    public function getName()
+    public function getName(): string
     {
         return IGK_USER_CTRL;
     }

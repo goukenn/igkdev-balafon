@@ -23,7 +23,7 @@ use function igk_resources_gets as __;
 class IGKInstallSiteConfig extends ConfigControllerBase
 {
 	const REF_NAME = "{31f1fa34-33ef-a96c-08c8-f15dc54fadef}";
-	public function getName(){
+	public function getName(): string{
 		return  self::REF_NAME;
 	} 
 	public function install($folder = null, $packagefolder = null)
