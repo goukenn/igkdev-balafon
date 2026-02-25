@@ -8,10 +8,20 @@ use igk\js\common\JSExpression;
 use IGK\Tests\BaseTestCase;
 
 class JSStringifyTest extends BaseTestCase{
+    /**
+     * Set up the test environment by loading the JS common module.
+     *
+     * @return void
+     */
     protected function setUp():void{
         parent::setUp();
         igk_require_module(igk\js\common::class);
     }
+    /**
+     * Test that an array of JS method strings is stringified into object notation.
+     *
+     * @return void
+     */
     public function test_stringify_data(){
         $g = JSExpression::Stringify([
             "info(){}", "data(){ return true; }"], (object)[
@@ -20,6 +30,11 @@ class JSStringifyTest extends BaseTestCase{
         );
         $this->assertEquals("{info(){}, data(){ return true; }}", $g);
     }
+    /**
+     * Test that method declaration strings are correctly stringified with mixed key-value entries.
+     *
+     * @return void
+     */
     public function test_method_declaration_expression(){
         $data = [
             "template"=>"the template",

@@ -24,15 +24,37 @@ final class IGKAppMethod{
     private $m_;
     private $_object;
     private $_class;
+    /**
+     * Intercepts inaccessible method calls and terminates execution.
+     *
+     * @param string $d Method name that was called.
+     * @param array  $v Arguments passed to the method.
+     * @return void
+     */
     public function __call($d, $v){
         igk_die("call ".$d);
     }
+    /**
+     * Constructor.
+     */
     private function __construct(){
         $this->m_=new IGKAppMethodFlag();
     }
+    /**
+     * Intercepts inaccessible property assignments and terminates execution.
+     *
+     * @param string $n Property name.
+     * @param mixed  $v Value to set.
+     * @return void
+     */
     public function __set($n, $v){
         igk_die("setting ".$n);
     }
+    /**
+     * Returns the list of serializable property keys for this instance.
+     *
+     * @return array
+     */
     public function __sleep(){
         $t=igk_reflection_get_member($this);
         if($this->m_ && $this->m_->isEmpty()){
@@ -40,6 +62,11 @@ final class IGKAppMethod{
         }
         return array_keys($t);
     }
+    /**
+     * Returns a human-readable string representation of this method descriptor.
+     *
+     * @return string
+     */
     public function __toString(){
         $v_pattern=IGK_STR_EMPTY;
         $m=$this->m_;
@@ -59,6 +86,11 @@ final class IGKAppMethod{
         }
         return "IGKAppMethod[".$v_pattern. "]";
     }
+    /**
+     * Returns a string label for the current method type.
+     *
+     * @return string
+     */
     private function _typeToString(){
         switch($this->getType()){
             case self::OBJECT_METHOD:
@@ -76,6 +108,14 @@ final class IGKAppMethod{
         }
         return "TYPEUNKNOW";
     }
+    /**
+     * Creates an IGKAppMethod instance from a class/object, method, and event.
+     *
+     * @param mixed  $class_or_object Class name, object instance, or callable.
+     * @param mixed  &$method         Method name or callable reference.
+     * @param mixed  $event           Associated event.
+     * @return IGKAppMethod|null
+     */
     public static function Create($class_or_object, & $method, $event){
         $c=$class_or_object;
         $out=null;
@@ -123,15 +163,35 @@ final class IGKAppMethod{
         }
         return $out;
     }
+    /**
+     * Returns the callable associated with this method descriptor.
+     *
+     * @return mixed
+     */
     public function getCallable(){
         return $this->m_->getFlag(self::C_CALLABLEN);
     }
+    /**
+     * Returns the class name associated with this method descriptor.
+     *
+     * @return mixed
+     */
     public function getClass(){
         return $this->m_->getFlag(self::C_CLASS);
     }
+    /**
+     * Returns the unique identifier for this method descriptor.
+     *
+     * @return mixed
+     */
     public function getId(){
         return $this->m_->getFlag(self::C_IDN);
     }
+    /**
+     * Returns a unique string key identifying this method within its context.
+     *
+     * @return string|null
+     */
     public function getIdKey(){
         $m=$this->getMethodName();
         switch($this->getType()){
@@ -147,18 +207,45 @@ final class IGKAppMethod{
         }
         return null;
     }
+    /**
+     * Returns the method name stored in this descriptor.
+     *
+     * @return string
+     */
     public function getMethodName(): string{
         return $this->m_->getFlag(self::C_METHODN);
     }
+    /**
+     * Returns the object instance associated with this method descriptor.
+     *
+     * @return mixed
+     */
     public function getObject(){
         return $this->m_->getFlag(self::C_OBJN);
     }
+    /**
+     * Returns the parent event associated with this method descriptor.
+     *
+     * @return mixed
+     */
     public function getParentEvent(){
         return $this->m_->getFlag(self::C_PEVN);
     }
+    /**
+     * Returns the method type constant for this descriptor.
+     *
+     * @return mixed
+     */
     public function getType(){
         return $this->m_->getFlag(-1);
     }
+    /**
+     * Invokes the represented method or callable with the given sender and arguments.
+     *
+     * @param mixed $sender The event sender.
+     * @param mixed $args   The event arguments.
+     * @return mixed
+     */
     public function Invoke($sender, $args){
         try {
             $extra=array($sender, $args);
@@ -198,6 +285,13 @@ final class IGKAppMethod{
             igk_exit();
         }
     }
+    /**
+     * Checks whether this method is already registered in the given tab for an event.
+     *
+     * @param array|null $tab   Collection of registered method descriptors.
+     * @param mixed      $event The event to check registration for.
+     * @return bool
+     */
     public function IsRegistered($tab, $event){
         if($tab == null)
             return false;
@@ -219,6 +313,13 @@ final class IGKAppMethod{
         }
         return false;
     }
+    /**
+     * Returns true when this descriptor matches the given class/object and method name.
+     *
+     * @param mixed  $class_or_object Class name or object instance to match.
+     * @param string $method          Method name to match.
+     * @return bool
+     */
     public function match($class_or_object, $method){
         $_cl=$this->getClass();
         $m=$this->getMethodName();
@@ -238,27 +339,76 @@ final class IGKAppMethod{
         }
         return (($class_or_object === $_cl) && ($m == $method));
     }
+    /**
+     * Returns true when the class parameter matching the given name equals the object.
+     *
+     * @param string $paramname The parameter name to look up.
+     * @param mixed  $obj       The object to compare against.
+     * @return bool
+     */
     public function matchParam($paramname, $obj){
         return igk_getv($this->getClass()->clParam, $paramname) === $obj;
     }
+    /**
+     * Sets the callable for this method descriptor.
+     *
+     * @param mixed $n The callable to store.
+     * @return void
+     */
     public function setCallable($n){
         $this->m_->setFlag(self::C_CALLABLEN, $n);
     }
+    /**
+     * Sets the class name for this method descriptor.
+     *
+     * @param mixed $n The class name to store.
+     * @return void
+     */
     public function setClass($n){
         $this->m_->setFlag(self::C_CLASS, $n);
     }
+    /**
+     * Sets the unique identifier for this method descriptor.
+     *
+     * @param mixed $n The identifier to store.
+     * @return void
+     */
     public function setId($n){
         $this->m_->setFlag(self::C_IDN, $n);
     }
+    /**
+     * Sets the method name for this descriptor.
+     *
+     * @param string $n The method name to store.
+     * @return void
+     */
     public function setMethodName($n){
         $this->m_->setFlag(self::C_METHODN, $n);
     }
+    /**
+     * Sets the object instance for this method descriptor.
+     *
+     * @param mixed $n The object to store.
+     * @return void
+     */
     public function setObject($n){
         $this->m_->setFlag(self::C_OBJN, $n);
     }
+    /**
+     * Sets the parent event for this method descriptor.
+     *
+     * @param mixed $n The parent event to store.
+     * @return void
+     */
     public function setParentEvent($n){
         $this->m_->setFlag(self::C_PEVN, $n);
     }
+    /**
+     * Sets the method type constant for this descriptor.
+     *
+     * @param mixed $t The type constant to store.
+     * @return void
+     */
     public function setType($t){
         $this->m_->setFlag(-1, $t);
     }

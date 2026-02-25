@@ -13,8 +13,15 @@ class DbListProjectTableCommand extends AppExecCommand{
     public $category = "db";
     public $desc = "list project's stored tables";
     public $usage = 'controller [options]';
+    /**
+     * Execute the command to list all tables defined for a given project controller.
+     *
+     * @param mixed       $command    The command context object.
+     * @param string|null $controller The controller name to look up.
+     * @return int Returns 0 on success or -1 on failure.
+     */
     public function exec($command, ?string $controller=null)
-    { 
+    {
         if (is_null($controller)){
             $controller = '%sys%';
             // igk_die("require project");

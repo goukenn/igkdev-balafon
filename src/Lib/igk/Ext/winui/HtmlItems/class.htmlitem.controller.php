@@ -9,6 +9,11 @@
 use IGK\Controllers\NonVisibleControllerBase;
 
 final class HtmlNodeController extends NonVisibleControllerBase{
+    /**
+     * Returns the database table name associated with this controller.
+     *
+     * @return string|null
+     */
     public function getDataTableName(): ?string{
         return null;
     }

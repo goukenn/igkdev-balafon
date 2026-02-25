@@ -5,6 +5,11 @@
 // @desc: 
 
 
-function igk_html_node_accordeon(){ 
+/**
+ * Creates and returns a new HTML accordeon item node.
+ *
+ * @return HtmlAccordeonItem
+ */
+function igk_html_node_accordeon(){
     return new HtmlAccordeonItem();
 }

@@ -13,14 +13,30 @@ use IGK\XML\XMLNodeType;
 
 class IGKHtmlToScriptTool extends ToolControllerBase
 {
+	/**
+	 * Complete the initialisation of the tool.
+	 *
+	 * @param mixed $context Optional initialisation context.
+	 * @return void
+	 */
 	protected function initComplete($context=null)
 	{
 		parent::initComplete();
 	}
+	/**
+	 * Return the URI of the tool image icon.
+	 *
+	 * @return string URI of the HTML-to-script tool image.
+	 */
 	public function getImageUri(){
 		$uri = igk_html_resolv_img_uri(igk_io_baseDir("Lib/igk/Default/R/Img/pics_48x48/tool_c2script.jpeg"));
 		return $uri;
 	}
+	/**
+	 * Convert submitted HTML code to a PHP script and send it as a download.
+	 *
+	 * @return void
+	 */
 	public function convert()
 	{
 		$c = igk_getr("clHtmlCode");
@@ -33,6 +49,12 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		igk_download_content("script.php", strlen($out) , $out);
 		igk_exit();
 	}
+	/**
+	 * Build PHP assignment statements for all attributes of a node.
+	 *
+	 * @param mixed $k HTML node whose attributes are converted.
+	 * @return string PHP code string containing attribute assignments.
+	 */
 	private static function GetAttribute($k)
 	{
 		$out = "";
@@ -46,6 +68,12 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		}
 		return $out;
 	}
+	/**
+	 * Build a PHP assignment statement for a node's text content.
+	 *
+	 * @param mixed $k HTML node whose text content is converted.
+	 * @return string|null PHP code string or null when there is no content.
+	 */
 	private static function GetTextContent($k)
 	{
 			if ($k->Content)
@@ -55,6 +83,13 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 			return null;
 
 	}
+	/**
+	 * Recursively convert child nodes to PHP script statements.
+	 *
+	 * @param mixed $dv    Parent HTML node whose children are processed.
+	 * @param mixed $owner Optional owner node; null when at the root level.
+	 * @return string PHP code string representing the child nodes.
+	 */
 	private static function GetChild($dv,  $owner=null)
 	{
 		$out = "";
@@ -107,6 +142,13 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 			return $out;
 	}
 
+	/**
+	 * Convert an HTML node tree to a PHP script string.
+	 *
+	 * @param mixed $dv    HTML node to convert.
+	 * @param mixed $owner Optional owner context; null at the root level.
+	 * @return string PHP code string representing the node tree.
+	 */
 	private static function ConvertToScript($dv, $owner=null)
 	{
 		$out = "";
@@ -137,6 +179,11 @@ class IGKHtmlToScriptTool extends ToolControllerBase
 		}
 		return $out;
 	}
+	/**
+	 * Render the HTML-to-script conversion form.
+	 *
+	 * @return void
+	 */
 	public function doAction()
 	{
 		$frame = igk_html_frame($this, "tool.htmltoscript");

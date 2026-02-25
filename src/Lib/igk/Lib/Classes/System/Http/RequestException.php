@@ -7,6 +7,13 @@ namespace IGK\System\Http;
 use Exception;
 class RequestException extends \IGKException{
     protected $status;
+    /**
+     * Constructor.
+     *
+     * @param int            $code     The HTTP status code for the exception.
+     * @param string         $message  Optional exception message; defaults to the status label.
+     * @param Throwable|null $previous Optional previous throwable.
+     */
     public function __construct($code, $message="", ?\Throwable $previous=null)
     {
         if (empty($message)){

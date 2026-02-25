@@ -5,8 +5,14 @@
 // @desc: 
 namespace IGK\System\Database\Migrations;
 abstract class Migration{
+    /**
+     * Applies the migration (runs the forward schema changes).
+     */
     public function up(){
     }
+    /**
+     * Reverts the migration (rolls back the schema changes).
+     */
     public function down(){
     }
 }

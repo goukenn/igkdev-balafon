@@ -10,10 +10,23 @@ use IGK\Controllers\ToolControllerBase;
 class IGKIncludeForVSTool extends ToolControllerBase
 {
 
+	/**
+	 * Return the URI of the tool image icon.
+	 *
+	 * @return string URI of the include-for-VS tool image.
+	 */
 	public function getImageUri(){
 		$uri = igk_html_resolv_img_uri(igk_io_baseDir("Lib/igk/Default/R/Img/pics_48x48/tool_incforvs.png"));
 		return $uri;
 	}
+	/**
+	 * Recursively load files from a directory into an XML node.
+	 *
+	 * @param mixed  $node    Target XML node to populate.
+	 * @param string $pattern Current relative path pattern used for link labels.
+	 * @param string $dir     Absolute directory path to scan.
+	 * @return void
+	 */
 	private function LoadFile($node , $pattern,  $dir)
 	{
 		$hdir = opendir($dir);
@@ -37,6 +50,11 @@ class IGKIncludeForVSTool extends ToolControllerBase
 			closedir($hdir);
 		}
 	}
+	/**
+	 * Build a Visual Studio include XML file and send it as a download.
+	 *
+	 * @return void
+	 */
 	public function doAction()
 	{
 		$out = "";

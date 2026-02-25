@@ -661,7 +661,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
         DbQueryDriver::$Config["db"] = $this->getDbIdentifier();
     }
     /**
-     *  override to manage the open connexion counter
+     *  override to manage the open connection counter
      */
     public function openCount()
     {

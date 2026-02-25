@@ -30,6 +30,13 @@ class MakeModuleCommand extends AppCommand{
         "--version"=>"setup current version",
         "--no-init-lang"=>"disable lang files initialization",
     ]; 
+    /**
+     * Run the make module command and register the exec closure on the command.
+     *
+     * @param mixed $args    The command arguments.
+     * @param mixed $command The command context object.
+     * @return void
+     */
     public function run($args, $command)
     {
         $command->exec = function($command, ?string $name=null){
@@ -205,6 +212,14 @@ class MakeModuleCommand extends AppCommand{
             Logger::success(__("done"));
         };
     }
+    /**
+     * Build the PHP string defining the module entry namespace, version and author.
+     *
+     * @param string|null $author  The author name.
+     * @param string|null $e_ns   The entry namespace.
+     * @param string      $version The module version string.
+     * @return string The formatted module definition block.
+     */
     static function EntryModuleDefinition($author=null, $e_ns=null, $version="1.0" ){
         return <<<EOF
 //------------------------------------------------

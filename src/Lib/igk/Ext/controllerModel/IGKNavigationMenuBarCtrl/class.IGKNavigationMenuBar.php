@@ -14,10 +14,20 @@ use IGK\System\Html\Dom\HtmlNode;
 
 abstract class IGKNavigationMenuBarCtrl extends \IGK\Controllers\ControllerTypeBase
 { 
+	/**
+	 * Returns additional configuration info, including animation speed.
+	 *
+	 * @return array
+	 */
 	public static function GetAdditionalConfigInfo()
 	{
 		return array("clSpeed"=>new ExtraControllerProperty("text", 1000));
 	}
+	/**
+	 * Renders the navigation menu bar from the default article's anchor links.
+	 *
+	 * @return BaseController
+	 */
 	public function View():BaseController{
 		if ($this->IsVisible)
 		{

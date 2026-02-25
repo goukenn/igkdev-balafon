@@ -21,6 +21,11 @@ represent a IGKPDFViewerCtrl
 final class IGKHtmlPdfViewNode extends HtmlNode
 {
 	private $m_ctrl;
+	/**
+	 * Constructor.
+	 *
+	 * @param mixed $ctrl The parent PDF viewer controller.
+	 */
 	public function __construct($ctrl)
 	{
 		parent::__construct("iframe");
@@ -28,12 +33,24 @@ final class IGKHtmlPdfViewNode extends HtmlNode
 		$this["class"]="noborder dispb fitw fith cliframe";
 
 	}
+	/**
+	 * Renders the iframe node with the PDF Ajax URI as its source.
+	 *
+	 * @param mixed $xmloption Optional XML render options.
+	 * @return string
+	 */
 	public function render($xmloption=null)
 	{
 		$uri = $this->m_ctrl->getUri("render_pdf_ajx");
 		$this["src"] = igk_io_baseuri().$uri;
 		return parent::Render($xmloption);
 	}
+	/**
+	 * Returns the inner HTML of the node.
+	 *
+	 * @param mixed $xmloption Optional XML render options passed by reference.
+	 * @return string
+	 */
 	public function innerHTML (& $xmloption =null)
 	{
 
@@ -51,15 +68,34 @@ final class IGKHtmlPdfViewNode extends HtmlNode
 abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_pdf;
+	/**
+	 * Constructor.
+	 */
 	public function __construct(){
 		parent::__construct();
 	}
+	/**
+	 * Completes the controller initialization.
+	 *
+	 * @param mixed $context Optional initialization context.
+	 * @return void
+	 */
 	protected function initComplete($context=null){
 		parent::initComplete();
 	}
+	/**
+	 * Returns whether child controllers can be added to this controller.
+	 *
+	 * @return bool
+	 */
 	public function getCanAddChild(){
 		return false;
 	}
+	/**
+	 * Initializes the target node and embeds the PDF iframe view node.
+	 *
+	 * @return \IGK\System\Html\Dom\HtmlNode|null
+	 */
 	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$n = parent::initTargetNode();
 		$pdf = new IGKHtmlPdfViewNode($this);
@@ -68,6 +104,11 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 
 		return $n;
 	}
+	/**
+	 * Renders the PDF viewer, removing the target node when not visible.
+	 *
+	 * @return BaseController
+	 */
 	public function View():BaseController{
 		if (!$this->IsVisible)
 		{
@@ -75,6 +116,11 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 		}
 		return $this;
 	}
+	/**
+	 * Handles the Ajax request to render and output the PDF content.
+	 *
+	 * @return void
+	 */
 	public function render_pdf_ajx()
 	{
 		$pdf = new IGKPdf();

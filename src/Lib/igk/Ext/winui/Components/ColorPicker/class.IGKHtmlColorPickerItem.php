@@ -16,6 +16,11 @@ final class IGKHtmlColorPickerItem extends HtmlNode
 	private $r;
 	private $g;
 	private $b;
+	/**
+	 * Returns the current color as a hex web color string (e.g. #rrggbb).
+	 *
+	 * @return string
+	 */
 	public function getWebValue(){
 		$v_r = Number::ToBase($this->r, 16, 2);
 		$v_g = Number::ToBase($this->g, 16, 2);
@@ -23,6 +28,9 @@ final class IGKHtmlColorPickerItem extends HtmlNode
 
 		return "#".$v_r.$v_g.$v_b;
 	}
+	/**
+	 * Constructor.
+	 */
 	public function __construct(){
 		parent::__construct("div");
 		$this->setClass("igk-clpicker");
@@ -46,6 +54,12 @@ EOF;
 		include(dirname(__FILE__)."/Styles/".ConstantsEFAULT_THEME_STYLE);
 	}
 
+	/**
+	 * Initialises the color picker in demo mode.
+	 *
+	 * @param mixed $t The demo context or target node.
+	 * @return void
+	 */
 	public function initDemo($t){
 		$this["demo"] = "1";
 		$this->div()->Content = "for demo";
@@ -60,6 +74,11 @@ final class IGKHtmlCircleColorPickerItem extends HtmlNode
 	private $r;
 	private $g;
 	private $b;
+	/**
+	 * Returns the current color as a hex web color string (e.g. #rrggbb).
+	 *
+	 * @return string
+	 */
 	public function getWebValue(){
 		$v_r = Number::ToBase($this->r, 16, 2);
 		$v_g = Number::ToBase($this->g, 16, 2);
@@ -67,6 +86,9 @@ final class IGKHtmlCircleColorPickerItem extends HtmlNode
 
 		return "#".$v_r.$v_g.$v_b;
 	}
+	/**
+	 * Constructor.
+	 */
 	public function __construct(){
 		$this->m_ctrl = igk_getctrl("igkcolorpickercomponentcontroller");
 		parent::__construct("div");
@@ -74,6 +96,11 @@ final class IGKHtmlCircleColorPickerItem extends HtmlNode
 		$this->initView();
 
 	}
+	/**
+	 * Builds the circle color picker view with image, trackbar, and input controls.
+	 *
+	 * @return void
+	 */
 	public function initView(){
 		$this->clearChilds();
 		$d = $this->div()->setClass("dispib");
@@ -94,6 +121,12 @@ ns_igk.readyinvoke('igk.winui.components.circleColorPicker.init');
 EOF;
 	}
 
+	/**
+	 * Initialises the circle color picker in demo mode.
+	 *
+	 * @param mixed $t The demo context or target node.
+	 * @return void
+	 */
 	public function initDemo($t){
 		$this["demo"] = "1";
 		$this->div()->setClass("demo")->Content = "for demo";
@@ -104,6 +137,16 @@ EOF;
 
 final class IGKColorPickerComponentController extends NonVisibleControllerBase
 {
+	/**
+	 * Returns whether the resource can be modified.
+	 *
+	 * @return bool
+	 */
 	public function getcanModify(){return false;}
+	/**
+	 * Returns whether the resource can be deleted.
+	 *
+	 * @return bool
+	 */
 	public function getcanDelete(){return false;}
 }

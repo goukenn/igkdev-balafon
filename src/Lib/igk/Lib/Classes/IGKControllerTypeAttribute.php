@@ -8,5 +8,8 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 class IGKControllerTypeAttribute extends IGKAttribute{
+    /**
+     * Constructor.
+     */
     public function __construct(){    }
 }

@@ -15,14 +15,30 @@ use IGKHtmlRelativeUriValueAttribute;
 use IGKViewMode;
 use function igk_resources_gets as __;
 final class HtmlSessionBlockNode extends HtmlCtrlNode{
+    /**
+     * Returns true when the server is local or running in a development environment.
+     *
+     * @return bool
+     */
     public function getIsVisible()
     {
         return Server::IsLocal() || igk_environment()->isDev();
     }
-    protected function _acceptRender($options = null):bool{  
+    /**
+     * Determines whether the session block node should be rendered.
+     *
+     * @param mixed $options Rendering options.
+     * @return bool
+     */
+    protected function _acceptRender($options = null):bool{
         return $this->getIsVisible();     
     }
-    private function __buildview($t){ 
+    /**
+     * Builds the debug panel view with session controls and environment information.
+     *
+     * @param mixed $t The container node to build the view into.
+     */
+    private function __buildview($t){
         $t->addObData(function(){
             $cnf_=igk_getctrl(IGK_CONF_CTRL);
             $cnf_view=igk_is_conf_connected();
@@ -143,12 +159,20 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
         , IGK_HTML_NOTAG_ELEMENT);
     }
     private $callback_mem;
+    /**
+     * Constructor.
+     *
+     * @param SessionController $controller The session controller instance.
+     */
     public function __construct(SessionController $controller){
         parent::__construct($controller, "div");
         $this->callback_mem = $this->addNodeCallback("mem_usage", function($t){
             return $t->memoryusageinfo();
         });
     }
+    /**
+     * Handles application exit by rendering the session block via AJAX if needed.
+     */
     public function onAppExit(){
         $app=igk_app();
         if(igk_is_ajx_demand() && $this->IsVisible && $app->Session->getRedirectTask('modview')){
@@ -156,8 +180,14 @@ final class HtmlSessionBlockNode extends HtmlCtrlNode{
             $app->Session->{"modeview"}=null;
         }
     }
+    /**
+     * Returns the child nodes to be rendered for the session block.
+     *
+     * @param mixed $options Rendering options.
+     * @return array
+     */
     protected function _getRenderingChildren($options = null)
-    { 
+    {
         // $v = parent::_getRenderingChildren();
         $n = new HtmlNode("div");
         $n['class'] = 'igk-sys-session-block-node no-print';

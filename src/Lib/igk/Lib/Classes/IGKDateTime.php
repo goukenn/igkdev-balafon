@@ -9,10 +9,25 @@
 // @url: https://www.igkdev.com
 class IGKDateTime extends IGKObject{
     private $m_day, $m_hour, $m_min, $m_month, $m_sec, $m_year;
+    /**
+     * Constructor.
+     */
     private function __construct(){    }
+    /**
+     * Returns a string representation of this date-time instance.
+     *
+     * @return string
+     */
     public function __toString(){
         return "IGKDateTime:[".$this->day."-".$this->month."-".$this->year."]";
     }
+    /**
+     * Compares two IGKDateTime instances by date only.
+     *
+     * @param IGKDateTime|null $date1 The first date.
+     * @param IGKDateTime|null $date2 The second date.
+     * @return int
+     */
     public static function compareDate($date1, $date2){
         if(!$date1 || !$date2)
             return -2;
@@ -20,6 +35,13 @@ class IGKDateTime extends IGKObject{
         $s2=$date2->getDate("Ymd");
         return strcmp($s1, $s2);
     }
+    /**
+     * Creates an IGKDateTime instance from a formatted date string.
+     *
+     * @param string $format The date format string.
+     * @param string $value  The date string to parse.
+     * @return IGKDateTime|null
+     */
     public static function CreateFrom($format, $value){
         $tab=(object)date_parse_from_format($format, $value);
         if($tab->error_count == 0){

@@ -8,6 +8,11 @@ use IGK\System\Http\WebResponse;
 class CssCoreResponse extends WebResponse{
     var $file;
     var $no_cache;
+    /**
+     * Constructor.
+     *
+     * @param mixed $content The CSS content for the response.
+     */
     public function __construct($content)
     {
         parent::__construct($content, 200, [

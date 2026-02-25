@@ -14942,8 +14942,10 @@ if (!function_exists("igk_io_getdirs")) {
         return $out;
     }
 }
-///retourne le chemin complet . si chemin relatif fournit c'est le cwd qui intervient
 /**
+ * Returns the full path. If a relative path is provided, the cwd is used.
+ * @param string $path
+ * @return string
  */
 function igk_io_getfullpath($path)
 {

@@ -53,6 +53,12 @@ abstract class HtmlOptions{
             "source"=>"source",
             "embed"=>"embed"
         );
+    /**
+     * Determines whether the given attribute name is permitted on an HTML node.
+     *
+     * @param string $name The attribute name to check.
+     * @return bool True if the attribute is allowed, false otherwise.
+     */
     public static function IsAllowedAttribute(string $name){
         // ---------------------------------------------------------------------------------
         // ignore igk:param cause have a special meaning for loading template - it will call setParam methoe- will pass data

@@ -1070,7 +1070,7 @@ EOF;
     }
     ///<summary></summary>
     /**
-     * init view connexion amdinistration node 
+     * init view connection amdinistration node 
      */
     private function initConnexionNode()
     {

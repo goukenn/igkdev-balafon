@@ -2,13 +2,19 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: MailDocument.php
 // @date: 20220803 13:48:55
-// @desc: 
+// @desc:
 namespace IGK\System\Net;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlRenderer;
 class MailDocument extends HtmlNode{
     protected $tagname = "div";
+    /**
+     * Renders the mail document using the mail HTML context.
+     *
+     * @param object|null $option Rendering options; defaults to mail context.
+     * @return string
+     */
     public function render($option=null){
         if ($option==null){
             $option = (object)["Context"=>HtmlContext::Mail];

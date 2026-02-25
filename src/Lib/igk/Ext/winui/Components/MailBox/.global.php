@@ -4,6 +4,12 @@
 // @date: 20220803 13:48:58
 // @desc: 
 
+/**
+ * Parse a raw email address string into an object with email and display name.
+ *
+ * @param string $i The raw email address string (e.g. "Name <email@example.com>").
+ * @return object Object with clEmail and clDisplayName properties.
+ */
 function igk_mail_get_mailinfo($i)
 {
 	$b = new StdClass();

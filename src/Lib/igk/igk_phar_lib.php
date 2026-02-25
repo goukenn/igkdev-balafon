@@ -12,6 +12,12 @@ $web = "/index.php";
 //present cache out lib
 final class IGKPhar
 {
+	/**
+	 * Send HTTP cache headers to the client.
+	 *
+	 * @param int $second Number of seconds the response should be cached.
+	 * @return void
+	 */
 	public static function Cacheout($second=3600){
 		$ts = gmdate("D, d M Y H:i:s", time() + $second) . " GMT";
 		header("Expires: {$ts}");
@@ -22,9 +28,20 @@ final class IGKPhar
 	//----------------------------------------------------------------------------
 	//export setting
 	//----------------------------------------------------------------------------
+	/**
+	 * Check whether a file exists.
+	 *
+	 * @param string $file Path to the file to check.
+	 * @return bool True if the file exists, false otherwise.
+	 */
 	public static function fileExists($file){
 		return igk_io_file_exists($file);
 	}
+	/**
+	 * Return the directory of the currently running Phar archive.
+	 *
+	 * @return string Directory path of the running Phar.
+	 */
 	public static function runningDir(){
 		return dirname(Phar::running());
 	}

@@ -1,7 +1,7 @@
 <?php
 // @file: IGKHtmlAttribExpressionNode.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description:
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -14,18 +14,32 @@ class HtmlAttribExpressionNode extends XmlNode
 {
     var  $node_args;
     var  $target_node;
+    /**
+     * Constructor.
+     *
+     * @param HtmlItemBase $cnode The target HTML node to bind attributes to.
+     * @param array        $c     The context arguments for attribute expressions.
+     */
     public function __construct(HtmlItemBase $cnode, array $c)
-    {        
+    {
         parent::__construct(IGK_ENGINE_ATTR_EXPRESSION_NODE);
-        $this->node_args = $c; 
-        $this->target_node = $cnode; 
+        $this->node_args = $c;
+        $this->target_node = $cnode;
     }
+    /**
+     * Indicates whether child nodes can be added to this node.
+     *
+     * @return bool
+     */
     public function getCanAddChild()
     {
         return false;
     }
+    /**
+     * Processes and applies attribute expressions to the target node after loading.
+     */
     public function loadingComplete()
-    { 
+    {
         $context = null;
         $m = $this->Attributes->to_array();
         $_p = [];
@@ -43,10 +57,10 @@ class HtmlAttribExpressionNode extends XmlNode
             $_p[$k] = $t;
         }
         if (count($_p) > 0) {
-            // + append attribute 
-            $p->setAttributes($_p);  
+            // + append attribute
+            $p->setAttributes($_p);
         }
-        $this->node_args = null;    
-        $this->dispose(); 
+        $this->node_args = null;
+        $this->dispose();
     }
 }

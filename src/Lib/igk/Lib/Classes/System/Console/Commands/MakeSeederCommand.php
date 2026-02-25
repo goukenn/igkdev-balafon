@@ -17,6 +17,14 @@ class MakeSeederCommand extends AppExecCommand
     var $category = "make";
     var $desc  = "make project's seeder";
     var $options = [];
+    /**
+     * Execute the command to generate a seeder class for the given controller and model.
+     *
+     * @param mixed  $command    The command context object.
+     * @param string $controller The controller identifier.
+     * @param string $modelname  The model name to base the seeder on.
+     * @return bool|void Returns false on validation failure, void on success.
+     */
     public function exec($command, $controller = "", $modelname = "")
     {
         if (empty($controller)) {
@@ -59,6 +67,11 @@ class MakeSeederCommand extends AppExecCommand
         \IGK\Helper\SysUtils::ClearCache();
         Logger::success("done");
     }
+    /**
+     * Display usage help information for the make seeder command.
+     *
+     * @return void
+     */
     public function help()
     {
         Logger::print("-");

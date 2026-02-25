@@ -10,6 +10,11 @@ use IGK\System\Html\HtmlReader;
 
 abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBase
 {
+	/**
+	 * Returns additional configuration properties for the Silverlight block.
+	 *
+	 * @return array
+	 */
 	public static function GetAdditionalConfigInfo()
 	{
 		return array(
@@ -18,10 +23,20 @@ abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBa
 			"clPrimaryHeight" => new ExtraControllerProperty("text", "300px")
 		);
 	}
+	/**
+	 * Indicates whether child elements can be added to this controller.
+	 *
+	 * @return bool
+	 */
 	public function getCanAddChild()
 	{
 		return false;
 	}	 
+	/**
+	 * Renders the Silverlight object element into the target node.
+	 *
+	 * @return BaseController
+	 */
 	public function View():BaseController
 	{
 
@@ -53,6 +68,12 @@ OEF
 		return $this;
 	}
 
+	/**
+	 * Suppresses child rendering; no target node is used.
+	 *
+	 * @param mixed $targetnode
+	 * @return void
+	 */
 	protected  function _showChild($targetnode = null)
 	{
 		//no target

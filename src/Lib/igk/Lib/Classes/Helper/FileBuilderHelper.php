@@ -8,6 +8,14 @@ use Closure;
 use IGK\System\Console\Logger;
 abstract class FileBuilderHelper
 {
+    /**
+     * Builds files from a data map, optionally forcing regeneration and binding a context.
+     *
+     * @param array          $data  Map of file paths to closures or empty-content markers
+     * @param bool           $force Force regeneration even when the file already exists
+     * @param object|null    $bind  Optional object to bind closure context to
+     * @return void
+     */
     public static function Build($data, $force = false, ?object $bind = null)
     {
         foreach ($data as $n => $c) {

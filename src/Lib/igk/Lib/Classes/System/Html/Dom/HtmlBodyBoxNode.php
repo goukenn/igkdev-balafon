@@ -3,14 +3,18 @@ namespace IGK\System\Html\Dom;
 use IGKEvents;
 // @file: HtmlBodyNode.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description:
 // @copyright: igkdev © 2021
 class HtmlBodyBoxNode extends HtmlNode{
     protected $tagname = "div";
+    /**
+     * Constructor.
+     * @param HtmlNode $parent The parent HTML node to attach this box to.
+     */
     public function __construct(HtmlNode $parent)
     {
         $this->m_parent = $parent;
         parent::__construct();
-        $this["class"] = "igk-bodybox fit igk-parentscroll igk-powered-viewer overflow-y-a"; 
-    } 
-} 
+        $this["class"] = "igk-bodybox fit igk-parentscroll igk-powered-viewer overflow-y-a";
+    }
+}

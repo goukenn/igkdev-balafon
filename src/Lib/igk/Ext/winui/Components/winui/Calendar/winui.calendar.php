@@ -10,12 +10,23 @@
 //version:1.0
 //release:19/12/2017
 
+/**
+ * Creates and returns a WinUI calendar HTML node.
+ *
+ * @return mixed
+ */
 function igk_html_node_Calendar(){
 	$d = igk_create_node("div");
 	$d["class"] = "igk-winui-calendar";
 	return $d;
 }
 
+/**
+ * Renders the calendar component demo (not yet implemented).
+ *
+ * @param mixed $t The target HTML node.
+ * @return void
+ */
 function igk_html_demo_Calendar($t){
 	die("not implement");
 	// $t->addObData(function(){

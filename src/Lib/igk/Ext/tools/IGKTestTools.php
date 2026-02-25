@@ -8,10 +8,20 @@ use IGK\Controllers\ToolControllerBase;
 final class IGKTestTools extends ToolControllerBase
 {
 
+	/**
+	 * Return the URI of the tool image icon.
+	 *
+	 * @return string URI of the test tool image.
+	 */
 	public function getImageUri(){
 		$uri = igk_html_resolv_img_uri(igk_io_baseDir("Lib/igk/Default/R/Img/pics_48x48/tool_sitemapgen.png"));
 		return $uri;
 	}
+	/**
+	 * Execute the test tool action.
+	 *
+	 * @return void
+	 */
 	public function DoAction(){
 	}
 }

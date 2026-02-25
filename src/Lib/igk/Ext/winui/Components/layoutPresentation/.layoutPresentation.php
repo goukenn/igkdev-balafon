@@ -7,6 +7,12 @@
 //init controller zone
 $CF = igk_ctrl_zone_init(__FILE__);
 
+/**
+ * Creates and returns a layout presentation HTML node of the given type.
+ *
+ * @param string $type The layout variant identifier (e.g. "1-2").
+ * @return mixed
+ */
 function igk_html_node_layoutPresentation($type="1-2"){
 $CF = igk_ctrl_zone(__FILE__);
 $c = igk_create_node("div");
@@ -27,6 +33,12 @@ $c->addOnRenderCallback(igk_create_expression_callback(
 }
 
 
+/**
+ * Populates the given node with a layout presentation demo containing Lorem Ipsum content.
+ *
+ * @param mixed $t The target HTML node to populate.
+ * @return void
+ */
 function igk_html_demo_layoutPresentation($t){
 
 	// $p = $t->container()->addRow()->addCol("igk-col-4-2 igk-col-sm-4-4 igk-col-xsm-4-4 no-padding")->div()->addlayoutPresentation();

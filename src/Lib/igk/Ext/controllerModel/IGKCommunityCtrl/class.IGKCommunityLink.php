@@ -19,14 +19,29 @@ use IGK\System\Html\HtmlUtils;
 final class IGKCommunityLink extends ConfigControllerBase
 { 
 
+	/**
+	 * Return the configuration page identifier.
+	 *
+	 * @return string The configuration page name.
+	 */
 	public function getConfigPage()
 	{
 		return "community";
 	}
+	/**
+	 * Return the path to the database constant configuration file.
+	 *
+	 * @return string Absolute path to the database constant file.
+	 */
 	public function getDbConstantFile(){
 		return dirname(__FILE__)."/com.config.db.const";
 	}
 
+	/**
+	 * Remove a community entry after confirmation.
+	 *
+	 * @return void
+	 */
 	public function comm_rm()
 	{
 		//remove communauty

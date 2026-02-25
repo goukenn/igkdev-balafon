@@ -13,23 +13,49 @@ use IGK\Resources\R;
 
 abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
+	/**
+	 * Indicates whether child elements can be added to this controller.
+	 *
+	 * @return bool
+	 */
 	public function getcanAddChild(){
 		return false;
 	}
+	/**
+	 * Returns the list of additional configuration keys for this controller.
+	 *
+	 * @return array
+	 */
 	public static function GetAdditionalConfigInfo()
 	{
 		return array("clTwitterUri");
 	}
+	/**
+	 * Populates additional configuration values from the request into the given array.
+	 *
+	 * @param array $t
+	 * @return void
+	 */
 	public static function SetAdditionalConfigInfo(& $t)
 	{
 		$t["clTwitterUri"] = igk_getr("clTwitterUri");
 	}
 	 
+	/**
+	 * Returns the category name used to group this controller in the UI.
+	 *
+	 * @return string
+	 */
 	public static function GetCtrlCategory(){
 		return "COMMUNITY";
 	}
 	 
 
+	/**
+	 * Renders the Twitter share button with the configured URL and language.
+	 *
+	 * @return BaseController
+	 */
 	public function View():BaseController
 	{
 		$t = $this->getTargetNode();

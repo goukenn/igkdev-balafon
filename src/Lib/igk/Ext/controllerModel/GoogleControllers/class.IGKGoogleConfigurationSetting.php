@@ -18,18 +18,43 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	use ControllerLocationTrait;
 	const API_KEY = "google.ApiKey";
 
+	/**
+	 * Returns the configuration page identifier for Google settings.
+	 *
+	 * @return string
+	 */
 	public function getConfigPage(){return "google.sdk";}
+	/**
+	 * Returns the configuration group name for Google settings.
+	 *
+	 * @return string
+	 */
 	public function getConfigGroup(){return "google";}
 	 
+	/**
+	 * Initializes and returns the configuration menu items for Google settings.
+	 *
+	 * @return array
+	 */
 	public function initConfigMenu(){
 		return array(
 			(new MenuItem($this->ConfigPage, $this->ConfigPage, $this->getUri("showConfig")))->setGroup($this->ConfigGroup),
 		);
 	}
+	/**
+	 * Returns the path to the Google configuration file.
+	 *
+	 * @return string
+	 */
 	protected function getConfigFile()
 	{
 		return igk_dir(IGK_DATA_FOLDER."/google.".IGK_CTRL_CONF_FILE);
 	}
+	/**
+	 * Renders the Google API configuration form in the admin config panel.
+	 *
+	 * @return void
+	 */
 	public function showConfig(){
 		parent::showConfig();
 		$cnf = $this->ConfigNode;
@@ -45,6 +70,11 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 		$frm->addActionBar()->addInput("btn.valid", "submit", __("Update"))
 		->setClass("igk-btn-primary");
 	}
+	/**
+	 * Stores the submitted Google API key in the application configuration.
+	 *
+	 * @return void
+	 */
 	public function storeApiKey(){
 		if (!igk_is_conf_connected()){
 			return;

@@ -9,7 +9,18 @@ use IGK\Controllers\NonVisibleControllerBase;
 
 final class IGKAccordeonHtmlItemCtrl extends NonVisibleControllerBase
 {
+	/**
+	 * Indicate whether this controller allows modifications.
+	 *
+	 * @return bool Always returns false.
+	 */
 	public function getcanModify(){return false;}
+
+	/**
+	 * Indicate whether this controller allows deletion.
+	 *
+	 * @return bool Always returns false.
+	 */
 	public function getcanDelete(){return false;}
 	 
 }

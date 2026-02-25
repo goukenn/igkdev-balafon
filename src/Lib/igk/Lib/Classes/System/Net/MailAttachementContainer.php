@@ -1,7 +1,7 @@
 <?php
 // @file: MailAttachementContainer.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description:
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -12,9 +12,20 @@ use IGKObject;
 use IGK\IMailAttachmentContainer;
 final class MailAttachementContainer extends IGKObject implements IMailAttachmentContainer{
     private $m_files, $m_ids;
+    /**
+     * Constructor.
+     */
     public function __construct(){
         $this->m_files=array();
     }
+    /**
+     * Attaches raw content as a mail attachment.
+     *
+     * @param string      $content     The content to attach.
+     * @param string      $contentType The MIME content type.
+     * @param string|null $cid         Optional content ID.
+     * @return MailAttachement
+     */
     public function attachContent($content, $contentType=IGK_CT_PLAIN_TEXT, $cid=null){
         $attach=new MailAttachement();
         $attach->Content=$content;
@@ -24,6 +35,14 @@ final class MailAttachementContainer extends IGKObject implements IMailAttachmen
         $this->m_files[]=$attach;
         return $attach;
     }
+    /**
+     * Attaches a file as a mail attachment.
+     *
+     * @param string      $file        The path to the file to attach.
+     * @param string      $contentType The MIME content type.
+     * @param string|null $cid         Optional content ID.
+     * @return MailAttachement|null
+     */
     public function attachFile($file, $contentType=IGK_CT_PLAIN_TEXT, $cid=null){
         if(!igk_io_file_exists($file))
             return null;
@@ -35,10 +54,20 @@ final class MailAttachementContainer extends IGKObject implements IMailAttachmen
         $this->m_files[]=$attach;
         return $attach;
     }
+    /**
+     * Generates a unique content ID for an attachment.
+     *
+     * @return string
+     */
     private function generate_cid(){
         $this->m_ids++;
         return "idcall_".$this->m_ids;
     }
+    /**
+     * Returns the list of attachments.
+     *
+     * @return array
+     */
     public function getList(){
         return $this->m_files;
     }

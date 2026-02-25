@@ -1,7 +1,7 @@
 <?php
 // @file: IGKHtmlFormInner.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description:
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -10,10 +10,18 @@
 namespace IGK\System\Html\Dom;
 final class HtmlFormInnerNode extends HtmlNode{
     private $m_form;
+    /**
+     * Constructor.
+     * @param mixed $form The form node this inner node belongs to.
+     */
     public function __construct($form){
         parent::__construct( "igk:form-inner");
         $this->m_form=$form;
     }
+    /**
+     * Indicates that this node does not render its tag.
+     * @return bool
+     */
     public function getCanRenderTag()
     {
         return false;

@@ -10,6 +10,13 @@ $CF = igk_ctrl_zone_init(__FILE__);
 
 ///options: JS object
 ///{controls: for available control , btns
+/**
+ * Create a video controls HTML node with the given model and options.
+ *
+ * @param string $model   The control model/style to use.
+ * @param mixed  $options JS options object for available controls and buttons.
+ * @return mixed The created video controls HTML node.
+ */
 function igk_html_node_videoControls($model='default', $options=null){
 	$CF = igk_ctrl_zone(__FILE__);
 	$n = igk_create_node("div");

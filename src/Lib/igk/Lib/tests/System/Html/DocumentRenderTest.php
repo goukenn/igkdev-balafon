@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: DocumentRenderTest.php
 // @date: 20220803 13:48:54
-// @desc: 
+// @desc:
 
 namespace IGK\Test\System\Html;
 
@@ -15,13 +15,18 @@ use IGKResourceUriResolver;
 
 class DocumentRenderTest extends BaseTestCase{
 
+    /**
+     * Test that inner HTML of a script element is correctly read.
+     *
+     * @return void
+     */
     function test_element_script_inner(){
         $s = new HtmlNode("data");
- 
+
         $s->load(<<<EOF
 <template lang="">
     <div>
-        information introduction 
+        information introduction
     </div>
 </template>
 <script type='ts' language='javascript'>
@@ -35,11 +40,17 @@ export default {
 </style>
 EOF
 );
-$v = $s->getElementsByTagName("script")[0]; 
+$v = $s->getElementsByTagName("script")[0];
 $g = trim($v->getinnerHtml());
- 
+
         $this->assertEquals("export default {\n}", $g, 'inner string not read');
     }
+
+    /**
+     * Test that a non-HTML tag node renders with an explicit closing tag.
+     *
+     * @return void
+     */
     function test_must_close_non_html_tag(){
         $c = new HtmlNode("router-view");
         $this->assertEquals(
@@ -47,9 +58,14 @@ $g = trim($v->getinnerHtml());
             $c->render()
         );
     }
-   
 
 
+
+    /**
+     * Test that the current relative URI is resolved correctly.
+     *
+     * @return void
+     */
     function test_current_relative_uri(){
         igk_server()->REQUEST_URI = "/testapi-test/";
         $this->assertEquals(
@@ -65,32 +81,43 @@ $g = trim($v->getinnerHtml());
             "relative relative uri not matching 1"
         );
     }
+
+    /**
+     * Test that PHP single-line comments are removed from source.
+     *
+     * @return void
+     */
     function test_php_remove_comment(){
-        $src = "// data \n\$data = 0;";        
+        $src = "// data \n\$data = 0;";
         $this->assertEquals(
             "\$data = 0;",
             ltrim(substr(PHPScriptBuilderUtility::RemoveComment("<?php\n".$src), 6)),
             "remove comment");
     }
 
+    /**
+     * Test that resource URI paths are resolved to relative URIs correctly.
+     *
+     * @return void
+     */
     function test_resolv_path(){
-        $g = IGKResourceUriResolver::getInstance(); 
+        $g = IGKResourceUriResolver::getInstance();
         igk_server()->REQUEST_URI = "/testapi/";
         igk_is_debug(true);
         $this->assertEquals(
             "../data-info",
             (new IGKHtmlRelativeUriValueAttribute("/data-info"))->getValue(),
-            "resolv path 1"); 
+            "resolv path 1");
 
-        // resolv with file exists - in lib 
-        // resolv and create link 
+        // resolv with file exists - in lib
+        // resolv and create link
         if (igk_io_file_exists($file = igk_io_basedir()."/assets/_lib_/Scripts/igk.js")){
-            
+
         } else if (is_link($file)){
             $this->addWarning("core link file create but not matching requirement.");
-            // $this->assertTrue(true, "link created.");            
+            // $this->assertTrue(true, "link created.");
             @unlink($file);
-        } 
+        }
 
         $this->assertEquals(
             "../assets/_lib_/Scripts/igk.js",
@@ -101,19 +128,24 @@ $g = trim($v->getinnerHtml());
 
                 $this->fail("create link not matching requirement");
             }
-            
+
         }
-        
+
 
         // resolv with non exists file in lib
-        $f = tempnam(sys_get_temp_dir(), "test-");        
+        $f = tempnam(sys_get_temp_dir(), "test-");
         $this->assertEquals(
             "../assets/_lib_/Scripts/".basename($f),
             (new IGKHtmlRelativeUriValueAttribute(IGK_LIB_DIR."/Scripts/".basename($f)))->getValue(),
-            "resolv path 3"); 
+            "resolv path 3");
         unlink($f);
     }
 
+    /**
+     * Test that igk_io_currentrelativeuri returns the correct relative path.
+     *
+     * @return void
+     */
     function test_igk_io_currentrelativeuri(){
         $this->assertEquals(
             "./",
@@ -125,6 +157,12 @@ $g = trim($v->getinnerHtml());
             igk_io_currentrelativeuri("/Configs"),
             "data: relative path not match 2");
     }
+
+    /**
+     * Test that igk_html_get_system_uri returns the correct system URI.
+     *
+     * @return void
+     */
     function test_igk_html_get_system_uri(){
         $v_access = '/Configs';
         $this->assertEquals(
@@ -134,7 +172,7 @@ $g = trim($v->getinnerHtml());
 
         igk_server()->REQUEST_URI = "/test/test/";
 
-        
+
         $this->assertEquals(
             igk_io_baseuri($v_access),
             igk_html_get_system_uri($v_access, (object)["StandAlone"=>true, "Context"=>"XML"]),
@@ -142,14 +180,19 @@ $g = trim($v->getinnerHtml());
 
     }
 
+    /**
+     * Test that a node without a tag renders with correct indented output.
+     *
+     * @return void
+     */
     function test_render_no_tagnode(){
         $doc = new HtmlNode("div");
         $doc->div()->Content = "Sample";
         $options = (object)[
-            "Indent"=>true, 
+            "Indent"=>true,
         ];
-        igk_setting()->no_page_cache = true; 
-        $s = $doc->render($options);   
+        igk_setting()->no_page_cache = true;
+        $s = $doc->render($options);
         $this->assertEquals(
             <<<EOF
 <div>

@@ -12,25 +12,56 @@ use IGK\Server;
 use IGK\System\Html\Dom\HtmlDebuggerViewNode; 
 use IGK\System\Html\HtmlUtils; 
 final class DebugController extends BaseController{
+    /**
+     * Returns the name identifier for the debug controller.
+     *
+     * @return string
+     */
     public function getName(): string{
         return IGK_DEBUG_CTRL;
     }
+    /**
+     * Adds a message node to the debug top div.
+     *
+     * @param mixed $div
+     * @return void
+     */
     public function addMessage($div){
         $this->m_topdiv->add($div);
     }
+    /**
+     * Clears all child nodes from the debug display area.
+     *
+     * @return void
+     */
     public function ClearDebug(){
         $this->m_topdiv->clearChilds();
     }
+    /**
+     * Returns the singleton debugger view node instance.
+     *
+     * @return HtmlDebuggerViewNode
+     */
     public function getDebuggerView(){
-        static $debug=null;  
+        static $debug=null;
         if($debug === null){
             $debug= new HtmlDebuggerViewNode();
         }
         return $debug;
     }
+    /**
+     * Returns whether the debug controller is visible on the current host.
+     *
+     * @return bool
+     */
     public function getIsVisible():bool{
         return Server::IsLocal();
     }
+    /**
+     * Initialises the target node structure for the debug controller.
+     *
+     * @return ?\IGK\System\Html\Dom\HtmlNode
+     */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $node=parent::initTargetNode();
         $cl=strtolower($this->getName());
@@ -41,6 +72,11 @@ final class DebugController extends BaseController{
         HtmlUtils::AddBtnLnk($this->m_optionsdiv, "btn.ClearDebug", $this->getUri("ClearDebug"));
         return $node;
     }
+    /**
+     * Renders the debug controller into the debug zone or removes it when not visible.
+     *
+     * @return BaseController
+     */
     public function View():BaseController{
         if($this->getIsVisible()){
             $body=igk_sys_debugzone_ctrl();

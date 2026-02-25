@@ -20,6 +20,11 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     const ITERATOR=3;
     const OWNER=4;
     private $_f;
+    /**
+     * Constructor.
+     *
+     * @param HtmlItemBase $owner The HTML node that owns these attributes
+     */
     public function __construct(HtmlItemBase $owner){
         if ($owner === null)
             igk_die("owner must be a HTML Item Base");
@@ -27,21 +32,44 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
         $this->tobj="base";
         $this->_f->setFlag(self::OWNER, $owner);
     }
+    /**
+     * Return the string representation of this attributes collection.
+     *
+     * @return string A descriptive string with count and type info
+     */
     public function __toString(){
         return "IGKHtmlAttribs [".$this->getcount()."] : ".$this->tobj;
     }
+    /**
+     * Check whether an attribute with the given key exists.
+     *
+     * @param mixed $key The attribute name to look up
+     * @return bool True if the attribute exists, false otherwise
+     */
     protected function _access_offsetExists($key): bool{
         if(is_object($key))
             igk_die("offsetExists ::keys is object ");
         $g=$this->getAttributes();
         return isset($g[$key]);
     }
+    /**
+     * Return the attribute value for the given key, or null if not found.
+     *
+     * @param mixed $key The attribute name to retrieve
+     * @return mixed The attribute value or null
+     */
     protected function _access_offsetGet($key){
         $g=$this->getAttributes();
         if($g && isset($g[$key]))
             return $g[$key];
         return null;
     }
+    /**
+     * Set an attribute value, with special handling for "class" and "rmclass" keys.
+     *
+     * @param mixed $key   The attribute name to set
+     * @param mixed $value The value to assign
+     */
     function _access_offsetSet($key, $value){
         $o=$this->getOwner();
         switch(strtolower($key)){
@@ -90,6 +118,11 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
             break;
         }
     }
+    /**
+     * Remove the attribute with the given key from the collection.
+     *
+     * @param mixed $key The attribute name to remove
+     */
     function _access_offsetUnset($key): void{
         $g=$this->getAttributes();
         if($g){

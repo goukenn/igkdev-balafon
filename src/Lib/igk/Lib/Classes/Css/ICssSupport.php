@@ -5,5 +5,11 @@
 // @desc: css support rule capture
 namespace IGK\Css;
 interface ICssSupport{
+    /**
+     * Check whether a given CSS rule is supported.
+     *
+     * @param string $rule The CSS rule to check.
+     * @return mixed
+     */
     function supports(string $rule);
 }

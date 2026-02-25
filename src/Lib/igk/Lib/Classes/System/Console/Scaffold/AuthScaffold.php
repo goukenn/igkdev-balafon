@@ -16,6 +16,14 @@ use ModelBase;
 class AuthScaffold extends ScaffoldBase
 {
     var $description = "authentication scaffold";
+    /**
+     * Execute the authentication scaffold command.
+     *
+     * @param mixed       $command    The command object carrying options.
+     * @param mixed|null  $controller The target controller identifier.
+     * @param string|null $name       Optional name for the scaffold.
+     * @return void
+     */
     public function exec($command, $controller = null, ?string $name = null)
     {
         if (property_exists($command->options, "--help")) {
@@ -24,6 +32,12 @@ class AuthScaffold extends ScaffoldBase
         }
         $this->run($command, ...array_slice(func_get_args(), 1));
     }
+    /**
+     * Display help information for the authentication scaffold command.
+     *
+     * @param mixed $command The command object used to display help output.
+     * @return void
+     */
     public function showHelp($command)
     {
         Logger::print(App::Gets(App::BLUE_I, "params"));
@@ -32,6 +46,14 @@ class AuthScaffold extends ScaffoldBase
         Logger::print("--model:[model_name]\r\t\t\tset the model");
         Logger::print("--force \r\t\t\tfoce model creation");
     }
+    /**
+     * Run the scaffold generation for the given controller and name.
+     *
+     * @param mixed       $command    The command object carrying options.
+     * @param mixed|null  $controller The target controller identifier.
+     * @param string|null $name       Optional name for the scaffold.
+     * @return bool|void
+     */
     protected function run($command, $controller = null, ?string $name=null)
     {
         $model = igk_getv($command->options, "--model");
@@ -79,6 +101,13 @@ class AuthScaffold extends ScaffoldBase
         }
         Logger::success("done. " . igk_sys_request_time());
     }
+    /**
+     * Generate a PHP view template script for the given file path.
+     *
+     * @param string      $file    The destination file path for the template.
+     * @param string|null $content Optional content to embed in the template.
+     * @return string The rendered PHP script content.
+     */
     private static function GenerateViewTemplate($file, ?string $content = null)
     {
         $builder = new PHPScriptBuilder();

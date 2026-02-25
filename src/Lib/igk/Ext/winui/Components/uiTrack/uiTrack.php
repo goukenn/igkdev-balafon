@@ -6,6 +6,12 @@
 
 $CF = igk_ctrl_zone_init(__FILE__);
 
+/**
+ * Create a UI track slider HTML node of the given type.
+ *
+ * @param string $type The track style type to apply.
+ * @return mixed The created UI track HTML node.
+ */
 function igk_html_node_uiTrack($type='default'){
 	$CF = igk_ctrl_zone(__FILE__);
 	$dv = igk_create_node("div");
@@ -28,6 +34,12 @@ EOF;
 	return $dv;
 
 }
+/**
+ * Render a demo form with multiple UI track sliders into the given container.
+ *
+ * @param mixed $t The target container node to render the demo into.
+ * @return void
+ */
 function igk_html_demo_uiTrack($t){
 	$frm = $t->div()->addForm();
 

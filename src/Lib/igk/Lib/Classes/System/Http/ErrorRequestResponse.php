@@ -11,16 +11,33 @@ class ErrorRequestResponse extends RequestResponse{
     var $type = "json";
     var $code = RequestResponseCode::BadRequest;
     var $message;
+    /**
+     * Constructor.
+     *
+     * @param int         $code    The HTTP response status code.
+     * @param string|null $message Optional error message.
+     * @param array|null  $headers Optional response headers.
+     */
     public function __construct($code, $message=null, $headers=null){
         $this->code = $code;
         $this->message = $message;
         $headers = $headers ?? \IGK\System\Http\Helper\Response::GetHeaderOptions(igk_server()->REQUEST_METHOD);
         $this->headers = $headers;
     }
+    /**
+     * Sets HTTP response headers for the error response.
+     *
+     * @return void
+     */
     protected function _setHeader(){
         parent::_setHeader();
     }
-    public function render(){ 
+    /**
+     * Renders the error response as JSON or an HTML error page.
+     *
+     * @return string|null
+     */
+    public function render(){
         $obj = ["response"=>(object)[
             "code"=>$this->code,
             "status"=> $this->code== 200? 'OK' :  self::GetStatus($this->code),
@@ -49,7 +66,12 @@ class ErrorRequestResponse extends RequestResponse{
         });
         return "<!DOCTYPE html>".$doc->render();
     }
-    public function getErrorStyle(){        
+    /**
+     * Returns the CSS style definition used for the HTML error page.
+     *
+     * @return string
+     */
+    public function getErrorStyle(){
         $theme = new HtmlDocTheme(null, -1, false);
         $theme["*, html, body"] = "margin:0px; padding:0px;";
         $theme->bindFile(IGK_LIB_DIR."/Styles/error_request.pcss");

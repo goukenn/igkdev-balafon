@@ -10,6 +10,12 @@
 namespace IGK\System\Html\Dom;
 final class HtmlFaviconNode extends HtmlNode{
     static $sm_instance;
+    /**
+     * Determines whether the favicon node should be rendered.
+     *
+     * @param mixed $options Rendering options containing the Document context.
+     * @return bool
+     */
     protected function _acceptRender($options = null):bool{
         if($options && isset($options->Document)){
             $g=$options->Document->getFavicon();
@@ -18,16 +24,32 @@ final class HtmlFaviconNode extends HtmlNode{
         }
         return false;
     }
+    /**
+     * Constructor.
+     */
     private function __construct(){
         parent::__construct("link");
         $this["rel"]="shortcut icon";
         $this["type"]="image/x-icon";
         $this["href"]=null;
     }
+    /**
+     * Returns an empty array to prevent serialization of instance properties.
+     *
+     * @return array
+     */
     public function __sleep(){
         return array();
     }
+    /**
+     * Restores the object state after unserialization.
+     */
     public function __wakeup(){    }
+    /**
+     * Returns the singleton instance of HtmlFaviconNode.
+     *
+     * @return static
+     */
     public static function getItem(){
         if(self::$sm_instance === null){
             self::$sm_instance=new HtmlFaviconNode();

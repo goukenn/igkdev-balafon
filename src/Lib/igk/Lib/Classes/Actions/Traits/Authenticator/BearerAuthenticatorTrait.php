@@ -26,7 +26,7 @@ trait BearerAuthenticatorTrait
     protected $_bearerAuthenticatorTokenHash = "-t-!#@4746QD-";
     protected $_bearerAuthenticatorCookieLifeConstants = 60 * 60 * 60 * 24;    // 60 days
     /**
-     * retrieve user from server token service - connexion must be store in action's controller table
+     * retrieve user from server token service - connection must be store in action's controller table
      * @param bool $update 
      * @param mixed &$token 
      * @return null|ModelBase 

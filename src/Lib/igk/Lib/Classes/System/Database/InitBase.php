@@ -10,6 +10,13 @@ abstract class InitBase{
     // + | public static function Init(SourceController $controller){
     // + |      override this to init your database
     // + | }
+    /**
+     * Initialise authorisation records from the constants of the given class.
+     *
+     * @param string $classname The class whose constants supply authorisation names.
+     * @param ?BaseController $owner Optional owning controller.
+     * @return void
+     */
     protected static function InitAuthorisations( string $classname, ?BaseController $owner=null){
         self::_initConstantModel($classname, \IGK\Models\Authorizations::class, $owner, function($v, $cl)use($owner){
             return [
@@ -18,6 +25,15 @@ abstract class InitBase{
             ];
         });
     }
+    /**
+     * Insert model rows from constants of a class if they do not already exist.
+     *
+     * @param string $classname The class whose constants provide values.
+     * @param mixed $modelclass The model class used to insert records.
+     * @param ?BaseController $owner Optional owning controller.
+     * @param ?callable $callback Optional callback to build the row data.
+     * @return void
+     */
     protected static function _initConstantModel(string $classname, $modelclass,  ?BaseController $owner=null, ?callable $callback=null){
         $cl = null;
         if ($owner)
@@ -31,6 +47,13 @@ abstract class InitBase{
             $modelclass::insertIfNotExists($tab);
         } 
     }
+    /**
+     * Initialise group records from the constants of the given class.
+     *
+     * @param string $classname The class whose constants supply group names.
+     * @param ?BaseController $owner Optional owning controller.
+     * @return void
+     */
     protected static function InitGroups( string $classname, ?BaseController $owner=null){
         self::_initConstantModel($classname,\IGK\Models\Groups::class, $owner, function($v, $cl)use($owner){
             return [

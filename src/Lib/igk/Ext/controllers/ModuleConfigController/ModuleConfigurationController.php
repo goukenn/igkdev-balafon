@@ -13,9 +13,19 @@ use IGK\System\WinUI\Paginator;
 use function igk_resources_gets as __;
 
 class ModuleConfigurationController extends ConfigControllerBase{
+    /**
+     * Returns the unique name identifier for this controller.
+     *
+     * @return string
+     */
     public function getName(): string{
         return IGK_MODULE_CNF_CTRL;
     }
+    /**
+     * Returns the configuration menu items for the module config section.
+     *
+     * @return array
+     */
     public function initConfigMenu()
 	{
 		return [
@@ -27,6 +37,11 @@ class ModuleConfigurationController extends ConfigControllerBase{
 			)
 		];
 	}
+    /**
+     * Returns the configuration page identifier for this controller.
+     *
+     * @return string
+     */
     public function getConfigPage(){
         return "Module";
     }

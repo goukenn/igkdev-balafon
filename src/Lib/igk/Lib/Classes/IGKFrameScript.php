@@ -1,7 +1,7 @@
 <?php
 // @file: IGKFrameScript.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description:
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -11,17 +11,27 @@ use IGK\System\Html\IHtmlGetValue;
 final class IGKFrameScript implements IHtmlGetValue{
     private $m_type;
     var $owner;
+    /**
+     * Constructor.
+     * @param mixed $owner The owner node of this frame script.
+     * @param string $type The frame script type identifier.
+     */
     public function __construct($owner, $type="f"){
         $this->owner=$owner;
         $this->m_type=$type;
     }
+    /**
+     * Returns the JavaScript initialization string for the frame box.
+     * @param mixed $option Optional rendering option.
+     * @return string The formatted JavaScript call string.
+     */
     public function getValue($option=null){
         $n=IGK_STR_EMPTY;
         switch($n){
             case "c":
             $n="initconfirm";
             break;
-            case "f":default: 
+            case "f":default:
             $n="init";
             break;
         }

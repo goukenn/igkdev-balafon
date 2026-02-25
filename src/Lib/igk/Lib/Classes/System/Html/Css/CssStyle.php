@@ -1,7 +1,7 @@
 <?php
 // @file: IGKCssStyle.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description:
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -13,9 +13,18 @@ use IGKEvents;
 use IGKObject;
 final class CssStyle extends IGKObject{
     private $m_properties;
+    /**
+     * Constructor.
+     */
     public function __construct(){
         $this->m_properties=array();
     }
+    /**
+     * Load and parse CSS properties from a raw CSS string.
+     * @param string $v The raw CSS string to parse.
+     * @param mixed $level The CSS specificity level.
+     * @param mixed $source The source context for theme resolution.
+     */
     public function load($v, $level, $source){
         $doc = igk_app()->getDoc();
         $v=igk_css_treat($v, false, $doc->getTheme(), $doc->getSysTheme());
@@ -24,6 +33,10 @@ final class CssStyle extends IGKObject{
             $this->m_properties[trim($tab[$i])]=trim($tab[$i + 1]);
         }
     }
+    /**
+     * Render the CSS properties as an inline style string.
+     * @return string
+     */
     public function render(){
         $o="";
         foreach($this->m_properties as $k=>$v){

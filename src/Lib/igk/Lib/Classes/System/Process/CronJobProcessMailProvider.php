@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: CronJobProcessMailProvider.php
 // @date: 20220803 13:48:55
-// @desc: 
+// @desc:
 namespace IGK\System\Process;
 use IGK\Controllers\BaseController;
 use IGK\Models\Mails;
@@ -10,10 +10,24 @@ use IGK\System\Net\Mail;
 use IGKObjStorage;
 class CronJobProcessMailProvider extends CronJobProcessProviderBase
 {
+    /**
+     * Extracts required mail fields from the given options.
+     *
+     * @param mixed $options The raw options object or array.
+     * @return mixed
+     */
     public function treat($options)
     {
         return igk_get_robjs('to|subject|message', 0, $options);
     }
+    /**
+     * Processes pending mails and sends them via the mail service.
+     *
+     * @param mixed                $name    The process name.
+     * @param mixed                $options The process options.
+     * @param BaseController|null  $ctrl    The optional controller context.
+     * @return bool
+     */
     public function exec($name, $options, ?BaseController $ctrl = null)
     {
         if ($mails = Mails::select_all(["mail_status" => 0])) {

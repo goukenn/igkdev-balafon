@@ -10,6 +10,11 @@ use IGK\System\Html\HtmlReader;
 use IGK\Tests\BaseTestCase;
 
 class testTemplateRendering extends BaseTestCase{
+    /**
+     * Test rendering of a *for template directive on an HTML element.
+     *
+     * @return void
+     */
     public function test_loadingfor(){
         $src = <<<MSG_EOF
 <div *for="\$raw->data->info">

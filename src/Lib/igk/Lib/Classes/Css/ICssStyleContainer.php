@@ -5,6 +5,16 @@
 // @desc: 
 namespace IGK\Css;
 interface ICssStyleContainer{
+    /**
+     * Get the CSS definition.
+     *
+     * @return mixed
+     */
     function getdef();
+    /**
+     * Get the CSS properties.
+     *
+     * @return mixed
+     */
     function getProperties();
 }

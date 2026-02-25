@@ -14,18 +14,41 @@ use IGK\Resources\R;
 // "appId"=>null
 // ));
 
+/**
+ * Initializes Facebook settings from the given configuration object.
+ *
+ * @param mixed $conf The configuration object or array.
+ * @return void
+ */
 function igk_fb_init($conf){
 	igk_fb_set_appId(igk_conf_get($conf, "app.Followus/facebookAppID"));
 }
+/**
+ * Sets the Facebook application ID in the global environment settings.
+ *
+ * @param string $appId The Facebook application ID.
+ * @return void
+ */
 function igk_fb_set_appId($appId){
 	$h = igk_get_env("sys://facebook/settings");
 	$h["appId"] = $appId;
 	igk_set_env("sys://facebook/settings",$h);
 }
+/**
+ * Returns the Facebook locale string for the given language code.
+ *
+ * @param string $k The two-letter language code (e.g. "fr", "en").
+ * @return string
+ */
 function igk_fb_lang($k){
 	$tab = array("fr"=>"fr_FR","en"=>"en_GB");
 	return igk_getv($tab, strtolower($k), igk_getv(igk_get_env("sys://facebook/settings"), "lang"));
 }
+/**
+ * Returns a PHP expression string that registers the Facebook JS SDK script.
+ *
+ * @return string
+ */
 function igk_fb_LibExpression(){
 	$h = igk_get_env("sys://facebook/settings");
 	$fb_js = realpath(dirname(__FILE__)."/Scripts/.fb.js");
@@ -40,6 +63,14 @@ EOF;
 }
 ///theme : light or dark
 ///layout: standard|button_count|box_count
+/**
+ * Creates an HTML iframe node for a Facebook Follow Us button.
+ *
+ * @param string      $id     The Facebook page ID or username.
+ * @param string|null $layout Optional button layout (standard, button_count, box_count).
+ * @param string|null $theme  Optional color scheme (light or dark).
+ * @return mixed
+ */
 function igk_html_node_FacebookFollowUsButton($id,$layout=null,$theme=null){
 	$uri = "https://www.facebook.com/plugins/follow.php?href=".
 	htmlentities("https://www.facebook.com/{$id}");

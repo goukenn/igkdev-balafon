@@ -1,7 +1,7 @@
 <?php
 // @file: IGKSorter.php
 // @author: C.A.D. BONDJE DOUE
-// @description: 
+// @description:
 // @copyright: igkdev © 2021
 // @license: Microsoft MIT License. For more information read license.txt
 // @company: IGKDEV
@@ -10,9 +10,20 @@
 use function igk_resources_gets as __;
 final class IGKSorter{
     var $asc, $key;
+    /**
+     * Constructor.
+     */
     public function __construct(){
         $this->asc=true;
     }
+    /**
+     * Applies a named sort function to an array or sortable object by key.
+     * @param mixed $tab The array or object to sort (by reference).
+     * @param mixed $key The key to sort by.
+     * @param bool $asc Whether to sort in ascending order.
+     * @param string $funcname The name of the comparison method to use.
+     * @return mixed The sorted array or object.
+     */
     private static function __SortValue(& $tab, $key, $asc, $funcname){
         $t=new IGKSorter();
         $t->key=$key;
@@ -27,6 +38,11 @@ final class IGKSorter{
         }
         return $tab;
     }
+    /**
+     * Sorts an array or sortable object using the current sorter settings.
+     * @param mixed $tab The array or object to sort (by reference).
+     * @param mixed $key Optional key to index the sorted result by.
+     */
     public function Sort(& $tab, $key=null){
         if(is_array($tab)){
             usort($tab, array($this, "SortValue"));
@@ -45,12 +61,32 @@ final class IGKSorter{
             $tab=$b;
         }
     }
+    /**
+     * Sorts a dataset by a display (translated) key value.
+     * @param mixed $tab The array or object to sort.
+     * @param mixed $key The key to sort by.
+     * @param bool $asc Whether to sort in ascending order.
+     * @return mixed The sorted array or object.
+     */
     public static function SortByDisplay($tab, $key, $asc=true){
         return self::__SortValue($tab, $key, $asc, "SortKeyValue");
     }
+    /**
+     * Sorts a dataset by a raw value key.
+     * @param mixed $tab The array or object to sort.
+     * @param mixed $key The key to sort by.
+     * @param bool $asc Whether to sort in ascending order.
+     * @return mixed The sorted array or object.
+     */
     public static function SortByValue($tab, $key, $asc=true){
         return self::__SortValue($tab, $key, $asc, "SortValue");
     }
+    /**
+     * Compares two items by their translated display key value.
+     * @param mixed $a The first item to compare.
+     * @param mixed $b The second item to compare.
+     * @return int Negative, zero, or positive comparison result.
+     */
     public function SortKeyValue($a, $b){
         $k=$this->key;
         $s1=strtolower(__($a->$k));
@@ -58,6 +94,12 @@ final class IGKSorter{
         $i=strcmp($s1, $s2);
         return $i;
     }
+    /**
+     * Compares two items by one or more keys, respecting ascending/descending order.
+     * @param mixed $a The first item to compare.
+     * @param mixed $b The second item to compare.
+     * @return int Negative, zero, or positive comparison result.
+     */
     public function SortValue($a, $b){
         $tk=$this->key;
         if(is_string($tk))

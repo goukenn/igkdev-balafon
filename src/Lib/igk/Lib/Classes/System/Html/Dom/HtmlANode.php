@@ -14,6 +14,12 @@ class HtmlANode extends HtmlNode
 {
     private $m_href, $m_rdef;
     var $domainLink;
+    /**
+     * Prepares href, onclick, and title attributes before rendering the anchor node.
+     *
+     * @param mixed $option Rendering options.
+     * @return bool
+     */
     protected function _acceptRender($option = null):bool
     {
         if (!$this->getIsVisible())
@@ -40,6 +46,11 @@ class HtmlANode extends HtmlNode
         }
         return true;
     }
+    /**
+     * Constructor.
+     *
+     * @param string $uri The href URI for the anchor element.
+     */
     public function __construct($uri = "#")
     {
         parent::__construct("a");

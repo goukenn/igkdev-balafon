@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: class.IGKCaddyController.php
 // @date: 20220803 13:48:59
-// @desc: 
+// @desc:
 
 
 use IGK\Resources\R;
@@ -21,12 +21,30 @@ final class IGKCaddyInfo
 	var $clTva;
 	var $clQte;
 
+	/**
+	 * Calculate the total amount including VAT for this caddy item.
+	 *
+	 * @return float
+	 */
 	public function getAmount(){
 		return ($this->clUnitPrice * $this->clQte ) * (1 + $this->clTva/100.0);
 	}
+
+	/**
+	 * Calculate the VAT-inclusive amount for this caddy item.
+	 *
+	 * @return float
+	 */
 	public function getTvaAmount(){
 		return ($this->clUnitPrice * $this->clQte ) * (1 + $this->clTva/100.0);
 	}
+
+	/**
+	 * Copy properties from the given object into this instance.
+	 *
+	 * @param object|array $e Source object or array of key-value pairs to copy.
+	 * @return void
+	 */
 	public function Copy($e)
 	{
 		foreach($e as $k=>$v)
@@ -34,6 +52,12 @@ final class IGKCaddyInfo
 			$this->$k = $v;
 		}
 	}
+
+	/**
+	 * Return the string representation of this caddy info.
+	 *
+	 * @return string
+	 */
 	public function __toString(){
 		return "caddy_info";
 	}
@@ -45,22 +69,51 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	private $m_cadid; //caddy id
 	private $m_caddyinfo;
 
+	/**
+	 * Return the current caddy info collection.
+	 *
+	 * @return array|null
+	 */
 	public function getCaddyInfo(){
 		return $this->m_caddyinfo;
 	}
+
+	/**
+	 * Return additional configuration info (none for this controller).
+	 *
+	 * @return null
+	 */
 	public static function GetAdditionalConfigInfo()
 	{
 		return null;
 	}
+
+	/**
+	 * Return the data adapter name used by this controller.
+	 *
+	 * @return string
+	 */
 	public function getDataAdapterName():string{
-		return IGK_MYSQL_DATAADAPTER;  
+		return IGK_MYSQL_DATAADAPTER;
 	}
+
+	/**
+	 * Retrieve all database entries belonging to the current caddy.
+	 *
+	 * @return mixed
+	 */
 	public function getDBEntries()
 	{
 		return $this->selectAndWhere( array(
 			"clCaddId"=>$this->m_cadid,
 		));
 	}
+
+	/**
+	 * Load and refresh caddy info from the database for the current caddy ID.
+	 *
+	 * @return void
+	 */
 	public function __updateCaddyInfo()
 	{//used to load caddy from current cad id
 		$s = $this->getDBEntries();
@@ -75,12 +128,25 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 			}
 		}
 	}
+
+	/**
+	 * Complete controller initialization and register this caddy controller.
+	 *
+	 * @param mixed $context Optional initialization context.
+	 * @return void
+	 */
 	protected function initComplete($context=null)
 	{
 		parent::initComplete();
-		$this->m_cadid =($this->m_cadid) ?  $this->m_cadid : igk_new_id(); 
-		$this->app->ControllerManager->register("Caddy", $this); 
+		$this->m_cadid =($this->m_cadid) ?  $this->m_cadid : igk_new_id();
+		$this->app->ControllerManager->register("Caddy", $this);
 	}
+
+	/**
+	 * Reload caddy entries from the database for the current user.
+	 *
+	 * @return void
+	 */
 	private function __reloadCaddy()
 	{
 		$u = $this->getUser();
@@ -95,6 +161,12 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 			$this->m_caddyinfo[] = $r;
 		}
 	}
+
+	/**
+	 * Handle user change by associating or merging the caddy with the connected user.
+	 *
+	 * @return void
+	 */
 	public function __userChanged()
 	{
 		// if use haven't a caddy associate the current caddy to the connected users
@@ -126,6 +198,14 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		}
 
 	}
+
+	/**
+	 * Attach all current caddy items to the given user and optionally persist.
+	 *
+	 * @param object $u      The user object to attach the caddy to.
+	 * @param bool   $update Whether to persist the update to the database.
+	 * @return void
+	 */
 	private function __attachCaddyInfoToUser($u, $update = true)
 	{
 		foreach($this->m_caddyinfo as  $v)
@@ -137,21 +217,42 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		if ($update)
 		$this->update($this->m_caddyinfo);
 	}
-	 
+
+	/**
+	 * Return whether this controller is visible.
+	 *
+	 * @return bool
+	 */
 	public function getIsVisible():bool{
 		return true;
 	}
 
+	/**
+	 * Return whether this controller can accept child controllers.
+	 *
+	 * @return bool
+	 */
 	public function getCanAddChild() {
 		return false;
 	}
 
+	/**
+	 * Initialize or retrieve the user's caddy session.
+	 *
+	 * @return void
+	 */
 	public function cadd_initusercaddy()
 	{//used to initialize or retreive a user caddy
 
 	}
 
 	//add product to caddy.
+	/**
+	 * Add a product to the caddy, or increment quantity if it already exists.
+	 *
+	 * @param object|null $obj Product data object; uses request object if null.
+	 * @return bool
+	 */
 	public function caddy_addproduct($obj=null){
 
 		$obj = ($obj==null)? igk_get_robj() :$obj;
@@ -188,18 +289,35 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		return true;
 
 	}
+
 	//clear caddy
+	/**
+	 * Clear the caddy via an AJAX request and re-render it.
+	 *
+	 * @return void
+	 */
 	public function caddy_clear_ajx(){
 
 		$this->caddy_clear();
 		igk_wl($this->caddy_render());
 	}
+
+	/**
+	 * Delete all items from the caddy and reset the in-memory collection.
+	 *
+	 * @return void
+	 */
 	public function caddy_clear()
 	{
 		$this->delete($this->m_caddyinfo);
 		$this->m_caddyinfo = array();
 	}
 
+	/**
+	 * Calculate and return the total amount for all items in the caddy.
+	 *
+	 * @return float
+	 */
 	public function caddy_totalamout()
 	{
 		$amount = 0.0;
@@ -211,6 +329,12 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		}}
 		return $amount;
 	}
+
+	/**
+	 * Validate the caddy by sending it to the billing controller and clearing it.
+	 *
+	 * @return void
+	 */
 	public function caddy_validate()
 	{
 		if (igk_count($this->m_caddyinfo )> 0)
@@ -233,6 +357,12 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		igk_navtocurrent($this->CurrentPage);
 
 	}
+
+	/**
+	 * Validate the caddy via AJAX and update the target node response.
+	 *
+	 * @return void
+	 */
 	public function caddy_validate_ajx()
 	{
 
@@ -244,16 +374,34 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		$t->add($script);
 		$t->renderAJX();
 	}
+
+	/**
+	 * Remove a single caddy item identified by request parameter "n".
+	 *
+	 * @return void
+	 */
 	public function caddy_remove()
 	{
 		$n = igk_getr("n");
 		$this->delete((object)array("clId"=>$n ));
 	}
+
+	/**
+	 * Persist the current in-memory caddy info to the database.
+	 *
+	 * @return void
+	 */
 	public function caddy_store()
 	{
 		$this->update($this->m_caddyinfo);
 	}
+
 	//render the current caddy to user
+	/**
+	 * Render the caddy table into the target node and return the HTML output.
+	 *
+	 * @return string
+	 */
 	public function caddy_render(){
 		$t = $this->TargetNode;
 		$t->clearChilds();
@@ -305,4 +453,4 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 		HtmlUtils::AddBtnLnk($t,R::ngets("btn.validate"),  $this->getUri("caddy_validate"));
 		return $this->TargetNode->render();
 	}
-} 
+}

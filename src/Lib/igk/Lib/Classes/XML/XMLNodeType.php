@@ -18,6 +18,12 @@ abstract class XMLNodeType{
     const TEXT=6;
     const INNER_TEXT = 7;
     const DOCTYPE=8;
+    /**
+     * Return the string name of an XML node type constant.
+     *
+     * @param int $i The node type constant value.
+     * @return string
+     */
     public static function GetString($i){
         switch($i){
             case self::NONE:

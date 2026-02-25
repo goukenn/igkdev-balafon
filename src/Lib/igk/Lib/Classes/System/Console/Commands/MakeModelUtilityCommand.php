@@ -18,6 +18,14 @@ class MakeModelUtilityCommand extends AppExecCommand
     var $desc  = "make new project's model utility";
     var $options = [];
     var $usage = "[controller] model_utility_name [options]";
+    /**
+     * Execute the command to generate a model utility class for the given controller.
+     *
+     * @param mixed       $command    The command context object.
+     * @param string|null $controller The controller identifier.
+     * @param string|null $modelname  The model utility name to create.
+     * @return bool|void Returns false on validation failure, void on success.
+     */
     public function exec($command,?string $controller = null, ?string $modelname = "")
     {
         $ctrl = null;

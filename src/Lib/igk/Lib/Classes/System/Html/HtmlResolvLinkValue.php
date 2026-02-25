@@ -10,7 +10,13 @@ use IGKResourceUriResolver;
 use IGKValidator;
 class HtmlResolvLinkValue extends HtmlAttributeValue implements IHtmlGetValue {
  
-    public function getValue($options = null) { 
+    /**
+     * Resolve and return the link value, handling URIs, paths, and resource resolution.
+     *
+     * @param mixed $options Optional resolution options
+     * @return mixed The resolved link value
+     */
+    public function getValue($options = null) {
         if (($lnk = $this->value) && is_string($lnk)) {
             if ( IGKValidator::IsUri($lnk)){
                 return $lnk;

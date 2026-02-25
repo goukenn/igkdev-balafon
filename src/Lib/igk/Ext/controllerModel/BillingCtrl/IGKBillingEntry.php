@@ -2,7 +2,7 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: IGKBillingEntry.php
 // @date: 20220803 13:48:59
-// @desc: 
+// @desc:
 
 
 use IGK\Controllers\NonAtomicTypeBase;
@@ -14,6 +14,11 @@ final class IGKBillingEntry
 	var $clDate;
 	var $clTotalAmount;
 
+	/**
+	 * Return the string representation of this billing entry.
+	 *
+	 * @return string
+	 */
 	public function __toString(){
 		return __CLASS__;
 	}

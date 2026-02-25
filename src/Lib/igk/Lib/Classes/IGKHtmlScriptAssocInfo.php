@@ -12,9 +12,17 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
     use IGK\System\Polyfill\ScriptAssocArrayAccessTrait;
     private $data;
     static $sm_initCache, $sm_store;
+    /**
+     * Constructor.
+     */
     public function __construct(){
         $this->data=array();
     }
+    /**
+     * Serializes the instance and optionally writes the script cache file.
+     *
+     * @return array
+     */
     public function __serialize(){
         if(self::$sm_store){
             if(!igk_io_file_exists($cache=self::GetCacheFile())){
@@ -32,14 +40,36 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
         }
         return [];
     }
+    /**
+     * Restores the instance from serialized data.
+     *
+     * @param array $s Serialized data array.
+     * @return void
+     */
     public function __unserialize($s){
         return;    }
+    /**
+     * Returns the path to the core scripts cache file.
+     *
+     * @return string
+     */
     public static function GetCacheFile(){
         return igk_dir(igk_io_cachedir()."/.core.scripts.cache");
     }
+    /**
+     * Marks the store flag to trigger cache writing on serialization.
+     *
+     * @param mixed $d The value to store as the flag.
+     * @return void
+     */
     protected function store($d){
         self::$sm_store=$d;
     }
+    /**
+     * Returns the internal data array.
+     *
+     * @return array|null
+     */
     public function to_array():?array{
         return $this->data;
     }

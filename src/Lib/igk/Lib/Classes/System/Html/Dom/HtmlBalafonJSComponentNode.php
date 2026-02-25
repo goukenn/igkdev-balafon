@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Html\Dom;
 class HtmlBalafonJSComponentNode extends HtmlScriptNode{    
+    /**
+     * Constructor.
+     *
+     * @param bool $autoremove Whether the node should be automatically removed after rendering.
+     */
     public function __construct(bool $autoremove=true){
         parent::__construct();    
         $this["type"] =  "text/balafon-component";;

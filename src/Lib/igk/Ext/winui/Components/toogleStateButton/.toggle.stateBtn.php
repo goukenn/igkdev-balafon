@@ -8,6 +8,15 @@
 $CF = igk_ctrl_zone_init(__FILE__);
 
 
+/**
+ * Create a toggle state button HTML node.
+ *
+ * @param string $id      The name/identifier of the toggle button.
+ * @param string $value   The value assigned to the button.
+ * @param int    $checked Whether the button is checked (1) or not (0).
+ * @param string $type    The visual style type of the button.
+ * @return mixed The created toggle state button HTML node.
+ */
 function igk_html_node_ToggleStateButton($id,$value='on', $checked=0,$type="window10"){
 	// static $src_expression = null;
 	// if ($src_expression===null)
@@ -29,6 +38,12 @@ function igk_html_node_ToggleStateButton($id,$value='on', $checked=0,$type="wind
 	return $n;
 }
 
+/**
+ * Render a demo of the toggle state button into the given container.
+ *
+ * @param mixed $tg The target container node to render the demo into.
+ * @return void
+ */
 function igk_html_demo_ToggleStateButton($tg){
 	$tg->div()->Content = "<b>window10</b> style state button";
 	$n = igk_html_node_ToggleStateButton('marche',"window10");

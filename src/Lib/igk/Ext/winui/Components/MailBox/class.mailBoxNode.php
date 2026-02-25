@@ -20,10 +20,23 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	private $m_imap;
 	private $m_error; //rerror node;
 
+	/**
+	 * Constructor.
+	 */
 	public function __construct(){
 		parent::__construct("div");
 		$this->m_users = array();
 	}
+	/**
+	 * Add a user account to this mailbox node.
+	 *
+	 * @param string $server  The IMAP server hostname.
+	 * @param int    $port    The IMAP server port.
+	 * @param string $options The IMAP connection protocol/options string.
+	 * @param string $login   The account login name.
+	 * @param string $pwd     The account password.
+	 * @return void
+	 */
 	public function addUser($server, $port, $options,  $login, $pwd){
 
 		$d = new StdClass();
@@ -35,6 +48,11 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$this->m_users[$login] = $d;
 	}
 
+	/**
+	 * Initialise and build the mailbox view layout.
+	 *
+	 * @return void
+	 */
 	public function initView(){
 		$this->clearChilds();
 
@@ -66,6 +84,13 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		$dv = $r->addCol()->div();
 	}
 
+	/**
+	 * Open an IMAP connection for the given user account.
+	 *
+	 * @param object      $i    The user account object with server/port/login/password.
+	 * @param string|null $link Optional mailbox path to open; defaults to INBOX.
+	 * @return resource|false The IMAP stream, or false on failure.
+	 */
 	private function connect($i, $link = null){
 		$host = $i->clServer.":".$i->clPort;
 		$proto = $i->clOptions;
@@ -84,6 +109,12 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		}
 		return $imap;
 	}
+	/**
+	 * Close an IMAP connection.
+	 *
+	 * @param resource|null $imap The IMAP stream to close; uses stored stream if null.
+	 * @return void
+	 */
 	private function close ($imap=null){
 		if ($imap==null)
 		{
@@ -94,6 +125,12 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 		else
 			imap_close($imap);
 	}
+	/**
+	 * Retrieve the list of mailbox folders for a given user account.
+	 *
+	 * @param object $u The user account object with server/port/login/password.
+	 * @return array Array of folder objects with display name and link.
+	 */
 	private function getFolders($u){
 		$o = array();
 			$imap = $this->connect($u);
@@ -110,6 +147,13 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 			}
 		return $o;
 	}
+	/**
+	 * Retrieve message overviews from the specified mailbox folder.
+	 *
+	 * @param object $u    The user account object with server/port/login/password.
+	 * @param string $link The mailbox folder path to fetch messages from.
+	 * @return array Array of message overview objects.
+	 */
 	private function getMessage($u, $link){
 		$o = array();
 		$imap = $this->connect($u, $link);
@@ -133,8 +177,20 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	///mail function
 	///------------------------------------------------------
 
+	/**
+	 * Remove a mailbox message (stub).
+	 *
+	 * @return void
+	 */
 	public function mbx_rm(){
 	}
+	/**
+	 * View messages in a mailbox folder via AJAX and replace the message zone.
+	 *
+	 * @param string|null $u The user login key; read from request if null.
+	 * @param string|null $q The base64-encoded folder path; read from request if null.
+	 * @return void
+	 */
 	public function mbx_vmsg($u=null,$q=null){
 
 		if ($u==null){

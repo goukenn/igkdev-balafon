@@ -9,6 +9,9 @@ use function igk_resources_gets as __;
 use IGK\System\Html\Dom\HtmlNode;
 
 class IGKHtmlFormSelectGenderItem extends HtmlNode{
+	/**
+	 * Constructor.
+	 */
 	public function __construct(){
 		parent::__construct("select");
 		$this->add("option")->setAttribute("value","m")->Content = __("enum.Male");

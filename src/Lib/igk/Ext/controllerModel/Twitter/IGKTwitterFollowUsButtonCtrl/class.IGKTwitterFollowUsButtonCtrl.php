@@ -20,6 +20,11 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 	private $m_script;
 	const sn = "twitter://followbutton";//script name
 
+	/**
+	 * Returns additional configuration properties for the follow button.
+	 *
+	 * @return array
+	 */
 	public static function GetAdditionalConfigInfo()
 	{
 	 return array(
@@ -33,9 +38,20 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 		);
 		//return array("clShowDataCount");
 	}
+	/**
+	 * Initializes and returns the target HTML node.
+	 *
+	 * @return \IGK\System\Html\Dom\HtmlNode|null
+	 */
 	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		return parent::initTargetNode();
 	}
+	/**
+	 * Completes initialization by injecting the Twitter widgets script.
+	 *
+	 * @param mixed $context
+	 * @return void
+	 */
 	protected function initComplete($context=null){
 		parent::initComplete();
 
@@ -51,6 +67,11 @@ EOF
 		}
 
 	}
+	/**
+	 * Renders the Twitter follow button into the target node.
+	 *
+	 * @return BaseController
+	 */
 	public function View():BaseController{
 		$t = $this->getTargetNode();
 		if ($this->getIsVisible())
@@ -69,6 +90,11 @@ EOF
 			$t->remove();
 		return $this;
 	}
+	/**
+	 * Returns the current language code if supported by Twitter, or null.
+	 *
+	 * @return string|null
+	 */
 	public function getlang()
 	{
 		$l = R::GetCurrentLang();

@@ -9,6 +9,11 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "description" ];
     // source column to restore
     var $columns = [];
+    /**
+     * Apply the migration by creating the database table.
+     *
+     * @return void
+     */
     public function up(){
         if (empty($this->columns))
             return;
@@ -16,12 +21,23 @@ class SchemaCreateTableMigration extends SchemaMigrationItemBase{
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl->getDataAdapter()->createTable($tb, $this->columns);
     }
+    /**
+     * Reverse the migration by dropping the database table.
+     *
+     * @return void
+     */
     public function down()
-    { 
+    {
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl->getDataAdapter()->dropTable($tb);
     }
+    /**
+     * Load column definitions from child XML nodes.
+     *
+     * @param mixed $childs The child nodes to process.
+     * @return void
+     */
     protected function loadChilds($childs){
         // @author: C.A.D. BONDJE DOUE
         // @filename: SchemaCreateTableMigration.php

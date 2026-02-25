@@ -9,6 +9,12 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 class CssColorMarkValue{
     var $key;
     var $color;
+    /**
+     * Parse a CSS color mark value from a string.
+     *
+     * @param string $data The string to parse.
+     * @return ?CssColorMarkValue The parsed instance or null if no match.
+     */
     public static function Parse(string $data): ?CssColorMarkValue{
         $cl = null;
         if (preg_match("/\[cl:\s*(?P<name>".IGK_IDENTIFIER_PATTERN.")\s*(,(?P<def>(.+)))?\]/i", $data, $ref)){
@@ -21,6 +27,11 @@ class CssColorMarkValue{
         }
         return $cl;        
     }
+    /**
+     * Return the string representation of this color mark value.
+     *
+     * @return string
+     */
     public function __toString(){
         $g = $this->key;
         if (!empty($this->color)){

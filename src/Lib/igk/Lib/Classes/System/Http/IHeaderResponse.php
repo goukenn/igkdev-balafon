@@ -5,5 +5,10 @@
 // @desc: 
 namespace IGK\System\Http;
 interface IHeaderResponse{
+    /**
+     * Returns the response headers array, or null if none are defined.
+     *
+     * @return array|null
+     */
     function getResponseHeaders() : ?array;
 }

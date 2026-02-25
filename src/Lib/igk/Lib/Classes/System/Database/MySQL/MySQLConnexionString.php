@@ -7,7 +7,7 @@ namespace IGK\System\Database\MySQL;
 use IGK\Helper\Activator;
 use IGK\System\Html\Css\CssParser;
 /**
- * create sql connexion string
+ * create sql connection string
  */
 class MySQLConnexionString {
     var $dbname;
@@ -17,8 +17,8 @@ class MySQLConnexionString {
     var $dbdriver = "pdo";
     var $dbcharset = 'utf-8';
     /**
-     * create a connexion string
-     * @param string $connexion 
+     * create a connection string
+     * @param string $connection 
      * @return object 
      */
     public static function Create(string $connexion){

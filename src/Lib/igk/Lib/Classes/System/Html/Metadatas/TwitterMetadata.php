@@ -16,12 +16,16 @@ class TwitterMetadata extends MetadataGroupEntryBase{
     var $twitterTitle;
     var $twitterDescription;
     var $twitterImage;
+    /**
+     * Return the mapping of property names to Twitter meta tag names.
+     * @return array
+     */
     public function map():array{
         return [
             'twitterSite' => 'twitter:site',
             'twitterCard' => 'twitter:card',
             'twitterDescription'=>'twitter:description',
-            'twitterImage'=>'twitter:image', 
+            'twitterImage'=>'twitter:image',
             'twitterType'=>'twitter:type',
             'twitterUrl'=>'twitter:url',
             'twitterCreator'=>'twitter:creator'

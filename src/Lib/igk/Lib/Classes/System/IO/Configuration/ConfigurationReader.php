@@ -331,7 +331,7 @@ class ConfigurationReader
         return $reader;
     }
     /**
-     * create a connexion string value reader
+     * create a connection string value reader
      * @return ConfigurationReader 
      */
     public static function CreateConnexionStringValueReader()

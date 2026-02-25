@@ -14,8 +14,14 @@ class WebInitComponentInsterfaceCommand extends AppExecCommand
     var $command = "--web:init-component";
     var $desc = "init component file interface helper";
     var $category = "web";
+    /**
+     * Execute the command to generate the HTML component interface file.
+     *
+     * @param mixed $command The command context object.
+     * @return void
+     */
     public function exec($command)
-    { 
+    {
         $doc = new \IGK\System\IO\File\Php\PhpInterfaceDocument([PhpHelper::class, "HtmlComponentDocumention"]);
         $doc->name = "IWebHtmlComponent";
         $doc->type = "interface";  
