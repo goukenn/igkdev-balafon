@@ -1,16 +1,14 @@
 <?php
 // @author: C.A.D. BONDJE DOUE
-// @file: RefColumnMappingMockingModelTest.php
+// @file: RefColumnMappingMockingModel.php
 // @date: 20260226 19:25:32
 namespace IGK\Tests\Database;
 
 use IGK\Database\DbColumnInfo; 
 use IGK\Models\ModelBase;
-/**
-* 
-* @package IGK\Tests\Database
-* @author C.A.D. BONDJE DOUE
-*/
+ 
+
+
 /**
 * Ref column mapping mocking model.
 * @package IGK\Tests\Database
