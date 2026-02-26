@@ -11,25 +11,25 @@ namespace IGK\System\Html;
 abstract class HtmlRenderingContext{
 
     /**
-    * auto generate doc.
+    * Constant: html.
     * @var mixed
     */
     const Html = 'html';
 
     /**
-    * auto generate doc.
+    * Constant: mail.
     * @var mixed
     */
     const Mail = 'mail';
 
     /**
-    * auto generate doc.
+    * Constant: xml.
     * @var mixed
     */
     const XML="XML";
 
     /**
-    * auto generate doc.
+    * Constant: ajx.
     * @var mixed
     */
     const AJX = "ajx";

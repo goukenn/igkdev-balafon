@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 class AttribExpression{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $data;
@@ -24,7 +24,7 @@ class AttribExpression{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null) { 
@@ -39,7 +39,7 @@ class AttribExpression{
     }
 
     /**
-    * auto generate doc.
+    * Use attrib name.
     * @return bool
     */
     public function useAttribName():bool{

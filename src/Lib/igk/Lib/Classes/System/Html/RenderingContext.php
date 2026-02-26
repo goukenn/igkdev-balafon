@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 abstract class RenderingContext{
 
     /**
-    * auto generate doc.
+    * Constant: template.
     * @var mixed
     */
     const TEMPLATE = "template";

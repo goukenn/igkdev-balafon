@@ -12,7 +12,7 @@ use Exception;
 class RegexReplaceContent{
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     var $info;

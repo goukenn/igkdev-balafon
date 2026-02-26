@@ -7,7 +7,7 @@ namespace IGK\System\Exceptions;
 use IGKException;
 
 /**
-* auto generate doc.
+* Not injectable type exception.
 * @package IGK\System\Exceptions
 */
 class NotInjectableTypeException extends IGKException{

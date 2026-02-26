@@ -11,7 +11,7 @@ namespace IGK\System\Html\Css;
 interface ICssStoreRootListener{
 
     /**
-    * auto generate doc.
+    * Store.
     * @param array $tab
     */
     function store(array $tab);

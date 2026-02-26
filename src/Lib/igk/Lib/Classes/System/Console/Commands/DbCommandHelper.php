@@ -14,7 +14,7 @@ abstract class DbCommandHelper
 {
 
     /**
-    * auto generate doc.
+    * Seeds.
     * @param null|mixed $ctrl
     * @param null|mixed $class
     */
@@ -45,7 +45,7 @@ abstract class DbCommandHelper
     }
 
     /**
-    * auto generate doc.
+    * Returns Usage Command Help.
     * @return array
     */
     public static function GetUsageCommandHelp(): array
@@ -75,7 +75,7 @@ abstract class DbCommandHelper
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param mixed $command
     */
     public static function Init($command)
@@ -94,7 +94,7 @@ abstract class DbCommandHelper
     }
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public static function ShowUsage()
     {

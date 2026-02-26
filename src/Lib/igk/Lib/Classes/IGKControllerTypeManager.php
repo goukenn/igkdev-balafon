@@ -12,18 +12,18 @@ use IGK\Controllers\ControllerTypeBase;
 use IGK\Helper\IO;
 
 /**
-* auto generate doc.
+* Igkcontroller type manager.
 */
 final class IGKControllerTypeManager{
 
     /**
-    * auto generate doc.
+    * Property: tab manager.
     * @var mixed
     */
     static $tabManager;
 
     /**
-    * auto generate doc.
+    * Returns Controller Types.
     */
 
     public static function GetControllerTypes(){
@@ -45,7 +45,7 @@ final class IGKControllerTypeManager{
     }
 
     /**
-    * auto generate doc.
+    * Returns Custom Config Info.
     * @param BaseController $controller
     */
 

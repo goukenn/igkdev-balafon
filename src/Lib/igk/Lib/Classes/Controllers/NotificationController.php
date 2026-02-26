@@ -16,19 +16,19 @@ use IGK\INotifyMessage;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Notification controller.
 * @package IGK\Controllers
 */
 final class NotificationController extends BaseController implements INotifyMessage {
 
     /**
-    * auto generate doc.
+    * Type of notify type.
     * @var mixed
     */
     private static $NotifyType=["success"=>"addSuccess", "danger"=>'addError'];
 
     /**
-    * auto generate doc.
+    * Property: marks.
     * @var mixed
     */
     private $m_marks;
@@ -43,7 +43,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Handles calls to undefined methods.
     * @param mixed $name
     * @param mixed $c
     */
@@ -56,7 +56,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Error.
     * @param mixed $msg
     */
 
@@ -65,7 +65,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Errori.
     * @param mixed $msgcode
     */
 
@@ -80,7 +80,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Errorr.
     * @param mixed $key
     */
 
@@ -89,7 +89,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Info.
     * @param mixed $msg
     */
 
@@ -99,7 +99,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Infor.
     * @param mixed $msgKeys
     */
 
@@ -108,7 +108,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Msg.
     * @param mixed $msg
     */
 
@@ -118,7 +118,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Msgr.
     * @param mixed $msg
     */
 
@@ -127,7 +127,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Success.
     * @param mixed $msg
     */
 
@@ -137,7 +137,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Successr.
     * @param mixed $msg
     */
 
@@ -147,7 +147,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Warning.
     * @param mixed $msg
     */
 
@@ -157,7 +157,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Adds Warningr.
     * @param mixed $msg
     */
 
@@ -166,7 +166,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Binds.
     * @param mixed $msg
     * @param mixed $t
     */
@@ -177,7 +177,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Returns Auto Hided.
     */
 
     public function getAutoHided(){
@@ -185,7 +185,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Returns Global Storage.
     */
 
     public function getGlobalStorage(){
@@ -197,7 +197,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Returns Has Msg.
     */
 
     public function getHasMsg(){
@@ -206,7 +206,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Returns Ms Error.
     */
 
     public function getMsError(){
@@ -214,7 +214,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
 
@@ -223,7 +223,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Returns Notification.
     * @param mixed $name
     */
 
@@ -259,7 +259,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Returns Notification Event.
     * @param mixed $name
     */
 
@@ -268,7 +268,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Returns Notify Host.
     */
 
     public function getNotifyHost(){
@@ -278,7 +278,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
 
@@ -288,7 +288,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Mark.
     * @param mixed $tagid
     */
 
@@ -300,7 +300,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Notification is visible.
     * @param mixed $target
     * @param mixed $host
     * @param mixed $name
@@ -332,7 +332,7 @@ final class NotificationController extends BaseController implements INotifyMess
     }
 
     /**
-    * auto generate doc.
+    * Notifies ajx.
     */
 
     public function notify_ajx(){
@@ -369,7 +369,7 @@ EOF;
     ///<param name="args" default="null"></param>
 
     /**
-    * auto generate doc.
+    * Page folder changed.
     * @param null|mixed $sender
     * @param null|mixed $args
     */
@@ -384,7 +384,7 @@ EOF;
     ///<param name="name"></param>
 
     /**
-    * auto generate doc.
+    * Registers Notification.
     * @param mixed $name
     * @param mixed $callable
     */
@@ -396,7 +396,7 @@ EOF;
     ///<param name="name"></param>
 
     /**
-    * auto generate doc.
+    * Resets Notification.
     * @param mixed $name
     */
 
@@ -405,7 +405,7 @@ EOF;
     ///<param name="v"></param>
 
     /**
-    * auto generate doc.
+    * Sets Autohide.
     * @param mixed $v
     */
 
@@ -416,7 +416,7 @@ EOF;
     ///<param name="v"></param>
 
     /**
-    * auto generate doc.
+    * Sets Ms Error.
     * @param mixed $v
     */
 
@@ -454,7 +454,7 @@ EOF;
     ///<remark>if obj is null will clear the notification event list</remark>
 
     /**
-    * auto generate doc.
+    * Unregister notification.
     * @param mixed $name
     * @param null|mixed $obj
     * @param null|mixed $method
@@ -479,7 +479,7 @@ EOF;
     ///<summary>free notification item</summary>
 
     /**
-    * auto generate doc.
+    * Unset notication.
     * @param mixed $name
     */
 
@@ -491,7 +491,7 @@ EOF;
     ///<summary>Render notification controller</summary>
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
 
@@ -511,7 +511,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Returns Messages.
     */
 
     public function getMessages(){
@@ -520,7 +520,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
 
     public function clear(){

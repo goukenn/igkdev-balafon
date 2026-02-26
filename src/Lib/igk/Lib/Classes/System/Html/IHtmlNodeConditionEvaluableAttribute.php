@@ -11,7 +11,7 @@ namespace IGK\System\Html;
 interface IHtmlNodeConditionEvaluableAttribute{
 
     /**
-    * auto generate doc.
+    * Evaluate.
     * @param mixed $context
     * @return bool
     */

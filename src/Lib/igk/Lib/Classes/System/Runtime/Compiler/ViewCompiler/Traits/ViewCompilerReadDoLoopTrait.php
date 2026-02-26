@@ -17,7 +17,7 @@ trait ViewCompilerReadDoLoopTrait
 {
 
     /**
-    * auto generate doc.
+    * Property: do loop config.
     * @var mixed
     */
     private $m_do_loop_config;
@@ -112,7 +112,7 @@ trait ViewCompilerReadDoLoopTrait
     }
 
     /**
-    * auto generate doc.
+    * End handle do while block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value

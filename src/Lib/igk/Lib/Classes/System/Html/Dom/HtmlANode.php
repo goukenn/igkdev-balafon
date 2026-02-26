@@ -12,20 +12,20 @@ use IGK\System\Html\HtmlUtils;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Html anode.
 * @package IGK\System\Html\Dom
 */
 class HtmlANode extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Properties: href, rdef.
     * @var mixed
     */
     private $m_href, $m_rdef;
 
     /**
-    * auto generate doc.
+    * Property: domain link.
     * @var mixed
     */
     var $domainLink;
@@ -78,7 +78,7 @@ class HtmlANode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Render complete.
     * @param null|mixed $option
     */
 
@@ -91,7 +91,7 @@ class HtmlANode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Offset set.
     * @param mixed $k
     * @param mixed $v
     * @return void

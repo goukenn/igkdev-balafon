@@ -14,7 +14,7 @@ use IGK\System\IInjectable;
 interface IPhoneBookDetailVisitor extends IInjectable{
 
     /**
-    * auto generate doc.
+    * Visit.
     * @param string $propertyName
     * @param mixed $value
     * @param mixed $oldvalue

@@ -15,7 +15,7 @@ use ReflectionProperty;
 trait AnnotationConverterValueTrait{
 
     /**
-    * auto generate doc.
+    * Converts Value.
     * @param mixed $obj
     * @param mixed $value
     * @param mixed $name

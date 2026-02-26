@@ -27,13 +27,13 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     private $m_desc;
 
     /**
-    * auto generate doc.
+    * Constant: var char.
     * @var mixed
     */
     const VarChar = 'VarChar';
 
     /**
-    * auto generate doc.
+    * Locale.
     * @param string $id
     * @param int $length
     * @return IDiagramSchemaEntity
@@ -50,7 +50,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
 
     /**
-    * auto generate doc.
+    * Column varchar.
     * @param string $name
     * @param int $length
     * @param null|array $options
@@ -72,7 +72,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
 
     /**
-    * auto generate doc.
+    * Returns Description.
     * @return ?string
     */
     public function getDescription(): ?string
@@ -81,7 +81,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
 
     /**
-    * auto generate doc.
+    * Sets Description.
     * @param null|string $description
     * @return IDiagramSchemaEntity
     */
@@ -267,7 +267,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
 
     /**
-    * auto generate doc.
+    * Text.
     * @param mixed $name
     * @param mixed $notnull
     * @param mixed $inputtype
@@ -401,7 +401,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
 
     /**
-    * auto generate doc.
+    * Address.
     * @param string $prefix
     * @return IDiagramSchemaEntity
     */
@@ -417,7 +417,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
 
     /**
-    * auto generate doc.
+    * Date.
     * @param mixed $name
     * @param mixed $notnull
     * @param mixed $default
@@ -435,7 +435,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
 
     /**
-    * auto generate doc.
+    * Datetime.
     * @param mixed $name
     * @param mixed $notnull
     * @param mixed $default
@@ -466,7 +466,7 @@ class DiagramEntity extends DiagramPropertiesHost implements IDiagramSchemaEntit
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     */
     public function getName()
     {

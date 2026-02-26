@@ -12,7 +12,7 @@ use IGK\System\Html\IFormFieldContainer;
 class FieldContainer implements IFormFieldContainer{
 
     /**
-    * auto generate doc.
+    * Property: fields.
     * @var mixed
     */
     private $m_fields;
@@ -49,7 +49,7 @@ class FieldContainer implements IFormFieldContainer{
     }
 
     /**
-    * auto generate doc.
+    * Submit.
     * @param null|string $title
     */
     public function submit(?string $title=null){

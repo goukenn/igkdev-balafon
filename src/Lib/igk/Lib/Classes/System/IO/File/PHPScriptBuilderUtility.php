@@ -9,7 +9,7 @@ namespace IGK\System\IO\File;
 use IGK\System\IO\StringBuilder;
 
 /**
-* auto generate doc.
+* Phpscript builder utility.
 * @package IGK\System\IO\File
 */
 abstract class PHPScriptBuilderUtility

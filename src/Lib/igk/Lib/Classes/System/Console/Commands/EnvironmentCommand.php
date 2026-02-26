@@ -18,19 +18,19 @@ use IGK\Constants;
 class EnvironmentCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--env';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='view environment definition';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -38,13 +38,13 @@ class EnvironmentCommand extends AppExecCommand{
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category;
 
     /**
-    * auto generate doc.
+    * Environment.
     */
     static function Environment(){
 		$env = []; 
@@ -58,7 +58,7 @@ class EnvironmentCommand extends AppExecCommand{
 	}
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command) { 

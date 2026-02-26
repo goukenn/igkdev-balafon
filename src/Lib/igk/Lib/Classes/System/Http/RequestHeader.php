@@ -18,13 +18,13 @@ namespace IGK\System\Http;
 class RequestHeader{
 
     /**
-    * auto generate doc.
+    * Property: prepared.
     * @var mixed
     */
     private $m_prepared;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;

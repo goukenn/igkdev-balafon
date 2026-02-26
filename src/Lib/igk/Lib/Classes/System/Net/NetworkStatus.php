@@ -10,13 +10,13 @@ namespace IGK\System\Net;
 class NetworkStatus{
 
     /**
-    * auto generate doc.
+    * Flag: is alive.
     * @var mixed
     */
     private static $sm_is_alive;
 
     /**
-    * auto generate doc.
+    * Returns true if Connection Alive.
     */
     public static function IsConnectionAlive(){
         if (!is_null(self::$sm_is_alive)){

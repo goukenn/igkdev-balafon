@@ -15,31 +15,31 @@ use function igk_resources_gets as __;
 class CoreUpdateLibCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Constant: get uri.
     * @var mixed
     */
     const GET_URI = "https://igkdev.com/balafon/get-download";
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--update-corelib';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'utils';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'update or restore core library';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command) { 

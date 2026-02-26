@@ -11,7 +11,7 @@ namespace IGK\System\Library;
 class zip extends \IGKLibraryBase{
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @return bool
     */
     public function init():bool{ 

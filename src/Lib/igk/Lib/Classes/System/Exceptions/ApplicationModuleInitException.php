@@ -13,7 +13,7 @@ use Throwable;
 class ApplicationModuleInitException extends IGKException{
 
     /**
-    * auto generate doc.
+    * Property: module.
     * @var mixed
     */
     var $module;

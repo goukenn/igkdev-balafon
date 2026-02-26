@@ -10,7 +10,7 @@ namespace IGK\System\Database;
 class NoDbConnection{
 
     /**
-    * auto generate doc.
+    * Name of db name.
     * @var mixed
     */
     var $db_name;
@@ -68,7 +68,7 @@ class NoDbConnection{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Connect.
     */
     public function isConnect(){
         return false;
@@ -96,7 +96,7 @@ class NoDbConnection{
     function flushForInitDb(){}
 
     /**
-    * auto generate doc.
+    * Returns Version.
     * @return string
     */
     function getVersion():string{
@@ -123,7 +123,7 @@ class NoDbConnection{
     }
 
     /**
-    * auto generate doc.
+    * Table exists.
     * @return bool
     */
     public function tableExists():bool{
@@ -131,7 +131,7 @@ class NoDbConnection{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Connect.
     * @return bool
     */
     public function getIsConnect():bool{

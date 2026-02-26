@@ -17,7 +17,7 @@ abstract class IGKTemplateHostCtrl extends DefaultPageController implements IUri
 {
 
     /**
-    * auto generate doc.
+    * Loads Template.
     */
     public function LoadTemplate(){
 		throw new IGKException(__METHOD__. " Not Implement");

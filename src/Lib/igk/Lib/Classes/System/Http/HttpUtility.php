@@ -11,7 +11,7 @@ use IGKException;
 abstract class HttpUtility{
 
     /**
-    * auto generate doc.
+    * Constant: ext mime types.
     * @var mixed
     */
     const EXT_MIME_TYPES = [
@@ -74,7 +74,7 @@ abstract class HttpUtility{
     }
 
     /**
-    * auto generate doc.
+    * Returns Base Uri.
     * @param string $uri
     */
     public static function GetBaseUri(string $uri){

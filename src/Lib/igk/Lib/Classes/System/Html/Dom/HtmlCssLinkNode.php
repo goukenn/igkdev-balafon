@@ -10,7 +10,7 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html css link node.
 * @package IGK\System\Html\Dom
 */
 class HtmlCssLinkNode extends HtmlNode{

@@ -11,13 +11,13 @@ namespace IGK\System\Html\Forms\Validations;
 class PatternValidator  extends FormFieldValidatorBase implements IFormValidator, IFormPatternValidator{
 
     /**
-    * auto generate doc.
+    * Property: pattern.
     * @var mixed
     */
     private $m_pattern;
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */
@@ -26,7 +26,7 @@ class PatternValidator  extends FormFieldValidatorBase implements IFormValidator
     }
 
     /**
-    * auto generate doc.
+    * Sets Pattern.
     * @param string $pattern
     */
     public function setPattern(string $pattern) {
@@ -34,7 +34,7 @@ class PatternValidator  extends FormFieldValidatorBase implements IFormValidator
      }
 
     /**
-    * auto generate doc.
+    * Matches Pattern.
     * @param mixed $value
     */
     public function matchPattern($value) { 
@@ -42,7 +42,7 @@ class PatternValidator  extends FormFieldValidatorBase implements IFormValidator
     }
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param mixed & $error

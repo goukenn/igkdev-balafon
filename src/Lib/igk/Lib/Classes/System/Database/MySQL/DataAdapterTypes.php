@@ -11,133 +11,133 @@ namespace IGK\System\Database\MySQL;
 abstract class DataAdapterTypes{
 
     /**
-    * auto generate doc.
+    * Constant: date time.
     * @var mixed
     */
     const DateTime = 'datetime';
 
     /**
-    * auto generate doc.
+    * Constant: date.
     * @var mixed
     */
     const Date = 'date';
 
     /**
-    * auto generate doc.
+    * Constant: time.
     * @var mixed
     */
     const Time = 'time';
 
     /**
-    * auto generate doc.
+    * Constant: json.
     * @var mixed
     */
     const Json = 'json';
 
     /**
-    * auto generate doc.
+    * Constant: int.
     * @var mixed
     */
     const Int = 'int';
 
     /**
-    * auto generate doc.
+    * Constant: float.
     * @var mixed
     */
     const Float = 'float';
 
     /**
-    * auto generate doc.
+    * Constant: double.
     * @var mixed
     */
     const Double = 'double';
 
     /**
-    * auto generate doc.
+    * Constant: blob.
     * @var mixed
     */
     const Blob = 'blob';
 
     /**
-    * auto generate doc.
+    * Constant: timestamp.
     * @var mixed
     */
     const Timestamp = 'timestamp';
 
     /**
-    * auto generate doc.
+    * Constant: var char.
     * @var mixed
     */
     const VarChar = 'varchar';
 
     /**
-    * auto generate doc.
+    * Constant: enum.
     * @var mixed
     */
     const Enum = 'enum';
 
     /**
-    * auto generate doc.
+    * Constant: text.
     * @var mixed
     */
     const Text = 'text';
 
     /**
-    * auto generate doc.
+    * Constant: long text.
     * @var mixed
     */
     const LongText = 'longtext';
 
     /**
-    * auto generate doc.
+    * Constant: medium text.
     * @var mixed
     */
     const MediumText = 'mediumtext';
 
     /**
-    * auto generate doc.
+    * Constant: char.
     * @var mixed
     */
     const Char = 'char';
 
     /**
-    * auto generate doc.
+    * Constant: binary.
     * @var mixed
     */
     const Binary = 'binary';
 
     /**
-    * auto generate doc.
+    * Constant: var binary.
     * @var mixed
     */
     const VarBinary = 'varbinary';
 
     /**
-    * auto generate doc.
+    * Constant: medium blob.
     * @var mixed
     */
     const MediumBlob = 'mediumblob';
 
     /**
-    * auto generate doc.
+    * Constant: small int.
     * @var mixed
     */
     const SmallInt = 'smallint';
 
     /**
-    * auto generate doc.
+    * Constant: long blob.
     * @var mixed
     */
     const LongBlob = 'longblob';
 
     /**
-    * auto generate doc.
+    * Constant: big int.
     * @var mixed
     */
     const BigInt = 'bigint';
 
     /**
-    * auto generate doc.
+    * Constant: set.
     * @var mixed
     */
     const Set= 'set';

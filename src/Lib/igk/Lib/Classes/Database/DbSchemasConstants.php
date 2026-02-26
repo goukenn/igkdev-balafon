@@ -13,61 +13,61 @@ class DbSchemasConstants{
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: migrate.
     * @var mixed
     */
     const Migrate = 'migrate';
 
     /**
-    * auto generate doc.
+    * Constant: downgrade.
     * @var mixed
     */
     const Downgrade = 'downgrade';
 
     /**
-    * auto generate doc.
+    * Constant: none.
     * @var mixed
     */
     const None = 'no-operation';
 
     /**
-    * auto generate doc.
+    * Constant: op drop table.
     * @var mixed
     */
     const OP_DROP_TABLE ='deletetable';
 
     /**
-    * auto generate doc.
+    * Constant: op create table.
     * @var mixed
     */
     const OP_CREATE_TABLE ='createtable';
 
     /**
-    * auto generate doc.
+    * Constant: op rm column.
     * @var mixed
     */
     const OP_RM_COLUMN ='removecolumn';
 
     /**
-    * auto generate doc.
+    * Constant: op add column.
     * @var mixed
     */
     const OP_ADD_COLUMN ='addcolumn';
 
     /**
-    * auto generate doc.
+    * Constant: op change column.
     * @var mixed
     */
     const OP_CHANGE_COLUMN = 'changecolumn';
 
     /**
-    * auto generate doc.
+    * Constant: op rename column.
     * @var mixed
     */
     const OP_RENAME_COLUMN = 'renamecolumn';
 
     /**
-    * auto generate doc.
+    * Constant: op rename table.
     * @var mixed
     */
     const OP_RENAME_TABLE = 'renametable';

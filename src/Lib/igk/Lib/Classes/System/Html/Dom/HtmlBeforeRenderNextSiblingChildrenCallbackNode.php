@@ -10,7 +10,7 @@ namespace IGK\System\Html\Dom;
 final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $listener;
@@ -25,7 +25,7 @@ final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds()
     {
@@ -33,7 +33,7 @@ final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -41,7 +41,7 @@ final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

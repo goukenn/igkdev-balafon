@@ -9,7 +9,7 @@ use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkhtml calc item ctrl.
 */
 final class IGKHtmlCalcItemCtrl extends NonVisibleControllerBase
 {

@@ -29,31 +29,31 @@ use IGK\Models\ModelBase;
 class Logginattempts extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd logginattempts login.
     * @var mixed
     */
     const FD_LOGGINATTEMPTS_LOGIN="logginattempts_login";
 
     /**
-    * auto generate doc.
+    * Constant: fd logginattempts try.
     * @var mixed
     */
     const FD_LOGGINATTEMPTS_TRY="logginattempts_try";
 
     /**
-    * auto generate doc.
+    * Constant: fd logginattempts create at.
     * @var mixed
     */
     const FD_LOGGINATTEMPTS_CREATE_AT="logginattempts_createAt";
 
     /**
-    * auto generate doc.
+    * Constant: fd logginattempts update at.
     * @var mixed
     */
     const FD_LOGGINATTEMPTS_UPDATE_AT="logginattempts_updateAt";

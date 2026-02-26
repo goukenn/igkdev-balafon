@@ -9,7 +9,7 @@ use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\HtmlReader;
 
 /**
-* auto generate doc.
+* Igksilver light block ctrl.
 */
 abstract class IGKSilverLightBlockCtrl extends \IGK\Controllers\ControllerTypeBase
 {

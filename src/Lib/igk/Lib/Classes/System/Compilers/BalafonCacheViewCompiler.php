@@ -76,7 +76,7 @@ class BalafonCacheViewCompiler{
     }
 
     /**
-    * auto generate doc.
+    * Returns Bind View Compiler Handler.
     * @param BaseController $controller
     */
     public static function GetBindViewCompilerHandler(BaseController $controller){

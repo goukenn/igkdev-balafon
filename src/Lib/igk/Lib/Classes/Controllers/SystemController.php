@@ -21,7 +21,7 @@ use IGKResourceUriResolver;
 final class SystemController extends NonVisibleControllerBase{
 
     /**
-    * auto generate doc.
+    * Returns App Uri.
     * @param null|string $path
     * @return ?string
     */
@@ -32,7 +32,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Logout.
     */
     public function logout(){
         UsersConfigurationController::ctrl()->logout();   
@@ -110,7 +110,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Change lang ajx.
     * @param null|mixed $lang
     */
     public function changeLang_ajx($lang=null){ 
@@ -143,7 +143,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Change theme.
     * @param mixed $name
     */
     public function changeTheme($name){
@@ -158,14 +158,14 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Font Dir.
     */
     public function getFontDir(){
         return igk_io_syspath(IGK_RES_FONTS);
     }
 
     /**
-    * auto generate doc.
+    * Returns Font List.
     */
     public function getFontList(){
         static $fontlist=null;
@@ -180,7 +180,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -188,7 +188,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
@@ -196,7 +196,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Installfont.
     * @param null|mixed $name
     */
     public function installfont($name=null){
@@ -213,7 +213,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Installfont ajx.
     */
     public function installfont_ajx(){
         if(igk_parsebool($this->installfont())){
@@ -231,7 +231,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Function Exposed.
     * @param mixed $n
     */
     public function IsFunctionExposed($n){
@@ -239,7 +239,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Mod rewrite.
     */
     public function mod_rewrite(){
         if(igk_getv($_SERVER, 'IGK_REWRITE_MOD') || (igk_server()->REDIRECT_URL && (igk_getr('rwc') > 0))){
@@ -251,19 +251,19 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Updates.
     */
     public function update(){    }
 
     /**
-    * auto generate doc.
+    * Upload.
     */
     public function upload(){
         igk_wln_e("upload file ");
     }
 
     /**
-    * auto generate doc.
+    * View font list.
     */
     public function viewFontList(){
         $r=$this->_getFontList();
@@ -271,7 +271,7 @@ final class SystemController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * View install font form.
     * @param mixed $node
     * @param null|mixed $ctrl
     */

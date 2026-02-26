@@ -7,13 +7,13 @@ namespace IGK\Database;
 use IGK\System\IToArrayResolver;
 
 /**
-* auto generate doc.
+* Interface for db array result.
 * @package IGK\Database
 */
 interface IDbArrayResult extends IToArrayResolver{
 
     /**
-    * auto generate doc.
+    * To array.
     * @return array
     */
     public function to_array():array;

@@ -12,7 +12,7 @@ use IGK\System\Http\Request;
 class FormRequestWithFileValidationData{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
@@ -38,7 +38,7 @@ class FormRequestWithFileValidationData{
     }
 
     /**
-    * auto generate doc.
+    * Empty.
     * @param mixed $name
     */
     public function __empty($name){
@@ -57,7 +57,7 @@ class FormRequestWithFileValidationData{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Support File Request.
     */
     public function isSupportFileRequest(){
         return Request::IsSupportFileRequest($this->m_data);

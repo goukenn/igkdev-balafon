@@ -10,19 +10,19 @@ namespace IGK\System\Html;
 interface IFormFields extends IFormFieldContainer{
 
     /**
-    * auto generate doc.
+    * Returns Data Source.
     * @return ?array
     */
     function getDataSource(): ?array;
 
     /**
-    * auto generate doc.
+    * Returns Tag.
     * @return ?string
     */
     function getTag(): ?string;
 
     /**
-    * auto generate doc.
+    * Returns Engine.
     * @return ?object
     */
     function getEngine(): ?object;

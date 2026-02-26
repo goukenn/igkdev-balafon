@@ -59,7 +59,7 @@ interface IPrinterService extends IInjectable{
     function getPageWidth() : int;
 
     /**
-    * auto generate doc.
+    * Returns Page Height.
     * @return int
     */
     function getPageHeight() : int;

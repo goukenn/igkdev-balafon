@@ -11,7 +11,7 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 class EnumDefinitionReader extends ConfigurationReader{
 
     /**
-    * auto generate doc.
+    * Read name.
     * @return ?string
     */
     protected function _readName(): ?string{
@@ -19,7 +19,7 @@ class EnumDefinitionReader extends ConfigurationReader{
     }
 
     /**
-    * auto generate doc.
+    * Read litteral end.
     * @param string $ch
     * @param string $end
     * @return bool

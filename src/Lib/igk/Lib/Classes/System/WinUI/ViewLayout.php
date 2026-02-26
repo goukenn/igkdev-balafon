@@ -13,13 +13,13 @@ use IGK\Constants;
 class ViewLayout{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $m_controller;
 
     /**
-    * auto generate doc.
+    * Property: styleloaded.
     * @var mixed
     */
     private $m_styleloaded = [];
@@ -47,7 +47,7 @@ class ViewLayout{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Style Loaded.
     * @param string $file
     */
     public function isStyleLoaded(string $file){
@@ -55,7 +55,7 @@ class ViewLayout{
     }
 
     /**
-    * auto generate doc.
+    * Style loaded.
     * @param string $file
     */
     public function styleLoaded(string $file){
@@ -63,7 +63,7 @@ class ViewLayout{
     }
 
     /**
-    * auto generate doc.
+    * Clears Loaded Styles.
     */
     public function clearLoadedStyles(){
         $this->m_styleloaded = [];

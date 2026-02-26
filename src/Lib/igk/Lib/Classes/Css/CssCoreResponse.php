@@ -7,19 +7,19 @@ namespace IGK\Css;
 use IGK\System\Http\WebResponse;
 
 /**
-* auto generate doc.
+* Css core response.
 * @package IGK\Css
 */
 class CssCoreResponse extends WebResponse{
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     var $file;
 
     /**
-    * auto generate doc.
+    * Cache: no cache.
     * @var mixed
     */
     var $no_cache;

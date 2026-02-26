@@ -11,13 +11,13 @@ use IGK\Database\DbColumnInfo;
 class DiagramSchemaColumn implements IDiagramSchemaColumn{
 
     /**
-    * auto generate doc.
+    * Property: db column info.
     * @var mixed
     */
     private $db_columnInfo;
 
     /**
-    * auto generate doc.
+    * Unique.
     * @return IDiagramSchemaColumn
     */
     public function unique(): IDiagramSchemaColumn {
@@ -26,7 +26,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     }
 
     /**
-    * auto generate doc.
+    * Notnull.
     * @return IDiagramSchemaColumn
     */
     public function notnull(): IDiagramSchemaColumn {
@@ -35,7 +35,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     }
 
     /**
-    * auto generate doc.
+    * Index.
     * @return IDiagramSchemaColumn
     */
     public function index(): IDiagramSchemaColumn {
@@ -44,7 +44,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     }
 
     /**
-    * auto generate doc.
+    * Varchar.
     * @param int $length
     * @return IDiagramSchemaColumn
     */
@@ -55,7 +55,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     }
 
     /**
-    * auto generate doc.
+    * Returns Column Info.
     */
     public function getColumnInfo(){
         return $this->db_columnInfo;
@@ -72,7 +72,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     }
 
     /**
-    * auto generate doc.
+    * Comment.
     * @param null|string $comment
     * @return IDiagramSchemaColumn
     */
@@ -82,7 +82,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     }
 
     /**
-    * auto generate doc.
+    * Type.
     * @param string $type
     * @return IDiagramSchemaColumn
     */
@@ -92,14 +92,14 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     }
 
     /**
-    * auto generate doc.
+    * Size.
     * @param null|int $size
     * @return IDiagramSchemaColumn
     */
     public function size(?int $size): IDiagramSchemaColumn {return $this;}
 
     /**
-    * auto generate doc.
+    * Id.
     * @return IDiagramSchemaColumn
     */
     public function id(): IDiagramSchemaColumn {
@@ -109,7 +109,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         return $this;}
 
     /**
-    * auto generate doc.
+    * Primary.
     * @return IDiagramSchemaColumn
     */
     public function primary(): IDiagramSchemaColumn {
@@ -117,7 +117,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
         return $this;}
 
     /**
-    * auto generate doc.
+    * Autoincrement.
     * @return IDiagramSchemaColumn
     */
     public function autoincrement(): IDiagramSchemaColumn {
@@ -126,7 +126,7 @@ class DiagramSchemaColumn implements IDiagramSchemaColumn{
     }
 
     /**
-    * auto generate doc.
+    * Default.
     * @param mixed $defaultValue
     * @return IDiagramSchemaColumn
     */

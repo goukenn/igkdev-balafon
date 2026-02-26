@@ -23,7 +23,7 @@ use PHPUnit\Framework\ExpectationFailedException;
 class CreateRowTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Sets up the test environment before each test.
     * @return void
     */
     function setUp():void {
@@ -31,7 +31,7 @@ class CreateRowTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests create usergroup row.
     */
     function test_create_usergroup_row(){
         require_once IGK_LIB_CLASSES_DIR . "/IGKSysUtil.php"; 
@@ -96,7 +96,7 @@ class CreateRowTest extends BaseTestCase{
 class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
 
     /**
-    * auto generate doc.
+    * Returns true if Type Supported.
     * @param mixed $type
     * @return bool
     */
@@ -105,7 +105,7 @@ class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Allows Type Length.
     * @param string $type
     * @param null|int $length
     * @return bool

@@ -21,25 +21,25 @@ class Request implements IInjectable, IContentSecurityProvider
     use ContentSecurityManagementTrait;
 
     /**
-    * auto generate doc.
+    * Constant: request json data env key.
     * @var mixed
     */
     const REQUEST_JSON_DATA_ENV_KEY = 'RequestFakeJsonInput';
 
     /**
-    * auto generate doc.
+    * Constant: files field.
     * @var mixed
     */
     const FILES_FIELD = "\$files";
 
     /**
-    * auto generate doc.
+    * Constant: array response code.
     * @var mixed
     */
     const ARRAY_RESPONSE_CODE = '@__response_code';
 
     /**
-    * auto generate doc.
+    * Constant: query options.
     * @var mixed
     */
     const QUERY_OPTIONS = 'query_options';
@@ -72,25 +72,25 @@ class Request implements IInjectable, IContentSecurityProvider
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: params.
     * @var mixed
     */
     private $m_params;
 
     /**
-    * auto generate doc.
+    * Property: js data.
     * @var mixed
     */
     private $js_data;
 
     /**
-    * auto generate doc.
+    * Property: header data.
     * @var mixed
     */
     private $m_header_data;
 
     /**
-    * auto generate doc.
+    * Property: query info.
     * @var mixed
     */
     private $m_query_info;
@@ -203,7 +203,7 @@ class Request implements IInjectable, IContentSecurityProvider
     }
 
     /**
-    * auto generate doc.
+    * Returns Params.
     */
     public function getParams(){
         return $this->m_params;
@@ -305,7 +305,7 @@ class Request implements IInjectable, IContentSecurityProvider
     }
 
     /**
-    * auto generate doc.
+    * Returns Base64.
     * @param mixed $name
     * @param null|mixed $tab
     */
@@ -352,7 +352,7 @@ class Request implements IInjectable, IContentSecurityProvider
     }
 
     /**
-    * auto generate doc.
+    * View args.
     * @param null|mixed $params
     * @param null|mixed $default
     */
@@ -474,7 +474,7 @@ class Request implements IInjectable, IContentSecurityProvider
     }
 
     /**
-    * auto generate doc.
+    * Sends json.
     * @return bool
     */
     public function sendsJSon():bool{

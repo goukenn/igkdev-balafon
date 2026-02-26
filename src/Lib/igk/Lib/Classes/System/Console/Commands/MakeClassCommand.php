@@ -20,7 +20,7 @@ use IGK\Tests\BaseTestCase;
 use IGKException;
 
 /**
-* auto generate doc.
+* Make class command.
 * @package IGK\System\Console\Commands
 */
 class MakeClassCommand extends AppExecCommand
@@ -28,25 +28,25 @@ class MakeClassCommand extends AppExecCommand
     use ClassBuilderTrait;
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:class";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "make a new class. This is contextual command.";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -63,19 +63,19 @@ class MakeClassCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Constant: test class.
     * @var mixed
     */
     const TEST_CLASS = 'IGK\Tests';
 
     /**
-    * auto generate doc.
+    * Constant: core ns.
     * @var mixed
     */
     const CORE_NS = "IGK";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = "";
@@ -186,7 +186,7 @@ class MakeClassCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Showlist of scaffold.
     */
 
     public function showlistOfScaffold(){
@@ -370,7 +370,7 @@ class MakeClassCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Help.
     */
 
     public function help()
@@ -379,7 +379,7 @@ class MakeClassCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
 
     protected function showUsage()

@@ -33,43 +33,43 @@ use IGK\Models\ModelBase;
 class Mails extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd mail from.
     * @var mixed
     */
     const FD_MAIL_FROM="mail_from";
 
     /**
-    * auto generate doc.
+    * Constant: fd mail try.
     * @var mixed
     */
     const FD_MAIL_TRY="mail_try";
 
     /**
-    * auto generate doc.
+    * Constant: fd mail status.
     * @var mixed
     */
     const FD_MAIL_STATUS="mail_status";
 
     /**
-    * auto generate doc.
+    * Constant: fd mail data.
     * @var mixed
     */
     const FD_MAIL_DATA="mail_data";
 
     /**
-    * auto generate doc.
+    * Constant: fd mail create at.
     * @var mixed
     */
     const FD_MAIL_CREATE_AT="mail_createAt";
 
     /**
-    * auto generate doc.
+    * Constant: fd mail update at.
     * @var mixed
     */
     const FD_MAIL_UPDATE_AT="mail_updateAt";

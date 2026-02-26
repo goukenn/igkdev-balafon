@@ -11,13 +11,13 @@ use IGK\System\IO\Path;
 class StorageBuilder implements IStorageBuilder{
 
     /**
-    * auto generate doc.
+    * Property: storage.
     * @var mixed
     */
     var $storage;
 
     /**
-    * auto generate doc.
+    * Property: prefix.
     * @var mixed
     */
     var $prefix;
@@ -53,7 +53,7 @@ class StorageBuilder implements IStorageBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Deletes.
     * @param string $path
     * @return bool
     */

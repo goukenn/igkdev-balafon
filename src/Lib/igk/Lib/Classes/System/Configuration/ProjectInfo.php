@@ -10,25 +10,25 @@ namespace IGK\System\Configuration;
 class ProjectInfo{
 
     /**
-    * auto generate doc.
+    * Constant: type project.
     * @var mixed
     */
     const TYPE_PROJECT = 'project';
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Path to base dir.
     * @var mixed
     */
     var $base_dir;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type = self::TYPE_PROJECT;     

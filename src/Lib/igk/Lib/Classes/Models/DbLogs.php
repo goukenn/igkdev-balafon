@@ -31,37 +31,37 @@ use IGK\Models\ModelBase;
 class DbLogs extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd db logs msg.
     * @var mixed
     */
     const FD_DB_LOGS_MSG="db_logs_msg";
 
     /**
-    * auto generate doc.
+    * Constant: fd db logs status.
     * @var mixed
     */
     const FD_DB_LOGS_STATUS="db_logs_status";
 
     /**
-    * auto generate doc.
+    * Constant: fd db logs create at.
     * @var mixed
     */
     const FD_DB_LOGS_CREATE_AT="db_logs_createAt";
 
     /**
-    * auto generate doc.
+    * Constant: fd db logs tags.
     * @var mixed
     */
     const FD_DB_LOGS_TAGS="db_logs_tags";
 
     /**
-    * auto generate doc.
+    * Constant: fd db logs update at.
     * @var mixed
     */
     const FD_DB_LOGS_UPDATE_AT="db_logs_updateAt";

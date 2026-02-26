@@ -11,109 +11,109 @@ namespace IGK\System\Http;
 abstract class RequestResponseCode{
 
     /**
-    * auto generate doc.
+    * Constant: ok.
     * @var mixed
     */
     const Ok = 200;
 
     /**
-    * auto generate doc.
+    * Constant: multiple choice.
     * @var mixed
     */
     const MultipleChoice = 300;
 
     /**
-    * auto generate doc.
+    * Constant: move permanently.
     * @var mixed
     */
     const MovePermanently = 301;
 
     /**
-    * auto generate doc.
+    * Constant: found.
     * @var mixed
     */
     const Found = 302;
 
     /**
-    * auto generate doc.
+    * Constant: see other.
     * @var mixed
     */
     const SeeOther = 303;
 
     /**
-    * auto generate doc.
+    * Constant: bad request.
     * @var mixed
     */
     const BadRequest = 400;
 
     /**
-    * auto generate doc.
+    * Constant: unauthorized.
     * @var mixed
     */
     const Unauthorized = 401;
 
     /**
-    * auto generate doc.
+    * Constant: payment required.
     * @var mixed
     */
     const PaymentRequired=402;
 
     /**
-    * auto generate doc.
+    * Constant: forbiden.
     * @var mixed
     */
     const Forbiden = 403;
 
     /**
-    * auto generate doc.
+    * Constant: not found.
     * @var mixed
     */
     const NotFound = 404;
 
     /**
-    * auto generate doc.
+    * Constant: method not allowed.
     * @var mixed
     */
     const MethodNotAllowed = 405;
 
     /**
-    * auto generate doc.
+    * Constant: not acceptable.
     * @var mixed
     */
     const NotAcceptable = 406;
 
     /**
-    * auto generate doc.
+    * Constant: proxy authentication required.
     * @var mixed
     */
     const ProxyAuthenticationRequired = 407;
 
     /**
-    * auto generate doc.
+    * Constant: request timeout.
     * @var mixed
     */
     const RequestTimeout = 408;
 
     /**
-    * auto generate doc.
+    * Constant: conflict.
     * @var mixed
     */
     const Conflict = 409;
 
     /**
-    * auto generate doc.
+    * Constant: gone.
     * @var mixed
     */
     const Gone = 410;
 
     /**
-    * auto generate doc.
+    * Constant: length required.
     * @var mixed
     */
     const LengthRequired = 411;
 
     /**
-    * auto generate doc.
+    * Constant: internal server error.
     * @var mixed
     */
     const InternalServerError = 500;

@@ -13,13 +13,13 @@ trait HtmlNodeContainerTrait{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: host.
     * @var mixed
     */
     var $host;
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -27,7 +27,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Rendered Childs.
     * @param null|mixed $options
     */
     function getRenderedChilds($options = null)
@@ -36,7 +36,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Sets Attribute.
     * @param mixed $n
     * @param mixed $value
     */
@@ -56,7 +56,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Sets Class.
     * @param mixed $v
     */
     public function setClass($v){
@@ -65,7 +65,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -74,7 +74,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     function _access_OffsetGet( $n){
@@ -83,7 +83,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     */
     function _access_OffsetUnset( $n){
@@ -91,7 +91,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     * @return bool
     */
@@ -119,7 +119,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Flag.
     * @param mixed $k
     * @param null|mixed $default
     */
@@ -128,7 +128,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Sets Flag.
     * @param mixed $k
     * @param mixed $value
     */
@@ -138,7 +138,7 @@ trait HtmlNodeContainerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Add.
     * @param mixed $n
     * @param bool $force
     * @return bool

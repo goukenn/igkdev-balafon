@@ -59,7 +59,7 @@ if (!function_exists('igk_template_if_attrib_expression')) {
 }
 
 /**
-* auto generate doc.
+* Igk template update attrib expression.
 * @param mixed $n
 * @param mixed $attr
 * @param mixed $v

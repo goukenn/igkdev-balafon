@@ -15,19 +15,19 @@ use IGK\System\IO\File\PHPScriptBuilder;
 class FixCssCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--fix:css";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "Fixing";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "fix css file";
@@ -106,7 +106,7 @@ class FixCssCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Ignore list.
     * @param mixed $clear
     */
     public static function ignore_list($clear=false){
@@ -123,7 +123,7 @@ class FixCssCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Value to string.
     * @param mixed $v
     */
     static function ValueToString($v){
@@ -135,7 +135,7 @@ class FixCssCommand extends AppExecCommand{
 }
 
 /**
-* auto generate doc.
+* Expression handler.
 * @package IGK\System\Console\Commands
 */
 class ExpressionHandler{

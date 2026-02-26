@@ -7,13 +7,13 @@ use IGKEvents;
 // @copyright: igkdev © 2021
 
 /**
-* auto generate doc.
+* Html body box node.
 * @package IGK\System\Html\Dom
 */
 class HtmlBodyBoxNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";

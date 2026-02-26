@@ -11,7 +11,7 @@ namespace IGK\System\IO\File;
 class IniFile{
 
     /**
-    * auto generate doc.
+    * Property: configs.
     * @var mixed
     */
     private $m_configs = [];
@@ -38,14 +38,14 @@ class IniFile{
     }
 
     /**
-    * auto generate doc.
+    * To array.
     */
     public function to_array(){
         return $this->m_configs; 
     }
 
     /**
-    * auto generate doc.
+    * Comment.
     * @param mixed $d
     */
     public function comment($d){
@@ -56,7 +56,7 @@ class IniFile{
     }
 
     /**
-    * auto generate doc.
+    * Activate.
     * @param mixed $d
     */
     public function activate($d){
@@ -95,7 +95,7 @@ class IniFile{
     //store to file
 
     /**
-    * auto generate doc.
+    * Store.
     * @param string $file
     */
     public function store(string $file){

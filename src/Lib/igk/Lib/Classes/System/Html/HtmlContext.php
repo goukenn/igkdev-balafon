@@ -41,7 +41,7 @@ abstract class HtmlContext extends HtmlRenderingContext{
     }
 
     /**
-    * auto generate doc.
+    * Returns Close Tag Array.
     */
     public static function GetCloseTagArray(){
         static $clTag = null;

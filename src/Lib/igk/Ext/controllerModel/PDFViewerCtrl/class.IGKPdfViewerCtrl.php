@@ -19,13 +19,13 @@ represent a IGKPDFViewerCtrl
 */
 
 /**
-* auto generate doc.
+* Igkhtml pdf view node.
 */
 final class IGKHtmlPdfViewNode extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
@@ -78,13 +78,13 @@ final class IGKHtmlPdfViewNode extends HtmlNode
 }
 
 /**
-* auto generate doc.
+* Igkpdfviewer ctrl.
 */
 abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Property: pdf.
     * @var mixed
     */
     private $m_pdf;

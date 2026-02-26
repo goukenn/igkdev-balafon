@@ -10,7 +10,7 @@ namespace IGK\System\Html\Forms\Validations;
 class StrictVersionValidator extends FormFieldValidatorBase{
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $data
     * @param null|mixed $default
     * @param array & $error
@@ -24,7 +24,7 @@ class StrictVersionValidator extends FormFieldValidatorBase{
     }
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */

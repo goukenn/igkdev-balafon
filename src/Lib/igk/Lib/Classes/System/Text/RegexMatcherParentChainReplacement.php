@@ -12,7 +12,7 @@ class RegexMatcherParentChainReplacement
 {
 
     /**
-    * auto generate doc.
+    * Property: chain parent.
     * @var mixed
     */
     private $m_chain_parent;
@@ -54,7 +54,7 @@ class RegexMatcherParentChainReplacement
     }
 
     /**
-    * auto generate doc.
+    * Replaces Chain.
     * @param mixed $g
     * @param string $value
     * @param int $from

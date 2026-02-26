@@ -7,43 +7,43 @@ namespace IGK\System\IO\File\Php;
 use IGK\System\IO\File\PHPScriptBuilder;
 
 /**
-* auto generate doc.
+* Php interface document.
 * @package IGK\System\IO\File\Php
 */
 class PhpInterfaceDocument{
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     public $type = "interface";
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     public $name;
 
     /**
-    * auto generate doc.
+    * Name of namespace.
     * @var mixed
     */
     public $namespace;
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     public $file;
 
     /**
-    * auto generate doc.
+    * Property: doc.
     * @var mixed
     */
     public $doc;
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $m_listener;
@@ -59,7 +59,7 @@ class PhpInterfaceDocument{
     }
 
     /**
-    * auto generate doc.
+    * Generates.
     */
 
     public function generate(){

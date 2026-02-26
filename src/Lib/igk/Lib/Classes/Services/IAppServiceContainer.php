@@ -13,7 +13,7 @@ namespace IGK\Services;
 interface IAppServiceContainer extends IAppService{
 
     /**
-    * auto generate doc.
+    * Sets Name.
     * @param null|string $name
     * @return ?string
     */
@@ -21,14 +21,14 @@ interface IAppServiceContainer extends IAppService{
     function getName():?string;
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param string $name
     * @return ?IAppService
     */
     function get(string $name) : ?IAppService ;
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param string $name
     * @param IAppService $service
     * @return bool
@@ -36,13 +36,13 @@ interface IAppServiceContainer extends IAppService{
     function register(string $name, IAppService $service): bool;
 
     /**
-    * auto generate doc.
+    * Returns count of.
     * @return int
     */
     function count():int;
 
     /**
-    * auto generate doc.
+    * Lists Services Keys.
     * @return array
     */
     function listServicesKeys():array;

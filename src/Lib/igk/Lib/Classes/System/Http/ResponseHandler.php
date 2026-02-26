@@ -16,7 +16,7 @@ class ResponseHandler
 {
 
     /**
-    * auto generate doc.
+    * Request handler mime type.
     */
     public function requestHandlerMimeType(){
          if($v_qoptions =Request::getInstance()->getQueryInfo()->query_options){

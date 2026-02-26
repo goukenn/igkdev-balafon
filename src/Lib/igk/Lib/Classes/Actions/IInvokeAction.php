@@ -11,7 +11,7 @@ namespace IGK\Actions;
 interface IInvokeAction{
 
     /**
-    * auto generate doc.
+    * Invoke.
     */
     function invoke();
 }

@@ -12,13 +12,13 @@ use function igk_resources_gets as __;
 class Errors{
 
     /**
-    * auto generate doc.
+    * Constant: disable array.
     * @var mixed
     */
     const DISABLE_ARRAY = 1200;
 
     /**
-    * auto generate doc.
+    * Returns Errors.
     * @param mixed $code
     */
     public static function GetErrors($code){

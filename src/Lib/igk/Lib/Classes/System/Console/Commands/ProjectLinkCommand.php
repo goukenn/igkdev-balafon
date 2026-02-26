@@ -13,26 +13,26 @@ use IGKException;
 class ProjectLinkCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--project:link';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='link project to folder'; 
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category="project";
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command) { 

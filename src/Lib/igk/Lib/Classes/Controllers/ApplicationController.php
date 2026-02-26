@@ -30,7 +30,7 @@ use ReflectionMethod;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Application controller.
 * @package IGK\Controllers
 */
 abstract class ApplicationController extends  PageControllerBase
@@ -38,31 +38,31 @@ implements IDatabaseHost
 {
 
     /**
-    * auto generate doc.
+    * Constant: igk ctrl apps key.
     * @var mixed
     */
     const IGK_CTRL_APPS_KEY = IGK_USER_SETTING + 0xA0;
 
     /**
-    * auto generate doc.
+    * Constant: igk ctrl app init.
     * @var mixed
     */
     const IGK_CTRL_APP_INIT = self::IGK_CTRL_APPS_KEY + 1;
 
     /**
-    * auto generate doc.
+    * Constant: igk ctrl app template.
     * @var mixed
     */
     const IGK_CTRL_APP_TEMPLATE = self::IGK_CTRL_APPS_KEY + 2;
 
     /**
-    * auto generate doc.
+    * Property: init.
     * @var mixed
     */
     private static $INIT;
 
     /**
-    * auto generate doc.
+    * Property: apps.
     * @var mixed
     */
     private static $sm_apps;
@@ -609,7 +609,7 @@ EOF;
     ///<summary> application by default not allowed global action</summary>
 
     /**
-    * auto generate doc.
+    * Returns No Global Action.
     */
 
     public function getNoGlobalAction()
@@ -841,7 +841,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Register app.
     */
 
     protected function _registerApp()

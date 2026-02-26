@@ -37,55 +37,55 @@ use IGK\Models\ModelBase;
 class Mailinglists extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd clml email.
     * @var mixed
     */
     const FD_CLML_EMAIL="clml_email";
 
     /**
-    * auto generate doc.
+    * Constant: fd clml state.
     * @var mixed
     */
     const FD_CLML_STATE="clml_state";
 
     /**
-    * auto generate doc.
+    * Constant: fd clml source.
     * @var mixed
     */
     const FD_CLML_SOURCE="clml_source";
 
     /**
-    * auto generate doc.
+    * Constant: fd clml locale.
     * @var mixed
     */
     const FD_CLML_LOCALE="clml_locale";
 
     /**
-    * auto generate doc.
+    * Constant: fd clml init.
     * @var mixed
     */
     const FD_CLML_INIT="clml_init";
 
     /**
-    * auto generate doc.
+    * Constant: fd clml agent.
     * @var mixed
     */
     const FD_CLML_AGENT="clml_agent";
 
     /**
-    * auto generate doc.
+    * Constant: fd clml create at.
     * @var mixed
     */
     const FD_CLML_CREATE_AT="clml_create_at";
 
     /**
-    * auto generate doc.
+    * Constant: fd clml update at.
     * @var mixed
     */
     const FD_CLML_UPDATE_AT="clml_update_at";

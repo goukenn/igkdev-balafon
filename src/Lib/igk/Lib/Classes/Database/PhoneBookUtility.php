@@ -257,7 +257,7 @@ class PhoneBookUtility
     }
 
     /**
-    * auto generate doc.
+    * Phone detail list.
     * @param mixed $entries
     */
     public static function PhoneDetailList($entries){

@@ -13,19 +13,19 @@ use IGKHtmlCommentItem;
 abstract class SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: migration.
     * @var mixed
     */
     private $m_migration;
 
     /**
-    * auto generate doc.
+    * Property: raw.
     * @var mixed
     */
     protected $raw;
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties; 
@@ -58,7 +58,7 @@ abstract class SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Migration.
     */
     public function getMigration(){
         return $this->m_migration;
@@ -73,7 +73,7 @@ abstract class SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Loads.
     * @param mixed $node
     */
     public function load($node){  

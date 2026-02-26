@@ -10,7 +10,7 @@ namespace IGK\System\Views;
 interface IDbTableViewFilter{
 
     /**
-    * auto generate doc.
+    * Returns Header List.
     * @param mixed $firstRow
     */
     public function getHeaderList($firstRow);

@@ -10,7 +10,7 @@ namespace IGK\System\Html\Dom;
 final class HtmlAJXReplacementNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: nodes.
     * @var mixed
     */
     private $m_nodes;
@@ -62,7 +62,7 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $options
     */
     protected function _getRenderingChildren($options = null)

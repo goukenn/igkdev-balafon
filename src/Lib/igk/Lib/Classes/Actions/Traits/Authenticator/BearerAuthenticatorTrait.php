@@ -24,19 +24,19 @@ trait BearerAuthenticatorTrait
 {
 
     /**
-    * auto generate doc.
+    * Property: bearer authenticator cookie life.
     * @var mixed
     */
     protected $_bearerAuthenticatorCookieLife = 3600;
 
     /**
-    * auto generate doc.
+    * Property: bearer authenticator token hash.
     * @var mixed
     */
     protected $_bearerAuthenticatorTokenHash = "-t-!#@4746QD-";
 
     /**
-    * auto generate doc.
+    * Property: bearer authenticator cookie life constants.
     * @var mixed
     */
     protected $_bearerAuthenticatorCookieLifeConstants = 60 * 60 * 60 * 24;    // 60 days
@@ -128,7 +128,7 @@ trait BearerAuthenticatorTrait
     }
 
     /**
-    * auto generate doc.
+    * Bearer authenticator get user profile info.
     * @param \IGK\Models\Users $user
     */
     protected function bearerAuthenticatorGetUserProfileInfo(\IGK\Models\Users $user)

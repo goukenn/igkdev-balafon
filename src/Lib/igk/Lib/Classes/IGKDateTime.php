@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkdate time.
 */
 class IGKDateTime extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: day, hour, min, month, sec, year.
     * @var mixed
     */
     private $m_day, $m_hour, $m_min, $m_month, $m_sec, $m_year;
@@ -74,7 +74,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Age.
     * @param mixed $birthdate
     */
 
@@ -83,7 +83,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Date.
     * @param mixed $format
     */
 
@@ -99,7 +99,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Getday.
     */
 
     public function getday(){
@@ -107,7 +107,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Gethour.
     */
 
     public function gethour(){
@@ -115,7 +115,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Getmin.
     */
 
     public function getmin(){
@@ -123,7 +123,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Getmonth.
     */
 
     public function getmonth(){
@@ -131,7 +131,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Getsec.
     */
 
     public function getsec(){
@@ -139,7 +139,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Getyear.
     */
 
     public function getyear(){
@@ -147,7 +147,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Date Equal.
     * @param mixed $date1
     * @param mixed $date2
     */
@@ -157,7 +157,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Date Month Equal.
     * @param mixed $date1
     * @param mixed $date2
     */
@@ -167,7 +167,7 @@ class IGKDateTime extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Date Year Equal.
     * @param mixed $date1
     * @param mixed $date2
     */

@@ -18,7 +18,7 @@ use IGK\System\ApplicationSessionStorage;
 class IGKAppInfoStorage extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $data;
@@ -50,14 +50,14 @@ class IGKAppInfoStorage extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Data.
     */
     public function & getData(){
         return $this->data;
     }
 
     /**
-    * auto generate doc.
+    * Returns Session.
     */
     public function & getSession(){
         $g = & $this->data->session;
@@ -107,7 +107,7 @@ class IGKAppInfoStorage extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Store.
     * @param string $n
     * @param mixed $v
     */
@@ -117,7 +117,7 @@ class IGKAppInfoStorage extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Ref.
     * @param string $n
     */
     public function & getRef(string $n){

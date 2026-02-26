@@ -15,12 +15,12 @@ trait ModelMacrosTrait
 {
 
     /**
-    * auto generate doc.
+    * Get auto insert definition.
     */
     protected abstract function _GetAutoInsertDefinition();
 
     /**
-    * auto generate doc.
+    * Auto insert cache.
     * @param ModelBase $model
     * @param mixed $name
     */

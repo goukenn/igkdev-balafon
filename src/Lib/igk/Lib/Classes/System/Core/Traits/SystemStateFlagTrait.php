@@ -49,7 +49,7 @@ trait SystemStateFlagTrait
     }
 
     /**
-    * auto generate doc.
+    * Isset flag.
     * @param string $name
     * @return string
     */
@@ -59,7 +59,7 @@ trait SystemStateFlagTrait
     }
 
     /**
-    * auto generate doc.
+    * Clears Flags.
     */
     protected function clearFlags()
     {
@@ -67,7 +67,7 @@ trait SystemStateFlagTrait
     }
 
     /**
-    * auto generate doc.
+    * Loads Flags.
     * @param array $flags
     */
     protected function loadFlags(array $flags)

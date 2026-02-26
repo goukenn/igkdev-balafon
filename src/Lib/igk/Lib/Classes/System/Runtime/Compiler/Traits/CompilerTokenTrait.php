@@ -11,13 +11,13 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 trait CompilerTokenTrait{
 
     /**
-    * auto generate doc.
+    * Property: read options.
     * @var mixed
     */
     private $m_read_options;
 
     /**
-    * auto generate doc.
+    * Parses Token.
     * @param string $source
     */
     function parseToken(string $source){
@@ -51,7 +51,7 @@ trait CompilerTokenTrait{
     }
 
     /**
-    * auto generate doc.
+    * Check here doc document.
     * @param mixed $options
     * @param mixed $id
     * @param mixed $value
@@ -68,7 +68,7 @@ trait CompilerTokenTrait{
     }
 
     /**
-    * auto generate doc.
+    * Creates Read Options Token.
     */
     protected function createReadOptionsToken(){
         $g = new ReadTokenOptions;    
@@ -79,7 +79,7 @@ trait CompilerTokenTrait{
     }
 
     /**
-    * auto generate doc.
+    * End handle token.
     * @param mixed $options
     */
     protected function endHandleToken($options){

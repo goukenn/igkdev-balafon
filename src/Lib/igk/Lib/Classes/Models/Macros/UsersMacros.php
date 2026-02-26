@@ -155,7 +155,7 @@ abstract class UsersMacros
     }
 
     /**
-    * auto generate doc.
+    * Returns Authorization Names.
     * @param Users $model
     */
     public static function getAuthorizationNames(Users $model)

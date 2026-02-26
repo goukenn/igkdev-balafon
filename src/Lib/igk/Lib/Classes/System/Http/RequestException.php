@@ -7,13 +7,13 @@ namespace IGK\System\Http;
 use Exception;
 
 /**
-* auto generate doc.
+* Request exception.
 * @package IGK\System\Http
 */
 class RequestException extends \IGKException{
 
     /**
-    * auto generate doc.
+    * Property: status.
     * @var mixed
     */
     protected $status;
@@ -34,7 +34,7 @@ class RequestException extends \IGKException{
     }
 
     /**
-    * auto generate doc.
+    * Handles.
     */
 
     function handle(){

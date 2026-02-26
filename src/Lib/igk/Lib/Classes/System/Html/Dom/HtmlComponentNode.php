@@ -12,7 +12,7 @@ use IGK\IHtmlComponent;
 abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
 
     /**
-    * auto generate doc.
+    * Constant: igk component ctrl flag.
     * @var mixed
     */
     const IGK_COMPONENT_CTRL_FLAG=0xc001;

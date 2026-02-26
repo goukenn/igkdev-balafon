@@ -20,7 +20,7 @@ use IGK\System\Http\Cookies;
 use IGKEvents;
 
 /**
-* auto generate doc.
+* Session controller.
 * @package IGK\Controllers
 */
 final class SessionController extends BaseController{
@@ -29,7 +29,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Changeviewmode.
     */
     public function changeviewmode(){
         if(!igk_is_conf_connected()){
@@ -47,7 +47,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Clears All S.
     */
     public function ClearAllS(){
         igk_kill_all_sessions();
@@ -58,7 +58,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Clears All Session.
     */
     public function clearAllSession(){
         $exclude=igk_getr("exclude");
@@ -81,7 +81,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Clearcache.
     */
     public function clearcache(){
         if(Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()){
@@ -95,7 +95,7 @@ final class SessionController extends BaseController{
     // }
 
     /**
-    * auto generate doc.
+    * Clears S.
     * @param mixed $navigate
     */
     public function ClearS($navigate=true){
@@ -130,21 +130,21 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Config property changed.
     */
     public function configPropertyChanged(){
         $this->View();
     }
 
     /**
-    * auto generate doc.
+    * Conf user changed.
     */
     public function ConfUserChanged(){
         $this->View();
     }
 
     /**
-    * auto generate doc.
+    * Forceview.
     */
     public function forceview(){ 
         if ($doc=igk_app()->getDoc()){
@@ -153,7 +153,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     * @return bool
     */
     public function getIsVisible():bool{
@@ -163,7 +163,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -171,7 +171,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){   
@@ -214,7 +214,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
@@ -222,7 +222,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Invmodule.
     */
     public function invmodule(){
         if(igk_get_env(__METHOD__))
@@ -249,7 +249,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Notifies forceview.
     */
     public function notify_forceview(){
         R::LoadLang();
@@ -257,7 +257,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * On handle system event.
     * @param mixed $msg
     */
     public function onHandleSystemEvent($msg){
@@ -279,14 +279,14 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Page changed.
     */
     public function PageChanged(){
         $this->View();
     }
 
     /**
-    * auto generate doc.
+    * Runs Cron.
     */
     public function RunCron(){
         $c=igk_getr("ctrl");
@@ -332,7 +332,7 @@ final class SessionController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Updates setting.
     */
     public function update_setting(){
         $this->View();

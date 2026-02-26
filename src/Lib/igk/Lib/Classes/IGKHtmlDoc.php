@@ -32,61 +32,61 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
 {
 
     /**
-    * auto generate doc.
+    * Property: privatetheme.
     * @var mixed
     */
     private $m_privatetheme;
 
     /**
-    * auto generate doc.
+    * Property: theme.
     * @var mixed
     */
     private $m_theme;
 
     /**
-    * auto generate doc.
+    * Property: baseuri.
     * @var mixed
     */
     private $m_baseuri;
 
     /**
-    * auto generate doc.
+    * Cache: no cache.
     * @var mixed
     */
     private $m_noCache;
 
     /**
-    * auto generate doc.
+    * Property: no core script.
     * @var mixed
     */
     private $m_noCoreScript;
 
     /**
-    * auto generate doc.
+    * Flag: can add.
     * @var mixed
     */
     private $m_can_add;
 
     /**
-    * auto generate doc.
+    * Property: no powered.
     * @var mixed
     */
     private $m_noPowered;
 
     /**
-    * auto generate doc.
+    * Property: no core css.
     * @var mixed
     */
     private $m_noCoreCss;
 
     /**
-    * auto generate doc.
+    * Property: no font install.
     * @var mixed
     */
     private $m_noFontInstall;
 
     /**
-    * auto generate doc.
+    * Property: no iframe.
     * @var mixed
     */
     private $m_noIFrame;
@@ -112,7 +112,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Getno iframe.
     */
     public function getnoIframe()
     {
@@ -120,7 +120,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Sets No Iframe.
     * @param bool $value
     */
     public function setNoIframe(bool $value)
@@ -145,7 +145,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Getno font install.
     */
     public function getnoFontInstall()
     {
@@ -153,7 +153,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Setno font install.
     * @param null|bool $value
     */
     public function setnoFontInstall(?bool $value)
@@ -163,7 +163,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Sets Is Template.
     * @param null|bool $value
     */
     public function setIsTemplate(?bool $value)
@@ -173,7 +173,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Template.
     */
     public function getIsTemplate()
     {
@@ -183,7 +183,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Getno core script.
     */
     public function getnoCoreScript()
     {
@@ -191,7 +191,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Setno core script.
     * @param null|bool $n
     */
     public function setnoCoreScript(?bool $n)
@@ -201,7 +201,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Returns No Core Css.
     */
     public function getNoCoreCss()
     {
@@ -209,7 +209,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Sets No Core Css.
     * @param null|bool $value
     */
     public function setNoCoreCss(?bool $value = null)
@@ -219,7 +219,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Returns No Powered.
     */
     public function getNoPowered()
     {
@@ -227,7 +227,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Sets No Powered.
     * @param null|bool $value
     */
     public function setNoPowered(?bool $value = null)
@@ -247,7 +247,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Returns No Cache.
     */
     public function getNoCache()
     {
@@ -255,7 +255,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Sets No Cache.
     * @param bool $value
     */
     public function setNoCache(bool $value)
@@ -280,7 +280,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     private $m_dir;
 
     /**
-    * auto generate doc.
+    * Property: status.
     * @var mixed
     */
     private $m_status;
@@ -291,13 +291,13 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     private static $sm_theme;
 
     /**
-    * auto generate doc.
+    * Property: script manager.
     * @var mixed
     */
     private static $sm_scriptManager;
 
     /**
-    * auto generate doc.
+    * Name of namespaces.
     * @var mixed
     */
     protected $namespaces = [
@@ -306,43 +306,43 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     ];
 
     /**
-    * auto generate doc.
+    * Constant: igk doc favicon flag.
     * @var mixed
     */
     const IGK_DOC_FAVICON_FLAG = self::IGK_DOC_TYPE_FLAG + 3;
 
     /**
-    * auto generate doc.
+    * Constant: igk doc linkmanager flag.
     * @var mixed
     */
     const IGK_DOC_LINKMANAGER_FLAG = self::IGK_DOC_TYPE_FLAG + 2;
 
     /**
-    * auto generate doc.
+    * Constant: igk doc loaded script flag.
     * @var mixed
     */
     const IGK_DOC_LOADED_SCRIPT_FLAG = self::IGK_DOC_TYPE_FLAG + 4;
 
     /**
-    * auto generate doc.
+    * Constant: igk doc metamanager flag.
     * @var mixed
     */
     const IGK_DOC_METAMANAGER_FLAG = self::IGK_DOC_TYPE_FLAG + 5;
 
     /**
-    * auto generate doc.
+    * Constant: igk doc scriptmanager flag.
     * @var mixed
     */
     const IGK_DOC_SCRIPTMANAGER_FLAG = self::IGK_DOC_TYPE_FLAG + 6;
 
     /**
-    * auto generate doc.
+    * Constant: igk doc title flag.
     * @var mixed
     */
     const IGK_DOC_TITLE_FLAG = self::IGK_DOC_TYPE_FLAG + 1;
 
     /**
-    * auto generate doc.
+    * Constant: igk doc type flag.
     * @var mixed
     */
     const IGK_DOC_TYPE_FLAG = 0xB01;
@@ -451,7 +451,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Returns Default Theme.
     */
     public function getDefaultTheme()
     {
@@ -707,7 +707,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Creates Core Document.
     * @param mixed $id
     */
     public static function CreateCoreDocument($id)
@@ -759,7 +759,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options = null)
@@ -1058,7 +1058,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     }
 
     /**
-    * auto generate doc.
+    * Header extra attribute.
     */
     public function headerExtraAttribute()
     {

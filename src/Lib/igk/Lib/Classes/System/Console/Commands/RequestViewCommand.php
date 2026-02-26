@@ -23,25 +23,25 @@ class RequestViewCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--request:view';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'request view call';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'controller request [options]';
 
     /**
-    * auto generate doc.
+    * Shows Options.
     */
     public function showOptions()
     {
@@ -68,7 +68,7 @@ class RequestViewCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $controller
     * @param null|string $request

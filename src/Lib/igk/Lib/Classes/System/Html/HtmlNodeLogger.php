@@ -11,7 +11,7 @@ class HtmlNodeLogger
 {
 
     /**
-    * auto generate doc.
+    * Property: t.
     * @var mixed
     */
     var $t;

@@ -27,25 +27,25 @@ use IGK\Models\ModelBase;
 class Apps extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl download time.
     * @var mixed
     */
     const FD_CL_DOWNLOAD_TIME="clDownloadTime";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl last.
     * @var mixed
     */
     const FD_CL_LAST="clLast";

@@ -10,7 +10,7 @@ namespace IGK\Actions\Traits;
 trait ApiActionTrait{
 
     /**
-    * auto generate doc.
+    * Property: exit after handle.
     * @var mixed
     */
     var $exitAfterHandle = true;

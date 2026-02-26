@@ -14,19 +14,19 @@ abstract class ControllerMethods{
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: setup theme.
     * @var mixed
     */
     const setupTheme = 'setupTheme';
 
     /**
-    * auto generate doc.
+    * Constant: get primary theme.
     * @var mixed
     */
     const getPrimaryTheme = 'getPrimaryTheme';
 
     /**
-    * auto generate doc.
+    * Constant: register autoload.
     * @var mixed
     */
     const register_autoload = 'register_autoload';

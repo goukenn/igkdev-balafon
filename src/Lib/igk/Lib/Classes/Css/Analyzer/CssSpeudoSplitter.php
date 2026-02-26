@@ -13,7 +13,7 @@ class CssSpeudoSplitter implements ICssSplitListener
 {
 
     /**
-    * auto generate doc.
+    * Property: rg.
     * @var mixed
     */
     private $m_rg;
@@ -28,7 +28,7 @@ class CssSpeudoSplitter implements ICssSplitListener
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param mixed $rg
     */
     protected function initialize($rg)
@@ -38,7 +38,7 @@ class CssSpeudoSplitter implements ICssSplitListener
     }
 
     /**
-    * auto generate doc.
+    * Splits.
     * @param string $value
     * @return array
     */

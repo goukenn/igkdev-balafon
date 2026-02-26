@@ -6,7 +6,7 @@
 namespace IGK\System\Installers;
 
 /**
-* auto generate doc.
+* Interface for middle ware action.
 * @package IGK\System\Installers
 */
 interface IMiddleWareAction{

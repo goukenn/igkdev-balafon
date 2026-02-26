@@ -10,13 +10,13 @@ use IGK\System\Shell\OsShell;
 use IGKException;
 
 /**
-* auto generate doc.
+* Os window command.
 * @package IGK\System\Installers
 */
 class OsWindowCommand extends OsShell{
 
     /**
-    * auto generate doc.
+    * Where.
     * @param mixed $cmd
     */
     public static function Where($cmd){ 

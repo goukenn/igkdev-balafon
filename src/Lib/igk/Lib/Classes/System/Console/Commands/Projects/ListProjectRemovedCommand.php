@@ -21,19 +21,19 @@ class ListProjectRemovedCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--project:removed';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'list removed project';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -41,13 +41,13 @@ class ListProjectRemovedCommand extends AppExecCommand
 	];
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'action* [options]';
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage()
 	{
@@ -61,7 +61,7 @@ class ListProjectRemovedCommand extends AppExecCommand
 	/* var $category='project'; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $action
     */

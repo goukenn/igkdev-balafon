@@ -7,13 +7,13 @@ namespace IGK\System\Http;
 use IGK\Controllers\BaseController;
 
 /**
-* auto generate doc.
+* Controller request not found request response.
 * @package IGK\System\Http
 */
 class ControllerRequestNotFoundRequestResponse extends ControllerRequestResponse{
 
     /**
-    * auto generate doc.
+    * Property: message.
     * @var mixed
     */
     var $message;

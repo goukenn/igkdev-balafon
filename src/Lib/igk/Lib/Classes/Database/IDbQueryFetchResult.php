@@ -12,7 +12,7 @@ use Iterator;
 interface IDbQueryFetchResult extends Iterator , IDbFetchResult{
 
     /**
-    * auto generate doc.
+    * Fetches.
     * @return bool
     */
     function fetch(): bool;

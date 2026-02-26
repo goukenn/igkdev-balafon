@@ -8,7 +8,7 @@ use IGK\Controllers\ToolControllerBase;
 //method 1: site map generator
 
 /**
-* auto generate doc.
+* Igksitemap generator tools.
 */
 final class IGKSitemapGeneratorTools extends ToolControllerBase
 {

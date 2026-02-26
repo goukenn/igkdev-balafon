@@ -34,7 +34,7 @@ class XmlNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Closes Tag.
     * @return bool
     */
     public function closeTag():bool{
@@ -42,7 +42,7 @@ class XmlNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Creates Web Node.
     * @param mixed $n
     * @param null|mixed $attributes
     * @param null|mixed $indexOrargs

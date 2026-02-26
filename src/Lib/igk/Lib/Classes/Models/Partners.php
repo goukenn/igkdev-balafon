@@ -29,31 +29,31 @@ use IGK\Models\ModelBase;
 class Partners extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl category.
     * @var mixed
     */
     const FD_CL_CATEGORY="clCategory";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl web site.
     * @var mixed
     */
     const FD_CL_WEB_SITE="clWebSite";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl description.
     * @var mixed
     */
     const FD_CL_DESCRIPTION="clDescription";

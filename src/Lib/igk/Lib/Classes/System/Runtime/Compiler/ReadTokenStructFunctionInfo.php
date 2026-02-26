@@ -13,7 +13,7 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
 {
 
     /**
-    * auto generate doc.
+    * Property: condition.
     * @var mixed
     */
     var $condition;
@@ -24,7 +24,7 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
     var $args = [];
 
     /**
-    * auto generate doc.
+    * Property: return.
     * @var mixed
     */
     var $return;
@@ -49,7 +49,7 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
     }
 
     /**
-    * auto generate doc.
+    * Returns Header.
     */
     protected function getHeader()
     {
@@ -126,7 +126,7 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
     }
 
     /**
-    * auto generate doc.
+    * Initializes Flag Option.
     * @param ReadTokenOptions $options
     */
     public function initFlagOption(ReadTokenOptions $options)
@@ -135,7 +135,7 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
     }
 
     /**
-    * auto generate doc.
+    * Updates Parent Buffer.
     * @return bool
     */
     public function updateParentBuffer(): bool
@@ -144,7 +144,7 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
     }
 
     /**
-    * auto generate doc.
+    * Generates Php Doc.
     * @param mixed $options
     */
     public function generatePhpDoc($options)

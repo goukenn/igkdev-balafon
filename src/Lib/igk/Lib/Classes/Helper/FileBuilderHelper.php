@@ -8,7 +8,7 @@ use Closure;
 use IGK\System\Console\Logger;
 
 /**
-* auto generate doc.
+* File builder helper.
 * @package IGK\Helper
 */
 abstract class FileBuilderHelper

@@ -16,32 +16,32 @@ use IGK\Helper\StringUtility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 
 /**
-* auto generate doc.
+* Make action command.
 * @package IGK\System\Console\Commands
 */
 class MakeActionCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:action";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "make new project's action. Contextual command.";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -60,7 +60,7 @@ class MakeActionCommand extends AppExecCommand
     var $uses;
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'controller action_name [options]';

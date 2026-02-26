@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class StringDisplayTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests stringdisplay litteral.
     */
     public function test_stringdisplay_litteral(){
     $l = StringDisplay::Display('hi!, ", ", login', ['login'], (object)['login'=>IGK_AUTHOR]);

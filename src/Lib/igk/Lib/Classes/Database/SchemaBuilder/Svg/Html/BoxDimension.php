@@ -23,7 +23,7 @@ class BoxDimension implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options=null){ 

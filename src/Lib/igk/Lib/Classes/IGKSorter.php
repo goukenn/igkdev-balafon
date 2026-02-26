@@ -10,12 +10,12 @@
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Igksorter.
 */
 final class IGKSorter{
 
     /**
-    * auto generate doc.
+    * Properties: asc, key.
     * @var mixed
     */
     var $asc, $key;

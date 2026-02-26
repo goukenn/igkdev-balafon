@@ -11,7 +11,7 @@ namespace IGK\System\Html\Forms\Validations;
 class TextareaValidator extends DefaultValidator{
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */

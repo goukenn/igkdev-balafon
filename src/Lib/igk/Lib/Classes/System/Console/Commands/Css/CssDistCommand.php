@@ -13,31 +13,31 @@ use IGK\System\Console\Logger;
 class CssDistCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--css:dist";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "get core balafon css";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "css";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '[options]';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [

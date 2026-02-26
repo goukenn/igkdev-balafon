@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkcsvquery result.
 */
 final class IGKCSVQueryResult extends IGKQueryResult{
 
     /**
-    * auto generate doc.
+    * Properties: columns, rowcount, rows.
     * @var mixed
     */
     private $m_columns, $m_rowcount, $m_rows;

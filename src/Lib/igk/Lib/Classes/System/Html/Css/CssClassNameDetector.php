@@ -22,31 +22,31 @@ class CssClassNameDetector
     var $list;
 
     /**
-    * auto generate doc.
+    * Constant: cl regex.
     * @var mixed
     */
     const CL_REGEX = "/\.\b[a-z][a-z0-9\-]*\b((?::\w+|(?:\[[a-z][a-z0-9\-]*\])))?/i";
 
     /**
-    * auto generate doc.
+    * Constant: media key.
     * @var mixed
     */
     const MEDIA_KEY = '@media';
 
     /**
-    * auto generate doc.
+    * Property: references.
     * @var mixed
     */
     private $m_references;
 
     /**
-    * auto generate doc.
+    * Map of mapped.
     * @var mixed
     */
     private $m_mapped;
 
     /**
-    * auto generate doc.
+    * Property: frames.
     * @var mixed
     */
     private $m_frames;

@@ -20,7 +20,7 @@ use IGKException;
 class DbInitManager{
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param BaseController $controller
     */
     public function init(BaseController $controller){

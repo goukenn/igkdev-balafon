@@ -14,7 +14,7 @@ trait AttachBlockTrait
 {
 
     /**
-    * auto generate doc.
+    * Attache block.
     * @param mixed $block
     * @param mixed $options
     * @param mixed $id

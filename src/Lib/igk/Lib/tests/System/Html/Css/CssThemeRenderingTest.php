@@ -16,7 +16,7 @@ use IGK\Tests\BaseTestCase;
 class CssThemeRenderingTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests csstheme minify content rendering.
     */
     public function test_csstheme_minify_content_rendering(){
         $d = new HtmlDocTheme(null, 'testing', false);

@@ -10,31 +10,31 @@ namespace IGK\System\Runtime\Compiler;
 class ReadTokenVariableFlagOption extends ReadTokenFlagOptions{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: default.
     * @var mixed
     */
     var $default;
 
     /**
-    * auto generate doc.
+    * Property: depend on.
     * @var mixed
     */
     var $dependOn = false;
 
     /**
-    * auto generate doc.
+    * Property: modifiers.
     * @var mixed
     */
     var $modifiers= [];
 
     /**
-    * auto generate doc.
+    * Property: render.
     * @var mixed
     */
     var $render = false;

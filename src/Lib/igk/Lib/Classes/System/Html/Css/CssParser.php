@@ -41,19 +41,19 @@ class CssParser implements ArrayAccess
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Constant: match var.
     * @var mixed
     */
     const MATCH_VAR = "/^var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)$/i";
 
     /**
-    * auto generate doc.
+    * Constant: match resolve var.
     * @var mixed
     */
     const MATCH_RESOLVE_VAR = "/var\s*\((?P<name>[^\),]+)(\s*,(?P<arg>[^\)]+))?\s*\)/i";
 
     /**
-    * auto generate doc.
+    * Property: line feed.
     * @var mixed
     */
     var $lineFeed = '';
@@ -82,7 +82,7 @@ class CssParser implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * To css.
     */
     public function to_css()
     {
@@ -459,7 +459,7 @@ class CssParser implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -469,7 +469,7 @@ class CssParser implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     function _access_OffsetGet($n)
@@ -478,7 +478,7 @@ class CssParser implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     */
     function _access_OffsetUnset($n)
@@ -487,7 +487,7 @@ class CssParser implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
     function _access_offsetExists($n)
@@ -687,7 +687,7 @@ class CssParser implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Treat extrat property.
     * @param mixed & $rdef
     */
     protected function treatExtratProperty(&$rdef)

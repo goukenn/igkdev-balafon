@@ -7,7 +7,7 @@
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
 /**
-* auto generate doc.
+* Igkatricles ctrl base.
 */
 abstract class IGKAtriclesCtrlBase extends \IGK\Controllers\ControllerTypeBase
 {

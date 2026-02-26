@@ -13,26 +13,26 @@ use IGK\System\Requirement;
 class CheckRequirementCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--check-requirement';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='check requirement'; 
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category='system';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command) { 

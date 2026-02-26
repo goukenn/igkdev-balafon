@@ -11,7 +11,7 @@ namespace IGK\System\Html\XML;
 use IGK\System\Html\HtmlRenderer;
 
 /**
-* auto generate doc.
+* Xml processor.
 * @package IGK\System\Html\XML
 */
 final class XmlProcessor extends XmlNode{
@@ -25,21 +25,21 @@ final class XmlProcessor extends XmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds(){        
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options=null){

@@ -53,7 +53,7 @@ abstract class ConsoleUtility
     }
 
     /**
-    * auto generate doc.
+    * Constant: options tab space.
     * @var mixed
     */
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;

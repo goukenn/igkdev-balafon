@@ -27,25 +27,25 @@ class ViewCompilerCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--compile-view";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "compile view file";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "compilation";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -53,14 +53,14 @@ class ViewCompilerCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage(){
         Logger::print(sprintf('%s file [controller] [options]', $this->command));
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $path
     * @param null|mixed $ctrl
@@ -104,7 +104,7 @@ class ViewCompilerCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Creates Eval Code.
     * @param BaseController $controller
     */
     public static function CreateEvalCode(BaseController $controller){
@@ -122,7 +122,7 @@ class ViewCompilerCommand extends AppExecCommand
 }
 
 /**
-* auto generate doc.
+* No data provided.
 * @package IGK\System\Console\Commands
 */
 class NoDataProvided implements ArrayAccess
@@ -130,7 +130,7 @@ class NoDataProvided implements ArrayAccess
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $index
     */
     public function _access_OffsetGet($index)

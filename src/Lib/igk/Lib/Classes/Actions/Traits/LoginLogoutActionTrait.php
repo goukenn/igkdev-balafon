@@ -10,13 +10,13 @@ namespace IGK\Actions\Traits;
 trait LoginLogoutActionTrait{
 
     /**
-    * auto generate doc.
+    * Property: logout uri.
     * @var mixed
     */
     protected $logoutUri = 'logout';
 
     /**
-    * auto generate doc.
+    * Property: logint uri.
     * @var mixed
     */
     protected $logintUri = 'login';

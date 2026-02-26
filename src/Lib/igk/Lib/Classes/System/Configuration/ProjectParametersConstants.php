@@ -10,7 +10,7 @@ namespace IGK\System\Configuration;
 abstract class ProjectParametersConstants{
 
     /**
-    * auto generate doc.
+    * Constant: cl data table prefix.
     * @var mixed
     */
     const clDataTablePrefix = "clDataTablePrefix";

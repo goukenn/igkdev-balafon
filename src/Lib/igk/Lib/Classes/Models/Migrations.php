@@ -33,43 +33,43 @@ use IGK\Models\ModelBase;
 class Migrations extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd migration name.
     * @var mixed
     */
     const FD_MIGRATION_NAME="migration_name";
 
     /**
-    * auto generate doc.
+    * Constant: fd migration batch.
     * @var mixed
     */
     const FD_MIGRATION_BATCH="migration_batch";
 
     /**
-    * auto generate doc.
+    * Constant: fd migration desc.
     * @var mixed
     */
     const FD_MIGRATION_DESC="migration_desc";
 
     /**
-    * auto generate doc.
+    * Constant: fd migration controller.
     * @var mixed
     */
     const FD_MIGRATION_CONTROLLER="migration_controller";
 
     /**
-    * auto generate doc.
+    * Constant: fd migration create at.
     * @var mixed
     */
     const FD_MIGRATION_CREATE_AT="migration_create_at";
 
     /**
-    * auto generate doc.
+    * Constant: fd migration update at.
     * @var mixed
     */
     const FD_MIGRATION_UPDATE_AT="migration_update_at";

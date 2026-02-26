@@ -12,7 +12,7 @@ use IGKException;
 class ArrayExtractor{
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     var $key;
@@ -37,7 +37,7 @@ class ArrayExtractor{
     }
 
     /**
-    * auto generate doc.
+    * Li.
     * @param mixed $p
     */
     public function li($p){ 

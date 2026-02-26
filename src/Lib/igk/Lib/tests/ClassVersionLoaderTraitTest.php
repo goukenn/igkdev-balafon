@@ -10,13 +10,13 @@ use IGK\System\Traits\ClassFileVersionLoaderTrait;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Class version loader trait test.
 * @package IGK\Test
 */
 class ClassVersionLoaderTraitTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests load diff version.
     */
     public function test_load_diff_version(){
         $loader = new DummyClassVersionLoader;
@@ -43,7 +43,7 @@ class ClassVersionLoaderTraitTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Dummy class version loader.
 * @package IGK\Test
 */
 class DummyClassVersionLoader{

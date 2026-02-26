@@ -19,25 +19,25 @@ class InitSystemDatabaseCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--dbsys:initdb";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'init core system db';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category="sys:db";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -46,7 +46,7 @@ class InitSystemDatabaseCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command)

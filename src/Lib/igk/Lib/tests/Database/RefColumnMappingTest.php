@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class RefColumnMappingTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests refcolumnmapping check load.
     */
     public function test_refcolumnmapping_check_load(){
 

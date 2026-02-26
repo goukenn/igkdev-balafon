@@ -6,25 +6,25 @@
 use IGK\System\Http\Request;
 
 /**
-* auto generate doc.
+* Igkroutes.
 */
 class IGKRoutes
 {
 
     /**
-    * auto generate doc.
+    * Constant: reg key.
     * @var mixed
     */
     const REG_KEY = "sys://reg/systemuri";
 
     /**
-    * auto generate doc.
+    * Property: request entry.
     * @var mixed
     */
     static $request_entry;
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param mixed $u
     * @param mixed $callback
     * @param mixed $prehandle

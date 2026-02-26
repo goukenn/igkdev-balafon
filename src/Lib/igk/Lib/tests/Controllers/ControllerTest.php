@@ -13,13 +13,13 @@ use IGK\Tests\Controllers\TestApplicationController;
 use PHPUnit\Framework\TestCase;
 
 /**
-* auto generate doc.
+* Controller test.
 * @package IGK\Test\Lib\Classes\System\Html
 */
 class ControllerTest extends TestCase{
 
     /**
-    * auto generate doc.
+    * Tests css sys.
     */
     public function test_css_sys(){
 
@@ -30,7 +30,7 @@ class ControllerTest extends TestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests is include controller.
     */
     public function test_is_include_controller(){
         $def = igk_getctrl(igk_configs()->default_controller, false);

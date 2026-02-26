@@ -10,7 +10,7 @@ namespace IGK\System\Html\Dom;
 abstract class CrossOriginValues{
 
     /**
-    * auto generate doc.
+    * Constant: use credentials.
     * @var mixed
     */
     const UseCredentials = "use-credentials";

@@ -101,7 +101,7 @@ abstract class ControllerExtension
     // use ControllerViewLayoutExtensionTrait;
 
     /**
-    * auto generate doc.
+    * Property: instances inclass.
     * @var mixed
     */
     static $sm_instances_inclass = [];
@@ -242,7 +242,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Returns DBConfig File.
     * @param BaseController $ctrl
     */
     public static function getDBConfigFile(BaseController $ctrl)
@@ -439,7 +439,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Base uri.
     * @param BaseController $ctrl
     */
     public static function baseUri(BaseController $ctrl)
@@ -653,7 +653,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Db query.
     * @param BaseController $ctrl
     * @param mixed $query
     * @param mixed $throwException
@@ -721,7 +721,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Action key.
     * @param BaseController $ctrl
     * @param null|IGKActionBase $action
     */
@@ -1038,7 +1038,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Returns Namespace.
     * @param BaseController $ctrl
     * @param string $path
     */
@@ -1051,7 +1051,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Initializes Data Initialization.
     * @param BaseController $ctrl
     * @param mixed $force
     */
@@ -1083,7 +1083,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Initializes Data Seeder.
     * @param BaseController $ctrl
     */
     public static function InitDataSeeder(BaseController $ctrl)
@@ -1538,7 +1538,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Classdir.
     * @param BaseController $controller
     */
     public static function classdir(BaseController $controller)
@@ -1547,7 +1547,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Libdir.
     * @param BaseController $controller
     * @param null|mixed $path
     */
@@ -1580,7 +1580,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Session.
     * @param BaseController $ctrl
     */
     public static function session(BaseController $ctrl)
@@ -1750,7 +1750,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Sets Config.
     * @param BaseController $controller
     * @param string $name
     * @param mixed $value
@@ -1789,7 +1789,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Returns Init Db Constraint Key.
     * @param BaseController $controller
     */
     public static function getInitDbConstraintKey(BaseController $controller)
@@ -1799,7 +1799,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Returns Components Dir.
     * @param BaseController $controller
     */
     public static function getComponentsDir(BaseController $controller)
@@ -1808,7 +1808,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Returns Test Classes Dir.
     * @param BaseController $controller
     */
     public static function getTestClassesDir(BaseController $controller)
@@ -1817,7 +1817,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Returns Env Param Key.
     * @param BaseController $controller
     */
     public static function getEnvParamKey(BaseController $controller)
@@ -2294,7 +2294,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * View config class.
     * @param BaseController $controller
     */
     public static function viewConfigClass(BaseController $controller)
@@ -2591,7 +2591,7 @@ abstract class ControllerExtension
     }
 
     /**
-    * auto generate doc.
+    * Detect controller class definition action handler list.
     * @param BaseController $controller
     * @param string $name
     * @param null|array & $params
@@ -2929,7 +2929,7 @@ HTML;
     }
 
     /**
-    * auto generate doc.
+    * Grants Access With Credentials.
     * @param BaseController $ctrl
     */
     public function grantAccessWithCredentials(BaseController $ctrl)
@@ -2964,7 +2964,7 @@ HTML;
     }
 
     /**
-    * auto generate doc.
+    * Key name.
     * @param BaseController $ctrl
     */
     public static function keyName(BaseController $ctrl){

@@ -11,21 +11,21 @@ use IGK\System\Html\Dom\HtmlDocTheme;
 use IGKHtmlDoc;
 
 /**
-* auto generate doc.
+* Css builder test.
 * @package IGK\Tests
 */
 class CssBuilderTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Create theme.
     */
     protected static function _CreateTheme(){
         return new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test", false);
     }
 
     /**
-    * auto generate doc.
+    * Tests render transform.
     */
     function test_render_transform(){
         $theme = self::_CreateTheme();
@@ -57,7 +57,7 @@ class CssBuilderTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests rendergin.
     */
     function test_rendergin()
     { 
@@ -75,7 +75,7 @@ class CssBuilderTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests css theme definition.
     */
     function test_css_theme_definition(){
 
@@ -94,7 +94,7 @@ class CssBuilderTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests css sysfcolor.
     */
     function test_css_sysfcolor(){
         $theme = self::_CreateTheme();
@@ -131,7 +131,7 @@ class CssBuilderTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests css syscl.
     */
     function test_css_syscl(){
         $theme = self::_CreateTheme();
@@ -158,7 +158,7 @@ class CssBuilderTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests joining.
     */
     function test_joining(){
         $theme = self::_CreateTheme();

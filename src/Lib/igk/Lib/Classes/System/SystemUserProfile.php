@@ -20,7 +20,7 @@ abstract class SystemUserProfile implements IUserProfile
     const profileModelClass=null;
 
     /**
-    * auto generate doc.
+    * Constant: init project db user method.
     * @var mixed
     */
     const initProjectDbUserMethod = 'initProjectDbUser';

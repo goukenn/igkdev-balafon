@@ -27,7 +27,7 @@ class ColumnMigrationInjector{
     }
 
     /**
-    * auto generate doc.
+    * Adds.
     * @param mixed & $info
     */
     public function add(& $info){
@@ -45,7 +45,7 @@ class ColumnMigrationInjector{
     }
 
     /**
-    * auto generate doc.
+    * Removes.
     * @param mixed & $info
     */
     public function remove(& $info){

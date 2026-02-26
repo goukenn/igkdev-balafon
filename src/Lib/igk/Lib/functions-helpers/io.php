@@ -9,7 +9,7 @@ use IGK\Helper\IO;
 use IGK\System\IO\Cache\FS;
 
 /**
-* auto generate doc.
+* Igk io mimetype ext.
 * @param mixed $type
 * @param mixed $default
 */
@@ -175,7 +175,7 @@ if (!function_exists('igk_io_file_exists')) {
 }
 
 /**
-* auto generate doc.
+* Igk io cache file exists.
 * @param string $file
 * @return bool
 */

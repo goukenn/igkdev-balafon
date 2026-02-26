@@ -16,7 +16,7 @@ use IGK\System\Html\Dom\HtmlItemAttribute;
 final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
 
     /**
-    * auto generate doc.
+    * Property: lnk.
     * @var mixed
     */
     private $m_lnk;
@@ -37,14 +37,14 @@ final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
     }
 
     /**
-    * auto generate doc.
+    * Returns Lnk.
     */
     public function getLnk(){
         return $this->m_lnk;
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options=null){

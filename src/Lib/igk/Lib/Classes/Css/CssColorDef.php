@@ -9,20 +9,20 @@ use Exception;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 /**
-* auto generate doc.
+* Css color def.
 * @package IGK\Css
 */
 class CssColorDef implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private $sm_instance;

@@ -10,25 +10,25 @@ namespace IGK\System\Runtime\Compiler;
 class ReadTokenMergeOption implements IReadTokenMergeOption{
 
     /**
-    * auto generate doc.
+    * Property: no comment.
     * @var mixed
     */
     var $noComment;
 
     /**
-    * auto generate doc.
+    * Property: depth.
     * @var mixed
     */
     var $depth;
 
     /**
-    * auto generate doc.
+    * Property: merge variable.
     * @var mixed
     */
     var $mergeVariable;
 
     /**
-    * auto generate doc.
+    * Name of namespace.
     * @var mixed
     */
     var $namespace;        

@@ -6,7 +6,7 @@
 namespace IGK\System\Database\Migrations;
 
 /**
-* auto generate doc.
+* Migration.
 * @package IGK\System\Database\Migrations
 */
 abstract class Migration{

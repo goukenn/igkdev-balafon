@@ -41,7 +41,7 @@ abstract class IGKActionBase implements IActionProcessor
     protected $_user;
 
     /**
-    * auto generate doc.
+    * Constant: init trait prefix.
     * @var mixed
     */
     const INIT_TRAIT_PREFIX =   '_init_trait_' ;
@@ -52,13 +52,13 @@ abstract class IGKActionBase implements IActionProcessor
     protected $ctrl;
 
     /**
-    * auto generate doc.
+    * Property: context.
     * @var mixed
     */
     protected $context;
 
     /**
-    * auto generate doc.
+    * Property: default entry method.
     * @var mixed
     */
     protected $defaultEntryMethod = 'index';
@@ -69,7 +69,7 @@ abstract class IGKActionBase implements IActionProcessor
     protected $fname = '';
 
     /**
-    * auto generate doc.
+    * Property: validator.
     * @var mixed
     */
     private $m_validator;
@@ -90,19 +90,19 @@ abstract class IGKActionBase implements IActionProcessor
     protected $throwActionNotFound = true;
 
     /**
-    * auto generate doc.
+    * Property: handle all action.
     * @var mixed
     */
     var $handleAllAction;
 
     /**
-    * auto generate doc.
+    * Name of base action name.
     * @var mixed
     */
     var $baseActionName;
 
     /**
-    * auto generate doc.
+    * Constant: failed status.
     * @var mixed
     */
     const FAILED_STATUS = "@error";
@@ -182,7 +182,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
 
     /**
-    * auto generate doc.
+    * Current view name.
     */
     public static function CurrentViewName()
     {
@@ -190,7 +190,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
 
     /**
-    * auto generate doc.
+    * Action params.
     */
     public static function ActionParams()
     {
@@ -363,7 +363,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
 
     /**
-    * auto generate doc.
+    * Checks Method Exists.
     * @param string $m
     */
     protected function checkMethodExists(string $m){
@@ -442,7 +442,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
 
     /**
-    * auto generate doc.
+    * Handle method not found.
     * @param mixed $name
     */
     protected function _handleMethodNotFound($name){
@@ -719,7 +719,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
 
     /**
-    * auto generate doc.
+    * Notifies danger.
     * @param mixed $msg
     * @param null|string $target_name
     */
@@ -729,7 +729,7 @@ abstract class IGKActionBase implements IActionProcessor
     }
 
     /**
-    * auto generate doc.
+    * Notifies success.
     * @param mixed $msg
     * @param null|string $target_name
     */

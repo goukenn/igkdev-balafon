@@ -13,13 +13,13 @@ use IGKValidator;
 class CurlHttpClient implements IHttpClient{
 
     /**
-    * auto generate doc.
+    * Constant: header content type.
     * @var mixed
     */
     const HEADER_CONTENT_TYPE= 1048594;
 
     /**
-    * auto generate doc.
+    * Constant: header status.
     * @var mixed
     */
     const HEADER_STATUS = 2097154;
@@ -55,7 +55,7 @@ class CurlHttpClient implements IHttpClient{
     private $m_status = -1;
 
     /**
-    * auto generate doc.
+    * Property: request info.
     * @var mixed
     */
     private $m_requestInfo = null;
@@ -93,20 +93,20 @@ class CurlHttpClient implements IHttpClient{
     }
 
     /**
-    * auto generate doc.
+    * Download.
     * @param string $url
     * @param IHttpClientOptions $options
     */
     public function download(string $url, IHttpClientOptions $options) { }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param string $url
     */
     public function get(string $url) { }
 
     /**
-    * auto generate doc.
+    * Post.
     * @param string $url
     * @param array $data
     */
@@ -217,13 +217,13 @@ class CurlHttpClient implements IHttpClient{
     private $m_session_file;
 
     /**
-    * auto generate doc.
+    * Identifier: session id.
     * @var mixed
     */
     private $m_session_id;
 
     /**
-    * auto generate doc.
+    * Name of session name.
     * @var mixed
     */
     private $m_session_name;

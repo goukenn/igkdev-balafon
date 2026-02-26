@@ -6,19 +6,19 @@
 namespace IGK\System\Console;
 
 /**
-* auto generate doc.
+* Console logger offscreen.
 * @package IGK\System\Console
 */
 class ConsoleLoggerOffscreen implements IConsoleLogger{
 
     /**
-    * auto generate doc.
+    * Property: parent.
     * @var mixed
     */
     private $parent;
 
     /**
-    * auto generate doc.
+    * Offscreen.
     */
 
     public function offscreen() { 
@@ -38,7 +38,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Logs.
     * @param mixed $msg
     */
 
@@ -47,7 +47,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Info.
     * @param mixed $msg
     */
 
@@ -56,7 +56,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Warn.
     * @param mixed $msg
     */
 
@@ -65,7 +65,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Success.
     * @param mixed $msg
     */
 
@@ -74,7 +74,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Danger.
     * @param mixed $msg
     */
 
@@ -83,7 +83,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Prints.
     * @param mixed $msg
     */
 

@@ -10,19 +10,19 @@ namespace IGK\System\Security\Web;
 class IntegerContentValidator extends NumberContentValidator{
 
     /**
-    * auto generate doc.
+    * Property: default value.
     * @var mixed
     */
     var $defaultValue = 0;
 
     /**
-    * auto generate doc.
+    * Property: missing default value.
     * @var mixed
     */
     var $missingDefaultValue = null;
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @return bool

@@ -13,13 +13,13 @@ use IGK\Models\Injectors\ModelBaseInjector;
 class InjectorProvider{
 
     /**
-    * auto generate doc.
+    * Property: injectors.
     * @var mixed
     */
     private $injectors;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;

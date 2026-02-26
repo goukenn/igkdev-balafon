@@ -18,25 +18,25 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--sync:update-corelib";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "sync";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "sync balafon corelib";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -48,7 +48,7 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
     ];
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command)

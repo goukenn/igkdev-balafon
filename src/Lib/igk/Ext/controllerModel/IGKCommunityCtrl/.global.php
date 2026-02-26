@@ -9,7 +9,7 @@
 //version : 1.0
 
 /**
-* auto generate doc.
+* Igk community init node callback.
 * @param mixed $t
 */
 function igk_community_init_node_callback($t){
@@ -21,7 +21,7 @@ function igk_community_init_node_callback($t){
 }
 
 /**
-* auto generate doc.
+* Igk community init share with callback.
 * @param mixed $t
 */
 function igk_community_init_ShareWith_callback($t){
@@ -32,7 +32,7 @@ function igk_community_init_ShareWith_callback($t){
 }
 
 /**
-* auto generate doc.
+* Igk html node community node.
 */
 function igk_html_node_CommunityNode(){
 	$n = igk_create_node("div");
@@ -42,7 +42,7 @@ function igk_html_node_CommunityNode(){
 }
 
 /**
-* auto generate doc.
+* Igk html node shared with community.
 * @param null|mixed $tab
 */
 function igk_html_node_SharedWithCommunity($tab=null){
@@ -58,7 +58,7 @@ function igk_html_node_SharedWithCommunity($tab=null){
 }
 
 /**
-* auto generate doc.
+* Igk html node follow us button.
 * @param mixed $name
 * @param mixed $uid
 */
@@ -75,7 +75,7 @@ function igk_html_node_FollowUsButton($name, $uid){
 }
 
 /**
-* auto generate doc.
+* Igk community get follow entries.
 * @param mixed $cnf
 */
 function igk_community_get_follow_entries($cnf){

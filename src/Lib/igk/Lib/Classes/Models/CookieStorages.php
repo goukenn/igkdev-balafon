@@ -27,25 +27,25 @@ use IGK\Models\ModelBase;
 class CookieStorages extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl identifier.
     * @var mixed
     */
     const FD_CL_IDENTIFIER="clIdentifier";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl date time.
     * @var mixed
     */
     const FD_CL_DATE_TIME="clDateTime";

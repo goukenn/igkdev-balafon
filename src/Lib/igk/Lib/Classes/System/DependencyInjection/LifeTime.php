@@ -13,13 +13,13 @@ namespace IGK\System\DependencyInjection;
 abstract class LifeTime{
 
     /**
-    * auto generate doc.
+    * Constant: singleton.
     * @var mixed
     */
     const SINGLETON = 'singleton';
 
     /**
-    * auto generate doc.
+    * Constant: transient.
     * @var mixed
     */
     const TRANSIENT = 'transient';

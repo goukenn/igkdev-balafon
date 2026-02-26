@@ -11,13 +11,13 @@ use IGK\Helper\BalafonJSHelper;
 class HtmlJsOptionDefinition implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: callbable.
     * @var mixed
     */
     private $m_callbable;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     private $m_name;
@@ -35,7 +35,7 @@ class HtmlJsOptionDefinition implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null) {

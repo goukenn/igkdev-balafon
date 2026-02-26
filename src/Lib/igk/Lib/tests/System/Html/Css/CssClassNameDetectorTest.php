@@ -18,7 +18,7 @@ class CssClassNameDetectorTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests cssclassdetector detect class.
     */
     public function test_cssclassdetector_detect_class()
     {
@@ -35,7 +35,7 @@ class CssClassNameDetectorTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests cssclassdetector detect class php.
     */
     public function test_cssclassdetector_detect_class_php()
     {
@@ -64,7 +64,7 @@ PHP
     }
 
     /**
-    * auto generate doc.
+    * Tests css node multiclass.
     */
     public function test_css_node_multiclass()
     {

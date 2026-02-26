@@ -10,7 +10,7 @@ namespace IGK\System\Html\Forms\Validations;
 class IsCrefValidator extends FormFieldValidatorBase{
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */
@@ -23,7 +23,7 @@ class IsCrefValidator extends FormFieldValidatorBase{
     }
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param mixed & $error

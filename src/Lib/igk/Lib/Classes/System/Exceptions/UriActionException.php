@@ -11,7 +11,7 @@ use IGKException;
 class UriActionException extends IGKException{
 
     /**
-    * auto generate doc.
+    * Property: uri.
     * @var mixed
     */
     private $m_uri;

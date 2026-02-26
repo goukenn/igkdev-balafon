@@ -16,7 +16,7 @@ use IGKViewMode;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Html session block node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlSessionBlockNode extends HtmlCtrlNode{

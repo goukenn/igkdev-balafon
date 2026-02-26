@@ -15,19 +15,19 @@ use ZipArchive;
 class ZipDirCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--zip';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='zip directory';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -36,7 +36,7 @@ class ZipDirCommand extends AppExecCommand{
 	/* var $category; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $inputDir
     * @param null|string $outDir

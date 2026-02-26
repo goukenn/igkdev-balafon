@@ -7,7 +7,7 @@ namespace IGK\System\WinUI;
 use IGK\Controllers\BaseController;
 
 /**
-* auto generate doc.
+* Interface for view layout loader.
 * @package IGK\System\WinUI
 */
 interface IViewLayoutLoader{

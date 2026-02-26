@@ -7,20 +7,20 @@ namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
 
 /**
-* auto generate doc.
+* Schema create table migration.
 * @package IGK\System\Database
 */
 class SchemaCreateTableMigration extends SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "description" ];
     // source column to restore
 
     /**
-    * auto generate doc.
+    * Property: columns.
     * @var mixed
     */
     var $columns = [];

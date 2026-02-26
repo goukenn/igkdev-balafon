@@ -16,19 +16,19 @@ class MakeClassCommandCommand extends AppExecCommand{
 	use ClassBuilderTrait;
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--module:make-command';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='make module\'s command';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'module';
@@ -38,7 +38,7 @@ class MakeClassCommandCommand extends AppExecCommand{
 	/* var $category; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $module_name
     * @param null|string $class_name

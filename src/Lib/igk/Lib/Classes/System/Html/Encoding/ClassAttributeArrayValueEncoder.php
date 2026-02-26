@@ -11,7 +11,7 @@ class ClassAttributeArrayValueEncoder extends AttributeEncoder
 {
 
     /**
-    * auto generate doc.
+    * Collection of char list.
     * @var mixed
     */
     var $char_list = [

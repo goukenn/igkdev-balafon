@@ -6,7 +6,7 @@
 namespace IGK\System\Polyfill;
 
 /**
-* auto generate doc.
+* Trait providing igkmedia array access functionality.
 * @package IGK\System\Polyfill
 */
 trait IGKMediaArrayAccessTrait

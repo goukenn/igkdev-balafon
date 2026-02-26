@@ -20,13 +20,13 @@ class ConfigControllerRegistry
 {
 
     /**
-    * auto generate doc.
+    * Constant: loaded config ctrl.
     * @var mixed
     */
     const LOADED_CONFIG_CTRL = "config_controllers";
 
     /**
-    * auto generate doc.
+    * Property: reg complete.
     * @var mixed
     */
     private static $sm_regComplete;

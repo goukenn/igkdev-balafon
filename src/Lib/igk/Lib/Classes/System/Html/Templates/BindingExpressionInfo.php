@@ -11,19 +11,19 @@ namespace IGK\System\Html\Templates;
 class BindingExpressionInfo {
 
     /**
-    * auto generate doc.
+    * Property: limiter start.
     * @var mixed
     */
     var $limiter_start= IGK_EXPRESSION_START_MARKER;
 
     /**
-    * auto generate doc.
+    * Property: limiter end.
     * @var mixed
     */
     var $limiter_end = IGK_EXPRESSION_END_MARKER;
 
     /**
-    * auto generate doc.
+    * Property: limiter escape.
     * @var mixed
     */
     var $limiter_escape = IGK_EXPRESSION_ESCAPE_MARKER;

@@ -23,31 +23,31 @@ use ReflectionException;
 class CssControllerStyleRenderer{
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
 
     /**
-    * auto generate doc.
+    * Property: defctrl.
     * @var mixed
     */
     var $defctrl;
 
     /**
-    * auto generate doc.
+    * Property: doc.
     * @var mixed
     */
     var $doc;
 
     /**
-    * auto generate doc.
+    * Property: debug.
     * @var mixed
     */
     var $debug;
 
     /**
-    * auto generate doc.
+    * Property: primary theme.
     * @var mixed
     */
     var $primaryTheme;
@@ -63,7 +63,7 @@ class CssControllerStyleRenderer{
     var $theme;
 
     /**
-    * auto generate doc.
+    * Identifier: doc id.
     * @var mixed
     */
     var $doc_id;

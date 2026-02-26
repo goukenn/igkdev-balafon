@@ -15,7 +15,7 @@ namespace IGK\System\Html;
 final class HtmlReaderBindingInfo{
 
     /**
-    * auto generate doc.
+    * Constant: path.
     * @var mixed
     */
     const PATH = __CLASS__.'::Construct';
@@ -51,7 +51,7 @@ final class HtmlReaderBindingInfo{
     }
 
     /**
-    * auto generate doc.
+    * Returns Info Array.
     */
     public function getInfoArray(){
         $g=igk_get_env(self::PATH);
@@ -59,7 +59,7 @@ final class HtmlReaderBindingInfo{
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return mixed
     */
     public function getName(): mixed{
@@ -68,7 +68,7 @@ final class HtmlReaderBindingInfo{
     }
 
     /**
-    * auto generate doc.
+    * Sets Attribute.
     * @param mixed $x
     * @param mixed $v
     */
@@ -82,7 +82,7 @@ final class HtmlReaderBindingInfo{
     }
 
     /**
-    * auto generate doc.
+    * Sets Info.
     * @param mixed $k
     * @param mixed $v
     */
@@ -94,7 +94,7 @@ final class HtmlReaderBindingInfo{
     }
 
     /**
-    * auto generate doc.
+    * Sets Infos.
     * @param mixed $atab
     */
     public function setInfos($atab){

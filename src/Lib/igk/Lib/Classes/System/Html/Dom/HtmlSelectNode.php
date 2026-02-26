@@ -6,13 +6,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html select node.
 * @package IGK\System\Html\Dom
 */
 class HtmlSelectNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "select";

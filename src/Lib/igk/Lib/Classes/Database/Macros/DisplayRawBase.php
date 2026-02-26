@@ -22,7 +22,7 @@ abstract class DisplayRawBase{
     }
 
     /**
-    * auto generate doc.
+    * Fallback.
     * @param mixed $item
     */
     protected function _fallback($item){        

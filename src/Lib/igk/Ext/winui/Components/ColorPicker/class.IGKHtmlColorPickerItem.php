@@ -11,31 +11,31 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Number;
 
 /**
-* auto generate doc.
+* Igkhtml color picker item.
 */
 final class IGKHtmlColorPickerItem extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Property: r.
     * @var mixed
     */
     private $r;
 
     /**
-    * auto generate doc.
+    * Property: g.
     * @var mixed
     */
     private $g;
 
     /**
-    * auto generate doc.
+    * Property: b.
     * @var mixed
     */
     private $b;
@@ -94,37 +94,37 @@ EOF;
 }
 
 /**
-* auto generate doc.
+* Igkhtml circle color picker item.
 */
 final class IGKHtmlCircleColorPickerItem extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
 
     /**
-    * auto generate doc.
+    * Property: r.
     * @var mixed
     */
     private $r;
 
     /**
-    * auto generate doc.
+    * Property: g.
     * @var mixed
     */
     private $g;
 
     /**
-    * auto generate doc.
+    * Property: b.
     * @var mixed
     */
     private $b;
@@ -192,7 +192,7 @@ EOF;
 }
 
 /**
-* auto generate doc.
+* Igkcolor picker component controller.
 */
 final class IGKColorPickerComponentController extends NonVisibleControllerBase
 {

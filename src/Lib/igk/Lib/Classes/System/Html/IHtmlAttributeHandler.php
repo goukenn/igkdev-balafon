@@ -6,13 +6,13 @@
 namespace IGK\System\Html;
 
 /**
-* auto generate doc.
+* Interface for html attribute handler.
 * @package IGK\System\Html
 */
 interface IHtmlAttributeHandler{
 
     /**
-    * auto generate doc.
+    * Returns Attribute Value.
     * @param string $attribute_name
     * @return ?string
     */

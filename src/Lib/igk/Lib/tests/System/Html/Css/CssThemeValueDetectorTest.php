@@ -18,7 +18,7 @@ use IGKHtmlDoc;
 class CssThemeValueDetectorTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests csstheme remove litteral.
     */
     public function test_csstheme_remove_litteral(){
         $exp = 'background-color    : red;  content:\'{ marge    du roi}\'  {sys: posfix, fitw}  [bgcl:   --info] color: [cl:--marge];';
@@ -30,7 +30,7 @@ class CssThemeValueDetectorTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests csstheme remove global.
     */
     public function test_csstheme_remove_global(){
         $exp = 'background-color    : [cl:   --bg-color]; [trans:.4s indigan ease-inout]';
@@ -42,7 +42,7 @@ class CssThemeValueDetectorTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests csstheme remove property.
     */
     public function test_csstheme_remove_property(){
         $exp = 'color:red; background-color    : [cl:   --bg-color]; [trans:.4s indigan ease-inout]';
@@ -54,7 +54,7 @@ class CssThemeValueDetectorTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests csstheme treat global.
     */
     public function test_csstheme_treat_global(){ 
         $detector = new CssThemeValueDetector;
@@ -65,7 +65,7 @@ class CssThemeValueDetectorTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests csstheme render d.
     */
     public function test_csstheme_render_d(){
         $v_doc = IGKHtmlDoc::CreateCoreDocument('temp');

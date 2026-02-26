@@ -81,7 +81,7 @@ function igk_html_tag($tag, $content, ?array $attributes = null)
 }
 
 /**
-* auto generate doc.
+* Igk html reg class.
 * @param mixed $name
 * @param mixed $class
 */
@@ -130,7 +130,7 @@ function igk_html_get_method($name, $method)
 }
 
 /**
-* auto generate doc.
+* Igk html get class callable.
 * @param mixed $name
 * @param mixed $method
 */
@@ -153,7 +153,7 @@ function igk_html_get_class_callable($name, $method)
 }
 
 /**
-* auto generate doc.
+* Igk html print r.
 * @param mixed $args
 */
 function igk_html_print_r($args)
@@ -803,7 +803,7 @@ function igk_html_extract_id($id)
 }
 
 /**
-* auto generate doc.
+* Igk html bind.
 * @param mixed $node
 * @param mixed $callback
 */
@@ -814,7 +814,7 @@ function igk_html_bind($node, $callback)
 }
 
 /**
-* auto generate doc.
+* Igk html select constants.
 * @param mixed $type
 */
 function igk_html_select_constants($type)
@@ -883,7 +883,7 @@ function igk_html_form_fields($formFields, $datasource = null, $render = 0, $eng
 if (!function_exists("igk_get_unique_identifier")) {
 
 /**
-* auto generate doc.
+* Returns unique identifier.
 * @param mixed $length
 * @param null|mixed & $identifers
 */
@@ -1325,7 +1325,7 @@ function igk_html_wdump()
 ///<summary>dump a table</summary>
 
 /**
-* auto generate doc.
+* Igk html dump table.
 * @param mixed $tab
 */
 function igk_html_dump_table($tab)
@@ -1395,7 +1395,7 @@ function igk_html_wtag(?string $tag, string $content, $attribs = null, $forcexml
 }
 
 /**
-* auto generate doc.
+* Igk html render attribs.
 * @param mixed $attribs
 */
 function igk_html_render_attribs($attribs)
@@ -1404,7 +1404,7 @@ function igk_html_render_attribs($attribs)
 }
 
 /**
-* auto generate doc.
+* Igk html installer button.
 * @param mixed $node
 * @param mixed $class
 * @param mixed $text
@@ -1430,7 +1430,7 @@ function igk_html_installer_button($node, $class, $text, $update = "/update", $u
 }
 
 /**
-* auto generate doc.
+* Igk html render template.
 * @param mixed $node
 */
 function igk_html_render_template($node)
@@ -1445,7 +1445,7 @@ function igk_html_render_template($node)
 }
 
 /**
-* auto generate doc.
+* Igk html form login fields.
 */
 function igk_html_form_login_fields()
 {
@@ -1604,7 +1604,7 @@ if (!function_exists('igk_html_host')) {
 if (!function_exists('igk_html_title_domain')) {
 
 /**
-* auto generate doc.
+* Igk html title domain.
 * @param string $s
 * @param null|string $domain
 */

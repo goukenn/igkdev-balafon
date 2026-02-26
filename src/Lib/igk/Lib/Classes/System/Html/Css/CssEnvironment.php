@@ -10,13 +10,13 @@ namespace IGK\System\Html\Css;
 abstract class CssEnvironment{
 
     /**
-    * auto generate doc.
+    * Constant: key.
     * @var mixed
     */
     const KEY = __CLASS__.":/init";
 
     /**
-    * auto generate doc.
+    * Returns Init Class.
     * @param string $cl
     */
     public static function GetInitClass(string $cl){

@@ -15,25 +15,25 @@ class ModuleMakeClassCommand extends AppExecCommand{
     use ClassBuilderTrait;
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--module:make-class';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'module';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'help create a class|interface|trait for module';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -43,14 +43,14 @@ class ModuleMakeClassCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage(){
         $this->showCommandUsage(" module [class_path] [options]");
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $module
     * @param null|string $class_path

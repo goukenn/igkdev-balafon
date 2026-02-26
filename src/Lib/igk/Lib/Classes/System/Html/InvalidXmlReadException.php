@@ -11,7 +11,7 @@ use IGKException;
 class InvalidXmlReadException extends IGKException{
 
     /**
-    * auto generate doc.
+    * Property: offset.
     * @var mixed
     */
     var $offset;

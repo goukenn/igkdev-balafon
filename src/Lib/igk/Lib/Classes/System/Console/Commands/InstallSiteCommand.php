@@ -21,32 +21,32 @@ use IGKCaches;
 use IGKEvents;
 
 /**
-* auto generate doc.
+* Install site command.
 * @package IGK\System\Console\Commands
 */
 class InstallSiteCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--install-site";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'sys';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "create new site";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -67,7 +67,7 @@ class InstallSiteCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param mixed $install_dir
     * @param mixed $viewname
@@ -171,7 +171,7 @@ class InstallSiteCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Help.
     */
 
     public function help()

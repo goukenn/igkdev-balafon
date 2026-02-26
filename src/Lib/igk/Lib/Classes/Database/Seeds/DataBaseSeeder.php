@@ -12,7 +12,7 @@ use IGK\System\Database\Seeds\SeederBase;
 class DataBaseSeeder extends SeederBase{
 
     /**
-    * auto generate doc.
+    * Runs.
     */
     public function run(){
 	// + | DATABASE Seeder

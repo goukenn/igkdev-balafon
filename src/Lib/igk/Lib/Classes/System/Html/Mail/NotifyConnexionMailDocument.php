@@ -9,7 +9,7 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Net\MailDocument;
 
 /**
-* auto generate doc.
+* Notify connexion mail document.
 * @package IGK\System\Html\Mail
 */
 class NotifyConnexionMailDocument extends MailDocument{
@@ -37,7 +37,7 @@ class NotifyConnexionMailDocument extends MailDocument{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
 
     protected function initialize()
@@ -49,7 +49,7 @@ class NotifyConnexionMailDocument extends MailDocument{
     }
 
     /**
-    * auto generate doc.
+    * Getmaildata.
     */
 
     protected function getmaildata(){

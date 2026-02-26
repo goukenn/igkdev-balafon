@@ -21,19 +21,19 @@ class RegexDetectBuffer
     var $output = '';
 
     /**
-    * auto generate doc.
+    * Property: offset.
     * @var mixed
     */
     var $offset = 0;
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $source;
 
     /**
-    * auto generate doc.
+    * Property: line feed separator.
     * @var mixed
     */
     var $lineFeedSeparator = "\n";
@@ -44,19 +44,19 @@ class RegexDetectBuffer
     var $depth;
 
     /**
-    * auto generate doc.
+    * Property: line feed.
     * @var mixed
     */
     var $lineFeed = false;
 
     /**
-    * auto generate doc.
+    * Property: replace.
     * @var mixed
     */
     var $replace = [];
 
     /**
-    * auto generate doc.
+    * Listener: tab listener.
     * @var mixed
     */
     var $tabListener;
@@ -66,7 +66,7 @@ class RegexDetectBuffer
     var $flag;
 
     /**
-    * auto generate doc.
+    * Listener: init format builder listener.
     * @var mixed
     */
     private $m_initFormatBuilderListener;
@@ -124,7 +124,7 @@ class RegexDetectBuffer
     }
 
     /**
-    * auto generate doc.
+    * Checks Line Feed.
     * @param string $v
     */
     public function checkLineFeed(string $v)
@@ -133,7 +133,7 @@ class RegexDetectBuffer
     }
 
     /**
-    * auto generate doc.
+    * End.
     */
     function end()
     {
@@ -141,7 +141,7 @@ class RegexDetectBuffer
     }
 
     /**
-    * auto generate doc.
+    * Outputs.
     */
     function output()
     {
@@ -150,14 +150,14 @@ class RegexDetectBuffer
     }
 
     /**
-    * auto generate doc.
+    * Rtrim.
     */
     function rtrim(){
         $this->output = rtrim($this->output);
     }
 
     /**
-    * auto generate doc.
+    * Initializes Format Builder.
     */
     public function initFormatBuilder(){
         if ($fc = $this->m_initFormatBuilderListener){
@@ -214,7 +214,7 @@ class RegexDetectBuffer
     }
 
     /**
-    * auto generate doc.
+    * Outputs Length.
     * @return int
     */
     public function outputLength():int{
@@ -232,7 +232,7 @@ class RegexDetectBuffer
     }
 
     /**
-    * auto generate doc.
+    * Clears Output.
     */
     public function clearOutput(){
         $this->output = '';

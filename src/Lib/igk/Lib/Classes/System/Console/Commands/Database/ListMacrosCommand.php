@@ -23,19 +23,19 @@ class ListMacrosCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--db:macros';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'list controller\'s model macros';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -43,19 +43,19 @@ class ListMacrosCommand extends AppExecCommand
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'db';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'controller modelName* [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     * @param null|string $ModelName

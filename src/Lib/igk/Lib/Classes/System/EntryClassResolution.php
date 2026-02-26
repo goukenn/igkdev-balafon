@@ -12,193 +12,193 @@ abstract class EntryClassResolution
 {
 
     /**
-    * auto generate doc.
+    * Constant: igk test ns.
     * @var mixed
     */
     const IGK_TEST_NS = 'IGK\Tests';
 
     /**
-    * auto generate doc.
+    * Constant: igk.
     * @var mixed
     */
     const IGK = 'IGK';
 
     /**
-    * auto generate doc.
+    * Constant: db schema builder.
     * @var mixed
     */
     const DbSchemaBuilder = 'Database\InitDbSchemaBuilder';
 
     /**
-    * auto generate doc.
+    * Constant: db macros display.
     * @var mixed
     */
     const DbMacrosDisplay = 'Database\Macros\Display';
 
     /**
-    * auto generate doc.
+    * Constant: db class mapping.
     * @var mixed
     */
     const DbClassMapping = 'Database\Mapping';
 
     /**
-    * auto generate doc.
+    * Constant: db class import.
     * @var mixed
     */
     const DbClassImport = 'Database\Import';
 
     /**
-    * auto generate doc.
+    * Constant: db macros.
     * @var mixed
     */
     const DbMacros = 'Database\Macros';
 
     /**
-    * auto generate doc.
+    * Constant: db init data.
     * @var mixed
     */
     const DbInitData = 'Database\InitData';
 
     /**
-    * auto generate doc.
+    * Constant: db init manager.
     * @var mixed
     */
     const DbInitManager = 'Database\DbInitManager';
 
     /**
-    * auto generate doc.
+    * Constant: db init macros.
     * @var mixed
     */
     const DbInitMacros = 'Database\InitMacros';
 
     /**
-    * auto generate doc.
+    * Constant: db migrations.
     * @var mixed
     */
     const DbMigrations = 'Database\Migrations';
 
     /**
-    * auto generate doc.
+    * Constant: db seeder class.
     * @var mixed
     */
     const DbSeederClass = "Database\\Seeds\\DataBaseSeeder";
 
     /**
-    * auto generate doc.
+    * Constant: model mapping ns.
     * @var mixed
     */
     const ModelMappingNS = 'Database\Import';
 
     /**
-    * auto generate doc.
+    * Constant: command entry ns.
     * @var mixed
     */
     const CommandEntryNS = '\System\Console\Commands';
 
     /**
-    * auto generate doc.
+    * Constant: models.
     * @var mixed
     */
     const Models = 'Models';
 
     /**
-    * auto generate doc.
+    * Constant: user profile.
     * @var mixed
     */
     const UserProfile = 'UserProfile';
 
     /**
-    * auto generate doc.
+    * Constant: roles.
     * @var mixed
     */
     const Roles = 'Roles';
 
     /**
-    * auto generate doc.
+    * Constant: action default action.
     * @var mixed
     */
     const ActionDefaultAction = 'Actions\DefaultAction';
 
     /**
-    * auto generate doc.
+    * Constant: actions.
     * @var mixed
     */
     const Actions = 'Actions';
 
     /**
-    * auto generate doc.
+    * Constant: profiles.
     * @var mixed
     */
     const Profiles = 'Profiles';
 
     /**
-    * auto generate doc.
+    * Constant: profiles get default method.
     * @var mixed
     */
     const ProfilesGetDefaultMethod = 'GetDefaultProfile';
 
     /**
-    * auto generate doc.
+    * Constant: win ui view layout.
     * @var mixed
     */
     const WinUI_ViewLayout = '/WinUI/ViewLayout';
 
     /**
-    * auto generate doc.
+    * Constant: win ui form validation.
     * @var mixed
     */
     const WinUI_Form_Validation = '/WinUI/FormValidations';
 
     /**
-    * auto generate doc.
+    * Constant: win ui view layout format.
     * @var mixed
     */
     const WinUI_ViewLayoutFormat = '/WinUI/Views/%sLayoutLoader';
 
     /**
-    * auto generate doc.
+    * Constant: sys sync project.
     * @var mixed
     */
     const SysSyncProject = 'System\Console\Commands\SyncProject';
 
     /**
-    * auto generate doc.
+    * Constant: project profiles class.
     * @var mixed
     */
     const ProjectProfilesClass = 'Profiles';
 
     /**
-    * auto generate doc.
+    * Constant: authorization class.
     * @var mixed
     */
     const AuthorizationClass = 'Authorizations';
 
     /**
-    * auto generate doc.
+    * Constant: response handler.
     * @var mixed
     */
     const ResponseHandler = 'ResponseHandler';
 
     /**
-    * auto generate doc.
+    * Constant: action base.
     * @var mixed
     */
     const ActionBase = 'IGKActionBase';
 
     /**
-    * auto generate doc.
+    * Constant: action class suffix.
     * @var mixed
     */
     const ActionClassSuffix = 'Action';
 
     /**
-    * auto generate doc.
+    * Constant: mail attachement.
     * @var mixed
     */
     const MailAttachement = '\IGK\System\Net\MailAttachement';
 
     /**
-    * auto generate doc.
+    * Constant: create validator instance.
     * @var mixed
     */
     const CreateValidatorInstance = 'CreateValidatorInstance';
@@ -207,7 +207,7 @@ abstract class EntryClassResolution
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: import mapping suffix.
     * @var mixed
     */
     const ImportMappingSuffix = 'ImportMapping';
@@ -220,7 +220,7 @@ abstract class EntryClassResolution
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: ctrl method init user from sysuser.
     * @var mixed
     */
     const CTRL_METHOD_INIT_USER_FROM_SYSUSER = 'initUserFromSysUser';

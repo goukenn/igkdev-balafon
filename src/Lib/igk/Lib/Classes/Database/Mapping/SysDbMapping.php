@@ -16,7 +16,7 @@ use IGKException;
 class SysDbMapping extends ModelMappingBase{
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     protected $m_info;

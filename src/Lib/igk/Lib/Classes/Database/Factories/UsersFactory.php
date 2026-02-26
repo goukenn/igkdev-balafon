@@ -14,7 +14,7 @@ class UsersFactory extends FactoryBase{
 	use ComposerFakerTrait;
 
     /**
-    * auto generate doc.
+    * Definition.
     * @return ?array
     */
     public function definition(): ?array{

@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class PathTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests relative flatten path.
     */
     public function test_relative_flatten_path(){
         $this->assertEquals(
@@ -33,7 +33,7 @@ class PathTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests relative current path.
     */
     public function test_relative_current_path(){
         $file = Path::CombineAndFlattenPath('/bondje', './');

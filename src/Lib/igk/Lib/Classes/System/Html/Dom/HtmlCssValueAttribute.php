@@ -9,13 +9,13 @@ use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Html\IHtmlStyleAtribute;
 
 /**
-* auto generate doc.
+* Html css value attribute.
 * @package IGK\System\Html\Dom
 */
 class HtmlCssValueAttribute implements IHtmlStyleAtribute{
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
@@ -30,7 +30,7 @@ class HtmlCssValueAttribute implements IHtmlStyleAtribute{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
 

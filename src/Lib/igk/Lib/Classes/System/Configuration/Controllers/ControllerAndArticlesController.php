@@ -33,7 +33,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
 {
 
     /**
-    * auto generate doc.
+    * Constant: sl selectcontroller.
     * @var mixed
     */
     const SL_SELECTCONTROLLER = 1;
@@ -317,7 +317,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * View ctrl info.
     * @param mixed $ctrl
     * @param mixed $target
     */
@@ -469,7 +469,7 @@ EOF;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Adds view.
     */
     public function add_view()
     {
@@ -504,7 +504,7 @@ EOF;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca add article.
     */
     public function ca_add_article()
     {
@@ -542,7 +542,7 @@ EOF;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca add article frame.
     */
     public function ca_add_article_frame()
     {
@@ -574,7 +574,7 @@ EOF;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca add article frame ajx.
     */
     public function ca_add_article_frame_ajx()
     {
@@ -586,7 +586,7 @@ EOF;
     ///<summary>add controller request</summary>
 
     /**
-    * auto generate doc.
+    * Ca add ctrl.
     */
     public function ca_add_ctrl()
     {
@@ -595,7 +595,7 @@ EOF;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca add ctrl frame.
     */
     public function ca_add_ctrl_frame()
     {
@@ -691,7 +691,7 @@ JS;
     ///<summary>view add controller frame</summary>
 
     /**
-    * auto generate doc.
+    * Ca add ctrl frame ajx.
     * @param mixed $renderframe
     */
     public function ca_add_ctrl_frame_ajx($renderframe = true)
@@ -704,7 +704,7 @@ JS;
     ///<summary>build a add view frame</summary>
 
     /**
-    * auto generate doc.
+    * Ca add view frame.
     */
     public function ca_add_view_frame()
     {
@@ -733,7 +733,7 @@ JS;
     ///<summary>Request add controller</summary>
 
     /**
-    * auto generate doc.
+    * Ca add ctrl.
     */
     public function ca_addCtrl()
     {
@@ -767,7 +767,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca addfield ajx.
     */
     public function ca_addfield_ajx()
     {
@@ -780,7 +780,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca clear table list ajx.
     */
     public function ca_ClearTableList_ajx()
     {
@@ -793,7 +793,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca ctrl article select lang ajx.
     */
     public function ca_ctrl_article_select_lang_ajx()
     {
@@ -806,7 +806,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca ctrl drop.
     */
     public function ca_ctrl_drop()
     {
@@ -815,7 +815,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca db drop db file ajx.
     */
     public function ca_db_drop_db_file_ajx()
     {
@@ -830,7 +830,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca download view.
     */
     public function ca_download_view()
     {
@@ -847,7 +847,7 @@ JS;
     ///<summary>drop article in ajx request</summary>
 
     /**
-    * auto generate doc.
+    * Ca drop article ajx.
     */
     public function ca_drop_article_ajx()
     {
@@ -890,7 +890,7 @@ JS;
     ///<param name="reconnect" default="1"></param>
 
     /**
-    * auto generate doc.
+    * Ca drop controller ajx.
     * @param null|mixed $ctrl
     * @param mixed $reconnect
     */
@@ -959,7 +959,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca drop view.
     */
     public function ca_drop_view()
     {
@@ -998,7 +998,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca dropfield.
     */
     public function ca_dropfield()
     {
@@ -1012,7 +1012,7 @@ JS;
     ///<summary> edition d'article simple par une demande ajax</summary>
 
     /**
-    * auto generate doc.
+    * Ca edit article ajx.
     * @param null|mixed $ctrlid
     * @param null|mixed $name
     */
@@ -1057,7 +1057,7 @@ JS;
     ///</params>
 
     /**
-    * auto generate doc.
+    * Ca edit article frame.
     * @param null|mixed $ctrlid
     * @param null|mixed $name
     * @param mixed $ajx
@@ -1099,7 +1099,7 @@ JS;
     ///<summary>Represente ca_edit_articlewtiny function</summary>
 
     /**
-    * auto generate doc.
+    * Ca edit articlewtiny.
     */
     public function ca_edit_articlewtiny()
     {
@@ -1129,7 +1129,7 @@ JS;
     ///<param name="name" default="null"></param>
 
     /**
-    * auto generate doc.
+    * Ca edit articlewtiny f ajx.
     * @param null|mixed $ctrlid
     * @param null|mixed $name
     */
@@ -1153,7 +1153,7 @@ JS;
     ///<param name="force" default="false"></param>
 
     /**
-    * auto generate doc.
+    * Ca edit articlewtiny f frame.
     * @param null|mixed $ctrlid
     * @param null|mixed $name
     * @param mixed $ajx
@@ -1197,7 +1197,7 @@ JS;
     ///<param name="mode"></param>
 
     /**
-    * auto generate doc.
+    * Ca edit articlewtiny frame.
     * @param null|mixed $ctrlid
     * @param null|mixed $name
     * @param mixed $ajx
@@ -1239,7 +1239,7 @@ JS;
     ///<param name="oldcontent" default="null"></param>
 
     /**
-    * auto generate doc.
+    * Ca edit ctrl ajx.
     * @param null|mixed $oldcontent
     */
     public function ca_edit_ctrl_ajx($oldcontent = null)
@@ -1275,7 +1275,7 @@ JS;
     ///<param name="rendering" default="true"></param>
 
     /**
-    * auto generate doc.
+    * Ca edit ctrl atricles ajx.
     * @param mixed $rendering
     */
     public function ca_edit_ctrl_atricles_ajx($rendering = true)
@@ -1310,7 +1310,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca edit ctrl force view ajx.
     */
     public function ca_edit_ctrl_force_view_ajx()
     {
@@ -1323,7 +1323,7 @@ JS;
     ///<param name="render" default="true"></param>
 
     /**
-    * auto generate doc.
+    * Ca edit ctrl properties ajx.
     * @param mixed $render
     */
     public function ca_edit_ctrl_properties_ajx($render = true)
@@ -1386,7 +1386,7 @@ JS;
     ///<param name="render" default="true"></param>
 
     /**
-    * auto generate doc.
+    * Ca edit ctrl views ajx.
     * @param mixed $render
     */
     public function ca_edit_ctrl_views_ajx($render = true)
@@ -1396,7 +1396,7 @@ JS;
     ///<summary>request edit data table structures with ajx </summary>
 
     /**
-    * auto generate doc.
+    * Ca edit db ajx.
     * @param null|mixed $ctrl
     * @param null|mixed $table
     */
@@ -1438,7 +1438,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca edit db close frame.
     */
     public function ca_edit_db_close_frame()
     {
@@ -1452,7 +1452,7 @@ JS;
     ///<param name="error" default="null"></param>
 
     /**
-    * auto generate doc.
+    * Ca edit view.
     * @param null|mixed $oldcontent
     * @param null|mixed $errormesage
     * @param null|mixed $error
@@ -1499,7 +1499,7 @@ JS;
     ///<summary>get controller type addition info</summary>
 
     /**
-    * auto generate doc.
+    * Ca get ctrl type info ajx.
     */
     public function ca_get_ctrl_type_info_ajx()
     {
@@ -1517,7 +1517,7 @@ JS;
     ///<param name="info"></param>
 
     /**
-    * auto generate doc.
+    * Ca get field info.
     * @param mixed $info
     */
     public function ca_getFieldInfo($info)
@@ -1559,7 +1559,7 @@ JS;
     ///<param name="table" default="null">table name</param>
 
     /**
-    * auto generate doc.
+    * Ca get table info.
     * @param null|mixed $ctrl
     * @param null|mixed $table
     */
@@ -1605,7 +1605,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca remove child.
     */
     public function ca_remove_child()
     {
@@ -1620,7 +1620,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca remove parent.
     */
     public function ca_remove_parent()
     {
@@ -1635,7 +1635,7 @@ JS;
     ///<summary>use to reset data base for the current controller</summary>
 
     /**
-    * auto generate doc.
+    * Ca reset db ajx.
     */
     public function ca_reset_db_ajx()
     {
@@ -1660,7 +1660,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca selected ctrl changed.
     */
     public function ca_selectedCtrlChanged()
     {
@@ -1672,7 +1672,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca setmenuhost.
     */
     public function ca_setmenuhost()
     {
@@ -1687,7 +1687,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca setmenuhost ajx.
     */
     public function ca_setmenuhost_ajx()
     {
@@ -1696,7 +1696,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca tabv ajx.
     */
     public function ca_tabv_ajx()
     {
@@ -1729,7 +1729,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca update articlewtiny f.
     */
     public function ca_update_articlewtiny_f()
     {
@@ -1746,7 +1746,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca update ctrl properties.
     */
     public function ca_update_ctrl_properties()
     {
@@ -1799,7 +1799,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca update dbdata.
     */
     public function ca_update_dbdata()
     {
@@ -1826,7 +1826,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca update view.
     */
     public function ca_update_view()
     {
@@ -1850,7 +1850,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Ca view body ajx.
     */
     public function ca_view_body_ajx()
     {
@@ -1861,7 +1861,7 @@ JS;
     ///<summary> handle view tab information </summary>
 
     /**
-    * auto generate doc.
+    * Controller.
     * @param mixed $view
     */
     public function controller($view = "infotab")
@@ -1880,7 +1880,7 @@ JS;
     ///<summary>get an article and download it </summary>
 
     /**
-    * auto generate doc.
+    * Download article.
     */
     public function download_article()
     {
@@ -1898,7 +1898,7 @@ JS;
     ///<summary>remove an article.	</summary>
 
     /**
-    * auto generate doc.
+    * Drops article.
     */
     public function drop_article()
     {
@@ -1923,7 +1923,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Edit article.
     */
     public function edit_article()
     {
@@ -1932,7 +1932,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Edit articlewtiny.
     */
     public function edit_articlewtiny()
     {
@@ -1941,7 +1941,7 @@ JS;
     ///<summary>filter article by language</summary>
 
     /**
-    * auto generate doc.
+    * Filters article by lang.
     */
     public function filter_article_by_lang()
     {
@@ -1951,7 +1951,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage()
     {
@@ -1960,7 +1960,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Returns Ctrl Article.
     */
     public function getCtrlArticle()
     {
@@ -1972,7 +1972,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string
@@ -1982,7 +1982,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Returns Selected Controller.
     */
     public function getSelectedController()
     {
@@ -1991,7 +1991,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context = null)
@@ -2004,7 +2004,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {
@@ -2014,7 +2014,7 @@ JS;
     ///<param name="funcname"></param>
 
     /**
-    * auto generate doc.
+    * Returns true if Function Exposed.
     * @param mixed $funcname
     */
     public function IsFunctionExposed($funcname)
@@ -2027,7 +2027,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Lst adapter ajx.
     */
     public function lst_adapter_ajx()
     {
@@ -2043,7 +2043,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * On selected controller changed.
     */
     protected function onSelectedControllerChanged()
     {
@@ -2052,7 +2052,7 @@ JS;
     ///<summary>search article . reload the view</summary>
 
     /**
-    * auto generate doc.
+    * Searches article.
     */
     public function search_article()
     {
@@ -2062,7 +2062,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Searches view.
     */
     public function search_view()
     {
@@ -2072,7 +2072,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Selects controller ajx.
     */
     public function select_controller_ajx()
     {
@@ -2090,7 +2090,7 @@ JS;
     ///<summary>set the default page controller</summary>
 
     /**
-    * auto generate doc.
+    * Setdefaultpage.
     */
     public function setdefaultpage()
     {
@@ -2108,7 +2108,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Setdefaultpage ajx.
     */
     public function setdefaultpage_ajx()
     {
@@ -2120,7 +2120,7 @@ JS;
     ///<param name="value"></param>
 
     /**
-    * auto generate doc.
+    * Sets Selected Controller.
     * @param mixed $value
     */
     public function setSelectedController($value)
@@ -2150,7 +2150,7 @@ JS;
     ///<param name="content"></param>
 
     /**
-    * auto generate doc.
+    * Tab view page.
     * @param mixed $n
     * @param mixed $list
     * @param mixed $content
@@ -2172,7 +2172,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Unreg view frame.
     */
     public function unreg_view_frame()
     {
@@ -2186,7 +2186,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Updates article.
     */
     public function update_article()
     {
@@ -2233,7 +2233,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * Updates articlewtiny.
     */
     public function update_articlewtiny()
     {
@@ -2257,7 +2257,7 @@ JS;
     ///<param name="oldcontent" default="null"></param>
 
     /**
-    * auto generate doc.
+    * Updates ctrl.
     * @param null|mixed $oldcontent
     */
     public function update_ctrl($oldcontent = null)
@@ -2278,7 +2278,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View(): BaseController
@@ -2312,7 +2312,7 @@ JS;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * View frame complete.
     */
     public function view_frame_complete()
     {

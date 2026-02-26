@@ -34,31 +34,31 @@ class SyncProjectCommand extends SyncAppExecCommandBase
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--sync:project";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "sync project through ftp configuration";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "sync";
 
     /**
-    * auto generate doc.
+    * Property: help.
     * @var mixed
     */
     var $help = "ftp sync project";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -73,13 +73,13 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     var $use_zip;
 
     /**
-    * auto generate doc.
+    * Cache: remove cache.
     * @var mixed
     */
     private $remove_cache = false;
 
     /**
-    * auto generate doc.
+    * Sync single file.
     * @param mixed $command
     * @param mixed $project
     * @param mixed $setting
@@ -127,7 +127,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $project
     */
@@ -304,7 +304,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     }
 
     /**
-    * auto generate doc.
+    * Removes Cache.
     * @param mixed $ftp
     * @param mixed $app_dir
     */
@@ -499,7 +499,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
     }
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage()
     {

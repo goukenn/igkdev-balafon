@@ -15,13 +15,13 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 
 /**
-* auto generate doc.
+* Db expression test.
 * @package IGK\Tests\Models
 */
 class DbExpressionTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Sets up the test environment before each test.
     * @return void
     */
     public function setUp(): void {
@@ -29,14 +29,14 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Controller Class.
     */
     protected function getControllerClass() {
         return DbTestController::class;
      }
 
     /**
-    * auto generate doc.
+    * Tests create user.
     */
     public function test_create_user(){   
         $g = new \IGK\Models\Users();
@@ -44,7 +44,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests query expression.
     */
     public function test_query_expression(){
         $query = "";
@@ -71,7 +71,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests update query.
     */
     public function test_update_query(){
         $gram = Table1Test::driver()->getGrammar(); 
@@ -85,7 +85,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests update query 2.
     */
     public function test_update_query_2(){
         $gram = Table1Test::driver()->getGrammar(); 
@@ -122,7 +122,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests json empty json query.
     */
     public function test_json_empty_json_query(){
         $gram = Table1Test::driver()->getGrammar(); 
@@ -138,7 +138,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests date query.
     */
     public function test_date_query(){
         $gram = Table1Test::driver()->getGrammar();  
@@ -153,7 +153,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests create table query.
     */
     public function test_create_table_query(){
  
@@ -172,7 +172,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests query fetch prepare.
     */
     public function test_query_fetch_prepare(){
        
@@ -190,7 +190,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests column definition.
     */
     public function test_column_definition(){
         $gram = Users::driver()->getGrammar();         
@@ -234,7 +234,7 @@ class DbExpressionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests with query.
     */
     public function test_with_query(){
         // $gram = Table6Test::driver()->getGrammar();  
@@ -249,7 +249,7 @@ class DbExpressionTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Db test controller.
 * @package IGK\Tests\Models
 */
 class DbTestController extends BaseController{

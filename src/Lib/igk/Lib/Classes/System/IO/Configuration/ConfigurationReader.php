@@ -57,7 +57,7 @@ class ConfigurationReader
     protected $m_ln;
 
     /**
-    * auto generate doc.
+    * Property: result.
     * @var mixed
     */
     protected $m_result;
@@ -79,13 +79,13 @@ class ConfigurationReader
     var $valueEscapeDelimiter;
 
     /**
-    * auto generate doc.
+    * Constant: mode name.
     * @var mixed
     */
     const MODE_NAME = 1;
 
     /**
-    * auto generate doc.
+    * Constant: mode value.
     * @var mixed
     */
     const MODE_VALUE = 2;
@@ -230,7 +230,7 @@ class ConfigurationReader
     }
 
     /**
-    * auto generate doc.
+    * Get active attrib.
     * @param string $name
     */
     protected function _getActiveAttrib(string $name)
@@ -253,7 +253,7 @@ class ConfigurationReader
     }
 
     /**
-    * auto generate doc.
+    * Rm string mark.
     * @param mixed $str
     */
     public static function RmStringMark($str)
@@ -267,7 +267,7 @@ class ConfigurationReader
     }
 
     /**
-    * auto generate doc.
+    * Can read.
     * @return bool
     */
     protected function _canRead(): bool
@@ -282,7 +282,7 @@ class ConfigurationReader
     }
 
     /**
-    * auto generate doc.
+    * Read name.
     * @return ?string
     */
     protected function _readName(): ?string
@@ -291,7 +291,7 @@ class ConfigurationReader
     }
 
     /**
-    * auto generate doc.
+    * Read value.
     * @return ?string
     */
     protected function _readValue(): ?string
@@ -300,7 +300,7 @@ class ConfigurationReader
     }
 
     /**
-    * auto generate doc.
+    * Read data.
     * @param string $end
     * @param null|bool $read_value
     */
@@ -371,7 +371,7 @@ class ConfigurationReader
     }
 
     /**
-    * auto generate doc.
+    * Returns Errors.
     */
     public function getErrors()
     {
@@ -422,7 +422,7 @@ class ConfigurationReader
     }
 
     /**
-    * auto generate doc.
+    * Parses Enum Litteral Value.
     * @param string $value
     */
     public static function ParseEnumLitteralValue(string $value)

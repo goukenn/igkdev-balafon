@@ -32,7 +32,7 @@ class RefDataArgs extends DataArgs{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */

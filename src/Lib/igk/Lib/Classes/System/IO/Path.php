@@ -17,103 +17,103 @@ class Path
 {
 
     /**
-    * auto generate doc.
+    * Path to lib dir.
     * @var mixed
     */
     protected $lib_dir;
 
     /**
-    * auto generate doc.
+    * Path to class dir.
     * @var mixed
     */
     protected $class_dir;
 
     /**
-    * auto generate doc.
+    * Path to app dir.
     * @var mixed
     */
     protected $app_dir;
 
     /**
-    * auto generate doc.
+    * Path to package dir.
     * @var mixed
     */
     protected $package_dir;
 
     /**
-    * auto generate doc.
+    * Path to vendor dir.
     * @var mixed
     */
     protected $vendor_dir;
 
     /**
-    * auto generate doc.
+    * Path to base dir.
     * @var mixed
     */
     protected $base_dir;
 
     /**
-    * auto generate doc.
+    * Path to project dir.
     * @var mixed
     */
     protected $project_dir;
 
     /**
-    * auto generate doc.
+    * Path to module dir.
     * @var mixed
     */
     protected $module_dir;
 
     /**
-    * auto generate doc.
+    * Path to data dir.
     * @var mixed
     */
     protected $data_dir;
 
     /**
-    * auto generate doc.
+    * Path to sys data dir.
     * @var mixed
     */
     protected $sys_data_dir;
 
     /**
-    * auto generate doc.
+    * Path to css path.
     * @var mixed
     */
     protected $css_path;
 
     /**
-    * auto generate doc.
+    * Path to backup dir.
     * @var mixed
     */
     protected $backup_dir;
 
     /**
-    * auto generate doc.
+    * Path to home dir.
     * @var mixed
     */
     protected $home_dir;
 
     /**
-    * auto generate doc.
+    * Path to temp dir.
     * @var mixed
     */
     protected $temp_dir;
 
     /**
-    * auto generate doc.
+    * Cache: cache dir.
     * @var mixed
     */
     protected $cache_dir;
 
     /**
-    * auto generate doc.
+    * Path to public assets dir.
     * @var mixed
     */
     protected $public_assets_dir;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
@@ -128,7 +128,7 @@ class Path
     }
 
     /**
-    * auto generate doc.
+    * Returns Extension.
     * @param mixed $path
     */
     public static function GetExtension($path)
@@ -269,7 +269,7 @@ class Path
     }
 
     /**
-    * auto generate doc.
+    * Returns Packages Dir.
     */
     public function getPackagesDir()
     {
@@ -320,7 +320,7 @@ class Path
     }
 
     /**
-    * auto generate doc.
+    * Returns Base Dir.
     */
     public function getBaseDir()
     {
@@ -328,7 +328,7 @@ class Path
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Dir.
     */
     public function getDataDir()
     {
@@ -757,7 +757,7 @@ class Path
 }
 
     /**
-    * auto generate doc.
+    * Sub local path.
     * @param string $path
     * @param string $cwd
     * @return ?string

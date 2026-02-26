@@ -38,19 +38,19 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     use CompilerTokenMergeSourceTrait;
 
     /**
-    * auto generate doc.
+    * Constant: operator symbol.
     * @var mixed
     */
     const OPERATOR_SYMBOL = ViewCompilerConstants::OPERATOR_SYMBOL;
 
     /**
-    * auto generate doc.
+    * Callback handler for flag handler.
     * @var mixed
     */
     var $flagHandler;
 
     /**
-    * auto generate doc.
+    * Property: tab stop.
     * @var mixed
     */
     var $tab_stop;
@@ -92,7 +92,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Handles Token.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -190,7 +190,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Handle read const.
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value
@@ -254,7 +254,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     // + |
 
     /**
-    * auto generate doc.
+    * Read function.
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value
@@ -276,7 +276,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Handle read function.
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value
@@ -477,7 +477,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Attach func to parent.
     * @param mixed $options
     * @param mixed $struct
     */
@@ -495,7 +495,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     #endregion
 
     /**
-    * auto generate doc.
+    * Push flag.
     * @param ReadTokenOptions $options
     */
     protected function _pushFlag(ReadTokenOptions $options)
@@ -507,7 +507,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Pop flag.
     * @param ReadTokenOptions $options
     */
     protected function _popFlag(ReadTokenOptions $options)
@@ -522,7 +522,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Push buffer.
     * @param ReadTokenOptions $options
     * @param mixed & $buffer
     * @param null|string $id
@@ -534,7 +534,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Pop buffer.
     * @param ReadTokenOptions $options
     * @param null|string $id
     */
@@ -549,7 +549,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Handle flag.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -632,7 +632,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     // + |
 
     /**
-    * auto generate doc.
+    * Read struct.
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value
@@ -656,7 +656,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Handle read struct.
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value
@@ -719,7 +719,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * End read struct.
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value
@@ -959,7 +959,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Append end equal expression.
     * @param mixed $options
     * @param mixed $id
     * @param mixed $value
@@ -980,7 +980,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Append to flag option buffer.
     * @param mixed $options
     * @param mixed $data
     */
@@ -994,7 +994,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     }
 
     /**
-    * auto generate doc.
+    * Handle comment.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -1085,7 +1085,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     #endregion
 
     /**
-    * auto generate doc.
+    * Bind to flag.
     * @param ReadTokenOptions $options
     * @param string $s
     * @param mixed $id

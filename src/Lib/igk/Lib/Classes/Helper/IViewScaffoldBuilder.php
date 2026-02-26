@@ -10,7 +10,7 @@ namespace IGK\Helper;
 interface IViewScaffoldBuilder{
 
     /**
-    * auto generate doc.
+    * Initializes View.
     * @param string $viewname
     * @return string
     */

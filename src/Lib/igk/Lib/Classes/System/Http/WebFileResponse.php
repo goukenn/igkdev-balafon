@@ -47,7 +47,7 @@ class WebFileResponse extends RequestResponse{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     public function render()
     {
@@ -58,7 +58,7 @@ class WebFileResponse extends RequestResponse{
     }
 
     /**
-    * auto generate doc.
+    * Outputs.
     */
     public function output()
     {

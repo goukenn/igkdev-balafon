@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class ViewTokenExpressionConverterTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests convert affectation.
     */
     public function test_convert_affectation(){
         $src = implode("\n",[
@@ -30,7 +30,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests convert affectation depend on.
     */
     public function test_convert_affectation_depend_on(){
         $src = implode("\n",[
@@ -47,7 +47,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests convert affectation depend on expression.
     */
     public function test_convert_affectation_depend_on_expression(){
         $src = implode("\n",[
@@ -64,7 +64,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests convert atomic expresison.
     */
     public function test_convert_atomic_expresison(){
         $src = implode("\n",[
@@ -80,7 +80,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests convert atomic collapse.
     */
     public function test_convert_atomic_collapse(){
         $src = implode("\n",[
@@ -97,7 +97,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block if single.
     */
     public function test_block_if_single(){
         $src = implode("\n",[
@@ -115,7 +115,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block if multi 1.
     */
     public function test_block_if_multi_1(){
         $src = implode("\n",[
@@ -136,7 +136,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block if multi 2.
     */
     public function test_block_if_multi_2(){
         $src = implode("\n",[
@@ -157,7 +157,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block if multi 3.
     */
     public function test_block_if_multi_3(){
         $src = implode("\n",[
@@ -183,7 +183,7 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block if class condition.
     */
     public function test_block_if_class_condition(){
         $src = implode("\n",[

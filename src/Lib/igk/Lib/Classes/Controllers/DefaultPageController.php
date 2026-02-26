@@ -18,7 +18,7 @@ use IGK\IWebPageController;
 use IGK\System\Http\RequestResponseCode;
 
 /**
-* auto generate doc.
+* Default page controller.
 * @package IGK\Controllers
 */
 abstract class DefaultPageController extends PageControllerBase implements IUriActionRegistrableController, IWebPageController{    
@@ -37,7 +37,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     public final
 
     /**
-    * auto generate doc.
+    * Evaluate uri.
     * @param null|mixed $patterninfo
     * @param mixed $xml
     * @param null|mixed $nav
@@ -167,7 +167,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Returns Additional Config Info.
     */
     public static function GetAdditionalConfigInfo(){
         return array(
@@ -178,14 +178,14 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     ///get the name of the page that control this controller
 
     /**
-    * auto generate doc.
+    * Returns Basic Uri Pattern.
     */
     public function getBasicUriPattern(){
         return $this->getConfig(IGK_CTRL_CNF_BASEURIPATTERN);
     }
 
     /**
-    * auto generate doc.
+    * Returns Extra Title.
     */
     public function getExtraTitle(){
         if(igk_web_defaultpage() != $this->CurrentPage)
@@ -194,7 +194,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     * @return bool
     */
     public function getIsVisible():bool{
@@ -208,14 +208,14 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Returns Reg Invoke Uri.
     */
     public function getRegInvokeUri(){
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
 
     /**
-    * auto generate doc.
+    * Returns Reg Uri Action.
     */
     public function getRegUriAction(){
         $primary=$this->getBasicUriPattern();
@@ -225,7 +225,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Handles redirection uri.
     * @param mixed $uri
     * @param mixed $forcehandleuri
     */
@@ -250,7 +250,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
@@ -259,7 +259,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Initializes Document.
     * @param mixed $doc
     */
     protected function initDocument($doc){
@@ -271,7 +271,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
@@ -283,7 +283,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Returns true if handle uri.
     * @param null|mixed $uri
     */
     public function is_handle_uri($uri=null){
@@ -303,7 +303,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Func Uri Available.
     * @param mixed & $m
     */
     public function IsFuncUriAvailable(& $m){
@@ -321,7 +321,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Loads Template.
     */
     public function LoadTemplate(){
         $tempfile=igk_getr("tempfile");
@@ -330,26 +330,26 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Loads Web Theme.
     * @param mixed $file
     */
     public function loadWebTheme($file){    }
 
     /**
-    * auto generate doc.
+    * Manage error uri request.
     * @param mixed $uri
     */
     public function manageErrorUriRequest($uri){    }
 
     /**
-    * auto generate doc.
+    * On menu page changed.
     */
     protected function OnMenuPageChanged(){
         $this->View();
     }
 
     /**
-    * auto generate doc.
+    * Page folder changed.
     */
     public function pageFolderChanged(){
         if($this->IsVisible)
@@ -357,7 +357,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Restore ctrl.
     */
     public function restoreCtrl(){
         $f=$this->getDeclaredDir()."/.".$this->Name.".bck.zip";
@@ -369,14 +369,14 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Saves Ctrl.
     */
     public function saveCtrl(){
         igk_zip_create_file($this->getDeclaredDir()."/.".$this->Name.".bck.zip", $this->getDeclaredDir());
     }
 
     /**
-    * auto generate doc.
+    * Sets Additional Config Info.
     * @param mixed & $t
     */
     public static function SetAdditionalConfigInfo(& $t){
@@ -385,7 +385,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * Sets Page Name.
     * @param mixed $value
     */
     public function setPageName($value){
@@ -393,7 +393,7 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController{

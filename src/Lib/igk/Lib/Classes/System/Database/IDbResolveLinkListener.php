@@ -10,7 +10,7 @@ namespace IGK\System\Database;
 interface IDbResolveLinkListener{
 
     /**
-    * auto generate doc.
+    * Resolves.
     * @param string $linkType
     * @return bool
     */

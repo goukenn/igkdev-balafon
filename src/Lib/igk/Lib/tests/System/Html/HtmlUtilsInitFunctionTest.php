@@ -15,7 +15,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests render.
     */
     public function test_render()
     {
@@ -26,7 +26,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render with array.
     */
     public function test_render_with_array()
     {
@@ -41,7 +41,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render with array last.
     */
     public function test_render_with_array_last()
     {
@@ -55,7 +55,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render with array multi.
     */
     public function test_render_with_array_multi()
     {
@@ -72,7 +72,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render class.
     */
     public function test_render_class()
     {
@@ -89,7 +89,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render class pseudo.
     */
     public function test_render_class_pseudo()
     {
@@ -106,7 +106,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render after node.
     */
     public function test_render_after_node()
     {
@@ -123,7 +123,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render form.
     */
     public function test_render_form()
     {
@@ -138,7 +138,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render form ajx.
     */
     public function test_render_form_ajx()
     {
@@ -155,7 +155,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render form ajx call twice.
     */
     public function test_render_form_ajx_call_twice()
     {
@@ -173,7 +173,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render form ajx call twice 2.
     */
     public function test_render_form_ajx_call_twice_2()
     {
@@ -192,7 +192,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render form ajx call twice 3.
     */
     public function test_render_form_ajx_call_twice_3()
     {
@@ -210,7 +210,7 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests render loop.
     */
     public function test_render_loop()
     {

@@ -37,55 +37,55 @@ use IGK\Models\ModelBase;
 class Crons extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd id.
     * @var mixed
     */
     const FD_ID="crons_id";
 
     /**
-    * auto generate doc.
+    * Constant: fd name.
     * @var mixed
     */
     const FD_NAME="crons_name";
 
     /**
-    * auto generate doc.
+    * Constant: fd process.
     * @var mixed
     */
     const FD_PROCESS="crons_process";
 
     /**
-    * auto generate doc.
+    * Constant: fd script.
     * @var mixed
     */
     const FD_SCRIPT="crons_script";
 
     /**
-    * auto generate doc.
+    * Constant: fd options.
     * @var mixed
     */
     const FD_OPTIONS="crons_options";
 
     /**
-    * auto generate doc.
+    * Constant: fd class.
     * @var mixed
     */
     const FD_CLASS="crons_class";
 
     /**
-    * auto generate doc.
+    * Constant: fd status.
     * @var mixed
     */
     const FD_STATUS="crons_status";
 
     /**
-    * auto generate doc.
+    * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="crons_create_at";
 
     /**
-    * auto generate doc.
+    * Constant: fd update at.
     * @var mixed
     */
     const FD_UPDATE_AT="crons_update_at";

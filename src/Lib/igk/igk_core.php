@@ -155,7 +155,7 @@ function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = nul
 }
 
 /**
-* auto generate doc.
+* Igk die s.
 * @param string $msg
 * @param mixed ...$params
 */
@@ -204,7 +204,7 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
 if (!function_exists('igk_die_exception')) {
 
 /**
-* auto generate doc.
+* Igk die exception.
 * @param string $exception_class_name
 * @param null|string $msg
 * @param mixed $throwex
@@ -347,7 +347,7 @@ if (!function_exists('igk_getv_nil')) {
 if (!function_exists('igk_unset')) {
 
 /**
-* auto generate doc.
+* Igk unset.
 * @param mixed & $o
 * @param mixed $k
 */
@@ -469,7 +469,7 @@ function igk_getpv($array, $key, $default = null)
 }
 
 /**
-* auto generate doc.
+* Igk getvfirst found.
 * @param mixed $k
 * @param array $list
 * @param null|mixed $default
@@ -621,7 +621,7 @@ function igk_io_remove_ext($name)
 }
 
 /**
-* auto generate doc.
+* Igk io inject uri arg.
 * @param mixed $uri
 * @param mixed $name
 * @param null|mixed & $fragment
@@ -719,7 +719,7 @@ function igk_is_cmd()
 }
 
 /**
-* auto generate doc.
+* Sets cmd.
 * @param mixed $v
 */
 function igk_set_cmd($v = 1)
@@ -768,7 +768,7 @@ function igk_load_library($name)
 }
 
 /**
-* auto generate doc.
+* Igk wl tag.
 * @param mixed $tag
 */
 function igk_wl_tag($tag)
@@ -864,7 +864,7 @@ function igk_dump_pre($p)
 }
 
 /**
-* auto generate doc.
+* Igk dev wln.
 */
 function igk_dev_wln()
 {
@@ -874,7 +874,7 @@ function igk_dev_wln()
 }
 
 /**
-* auto generate doc.
+* Igk dev ilog.
 */
 function igk_dev_ilog()
 {
@@ -896,7 +896,7 @@ function igk_dev_wln_e()
 }
 
 /**
-* auto generate doc.
+* Binds trace.
 */
 function igk_bind_trace()
 {
@@ -1051,7 +1051,7 @@ function igk_wln_e($msg = "", ...$extra)
 ///<param name="args"> mixed| 1 array is attribute or next is considered as content to render </summary>
 
 /**
-* auto generate doc.
+* Igk tag wln.
 * @param mixed $tag
 * @param mixed ...$args
 */
@@ -1288,7 +1288,7 @@ function igk_hook($name, $args = array(), $options = null)
 }
 
 /**
-* auto generate doc.
+* Igk hook clear.
 * @param mixed $name
 */
 function igk_hook_clear($name)
@@ -1984,7 +1984,7 @@ function igk_sys_reflect_class($cl, &$reference = null)
 }
 
 /**
-* auto generate doc.
+* Igk sys reflect class unset.
 * @param mixed $cl
 */
 function igk_sys_reflect_class_unset($cl)
@@ -2459,7 +2459,7 @@ if (!function_exists('igk_get_object_public_vars')) {
 if (!function_exists('igk_sys_detect_project_controller')) {
 
 /**
-* auto generate doc.
+* Igk sys detect project controller.
 * @param string $project_dir
 */
 function igk_sys_detect_project_controller(string $project_dir)

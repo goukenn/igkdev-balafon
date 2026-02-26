@@ -25,13 +25,13 @@ class Route
 {
 
     /**
-    * auto generate doc.
+    * Constant: default entry method.
     * @var mixed
     */
     const DEFAULT_ENTRY_METHOD = 'index';
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     static $sm_controller;
@@ -67,7 +67,7 @@ class Route
     protected $path = "";
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     protected $controller = "";
@@ -77,7 +77,7 @@ class Route
     const SUPPORT_VERBS = "GET|POST|PUT|COPY|PATCH|DELETE|HEAD|LINK|UNLINK|OPTIONS|PURGE|LOCK|UNLOCK|STORE|PROPFIND|VIEW";
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -88,7 +88,7 @@ class Route
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     protected function _access_OffsetGet($n) {}
@@ -197,7 +197,7 @@ class Route
     }
 
     /**
-    * auto generate doc.
+    * Returns Action.
     * @param mixed $actionClass
     */
     public static function GetAction($actionClass)

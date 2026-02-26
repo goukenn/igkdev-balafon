@@ -12,43 +12,43 @@ use IGKObject;
 class WebDocument extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: html document.
     * @var mixed
     */
     private $m_html_document;
 
     /**
-    * auto generate doc.
+    * Property: head.
     * @var mixed
     */
     private $m_head;
 
     /**
-    * auto generate doc.
+    * Property: body.
     * @var mixed
     */
     private $m_body;
 
     /**
-    * auto generate doc.
+    * Property: title.
     * @var mixed
     */
     private $m_title;
 
     /**
-    * auto generate doc.
+    * Property: charset.
     * @var mixed
     */
     private $m_charset;
 
     /**
-    * auto generate doc.
+    * Type of doc type.
     * @var mixed
     */
     public $docType = 'html';
 
     /**
-    * auto generate doc.
+    * Property: charset.
     * @var mixed
     */
     public $charset = 'UTF-8';
@@ -62,17 +62,17 @@ class WebDocument extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Head.
     */
     public function getHead(){return $this->m_head; }
 
     /**
-    * auto generate doc.
+    * Returns Body.
     */
     public function getBody(){return $this->m_body; }
 
     /**
-    * auto generate doc.
+    * Initialize.
     */
     protected function _initialize(){
         $this->m_html_document = new HtmlNode('html');
@@ -85,7 +85,7 @@ class WebDocument extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Title.
     * @param string $title
     */
     public function setTitle(string $title){

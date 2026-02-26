@@ -20,12 +20,12 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	private $m_user;
 
     /**
-    * auto generate doc.
+    * Returns User.
     */
     public function getUser(){return $this->m_user; }
 
     /**
-    * auto generate doc.
+    * Returns Default Data Table Info.
     */
     protected function getDefaultDataTableInfo(){//get default data tbale infor
 		return array(
@@ -40,7 +40,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Data Entry.
     * @param mixed $dbman
     * @param null|mixed $tbname
     */
@@ -70,7 +70,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	}
 
     /**
-    * auto generate doc.
+    * Returns Is User Connected.
     */
     public function getIsUserConnected(){
 		return ($this->m_user != null);
@@ -113,7 +113,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	}
 
     /**
-    * auto generate doc.
+    * Logout.
     */
     public function logout(){
 		if ($this->m_user !=null)
@@ -124,7 +124,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	}
 
     /**
-    * auto generate doc.
+    * Resets Pwd.
     */
     public function resetPwd(){
 		if ($this->getIsUserConnected())
@@ -135,7 +135,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	}
 
     /**
-    * auto generate doc.
+    * Updates User Info.
     */
     public function updateUserInfo()
 	{
@@ -156,7 +156,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	}
 
     /**
-    * auto generate doc.
+    * Connects frame.
     */
     public function connect_frame(){
 		$this->setCurrentView("connexion", true);
@@ -166,7 +166,7 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	}
 
     /**
-    * auto generate doc.
+    * Registers frame.
     */
     public function register_frame(){
 		$this->setCurrentView("register", true);

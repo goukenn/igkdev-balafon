@@ -12,7 +12,7 @@ $web = "/index.php";
 //present cache out lib
 
 /**
-* auto generate doc.
+* Igkphar.
 */
 final class IGKPhar
 {

@@ -11,31 +11,31 @@ namespace IGK\Database\SchemaBuilder;
 class DiagramRelation extends DiagramPropertiesHost{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: sc.
     * @var mixed
     */
     var $sc;
 
     /**
-    * auto generate doc.
+    * Property: dc.
     * @var mixed
     */
     var $dc;
 
     /**
-    * auto generate doc.
+    * Type of start type.
     * @var mixed
     */
     var $startType;
 
     /**
-    * auto generate doc.
+    * Type of end type.
     * @var mixed
     */
     var $endType;
@@ -65,7 +65,7 @@ class DiagramRelation extends DiagramPropertiesHost{
     }
 
     /**
-    * auto generate doc.
+    * Returns Definition.
     */
     public function getDefinition(){
         return sprintf("%s", implode(",", array_filter([

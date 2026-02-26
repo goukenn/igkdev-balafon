@@ -7,13 +7,13 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 
 /**
-* auto generate doc.
+* Html head preload node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlHeadPreloadNode extends HtmlNoTagNode{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;

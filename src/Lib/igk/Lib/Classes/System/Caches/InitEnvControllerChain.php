@@ -15,13 +15,13 @@ use ReflectionException;
 class InitEnvControllerChain{
 
     /**
-    * auto generate doc.
+    * Property: chain.
     * @var mixed
     */
     private $m_chain = [];
 
     /**
-    * auto generate doc.
+    * Adds.
     * @param mixed $chain
     * @return InitEnvControllerChain
     */
@@ -31,7 +31,7 @@ class InitEnvControllerChain{
     }
 
     /**
-    * auto generate doc.
+    * Updates.
     * @param mixed $ctrl
     */
     public function update($ctrl){
@@ -41,7 +41,7 @@ class InitEnvControllerChain{
     }
 
     /**
-    * auto generate doc.
+    * Complete.
     */
     public function complete(){
         foreach($this->m_chain as $k){

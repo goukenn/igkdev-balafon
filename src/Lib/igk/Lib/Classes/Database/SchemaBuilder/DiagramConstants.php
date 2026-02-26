@@ -7,31 +7,31 @@ namespace IGK\Database\SchemaBuilder;
 use IGK\Constants;
 
 /**
-* auto generate doc.
+* Diagram constants.
 * @package IGK\Database\SchemaBuilder
 */
 class DiagramConstants{
 
     /**
-    * auto generate doc.
+    * Constant: guid length.
     * @var mixed
     */
     const GUID_LENGTH =  Constants::GUID_LENGTH;
 
     /**
-    * auto generate doc.
+    * Constant: name length.
     * @var mixed
     */
     const NAME_LENGTH = 30;
 
     /**
-    * auto generate doc.
+    * Constant: title length.
     * @var mixed
     */
     const TITLE_LENGTH = 60;
 
     /**
-    * auto generate doc.
+    * Constant: path length.
     * @var mixed
     */
     const PATH_LENGTH  = 255;

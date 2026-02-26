@@ -13,32 +13,32 @@ class ChangeUserCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--users:change';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'change user\'s definition';
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = self::USER_CAT;
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'login [--set:column=value] [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $login
     */

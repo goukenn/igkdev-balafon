@@ -10,30 +10,30 @@
 use IGK\System\Html\Dom\HtmlComponentNode;
 
 /**
-* auto generate doc.
+* Igkhtml mailbox node item.
 */
 class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 
     /**
-    * auto generate doc.
+    * Property: users.
     * @var mixed
     */
     private $m_users; //list of user attached to this mail box
 
     /**
-    * auto generate doc.
+    * Property: cuser.
     * @var mixed
     */
     private $m_cuser; //current user;
 
     /**
-    * auto generate doc.
+    * Map of imap.
     * @var mixed
     */
     private $m_imap;
 
     /**
-    * auto generate doc.
+    * Property: error.
     * @var mixed
     */
     private $m_error; //rerror node;

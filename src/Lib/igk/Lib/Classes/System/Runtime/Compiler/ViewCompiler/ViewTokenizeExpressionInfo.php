@@ -10,13 +10,13 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 class ViewTokenizeExpressionInfo{
 
     /**
-    * auto generate doc.
+    * Property: buffer.
     * @var mixed
     */
     var $buffer;
 
     /**
-    * auto generate doc.
+    * Property: variables.
     * @var mixed
     */
     var $variables;

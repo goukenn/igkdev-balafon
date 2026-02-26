@@ -7,7 +7,7 @@ namespace IGK\System\Html\Dom;
 use IGKEvents;
 
 /**
-* auto generate doc.
+* Html debugger view node.
 * @package IGK\System\Html\Dom
 */
 class HtmlDebuggerViewNode extends HtmlNode{
@@ -22,7 +22,7 @@ class HtmlDebuggerViewNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
 
     public function getCanRenderTag()
@@ -31,7 +31,7 @@ class HtmlDebuggerViewNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Message.
     */
 
     public function getMessage(){

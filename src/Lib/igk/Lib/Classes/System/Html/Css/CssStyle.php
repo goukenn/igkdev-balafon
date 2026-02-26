@@ -13,13 +13,13 @@ use IGKEvents;
 use IGKObject;
 
 /**
-* auto generate doc.
+* Css style.
 * @package IGK\System\Html\Css
 */
 final class CssStyle extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: properties.
     * @var mixed
     */
     private $m_properties;

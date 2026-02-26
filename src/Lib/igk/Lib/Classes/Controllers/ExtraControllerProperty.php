@@ -16,7 +16,7 @@ use IGKObject;
 final class ExtraControllerProperty extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: default value, type, values.
     * @var mixed
     */
     private $m_DefaultValue, $m_Type, $m_Values;
@@ -48,21 +48,21 @@ final class ExtraControllerProperty extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Getcl default value.
     */
     public function getclDefaultValue(){
         return $this->m_DefaultValue;
     }
 
     /**
-    * auto generate doc.
+    * Getcl type.
     */
     public function getclType(){
         return $this->m_Type;
     }
 
     /**
-    * auto generate doc.
+    * Getcl values.
     */
     public function getclValues(){
         return $this->m_Values;

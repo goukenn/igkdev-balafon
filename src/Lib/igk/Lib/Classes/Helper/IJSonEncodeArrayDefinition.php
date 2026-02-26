@@ -10,13 +10,13 @@ namespace IGK\Helper;
 interface IJSonEncodeArrayDefinition{
 
     /**
-    * auto generate doc.
+    * Returns true if Empty.
     * @return bool
     */
     function isEmpty():bool;
 
     /**
-    * auto generate doc.
+    * Returns true if Required.
     * @return bool
     */
     function isRequired():bool;

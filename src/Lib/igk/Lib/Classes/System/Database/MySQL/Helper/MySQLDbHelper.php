@@ -15,7 +15,7 @@ class MySQLDbHelper
 {
 
     /**
-    * auto generate doc.
+    * Property: ad.
     * @var mixed
     */
     private static $sm_ad;
@@ -62,7 +62,7 @@ class MySQLDbHelper
     }
 
     /**
-    * auto generate doc.
+    * Backup to sql.
     * @param MySQLDbAdapter $mysql
     * @param mixed $tables
     */
@@ -198,7 +198,7 @@ EOF);
     }
 
     /**
-    * auto generate doc.
+    * Dump value.
     * @param mixed $v
     */
     public static function DumpValue($v)
@@ -222,7 +222,7 @@ EOF);
     }
 
     /**
-    * auto generate doc.
+    * Dump insert table.
     * @param mixed $rows
     * @return string
     */

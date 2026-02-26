@@ -16,43 +16,43 @@ class CssConverter{
     use CssConverterScssVisitorTrait;
 
     /**
-    * auto generate doc.
+    * Property: length.
     * @var mixed
     */
     var $length;
 
     /**
-    * auto generate doc.
+    * Property: src.
     * @var mixed
     */
     var $src;
 
     /**
-    * auto generate doc.
+    * Property: imports.
     * @var mixed
     */
     private $imports = [];
 
     /**
-    * auto generate doc.
+    * Property: variables.
     * @var mixed
     */
     private $variables = [];
 
     /**
-    * auto generate doc.
+    * Property: functions.
     * @var mixed
     */
     private $functions = [];
 
     /**
-    * auto generate doc.
+    * Property: medias.
     * @var mixed
     */
     private $medias = [];
 
     /**
-    * auto generate doc.
+    * Property: keyframes.
     * @var mixed
     */
     private $keyframes = [];
@@ -63,49 +63,49 @@ class CssConverter{
     private $source_file;
 
     /**
-    * auto generate doc.
+    * Constant: mode root.
     * @var mixed
     */
     const MODE_ROOT = 0;
 
     /**
-    * auto generate doc.
+    * Constant: mode attrib.
     * @var mixed
     */
     const MODE_ATTRIB = 1;
 
     /**
-    * auto generate doc.
+    * Constant: mode value.
     * @var mixed
     */
     const MODE_VALUE = 2;
 
     /**
-    * auto generate doc.
+    * Constant: mode selector.
     * @var mixed
     */
     const MODE_SELECTOR = 3;
 
     /**
-    * auto generate doc.
+    * Constant: media key.
     * @var mixed
     */
     const MEDIA_KEY = '@media';
 
     /**
-    * auto generate doc.
+    * Constant: media variables key.
     * @var mixed
     */
     const MEDIA_VARIABLES_KEY = '@variables';
 
     /**
-    * auto generate doc.
+    * Constant: media function key.
     * @var mixed
     */
     const MEDIA_FUNCTION_KEY = '@function';
 
     /**
-    * auto generate doc.
+    * Constant: media keyframe key.
     * @var mixed
     */
     const MEDIA_KEYFRAME_KEY = '@keyframes';
@@ -115,7 +115,7 @@ class CssConverter{
     }
 
     /**
-    * auto generate doc.
+    * Parses Scss Content.
     * @param string $content
     */
     public function parseScssContent(string $content){
@@ -126,7 +126,7 @@ class CssConverter{
     }
 
     /**
-    * auto generate doc.
+    * Parses Form SCSS.
     * @param string $file
     */
     public static function ParseFormSCSS(string $file)
@@ -466,7 +466,7 @@ class CssConverter{
     }
 
     /**
-    * auto generate doc.
+    * Visit import.
     * @param mixed $options
     */
     protected function _visit_import($options)
@@ -509,7 +509,7 @@ class CssConverter{
     }
 
     /**
-    * auto generate doc.
+    * Visit media.
     * @param mixed $options
     */
     protected function _visit_media($options)

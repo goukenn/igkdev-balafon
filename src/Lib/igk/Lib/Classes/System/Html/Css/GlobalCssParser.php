@@ -8,13 +8,13 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 class GlobalCssParser{
 
     /**
-    * auto generate doc.
+    * Property: definition.
     * @var mixed
     */
     var $definition;
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $source;
@@ -23,7 +23,7 @@ class GlobalCssParser{
     }
 
     /**
-    * auto generate doc.
+    * Parses.
     * @param string $content
     */
     public static function Parse(string $content){

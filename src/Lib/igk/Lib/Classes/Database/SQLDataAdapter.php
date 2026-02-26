@@ -21,19 +21,19 @@ use function igk_resources_gets as __;
 abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreator, IDbSendQueryListenerSupport{
 
     /**
-    * auto generate doc.
+    * Constant: db information schema.
     * @var mixed
     */
     const DB_INFORMATION_SCHEMA = "information_schema";
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $m_listener;
 
     /**
-    * auto generate doc.
+    * Sets Send Db Query Listener.
     * @param null|IDbSendQueryListener $listener
     */
     public function setSendDbQueryListener(?IDbSendQueryListener $listener) {
@@ -41,7 +41,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
 
     /**
-    * auto generate doc.
+    * Returns Send Db Query Listener.
     * @return ?IDbSendQueryListener
     */
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return $this->m_listener; }
@@ -58,7 +58,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
 
     /**
-    * auto generate doc.
+    * Filters Column.
     * @param mixed $columninfo
     * @param mixed $value
     * @return bool
@@ -130,7 +130,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
 
     /**
-    * auto generate doc.
+    * Escape.
     * @param null|string $str
     * @return string
     */
@@ -154,7 +154,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
 
     /**
-    * auto generate doc.
+    * Resolv column info.
     * @param mixed $adapter
     * @param mixed $table
     * @param mixed $columninfo
@@ -333,7 +333,7 @@ abstract class SQLDataAdapter extends DataAdapterBase implements IDatabaseCreato
     }
 
     /**
-    * auto generate doc.
+    * Returns Ob Expression.
     * @param mixed $value
     * @param mixed $throwex
     */

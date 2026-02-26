@@ -10,37 +10,37 @@ namespace IGK\System\Modules;
 class ModuleInfo{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: author.
     * @var mixed
     */
     var $author;
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc;
 
     /**
-    * auto generate doc.
+    * Property: version.
     * @var mixed
     */
     var $version;
 
     /**
-    * auto generate doc.
+    * Property: email.
     * @var mixed
     */
     var $email;
 
     /**
-    * auto generate doc.
+    * Property: release.
     * @var mixed
     */
     var $release;

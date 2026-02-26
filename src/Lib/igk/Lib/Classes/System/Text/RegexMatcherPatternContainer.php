@@ -13,7 +13,7 @@ namespace IGK\System\Text;
 class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegexMatcherPatternContainer{
 
     /**
-    * auto generate doc.
+    * Property: regex.
     * @var mixed
     */
     private $m_regex;
@@ -29,7 +29,7 @@ class RegexMatcherPatternContainer extends RegexMatcherPattern implements IRegex
     }
 
     /**
-    * auto generate doc.
+    * Returns Type.
     */
     public function getType()
     {

@@ -10,61 +10,61 @@
 namespace IGK\XML;
 
 /**
-* auto generate doc.
+* Xmlnode type.
 * @package IGK\XML
 */
 abstract class XMLNodeType{
 
     /**
-    * auto generate doc.
+    * Constant: cdata.
     * @var mixed
     */
     const CDATA=5;
 
     /**
-    * auto generate doc.
+    * Constant: comment.
     * @var mixed
     */
     const COMMENT=3;
 
     /**
-    * auto generate doc.
+    * Constant: element.
     * @var mixed
     */
     const ELEMENT=1;
 
     /**
-    * auto generate doc.
+    * Constant: endelement.
     * @var mixed
     */
     const ENDELEMENT=4;
 
     /**
-    * auto generate doc.
+    * Constant: none.
     * @var mixed
     */
     const NONE=-1;
 
     /**
-    * auto generate doc.
+    * Constant: processor.
     * @var mixed
     */
     const PROCESSOR=2;
 
     /**
-    * auto generate doc.
+    * Constant: text.
     * @var mixed
     */
     const TEXT=6;
 
     /**
-    * auto generate doc.
+    * Constant: inner text.
     * @var mixed
     */
     const INNER_TEXT = 7;
 
     /**
-    * auto generate doc.
+    * Constant: doctype.
     * @var mixed
     */
     const DOCTYPE=8;

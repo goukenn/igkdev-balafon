@@ -10,13 +10,13 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 abstract class ViewCompilerConstants{
 
     /**
-    * auto generate doc.
+    * Constant: operator symbol.
     * @var mixed
     */
     const OPERATOR_SYMBOL =  "+,-,->,?->,<=>,+=,-=,/=,%=,*=,&&,||,(,[";
 
     /**
-    * auto generate doc.
+    * Constant: block trim char.
     * @var mixed
     */
     const BLOCK_TRIM_CHAR = "\t\n\r\0\x0B; ";

@@ -11,7 +11,7 @@ namespace IGK\System\Text;
 interface IRegexMatchPatternStateListener{
 
     /**
-    * auto generate doc.
+    * Saves State.
     */
     function saveState();
     function restoreState();

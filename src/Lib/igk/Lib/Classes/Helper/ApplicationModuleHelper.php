@@ -17,7 +17,7 @@ class ApplicationModuleHelper
 {
 
     /**
-    * auto generate doc.
+    * Constant: sys env key.
     * @var mixed
     */
     const SYS_ENV_KEY = 'sys://init_controller/modules';

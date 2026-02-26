@@ -14,49 +14,49 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     use PHPDocCommentParseTrait;
 
     /**
-    * auto generate doc.
+    * Listener: property filter listener.
     * @var mixed
     */
     private $m_propertyFilterListener;
 
     /**
-    * auto generate doc.
+    * Listener: property handle listener.
     * @var mixed
     */
     private $m_propertyHandleListener;
 
     /**
-    * auto generate doc.
+    * Property: summary.
     * @var mixed
     */
     var $summary;
 
     /**
-    * auto generate doc.
+    * Property: param.
     * @var mixed
     */
     var $param;
 
     /**
-    * auto generate doc.
+    * Property: return.
     * @var mixed
     */
     var $return;
 
     /**
-    * auto generate doc.
+    * Property: description.
     * @var mixed
     */
     var $description;
 
     /**
-    * auto generate doc.
+    * Property: api.
     * @var mixed
     */
     var $api;
 
     /**
-    * auto generate doc.
+    * Property: throws.
     * @var mixed
     */
     var $throws;
@@ -98,7 +98,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
     var $strict_auth;
 
     /**
-    * auto generate doc.
+    * Returns Property Filter Listener.
     */
     public function getPropertyFilterListener(){
         return $this->m_propertyFilterListener;

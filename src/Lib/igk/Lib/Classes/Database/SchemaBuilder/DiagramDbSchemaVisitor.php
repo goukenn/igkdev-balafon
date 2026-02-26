@@ -13,13 +13,13 @@ use IGK\System\Html\XML\XmlNode;
 class DiagramDbSchemaVisitor extends DiagramVisitor{
 
     /**
-    * auto generate doc.
+    * Collection of visitor items.
     * @var mixed
     */
     private $visitor_items = [];
 
     /**
-    * auto generate doc.
+    * Starts.
     * @return ?string
     */
     public function start():?string{
@@ -28,7 +28,7 @@ class DiagramDbSchemaVisitor extends DiagramVisitor{
     }
 
     /**
-    * auto generate doc.
+    * Complete.
     * @return ?string
     */
     public function complete():?string{
@@ -36,7 +36,7 @@ class DiagramDbSchemaVisitor extends DiagramVisitor{
     }
 
     /**
-    * auto generate doc.
+    * Visit diagram entity.
     * @param mixed $entity
     * @param null|mixed $diagram
     */

@@ -12,7 +12,7 @@ use IGKServices;
 class ServiceTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests service.
     */
     public function test_service(){
         $service_key = 'test-service';
@@ -35,13 +35,13 @@ class ServiceTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Dummy service.
 * @package IGK\Tests
 */
 class DummyService implements \IGK\IService{
 
     /**
-    * auto generate doc.
+    * Returns Configurable Properties.
     * @return array
     */
     public function getConfigurableProperties(): array { 
@@ -49,7 +49,7 @@ class DummyService implements \IGK\IService{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param null|mixed $options
     * @return bool
     */

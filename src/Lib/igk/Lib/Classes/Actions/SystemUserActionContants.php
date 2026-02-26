@@ -10,7 +10,7 @@ namespace IGK\Actions;
 abstract class SystemUserActionContants{
 
     /**
-    * auto generate doc.
+    * Constant: deactivated account prefix.
     * @var mixed
     */
     const DEACTIVATED_ACCOUNT_PREFIX = '_#_';

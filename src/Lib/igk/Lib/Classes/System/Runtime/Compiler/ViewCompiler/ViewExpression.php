@@ -14,19 +14,19 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 class ViewExpression implements ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Property: variables.
     * @var mixed
     */
     private $m_variables;
 
     /**
-    * auto generate doc.
+    * Property: extract.
     * @var mixed
     */
     var $extract;
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     var $callback;
@@ -45,7 +45,7 @@ class ViewExpression implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $expression
     */
     public function _access_OffsetGet($expression){
@@ -99,7 +99,7 @@ class ViewExpression implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $expression
     * @param mixed $value
     */

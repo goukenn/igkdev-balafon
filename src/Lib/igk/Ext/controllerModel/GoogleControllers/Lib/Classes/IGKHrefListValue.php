@@ -19,7 +19,7 @@ namespace IGK\Core\Ext\Google;
 final class IGKHrefListValue{
 
     /**
-    * auto generate doc.
+    * Property: values.
     * @var mixed
     */
     var $values;

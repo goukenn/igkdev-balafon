@@ -20,7 +20,7 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: attributes.
     * @var mixed
     */
     protected $m_attributes;
@@ -39,7 +39,7 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Sorts Keys.
     */
     public function sortKeys(){
         $this->m_attributes->sortKeys();
@@ -62,7 +62,7 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
      }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $name
     */
     public function _access_OffsetGet($name){
@@ -70,7 +70,7 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param string $name
     * @param mixed $v
     */
@@ -82,7 +82,7 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     */
     protected function _access_OffsetUnset($n){
@@ -90,7 +90,7 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
     protected function _access_offsetExists($n){        
@@ -98,7 +98,7 @@ class HtmlFilterAttributeArray implements ArrayAccess, IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Returns count of.
     */
     public function count(){
         return $this->m_attributes->count();

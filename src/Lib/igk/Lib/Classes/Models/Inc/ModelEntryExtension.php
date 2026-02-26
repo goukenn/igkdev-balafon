@@ -50,7 +50,7 @@ use function igk_form_input_type as form_input_type;
 // require_once IGK_LIB_CLASSES_DIR .
 
 /**
-* auto generate doc.
+* Model entry extension.
 * @package IGK\Models
 */
 abstract class ModelEntryExtension
@@ -156,7 +156,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Updates Raw.
     * @param ModelBase $target
     * @param ModelBase $g
     */
@@ -245,7 +245,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Inserts Or Update.
     * @param ModelBase $model
     * @param mixed $condition
     * @param null|callable $updating
@@ -405,7 +405,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Rollback.
     * @param ModelBase $model
     */
     public static function rollback(ModelBase $model)
@@ -414,7 +414,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * End transaction.
     * @param ModelBase $model
     * @param bool $result
     */
@@ -503,7 +503,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Queries all.
     * @param ModelBase $model
     * @param null|mixed $conditions
     * @param null|mixed $options
@@ -515,7 +515,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Returns count of.
     * @param ModelBase $model
     * @param null|mixed $conditions
     * @param null|mixed $options
@@ -580,7 +580,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Selects row query.
     * @param ModelBase $model
     * @param mixed $conditions
     * @param null|mixed $options
@@ -813,7 +813,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Last id.
     * @param ModelBase $model
     */
     public static function last_id(ModelBase $model)
@@ -822,7 +822,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Last error.
     * @param ModelBase $model
     */
     public static function last_error(ModelBase $model)
@@ -831,7 +831,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Selects rand row.
     * @param ModelBase $model
     * @param string $column
     * @param null|array $columns
@@ -891,7 +891,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * View filter.
     * @param ModelBase $model
     */
     public static function viewFilter(ModelBase $model)
@@ -978,7 +978,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Creates Table.
     * @param ModelBase $model
     */
     public static function createTable(ModelBase $model)
@@ -1473,7 +1473,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Request add.
     * @param ModelBase $model
     */
     public static function requestAdd(ModelBase $model)
@@ -1521,7 +1521,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Model table info.
     * @param ModelBase $model
     */
     public static function modelTableInfo(ModelBase $model)
@@ -1577,7 +1577,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Returns insert query.
     * @param ModelBase $model
     */
     public static function get_insert_query(ModelBase $model)
@@ -1622,7 +1622,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Adds If Not Exists.
     * @param ModelBase $model
     * @param mixed $params
     */
@@ -1888,7 +1888,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Column select array.
     * @param ModelBase $model
     * @param string $column
     * @param mixed ...$args
@@ -1943,7 +1943,7 @@ abstract class ModelEntryExtension
     }
 
     /**
-    * auto generate doc.
+    * Joins Table Target On.
     * @param ModelBase $model
     * @param mixed $column
     */

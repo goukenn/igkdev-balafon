@@ -14,31 +14,31 @@ use IGK\System\Console\Logger;
 abstract class FactoryBase {
 
     /**
-    * auto generate doc.
+    * Count: count.
     * @var mixed
     */
     protected $count;
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     protected $model;
 
     /**
-    * auto generate doc.
+    * Index: index.
     * @var mixed
     */
     protected $index;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     protected $data;
 
     /**
-    * auto generate doc.
+    * Property: errors.
     * @var mixed
     */
     protected $m_errors = [];
@@ -51,7 +51,7 @@ abstract class FactoryBase {
 	}
 
     /**
-    * auto generate doc.
+    * Returns Errors.
     */
     protected function getErrors(){
         return $this->m_errors;

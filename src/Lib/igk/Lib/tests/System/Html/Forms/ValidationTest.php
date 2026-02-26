@@ -18,14 +18,14 @@ use IGK\Tests\BaseTestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 
 /**
-* auto generate doc.
+* Validation test.
 * @package IGK\Tests\System\Html\Forms
 */
 class ValidationTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests validation class exist.
     */
     function test_validation_class_exist()
     {
@@ -34,7 +34,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests empty validation.
     */
     function test_empty_validation()
     {
@@ -42,7 +42,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests validation request with html content.
     */
     function test_validation_request_with_html_content()
     { 
@@ -117,7 +117,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests custom validator.
     */
     public function test_custom_validator()
     {
@@ -138,7 +138,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests pattern validator.
     */
     public function test_pattern_validator()
     {
@@ -164,7 +164,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests url validator.
     */
     public function test_url_validator()
     {
@@ -224,7 +224,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests json validator.
     */
     public function test_json_validator()
     {
@@ -249,7 +249,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests file validation.
     */
     public function test_file_validation(){
         $validation = new FormValidation();
@@ -267,7 +267,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests validation convert to type.
     */
     public function test_validation_convert_to_type()
     {
@@ -292,7 +292,7 @@ class ValidationTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests validation convert with validator.
     */
     public function test_validation_convert_with_validator()
     {
@@ -318,32 +318,32 @@ class ValidationTest extends BaseTestCase
 }
 
 /**
-* auto generate doc.
+* Validation convert.
 * @package IGK\Tests\System\Html\Forms
 */
 class ValidationConvert{
 
     /**
-    * auto generate doc.
+    * Property: x.
     * @var mixed
     */
     var $x;
 
     /**
-    * auto generate doc.
+    * Property: y.
     * @var mixed
     */
     var $y;
 }
 
 /**
-* auto generate doc.
+* Validation convert validator.
 * @package IGK\Tests\System\Html\Forms
 */
 class ValidationConvertValidator extends ConvertTypeValidatorBase{
 
     /**
-    * auto generate doc.
+    * Returns Fields.
     * @return array
     */
 

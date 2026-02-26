@@ -11,13 +11,13 @@ namespace IGK;
 abstract class ApplicationFactory{
 
     /**
-    * auto generate doc.
+    * Constant: app class.
     * @var mixed
     */
     const APP_CLASS = 'IGK\\System\\Applications';
 
     /**
-    * auto generate doc.
+    * Property: factory.
     * @var mixed
     */
     private static $sm_factory = [

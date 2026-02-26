@@ -14,7 +14,7 @@ use IGKHtmlRelativeUriValueAttribute;
 use IGKResourceUriResolver;
 
 /**
-* auto generate doc.
+* Document render test.
 * @package IGK\Test\System\Html
 */
 class DocumentRenderTest extends BaseTestCase{

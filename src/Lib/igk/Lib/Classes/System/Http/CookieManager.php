@@ -13,7 +13,7 @@ use IGKException;
 class CookieManager{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
@@ -33,13 +33,13 @@ class CookieManager{
     private $m_saved = false;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
         if (!self::$sm_instance){

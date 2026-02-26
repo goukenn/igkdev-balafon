@@ -17,19 +17,19 @@ use IGKEvents;
 class InitRolesCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--users:init-role';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='initiliaze user\'s role';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -38,19 +38,19 @@ class InitRolesCommand extends AppExecCommand{
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'users';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $user
     */

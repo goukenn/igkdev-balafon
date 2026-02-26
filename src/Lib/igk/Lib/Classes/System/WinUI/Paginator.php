@@ -12,25 +12,25 @@ use IGK\System\IO\StringBuilder;
 class Paginator{
 
     /**
-    * auto generate doc.
+    * Property: page.
     * @var mixed
     */
     private $page;
 
     /**
-    * auto generate doc.
+    * Property: max entry.
     * @var mixed
     */
     private $maxEntry;
 
     /**
-    * auto generate doc.
+    * Property: entries.
     * @var mixed
     */
     private $entries;
 
     /**
-    * auto generate doc.
+    * Paginator.
     * @param mixed $maxEntry
     * @param mixed $queryTag
     */
@@ -40,7 +40,7 @@ class Paginator{
     }
 
     /**
-    * auto generate doc.
+    * Returns links.
     */
     public function get_links(){
         $c = igk_create_node("ul");
@@ -48,7 +48,7 @@ class Paginator{
     }
 
     /**
-    * auto generate doc.
+    * Returns limit raw.
     */
     public function get_limit_raw(){
         $p = $this->page - 1;
@@ -59,7 +59,7 @@ class Paginator{
     }
 
     /**
-    * auto generate doc.
+    * Returns limit.
     */
     public function get_limit(){
         $c = $this->get_limit_raw();
@@ -67,7 +67,7 @@ class Paginator{
     }
 
     /**
-    * auto generate doc.
+    * Sets total.
     * @param mixed $v
     */
     public function set_total($v){
@@ -75,7 +75,7 @@ class Paginator{
     }
 
     /**
-    * auto generate doc.
+    * Page links.
     */
     public function page_links(){
         // TODO: Generate page links 

@@ -35,7 +35,7 @@ class ModuleInstaller{
     var $version;
 
     /**
-    * auto generate doc.
+    * Installs.
     */
     public function install(){
     }

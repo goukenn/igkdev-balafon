@@ -15,19 +15,19 @@ use IGK\System\EntryClassResolution;
 class RunDumpDbPropertyCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--db:dump-property';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'db';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -35,19 +35,19 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'dump model property in controller';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'model controller';
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     protected function showUsage()
     {
@@ -56,7 +56,7 @@ class RunDumpDbPropertyCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $model
     * @param null|string $controller

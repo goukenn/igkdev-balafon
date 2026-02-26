@@ -9,31 +9,31 @@ use IGK\System\Console\Logger;
 use IGK\System\Number;
 
 /**
-* auto generate doc.
+* Zip project command.
 * @package IGK\System\Console\Commands
 */
 class ZipProjectCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--project:zip";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "zip balafon project";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "project";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = "controller [path] [options]";

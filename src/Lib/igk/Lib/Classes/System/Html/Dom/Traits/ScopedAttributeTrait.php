@@ -6,13 +6,13 @@
 namespace  IGK\System\Html\Dom\Traits;
 
 /**
-* auto generate doc.
+* Trait providing scoped attribute functionality.
 * @package IGK\System\Html\Dom\Traits
 */
 trait ScopedAttributeTrait{
 
     /**
-    * auto generate doc.
+    * Returns Scoped.
     * @return bool
     */
     public function getScoped():bool{
@@ -20,7 +20,7 @@ trait ScopedAttributeTrait{
     }
 
     /**
-    * auto generate doc.
+    * Sets Scoped.
     * @param bool $scope
     */
     public function setScoped(bool $scope){

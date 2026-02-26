@@ -10,7 +10,7 @@ use IGK\System\Html\HtmlReader;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Test template rendering.
 * @package IGK\Tests\Rendereging
 */
 class testTemplateRendering extends BaseTestCase{

@@ -16,7 +16,7 @@ class CssRulesParserTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests cssruleparser test.
     */
     public function test_cssruleparser_test()
     {
@@ -25,7 +25,7 @@ class CssRulesParserTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests cssruleparser body.
     */
     public function test_cssruleparser_body()
     {
@@ -34,7 +34,7 @@ class CssRulesParserTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests cssruleparser body line.
     */
     public function test_cssruleparser_body_line()
     {
@@ -43,7 +43,7 @@ class CssRulesParserTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests cssruleparser selector.
     */
     public function test_cssruleparser_selector()
     {
@@ -52,7 +52,7 @@ class CssRulesParserTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests cssruleparser media.
     */
     public function test_cssruleparser_media()
     {
@@ -61,7 +61,7 @@ class CssRulesParserTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests cssruleparser multi media.
     */
     public function test_cssruleparser_multi_media()
     {
@@ -70,7 +70,7 @@ class CssRulesParserTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests cssruleparser multi selector.
     */
     public function test_cssruleparser_multi_selector()
     {

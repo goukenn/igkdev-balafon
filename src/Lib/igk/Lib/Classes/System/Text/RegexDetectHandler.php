@@ -24,7 +24,7 @@ class RegexDetectHandler{
     var $itemTokenListener;
 
     /**
-    * auto generate doc.
+    * Property: marker.
     * @var mixed
     */
     private $m_marker;
@@ -44,7 +44,7 @@ class RegexDetectHandler{
     }
 
     /**
-    * auto generate doc.
+    * Handle detect.
     * @param string $src
     * @param int & $pos
     * @param null|callable $preload

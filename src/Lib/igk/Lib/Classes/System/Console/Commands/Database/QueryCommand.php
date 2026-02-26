@@ -12,32 +12,32 @@ use IGK\System\Console\Logger;
 class QueryCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--db:query';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='model fetch query';
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category="sys:db";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = "model [controller] [options]";
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $model
     * @param null|string $controller

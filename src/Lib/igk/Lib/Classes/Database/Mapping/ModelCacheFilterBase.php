@@ -10,7 +10,7 @@ namespace IGK\Database\Mapping;
 abstract class ModelCacheFilterBase{
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     var $model;

@@ -16,7 +16,7 @@ use IGK\Tests\BaseTestCase;
 class TestUriDetection extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Sets up shared resources before all tests.
     * @return void
     */
     public static function setUpBeforeClass(): void
@@ -25,7 +25,7 @@ class TestUriDetection extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests ignore inline data.
     */
     public function test_ignore_inline_data(){
         $v_detector = new UriDetector;
@@ -35,7 +35,7 @@ class TestUriDetection extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests detect.
     */
     public function test_detect(){
         $v_detector = new UriDetector;
@@ -49,7 +49,7 @@ class TestUriDetection extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests detect css cloud.
     */
     public function test_detect_css_cloud(){
         $v_detector = new UriDetector;
@@ -64,7 +64,7 @@ class TestUriDetection extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests detect css svg data.
     */
     public function test_detect_css_svg_data(){
         $v_detector = new UriDetector;
@@ -80,7 +80,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Tests detect css full uri data.
     */
     public function test_detect_css_full_uri_data(){
         $v_detector = new UriDetector;
@@ -100,7 +100,7 @@ $uris = $v_detector->cssUrl($data);
     }
 
     /**
-    * auto generate doc.
+    * Tests next css.
     */
     public function test_next_css(){
         $v_detector = new UriDetector;
@@ -116,7 +116,7 @@ CSS;
     }
 
     /**
-    * auto generate doc.
+    * Tests uri on css.
     */
     public function test_uri_on_css(){
         $src = <<<'CSS'

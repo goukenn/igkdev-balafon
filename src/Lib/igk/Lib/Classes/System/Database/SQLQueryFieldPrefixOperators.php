@@ -14,37 +14,37 @@ use IGK\Database\DbFieldOperator;
 abstract class SQLQueryFieldPrefixOperators extends DbFieldOperator{
 
     /**
-    * auto generate doc.
+    * Constant: find.
     * @var mixed
     */
     const FIND = '@@';
 
     /**
-    * auto generate doc.
+    * Constant: in.
     * @var mixed
     */
     const IN = '#';
 
     /**
-    * auto generate doc.
+    * Constant: not in.
     * @var mixed
     */
     const NOT_IN = '!<>';
 
     /**
-    * auto generate doc.
+    * Constant: in express.
     * @var mixed
     */
     const IN_EXPRESS = '<>';
 
     /**
-    * auto generate doc.
+    * Constant: in e.
     * @var mixed
     */
     const IN_E = '!!';
 
     /**
-    * auto generate doc.
+    * In.
     * @param string $column
     * @return string
     */
@@ -53,7 +53,7 @@ abstract class SQLQueryFieldPrefixOperators extends DbFieldOperator{
     }
 
     /**
-    * auto generate doc.
+    * Finds.
     * @param string $column
     */
     public static function Find(string $column){

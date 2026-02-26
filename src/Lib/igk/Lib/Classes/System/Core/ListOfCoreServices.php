@@ -17,25 +17,25 @@ abstract class ListOfCoreServices
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: printer.
     * @var mixed
     */
     const PRINTER = "Printer";
 
     /**
-    * auto generate doc.
+    * Constant: mapping service.
     * @var mixed
     */
     const MAPPING_SERVICE = "MappingService";
 
     /**
-    * auto generate doc.
+    * Constant: formatter service.
     * @var mixed
     */
     const FORMATTER_SERVICE = 'formatters';
 
     /**
-    * auto generate doc.
+    * Constant: core code highlight.
     * @var mixed
     */
     const CORE_CODE_HIGHLIGHT = 'balafon-core-code-highlight';

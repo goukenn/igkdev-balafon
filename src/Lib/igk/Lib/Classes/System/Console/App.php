@@ -25,7 +25,7 @@ class App implements ICLICommandApp
 {
 
     /**
-    * auto generate doc.
+    * Constant: green.
     * @var mixed
     */
     const GREEN = "\e[1;32m";

@@ -13,19 +13,19 @@ use IGK\System\Runtime\Compiler\ReadTokenUtility;
 class ViewTokenBlock{
 
     /**
-    * auto generate doc.
+    * Constant: token types.
     * @var mixed
     */
     const TOKEN_TYPES = "try|catch|finaly|if|elseif|else|switch|case|default|for|foreach|while|do";
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
 
     /**
-    * auto generate doc.
+    * Property: parent.
     * @var mixed
     */
     var $parent;
@@ -51,13 +51,13 @@ class ViewTokenBlock{
     var $depth = 0;
 
     /**
-    * auto generate doc.
+    * Property: tabstop.
     * @var mixed
     */
     var $tabstop = "\t";
 
     /**
-    * auto generate doc.
+    * Property: structs.
     * @var mixed
     */
     var $structs = [];
@@ -75,14 +75,14 @@ class ViewTokenBlock{
     }
 
     /**
-    * auto generate doc.
+    * Returns Token Type Array.
     */
     public function getTokenTypeArray(){
         return explode("|", self::TOKEN_TYPES);
     }
 
     /**
-    * auto generate doc.
+    * Generates Code.
     */
     public function generateCode(){
         $sb = new StringBuilder;
@@ -97,7 +97,7 @@ class ViewTokenBlock{
     }
 
     /**
-    * auto generate doc.
+    * Returns Code Block.
     */
     public function getCodeBlock(){
         return [];

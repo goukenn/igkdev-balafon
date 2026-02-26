@@ -13,7 +13,7 @@ use ReflectionException;
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlActiveAttrib.php";
 
 /**
-* auto generate doc.
+* Html attribute array.
 * @package IGK\System\Html
 */
 class HtmlAttributeArray extends ArrayList implements ArrayAccess
@@ -22,13 +22,13 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     // protected $preserverKeys = true;
 
     /**
-    * auto generate doc.
+    * Collection of protected list.
     * @var mixed
     */
     private $m_protectedList;
 
     /**
-    * auto generate doc.
+    * Listener: add listener.
     * @var mixed
     */
     var $add_listener;
@@ -49,7 +49,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Key exists.
     * @param mixed $n
     */
 
@@ -59,7 +59,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Sorts Keys.
     */
 
     public function sortKeys(){
@@ -89,7 +89,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns debug information for var_dump.
     */
 
     function __debugInfo()
@@ -111,7 +111,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
 
@@ -146,7 +146,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     */
 

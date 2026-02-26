@@ -9,7 +9,7 @@ use IGK\System\Html\Dom\HtmlNode;
 class DashboardItem extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";

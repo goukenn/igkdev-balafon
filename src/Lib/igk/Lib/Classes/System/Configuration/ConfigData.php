@@ -259,7 +259,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     }
 
     /**
-    * auto generate doc.
+    * Menu default page.
     */
     public function menu_default_page()
     {
@@ -267,7 +267,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
     }
 
     /**
-    * auto generate doc.
+    * Reload.
     */
     public function reload()
     {

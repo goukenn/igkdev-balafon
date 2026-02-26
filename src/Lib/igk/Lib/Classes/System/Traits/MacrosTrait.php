@@ -9,7 +9,7 @@ trait MacrosTrait
 {
 
     /**
-    * auto generate doc.
+    * Property: macros.
     * @var mixed
     */
     private static $macros;
@@ -42,7 +42,7 @@ trait MacrosTrait
     }
 
     /**
-    * auto generate doc.
+    * Initializes Macros.
     * @param mixed & $macros
     */
     protected static function InitMacros(& $macros)

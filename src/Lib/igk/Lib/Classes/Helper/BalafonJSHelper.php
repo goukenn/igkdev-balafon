@@ -7,7 +7,7 @@ namespace IGK\Helper;
 use IGKException;
 
 /**
-* auto generate doc.
+* Balafon jshelper.
 * @package IGK\Helper
 */
 class BalafonJSHelper{

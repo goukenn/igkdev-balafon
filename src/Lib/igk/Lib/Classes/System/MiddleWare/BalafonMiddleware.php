@@ -14,19 +14,19 @@ use ReflectionClass;
 abstract class BalafonMiddleware{
 
     /**
-    * auto generate doc.
+    * Property: next.
     * @var mixed
     */
     private $_next;
 
     /**
-    * auto generate doc.
+    * Property: manager.
     * @var mixed
     */
     private static $sm_manager;
 
     /**
-    * auto generate doc.
+    * Property: chain flag.
     * @var mixed
     */
     var $chainFlag;

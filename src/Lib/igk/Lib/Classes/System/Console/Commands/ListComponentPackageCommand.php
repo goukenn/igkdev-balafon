@@ -13,27 +13,27 @@ use IGK\System\Console\Logger;
 class ListComponentPackageCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--component-package:list';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='list system\'s node package namespaces'; 
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'sys';
 	/* var $usage = ''; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command) { 

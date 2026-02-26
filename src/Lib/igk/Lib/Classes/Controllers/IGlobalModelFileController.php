@@ -10,7 +10,7 @@ namespace IGK\Controllers;
 interface IGlobalModelFileController{
 
     /**
-    * auto generate doc.
+    * Injects Base Model.
     * @return bool
     */
     function injectBaseModel();

@@ -11,13 +11,13 @@ use IGK\System\Regex\Replacement;
 class WordContentValidator extends MapContentValidatorBase{
 
     /**
-    * auto generate doc.
+    * Property: allow null.
     * @var mixed
     */
     var $allowNull;
 
     /**
-    * auto generate doc.
+    * Map.
     * @param mixed $value
     * @param mixed $key
     * @param mixed & $error

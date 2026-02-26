@@ -9,13 +9,13 @@ use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlRenderer;
 
 /**
-* auto generate doc.
+* Mail document.
 * @package IGK\System\Net
 */
 class MailDocument extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";

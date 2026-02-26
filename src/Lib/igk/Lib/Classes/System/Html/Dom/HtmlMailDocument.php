@@ -13,19 +13,19 @@ use IGK\System\Html\HtmlRenderer;
 use IGK\System\Net\MailAttachementContainer;
 
 /**
-* auto generate doc.
+* Igkhtml mail doc.
 * @package IGK\System\Html\Dom
 */
 final class IGKHtmlMailDoc extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Properties: attachement, app, message, theme.
     * @var mixed
     */
     private $_attachement, $m_app, $m_message, $m_theme;
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     */
 
@@ -72,7 +72,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     private function _initTheme(){    }
 
     /**
-    * auto generate doc.
+    * Creates From Document.
     * @param mixed $doc
     */
 
@@ -85,7 +85,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Attachement.
     */
 
     public function getAttachement(){
@@ -93,7 +93,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Message.
     */
 
     public function getMessage(){
@@ -101,7 +101,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Theme.
     */
 
     public function getTheme(){
@@ -109,7 +109,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Inner html.
     * @param null|mixed & $options
     */
 
@@ -145,7 +145,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $o
     */
 
@@ -154,7 +154,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders Doc.
     */
 
     public function renderDoc(){
@@ -172,7 +172,7 @@ final class IGKHtmlMailDoc extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sends Mail.
     * @param mixed $to
     * @param mixed $from
     * @param mixed $subject

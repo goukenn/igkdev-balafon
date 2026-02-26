@@ -7,7 +7,7 @@
 use IGK\Controllers\BaseController;
 
 /**
-* auto generate doc.
+* Igkproduct view ctrl.
 */
 abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {

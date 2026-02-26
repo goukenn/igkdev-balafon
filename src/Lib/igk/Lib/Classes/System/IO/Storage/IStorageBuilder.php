@@ -10,7 +10,7 @@ namespace IGK\System\IO\Storage;
 interface IStorageBuilder{
 
     /**
-    * auto generate doc.
+    * Store.
     * @param string $file
     * @param bool $ovewrite
     * @param null|string $type

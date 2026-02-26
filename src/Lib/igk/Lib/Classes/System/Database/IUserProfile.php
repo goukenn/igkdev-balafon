@@ -15,7 +15,7 @@ use IGK\Models\Users;
 interface IUserProfile{
 
     /**
-    * auto generate doc.
+    * Returns Controller.
     * @return ?BaseController
     */
     function getController(): ?BaseController;

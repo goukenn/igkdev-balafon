@@ -17,13 +17,13 @@ use IGKException;
 class HtmlCarouselNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {
@@ -42,7 +42,7 @@ class HtmlCarouselNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

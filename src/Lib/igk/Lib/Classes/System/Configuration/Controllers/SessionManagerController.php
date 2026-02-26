@@ -12,13 +12,13 @@ use function igk_resources_gets as __;
 final class SessionManagerController extends ConfigControllerBase{
 
     /**
-    * auto generate doc.
+    * Constant: sess notify.
     * @var mixed
     */
     const SESS_NOTIFY="sys://notify/sessionmanager";
 
     /**
-    * auto generate doc.
+    * Returns Name.
     */
     public function getName()
     {
@@ -70,14 +70,14 @@ final class SessionManagerController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Group.
     */
     public function getConfigGroup(){
         return ConfigsGroups::admin;
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Config Page Available.
     */
     public function getIsConfigPageAvailable()
     {
@@ -142,7 +142,7 @@ final class SessionManagerController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Session list.
     */
     public function session_list(){
         $n = igk_create_notagnode(); 

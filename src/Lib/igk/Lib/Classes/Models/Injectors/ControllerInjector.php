@@ -14,7 +14,7 @@ use IGK\System\IInjector;
 class ControllerInjector implements IInjector{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     protected $controller;

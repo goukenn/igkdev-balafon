@@ -11,7 +11,7 @@ namespace IGK\System\Console;
 class Utils{
 
     /**
-    * auto generate doc.
+    * Generates Configuration.
     * @param mixed $public_dir
     * @param mixed $app_dir
     * @param mixed $base_uri

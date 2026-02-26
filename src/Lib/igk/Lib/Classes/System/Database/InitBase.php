@@ -7,13 +7,13 @@ namespace IGK\System\Database;
 use IGK\Controllers\BaseController;
 
 /**
-* auto generate doc.
+* Init base.
 * @package IGK\System\Database
 */
 abstract class InitBase{
 
     /**
-    * auto generate doc.
+    * Constant: init method.
     * @var mixed
     */
     const INIT_METHOD = 'Init';

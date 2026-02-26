@@ -11,7 +11,7 @@ namespace IGK\System\Html;
 interface IHtmlHostContextContainer{
 
     /**
-    * auto generate doc.
+    * Returns Rendering Context Data.
     */
     function getRenderingContextData();
 }

@@ -12,31 +12,31 @@ use IGKException;
 abstract class FileHandler{
 
     /**
-    * auto generate doc.
+    * Callback handler for handler.
     * @var mixed
     */
     private static $sm_handler;
 
     /**
-    * auto generate doc.
+    * Constant: file context global.
     * @var mixed
     */
     const FILE_CONTEXT_GLOBAL = 'global';
 
     /**
-    * auto generate doc.
+    * Constant: file context view.
     * @var mixed
     */
     const FILE_CONTEXT_VIEW = 'view_context';
 
     /**
-    * auto generate doc.
+    * Constant: file context css.
     * @var mixed
     */
     const FILE_CONTEXT_CSS = 'style_context';
 
     /**
-    * auto generate doc.
+    * Constant: context key.
     * @var mixed
     */
     const CONTEXT_KEY = '::context';
@@ -113,7 +113,7 @@ abstract class FileHandler{
     }
 
     /**
-    * auto generate doc.
+    * Returns View Context File Handlers.
     */
     public static function GetViewContextFileHandlers(){
         return self::GetContextFileHandlers(self::FILE_CONTEXT_VIEW);

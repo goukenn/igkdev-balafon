@@ -12,37 +12,37 @@ use IGK\System\Runtime\Compiler\CompilerConstants;
 class HtmlBindingArticleNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = "igk:binding-article";
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     var $file;
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $data;
 
     /**
-    * auto generate doc.
+    * Index: index.
     * @var mixed
     */
     var $index;
 
     /**
-    * auto generate doc.
+    * Property: target.
     * @var mixed
     */
     var $target;
@@ -54,13 +54,13 @@ class HtmlBindingArticleNode extends HtmlNode{
     // binding counter:
 
     /**
-    * auto generate doc.
+    * Count: count.
     * @var mixed
     */
     private static $sm_Count;
 
     /**
-    * auto generate doc.
+    * Resets Binding Counter.
     */
     public static function ResetBindingCounter(){
         static::$sm_Count = 0;
@@ -76,7 +76,7 @@ class HtmlBindingArticleNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     * @return bool
     */
     function getCanRenderTag():bool{
@@ -84,7 +84,7 @@ class HtmlBindingArticleNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Rendered Childs.
     * @param null|mixed $options
     */
     public function getRenderedChilds($options = null)
@@ -93,7 +93,7 @@ class HtmlBindingArticleNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options = null)

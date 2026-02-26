@@ -13,19 +13,19 @@ class TemplateArgInfo
 {
 
     /**
-    * auto generate doc.
+    * Property: args.
     * @var mixed
     */
     private $args;
 
     /**
-    * auto generate doc.
+    * Property: creationargs.
     * @var mixed
     */
     private $creationargs;
 
     /**
-    * auto generate doc.
+    * Sets Creation Arg.
     * @param mixed $args
     */
     public function setCreationArg($args)
@@ -34,7 +34,7 @@ class TemplateArgInfo
     }
 
     /**
-    * auto generate doc.
+    * Returns Args.
     */
     public function getArgs()
     {
@@ -60,7 +60,7 @@ class TemplateArgInfo
     }
 
     /**
-    * auto generate doc.
+    * Pushes.
     * @param mixed $params
     */
     public function push($params)

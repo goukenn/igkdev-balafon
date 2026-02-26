@@ -21,7 +21,7 @@ class IGKAppSystem
 {
 
     /**
-    * auto generate doc.
+    * Constant: conf file.
     * @var mixed
     */
     const CONF_FILE = 'configure';

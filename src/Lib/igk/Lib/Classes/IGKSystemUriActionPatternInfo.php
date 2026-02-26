@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igksystem uri action pattern info.
 */
 final class IGKSystemUriActionPatternInfo extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: action, context, ctrl, keys, pattern, requestparams, uri, value.
     * @var mixed
     */
     var $action, $context, $ctrl, $keys, $pattern, $requestparams, $uri, $value;
@@ -31,7 +31,7 @@ final class IGKSystemUriActionPatternInfo extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Query Params.
     */
 
     public function getQueryParams(){
@@ -40,7 +40,7 @@ final class IGKSystemUriActionPatternInfo extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Matche.
     * @param null|mixed $uri
     */
 

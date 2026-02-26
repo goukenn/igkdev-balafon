@@ -11,19 +11,19 @@ namespace IGK\System\Database;
 abstract class JoinTableOp{
 
     /**
-    * auto generate doc.
+    * Constant: equal.
     * @var mixed
     */
     const EQUAL = "=";
 
     /**
-    * auto generate doc.
+    * Constant: gt.
     * @var mixed
     */
     const GT =">";
 
     /**
-    * auto generate doc.
+    * Constant: lt.
     * @var mixed
     */
     const LT ="<";

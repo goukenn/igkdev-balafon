@@ -10,13 +10,13 @@ use IGK\System\WinUI\Pagination;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Views test.
 * @package IGK\Tests\System\WinUI
 */
 class ViewsTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests pagination query.
     */
     public function test_pagination_query() { 
         $q = "";
@@ -33,7 +33,7 @@ class ViewsTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests pagination list.
     */
     public function test_pagination_list() { 
         $q = "";

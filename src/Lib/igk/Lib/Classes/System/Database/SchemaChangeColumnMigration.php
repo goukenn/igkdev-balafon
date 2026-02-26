@@ -14,27 +14,27 @@ use IGK\System\Console\App;
 use IGK\System\Console\Logger;
 
 /**
-* auto generate doc.
+* Schema change column migration.
 * @package IGK\System\Database
 */
 class SchemaChangeColumnMigration extends SchemaMigrationItemBase
 {
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "column", 'tag'];
     // source column to restore
 
     /**
-    * auto generate doc.
+    * Property: column info.
     * @var mixed
     */
     var $columnInfo;
 
     /**
-    * auto generate doc.
+    * Property: columns.
     * @var mixed
     */
     private $columns;

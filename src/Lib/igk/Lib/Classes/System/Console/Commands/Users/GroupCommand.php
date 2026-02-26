@@ -14,32 +14,32 @@ use IGK\System\Console\Logger;
 class GroupCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--users:group';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='view user\'s group';
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = self::USER_CAT;
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'login [option]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $login
     */

@@ -15,7 +15,7 @@ use function igk_resources_gets as __;
 final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
 
     /**
-    * auto generate doc.
+    * Returns Setting.
     */
     public function & getSetting(){
         $m = [];

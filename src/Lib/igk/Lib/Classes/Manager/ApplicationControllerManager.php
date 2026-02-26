@@ -29,25 +29,25 @@ class ApplicationControllerManager implements IApplicationControllerManager
 {
 
     /**
-    * auto generate doc.
+    * Property: app.
     * @var mixed
     */
     private $m_app;
 
     /**
-    * auto generate doc.
+    * Constant: init method.
     * @var mixed
     */
     const INIT_METHOD = "initComplete";
 
     /**
-    * auto generate doc.
+    * Constant: ref module token identifier.
     * @var mixed
     */
     const REF_MODULE_TOKEN_IDENTIFIER='ref-module';
 
     /**
-    * auto generate doc.
+    * Property: controllers.
     * @var mixed
     */
     private $m_controllers = [];
@@ -67,7 +67,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
     }
 
     /**
-    * auto generate doc.
+    * Returns Registrated Named Controller.
     * @param string $name
     * @return ?BaseController
     */
@@ -77,7 +77,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
     }
 
     /**
-    * auto generate doc.
+    * Registers Named Controller.
     * @param string $name
     * @param BaseController $controller
     */
@@ -87,7 +87,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
     }
 
     /**
-    * auto generate doc.
+    * Returns Default Controller.
     * @return ?BaseController
     */
     public function getDefaultController(): ?BaseController
@@ -96,7 +96,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
     }
 
     /**
-    * auto generate doc.
+    * Sets Default Controller.
     * @param null|BaseController $controller
     */
     public function setDefaultController(?BaseController $controller)
@@ -164,7 +164,7 @@ class ApplicationControllerManager implements IApplicationControllerManager
     }
 
     /**
-    * auto generate doc.
+    * Returns Resolv Controller.
     */
     public static function &GetResolvController()
     {

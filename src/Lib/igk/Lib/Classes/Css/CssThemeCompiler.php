@@ -15,7 +15,7 @@ use IGKException;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* Css theme compiler.
 * @package IGK\Css
 */
 class CssThemeCompiler
@@ -156,7 +156,7 @@ class CssThemeCompiler
     }
 
     /**
-    * auto generate doc.
+    * Cache css store and export.
     * @param mixed $express_cf
     * @param mixed $cf
     * @param mixed $theme

@@ -22,32 +22,32 @@ use IGKException;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* Html css class value attribute.
 * @package IGK\System\Html\Dom
 */
 final class HtmlCssClassValueAttribute extends HtmlItemAttribute
 {
 
     /**
-    * auto generate doc.
+    * Properties: classes, expressions.
     * @var mixed
     */
     private $m_classes, $m_expressions;
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $m_listener;
 
     /**
-    * auto generate doc.
+    * Property: reg class.
     * @var mixed
     */
     private static $sm_regClass = null;
 
     /**
-    * auto generate doc.
+    * Name of treat class name.
     * @var mixed
     */
     private $_treat_ClassName;
@@ -72,7 +72,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Returns serializable representation.
     */
 
     public function __serialize()
@@ -88,7 +88,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Restores instance from serialized data.
     * @param mixed $data
     */
 
@@ -261,7 +261,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Class definition treatment.
     */
 
     static function ClassDefinitionTreatment(){
@@ -310,7 +310,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Eval class style.
     */
 
     public function evalClassStyle()
@@ -328,7 +328,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Returns Keys.
     */
 
     public function getKeys()
@@ -352,7 +352,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Returns Reg Class.
     */
 
     public static function GetRegClass()
@@ -361,7 +361,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     * @return string
     */
@@ -401,7 +401,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Css Child.
     * @param mixed $v
     */
 
@@ -422,7 +422,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Removes.
     * @param mixed $class
     */
 
@@ -436,7 +436,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Sets Classes.
     * @param mixed $expression
     */
 
@@ -450,7 +450,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Un reg class.
     * @param mixed $key
     */
 
@@ -460,7 +460,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     }
 
     /**
-    * auto generate doc.
+    * Checks if a dynamic property is set.
     * @param mixed $name
     */
 

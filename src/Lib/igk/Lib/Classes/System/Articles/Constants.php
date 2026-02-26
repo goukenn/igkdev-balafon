@@ -10,7 +10,7 @@ namespace IGK\System\Articles;
 class Constants{
 
     /**
-    * auto generate doc.
+    * Constant: raw.
     * @var mixed
     */
     const RAW = Constants::RAW_VAR;

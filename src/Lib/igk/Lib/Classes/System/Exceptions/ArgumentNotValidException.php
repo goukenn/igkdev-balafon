@@ -8,7 +8,7 @@ use IGKException;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Argument not valid exception.
 * @package IGK\System\Exceptions
 */
 class ArgumentNotValidException extends IGKException{

@@ -61,7 +61,7 @@ class ActionScaffold extends ScaffoldBase
     }
 
     /**
-    * auto generate doc.
+    * Runs.
     * @param mixed $command
     * @param null|mixed $controller
     * @param null|string $name

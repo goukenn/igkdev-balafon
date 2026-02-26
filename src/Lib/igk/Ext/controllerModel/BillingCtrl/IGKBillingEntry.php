@@ -8,31 +8,31 @@
 use IGK\Controllers\NonAtomicTypeBase;
 
 /**
-* auto generate doc.
+* Igkbilling entry.
 */
 final class IGKBillingEntry
 {
 
     /**
-    * auto generate doc.
+    * Identifier: cl id.
     * @var mixed
     */
     var $clId;
 
     /**
-    * auto generate doc.
+    * Identifier: cl uid.
     * @var mixed
     */
     var $clUId;
 
     /**
-    * auto generate doc.
+    * Property: cl date.
     * @var mixed
     */
     var $clDate;
 
     /**
-    * auto generate doc.
+    * Count: cl total amount.
     * @var mixed
     */
     var $clTotalAmount;

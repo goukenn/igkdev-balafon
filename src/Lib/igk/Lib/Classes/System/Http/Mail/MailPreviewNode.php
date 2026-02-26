@@ -22,25 +22,25 @@ class MailPreviewNode extends HtmlNode
     use HostableItemTrait;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = 'div';
 
     /**
-    * auto generate doc.
+    * Property: theme resolver.
     * @var mixed
     */
     private $m_theme_resolver;
 
     /**
-    * auto generate doc.
+    * Collection of resolved list.
     * @var mixed
     */
     var $resolvedList = [];
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {
@@ -50,7 +50,7 @@ class MailPreviewNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Returns Rendered Childs.
     * @param null|mixed $options
     */
     public function getRenderedChilds($options = null)

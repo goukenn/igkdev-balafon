@@ -10,7 +10,7 @@ namespace IGK\System\IO\Printer;
 abstract class PrintDocumentBase{
 
     /**
-    * auto generate doc.
+    * Property: printer.
     * @var mixed
     */
     protected $printer;
@@ -25,7 +25,7 @@ abstract class PrintDocumentBase{
     }
 
     /**
-    * auto generate doc.
+    * Prints Pdf.
     */
     public function printPdf(){
         $this->generateDocument($this->printer);
@@ -40,14 +40,14 @@ abstract class PrintDocumentBase{
     protected abstract function generateDocument(IPrinterService $printer);
 
     /**
-    * auto generate doc.
+    * Header.
     * @param IPrinterService $printer
     */
     protected function header(IPrinterService $printer){
     }
 
     /**
-    * auto generate doc.
+    * Footer.
     * @param IPrinterService $printer
     */
     protected function footer(IPrinterService $printer){

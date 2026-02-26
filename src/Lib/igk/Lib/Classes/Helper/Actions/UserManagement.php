@@ -13,7 +13,7 @@ use ReflectionMethod;
 class UserManagement{
 
     /**
-    * auto generate doc.
+    * Post.
     * @param mixed $name
     * @param null|mixed $args
     */
@@ -26,7 +26,7 @@ class UserManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param mixed $name
     * @param null|mixed $args
     */
@@ -39,7 +39,7 @@ class UserManagement{
     }
 
     /**
-    * auto generate doc.
+    * Block post.
     * @param Users $user
     */
     public function block_post( Users $user){
@@ -49,7 +49,7 @@ class UserManagement{
     }
 
     /**
-    * auto generate doc.
+    * Enables post.
     * @param Users $user
     */
     public function enable_post( Users $user){

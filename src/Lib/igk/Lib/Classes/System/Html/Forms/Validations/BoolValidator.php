@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Forms\Validations;
 
 /**
-* auto generate doc.
+* Bool validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class BoolValidator extends FormFieldValidatorBase implements IFormValidator{

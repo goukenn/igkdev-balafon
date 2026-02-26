@@ -6,19 +6,19 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html notify toast response.
 * @package IGK\System\Html\Dom
 */
 class HtmlNotifyToastResponse extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of notifyname.
     * @var mixed
     */
     private $m_notifyname;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "notify:toast";

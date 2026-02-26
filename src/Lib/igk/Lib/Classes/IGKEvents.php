@@ -24,31 +24,31 @@ class IGKEvents extends IGKObject
     use UserCommunityAuthenticationTrait;
 
     /**
-    * auto generate doc.
+    * Constant: on before exit.
     * @var mixed
     */
     const ON_BEFORE_EXIT = "sys://event/onbeforeexit";
 
     /**
-    * auto generate doc.
+    * Constant: hook sess start.
     * @var mixed
     */
     const HOOK_SESS_START = "sys_session_start";
 
     /**
-    * auto generate doc.
+    * Constant: hook sys init config.
     * @var mixed
     */
     const HOOK_SYS_INIT_CONFIG = 'sys://init_config';
 
     /**
-    * auto generate doc.
+    * Constant: hook preprocess command line.
     * @var mixed
     */
     const HOOK_PREPROCESS_COMMAND_LINE = 'sys://cli/preprocess-command-line';
 
     /**
-    * auto generate doc.
+    * Constant: hook init web app library.
     * @var mixed
     */
     const HOOK_INIT_WEB_APP_LIBRARY = 'sys://webapplication/init_library';
@@ -61,37 +61,37 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook app shutdown.
     * @var mixed
     */
     const HOOK_APP_SHUTDOWN = 'app_shutdown';
 
     /**
-    * auto generate doc.
+    * Constant: hook app presentation.
     * @var mixed
     */
     const HOOK_APP_PRESENTATION = 0xa01;
 
     /**
-    * auto generate doc.
+    * Constant: hook app boot.
     * @var mixed
     */
     const HOOK_APP_BOOT = "sys://app_boot";
 
     /**
-    * auto generate doc.
+    * Constant: hook app setting reset.
     * @var mixed
     */
     const HOOK_APP_SETTING_RESET = "app_setting_reset";
 
     /**
-    * auto generate doc.
+    * Constant: hook app clean cache.
     * @var mixed
     */
     const HOOK_APP_CLEAN_CACHE = 'sys://cache/clear';
 
     /**
-    * auto generate doc.
+    * Constant: hook lang changed.
     * @var mixed
     */
     const HOOK_LANG_CHANGED = 'sys://lang/changed';
@@ -100,43 +100,43 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook command.
     * @var mixed
     */
     const HOOK_COMMAND = 'sys_commnand';
 
     /**
-    * auto generate doc.
+    * Constant: hook init app.
     * @var mixed
     */
     const HOOK_INIT_APP = "sys://hook/init_app";
 
     /**
-    * auto generate doc.
+    * Constant: hook before init app.
     * @var mixed
     */
     const HOOK_BEFORE_INIT_APP = "sys://hook/before_init_app";
 
     /**
-    * auto generate doc.
+    * Constant: hook after init app.
     * @var mixed
     */
     const HOOK_AFTER_INIT_APP = "sys://hook/after_init_app";
 
     /**
-    * auto generate doc.
+    * Constant: hook cache res created.
     * @var mixed
     */
     const HOOK_CACHE_RES_CREATED = "CacheResourceCreated";
 
     /**
-    * auto generate doc.
+    * Constant: hook css reg.
     * @var mixed
     */
     const HOOK_CSS_REG = "css_class_reg";
 
     /**
-    * auto generate doc.
+    * Constant: hook terminate.
     * @var mixed
     */
     const HOOK_TERMINATE = "sys_.terminate";
@@ -145,109 +145,109 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook db data entry.
     * @var mixed
     */
     const HOOK_DB_DATA_ENTRY = "db_dataentry";
 
     /**
-    * auto generate doc.
+    * Constant: hook db init start.
     * @var mixed
     */
     const HOOK_DB_INIT_START = "db_init_start";
 
     /**
-    * auto generate doc.
+    * Constant: hook db init complete.
     * @var mixed
     */
     const HOOK_DB_INIT_COMPLETE = "db_init_complete";
 
     /**
-    * auto generate doc.
+    * Constant: hook db init entries.
     * @var mixed
     */
     const HOOK_DB_INIT_ENTRIES = "db_init_entries";
 
     /**
-    * auto generate doc.
+    * Constant: hook db tablecreated.
     * @var mixed
     */
     const HOOK_DB_TABLECREATED = "db_table_created";
 
     /**
-    * auto generate doc.
+    * Constant: hook db post group.
     * @var mixed
     */
     const HOOK_DB_POST_GROUP = "db_post_db_create_database_list";
 
     /**
-    * auto generate doc.
+    * Constant: hook db caches initialized.
     * @var mixed
     */
     const HOOK_DB_CACHES_INITIALIZED = "db_cache_initialized";
 
     /**
-    * auto generate doc.
+    * Constant: hook db insert.
     * @var mixed
     */
     const HOOK_DB_INSERT = 'db_data_inserted';
 
     /**
-    * auto generate doc.
+    * Constant: hook html before render doc.
     * @var mixed
     */
     const HOOK_HTML_BEFORE_RENDER_DOC = "html_before_render_doc";
 
     /**
-    * auto generate doc.
+    * Constant: hook html after render body.
     * @var mixed
     */
     const HOOK_HTML_AFTER_RENDER_BODY = "html_after_render_body";
 
     /**
-    * auto generate doc.
+    * Constant: hook html body.
     * @var mixed
     */
     const HOOK_HTML_BODY = "html_body";
 
     /**
-    * auto generate doc.
+    * Constant: hook html footer.
     * @var mixed
     */
     const HOOK_HTML_FOOTER = "html_footer";
 
     /**
-    * auto generate doc.
+    * Constant: hook html head.
     * @var mixed
     */
     const HOOK_HTML_HEAD = "html_head";
 
     /**
-    * auto generate doc.
+    * Constant: hook html meta.
     * @var mixed
     */
     const HOOK_HTML_META = "html_meta";
 
     /**
-    * auto generate doc.
+    * Constant: hook html pre filter attribute.
     * @var mixed
     */
     const HOOK_HTML_PRE_FILTER_ATTRIBUTE = "html_prefilter_attribute";
 
     /**
-    * auto generate doc.
+    * Constant: hook html loading context register.
     * @var mixed
     */
     const HOOK_HTML_LOADING_CONTEXT_REGISTER = 'html_context_register';
 
     /**
-    * auto generate doc.
+    * Constant: hook pagefolder changed.
     * @var mixed
     */
     const HOOK_PAGEFOLDER_CHANGED = "sys_pagefolder";
 
     /**
-    * auto generate doc.
+    * Constant: hook scripts.
     * @var mixed
     */
     const HOOK_SCRIPTS = "html_load_scripts";
@@ -256,55 +256,55 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook user added.
     * @var mixed
     */
     const HOOK_USER_ADDED = "sys_user_added";
 
     /**
-    * auto generate doc.
+    * Constant: hook user exists.
     * @var mixed
     */
     const HOOK_USER_EXISTS = "sys_user_exists";
 
     /**
-    * auto generate doc.
+    * Constant: hook user login.
     * @var mixed
     */
     const HOOK_USER_LOGIN = "sys_user_login";
 
     /**
-    * auto generate doc.
+    * Constant: hook user logout.
     * @var mixed
     */
     const HOOK_USER_LOGOUT = "sys_user_logout";
 
     /**
-    * auto generate doc.
+    * Constant: hook user activated.
     * @var mixed
     */
     const HOOK_USER_ACTIVATED = "sys_user_status_changed";
 
     /**
-    * auto generate doc.
+    * Constant: hook user delete.
     * @var mixed
     */
     const HOOK_USER_DELETE = "sys_user_delete"; // just make it inactive
 
     /**
-    * auto generate doc.
+    * Constant: hook user drop.
     * @var mixed
     */
     const HOOK_USER_DROP = "sys_user_drop"; // full user removed
 
     /**
-    * auto generate doc.
+    * Constant: hook user clean.
     * @var mixed
     */
     const HOOK_USER_CLEAN = 'sys_user_clean'; // clean user data for database
 
     /**
-    * auto generate doc.
+    * Constant: hook find user.
     * @var mixed
     */
     const HOOK_FIND_USER = 'sys_user_find_user_by_value';
@@ -313,79 +313,79 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook db start drop table.
     * @var mixed
     */
     const HOOK_DB_START_DROP_TABLE = 'sys://db/startdroptable';
 
     /**
-    * auto generate doc.
+    * Constant: hook db rename column.
     * @var mixed
     */
     const HOOK_DB_RENAME_COLUMN = 'sys://db/rename_column';
 
     /**
-    * auto generate doc.
+    * Constant: hook db migrate.
     * @var mixed
     */
     const HOOK_DB_MIGRATE = 'sys://db/migrate'; // event: ['ctrl'=>$ctrl,'type'=>'init', 'data'=>$r]
 
     /**
-    * auto generate doc.
+    * Constant: hook action will do action.
     * @var mixed
     */
     const HOOK_ACTION_WILL_DO_ACTION = 'sys://action/willDoAction';
 
     /**
-    * auto generate doc.
+    * Constant: hook action do action.
     * @var mixed
     */
     const HOOK_ACTION_DO_ACTION = 'sys://action/doAction';
 
     /**
-    * auto generate doc.
+    * Constant: hook action did action.
     * @var mixed
     */
     const HOOK_ACTION_DID_ACTION = 'sys://action/didDoAction';
 
     /**
-    * auto generate doc.
+    * Constant: hook mk link.
     * @var mixed
     */
     const HOOK_MK_LINK = "generateLink";
 
     /**
-    * auto generate doc.
+    * Constant: user pwd changed.
     * @var mixed
     */
     const USER_PWD_CHANGED = "user pwd changed";
 
     /**
-    * auto generate doc.
+    * Constant: hook model init.
     * @var mixed
     */
     const HOOK_MODEL_INIT = "db_init_model_macros";
 
     /**
-    * auto generate doc.
+    * Constant: hook autload class.
     * @var mixed
     */
     const HOOK_AUTLOAD_CLASS = "sys_autoload_class";
 
     /**
-    * auto generate doc.
+    * Constant: hook view mode changed.
     * @var mixed
     */
     const HOOK_VIEW_MODE_CHANGED = "config_view_mode_changed";
 
     /**
-    * auto generate doc.
+    * Constant: hook config ctrl.
     * @var mixed
     */
     const HOOK_CONFIG_CTRL = "config_get_configs";
 
     /**
-    * auto generate doc.
+    * Constant: hook debugger view.
     * @var mixed
     */
     const HOOK_DEBUGGER_VIEW = "debugger_view";
@@ -394,13 +394,13 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook controller init complete.
     * @var mixed
     */
     const HOOK_CONTROLLER_INIT_COMPLETE = "on_controller_init_complete";
 
     /**
-    * auto generate doc.
+    * Constant: hook controler loaded.
     * @var mixed
     */
     const HOOK_CONTROLER_LOADED = 'on_controller_loaded';
@@ -409,67 +409,67 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook init view.
     * @var mixed
     */
     const HOOK_INIT_VIEW =  'on_init_view';
 
     /**
-    * auto generate doc.
+    * Constant: hook init inc view.
     * @var mixed
     */
     const HOOK_INIT_INC_VIEW = 'on_init_inc_view';
 
     /**
-    * auto generate doc.
+    * Constant: hook force view.
     * @var mixed
     */
     const HOOK_FORCE_VIEW = "doc_force_view";
 
     /**
-    * auto generate doc.
+    * Constant: hook ajx end response.
     * @var mixed
     */
     const HOOK_AJX_END_RESPONSE = "ajx_end_reponse";
 
     /**
-    * auto generate doc.
+    * Constant: hook log append.
     * @var mixed
     */
     const HOOK_LOG_APPEND = "sys_log_append_msg";
 
     /**
-    * auto generate doc.
+    * Constant: hook install site.
     * @var mixed
     */
     const HOOK_INSTALL_SITE = "sys_install_site";
 
     /**
-    * auto generate doc.
+    * Constant: hook init global material filter.
     * @var mixed
     */
     const HOOK_INIT_GLOBAL_MATERIAL_FILTER = "sys_init_gobal_material_filter";
 
     /**
-    * auto generate doc.
+    * Constant: hook mail register.
     * @var mixed
     */
     const HOOK_MAIL_REGISTER = "sys_hook_mail_register";
 
     /**
-    * auto generate doc.
+    * Constant: p subdomain priority.
     * @var mixed
     */
     const P_SUBDOMAIN_PRIORITY = 0;
 
     /**
-    * auto generate doc.
+    * Constant: p session priority.
     * @var mixed
     */
     const P_SESSION_PRIORITY = 100;
 
     /**
-    * auto generate doc.
+    * Creates Hook Options.
     * @return IHookOptions
     */
     public static function CreateHookOptions(): IHookOptions
@@ -482,13 +482,13 @@ class IGKEvents extends IGKObject
     const HOOK_BIND_CTRL_CSS = "css_bind_ctrl_style";
 
     /**
-    * auto generate doc.
+    * Constant: env key.
     * @var mixed
     */
     const ENV_KEY = "sys://hooks";
 
     /**
-    * auto generate doc.
+    * Constant: hook dom property changed.
     * @var mixed
     */
     const HOOK_DOM_PROPERTY_CHANGED = "dom_property_changed";
@@ -498,7 +498,7 @@ class IGKEvents extends IGKObject
     const FILTER_CREATED_NODE = "post_filter_node";
 
     /**
-    * auto generate doc.
+    * Constant: filter db schema info.
     * @var mixed
     */
     const FILTER_DB_SCHEMA_INFO = "filter_db_schema_info";
@@ -508,19 +508,19 @@ class IGKEvents extends IGKObject
     const FILTER_PRE_CREATE_ELEMENT = "pre_filter_node";
 
     /**
-    * auto generate doc.
+    * Constant: filter post create element.
     * @var mixed
     */
     const FILTER_POST_CREATE_ELEMENT = "post_filter_node";
 
     /**
-    * auto generate doc.
+    * Constant: filter config menu.
     * @var mixed
     */
     const FILTER_CONFIG_MENU = 'filter_config_menu';
 
     /**
-    * auto generate doc.
+    * Constant: filter auth type.
     * @var mixed
     */
     const FILTER_AUTH_TYPE = 'filter_user_auth_type';
@@ -534,43 +534,43 @@ class IGKEvents extends IGKObject
     const COMMAND_HELP_OPTIONS_HOOK = 'command:help/options';
 
     /**
-    * auto generate doc.
+    * Constant: command help hook.
     * @var mixed
     */
     const COMMAND_HELP_HOOK = 'command:help';
 
     /**
-    * auto generate doc.
+    * Constant: hook middleware action.
     * @var mixed
     */
     const HOOK_MIDDLEWARE_ACTION = 'MiddleWareAction';
 
     /**
-    * auto generate doc.
+    * Constant: hook check middleware access token.
     * @var mixed
     */
     const HOOK_CHECK_MIDDLEWARE_ACCESS_TOKEN = 'MiddleWareAction:/CheckAccessToken';
 
     /**
-    * auto generate doc.
+    * Constant: hook on module added.
     * @var mixed
     */
     const HOOK_ON_MODULE_ADDED = 'command:/module/added';
 
     /**
-    * auto generate doc.
+    * Constant: hook user authenticate.
     * @var mixed
     */
     const HOOK_USER_AUTHENTICATE = 'sys:/user/authenticate';
 
     /**
-    * auto generate doc.
+    * Constant: hook auth user by community.
     * @var mixed
     */
     const HOOK_AUTH_USER_BY_COMMUNITY = 'authentication://community-request';
 
     /**
-    * auto generate doc.
+    * Constant: filter list auth type.
     * @var mixed
     */
     const FILTER_LIST_AUTH_TYPE = 'filter://authentication_type';
@@ -585,7 +585,7 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook winui setting menu.
     * @var mixed
     */
     const HOOK_WINUI_SETTING_MENU = 'sys://user/settings/menu';
@@ -596,43 +596,43 @@ class IGKEvents extends IGKObject
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: hook module did init module.
     * @var mixed
     */
     const HOOK_MODULE_DID_INIT_MODULE = 'sys://module/didInitModule';
 
     /**
-    * auto generate doc.
+    * Constant: viewcomplete.
     * @var mixed
     */
     const VIEWCOMPLETE = 0x1;
 
     /**
-    * auto generate doc.
+    * Constant: hook crunjob.
     * @var mixed
     */
     const HOOK_CRUNJOB = 'on_do_cronjob';
 
     /**
-    * auto generate doc.
+    * Property: methods.
     * @var mixed
     */
     private $m_methods;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     private $m_name;
 
     /**
-    * auto generate doc.
+    * Property: owner.
     * @var mixed
     */
     private $m_owner;
 
     /**
-    * auto generate doc.
+    * Property: singlemethod.
     * @var mixed
     */
     private $m_singlemethod;

@@ -16,7 +16,7 @@ use IGK\Tests\BaseTestCase;
 class DbColumnInfoTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests dbcolumninfo createlength.
     */
     function test_dbcolumninfo_createlength(){
         $g = new DbColumnInfo([
@@ -40,7 +40,7 @@ class DbColumnInfoTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests dbcolumninfo link column definition.
     */
     public function test_dbcolumninfo_link_column_definition(){
         $g = new DbColumnInfo([
@@ -53,7 +53,7 @@ class DbColumnInfoTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests dbcolumninfo column not null.
     */
     public function test_dbcolumninfo_column_not_null(){
         $g = new DbColumnInfo([

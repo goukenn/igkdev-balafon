@@ -24,7 +24,7 @@ class HtmlImgNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Creates Attribute Array.
     */
     protected function createAttributeArray(){ 
         return new HtmlAttributeArray([
@@ -53,7 +53,7 @@ class HtmlImgNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Src.
     */
     public function getSrc(){
         return $this["src"]->value;

@@ -42,13 +42,13 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     private $m_tbcontrollers;
 
     /**
-    * auto generate doc.
+    * Property: init event.
     * @var mixed
     */
     private $m_initEvent;
 
     /**
-    * auto generate doc.
+    * Property: register.
     * @var mixed
     */
     private $m_register;
@@ -74,7 +74,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      }
 
     /**
-    * auto generate doc.
+    * Returns Registrated Named Controller.
     * @param string $name
     * @return ?BaseController
     */
@@ -83,20 +83,20 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      }
 
     /**
-    * auto generate doc.
+    * Registers Named Controller.
     * @param string $name
     * @param BaseController $controller
     */
     public function registerNamedController(string $name, BaseController $controller) { }
 
     /**
-    * auto generate doc.
+    * Returns Default Controller.
     * @return ?BaseController
     */
     public function getDefaultController(): ?BaseController { return null; }
 
     /**
-    * auto generate doc.
+    * Sets Default Controller.
     * @param null|BaseController $controller
     */
     public function setDefaultController(?BaseController $controller) { }
@@ -415,7 +415,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     //  */
 
     /**
-    * auto generate doc.
+    * Returns Controller Ref.
     * @return ?array
     */
     public function & getControllerRef(): ?array
@@ -446,7 +446,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
 
     /**
-    * auto generate doc.
+    * Complete.
     */
     public function complete(){
         $this->m_complete = true;
@@ -1055,7 +1055,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
 
     /**
-    * auto generate doc.
+    * Initializes Controller.
     * @param mixed $ctrlname
     */
     public static function InitController($ctrlname)
@@ -1074,7 +1074,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
 
     /**
-    * auto generate doc.
+    * Returns System Controller.
     * @param mixed $n
     */
     public static function GetSystemController($n)
@@ -1089,7 +1089,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
 
     /**
-    * auto generate doc.
+    * Returns Registery Controller.
     */
     public static function GetRegisteryController()
     {
@@ -1110,7 +1110,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     }
 
     /**
-    * auto generate doc.
+    * Returns Resolv Name.
     * @param mixed $class
     */
     public static function GetResolvName($class)

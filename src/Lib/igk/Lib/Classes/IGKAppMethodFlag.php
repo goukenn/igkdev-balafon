@@ -9,7 +9,7 @@
 class IGKAppMethodFlag{
 
     /**
-    * auto generate doc.
+    * Property: f.
     * @var mixed
     */
     private $m_f;

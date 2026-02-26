@@ -14,7 +14,7 @@ use IGK\System\Models\IModelDefinitionInfo;
 include_once __DIR__."/IGKBillingConstants.php";
 
 /**
-* auto generate doc.
+* Igkbilling details ctrl.
 */
 final class IGKBillingDetailsCtrl extends NonAtomicTypeBase //first non atomic data
 {

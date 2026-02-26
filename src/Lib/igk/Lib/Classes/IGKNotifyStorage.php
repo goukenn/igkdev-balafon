@@ -11,24 +11,24 @@ use IGK\System\Exceptions\OperationNotAllowedException;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Igknotify storage.
 */
 class IGKNotifyStorage{
 
     /**
-    * auto generate doc.
+    * Properties: name, tab.
     * @var mixed
     */
     private $m_name, $tab;
 
     /**
-    * auto generate doc.
+    * Property: autohide.
     * @var mixed
     */
     private $m_autohide;
 
     /**
-    * auto generate doc.
+    * Handles calls to undefined methods.
     * @param mixed $name
     * @param mixed $args
     */
@@ -48,7 +48,7 @@ class IGKNotifyStorage{
     private function __construct(){    }
 
     /**
-    * auto generate doc.
+    * Adds Danger.
     * @param mixed $msg
     */
 
@@ -57,7 +57,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Adds Error.
     * @param mixed $msg
     */
 
@@ -67,7 +67,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Adds Errorr.
     * @param mixed $msg
     */
 
@@ -77,7 +77,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Adds Msg.
     * @param mixed $msg
     * @param null|string $type
     */
@@ -88,7 +88,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Adds Msgr.
     * @param mixed $msg
     */
 
@@ -98,7 +98,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Adds Success.
     * @param mixed $msg
     */
 
@@ -108,7 +108,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Adds Successr.
     * @param mixed $msg
     */
 
@@ -118,7 +118,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Adds Warning.
     * @param mixed $msg
     */
 
@@ -128,7 +128,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Adds Warningr.
     * @param mixed $msg
     */
 
@@ -138,7 +138,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
 
     public function clear(){
@@ -147,7 +147,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param mixed & $tab
     * @param mixed $name
     */
@@ -165,7 +165,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     */
 
     public function getName(){
@@ -181,7 +181,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Renders AJX.
     * @param null|mixed & $options
     */
 
@@ -190,7 +190,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Sets Autohide.
     * @param bool $hide
     */
 
@@ -200,7 +200,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Returns Autohide.
     */
 
     public function getAutohide(){
@@ -208,7 +208,7 @@ class IGKNotifyStorage{
     }
 
     /**
-    * auto generate doc.
+    * Sets Response.
     * @param array $data
     */
 

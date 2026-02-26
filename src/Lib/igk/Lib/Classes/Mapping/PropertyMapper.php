@@ -10,13 +10,13 @@ namespace IGK\Mapping;
 class PropertyMapper{
 
     /**
-    * auto generate doc.
+    * Property: property.
     * @var mixed
     */
     var $property;
 
     /**
-    * auto generate doc.
+    * Property: default.
     * @var mixed
     */
     var $default;
@@ -30,7 +30,7 @@ class PropertyMapper{
     }
 
     /**
-    * auto generate doc.
+    * Map.
     * @param mixed $value
     */
     public function map($value){

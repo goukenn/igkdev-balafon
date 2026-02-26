@@ -10,37 +10,37 @@ namespace IGK\System\Database;
 class DbSchemaDefinitionAttributes{
 
     /**
-    * auto generate doc.
+    * Property: author.
     * @var mixed
     */
     var $author;
 
     /**
-    * auto generate doc.
+    * Property: version.
     * @var mixed
     */
     var $version;
 
     /**
-    * auto generate doc.
+    * Property: create at.
     * @var mixed
     */
     var $createAt;
 
     /**
-    * auto generate doc.
+    * Name of controller name.
     * @var mixed
     */
     var $ControllerName;
 
     /**
-    * auto generate doc.
+    * Property: platform.
     * @var mixed
     */
     var $Platform = IGK_PLATEFORM_NAME;
 
     /**
-    * auto generate doc.
+    * Property: platform version.
     * @var mixed
     */
     var $PlatformVersion = IGK_WEBFRAMEWORK;

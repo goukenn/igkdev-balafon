@@ -10,7 +10,7 @@ use IGKException;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Pagination.
 * @package IGK\System\WinUI
 */
 class Pagination{
@@ -45,7 +45,7 @@ class Pagination{
     var $className = "igk-pagination";
 
     /**
-    * auto generate doc.
+    * Property: page query.
     * @var mixed
     */
     var $pageQuery;
@@ -124,7 +124,7 @@ class Pagination{
     }
 
     /**
-    * auto generate doc.
+    * Geta.
     * @param mixed $n
     * @param mixed $ajx
     * @param mixed $param
@@ -164,7 +164,7 @@ class Pagination{
     }
 
     /**
-    * auto generate doc.
+    * Returns Limit.
     */
 
     public function getLimit(){     

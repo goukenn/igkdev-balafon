@@ -66,7 +66,7 @@ class BalafonConfiguration{
     }
 
     /**
-    * auto generate doc.
+    * Store config.
     * @param BaseController $ctrl
     * @param mixed $config
     */

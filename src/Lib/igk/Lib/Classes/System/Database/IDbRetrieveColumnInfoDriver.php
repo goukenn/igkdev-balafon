@@ -10,7 +10,7 @@ namespace IGK\System\Database;
 interface IDbRetrieveColumnInfoDriver{
 
     /**
-    * auto generate doc.
+    * Returns Column Info.
     * @param string $table
     * @param null|string $column
     * @return array

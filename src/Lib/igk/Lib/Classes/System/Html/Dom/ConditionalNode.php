@@ -13,31 +13,31 @@ class ConditionalNode extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Constant: lower than ie9.
     * @var mixed
     */
     const LOWER_THAN_IE9 = 'if lt IE 9';
 
     /**
-    * auto generate doc.
+    * Constant: lower or equal to ie9.
     * @var mixed
     */
     const LOWER_OR_EQUAL_TO_IE9 = 'if lte IE 9';
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = "igk:condition";
 
     /**
-    * auto generate doc.
+    * Property: condition.
     * @var mixed
     */
     var $condition = "";
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {

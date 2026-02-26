@@ -12,13 +12,13 @@ use IGK\System\Number;
 use IGKObject;
 
 /**
-* auto generate doc.
+* Color.
 * @package IGK\System\Drawing
 */
 class Color extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: a, b, g, r.
     * @var mixed
     */
     private $m_A, $m_B, $m_G, $m_R;
@@ -38,7 +38,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Black.
     */
 
     public static function Black(){
@@ -46,7 +46,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * From float.
     * @param mixed $rgb
     * @param null|mixed $g
     * @param null|mixed $b
@@ -60,7 +60,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * From string.
     * @param mixed $s
     */
 
@@ -70,7 +70,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns A.
     */
 
     public function getA(){
@@ -78,7 +78,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns B.
     */
 
     public function getB(){
@@ -86,7 +86,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns G.
     */
 
     public function getG(){
@@ -94,7 +94,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns R.
     */
 
     public function getR(){
@@ -102,7 +102,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets A.
     * @param mixed $value
     */
 
@@ -112,7 +112,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets B.
     * @param mixed $value
     */
 
@@ -122,7 +122,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets G.
     * @param mixed $value
     */
 
@@ -132,7 +132,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets R.
     * @param mixed $value
     */
 
@@ -158,7 +158,7 @@ class Color extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * White.
     */
 
     public static function White(){

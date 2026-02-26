@@ -11,13 +11,13 @@ use IGK\Controllers\BaseController;
 use IGKSysUtil;
 
 /**
-* auto generate doc.
+* Igksys utils test.
 * @package IGK\Tests
 */
 class IGKSysUtilsTest extends BaseTestCase  {
 
     /**
-    * auto generate doc.
+    * Tests resolv type name.
     */
     public function test_resolv_type_name(){
        $t= IGKSysUtil::GetModelTypeName( "%prefix%_dummy", DummySysUtilController::ctrl());
@@ -40,7 +40,7 @@ class IGKSysUtilsTest extends BaseTestCase  {
    }
 
     /**
-    * auto generate doc.
+    * Tests resolve Table Name.
     */
     public function test_resolveTableName(){
     $t= IGKSysUtil::DBGetTableName(
@@ -54,13 +54,13 @@ class IGKSysUtilsTest extends BaseTestCase  {
 }
 
 /**
-* auto generate doc.
+* Dummy sys util controller.
 * @package IGK\Tests
 */
 class DummySysUtilController extends BaseController{
 
     /**
-    * auto generate doc.
+    * Returns Entry Name Space.
     */
     protected function getEntryNameSpace(){
         return __NAMESPACE__;

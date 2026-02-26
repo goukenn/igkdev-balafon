@@ -26,7 +26,7 @@ class HtmlBindingRawTransform
     var $pipe;
 
     /**
-    * auto generate doc.
+    * Property: root context.
     * @var mixed
     */
     var $root_context;

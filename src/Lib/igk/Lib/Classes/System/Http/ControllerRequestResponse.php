@@ -12,13 +12,13 @@ use IGK\Controllers\BaseController;
 class ControllerRequestResponse extends RequestResponse{
 
     /**
-    * auto generate doc.
+    * Property: uri.
     * @var mixed
     */
     var $uri;
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
@@ -35,7 +35,7 @@ class ControllerRequestResponse extends RequestResponse{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     public function render() { 
     }

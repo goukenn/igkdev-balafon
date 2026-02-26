@@ -10,7 +10,7 @@ namespace IGK\System;
 interface IArrayKeyExists{
 
     /**
-    * auto generate doc.
+    * Key exists.
     * @param string $name
     * @return bool
     */

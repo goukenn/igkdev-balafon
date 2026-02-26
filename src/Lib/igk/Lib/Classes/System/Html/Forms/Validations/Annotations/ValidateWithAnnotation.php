@@ -18,7 +18,7 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
 {
 
     /**
-    * auto generate doc.
+    * Property: validator.
     * @var mixed
     */
     private $m_validator;
@@ -78,7 +78,7 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
     }
 
     /**
-    * auto generate doc.
+    * Sets Params.
     * @param array $params
     */
     public function setParams(array $params)
@@ -102,7 +102,7 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
     }
 
     /**
-    * auto generate doc.
+    * Sets Type.
     * @param null|string $type
     */
     public function setType(?string $type=null){

@@ -15,31 +15,31 @@ abstract class RegexMatcherUtility
 {
 
     /**
-    * auto generate doc.
+    * Constant: regex option.
     * @var mixed
     */
     const REGEX_OPTION = RegexMatcherContainer::REGEX_OPTION;
 
     /**
-    * auto generate doc.
+    * Constant: regex movement capture.
     * @var mixed
     */
     const REGEX_MOVEMENT_CAPTURE  = "/(|)?\(\?(=|<|!).+?[^\\\]\)(|)?/";
 
     /**
-    * auto generate doc.
+    * Constant: regex empty line.
     * @var mixed
     */
     const REGEX_EMPTY_LINE = '^\\h*(?=\\n)';
 
     /**
-    * auto generate doc.
+    * Constant: regex capture replace.
     * @var mixed
     */
     const REGEX_CAPTURE_REPLACE = "/^\\s*(.+)\\s*$/";
 
     /**
-    * auto generate doc.
+    * Escape char list.
     * @param array $list
     */
     public static function EscapeCharList(array $list){
@@ -237,7 +237,7 @@ abstract class RegexMatcherUtility
     }
 
     /**
-    * auto generate doc.
+    * Extracts First.
     * @param string $match
     * @param RegexMatcherContainer $ref
     * @param mixed & $pos

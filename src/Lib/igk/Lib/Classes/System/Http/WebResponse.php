@@ -19,7 +19,7 @@ class WebResponse extends RequestResponse
 {
 
     /**
-    * auto generate doc.
+    * Property: node.
     * @var mixed
     */
     private $node;
@@ -30,7 +30,7 @@ class WebResponse extends RequestResponse
     var $cache;
 
     /**
-    * auto generate doc.
+    * Property: headers.
     * @var mixed
     */
     public $headers = [
@@ -54,7 +54,7 @@ class WebResponse extends RequestResponse
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     public function render()
     {

@@ -17,13 +17,13 @@ class ActionGroupComponent extends WebComponent{
     use ActivableTrait;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = 'div';
 
     /**
-    * auto generate doc.
+    * Fields.
     * @param array $items
     * @param null|mixed $options
     */
@@ -36,7 +36,7 @@ class ActionGroupComponent extends WebComponent{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {

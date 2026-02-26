@@ -25,7 +25,7 @@ class RegexHelper{
     }
 
     /**
-    * auto generate doc.
+    * Escape.
     * @param string $value
     */
     public static function Escape(string $value){

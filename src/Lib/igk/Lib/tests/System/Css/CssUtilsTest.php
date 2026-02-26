@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class CssUtilsTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests detected operator.
     */
     public function test_detected_operator(){
         $tabs = CssUtils::GetClassValues("-value +info");
@@ -26,7 +26,7 @@ class CssUtilsTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests remove transform.
     */
     public function test_remove_transform(){
         $v =  'color:[cl:red]; [trans:2.s ease] display:block';
@@ -36,7 +36,7 @@ class CssUtilsTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests remove transform before.
     */
     public function test_remove_transform_before(){
         $v =  'color:blue; border: 1px    solid [cl:red]; display:block';
@@ -47,7 +47,7 @@ class CssUtilsTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssutils remove transform litteral style.
     */
     public function test_cssutils_remove_transform_litteral_style(){
         $v ="{sys:posab, fitw} margin-top:-10px; {sys:flex}  content:'{present   day}'; [trans: .5s all    ease-out]  color:indigo;"; 
@@ -56,7 +56,7 @@ class CssUtilsTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssutils check default style.
     */
     public function test_cssutils_check_default_style(){
         $v ="{sys:posab, fitw} margin-top:-10px; visibility: hidden; [trans: .5s all ease-out] opacity:0; left:0px; right:0px; z-index: 100; min-height: 80px; background-color: [cl:menuLayerBackground,#222a];"; 
@@ -65,7 +65,7 @@ class CssUtilsTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests check default in string style.
     */
     public function test_check_default_in_string_style(){
         $v ="m:['sys: -10px;'];"; 

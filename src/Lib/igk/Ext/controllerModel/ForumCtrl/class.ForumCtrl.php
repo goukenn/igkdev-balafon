@@ -10,7 +10,7 @@ USED TO ADD A FORUM ON A plateform CONTROLLER
 */
 
 /**
-* auto generate doc.
+* Igkforum ctrl.
 */
 abstract class IGKForumCtrl  extends \IGK\Controllers\ControllerTypeBase
 {

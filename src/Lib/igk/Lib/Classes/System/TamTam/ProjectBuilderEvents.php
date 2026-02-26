@@ -10,19 +10,19 @@ namespace IGK\System\TamTam;
 abstract class ProjectBuilderEvents{
 
     /**
-    * auto generate doc.
+    * Constant: before build.
     * @var mixed
     */
     const BEFORE_BUILD = 'BEFORE_GRAPH_BUILD';
 
     /**
-    * auto generate doc.
+    * Constant: build.
     * @var mixed
     */
     const BUILD = 'GRAPH_BUILD';
 
     /**
-    * auto generate doc.
+    * Constant: after build.
     * @var mixed
     */
     const AFTER_BUILD = 'AFTER_GRAPHBUILD';

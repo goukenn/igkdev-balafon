@@ -11,7 +11,7 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/IHtmlScript.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlResolvLinkValue.php";
 
 /**
-* auto generate doc.
+* Html script node.
 * @package IGK\System\Html\Dom
 */
 class HtmlScriptNode extends HtmlNode implements IHtmlScript{
@@ -22,7 +22,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     protected $tagname = "script";
 
     /**
-    * auto generate doc.
+    * Property: link.
     * @var mixed
     */
     protected $link;
@@ -33,37 +33,37 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     protected $version;
 
     /**
-    * auto generate doc.
+    * Constant: accept.
     * @var mixed
     */
     const ACCEPT=0xb3;
 
     /**
-    * auto generate doc.
+    * Constant: canmerge link.
     * @var mixed
     */
     const CANMERGE_LINK=0xb2;
 
     /**
-    * auto generate doc.
+    * Constant: not singleview.
     * @var mixed
     */
     const NOT_SINGLEVIEW=0xb4;
 
     /**
-    * auto generate doc.
+    * Constant: script link.
     * @var mixed
     */
     const SCRIPT_LINK=0xb1;
 
     /**
-    * auto generate doc.
+    * Constant: script tag.
     * @var mixed
     */
     const SCRIPT_TAG=0xb0;
 
     /**
-    * auto generate doc.
+    * Constant: temporary.
     * @var mixed
     */
     const TEMPORARY=0xb5;
@@ -129,7 +129,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     }
 
     /**
-    * auto generate doc.
+    * Creates Attribute Array.
     */
 
     protected function createAttributeArray(){ 
@@ -139,7 +139,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     }
 
     /**
-    * auto generate doc.
+    * Text.
     * @param string $content
     */
 
@@ -203,7 +203,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     }
 
     /**
-    * auto generate doc.
+    * Getcan load content.
     * @param mixed $value
     * @return bool
     */

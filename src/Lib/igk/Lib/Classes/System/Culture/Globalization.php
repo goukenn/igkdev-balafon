@@ -11,37 +11,37 @@ use IGK\Resources\R;
 abstract class Globalization{
 
     /**
-    * auto generate doc.
+    * Property: decimal separator.
     * @var mixed
     */
     var $decimalSeparator = '.';
 
     /**
-    * auto generate doc.
+    * Name of currency name.
     * @var mixed
     */
     var $currencyName = 'EUR';
 
     /**
-    * auto generate doc.
+    * Property: currency symbol.
     * @var mixed
     */
     var $currencySymbol = '€';
 
     /**
-    * auto generate doc.
+    * Property: format.
     * @var mixed
     */
     var $format = '%.2f';
 
     /**
-    * auto generate doc.
+    * Property: symbol post fix.
     * @var mixed
     */
     var $symbolPostFix = true;
 
     /**
-    * auto generate doc.
+    * Property: reg globals.
     * @var mixed
     */
     static $sm_regGlobals;
@@ -67,7 +67,7 @@ abstract class Globalization{
     }
 
     /**
-    * auto generate doc.
+    * From currency format.
     * @param string $format
     * @param null|string $lang
     */

@@ -21,43 +21,43 @@ class UserResponse
 {
 
     /**
-    * auto generate doc.
+    * Property: user.
     * @var mixed
     */
     var $user;
 
     /**
-    * auto generate doc.
+    * Property: groups.
     * @var mixed
     */
     var $groups;
 
     /**
-    * auto generate doc.
+    * Property: auths.
     * @var mixed
     */
     var $auths;
 
     /**
-    * auto generate doc.
+    * Property: token info.
     * @var mixed
     */
     var $token_info;
 
     /**
-    * auto generate doc.
+    * Property: message.
     * @var mixed
     */
     var $message;
 
     /**
-    * auto generate doc.
+    * Property: user app.
     * @var mixed
     */
     var $user_app;
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
@@ -66,7 +66,7 @@ class UserResponse
     }
 
     /**
-    * auto generate doc.
+    * Creates Response From User Model.
     * @param Users $user
     */
     public static function CreateResponseFromUserModel(Users $user){
@@ -94,7 +94,7 @@ class UserResponse
     }
 
     /**
-    * auto generate doc.
+    * Creates Response From System User.
     * @param BaseController $ctrl
     * @param mixed $user
     * @param null|mixed $app_user

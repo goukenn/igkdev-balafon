@@ -11,7 +11,7 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 trait ViewCompilerReadSwitchCaseTrait{
 
     /**
-    * auto generate doc.
+    * Read switch case block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -22,7 +22,7 @@ trait ViewCompilerReadSwitchCaseTrait{
     }
 
     /**
-    * auto generate doc.
+    * Read handle switch case block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -33,7 +33,7 @@ trait ViewCompilerReadSwitchCaseTrait{
     }
 
     /**
-    * auto generate doc.
+    * End handle switch case block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value

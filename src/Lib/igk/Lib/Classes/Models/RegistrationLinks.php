@@ -33,43 +33,43 @@ use IGK\Models\ModelBase;
 class RegistrationLinks extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd reg link id.
     * @var mixed
     */
     const FD_REG_LINK_ID="regLinkId";
 
     /**
-    * auto generate doc.
+    * Constant: fd reg link user guid.
     * @var mixed
     */
     const FD_REG_LINK_USER_GUID="regLinkUserGuid";
 
     /**
-    * auto generate doc.
+    * Constant: fd reg link token.
     * @var mixed
     */
     const FD_REG_LINK_TOKEN="regLinkToken";
 
     /**
-    * auto generate doc.
+    * Constant: fd reg link alive.
     * @var mixed
     */
     const FD_REG_LINK_ALIVE="regLinkAlive";
 
     /**
-    * auto generate doc.
+    * Constant: fd reg link activate.
     * @var mixed
     */
     const FD_REG_LINK_ACTIVATE="regLinkActivate";
 
     /**
-    * auto generate doc.
+    * Constant: fd reg link create at.
     * @var mixed
     */
     const FD_REG_LINK_CREATE_AT="regLinkCreate_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd reg link update at.
     * @var mixed
     */
     const FD_REG_LINK_UPDATE_AT="regLinkUpdate_At";

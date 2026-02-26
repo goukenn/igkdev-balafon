@@ -13,25 +13,25 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 class ViewExpressionDependency implements ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
 
     /**
-    * auto generate doc.
+    * Property: expression.
     * @var mixed
     */
     var $expression;
 
     /**
-    * auto generate doc.
+    * Property: eval value.
     * @var mixed
     */
     var $evalValue;
@@ -68,7 +68,7 @@ class ViewExpressionDependency implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     public function _access_OffsetGet($n){

@@ -12,7 +12,7 @@ use IGK\System\IO\Path;
 class SyncProjectSettings{
 
     /**
-    * auto generate doc.
+    * Constant: p file.
     * @var mixed
     */
     const P_FILE = '.balafon-sync.project.json';

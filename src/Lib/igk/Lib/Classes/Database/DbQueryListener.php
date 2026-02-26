@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Db query listener.
 */
 final class DbQueryListener{
 
     /**
-    * auto generate doc.
+    * Property: squery.
     * @var mixed
     */
     var $squery;
@@ -28,7 +28,7 @@ final class DbQueryListener{
     }
 
     /**
-    * auto generate doc.
+    * Sends Query.
     * @param mixed $s
     */
 

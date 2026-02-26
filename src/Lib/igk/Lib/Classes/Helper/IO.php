@@ -26,13 +26,13 @@ class IO
     use IOPathCheckerTrait;
 
     /**
-    * auto generate doc.
+    * Constant: input stream.
     * @var mixed
     */
     const INPUT_STREAM = 'php://input';
 
     /**
-    * auto generate doc.
+    * Constant: stdin stream.
     * @var mixed
     */
     const STDIN_STREAM = 'php://stdin';
@@ -49,7 +49,7 @@ class IO
     }
 
     /**
-    * auto generate doc.
+    * Resolves File Ext.
     * @param mixed $file
     * @param null|array $extensions
     */
@@ -1153,7 +1153,7 @@ class IO
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Detected Absolute Path.
     * @param string $path
     * @return bool
     */

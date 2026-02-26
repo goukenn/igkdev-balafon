@@ -17,7 +17,7 @@ use IGK\System\Http\AcceptMimeTypes;
 abstract class IGKCommunicationServerCtrl extends ApplicationController{
 
     /**
-    * auto generate doc.
+    * Constant: http accept.
     * @var mixed
     */
     const HTTP_ACCEPT= AcceptMimeTypes::EventStream;

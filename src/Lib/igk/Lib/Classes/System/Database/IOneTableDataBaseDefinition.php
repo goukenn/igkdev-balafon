@@ -12,7 +12,7 @@ use IGK\System\Models\IModelDefinitionInfo;
 interface IOneTableDataBaseDefinition extends IDataBaseDefinition{
 
     /**
-    * auto generate doc.
+    * Returns Model Definition.
     * @return IModelDefinitionInfo
     */
     public function getModelDefinition(): IModelDefinitionInfo;

@@ -15,19 +15,19 @@ class CssConstants{
     const THEME_FILE_EXT = ".theme.pcss";
 
     /**
-    * auto generate doc.
+    * Constant: theme selector prefix.
     * @var mixed
     */
     const THEME_SELECTOR_PREFIX = 'html[data-theme=';
 
     /**
-    * auto generate doc.
+    * Constant: theme selector format.
     * @var mixed
     */
     const THEME_SELECTOR_FORMAT = self::THEME_SELECTOR_PREFIX. "'%s'] ";
 
     /**
-    * auto generate doc.
+    * Constant: support theme.
     * @var mixed
     */
     const SUPPORT_THEME = 'dark|light';

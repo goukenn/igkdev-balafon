@@ -13,13 +13,13 @@
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkwin uicontrol.
 */
 abstract class IGKWinUIControl extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     private $m_id;

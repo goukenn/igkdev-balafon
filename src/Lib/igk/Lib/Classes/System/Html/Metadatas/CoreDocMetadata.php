@@ -13,115 +13,115 @@ use ReflectionProperty;
 class CoreDocMetadata extends MetadataGroupEntryBase{
 
     /**
-    * auto generate doc.
+    * Name of application name.
     * @var mixed
     */
     var $applicationName;
 
     /**
-    * auto generate doc.
+    * Property: generator.
     * @var mixed
     */
     var $generator;
 
     /**
-    * auto generate doc.
+    * Property: theme color.
     * @var mixed
     */
     var $themeColor;
 
     /**
-    * auto generate doc.
+    * Property: color scheme.
     * @var mixed
     */
     var $colorScheme;
 
     /**
-    * auto generate doc.
+    * Property: creator.
     * @var mixed
     */
     var $creator;
 
     /**
-    * auto generate doc.
+    * Property: publisher.
     * @var mixed
     */
     var $publisher;
 
     /**
-    * auto generate doc.
+    * Property: robots.
     * @var mixed
     */
     var $robots;
 
     /**
-    * auto generate doc.
+    * Property: alternates.
     * @var mixed
     */
     var $alternates;
 
     /**
-    * auto generate doc.
+    * Property: icons.
     * @var mixed
     */
     var $icons;
 
     /**
-    * auto generate doc.
+    * Property: manifest.
     * @var mixed
     */
     var $manifest;
 
     /**
-    * auto generate doc.
+    * Property: classification.
     * @var mixed
     */
     var $classification;
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category;
 
     /**
-    * auto generate doc.
+    * Property: other.
     * @var mixed
     */
     var $other;
 
     /**
-    * auto generate doc.
+    * Property: archives.
     * @var mixed
     */
     var $archives;
 
     /**
-    * auto generate doc.
+    * Property: abstract.
     * @var mixed
     */
     var $abstract;
 
     /**
-    * auto generate doc.
+    * Property: itunes.
     * @var mixed
     */
     var $itunes;
 
     /**
-    * auto generate doc.
+    * Property: assets.
     * @var mixed
     */
     var $assets;
 
     /**
-    * auto generate doc.
+    * Property: bookmarks.
     * @var mixed
     */
     var $bookmarks;
 
     /**
-    * auto generate doc.
+    * Property: apple itunes app.
     * @var mixed
     */
     var $appleItunesApp;
@@ -132,7 +132,7 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
     var $formatDetection;
 
     /**
-    * auto generate doc.
+    * Map.
     * @return array
     */
     public function map(): array {
@@ -149,7 +149,7 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
     }
 
     /**
-    * auto generate doc.
+    * Sets Property.
     * @param string $n
     * @param mixed $v
     */
@@ -206,7 +206,7 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
     }
 
     /**
-    * auto generate doc.
+    * Handles archives.
     * @param mixed $v
     * @param mixed $n
     */
@@ -220,7 +220,7 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
     }
 
     /**
-    * auto generate doc.
+    * Handles format Detection.
     * @param mixed $v
     * @param mixed $n
     */
@@ -238,7 +238,7 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
     }
 
     /**
-    * auto generate doc.
+    * Binds Meta Def.
     * @param mixed $name
     * @param mixed $content
     */

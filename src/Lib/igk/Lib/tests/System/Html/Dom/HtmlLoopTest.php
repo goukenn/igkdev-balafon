@@ -11,14 +11,14 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Html loop test.
 * @package IGK\Tests\System\Html\Dom
 */
 class HtmlLoopTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests loop class attribute.
     */
     public function test_loop_class_attribute()
     {
@@ -39,7 +39,7 @@ class HtmlLoopTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop class1.
     */
     public function test_loop_class1()
     {
@@ -53,7 +53,7 @@ class HtmlLoopTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop class expression.
     */
     public function test_loop_class_expression()
     {
@@ -70,7 +70,7 @@ class HtmlLoopTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop class href.
     */
     public function test_loop_class_href()
     {
@@ -91,7 +91,7 @@ class HtmlLoopTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop class key.
     */
     public function test_loop_class_key()
     {
@@ -108,7 +108,7 @@ class HtmlLoopTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop with class array off expression 1.
     */
     public function test_loop_with_class_array_off_expression_1()
     {

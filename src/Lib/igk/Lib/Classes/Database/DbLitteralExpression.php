@@ -10,31 +10,31 @@ namespace IGK\Database;
 class DbLitteralExpression extends DbExpression{
 
     /**
-    * auto generate doc.
+    * Property: source model.
     * @var mixed
     */
     var $source_model;
 
     /**
-    * auto generate doc.
+    * Property: target model.
     * @var mixed
     */
     var $target_model;
 
     /**
-    * auto generate doc.
+    * Property: column in source model.
     * @var mixed
     */
     var $column_in_source_model;
 
     /**
-    * auto generate doc.
+    * Property: column in target model.
     * @var mixed
     */
     var $column_in_target_model;
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options=null){

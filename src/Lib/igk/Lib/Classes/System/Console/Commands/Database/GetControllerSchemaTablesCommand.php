@@ -14,19 +14,19 @@ use Symfony\Component\Serializer\Encoder\JsonEncode;
 class GetControllerSchemaTablesCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--db:schema-tables';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='get controller schema table';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -34,19 +34,19 @@ class GetControllerSchemaTablesCommand extends AppExecCommand{
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'db';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     */

@@ -51,7 +51,7 @@ trait AtricleManagerControllerExtensionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Assets list uri.
     * @param BaseController $ctrl
     * @param string $path
     * @param string $ext

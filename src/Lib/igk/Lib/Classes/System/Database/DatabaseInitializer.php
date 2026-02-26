@@ -32,25 +32,25 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     use DbCreateTableReferenceTrait;
 
     /**
-    * auto generate doc.
+    * Property: host controller.
     * @var mixed
     */
     private $m_hostController;
 
     /**
-    * auto generate doc.
+    * Property: defs.
     * @var mixed
     */
     private $m_defs = [];
 
     /**
-    * auto generate doc.
+    * Property: parent controller.
     * @var mixed
     */
     private $m_parentController;
 
     /**
-    * auto generate doc.
+    * Property: controllers.
     * @var mixed
     */
     private $m_controllers = [];
@@ -81,13 +81,13 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     var $migrations = [];
 
     /**
-    * auto generate doc.
+    * Property: relations.
     * @var mixed
     */
     var $relations = [];
 
     /**
-    * auto generate doc.
+    * Property: definitions.
     * @var mixed
     */
     var $definitions = [];
@@ -98,7 +98,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     var $resolv;
 
     /**
-    * auto generate doc.
+    * Returns Data Tables Reference.
     * @param mixed & $table
     */
     public function getDataTablesReference(&$table)
@@ -303,7 +303,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     }
 
     /**
-    * auto generate doc.
+    * Property: definition.
     * @var mixed
     */
     private $m_definition;
@@ -367,7 +367,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     }
 
     /**
-    * auto generate doc.
+    * Loads Schema Definition.
     * @param string $file
     * @param null|mixed $refTableResolver
     * @param mixed $operation
@@ -392,7 +392,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     }
 
     /**
-    * auto generate doc.
+    * Resolv table definition.
     * @param string $table
     */
     public function resolvTableDefinition(string $table)
@@ -401,7 +401,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
     }
 
     /**
-    * auto generate doc.
+    * Loads System Projects.
     * @param string $op
     */
     public function loadSystemProjects(string $op = DbSchemasConstants::Migrate)

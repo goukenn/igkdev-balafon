@@ -6,7 +6,7 @@
 namespace IGK\System\Installers;
 
 /**
-* auto generate doc.
+* Interface for balafon installer.
 * @package IGK\System\Installers
 */
 interface IBalafonInstaller{

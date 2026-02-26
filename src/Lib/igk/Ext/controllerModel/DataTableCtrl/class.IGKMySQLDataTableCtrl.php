@@ -8,7 +8,7 @@
 */
 
 /**
-* auto generate doc.
+* Igkmy sql data table ctrl.
 */
 abstract class IGKMySqlDataTableCtrl extends \IGK\Controllers\ControllerTypeBase
 {

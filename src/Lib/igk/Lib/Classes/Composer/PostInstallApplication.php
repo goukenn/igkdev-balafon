@@ -14,14 +14,14 @@ use IGKApplicationBase;
 class PostInstallApplication extends IGKApplicationBase{
 
     /**
-    * auto generate doc.
+    * Bootstrap.
     */
     public function bootstrap()
     {        
     }
 
     /**
-    * auto generate doc.
+    * Runs.
     * @param string $entryfile
     * @param mixed $render
     */

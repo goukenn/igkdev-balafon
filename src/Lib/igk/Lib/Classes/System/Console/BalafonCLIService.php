@@ -28,7 +28,7 @@ class BalafonCLIService{
     }
 
     /**
-    * auto generate doc.
+    * Creates Project Class.
     * @param BaseController $ctrl
     * @param mixed $class_name
     * @param null|mixed $options

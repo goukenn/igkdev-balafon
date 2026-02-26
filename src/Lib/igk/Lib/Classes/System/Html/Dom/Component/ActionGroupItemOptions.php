@@ -12,43 +12,43 @@ class ActionGroupItemOptions{
     use ActivableTrait;
 
     /**
-    * auto generate doc.
+    * Property: text.
     * @var mixed
     */
     var $text;
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     var $id;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: auth.
     * @var mixed
     */
     var $auth;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
 
     /**
-    * auto generate doc.
+    * Property: defaultclass.
     * @var mixed
     */
     var $defaultclass = 'igk-action-item';

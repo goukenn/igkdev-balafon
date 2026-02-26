@@ -12,19 +12,19 @@ use IGKResourceUriResolver;
 class CSSContext{
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $ctrl;
 
     /**
-    * auto generate doc.
+    * Property: theme.
     * @var mixed
     */
     private $theme;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     static $sm_instance;
@@ -32,7 +32,7 @@ class CSSContext{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param mixed $ctrl
     * @param null|mixed $theme
     */
@@ -46,7 +46,7 @@ class CSSContext{
     }
 
     /**
-    * auto generate doc.
+    * Resolv.
     * @param mixed $file
     */
     public function Resolv($file){
@@ -57,7 +57,7 @@ class CSSContext{
     }
 
     /**
-    * auto generate doc.
+    * Sets Class Def.
     * @param mixed $def
     * @param mixed $classStyle
     * @param null|mixed $medias

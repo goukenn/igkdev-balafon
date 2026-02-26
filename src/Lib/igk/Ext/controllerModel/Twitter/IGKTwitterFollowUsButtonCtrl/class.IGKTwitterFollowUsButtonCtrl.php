@@ -16,19 +16,19 @@ use IGK\Controllers\ExtraControllerProperty;
 use IGK\Resources\R;
 
 /**
-* auto generate doc.
+* Igktwitter follow us button ctrl.
 */
 abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Constant: sn.
     * @var mixed
     */
     const sn = "twitter://followbutton";//script name

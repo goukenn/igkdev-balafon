@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class NodeBuildTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests list build.
     */
     public function test_list_build(){
         $n = igk_create_node();

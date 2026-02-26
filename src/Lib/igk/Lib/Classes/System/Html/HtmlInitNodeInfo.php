@@ -9,7 +9,7 @@ use IGKException;
 use IGKObject;
 
 /**
-* auto generate doc.
+* Html init node info.
 * @package IGK\System\Html
 */
 class HtmlInitNodeInfo extends IGKObject{

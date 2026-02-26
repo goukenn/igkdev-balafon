@@ -16,14 +16,14 @@ use IGK\System\WinUI\Menus\MenuItem;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* String utility test.
 * @package IGK\Tests\Helper
 */
 class StringUtilityTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests stringutility uri start.
     */
     public function test_stringutility_uri_start()
     {   
@@ -54,7 +54,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests identifier.
     */
     public function test_identifier()
     {
@@ -84,7 +84,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests get uri value.
     */
     public function test_get_uri_value()
     {
@@ -104,7 +104,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests get constant name.
     */
     public function test_get_constant_name()
     {
@@ -149,7 +149,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests read array expression.
     */
     public function test_read_array_expression()
     {
@@ -163,7 +163,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests stringutility read arg array.
     */
     public function test_stringutility_read_arg_array(){
         $src = "[\"BearerAuth\"]";
@@ -173,7 +173,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests stringutility read arg array 2.
     */
     public function test_stringutility_read_arg_array_2(){
         $src = "['BearerAuth', \"basic'sample\"]"; 
@@ -183,7 +183,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests stringutility read arg constant.
     */
     public function test_stringutility_read_arg_constant(){
         $src = "[BearerAuth]"; 
@@ -193,7 +193,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests stringutility read arg constant multiple.
     */
     public function test_stringutility_read_arg_constant_multiple(){
         $src = "[BearerAuth, BasicAuth]"; 
@@ -203,7 +203,7 @@ class StringUtilityTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests stringutility read arg constant multiple 3.
     */
     public function test_stringutility_read_arg_constant_multiple_3(){
         $src = "[BearerAuth . BasicAuth]"; 

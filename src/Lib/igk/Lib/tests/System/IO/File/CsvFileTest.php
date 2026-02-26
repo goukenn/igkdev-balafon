@@ -15,7 +15,7 @@ class CsvFileTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Test parse data.
     */
     public function _testParseData()
     {
@@ -28,7 +28,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests Parse Data2.
     */
     public function testParseData2()
     {
@@ -46,7 +46,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests Parse Data3.
     */
     public function testParseData3()
     {
@@ -64,7 +64,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests Parse Data4.
     */
     public function testParseData4()
     {
@@ -82,7 +82,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests Parse Data multiline.
     */
     public function testParseData_multiline()
     {
@@ -103,7 +103,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests Parse Data implodeline.
     */
     public function testParseData_implodeline()
     {
@@ -117,7 +117,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mapping data.
     */
     public function test_mapping_data()
     {
@@ -140,7 +140,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mapping data with callable.
     */
     public function test_mapping_data_with_callable()
     {

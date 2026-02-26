@@ -13,49 +13,49 @@ class Uri
 {
 
     /**
-    * auto generate doc.
+    * Constant: temp env key.
     * @var mixed
     */
     const TEMP_ENV_KEY = "sys://temp_uri";
 
     /**
-    * auto generate doc.
+    * Property: protocol.
     * @var mixed
     */
     private $m_protocol;
 
     /**
-    * auto generate doc.
+    * Property: domain.
     * @var mixed
     */
     private $m_domain;
 
     /**
-    * auto generate doc.
+    * Property: port.
     * @var mixed
     */
     private $m_port;
 
     /**
-    * auto generate doc.
+    * Path to path.
     * @var mixed
     */
     private $m_path;
 
     /**
-    * auto generate doc.
+    * Property: query.
     * @var mixed
     */
     private $m_query;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     private $m_options;
 
     /**
-    * auto generate doc.
+    * Property: fragment.
     * @var mixed
     */
     private $m_fragment; 
@@ -101,7 +101,7 @@ class Uri
     }
 
     /**
-    * auto generate doc.
+    * From parse url.
     * @param array $data
     */
     public static function FromParseUrl(array $data){
@@ -118,7 +118,7 @@ class Uri
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param string $name
     * @param null|mixed $default
     */
@@ -128,7 +128,7 @@ class Uri
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param string $name
     * @param string $uri
     */

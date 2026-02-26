@@ -19,49 +19,49 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     use PHPDocCommentParseTrait;
 
     /**
-    * auto generate doc.
+    * Constant: before create instance method.
     * @var mixed
     */
     const BEFORE_CREATE_INSTANCE_METHOD = 'BeforeCreateInstance';
 
     /**
-    * auto generate doc.
+    * Property: uses.
     * @var mixed
     */
     private static $sm_uses;
 
     /**
-    * auto generate doc.
+    * Property: alias.
     * @var mixed
     */
     private static $sm_alias;
 
     /**
-    * auto generate doc.
+    * Property: summary.
     * @var mixed
     */
     var $summary;
 
     /**
-    * auto generate doc.
+    * Property: api.
     * @var mixed
     */
     var $api;
 
     /**
-    * auto generate doc.
+    * Property: params.
     * @var mixed
     */
     var $params;
 
     /**
-    * auto generate doc.
+    * Property: package.
     * @var mixed
     */
     var $package;
 
     /**
-    * auto generate doc.
+    * Property: var.
     * @var mixed
     */
     var $var;
@@ -72,19 +72,19 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     private $m_annotations = [];
 
     /**
-    * auto generate doc.
+    * Property: filter.
     * @var mixed
     */
     private $m_filter;
 
     /**
-    * auto generate doc.
+    * Property: reader.
     * @var mixed
     */
     private $m_reader;
 
     /**
-    * auto generate doc.
+    * Uses.
     * @param null|array $cm
     */
     public static function Uses(?array $cm)

@@ -15,7 +15,7 @@ trait EnumFormConstantData
     use EnumeratesConstants;
 
     /**
-    * auto generate doc.
+    * Form select data.
     */
     public static function FormSelectData()
     {

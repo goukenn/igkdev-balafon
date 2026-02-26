@@ -13,25 +13,25 @@ class RequestValiationMapper extends ObjectValidationMapper
 {
 
     /**
-    * auto generate doc.
+    * Map of mapper.
     * @var mixed
     */
     var $mapper;
 
     /**
-    * auto generate doc.
+    * Property: validating.
     * @var mixed
     */
     var $validating = 0;
 
     /**
-    * auto generate doc.
+    * Property: default content validator.
     * @var mixed
     */
     var $defaultContentValidator;
 
     /**
-    * auto generate doc.
+    * Returns Default Content Validator.
     */
     protected function getDefaultContentValidator(){
         return $this->defaultContentValidator ??  new HtmlContentValidator;
@@ -45,7 +45,7 @@ class RequestValiationMapper extends ObjectValidationMapper
     // }
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed $data
     */
     public function validate($data)

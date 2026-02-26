@@ -7,7 +7,7 @@ namespace IGK\System\Exceptions;
 use IGKException;
 
 /**
-* auto generate doc.
+* Load article exception.
 * @package IGK\System\Exceptions
 */
 class LoadArticleException extends IGKException{

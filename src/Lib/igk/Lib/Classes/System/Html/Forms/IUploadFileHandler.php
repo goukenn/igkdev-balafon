@@ -11,7 +11,7 @@ namespace IGK\System\Html\Forms;
 interface IUploadFileHandler{
 
     /**
-    * auto generate doc.
+    * Upload.
     * @param mixed $value
     * @param mixed $identifier
     */

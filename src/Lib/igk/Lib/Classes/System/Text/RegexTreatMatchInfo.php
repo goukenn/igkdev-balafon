@@ -16,31 +16,31 @@ class RegexTreatMatchInfo{
     var $pos;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
 
     /**
-    * auto generate doc.
+    * Property: match.
     * @var mixed
     */
     var $match;
 
     /**
-    * auto generate doc.
+    * Property: captures.
     * @var mixed
     */
     var $captures;
 
     /**
-    * auto generate doc.
+    * Property: parent.
     * @var mixed
     */
     var $parent;
 
     /**
-    * auto generate doc.
+    * Property: end treat.
     * @var mixed
     */
     var $endTreat;

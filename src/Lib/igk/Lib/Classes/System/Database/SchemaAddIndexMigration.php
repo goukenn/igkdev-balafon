@@ -10,13 +10,13 @@ namespace IGK\System\Database;
 class SchemaAddIndexMigration extends SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "columns"];
 
     /**
-    * auto generate doc.
+    * Sets up.
     * @param string $table
     * @param mixed $columns
     */
@@ -25,7 +25,7 @@ class SchemaAddIndexMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Up.
     */
     public function up()
     {
@@ -35,7 +35,7 @@ class SchemaAddIndexMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Down.
     */
     public function down(){
         $ctrl = $this->getMigration()->controller;

@@ -11,13 +11,13 @@ namespace IGK\Database;
 class DbDisplayExpression{
 
     /**
-    * auto generate doc.
+    * Constant: exp regex.
     * @var mixed
     */
     const EXP_REGEX = "/\{(?P<name>[^\}\W]*)\}/";
 
     /**
-    * auto generate doc.
+    * Returns true if Display Expression.
     * @param string $subject
     * @return bool
     */

@@ -10,7 +10,7 @@ namespace IGK\System\Http\Session;
 abstract class SessionOperatorBase{
 
     /**
-    * auto generate doc.
+    * Invoke.
     * @param mixed $a
     */
     public abstract function invoke($a);

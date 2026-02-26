@@ -10,19 +10,19 @@
 namespace IGK\System\Html;
 
 /**
-* auto generate doc.
+* Html header link host.
 * @package IGK\System\Html
 */
 final class HtmlHeaderLinkHost{
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     private $m_list;
 
     /**
-    * auto generate doc.
+    * Properties: private link, shared link.
     * @var mixed
     */
     var $privateLink, $sharedLink;

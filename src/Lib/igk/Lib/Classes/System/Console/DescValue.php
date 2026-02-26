@@ -6,13 +6,13 @@
 namespace IGK\System\Console;
 
 /**
-* auto generate doc.
+* Desc value.
 * @package IGK\System\Console
 */
 class DescValue{
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
@@ -26,7 +26,7 @@ class DescValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString(){

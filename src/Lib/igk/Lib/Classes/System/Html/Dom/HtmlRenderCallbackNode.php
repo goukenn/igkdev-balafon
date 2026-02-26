@@ -11,19 +11,19 @@ namespace IGK\System\Html\Dom;
 class HtmlRenderCallbackNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:render-callback-node";
 
     /**
-    * auto generate doc.
+    * Callback handler for callbackobj.
     * @var mixed
     */
     private $m_callbackobj;
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
@@ -39,7 +39,7 @@ class HtmlRenderCallbackNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

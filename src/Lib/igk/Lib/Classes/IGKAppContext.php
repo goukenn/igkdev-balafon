@@ -10,19 +10,19 @@
 abstract class IGKAppContext{
 
     /**
-    * auto generate doc.
+    * Constant: initializing.
     * @var mixed
     */
     const initializing="initializing";
 
     /**
-    * auto generate doc.
+    * Constant: running.
     * @var mixed
     */
     const running="running";
 
     /**
-    * auto generate doc.
+    * Constant: starting.
     * @var mixed
     */
     const starting="starting";

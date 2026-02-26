@@ -11,25 +11,25 @@ use IGK\System\WinUI\Forms\FormData;
 class JsonPackageAuthorInfoValidator extends FormData{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: email.
     * @var mixed
     */
     var $email;
 
     /**
-    * auto generate doc.
+    * Property: url.
     * @var mixed
     */
     var $url;
 
     /**
-    * auto generate doc.
+    * Returns Not Required.
     * @return ?array
     */
     function getNotRequired(): ?array

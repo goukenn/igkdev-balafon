@@ -35,7 +35,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     use ViewReadConditionTrait;
 
     /**
-    * auto generate doc.
+    * Property: containers.
     * @var mixed
     */
     private $m_containers = [];
@@ -50,7 +50,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     var $options;
 
     /**
-    * auto generate doc.
+    * Property: params.
     * @var mixed
     */
     var $params;
@@ -86,7 +86,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     var $variables = [];
 
     /**
-    * auto generate doc.
+    * Callback handler for flag handler.
     * @var mixed
     */
     var $flagHandler = null;
@@ -107,25 +107,25 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     var $tab_stop = "    ";
 
     /**
-    * auto generate doc.
+    * Property: top expression.
     * @var mixed
     */
     private $top_expression;
 
     /**
-    * auto generate doc.
+    * Property: instruct flag.
     * @var mixed
     */
     private $instruct_flag = false;
 
     /**
-    * auto generate doc.
+    * Property: init variables.
     * @var mixed
     */
     private $m_init_variables = [];
 
     /**
-    * auto generate doc.
+    * Callback handler for compile handler.
     * @var mixed
     */
     private $m_compile_handler;
@@ -150,43 +150,43 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     private $m_block;
 
     /**
-    * auto generate doc.
+    * Property: end condiontal.
     * @var mixed
     */
     private $m_end_condiontal = [];
 
     /**
-    * auto generate doc.
+    * Constant: read setter variable.
     * @var mixed
     */
     const READ_SETTER_VARIABLE = CompilerFlagState::READ_VARIABLE . "_setter";
 
     /**
-    * auto generate doc.
+    * Constant: read block.
     * @var mixed
     */
     const READ_BLOCK = CompilerFlagState::READ_BLOCK;
 
     /**
-    * auto generate doc.
+    * Constant: read expect block container.
     * @var mixed
     */
     const READ_EXPECT_BLOCK_CONTAINER = "expect_block_childs";
 
     /**
-    * auto generate doc.
+    * Constant: read block instruction.
     * @var mixed
     */
     const READ_BLOCK_INSTRUCTION = "handle_instruction";
 
     /**
-    * auto generate doc.
+    * Constant: read conditional expression.
     * @var mixed
     */
     const READ_CONDITIONAL_EXPRESSION = "handle_conditional_expression";
 
     /**
-    * auto generate doc.
+    * Constant: block trim char.
     * @var mixed
     */
     const BLOCK_TRIM_CHAR = ViewCompilerConstants::BLOCK_TRIM_CHAR;
@@ -226,7 +226,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handles Token.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -356,7 +356,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     #block instruction that must end with )
 
     /**
-    * auto generate doc.
+    * Read conditional expression.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -382,7 +382,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handle conditional expression.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -405,7 +405,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * End conditional expression.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -483,7 +483,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handle flag.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -511,7 +511,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handle instruction.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -616,7 +616,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handle read expression.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -690,7 +690,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     #region GLOBAL_VARIABLE
 
     /**
-    * auto generate doc.
+    * Read setter variable.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -710,7 +710,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handle setter variable.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -775,7 +775,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * End setter variable.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -795,7 +795,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     #region BLOCK
 
     /**
-    * auto generate doc.
+    * Returns true if Block Case.
     * @param mixed $id
     * @return bool
     */
@@ -822,7 +822,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handle expect container.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -847,7 +847,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Read block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -862,7 +862,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handle read case block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -892,7 +892,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * Handle read block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -1010,7 +1010,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
 
     /**
-    * auto generate doc.
+    * End read block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value

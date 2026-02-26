@@ -11,19 +11,19 @@ namespace IGK;
 class HookOptions implements IHookOptions{
 
     /**
-    * auto generate doc.
+    * Property: default.
     * @var mixed
     */
     var $default;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
 
     /**
-    * auto generate doc.
+    * Property: output.
     * @var mixed
     */
     var $output;

@@ -11,7 +11,7 @@ trait HtmlDocumentOnlyTrait
 {
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds()
     {
@@ -19,7 +19,7 @@ trait HtmlDocumentOnlyTrait
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -27,7 +27,7 @@ trait HtmlDocumentOnlyTrait
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

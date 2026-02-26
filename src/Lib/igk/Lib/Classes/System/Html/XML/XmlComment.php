@@ -13,7 +13,7 @@ use IGK\System\Html\HtmlRenderer;
 class XmlComment extends HtmlItemBase{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:comment";
@@ -29,14 +29,14 @@ class XmlComment extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options=null){ 
@@ -49,7 +49,7 @@ class XmlComment extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {

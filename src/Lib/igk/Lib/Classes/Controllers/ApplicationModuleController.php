@@ -27,67 +27,67 @@ use TypeError;
 final class ApplicationModuleController extends BaseController{
 
     /**
-    * auto generate doc.
+    * Constant: init doc method.
     * @var mixed
     */
     const INIT_DOC_METHOD = "initDoc";
 
     /**
-    * auto generate doc.
+    * Constant: conf module.
     * @var mixed
     */
     const CONF_MODULE = Constants::MODULE_CONF_FILE;
 
     /**
-    * auto generate doc.
+    * Constant: module initializer fname.
     * @var mixed
     */
     const MODULE_INITIALIZER_FNAME = ".module.pinc";
 
     /**
-    * auto generate doc.
+    * Path to dir.
     * @var mixed
     */
     private $m_dir;
 
     /**
-    * auto generate doc.
+    * Property: doc.
     * @var mixed
     */
     private $m_doc;
 
     /**
-    * auto generate doc.
+    * Collection of fclist.
     * @var mixed
     */
     private $m_fclist;
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $m_listener;
 
     /**
-    * auto generate doc.
+    * Property: src.
     * @var mixed
     */
     private $m_src;             // source code
 
     /**
-    * auto generate doc.
+    * Property: initializer.
     * @var mixed
     */
     private $m_initializer;     // used to extend module class properties
 
     /**
-    * auto generate doc.
+    * Property: configs.
     * @var mixed
     */
     private $m_configs;         // configuration
 
     /**
-    * auto generate doc.
+    * Property: boot.
     * @var mixed
     */
     var $boot;
@@ -112,7 +112,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Module.
     * @param mixed $controllerClass
     */
     public static function IsModule($controllerClass){
@@ -138,7 +138,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Class.
     * @param mixed $classname
     */
     public function initClass($classname){
@@ -148,7 +148,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Environment settings.
     */
     public function environmentSettings(){
         $e = igk_environment();
@@ -181,7 +181,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Module Key.
     * @param mixed $name
     */
     protected function getModuleKey($name=""){
@@ -204,7 +204,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Env Param.
     * @param mixed $name
     * @param null|mixed $default
     */
@@ -213,7 +213,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Entry Namespace.
     */
     public function getEntryNamespace(){
         return str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($this->m_dir)));
@@ -467,7 +467,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Lib Dir.
     */
     public function getLibDir(){
         return implode("/", [$this->getDeclaredDir(), IGK_LIB_FOLDER]);
@@ -581,7 +581,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Sets.
     * @param mixed $name
     * @param mixed $value
     */
@@ -590,7 +590,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param mixed $name
     * @param null|mixed $default
     */
@@ -599,7 +599,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View(): BaseController{
@@ -626,7 +626,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Expose assets.
     */
     public function exposeAssets(){
         return ControllerExtension::exposeAssets($this);
@@ -662,14 +662,14 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Db From Schemas.
     */
     public function initDbFromSchemas(){
         return ControllerExtension::initDbFromSchemas($this);
     }
 
     /**
-    * auto generate doc.
+    * Loads Data And New Entries From Schemas.
     */
     public function loadDataAndNewEntriesFromSchemas(){
         return ControllerExtension::loadDataAndNewEntriesFromSchemas($this);
@@ -702,7 +702,7 @@ final class ApplicationModuleController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Setting Key.
     * @param ApplicationModuleController $ctrl
     */
     public static function GetSettingKey(ApplicationModuleController $ctrl){

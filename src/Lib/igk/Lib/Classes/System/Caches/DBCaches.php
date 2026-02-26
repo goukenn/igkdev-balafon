@@ -35,25 +35,25 @@ class DBCaches
     const CACHE_FILE_NAME = '.data-schema.definition.cache';
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: db initializer.
     * @var mixed
     */
     private $m_db_initializer;
 
     /**
-    * auto generate doc.
+    * Property: db init request.
     * @var mixed
     */
     private $m_db_init_request;
 
     /**
-    * auto generate doc.
+    * Property: mock.
     * @var mixed
     */
     private $m_mock;
@@ -118,7 +118,7 @@ class DBCaches
     }
 
     /**
-    * auto generate doc.
+    * Returns Cache Initializer.
     */
     public static function GetCacheInitializer()
     {
@@ -140,13 +140,13 @@ class DBCaches
     private $m_tableInfo = [];
 
     /**
-    * auto generate doc.
+    * Cache: init cache.
     * @var mixed
     */
     private $m_init_cache = false;
 
     /**
-    * auto generate doc.
+    * Property: initializing.
     * @var mixed
     */
     private $m_initializing = false;
@@ -224,7 +224,7 @@ class DBCaches
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param string $n
     */
     public static function Get(string $n)
@@ -539,7 +539,7 @@ class DBCaches
     }
 
     /**
-    * auto generate doc.
+    * Returns Class Key Entry Definition.
     * @param BaseController $controller
     */
     public static function GetClassKeyEntryDefinition(BaseController $controller){

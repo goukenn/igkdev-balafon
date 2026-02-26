@@ -10,7 +10,7 @@ namespace IGK\System\Runtime\Compiler\Traits;
 trait CompilerTokenStateBufferTrait{
 
     /**
-    * auto generate doc.
+    * Pushes Buffer.
     * @param mixed $options
     * @param mixed & $buffer
     * @param string $id
@@ -24,7 +24,7 @@ trait CompilerTokenStateBufferTrait{
     }
 
     /**
-    * auto generate doc.
+    * Pops Buffer.
     * @param mixed $options
     * @param string $id
     */

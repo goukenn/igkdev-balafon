@@ -13,13 +13,13 @@ use IGKOb;
 final class HtmlCallbackNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     var $callback;
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $option
     */
     public function _acceptRender($option=null){
@@ -37,14 +37,14 @@ final class HtmlCallbackNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options=null){

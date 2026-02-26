@@ -15,13 +15,13 @@ class ConfigurationData extends IGKObject implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: configs.
     * @var mixed
     */
     protected  $m_configs;
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -37,7 +37,7 @@ class ConfigurationData extends IGKObject implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     protected function _access_OffsetGet($n){
@@ -45,7 +45,7 @@ class ConfigurationData extends IGKObject implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
     protected function _access_offsetExists($n){
@@ -53,7 +53,7 @@ class ConfigurationData extends IGKObject implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     */
     protected function _access_OffsetUnset($n){

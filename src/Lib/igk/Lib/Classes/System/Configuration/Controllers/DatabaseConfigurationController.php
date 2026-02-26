@@ -27,7 +27,7 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -35,7 +35,7 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage()
     { 
@@ -43,7 +43,7 @@ final class DatabaseConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Db System.
     */
     public function initDbSystem(){
         if (igk_is_conf_connected()){

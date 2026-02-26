@@ -41,7 +41,7 @@ class HtmlLoadingContext{
     var $ignore_tags;
 
     /**
-    * auto generate doc.
+    * Property: context loading.
     * @var mixed
     */
     private static $sm_context_loading;
@@ -131,13 +131,13 @@ class HtmlLoadingContext{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize(){
     }
 
     /**
-    * auto generate doc.
+    * Uninitialize.
     */
     protected function uninitialize(){
     }

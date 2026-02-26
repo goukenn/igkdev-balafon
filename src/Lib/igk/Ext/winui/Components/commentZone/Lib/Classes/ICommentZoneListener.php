@@ -10,7 +10,7 @@ namespace IGK\Ext\WinUI\Components\CommentZone;
 interface ICommentZoneListener {
 
     /**
-    * auto generate doc.
+    * Comment add ajx.
     * @param mixed $i
     */
     function comment_add_ajx($i);

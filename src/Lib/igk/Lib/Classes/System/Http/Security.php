@@ -11,13 +11,13 @@ namespace IGK\System\Http;
 class Security{
 
     /**
-    * auto generate doc.
+    * Constant: basic auth.
     * @var mixed
     */
     const BASIC_AUTH = 'BasicAuth';
 
     /**
-    * auto generate doc.
+    * Constant: bearer auth.
     * @var mixed
     */
     const BEARER_AUTH = 'BearerAuth';

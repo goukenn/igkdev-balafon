@@ -29,7 +29,7 @@ class PhoneBooksMacros
 {
 
     /**
-    * auto generate doc.
+    * Constant: phone default tel.
     * @var mixed
     */
     const PHONE_DEFAULT_TEL = 'gsm|tel|phone';
@@ -145,7 +145,7 @@ class PhoneBooksMacros
     }
 
     /**
-    * auto generate doc.
+    * Searches For Entry.
     * @param PhoneBooks $phone
     * @param string $search
     */

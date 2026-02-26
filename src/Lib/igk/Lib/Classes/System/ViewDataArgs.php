@@ -51,7 +51,7 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Empty.
     * @return bool
     */
     public function isEmpty():bool{

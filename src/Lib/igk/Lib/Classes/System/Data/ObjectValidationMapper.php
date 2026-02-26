@@ -13,55 +13,55 @@ use IGK\System\Security\Web\ObjectContentValidator;
 class ObjectValidationMapper{
 
     /**
-    * auto generate doc.
+    * Property: resolv data.
     * @var mixed
     */
     protected $_resolv_data;
 
     /**
-    * auto generate doc.
+    * Property: errors.
     * @var mixed
     */
     protected $m_errors;
 
     /**
-    * auto generate doc.
+    * Property: not required.
     * @var mixed
     */
     protected $m_not_required;
 
     /**
-    * auto generate doc.
+    * Property: default values.
     * @var mixed
     */
     protected $m_defaultValues;
 
     /**
-    * auto generate doc.
+    * Property: resolv keys.
     * @var mixed
     */
     protected $m_resolvKeys;
 
     /**
-    * auto generate doc.
+    * Map of mapper.
     * @var mixed
     */
     var $mapper;
 
     /**
-    * auto generate doc.
+    * Property: validating.
     * @var mixed
     */
     var $validating = 0;
 
     /**
-    * auto generate doc.
+    * Property: default content validator.
     * @var mixed
     */
     var $defaultContentValidator;
 
     /**
-    * auto generate doc.
+    * Returns Default Content Validator.
     */
     protected function getDefaultContentValidator(){
         return $this->defaultContentValidator ??  new ObjectContentValidator;
@@ -92,7 +92,7 @@ class ObjectValidationMapper{
     }
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed $data
     */
     public function validate($data)

@@ -14,13 +14,13 @@ class EventArgs
 {
 
     /**
-    * auto generate doc.
+    * Property: empty.
     * @var mixed
     */
     private  static $Empty;
 
     /**
-    * auto generate doc.
+    * Property: props.
     * @var mixed
     */
     private $m_props;

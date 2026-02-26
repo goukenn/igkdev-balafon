@@ -22,7 +22,7 @@ class EnvironmentCommandScripts
 {
 
     /**
-    * auto generate doc.
+    * Cache: caches.
     * @var mixed
     */
     private static $sm_caches;
@@ -67,7 +67,7 @@ class EnvironmentCommandScripts
     }
 
     /**
-    * auto generate doc.
+    * Store cache.
     */
     static function StoreCache()
     {

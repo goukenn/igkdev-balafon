@@ -16,13 +16,13 @@ use ReflectionClass;
 class LayoutRules{
 
     /**
-    * auto generate doc.
+    * Constant: textarea height.
     * @var mixed
     */
     const TEXTAREA_HEIGHT = '18rem';
 
     /**
-    * auto generate doc.
+    * Constant: padding.
     * @var mixed
     */
     const PADDING = '10px';

@@ -17,31 +17,31 @@ class QueryOptions{
     var $noPrimaryKey;
 
     /**
-    * auto generate doc.
+    * Constant: callback property.
     * @var mixed
     */
     const CallbackProperty = \IGK\Database\DbConstants::CALLBACK_OPTS;
 
     /**
-    * auto generate doc.
+    * Constant: joins.
     * @var mixed
     */
     const JOINS = 'Joins';
 
     /**
-    * auto generate doc.
+    * Constant: limit.
     * @var mixed
     */
     const LIMIT = 'Limit';
 
     /**
-    * auto generate doc.
+    * Constant: order by.
     * @var mixed
     */
     const ORDER_BY = 'OrderBy';
 
     /**
-    * auto generate doc.
+    * Constant: group by.
     * @var mixed
     */
     const GROUP_BY = 'GroupBy';

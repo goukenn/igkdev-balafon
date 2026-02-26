@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 class HtmlTagExpressionName{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;

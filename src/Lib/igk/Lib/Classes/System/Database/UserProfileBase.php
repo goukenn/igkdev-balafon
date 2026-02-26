@@ -17,25 +17,25 @@ use ReflectionException;
 abstract class UserProfileBase implements ICustomUserProfile{
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     protected $m_info;
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     protected $m_model;
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     protected $m_controller;
 
     /**
-    * auto generate doc.
+    * Sets User Info.
     * @param mixed $userInfo
     */
     public function setUserInfo($userInfo) {
@@ -43,7 +43,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
     }
 
     /**
-    * auto generate doc.
+    * Returns User Info.
     */
     public function getUserInfo()
     {
@@ -83,7 +83,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
     }
 
     /**
-    * auto generate doc.
+    * Returns Controller.
     * @return ?BaseController
     */
     public function getController(): ?BaseController
@@ -148,7 +148,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
     }
 
     /**
-    * auto generate doc.
+    * Saves.
     */
     public function save(){
         return $this->m_model->save();

@@ -10,37 +10,37 @@ namespace IGK\System\Npm\Traits;
 trait JsonPackagePropertyTrait{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: version.
     * @var mixed
     */
     var $version;
 
     /**
-    * auto generate doc.
+    * Property: description.
     * @var mixed
     */
     var $description;
 
     /**
-    * auto generate doc.
+    * Property: main.
     * @var mixed
     */
     var $main;
 
     /**
-    * auto generate doc.
+    * Property: scripts.
     * @var mixed
     */
     var $scripts;
 
     /**
-    * auto generate doc.
+    * Property: keywords.
     * @var mixed
     */
     var $keywords;
@@ -51,25 +51,25 @@ trait JsonPackagePropertyTrait{
     var $author;
 
     /**
-    * auto generate doc.
+    * Property: license.
     * @var mixed
     */
     var $license;
 
     /**
-    * auto generate doc.
+    * Property: dependencies.
     * @var mixed
     */
     var $dependencies;
 
     /**
-    * auto generate doc.
+    * Property: dev dependencies.
     * @var mixed
     */
     var $devDependencies;
 
     /**
-    * auto generate doc.
+    * Property: module.
     * @var mixed
     */
     var $module;

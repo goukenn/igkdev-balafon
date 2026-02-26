@@ -18,7 +18,7 @@ use IGK\Tests\BaseTestCase;
 class ConfigurationEncoderTest extends BaseTestCase {
 
     /**
-    * auto generate doc.
+    * Tests connexion string encode.
     */
     public function test_connexion_string_encode(){
         $encoder = new ConfigurationEncoder;

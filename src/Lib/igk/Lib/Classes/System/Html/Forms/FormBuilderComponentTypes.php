@@ -11,97 +11,97 @@ namespace IGK\System\Html\Forms;
 abstract class FormBuilderComponentTypes{
 
     /**
-    * auto generate doc.
+    * Constant: text.
     * @var mixed
     */
     const Text='text';
 
     /**
-    * auto generate doc.
+    * Constant: radio.
     * @var mixed
     */
     const Radio='radio';
 
     /**
-    * auto generate doc.
+    * Constant: textarea.
     * @var mixed
     */
     const Textarea='textarea';
 
     /**
-    * auto generate doc.
+    * Constant: rich text.
     * @var mixed
     */
     const RichText='richtext';
 
     /**
-    * auto generate doc.
+    * Constant: button.
     * @var mixed
     */
     const Button='button';
 
     /**
-    * auto generate doc.
+    * Constant: reset.
     * @var mixed
     */
     const Reset='reset';
 
     /**
-    * auto generate doc.
+    * Constant: submit.
     * @var mixed
     */
     const Submit='submit';
 
     /**
-    * auto generate doc.
+    * Constant: number.
     * @var mixed
     */
     const Number='number';
 
     /**
-    * auto generate doc.
+    * Constant: date.
     * @var mixed
     */
     const Date='date';
 
     /**
-    * auto generate doc.
+    * Constant: radio group.
     * @var mixed
     */
     const RadioGroup = 'radiogroup';
 
     /**
-    * auto generate doc.
+    * Constant: datalist.
     * @var mixed
     */
     const Datalist = 'datalist';
 
     /**
-    * auto generate doc.
+    * Constant: select.
     * @var mixed
     */
     const Select = 'select';
 
     /**
-    * auto generate doc.
+    * Constant: hidden.
     * @var mixed
     */
     const Hidden = 'hidden';
 
     /**
-    * auto generate doc.
+    * Constant: password.
     * @var mixed
     */
     const Password = 'password';
 
     /**
-    * auto generate doc.
+    * Constant: fieldset.
     * @var mixed
     */
     const Fieldset = 'fieldset';
 
     /**
-    * auto generate doc.
+    * Constant: file.
     * @var mixed
     */
     const File = 'file';

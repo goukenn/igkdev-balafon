@@ -11,7 +11,7 @@ namespace IGK\System\Html\Rendering;
 interface IHtmlRederingCallback{
 
     /**
-    * auto generate doc.
+    * Before render.
     * @param null|callable $callable
     */
     function beforeRender(?callable $callable);

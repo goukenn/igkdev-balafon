@@ -5,18 +5,18 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkapp info type.
 */
 class IGKAppInfoType{
 
     /**
-    * auto generate doc.
+    * Constant: local.
     * @var mixed
     */
     const Local = 'local';
 
     /**
-    * auto generate doc.
+    * Constant: session.
     * @var mixed
     */
     const Session = 'session';

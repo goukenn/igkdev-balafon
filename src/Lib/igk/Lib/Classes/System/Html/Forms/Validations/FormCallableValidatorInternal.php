@@ -11,7 +11,7 @@ namespace IGK\System\Html\Forms\Validations;
 class FormCallableValidatorInternal extends FormFieldValidatorBase implements IFormValidator{
 
     /**
-    * auto generate doc.
+    * Property: callable.
     * @var mixed
     */
     private $m_callable;
@@ -26,7 +26,7 @@ class FormCallableValidatorInternal extends FormFieldValidatorBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */
@@ -35,7 +35,7 @@ class FormCallableValidatorInternal extends FormFieldValidatorBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param array & $error

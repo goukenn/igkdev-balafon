@@ -15,7 +15,7 @@ use IGK\Services\IAppService;
 interface IFormatterService extends IAppService{
 
     /**
-    * auto generate doc.
+    * Formats.
     * @param string $src
     * @return string
     */

@@ -13,7 +13,7 @@ namespace IGK\System;
 abstract class ServiceNameConstants{
 
     /**
-    * auto generate doc.
+    * Constant: mail service.
     * @var mixed
     */
     const MailService = 'MailService';

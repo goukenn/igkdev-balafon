@@ -6,13 +6,13 @@
 namespace IGK\System\Html;
 
 /**
-* auto generate doc.
+* Renderer engine base.
 * @package IGK\System\Html
 */
 abstract class RendererEngineBase{
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param mixed $node
     * @param null|mixed $options
     */

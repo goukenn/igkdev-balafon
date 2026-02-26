@@ -9,18 +9,18 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkglobal color.
 */
 final class IGKGlobalColor{
 
     /**
-    * auto generate doc.
+    * Property: colors.
     * @var mixed
     */
     private $m_COLORS;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
@@ -29,7 +29,7 @@ final class IGKGlobalColor{
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param mixed $clname
     */
 
@@ -38,7 +38,7 @@ final class IGKGlobalColor{
     }
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
 
     public static function getInstance(){
@@ -49,7 +49,7 @@ final class IGKGlobalColor{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Global Color.
     * @param mixed $clname
     */
 
@@ -70,7 +70,7 @@ final class IGKGlobalColor{
     }
 
     /**
-    * auto generate doc.
+    * Returns Globals.
     */
 
     public function getGlobals(){

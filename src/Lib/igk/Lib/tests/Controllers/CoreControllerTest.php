@@ -10,20 +10,20 @@ namespace IGK\Tests\Controllers;
 use IGK\Helper\IO;
 
 /**
-* auto generate doc.
+* Core controller test.
 * @package IGK\Tests\Controllers
 */
 class CoreControllerTest extends ControllerBaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Path to dir.
     * @var mixed
     */
     static $sm_dir;
 
     /**
-    * auto generate doc.
+    * Sets up the test environment before each test.
     * @return void
     */
 
@@ -34,7 +34,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Sets up shared resources before all tests.
     * @return void
     */
 
@@ -46,7 +46,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tears down shared resources after all tests.
     * @return void
     */
 
@@ -59,7 +59,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests get view file name.
     */
 
     public function test_get_view_file_name()
@@ -82,7 +82,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests view args.
     */
 
     public function test_view_args(){    
@@ -101,7 +101,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests default view args.
     */
 
     public function test_default_view_args(){    
@@ -120,7 +120,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests request action.
     */
 
     public function test_request_action(){

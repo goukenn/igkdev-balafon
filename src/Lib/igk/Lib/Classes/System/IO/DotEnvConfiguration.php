@@ -16,31 +16,31 @@ class DotEnvConfiguration
 {
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     var $key;
 
     /**
-    * auto generate doc.
+    * Property: refkey.
     * @var mixed
     */
     private $m_refkey;
 
     /**
-    * auto generate doc.
+    * Property: dot env.
     * @var mixed
     */
     private static $sm_dotEnv;
 
     /**
-    * auto generate doc.
+    * Property: sys dot env.
     * @var mixed
     */
     private static $sm_sysDotEnv;
 
     /**
-    * auto generate doc.
+    * Constant: app dot env config.
     * @var mixed
     */
     const APP_DOT_ENV_CONFIG = 'dotenv_config_location_dir';

@@ -8,7 +8,7 @@ use igk\js\common\JSExpression;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Jsstringify test.
 */
 class JSStringifyTest extends BaseTestCase{
     /**
@@ -55,7 +55,7 @@ class JSStringifyTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests template no escapse.
     */
     public function test_template_no_escapse(){
         $data = [
@@ -70,7 +70,7 @@ class JSStringifyTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests expression use.
     */
     public function test_expression_use(){
         /// unique name definie the proprieries

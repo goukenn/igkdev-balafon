@@ -7,7 +7,7 @@ namespace IGK\System\Console;
 interface IConsoleLogger{
 
     /**
-    * auto generate doc.
+    * Logs.
     * @param mixed $msg
     */
     function log($msg); 

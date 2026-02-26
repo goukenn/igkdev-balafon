@@ -6,13 +6,13 @@
 namespace IGK\System\Html\Forms\Validations;
 
 /**
-* auto generate doc.
+* Int validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class IntValidator extends FormFieldValidatorBase  implements IFormValidator{
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */
@@ -24,7 +24,7 @@ class IntValidator extends FormFieldValidatorBase  implements IFormValidator{
      }
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param mixed & $error

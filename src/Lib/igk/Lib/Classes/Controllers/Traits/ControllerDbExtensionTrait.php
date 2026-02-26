@@ -219,7 +219,7 @@ trait ControllerDbExtensionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Db drop index.
     * @param BaseController $ctrl
     * @param string $table
     * @param mixed $column
@@ -238,7 +238,7 @@ trait ControllerDbExtensionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Db drop column.
     * @param BaseController $ctrl
     * @param string $table
     * @param mixed $column

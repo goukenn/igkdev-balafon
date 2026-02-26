@@ -17,7 +17,7 @@ class ActionRequestValidator extends RequestValidatorBase implements IActionRequ
 {
 
     /**
-    * auto generate doc.
+    * Property: action.
     * @var mixed
     */
     var $action;

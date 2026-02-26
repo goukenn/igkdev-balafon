@@ -18,14 +18,14 @@ use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Context value test.
 * @package IGK\Tests\System\Html
 */
 class ContextValueTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests loading configuration.
     */
     function test_loading_configuration()
     {
@@ -39,7 +39,7 @@ MSG_EOF, "balafon");
     }
 
     /**
-    * auto generate doc.
+    * Tests get custom expression.
     */
     function test_get_custom_expression()
     {
@@ -56,20 +56,20 @@ MSG_EOF, "balafon");
 }
 
 /**
-* auto generate doc.
+* Dummy expression.
 * @package IGK\Tests\System\Html
 */
 class DummyExpression extends SysAppConfigExpression
 {
 
     /**
-    * auto generate doc.
+    * Property: tag.
     * @var mixed
     */
     protected $tag = "baba";
 
     /**
-    * auto generate doc.
+    * Returns Operator.
     */
 
     public function getOperator()

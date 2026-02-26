@@ -100,7 +100,7 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     }
 
     /**
-    * auto generate doc.
+    * Getis root captured.
     * @return bool
     */
     public function getisRootCaptured():bool{
@@ -128,7 +128,7 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     }
 
     /**
-    * auto generate doc.
+    * Updates With.
     * @param mixed $data
     */
     public function updateWith($data){

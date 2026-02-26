@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class ClassAttributeArrayValueEncoderTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests encode litteral.
     */
     public function test_encode_litteral(){
         $e = (new ClassAttributeArrayValueEncoder)->encode("[".htmlentities('"one","two"')."]");
@@ -26,7 +26,7 @@ class ClassAttributeArrayValueEncoderTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests encode litteral expression.
     */
     public function test_encode_litteral_expression(){
 
@@ -38,7 +38,7 @@ class ClassAttributeArrayValueEncoderTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests encode litteral expression 1.
     */
     public function test_encode_litteral_expression_1(){
 

@@ -6,7 +6,7 @@
 namespace IGK\Controllers;
 
 /**
-* auto generate doc.
+* Interface for libary controller.
 * @package IGK\Controllers
 */
 interface ILibaryController{

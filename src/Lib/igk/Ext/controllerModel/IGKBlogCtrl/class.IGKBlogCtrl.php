@@ -8,7 +8,7 @@ use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Resources\R;
 
 /**
-* auto generate doc.
+* Igkblog ctrl.
 */
 abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 {
@@ -22,7 +22,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 	//
 
     /**
-    * auto generate doc.
+    * Returns Data Table Info.
     * @return ?IModelDefinitionInfo
     */
 
@@ -31,7 +31,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
 
@@ -42,7 +42,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Evaluate uri.
     */
 
     public function evaluateUri(){
@@ -69,7 +69,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Getcan add child.
     */
 
     public function getcanAddChild(){
@@ -77,7 +77,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Renders Error.
     * @param mixed $c
     */
 

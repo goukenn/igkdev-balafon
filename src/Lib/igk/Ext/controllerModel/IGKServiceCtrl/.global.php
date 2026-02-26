@@ -10,7 +10,7 @@
 //copyright: see balafon.copyright
 
 /**
-* auto generate doc.
+* Igk srv bind cookie.
 * @param mixed $lie
 * @param mixed $s
 */
@@ -23,7 +23,7 @@ function igk_srv_bind_cookie($lie, $s){
 }
 
 /**
-* auto generate doc.
+* Igk srv soap call.
 * @param mixed $u
 * @param mixed $name
 * @param mixed $args
@@ -55,14 +55,14 @@ function igk_srv_soap_call($u, $name, $args){
 }
 
 /**
-* auto generate doc.
+* Igk srv soap session.
 */
 function igk_srv_soap_session(){
 	igk_set_env("igk_srv_soap_call://prevent_session", 1);
 }
 
 /**
-* auto generate doc.
+* Igk srv soap last header.
 */
 function igk_srv_soap_LastHeader(){
 	$e = igk_get_env("igk_srv_soap_call");
@@ -91,7 +91,7 @@ function igk_srv_soap_LastHeader(){
 }
 
 /**
-* auto generate doc.
+* Igk srv notexposed attr.
 * @param mixed $classname
 * @param mixed $method
 */

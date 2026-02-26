@@ -14,13 +14,13 @@ use IGK\System\Configuration\EntityConfigurationSchema;
 class ConfigurationFile extends EntityConfigurationSchema{
 
     /**
-    * auto generate doc.
+    * Constant: default mainjs.
     * @var mixed
     */
     const DEFAULT_MAINJS = 'default.js';
 
     /**
-    * auto generate doc.
+    * Constant: config file.
     * @var mixed
     */
     const CONFIG_FILE = Constants::PROJECT_CONF_FILE;

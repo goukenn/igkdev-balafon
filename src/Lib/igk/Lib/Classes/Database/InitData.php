@@ -10,13 +10,13 @@ use IGK\System\Database\InitBase;
 use IGK\System\WinUI\LayoutRules;
 
 /**
-* auto generate doc.
+* Init data.
 * @package IGK\Database
 */
 class InitData extends InitBase{
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param ControllersSysDbController $controller
     */
     public static function Init(ControllersSysDbController $controller){ 

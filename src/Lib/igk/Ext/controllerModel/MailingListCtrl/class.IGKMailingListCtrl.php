@@ -5,13 +5,13 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkmailing list ctrl.
 */
 abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
@@ -21,7 +21,7 @@ abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Mailinglist send mail.
     * @param mixed $sender
     * @param mixed $args
     */
@@ -34,14 +34,14 @@ abstract class IGKMailingListCtrl  extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Getcan add child.
     */
     public function getcanAddChild(){
 		return false;
 	}
 
     /**
-    * auto generate doc.
+    * Getis visible.
     * @return bool
     */
     public function getisVisible(): bool{

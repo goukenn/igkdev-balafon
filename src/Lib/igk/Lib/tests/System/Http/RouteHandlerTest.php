@@ -10,13 +10,13 @@ use IGK\System\Http\RouteHandler;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Route handler test.
 * @package IGK\Tests\System\Http
 */
 class RouteHandlerTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests route handler.
     */
     public function test_route_handler(){
         $route = "/demo/";
@@ -27,7 +27,7 @@ class RouteHandlerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests route handler options.
     */
     public function test_route_handler_options(){         
         $this->assertEquals(
@@ -37,7 +37,7 @@ class RouteHandlerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests route handler options optional.
     */
     public function test_route_handler_options_optional(){
       
@@ -48,7 +48,7 @@ class RouteHandlerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests route handler post.
     */
     public function test_route_handler_post(){ 
         $regex = RouteHandler::GetRouteRegex("/demo/post-{id*}/", ["id"=>".*"], false); 
@@ -60,7 +60,7 @@ class RouteHandlerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests get route uri.
     */
     public function test_get_route_uri(){ 
         $regex = RouteHandler::GetResolveURI("/demo/post-{id*}/", ["id"=>"25"]); 
@@ -80,7 +80,7 @@ class RouteHandlerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests dash uri.
     */
     public function test_dash_uri(){
         $s = "/l81/dashboard/get-calendars";

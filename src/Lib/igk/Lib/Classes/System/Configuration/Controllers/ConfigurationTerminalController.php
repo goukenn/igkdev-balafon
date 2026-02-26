@@ -11,7 +11,7 @@ namespace IGK\System\Configuration\Controllers;
 final class ConfigurationTerminalController extends ConfigControllerBase{
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -19,14 +19,14 @@ final class ConfigurationTerminalController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage(){
         return "cli-terminal";
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Group.
     */
     public function getConfigGroup(){
         return "administration";

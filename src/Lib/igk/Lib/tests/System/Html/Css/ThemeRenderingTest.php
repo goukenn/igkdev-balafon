@@ -25,7 +25,7 @@ use PHPUnit\Framework\ExpectationFailedException;
 class ThemeRenderingTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Property: root.
     * @var mixed
     */
     private $m_root;
@@ -34,7 +34,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Sets up the test environment before each test.
     * @return void
     */
     public function setUp():void{ 
@@ -59,7 +59,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests empty render no semicolumn.
     */
     public function test_empty_render_no_semicolumn(){
         $theme = self::_CreateTheme('test');
@@ -72,7 +72,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests empty render replace.
     */
     public function test_empty_render_replace(){
         $theme = self::_CreateTheme('test');
@@ -85,7 +85,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssrendering treatbranket.
     */
     public function test_cssrendering_treatbranket(){
         $theme = self::_CreateTheme('test');
@@ -95,7 +95,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssrendering maptheme.
     */
     public function test_cssrendering_maptheme(){
         $theme = self::_CreateTheme('test');
@@ -108,7 +108,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssrendering maptheme include.
     */
     public function test_cssrendering_maptheme_include(){
         $theme = self::_CreateTheme('test');
@@ -124,7 +124,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssrendering maptheme bar.
     */
     public function test_cssrendering_maptheme_bar(){ 
         $theme = self::_CreateTheme('test');
@@ -142,7 +142,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssrendering maptheme 3.
     */
     public function test_cssrendering_maptheme_3(){
         $theme = self::_CreateTheme('test');
@@ -190,7 +190,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests theme render.
     */
     public function test_theme_render(){
         $theme = self::_CreateTheme('test');
@@ -205,7 +205,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests controller theme render.
     */
     public function test_controller_theme_render(){
         require_once IGK_LIB_DIR.'/Styles/igk_css_colors.phtml';
@@ -239,7 +239,7 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests csstreatment treatglobal theme.
     */
     function test_csstreatment_treatglobal_theme(){
         $th = new HtmlDocTheme(null);
@@ -261,7 +261,7 @@ class ThemeRenderingTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Mock theme renderer.
 * @package IGK\Tests\System\Html\Css
 */
 class MockThemeRenderer extends BaseController{ 

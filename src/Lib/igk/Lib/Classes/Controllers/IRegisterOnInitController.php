@@ -7,7 +7,7 @@ namespace IGK\Controllers;
 use IGK\IController;
 
 /**
-* auto generate doc.
+* Interface for register on init controller.
 * @package IGK\Controllers
 */
 interface IRegisterOnInitController extends IController{

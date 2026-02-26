@@ -22,13 +22,13 @@ use IGK\Helper\IO;
 class UtilityActions{
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
 
     /**
-    * auto generate doc.
+    * Property: target.
     * @var mixed
     */
     var $target;

@@ -10,19 +10,19 @@ namespace IGK\System\Html\Dom;
 class HtmlCloneNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: target.
     * @var mixed
     */
     var $target;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname ='igk-clone-node';
 
     /**
-    * auto generate doc.
+    * Property: children.
     * @var mixed
     */
     var $children= false;
@@ -40,14 +40,14 @@ class HtmlCloneNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Target Node.
     */
     public function getTargetNode(){
         return $this->target; 
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -55,7 +55,7 @@ class HtmlCloneNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sets For Children.
     * @param bool $children
     */
     public function setForChildren(bool $children){
@@ -64,14 +64,14 @@ class HtmlCloneNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns For Childrend.
     */
     public function getForChildrend(){
         return $this->children;
     }
 
     /**
-    * auto generate doc.
+    * Returns Rendered Childs.
     * @param null|mixed $options
     */
     public function getRenderedChilds($options = null)
@@ -95,7 +95,7 @@ class HtmlCloneNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds()
     {
@@ -103,7 +103,7 @@ class HtmlCloneNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     */
     public function getIsVisible()
     {

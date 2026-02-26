@@ -9,7 +9,7 @@ use function igk_resources_gets as __;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkhtml form select gender item.
 */
 class IGKHtmlFormSelectGenderItem extends HtmlNode{
 	/**

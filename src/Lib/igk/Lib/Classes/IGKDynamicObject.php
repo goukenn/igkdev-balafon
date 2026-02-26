@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkdynamic object.
 */
 final class IGKDynamicObject extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: properties.
     * @var mixed
     */
     private $m_properties;

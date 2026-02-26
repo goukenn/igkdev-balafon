@@ -21,19 +21,19 @@ class BalafonInitCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = Constants::INIT_COMMAND;
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'initiliaze environment';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -50,13 +50,13 @@ class BalafonInitCommand extends AppExecCommand
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'system';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'install_dir [options]';
@@ -120,7 +120,7 @@ class BalafonInitCommand extends AppExecCommand
 	}
 
     /**
-    * auto generate doc.
+    * Registers Hook.
     */
     public function registerHook()
 	{		

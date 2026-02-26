@@ -14,32 +14,32 @@ use IGK\System\Console\Commands\Exceptions\CommandException;
 class AddTableToSchemaCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command ='--db:schema-add-table';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc	 ='add table to db schema file';
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'db';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = "table_list [controller]";
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $table_list
     * @param null|string $controller

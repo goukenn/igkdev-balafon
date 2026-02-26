@@ -11,7 +11,7 @@ namespace IGK\System\Html\Dom;
 final class HtmlAJXCtrlReplacementNode extends HtmlNode {
 
     /**
-    * auto generate doc.
+    * Property: ctrls.
     * @var mixed
     */
     private $m_ctrls;

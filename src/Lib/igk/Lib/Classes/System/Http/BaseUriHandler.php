@@ -12,13 +12,13 @@ abstract class BaseUriHandler
 {
 
     /**
-    * auto generate doc.
+    * Property: routes.
     * @var mixed
     */
     protected $m_routes;
 
     /**
-    * auto generate doc.
+    * Property: application.
     * @var mixed
     */
     protected $m_application;
@@ -32,7 +32,7 @@ abstract class BaseUriHandler
     }
 
     /**
-    * auto generate doc.
+    * Initializes Routes.
     */
     protected function initRoutes()
     {

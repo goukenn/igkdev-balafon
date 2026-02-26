@@ -41,67 +41,67 @@ use IGK\Models\ModelBase;
 class Sessions extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess id.
     * @var mixed
     */
     const FD_CL_SESS_ID="clSessId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess ip.
     * @var mixed
     */
     const FD_CL_SESS_IP="clSessIp";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess start at.
     * @var mixed
     */
     const FD_CL_SESS_START_AT="clSessStartAt";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess latitude.
     * @var mixed
     */
     const FD_CL_SESS_LATITUDE="clSessLatitude";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess longitude.
     * @var mixed
     */
     const FD_CL_SESS_LONGITUDE="clSessLongitude";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess country name.
     * @var mixed
     */
     const FD_CL_SESS_COUNTRY_NAME="clSessCountryName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess country code.
     * @var mixed
     */
     const FD_CL_SESS_COUNTRY_CODE="clSessCountryCode";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess city name.
     * @var mixed
     */
     const FD_CL_SESS_CITY_NAME="clSessCityName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess region name.
     * @var mixed
     */
     const FD_CL_SESS_REGION_NAME="clSessRegionName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl sess agent.
     * @var mixed
     */
     const FD_CL_SESS_AGENT="clSessAgent";

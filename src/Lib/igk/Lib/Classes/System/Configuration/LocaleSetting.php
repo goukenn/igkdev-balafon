@@ -13,19 +13,19 @@ use function igk_resources_gets as __;
 class LocaleSetting{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: setting.
     * @var mixed
     */
     private $setting;
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
         return self::$sm_instance ?? self::$sm_instance = new self;
@@ -51,7 +51,7 @@ class LocaleSetting{
     }
 
     /**
-    * auto generate doc.
+    * Returns Date Format.
     */
     public function getDateFormat(){
         if (__($k = "@date_format") == $k){

@@ -11,19 +11,19 @@ use IGK\System\Console\Logger;
 class SyncConfigCommand extends SyncAppExecCommandBase{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--sync:config';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='show ftp-sync configuration';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command) {

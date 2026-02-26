@@ -29,31 +29,31 @@ use IGK\Models\ModelBase;
 class Plugins extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl email.
     * @var mixed
     */
     const FD_CL_EMAIL="clEmail";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl release.
     * @var mixed
     */
     const FD_CL_RELEASE="clRelease";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl version.
     * @var mixed
     */
     const FD_CL_VERSION="clVersion";

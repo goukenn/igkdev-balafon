@@ -11,7 +11,7 @@ namespace IGK;
 abstract class IGKTranslator{
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param mixed $n
     */
     public function get($n){

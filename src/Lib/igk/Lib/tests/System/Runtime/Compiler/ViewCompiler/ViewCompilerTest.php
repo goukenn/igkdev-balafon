@@ -20,7 +20,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests expression 1.
     */
     public function test_expression_1(){
 
@@ -36,7 +36,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests expression 2.
     */
     public function test_expression_2(){
 
@@ -51,7 +51,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests expression 3.
     */
     public function test_expression_3(){
 
@@ -66,7 +66,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests expression 4.
     */
     public function test_expression_4(){
         $compiler = new ViewCompiler;
@@ -80,7 +80,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests expression 5.
     */
     public function test_expression_5(){
         $compiler = new ViewCompiler;
@@ -94,7 +94,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests expression 6.
     */
     public function test_expression_6(){
         $compiler = new ViewCompiler;
@@ -108,7 +108,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block expression 1.
     */
     public function test_block_expression_1(){
         $compiler = new ViewCompiler;
@@ -122,7 +122,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block expression do.
     */
     public function test_block_expression_do(){
         $compiler = new ViewCompiler;
@@ -136,7 +136,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block expression if litteral.
     */
     public function test_block_expression_if_litteral(){
         $compiler = new ViewCompiler;
@@ -150,7 +150,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block build cache litteral.
     */
     public function test_block_build_cache_litteral(){
         $compiler = new ViewCompiler;
@@ -180,7 +180,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block build cache condition.
     */
     public function test_block_build_cache_condition(){
         $compiler = new ViewCompiler;
@@ -213,7 +213,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block build cache condition 2.
     */
     public function test_block_build_cache_condition_2(){
         $compiler = new ViewCompiler;
@@ -247,7 +247,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * St block loop template.
     */
     public function _st_block_loop_template(){
         $compiler = new ViewCompiler;
@@ -278,7 +278,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block build cache condition 3.
     */
     public function test_block_build_cache_condition_3(){
         $compiler = new ViewCompiler;
@@ -309,7 +309,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block build cache condition 4.
     */
     public function test_block_build_cache_condition_4(){
         $compiler = new ViewCompiler;
@@ -334,7 +334,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests block build cache condition 5.
     */
     public function test_block_build_cache_condition_5(){
         $compiler = new ViewCompiler;
@@ -359,7 +359,7 @@ class ViewCompilerTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests comment specifics.
     */
     public function test_comment_specifics(){
         $compiler = new ViewCompiler;

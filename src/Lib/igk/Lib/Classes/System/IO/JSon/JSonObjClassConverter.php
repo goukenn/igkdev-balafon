@@ -13,7 +13,7 @@ use IGKException;
 class JSonObjClassConverter extends JSonBindToConverterBase{
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     private $type;

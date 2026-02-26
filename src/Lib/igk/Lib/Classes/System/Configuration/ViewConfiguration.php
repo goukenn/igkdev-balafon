@@ -10,13 +10,13 @@ namespace IGK\System\Configuration;
 class ViewConfiguration{
 
     /**
-    * auto generate doc.
+    * Path to default dir entry.
     * @var mixed
     */
     var $default_dir_entry = 'default';
 
     /**
-    * auto generate doc.
+    * Flag: is dir entry.
     * @var mixed
     */
     var $is_dir_entry = [];

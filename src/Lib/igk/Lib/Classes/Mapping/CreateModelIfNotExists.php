@@ -10,13 +10,13 @@ namespace IGK\Mapping;
 class CreateModelIfNotExists{
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     var $model ;
 
     /**
-    * auto generate doc.
+    * Callback handler for def callback.
     * @var mixed
     */
     var $defCallback;

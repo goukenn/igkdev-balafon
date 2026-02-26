@@ -77,7 +77,7 @@ class Replacement{
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function clear(){
         $this->infos = [];

@@ -15,7 +15,7 @@ use IGK\System\Http\RouteActionHandler;
 abstract class ControllerTask{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     protected $controller;
@@ -38,7 +38,7 @@ abstract class ControllerTask{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function init(){
         if (!$this->route){

@@ -43,13 +43,13 @@ abstract class CssUtils
 {
 
     /**
-    * auto generate doc.
+    * Property: treated colors.
     * @var mixed
     */
     private static $sm_treated_colors = [];
 
     /**
-    * auto generate doc.
+    * Constant: css desc title.
     * @var mixed
     */
     const CSS_DESC_TITLE = 'Balafon Css Theme';
@@ -91,7 +91,7 @@ abstract class CssUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Treated Colors.
     */
     public static function &GetTreatedColors()
     {
@@ -102,7 +102,7 @@ abstract class CssUtils
     }
 
     /**
-    * auto generate doc.
+    * Clears Treat Colors.
     */
     public function ClearTreatColors()
     {
@@ -556,7 +556,7 @@ abstract class CssUtils
     }
 
     /**
-    * auto generate doc.
+    * Binds Root Data Theme Definition.
     * @param array & $rootdef
     * @param mixed $theme
     * @param string $theme_name
@@ -571,7 +571,7 @@ abstract class CssUtils
     }
 
     /**
-    * auto generate doc.
+    * Exports Color And Properties.
     * @param BaseController $controller
     * @param mixed $theme
     */
@@ -1170,7 +1170,7 @@ abstract class CssUtils
     }
 
     /**
-    * auto generate doc.
+    * Property: old theme.
     * @var mixed
     */
     static $old_theme;
@@ -1243,7 +1243,7 @@ abstract class CssUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Root Props Array.
     * @param array $list
     */
     public static function GetRootPropsArray(array $list)

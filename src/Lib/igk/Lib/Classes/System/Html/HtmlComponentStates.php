@@ -11,7 +11,7 @@ namespace IGK\System\Html;
 abstract class HtmlComponentStates{
 
     /**
-    * auto generate doc.
+    * Constant: states.
     * @var mixed
     */
     const States = ["default", "active", "disable", "danger", "warning", "info"];

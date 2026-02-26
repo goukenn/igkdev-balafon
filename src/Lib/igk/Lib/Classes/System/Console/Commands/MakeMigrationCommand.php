@@ -24,25 +24,25 @@ use ReflectionException;
 class MakeMigrationCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--migrate';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "db";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "migrate utility";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -50,7 +50,7 @@ class MakeMigrationCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage()
     {
@@ -162,7 +162,7 @@ class MakeMigrationCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Migrates up.
     * @param mixed $command
     * @param null|BaseController $ctrl
     */
@@ -173,7 +173,7 @@ class MakeMigrationCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Migrates down.
     * @param mixed $command
     * @param null|BaseController $ctrl
     */
@@ -184,7 +184,7 @@ class MakeMigrationCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Migrates rm.
     * @param mixed $command
     * @param null|BaseController $ctrl
     * @param null|string $name

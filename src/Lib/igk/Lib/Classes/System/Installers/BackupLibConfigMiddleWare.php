@@ -12,20 +12,20 @@ use function igk_resources_gets as __;
 final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
 
     /**
-    * auto generate doc.
+    * Property: config.
     * @var mixed
     */
     private $m_config;
 
     /**
-    * auto generate doc.
+    * Returns Message.
     */
     public function getMessage(){
         return __("backup library configuration");
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     */
     public function invoke(){
         $service = $this->getServiceInfo();        
@@ -42,7 +42,7 @@ final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
     }
 
     /**
-    * auto generate doc.
+    * Abort.
     */
     public function abort()
     {

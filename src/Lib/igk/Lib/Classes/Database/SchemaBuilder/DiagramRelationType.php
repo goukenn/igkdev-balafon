@@ -11,31 +11,31 @@ namespace IGK\Database\SchemaBuilder;
 class DiagramRelationType{
 
     /**
-    * auto generate doc.
+    * Constant: one2many.
     * @var mixed
     */
     const one2Many = "one2many";
 
     /**
-    * auto generate doc.
+    * Constant: many2many.
     * @var mixed
     */
     const many2Many = "many2many";
 
     /**
-    * auto generate doc.
+    * Constant: one2one.
     * @var mixed
     */
     const one2one = "one2one";
 
     /**
-    * auto generate doc.
+    * Property: min.
     * @var mixed
     */
     public $min;
 
     /**
-    * auto generate doc.
+    * Property: max.
     * @var mixed
     */
     public $max;

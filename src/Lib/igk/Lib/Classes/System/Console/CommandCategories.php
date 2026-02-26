@@ -11,31 +11,31 @@ namespace IGK\System\Console;
 abstract class CommandCategories{
 
     /**
-    * auto generate doc.
+    * Constant: make.
     * @var mixed
     */
     const MAKE = 'make';
 
     /**
-    * auto generate doc.
+    * Constant: database.
     * @var mixed
     */
     const DATABASE = 'db';
 
     /**
-    * auto generate doc.
+    * Constant: user.
     * @var mixed
     */
     const USER = 'users';
 
     /**
-    * auto generate doc.
+    * Constant: project.
     * @var mixed
     */
     const PROJECT = 'project';
 
     /**
-    * auto generate doc.
+    * Constant: modules.
     * @var mixed
     */
     const MODULES = 'modules;';

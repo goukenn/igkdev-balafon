@@ -11,7 +11,7 @@ use IGK\System\Database\InitBase;
 class InitData extends InitBase{
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param IGK\System\Configuration\Controllers\ConfigureController $controller
     */
     public static function Init(IGK\System\Configuration\Controllers\ConfigureController $controller){

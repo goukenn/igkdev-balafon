@@ -6,7 +6,7 @@
 namespace IGK\System\Services;
 
 /**
-* auto generate doc.
+* References service.
 * @package IGK\System\Services
 */
 class ReferencesService{

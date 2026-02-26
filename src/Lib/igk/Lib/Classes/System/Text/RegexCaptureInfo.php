@@ -18,69 +18,69 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
     use ActivatorPrivateInitProperty;
 
     /**
-    * auto generate doc.
+    * Property: pos.
     * @var mixed
     */
     private $pos;
 
     /**
-    * auto generate doc.
+    * Property: to.
     * @var mixed
     */
     private $to;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     private $value;
 
     /**
-    * auto generate doc.
+    * Property: childs.
     * @var mixed
     */
     var $childs;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $data;
 
     /**
-    * auto generate doc.
+    * Property: dynamic.
     * @var mixed
     */
     var $_dynamic;
 
     /**
-    * auto generate doc.
+    * Getis root.
     * @return bool
     */
     public function getisRoot(): bool { return true;}
 
     /**
-    * auto generate doc.
+    * Getis root captured.
     * @return bool
     */
     public function getisRootCaptured(): bool { return true;}
 
     /**
-    * auto generate doc.
+    * Returns Pos.
     */
     public function getPos(){
         return $this->pos;
     }
 
     /**
-    * auto generate doc.
+    * Returns To.
     */
     public function getTo(){
         return $this->to;
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     */
     public function getValue(){
         return $this->value;

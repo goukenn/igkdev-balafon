@@ -24,7 +24,7 @@ class HtmlDocCoreStyle extends HtmlCssLinkNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

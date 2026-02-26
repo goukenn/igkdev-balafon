@@ -17,7 +17,7 @@ class PHPScriptBuilderTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests builder gen.
     */
     public function test_builder_gen()
     {
@@ -65,7 +65,7 @@ PHP;
     }
 
     /**
-    * auto generate doc.
+    * Tests gen factory.
     */
     public function test_gen_factory()
     {

@@ -12,31 +12,31 @@ use IGK\Helper\ViewHelper;
 class ViewListCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--view:list';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='list controller\'s view';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "controller";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[];
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     */

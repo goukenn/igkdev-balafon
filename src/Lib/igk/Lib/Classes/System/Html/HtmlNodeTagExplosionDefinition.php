@@ -28,7 +28,7 @@ class HtmlNodeTagExplosionDefinition
     use HtmlNodeTagExplosionTrait;
 
     /**
-    * auto generate doc.
+    * Constant: split.
     * @var mixed
     */
     const split = '>';
@@ -37,25 +37,25 @@ class HtmlNodeTagExplosionDefinition
     // + |
 
     /**
-    * auto generate doc.
+    * Constant: identifier.
     * @var mixed
     */
     const identifier = '#';
 
     /**
-    * auto generate doc.
+    * Constant: name.
     * @var mixed
     */
     const name = '%';
 
     /**
-    * auto generate doc.
+    * Constant: classes.
     * @var mixed
     */
     const classes = '.';
 
     /**
-    * auto generate doc.
+    * Constant: def method.
     * @var mixed
     */
     const DEF_METHOD = 'DefinitionArgs';
@@ -70,7 +70,7 @@ class HtmlNodeTagExplosionDefinition
     protected $split = self::split;
 
     /**
-    * auto generate doc.
+    * Property: static.
     * @var mixed
     */
     private static $sm_static;

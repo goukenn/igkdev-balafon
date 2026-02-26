@@ -12,7 +12,7 @@ use IGK\System\Database\SQLGrammar;
 interface IDataDriver{
 
     /**
-    * auto generate doc.
+    * Inserts.
     * @param mixed $table
     * @param mixed $entries
     * @param bool $throwException
@@ -26,13 +26,13 @@ interface IDataDriver{
     function getDbName():?string;
 
     /**
-    * auto generate doc.
+    * Returns Version.
     * @return string
     */
     function getVersion():string;
 
     /**
-    * auto generate doc.
+    * Returns Type.
     * @return string
     */
     function getType():string;
@@ -52,48 +52,48 @@ interface IDataDriver{
     function getIsConnect(): bool;
 
     /**
-    * auto generate doc.
+    * Returns Filter.
     * @return bool
     */
     function getFilter():bool;
 
     /**
-    * auto generate doc.
+    * Returns true if Type Supported.
     * @param string $type
     * @return bool
     */
     function isTypeSupported(string $type):bool;
 
     /**
-    * auto generate doc.
+    * Escape.
     * @param null|string $column
     * @return string
     */
     function escape(?string $column=null):string;
 
     /**
-    * auto generate doc.
+    * Escape string.
     * @param null|string $v
     * @return string
     */
     function escape_string(?string $v=null):string;
 
     /**
-    * auto generate doc.
+    * Escape table name.
     * @param string $v
     * @return string
     */
     function escape_table_name(string $v):string;
 
     /**
-    * auto generate doc.
+    * Escape table column.
     * @param string $v
     * @return string
     */
     function escape_table_column(string $v):string;
 
     /**
-    * auto generate doc.
+    * Pushes Relations.
     * @param string $tbname
     * @param mixed $v
     * @return bool
@@ -102,14 +102,14 @@ interface IDataDriver{
     function supportDefaultValue(string $type):bool;
 
     /**
-    * auto generate doc.
+    * Returns true if Auto Increment Type.
     * @param string $type
     * @return bool
     */
     function isAutoIncrementType(string $type):bool;
 
     /**
-    * auto generate doc.
+    * Table exists.
     * @param string $table
     * @param bool $throwex
     * @return bool
@@ -117,7 +117,7 @@ interface IDataDriver{
     function tableExists(string $table, bool $throwex=true): bool;
 
     /**
-    * auto generate doc.
+    * Sends Query.
     * @param string $query
     * @param mixed $throwex
     * @param null|mixed $options
@@ -152,7 +152,7 @@ interface IDataDriver{
     function getEngineSupport():bool;
 
     /**
-    * auto generate doc.
+    * Creates Alter Table Format.
     * @return string
     */
     function createAlterTableFormat():string;
@@ -198,7 +198,7 @@ interface IDataDriver{
     function constraintExists(string $name):bool;
 
     /**
-    * auto generate doc.
+    * Constraint foreign key exists.
     * @param string $name
     * @return bool
     */

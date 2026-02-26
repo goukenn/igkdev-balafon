@@ -5,18 +5,18 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkview actions constants.
 */
 final class IGKViewActionsConstants{
 
     /**
-    * auto generate doc.
+    * Constant: handle error.
     * @var mixed
     */
     const HANDLE_ERROR = "(@error)";
 
     /**
-    * auto generate doc.
+    * Constant: handle default.
     * @var mixed
     */
     const HANDLE_DEFAULT = "(@default)";

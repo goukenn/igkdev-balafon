@@ -89,7 +89,7 @@ if (defined('IGK_GOOGLE_MODULE')) {
     }
 
 /**
-* auto generate doc.
+* Igk google bindfont.
 * @param mixed $theme
 * @param mixed $family
 * @param null|mixed $size
@@ -200,7 +200,7 @@ function igk_google_bindfont($theme, $family, $size = null)
     }
 
 /**
-* auto generate doc.
+* Igk google data dir.
 */
 function igk_google_data_dir()
     {
@@ -355,7 +355,7 @@ EOF
     if (!function_exists('igk_html_node_google_icon_outlined')) {
 
 /**
-* auto generate doc.
+* Igk html node google icon outlined.
 * @param mixed $name
 * @param mixed $title
 * @param mixed $type
@@ -369,7 +369,7 @@ function igk_html_node_google_icon_outlined($name, $title = "", $type = "span")
     if (!function_exists('igk_html_node_hamburger_button_menu')) {
 
 /**
-* auto generate doc.
+* Igk html node hamburger button menu.
 */
 function igk_html_node_hamburger_button_menu()
         {
@@ -456,7 +456,7 @@ EOF;
     }
 
 /**
-* auto generate doc.
+* Igk google init css.
 */
 function igk_google_init_css()
     {
@@ -736,7 +736,7 @@ function igk_google_init_css()
     if (!function_exists('igk_html_node_google_oauth_link')) {
 
 /**
-* auto generate doc.
+* Igk html node google oauth link.
 * @param mixed $tab
 */
 function igk_html_node_google_oauth_link($tab)
@@ -770,7 +770,7 @@ function igk_html_node_google_oauth_link($tab)
     if (!function_exists('igk_html_node_google_oth2_button')) {
 
 /**
-* auto generate doc.
+* Igk html node google oth2 button.
 * @param mixed $url
 * @param mixed $gclient
 */

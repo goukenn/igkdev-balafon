@@ -10,18 +10,18 @@
 use IGK\System\Html\IHtmlGetValue;
 
 /**
-* auto generate doc.
+* Igkframe script.
 */
 final class IGKFrameScript implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     private $m_type;
 
     /**
-    * auto generate doc.
+    * Property: owner.
     * @var mixed
     */
     var $owner;

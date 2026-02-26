@@ -6,7 +6,7 @@
 namespace IGK\System\Http;
 
 /**
-* auto generate doc.
+* Interface for header response.
 * @package IGK\System\Http
 */
 interface IHeaderResponse{

@@ -10,7 +10,7 @@ namespace IGK\System\Mail;
 interface IServiceMailData{
 
     /**
-    * auto generate doc.
+    * Returns Mail Data.
     * @return ?array
     */
     function getMailData(): ?array;

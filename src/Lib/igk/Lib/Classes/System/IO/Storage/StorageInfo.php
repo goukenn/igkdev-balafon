@@ -10,13 +10,13 @@ namespace IGK\System\IO\Storage;
 class StorageInfo implements IStorageInfo{
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
 
     /**
-    * auto generate doc.
+    * Path to path.
     * @var mixed
     */
     var $path;

@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Forms\Validations;
 
 /**
-* auto generate doc.
+* Double validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class DoubleValidator extends FormFieldValidatorBase implements IFormValidator{

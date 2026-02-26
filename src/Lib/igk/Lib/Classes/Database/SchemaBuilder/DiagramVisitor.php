@@ -11,13 +11,13 @@ namespace IGK\Database\SchemaBuilder;
 class DiagramVisitor extends DiagramVisitorBase{
 
     /**
-    * auto generate doc.
+    * Property: diagram.
     * @var mixed
     */
     var $diagram;
 
     /**
-    * auto generate doc.
+    * Starts.
     * @return ?string
     */
     public function start():?string{
@@ -25,7 +25,7 @@ class DiagramVisitor extends DiagramVisitorBase{
     }
 
     /**
-    * auto generate doc.
+    * Complete.
     * @return ?string
     */
     public function complete():?string{

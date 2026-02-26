@@ -12,12 +12,12 @@ trait CssConverterScssVisitorTrait
 {
 
     /**
-    * auto generate doc.
+    * Visit return.
     */
     protected function _visit_return() {}
 
     /**
-    * auto generate doc.
+    * Read block.
     * @param mixed $converter
     * @param mixed & $tab
     * @param mixed $options
@@ -48,7 +48,7 @@ trait CssConverterScssVisitorTrait
     }
 
     /**
-    * auto generate doc.
+    * Visit keyframes.
     * @param mixed $options
     */
     protected function _visit_keyframes($options)
@@ -57,7 +57,7 @@ trait CssConverterScssVisitorTrait
     }
 
     /**
-    * auto generate doc.
+    * Visit webkit keyframes.
     * @param mixed $options
     */
     protected function _visit_webkit_keyframes($options)
@@ -69,7 +69,7 @@ trait CssConverterScssVisitorTrait
     }
 
     /**
-    * auto generate doc.
+    * Visit moz keyframes.
     * @param mixed $options
     */
     protected function _visit_moz_keyframes($options)
@@ -81,7 +81,7 @@ trait CssConverterScssVisitorTrait
     }
 
     /**
-    * auto generate doc.
+    * Visit function.
     * @param mixed $options
     */
     protected function _visit_function($options)
@@ -111,7 +111,7 @@ trait CssConverterScssVisitorTrait
     }
 
     /**
-    * auto generate doc.
+    * Visit debug.
     * @param mixed $options
     */
     protected function _visit_debug($options)

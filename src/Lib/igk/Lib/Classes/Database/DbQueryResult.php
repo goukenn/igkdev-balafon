@@ -14,13 +14,13 @@ use IGKObject;
 use IGKSorter;
 
 /**
-* auto generate doc.
+* Db query result.
 * @package IGK\Database
 */
 abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
 
     /**
-    * auto generate doc.
+    * Properties: error, errormsg.
     * @var mixed
     */
     private $m_error, $m_errormsg;
@@ -30,7 +30,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     public const CALLBACK_OPTS= \IGK\Database\DbConstants::CALLBACK_OPTS;
 
     /**
-    * auto generate doc.
+    * Creates Empty Entry.
     */
 
     public function createEmptyEntry(){
@@ -38,7 +38,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Columns.
     */
 
     public function getColumns(){
@@ -46,7 +46,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Error.
     */
 
     public function getError(){
@@ -54,7 +54,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Has Error.
     */
 
     public function getHasError(){
@@ -62,7 +62,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Has Row.
     */
 
     public function getHasRow(){
@@ -70,7 +70,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Iterator.
     */
 
     public function getIterator(){
@@ -79,7 +79,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Result Type.
     */
 
     public function getResultType(){
@@ -87,7 +87,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Row Count.
     */
 
     public function getRowCount(){
@@ -103,7 +103,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Success.
     */
 
     public function getSuccess(){
@@ -111,7 +111,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     */
 
     public function getValue(){
@@ -119,7 +119,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Result type is boolean.
     */
 
     public function resultTypeIsBoolean(){
@@ -127,7 +127,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Sets Error.
     * @param mixed $error
     */
 
@@ -136,7 +136,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Sets Error Msg.
     * @param mixed $msg
     */
 
@@ -145,7 +145,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Sorts By.
     * @param mixed $key
     * @param mixed $asc
     */
@@ -159,7 +159,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * To key array.
     * @param mixed $keyname
     */
 

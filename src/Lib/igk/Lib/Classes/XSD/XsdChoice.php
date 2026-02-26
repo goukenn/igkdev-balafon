@@ -6,25 +6,25 @@
 namespace IGK\XSD;
 
 /**
-* auto generate doc.
+* Xsd choice.
 * @package IGK\XSD
 */
 class XsdChoice implements IXsdReference{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: attributes.
     * @var mixed
     */
     var $attributes;
 
     /**
-    * auto generate doc.
+    * Returns Ref Type.
     */
 
     public function getRefType(){
@@ -32,7 +32,7 @@ class XsdChoice implements IXsdReference{
     }
 
     /**
-    * auto generate doc.
+    * Returns Ref.
     */
 
     public function getRef() { 

@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class HtmlRenderingTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests copy node.
     */
     public function test_copy_node(){
         $g = igk_create_node('div');
@@ -32,7 +32,7 @@ class HtmlRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests copy node 2.
     */
     public function test_copy_node_2(){
         $g = igk_create_node('div');
@@ -47,7 +47,7 @@ class HtmlRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests copy config.
     */
     public function test_copy_config(){
         $g = igk_create_node('configs');
@@ -62,7 +62,7 @@ class HtmlRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests render litteral.
     */
     public function test_render_litteral(){
         $g = igk_create_node("div");
@@ -74,7 +74,7 @@ class HtmlRenderingTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests load text area.
     */
     public function test_load_text_area(){
         $g = igk_create_node("div");

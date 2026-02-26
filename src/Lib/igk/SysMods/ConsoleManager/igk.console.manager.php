@@ -35,7 +35,7 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage()
     {
@@ -72,7 +72,7 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View(): BaseController

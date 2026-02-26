@@ -35,13 +35,13 @@ class UsersConfigurationController extends ConfigControllerBase
 {
 
     /**
-    * auto generate doc.
+    * Constant: view action.
     * @var mixed
     */
     const view_action = self::class . "::ViewAction";
 
     /**
-    * auto generate doc.
+    * Constant: notify key.
     * @var mixed
     */
     const NOTIFY_KEY = 'sys://uc/auf';
@@ -59,7 +59,7 @@ class UsersConfigurationController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Searches.
     */
     public function search()
     {
@@ -327,7 +327,7 @@ class UsersConfigurationController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context = null)
@@ -500,7 +500,7 @@ class UsersConfigurationController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Registers Or Connect.
     * @param mixed $_edata
     */
     public function registerOrConnect($_edata)
@@ -893,7 +893,7 @@ class UsersConfigurationController extends ConfigControllerBase
     // }
 
     /**
-    * auto generate doc.
+    * Change user password.
     * @param mixed $userid
     * @param mixed $password
     * @param mixed $repassword

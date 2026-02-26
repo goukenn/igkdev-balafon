@@ -77,7 +77,7 @@ class RegexDetectInfo{
     var $emptyLine;
 
     /**
-    * auto generate doc.
+    * Id.
     */
     public function id(){
         return $this->match->name ?? ($s =$this->match->tokenID)?explode(' ', $s)[0] : null;

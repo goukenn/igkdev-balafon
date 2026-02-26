@@ -19,7 +19,7 @@ class AppConfigs
 {
 
     /**
-    * auto generate doc.
+    * Property: author.
     * @var mixed
     */
     var $author;
@@ -29,7 +29,7 @@ class AppConfigs
     const ConfigurationFileName = IGK_BALAFON_CONFIG;
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param mixed $init_data
     */
     public function init($init_data)

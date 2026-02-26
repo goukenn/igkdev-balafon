@@ -32,13 +32,13 @@ class HtmlRenderer
 {
 
     /**
-    * auto generate doc.
+    * Constant: reflect class.
     * @var mixed
     */
     const reflect_class = 'reflec_class';
 
     /**
-    * auto generate doc.
+    * Constant: render method.
     * @var mixed
     */
     const render_method = 'render';
@@ -235,7 +235,7 @@ class HtmlRenderer
     }
 
     /**
-    * auto generate doc.
+    * Def options.
     * @param null|mixed & $options
     */
     public static function DefOptions(&$options = null)
@@ -495,7 +495,7 @@ class HtmlRenderer
     }
 
     /**
-    * auto generate doc.
+    * Mail theme rendering.
     * @param HtmlItemBase $item
     * @param mixed & $attribs
     * @param null|mixed $options
@@ -594,7 +594,7 @@ class HtmlRenderer
     }
 
     /**
-    * auto generate doc.
+    * Returns Attribute Array To String.
     * @param mixed $attrs
     * @param null|mixed $options
     */

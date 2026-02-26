@@ -31,7 +31,7 @@ abstract class FormatterBase extends IGKObject
     use SystemStateFlagTrait;
 
     /**
-    * auto generate doc.
+    * Listener: visitor listener.
     * @var mixed
     */
     var $visitorListener;
@@ -48,26 +48,26 @@ abstract class FormatterBase extends IGKObject
     var $lineSplitter;
 
     /**
-    * auto generate doc.
+    * Property: host engine.
     * @var mixed
     */
     protected $m_host_engine;
 
     /**
-    * auto generate doc.
+    * Property: parent engine.
     * @var mixed
     */
     protected $m_parent_engine;
 
     /**
-    * auto generate doc.
+    * Property: sb.
     * @var mixed
     */
     protected $m_sb;
     // protected $m_marked;
 
     /**
-    * auto generate doc.
+    * Property: depth.
     * @var mixed
     */
     protected $m_depth = 0;
@@ -125,7 +125,7 @@ abstract class FormatterBase extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns Formatter Engine.
     * @param mixed $m
     */
     function getFormatterEngine($m)
@@ -222,7 +222,7 @@ abstract class FormatterBase extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Chain transfrom.
     * @param RegexMatcherContainer $regex
     * @param array $patterns
     * @param string $v
@@ -273,7 +273,7 @@ abstract class FormatterBase extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Transform capture.
     * @param string $v
     */
     function transformCapture(string $v)
@@ -414,14 +414,14 @@ abstract class FormatterBase extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns Transform Obj.
     * @param RegexMatcherCapture $e
     * @return IReplaceCapturedFormatDefinition
     */
     abstract function getTransformObj(RegexMatcherCapture $e): IReplaceCapturedFormatDefinition;
 
     /**
-    * auto generate doc.
+    * Did treat chain listener.
     * @param IReplaceCapturedFormatDefinition $ce
     */
     protected function didTreatChainListener(IReplaceCapturedFormatDefinition $ce) {}
@@ -533,7 +533,7 @@ abstract class FormatterBase extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Splitter join.
     * @return string
     */
     abstract function splitterJoin(): string;
@@ -594,7 +594,7 @@ abstract class FormatterBase extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Treat before.
     * @param string $before
     */
     protected function _treatBefore(string $before)
@@ -606,7 +606,7 @@ abstract class FormatterBase extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Tab.
     */
     public function tab()
     {

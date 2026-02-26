@@ -11,7 +11,7 @@ namespace IGK\System\Html;
 interface IHtmlNodeEvaluableExpression{
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @return ?string
     */
     function getValue():?string;

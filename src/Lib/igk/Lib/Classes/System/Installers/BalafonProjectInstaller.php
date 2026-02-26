@@ -15,13 +15,13 @@ require_once(__DIR__."/InstallerActionMiddleWare.pinc");
 class BalafonProjectInstaller extends BalafonInstaller{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     protected $controller;
 
     /**
-    * auto generate doc.
+    * Property: zipcore.
     * @var mixed
     */
     protected $zipcore = false;
@@ -60,13 +60,13 @@ class BalafonProjectInstaller extends BalafonInstaller{
 }
 
 /**
-* auto generate doc.
+* Backup project middle ware.
 * @package IGK\System\Installers
 */
 class BackupProjectMiddleWare extends InstallerActionMiddleWare{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $controller;
@@ -81,7 +81,7 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
     }
 
     /**
-    * auto generate doc.
+    * Returns Message.
     */
 
     public function getMessage(){
@@ -89,14 +89,14 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
     }
 
     /**
-    * auto generate doc.
+    * Abort.
     */
 
     public function abort(){
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     */
 
     public function invoke(){
@@ -115,13 +115,13 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
 }
 
 /**
-* auto generate doc.
+* Extract project libary middle ware.
 * @package IGK\System\Installers
 */
 class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
 
     /**
-    * auto generate doc.
+    * Returns Message.
     */
 
     public function getMessage(){
@@ -129,14 +129,14 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
     }
 
     /**
-    * auto generate doc.
+    * Abort.
     */
 
     public function abort(){
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     */
 
     public function invoke(){
@@ -164,13 +164,13 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
 }
 
 /**
-* auto generate doc.
+* Success project install middle ware.
 * @package IGK\System\Installers
 */
 class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
 
     /**
-    * auto generate doc.
+    * Returns Message.
     */
 
     public function getMessage(){ 
@@ -178,14 +178,14 @@ class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
     }
 
     /**
-    * auto generate doc.
+    * Abort.
     */
 
     public function abort(){
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     */
 
     public function invoke(){

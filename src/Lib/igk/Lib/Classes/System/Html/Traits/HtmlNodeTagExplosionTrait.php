@@ -11,13 +11,13 @@ namespace IGK\System\Html\Traits;
 trait HtmlNodeTagExplosionTrait{
 
     /**
-    * auto generate doc.
+    * Property: split.
     * @var mixed
     */
     protected $split = '>';
 
     /**
-    * auto generate doc.
+    * Explode tag definition.
     * @param string $tagname
     * @param array & $defs
     */

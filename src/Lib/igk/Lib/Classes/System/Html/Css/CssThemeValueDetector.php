@@ -33,7 +33,7 @@ class CssThemeValueDetector{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Global Expression.
     * @param string $name
     */
     public static function IsGlobalExpression(string $name){

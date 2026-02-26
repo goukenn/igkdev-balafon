@@ -11,19 +11,19 @@ namespace IGK\System\Cron;
 abstract class CronExecutionStatus{
 
     /**
-    * auto generate doc.
+    * Constant: restart.
     * @var mixed
     */
     const RESTART = 0;
 
     /**
-    * auto generate doc.
+    * Constant: stop.
     * @var mixed
     */
     const STOP = 1;
 
     /**
-    * auto generate doc.
+    * Constant: skip.
     * @var mixed
     */
     const SKIP = -1;

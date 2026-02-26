@@ -15,7 +15,7 @@ class DiagramMigration extends DiagramPropertiesHost {
      var $type;
 
     /**
-    * auto generate doc.
+    * Property: properties.
     * @var mixed
     */
     var $properties;

@@ -322,7 +322,7 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
 // because initDoc only need to be call on view loading only once to initialize the document
 
 /**
-* auto generate doc.
+* Igk module init doc.
 * @param ApplicationModuleController $module
 * @param mixed $doc
 */

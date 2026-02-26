@@ -19,37 +19,37 @@ final class IGKGkdsFile extends IGKObject
 {
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     private $m_source;
 
     /**
-    * auto generate doc.
+    * Property: gd.
     * @var mixed
     */
     private $m_gd;
 
     /**
-    * auto generate doc.
+    * Property: document.
     * @var mixed
     */
     private $m_document;
 
     /**
-    * auto generate doc.
+    * Returns GD.
     */
     public function getGD(){return $this->m_gd; }
 
     /**
-    * auto generate doc.
+    * Returns Document.
     */
     public function getDocument(){return $this->m_document; }
 	private function __construct(){
 	}
 
     /**
-    * auto generate doc.
+    * Parses To GD.
     * @param mixed $filename
     * @param mixed $index
     */
@@ -84,7 +84,7 @@ final class IGKGkdsFile extends IGKObject
 	}
 
     /**
-    * auto generate doc.
+    * Visit layer.
     * @param mixed $layer
     */
     public function VisitLayer($layer){
@@ -96,7 +96,7 @@ final class IGKGkdsFile extends IGKObject
 	}
 
     /**
-    * auto generate doc.
+    * Visit circle.
     * @param mixed $i
     */
     public function VisitCircle($i){
@@ -116,7 +116,7 @@ final class IGKGkdsFile extends IGKObject
 	}
 
     /**
-    * auto generate doc.
+    * Renders Picture.
     */
     public function RenderPicture(){
 		header("Content-Type: image/png");
@@ -124,7 +124,7 @@ final class IGKGkdsFile extends IGKObject
 	}
 
     /**
-    * auto generate doc.
+    * Dispose.
     */
     public function Dispose(){
 		$this->GD->Dispose();

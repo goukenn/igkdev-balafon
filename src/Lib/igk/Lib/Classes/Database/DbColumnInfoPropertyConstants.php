@@ -11,31 +11,31 @@ use IGK\System\Exceptions\OperationNotAllowedException;
 abstract class DbColumnInfoPropertyConstants{
 
     /**
-    * auto generate doc.
+    * Constant: column info.
     * @var mixed
     */
     const ColumnInfo = 'columnInfo';
 
     /**
-    * auto generate doc.
+    * Constant: def table name.
     * @var mixed
     */
     const DefTableName = 'defTableName';
 
     /**
-    * auto generate doc.
+    * Constant: display.
     * @var mixed
     */
     const Display = 'Display';
 
     /**
-    * auto generate doc.
+    * Constant: description.
     * @var mixed
     */
     const Description = 'Description';
 
     /**
-    * auto generate doc.
+    * Constant: table.
     * @var mixed
     */
     const Table = 'table';

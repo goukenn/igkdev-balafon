@@ -97,7 +97,7 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController{

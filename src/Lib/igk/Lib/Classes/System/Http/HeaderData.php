@@ -10,13 +10,13 @@ namespace IGK\System\Http;
 class HeaderData{
 
     /**
-    * auto generate doc.
+    * Property: heads.
     * @var mixed
     */
     private $m_heads;
 
     /**
-    * auto generate doc.
+    * Property: origin.
     * @var mixed
     */
     var $origin;

@@ -6,7 +6,7 @@
 namespace IGK\System\Polyfill;
 
 /**
-* auto generate doc.
+* Trait providing array access self functionality.
 * @package IGK\System\Polyfill
 */
 trait ArrayAccessSelfTrait{
@@ -30,7 +30,7 @@ trait ArrayAccessSelfTrait{
     }
 
     /**
-    * auto generate doc.
+    * Offset unset.
     * @param mixed $n
     * @return void
     */
@@ -39,7 +39,7 @@ trait ArrayAccessSelfTrait{
     }
 
     /**
-    * auto generate doc.
+    * Offset exists.
     * @param mixed $n
     * @return bool
     */

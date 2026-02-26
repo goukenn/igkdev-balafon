@@ -11,26 +11,26 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use ReflectionFunction;
 
 /**
-* auto generate doc.
+* Web init component insterface command.
 * @package IGK\System\Console\Commands
 */
 class WebInitComponentInsterfaceCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--web:init-component";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "init component file interface helper";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "web";

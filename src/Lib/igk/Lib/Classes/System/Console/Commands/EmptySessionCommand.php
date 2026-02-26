@@ -14,13 +14,13 @@ use IGK\System\Library\session;
 class EmptySessionCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--empty-session';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='reset sess to force it reloads'; 
@@ -29,7 +29,7 @@ class EmptySessionCommand extends AppExecCommand{
 	/* var $usage = ''; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $sessionid
     */

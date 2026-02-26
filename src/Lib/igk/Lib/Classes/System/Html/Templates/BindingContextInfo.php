@@ -41,7 +41,7 @@ class BindingContextInfo{
     }
 
     /**
-    * auto generate doc.
+    * To array.
     */
     public function to_array(){
         return (array)$this;

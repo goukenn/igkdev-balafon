@@ -15,67 +15,67 @@ final class HtmlFormNode extends HtmlNode
     use HostableItemTrait;
 
     /**
-    * auto generate doc.
+    * Constant: urlencoded.
     * @var mixed
     */
     const URLEncoded = "application/x-www-form-urlencoded";
 
     /**
-    * auto generate doc.
+    * Property: bodydiv.
     * @var mixed
     */
     private $m_bodydiv;
 
     /**
-    * auto generate doc.
+    * Property: footdiv.
     * @var mixed
     */
     private $m_footdiv;
 
     /**
-    * auto generate doc.
+    * Property: definition.
     * @var mixed
     */
     private $m_definition;
 
     /**
-    * auto generate doc.
+    * Type of enc type.
     * @var mixed
     */
     private $m_encType;
 
     /**
-    * auto generate doc.
+    * Property: nofoot.
     * @var mixed
     */
     private $m_nofoot;
 
     /**
-    * auto generate doc.
+    * Property: notitle.
     * @var mixed
     */
     private $m_notitle;
 
     /**
-    * auto generate doc.
+    * Property: topdiv.
     * @var mixed
     */
     private $m_topdiv;
 
     /**
-    * auto generate doc.
+    * Property: max file size.
     * @var mixed
     */
     private $_max_file_size;
 
     /**
-    * auto generate doc.
+    * Property: max upload file.
     * @var mixed
     */
     private $_max_upload_file;
 
     /**
-    * auto generate doc.
+    * Property: prevent max file upload.
     * @var mixed
     */
     private $_prevent_max_file_upload;
@@ -152,7 +152,7 @@ final class HtmlFormNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Sets MAX FILE SIZE.
     * @param mixed $size
     */
     public function setMAX_FILE_SIZE($size)
@@ -161,7 +161,7 @@ final class HtmlFormNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Sets MAX UPLOAD FILE.
     * @param null|int $count
     */
     public function setMAX_UPLOAD_FILE(?int $count=null){
@@ -169,7 +169,7 @@ final class HtmlFormNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Prevent max file upload.
     */
     public function prevent_max_file_upload(){
         $n = & $this->_prevent_max_file_upload;

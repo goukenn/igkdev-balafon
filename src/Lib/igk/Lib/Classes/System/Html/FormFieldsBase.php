@@ -10,13 +10,13 @@ namespace IGK\System\Html;
 abstract class FormFieldsBase implements IFormFields{
 
     /**
-    * auto generate doc.
+    * Returns Fields.
     * @return array
     */
     public abstract function getFields(): array;
 
     /**
-    * auto generate doc.
+    * Returns Data Source.
     * @return ?array
     */
     public function getDataSource(): ?array { 
@@ -32,7 +32,7 @@ abstract class FormFieldsBase implements IFormFields{
     }
 
     /**
-    * auto generate doc.
+    * Returns Engine.
     * @return ?object
     */
     public function getEngine(): ?object { 

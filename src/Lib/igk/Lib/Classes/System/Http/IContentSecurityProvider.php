@@ -11,7 +11,7 @@ use IGK\System\Security\Web\MapContentValidatorBase;
 interface IContentSecurityProvider{
 
     /**
-    * auto generate doc.
+    * Returns Content Security.
     * @param string $name
     * @return ?MapContentValidatorBase
     */

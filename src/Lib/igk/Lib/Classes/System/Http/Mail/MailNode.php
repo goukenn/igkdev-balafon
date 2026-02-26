@@ -12,19 +12,19 @@ class MailNode extends MailNodeBase
 {
 
     /**
-    * auto generate doc.
+    * Property: inline style.
     * @var mixed
     */
     private $m_inline_style = '';
 
     /**
-    * auto generate doc.
+    * Property: render options.
     * @var mixed
     */
     private $m_render_options;
 
     /**
-    * auto generate doc.
+    * Property: resolver.
     * @var mixed
     */
     private $m_resolver;
@@ -43,7 +43,7 @@ class MailNode extends MailNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Sets Class.
     * @param mixed $value
     */
     public function setClass($value){
@@ -60,7 +60,7 @@ class MailNode extends MailNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -81,7 +81,7 @@ class MailNode extends MailNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $k
     */
     protected function _access_OffsetGet($k)

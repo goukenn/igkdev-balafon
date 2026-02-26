@@ -21,14 +21,14 @@ use ReflectionException;
 final class SysDbController extends NonVisibleControllerBase implements IDatabaseHost{
 
     /**
-    * auto generate doc.
+    * Returns Can Init Db.
     */
     public function getCanInitDb(){
         return true;
     }
 
     /**
-    * auto generate doc.
+    * Drops Db.
     * @param mixed $navigate
     * @param mixed $force
     * @param mixed $clean
@@ -44,28 +44,28 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     }
 
     /**
-    * auto generate doc.
+    * Returns Db Constant File.
     */
     public function getDbConstantFile(){
         return igk_sys_db_constant_cache();
     }
 
     /**
-    * auto generate doc.
+    * Returns Entry Namespace.
     */
     protected function getEntryNamespace(){
         return rtrim(\IGK::class, "\\");
     }
 
     /**
-    * auto generate doc.
+    * Returns Classes Dir.
     */
     public function getClassesDir(){
         return IGK_LIB_CLASSES_DIR;
     }
 
     /**
-    * auto generate doc.
+    * Returns Articles Dir.
     */
     public function getArticlesDir()
     { 
@@ -73,7 +73,7 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     }
 
     /**
-    * auto generate doc.
+    * Returns Info Data Entry.
     * @param mixed $name
     * @param mixed $cardinality
     * @param mixed $type
@@ -102,7 +102,7 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -118,14 +118,14 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Dir.
     */
     public function getDataDir(){
         return IGK_LIB_DIR."/".IGK_DATA_FOLDER;
     }
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
@@ -134,7 +134,7 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     }
 
     /**
-    * auto generate doc.
+    * Initialized.
     * @param mixed $cl
     */
     public static function Initialized($cl){
@@ -142,7 +142,7 @@ final class SysDbController extends NonVisibleControllerBase implements IDatabas
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Function Exposed.
     * @param mixed $func
     */
     public function IsFunctionExposed($func){

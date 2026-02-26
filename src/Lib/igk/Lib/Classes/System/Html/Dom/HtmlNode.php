@@ -160,49 +160,49 @@ class HtmlNode extends HtmlItemBase
 {
 
     /**
-    * auto generate doc.
+    * Constant: html namespace.
     * @var mixed
     */
     const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
 
     /**
-    * auto generate doc.
+    * Name of auto tag name class.
     * @var mixed
     */
     static $AutoTagNameClass = false;
 
     /**
-    * auto generate doc.
+    * Constant: node list.
     * @var mixed
     */
     const NODE_LIST = "a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|data|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|hr|html|i|iframe|img|input|ins|kbd|keygen|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr";
 
     /**
-    * auto generate doc.
+    * Constant: aria list.
     * @var mixed
     */
     const ARIA_LIST = "autocomplete|checked|disabled|expanded|haspopup|hidden|invalid|label|level|multiline|multiselectable|orientation|pressed|readonly|required|selected|sort|valuemax|valuemin|valuenow|valuetext|live|relevant|atomic|busy|dropeffect|dragged|activedescendant|controls|describedby|flowto|labelledby|owns|posinset|setsize";
 
     /**
-    * auto generate doc.
+    * Constant: native element.
     * @var mixed
     */
     const NATIVE_ELEMENT = "text|loop";
 
     /**
-    * auto generate doc.
+    * Constant: loop host tag.
     * @var mixed
     */
     const LOOP_HOST_TAG = '@loop';
 
     /**
-    * auto generate doc.
+    * Constant: fields host tag.
     * @var mixed
     */
     const FIELDS_HOST_TAG = '@fields';
 
     /**
-    * auto generate doc.
+    * Constant: text tag.
     * @var mixed
     */
     const TEXT_TAG = 'text';
@@ -312,7 +312,7 @@ class HtmlNode extends HtmlItemBase
     }
 
     /**
-    * auto generate doc.
+    * Adds Node.
     * @param mixed $name
     */
     public function addNode($name)
@@ -342,7 +342,7 @@ class HtmlNode extends HtmlItemBase
     }
 
     /**
-    * auto generate doc.
+    * Adds Range.
     * @param array $childs
     */
     public function addRange(array $childs)
@@ -384,7 +384,7 @@ class HtmlNode extends HtmlItemBase
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function clear()
     {
@@ -529,7 +529,7 @@ class HtmlNode extends HtmlItemBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Property.
     * @param string $name
     */
     public function getProperty(string $name){
@@ -564,7 +564,7 @@ class HtmlNode extends HtmlItemBase
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
     protected function _access_offsetExists($n)
@@ -594,7 +594,7 @@ class HtmlNode extends HtmlItemBase
     }
 
     /**
-    * auto generate doc.
+    * Sets.
     * @param mixed $key
     * @param mixed $value
     */
@@ -605,7 +605,7 @@ class HtmlNode extends HtmlItemBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -632,7 +632,7 @@ class HtmlNode extends HtmlItemBase
     }
 
     /**
-    * auto generate doc.
+    * Deactivate.
     * @param mixed $n
     */
     public function deactivate($n)

@@ -12,31 +12,31 @@ use IGK\System\IO\StringBuilder;
 class OpenGraphMetadata extends MetadataGroupEntryBase{
 
     /**
-    * auto generate doc.
+    * Property: og title.
     * @var mixed
     */
     var $ogTitle;
 
     /**
-    * auto generate doc.
+    * Property: og description.
     * @var mixed
     */
     var $ogDescription;
 
     /**
-    * auto generate doc.
+    * Property: og image.
     * @var mixed
     */
     var $ogImage;
 
     /**
-    * auto generate doc.
+    * Name of og site name.
     * @var mixed
     */
     var $ogSiteName;
 
     /**
-    * auto generate doc.
+    * Property: og url.
     * @var mixed
     */
     var $ogUrl;

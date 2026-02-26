@@ -25,7 +25,7 @@ class ViewTokenExpressionConverter{
     var $tabstop = "";
 
     /**
-    * auto generate doc.
+    * Converts.
     * @param string $source
     * @return ?string
     */

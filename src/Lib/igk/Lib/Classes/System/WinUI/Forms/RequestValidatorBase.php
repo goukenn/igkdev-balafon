@@ -16,7 +16,7 @@ use IGK\System\Security\Web\RequestValiationMapper;
 abstract class RequestValidatorBase extends ObjectDataValidator implements IActionRequestValidator{
 
     /**
-    * auto generate doc.
+    * Validates JSon.
     * @param Request $request
     * @param string $formdata_class
     * @param null|array & $error
@@ -36,7 +36,7 @@ abstract class RequestValidatorBase extends ObjectDataValidator implements IActi
     }
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed $data
     * @param array $mapper
     * @param null|array $defaultValues

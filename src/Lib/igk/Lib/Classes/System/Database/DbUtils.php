@@ -20,7 +20,7 @@ use ReflectionClass;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* Db utils.
 * @package IGK\System\Database
 */
 class DbUtils
@@ -206,7 +206,7 @@ class DbUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Declared Column Constants.
     * @param ModelBase $model
     */
     public static function GetDeclaredColumnConstants(ModelBase $model){

@@ -56,7 +56,7 @@ class HtmlVisitor
     }
 
     /**
-    * auto generate doc.
+    * Before begin visit.
     * @param HtmlItemBase $n
     * @param mixed & $childs
     */

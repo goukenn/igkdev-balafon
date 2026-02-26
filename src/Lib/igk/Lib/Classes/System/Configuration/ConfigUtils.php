@@ -6,7 +6,7 @@
 namespace IGK\System\Configuration;
 
 /**
-* auto generate doc.
+* Config utils.
 * @package IGK\System\Configuration
 */
 class ConfigUtils{

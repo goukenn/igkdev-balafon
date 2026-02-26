@@ -8,14 +8,14 @@ use Phar;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* System file cache.
 * @package IGK\Cache
 */
 class SystemFileCache extends CommonCache
 {
 
     /**
-    * auto generate doc.
+    * Property: lib files.
     * @var mixed
     */
     static $LibFiles;
@@ -30,7 +30,7 @@ class SystemFileCache extends CommonCache
     }
 
     /**
-    * auto generate doc.
+    * Cache lib files.
     * @param mixed $force
     */
 
@@ -90,7 +90,7 @@ class SystemFileCache extends CommonCache
     }
 
     /**
-    * auto generate doc.
+    * Checks Lib Version.
     */
 
     public static function CheckLibVersion()
@@ -125,7 +125,7 @@ class SystemFileCache extends CommonCache
     }
 
     /**
-    * auto generate doc.
+    * Initializes Cached Hook.
     * @param null|mixed $e
     */
 

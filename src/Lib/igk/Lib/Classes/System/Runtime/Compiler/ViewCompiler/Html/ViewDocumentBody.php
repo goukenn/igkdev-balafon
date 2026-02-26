@@ -14,13 +14,13 @@ class ViewDocumentBody extends HtmlNoTagNode implements IViewCompilerArgument{
     use ViewCompilerArgumentNodeTrait;
 
     /**
-    * auto generate doc.
+    * Property: body.
     * @var mixed
     */
     private $m_body;
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {
@@ -28,7 +28,7 @@ class ViewDocumentBody extends HtmlNoTagNode implements IViewCompilerArgument{
     }
 
     /**
-    * auto generate doc.
+    * Returns Body Box.
     */
     public function getBodyBox(){
         return $this->m_body->getBodyBox();

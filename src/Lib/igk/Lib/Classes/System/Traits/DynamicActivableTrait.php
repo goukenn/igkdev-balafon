@@ -15,13 +15,13 @@ use IGKException;
 trait DynamicActivableTrait{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     protected $data;
 
     /**
-    * auto generate doc.
+    * To array.
     * @return ?array
     */
     public function to_array(): ?array {return $this->data; }

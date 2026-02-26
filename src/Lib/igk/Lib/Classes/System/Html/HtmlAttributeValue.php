@@ -11,13 +11,13 @@ namespace IGK\System\Html;
 class HtmlAttributeValue implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     protected $value;
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null) { 
@@ -25,7 +25,7 @@ class HtmlAttributeValue implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Sets Value.
     * @param mixed $value
     */
     public function setValue($value){

@@ -29,31 +29,31 @@ use IGK\Models\ModelBase;
 class UserInfos extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl user id.
     * @var mixed
     */
     const FD_CL_USER_ID="clUser_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl user info type id.
     * @var mixed
     */
     const FD_CL_USER_INFO_TYPE_ID="clUserInfoType_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl value.
     * @var mixed
     */
     const FD_CL_VALUE="clValue";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl description.
     * @var mixed
     */
     const FD_CL_DESCRIPTION="clDescription";

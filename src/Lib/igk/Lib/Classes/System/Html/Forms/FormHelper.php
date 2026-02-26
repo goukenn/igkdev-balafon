@@ -13,7 +13,7 @@ use IGKException;
 class FormHelper{
 
     /**
-    * auto generate doc.
+    * Converts To Input Date Timelocal.
     * @param string $datevalue
     */
     public static function ConvertToInputDateTimelocal(string $datevalue) {
@@ -30,7 +30,7 @@ class FormHelper{
     }
 
     /**
-    * auto generate doc.
+    * Form action host.
     * @param mixed $form
     * @param mixed $callback
     */

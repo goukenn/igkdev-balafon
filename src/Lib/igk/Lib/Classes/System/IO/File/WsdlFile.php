@@ -13,61 +13,61 @@ use ReflectionMethod;
 class WsdlFile extends IGKObject {
 
     /**
-    * auto generate doc.
+    * Property: attributes.
     * @var mixed
     */
     private $m_attributes;
 
     /**
-    * auto generate doc.
+    * Property: binding.
     * @var mixed
     */
     private $m_binding;
 
     /**
-    * auto generate doc.
+    * Property: cservice.
     * @var mixed
     */
     private $m_cservice;
 
     /**
-    * auto generate doc.
+    * Property: def.
     * @var mixed
     */
     private $m_def;
 
     /**
-    * auto generate doc.
+    * Property: message.
     * @var mixed
     */
     private $m_message;
 
     /**
-    * auto generate doc.
+    * Type of porttype.
     * @var mixed
     */
     private $m_porttype;
 
     /**
-    * auto generate doc.
+    * Property: service.
     * @var mixed
     */
     private $m_service;
 
     /**
-    * auto generate doc.
+    * Property: srv.
     * @var mixed
     */
     private $m_srv;
 
     /**
-    * auto generate doc.
+    * Property: uri.
     * @var mixed
     */
     private $m_uri;
 
     /**
-    * auto generate doc.
+    * Property: uri.
     * @var mixed
     */
     private $uri;

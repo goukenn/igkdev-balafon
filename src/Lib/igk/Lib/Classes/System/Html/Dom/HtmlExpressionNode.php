@@ -12,19 +12,19 @@ use IGK\System\Templates\BindingExpressionReader;
 class HtmlExpressionNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
 
     /**
-    * auto generate doc.
+    * Property: raw.
     * @var mixed
     */
     var $raw;
 
     /**
-    * auto generate doc.
+    * Property: opener context.
     * @var mixed
     */
     var $openerContext;

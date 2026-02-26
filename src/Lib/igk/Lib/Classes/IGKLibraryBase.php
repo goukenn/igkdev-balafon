@@ -5,7 +5,7 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igklibrary base.
 */
 abstract class IGKLibraryBase{
     /**

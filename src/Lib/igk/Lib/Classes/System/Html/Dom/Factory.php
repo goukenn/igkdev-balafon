@@ -11,13 +11,13 @@ namespace IGK\System\Html\Dom;
 class Factory{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: actions.
     * @var mixed
     */
     private $m_actions;
@@ -26,7 +26,7 @@ class Factory{
     }
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
         if (self::$sm_instance === null){
@@ -36,7 +36,7 @@ class Factory{
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param mixed $tagname
     * @param mixed $funcName
     * @param callable $callback
@@ -61,7 +61,7 @@ class Factory{
     }
 
     /**
-    * auto generate doc.
+    * Handles.
     * @param mixed $name
     * @param mixed $funcName
     */
@@ -70,7 +70,7 @@ class Factory{
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     * @param mixed $name
     * @param mixed $funcName
     * @param mixed $arguments
@@ -83,7 +83,7 @@ class Factory{
     }
 
     /**
-    * auto generate doc.
+    * Invoke on.
     * @param HtmlItemBase $host
     * @param string $tgname
     * @param mixed $name

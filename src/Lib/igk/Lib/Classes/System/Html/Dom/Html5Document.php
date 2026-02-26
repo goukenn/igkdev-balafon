@@ -12,32 +12,32 @@ use IGKObject;
 class Html5Document extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: html.
     * @var mixed
     */
     private $m_html;
 
     /**
-    * auto generate doc.
+    * Property: body.
     * @var mixed
     */
     private $m_body;
 
     /**
-    * auto generate doc.
+    * Property: head.
     * @var mixed
     */
     private $m_head;
 
     /**
-    * auto generate doc.
+    * Returns Body.
     */
     public function getBody(){
         return $this->m_body;
     }
 
     /**
-    * auto generate doc.
+    * Returns Head.
     */
     public function getHead(){
         return $this->m_head;
@@ -59,7 +59,7 @@ class Html5Document extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Charset.
     * @param mixed $value
     */
     public function setCharset($value){
@@ -68,7 +68,7 @@ class Html5Document extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Meta.
     * @param mixed $name
     * @param mixed $content
     */
@@ -78,7 +78,7 @@ class Html5Document extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Title.
     * @param null|string $title
     */
     public function setTitle(?string $title){
@@ -88,7 +88,7 @@ class Html5Document extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     public function render(){
         $sb = new StringBuilder();

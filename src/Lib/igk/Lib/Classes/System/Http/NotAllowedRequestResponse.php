@@ -7,7 +7,7 @@ namespace IGK\System\Http;
 use IGK\System\Http\ErrorRequestResponse;
 
 /**
-* auto generate doc.
+* Not allowed request response.
 * @package IGK\System\Http
 */
 class NotAllowedRequestResponse extends ErrorRequestResponse{

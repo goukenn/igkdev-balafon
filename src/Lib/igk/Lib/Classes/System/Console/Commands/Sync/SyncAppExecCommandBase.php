@@ -35,57 +35,57 @@ use IGK\System\Regex\Replacement;
 use IGKException;
 
 /**
-* auto generate doc.
+* Sync app exec command base.
 * @package IGK\System\Console\Commands\Sync
 */
 abstract class SyncAppExecCommandBase extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "sync";
     // + | entry config tagname
 
     /**
-    * auto generate doc.
+    * Constant: self key config.
     * @var mixed
     */
     const SELF_KEY_CONFIG = 'ftp-sync';
     // + | configuration keys
 
     /**
-    * auto generate doc.
+    * Constant: session dir.
     * @var mixed
     */
     const SESSION_DIR = "session_dir";
 
     /**
-    * auto generate doc.
+    * Constant: app dir.
     * @var mixed
     */
     const APP_DIR = "application_dir";
 
     /**
-    * auto generate doc.
+    * Constant: project dir.
     * @var mixed
     */
     const PROJECT_DIR = "project_dir";
 
     /**
-    * auto generate doc.
+    * Constant: release dir.
     * @var mixed
     */
     const RELEASE_DIR = "release_dir";
 
     /**
-    * auto generate doc.
+    * Constant: site dir.
     * @var mixed
     */
     const SITE_DIR = "site_dir";
 
     /**
-    * auto generate doc.
+    * Constant: home dir.
     * @var mixed
     */
     const HOME_DIR = "home_dir";
@@ -167,7 +167,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Starts.
     * @param mixed $command
     * @param mixed & $setting
     */
@@ -183,7 +183,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Connects.
     * @param mixed $server
     * @param mixed $user
     * @param mixed $pwd
@@ -206,7 +206,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Removes Cache.
     * @param mixed $ftp
     * @param mixed $app_dir
     */
@@ -284,7 +284,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Returns Merged Scripts.
     */
 
     protected function getMergedScripts(){
@@ -348,7 +348,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Returns Help Options.
     */
 
     public function getHelpOptions(){

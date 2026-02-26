@@ -17,13 +17,13 @@ class IGKBalafonApplicationMiddlewareManager implements IBalafonApplicationMiddl
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: properties.
     * @var mixed
     */
     private $_properties;
 
     /**
-    * auto generate doc.
+    * Collection of where list.
     * @var mixed
     */
     private $_whereList;

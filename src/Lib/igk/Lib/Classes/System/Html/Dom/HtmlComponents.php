@@ -12,13 +12,13 @@ use IGK\Controllers\BaseController;
 abstract class HtmlComponents {
 
     /**
-    * auto generate doc.
+    * Constant: component.
     * @var mixed
     */
     const Component = "Component";
 
     /**
-    * auto generate doc.
+    * Constant: ajxtab control.
     * @var mixed
     */
     const AJXTabControl = "AJXTabControl";

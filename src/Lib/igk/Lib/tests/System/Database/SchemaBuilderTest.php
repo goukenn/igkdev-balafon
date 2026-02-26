@@ -11,13 +11,13 @@ use IGK\System\Database\SchemaBuilder;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Schema builder test.
 * @package IGK\Test\System\Database
 */
 class SchemaBuilderTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests add comment.
     */
     public function test_add_comment(){
         $n = new SchemaBuilder();

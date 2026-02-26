@@ -15,7 +15,7 @@ class ScssToPcssConverterTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests reader.
     */
     public function test_reader()
     {

@@ -10,13 +10,13 @@ namespace IGK\System\Runtime\Compiler;
 class ReadTokenFlagOptions{
 
     /**
-    * auto generate doc.
+    * Property: buffer.
     * @var mixed
     */
     var $buffer = "";
 
     /**
-    * auto generate doc.
+    * Creates Flag.
     * @param null|array $tab
     */
     public static function CreateFlag(?array $tab=null){

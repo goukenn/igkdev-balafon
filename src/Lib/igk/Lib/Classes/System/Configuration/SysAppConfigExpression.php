@@ -15,7 +15,7 @@ use Prophecy\Util\StringUtil;
 class SysAppConfigExpression implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: expression.
     * @var mixed
     */
     protected $expression;
@@ -38,7 +38,7 @@ class SysAppConfigExpression implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null) { 
@@ -65,7 +65,7 @@ class SysAppConfigExpression implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Store Value.
     */
     public function getStoreValue(){
         if (!empty($ex = trim($this->expression)))
@@ -74,7 +74,7 @@ class SysAppConfigExpression implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Web Site URI.
     */
     public function getWebSiteURI(){
         return igk_io_baseuri();

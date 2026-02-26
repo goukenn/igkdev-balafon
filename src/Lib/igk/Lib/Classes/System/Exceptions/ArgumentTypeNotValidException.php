@@ -7,7 +7,7 @@ namespace IGK\System\Exceptions;
 use IGKException;
 
 /**
-* auto generate doc.
+* Argument type not valid exception.
 * @package IGK\System\Exceptions
 */
 class ArgumentTypeNotValidException extends IGKException{

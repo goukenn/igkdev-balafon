@@ -11,20 +11,20 @@ namespace IGK\System\Modules;
 class ModuleInitializer{
 
     /**
-    * auto generate doc.
+    * Property: modules.
     * @var mixed
     */
     protected $m_modules = [];
 
     /**
-    * auto generate doc.
+    * Resets.
     */
     public function reset(){
         $this->m_modules = [];
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param string $path
     */
     public function get(string $path){
@@ -32,7 +32,7 @@ class ModuleInitializer{
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param mixed $path
     * @param mixed $module
     */
@@ -41,7 +41,7 @@ class ModuleInitializer{
     }
 
     /**
-    * auto generate doc.
+    * Get key.
     * @param string $path
     */
     protected function _get_key(string $path){

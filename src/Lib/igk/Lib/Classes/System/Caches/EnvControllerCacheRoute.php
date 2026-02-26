@@ -13,20 +13,20 @@ class EnvControllerCacheRoute implements IControllerCacheChain{
     public
 
     /**
-    * auto generate doc.
+    * Constant: file.
     * @var mixed
     */
     const FILE = SystemUriActionController::CACHE_FILE;
 
     /**
-    * auto generate doc.
+    * Returns Cache File.
     */
     public static function GetCacheFile(){
         return igk_io_cachedir()."/".self::FILE;
     }
 
     /**
-    * auto generate doc.
+    * Updates.
     * @param BaseController $controller
     * @return void
     */
@@ -34,7 +34,7 @@ class EnvControllerCacheRoute implements IControllerCacheChain{
     }
 
     /**
-    * auto generate doc.
+    * Complete.
     * @return void
     */
     public function complete():void

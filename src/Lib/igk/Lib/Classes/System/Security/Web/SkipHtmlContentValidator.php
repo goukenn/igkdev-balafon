@@ -12,13 +12,13 @@ class SkipHtmlContentValidator extends MapContentValidatorBase
 {
 
     /**
-    * auto generate doc.
+    * Property: validator.
     * @var mixed
     */
     private $m_validator;
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @return bool
@@ -28,7 +28,7 @@ class SkipHtmlContentValidator extends MapContentValidatorBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Validator.
     */
     protected function getValidator()
     {
@@ -36,7 +36,7 @@ class SkipHtmlContentValidator extends MapContentValidatorBase
     }
 
     /**
-    * auto generate doc.
+    * Map.
     * @param mixed $value
     * @param mixed $key
     * @param mixed & $error

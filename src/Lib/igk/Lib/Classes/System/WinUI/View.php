@@ -21,7 +21,7 @@ class View{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param null|array $options
     */
     public function init(?array $options=null){
@@ -34,7 +34,7 @@ class View{
     }
 
     /**
-    * auto generate doc.
+    * Resets.
     */
     public function reset(){
         foreach($this as $k=>$v){

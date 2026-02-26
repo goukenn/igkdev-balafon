@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class ClassDefinitionTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests html set class array.
     */
     public function test_html_set_class_array(){
         $n = igk_create_node('div');
@@ -24,7 +24,7 @@ class ClassDefinitionTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests html set class object.
     */
     public function test_html_set_class_object(){
         $n = igk_create_node('div');

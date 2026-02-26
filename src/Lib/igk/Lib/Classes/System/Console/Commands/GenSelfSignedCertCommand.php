@@ -12,26 +12,26 @@ use IGK\System\Console\Logger;
 class GenSelfSignedCertCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--genself-signed-cert';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='create a self signed certificate'; 
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'tools';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param string $public
     * @param string $private

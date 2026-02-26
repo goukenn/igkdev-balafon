@@ -30,7 +30,7 @@ class TemplateAttributeToEvalExpression{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @return string
     */
     public function getValue(): string{

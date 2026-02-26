@@ -10,25 +10,25 @@ namespace IGK\System\Delegates;
 class InvocatorListDelegate{
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
 
     /**
-    * auto generate doc.
+    * Collection of hostlist.
     * @var mixed
     */
     private $m_hostlist;
 
     /**
-    * auto generate doc.
+    * Property: shared intances.
     * @var mixed
     */
     private static $sm_shared_intances;
 
     /**
-    * auto generate doc.
+    * Returns Items.
     */
     public function getItems(){
         return $this->m_hostlist;
@@ -38,7 +38,7 @@ class InvocatorListDelegate{
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param array $array
     * @param callable $callback
     */

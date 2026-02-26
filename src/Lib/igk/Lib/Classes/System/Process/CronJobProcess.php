@@ -16,7 +16,7 @@ use IGKException;
 class CronJobProcess{
 
     /**
-    * auto generate doc.
+    * Constant: mail script.
     * @var mixed
     */
     const mail_script = "process.mail";

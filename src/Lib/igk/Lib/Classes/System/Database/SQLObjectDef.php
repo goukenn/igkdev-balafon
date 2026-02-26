@@ -12,7 +12,7 @@ use IGK\Database\DbColumnInfo;
 class SQLObjectDef{
 
     /**
-    * auto generate doc.
+    * Property: defs.
     * @var mixed
     */
     private static $sm_defs;

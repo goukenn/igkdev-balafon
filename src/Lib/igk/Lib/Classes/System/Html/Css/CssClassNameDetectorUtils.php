@@ -81,7 +81,7 @@ abstract class CssClassNameDetectorUtils{
     }
 
     /**
-    * auto generate doc.
+    * Detect from phtml source.
     * @param CssClassNameDetector $detector
     * @param string $source
     * @param null|mixed & $references

@@ -9,18 +9,18 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkuser agent.
 */
 class IGKUserAgent{
 
     /**
-    * auto generate doc.
+    * Constant: regex android.
     * @var mixed
     */
     const REGEX_ANDROID="android";
 
     /**
-    * auto generate doc.
+    * Constant: regex android buildnumber.
     * @var mixed
     */
     const REGEX_ANDROID_BUILDNUMBER="android\s+(?P<version>[0-9\.]+);\s*(?P<model>[\w0-9\.]+)\s+build\/(?P<buildnumber>[a-z0-9\.]+)";

@@ -147,98 +147,98 @@ abstract class BaseController extends RootControllerBase implements IDataControl
 {
 
     /**
-    * auto generate doc.
+    * Constant: childs flag.
     * @var mixed
     */
     const CHILDS_FLAG = 5;
 
     /**
-    * auto generate doc.
+    * Constant: current view.
     * @var mixed
     */
     const CURRENT_VIEW = IGK_CURRENT_CTRL_VIEW;
 
     /**
-    * auto generate doc.
+    * Constant: env param user settings.
     * @var mixed
     */
     const ENV_PARAM_USER_SETTINGS = 0x200;
 
     /**
-    * auto generate doc.
+    * Constant: igk env param langchange key.
     * @var mixed
     */
     const IGK_ENV_PARAM_LANGCHANGE_KEY = "langchanged";
 
     /**
-    * auto generate doc.
+    * Constant: igk env param setup lang.
     * @var mixed
     */
     const IGK_ENV_PARAM_SETUP_LANG = "ctrl://setup_lang_in_request";
 
     /**
-    * auto generate doc.
+    * Constant: main view.
     * @var mixed
     */
     const MAIN_VIEW = 9;
 
     /**
-    * auto generate doc.
+    * Constant: page view flag.
     * @var mixed
     */
     const PAGE_VIEW_FLAG = 4;
 
     /**
-    * auto generate doc.
+    * Constant: params flag.
     * @var mixed
     */
     const PARAMS_FLAG = 7;
 
     /**
-    * auto generate doc.
+    * Constant: reg view child.
     * @var mixed
     */
     const REG_VIEW_CHILD = 11;
 
     /**
-    * auto generate doc.
+    * Constant: show child.
     * @var mixed
     */
     const SHOW_CHILD = 10;
 
     /**
-    * auto generate doc.
+    * Constant: viewchilds flag.
     * @var mixed
     */
     const VIEWCHILDS_FLAG = 6;
 
     /**
-    * auto generate doc.
+    * Constant: visibility flag.
     * @var mixed
     */
     const VISIBILITY_FLAG = 2;
 
     /**
-    * auto generate doc.
+    * Constant: webparent flag.
     * @var mixed
     */
     const WEBPARENT_FLAG = 1;
     // + | activate this to disable action handling
 
     /**
-    * auto generate doc.
+    * Constant: no action flag.
     * @var mixed
     */
     const NO_ACTION_FLAG = 11;
 
     /**
-    * auto generate doc.
+    * Constant: view args.
     * @var mixed
     */
     const VIEW_ARGS = IGK_VIEW_ARGS;
 
     /**
-    * auto generate doc.
+    * Constant: view extra args.
     * @var mixed
     */
     const VIEW_EXTRA_ARGS = IGK_VIEW_EXTRA_ARGS;
@@ -459,7 +459,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     }
 
     /**
-    * auto generate doc.
+    * Config entries.
     * @param mixed $fname
     */
     protected function _config_entries($fname)
@@ -631,7 +631,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     }
 
     /**
-    * auto generate doc.
+    * Get view data args.
     */
     protected function _getViewDataArgs()
     {
@@ -733,7 +733,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     }
 
     /**
-    * auto generate doc.
+    * Returns Classes Dir.
     */
     public function getClassesDir()
     {
@@ -741,7 +741,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     }
 
     /**
-    * auto generate doc.
+    * Returns Lib Dir.
     */
     public function getLibDir()
     {
@@ -1170,7 +1170,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     }
 
     /**
-    * auto generate doc.
+    * Init check require project.
     * @param mixed $project
     */
     protected function _initCheckRequireProject($project)
@@ -1207,7 +1207,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     }
 
     /**
-    * auto generate doc.
+    * Create view env args.
     */
     protected function _createViewEnvArgs()
     {
@@ -1481,7 +1481,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     }
 
     /**
-    * auto generate doc.
+    * Sets Target Node.
     * @param mixed $node
     */
     public function setTargetNode($node)

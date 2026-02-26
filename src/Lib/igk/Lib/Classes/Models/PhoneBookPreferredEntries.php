@@ -26,31 +26,31 @@ use IGK\Models\ModelBase;
 class PhoneBookPreferredEntries extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd id.
     * @var mixed
     */
     const FD_ID="rcphpd_id";
 
     /**
-    * auto generate doc.
+    * Constant: fd phone book guid.
     * @var mixed
     */
     const FD_PHONE_BOOK_GUID="rcphpd_phone_book_guid";
 
     /**
-    * auto generate doc.
+    * Constant: fd type id.
     * @var mixed
     */
     const FD_TYPE_ID="rcphpd_type_id";
 
     /**
-    * auto generate doc.
+    * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="rcphpd_Create_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd update at.
     * @var mixed
     */
     const FD_UPDATE_AT="rcphpd_Update_At";
@@ -72,7 +72,7 @@ class PhoneBookPreferredEntries extends ModelBase{
 	protected $display = "rcphpd_phone_book_guid";
 
     /**
-    * auto generate doc.
+    * Property: unique columns.
     * @var mixed
     */
     protected $unique_columns = array (

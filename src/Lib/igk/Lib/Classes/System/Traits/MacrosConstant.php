@@ -12,55 +12,55 @@ abstract class MacrosConstant
 {
 
     /**
-    * auto generate doc.
+    * Constant: closure separator.
     * @var mixed
     */
     const ClosureSeparator = "@";
 
     /**
-    * auto generate doc.
+    * Constant: static separator.
     * @var mixed
     */
     const StaticSeparator = "::";
 
     /**
-    * auto generate doc.
+    * Constant: register extension method.
     * @var mixed
     */
     const RegisterExtensionMethod = "registerExtension";
 
     /**
-    * auto generate doc.
+    * Constant: un register extension method.
     * @var mixed
     */
     const UnRegisterExtensionMethod = "unRegisterExtension";
 
     /**
-    * auto generate doc.
+    * Constant: register macro method.
     * @var mixed
     */
     const RegisterMacroMethod = 'registerMacro';
 
     /**
-    * auto generate doc.
+    * Constant: get macro method.
     * @var mixed
     */
     const getMacroMethod = 'getMacro';
 
     /**
-    * auto generate doc.
+    * Constant: get instance method.
     * @var mixed
     */
     const getInstanceMethod = 'getInstance';
 
     /**
-    * auto generate doc.
+    * Constant: get macro keys method.
     * @var mixed
     */
     const getMacroKeysMethod = 'getMacroKeys';
 
     /**
-    * auto generate doc.
+    * Constant: ref macros.
     * @var mixed
     */
     const REF_MACROS = '@ref-macros';

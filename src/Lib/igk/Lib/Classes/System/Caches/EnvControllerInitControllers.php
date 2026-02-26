@@ -10,7 +10,7 @@ use IGK\System\Exceptions\NotImplementException;
 // + |
 
 /**
-* auto generate doc.
+* Env controller init controllers.
 * @package IGK\System\Caches
 */
 class EnvControllerInitControllers{

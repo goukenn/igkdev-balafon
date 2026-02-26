@@ -35,7 +35,7 @@ class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Validation Fields.
     */
     protected function getValidationFields(){
         return parent::getFields(__METHOD__);

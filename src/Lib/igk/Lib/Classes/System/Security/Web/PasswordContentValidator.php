@@ -13,7 +13,7 @@ class PasswordContentValidator extends MapContentValidatorBase
 {
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @return bool

@@ -14,7 +14,7 @@ use IGK\Constants;
 class CommandHelper{
 
     /**
-    * auto generate doc.
+    * Clean session.
     * @return ?int
     */
     public static function CleanSession(): ?int{       

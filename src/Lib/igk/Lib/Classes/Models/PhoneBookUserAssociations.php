@@ -30,31 +30,31 @@ use IGK\Models\ModelBase;
 class PhoneBookUserAssociations extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd usrphb id.
     * @var mixed
     */
     const FD_USRPHB_ID="rcphb_usrphb_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd usrphb user guid.
     * @var mixed
     */
     const FD_USRPHB_USER_GUID="rcphb_usrphb_UserGuid";
 
     /**
-    * auto generate doc.
+    * Constant: fd usrphb phone book entry guid.
     * @var mixed
     */
     const FD_USRPHB_PHONE_BOOK_ENTRY_GUID="rcphb_usrphb_PhoneBookEntryGuid";
 
     /**
-    * auto generate doc.
+    * Constant: fd usrphb create at.
     * @var mixed
     */
     const FD_USRPHB_CREATE_AT="usrphb_Create_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd usrphb update at.
     * @var mixed
     */
     const FD_USRPHB_UPDATE_AT="usrphb_Update_At";
@@ -76,7 +76,7 @@ class PhoneBookUserAssociations extends ModelBase{
 	protected $display = "rcphb_usrphb_UserGuid";
 
     /**
-    * auto generate doc.
+    * Property: unique columns.
     * @var mixed
     */
     protected $unique_columns = array (

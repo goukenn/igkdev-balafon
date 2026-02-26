@@ -7,13 +7,13 @@ namespace IGK\System\Controllers\Traits;
 use IGK\System\Models\IModelDefinitionInfo;
 
 /**
-* auto generate doc.
+* Trait providing no db active controller functionality.
 * @package IGK\System\Controllers\Traits
 */
 trait NoDbActiveControllerTrait{
 
     /**
-    * auto generate doc.
+    * Returns Data Table Info.
     * @return ?IModelDefinitionInfo
     */
     public function getDataTableInfo(): ?IModelDefinitionInfo{
@@ -27,7 +27,7 @@ trait NoDbActiveControllerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Use Data Schema.
     * @return bool
     */
     public function getUseDataSchema(): bool
@@ -36,7 +36,7 @@ trait NoDbActiveControllerTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Init Db.
     */
     public function getCanInitDb(){
         return false;

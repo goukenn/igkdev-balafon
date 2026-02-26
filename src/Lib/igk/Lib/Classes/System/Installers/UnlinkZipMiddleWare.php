@@ -8,13 +8,13 @@ use IGK\Helper\IO;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Unlink zip middle ware.
 * @package IGK\System\Installers
 */
 final class UnlinkZipMiddleWare extends InstallerActionMiddleWare{
 
     /**
-    * auto generate doc.
+    * Invoke.
     */
     public function invoke(){
         $srv=$this->getServiceInfo()->Listener;
@@ -26,7 +26,7 @@ final class UnlinkZipMiddleWare extends InstallerActionMiddleWare{
     }
 
     /**
-    * auto generate doc.
+    * Returns Message.
     */
     public function getMessage(){
         return __("unlink zip core");

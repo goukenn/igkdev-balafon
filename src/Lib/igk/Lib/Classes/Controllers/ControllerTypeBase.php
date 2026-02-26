@@ -14,14 +14,14 @@ namespace IGK\Controllers;
 abstract class ControllerTypeBase extends BaseController{
 
     /**
-    * auto generate doc.
+    * Returns Additional Config Info.
     */
     public static function GetAdditionalConfigInfo(){
         return null;
     }
 
     /**
-    * auto generate doc.
+    * Returns Additional Default View Content.
     */
     public static function GetAdditionalDefaultViewContent(){
         static $viewcomment=null;
@@ -40,14 +40,14 @@ abstract class ControllerTypeBase extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Ctrl Category.
     */
     public static function GetCtrlCategory(){
         return "DEFAULT";
     }
 
     /**
-    * auto generate doc.
+    * Sets Additional Config Info.
     * @param mixed & $t
     */
     public static function SetAdditionalConfigInfo(& $t){

@@ -6,7 +6,7 @@
 namespace IGK\System\IO;
 
 /**
-* auto generate doc.
+* Mime type.
 * @package IGK\System\IO
 */
 class MimeType{

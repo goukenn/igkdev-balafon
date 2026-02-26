@@ -11,13 +11,13 @@ use IGK\System\IO\Printer\IPrinterService;
 abstract class PrinterModelBase implements IPrinterModel{
 
     /**
-    * auto generate doc.
+    * Property: printer service.
     * @var mixed
     */
     protected $_printer_service;
 
     /**
-    * auto generate doc.
+    * Sets Printer Service.
     * @param null|IPrinterService $service
     */
     public function setPrinterService(?IPrinterService $service) {
@@ -25,7 +25,7 @@ abstract class PrinterModelBase implements IPrinterModel{
      }
 
     /**
-    * auto generate doc.
+    * Prints.
     * @param bool $exit
     */
     public function print(bool $exit = true) { 

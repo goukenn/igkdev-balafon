@@ -10,7 +10,7 @@ namespace IGK\System\Actions\Services;
 class MacrosServices{
 
     /**
-    * auto generate doc.
+    * Property: macros.
     * @var mixed
     */
     static $macros = [];
@@ -26,7 +26,7 @@ class MacrosServices{
     }
 
     /**
-    * auto generate doc.
+    * Returns Func.
     * @param string $name
     */
     public static function GetFunc(string $name){

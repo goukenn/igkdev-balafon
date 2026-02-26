@@ -10,19 +10,19 @@ use IGKException;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* Sync composer command.
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncComposerCommand extends SyncAppExecCommandBase{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--sync:composer";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'sync:ftp use global shared composer';

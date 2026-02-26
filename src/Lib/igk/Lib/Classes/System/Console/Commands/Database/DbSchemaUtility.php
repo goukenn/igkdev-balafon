@@ -15,7 +15,7 @@ use IGKException;
 class DbSchemaUtility{
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     var $file;
@@ -40,7 +40,7 @@ class DbSchemaUtility{
     }
 
     /**
-    * auto generate doc.
+    * Store.
     * @param mixed $node
     */
     public function store($node){

@@ -11,19 +11,19 @@ use IGK\ValueListener;
 final class HtmlNotifyDialogBoxItem extends HtmlNode {
 
     /**
-    * auto generate doc.
+    * Property: message.
     * @var mixed
     */
     private $m_Message;
 
     /**
-    * auto generate doc.
+    * Property: title.
     * @var mixed
     */
     private $m_title;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";

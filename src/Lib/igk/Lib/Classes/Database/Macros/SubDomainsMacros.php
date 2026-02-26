@@ -13,7 +13,7 @@ use IGK\Models\SubDomains;
 abstract class SubDomainsMacros{
 
     /**
-    * auto generate doc.
+    * Returns All Activate Domain.
     * @param SubDomains $model
     */
     public static function GetAllActivateDomain(SubDomains $model){

@@ -15,7 +15,7 @@ trait CompilerTokenCompileTrait{
     var $options;
 
     /**
-    * auto generate doc.
+    * Compile source.
     * @param string $source
     * @return ?string
     */
@@ -26,7 +26,7 @@ trait CompilerTokenCompileTrait{
     }
 
     /**
-    * auto generate doc.
+    * Compile file.
     * @param string $file
     * @return ?string
     */

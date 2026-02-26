@@ -10,19 +10,19 @@ namespace IGK\System\Plugins\Traits;
 trait JSPluginRegistrableTrait{
 
     /**
-    * auto generate doc.
+    * Property: registry.
     * @var mixed
     */
     private $m_registry;
 
     /**
-    * auto generate doc.
+    * Js plugin register.
     */
     protected function jsPluginRegister(){
     }
 
     /**
-    * auto generate doc.
+    * Js plugin unregister.
     */
     protected function jsPluginUnregister(){
         if ($this->m_registry){

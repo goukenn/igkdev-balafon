@@ -15,19 +15,19 @@ abstract class CallableConstants{
     const CALLABLE_ACCEPT_RENDER = 'AcceptRender';
 
     /**
-    * auto generate doc.
+    * Constant: is visible method.
     * @var mixed
     */
     const IS_VISIBLE_METHOD = 'getIsVisible';
 
     /**
-    * auto generate doc.
+    * Constant: set uri method.
     * @var mixed
     */
     const SET_URI_METHOD ='setUri';
 
     /**
-    * auto generate doc.
+    * Constant: can render tag method.
     * @var mixed
     */
     const CAN_RENDER_TAG_METHOD = 'getCanRenderTag';

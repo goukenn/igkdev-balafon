@@ -12,13 +12,13 @@ use IGKDbModelUtility;
 abstract class DbSupportControllerBase extends RootControllerBase{
 
     /**
-    * auto generate doc.
+    * Returns Data Table Name.
     * @return ?string
     */
     protected abstract function getDataTableName(): ?string;
 
     /**
-    * auto generate doc.
+    * Returns Use Data Schema.
     * @return bool
     */
     protected abstract function getUseDataSchema(): bool;

@@ -11,25 +11,25 @@ use IGKException;
 // @copyright: igkdev © 2021
 
 /**
-* auto generate doc.
+* Html head node.
 * @package IGK\System\Html\Dom
 */
 class HtmlHeadNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "head";
 
     /**
-    * auto generate doc.
+    * Property: title.
     * @var mixed
     */
     private $m_title;
 
     /**
-    * auto generate doc.
+    * Property: scripts.
     * @var mixed
     */
     private $m_scripts = [];
@@ -70,7 +70,7 @@ class HtmlHeadNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Preload.
     */
 
     public function getPreload(){
@@ -78,7 +78,7 @@ class HtmlHeadNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Loads scripts.
     * @param null|array $list
     * @param bool $temp
     */

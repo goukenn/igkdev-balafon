@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html shared content node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlSharedContentNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;

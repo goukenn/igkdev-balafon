@@ -56,43 +56,43 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
 {
 
     /**
-    * auto generate doc.
+    * Constant: loadtables db.
     * @var mixed
     */
     const LOADTABLES_DB = 0xa4;
 
     /**
-    * auto generate doc.
+    * Constant: search db.
     * @var mixed
     */
     const SEARCH_DB = 0xa4;
 
     /**
-    * auto generate doc.
+    * Constant: selected db.
     * @var mixed
     */
     const SELECTED_DB = 0xa1;
 
     /**
-    * auto generate doc.
+    * Constant: tabinfo db.
     * @var mixed
     */
     const TABINFO_DB = 0xa3;
 
     /**
-    * auto generate doc.
+    * Constant: viewmyadmin db.
     * @var mixed
     */
     const VIEWMYADMIN_DB = 0xa2;
 
     /**
-    * auto generate doc.
+    * Property: tabinfo.
     * @var mixed
     */
     static $sm_tabinfo;
 
     /**
-    * auto generate doc.
+    * Returns Can Init Db.
     */
     public function getCanInitDb()
     {
@@ -128,7 +128,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Table Definition.
     * @param null|string $tablename
     */
     public function getDataTableDefinition(?string $tablename = null)
@@ -222,7 +222,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Page.
     * @param mixed $view
     */
     public function page($view = 0)
@@ -830,7 +830,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * P drop db.
     */
     public function pDropDb()
     {
@@ -847,7 +847,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * P clean table.
     */
     public function pCleanTable()
     {
@@ -908,7 +908,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * P seed.
     */
     public function pSeed()
     {
@@ -1084,7 +1084,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Store info.
     * @param mixed $node
     * @param mixed $table
     * @param mixed $tabinfo
@@ -1458,7 +1458,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Returns Ignore List.
     * @param mixed $table
     */
     public function getIgnoreList($table)
@@ -1474,7 +1474,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Returns Field Handler.
     * @param mixed $table
     */
     public function getFieldHandler($table)
@@ -2421,7 +2421,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context = null)
@@ -2487,7 +2487,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Db migrate controller.
     */
     public function db_migrate_controller()
     {
@@ -2501,7 +2501,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Db resetdb controller.
     */
     public function db_resetdb_controller()
     {
@@ -2515,7 +2515,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Db initdb controller.
     */
     public function db_initdb_controller()
     {
@@ -2536,7 +2536,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Db dropdb controller.
     */
     public function db_dropdb_controller()
     {
@@ -2550,7 +2550,7 @@ final class DbConfigController extends ConfigControllerBase implements IDatabase
     }
 
     /**
-    * auto generate doc.
+    * Db backup controller.
     */
     public function db_backup_controller()
     {

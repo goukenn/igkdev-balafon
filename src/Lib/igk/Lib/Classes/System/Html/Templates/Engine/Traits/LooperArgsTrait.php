@@ -11,7 +11,7 @@ namespace IGK\System\Html\Templates\Engine\Traits;
 trait LooperArgsTrait{
 
     /**
-    * auto generate doc.
+    * Treat argument.
     * @param mixed $argument
     */
     public static function TreatArgument($argument){

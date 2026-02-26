@@ -13,13 +13,13 @@ class ReferenceCounter
 {
 
     /**
-    * auto generate doc.
+    * Callback handler for ref callback.
     * @var mixed
     */
     private static $sm_refCallback = [];
 
     /**
-    * auto generate doc.
+    * Property: ref update.
     * @var mixed
     */
     private static $REF_UPDATE;
@@ -55,7 +55,7 @@ class ReferenceCounter
     }
 
     /**
-    * auto generate doc.
+    * Unregister.
     */
     public static function Unregister(){
         if (self::$REF_UPDATE){

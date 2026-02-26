@@ -6,19 +6,19 @@
 namespace IGK\System\Console;
 
 /**
-* auto generate doc.
+* App command constant.
 * @package IGK\System\Console
 */
 abstract class AppCommandConstant{
 
     /**
-    * auto generate doc.
+    * Constant: command list.
     * @var mixed
     */
     const COMMAND_LIST= '.command.list.pinc';
 
     /**
-    * auto generate doc.
+    * Constant: env.
     * @var mixed
     */
     const ENV = '.balafon';

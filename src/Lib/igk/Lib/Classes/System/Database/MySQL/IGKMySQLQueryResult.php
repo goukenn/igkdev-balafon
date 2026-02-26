@@ -20,79 +20,79 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
 {
 
     /**
-    * auto generate doc.
+    * Name of adapter name.
     * @var mixed
     */
     private $m_adapterName;
 
     /**
-    * auto generate doc.
+    * Property: columns.
     * @var mixed
     */
     private $m_columns;
 
     /**
-    * auto generate doc.
+    * Name of dbname.
     * @var mixed
     */
     private $m_dbname;
 
     /**
-    * auto generate doc.
+    * Count: fieldcount.
     * @var mixed
     */
     private $m_fieldcount;
 
     /**
-    * auto generate doc.
+    * Property: irows.
     * @var mixed
     */
     private $m_irows;
 
     /**
-    * auto generate doc.
+    * Property: primarykey.
     * @var mixed
     */
     private $m_primarykey;
 
     /**
-    * auto generate doc.
+    * Property: query.
     * @var mixed
     */
     private $m_query;
 
     /**
-    * auto generate doc.
+    * Property: rows.
     * @var mixed
     */
     private $m_rows;
 
     /**
-    * auto generate doc.
+    * Property: rows entity.
     * @var mixed
     */
     private $m_rowsEntity;
 
     /**
-    * auto generate doc.
+    * Map of tables.
     * @var mixed
     */
     private $m_tables;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     private $m_type;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     private $m_value;
 
     /**
-    * auto generate doc.
+    * Map of multitable.
     * @var mixed
     */
     private $m_multitable;
@@ -106,7 +106,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Success.
     * @return bool
     */
     public function success(): bool
@@ -575,7 +575,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     }
 
     /**
-    * auto generate doc.
+    * To assoc array.
     * @param mixed $name
     */
     public function toAssocArray($name)

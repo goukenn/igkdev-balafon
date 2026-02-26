@@ -13,67 +13,67 @@ use IGK\ValueListener;
 final class HtmlSearchNode extends HtmlNode {
 
     /**
-    * auto generate doc.
+    * Property: ajx.
     * @var mixed
     */
     private $m_AJX;
 
     /**
-    * auto generate doc.
+    * Identifier: target id.
     * @var mixed
     */
     private $m_TargetId;
 
     /**
-    * auto generate doc.
+    * Property: ajxfunc.
     * @var mixed
     */
     private $m_ajxfunc;
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
 
     /**
-    * auto generate doc.
+    * Property: frm.
     * @var mixed
     */
     private $m_frm;
 
     /**
-    * auto generate doc.
+    * Property: input.
     * @var mixed
     */
     private $m_input;
 
     /**
-    * auto generate doc.
+    * Property: link.
     * @var mixed
     */
     private $m_link;
 
     /**
-    * auto generate doc.
+    * Property: method.
     * @var mixed
     */
     private $m_method;
 
     /**
-    * auto generate doc.
+    * Property: prop.
     * @var mixed
     */
     private $m_prop;
 
     /**
-    * auto generate doc.
+    * Property: search.
     * @var mixed
     */
     private $m_search;
 
     /**
-    * auto generate doc.
+    * Property: uri.
     * @var mixed
     */
     private $m_uri;

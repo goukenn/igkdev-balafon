@@ -13,19 +13,19 @@ use IGK\Helper\Utility;
 class JsonResponse extends RequestResponse{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $data;
 
     /**
-    * auto generate doc.
+    * Property: headers.
     * @var mixed
     */
     var $headers = ["Content-Type:application/json"];
 
     /**
-    * auto generate doc.
+    * Property: ignore empty.
     * @var mixed
     */
     var $ignore_empty = true;

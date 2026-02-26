@@ -20,31 +20,31 @@ class ScaffoldCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--scaffold";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "scaffold";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "scaffold command line";
 
     /**
-    * auto generate doc.
+    * Property: scaffold.
     * @var mixed
     */
     static $sm_scaffold;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -71,7 +71,7 @@ class ScaffoldCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Registers Scaffold.
     * @param string $name
     * @param string $cl
     */
@@ -89,7 +89,7 @@ class ScaffoldCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $cmd
     */
@@ -116,7 +116,7 @@ class ScaffoldCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Help.
     * @param mixed ...$args
     */
     public function help(...$args)

@@ -13,13 +13,13 @@ class CacheModels
 {
 
     /**
-    * auto generate doc.
+    * Cache: caches.
     * @var mixed
     */
     static $sm_caches;
 
     /**
-    * auto generate doc.
+    * Get caches.
     */
     public static function &_GetCaches()
     {
@@ -30,7 +30,7 @@ class CacheModels
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param string $key
     */
     public static function Get(string $key)

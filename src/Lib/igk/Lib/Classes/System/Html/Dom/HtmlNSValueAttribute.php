@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html nsvalue attribute.
 * @package IGK\System\Html\Dom
 */
 final class HtmlNSValueAttribute implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Properties: n, ns.
     * @var mixed
     */
     private $m_n, $m_ns;

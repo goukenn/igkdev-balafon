@@ -21,7 +21,7 @@ class FormatterServiceContainer implements IAppServiceContainer{
     use ServiceContainerTrait;
 
     /**
-    * auto generate doc.
+    * Property: resolved scope.
     * @var mixed
     */
     private $m_resolvedScope = [];

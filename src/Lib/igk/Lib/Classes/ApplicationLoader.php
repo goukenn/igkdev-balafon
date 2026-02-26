@@ -499,7 +499,7 @@ class ApplicationLoader
     }
 
     /**
-    * auto generate doc.
+    * Try require once load file.
     * @param string $filekey
     */
     public static function TryRequireOnceLoadFile(string $filekey){

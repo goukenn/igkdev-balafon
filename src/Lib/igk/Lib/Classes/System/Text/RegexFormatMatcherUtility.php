@@ -14,7 +14,7 @@ use IGK\System\Console\Logger;
 class RegexFormatMatcherUtility{
 
     /**
-    * auto generate doc.
+    * Replaces Chain.
     * @param string $value
     * @param mixed $chain
     * @param int $from

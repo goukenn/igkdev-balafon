@@ -15,7 +15,7 @@ use function igk_resources_gets as __;
 final class ToolConfigController extends ConfigControllerBase {
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -30,21 +30,21 @@ final class ToolConfigController extends ConfigControllerBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Group.
     */
     public function getConfigGroup(){
         return "administration";
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Index.
     */
     protected function getConfigIndex(){ 
         return 1000;
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Config Page Available.
     */
     public function getIsConfigPageAvailable()
     {

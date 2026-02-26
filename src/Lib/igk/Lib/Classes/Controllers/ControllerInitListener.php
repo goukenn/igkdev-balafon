@@ -16,7 +16,7 @@ use IGK\IControllerInitListener;
 class ControllerInitListener implements IControllerInitListener{
 
     /**
-    * auto generate doc.
+    * Properties: folder, type.
     * @var mixed
     */
     private $m_folder, $m_type;
@@ -35,7 +35,7 @@ class ControllerInitListener implements IControllerInitListener{
     }
 
     /**
-    * auto generate doc.
+    * Adds Dir.
     * @param mixed $dir
     */
     public function addDir($dir){
@@ -43,7 +43,7 @@ class ControllerInitListener implements IControllerInitListener{
     }
 
     /**
-    * auto generate doc.
+    * Adds Source.
     * @param mixed $name
     * @param mixed $content
     * @param mixed $override

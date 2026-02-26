@@ -99,7 +99,7 @@ class RouteActionHandler extends RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Returns Path Uri.
     */
     public function getPathUri()
     {
@@ -132,7 +132,7 @@ class RouteActionHandler extends RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Processes.
     * @param mixed ...$arguments
     */
     public function process(...$arguments)
@@ -148,7 +148,7 @@ class RouteActionHandler extends RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Handles.
     * @param mixed $route
     * @param mixed ...$arguments
     */
@@ -161,7 +161,7 @@ class RouteActionHandler extends RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Returns Bind Class.
     */
     public function getBindClass()
     {

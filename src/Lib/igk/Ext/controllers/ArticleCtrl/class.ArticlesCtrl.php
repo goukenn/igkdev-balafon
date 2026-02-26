@@ -5,7 +5,7 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkarticle controller.
 */
 class IGKArticleController extends IGKAtriclesCtrlBase
 { 

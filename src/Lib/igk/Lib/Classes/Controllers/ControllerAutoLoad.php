@@ -11,19 +11,19 @@ namespace IGK\Controllers;
 class ControllerAutoLoad{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $m_controller;
 
     /**
-    * auto generate doc.
+    * Property: autoloadfile.
     * @var mixed
     */
     private $m_autoloadfile;
 
     /**
-    * auto generate doc.
+    * Name of hookname.
     * @var mixed
     */
     private $m_hookname;

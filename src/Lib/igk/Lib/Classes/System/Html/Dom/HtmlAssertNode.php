@@ -16,25 +16,25 @@ class HtmlAssertNode extends HtmlItemBase{
     use HostableItemTrait;
 
     /**
-    * auto generate doc.
+    * Property: condition.
     * @var mixed
     */
     private $condition;
 
     /**
-    * auto generate doc.
+    * Property: node.
     * @var mixed
     */
     private $node;
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     private $callback;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:assert";
@@ -51,12 +51,12 @@ class HtmlAssertNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag() { return false; }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     */
     public function getIsVisible()
     { 
@@ -64,7 +64,7 @@ class HtmlAssertNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $options
     */
     protected function _getRenderingChildren($options =null){

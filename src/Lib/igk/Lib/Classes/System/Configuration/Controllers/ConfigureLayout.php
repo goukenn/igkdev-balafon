@@ -7,13 +7,13 @@ namespace IGK\System\Configuration\Controllers;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Configure layout.
 * @package IGK\System\Configuration\Controllers
 */
 class ConfigureLayout{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
@@ -40,7 +40,7 @@ class ConfigureLayout{
     }
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString(){

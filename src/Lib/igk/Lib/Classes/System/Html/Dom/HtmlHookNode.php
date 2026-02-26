@@ -15,7 +15,7 @@ namespace IGK\System\Html\Dom;
 class HtmlHookNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Properties: event type, context.
     * @var mixed
     */
     private $m_eventType, $m_context;
@@ -35,14 +35,14 @@ class HtmlHookNode extends HtmlNode{
     // }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

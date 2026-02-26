@@ -25,25 +25,25 @@ class RegexFormatStringBuilder
     var $lineFeed;
 
     /**
-    * auto generate doc.
+    * Property: tab stop.
     * @var mixed
     */
     var $tabStop = '    ';
 
     /**
-    * auto generate doc.
+    * Property: depth.
     * @var mixed
     */
     var $depth = 0;
 
     /**
-    * auto generate doc.
+    * Property: inline comment prefix.
     * @var mixed
     */
     var $inlineCommentPrefix = "\r\t\t";
 
     /**
-    * auto generate doc.
+    * Property: space.
     * @var mixed
     */
     var $space = ' ';
@@ -164,7 +164,7 @@ class RegexFormatStringBuilder
     }
 
     /**
-    * auto generate doc.
+    * Append space.
     */
     protected function appendSpace(){
         $this->append($this->space);
@@ -172,7 +172,7 @@ class RegexFormatStringBuilder
     }
 
     /**
-    * auto generate doc.
+    * Outputs Length.
     * @return int
     */
     public function outputLength():int{

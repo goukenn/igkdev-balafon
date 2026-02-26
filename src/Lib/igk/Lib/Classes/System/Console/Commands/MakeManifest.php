@@ -17,25 +17,25 @@ use IGK\System\EntryClassResolution;
 class MakeManifestCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:manifest";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "make new project's manifest";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -44,7 +44,7 @@ class MakeManifestCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param mixed $controller
     */
@@ -80,7 +80,7 @@ class MakeManifestCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Help.
     */
     public function help(){
         Logger::print("-");

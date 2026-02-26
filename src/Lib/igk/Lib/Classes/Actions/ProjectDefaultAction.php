@@ -14,7 +14,7 @@ use IGK\System\Http\WebResponse;
 use IGK\System\IO\MimeType;
 
 /**
-* auto generate doc.
+* Project default action.
 * @package IGK\Actions
 */
 abstract class ProjectDefaultAction extends ActionBase{
@@ -26,14 +26,14 @@ abstract class ProjectDefaultAction extends ActionBase{
     protected $manifest_cache;
 
     /**
-    * auto generate doc.
+    * Logout.
     */
     public function logout(){
         $this->ctrl->logout(1);
     }
 
     /**
-    * auto generate doc.
+    * Manifest json.
     */
     protected function manifest_json(){
         $dir = $this->ctrl->getDeclaredDir();
@@ -53,7 +53,7 @@ abstract class ProjectDefaultAction extends ActionBase{
     }
 
     /**
-    * auto generate doc.
+    * Handles calls to undefined methods.
     * @param mixed $name
     * @param mixed $args
     */

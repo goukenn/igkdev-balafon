@@ -13,13 +13,13 @@ use IGK\System\Database\SchemaMigrationItemBase;
 class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "from", "on", "columns", 'foreignKeyName'];
 
     /**
-    * auto generate doc.
+    * Up.
     */
     public function up(){
         $ctrl = $this->getMigration()->controller;

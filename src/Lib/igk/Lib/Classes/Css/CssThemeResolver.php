@@ -12,7 +12,7 @@ use IGKException;
 use IGKResourceUriResolver;
 
 /**
-* auto generate doc.
+* Css theme resolver.
 * @package IGK\Css
 */
 class CssThemeResolver
@@ -34,31 +34,31 @@ class CssThemeResolver
     var $parent;
 
     /**
-    * auto generate doc.
+    * Property: last.
     * @var mixed
     */
     var $last;
 
     /**
-    * auto generate doc.
+    * Property: designmode.
     * @var mixed
     */
     var $designmode = false;
 
     /**
-    * auto generate doc.
+    * Property: resolv.
     * @var mixed
     */
     var $resolv = [];
 
     /**
-    * auto generate doc.
+    * Property: start.
     * @var mixed
     */
     var $start = false;
 
     /**
-    * auto generate doc.
+    * Property: colordef.
     * @var mixed
     */
     var $colordef = null;
@@ -69,163 +69,163 @@ class CssThemeResolver
     var $resolver;
 
     /**
-    * auto generate doc.
+    * Constant: attr resolv.
     * @var mixed
     */
     const ATTR_RESOLV = 'resolv';
 
     /**
-    * auto generate doc.
+    * Constant: attr trans.
     * @var mixed
     */
     const ATTR_TRANS = 'trans';
 
     /**
-    * auto generate doc.
+    * Constant: attr transform.
     * @var mixed
     */
     const ATTR_TRANSFORM = 'transform';
 
     /**
-    * auto generate doc.
+    * Constant: attr anim.
     * @var mixed
     */
     const ATTR_ANIM = 'anim';
 
     /**
-    * auto generate doc.
+    * Constant: attr animation.
     * @var mixed
     */
     const ATTR_ANIMATION = 'animation';
 
     /**
-    * auto generate doc.
+    * Constant: attr color.
     * @var mixed
     */
     const ATTR_COLOR= 'cl';
 
     /**
-    * auto generate doc.
+    * Constant: attr var.
     * @var mixed
     */
     const ATTR_VAR= 'var';
 
     /**
-    * auto generate doc.
+    * Constant: attr background color.
     * @var mixed
     */
     const ATTR_BACKGROUND_COLOR= 'bgcl';
 
     /**
-    * auto generate doc.
+    * Constant: attr foreground color.
     * @var mixed
     */
     const ATTR_FOREGROUND_COLOR= 'fcl';
 
     /**
-    * auto generate doc.
+    * Constant: attr fit.
     * @var mixed
     */
     const ATTR_FIT = 'fit';
 
     /**
-    * auto generate doc.
+    * Constant: attr var property.
     * @var mixed
     */
     const ATTR_VAR_PROPERTY = 'varp';
 
     /**
-    * auto generate doc.
+    * Constant: attr font.
     * @var mixed
     */
     const ATTR_FONT = 'ft';
 
     /**
-    * auto generate doc.
+    * Constant: attr font name.
     * @var mixed
     */
     const ATTR_FONT_NAME = 'ftn';
 
     /**
-    * auto generate doc.
+    * Constant: attr resource.
     * @var mixed
     */
     const ATTR_RESOURCE = 'res';
 
     /**
-    * auto generate doc.
+    * Constant: attr background resource.
     * @var mixed
     */
     const ATTR_BACKGROUND_RESOURCE= 'bgres';
 
     /**
-    * auto generate doc.
+    * Constant: attr uri.
     * @var mixed
     */
     const ATTR_URI = 'uri';
 
     /**
-    * auto generate doc.
+    * Constant: attr border color.
     * @var mixed
     */
     const ATTR_BORDER_COLOR = 'bcl';
 
     /**
-    * auto generate doc.
+    * Constant: attr svg.
     * @var mixed
     */
     const ATTR_SVG = 'svg';
 
     /**
-    * auto generate doc.
+    * Constant: attr filter.
     * @var mixed
     */
     const ATTR_FILTER = 'filter';
 
     /**
-    * auto generate doc.
+    * Constant: attr prop.
     * @var mixed
     */
     const ATTR_PROP = 'prop';
 
     /**
-    * auto generate doc.
+    * Constant: attr property.
     * @var mixed
     */
     const ATTR_PROPERTY = 'pr';
 
     /**
-    * auto generate doc.
+    * Constant: attr sys bgcl.
     * @var mixed
     */
     const ATTR_SYS_BGCL = 'sysbgcl';
 
     /**
-    * auto generate doc.
+    * Constant: attr sys fcl.
     * @var mixed
     */
     const ATTR_SYS_FCL = 'sysfcl';
 
     /**
-    * auto generate doc.
+    * Constant: attr sys color.
     * @var mixed
     */
     const ATTR_SYS_COLOR = 'syscl';
 
     /**
-    * auto generate doc.
+    * Constant: attr sys bcl.
     * @var mixed
     */
     const ATTR_SYS_BCL = 'sysbcl';
 
     /**
-    * auto generate doc.
+    * Constant: attr g resolv mode.
     * @var mixed
     */
     const ATTR_G_RESOLV_MODE = 'sys';
 
     /**
-    * auto generate doc.
+    * Constant: attr g theme resolv mode.
     * @var mixed
     */
     const ATTR_G_THEME_RESOLV_MODE = 'th';
@@ -813,7 +813,7 @@ class CssThemeResolver
     }
 
     /**
-    * auto generate doc.
+    * Get fcl.
     * @param mixed $value
     * @param mixed $resolved
     */

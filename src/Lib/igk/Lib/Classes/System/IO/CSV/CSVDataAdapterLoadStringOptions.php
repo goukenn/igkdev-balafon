@@ -10,25 +10,25 @@ namespace IGK\System\IO\CSV;
 class CSVDataAdapterLoadStringOptions{
 
     /**
-    * auto generate doc.
+    * Property: delimeter.
     * @var mixed
     */
     var $delimeter;
 
     /**
-    * auto generate doc.
+    * Property: separator.
     * @var mixed
     */
     var $separator;
 
     /**
-    * auto generate doc.
+    * Property: filter.
     * @var mixed
     */
     var $filter;
 
     /**
-    * auto generate doc.
+    * Property: flags.
     * @var mixed
     */
     var $flags;

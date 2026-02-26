@@ -6,13 +6,13 @@
 namespace IGK\System\Html\Forms\Validations;
 
 /**
-* auto generate doc.
+* Json validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class JsonValidator extends FormFieldValidatorBase implements IFormValidator{
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */

@@ -13,7 +13,7 @@ namespace IGK\Core;
 class EvalBinding{
 
     /**
-    * auto generate doc.
+    * Property: evals.
     * @var mixed
     */
     private static $sm_evals;

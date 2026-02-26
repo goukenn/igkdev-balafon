@@ -18,19 +18,19 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
 {
 
     /**
-    * auto generate doc.
+    * Property: migrations.
     * @var mixed
     */
     private $m_migrations;
 
     /**
-    * auto generate doc.
+    * Property: entities.
     * @var mixed
     */
     private $m_entities;
 
     /**
-    * auto generate doc.
+    * Property: relations.
     * @var mixed
     */
     private $m_relations;
@@ -56,7 +56,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Description.
     * @param null|string $desc
     * @return IDiagramSchemaBuilder
     */
@@ -65,7 +65,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
      }
 
     /**
-    * auto generate doc.
+    * Adds Index.
     * @param string $table
     * @param mixed $column
     */
@@ -78,7 +78,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Drops Index.
     * @param string $table
     * @param mixed $column
     */
@@ -91,7 +91,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Adds Column.
     * @param string $table
     * @param string $name
     * @return IDiagramSchemaColumn
@@ -107,7 +107,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Drops Entity.
     * @param string $name
     * @return void
     */
@@ -124,7 +124,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Drops Column.
     * @param string $tablename
     * @param string $columnName
     * @return void
@@ -141,7 +141,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Change column.
     * @param string $tablename
     * @param string $columnName
     * @param IDbColumnInfo $columnInfo
@@ -160,7 +160,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Returns Table Prefix.
     * @return string
     */
     public function getTablePrefix(): string
@@ -169,7 +169,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Returns Entity Keys.
     */
     public function getEntityKeys()
     {
@@ -316,7 +316,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
     }
 
     /**
-    * auto generate doc.
+    * Link.
     * @param string $relationName
     * @param mixed $sourceEntity
     * @param mixed $endEntity

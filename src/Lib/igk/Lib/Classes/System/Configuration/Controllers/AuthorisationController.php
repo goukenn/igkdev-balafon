@@ -23,13 +23,13 @@ use IGKSysUtil;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Authorisation controller.
 * @package IGK\System\Configuration\Controllers
 */
 class AuthorisationController extends ConfigControllerBase{
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -37,14 +37,14 @@ class AuthorisationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Available.
     */
     public function getIsAvailable(){
         return true;
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     * @return bool
     */
     public function getIsVisible():bool
@@ -53,7 +53,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Config Page Available.
     */
     public function getIsConfigPageAvailable()
     {
@@ -73,7 +73,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Config Menu.
     */
     public function initConfigMenu()
     { 
@@ -158,7 +158,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Auth level ajx.
     */
     public function auth_level_ajx(){
         $this->auth()->renderAJX();
@@ -459,7 +459,7 @@ class AuthorisationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Auth management ajx.
     */
     public function auth_management_ajx(){
         $g = igk_get_robj('user|group|owner');
@@ -540,7 +540,7 @@ JS;
     }
 
     /**
-    * auto generate doc.
+    * Lists group ajx.
     */
     public function list_group_ajx(){
         $g = igk_getr("v");

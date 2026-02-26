@@ -27,56 +27,56 @@ if (defined("IGK_WINUI_NAVIGATIONBAR"))
 define("IGK_WINUI_NAVIGATIONBAR",1);
 
 /**
-* auto generate doc.
+* Igkwin uinavigation bar.
 */
 class IGKWinUINavigationBar extends  IGKWinUIControl
 {
 
     /**
-    * auto generate doc.
+    * Property: target.
     * @var mixed
     */
     private $m_target; //target that will host navigation bar
 
     /**
-    * auto generate doc.
+    * Property: scripts.
     * @var mixed
     */
     private $m_scripts ;
 
     /**
-    * auto generate doc.
+    * Property: pages.
     * @var mixed
     */
     private $m_pages;
 
     /**
-    * auto generate doc.
+    * Property: cibling ctrl.
     * @var mixed
     */
     private $m_ciblingCtrl;
 
     /**
-    * auto generate doc.
+    * Returns Target.
     */
 
     public function getTarget(){return $this->m_target;}
 
     /**
-    * auto generate doc.
+    * Sets Target.
     * @param mixed $target
     */
 
     public function setTarget($target) { $this->m_target  = $target;}
 
     /**
-    * auto generate doc.
+    * Returns Cibling Ctrl.
     */
 
     public function getCiblingCtrl(){return $this->m_ciblingCtrl;}
 
     /**
-    * auto generate doc.
+    * Sets Cibling Ctrl.
     * @param mixed $value
     */
 
@@ -96,7 +96,7 @@ class IGKWinUINavigationBar extends  IGKWinUIControl
 	}
 
     /**
-    * auto generate doc.
+    * Inner html.
     * @param null|mixed & $xmloptions
     */
 
@@ -118,7 +118,7 @@ EOF;
 	///@@ $target : the controller target name
 
     /**
-    * auto generate doc.
+    * Adds Page.
     * @param mixed $page
     * @param mixed $target
     */
@@ -134,7 +134,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
 
     public function init()

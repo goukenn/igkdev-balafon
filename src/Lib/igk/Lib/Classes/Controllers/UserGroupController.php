@@ -13,13 +13,13 @@ use IGK\Models\Usergroups;
 use IGKEvents;
 
 /**
-* auto generate doc.
+* User group controller.
 * @package IGK\Controllers
 */
 final class UserGroupController extends NonVisibleControllerBase{
 
     /**
-    * auto generate doc.
+    * Returns Data Table Info.
     * @return ?IModelDefinitionInfo
     */
     public function getDataTableInfo(): ?IModelDefinitionInfo{
@@ -27,7 +27,7 @@ final class UserGroupController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Table Name.
     * @return ?string
     */
     public function getDataTableName(): ?string{
@@ -35,7 +35,7 @@ final class UserGroupController extends NonVisibleControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Registers Hook.
     */
     protected function registerHook(){
         $tb=$this->getDataTableName();

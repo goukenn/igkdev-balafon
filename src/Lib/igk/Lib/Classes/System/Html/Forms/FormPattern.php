@@ -11,31 +11,31 @@ namespace IGK\System\Html\Forms;
 class FormPattern{
 
     /**
-    * auto generate doc.
+    * Constant: number.
     * @var mixed
     */
     const number = "^[0-9]+(\.([0-9]+)?)?$";
 
     /**
-    * auto generate doc.
+    * Constant: integer.
     * @var mixed
     */
     const integer = "^[0-9]+$";
 
     /**
-    * auto generate doc.
+    * Constant: url.
     * @var mixed
     */
     const url = "^(((http(s){0,1}):)?\/\/([\w\.0-9]+)|(\?))";
 
     /**
-    * auto generate doc.
+    * Constant: identifier.
     * @var mixed
     */
     const identifier = "(\w|[_]+[\w0-9])([\w0-9_]*)";
 
     /**
-    * auto generate doc.
+    * Constant: version.
     * @var mixed
     */
     const version = "^[0-9]+(\.[0-9]+){0,3}";

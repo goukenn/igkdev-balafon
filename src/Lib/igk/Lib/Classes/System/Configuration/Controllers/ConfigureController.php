@@ -46,25 +46,25 @@ final class ConfigureController extends BaseController implements IConfigControl
 {
 
     /**
-    * auto generate doc.
+    * Constant: connexion frame.
     * @var mixed
     */
     const CONNEXION_FRAME = IGK_CONNEXION_FRAME;
 
     /**
-    * auto generate doc.
+    * Constant: cfg user.
     * @var mixed
     */
     const CFG_USER = IGK_CFG_USER;
 
     /**
-    * auto generate doc.
+    * Property: config setting.
     * @var mixed
     */
     private $m_configSetting;
 
     /**
-    * auto generate doc.
+    * Returns Can Init Db.
     * @return bool
     */
     protected function getCanInitDb(): bool
@@ -73,7 +73,7 @@ final class ConfigureController extends BaseController implements IConfigControl
     }
 
     /**
-    * auto generate doc.
+    * Returns View Dir.
     */
     public function getViewDir()
     {
@@ -85,7 +85,7 @@ final class ConfigureController extends BaseController implements IConfigControl
     }
 
     /**
-    * auto generate doc.
+    * Returns Config File.
     */
     public function getConfigFile()
     {
@@ -93,7 +93,7 @@ final class ConfigureController extends BaseController implements IConfigControl
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Schema File.
     */
     protected function getDataSchemaFile()
     {
@@ -926,7 +926,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Returns Articles Dir.
     */
     public function getArticlesDir()
     {
@@ -1384,7 +1384,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Init web authn.
     * @return ?WebAuthn
     */
     protected function _initWebAuthn(): ?WebAuthn
@@ -1982,7 +1982,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Returns Ctrl File.
     * @param mixed $path
     */
     public function getCtrlFile($path)
@@ -1993,7 +1993,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Returns Styles Dir.
     */
     public function getStylesDir()
     {
@@ -2169,7 +2169,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Runcron.
     */
     public function runcron()
     {

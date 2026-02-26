@@ -28,13 +28,13 @@ class Activator
 {
 
     /**
-    * auto generate doc.
+    * Property: dyn sources.
     * @var mixed
     */
     private static $sm_dyn_sources;
 
     /**
-    * auto generate doc.
+    * Property: dyn class.
     * @var mixed
     */
     private static $sm_dyn_class;

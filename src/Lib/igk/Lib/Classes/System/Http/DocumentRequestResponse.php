@@ -15,7 +15,7 @@ use ReflectionException;
 class DocumentRequestResponse extends RequestResponse{
 
     /**
-    * auto generate doc.
+    * Property: response.
     * @var mixed
     */
     private $response; 

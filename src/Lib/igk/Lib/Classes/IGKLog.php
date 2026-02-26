@@ -23,7 +23,7 @@ final class IGKLog extends IGKObject
     private static $sm_loggin = false;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
@@ -45,7 +45,7 @@ final class IGKLog extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Writes i data.
     */
     public function write_i_data(){
         throw new NotImplementException(__METHOD__);

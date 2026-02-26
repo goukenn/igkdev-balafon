@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Forms\Validations;
 
 /**
-* auto generate doc.
+* Checkbox validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class CheckboxValidator extends BoolValidator implements IFormValidator{

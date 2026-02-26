@@ -10,7 +10,7 @@ use IGK\System\IInjectable;
 use IGKException;
 
 /**
-* auto generate doc.
+* Response.
 * @package IGK\System\Http
 */
 abstract class Response implements IResponse, IInjectable{
@@ -21,12 +21,12 @@ abstract class Response implements IResponse, IInjectable{
     private $body;
 
     /**
-    * auto generate doc.
+    * Returns Body.
     */
     public function getBody(){return $this->body; }
 
     /**
-    * auto generate doc.
+    * Sets Body.
     * @param mixed $body
     */
     public function setBody($body){

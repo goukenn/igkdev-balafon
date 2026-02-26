@@ -6,7 +6,7 @@
 namespace IGK\System\Polyfill;
 
 /**
-* auto generate doc.
+* Trait providing event property array access functionality.
 * @package IGK\System\Polyfill
 */
 trait EventPropertyArrayAccessTrait{

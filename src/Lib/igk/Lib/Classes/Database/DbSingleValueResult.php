@@ -10,19 +10,19 @@
 namespace IGK\Database;
 
 /**
-* auto generate doc.
+* Db single value result.
 * @package IGK\Database
 */
 class DbSingleValueResult{
 
     /**
-    * auto generate doc.
+    * Properties: row count, query, type, value.
     * @var mixed
     */
     var $RowCount, $query, $type, $value;
 
     /**
-    * auto generate doc.
+    * Magic getter for dynamic properties.
     * @param mixed $name
     */
 
@@ -34,7 +34,7 @@ class DbSingleValueResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString(){
@@ -42,7 +42,7 @@ class DbSingleValueResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Result Type.
     */
 
     public function getResultType(){
@@ -50,7 +50,7 @@ class DbSingleValueResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Row At Index.
     * @param int $index
     */
 
@@ -59,7 +59,7 @@ class DbSingleValueResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Row Count.
     */
 
     public function getRowCount(){
@@ -67,7 +67,7 @@ class DbSingleValueResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Rows.
     */
 
     public function getRows(){
@@ -75,7 +75,7 @@ class DbSingleValueResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     */
 
     public function getValue(){
@@ -83,7 +83,7 @@ class DbSingleValueResult{
     }
 
     /**
-    * auto generate doc.
+    * Result type is boolean.
     */
 
     public function resultTypeIsBoolean(){
@@ -91,13 +91,13 @@ class DbSingleValueResult{
     }
 
     /**
-    * auto generate doc.
+    * Sorts By.
     */
 
     public function sortBy(){    }
 
     /**
-    * auto generate doc.
+    * Success.
     */
 
     public function Success(){

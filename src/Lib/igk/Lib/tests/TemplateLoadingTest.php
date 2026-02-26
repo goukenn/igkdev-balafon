@@ -10,13 +10,13 @@ use IGK\System\Html\HtmlContext;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Template loading test.
 * @package IGK\Tests
 */
 class TemplateLoadingTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests loading data.
     */
     public function test_loading_data(){
   
@@ -43,7 +43,7 @@ $this->assertEquals("<div></div>", $m, "loading failed");
     }
 
     /**
-    * auto generate doc.
+    * Tests load pipe with no data.
     */
     public function test_load_pipe_with_no_data(){
         $src = '<a>{{ $raw | json }}</a>';
@@ -57,7 +57,7 @@ $this->assertEquals("<div></div>", $m, "loading failed");
     }
 
     /**
-    * auto generate doc.
+    * Tests load pipe with data.
     */
     public function test_load_pipe_with_data(){
         $src = '<a>{{ $raw | json }}</a>';
@@ -79,7 +79,7 @@ $this->assertEquals("<div></div>", $m, "loading failed");
     }
 
     /**
-    * auto generate doc.
+    * Tests visibile attribute.
     */
     public function test_visibile_attribute(){
         $src = '<a *visible="false">item first ok</a>';
@@ -159,7 +159,7 @@ $this->assertEquals("<div></div>", $m, "loading failed");
     }
 
     /**
-    * auto generate doc.
+    * Tests title properties.
     */
     public function test_title_properties(){
         $src = '<a *title="$raw->title" >info</a>';

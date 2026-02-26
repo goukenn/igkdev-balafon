@@ -11,44 +11,44 @@ use IGK\Resources\R;
 abstract class Factory implements IDiagramVisitorEntity{
 
     /**
-    * auto generate doc.
+    * Map of table.
     * @var mixed
     */
     protected $_table;
 
     /**
-    * auto generate doc.
+    * Property: mig.
     * @var mixed
     */
     protected $_mig;
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     protected $_controller;
 
     /**
-    * auto generate doc.
+    * Property: props.
     * @var mixed
     */
     protected $_props;
 
     /**
-    * auto generate doc.
+    * Property: schema.
     * @var mixed
     */
     protected $_schema;
 
     /**
-    * auto generate doc.
+    * Up.
     */
     public function up(){
         $this->updateSchema($this->_schema, 'up');
     }
 
     /**
-    * auto generate doc.
+    * Down.
     */
     public function down(){
         $this->updateSchema($this->_schema, 'down');

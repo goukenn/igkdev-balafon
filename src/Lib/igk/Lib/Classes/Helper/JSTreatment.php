@@ -12,7 +12,7 @@ use IGK\System\Text\RegexMatcherContainer;
 class JSTreatment{
 
     /**
-    * auto generate doc.
+    * Removes Outside Symbol.
     * @param string $t
     */
     public static function RemoveOutsideSymbol(string $t){

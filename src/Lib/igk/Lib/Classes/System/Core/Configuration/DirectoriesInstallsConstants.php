@@ -13,7 +13,7 @@ namespace IGK\System\Core\Configuration;
 class DirectoriesInstallsConstants{
 
     /**
-    * auto generate doc.
+    * Returns Installable Dir Constants.
     * @return array
     */
     public static function GetInstallableDirConstants(): array{

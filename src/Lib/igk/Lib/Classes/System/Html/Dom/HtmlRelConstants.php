@@ -11,19 +11,19 @@ namespace IGK\System\Html\Dom;
 abstract class HtmlRelConstants {
 
     /**
-    * auto generate doc.
+    * Constant: no operner.
     * @var mixed
     */
     const NoOperner = "noopener";
 
     /**
-    * auto generate doc.
+    * Constant: stylesheet.
     * @var mixed
     */
     const Stylesheet = "stylesheet";
 
     /**
-    * auto generate doc.
+    * Constant: icon.
     * @var mixed
     */
     const Icon = "icon";

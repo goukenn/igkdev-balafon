@@ -16,19 +16,19 @@ use function igk_resources_gets as __;
 require_once __DIR__ . "/IService.php";
 
 /**
-* auto generate doc.
+* Igkservices.
 */
 class IGKServices extends ListOfCoreServices
 {
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: services.
     * @var mixed
     */
     private $m_services = [];
@@ -39,43 +39,43 @@ class IGKServices extends ListOfCoreServices
     private $m_transients = [];
 
     /**
-    * auto generate doc.
+    * Constant: key def.
     * @var mixed
     */
     const KEY_DEF = '@def';
 
     /**
-    * auto generate doc.
+    * Constant: key lifetime.
     * @var mixed
     */
     const KEY_LIFETIME = '@lifetime';
 
     /**
-    * auto generate doc.
+    * Constant: init args.
     * @var mixed
     */
     const INIT_ARGS = DispatcherService::INIT_ARGS;
 
     /**
-    * auto generate doc.
+    * Constant: key instance.
     * @var mixed
     */
     const KEY_INSTANCE = 'instance';
 
     /**
-    * auto generate doc.
+    * Constant: path separator.
     * @var mixed
     */
     const PATH_SEPARATOR = '::';
 
     /**
-    * auto generate doc.
+    * Property: init def.
     * @var mixed
     */
     private static $sm_initDef;
 
     /**
-    * auto generate doc.
+    * Sets Definition.
     * @param mixed $n
     */
 
@@ -98,7 +98,7 @@ class IGKServices extends ListOfCoreServices
     // }
 
     /**
-    * auto generate doc.
+    * Magic getter for dynamic properties.
     * @param mixed $name
     */
 
@@ -108,7 +108,7 @@ class IGKServices extends ListOfCoreServices
     }
 
     /**
-    * auto generate doc.
+    * Magic setter for dynamic properties.
     * @param mixed $name
     * @param null|IAppService $service
     */

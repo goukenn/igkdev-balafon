@@ -43,31 +43,31 @@ class SchemaMigration
     use SchemaGenerationFieldTrait;
 
     /**
-    * auto generate doc.
+    * Property: node.
     * @var mixed
     */
     var $node;
 
     /**
-    * auto generate doc.
+    * Property: reload.
     * @var mixed
     */
     var $reload;
 
     /**
-    * auto generate doc.
+    * Name of resovlname.
     * @var mixed
     */
     var $resovlname;
 
     /**
-    * auto generate doc.
+    * Map of table.
     * @var mixed
     */
     var $table;
 
     /**
-    * auto generate doc.
+    * Property: tbrelations.
     * @var mixed
     */
     var $tbrelations;
@@ -295,7 +295,7 @@ class SchemaMigration
     }
 
     /**
-    * auto generate doc.
+    * Treat column name.
     * @param mixed $cl
     * @param null|string $prefix
     */

@@ -22,7 +22,7 @@ interface ISignInProvider{
     function login(callable $callable) : bool;
 
     /**
-    * auto generate doc.
+    * Redirects To.
     * @param mixed $uri
     */
     function redirectTo($uri);

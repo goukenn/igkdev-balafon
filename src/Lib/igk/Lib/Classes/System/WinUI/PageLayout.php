@@ -12,13 +12,13 @@ use IGK\System\Configuration\ConfigData;
 class PageLayout{
 
     /**
-    * auto generate doc.
+    * Constant: limits.
     * @var mixed
     */
     const Limits = [20,50,100];
 
     /**
-    * auto generate doc.
+    * Constant: current limit.
     * @var mixed
     */
     const CurrentLimit = 20;

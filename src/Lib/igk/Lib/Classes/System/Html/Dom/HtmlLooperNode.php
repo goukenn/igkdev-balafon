@@ -41,31 +41,31 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
 {
 
     /**
-    * auto generate doc.
+    * Property: args.
     * @var mixed
     */
     private $args;
 
     /**
-    * auto generate doc.
+    * Property: node.
     * @var mixed
     */
     private $node;
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     private $callback;
 
     /**
-    * auto generate doc.
+    * Property: template.
     * @var mixed
     */
     private $m_template;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:looper";
@@ -80,7 +80,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     const LOOPER_KEY = '$raw';
 
     /**
-    * auto generate doc.
+    * Property: rendering context args.
     * @var mixed
     */
     private static $sm_renderingContextArgs;
@@ -91,7 +91,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     private $params; //
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
@@ -152,7 +152,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -471,7 +471,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
     }
 
     /**
-    * auto generate doc.
+    * Clears Childs.
     */
     public function clearChilds()
     {
@@ -481,7 +481,7 @@ class HtmlLooperNode extends HtmlItemBase implements IHtmlTemplateHost
 }
 
 /**
-* auto generate doc.
+* Lopper eval data.
 * @package IGK\System\Html\Dom
 */
 class LopperEvalData implements \Iterator
@@ -489,31 +489,31 @@ class LopperEvalData implements \Iterator
     use IteratorTrait;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
 
     /**
-    * auto generate doc.
+    * Property: current.
     * @var mixed
     */
     private $m_current;
 
     /**
-    * auto generate doc.
+    * Property: it.
     * @var mixed
     */
     private $m_it;
 
     /**
-    * auto generate doc.
+    * Property: keys.
     * @var mixed
     */
     private $m_keys;
 
     /**
-    * auto generate doc.
+    * Property: pos.
     * @var mixed
     */
     private $m_pos;
@@ -531,7 +531,7 @@ class LopperEvalData implements \Iterator
     }
 
     /**
-    * auto generate doc.
+    * Iterator current.
     */
     public function _iterator_current()
     {
@@ -543,7 +543,7 @@ class LopperEvalData implements \Iterator
     }
 
     /**
-    * auto generate doc.
+    * Iterator key.
     */
     public function _iterator_key()
     {
@@ -551,7 +551,7 @@ class LopperEvalData implements \Iterator
     }
 
     /**
-    * auto generate doc.
+    * Next.
     * @return void
     */
     public function next(): void
@@ -562,7 +562,7 @@ class LopperEvalData implements \Iterator
     }
 
     /**
-    * auto generate doc.
+    * Iterator rewind.
     */
     public function _iterator_rewind()
     {
@@ -571,7 +571,7 @@ class LopperEvalData implements \Iterator
     }
 
     /**
-    * auto generate doc.
+    * Iterator valid.
     */
     public function _iterator_valid()
     {
@@ -582,13 +582,13 @@ class LopperEvalData implements \Iterator
 }
 
 /**
-* auto generate doc.
+* Html looper template node.
 * @package IGK\System\Html\Dom
 */
 class HtmlLooperTemplateNode extends HtmlItemBase{
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;

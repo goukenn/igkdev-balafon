@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class HtmlValidatorTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests remove tag.
     */
     public function test_remove_tag(){
         $validator = new HtmlValidator;
@@ -25,7 +25,7 @@ class HtmlValidatorTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests remove leave one tag.
     */
     public function test_remove_leave_one_tag(){
         $validator = new HtmlValidator;

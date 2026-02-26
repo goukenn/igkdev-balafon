@@ -15,14 +15,14 @@ abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Getcan add child.
     */
     public function getcanAddChild(){
 		return false;
 	}
 
     /**
-    * auto generate doc.
+    * Returns Additional Config Info.
     */
     public static function GetAdditionalConfigInfo()
 	{
@@ -30,7 +30,7 @@ abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Sets Additional Config Info.
     * @param mixed & $t
     */
     public static function SetAdditionalConfigInfo(& $t)
@@ -39,14 +39,14 @@ abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Ctrl Category.
     */
     public static function GetCtrlCategory(){
 		return "COMMUNITY";
 	}
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController
@@ -62,31 +62,31 @@ return $this;
 }
 
 /**
-* auto generate doc.
+* Igkhtml facebook like item.
 */
 final class IGKHtmlFacebookLikeItem extends HtmlNode
 implements IHtmlUriItem
 {
 
     /**
-    * auto generate doc.
+    * Property: uri.
     * @var mixed
     */
     private $m_uri;
 
     /**
-    * auto generate doc.
+    * Returns Uri.
     */
     public function getUri(){ return $this->m_uri; }
 
     /**
-    * auto generate doc.
+    * Sets Uri.
     * @param mixed $v
     */
     public function setUri($v) { $this->m_uri = $v; return $this;}
 
     /**
-    * auto generate doc.
+    * View.
     */
     public function View() {
 		$this->clearChilds();

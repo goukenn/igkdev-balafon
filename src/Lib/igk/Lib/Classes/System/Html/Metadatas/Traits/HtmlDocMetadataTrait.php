@@ -11,7 +11,7 @@ use IGK\System\Html\Metadatas\MetaDataHost;
 trait HtmlDocMetadataTrait{
 
     /**
-    * auto generate doc.
+    * Property: metadata.
     * @var mixed
     */
     private $m_metadata;

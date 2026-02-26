@@ -43,13 +43,13 @@ class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
     var $flag;
 
     /**
-    * auto generate doc.
+    * Property: flag options.
     * @var mixed
     */
     var $flagOptions;
 
     /**
-    * auto generate doc.
+    * Property: skip white space.
     * @var mixed
     */
     var $skipWhiteSpace = 0;
@@ -65,25 +65,25 @@ class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
     var $block;
 
     /**
-    * auto generate doc.
+    * Property: comment.
     * @var mixed
     */
     var $comment;
 
     /**
-    * auto generate doc.
+    * Property: modifiers.
     * @var mixed
     */
     var $modifiers = [];
 
     /**
-    * auto generate doc.
+    * Property: php doc.
     * @var mixed
     */
     var $phpDoc;
 
     /**
-    * auto generate doc.
+    * Property: struct info.
     * @var mixed
     */
     var $struct_info;
@@ -94,7 +94,7 @@ class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
     var $options;
 
     /**
-    * auto generate doc.
+    * Outputs.
     * @return ?string
     */
     public function output():?string{

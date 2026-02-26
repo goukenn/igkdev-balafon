@@ -11,7 +11,7 @@ namespace IGK\System\Html\Css;
 class CssRootPropertyStorageListener implements ICssStoreRootListener{
 
     /**
-    * auto generate doc.
+    * Property: roots.
     * @var mixed
     */
     private $m_roots;

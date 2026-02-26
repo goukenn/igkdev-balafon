@@ -27,7 +27,7 @@ class Views {
     }
 
     /**
-    * auto generate doc.
+    * View contact.
     * @param mixed $n
     * @param mixed $info
     * @param null|mixed $key
@@ -45,7 +45,7 @@ class Views {
     }
 
     /**
-    * auto generate doc.
+    * Model view limit.
     * @param mixed $target
     * @param mixed $model
     * @param callable $callback
@@ -73,7 +73,7 @@ class Views {
     }
 
     /**
-    * auto generate doc.
+    * Model view handle limit.
     * @param mixed $host
     * @param mixed $target
     * @param mixed $model
@@ -90,7 +90,7 @@ class Views {
     }
 
     /**
-    * auto generate doc.
+    * View action bar confirm dialog.
     * @param mixed $a
     * @param null|array $options
     */

@@ -37,55 +37,55 @@ use IGK\Models\ModelBase;
 class PoolingProcess extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd id.
     * @var mixed
     */
     const FD_ID="pproc_id";
 
     /**
-    * auto generate doc.
+    * Constant: fd name.
     * @var mixed
     */
     const FD_NAME="pproc_name";
 
     /**
-    * auto generate doc.
+    * Constant: fd pid.
     * @var mixed
     */
     const FD_PID="pproc_pid";
 
     /**
-    * auto generate doc.
+    * Constant: fd ip.
     * @var mixed
     */
     const FD_IP="pproc_ip";
 
     /**
-    * auto generate doc.
+    * Constant: fd session id.
     * @var mixed
     */
     const FD_SESSION_ID="pproc_session_id";
 
     /**
-    * auto generate doc.
+    * Constant: fd data.
     * @var mixed
     */
     const FD_DATA="pproc_data";
 
     /**
-    * auto generate doc.
+    * Constant: fd description.
     * @var mixed
     */
     const FD_DESCRIPTION="pproc_description";
 
     /**
-    * auto generate doc.
+    * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="pproc_Create_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd update at.
     * @var mixed
     */
     const FD_UPDATE_AT="pproc_Update_At";

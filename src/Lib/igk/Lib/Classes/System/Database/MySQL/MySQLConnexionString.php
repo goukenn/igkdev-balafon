@@ -12,37 +12,37 @@ use IGK\System\Html\Css\CssParser;
 class MySQLConnexionString {
 
     /**
-    * auto generate doc.
+    * Name of dbname.
     * @var mixed
     */
     var $dbname;
 
     /**
-    * auto generate doc.
+    * Property: dbuser.
     * @var mixed
     */
     var $dbuser;
 
     /**
-    * auto generate doc.
+    * Property: dbpasswd.
     * @var mixed
     */
     var $dbpasswd;
 
     /**
-    * auto generate doc.
+    * Property: dbserver.
     * @var mixed
     */
     var $dbserver;
 
     /**
-    * auto generate doc.
+    * Property: dbdriver.
     * @var mixed
     */
     var $dbdriver = "pdo";
 
     /**
-    * auto generate doc.
+    * Property: dbcharset.
     * @var mixed
     */
     var $dbcharset = 'utf-8';

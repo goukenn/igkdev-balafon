@@ -10,7 +10,7 @@ namespace IGK\System;
 interface IToArrayResolver{
 
     /**
-    * auto generate doc.
+    * To array.
     * @return array
     */
     function to_array():array;

@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html doctype.
 * @package IGK\System\Html\Dom
 */
 final class HtmlDoctype extends HtmlItemBase{
 
     /**
-    * auto generate doc.
+    * Constant: html doctype.
     * @var mixed
     */
     const HTML_DOCTYPE = '<!DOCTYPE html>';
@@ -30,7 +30,7 @@ final class HtmlDoctype extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Add child.
     * @param mixed $item
     * @param null|mixed $index
     */
@@ -40,7 +40,7 @@ final class HtmlDoctype extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -50,7 +50,7 @@ final class HtmlDoctype extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
 

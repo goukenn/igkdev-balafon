@@ -24,31 +24,31 @@ use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\EntryClassResolution;
 
 /**
-* auto generate doc.
+* Make db macros command.
 * @package IGK\System\Console\Commands
 */
 class MakeDbMacrosCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:model-macros";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "make model's macros class";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [ 
@@ -58,7 +58,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Property: help.
     * @var mixed
     */
     var $help = "[options] controller macrosName";
@@ -165,7 +165,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Help.
     */
 
     public function help(){

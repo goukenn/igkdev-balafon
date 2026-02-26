@@ -25,13 +25,13 @@ class RequestHandler
 {
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: ctrl request.
     * @var mixed
     */
     private $m_ctrl_request;

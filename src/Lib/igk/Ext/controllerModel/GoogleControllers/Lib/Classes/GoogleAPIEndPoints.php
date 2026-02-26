@@ -9,13 +9,13 @@
 namespace IGK\Core\Ext\Google;
 
 /**
-* auto generate doc.
+* Google apiend points.
 * @package IGK\Core\Ext\Google
 */
 class GoogleAPIEndPoints{
 
     /**
-    * auto generate doc.
+    * Constant: css end point.
     * @var mixed
     */
     const CssEndPoint = 'https://fonts.googleapis.com/css';

@@ -10,19 +10,19 @@ namespace IGK\System\Html\Dom;
 final class HtmlExtraHeaderScriptHost extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     private $m_list;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = 'igk-extra-header-script';
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param array $list
     */
     public static function Create(array $list){
@@ -34,7 +34,7 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -42,7 +42,7 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Rendered Childs.
     * @param null|mixed $options
     */
     public function getRenderedChilds($options = null)

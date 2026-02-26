@@ -6,7 +6,7 @@
 namespace IGK\Database;
 
 /**
-* auto generate doc.
+* Interface for db fetch result.
 * @package IGK\Database
 */
 interface IDbFetchResult{

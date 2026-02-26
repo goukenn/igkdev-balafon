@@ -12,25 +12,25 @@ class DbDataTypes
 {
 
     /**
-    * auto generate doc.
+    * Constant: var char.
     * @var mixed
     */
     const VarChar = 'VarChar';
 
     /**
-    * auto generate doc.
+    * Constant: int.
     * @var mixed
     */
     const Int = 'Int';
 
     /**
-    * auto generate doc.
+    * Constant: phone number.
     * @var mixed
     */
     const PhoneNumber = 'phone_number';
 
     /**
-    * auto generate doc.
+    * Constant: phone number max length.
     * @var mixed
     */
     const PHONE_NUMBER_MAX_LENGTH = 15;

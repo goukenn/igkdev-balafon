@@ -10,7 +10,7 @@ namespace IGK\Actions\Traits;
 trait MailRegistrationTrait{
 
     /**
-    * auto generate doc.
+    * Returns Mail Registration Message.
     * @param mixed $user
     */
     public function getMailRegistrationMessage($user){

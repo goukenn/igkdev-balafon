@@ -31,37 +31,37 @@ use IGK\Models\ModelBase;
 class UserInfoTypes extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl data type.
     * @var mixed
     */
     const FD_CL_DATA_TYPE="clDataType";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl regex.
     * @var mixed
     */
     const FD_CL_REGEX="clRegex";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl cardinality.
     * @var mixed
     */
     const FD_CL_CARDINALITY="clCardinality";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl type.
     * @var mixed
     */
     const FD_CL_TYPE="clType";

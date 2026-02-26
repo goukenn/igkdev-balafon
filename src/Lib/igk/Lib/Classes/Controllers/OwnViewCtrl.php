@@ -11,13 +11,13 @@ use IGKObject;
 final class OwnViewCtrl extends IGKObject  {
 
     /**
-    * auto generate doc.
+    * Property: ctrls.
     * @var mixed
     */
     private $m_ctrls;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     static $sm_instance;

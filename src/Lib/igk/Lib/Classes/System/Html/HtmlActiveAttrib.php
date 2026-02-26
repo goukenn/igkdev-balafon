@@ -18,7 +18,7 @@ use IGKObject;
 final class HtmlActiveAttrib extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
         $key='sys://html/active/attribInstance';

@@ -13,13 +13,13 @@ use IGK\System\Console\Logger;
 class GenerateViewCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--gen:view";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -27,26 +27,26 @@ class GenerateViewCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "tools";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "generate view";
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage(){
         Logger::print(sprintf("%s controller domain [view]", $this->command));
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $controller
     * @param null|mixed $domain

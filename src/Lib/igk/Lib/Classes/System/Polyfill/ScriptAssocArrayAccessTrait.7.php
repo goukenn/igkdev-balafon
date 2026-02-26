@@ -6,7 +6,7 @@
 namespace IGK\System\Polyfill;
 
 /**
-* auto generate doc.
+* Trait providing script assoc array access functionality.
 * @package IGK\System\Polyfill
 */
 trait ScriptAssocArrayAccessTrait{

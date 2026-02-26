@@ -35,49 +35,49 @@ use IGK\Models\ModelBase;
 class Connections extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl user guid.
     * @var mixed
     */
     const FD_CL_USER_GUID="clUser_Guid";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl token.
     * @var mixed
     */
     const FD_CL_TOKEN="clToken";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl token info.
     * @var mixed
     */
     const FD_CL_TOKEN_INFO="clTokenInfo";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl date time.
     * @var mixed
     */
     const FD_CL_DATE_TIME="clDateTime";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl from.
     * @var mixed
     */
     const FD_CL_FROM="clFrom";
 
     /**
-    * auto generate doc.
+    * Constant: fd cnx create at.
     * @var mixed
     */
     const FD_CNX_CREATE_AT="cnx_createAt";
 
     /**
-    * auto generate doc.
+    * Constant: fd cnx update at.
     * @var mixed
     */
     const FD_CNX_UPDATE_AT="cnx_updateAt";

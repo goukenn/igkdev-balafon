@@ -14,7 +14,7 @@ use IGK\System\AnnotationBase;
 class SecurityAnnotation extends AnnotationBase{
 
     /**
-    * auto generate doc.
+    * Constant: bearer auth.
     * @var mixed
     */
     const BEARER_AUTH = 'BearerAuth';
@@ -46,7 +46,7 @@ class SecurityAnnotation extends AnnotationBase{
     }
 
     /**
-    * auto generate doc.
+    * Sets Strict.
     * @param null|bool $strict
     */
     public function setStrict(?bool $strict){

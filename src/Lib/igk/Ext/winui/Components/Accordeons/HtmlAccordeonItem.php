@@ -11,38 +11,38 @@ use IGK\ValueListener;
 require_once __DIR__."/AccordeonCookiePanel.php";
 
 /**
-* auto generate doc.
+* Html accordeon item.
 */
 final class HtmlAccordeonItem extends HtmlNode
 implements IHtmlCookieItem
 {
 
     /**
-    * auto generate doc.
+    * Identifier: cookie id.
     * @var mixed
     */
     private $m_CookieId;
 
     /**
-    * auto generate doc.
+    * Count: pan count.
     * @var mixed
     */
     private $m_panCount;
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Returns Cookie Id.
     */
 
     public function getCookieId(){return $this->m_CookieId; }
 
     /**
-    * auto generate doc.
+    * Sets Cookie Id.
     * @param mixed $v
     */
 
@@ -61,7 +61,7 @@ implements IHtmlCookieItem
 	}
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $o
     */
 
@@ -73,7 +73,7 @@ implements IHtmlCookieItem
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Demo.
     * @param mixed $t
     */
 
@@ -96,7 +96,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Adds Panel.
     * @param mixed $title
     * @param mixed $content
     * @param mixed $active

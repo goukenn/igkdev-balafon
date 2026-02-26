@@ -10,13 +10,13 @@ namespace IGK\System;
 class ViewVarExpression{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;

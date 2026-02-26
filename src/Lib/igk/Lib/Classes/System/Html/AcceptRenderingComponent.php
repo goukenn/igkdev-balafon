@@ -12,25 +12,25 @@ use Exception;
 class AcceptRenderingComponent{
 
     /**
-    * auto generate doc.
+    * Identifier: guid.
     * @var mixed
     */
     var $guid;
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Property: styles.
     * @var mixed
     */
     private $m_styles;
 
     /**
-    * auto generate doc.
+    * Property: injects.
     * @var mixed
     */
     private $m_injects;
@@ -45,7 +45,7 @@ class AcceptRenderingComponent{
     }
 
     /**
-    * auto generate doc.
+    * Script.
     */
     public function script(){
         if (is_null($this->m_script)){

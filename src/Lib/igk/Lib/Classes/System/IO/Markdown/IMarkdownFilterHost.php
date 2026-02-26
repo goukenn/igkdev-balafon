@@ -13,7 +13,7 @@ namespace IGK\System\IO\Markdown;
 interface IMarkdownFilterHost{
 
     /**
-    * auto generate doc.
+    * Initializes Menu List.
     * @param mixed $i
     * @return ?int
     */
@@ -22,7 +22,7 @@ interface IMarkdownFilterHost{
     function getListTableNewIds():?int;
 
     /**
-    * auto generate doc.
+    * Popup bullet list.
     * @param string $root
     * @return string
     */
@@ -42,13 +42,13 @@ interface IMarkdownFilterHost{
     function escape(string $text):string;
 
     /**
-    * auto generate doc.
+    * Lists Table Ref Count.
     * @return int
     */
     function listTableRefCount():int;
 
     /**
-    * auto generate doc.
+    * Returns Title Style Id.
     * @param int $level
     * @return ?string
     */

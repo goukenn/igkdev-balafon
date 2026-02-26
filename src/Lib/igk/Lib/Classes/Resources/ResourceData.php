@@ -15,7 +15,7 @@ use IGKValidator;
 class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
@@ -38,7 +38,7 @@ class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $option
     */
     public function getValue($option = null){

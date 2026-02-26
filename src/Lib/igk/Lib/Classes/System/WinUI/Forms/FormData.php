@@ -23,31 +23,31 @@ abstract class FormData
     // + | refer to [name]ContentValidator class
 
     /**
-    * auto generate doc.
+    * Constant: sc email.
     * @var mixed
     */
     const SC_EMAIL = 'Email';
 
     /**
-    * auto generate doc.
+    * Constant: sc password.
     * @var mixed
     */
     const SC_PASSWORD = 'Password';
 
     /**
-    * auto generate doc.
+    * Constant: sc integer.
     * @var mixed
     */
     const SC_INTEGER = 'Integer';
 
     /**
-    * auto generate doc.
+    * Constant: sc number.
     * @var mixed
     */
     const SC_NUMBER = 'Number';
 
     /**
-    * auto generate doc.
+    * Constant: sc text.
     * @var mixed
     */
     const SC_TEXT = 'Text';

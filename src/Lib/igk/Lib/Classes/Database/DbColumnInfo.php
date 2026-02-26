@@ -24,7 +24,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     use DbColumnInfoMethodTrait;
 
     /**
-    * auto generate doc.
+    * Constant: type length regex.
     * @var mixed
     */
     const TYPE_LENGTH_REGEX = "/\(\s*(?P<size>\d+)\s*\)/";
@@ -472,7 +472,7 @@ final class DbColumnInfo extends IGKObject implements IDbColumnInfo
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Number.
     * @param IDbColumnInfo $v
     */
     public static function IsNumber(IDbColumnInfo $v)

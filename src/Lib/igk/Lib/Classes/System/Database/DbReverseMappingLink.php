@@ -11,19 +11,19 @@ namespace IGK\System\Database;
 class DbReverseMappingLink{
 
     /**
-    * auto generate doc.
+    * Property: columns.
     * @var mixed
     */
     var $columns;
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     var $model;
 
     /**
-    * auto generate doc.
+    * Map of table.
     * @var mixed
     */
     var $table;

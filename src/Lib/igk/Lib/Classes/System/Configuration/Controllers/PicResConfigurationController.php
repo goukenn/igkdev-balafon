@@ -23,37 +23,37 @@ use function igk_resources_gets as __;
 final class PicResConfigurationController extends ConfigControllerBase{
 
     /**
-    * auto generate doc.
+    * Constant: datafile.
     * @var mixed
     */
     const DATAFILE="Data/upload.csv";
 
     /**
-    * auto generate doc.
+    * Constant: key files.
     * @var mixed
     */
     const KEY_FILES="sys://ctrl/allpics";
 
     /**
-    * auto generate doc.
+    * Constant: picres flag.
     * @var mixed
     */
     const PICRES_FLAG=1;
 
     /**
-    * auto generate doc.
+    * Constant: picres key.
     * @var mixed
     */
     const PICRES_KEY="PicResChanged";
 
     /**
-    * auto generate doc.
+    * Constant: targetdir.
     * @var mixed
     */
     const TARGETDIR=IGK_RES_FOLDER."/Img";
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     * @return bool
     */
     public function getIsVisible():bool{
@@ -61,14 +61,14 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Config Page Available.
     */
     public function getIsConfigPageAvailable(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Group.
     */
     public function getConfigGroup(){
         igk_trace();
@@ -109,7 +109,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Load data.
     * @param null|mixed & $tab
     */
     function _loadData(& $tab=null){
@@ -179,7 +179,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Adds res.
     * @param mixed $name
     * @param mixed $uri
     */
@@ -194,7 +194,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Deleteall.
     */
     public function deleteall(){
         if(igk_qr_confirm()){
@@ -219,7 +219,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Delfile.
     */
     public function delfile(){
         $id=igk_getr("name");
@@ -242,7 +242,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Dropdir.
     */
     public function dropdir(){
         $dir=basename(base64_decode(igk_getr("d", null)));
@@ -258,7 +258,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns All Pics.
     */
     public function getAllPics(){
         return igk_get_env_init("sys://ctrl/allpics", function(){
@@ -269,21 +269,21 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage(){
         return "pictureresconfig";
     }
 
     /**
-    * auto generate doc.
+    * Returns Current Page.
     */
     public function getCurrentPage(){
         return $this->getParam("currentPage");
     }
 
     /**
-    * auto generate doc.
+    * Returns Img Uri.
     * @param mixed $name
     * @param mixed $check
     * @param null|mixed & $path
@@ -308,7 +308,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -316,14 +316,14 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Pic Res.
     */
     public function getPicRes(){
         return $this->getEnvParam("@PictureRes");
     }
 
     /**
-    * auto generate doc.
+    * Returns Res Files.
     */
     public function getResFiles(){
         return igk_get_env("sys://resourcefiles", function(){
@@ -333,14 +333,14 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Search Key.
     */
     public function getSearchKey(){
         return null;
     }
 
     /**
-    * auto generate doc.
+    * Gotodefaultview.
     */
     public function gotodefaultview(){
         $this->setCurrentPage(null);
@@ -348,7 +348,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Pictures Res.
     * @param mixed $dir
     * @param null|mixed & $tab
     */
@@ -367,7 +367,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
@@ -375,7 +375,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Loadfile.
     */
     public function loadfile(){
         $notify="picres";
@@ -424,7 +424,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Loadtempfile.
     * @param mixed $tempfile
     * @param mixed $name
     * @param mixed $id
@@ -457,7 +457,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Notifies.
     * @param null|mixed $c
     * @param null|mixed $t
     */
@@ -466,7 +466,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * On handle system event.
     * @param mixed $msg
     */
     public function onHandleSystemEvent($msg){
@@ -486,7 +486,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Reg picture.
     * @param mixed $name
     * @param mixed $link
     */
@@ -499,7 +499,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Removes broken file.
     */
     public function remove_broken_file(){
         $v_ttab=array_keys($this->m_fileres);
@@ -526,7 +526,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Searchentry.
     */
     public function searchentry(){
         $this->m_searchentry=strtolower(igk_getr("q"));
@@ -537,7 +537,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Setdir.
     */
     public function setdir(){
         $this->m_selectedir=basename(base64_decode(igk_getr("d", null)));
@@ -545,7 +545,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Sets Pic Res.
     * @param mixed $t
     */
     protected function setPicRes($t){
@@ -553,7 +553,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Shows loadfile frame.
     */
     public function show_loadfile_frame(){
         $frame=igk_html_frame($this, "load_pic_frame");
@@ -564,7 +564,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Showentries.
     */
     public function showentries(){
         if(igk_app()->CurrentPageFolder != IGK_CONFIG_MODE){
@@ -627,7 +627,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Uploadpic ajx.
     */
     public function uploadpic_ajx(){
         $div=igk_create_node("div");
@@ -637,7 +637,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View(): BaseController{
@@ -660,7 +660,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Viewpic.
     * @param null|mixed $name
     */
     public function viewpic($name=null){
@@ -677,7 +677,7 @@ final class PicResConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Viewpic ajx.
     */
     public function viewpic_ajx(){
         $frame=igk_html_frame($this, "viewpic_frame");

@@ -15,13 +15,13 @@ class HeaderAccessObject{
     use ActivableTrait;
 
     /**
-    * auto generate doc.
+    * Constant: auth bearer.
     * @var mixed
     */
     const AUTH_BEARER = 'Bearer';
 
     /**
-    * auto generate doc.
+    * Constant: auth basic.
     * @var mixed
     */
     const AUTH_BASIC = 'Basic';

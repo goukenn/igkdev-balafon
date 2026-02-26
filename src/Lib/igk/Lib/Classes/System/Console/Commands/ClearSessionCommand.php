@@ -12,25 +12,25 @@ use IGK\System\IO\File\PHPScriptBuilder;
 class ClearSessionCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--clearsession";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "clear session command";
 
     /**
-    * auto generate doc.
+    * Property: expired duration.
     * @var mixed
     */
     var $expired_duration;
 
     /**
-    * auto generate doc.
+    * Property: skip.
     * @var mixed
     */
     var $skip = false;

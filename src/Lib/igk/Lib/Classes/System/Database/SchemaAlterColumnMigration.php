@@ -11,13 +11,13 @@ namespace IGK\System\Database;
 class SchemaAlterColumnMigration extends SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["column"];
 
     /**
-    * auto generate doc.
+    * Up.
     */
     public function up(){
         $ctrl = $this->getMigration()->controller;
@@ -26,7 +26,7 @@ class SchemaAlterColumnMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Down.
     */
     public function down(){
         $ctrl = $this->getMigration()->controller;

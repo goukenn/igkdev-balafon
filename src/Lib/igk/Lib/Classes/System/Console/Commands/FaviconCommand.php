@@ -16,19 +16,19 @@ class FaviconCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--favicon';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc ='retrieve default icon';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -37,13 +37,13 @@ class FaviconCommand extends AppExecCommand
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'sys';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '[options]';
@@ -58,7 +58,7 @@ class FaviconCommand extends AppExecCommand
 	}
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command)
@@ -105,14 +105,14 @@ class FaviconCommand extends AppExecCommand
 }
 
 /**
-* auto generate doc.
+* Image html template.
 * @package IGK\System\Console\Commands
 */
 class ImageHtmlTemplate
 {
 
     /**
-    * auto generate doc.
+    * Treat.
     * @param array $data
     */
     public function treat(array $data){
@@ -122,7 +122,7 @@ class ImageHtmlTemplate
 	}
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     public function render()
 	{

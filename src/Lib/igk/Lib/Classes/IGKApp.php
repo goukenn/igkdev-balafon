@@ -25,31 +25,31 @@ class IGKApp extends IGKObject
 {
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: application.
     * @var mixed
     */
     private $m_application;
 
     /**
-    * auto generate doc.
+    * Property: app info.
     * @var mixed
     */
     private $m_appInfo;
 
     /**
-    * auto generate doc.
+    * Property: settings.
     * @var mixed
     */
     private $m_settings;
 
     /**
-    * auto generate doc.
+    * Property: controller manager.
     * @var mixed
     */
     private $m_controllerManager;
@@ -60,7 +60,7 @@ class IGKApp extends IGKObject
     private $m_initialized;
 
     /**
-    * auto generate doc.
+    * Property: f.
     * @var mixed
     */
     private $_f;
@@ -74,7 +74,7 @@ class IGKApp extends IGKObject
     const INIT_CONTEXT = 'init';
 
     /**
-    * auto generate doc.
+    * Constant: run context.
     * @var mixed
     */
     const RUN_CONTEXT = 'run';
@@ -257,7 +257,7 @@ class IGKApp extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns Current Page.
     */
     public function getCurrentPage(){
         return igk_getv(igk_getctrl(IGK_MENU_CTRL), 'CurrentPage', 'home');
@@ -340,7 +340,7 @@ class IGKApp extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Init.
     */
     public static function IsInit(){
         return (self::$sm_instance !==null) && self::$sm_instance->m_initialized;
@@ -447,7 +447,7 @@ class IGKApp extends IGKObject
     // |+ self hosted application context
 
     /**
-    * auto generate doc.
+    * Property: context.
     * @var mixed
     */
     private $m_context;

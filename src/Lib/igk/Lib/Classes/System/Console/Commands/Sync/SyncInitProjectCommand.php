@@ -14,25 +14,25 @@ use IGKEvents;
 class SyncInitProjectCommand extends SyncAppExecCommandBase{
 
     /**
-    * auto generate doc.
+    * Constant: conf file.
     * @var mixed
     */
     const CONF_FILE = '.balafon-sync.project.json';
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command="--sync:init-project";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "initialize sync project - configuration file";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options= [
@@ -41,7 +41,7 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
     ];
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
@@ -62,7 +62,7 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     */

@@ -11,7 +11,7 @@ class CanvaZoneNode extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
@@ -28,7 +28,7 @@ class CanvaZoneNode extends HtmlNode
 	}
 
     /**
-    * auto generate doc.
+    * Inner html.
     * @param null|mixed & $xmlOption
     */
     public function innerHTML(& $xmlOption=null)

@@ -29,31 +29,31 @@ use IGK\Models\ModelBase;
 class PhoneBookEntries extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd id.
     * @var mixed
     */
     const FD_ID="rcphbe_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd guid.
     * @var mixed
     */
     const FD_GUID="rcphbe_Guid";
 
     /**
-    * auto generate doc.
+    * Constant: fd user guid.
     * @var mixed
     */
     const FD_USER_GUID="rcphbe_user_guid";
 
     /**
-    * auto generate doc.
+    * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="rcphbe_Create_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd update at.
     * @var mixed
     */
     const FD_UPDATE_AT="rcphbe_Update_At";

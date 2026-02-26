@@ -13,7 +13,7 @@ namespace IGK\System\Text;
 interface ITextCodeFormatter{
 
     /**
-    * auto generate doc.
+    * Formats.
     * @param string $source
     * @return string
     */

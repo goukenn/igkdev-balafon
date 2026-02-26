@@ -18,19 +18,19 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     private $m_name;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     private $m_value;
 
     /**
-    * auto generate doc.
+    * Property: resolv.
     * @var mixed
     */
     private $m_resolv;
@@ -56,7 +56,7 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Returns Inner Value.
     * @param ViewGetterExpression $item
     */
     public static function GetInnerValue(ViewGetterExpression $item)  {
@@ -123,7 +123,7 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $name
     */
     protected function _access_OffsetGet($name){
@@ -135,7 +135,7 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Creates Expression Node.
     */
     public function createExpressionNode(){ 
         $c = $this->m_resolv;
@@ -146,13 +146,13 @@ class ViewGetterExpression implements IViewExpressionArg, ArrayAccess{
 }
 
 /**
-* auto generate doc.
+* Expression node.
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ExpressionNode extends ExpressionNodeBase{
 
     /**
-    * auto generate doc.
+    * Property: expression.
     * @var mixed
     */
     var $expression;
@@ -168,7 +168,7 @@ class ExpressionNode extends ExpressionNodeBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -176,7 +176,7 @@ class ExpressionNode extends ExpressionNodeBase{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options = null){

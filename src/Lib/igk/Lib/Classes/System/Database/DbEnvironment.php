@@ -10,13 +10,13 @@ namespace IGK\System\Database;
 class DbEnvironment{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: no db select.
     * @var mixed
     */
     var $no_db_select = false;

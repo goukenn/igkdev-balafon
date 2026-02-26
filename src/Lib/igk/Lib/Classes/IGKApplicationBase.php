@@ -21,13 +21,13 @@ abstract class IGKApplicationBase{
     private $lib = [];
 
     /**
-    * auto generate doc.
+    * Property: library.
     * @var mixed
     */
     private $m_library;
 
     /**
-    * auto generate doc.
+    * Property: app builder.
     * @var mixed
     */
     private $m_appBuilder;
@@ -104,7 +104,7 @@ abstract class IGKApplicationBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Builder.
     */
     public function getBuilder(){
         if ($this->m_appBuilder == null ){
@@ -152,7 +152,7 @@ abstract class IGKApplicationBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Entry File.
     */
     public function getEntryFile(){
         return $this->_entry_file;

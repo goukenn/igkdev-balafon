@@ -14,19 +14,19 @@ use IGKException;
 class DbQuerySelectColumnBuilder{
 
     /**
-    * auto generate doc.
+    * Property: tab.
     * @var mixed
     */
     private $m_tab = [];
 
     /**
-    * auto generate doc.
+    * Property: uniques.
     * @var mixed
     */
     private $m_uniques = [];
 
     /**
-    * auto generate doc.
+    * Returns Columns.
     * @param bool $filter_null
     */
     public function getColumns(bool $filter_null){
@@ -45,7 +45,7 @@ class DbQuerySelectColumnBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Adds Unique.
     * @param mixed $cl
     * @param mixed $value
     */
@@ -73,7 +73,7 @@ class DbQuerySelectColumnBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Builds.
     * @param mixed $info
     * @param mixed $conditions
     * @param bool $filter_null

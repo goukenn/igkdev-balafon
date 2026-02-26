@@ -10,13 +10,13 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Core loading img test.
 * @package IGK\Tests
 */
 class CoreLoadingImgTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests load img.
     */
     public function test_load_img(){
 
@@ -34,7 +34,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests load img closed.
     */
     public function test_load_img_closed(){
 

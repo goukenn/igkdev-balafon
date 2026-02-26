@@ -7,7 +7,7 @@ namespace IGK\XML;
 use DOMDocument;
 
 /**
-* auto generate doc.
+* Xsdvalidator.
 * @package IGK\XML
 */
 class XSDValidator

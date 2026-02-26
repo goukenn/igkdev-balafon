@@ -12,7 +12,7 @@ use IGKException;
 class ApiResponse extends Response{
 
     /**
-    * auto generate doc.
+    * Property: header.
     * @var mixed
     */
     protected $m_header;
@@ -42,7 +42,7 @@ class ApiResponse extends Response{
     }
 
     /**
-    * auto generate doc.
+    * Die.
     * @param string $message
     * @param mixed $code
     */

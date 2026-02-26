@@ -11,13 +11,13 @@ use IGK\Tests\BaseTestCase;
 use IGK\IUriActionRegistrableController;
 
 /**
-* auto generate doc.
+* Manage controller test.
 * @package IGK\Test\Controller
 */
 class ManageControllerTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests manage subdomain.
     */
     function test_manage_subdomain(){
         

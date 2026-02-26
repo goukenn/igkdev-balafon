@@ -14,13 +14,13 @@ use IGKObject;
 use ModelBase;
 
 /**
-* auto generate doc.
+* Db expression.
 * @package IGK\Database
 */
 class DbExpression extends IGKObject implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: v.
     * @var mixed
     */
     protected $m_v;
@@ -46,7 +46,7 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param mixed $expression
     */
 
@@ -56,7 +56,7 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $o
     */
 
@@ -71,7 +71,7 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Not in selected field.
     * @param \IGK\System\Models\ModelBase $source_model
     * @param \IGK\System\Models\ModelBase $target_model
     * @param string $column_in_source_model

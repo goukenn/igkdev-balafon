@@ -13,31 +13,31 @@ namespace IGK\System\Configuration;
 abstract class ModuleContributions{
 
     /**
-    * auto generate doc.
+    * Constant: database.
     * @var mixed
     */
     const database = 'database';
 
     /**
-    * auto generate doc.
+    * Constant: theme.
     * @var mixed
     */
     const theme = 'theme';
 
     /**
-    * auto generate doc.
+    * Constant: layout.
     * @var mixed
     */
     const layout = 'layout';
 
     /**
-    * auto generate doc.
+    * Constant: dashboard.
     * @var mixed
     */
     const dashboard = 'dashboard';
 
     /**
-    * auto generate doc.
+    * Constant: dom.
     * @var mixed
     */
     const dom ='dom';

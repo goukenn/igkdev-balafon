@@ -7,7 +7,7 @@ namespace IGK\Helper;
 use IGK\System\IO\StringBuilder;
 
 /**
-* auto generate doc.
+* Array utils.
 * @package IGK\Helper
 */
 class ArrayUtils{
@@ -42,7 +42,7 @@ class ArrayUtils{
     }
 
     /**
-    * auto generate doc.
+    * Fill key with property.
     * @param array & $table
     * @param mixed $property
     */
@@ -57,7 +57,7 @@ class ArrayUtils{
     ///<sumamry> clear table</summary>
 
     /**
-    * auto generate doc.
+    * Clean.
     * @param array & $table
     */
     public static function Clean (array & $table){

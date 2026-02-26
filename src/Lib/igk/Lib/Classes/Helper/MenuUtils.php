@@ -13,13 +13,13 @@ use IGK\System\WinUI\Menus\MenuItem;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Menu utils.
 * @package IGK\Helper
 */
 final class MenuUtils{
 
     /**
-    * auto generate doc.
+    * Builds Db Menu.
     * @param mixed $target
     * @param mixed $table
     * @param mixed $tab
@@ -29,7 +29,7 @@ final class MenuUtils{
     }
 
     /**
-    * auto generate doc.
+    * Builds Menu.
     * @param mixed $targetNode
     * @param mixed $tab
     * @param mixed & $menus
@@ -72,7 +72,7 @@ final class MenuUtils{
     }
 
     /**
-    * auto generate doc.
+    * Returns Menu Level.
     * @param mixed $menu
     */
     public static function GetMenuLevel($menu){
@@ -86,7 +86,7 @@ final class MenuUtils{
     }
 
     /**
-    * auto generate doc.
+    * Returns Parent Name.
     * @param mixed $name
     */
     public static function GetParentName($name){
@@ -151,7 +151,7 @@ final class MenuUtils{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Menu Array.
     * @param mixed $target
     * @param mixed $menuTab
     */

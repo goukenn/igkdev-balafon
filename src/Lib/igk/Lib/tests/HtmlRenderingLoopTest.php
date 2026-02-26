@@ -13,7 +13,7 @@ use IGK\Tests\BaseTestCase;
 class HtmlRenderingLoopTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests htmlrender activate.
     */
     public function test_htmlrender_activate(){
         $src = implode("\n", [ 
@@ -33,7 +33,7 @@ class HtmlRenderingLoopTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests loop on range.
     */
     public function test_loop_on_range(){
         $n = igk_create_node('div');
@@ -47,7 +47,7 @@ class HtmlRenderingLoopTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests loop on assoc array.
     */
     public function test_loop_on_assoc_array(){
         $n = igk_create_node('div');

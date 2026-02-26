@@ -12,13 +12,13 @@
 class IGKAppSetting{
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     private $info;
 
     /**
-    * auto generate doc.
+    * Returns Info.
     */
     public function getInfo(){
         return $this->info;

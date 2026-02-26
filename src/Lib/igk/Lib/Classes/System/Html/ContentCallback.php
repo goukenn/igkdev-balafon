@@ -11,7 +11,7 @@ namespace IGK\System\Html;
 class ContentCallback implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: callable.
     * @var mixed
     */
     private $m_callable;
@@ -25,7 +25,7 @@ class ContentCallback implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null) {

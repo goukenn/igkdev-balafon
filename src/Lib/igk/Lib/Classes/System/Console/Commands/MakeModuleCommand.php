@@ -21,31 +21,31 @@ use IGKEvents;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Make module command.
 * @package IGK\System\Console\Commands
 */
 class MakeModuleCommand extends AppCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:module";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "make new module.";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [ 

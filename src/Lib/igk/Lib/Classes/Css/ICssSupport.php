@@ -6,7 +6,7 @@
 namespace IGK\Css;
 
 /**
-* auto generate doc.
+* Interface for css support.
 * @package IGK\Css
 */
 interface ICssSupport{

@@ -10,7 +10,7 @@ namespace IGK\System\Runtime\Compiler\Traits;
 trait CompilerTokenBracketTrait{
 
     /**
-    * auto generate doc.
+    * Check bracket.
     * @param mixed $options
     * @param mixed $value
     */

@@ -16,38 +16,38 @@ use ReflectionMethod;
 class ExecModelUtilittyCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--db:utility';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='exec model db utility method';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=['--controller:controller'=>'set controller', 
 	'--list'=>'list function'];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'db';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'utilityName.methods ...args [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $utility_name_call
     */
@@ -81,7 +81,7 @@ class ExecModelUtilittyCommand extends AppExecCommand{
 	}
 
     /**
-    * auto generate doc.
+    * Shows List.
     * @param mixed $utility
     */
     public function showList($utility){

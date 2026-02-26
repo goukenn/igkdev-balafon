@@ -24,7 +24,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
 {
 
     /**
-    * auto generate doc.
+    * Path to dir.
     * @var mixed
     */
     private $m_dir;
@@ -66,7 +66,7 @@ class ViewLayoutLoader extends ViewLayoutBase implements IViewLayoutLoader
     const MAIN_LAYOUT_PARAM = "@MainLayout";
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {

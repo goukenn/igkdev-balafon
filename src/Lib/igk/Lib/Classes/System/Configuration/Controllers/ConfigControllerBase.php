@@ -31,7 +31,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
 
     /**
-    * auto generate doc.
+    * Returns Use Data Schema.
     * @return bool
     */
     public function getUseDataSchema(): bool
@@ -43,7 +43,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
 
     /**
-    * auto generate doc.
+    * Returns View Dir.
     */
     public function getViewDir()
     {
@@ -54,7 +54,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
 
     /**
-    * auto generate doc.
+    * Returns Articles Dir.
     */
     public function getArticlesDir()
     {
@@ -65,7 +65,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Dir.
     */
     public function getDataDir()
     {
@@ -254,7 +254,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     }
 
     /**
-    * auto generate doc.
+    * Select config view.
     * @param mixed $ctrl
     */
     protected function _selectConfigView($ctrl)

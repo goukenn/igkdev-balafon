@@ -21,25 +21,25 @@ class ResetDbCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--db:resetdb";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "reset database";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "db";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -51,13 +51,13 @@ class ResetDbCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '[controller] [db-command-options] [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $ctrl
     */
@@ -128,7 +128,7 @@ class ResetDbCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Global reset database.
     * @param bool $force
     * @param bool $seed
     * @param bool $clean

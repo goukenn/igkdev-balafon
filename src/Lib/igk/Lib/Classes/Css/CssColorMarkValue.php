@@ -8,19 +8,19 @@ use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 /**
-* auto generate doc.
+* Css color mark value.
 * @package IGK\Css
 */
 class CssColorMarkValue{
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     var $key;
 
     /**
-    * auto generate doc.
+    * Property: color.
     * @var mixed
     */
     var $color;

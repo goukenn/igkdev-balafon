@@ -10,7 +10,7 @@ namespace IGK\System\Polyfill;
 trait JsonSerializableTrait{
 
     /**
-    * auto generate doc.
+    * Json serialize.
     */
     public function jsonSerialize(){
         return $this->_json_serialize();

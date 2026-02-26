@@ -15,13 +15,13 @@ class ConfigurationPropertyInfo{
     var $clType;
 
     /**
-    * auto generate doc.
+    * Property: cl default value.
     * @var mixed
     */
     var $clDefaultValue;
 
     /**
-    * auto generate doc.
+    * Property: cl require.
     * @var mixed
     */
     var $clRequire;

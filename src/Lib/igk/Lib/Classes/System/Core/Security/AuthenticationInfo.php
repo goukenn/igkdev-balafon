@@ -13,31 +13,31 @@ namespace IGK\System\Core\Security;
 class AuthenticationInfo{
 
     /**
-    * auto generate doc.
+    * Property: agent.
     * @var mixed
     */
     var $agent;
 
     /**
-    * auto generate doc.
+    * Property: start.
     * @var mixed
     */
     var $start;
 
     /**
-    * auto generate doc.
+    * Property: ip.
     * @var mixed
     */
     var $ip;
 
     /**
-    * auto generate doc.
+    * Property: expire.
     * @var mixed
     */
     var $expire;
 
     /**
-    * auto generate doc.
+    * Property: rememberme.
     * @var mixed
     */
     var $rememberme;

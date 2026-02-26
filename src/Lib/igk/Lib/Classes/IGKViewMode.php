@@ -9,24 +9,24 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkview mode.
 */
 final class IGKViewMode extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Constant: administrator.
     * @var mixed
     */
     const ADMINISTRATOR=6;
 
     /**
-    * auto generate doc.
+    * Constant: visitor.
     * @var mixed
     */
     const VISITOR=1;
 
     /**
-    * auto generate doc.
+    * Constant: webmaster.
     * @var mixed
     */
     const WEBMASTER=2;

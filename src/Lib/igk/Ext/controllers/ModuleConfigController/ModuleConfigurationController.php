@@ -13,7 +13,7 @@ use IGK\System\WinUI\Paginator;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Module configuration controller.
 * @package IGK\Ext\Controllers
 */
 class ModuleConfigurationController extends ConfigControllerBase{
@@ -51,14 +51,14 @@ class ModuleConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Group.
     */
     public function getConfigGroup(){
         return "controller";
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController{
@@ -75,7 +75,7 @@ class ModuleConfigurationController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Module view.
     */
     public function module_view(){
         

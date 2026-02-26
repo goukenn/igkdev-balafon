@@ -27,7 +27,7 @@ abstract class ProjectBuilderPluginBase{
     }
 
     /**
-    * auto generate doc.
+    * Generates Action.
     * @param BaseController $baseController
     */
     protected function genAction(BaseController $baseController){

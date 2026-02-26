@@ -11,7 +11,7 @@ use IGK\Controllers\BaseController;
 class DbUtilityHelper{
 
     /**
-    * auto generate doc.
+    * Invoke on start drop table.
     * @param BaseController $controller
     * @param mixed $autoclose
     */
@@ -20,7 +20,7 @@ class DbUtilityHelper{
     }
 
     /**
-    * auto generate doc.
+    * Invoke event command.
     * @param BaseController $controller
     * @param string $command
     * @param mixed $autoclose

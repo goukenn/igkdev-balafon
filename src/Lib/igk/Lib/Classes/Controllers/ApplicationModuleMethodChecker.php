@@ -10,7 +10,7 @@ namespace IGK\Controllers;
 class ApplicationModuleMethodChecker{
 
     /**
-    * auto generate doc.
+    * Property: init docs.
     * @var mixed
     */
     private static $sm_initDocs = [];

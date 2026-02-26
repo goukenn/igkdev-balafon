@@ -11,19 +11,19 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 
 /**
-* auto generate doc.
+* Igkmenu host ctrl.
 */
 abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{return get_class($this);}
 
     /**
-    * auto generate doc.
+    * Returns Additional Config Info.
     */
     public static function GetAdditionalConfigInfo()
 	{
@@ -31,7 +31,7 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Sets Additional Config Info.
     * @param mixed & $tab
     */
     public static function SetAdditionalConfigInfo(& $tab)
@@ -42,7 +42,7 @@ abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 	//@@@ parent view control
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController{ 

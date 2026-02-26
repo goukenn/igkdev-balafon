@@ -15,62 +15,62 @@ use IGK\Database\IDbQueryResult;
 abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
 
     /**
-    * auto generate doc.
+    * Properties: error, errormsg.
     * @var mixed
     */
     private $m_error, $m_errormsg;
     public
 
     /**
-    * auto generate doc.
+    * Constant: callback opts.
     * @var mixed
     */
     const CALLBACK_OPTS= \IGK\Database\DbConstants::CALLBACK_OPTS;
     public
 
     /**
-    * auto generate doc.
+    * Constant: resulthandler.
     * @var mixed
     */
     const RESULTHANDLER="@result_handler";
 
     /**
-    * auto generate doc.
+    * Creates Empty Entry.
     */
     public function createEmptyEntry(){
         return null;
     }
 
     /**
-    * auto generate doc.
+    * Returns Columns.
     */
     public function getColumns(){
         return null;
     }
 
     /**
-    * auto generate doc.
+    * Returns Error.
     */
     public function getError(){
         return $this->m_error;
     }
 
     /**
-    * auto generate doc.
+    * Returns Has Error.
     */
     public function getHasError(){
         return !empty($this->m_error);
     }
 
     /**
-    * auto generate doc.
+    * Returns Has Row.
     */
     public function getHasRow(){
         return ($this->getRowCount() > 0);
     }
 
     /**
-    * auto generate doc.
+    * Returns Iterator.
     */
     public function getIterator(){
         $t=new IGKIterator($this->getRows());
@@ -78,14 +78,14 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Result Type.
     */
     public function getResultType(){
         return "unknow";
     }
 
     /**
-    * auto generate doc.
+    * Returns Row Count.
     */
     public function getRowCount(){
         return 0;
@@ -100,28 +100,28 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Success.
     */
     public function getSuccess(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     */
     public function getValue(){
         return null;
     }
 
     /**
-    * auto generate doc.
+    * Result type is boolean.
     */
     public function resultTypeIsBoolean(){
         return $this->getResultType() == "boolean";
     }
 
     /**
-    * auto generate doc.
+    * Sets Error.
     * @param mixed $error
     */
     protected function setError($error){
@@ -129,7 +129,7 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Sets Error Msg.
     * @param mixed $msg
     */
     protected function setErrorMsg($msg){
@@ -137,7 +137,7 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Sorts By.
     * @param mixed $key
     * @param mixed $asc
     */
@@ -150,7 +150,7 @@ abstract class IGKQueryResult extends IGKObject implements IDbQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * To key array.
     * @param mixed $keyname
     */
     public function to_key_array($keyname){

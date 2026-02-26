@@ -10,7 +10,7 @@ use Countable;
 use IGK\System\IToArray;
 
 /**
-* auto generate doc.
+* Interface for array object.
 * @package IGK
 */
 interface IArrayObject extends ArrayAccess, Countable, IToArray{

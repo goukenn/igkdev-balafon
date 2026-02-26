@@ -13,25 +13,25 @@ use stdClass;
 class ViewDocumentHandler implements IViewCompilerArgument{
 
     /**
-    * auto generate doc.
+    * Property: head.
     * @var mixed
     */
     var $head;
 
     /**
-    * auto generate doc.
+    * Property: body.
     * @var mixed
     */
     var $body;
 
     /**
-    * auto generate doc.
+    * Property: metas.
     * @var mixed
     */
     var $metas;
 
     /**
-    * auto generate doc.
+    * Property: changed.
     * @var mixed
     */
     private $m_changed;
@@ -46,14 +46,14 @@ class ViewDocumentHandler implements IViewCompilerArgument{
     }
 
     /**
-    * auto generate doc.
+    * Returns Metas.
     */
     public function getMetas(){
         return $this->metas;
     }
 
     /**
-    * auto generate doc.
+    * Returns Instruction.
     * @param mixed $reset
     * @return ?string
     */
@@ -68,7 +68,7 @@ class ViewDocumentHandler implements IViewCompilerArgument{
      }
 
     /**
-    * auto generate doc.
+    * Renders Accessiblity.
     */
     public function renderAccessiblity(){
      }
@@ -83,7 +83,7 @@ class ViewDocumentHandler implements IViewCompilerArgument{
     }
 
     /**
-    * auto generate doc.
+    * Adds Temp Style.
     */
     public function addTempStyle(){
         $n = igk_create_node('link');
@@ -92,7 +92,7 @@ class ViewDocumentHandler implements IViewCompilerArgument{
     }
 
     /**
-    * auto generate doc.
+    * Adds Temp Script.
     */
     public function addTempScript(){
         $n = igk_create_node('script');
@@ -100,7 +100,7 @@ class ViewDocumentHandler implements IViewCompilerArgument{
     }
 
     /**
-    * auto generate doc.
+    * Returns Body.
     */
     public function getBody(){
         return $this->body;

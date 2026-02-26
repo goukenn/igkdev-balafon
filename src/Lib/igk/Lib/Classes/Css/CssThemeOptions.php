@@ -10,25 +10,25 @@ namespace IGK\Css;
 class CssThemeOptions{
 
     /**
-    * auto generate doc.
+    * Constant: default theme name.
     * @var mixed
     */
     const DEFAULT_THEME_NAME = self::DARK_THEME_NAME;
 
     /**
-    * auto generate doc.
+    * Constant: dark theme name.
     * @var mixed
     */
     const DARK_THEME_NAME = "dark";
 
     /**
-    * auto generate doc.
+    * Constant: ligth theme name.
     * @var mixed
     */
     const LIGTH_THEME_NAME = "light";
 
     /**
-    * auto generate doc.
+    * Constant: both theme name.
     * @var mixed
     */
     const BOTH_THEME_NAME = "both";

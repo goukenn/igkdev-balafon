@@ -14,13 +14,13 @@ class EnvironmentUniqueReferences implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $v
     */
     protected function _access_offsetGet($v){
@@ -28,7 +28,7 @@ class EnvironmentUniqueReferences implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $k
     * @param mixed $v
     */

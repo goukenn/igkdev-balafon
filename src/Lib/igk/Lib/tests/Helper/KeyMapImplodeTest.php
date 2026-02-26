@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class KeyMapImplodeTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests normal.
     */
     public function test_normal(){
         $r = igk_array_key_map_implode(["one"=>1, "offert"=>2]);
@@ -25,7 +25,7 @@ class KeyMapImplodeTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests normal width array.
     */
     public function test_normal_width_array(){
         $r = igk_array_key_map_implode(["one"=>1, "offert"=>["jump"=>"ok"]]);
@@ -36,7 +36,7 @@ class KeyMapImplodeTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests normal width index array.
     */
     public function test_normal_width_index_array(){
         $r = igk_array_key_map_implode(["one"=>1, "offert"=>["jump:ok"]]);

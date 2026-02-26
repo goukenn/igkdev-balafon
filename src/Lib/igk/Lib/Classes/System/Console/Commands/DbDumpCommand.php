@@ -23,25 +23,25 @@ use IGKNonVisibleControllerBase;
 class DbDumpCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--db:dump";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "dump controller database from schema definition";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "db";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -52,25 +52,25 @@ class DbDumpCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Property: help.
     * @var mixed
     */
     var $help = "--db:dump controller [output_file] [-o:xml|json]";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [outfile] [options]';
 
     /**
-    * auto generate doc.
+    * Property: entries.
     * @var mixed
     */
     private $_entries;
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $ctrl
     * @param null|mixed $file
@@ -141,7 +141,7 @@ class DbDumpCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Returns Generator.
     * @param mixed $type
     */
     public function getGenerator($type){ 
@@ -149,7 +149,7 @@ class DbDumpCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Generate.
     * @param BaseController $ctrl
     * @param mixed $table
     * @param mixed $info

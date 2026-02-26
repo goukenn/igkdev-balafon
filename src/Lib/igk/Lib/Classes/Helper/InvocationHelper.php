@@ -3,7 +3,7 @@ namespace IGK\Helper;
 use Closure;
 
 /**
-* auto generate doc.
+* Invocation helper.
 * @package IGK\Helper
 */
 class InvocationHelper{

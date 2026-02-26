@@ -11,13 +11,13 @@ namespace IGK\System;
 abstract class Helper{
 
     /**
-    * auto generate doc.
+    * Property: init.
     * @var mixed
     */
     static $_init;
 
     /**
-    * auto generate doc.
+    * Polyfill trait.
     * @param mixed $file
     * @param null|callable $handling
     */
@@ -36,7 +36,7 @@ abstract class Helper{
     }
 
     /**
-    * auto generate doc.
+    * Init.
     */
     public static function __init(){
         if (self::$_init)

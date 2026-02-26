@@ -42,7 +42,7 @@ trait FormatRegexMatcherTrait
     }
 
     /**
-    * auto generate doc.
+    * Treat capture.
     * @param string $value
     * @param mixed $cap
     * @param string $sourceValue

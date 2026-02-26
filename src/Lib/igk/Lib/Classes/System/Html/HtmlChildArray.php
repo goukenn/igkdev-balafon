@@ -9,14 +9,14 @@ use IGK\System\Collections\ArrayList;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 /**
-* auto generate doc.
+* Html child array.
 * @package IGK\System\Html
 */
 class HtmlChildArray extends ArrayList implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Activate.
     * @param mixed $n
     */
     public function activate($n){
@@ -24,7 +24,7 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Deactivate.
     * @param mixed $n
     */
     public function deactivate($n){
@@ -32,7 +32,7 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Returns debug information for var_dump.
     */
     function __debugInfo()
     {
@@ -40,7 +40,7 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Removes.
     * @param mixed $item
     */
     public function remove($item){
@@ -50,7 +50,7 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function clear(){
         $this->m_data = [];
@@ -69,7 +69,7 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * First.
     */
     public function first(){
         if (count($this->m_data)){
@@ -79,7 +79,7 @@ class HtmlChildArray extends ArrayList implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Last.
     */
     public function last(){
         if ($c = count($this->m_data)){

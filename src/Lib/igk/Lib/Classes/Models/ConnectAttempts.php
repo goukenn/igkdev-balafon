@@ -33,43 +33,43 @@ use IGK\Models\ModelBase;
 class ConnectAttempts extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cxn id.
     * @var mixed
     */
     const FD_CXN_ID="cxnId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cxn attempt.
     * @var mixed
     */
     const FD_CXN_ATTEMPT="cxnAttempt";
 
     /**
-    * auto generate doc.
+    * Constant: fd cxn account.
     * @var mixed
     */
     const FD_CXN_ACCOUNT="cxnAccount";
 
     /**
-    * auto generate doc.
+    * Constant: fd cxn geo x.
     * @var mixed
     */
     const FD_CXN_GEO_X="cxnGeoX";
 
     /**
-    * auto generate doc.
+    * Constant: fd cxn geo y.
     * @var mixed
     */
     const FD_CXN_GEO_Y="cxnGeoY";
 
     /**
-    * auto generate doc.
+    * Constant: fd cxn create at.
     * @var mixed
     */
     const FD_CXN_CREATE_AT="cxnCreate_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd cxn update at.
     * @var mixed
     */
     const FD_CXN_UPDATE_AT="cxnUpdate_At";

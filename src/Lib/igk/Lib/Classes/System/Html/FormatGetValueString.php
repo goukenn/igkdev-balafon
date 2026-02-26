@@ -13,7 +13,7 @@ use IGKObject;
 final class HtmlFormatGetValueString extends IGKObject implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Properties: member, obj.
     * @var mixed
     */
     private $m_member, $m_obj;
@@ -27,7 +27,7 @@ final class HtmlFormatGetValueString extends IGKObject implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param mixed $obj
     * @param mixed $property
     */
@@ -41,7 +41,7 @@ final class HtmlFormatGetValueString extends IGKObject implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options=null){

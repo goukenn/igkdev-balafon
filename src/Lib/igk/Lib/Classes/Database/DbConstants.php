@@ -10,31 +10,31 @@ namespace IGK\Database;
 abstract class DbConstants{
 
     /**
-    * auto generate doc.
+    * Constant: callback opts.
     * @var mixed
     */
     const CALLBACK_OPTS = '@callback';
 
     /**
-    * auto generate doc.
+    * Constant: varchar default length.
     * @var mixed
     */
     const VARCHAR_DEFAULT_LENGTH=191;
 
     /**
-    * auto generate doc.
+    * Constant: url max length.
     * @var mixed
     */
     const URL_MAX_LENGTH = 255;
 
     /**
-    * auto generate doc.
+    * Constant: count all columns.
     * @var mixed
     */
     const COUNT_ALL_COLUMNS = 'Count(*)';
 
     /**
-    * auto generate doc.
+    * Constant: prefix key.
     * @var mixed
     */
     const PREFIX_KEY = '%prefix%';

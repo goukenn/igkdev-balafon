@@ -10,79 +10,79 @@ namespace IGK\System\Runtime\Compiler;
 abstract class CompilerFlagState{
 
     /**
-    * auto generate doc.
+    * Constant: read namespace.
     * @var mixed
     */
     const READ_NAMESPACE  = 'namespace';
 
     /**
-    * auto generate doc.
+    * Constant: read global use.
     * @var mixed
     */
     const READ_GLOBAL_USE = 'global_use';
 
     /**
-    * auto generate doc.
+    * Constant: read struct.
     * @var mixed
     */
     const READ_STRUCT = 'read_struct';
 
     /**
-    * auto generate doc.
+    * Constant: read class.
     * @var mixed
     */
     const READ_CLASS = 'read_class';
 
     /**
-    * auto generate doc.
+    * Constant: read function.
     * @var mixed
     */
     const READ_FUNCTION = 'read_function';
 
     /**
-    * auto generate doc.
+    * Constant: read desc comment.
     * @var mixed
     */
     const READ_DESC_COMMENT = 'read_desc_comment';
 
     /**
-    * auto generate doc.
+    * Constant: read class use.
     * @var mixed
     */
     const READ_CLASS_USE = 'read_class_use';
 
     /**
-    * auto generate doc.
+    * Constant: read variable.
     * @var mixed
     */
     const READ_VARIABLE = 'read_variable';
 
     /**
-    * auto generate doc.
+    * Constant: read const.
     * @var mixed
     */
     const READ_CONST = 'read_const';
 
     /**
-    * auto generate doc.
+    * Constant: read expression.
     * @var mixed
     */
     const READ_EXPRESSION = 'read_expression';
 
     /**
-    * auto generate doc.
+    * Constant: read skip block.
     * @var mixed
     */
     const READ_SKIP_BLOCK = 'read_skip_block';
 
     /**
-    * auto generate doc.
+    * Constant: read block.
     * @var mixed
     */
     const READ_BLOCK = 'read_block';
 
     /**
-    * auto generate doc.
+    * Constant: read condition block.
     * @var mixed
     */
     const READ_CONDITION_BLOCK = 'read_condition_block';

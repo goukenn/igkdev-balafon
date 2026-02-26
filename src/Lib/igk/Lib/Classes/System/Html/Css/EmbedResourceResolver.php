@@ -7,7 +7,7 @@ namespace IGK\System\Html\Css;
 use IGK\Css\ICssResourceResolver;
 
 /**
-* auto generate doc.
+* Embed resource resolver.
 * @package IGK\System\Html\Css
 */
 class EmbedResourceResolver implements ICssResourceResolver{

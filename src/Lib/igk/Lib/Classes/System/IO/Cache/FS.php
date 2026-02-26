@@ -15,13 +15,13 @@ use IGKException;
 class FS{
 
     /**
-    * auto generate doc.
+    * Cache: caches.
     * @var mixed
     */
     private $m_caches;
 
     /**
-    * auto generate doc.
+    * Cache: auto cache.
     * @var mixed
     */
     private $m_auto_cache;
@@ -79,7 +79,7 @@ class FS{
     }
 
     /**
-    * auto generate doc.
+    * Loads Cache.
     */
     public function loadCache(){
         $this->m_caches = ($c = @include self::CacheFile()) === false ? [] : $c;
@@ -90,7 +90,7 @@ class FS{
     }
 
     /**
-    * auto generate doc.
+    * Register store cache.
     */
     protected function _registerStoreCache(){        
         static $clean_cache;

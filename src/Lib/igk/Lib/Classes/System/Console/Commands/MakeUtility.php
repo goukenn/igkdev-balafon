@@ -14,7 +14,7 @@ use IGKException;
 class MakeUtility {
 
     /**
-    * auto generate doc.
+    * Creates Empty Script Callback.
     */
     public static function CreateEmptyScriptCallback(){
         return function($file){

@@ -26,7 +26,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
 {
 
     /**
-    * auto generate doc.
+    * Property: fkeys.
     * @var mixed
     */
     private $fkeys;
@@ -37,135 +37,135 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     private $m_adapter;
 
     /**
-    * auto generate doc.
+    * Callback handler for close callback.
     * @var mixed
     */
     private $m_closeCallback;
 
     /**
-    * auto generate doc.
+    * Property: dbpwd.
     * @var mixed
     */
     private $m_dbpwd;
 
     /**
-    * auto generate doc.
+    * Property: charset.
     * @var mixed
     */
     private $m_charset;
     // private $m_dbselect;
 
     /**
-    * auto generate doc.
+    * Property: dbport.
     * @var mixed
     */
     private $m_dbport; // store the port
 
     /**
-    * auto generate doc.
+    * Property: dbserver.
     * @var mixed
     */
     private $m_dbserver;
 
     /**
-    * auto generate doc.
+    * Property: dbuser.
     * @var mixed
     */
     private $m_dbuser;
 
     /**
-    * auto generate doc.
+    * Flag: isconnect.
     * @var mixed
     */
     private $m_isconnect;
 
     /**
-    * auto generate doc.
+    * Property: last query.
     * @var mixed
     */
     private $m_lastQuery;
 
     /**
-    * auto generate doc.
+    * Callback handler for open callback.
     * @var mixed
     */
     private $m_openCallback;
 
     /**
-    * auto generate doc.
+    * Count: open count.
     * @var mixed
     */
     private $m_openCount;
 
     /**
-    * auto generate doc.
+    * Property: dboptions.
     * @var mixed
     */
     private $m_dboptions;
 
     /**
-    * auto generate doc.
+    * Property: last error.
     * @var mixed
     */
     private $m_lastError;
 
     /**
-    * auto generate doc.
+    * Property: resource.
     * @var mixed
     */
     protected $m_resource;
 
     /**
-    * auto generate doc.
+    * Property: error.
     * @var mixed
     */
     protected $m_error;
 
     /**
-    * auto generate doc.
+    * Property: error code.
     * @var mixed
     */
     protected $m_errorCode;
 
     /**
-    * auto generate doc.
+    * Property: lengthdata.
     * @var mixed
     */
     private static $LENGTHDATA = array("int" => "Int", "varchar" => "VarChar", "char" => "Char");
 
     /**
-    * auto generate doc.
+    * Property: store.
     * @var mixed
     */
     private static $__store;
     // private static $sm_resid;
 
     /**
-    * auto generate doc.
+    * Property: config.
     * @var mixed
     */
     public  static $Config;
 
     /**
-    * auto generate doc.
+    * Property: idd.
     * @var mixed
     */
     static $idd = 0;
 
     /**
-    * auto generate doc.
+    * Constant: driver mysqli.
     * @var mixed
     */
     const DRIVER_MYSQLI = "MySQLI";
 
     /**
-    * auto generate doc.
+    * Property: no select db error auto close.
     * @var mixed
     */
     private $m_noSelectDbErrorAutoClose = false;
 
     /**
-    * auto generate doc.
+    * Returns No Select Db Error Auto Close.
     * @return bool
     */
     public function getNoSelectDbErrorAutoClose():bool{
@@ -173,7 +173,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     }
 
     /**
-    * auto generate doc.
+    * Sets No Select Db Error Auto Close.
     * @param bool $value
     */
     public function setNoSelectDbErrorAutoClose(bool $value){
@@ -301,7 +301,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Connect.
     */
     public function isConnect()
     {
@@ -325,7 +325,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     }
 
     /**
-    * auto generate doc.
+    * Escape string.
     * @param mixed $v
     */
     public function escape_string($v)
@@ -384,7 +384,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     }
 
     /**
-    * auto generate doc.
+    * Returns Last Error.
     */
     public function getLastError()
     {
@@ -700,7 +700,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     }
 
     /**
-    * auto generate doc.
+    * Returns Error Code.
     */
     public function getErrorCode()
     {
@@ -1042,7 +1042,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     }
 
     /**
-    * auto generate doc.
+    * Sends Multi Query.
     * @param mixed $query
     * @param mixed $throwex
     */
@@ -1137,7 +1137,7 @@ abstract class DbQueryDriver extends IGKObject implements IDbManager
     }
 
     /**
-    * auto generate doc.
+    * Escape table name.
     * @param string $tbname
     */
     protected function escape_table_name(string $tbname)

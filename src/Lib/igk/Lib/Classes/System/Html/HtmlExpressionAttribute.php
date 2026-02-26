@@ -10,13 +10,13 @@
 namespace IGK\System\Html;
 
 /**
-* auto generate doc.
+* Html expression attribute.
 * @package IGK\System\Html
 */
 class HtmlExpressionAttribute implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: v.
     * @var mixed
     */
     private $m_v;

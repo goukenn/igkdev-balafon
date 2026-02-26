@@ -22,7 +22,7 @@ class Project{
     }
 
     /**
-    * auto generate doc.
+    * Returns Project Invocator Init Db List.
     * @param BaseController $sysdb
     */
     public static function GetProjectInvocatorInitDbList(BaseController $sysdb)

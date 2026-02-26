@@ -10,25 +10,25 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 class ViewHandler{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: tab.
     * @var mixed
     */
     var $tab = [];
 
     /**
-    * auto generate doc.
+    * Property: attrib bind.
     * @var mixed
     */
     var $attribBind = false;
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
         is_null(self::$sm_instance) && self::$sm_instance = new self;
@@ -39,7 +39,7 @@ class ViewHandler{
     }
 
     /**
-    * auto generate doc.
+    * Attrib string.
     */
     function attribString(){
         $s = ""; 

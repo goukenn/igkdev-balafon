@@ -22,45 +22,45 @@ class SyncSymlinkCommand extends SyncAppExecCommandBase
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--sync:symlink";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "create site symbolic link";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "sync";
 
     /**
-    * auto generate doc.
+    * Property: help.
     * @var mixed
     */
     var $help = "";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
     ];
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage(){
         Logger::print(sprintf("%s path site_target [options]", $this->command));
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $dir
     * @param null|string $target

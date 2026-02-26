@@ -5,13 +5,13 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkuser registration ctrl.
 */
 abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Registers.
     */
     public function register()
 	{
@@ -19,7 +19,7 @@ abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBa
 	}
 
     /**
-    * auto generate doc.
+    * Subscribe.
     */
     public function subscribe(){
 		$obj = igk_get_robj();
@@ -43,7 +43,7 @@ abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBa
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Environment.
     */
     public function InitEnvironment()
 	{

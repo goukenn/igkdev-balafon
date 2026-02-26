@@ -26,7 +26,7 @@ class HtmlScriptLoader
     use ScriptTrait;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options;
@@ -47,7 +47,7 @@ class HtmlScriptLoader
     var $excludir;
 
     /**
-    * auto generate doc.
+    * Returns Exclude Dir.
     * @return array
     */
     public function getExcludeDir(): array
@@ -56,7 +56,7 @@ class HtmlScriptLoader
     }
 
     /**
-    * auto generate doc.
+    * Getscript.
     * @param null|mixed $options
     */
     public function getscript($options = null)

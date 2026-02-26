@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class DbDisplayExpressionTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests dbmodel displayvalue.
     */
     public function test_dbmodel_displayvalue(){
         $row = ["id"=>10, "name"=>"to_render", "title"=>"ok"];

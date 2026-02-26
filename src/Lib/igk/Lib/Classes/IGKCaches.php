@@ -22,7 +22,7 @@ final class IGKCaches
 {
 
     /**
-    * auto generate doc.
+    * Property: storage.
     * @var mixed
     */
     private $m_storage = []; 
@@ -32,7 +32,7 @@ final class IGKCaches
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance()
     {
@@ -57,7 +57,7 @@ final class IGKCaches
     }
 
     /**
-    * auto generate doc.
+    * Handles Cache.
     */
     public static function HandleCache()
     {

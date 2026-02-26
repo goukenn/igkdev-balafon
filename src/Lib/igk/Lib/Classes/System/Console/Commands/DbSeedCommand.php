@@ -11,32 +11,32 @@ use IGK\System\Console\AppExecCommand;
 class DbSeedCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--db:seed';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='seed controller\'s database';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category='db';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage  = "[controller] [class] [options]";
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $ctrl
     * @param null|mixed $class

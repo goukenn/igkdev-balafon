@@ -10,7 +10,7 @@ namespace IGK\Core;
 interface IApplication {
 
     /**
-    * auto generate doc.
+    * Bootstrap.
     */
     function bootstrap();
 }

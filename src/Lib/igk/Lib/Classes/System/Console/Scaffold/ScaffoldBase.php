@@ -11,7 +11,7 @@ namespace IGK\System\Console\Scaffold;
 abstract class ScaffoldBase{
 
     /**
-    * auto generate doc.
+    * Property: description.
     * @var mixed
     */
     var $description;

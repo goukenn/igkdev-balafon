@@ -11,7 +11,7 @@ use IGKException;
 class ResourceNotFoundException extends IGKException {
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     private $m_file;

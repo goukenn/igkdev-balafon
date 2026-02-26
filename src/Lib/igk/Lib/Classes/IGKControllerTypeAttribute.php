@@ -9,7 +9,7 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkcontroller type attribute.
 */
 class IGKControllerTypeAttribute extends IGKAttribute{
     /**

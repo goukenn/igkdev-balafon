@@ -9,25 +9,25 @@ use IGK\System\Console\Logger;
 use ZipArchive;
 
 /**
-* auto generate doc.
+* Zip wp plugin command.
 * @package IGK\System\Console\Commands
 */
 class ZipWpPluginCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--zipwp_plugin";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "zip wordpress plugin";
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $sourcepath
     * @param null|mixed $path

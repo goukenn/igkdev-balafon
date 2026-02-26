@@ -17,31 +17,31 @@ class ControllerLitteralBuilder
 {
 
     /**
-    * auto generate doc.
+    * Property: output file.
     * @var mixed
     */
     var $outputFile;
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
 
     /**
-    * auto generate doc.
+    * Path to output dir.
     * @var mixed
     */
     var $outputDir;
 
     /**
-    * auto generate doc.
+    * Property: resources.
     * @var mixed
     */
     private $m_resources;
 
     /**
-    * auto generate doc.
+    * Resplace res path.
     * @param mixed $path
     */
     public function resplaceResPath($path)
@@ -56,7 +56,7 @@ class ControllerLitteralBuilder
     }
 
     /**
-    * auto generate doc.
+    * Builds.
     */
     public function build()
     {
@@ -97,7 +97,7 @@ class ControllerLitteralBuilder
     }
 
     /**
-    * auto generate doc.
+    * Store css.
     * @param mixed $file
     */
     protected function _store_css($file)
@@ -105,7 +105,7 @@ class ControllerLitteralBuilder
     }
 
     /**
-    * auto generate doc.
+    * Store js.
     * @param mixed $file
     */
     protected function _store_js($file)

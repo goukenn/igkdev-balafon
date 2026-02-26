@@ -10,31 +10,31 @@ use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Db list project table command.
 * @package IGK\System\Console\Commands
 */
 class DbListProjectTableCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     public $command = "--db:list-project-tables";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     public $category = "db";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     public $desc = "list project's stored tables";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     public $usage = 'controller [options]';

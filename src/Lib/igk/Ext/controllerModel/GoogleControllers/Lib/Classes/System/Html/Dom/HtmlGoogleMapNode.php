@@ -13,25 +13,25 @@ use IGK\System\Html\Dom\HtmlNode;
 final class HtmlGoogleMapNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     private $m_key;
 
     /**
-    * auto generate doc.
+    * Property: location.
     * @var mixed
     */
     private $m_location;
 
     /**
-    * auto generate doc.
+    * Property: query.
     * @var mixed
     */
     private $m_query;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     private $m_type;

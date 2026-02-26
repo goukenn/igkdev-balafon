@@ -11,13 +11,13 @@ namespace IGK\Helper;
 class JSONUtilityOption{
 
     /**
-    * auto generate doc.
+    * Property: ignore empty.
     * @var mixed
     */
     var $ignore_empty;
 
     /**
-    * auto generate doc.
+    * Property: default ouput.
     * @var mixed
     */
     var $default_ouput;

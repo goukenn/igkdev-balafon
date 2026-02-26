@@ -7,7 +7,7 @@ namespace IGK\System\Traits;
 use Closure;
 
 /**
-* auto generate doc.
+* Trait providing create callable functionality.
 * @package IGK\System\Traits
 */
 trait CreateCallable{

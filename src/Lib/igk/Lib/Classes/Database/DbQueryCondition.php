@@ -11,31 +11,31 @@ use Exception;
 class DbQueryCondition{
 
     /**
-    * auto generate doc.
+    * Property: row.
     * @var mixed
     */
     private $row;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
 
     /**
-    * auto generate doc.
+    * Property: operand.
     * @var mixed
     */
     var $operand = 'AND';
 
     /**
-    * auto generate doc.
+    * Constant: op and.
     * @var mixed
     */
     const OP_AND = 'AND';
 
     /**
-    * auto generate doc.
+    * Constant: op or.
     * @var mixed
     */
     const OP_OR = 'OR';
@@ -88,7 +88,7 @@ class DbQueryCondition{
     }
 
     /**
-    * auto generate doc.
+    * To array.
     */
     public function to_array(){
         return $this->m_data;

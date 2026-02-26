@@ -7,7 +7,7 @@ namespace IGK\XSD;
 use IGKXmlNode;
 
 /**
-* auto generate doc.
+* Xsd attribute builder.
 * @package IGK\XSD
 */
 class XsdAttributeBuilder extends XsdElement{
@@ -16,7 +16,7 @@ class XsdAttributeBuilder extends XsdElement{
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param IGKXmlNode $node
     * @param XsdBuilder $builder
     */
@@ -29,7 +29,7 @@ class XsdAttributeBuilder extends XsdElement{
     }
 
     /**
-    * auto generate doc.
+    * Sets Require.
     * @param mixed $b
     */
     public function setRequire($b){

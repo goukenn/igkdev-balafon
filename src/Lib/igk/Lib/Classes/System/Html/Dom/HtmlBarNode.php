@@ -6,19 +6,19 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html bar node.
 * @package IGK\System\Html\Dom
 */
 class HtmlBarNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname ="span";
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
 
     protected function initialize()

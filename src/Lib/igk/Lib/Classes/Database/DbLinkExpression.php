@@ -8,31 +8,31 @@ use IGKException;
 use Exception;
 
 /**
-* auto generate doc.
+* Db link expression.
 * @package IGK\Database
 */
 class DbLinkExpression extends DbExpression{
 
     /**
-    * auto generate doc.
+    * Map of link table.
     * @var mixed
     */
     public $linkTable;
 
     /**
-    * auto generate doc.
+    * Name of column name.
     * @var mixed
     */
     public $columnName;
 
     /**
-    * auto generate doc.
+    * Property: column value.
     * @var mixed
     */
     public $columnValue;
 
     /**
-    * auto generate doc.
+    * Property: primary column.
     * @var mixed
     */
     public $primaryColumn;

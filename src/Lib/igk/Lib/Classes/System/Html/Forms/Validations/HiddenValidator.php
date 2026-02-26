@@ -11,7 +11,7 @@ namespace IGK\System\Html\Forms\Validations;
 class HiddenValidator extends FormFieldValidatorBase{
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param array & $error
@@ -22,7 +22,7 @@ class HiddenValidator extends FormFieldValidatorBase{
     }
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */

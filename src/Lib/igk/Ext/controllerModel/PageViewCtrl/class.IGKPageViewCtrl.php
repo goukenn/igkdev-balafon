@@ -7,7 +7,7 @@
 use IGK\Controllers\BaseController;
 
 /**
-* auto generate doc.
+* Igkpage view ctrl.
 */
 abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {
@@ -16,18 +16,18 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	private $m_viewZone;
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{return get_class($this);}
 
     /**
-    * auto generate doc.
+    * Returns View Zone.
     */
     public function getViewZone(){return $this->m_viewZone;}
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
@@ -37,7 +37,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Additional Config Info.
     */
     public static function GetAdditionalConfigInfo()
 	{
@@ -46,7 +46,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	//@@@ init target node
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
@@ -58,14 +58,14 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Can Add Child.
     */
     public function getCanAddChild(){
 		return true;
 	}
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController
@@ -93,7 +93,7 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Show child.
     * @param null|mixed $targetnode
     */
     protected function _showChild($targetnode=null)

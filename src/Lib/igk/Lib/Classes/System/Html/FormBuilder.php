@@ -35,7 +35,7 @@ class FormBuilder
     var $datasource;
 
     /**
-    * auto generate doc.
+    * Constant: env css.
     * @var mixed
     */
     const ENV_CSS = IGKEnvironmentConstants::CSS_ENV_STYLE_KEY;
@@ -717,7 +717,7 @@ class FormBuilder
     }
 
     /**
-    * auto generate doc.
+    * Builds submit.
     * @param string & $o
     * @param mixed $attrib
     */
@@ -760,7 +760,7 @@ class FormBuilder
     }
 
     /**
-    * auto generate doc.
+    * Builds button.
     * @param string & $o
     * @param mixed $attrib
     */

@@ -10,13 +10,13 @@ namespace IGK\System\Html\Templates;
 abstract class BindingConstants{
 
     /**
-    * auto generate doc.
+    * Constant: op condition.
     * @var mixed
     */
     const OP_CONDITION = 'condition';
 
     /**
-    * auto generate doc.
+    * Constant: op loop.
     * @var mixed
     */
     const OP_LOOP = 'loop';

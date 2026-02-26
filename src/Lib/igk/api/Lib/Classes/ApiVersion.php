@@ -7,7 +7,7 @@ namespace IGK\api;
 class ApiVersion{
 
     /**
-    * auto generate doc.
+    * Constant: version.
     * @var mixed
     */
     const VERSION="3.1";

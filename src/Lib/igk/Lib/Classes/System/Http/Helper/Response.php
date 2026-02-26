@@ -14,7 +14,7 @@ use IGKException;
 class Response{
 
     /**
-    * auto generate doc.
+    * Constant: default allowed headers.
     * @var mixed
     */
     const DEFAULT_ALLOWED_HEADERS = "Access-Control-Allow-Headers|igk-x-requested-with|igk-ajx|igk-from|Content-Type|Authorization|X-Authorization";

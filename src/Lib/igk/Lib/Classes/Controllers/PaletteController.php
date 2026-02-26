@@ -17,7 +17,7 @@ use IGK\Helper\IO;
 final class PaletteController extends NonVisibleControllerBase {
 
     /**
-    * auto generate doc.
+    * Property: palettes.
     * @var mixed
     */
     private $m_palettes;

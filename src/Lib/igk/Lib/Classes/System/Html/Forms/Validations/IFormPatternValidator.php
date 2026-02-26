@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Forms\Validations;
 
 /**
-* auto generate doc.
+* Interface for form pattern validator.
 * @package IGK\System\Html\Forms\Validations
 */
 interface IFormPatternValidator{

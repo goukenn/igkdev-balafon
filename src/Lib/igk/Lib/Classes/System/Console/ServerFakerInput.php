@@ -11,7 +11,7 @@ use IGK\System\IO\FakeInput;
 class ServerFakerInput extends FakeInput{
 
     /**
-    * auto generate doc.
+    * Property: jsondata.
     * @var mixed
     */
     private $jsondata;
@@ -26,7 +26,7 @@ class ServerFakerInput extends FakeInput{
     }
 
     /**
-    * auto generate doc.
+    * Returns Raw.
     */
     public function getRaw() { 
         if ($r = $this->jsondata){

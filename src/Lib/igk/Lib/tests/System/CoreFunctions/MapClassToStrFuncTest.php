@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class MapClassToStrFuncTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests maptostr bool.
     */
     public function test_maptostr_bool(){
         $r = trim(igk_map_array_to_str(['info'=>true]));

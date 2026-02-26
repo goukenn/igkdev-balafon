@@ -12,7 +12,7 @@ use IGK\System\Html\Templates\Engine\Helpers\Utility;
 use IGK\System\Html\Templates\Engine\Traits\ExpressionEvalEngineTrait;
 
 /**
-* auto generate doc.
+* Html eval expression.
 * @package IGK\Tests\System\Html\Dom
 */
 class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
@@ -20,7 +20,7 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
     use ExpressionEvalEngineTrait;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     private $m_value;
@@ -35,7 +35,7 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @return ?string
     */
 
@@ -45,7 +45,7 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
     }
 
     /**
-    * auto generate doc.
+    * Evaluate.
     * @param mixed $context
     * @return mixed
     */
@@ -104,7 +104,7 @@ class LoopHostTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop with sub range.
     */
     public function test_loop_with_sub_range()
     {
@@ -120,7 +120,7 @@ class LoopHostTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop complex.
     */
     public function test_loop_complex()
     {
@@ -140,7 +140,7 @@ class LoopHostTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop second complex loop.
     */
     public function test_loop_second_complex_loop()
     {
@@ -163,7 +163,7 @@ class LoopHostTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests loop html rendering.
     */
     public function test_loop_html_rendering()
     {

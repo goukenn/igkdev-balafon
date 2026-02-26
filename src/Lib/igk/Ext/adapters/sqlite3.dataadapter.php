@@ -216,68 +216,68 @@ function igk_sql3lite_tosql_data($d){
 class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
 
     /**
-    * auto generate doc.
+    * Name of fname.
     * @var mixed
     */
     private $fname;
 
     /**
-    * auto generate doc.
+    * Name of base file name.
     * @var mixed
     */
     private $m_base_file_name;
 
     /**
-    * auto generate doc.
+    * Property: creator.
     * @var mixed
     */
     private $m_creator;
 
     /**
-    * auto generate doc.
+    * Property: current.
     * @var mixed
     */
     private $m_current;
 
     /**
-    * auto generate doc.
+    * Property: lengthdata.
     * @var mixed
     */
     protected static $LENGTHDATA=array("int"=>"Int", "varchar"=>"VarChar");
 
     /**
-    * auto generate doc.
+    * Property: connexions.
     * @var mixed
     */
     private static $sm_connexions;
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     private static $sm_list;
 
     /**
-    * auto generate doc.
+    * Property: sql.
     * @var mixed
     */
     private static $sm_sql;
 
     /**
-    * auto generate doc.
+    * Property: in transaction.
     * @var mixed
     */
     private $m_inTransaction = false;
 
     /**
-    * auto generate doc.
+    * Queries Column Charset.
     * @param string $charset
     * @return ?string
     */
     public function queryColumnCharset(string $charset): ?string { return '';}
 
     /**
-    * auto generate doc.
+    * Allows Type Length.
     * @param string $type
     * @param null|int $length
     * @return bool
@@ -287,7 +287,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Removes foreign.
     * @param string $name
     * @param string $column
     * @return ?string
@@ -297,7 +297,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
      }
 
     /**
-    * auto generate doc.
+    * Returns Date Time Format.
     * @return string
     */
     public function getDateTimeFormat(): string { 
@@ -305,7 +305,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Exist column.
     * @param string $table
     * @param string $column
     * @param null|mixed $db
@@ -316,7 +316,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Returns Type.
     * @return string
     */
     public function getType(): string { 
@@ -387,7 +387,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Escape table name.
     * @param string $v
     * @return string
     */
@@ -396,7 +396,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Escape table column.
     * @param string $v
     * @return string
     */
@@ -405,14 +405,14 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Value.
     * @param mixed $value
     * @param mixed $tinf
     */
     public function getDataValue($value, $tinf) { }
 
     /**
-    * auto generate doc.
+    * Returns Db Name.
     * @return ?string
     */
     public function getDbName(): ?string {        
@@ -420,7 +420,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
      }
 
     /**
-    * auto generate doc.
+    * Returns Filter.
     * @return bool
     */
     public function getFilter(): bool
@@ -429,7 +429,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Type Supported.
     * @param string $type
     * @return bool
     */
@@ -438,7 +438,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
      }
 
     /**
-    * auto generate doc.
+    * Support default value.
     * @param string $type
     * @return bool
     */
@@ -447,7 +447,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Auto Increment Type.
     * @param string $type
     * @return bool
     */
@@ -456,7 +456,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Table Definition.
     * @param string $tablename
     */
     public function getDataTableDefinition(string $tablename) { 
@@ -475,7 +475,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
 	}
 
     /**
-    * auto generate doc.
+    * Last error.
     */
     public function last_error()
     {
@@ -491,7 +491,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Creates Random Query Table On Column.
     * @param string $table
     * @param string $column
     * @param null|array $columns
@@ -1286,7 +1286,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Selects row.
     * @param string $table
     * @param null|mixed $conditions
     */
@@ -1298,7 +1298,7 @@ class IGKSQLite3DataAdapter extends SQLDataAdapter implements IDataAdapter{
     }
 
     /**
-    * auto generate doc.
+    * Fetches assoc.
     * @param mixed $a
     */
     public function fetch_assoc($a){

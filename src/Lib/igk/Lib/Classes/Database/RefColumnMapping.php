@@ -13,13 +13,13 @@ use Traversable;
 class RefColumnMapping implements IteratorAggregate{
 
     /**
-    * auto generate doc.
+    * Property: ref columns.
     * @var mixed
     */
     private $m_refColumns;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
@@ -34,7 +34,7 @@ class RefColumnMapping implements IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Returns Alias.
     */
     public function getAlias(){
         $m = []; 

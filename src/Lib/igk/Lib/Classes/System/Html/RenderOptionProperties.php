@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 abstract class RenderOptionProperties{
 
     /**
-    * auto generate doc.
+    * Constant: document.
     * @var mixed
     */
     const DOCUMENT = 'Document';

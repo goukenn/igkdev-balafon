@@ -10,7 +10,7 @@
 namespace IGK\Controllers;
 
 /**
-* auto generate doc.
+* Non atomic type base.
 * @package IGK\Controllers
 */
 abstract class NonAtomicTypeBase extends ControllerTypeBase{

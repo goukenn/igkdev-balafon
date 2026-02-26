@@ -14,13 +14,13 @@ class MetaDataHost
 {
 
     /**
-    * auto generate doc.
+    * Property: host.
     * @var mixed
     */
     private $m_host;
 
     /**
-    * auto generate doc.
+    * Property: register.
     * @var mixed
     */
     private $m_register;

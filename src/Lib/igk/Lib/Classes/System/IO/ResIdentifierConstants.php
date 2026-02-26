@@ -10,43 +10,43 @@ namespace IGK\System\IO;
 abstract class ResIdentifierConstants{
 
     /**
-    * auto generate doc.
+    * Constant: library.
     * @var mixed
     */
     const LIBRARY = '_lib_';
 
     /**
-    * auto generate doc.
+    * Constant: package.
     * @var mixed
     */
     const PACKAGE = '_pkg_';
 
     /**
-    * auto generate doc.
+    * Constant: project.
     * @var mixed
     */
     const PROJECT = '_prj_';
 
     /**
-    * auto generate doc.
+    * Constant: cache.
     * @var mixed
     */
     const CACHE = '_chs_';
 
     /**
-    * auto generate doc.
+    * Constant: module.
     * @var mixed
     */
     const MODULE = '_mod_';
 
     /**
-    * auto generate doc.
+    * Constant: app.
     * @var mixed
     */
     const APP = '_app_';
 
     /**
-    * auto generate doc.
+    * Constant: node package.
     * @var mixed
     */
     const NODE_PACKAGE = '_node_pkg_';

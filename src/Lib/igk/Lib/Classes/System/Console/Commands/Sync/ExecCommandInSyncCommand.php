@@ -13,19 +13,19 @@ use IGK\System\Console\Logger;
 class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--sync:command';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='execute balafon sync command';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -34,13 +34,13 @@ class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
 	/* var $category = ''; */
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '[options] -- ...command-args to exectue';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param mixed ...$args
     */

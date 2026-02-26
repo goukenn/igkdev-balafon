@@ -11,7 +11,7 @@ namespace IGK\System\Database\Seeds;
 abstract class SeederBase{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
@@ -33,7 +33,7 @@ abstract class SeederBase{
 	}
 
     /**
-    * auto generate doc.
+    * Runs.
     */
     abstract function run();
 }

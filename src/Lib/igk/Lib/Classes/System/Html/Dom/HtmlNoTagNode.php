@@ -10,7 +10,7 @@ namespace IGK\System\Html\Dom;
 class HtmlNoTagNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = 'igk:notagnode';
@@ -30,7 +30,7 @@ class HtmlNoTagNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Active.
     */
     public function getIsActive(){}
 }

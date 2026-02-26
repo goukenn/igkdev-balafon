@@ -13,7 +13,7 @@ use IGKException;
 class DefaultValidator extends FormFieldValidatorBase implements IFormValidator, IFormValidationFieldHost{
 
     /**
-    * auto generate doc.
+    * Property: field info.
     * @var mixed
     */
     protected $_fieldInfo;
@@ -28,7 +28,7 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
     }
 
     /**
-    * auto generate doc.
+    * Returns Field Info.
     * @return ?IFormValidationField
     */
     public function getFieldInfo():?IFormValidationField{
@@ -36,7 +36,7 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
     }
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */

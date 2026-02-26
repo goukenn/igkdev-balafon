@@ -13,13 +13,13 @@ use IGKObject;
 use IGKValidator;
 
 /**
-* auto generate doc.
+* Html uri.
 * @package IGK\System\Html\Dom
 */
 final class HtmlUri extends IGKObject implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: v.
     * @var mixed
     */
     private $m_v;

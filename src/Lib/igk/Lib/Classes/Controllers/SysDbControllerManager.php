@@ -12,7 +12,7 @@ use IGKException;
 class SysDbControllerManager{
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
         static $sm ;

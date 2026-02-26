@@ -10,7 +10,7 @@
 namespace IGK\System\Html\XML;
 
 /**
-* auto generate doc.
+* Xml cdata.
 * @package IGK\System\Html\XML
 */
 final class XmlCDATA extends XmlNode{

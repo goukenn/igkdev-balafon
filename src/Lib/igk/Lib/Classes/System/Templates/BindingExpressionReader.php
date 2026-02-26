@@ -19,31 +19,31 @@ class BindingExpressionReader
 {
 
     /**
-    * auto generate doc.
+    * Constant: binding raw property.
     * @var mixed
     */
     const BINDING_RAW_PROPERTY = 'raw';
 
     /**
-    * auto generate doc.
+    * Property: start marker.
     * @var mixed
     */
     var $startMarker = '{{';
 
     /**
-    * auto generate doc.
+    * Property: end marker.
     * @var mixed
     */
     var $endMarker = '}}';
 
     /**
-    * auto generate doc.
+    * Property: escaped char.
     * @var mixed
     */
     var $escapedChar = "'";
 
     /**
-    * auto generate doc.
+    * Property: text.
     * @var mixed
     */
     var $text;
@@ -89,7 +89,7 @@ class BindingExpressionReader
     var $expressionValueName;
 
     /**
-    * auto generate doc.
+    * Name of expression tag name.
     * @var mixed
     */
     var $expressionTagName = IGK_ENGINE_EXPRESSION_NODE;

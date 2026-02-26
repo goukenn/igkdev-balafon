@@ -18,7 +18,7 @@ use IGK\System\Html\HtmlUtils;
 //-------------------------------------------------
 
 /**
-* auto generate doc.
+* Igkcommunity link.
 */
 final class IGKCommunityLink extends ConfigControllerBase
 { 
@@ -75,7 +75,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Comm add comm.
     */
     public function comm_addComm(){
 
@@ -126,7 +126,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Comm add community frame ajx.
     */
     public function comm_addCommunityFrame_ajx(){
 		if (!igk_is_ajx_demand())
@@ -173,7 +173,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Comm block.
     */
     public function comm_block()
 	{
@@ -184,7 +184,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Community Table.
     */
     public function getCommunityTable()
 	{
@@ -195,7 +195,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController{
@@ -286,7 +286,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Updates community.
     */
     public function update_community()
 	{
@@ -319,7 +319,7 @@ final class IGKCommunityLink extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Adds Google Plus.
     * @param mixed $target
     */
     public function addGooglePlus($target){

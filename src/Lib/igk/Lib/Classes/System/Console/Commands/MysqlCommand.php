@@ -32,31 +32,31 @@ class MySQLCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--db:mysql";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "mysql db management command";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "db";
 
     /**
-    * auto generate doc.
+    * Constant: actions.
     * @var mixed
     */
     const ACTIONS = 'query|clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
 
     /**
-    * auto generate doc.
+    * Property: action helps.
     * @var mixed
     */
     var $action_helps = [
@@ -67,7 +67,7 @@ class MySQLCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -75,7 +75,7 @@ class MySQLCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Sends Query.
     * @param mixed $query
     */
     public function sendQuery($query)
@@ -91,7 +91,7 @@ class MySQLCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Help.
     */
     public function help()
     {
@@ -115,7 +115,7 @@ class MySQLCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $ctrl
     */

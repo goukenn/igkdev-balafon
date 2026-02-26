@@ -13,31 +13,31 @@ use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
 
 /**
-* auto generate doc.
+* Zip core command.
 * @package IGK\System\Console\Commands
 */
 class ZipCoreCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--zipcore";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "zip balafon core";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "utils";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -49,7 +49,7 @@ class ZipCoreCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $path
     */

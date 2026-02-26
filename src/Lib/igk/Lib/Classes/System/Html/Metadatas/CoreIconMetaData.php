@@ -10,13 +10,13 @@ namespace IGK\System\Html\Metadatas;
 class CoreIconMetaData{
 
     /**
-    * auto generate doc.
+    * Property: icon.
     * @var mixed
     */
     var $icon;
 
     /**
-    * auto generate doc.
+    * Property: apple.
     * @var mixed
     */
     var $apple;

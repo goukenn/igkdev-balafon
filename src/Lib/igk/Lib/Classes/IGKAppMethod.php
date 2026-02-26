@@ -9,102 +9,102 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkapp method.
 */
 final class IGKAppMethod{
 
     /**
-    * auto generate doc.
+    * Constant: callable func.
     * @var mixed
     */
     const CALLABLE_FUNC=8;
 
     /**
-    * auto generate doc.
+    * Constant: callable user func.
     * @var mixed
     */
     const CALLABLE_USER_FUNC=16;
 
     /**
-    * auto generate doc.
+    * Constant: class method.
     * @var mixed
     */
     const CLASS_METHOD=2;
 
     /**
-    * auto generate doc.
+    * Constant: c callablen.
     * @var mixed
     */
     const C_CALLABLEN=37;
 
     /**
-    * auto generate doc.
+    * Constant: c class.
     * @var mixed
     */
     const C_CLASS=33;
 
     /**
-    * auto generate doc.
+    * Constant: c idn.
     * @var mixed
     */
     const C_IDN=38;
 
     /**
-    * auto generate doc.
+    * Constant: c methodn.
     * @var mixed
     */
     const C_METHODN=34;
 
     /**
-    * auto generate doc.
+    * Constant: c objn.
     * @var mixed
     */
     const C_OBJN=35;
 
     /**
-    * auto generate doc.
+    * Constant: c pevn.
     * @var mixed
     */
     const C_PEVN=36;
 
     /**
-    * auto generate doc.
+    * Constant: function method.
     * @var mixed
     */
     const FUNCTION_METHOD=3;
 
     /**
-    * auto generate doc.
+    * Constant: methname.
     * @var mixed
     */
     const METHNAME=32;
 
     /**
-    * auto generate doc.
+    * Constant: object method.
     * @var mixed
     */
     const OBJECT_METHOD=1;
 
     /**
-    * auto generate doc.
+    * Constant: object method closure.
     * @var mixed
     */
     const OBJECT_METHOD_CLOSURE=4;
 
     /**
-    * auto generate doc.
+    * Property: .
     * @var mixed
     */
     private $m_;
 
     /**
-    * auto generate doc.
+    * Property: object.
     * @var mixed
     */
     private $_object;
 
     /**
-    * auto generate doc.
+    * Property: class.
     * @var mixed
     */
     private $_class;

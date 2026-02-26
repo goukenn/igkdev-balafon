@@ -29,31 +29,31 @@ use IGK\Models\ModelBase;
 class WhoUses extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl web site.
     * @var mixed
     */
     const FD_CL_WEB_SITE="clWebSite";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl state.
     * @var mixed
     */
     const FD_CL_STATE="clState";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl date time.
     * @var mixed
     */
     const FD_CL_DATE_TIME="clDateTime";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl ip.
     * @var mixed
     */
     const FD_CL_IP="clIP";

@@ -12,7 +12,7 @@ use ReflectionFunction;
 use ReflectionParameter;
 
 /**
-* auto generate doc.
+* Php helper.
 * @package IGK\Helper
 */
 class PhpHelper{
@@ -31,7 +31,7 @@ class PhpHelper{
     }
 
     /**
-    * auto generate doc.
+    * String to class constants.
     * @param string $data
     */
     public static function StringToClassConstants(string $data){

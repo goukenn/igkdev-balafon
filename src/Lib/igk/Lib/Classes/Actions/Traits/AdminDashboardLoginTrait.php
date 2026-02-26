@@ -13,7 +13,7 @@ trait AdminDashboardLoginTrait{
     #region login - logout request
 
     /**
-    * auto generate doc.
+    * Logout get.
     */
     public function logout_get(){
         $this->getController()->logout(); 

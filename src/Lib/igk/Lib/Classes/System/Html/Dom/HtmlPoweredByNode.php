@@ -13,13 +13,13 @@ use IGKApp;
 use IGKHtmlDoc;
 
 /**
-* auto generate doc.
+* Html powered by node.
 * @package IGK\System\Html\Dom
 */
 class HtmlPoweredByNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";

@@ -20,7 +20,7 @@ final class AnnotationHelper
 {
 
     /**
-    * auto generate doc.
+    * Constant: regex uses.
     * @var mixed
     */
     const REGEX_USES = "/use\s+(?P<name>[^\s;]+)(\s+as\s+(?P<alias>[^\s+;]+))?/im";

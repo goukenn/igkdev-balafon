@@ -7,14 +7,14 @@ namespace IGK\Helper;
 use IGK\System\Console\Logger;
 
 /**
-* auto generate doc.
+* Ftp helper.
 * @package IGK\Helper
 */
 class FtpHelper
 {
 
     /**
-    * auto generate doc.
+    * File exists.
     * @param mixed $res
     * @param mixed $path
     */
@@ -49,7 +49,7 @@ class FtpHelper
     }
 
     /**
-    * auto generate doc.
+    * Rm dir.
     * @param mixed $ftpresourse
     * @param string $directory
     */
@@ -98,7 +98,7 @@ class FtpHelper
     }
 
     /**
-    * auto generate doc.
+    * Rename file.
     * @param mixed $res
     * @param mixed $source
     * @param mixed $dest

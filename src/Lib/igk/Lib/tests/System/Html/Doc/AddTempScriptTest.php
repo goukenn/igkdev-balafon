@@ -16,7 +16,7 @@ use IGKHtmlDoc;
 class AddTempScriptTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests htmldoc addtemps script.
     */
     public function test_htmldoc_addtemps_script(){
         $doc = IGKHtmlDoc::CreateDocument(-1);

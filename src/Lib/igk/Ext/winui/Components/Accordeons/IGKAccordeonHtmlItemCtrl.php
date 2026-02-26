@@ -8,7 +8,7 @@
 use IGK\Controllers\NonVisibleControllerBase;
 
 /**
-* auto generate doc.
+* Igkaccordeon html item ctrl.
 */
 final class IGKAccordeonHtmlItemCtrl extends NonVisibleControllerBase
 {

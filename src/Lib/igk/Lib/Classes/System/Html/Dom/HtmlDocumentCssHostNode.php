@@ -32,7 +32,7 @@ class HtmlDocumentCssHostNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -40,7 +40,7 @@ class HtmlDocumentCssHostNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds()
     {

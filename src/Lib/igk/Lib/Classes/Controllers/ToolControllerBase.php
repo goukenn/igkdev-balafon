@@ -13,25 +13,25 @@ use IGKResourceUriResolver;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Tool controller base.
 * @package IGK\Controllers
 */
 abstract class ToolControllerBase extends BaseController{
 
     /**
-    * auto generate doc.
+    * Property: tools.
     * @var mixed
     */
     static $sm_tools = [];
 
     /**
-    * auto generate doc.
+    * Do action.
     */
 
     public function doAction(){    }
 
     /**
-    * auto generate doc.
+    * Returns Can Init Db.
     */
 
     public function getCanInitDb(){
@@ -39,7 +39,7 @@ abstract class ToolControllerBase extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Image Uri.
     */
 
     public function getImageUri(){
@@ -47,7 +47,7 @@ abstract class ToolControllerBase extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Available.
     */
 
     public function getIsAvailable(){
@@ -55,7 +55,7 @@ abstract class ToolControllerBase extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Hides Tool.
     * @param mixed $ownernode
     */
 
@@ -66,7 +66,7 @@ abstract class ToolControllerBase extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
 
@@ -78,7 +78,7 @@ abstract class ToolControllerBase extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Refreshes Tool View.
     */
 
     public function refreshToolView(){
@@ -86,7 +86,7 @@ abstract class ToolControllerBase extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Shows Tool.
     * @param mixed $ownernode
     */
 
@@ -111,7 +111,7 @@ abstract class ToolControllerBase extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
 

@@ -42,67 +42,67 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     use  ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Constant: events.
     * @var mixed
     */
     const EVENTS = 0xa1;
 
     /**
-    * auto generate doc.
+    * Constant: activate.
     * @var mixed
     */
     const ACTIVATE = 1;
 
     /**
-    * auto generate doc.
+    * Constant: attribs.
     * @var mixed
     */
     const ATTRIBS = 2;
 
     /**
-    * auto generate doc.
+    * Constant: iterator.
     * @var mixed
     */
     const ITERATOR = 3;
 
     /**
-    * auto generate doc.
+    * Constant: owner.
     * @var mixed
     */
     const OWNER = 4;
 
     /**
-    * auto generate doc.
+    * Constant: flag init.
     * @var mixed
     */
     const FLAG_INIT = IGK_NODETYPE_FLAG;
 
     /**
-    * auto generate doc.
+    * Constant: prefilter attribute.
     * @var mixed
     */
     const PREFILTER_ATTRIBUTE = 5;
 
     /**
-    * auto generate doc.
+    * Constant: render only.
     * @var mixed
     */
     const RENDER_ONLY = 6;
 
     /**
-    * auto generate doc.
+    * Constant: callback suffix.
     * @var mixed
     */
     const CALLBACK_SUFFIX = 'Params';
 
     /**
-    * auto generate doc.
+    * Constant: override parent tag flag.
     * @var mixed
     */
     const OVERRIDE_PARENT_TAG_FLAG = 'override_parent_tag_flag';
 
     /**
-    * auto generate doc.
+    * Constant: content field.
     * @var mixed
     */
     const CONTENT_FIELD = 'Content';
@@ -123,7 +123,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     protected $canLoadContent;
 
     /**
-    * auto generate doc.
+    * Sets Prefilter Attribute.
     * @param null|IHtmlPrefilterAttribute $attribFilter
     */
     public function setPrefilterAttribute(?IHtmlPrefilterAttribute $attribFilter)
@@ -133,7 +133,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Prefilter Attribute.
     * @return ?IHtmlPrefilterAttribute
     */
     public function getPrefilterAttribute(): ?IHtmlPrefilterAttribute
@@ -142,21 +142,21 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Render Only.
     */
     public function getRenderOnly(){
         return $this->getParam(self::RENDER_ONLY);
     }
 
     /**
-    * auto generate doc.
+    * Returns Last Node.
     */
     public function getLastNode(){
         return $this->m_childs->last();
     }
 
     /**
-    * auto generate doc.
+    * Returns First Node.
     */
     public function getFirstNode(){
         return $this->m_childs->first();
@@ -178,7 +178,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     protected $m_attributes;
 
     /**
-    * auto generate doc.
+    * Property: callexclude.
     * @var mixed
     */
     protected $m_callexclude = [];
@@ -205,7 +205,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Sets Init Node Type Info.
     * @param HtmlInitNodeInfo $info
     */
     protected function setInitNodeTypeInfo(HtmlInitNodeInfo $info)
@@ -215,7 +215,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Init Node Type Info.
     * @return ?HtmlInitNodeInfo
     */
     public function getInitNodeTypeInfo(): ?HtmlInitNodeInfo
@@ -229,7 +229,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     protected $m_parent;
 
     /**
-    * auto generate doc.
+    * Property: macros.
     * @var mixed
     */
     protected static $sm_macros;
@@ -244,7 +244,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Dispose.
     */
     public function Dispose()
     {
@@ -307,7 +307,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Invoke macros.
     * @param mixed $name
     * @param mixed $argument
     * @param null|mixed & $response
@@ -371,7 +371,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Creates Attribute Array.
     */
     protected function createAttributeArray()
     {
@@ -491,7 +491,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Attributes.
     */
     public function getAttributes()
     {
@@ -608,7 +608,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds()
     {
@@ -616,7 +616,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Content.
     */
     public function getContent()
     {
@@ -695,7 +695,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Child Count.
     */
     public function getChildCount()
     {
@@ -724,7 +724,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     public final
 
     /**
-    * auto generate doc.
+    * Renders Complete.
     * @param null|mixed $options
     */
     function RenderComplete($options = null)
@@ -859,7 +859,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Adds Node.
     * @param mixed $nodeName
     */
     public function addNode($nodeName)
@@ -1058,7 +1058,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Inner Html.
     */
     public function getInnerHtml()
     {
@@ -1207,7 +1207,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Returns Has Attributes.
     */
     public function getHasAttributes()
     {
@@ -1325,7 +1325,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Clears Attributes.
     */
     public function clearAttributes()
     {
@@ -1334,7 +1334,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function clear()
     {
@@ -1343,7 +1343,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Removes.
     */
     public function remove()
     {
@@ -1391,7 +1391,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $k
     */
     protected function _access_OffsetGet($k)
@@ -1400,7 +1400,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $k
     * @param mixed $v
     */
@@ -1415,7 +1415,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     */
     protected function _access_OffsetUnset($n)
@@ -1425,7 +1425,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
     protected function _access_offsetExists($n)
@@ -1837,7 +1837,7 @@ abstract class HtmlItemBase extends DomNodeBase implements ArrayAccess
     }
 
     /**
-    * auto generate doc.
+    * P is closed tag.
     * @param mixed $tag
     */
     protected function _p_isClosedTag($tag)

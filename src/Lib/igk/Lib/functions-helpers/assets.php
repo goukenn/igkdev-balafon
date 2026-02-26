@@ -48,7 +48,7 @@ if (!function_exists('igk_load_temp_style_asset')){
 if (!function_exists('igk_load_temp_script_asset')){
 
 /**
-* auto generate doc.
+* Loads temp script asset.
 * @param mixed $doc
 * @param mixed $ctrl
 * @param mixed $assets

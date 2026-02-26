@@ -37,7 +37,7 @@ class BearerAuthenticatorService implements IAuthenticatorService{
     }
 
     /**
-    * auto generate doc.
+    * Resolves Bearer Token.
     * @param bool $update
     * @param null|mixed & $token
     */

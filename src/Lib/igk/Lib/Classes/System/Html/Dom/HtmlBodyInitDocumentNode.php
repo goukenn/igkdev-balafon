@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html body init document node.
 * @package IGK\System\Html\Dom
 */
 class HtmlBodyInitDocumentNode extends HtmlNode{

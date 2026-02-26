@@ -7,20 +7,20 @@ namespace IGK\XSD;
 use IGK\System\Html\Dom\HtmlItemBase;
 
 /**
-* auto generate doc.
+* Xsd builder utility.
 * @package IGK\XSD
 */
 abstract class XsdBuilderUtility
 {
 
     /**
-    * auto generate doc.
+    * Constant: sequence.
     * @var mixed
     */
     const SEQUENCE = "xs:sequence";
 
     /**
-    * auto generate doc.
+    * Builds Def.
     * @param mixed $node
     * @param mixed $defs
     */
@@ -58,7 +58,7 @@ abstract class XsdBuilderUtility
     }
 
     /**
-    * auto generate doc.
+    * Builds Sequence.
     * @param mixed $node
     * @param mixed $defs
     * @param mixed $ctype
@@ -72,7 +72,7 @@ abstract class XsdBuilderUtility
     }
 
     /**
-    * auto generate doc.
+    * Builds Complex Type.
     * @param mixed $node
     * @param mixed $defs
     * @param mixed $ctype
@@ -114,7 +114,7 @@ abstract class XsdBuilderUtility
     }
 
     /**
-    * auto generate doc.
+    * Binds Any Attribute.
     * @param mixed $node
     * @param mixed $attributes
     */
@@ -142,7 +142,7 @@ abstract class XsdBuilderUtility
     }
 
     /**
-    * auto generate doc.
+    * Adds Sequence Element.
     * @param mixed $node
     * @param mixed $name
     * @param mixed $value

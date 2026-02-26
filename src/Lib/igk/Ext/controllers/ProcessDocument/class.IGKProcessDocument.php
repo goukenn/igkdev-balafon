@@ -10,13 +10,13 @@ use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkprocess document.
 */
 class IGKProcessDocument extends NonVisibleControllerBase
 {
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -24,7 +24,7 @@ class IGKProcessDocument extends NonVisibleControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
@@ -39,7 +39,7 @@ class IGKProcessDocument extends NonVisibleControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Processes File.
     * @param null|mixed $file
     */
 
@@ -62,7 +62,7 @@ class IGKProcessDocument extends NonVisibleControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Processes Doc.
     * @param mixed $text
     */
 

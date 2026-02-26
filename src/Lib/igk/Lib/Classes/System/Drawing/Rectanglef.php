@@ -14,13 +14,13 @@ use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
 
 /**
-* auto generate doc.
+* Rectanglef.
 * @package IGK\System\Drawing
 */
 final class Rectanglef extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: h, w, x, y.
     * @var mixed
     */
     private $m_h, $m_w, $m_x, $m_y;

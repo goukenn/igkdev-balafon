@@ -12,25 +12,25 @@ use IGK\System\Exceptions\ArgumentNotValidException;
 class DbConditionExpressionBuilder{
 
     /**
-    * auto generate doc.
+    * Property: operand.
     * @var mixed
     */
     var $operand = "AND";
 
     /**
-    * auto generate doc.
+    * Property: conditions.
     * @var mixed
     */
     var $conditions = [];
 
     /**
-    * auto generate doc.
+    * Constant: op and.
     * @var mixed
     */
     const OP_AND = "AND";
 
     /**
-    * auto generate doc.
+    * Constant: op or.
     * @var mixed
     */
     const OP_OR = "OR";

@@ -13,31 +13,31 @@ use IGKEvents;
 class SchemaMigrationHookHandler{
 
     /**
-    * auto generate doc.
+    * Property: hooks.
     * @var mixed
     */
     private $m_hooks = [];
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     public $controller;
 
     /**
-    * auto generate doc.
+    * Map of tables.
     * @var mixed
     */
     public $tables;
 
     /**
-    * auto generate doc.
+    * Property: links.
     * @var mixed
     */
     private  $m_Links;
 
     /**
-    * auto generate doc.
+    * Constant: on column rename.
     * @var mixed
     */
     const onColumnRename = 'onColumnRename';
@@ -49,7 +49,7 @@ class SchemaMigrationHookHandler{
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     */
     public function register(){
          $this->initHooks();
@@ -57,7 +57,7 @@ class SchemaMigrationHookHandler{
     }
 
     /**
-    * auto generate doc.
+    * Unregister.
     */
     public function unregister(){
         igk_unreg_hook(IGKEvents::HOOK_DB_RENAME_COLUMN, $this->m_hooks[self::onColumnRename]);

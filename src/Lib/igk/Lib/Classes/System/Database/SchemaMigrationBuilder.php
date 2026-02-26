@@ -19,31 +19,31 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
 {
 
     /**
-    * auto generate doc.
+    * Flag: is migration.
     * @var mixed
     */
     private $is_migration;
 
     /**
-    * auto generate doc.
+    * Map of table prefix.
     * @var mixed
     */
     private $table_prefix;
 
     /**
-    * auto generate doc.
+    * Map of table.
     * @var mixed
     */
     private $m_table;
 
     /**
-    * auto generate doc.
+    * Property: column.
     * @var mixed
     */
     private $m_column;
 
     /**
-    * auto generate doc.
+    * Constant: supported types.
     * @var mixed
     */
     const SUPPORTED_TYPES = 'int|float|bigint|long|varchar|text|json|enum|double|date|datetime|boolean';
@@ -75,7 +75,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Id.
     * @return SchemaMigrationBuilder
     */
     public function id():SchemaMigrationBuilder{
@@ -87,7 +87,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Text.
     * @return SchemaMigrationBuilder
     */
     public function text():SchemaMigrationBuilder{
@@ -124,7 +124,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Returns Prefix.
     * @return ?string
     */
     public function getPrefix(): ?string{
@@ -151,7 +151,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Unique column member.
     * @param null|int $index
     * @return SchemaMigrationBuilder
     */
@@ -165,7 +165,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Primary.
     * @return SchemaMigrationBuilder
     */
     public function primary():SchemaMigrationBuilder{
@@ -193,7 +193,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Notnull.
     * @return SchemaMigrationBuilder
     */
     public function notnull():SchemaMigrationBuilder{
@@ -205,7 +205,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Varchar.
     * @param int $length
     * @return SchemaMigrationBuilder
     */
@@ -219,7 +219,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Description.
     * @param null|string $description
     * @return SchemaMigrationBuilder
     */
@@ -233,7 +233,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Type.
     * @param string $type
     * @return SchemaMigrationBuilder
     */
@@ -270,7 +270,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Drops Table.
     * @param string $tablename
     */
     public function dropTable(string $tablename){
@@ -284,7 +284,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
     }
 
     /**
-    * auto generate doc.
+    * Returns Prefix Table.
     * @param string $table
     * @return string
     */

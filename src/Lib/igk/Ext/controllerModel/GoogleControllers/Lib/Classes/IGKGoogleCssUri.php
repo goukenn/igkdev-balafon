@@ -24,13 +24,13 @@ use \IGKHtmlRelativeUriValueAttribute;
 class IGKGoogleCssUri{
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     private $m_file;
 
     /**
-    * auto generate doc.
+    * Property: uri.
     * @var mixed
     */
     private $m_uri;

@@ -9,31 +9,31 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 
 /**
-* auto generate doc.
+* Run php unit command.
 * @package IGK\System\Console\Commands
 */
 class RunPhpUnitCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--run:phpunit";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "run php unit";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "phpunit";
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
 

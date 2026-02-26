@@ -16,25 +16,25 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
 {
 
     /**
-    * auto generate doc.
+    * Name of scope name.
     * @var mixed
     */
     var $scopeName;
 
     /**
-    * auto generate doc.
+    * Property: version.
     * @var mixed
     */
     var $version;
 
     /**
-    * auto generate doc.
+    * Property: repository.
     * @var mixed
     */
     var $repository;
 
     /**
-    * auto generate doc.
+    * Property: patterns.
     * @var mixed
     */
     var $patterns;

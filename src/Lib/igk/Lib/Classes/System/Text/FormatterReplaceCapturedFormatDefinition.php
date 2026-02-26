@@ -28,7 +28,7 @@ abstract class FormatterReplaceCapturedFormatDefinition implements IReplaceCaptu
     var $isSplitted;
 
     /**
-    * auto generate doc.
+    * Returns Has Sub Children.
     * @return bool
     */
     public function getHasSubChildren(): bool { 

@@ -35,43 +35,43 @@ use IGK\Models\ModelBase;
 class Subdomains extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl ctrl.
     * @var mixed
     */
     const FD_CL_CTRL="clCtrl";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl view.
     * @var mixed
     */
     const FD_CL_VIEW="clView";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl deactivate at.
     * @var mixed
     */
     const FD_CL_DEACTIVATE_AT="clDeactivate_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl create at.
     * @var mixed
     */
     const FD_CL_CREATE_AT="clCreate_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl update at.
     * @var mixed
     */
     const FD_CL_UPDATE_AT="clUpdate_At";

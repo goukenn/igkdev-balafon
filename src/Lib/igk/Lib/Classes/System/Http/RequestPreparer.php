@@ -15,7 +15,7 @@ use IGK\System\Uri;
 class RequestPreparer{
 
     /**
-    * auto generate doc.
+    * Constant: pkey.
     * @var mixed
     */
     const PKEY = __CLASS__.'//preparefor_request';

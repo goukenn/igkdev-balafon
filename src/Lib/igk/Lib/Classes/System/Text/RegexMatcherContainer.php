@@ -29,14 +29,14 @@ class RegexMatcherContainer implements IRegexMatcherContainer
 {
 
     /**
-    * auto generate doc.
+    * Constant: regex option.
     * @var mixed
     */
     const REGEX_OPTION = '/^\(\?\b(?P<add>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\b(:\b(?P<remove>i(m|x|(mx|xm)?)|m(i|x|(ix|xi))?|x(i|m|(im|mi))?)\b)?\)/';
     // shared loading formatters
 
     /**
-    * auto generate doc.
+    * Property: loading formatters.
     * @var mixed
     */
     static $sm_LoadingFormatters = [];
@@ -46,7 +46,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     const REGEX_START_LINE = '/(?<!\\\\|\w|\[)\^/';
 
     /**
-    * auto generate doc.
+    * Constant: regex continues empty line.
     * @var mixed
     */
     const REGEX_CONTINUES_EMPTY_LINE = '/^\\s*$/';
@@ -56,37 +56,37 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     const REGEX_END_LINE = '/(?<!\\\)\\$/';
 
     /**
-    * auto generate doc.
+    * Constant: begin end type.
     * @var mixed
     */
     const BEGIN_END_TYPE = RegexMatcherPattern::BEGIN_END_TYPE;
 
     /**
-    * auto generate doc.
+    * Constant: begin while type.
     * @var mixed
     */
     const BEGIN_WHILE_TYPE = 'begin/while';
 
     /**
-    * auto generate doc.
+    * Constant: match type.
     * @var mixed
     */
     const MATCH_TYPE = 'match';
 
     /**
-    * auto generate doc.
+    * Constant: include.
     * @var mixed
     */
     const INCLUDE = 'include';
 
     /**
-    * auto generate doc.
+    * Property: last.
     * @var mixed
     */
     private $m_last;
 
     /**
-    * auto generate doc.
+    * Property: ignore scoped.
     * @var mixed
     */
     private $m_ignoreScoped;
@@ -97,7 +97,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     private $m_initialPatterns;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
@@ -179,7 +179,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     private $m_tag;
 
     /**
-    * auto generate doc.
+    * Property: ref only.
     * @var mixed
     */
     private $m_refOnly;
@@ -325,7 +325,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     }
 
     /**
-    * auto generate doc.
+    * Sets Matcher.
     * @param array $patterns
     */
     public function setMatcher(array $patterns)
@@ -1389,7 +1389,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     }
 
     /**
-    * auto generate doc.
+    * While.
     * @param string $expression
     * @param null|string $end
     * @param null|string $tokenID
@@ -1677,7 +1677,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     }
 
     /**
-    * auto generate doc.
+    * Append multiline comment.
     * @param mixed $begin
     * @param mixed $end
     * @param mixed $tokenId
@@ -1690,7 +1690,7 @@ class RegexMatcherContainer implements IRegexMatcherContainer
     }
 
     /**
-    * auto generate doc.
+    * Init treat closure.
     * @param mixed $mark
     * @param mixed $captures
     * @param mixed $cap

@@ -13,7 +13,7 @@ use IGK\Controllers\ExtraControllerProperty;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igknavigation menu bar ctrl.
 */
 abstract class IGKNavigationMenuBarCtrl extends \IGK\Controllers\ControllerTypeBase
 { 

@@ -14,7 +14,7 @@ use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGKHtmlDoc;
 
 /**
-* auto generate doc.
+* Theme builder test.
 * @package IGK\Tests
 */
 class ThemeBuilderTest extends BaseTestCase
@@ -37,7 +37,7 @@ class ThemeBuilderTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests theme to array.
     */
     function test_theme_to_array()
     {
@@ -77,7 +77,7 @@ EOF,
     }
 
     /**
-    * auto generate doc.
+    * Tests serialize unserialize theme.
     */
     public function test_serialize_unserialize_theme(){
 

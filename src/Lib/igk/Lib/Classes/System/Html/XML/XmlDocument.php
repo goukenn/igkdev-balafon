@@ -11,13 +11,13 @@ namespace IGK\System\Html\XML;
 use IGK\System\Html\HtmlRenderer;
 
 /**
-* auto generate doc.
+* Xml document.
 * @package IGK\System\Html\XML
 */
 class XmlDocument extends XmlNode{
 
     /**
-    * auto generate doc.
+    * Type of doc type.
     * @var mixed
     */
     private $_docType;
@@ -33,7 +33,7 @@ class XmlDocument extends XmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $option
     */
 

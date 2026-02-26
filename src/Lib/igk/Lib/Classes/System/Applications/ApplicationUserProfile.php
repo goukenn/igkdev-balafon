@@ -19,24 +19,24 @@ use IGKUserInfo;
 class ApplicationUserProfile extends SystemUserProfile implements ICustomUserProfile{
 
     /**
-    * auto generate doc.
+    * Property: user.
     * @var mixed
     */
     private $m_user;
 
     /**
-    * auto generate doc.
+    * Property: app user.
     * @var mixed
     */
     private $m_app_user;
 
     /**
-    * auto generate doc.
+    * Registers Profile.
     */
     protected function registerProfile() { }
 
     /**
-    * auto generate doc.
+    * User.
     * @return ModelsModelBase
     */
     public function user(): ModelsModelBase {
@@ -53,7 +53,7 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      }
 
     /**
-    * auto generate doc.
+    * Returns User Info.
     */
     public function getUserInfo(){ 
         return $this->m_profile;
@@ -68,7 +68,7 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
     }
 
     /**
-    * auto generate doc.
+    * Model.
     * @return Users
     */
     public function model(): Users { 

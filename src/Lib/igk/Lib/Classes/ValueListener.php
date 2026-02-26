@@ -20,7 +20,7 @@ use IGKObject;
 final class ValueListener extends IGKObject implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Properties: attr, owner.
     * @var mixed
     */
     private $m_attr, $m_owner;
@@ -36,7 +36,7 @@ final class ValueListener extends IGKObject implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options=null){

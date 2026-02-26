@@ -25,19 +25,19 @@ class RegexMatcherContainerTmLanguageConverter
 {
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
 
     /**
-    * auto generate doc.
+    * Property: references.
     * @var mixed
     */
     private $m_references = [];
 
     /**
-    * auto generate doc.
+    * Remove type.
     * @param mixed $a
     */
     protected function _removeType($a)

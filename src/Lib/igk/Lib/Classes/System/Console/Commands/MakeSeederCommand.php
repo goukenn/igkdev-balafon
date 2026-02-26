@@ -13,32 +13,32 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGKDbModelUtility;
 
 /**
-* auto generate doc.
+* Make seeder command.
 * @package IGK\System\Console\Commands
 */
 class MakeSeederCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:seeder";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "make project's seeder";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [];

@@ -10,7 +10,7 @@ namespace IGK\Controllers;
 interface IControllerManagerObject{
 
     /**
-    * auto generate doc.
+    * Returns Controller.
     * @param mixed $name
     * @param bool $throwException
     * @return ?BaseController
@@ -18,7 +18,7 @@ interface IControllerManagerObject{
     function getController($name, bool $throwException = true): ?BaseController;
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param BaseController $controller
     * @return ?BaseController
     */
@@ -26,7 +26,7 @@ interface IControllerManagerObject{
     function getDefaultController(): ?BaseController;
 
     /**
-    * auto generate doc.
+    * Sets Default Controller.
     * @param null|BaseController $controller
     * @return ?array
     */

@@ -11,25 +11,25 @@ namespace IGK\System\IO\JSon;
 class JSonBindingValueOption{
 
     /**
-    * auto generate doc.
+    * Property: bind reference.
     * @var mixed
     */
     var $bindReference;
 
     /**
-    * auto generate doc.
+    * Property: property.
     * @var mixed
     */
     var $property;
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $source;
 
     /**
-    * auto generate doc.
+    * Property: handle.
     * @var mixed
     */
     var $handle;

@@ -11,7 +11,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* Notify helper.
 * @package IGK\Helper
 */
 class NotifyHelper{

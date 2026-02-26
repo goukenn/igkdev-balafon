@@ -11,43 +11,43 @@ namespace IGK\Database;
 abstract class DbFieldOperator{
 
     /**
-    * auto generate doc.
+    * Constant: like.
     * @var mixed
     */
     const LIKE='@@';
 
     /**
-    * auto generate doc.
+    * Constant: in base.
     * @var mixed
     */
     const IN_BASE = '<>';
 
     /**
-    * auto generate doc.
+    * Constant: not in base.
     * @var mixed
     */
     const NOT_IN_BASE = '!<>';
 
     /**
-    * auto generate doc.
+    * Constant: in.
     * @var mixed
     */
     const IN = '!!';
 
     /**
-    * auto generate doc.
+    * Constant: gt.
     * @var mixed
     */
     const GT = '>';
 
     /**
-    * auto generate doc.
+    * Constant: lt.
     * @var mixed
     */
     const LT = '<';
 
     /**
-    * auto generate doc.
+    * Constant: not.
     * @var mixed
     */
     const NOT = '!'; 

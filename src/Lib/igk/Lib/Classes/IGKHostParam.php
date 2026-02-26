@@ -5,12 +5,12 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkhost param.
 */
 class IGKHostParam{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
@@ -29,7 +29,7 @@ class IGKHostParam{
     }
 
     /**
-    * auto generate doc.
+    * Magic getter for dynamic properties.
     * @param mixed $n
     */
 
@@ -38,7 +38,7 @@ class IGKHostParam{
     }
 
     /**
-    * auto generate doc.
+    * Magic setter for dynamic properties.
     * @param mixed $n
     * @param mixed $value
     */
@@ -52,7 +52,7 @@ class IGKHostParam{
     }
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString()

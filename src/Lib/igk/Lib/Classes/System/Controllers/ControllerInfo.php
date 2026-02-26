@@ -13,7 +13,7 @@ class ControllerInfo{
     use NoSetExtraPropertyTrait;
 
     /**
-    * auto generate doc.
+    * Count: init count.
     * @var mixed
     */
     var $initCount;

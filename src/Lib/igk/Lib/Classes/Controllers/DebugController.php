@@ -13,7 +13,7 @@ use IGK\System\Html\Dom\HtmlDebuggerViewNode;
 use IGK\System\Html\HtmlUtils;
 
 /**
-* auto generate doc.
+* Debug controller.
 * @package IGK\Controllers
 */
 final class DebugController extends BaseController{

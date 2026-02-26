@@ -11,7 +11,7 @@ namespace IGK\System\Html\Dom;
 class HtmlWidgetNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
@@ -25,7 +25,7 @@ class HtmlWidgetNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {

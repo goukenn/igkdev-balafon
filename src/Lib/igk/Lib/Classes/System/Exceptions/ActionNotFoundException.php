@@ -26,7 +26,7 @@ class ActionNotFoundException extends IGKException{
     }
 
     /**
-    * auto generate doc.
+    * Headers.
     */
     public function headers(){
         return [

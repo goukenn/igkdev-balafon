@@ -10,13 +10,13 @@ namespace IGK\System\Http;
 interface IResponseData{
 
     /**
-    * auto generate doc.
+    * Returns Code.
     * @return int
     */
     function getCode() : int;
 
     /**
-    * auto generate doc.
+    * Returns Data.
     */
     function getData();
 }

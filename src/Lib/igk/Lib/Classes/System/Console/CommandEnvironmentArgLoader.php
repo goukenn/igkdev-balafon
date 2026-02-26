@@ -6,19 +6,19 @@
 namespace IGK\System\Console;
 
 /**
-* auto generate doc.
+* Command environment arg loader.
 * @package IGK\System\Console
 */
 class CommandEnvironmentArgLoader{
 
     /**
-    * auto generate doc.
+    * Property: separator.
     * @var mixed
     */
     var $separator = "=";
 
     /**
-    * auto generate doc.
+    * Loads.
     * @param object $obj
     * @param string $args
     */

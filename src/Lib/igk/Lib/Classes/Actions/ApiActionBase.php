@@ -19,13 +19,13 @@ use Throwable;
 abstract class ApiActionBase extends MiddlewireActionBase{
 
     /**
-    * auto generate doc.
+    * Property: response.
     * @var mixed
     */
     protected $response;
 
     /**
-    * auto generate doc.
+    * Property: status.
     * @var mixed
     */
     protected $status;
@@ -40,7 +40,7 @@ abstract class ApiActionBase extends MiddlewireActionBase{
     }
 
     /**
-    * auto generate doc.
+    * Die.
     * @param mixed $message
     * @param mixed $code
     */
@@ -50,7 +50,7 @@ abstract class ApiActionBase extends MiddlewireActionBase{
     }
 
     /**
-    * auto generate doc.
+    * Json.
     * @param mixed $data
     * @param mixed $code
     */
@@ -76,7 +76,7 @@ abstract class ApiActionBase extends MiddlewireActionBase{
     }
 
     /**
-    * auto generate doc.
+    * Handle method not found.
     * @param mixed $name
     */
     protected function _handleMethodNotFound($name)
@@ -86,7 +86,7 @@ abstract class ApiActionBase extends MiddlewireActionBase{
     }
 
     /**
-    * auto generate doc.
+    * Handle throwable.
     * @param Throwable $ex
     */
     protected function _handleThrowable(Throwable $ex)

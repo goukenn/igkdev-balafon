@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkobject strict.
 */
 final class IGKObjectStrict{
 
     /**
-    * auto generate doc.
+    * Property: ins.
     * @var mixed
     */
     private $m_ins;

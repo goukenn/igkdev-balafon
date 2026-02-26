@@ -12,7 +12,7 @@ use IGKException;
 class SchemaBuilderMigration{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
@@ -70,7 +70,7 @@ class SchemaBuilderMigration{
     }
 
     /**
-    * auto generate doc.
+    * Downgrade.
     */
     public function downgrade(){
         if (!$this->items)

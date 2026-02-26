@@ -10,7 +10,7 @@ namespace IGK\Mapping;
 class DbMapper{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;

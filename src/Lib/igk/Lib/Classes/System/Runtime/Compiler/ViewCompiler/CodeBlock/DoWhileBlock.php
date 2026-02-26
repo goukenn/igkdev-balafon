@@ -19,14 +19,14 @@ class DoWhileBlock extends ViewCompilerBockInfo{
     }
 
     /**
-    * auto generate doc.
+    * Starts Block.
     */
     public function startBlock(){
         return sprintf("do{");
     }
 
     /**
-    * auto generate doc.
+    * End block.
     */
     public function endBlock(){
         return ["}", sprintf("while (%s);", $this->condition)];

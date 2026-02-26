@@ -13,7 +13,7 @@ use IGKEvents;
 class SvgListIconNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
@@ -29,7 +29,7 @@ class SvgListIconNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

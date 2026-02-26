@@ -13,38 +13,38 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use IGKDbModelUtility;
 
 /**
-* auto generate doc.
+* Make model utility command.
 * @package IGK\System\Console\Commands
 */
 class MakeModelUtilityCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:model-utility";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "make new project's model utility";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [];
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = "[controller] model_utility_name [options]";

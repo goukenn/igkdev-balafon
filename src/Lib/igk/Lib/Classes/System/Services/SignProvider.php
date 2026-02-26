@@ -16,7 +16,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 class SignProvider{
 
     /**
-    * auto generate doc.
+    * Constant: env key.
     * @var mixed
     */
     const ENV_KEY = "signin_provider";
@@ -102,7 +102,7 @@ class SignProvider{
     }
 
     /**
-    * auto generate doc.
+    * Registers User Info Callback.
     * @param AuthSignInfo $userinfo
     */
     public static function RegisterUserInfoCallback( AuthSignInfo $userinfo){

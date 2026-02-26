@@ -11,25 +11,25 @@ namespace IGK\System\Html;
 use IGK\IFormBuilderEngine;
 
 /**
-* auto generate doc.
+* Form builder engine.
 * @package IGK\System\Html
 */
 class FormBuilderEngine implements IFormBuilderEngine{
 
     /**
-    * auto generate doc.
+    * Property: frm.
     * @var mixed
     */
     protected $frm;
 
     /**
-    * auto generate doc.
+    * Property: group.
     * @var mixed
     */
     var $group;
 
     /**
-    * auto generate doc.
+    * Handles calls to undefined methods.
     * @param mixed $n
     * @param mixed $arguments
     */
@@ -52,7 +52,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Magic getter for dynamic properties.
     * @param mixed $n
     */
 
@@ -64,7 +64,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Magic setter for dynamic properties.
     * @param mixed $n
     * @param mixed $v
     */
@@ -76,7 +76,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Init entries.
     * @param mixed $c
     * @param mixed $entries
     * @param null|mixed $filter
@@ -129,7 +129,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Button.
     * @param mixed $id
     * @param mixed $type
     * @param null|mixed $text
@@ -141,7 +141,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Checkbox.
     * @param mixed $id
     * @param null|mixed $value
     * @param null|mixed $attribs
@@ -158,7 +158,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Control.
     * @param mixed $id
     * @param mixed $type
     * @param null|mixed $style
@@ -180,7 +180,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Group.
     */
 
     public function addGroup(){
@@ -191,7 +191,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Label.
     * @param mixed $id
     * @param null|mixed $class
     * @param null|mixed $text
@@ -207,7 +207,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Label Control.
     * @param mixed $id
     * @param null|mixed $value
     * @param mixed $type
@@ -223,7 +223,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Label Select.
     * @param mixed $id
     * @param mixed $entries
     * @param null|mixed $filter
@@ -237,7 +237,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Label Textarea.
     * @param mixed $id
     * @param null|mixed $value
     */
@@ -250,7 +250,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Ob Data.
     * @param mixed $callback
     * @param mixed $tag
     */
@@ -261,7 +261,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Radio Button.
     * @param mixed $id
     * @param null|mixed $value
     * @param null|mixed $attribs
@@ -278,7 +278,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Select.
     * @param mixed $id
     * @param mixed $entries
     * @param null|mixed $filter
@@ -295,7 +295,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Textarea.
     * @param mixed $id
     * @param null|mixed $value
     */
@@ -308,7 +308,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Adds Textfield.
     * @param mixed $id
     * @param null|mixed $value
     * @param null|mixed $attribs
@@ -319,7 +319,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Returns Last Child.
     */
 
     public function getLastChild(){
@@ -332,7 +332,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Returns View.
     */
 
     public function getView(){
@@ -346,7 +346,7 @@ class FormBuilderEngine implements IFormBuilderEngine{
     }
 
     /**
-    * auto generate doc.
+    * Sets View.
     * @param mixed $frm
     */
 

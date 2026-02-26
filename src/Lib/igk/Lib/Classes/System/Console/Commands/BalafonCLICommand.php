@@ -15,7 +15,7 @@ class BalafonCLICommand extends AppExecCommand{
 	/* var $category; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param mixed ...$args
     */

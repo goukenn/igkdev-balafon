@@ -9,7 +9,7 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Console\Logger;
 
 /**
-* auto generate doc.
+* Gen cache command.
 * @package IGK\System\Console\Commands
 */
 class GenCacheCommand extends AppExecCommand{
@@ -23,7 +23,7 @@ class GenCacheCommand extends AppExecCommand{
     var $desc = "generate web cache";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options;
@@ -37,7 +37,7 @@ class GenCacheCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $uri
     */

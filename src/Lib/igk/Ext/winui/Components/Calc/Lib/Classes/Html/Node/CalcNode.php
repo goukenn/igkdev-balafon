@@ -10,45 +10,45 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\ValueListener;
 
 /**
-* auto generate doc.
+* Calc node.
 * @package IGK\Ext\WinUI\Components\Calc\Html\Node
 */
 final class CalcNode extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: mode.
     * @var mixed
     */
     private $m_mode;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     private $m_value;
 
     /**
-    * auto generate doc.
+    * Returns Mode.
     */
 
     public function getMode(){return $this->m_mode; }
 
     /**
-    * auto generate doc.
+    * Sets Mode.
     * @param mixed $v
     */
 
     public function setMode($v){$this->m_mode = $v; return $this; }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     */
 
     public function getValue(){return $this->m_value; }
 
     /**
-    * auto generate doc.
+    * Sets Value.
     * @param mixed $v
     */
 
@@ -64,7 +64,7 @@ final class CalcNode extends HtmlNode
 	}
 
     /**
-    * auto generate doc.
+    * Initializes View.
     */
 
     public function initView(){

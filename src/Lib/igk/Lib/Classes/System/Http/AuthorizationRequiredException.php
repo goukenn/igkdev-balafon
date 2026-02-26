@@ -8,7 +8,7 @@ use IGKException;
 use Throwable;
 
 /**
-* auto generate doc.
+* Authorization required exception.
 * @package IGK\System\Http
 */
 class AuthorizationRequiredException extends NotAllowedRequestException{

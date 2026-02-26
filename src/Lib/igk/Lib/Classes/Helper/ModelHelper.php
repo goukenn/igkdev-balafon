@@ -10,7 +10,7 @@ namespace IGK\Helper;
 class ModelHelper{
 
     /**
-    * auto generate doc.
+    * Map to array.
     */
     static function MapToArray(){
         return function($a){

@@ -12,7 +12,7 @@ use IGK\System\Html\IHtmlGetValue;
 class SysConfigExpression implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: expression.
     * @var mixed
     */
     var $expression;
@@ -32,7 +32,7 @@ class SysConfigExpression implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null) { 
@@ -48,7 +48,7 @@ class SysConfigExpression implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Store Value.
     */
     public function getStoreValue(){
         if (!empty($ex = trim($this->expression)))

@@ -14,19 +14,19 @@ use IGKException;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* App exec command.
 * @package IGK\System\Console
 */
 abstract class AppExecCommand extends AppCommand{
 
     /**
-    * auto generate doc.
+    * Property: handle.
     * @var mixed
     */
     protected $handle;
 
     /**
-    * auto generate doc.
+    * Property: colorizer.
     * @var mixed
     */
     private $m_colorizer;
@@ -36,7 +36,7 @@ abstract class AppExecCommand extends AppCommand{
     const USER_CAT = 'users';
 
     /**
-    * auto generate doc.
+    * Constant: sys ctrl placeholder.
     * @var mixed
     */
     const SYS_CTRL_PLACEHOLDER = '%sys%';
@@ -134,7 +134,7 @@ abstract class AppExecCommand extends AppCommand{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
 

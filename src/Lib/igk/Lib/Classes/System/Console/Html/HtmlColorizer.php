@@ -17,7 +17,7 @@ use IGK\System\Text\RegexMatcherContainer;
 class HtmlColorizer extends Colorize{
 
     /**
-    * auto generate doc.
+    * Init color.
     * @return array
     */
     protected function _initColor(): array
@@ -28,7 +28,7 @@ class HtmlColorizer extends Colorize{
     }
 
     /**
-    * auto generate doc.
+    * Init regex matcher container.
     * @param RegexMatcherContainer $match
     */
     protected function _initRegexMatcherContainer(RegexMatcherContainer $match)

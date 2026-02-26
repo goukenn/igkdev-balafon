@@ -17,37 +17,37 @@ use function igk_resources_gets as __;
 class ModuleCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--module";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "module";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "module management command";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [];
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = "action [options]";
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     protected function showUsage()
     {
@@ -63,7 +63,7 @@ class ModuleCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param mixed $args
     */

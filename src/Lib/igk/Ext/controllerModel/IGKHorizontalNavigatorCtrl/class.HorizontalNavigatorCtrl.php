@@ -22,27 +22,27 @@ use IGK\Controllers\ExtraControllerProperty;
 abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBase {
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{return get_class($this);}
 
     /**
-    * auto generate doc.
+    * Getcan add child.
     */
     public function getcanAddChild(){
 		return false;
 	}
 
     /**
-    * auto generate doc.
+    * Returns Additional Default View Content.
     */
     public static function GetAdditionalDefaultViewContent(){
 		return null;
 	}
 
     /**
-    * auto generate doc.
+    * Returns Additional Config Info.
     */
     public static function GetAdditionalConfigInfo()
 	{
@@ -59,7 +59,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 	}
 
     /**
-    * auto generate doc.
+    * Sets Additional Config Info.
     * @param mixed & $t
     */
     public static function SetAdditionalConfigInfo(& $t)
@@ -74,7 +74,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 	//@@@ parent view control
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController{
@@ -94,7 +94,7 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 	}
 
     /**
-    * auto generate doc.
+    * Builds Page.
     * @param mixed $pane
     */
     protected function buildPage($pane){//build page

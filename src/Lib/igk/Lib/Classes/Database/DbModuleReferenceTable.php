@@ -17,25 +17,25 @@ class DbModuleReferenceTable implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Map of tabledef.
     * @var mixed
     */
     private $m_tabledef;
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $m_controller;
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     private $m_source;
 
     /**
-    * auto generate doc.
+    * Property: request changed.
     * @var mixed
     */
     private $m_request_changed = [];
@@ -75,14 +75,14 @@ class DbModuleReferenceTable implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Returns Table Definition.
     */
     public function getTableDefinition(){
         return $this->m_tabledef;
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
     public function _access_offsetExists($n){
@@ -90,7 +90,7 @@ class DbModuleReferenceTable implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     public function _access_offsetGet($n){

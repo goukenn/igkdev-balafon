@@ -44,13 +44,13 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
 {
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: states.
     * @var mixed
     */
     private static $sm_states = [];
@@ -88,7 +88,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Saves State.
     * @param array $environment_new_state
     */
     public static function saveState(array $environment_new_state)
@@ -104,7 +104,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Restore state.
     */
     public static function restoreState()
     {
@@ -117,7 +117,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Returns Author.
     */
     public function getAuthor()
     {
@@ -125,7 +125,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Getsession cookie name.
     */
     public function getsession_cookie_name()
     {
@@ -153,7 +153,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     // | default FOUR ENVIRONMENT TYPE
 
     /**
-    * auto generate doc.
+    * Property: env keys.
     * @var mixed
     */
     private static $env_keys = [
@@ -164,7 +164,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     ];
 
     /**
-    * auto generate doc.
+    * Returns Environments.
     */
     public function getEnvironments()
     {
@@ -172,7 +172,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Returns Locale.
     */
     public function getLocale()
     {
@@ -188,7 +188,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Returns Php Core Version.
     */
     public function getPhpCoreVersion()
     {
@@ -261,7 +261,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Returns Environment Path.
     */
     public function getEnvironmentPath()
     {
@@ -299,7 +299,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     */
 
     /**
-    * auto generate doc.
+    * Returns Log File.
     */
     public function getLogFile()
     {
@@ -485,7 +485,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Sets No cache.
     * @param mixed $value
     */
     public function setNo_cache($value)
@@ -495,7 +495,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Returns No cache.
     */
     public function getNo_cache()
     {
@@ -674,7 +674,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Returns true if OPS.
     * @return bool
     */
     public function isOPS(): bool
@@ -810,7 +810,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Checks In Array.
     * @param mixed $key
     * @param mixed $value
     */
@@ -820,7 +820,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Unset in array.
     * @param mixed $key
     * @param mixed $value
     */
@@ -833,7 +833,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Sets In Array.
     * @param mixed $key
     * @param mixed $value
     */
@@ -847,7 +847,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Bypass method.
     * @param BaseController $ctrl
     * @param null|bool $bypass
     */
@@ -857,7 +857,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Returns file.
     * @param mixed $file
     * @param mixed $ext
     */
@@ -1005,7 +1005,7 @@ final class IGKEnvironment extends IGKEnvironmentConstants implements IHistoryEn
     }
 
     /**
-    * auto generate doc.
+    * Returns Composer Loader.
     */
     public function getComposerLoader()
     {

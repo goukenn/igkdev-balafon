@@ -5,43 +5,43 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkbilling details entry.
 */
 final class IGKBillingDetailsEntry
 {
 
     /**
-    * auto generate doc.
+    * Identifier: cl id.
     * @var mixed
     */
     var $clId;
 
     /**
-    * auto generate doc.
+    * Identifier: cl uid.
     * @var mixed
     */
     var $clUId;
 
     /**
-    * auto generate doc.
+    * Identifier: cl bill id.
     * @var mixed
     */
     var $clBillId;
 
     /**
-    * auto generate doc.
+    * Identifier: cl ref id.
     * @var mixed
     */
     var $clRefId;
 
     /**
-    * auto generate doc.
+    * Property: cl qte.
     * @var mixed
     */
     var $clQte;
 
     /**
-    * auto generate doc.
+    * Property: cl amount.
     * @var mixed
     */
     var $clAmount;

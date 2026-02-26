@@ -12,7 +12,7 @@ use InvalidArgumentException;
 trait ComposerFakerTrait{
 
     /**
-    * auto generate doc.
+    * Property: faker.
     * @var mixed
     */
     protected $faker;

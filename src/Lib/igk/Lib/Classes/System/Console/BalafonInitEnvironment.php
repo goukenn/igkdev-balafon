@@ -19,7 +19,7 @@ class BalafonInitEnvironment
 {
 
     /**
-    * auto generate doc.
+    * Constant: app lib core.
     * @var mixed
     */
     const AppLibCore = '/Lib/igk';
@@ -231,7 +231,7 @@ class BalafonInitEnvironment
     }
 
     /**
-    * auto generate doc.
+    * Default user group.
     */
     static function _DefaultUserGroup(){
         if (strtolower(PHP_OS)=='darwin'){

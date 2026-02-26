@@ -11,13 +11,13 @@ class CSVHelper
 {
 
     /**
-    * auto generate doc.
+    * Constant: csv read serial.
     * @var mixed
     */
     const CSV_READ_SERIAL = 1;
 
     /**
-    * auto generate doc.
+    * Returns true if Delimeter Escaped.
     * @param string $src
     * @param int $pos
     */
@@ -29,7 +29,7 @@ class CSVHelper
     }
 
     /**
-    * auto generate doc.
+    * Checks Delimiter.
     * @param string $src
     * @param string $delimiter
     * @param int & $bpos

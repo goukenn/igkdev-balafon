@@ -15,7 +15,7 @@ class TemplateEngine
 {
 
     /**
-    * auto generate doc.
+    * Property: start.
     * @var mixed
     */
     var $start;
@@ -35,7 +35,7 @@ class TemplateEngine
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param mixed $node
     * @param null|mixed $options
     */

@@ -14,37 +14,37 @@ class CommandInfo
 {
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc;
 
     /**
-    * auto generate doc.
+    * Property: cat.
     * @var mixed
     */
     var $cat;
 
     /**
-    * auto generate doc.
+    * Property: help.
     * @var mixed
     */
     var $help;
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage;
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     var $file;

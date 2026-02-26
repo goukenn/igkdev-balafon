@@ -17,19 +17,19 @@ use IGKServices;
 class formattersCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--formatters';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='handle formatters';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -40,19 +40,19 @@ class formattersCommand extends AppExecCommand{
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'formatters';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'action [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $action
     */
@@ -68,7 +68,7 @@ class formattersCommand extends AppExecCommand{
 	}
 
     /**
-    * auto generate doc.
+    * Action register.
     * @param null|string $name
     * @param null|string $classname
     */

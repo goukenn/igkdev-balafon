@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class FlattenPathTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests resolv.
     */
     public function test_resolv(){ 
         $this->assertEquals(
@@ -24,7 +24,7 @@ class FlattenPathTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests resolv combine.
     */
     public function test_resolv_combine(){ 
         $this->assertEquals(
@@ -34,7 +34,7 @@ class FlattenPathTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests resolv combine 1.
     */
     public function test_resolv_combine_1(){ 
         $this->assertEquals(

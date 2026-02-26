@@ -17,7 +17,7 @@ class RegexMatcherContainerTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests regexmatch list.
     */
     public function test_regexmatch_list()
     {
@@ -35,7 +35,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch detect htmlclass.
     */
     public function test_regexmatch_detect_htmlclass()
     {
@@ -97,7 +97,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch detect func skip trailing close.
     */
     public function test_regexmatch_detect_func_skip_trailing_close()
     {
@@ -113,7 +113,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch detect func 2.
     */
     public function test_regexmatch_detect_func_2()
     {
@@ -148,7 +148,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch detect declare func.
     */
     public function test_regexmatch_detect_declare_func()
     {
@@ -188,7 +188,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch skip multiline litteral.
     */
     public function test_regexmatch_skip_multiline_litteral()
     {
@@ -224,7 +224,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch skip glue.
     */
     public function test_regexmatch_skip_glue()
     {
@@ -270,7 +270,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch startline b only.
     */
     public function test_regexmatch_startline_b_only()
     {
@@ -286,7 +286,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch startline ba only.
     */
     public function test_regexmatch_startline_ba_only()
     {
@@ -302,7 +302,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch number line.
     */
     public function test_regexmatch_number_line()
     {
@@ -318,7 +318,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch empty line.
     */
     public function test_regexmatch_empty_line()
     {
@@ -391,7 +391,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch detect stop.
     */
     public function test_regexmatch_detect_stop()
     {
@@ -417,7 +417,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch detect append after end stop.
     */
     public function test_regexmatch_detect_append_after_end_stop()
     {
@@ -443,7 +443,7 @@ class RegexMatcherContainerTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatch detect append after end stop 2.
     */
     public function test_regexmatch_detect_append_after_end_stop_2()
     {

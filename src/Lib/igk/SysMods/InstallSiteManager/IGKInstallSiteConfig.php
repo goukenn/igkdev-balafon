@@ -24,13 +24,13 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 {
 
     /**
-    * auto generate doc.
+    * Constant: ref name.
     * @var mixed
     */
     const REF_NAME = "{31f1fa34-33ef-a96c-08c8-f15dc54fadef}";
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -38,7 +38,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Installs.
     * @param null|mixed $folder
     * @param null|mixed $packagefolder
     */
@@ -75,7 +75,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Sets Config.
     * @param mixed $c
     */
     public function setConfig($c)
@@ -83,7 +83,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage()
 	{
@@ -91,7 +91,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Config Group.
     */
     public function getConfigGroup()
 	{
@@ -99,7 +99,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Is Config Page Available.
     */
     public function getIsConfigPageAvailable()
 	{
@@ -107,7 +107,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Config Menu.
     */
     public function initConfigMenu()
 	{
@@ -122,7 +122,7 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 	}
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController

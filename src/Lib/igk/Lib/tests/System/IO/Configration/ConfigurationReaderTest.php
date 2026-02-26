@@ -19,7 +19,7 @@ use IGK\Tests\BaseTestCase;
 class ConfigurationReaderTest extends BaseTestCase {
 
     /**
-    * auto generate doc.
+    * Tests read connexion string.
     */
     public function test_read_connexion_string(){
         $connexion = "user=root, pwd=test, db_name=sample.db, charset=utf8";
@@ -39,7 +39,7 @@ class ConfigurationReaderTest extends BaseTestCase {
     }
 
     /**
-    * auto generate doc.
+    * Tests read connexion string with litteral.
     */
     public function test_read_connexion_string_with_litteral(){
         $connexion = "user=root, pwd='test,presentation', db_name=sample.db, charset=utf8";
@@ -59,7 +59,7 @@ class ConfigurationReaderTest extends BaseTestCase {
     }
 
     /**
-    * auto generate doc.
+    * Tests read css style.
     */
     public function test_read_css_style(){
         $connexion = "background-color:red; color:white;";
@@ -79,7 +79,7 @@ class ConfigurationReaderTest extends BaseTestCase {
     }
 
     /**
-    * auto generate doc.
+    * Tests read environment value.
     */
     public function test_read_environment_value(){
         $connexion = "BASE_URL=https://localhost.com\nPRESENTATION=\nINFO=BALAFON";
@@ -100,7 +100,7 @@ class ConfigurationReaderTest extends BaseTestCase {
     }
 
     /**
-    * auto generate doc.
+    * Tests read environment value 2.
     */
     public function test_read_environment_value_2(){
         //add empty space so value ca be empty 
@@ -122,7 +122,7 @@ class ConfigurationReaderTest extends BaseTestCase {
     }
 
     /**
-    * auto generate doc.
+    * Tests remove str mark.
     */
     public function test_remove_str_mark(){
         $this->assertEquals(

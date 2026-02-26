@@ -11,13 +11,13 @@ namespace IGK\System\Html\Dom;
 class TemporyDocumentHeader{
 
     /**
-    * auto generate doc.
+    * Property: sc.
     * @var mixed
     */
     private $sc = [];
 
     /**
-    * auto generate doc.
+    * Adds Temp Script.
     * @param string $src
     * @param mixed $type
     */

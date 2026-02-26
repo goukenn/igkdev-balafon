@@ -10,25 +10,25 @@ namespace IGK\System\Html;
 abstract class FormBuilderItemAbstractType{
 
     /**
-    * auto generate doc.
+    * Property: attribs.
     * @var mixed
     */
     protected $attribs;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     protected $name;
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     protected $id;
 
     /**
-    * auto generate doc.
+    * Sets Id.
     * @param null|string $id
     */
     public function setId(?string $id){
@@ -36,7 +36,7 @@ abstract class FormBuilderItemAbstractType{
     }
 
     /**
-    * auto generate doc.
+    * Sets Name.
     * @param string $name
     */
     public function setName(string $name){
@@ -44,7 +44,7 @@ abstract class FormBuilderItemAbstractType{
     }
 
     /**
-    * auto generate doc.
+    * Sets Attributes.
     * @param mixed $attribs
     */
     public function setAttributes($attribs){

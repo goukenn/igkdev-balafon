@@ -11,12 +11,12 @@
 use IGK\ICtrlDirManagement;
 
 /**
-* auto generate doc.
+* Igkctrl zone.
 */
 final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
 
     /**
-    * auto generate doc.
+    * Name of filename.
     * @var mixed
     */
     private $m_filename;
@@ -30,7 +30,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns Content Dir.
     */
 
     public function getContentDir(){
@@ -38,7 +38,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Dir.
     */
 
     public function getDataDir(){
@@ -46,7 +46,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns Declared Dir.
     * @return string
     */
 
@@ -55,7 +55,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
 
@@ -64,7 +64,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns Resources Dir.
     */
 
     public function getResourcesDir(){
@@ -72,7 +72,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns Scripts Dir.
     */
 
     public function getScriptsDir(){
@@ -80,7 +80,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns Styles Dir.
     */
 
     public function getStylesDir(){
@@ -88,7 +88,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     }
 
     /**
-    * auto generate doc.
+    * Returns View Dir.
     */
 
     public function getViewDir(){

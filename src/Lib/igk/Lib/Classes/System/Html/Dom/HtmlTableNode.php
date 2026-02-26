@@ -6,13 +6,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html table node.
 * @package IGK\System\Html\Dom
 */
 class HtmlTableNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "table";

@@ -5,18 +5,18 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkapp type.
 */
 abstract class IGKAppType{
 
     /**
-    * auto generate doc.
+    * Constant: web.
     * @var mixed
     */
     const web="web";
 
     /**
-    * auto generate doc.
+    * Constant: balafon.
     * @var mixed
     */
     const balafon = "balafon-cli";    

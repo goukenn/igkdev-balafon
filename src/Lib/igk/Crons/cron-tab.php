@@ -37,7 +37,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
 {
 
     /**
-    * auto generate doc.
+    * Property: configs.
     * @var mixed
     */
     private $m_configs;
@@ -48,7 +48,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     const CNF_NO_CRON_LOGGER = 'cron.no-logger';
 
     /**
-    * auto generate doc.
+    * Prints.
     */
     public function print()
     {
@@ -57,7 +57,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     }
 
     /**
-    * auto generate doc.
+    * Offscreen.
     */
     public function offscreen()
     {
@@ -65,7 +65,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     }
 
     /**
-    * auto generate doc.
+    * Returns Configs.
     */
     public function getConfigs()
     {
@@ -73,13 +73,13 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     }
 
     /**
-    * auto generate doc.
+    * Logs.
     * @param mixed $msg
     */
     public function log($msg) {}
 
     /**
-    * auto generate doc.
+    * Info.
     * @param mixed $msg
     */
     public function info($msg)
@@ -88,7 +88,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     }
 
     /**
-    * auto generate doc.
+    * Warn.
     * @param mixed $msg
     */
     public function warn($msg)
@@ -97,7 +97,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     }
 
     /**
-    * auto generate doc.
+    * Success.
     * @param mixed $msg
     */
     public function success($msg)
@@ -106,7 +106,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     }
 
     /**
-    * auto generate doc.
+    * Danger.
     * @param mixed $msg
     */
     public function danger($msg)
@@ -115,7 +115,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
     }
 
     /**
-    * auto generate doc.
+    * Bootstrap.
     */
     public function bootstrap()
     {

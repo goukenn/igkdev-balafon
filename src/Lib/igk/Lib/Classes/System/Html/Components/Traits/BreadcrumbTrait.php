@@ -13,31 +13,31 @@ namespace IGK\System\Html\Components\Traits;
 trait BreadcrumbTrait{
 
     /**
-    * auto generate doc.
+    * Property: text.
     * @var mixed
     */
     var $text;
 
     /**
-    * auto generate doc.
+    * Property: uri.
     * @var mixed
     */
     var $uri;
 
     /**
-    * auto generate doc.
+    * Property: current page.
     * @var mixed
     */
     var $current_page;
 
     /**
-    * auto generate doc.
+    * Property: childs.
     * @var mixed
     */
     var $childs;
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     var $id;

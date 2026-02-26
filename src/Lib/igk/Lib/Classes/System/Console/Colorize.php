@@ -25,7 +25,7 @@ class Colorize
     var $colors;
 
     /**
-    * auto generate doc.
+    * Init regex matcher container.
     * @param RegexMatcherContainer $match
     */
     protected function _initRegexMatcherContainer(RegexMatcherContainer $match){
@@ -38,7 +38,7 @@ class Colorize
     }
 
     /**
-    * auto generate doc.
+    * Init color.
     * @return array
     */
     protected function _initColor():array{

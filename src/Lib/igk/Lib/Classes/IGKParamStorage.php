@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkparam storage.
 */
 class IGKParamStorage extends IGKObject implements IParamHostService{
 
     /**
-    * auto generate doc.
+    * Property: params.
     * @var mixed
     */
     private $m_params;

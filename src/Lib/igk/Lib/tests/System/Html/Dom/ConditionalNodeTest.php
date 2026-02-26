@@ -16,7 +16,7 @@ use IGK\Tests\BaseTestCase;
 class ConditionalNodeTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests render conditional.
     */
     public function test_render_conditional(){
         $d = new ConditionalNode;

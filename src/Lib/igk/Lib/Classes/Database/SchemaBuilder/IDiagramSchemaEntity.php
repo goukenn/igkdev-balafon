@@ -18,7 +18,7 @@ interface IDiagramSchemaEntity
     function id(string $id): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Varchar.
     * @param string $id
     * @param int $length
     * @return IDiagramSchemaEntity
@@ -26,21 +26,21 @@ interface IDiagramSchemaEntity
     function varchar(string $id, int $length= DbConstants::VARCHAR_DEFAULT_LENGTH): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Address.
     * @param string $id
     * @return IDiagramSchemaEntity
     */
     function address(string $id): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Date update.
     * @param null|string $prefix
     * @return IDiagramSchemaEntity
     */
     function dateUpdate(?string $prefix = null): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Locale.
     * @param string $id
     * @param int $length
     * @return IDiagramSchemaEntity
@@ -75,7 +75,7 @@ interface IDiagramSchemaEntity
     ): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Column.
     * @param string $id
     * @param mixed $type
     * @param mixed $length
@@ -84,7 +84,7 @@ interface IDiagramSchemaEntity
     function column(string $id, $type = 'Int', $length = 9): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Column varchar.
     * @param string $id
     * @param int $length
     * @param null|array $options
@@ -93,14 +93,14 @@ interface IDiagramSchemaEntity
     function column_varchar(string $id, int $length,?array $options = null): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Text.
     * @param string $id
     * @return IDiagramSchemaEntity
     */
     function text(string $id): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Email.
     * @param mixed $name
     * @param mixed $length
     * @param mixed $notnull
@@ -112,7 +112,7 @@ interface IDiagramSchemaEntity
     function email($name = "Email", $length = 30, $notnull = false, $inputtype = "", $default = 0, $description = null): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Link.
     * @param string $name
     * @param string $table
     * @param null|string $column
@@ -135,7 +135,7 @@ interface IDiagramSchemaEntity
     ): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Int.
     * @param string $name
     * @param int $length
     * @return IDiagramSchemaEntity
@@ -143,21 +143,21 @@ interface IDiagramSchemaEntity
     function int(string $name, int $length = 9): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Float.
     * @param string $name
     * @return IDiagramSchemaEntity
     */
     function float(string $name): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Unique.
     * @param string $name
     * @return IDiagramSchemaEntity
     */
     function unique(string $name): IDiagramSchemaEntity;
 
     /**
-    * auto generate doc.
+    * Primary.
     * @param string $name
     * @return IDiagramSchemaEntity
     */

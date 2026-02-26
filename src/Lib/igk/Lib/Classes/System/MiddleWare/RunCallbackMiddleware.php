@@ -13,7 +13,7 @@ namespace IGK\System\Middlewares;
 class RunCallbackMiddleware extends BalafonMiddleware{
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     private $callback;

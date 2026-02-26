@@ -16,7 +16,7 @@ use JsonSerializable;
 class MappedData implements JsonSerializable, IToArrayResolver{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data = [];
@@ -32,7 +32,7 @@ class MappedData implements JsonSerializable, IToArrayResolver{
     }
 
     /**
-    * auto generate doc.
+    * Json serialize.
     * @param bool $ignore_null
     * @param bool $ignore_empty
     * @return mixed
@@ -45,7 +45,7 @@ class MappedData implements JsonSerializable, IToArrayResolver{
     }
 
     /**
-    * auto generate doc.
+    * To array.
     * @return array
     */
     public function to_array():array{
@@ -71,7 +71,7 @@ class MappedData implements JsonSerializable, IToArrayResolver{
     }
 
     /**
-    * auto generate doc.
+    * Serialize.
     */
     public function serialize(){
     }

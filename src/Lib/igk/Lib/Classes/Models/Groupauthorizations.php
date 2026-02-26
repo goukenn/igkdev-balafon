@@ -31,37 +31,37 @@ use IGK\Models\ModelBase;
 class Groupauthorizations extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl group id.
     * @var mixed
     */
     const FD_CL_GROUP_ID="clGroup_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl auth id.
     * @var mixed
     */
     const FD_CL_AUTH_ID="clAuth_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl grant.
     * @var mixed
     */
     const FD_CL_GRANT="clGrant";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl create at.
     * @var mixed
     */
     const FD_CL_CREATE_AT="clCreate_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl update at.
     * @var mixed
     */
     const FD_CL_UPDATE_AT="clUpdate_At";
@@ -71,7 +71,7 @@ class Groupauthorizations extends ModelBase{
 	protected $table = "%prefix%groupauthorizations";
 
     /**
-    * auto generate doc.
+    * Property: unique columns.
     * @var mixed
     */
     protected $unique_columns = array (

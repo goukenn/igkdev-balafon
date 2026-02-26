@@ -10,7 +10,7 @@ namespace IGK\System\Runtime\Compiler\Traits;
 trait CompilerTokenEntryTrait{
 
     /**
-    * auto generate doc.
+    * Compile file.
     * @param string $file
     * @return ?string
     */

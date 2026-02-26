@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class RegexMatcherUtilityTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests regexmatcher utility begin end.
     */
     public function test_regexmatcher_utility_begin_end(){
         $this->assertEquals('bonjoto',
@@ -24,7 +24,7 @@ class RegexMatcherUtilityTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests regexmatcher utility begin hello.
     */
     public function test_regexmatcher_utility_begin_hello(){
         $this->assertEquals('hello',

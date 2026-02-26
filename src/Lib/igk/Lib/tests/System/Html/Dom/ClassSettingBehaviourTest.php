@@ -13,7 +13,7 @@ use IGK\Tests\BaseTestCase;
 class ClassSettingBehaviourTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests remove class.
     */
     public function test_remove_class(){
         $t = igk_create_node('div');
@@ -23,7 +23,7 @@ class ClassSettingBehaviourTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests remove class attr.
     */
     public function test_remove_class_attr(){
         $t = igk_create_node('div');

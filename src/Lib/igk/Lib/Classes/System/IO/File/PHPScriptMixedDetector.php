@@ -15,7 +15,7 @@ class PHPScriptMixedDetector
 {
 
     /**
-    * auto generate doc.
+    * Property: regex.
     * @var mixed
     */
     private $m_regex;
@@ -29,7 +29,7 @@ class PHPScriptMixedDetector
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {

@@ -257,7 +257,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     protected function _access_OffsetGet($n){
@@ -267,7 +267,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -278,7 +278,7 @@ class ViewEnvironmentArgs implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
     protected function _access_offsetExists($n){

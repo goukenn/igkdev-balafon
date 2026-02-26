@@ -13,37 +13,37 @@ use IGKEvents;
 class HtmlDocumentNode extends HtmlItemBase{
 
     /**
-    * auto generate doc.
+    * Property: head.
     * @var mixed
     */
     protected $m_head;
 
     /**
-    * auto generate doc.
+    * Property: body.
     * @var mixed
     */
     protected $m_body;
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     protected $m_id;
 
     /**
-    * auto generate doc.
+    * Property: lang.
     * @var mixed
     */
     protected $m_lang = 'fr';
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = 'igk-document';
 
     /**
-    * auto generate doc.
+    * Constant: document injector key.
     * @var mixed
     */
     const DocumentInjectorKey = 'DocumentInjector';
@@ -65,7 +65,7 @@ class HtmlDocumentNode extends HtmlItemBase{
     protected $namespaces;
 
     /**
-    * auto generate doc.
+    * Returns Id.
     */
     public function getId(){
         return $this->m_id;
@@ -101,21 +101,21 @@ class HtmlDocumentNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Metas.
     */
     public function getMetas(){
         return null;
     }
 
     /**
-    * auto generate doc.
+    * Returns Base Uri.
     */
     public function getBaseUri(){
         return null;
     }
 
     /**
-    * auto generate doc.
+    * Returns Favicon.
     */
     public function getFavicon(){
         return null;
@@ -138,7 +138,7 @@ class HtmlDocumentNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options=null){

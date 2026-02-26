@@ -12,7 +12,7 @@ use IGK\System\Html\XML\XmlConfigurationNode;
 class SysConfigExpressionFactory{
 
     /**
-    * auto generate doc.
+    * Constant: key.
     * @var mixed
     */
     const KEY = self::class."/factories";

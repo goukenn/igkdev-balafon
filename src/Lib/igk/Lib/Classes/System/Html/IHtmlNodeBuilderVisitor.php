@@ -13,7 +13,7 @@ use IGK\System\Html\Dom\HtmlItemBase;
 interface IHtmlNodeBuilderVisitor{
 
     /**
-    * auto generate doc.
+    * Sets Context.
     * @param null|object $context
     * @return ?object
     */

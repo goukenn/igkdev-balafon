@@ -39,13 +39,13 @@ abstract class HtmlUtils extends DomNodeBase
 {
 
     /**
-    * auto generate doc.
+    * Constant: dom use attrib name method.
     * @var mixed
     */
     const DOM_USE_ATTRIB_NAME_METHOD = 'useAttributeName';
 
     /**
-    * auto generate doc.
+    * Constant: dom get value method.
     * @var mixed
     */
     const DOM_GET_VALUE_METHOD = IGK_FC_GETVALUE;
@@ -76,7 +76,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @param mixed $n
     * @param mixed $data
     */
@@ -123,7 +123,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Decodes Attribute.
     * @param string $value
     * @return string
     */
@@ -147,7 +147,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Host node.
     * @param HtmlNode $p
     * @param callable $callback
     * @param mixed ...$args
@@ -257,7 +257,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Prefilter attribute.
     * @param mixed $tagname
     * @param mixed $attributes
     */
@@ -350,7 +350,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Attribute Array To String.
     * @param mixed $attribs
     */
     public static function GetAttributeArrayToString($attribs)
@@ -366,7 +366,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Property: g rendering.
     * @var mixed
     */
     private static $gRendering;
@@ -384,7 +384,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Attributes.
     * @param mixed $attr
     */
     public static function GetAttributes($attr)
@@ -393,7 +393,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Submit action callback.
     * @param null|mixed $title
     * @param mixed $name
     */
@@ -405,7 +405,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Confirm action.
     */
     public static function ConfirmAction()
     {
@@ -1036,7 +1036,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Postfilter node.
     * @param HtmlNode $node
     */
     public static function PostfilterNode(HtmlNode $node)
@@ -1057,7 +1057,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Skip add.
     * @param mixed $value
     */
     public static function SkipAdd($value = 1)
@@ -1068,7 +1068,7 @@ abstract class HtmlUtils extends DomNodeBase
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Skipped.
     * @param mixed $autoreset
     */
     public static function IsSkipped($autoreset)

@@ -19,19 +19,19 @@ trait FormLoginActionTrait{
     use ActionFormHandlerTrait;
 
     /**
-    * auto generate doc.
+    * Property: form login action remember me.
     * @var mixed
     */
     var $formLoginActionRememberMe = true;
 
     /**
-    * auto generate doc.
+    * Property: form login action register uri.
     * @var mixed
     */
     var $formLoginActionRegisterUri = "registerLogin";
 
     /**
-    * auto generate doc.
+    * Property: form login action login.
     * @var mixed
     */
     var $formLoginActionLogin = 'login';

@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 class FormFieldAttribute{
 
     /**
-    * auto generate doc.
+    * Property: attribs.
     * @var mixed
     */
     var $attribs;

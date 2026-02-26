@@ -42,19 +42,19 @@ class ViewHelper
     use IOSearchFileTrait;
 
     /**
-    * auto generate doc.
+    * Constant: arg key.
     * @var mixed
     */
     const ARG_KEY = "sys://io/query_args";
 
     /**
-    * auto generate doc.
+    * Constant: redirect param name.
     * @var mixed
     */
     const REDIRECT_PARAM_NAME = 'redirect-request-data';
 
     /**
-    * auto generate doc.
+    * Constant: private view arg.
     * @var mixed
     */
     const PRIVATE_VIEW_ARG = 'view_sets';
@@ -617,7 +617,7 @@ class ViewHelper
     }
 
     /**
-    * auto generate doc.
+    * Returns Uri Helper.
     * @param mixed $fname
     */
     public static function GetUriHelper($fname)
@@ -636,7 +636,7 @@ class ViewHelper
     }
 
     /**
-    * auto generate doc.
+    * Returns Check User Profile.
     * @param bool $redirect
     * @param null|string $uri
     */

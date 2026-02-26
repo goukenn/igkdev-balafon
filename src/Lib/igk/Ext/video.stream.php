@@ -16,43 +16,43 @@ class VideoStream
 {
 
     /**
-    * auto generate doc.
+    * Path to path.
     * @var mixed
     */
     private $path = "";
 
     /**
-    * auto generate doc.
+    * Property: stream.
     * @var mixed
     */
     private $stream = "";
 
     /**
-    * auto generate doc.
+    * Property: buffer.
     * @var mixed
     */
     private $buffer = 102400;
 
     /**
-    * auto generate doc.
+    * Property: start.
     * @var mixed
     */
     private $start  = -1;
 
     /**
-    * auto generate doc.
+    * Property: end.
     * @var mixed
     */
     private $end    = -1;
 
     /**
-    * auto generate doc.
+    * Property: size.
     * @var mixed
     */
     private $size   = 0;
 
     /**
-    * auto generate doc.
+    * Callback handler for cache callback.
     * @var mixed
     */
     private $m_cache_callback;
@@ -68,7 +68,7 @@ class VideoStream
     }
 
     /**
-    * auto generate doc.
+    * Sets Cache Callback.
     * @param mixed $m
     */
     function setCacheCallback($m){
@@ -76,7 +76,7 @@ class VideoStream
 	}
 
     /**
-    * auto generate doc.
+    * Stops.
     */
     function stop(){
 		$this->end = -1;

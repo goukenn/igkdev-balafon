@@ -12,7 +12,7 @@ namespace IGK\System\Html\Forms\Validations;
 abstract class FormEnvironmentProperties{
 
     /**
-    * auto generate doc.
+    * Constant: key format.
     * @var mixed
     */
     const _KEY_FORMAT = 'form_env_validation_%s';

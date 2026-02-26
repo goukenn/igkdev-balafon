@@ -21,13 +21,13 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     use JsonSerializableTrait;
 
     /**
-    * auto generate doc.
+    * Property: p data.
     * @var mixed
     */
     protected $p_data;
 
     /**
-    * auto generate doc.
+    * Json serialize.
     */
     public function _json_serialize(){ 
         return self::Extract($this);
@@ -51,7 +51,7 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $index
     */
     public function _access_OffsetGet($index)
@@ -60,7 +60,7 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
     public function _access_offsetExists($n){
@@ -131,7 +131,7 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     }
 
     /**
-    * auto generate doc.
+    * Extracts.
     * @param mixed $raw
     */
     public static function Extract($raw){

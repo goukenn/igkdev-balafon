@@ -17,7 +17,7 @@ abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBas
 {
 
     /**
-    * auto generate doc.
+    * Returns Can Add Child.
     */
     public function getCanAddChild(){return false;}
 	/**
@@ -34,7 +34,7 @@ abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBas
 	}
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View() : BaseController

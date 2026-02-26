@@ -11,7 +11,7 @@ namespace IGK\System\Configuration\Controllers;
 abstract class ConfigsGroups{
 
     /**
-    * auto generate doc.
+    * Constant: admin.
     * @var mixed
     */
     const admin = "admin";

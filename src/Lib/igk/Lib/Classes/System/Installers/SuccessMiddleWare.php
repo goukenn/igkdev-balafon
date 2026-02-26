@@ -12,7 +12,7 @@ use function igk_resources_gets as __;
 final class SuccessMiddleWare extends InstallerActionMiddleWare{
 
     /**
-    * auto generate doc.
+    * Constant: event.
     * @var mixed
     */
     const EVENT = __CLASS__."::Complete";

@@ -16,7 +16,7 @@ class HtmlSpaceNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Content.
     */
     public function getContent(){
         return "&nbsp;";

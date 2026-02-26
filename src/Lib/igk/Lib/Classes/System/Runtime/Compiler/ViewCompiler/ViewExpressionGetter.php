@@ -17,7 +17,7 @@ use IGKException;
 class ViewExpressionGetter extends ViewExpressionBase{
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     var $listener;
@@ -33,7 +33,7 @@ class ViewExpressionGetter extends ViewExpressionBase{
     }
 
     /**
-    * auto generate doc.
+    * Eval.
     * @param mixed $src
     * @param mixed $args
     */
@@ -43,7 +43,7 @@ class ViewExpressionGetter extends ViewExpressionBase{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $name
     */
     protected function _access_OffsetGet($name){
@@ -83,7 +83,7 @@ class ViewExpressionGetter extends ViewExpressionBase{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $name
     * @param mixed $value
     */

@@ -13,7 +13,7 @@ use IGK\System\WinUI\Forms\FormData;
 class ProjectSettingValidationData extends FormData{
 
     /**
-    * auto generate doc.
+    * Creates Validator Instance.
     */
     protected static function CreateValidatorInstance(){
         return new ObjectDataValidator();
@@ -28,7 +28,7 @@ class ProjectSettingValidationData extends FormData{
     }
 
     /**
-    * auto generate doc.
+    * Returns Not Required.
     * @return ?array
     */
     function getNotRequired(): ?array

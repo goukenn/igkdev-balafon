@@ -50,25 +50,25 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     use JsonSerializableTrait;
 
     /**
-    * auto generate doc.
+    * Constant: auth key.
     * @var mixed
     */
     const AuthKey = '::auth';
 
     /**
-    * auto generate doc.
+    * Constant: closure seperator.
     * @var mixed
     */
     const ClosureSeperator = "@";
 
     /**
-    * auto generate doc.
+    * Constant: static separator.
     * @var mixed
     */
     const StaticSeparator = "::";
 
     /**
-    * auto generate doc.
+    * Constant: extra field option.
     * @var mixed
     */
     const EXTRA_FIELD_OPTION = 'extra';
@@ -86,19 +86,19 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     const FC_NOW = 'NOW()';
 
     /**
-    * auto generate doc.
+    * Property: mock instance.
     * @var mixed
     */
     private static $mock_instance;
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     private static $sm_model;
 
     /**
-    * auto generate doc.
+    * Flag: is new.
     * @var mixed
     */
     private $m_isNew;
@@ -271,7 +271,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     protected $update_unset;
 
     /**
-    * auto generate doc.
+    * Returns Update Unset.
     */
     public function getUpdateUnset()
     {
@@ -279,7 +279,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Macros Initialize.
     */
     public static function IsMacrosInitialize()
     {
@@ -419,7 +419,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
 
     /**
-    * auto generate doc.
+    * Flag: is create mocking.
     * @var mixed
     */
     private static $sm_isCreateMocking;
@@ -631,7 +631,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $offset
     * @return bool
     */
@@ -641,7 +641,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $offset
     */
     protected function _access_offsetGet($offset)
@@ -650,7 +650,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $offset
     * @param mixed $value
     * @return void
@@ -661,14 +661,14 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $offset
     * @return void
     */
     protected function _access_offsetUnset($offset): void {}
 
     /**
-    * auto generate doc.
+    * Geturi.
     */
     public function geturi()
     {
@@ -1071,7 +1071,7 @@ abstract class ModelBase implements ArrayAccess, JsonSerializable, IDbArrayResul
     }
 
     /**
-    * auto generate doc.
+    * Returns true if mock.
     */
     public function is_mock()
     {

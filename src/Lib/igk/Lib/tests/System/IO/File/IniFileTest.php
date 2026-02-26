@@ -11,13 +11,13 @@ use IGK\System\IO\File\IniFile;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Ini file test.
 * @package IGK\Tests\System\IO\File
 */
 class IniFileTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests create file.
     */
     public function test_create_file(){
         $temp = sys_get_temp_dir()."/tempfile.ini";
@@ -33,7 +33,7 @@ class IniFileTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests comment out file.
     */
     public function test_comment_out_file(){
         $temp = sys_get_temp_dir()."/tempfile.ini";

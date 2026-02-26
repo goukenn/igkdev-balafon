@@ -12,19 +12,19 @@ class CssMedia implements ICssDefinition{
     use RenderDefinitionTrait;
 
     /**
-    * auto generate doc.
+    * Property: condition.
     * @var mixed
     */
     var $condition;
 
     /**
-    * auto generate doc.
+    * Property: def.
     * @var mixed
     */
     var $def = [];
 
     /**
-    * auto generate doc.
+    * Property: parent.
     * @var mixed
     */
     var $parent = null;
@@ -41,7 +41,7 @@ class CssMedia implements ICssDefinition{
     }
 
     /**
-    * auto generate doc.
+    * Returns Definition.
     * @return ?string
     */
     public function getDefinition():?string{

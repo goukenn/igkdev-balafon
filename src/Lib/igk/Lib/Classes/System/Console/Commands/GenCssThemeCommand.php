@@ -15,31 +15,31 @@ use IGK\System\Html\Css\CssUtils;
 class GenCssThemeCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--project:css-dist';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "get controller's css distribution";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = "";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'css';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -48,7 +48,7 @@ class GenCssThemeCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage(){
         parent::showUsage();
@@ -56,7 +56,7 @@ class GenCssThemeCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $controller
     */

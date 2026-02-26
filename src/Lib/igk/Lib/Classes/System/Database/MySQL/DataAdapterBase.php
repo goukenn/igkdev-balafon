@@ -24,37 +24,37 @@ abstract class DataAdapterBase extends SQLDataAdapter
 {
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $m_controller;
 
     /**
-    * auto generate doc.
+    * Name of dbname.
     * @var mixed
     */
     private $m_dbname;
 
     /**
-    * auto generate doc.
+    * Property: error.
     * @var mixed
     */
     private $m_error;
 
     /**
-    * auto generate doc.
+    * Property: errormsg.
     * @var mixed
     */
     private $m_errormsg;
 
     /**
-    * auto generate doc.
+    * Property: time.
     * @var mixed
     */
     private $m_time;
 
     /**
-    * auto generate doc.
+    * Property: empty result.
     * @var mixed
     */
     private static $sm_emptyResult;
@@ -182,7 +182,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
 
     /**
-    * auto generate doc.
+    * Resets Db Manager.
     */
     public function resetDbManager()
     {
@@ -200,7 +200,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
 
     /**
-    * auto generate doc.
+    * Sets No Select Db Error Auto Close.
     * @param bool $value
     */
     public function setNoSelectDbErrorAutoClose(bool $value)
@@ -550,7 +550,7 @@ abstract class DataAdapterBase extends SQLDataAdapter
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Connect.
     */
     public function isConnect()
     {

@@ -9,13 +9,13 @@
 namespace IGK\Core\Ext\Google;
 
 /**
-* auto generate doc.
+* Google events.
 * @package IGK\Core\Ext\Google
 */
 class GoogleEvents{
 
     /**
-    * auto generate doc.
+    * Constant: init component.
     * @var mixed
     */
     const init_component = 'google_init_component';

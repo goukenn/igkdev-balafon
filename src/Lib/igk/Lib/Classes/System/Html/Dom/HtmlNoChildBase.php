@@ -6,14 +6,14 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html no child base.
 * @package IGK\System\Html\Dom
 */
 abstract class HtmlNoChildBase extends HtmlItemBase{
    public final
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     function getCanAddChilds(){
        return false;

@@ -12,13 +12,13 @@ use JsonSerializable;
 class ConfigurationObject implements JsonSerializable{
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     var $key;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
@@ -30,7 +30,7 @@ class ConfigurationObject implements JsonSerializable{
     }
 
     /**
-    * auto generate doc.
+    * Json serialize.
     * @return mixed
     */
     public function jsonSerialize(): mixed { 

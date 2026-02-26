@@ -12,7 +12,7 @@ namespace IGK\System\Shell;
 class OsShell {
 
     /**
-    * auto generate doc.
+    * Property: commands.
     * @var mixed
     */
     private static $sm_commands = [
@@ -21,7 +21,7 @@ class OsShell {
     ];
 
     /**
-    * auto generate doc.
+    * Exec in working dir.
     * @param string $command
     * @param string $workingdir
     * @param null|string $success
@@ -38,7 +38,7 @@ class OsShell {
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param string $type
     * @param string $class
     */
@@ -74,7 +74,7 @@ class OsShell {
     }
 
     /**
-    * auto generate doc.
+    * Kill.
     * @param mixed $pid
     */
     public static function Kill($pid){

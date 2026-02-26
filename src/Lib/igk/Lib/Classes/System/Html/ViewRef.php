@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 class ViewRef implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $data;
@@ -24,7 +24,7 @@ class ViewRef implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null) {

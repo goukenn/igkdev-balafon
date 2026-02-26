@@ -46,7 +46,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Dom add db domain ajx.
     */
     public function dom_add_db_domain_ajx()
     { 
@@ -92,7 +92,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Dom add db edit domain ajx.
     */
     public function dom_add_db_edit_domain_ajx()
     {
@@ -120,7 +120,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Dom drop db s domain ajx.
     */
     public function dom_drop_db_s_domain_ajx()
     {
@@ -157,7 +157,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Dom drop domain ajx.
     */
     public function dom_drop_domain_ajx()
     {
@@ -200,7 +200,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Dom drop domaintable.
     */
     public function dom_drop_domaintable()
     {
@@ -232,7 +232,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Dom edit domain ajx.
     */
     public function dom_edit_domain_ajx()
     {
@@ -265,7 +265,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage()
     {
@@ -274,7 +274,7 @@ final class SubDomainController extends ConfigControllerBase
     ///get the controller that contain domain from setting. for the first usage
 
     /**
-    * auto generate doc.
+    * Returns Domain Ctrl.
     * @param mixed $n
     * @param mixed & $row
     */
@@ -378,7 +378,7 @@ final class SubDomainController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Shows Config.
     */
     public function showConfig()
     {

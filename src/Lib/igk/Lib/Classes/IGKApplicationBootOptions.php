@@ -5,7 +5,7 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkapplication boot options.
 */
 class IGKApplicationBootOptions{
     /**

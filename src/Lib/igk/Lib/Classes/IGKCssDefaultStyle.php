@@ -22,67 +22,67 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     use \IGK\System\Polyfill\CSSDefaultArrayAccess;
 
     /**
-    * auto generate doc.
+    * Constant: colors rule.
     * @var mixed
     */
     const COLORS_RULE = 5;
 
     /**
-    * auto generate doc.
+    * Constant: declared rule.
     * @var mixed
     */
     const DECLARED_RULE = 1;
 
     /**
-    * auto generate doc.
+    * Constant: files bind temp rule.
     * @var mixed
     */
     const FILES_BIND_TEMP_RULE = 9;
 
     /**
-    * auto generate doc.
+    * Constant: files rule.
     * @var mixed
     */
     const FILES_RULE = 4;
 
     /**
-    * auto generate doc.
+    * Constant: flag rule.
     * @var mixed
     */
     const FLAG_RULE = 2;
 
     /**
-    * auto generate doc.
+    * Constant: font rule.
     * @var mixed
     */
     const FONT_RULE = 7;
 
     /**
-    * auto generate doc.
+    * Constant: params rule.
     * @var mixed
     */
     const PARAMS_RULE = 6;
 
     /**
-    * auto generate doc.
+    * Constant: properties.
     * @var mixed
     */
     const PROPERTIES = 0;
 
     /**
-    * auto generate doc.
+    * Constant: symbols rule.
     * @var mixed
     */
     const SYMBOLS_RULE = 3;
 
     /**
-    * auto generate doc.
+    * Constant: temp files rule.
     * @var mixed
     */
     const TEMP_FILES_RULE = 8;
 
     /**
-    * auto generate doc.
+    * Constant: set flag.
     * @var mixed
     */
     const SET_FLAG = 19;
@@ -97,7 +97,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     const ST_NO_THEME_RENDERING_FLAG = 'no_theme_rendering';
 
     /**
-    * auto generate doc.
+    * Property: .
     * @var mixed
     */
     private $_;
@@ -170,7 +170,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Declared Rules.
     */
     public function &getDeclaredRules()
     {
@@ -217,7 +217,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Properties.
     */
     public function getProperties()
     {
@@ -274,7 +274,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Loads data.
     * @param array $data
     */
     public function load_data(array $data)
@@ -311,7 +311,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     ///<param name="expression"></param>
 
     /**
-    * auto generate doc.
+    * Adds Rule.
     * @param mixed $name
     * @param mixed $expression
     */
@@ -322,7 +322,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function clear()
     {
@@ -350,7 +350,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Clears Files.
     */
     public function clearFiles()
     {
@@ -358,7 +358,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Attributes.
     */
     public function getAttributes()
     {
@@ -389,7 +389,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Cl.
     */
     public function &getCl()
     {
@@ -415,7 +415,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Font.
     */
     public function &getFont()
     {
@@ -424,7 +424,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Has Rules.
     */
     public function getHasRules()
     {
@@ -433,7 +433,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Params.
     */
     public function &getParams()
     {
@@ -442,7 +442,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Rules.
     */
     public function &getRules()
     {
@@ -457,7 +457,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Rules String.
     * @param null|mixed $lineseparator
     * @param mixed $themeexport
     * @param null|mixed $systheme
@@ -481,7 +481,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Returns Symbols.
     */
     public function getSymbols()
     {
@@ -517,7 +517,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Reg symbol.
     * @param mixed $file
     */
     public function regSymbol($file)
@@ -528,7 +528,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Resets Params.
     */
     public function resetParams()
     {
@@ -536,7 +536,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Rm rule.
     * @param mixed $name
     */
     public function rmRule($name)
@@ -546,7 +546,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Sets Bind Temp Files.
     * @param mixed $files
     */
     public function setBindTempFiles($files)
@@ -559,7 +559,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Sets Cl.
     * @param mixed $n
     * @param mixed $v
     */
@@ -570,7 +570,7 @@ final class IGKCssDefaultStyle implements ICssSupport, ICssAddRule, ArrayAccess,
     }
 
     /**
-    * auto generate doc.
+    * Sets Files.
     * @param mixed $files
     */
     public function setFiles($files)

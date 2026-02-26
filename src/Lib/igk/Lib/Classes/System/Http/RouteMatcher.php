@@ -18,13 +18,13 @@ class RouteMatcher extends RouteHandler{
     private $chainTo;
 
     /**
-    * auto generate doc.
+    * Property: root.
     * @var mixed
     */
     private $root;
 
     /**
-    * auto generate doc.
+    * Property: throw class.
     * @var mixed
     */
     private $throwClass;
@@ -59,7 +59,7 @@ class RouteMatcher extends RouteHandler{
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param mixed $controller
     */
     public static function Create($controller){

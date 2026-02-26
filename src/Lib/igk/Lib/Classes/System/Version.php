@@ -10,31 +10,31 @@ namespace IGK\System;
 class Version{
 
     /**
-    * auto generate doc.
+    * Property: major.
     * @var mixed
     */
     var $major;
 
     /**
-    * auto generate doc.
+    * Property: minor.
     * @var mixed
     */
     var $minor=0;
 
     /**
-    * auto generate doc.
+    * Property: build.
     * @var mixed
     */
     var $build=0;
 
     /**
-    * auto generate doc.
+    * Property: release.
     * @var mixed
     */
     var $release=0;
 
     /**
-    * auto generate doc.
+    * Parses.
     * @param string $version
     */
     public static function Parse(string $version){
@@ -59,7 +59,7 @@ class Version{
     }
 
     /**
-    * auto generate doc.
+    * Returns Array Value.
     * @param mixed $tab
     * @param mixed $count
     */

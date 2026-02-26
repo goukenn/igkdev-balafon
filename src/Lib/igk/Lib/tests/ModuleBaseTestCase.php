@@ -3,13 +3,13 @@
 namespace IGK\Tests;
 
 /**
-* auto generate doc.
+* Module base test case.
 * @package IGK\Tests
 */
 abstract class ModuleBaseTestCase extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Sets up shared resources before all tests.
     * @return void
     */
     public static function setUpBeforeClass(): void

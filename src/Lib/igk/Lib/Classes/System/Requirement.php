@@ -11,7 +11,7 @@ use ZipArchive;
 class Requirement{
 
     /**
-    * auto generate doc.
+    * Property: requirements.
     * @var mixed
     */
     private $m_requirements;
@@ -25,7 +25,7 @@ class Requirement{
     }
 
     /**
-    * auto generate doc.
+    * Checks.
     * @return bool
     */
     public function check() : bool{

@@ -12,49 +12,49 @@ use IGK\System\Html\Dom\HtmlScriptNode;
 final class IGKHtmlScriptManager extends IGKObject {
 
     /**
-    * auto generate doc.
+    * Constant: doc flag.
     * @var mixed
     */
     const DOC_FLAG=3;
 
     /**
-    * auto generate doc.
+    * Constant: jsman assoc table flag.
     * @var mixed
     */
     const JSMAN_ASSOC_TABLE_FLAG=2;
 
     /**
-    * auto generate doc.
+    * Constant: jsman node.
     * @var mixed
     */
     const JSMAN_NODE=4;
 
     /**
-    * auto generate doc.
+    * Constant: manager flag.
     * @var mixed
     */
     const MANAGER_FLAG=1;
 
     /**
-    * auto generate doc.
+    * Constant: script item manager.
     * @var mixed
     */
     const SCRIPT_ITEM_MANAGER=5;
 
     /**
-    * auto generate doc.
+    * Constant: temporary script.
     * @var mixed
     */
     const TEMPORARY_SCRIPT=6;
 
     /**
-    * auto generate doc.
+    * Property: f.
     * @var mixed
     */
     private $_f;
 
     /**
-    * auto generate doc.
+    * Property: scripts.
     * @var mixed
     */
     private $m_scripts = [];

@@ -745,7 +745,7 @@ if (!function_exists("igk_html_node_ajxuriloader")) {
 	///<param name="append">append result to parent node</param>
 
 /**
-* auto generate doc.
+* Igk html node ajxuriloader.
 * @param mixed $uri
 * @param mixed $append
 */
@@ -889,7 +889,7 @@ if (!function_exists("igk_html_node_article")) {
 if (!function_exists("igk_html_node_loadArticle")) {
 
 /**
-* auto generate doc.
+* Igk html node load article.
 * @param BaseController $controller
 * @param string $article_path
 * @param mixed $raw
@@ -926,7 +926,7 @@ if (!function_exists("igk_html_node_attr_expression")) {
 	// engine use
 
 /**
-* auto generate doc.
+* Igk html node attr expression.
 * @param null|mixed $p
 */
 function igk_html_node_attr_expression($p = null)
@@ -3879,7 +3879,7 @@ if (!function_exists("igk_html_node_pageCenterBox")) {
 	///<summary> center page document</summary>
 
 /**
-* auto generate doc.
+* Igk html node page center box.
 * @param null|callable $host
 */
 function igk_html_node_pageCenterBox(?callable $host = null)
@@ -5862,7 +5862,7 @@ if (!function_exists('igk_html_node_logo')) {
 	// create a logo node
 
 /**
-* auto generate doc.
+* Igk html node logo.
 * @param null|BaseController $ctrl
 */
 function igk_html_node_logo(?BaseController $ctrl = null)
@@ -5892,7 +5892,7 @@ if (!function_exists('igk_html_node_button_group')) {
 if (!function_exists('igk_html_node_connection_community')) {
 
 /**
-* auto generate doc.
+* Igk html node connection community.
 * @param null|string $appName
 * @param null|string $redirectUri
 * @param null|BaseController $ctrl
@@ -5991,7 +5991,7 @@ if (!function_exists('igk_html_node_listitem')) {
 if (!function_exists('igk_html_node_flex')) {
 
 /**
-* auto generate doc.
+* Igk html node flex.
 * @param mixed $tag
 */
 function igk_html_node_flex($tag = 'div')
@@ -6005,7 +6005,7 @@ function igk_html_node_flex($tag = 'div')
 if (!function_exists('igk_html_node_grid')) {
 
 /**
-* auto generate doc.
+* Igk html node flex.
 * @param mixed $tag
 */
 function igk_html_node_flex($tag = 'div')
@@ -6074,7 +6074,7 @@ if (!function_exists('igk_html_node_mailpreview')) {
 if (!function_exists('igk_html_node_dotwaiter')) {
 
 /**
-* auto generate doc.
+* Igk html node dotwaiter.
 */
 function igk_html_node_dotwaiter()
 	{
@@ -6139,7 +6139,7 @@ if (!function_exists('igk_html_node_breadcrumbs')) {
 if (!function_exists('igk_html_node_markdown')) {
 
 /**
-* auto generate doc.
+* Igk html node markdown.
 * @param string $content
 * @param null|mixed $options
 */
@@ -6160,7 +6160,7 @@ function igk_html_node_markdown(string $content, $options = null)
 if (!function_exists('igk_html_node_x_template')) {
 
 /**
-* auto generate doc.
+* Igk html node x template.
 */
 function igk_html_node_x_template()
 	{

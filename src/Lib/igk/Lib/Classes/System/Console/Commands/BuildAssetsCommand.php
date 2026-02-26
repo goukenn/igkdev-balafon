@@ -13,19 +13,19 @@ use IGKEvents;
 class BuildAssetsCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--build:assets';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category='build';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='invoke asset builder - raise Build_asset event';
@@ -33,7 +33,7 @@ class BuildAssetsCommand extends AppExecCommand{
 	/* var $category; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command) {
@@ -52,7 +52,7 @@ class BuildAssetsCommand extends AppExecCommand{
 	}
 
     /**
-    * auto generate doc.
+    * Builds Assets.
     * @param mixed $modules
     * @param null|string $bdir
     */

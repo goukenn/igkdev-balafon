@@ -14,37 +14,37 @@ class ExtractClassCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--extract-class';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'extract class from json definition';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = ['-n' => 'name of the class'];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'utils';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'file|json_data [path] [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $file
     * @param null|mixed $path

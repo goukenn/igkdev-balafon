@@ -17,7 +17,7 @@ trait DbColumnInfoMethodTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Ref Id.
     * @return bool
     */
     public function getIsRefId():bool{

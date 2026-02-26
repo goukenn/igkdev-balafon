@@ -25,7 +25,7 @@ class ModuleManager
     private $m_modules;
 
     /**
-    * auto generate doc.
+    * Property: boot modules.
     * @var mixed
     */
     private $m_boot_modules = [];
@@ -57,7 +57,7 @@ class ModuleManager
     }
 
     /**
-    * auto generate doc.
+    * Restore.
     * @param array $tab
     */
     public function restore(array $tab)
@@ -81,7 +81,7 @@ class ModuleManager
     }
 
     /**
-    * auto generate doc.
+    * Returns count of.
     */
     public function count()
     {

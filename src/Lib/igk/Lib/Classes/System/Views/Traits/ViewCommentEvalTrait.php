@@ -11,7 +11,7 @@ use IGK\Helper\StringUtility;
 trait ViewCommentEvalTrait{
 
     /**
-    * auto generate doc.
+    * Eval data.
     * @param string $data
     */
     protected function evalData(string $data){

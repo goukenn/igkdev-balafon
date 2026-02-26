@@ -10,7 +10,7 @@ namespace IGK\Actions\Traits;
 trait ServiceWorkerHandlerActionTrait{
 
     /**
-    * auto generate doc.
+    * Sw worker js.
     */
     public function sw_worker_js(){
         // not handle - response a script file

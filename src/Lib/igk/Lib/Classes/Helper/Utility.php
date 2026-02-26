@@ -9,13 +9,13 @@ use IGK\System\Http\RequestUtility;
 use stdClass;
 
 /**
-* auto generate doc.
+* Utility.
 * @package IGK\Helper
 */
 abstract class Utility {
 
     /**
-    * auto generate doc.
+    * Post cref.
     * @param callable $callback
     * @param mixed $valid
     * @param mixed $method

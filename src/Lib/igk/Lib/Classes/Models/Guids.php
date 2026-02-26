@@ -27,25 +27,25 @@ use IGK\Models\ModelBase;
 class Guids extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl guid.
     * @var mixed
     */
     const FD_CL_GUID="clGUID";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl desc.
     * @var mixed
     */
     const FD_CL_DESC="clDesc";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl create at.
     * @var mixed
     */
     const FD_CL_CREATE_AT="clCreateAt";

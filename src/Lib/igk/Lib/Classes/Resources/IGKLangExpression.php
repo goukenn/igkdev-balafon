@@ -12,7 +12,7 @@ use IGKObject;
 final class IGKLangExpression extends IGKObject implements IHtmlGetValue {
 
     /**
-    * auto generate doc.
+    * Property: keys.
     * @var mixed
     */
     private $m_keys;

@@ -22,7 +22,7 @@ class ModelMapping implements IDataMapper{
     var $references;
 
     /**
-    * auto generate doc.
+    * Map of mapkey.
     * @var mixed
     */
     private $m_mapkey;

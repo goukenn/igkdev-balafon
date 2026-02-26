@@ -12,7 +12,7 @@ interface ICssSplitListener
 {
 
     /**
-    * auto generate doc.
+    * Splits.
     * @param string $value
     * @return array
     */

@@ -10,7 +10,7 @@ namespace IGK\System\Runtime\Compiler;
 interface ICompilerTokenHandler{
 
     /**
-    * auto generate doc.
+    * Handles Token.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value

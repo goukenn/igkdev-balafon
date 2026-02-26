@@ -10,7 +10,7 @@ namespace IGK\System\Html\Css;
 class CssOptions implements ICssDefinition{
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
@@ -25,7 +25,7 @@ class CssOptions implements ICssDefinition{
     }
 
     /**
-    * auto generate doc.
+    * Returns Definition.
     * @return ?string
     */
     public function getDefinition(): ?string {

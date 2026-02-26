@@ -16,7 +16,7 @@ use stdClass;
 class BenchmarkOptions{
 
     /**
-    * auto generate doc.
+    * Property: die on error.
     * @var mixed
     */
     var $dieOnError; 

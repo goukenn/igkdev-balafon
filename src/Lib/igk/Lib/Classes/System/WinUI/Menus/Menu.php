@@ -11,19 +11,19 @@ namespace IGK\System\WinUI\Menus;
 use IGKObject;
 
 /**
-* auto generate doc.
+* Menu.
 * @package IGK\System\WinUI\Menus
 */
 final class Menu extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: menus.
     * @var mixed
     */
     public static $sm_menus;
 
     /**
-    * auto generate doc.
+    * Properties: name, menus.
     * @var mixed
     */
     var $Name, $m_menus;
@@ -38,7 +38,7 @@ final class Menu extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Adds Menu.
     * @param mixed $name
     */
 
@@ -49,7 +49,7 @@ final class Menu extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Menu File.
     */
 
     public function getMenuFile(){
@@ -57,7 +57,7 @@ final class Menu extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Menus.
     */
 
     public static function GetMenus(){

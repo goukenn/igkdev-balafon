@@ -11,13 +11,13 @@ namespace IGK\System\Traits;
 trait StoredPropertiesTrait{
 
     /**
-    * auto generate doc.
+    * Property: properties.
     * @var mixed
     */
     protected $m_properties = [];
 
     /**
-    * auto generate doc.
+    * Returns Property.
     * @param mixed $n
     */
     public function getProperty($n){
@@ -25,7 +25,7 @@ trait StoredPropertiesTrait{
     }
 
     /**
-    * auto generate doc.
+    * Sets Property.
     * @param mixed $n
     * @param mixed $v
     */

@@ -11,7 +11,7 @@ use function igk_resources_gets as __;
 class AssocArrayValidator extends FormFieldValidatorBase{
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param array & $error
@@ -25,7 +25,7 @@ class AssocArrayValidator extends FormFieldValidatorBase{
     }
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */

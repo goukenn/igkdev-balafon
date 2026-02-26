@@ -12,38 +12,38 @@ use IGK\System\IO\StringBuilder;
 class ConditionBlockNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:compiler-condition-block";
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
 
     /**
-    * auto generate doc.
+    * Property: condition.
     * @var mixed
     */
     var $condition;
 
     /**
-    * auto generate doc.
+    * Property: output.
     * @var mixed
     */
     var $output;
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options = null)
@@ -64,7 +64,7 @@ class ConditionBlockNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders Code Block.
     * @param mixed $type
     * @param mixed $out
     */
@@ -109,7 +109,7 @@ class ConditionBlockNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders If.
     * @param mixed $out
     */
     public function renderIf($out){

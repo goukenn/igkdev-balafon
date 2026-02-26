@@ -11,7 +11,7 @@ class PhpDocBlocReader
 {
 
     /**
-    * auto generate doc.
+    * Property: docblock.
     * @var mixed
     */
     private $m_docblock;

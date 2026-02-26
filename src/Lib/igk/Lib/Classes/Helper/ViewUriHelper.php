@@ -11,13 +11,13 @@ use IGK\Controllers\BaseController;
 class ViewUriHelper{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $controller;
 
     /**
-    * auto generate doc.
+    * Name of fname.
     * @var mixed
     */
     private $fname;
@@ -34,7 +34,7 @@ class ViewUriHelper{
     }
 
     /**
-    * auto generate doc.
+    * Uri.
     * @param null|string $path
     */
     public function uri(?string $path=""){

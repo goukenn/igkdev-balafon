@@ -15,7 +15,7 @@ class CsvFile
 {
 
     /**
-    * auto generate doc.
+    * Constant: separators.
     * @var mixed
     */
     const SEPARATORS = [',', ':', ';', "\t", "|"];
@@ -142,7 +142,7 @@ class CsvFile
     private
 
 /**
-* auto generate doc.
+* Parse line.
 * @param mixed $line
 */
 function _parseLine($line)

@@ -14,14 +14,14 @@ use PHPUnit\Framework\TestCase;
 require_once(__DIR__.'/bak.pinc');
 
 /**
-* auto generate doc.
+* Article no tag node test.
 * @package IGK\Tests
 */
 class ArticleNoTagNodeTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests loop in template file.
     */
     public function test_loop_in_template_file()
     {
@@ -49,7 +49,7 @@ HTML;
     }
 
     /**
-    * auto generate doc.
+    * Tests loop in content.
     */
     public function test_loop_in_content()
     {
@@ -76,7 +76,7 @@ HTML;
     }
 
     /**
-    * auto generate doc.
+    * Tests script template.
     */
     public function test_script_template()
     {
@@ -106,7 +106,7 @@ HTML
     }
 
     /**
-    * auto generate doc.
+    * Tests script template 2.
     */
     public function test_script_template_2()
     {
@@ -192,7 +192,7 @@ HTML
     //     }
 
     /**
-    * auto generate doc.
+    * Tests loop with object expression.
     */
     public function test_loop_with_object_expression()
     {

@@ -11,7 +11,7 @@ namespace IGK\Mapping;
 class ArrayModelMap extends SingleMapBase{
 
     /**
-    * auto generate doc.
+    * Map.
     * @param mixed $data
     */
     public function map($data){

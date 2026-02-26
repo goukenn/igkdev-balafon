@@ -6,49 +6,49 @@ namespace IGK\Tests\Systems\Compilers\Armonic\Demo;
 // @desc:
 
 /**
-* auto generate doc.
+* My trait.
 * @package IGK\Tests\Systems\Compilers\Armonic\Demo
 */
 abstract class MyTrait{
 
     /**
-    * auto generate doc.
+    * Constant: data.
     * @var mixed
     */
     const data = "dsdf";
 
     /**
-    * auto generate doc.
+    * Property: jump.
     * @var mixed
     */
     protected $jump = "info";
 
     /**
-    * auto generate doc.
+    * Property: a.
     * @var mixed
     */
     var $a;
 
     /**
-    * auto generate doc.
+    * Property: b.
     * @var mixed
     */
     var $b = "";
 
     /**
-    * auto generate doc.
+    * Property: c.
     * @var mixed
     */
     var $c = [];
 
     /**
-    * auto generate doc.
+    * Property: h.
     * @var mixed
     */
     var $h = array("basic"=>8,  "find"=>8);
 
     /**
-    * auto generate doc.
+    * Constant: invoke.
     * @var mixed
     */
     const INVOKE = self::data + "presentation";

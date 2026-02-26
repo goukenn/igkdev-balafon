@@ -36,7 +36,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     private static $sm_list;
@@ -47,31 +47,31 @@ final class IGKModuleListMigration extends BaseController implements
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: host.
     * @var mixed
     */
     private $m_host;
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     private $m_list;
 
     /**
-    * auto generate doc.
+    * Property: loaded.
     * @var mixed
     */
     private $m_loaded = [];
 
     /**
-    * auto generate doc.
+    * Property: definition.
     * @var mixed
     */
     private $m_definition;
 
     /**
-    * auto generate doc.
+    * Property: initializer.
     * @var mixed
     */
     private $m_initializer;
@@ -90,7 +90,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Resets.
     */
     public function reset()
     {
@@ -129,7 +129,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Db add column.
     * @param string $table
     * @param mixed $columnInfo
     * @param null|string $after
@@ -143,7 +143,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Db rm column.
     * @param string $table
     * @param mixed $columnInfo
     */
@@ -188,7 +188,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Handles Model Creation.
     * @param mixed $table_list
     * @return bool
     */
@@ -240,7 +240,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Get modules.
     */
     static function _GetModules()
     {
@@ -257,7 +257,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Classes Dir.
     */
     public function getClassesDir()
     {
@@ -265,7 +265,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Entry Name Space.
     */
     public function getEntryNameSpace()
     {
@@ -421,12 +421,12 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Registers autoload.
     */
     public function register_autoload() {}
 
     /**
-    * auto generate doc.
+    * Drops Db.
     * @param mixed $navigate
     * @param mixed $force
     */
@@ -449,7 +449,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Initializes Db Module.
     * @param bool $force
     * @param array $modules
     */
@@ -525,7 +525,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Schema File.
     */
     public static function getDataSchemaFile()
     {
@@ -566,7 +566,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Resolv table definition.
     * @param string $table
     */
     public function resolvTableDefinition(string $table)
@@ -589,7 +589,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Env Param.
     * @param mixed $key
     */
     public function getEnvParam($key)
@@ -599,7 +599,7 @@ final class IGKModuleListMigration extends BaseController implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Env Key.
     * @param mixed $key
     */
     public function getEnvKey($key)

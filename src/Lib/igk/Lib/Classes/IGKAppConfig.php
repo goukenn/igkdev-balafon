@@ -91,31 +91,31 @@ use function igk_resources_gets as __;
 final class IGKAppConfig extends IGKObject {
 
     /**
-    * auto generate doc.
+    * Constant: change reg key.
     * @var mixed
     */
     const CHANGE_REG_KEY="IGKConfigDataChanged";
 
     /**
-    * auto generate doc.
+    * Property: config entries.
     * @var mixed
     */
     private $m_configEntries;
 
     /**
-    * auto generate doc.
+    * Property: config saved event.
     * @var mixed
     */
     private $m_configSavedEvent;
 
     /**
-    * auto generate doc.
+    * Property: datas.
     * @var mixed
     */
     private $m_datas;
 
     /**
-    * auto generate doc.
+    * Property: old state.
     * @var mixed
     */
     private $m_oldState;

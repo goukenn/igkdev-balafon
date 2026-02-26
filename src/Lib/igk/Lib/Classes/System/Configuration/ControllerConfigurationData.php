@@ -21,25 +21,25 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     use ConfigArrayAccessTrait;
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $ctrl;
 
     /**
-    * auto generate doc.
+    * Property: changed.
     * @var mixed
     */
     private $m_changed=0;
 
     /**
-    * auto generate doc.
+    * Property: autosave.
     * @var mixed
     */
     private $m_autosave;
 
     /**
-    * auto generate doc.
+    * Property: secrets.
     * @var mixed
     */
     private $m_secrets = [];
@@ -54,7 +54,7 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     }
 
     /**
-    * auto generate doc.
+    * Sets Auto Save.
     * @param bool $autosave
     */
     public function setAutoSave(bool $autosave){
@@ -63,14 +63,14 @@ class ControllerConfigurationData extends ConfigurationData implements ArrayAcce
     }
 
     /**
-    * auto generate doc.
+    * To array.
     */
     public function to_array(){
         return (array)$this->m_configs;
     }
 
     /**
-    * auto generate doc.
+    * To json.
     */
     public function to_json(){
         return json_encode($this->m_configs);

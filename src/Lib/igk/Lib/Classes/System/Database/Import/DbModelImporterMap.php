@@ -20,13 +20,13 @@ class DbModelImporterMap
 {
 
     /**
-    * auto generate doc.
+    * Constant: mapping class suffix.
     * @var mixed
     */
     const MappingClassSuffix = EntryClassResolution::ImportMappingSuffix;
 
     /**
-    * auto generate doc.
+    * Property: p inserted.
     * @var mixed
     */
     protected $p_inserted;
@@ -52,25 +52,25 @@ class DbModelImporterMap
     private $m_model;
 
     /**
-    * auto generate doc.
+    * Property: reversal definition.
     * @var mixed
     */
     private $m_reversal_definition;
 
     /**
-    * auto generate doc.
+    * Listener: field listener.
     * @var mixed
     */
     private $m_fieldListener;
 
     /**
-    * auto generate doc.
+    * Property: resolved values.
     * @var mixed
     */
     private $m_resolved_values;
 
     /**
-    * auto generate doc.
+    * Creates From.
     * @param ModelBase $model
     */
     public static function CreateFrom(ModelBase $model)
@@ -196,7 +196,7 @@ class DbModelImporterMap
     }
 
     /**
-    * auto generate doc.
+    * On row inserted.
     * @param ModelBase $model
     */
     protected function _onRowInserted(ModelBase $model) {}
@@ -265,7 +265,7 @@ class DbModelImporterMap
     }
 
     /**
-    * auto generate doc.
+    * Get reversal value.
     */
     function _get_reversal_value()
     {

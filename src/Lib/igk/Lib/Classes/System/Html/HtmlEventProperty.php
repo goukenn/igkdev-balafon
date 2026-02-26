@@ -11,20 +11,20 @@ namespace IGK\System\Html;
 use ArrayAccess;
 
 /**
-* auto generate doc.
+* Html event property.
 * @package IGK\System\Html
 */
 class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     use \IGK\System\Polyfill\EventPropertyArrayAccessTrait;
 
     /**
-    * auto generate doc.
+    * Property: n.
     * @var mixed
     */
     private $_n;
 
     /**
-    * auto generate doc.
+    * Property: p.
     * @var mixed
     */
     protected $_p;
@@ -39,7 +39,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Magic getter for dynamic properties.
     * @param mixed $n
     */
 
@@ -48,7 +48,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Magic setter for dynamic properties.
     * @param mixed $n
     * @param mixed $v
     */
@@ -69,7 +69,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString(){
@@ -77,7 +77,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Creates Event Property.
     * @param mixed $name
     */
 
@@ -86,7 +86,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Getid.
     */
 
     public function getid(){
@@ -94,7 +94,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
 
@@ -118,7 +118,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Setid.
     * @param mixed $id
     */
 

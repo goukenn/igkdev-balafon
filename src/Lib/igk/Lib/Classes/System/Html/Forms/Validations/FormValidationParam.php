@@ -10,19 +10,19 @@ namespace IGK\System\Html\Forms\Validations;
 class FormValidationParam extends FormValidationFieldPropsBase{
 
     /**
-    * auto generate doc.
+    * Property: default.
     * @var mixed
     */
     var $default;
 
     /**
-    * auto generate doc.
+    * Property: input.
     * @var mixed
     */
     var $input;
 
     /**
-    * auto generate doc.
+    * Property: output.
     * @var mixed
     */
     var $output;
@@ -33,7 +33,7 @@ class FormValidationParam extends FormValidationFieldPropsBase{
     var $error = [];
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     var $callback;

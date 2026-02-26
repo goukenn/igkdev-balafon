@@ -9,12 +9,12 @@ use IGK\System\Html\Dom\HtmlComponentNode;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkhtml slider zone.
 */
 final class IGKHtmlSliderZone extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     function getCanRenderTag(){return false; }
 
@@ -27,7 +27,7 @@ final class IGKHtmlSliderZone extends HtmlNode{
 }
 
 /**
-* auto generate doc.
+* Igkhtml slider item.
 */
 class IGKHtmlSliderItem extends HtmlComponentNode{
 
@@ -35,25 +35,25 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 	private $m_content;
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Property: orientation.
     * @var mixed
     */
     private $m_orientation;
 
     /**
-    * auto generate doc.
+    * Returns Orientation.
     */
 
     public function getOrientation(){return $this->m_orientation; }
 
     /**
-    * auto generate doc.
+    * Sets Orientation.
     * @param mixed $v
     */
 
@@ -67,7 +67,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 	}
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
 
     protected function initialize()
@@ -81,7 +81,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 	}
 
     /**
-    * auto generate doc.
+    * Adds Page.
     * @param mixed $n
     */
 
@@ -93,7 +93,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 	}
 
     /**
-    * auto generate doc.
+    * Clears Childs.
     */
 
     public function ClearChilds(){
@@ -101,7 +101,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Demo.
     * @param mixed $t
     */
 
@@ -113,7 +113,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 	}
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

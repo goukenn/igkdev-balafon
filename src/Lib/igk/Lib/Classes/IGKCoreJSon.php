@@ -10,13 +10,13 @@
 use IGK\System\Html\HtmlUtils;
 
 /**
-* auto generate doc.
+* Igkcore json.
 */
 final class IGKCoreJSon extends IGKObject
 {
 
     /**
-    * auto generate doc.
+    * Constant: expression regex.
     * @var mixed
     */
     const ExpressionRegex = "\\{(?<expression>(.)+)\\}";
@@ -28,7 +28,7 @@ final class IGKCoreJSon extends IGKObject
     // }
 
     /**
-    * auto generate doc.
+    * To dictionary.
     * @param mixed $expression
     * @param mixed $strict
     */
@@ -41,7 +41,7 @@ final class IGKCoreJSon extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns Expression.
     * @param mixed $exp
     * @param mixed $strict
     */

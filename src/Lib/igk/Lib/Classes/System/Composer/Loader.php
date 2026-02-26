@@ -13,31 +13,31 @@ class Loader
 {
 
     /**
-    * auto generate doc.
+    * Property: package file.
     * @var mixed
     */
     private $package_file;
 
     /**
-    * auto generate doc.
+    * Property: init.
     * @var mixed
     */
     private $init;
 
     /**
-    * auto generate doc.
+    * Property: to merge.
     * @var mixed
     */
     private $to_merge;
 
     /**
-    * auto generate doc.
+    * Constant: spl autoload unregister.
     * @var mixed
     */
     const spl_autoload_unregister = 'spl_autoload_unregister';
 
     /**
-    * auto generate doc.
+    * Constant: spl autoload register.
     * @var mixed
     */
     const spl_autoload_register = 'spl_autoload_register';
@@ -48,7 +48,7 @@ class Loader
     var $registerMissings = [];
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param string $path
     */
     public function register(string $path)
@@ -84,7 +84,7 @@ class Loader
     }
 
     /**
-    * auto generate doc.
+    * Final.
     * @param mixed $f
     */
     public function _final($f)

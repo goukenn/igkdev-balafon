@@ -10,7 +10,7 @@ namespace IGK\System\IO\Storage;
 interface IStorage{
 
     /**
-    * auto generate doc.
+    * Store.
     * @param string $file
     * @param bool $ovewrite
     * @return ?string
@@ -18,7 +18,7 @@ interface IStorage{
     function store(string $file, bool $ovewrite=false): ?string;
 
     /**
-    * auto generate doc.
+    * Deletes.
     * @param string $path
     */
     function delete(string $path);

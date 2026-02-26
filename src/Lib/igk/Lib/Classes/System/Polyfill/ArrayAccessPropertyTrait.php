@@ -6,7 +6,7 @@
 namespace IGK\System\Polyfill;
 
 /**
-* auto generate doc.
+* Trait providing array access property functionality.
 * @package IGK\System\Polyfill
 */
 trait ArrayAccessPropertyTrait{

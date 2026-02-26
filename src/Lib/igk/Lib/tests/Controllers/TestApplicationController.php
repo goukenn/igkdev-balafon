@@ -9,7 +9,7 @@ namespace IGK\Tests\Controllers;
 use IGK\Controllers\ApplicationController;
 
 /**
-* auto generate doc.
+* Test application controller.
 * @package IGK\Tests\Controllers
 */
 class TestApplicationController extends ApplicationController{
@@ -19,7 +19,7 @@ class TestApplicationController extends ApplicationController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Declared Dir.
     * @return string
     */
     public function getDeclaredDir():string{
@@ -27,28 +27,28 @@ class TestApplicationController extends ApplicationController{
     }
 
     /**
-    * auto generate doc.
+    * Returns Declared File Name.
     */
     public function getDeclaredFileName(){
         return $this->_getTestDeclaredDir()."/TestController.php"; 
     }
 
     /**
-    * auto generate doc.
+    * Returns Basic Uri Pattern.
     */
     public function getBasicUriPattern(){
         return "^/unittest";
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Entry Controller.
     */
     protected function IsEntryController(){ 
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Returns Primary Css File.
     */
     protected function getPrimaryCssFile()
     {

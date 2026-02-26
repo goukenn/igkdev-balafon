@@ -11,55 +11,55 @@ namespace IGK\System\Database;
 abstract class QueryBuilderConstant {
 
     /**
-    * auto generate doc.
+    * Constant: left join.
     * @var mixed
     */
     const LeftJoin = "LEFT JOIN";
 
     /**
-    * auto generate doc.
+    * Constant: inner join.
     * @var mixed
     */
     const InnerJoin = "INNER JOIN";
 
     /**
-    * auto generate doc.
+    * Constant: join.
     * @var mixed
     */
     const Join = "JOIN";
 
     /**
-    * auto generate doc.
+    * Constant: joins.
     * @var mixed
     */
     const Joins = "Joins";
 
     /**
-    * auto generate doc.
+    * Constant: group by.
     * @var mixed
     */
     const GroupBy = "GroupBy";
 
     /**
-    * auto generate doc.
+    * Constant: limit.
     * @var mixed
     */
     const Limit = "Limit";
 
     /**
-    * auto generate doc.
+    * Constant: distinct.
     * @var mixed
     */
     const Distinct = "Distinct";
 
     /**
-    * auto generate doc.
+    * Constant: order by.
     * @var mixed
     */
     const OrderBy = "OrderBy";
 
     /**
-    * auto generate doc.
+    * Constant: columns.
     * @var mixed
     */
     const Columns = "Columns";

@@ -11,7 +11,7 @@ namespace IGK\Database\PhoneBooks;
 class PhoneConverter extends PhoneBookConverterBase{
 
     /**
-    * auto generate doc.
+    * Treat.
     * @param mixed $v
     */
     public function treat($v) { 

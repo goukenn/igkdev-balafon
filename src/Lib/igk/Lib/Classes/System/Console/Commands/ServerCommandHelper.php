@@ -25,7 +25,7 @@ abstract class ServerCommandHelper
     //load command serve command
 
     /**
-    * auto generate doc.
+    * Returns Db Commands Properties.
     */
     public static function GetDbCommandsProperties()
     {
@@ -49,7 +49,7 @@ abstract class ServerCommandHelper
     }
 
     /**
-    * auto generate doc.
+    * Returns Usage Command Help.
     */
     public static function GetUsageCommandHelp()
     {
@@ -130,7 +130,7 @@ abstract class ServerCommandHelper
     }
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public static function ShowUsage()
     {

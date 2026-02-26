@@ -15,13 +15,13 @@ use IGK\System\Html\HtmlUtils;
 class XmlConfigurationNode extends XmlNode{
 
     /**
-    * auto generate doc.
+    * Constant: sys config.
     * @var mixed
     */
     const SYS_CONFIG = 'sys';
 
     /**
-    * auto generate doc.
+    * Constant: app config.
     * @var mixed
     */
     const APP_CONFIG = 'app';

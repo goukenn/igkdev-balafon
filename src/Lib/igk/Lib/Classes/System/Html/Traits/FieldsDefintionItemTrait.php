@@ -10,7 +10,7 @@ namespace IGK\System\Html\Traits;
 trait FieldsDefintionItemTrait{
 
     /**
-    * auto generate doc.
+    * Fields.
     * @param array $items
     * @param null|mixed $options
     */

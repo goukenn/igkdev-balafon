@@ -11,7 +11,7 @@ namespace IGK\System\Html\Dom;
 use IGK\IHtmlComponent;
 
 /**
-* auto generate doc.
+* Html ctrl component node item base.
 * @package IGK\System\Html\Dom
 */
 abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implements IHtmlComponent{
@@ -27,7 +27,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     }
 
     /**
-    * auto generate doc.
+    * Dispose.
     */
 
     public function Dispose(){
@@ -35,7 +35,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     }
 
     /**
-    * auto generate doc.
+    * Free.
     */
 
     public function free(){
@@ -43,7 +43,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     }
 
     /**
-    * auto generate doc.
+    * Returns Component Id.
     */
 
     public function getComponentId(){
@@ -51,7 +51,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     }
 
     /**
-    * auto generate doc.
+    * Returns Component Uri.
     * @param mixed $uri
     */
 
@@ -60,7 +60,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     }
 
     /**
-    * auto generate doc.
+    * Returns Controller.
     */
 
     public function getController(){
@@ -69,7 +69,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     }
 
     /**
-    * auto generate doc.
+    * Sets Component Listener.
     * @param mixed $listener
     * @param null|mixed $param
     */
@@ -77,7 +77,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     public function setComponentListener($listener, $param=null){    }
 
     /**
-    * auto generate doc.
+    * Sets Parent Node.
     * @param mixed $n
     * @param null|mixed $context
     */

@@ -12,7 +12,7 @@ use IGKException;
 trait ClassBuilderTrait{
 
     /**
-    * auto generate doc.
+    * Returns Allowed Types.
     */
     public static function GetAllowedTypes(){
         return ["class", "interface", "trait", "struct", "enum"];

@@ -16,19 +16,19 @@ class CronScriptHandler
 {
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     var $file;
 
     /**
-    * auto generate doc.
+    * Property: args.
     * @var mixed
     */
     var $args;
 
     /**
-    * auto generate doc.
+    * Property: status.
     * @var mixed
     */
     var $status;

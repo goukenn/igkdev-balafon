@@ -27,25 +27,25 @@ use IGK\System\Security\Web\HeaderAccessObject;
 final class Server implements IToArray{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $data;
 
     /**
-    * auto generate doc.
+    * Property: access control.
     * @var mixed
     */
     private $m_access_control;
 
     /**
-    * auto generate doc.
+    * Property: access object.
     * @var mixed
     */
     private $m_access_object;
 
     /**
-    * auto generate doc.
+    * Property: server.
     * @var mixed
     */
     private static $sm_server;
@@ -79,7 +79,7 @@ final class Server implements IToArray{
     ///get if this server runing on the loal server
 
     /**
-    * auto generate doc.
+    * Returns true if Local.
     */
     public static function IsLocal(){
         $v_saddr=self::ServerAddress();
@@ -97,7 +97,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Server address.
     */
     public static function ServerAddress(){
         return self::getInstance()->SERVER_ADDR;
@@ -168,7 +168,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Accept.
     * @param mixed $type
     */
     public function accept($type="html"){
@@ -189,7 +189,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param mixed $name
     * @param null|mixed $default
     */
@@ -208,7 +208,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Event stream request.
     */
     public function eventStreamRequest(){
         return $this->HTTP_ACCEPT == AcceptMimeTypes::EventStream;
@@ -239,7 +239,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Multipart Form Data.
     */
     public function isMultipartFormData(){
         return strpos($this->CONTENT_TYPE, IGK_HTML_ENCTYPE) === 0;
@@ -376,7 +376,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Returns Port.
     * @param mixed $secure
     */
     public function GetPort($secure=false){
@@ -387,7 +387,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if secure.
     */
     public function is_secure(){
         return $this->HTTPS == "on";
@@ -401,7 +401,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Request time.
     */
     public static function RequestTime(){
         $time = $_SERVER["REQUEST_TIME_FLOAT"];
@@ -432,7 +432,7 @@ final class Server implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Returns Configuration Setting Path.
     * @return string
     */
     public function getConfigurationSettingPath():string{

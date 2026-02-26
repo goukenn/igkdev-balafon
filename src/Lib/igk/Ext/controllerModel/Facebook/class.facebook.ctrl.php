@@ -9,20 +9,20 @@ use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
 /**
-* auto generate doc.
+* Igkfacebook ctrl.
 */
 class IGKfacebookCtrl extends NonVisibleControllerBase{
 	use NoDbActiveControllerTrait;
 
     /**
-    * auto generate doc.
+    * Getcan add child.
     */
     public function getcanAddChild(){
 		return false;
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Data Entry.
     * @param mixed $db
     * @param null|mixed $tbname
     */

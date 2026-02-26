@@ -10,13 +10,13 @@ require_once __DIR__.'/IConsoleLogger.php';
 class ConsoleLogger implements IConsoleLogger{
 
     /**
-    * auto generate doc.
+    * Property: app.
     * @var mixed
     */
     var $app;
 
     /**
-    * auto generate doc.
+    * Property: private offscreen.
     * @var mixed
     */
     private $m_privateOffscreen;
@@ -31,7 +31,7 @@ class ConsoleLogger implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Warn.
     * @param mixed $msg
     */
     public function warn($msg){
@@ -39,7 +39,7 @@ class ConsoleLogger implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Danger.
     * @param mixed $msg
     */
     public function danger($msg){        
@@ -47,7 +47,7 @@ class ConsoleLogger implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Success.
     * @param mixed $msg
     */
     public function success($msg){
@@ -56,7 +56,7 @@ class ConsoleLogger implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Info.
     * @param mixed $msg
     */
     public function info($msg){
@@ -64,7 +64,7 @@ class ConsoleLogger implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Logs.
     * @param mixed $msg
     */
     public function log($msg){
@@ -81,7 +81,7 @@ class ConsoleLogger implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Resources.
     * @param mixed $r
     */
     public function resources($r){
@@ -99,7 +99,7 @@ class ConsoleLogger implements IConsoleLogger{
     }
 
     /**
-    * auto generate doc.
+    * Offscreen.
     * @return ?IConsoleLogger
     */
     public function offscreen() : ?IConsoleLogger{

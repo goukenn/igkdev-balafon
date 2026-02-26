@@ -11,20 +11,20 @@ use IGK\System\Http\RequestResponse;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Controller base test case.
 * @package IGK\Tests\Controllers
 */
 abstract class ControllerBaseTestCase extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     protected $controller;
     // FOR PHP+8 disable construct of
 
     /**
-    * auto generate doc.
+    * Sets up the test environment before each test.
     * @return void
     */
 

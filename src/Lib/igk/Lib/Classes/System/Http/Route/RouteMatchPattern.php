@@ -7,7 +7,7 @@ namespace IGK\System\Http\Route;
 use IGK\System\Regex\MatchPattern;
 
 /**
-* auto generate doc.
+* Route match pattern.
 * @package IGK\System\Http\Route
 */
 abstract class RouteMatchPattern extends MatchPattern{

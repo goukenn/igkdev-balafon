@@ -15,13 +15,13 @@ use Traversable;
 class ViewExpressArg implements IteratorAggregate, IViewExpressionArg{
 
     /**
-    * auto generate doc.
+    * Property: expression.
     * @var mixed
     */
     var $expression;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
@@ -45,14 +45,14 @@ class ViewExpressArg implements IteratorAggregate, IViewExpressionArg{
     }
 
     /**
-    * auto generate doc.
+    * Returns Expression.
     */
     public function getExpression() {
         return "$".$this->expression;
     }
 
     /**
-    * auto generate doc.
+    * Returns Iterator.
     * @return Traversable
     */
     public function getIterator(): Traversable {

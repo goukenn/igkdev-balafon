@@ -11,25 +11,25 @@ namespace IGK\System\Database;
 class DbWhereQueryCondition implements IDbWhereQueryCondition{
 
     /**
-    * auto generate doc.
+    * Property: operand.
     * @var mixed
     */
     var $operand = self::AND_OP;
 
     /**
-    * auto generate doc.
+    * Property: conditions.
     * @var mixed
     */
     var $conditions = [];
 
     /**
-    * auto generate doc.
+    * Constant: and op.
     * @var mixed
     */
     const AND_OP = 'AND';
 
     /**
-    * auto generate doc.
+    * Constant: or op.
     * @var mixed
     */
     const OR_OP = 'OR';
@@ -42,7 +42,7 @@ class DbWhereQueryCondition implements IDbWhereQueryCondition{
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param mixed $conditions
     * @param string $operand
     */
@@ -54,7 +54,7 @@ class DbWhereQueryCondition implements IDbWhereQueryCondition{
     }
 
     /**
-    * auto generate doc.
+    * Returns Condition Info.
     * @return array
     */
     public function getConditionInfo(): array { 

@@ -9,13 +9,13 @@ use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGKException;
 
 /**
-* auto generate doc.
+* Uri helper.
 * @package IGK\Helper
 */
 abstract class UriHelper{
 
     /**
-    * auto generate doc.
+    * Constant: uri sys replace.
     * @var mixed
     */
     const URI_SYS_REPLACE = "base|base_config";
@@ -36,7 +36,7 @@ abstract class UriHelper{
     }
 
     /**
-    * auto generate doc.
+    * Uri sys replace.
     * @param string $uri
     */
 

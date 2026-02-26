@@ -19,14 +19,14 @@ use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* Html reader test.
 * @package IGK\Tests\System\Html
 */
 class HtmlReaderTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests html missing p close.
     */
     public function test_html_missing_p_close()
     {
@@ -72,7 +72,7 @@ HTML);
     }
 
     /**
-    * auto generate doc.
+    * Tests html reading style comment.
     */
     public function test_html_reading_style_comment()
     {
@@ -86,7 +86,7 @@ HTML);
     }
 
     /**
-    * auto generate doc.
+    * Tests read php processor.
     */
     function test_read_php_processor()
     {
@@ -101,7 +101,7 @@ HTML);
     }
 
     /**
-    * auto generate doc.
+    * Tests read php processor with comment.
     */
     function test_read_php_processor_with_comment()
     {
@@ -139,7 +139,7 @@ HTML);
     }
 
     /**
-    * auto generate doc.
+    * Tests loading attr expression.
     */
     public function test_loading_attr_expression()
     {
@@ -153,7 +153,7 @@ HTML);
     }
 
     /**
-    * auto generate doc.
+    * Tests bind expression.
     */
     public function test_bind_expression()
     {
@@ -169,7 +169,7 @@ HTML);
     }
 
     /**
-    * auto generate doc.
+    * Tests bind expression block.
     */
     public function test_bind_expression_block()
     {
@@ -185,7 +185,7 @@ HTML);
     }
 
     /**
-    * auto generate doc.
+    * Tests bind expression block middle.
     */
     public function test_bind_expression_block_middle()
     {
@@ -201,7 +201,7 @@ HTML);
     }
 
     /**
-    * auto generate doc.
+    * Tests read encapsed branck.
     */
     public function test_read_encapsed_branck()
     {
@@ -217,7 +217,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Tests read encapsed string.
     */
     public function test_read_encapsed_string()
     {
@@ -232,7 +232,7 @@ EOF);
     }
 
     /**
-    * auto generate doc.
+    * Tests read empty ignore.
     */
     public function test_read_empty_ignore()
     {
@@ -262,7 +262,7 @@ EOF);
     }
 
     /**
-    * auto generate doc.
+    * Tests load activate attribute.
     */
     public function test_load_activate_attribute()
     {
@@ -277,7 +277,7 @@ EOF);
     }
 
     /**
-    * auto generate doc.
+    * Tests load activate attribute 2.
     */
     public function test_load_activate_attribute_2()
     {
@@ -314,7 +314,7 @@ EOF);
     }
 
     /**
-    * auto generate doc.
+    * Tests read comment with single cote 2.
     */
     public function test_read_comment_with_single_cote_2()
     {
@@ -335,7 +335,7 @@ EOF);
     }
 
     /**
-    * auto generate doc.
+    * Tests load activate attribute list.
     */
     public function test_load_activate_attribute_list()
     {
@@ -355,7 +355,7 @@ EOF);
     }
 
     /**
-    * auto generate doc.
+    * Tests reading data.
     */
     public function test_reading_data()
     {

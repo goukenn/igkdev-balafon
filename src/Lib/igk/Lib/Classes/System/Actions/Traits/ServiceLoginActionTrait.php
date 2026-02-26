@@ -13,13 +13,13 @@ trait ServiceLoginActionTrait{
     use FormLoginActionTrait;
 
     /**
-    * auto generate doc.
+    * Property: service login signin view.
     * @var mixed
     */
     protected $serviceLoginSigninView = 'ServiceLogin';
 
     /**
-    * auto generate doc.
+    * Service login.
     */
     public function ServiceLogin(){
         if ($this->currentUser()){
@@ -28,7 +28,7 @@ trait ServiceLoginActionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Connects.
     */
     public function connect(){ 
         // + | --------------------------------------------------------------------

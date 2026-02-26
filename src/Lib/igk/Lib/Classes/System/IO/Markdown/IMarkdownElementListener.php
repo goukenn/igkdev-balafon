@@ -14,7 +14,7 @@ interface IMarkdownElementListener
 {
 
     /**
-    * auto generate doc.
+    * Did state changed.
     * @return string
     */
     function didStateChanged();
@@ -22,21 +22,21 @@ interface IMarkdownElementListener
     function title(string $text, int $level, ?string $slug = null): string;
 
     /**
-    * auto generate doc.
+    * Par.
     * @param string $text
     * @return string
     */
     function par(string $text): string;
 
     /**
-    * auto generate doc.
+    * Default.
     * @param string $text
     * @return string
     */
     function default(string $text): string;
 
     /**
-    * auto generate doc.
+    * Filters.
     * @param mixed $token_id
     * @param mixed $value
     * @param bool $root

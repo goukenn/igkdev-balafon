@@ -27,25 +27,25 @@ use IGK\Models\ModelBase;
 class Humans extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl gender.
     * @var mixed
     */
     const FD_CL_GENDER="clGender";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl first name.
     * @var mixed
     */
     const FD_CL_FIRST_NAME="clFirstName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl last name.
     * @var mixed
     */
     const FD_CL_LAST_NAME="clLastName";

@@ -10,7 +10,7 @@ use IGK\Models\PhoneBookUserAssociations;
 class PhoneBookUserAssociationsMacros{
 
     /**
-    * auto generate doc.
+    * Returns Phone Book Details From User Guid.
     * @param string $guid
     */
     public static function GetPhoneBookDetailsFromUserGuid(string $guid){

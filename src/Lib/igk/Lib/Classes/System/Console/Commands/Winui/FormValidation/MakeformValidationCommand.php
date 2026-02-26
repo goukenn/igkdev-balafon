@@ -24,32 +24,32 @@ use Logger;
 class MakeformValidationCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--make:form-validation';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='make a form validation. Contextual command*.'; 
 	/* var $options=[]; */
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = CommandCategories::MAKE;
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '[controller] name [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     * @param null|string $name
@@ -65,7 +65,7 @@ class MakeformValidationCommand extends AppExecCommand{
 	 }
 
     /**
-    * auto generate doc.
+    * Binding list.
     * @param string $dir
     * @param BaseController $ctrl
     * @param mixed $name

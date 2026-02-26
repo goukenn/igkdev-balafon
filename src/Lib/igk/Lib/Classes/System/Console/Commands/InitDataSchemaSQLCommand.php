@@ -26,25 +26,25 @@ use ReflectionException;
 class InitDataSchemaSQLCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--db:schema";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "get controller db schema";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "db";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -54,7 +54,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '[controller] [file] [options]';
@@ -119,7 +119,7 @@ class InitDataSchemaSQLCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Help.
     */
     public function help(){
         parent::help();

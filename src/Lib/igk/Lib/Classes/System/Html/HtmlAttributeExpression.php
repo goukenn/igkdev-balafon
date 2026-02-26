@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 class HtmlAttributeExpression implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;

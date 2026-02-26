@@ -10,20 +10,20 @@
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Drag drop zone ctrl.
 */
 abstract class DragDropZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Returns Can Add Child.
     */
     public function getCanAddChild(){
 		return false;
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?HtmlNode
     */
     protected function initTargetNode():?HtmlNode
@@ -35,13 +35,13 @@ abstract class DragDropZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 }
 
 /**
-* auto generate doc.
+* Drag drop zone item.
 */
 class DragDropZoneItem extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: script node.
     * @var mixed
     */
     private $m_scriptNode;

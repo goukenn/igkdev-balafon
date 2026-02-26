@@ -18,7 +18,7 @@ use IGKException;
 class SchemaAddColumnMigration extends SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "after"];
@@ -28,7 +28,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     protected $columns;
 
     /**
-    * auto generate doc.
+    * Loads Childs.
     * @param mixed $childs
     */
     protected function loadChilds($childs){
@@ -47,7 +47,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Checks Requirement.
     */
     protected function checkRequirement()
     {
@@ -57,7 +57,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Sets up.
     * @param string $table
     * @param IDbColumnInfo $column
     * @param null|string $after

@@ -7,7 +7,7 @@
 use IGK\Controllers\ToolControllerBase;
 
 /**
-* auto generate doc.
+* Igktest tools.
 */
 final class IGKTestTools extends ToolControllerBase
 {

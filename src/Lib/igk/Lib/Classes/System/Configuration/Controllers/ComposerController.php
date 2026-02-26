@@ -12,7 +12,7 @@ use function igk_resources_gets as __;
 class ComposerController extends ConfigControllerBase {
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -20,14 +20,14 @@ class ComposerController extends ConfigControllerBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage(){
         return "composer";
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Group.
     */
     public function getConfigGroup(){
         return "administration";
@@ -43,7 +43,7 @@ class ComposerController extends ConfigControllerBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     * @return bool
     */
     public function getIsVisible():bool
@@ -52,7 +52,7 @@ class ComposerController extends ConfigControllerBase {
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController
@@ -64,7 +64,7 @@ class ComposerController extends ConfigControllerBase {
     }
 
     /**
-    * auto generate doc.
+    * Composer pan.
     * @param mixed $n
     * @param mixed $ctrl
     */

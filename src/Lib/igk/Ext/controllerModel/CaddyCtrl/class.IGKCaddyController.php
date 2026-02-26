@@ -10,61 +10,61 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
 
 /**
-* auto generate doc.
+* Igkcaddy info.
 */
 final class IGKCaddyInfo
 {
 
     /**
-    * auto generate doc.
+    * Identifier: cl id.
     * @var mixed
     */
     var $clId; //current id of the caddy
 
     /**
-    * auto generate doc.
+    * Property: cl ref.
     * @var mixed
     */
     var $clRef;	//product ref
 
     /**
-    * auto generate doc.
+    * Identifier: cl cadd id.
     * @var mixed
     */
     var $clCaddId; //
 
     /**
-    * auto generate doc.
+    * Identifier: cl uid.
     * @var mixed
     */
     var $clUId; //
 
     /**
-    * auto generate doc.
+    * Property: cl title.
     * @var mixed
     */
     var $clTitle; //title of the product
 
     /**
-    * auto generate doc.
+    * Property: cl description.
     * @var mixed
     */
     var $clDescription; //title of product
 
     /**
-    * auto generate doc.
+    * Property: cl unit price.
     * @var mixed
     */
     var $clUnitPrice; //title of
 
     /**
-    * auto generate doc.
+    * Property: cl tva.
     * @var mixed
     */
     var $clTva;
 
     /**
-    * auto generate doc.
+    * Property: cl qte.
     * @var mixed
     */
     var $clQte;
@@ -116,19 +116,19 @@ final class IGKCaddyInfo
 }
 
 /**
-* auto generate doc.
+* Igkcaddy ctrl.
 */
 abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Identifier: cadid.
     * @var mixed
     */
     private $m_cadid; //caddy id
 
     /**
-    * auto generate doc.
+    * Property: caddyinfo.
     * @var mixed
     */
     private $m_caddyinfo;

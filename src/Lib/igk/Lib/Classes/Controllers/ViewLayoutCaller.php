@@ -11,25 +11,25 @@ namespace IGK\Controllers;
 class ViewLayoutCaller{
 
     /**
-    * auto generate doc.
+    * Property: arguments.
     * @var mixed
     */
     var $arguments;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: host.
     * @var mixed
     */
     var $host;
 
     /**
-    * auto generate doc.
+    * Invoke.
     * @param mixed $node
     */
     public function invoke($node){

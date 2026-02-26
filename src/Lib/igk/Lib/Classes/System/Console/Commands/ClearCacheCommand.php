@@ -9,25 +9,25 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
 
 /**
-* auto generate doc.
+* Clear cache command.
 * @package IGK\System\Console\Commands
 */
 class ClearCacheCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--clearcache";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "clear cache command";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "administration";

@@ -14,13 +14,13 @@ use IGK\System\Text\RegexMatcherContainer;
 trait FormatterChainTransformTrait{
 
     /**
-    * auto generate doc.
+    * Property: sub chain.
     * @var mixed
     */
     protected $m_sub_chain;
 
     /**
-    * auto generate doc.
+    * Saves State.
     * @param RegexMatcherContainer $regex
     */
     protected function saveState(RegexMatcherContainer $regex){
@@ -39,7 +39,7 @@ trait FormatterChainTransformTrait{
     }
 
     /**
-    * auto generate doc.
+    * Restore state.
     * @param RegexMatcherContainer $regex
     * @param mixed $state
     */

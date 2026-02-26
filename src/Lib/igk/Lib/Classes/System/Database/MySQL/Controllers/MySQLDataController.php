@@ -16,7 +16,7 @@ class MySQLDataController extends BaseController{
     use NoDbActiveControllerTrait;
 
     /**
-    * auto generate doc.
+    * Constant: drop table query.
     * @var mixed
     */
     const DROP_TABLE_QUERY = 'Drop Table IF EXISTS `%s`;';

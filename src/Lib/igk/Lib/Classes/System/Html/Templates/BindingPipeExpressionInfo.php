@@ -12,7 +12,7 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* Binding pipe expression info.
 * @package IGK\System\Html\Templates
 */
 class BindingPipeExpressionInfo{

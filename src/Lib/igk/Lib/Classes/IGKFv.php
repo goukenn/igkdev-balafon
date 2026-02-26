@@ -9,25 +9,25 @@
 class IGKFv {
 
     /**
-    * auto generate doc.
+    * Property: .
     * @var mixed
     */
     private $_;
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     private $_id;
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $_listener;
 
     /**
-    * auto generate doc.
+    * Property: def.
     * @var mixed
     */
     static $sm_def;

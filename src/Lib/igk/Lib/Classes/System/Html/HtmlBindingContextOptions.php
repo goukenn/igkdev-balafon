@@ -21,13 +21,13 @@ class HtmlBindingContextOptions extends HtmlLoadingContextOptions{
     var $type;
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     var $key;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;

@@ -17,7 +17,7 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 class ViewModuleHelper{
 
     /**
-    * auto generate doc.
+    * Property: modules.
     * @var mixed
     */
     private $m_modules;

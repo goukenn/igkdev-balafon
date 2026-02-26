@@ -11,43 +11,43 @@ namespace IGK\System\Services\Auth;
 class AuthSignInfo{
 
     /**
-    * auto generate doc.
+    * Property: login.
     * @var mixed
     */
     var $login;
 
     /**
-    * auto generate doc.
+    * Property: verified.
     * @var mixed
     */
     var $verified;
 
     /**
-    * auto generate doc.
+    * Property: email.
     * @var mixed
     */
     var $email;
 
     /**
-    * auto generate doc.
+    * Property: gender.
     * @var mixed
     */
     var $gender;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Name of firstname.
     * @var mixed
     */
     var $firstname;
 
     /**
-    * auto generate doc.
+    * Name of lastname.
     * @var mixed
     */
     var $lastname;

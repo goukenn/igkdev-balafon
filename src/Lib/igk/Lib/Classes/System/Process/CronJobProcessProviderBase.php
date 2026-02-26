@@ -12,13 +12,13 @@ use IGK\Controllers\BaseController;
 abstract class CronJobProcessProviderBase{
 
     /**
-    * auto generate doc.
+    * Property: fields.
     * @var mixed
     */
     protected $fields = [];
 
     /**
-    * auto generate doc.
+    * Treat.
     * @param mixed $options
     */
     public function treat($options){
@@ -26,7 +26,7 @@ abstract class CronJobProcessProviderBase{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $name
     * @param mixed $options
     * @param null|BaseController $ctrl

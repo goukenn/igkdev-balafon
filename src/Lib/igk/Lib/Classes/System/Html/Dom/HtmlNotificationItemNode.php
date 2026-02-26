@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html notification item node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlNotificationItemNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Properties: autohided, owner, script.
     * @var mixed
     */
     private $m_autohided, $m_owner, $m_script;
@@ -147,7 +147,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Adds Warning.
     * @param mixed $msg
     */
 
@@ -156,7 +156,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Adds Warningr.
     * @param mixed $key
     */
 
@@ -165,7 +165,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Auto Hide.
     */
 
     public function getAutoHide(){
@@ -173,7 +173,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sets Autohide.
     * @param mixed $v
     */
 

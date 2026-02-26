@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class CssMinifierTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests cssminify remove whitespace.
     */
     public function test_cssminify_remove_whitespace(){
         $css = 'body     { background-color:        white; color:   indigo   }'; 
@@ -26,7 +26,7 @@ class CssMinifierTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssminify leave comment.
     */
     public function test_cssminify_leave_comment(){
         $css = '/* information du jour */ body     { background-color:        white; color:indigo}'; 
@@ -37,7 +37,7 @@ class CssMinifierTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssminify leave remove comment.
     */
     function test_cssminify_leave_remove_comment(){
         $css = '/* information du jour */ body     { background-color:        white; color:indigo}'; 
@@ -48,7 +48,7 @@ class CssMinifierTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssminify leave operator.
     */
     function test_cssminify_leave_operator(){
         $css = '/* information du jour */ body{     aspect-ratio:    16                / 9}'; 
@@ -59,7 +59,7 @@ class CssMinifierTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssminity function call.
     */
     function test_cssminity_function_call(){
        
@@ -71,7 +71,7 @@ class CssMinifierTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssminity attribute.
     */
     function test_cssminity_attribute(){
        
@@ -83,7 +83,7 @@ class CssMinifierTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssminity custom property speudo.
     */
     function test_cssminity_custom_property_speudo(){
        
@@ -95,7 +95,7 @@ class CssMinifierTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssminity important.
     */
     function test_cssminity_important(){
        
@@ -107,7 +107,7 @@ class CssMinifierTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests cssminity media.
     */
     function test_cssminity_media(){
        

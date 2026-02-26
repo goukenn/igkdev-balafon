@@ -13,13 +13,13 @@ use IGK\Models\Community;
 use IGK\System\Models\IModelDefinitionInfo;
 
 /**
-* auto generate doc.
+* Igkcommunity ctrl.
 */
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string
@@ -28,7 +28,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context = null)
@@ -40,7 +40,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Drops Controller.
     */
     public function dropController()
 	{
@@ -50,7 +50,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Can Add Child.
     */
     public function getCanAddChild()
 	{
@@ -58,7 +58,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns true if can Db Edit Data Type.
     */
     public static function CanDbEditDataType()
 	{
@@ -66,7 +66,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns true if can Db Change Data Schema.
     */
     public static function CanDbChangeDataSchema()
 	{
@@ -74,7 +74,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Use Data Schema.
     * @return bool
     */
     public function getUseDataSchema():bool
@@ -83,7 +83,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Can Edit Data Table Info.
     */
     public function getCanEditDataTableInfo()
 	{
@@ -91,7 +91,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Data Table Name.
     * @return ?string
     */
     public function getDataTableName(): ?string
@@ -100,7 +100,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Data Table Info.
     * @return ?IModelDefinitionInfo
     */
     public function getDataTableInfo(): ?IModelDefinitionInfo
@@ -115,7 +115,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Db.
     * @param mixed $force
     * @param bool $clean
     */
@@ -130,7 +130,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	//@@@ parent view control
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController
@@ -140,7 +140,7 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Loads Community Node.
     * @param mixed $n
     */
     public function loadCommunityNode($n)

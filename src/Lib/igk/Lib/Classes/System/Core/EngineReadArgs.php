@@ -20,7 +20,7 @@ class EngineReadArgs
 {
 
     /**
-    * auto generate doc.
+    * Property: context.
     * @var mixed
     */
     var $context;
@@ -122,7 +122,7 @@ class EngineReadArgs
     }
 
     /**
-    * auto generate doc.
+    * Handlers.
     */
     protected function _handlers()
     {
@@ -145,7 +145,7 @@ class EngineReadArgs
     }
 
     /**
-    * auto generate doc.
+    * Replace list.
     * @param mixed $o
     * @param mixed $replaces
     * @param int $from
@@ -173,7 +173,7 @@ class EngineReadArgs
     }
 
     /**
-    * auto generate doc.
+    * Global regex.
     * @param mixed $regex
     */
     protected function _global_regex($regex)

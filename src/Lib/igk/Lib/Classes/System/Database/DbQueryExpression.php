@@ -11,20 +11,20 @@ namespace IGK\System\Database;
 class DbQueryExpression{
 
     /**
-    * auto generate doc.
+    * Property: expression.
     * @var mixed
     */
     private $m_expression;
 
     /**
-    * auto generate doc.
+    * Returns Value.
     */
     public function getValue(){
         return $this->m_expression;
     }
 
     /**
-    * auto generate doc.
+    * Sets Value.
     * @param string $v
     */
     protected function setValue(string $v){

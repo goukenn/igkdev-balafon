@@ -32,37 +32,37 @@ require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
 abstract class RootControllerBase extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: macros.
     * @var mixed
     */
     static $macros;
 
     /**
-    * auto generate doc.
+    * Property: func defs.
     * @var mixed
     */
     protected static $func_defs;
 
     /**
-    * auto generate doc.
+    * Constant: macro initdb method.
     * @var mixed
     */
     const MACRO_INITDB_METHOD = 'initDb';
 
     /**
-    * auto generate doc.
+    * Constant: macro resetdb method.
     * @var mixed
     */
     const MACRO_RESETDB_METHOD = 'resetDb';
 
     /**
-    * auto generate doc.
+    * Constant: macro invoke method.
     * @var mixed
     */
     const MACRO_INVOKE_METHOD = 'invokeMacros';
 
     /**
-    * auto generate doc.
+    * Constant: macro get db method.
     * @var mixed
     */
     const MACRO_GET_DB_METHOD = 'getDb';
@@ -262,7 +262,7 @@ abstract class RootControllerBase extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * View.
     */
     abstract function View();
     /**

@@ -30,7 +30,7 @@ class AppBuilder extends MacrosConstant{
     }
 
     /**
-    * auto generate doc.
+    * Invoke macros.
     * @param mixed $macros
     * @param mixed $name
     * @param mixed $arguments

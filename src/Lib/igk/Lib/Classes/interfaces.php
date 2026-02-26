@@ -21,19 +21,19 @@ use IGK\System\Html\Dom\HtmlNode;
  }
 
 /**
-* auto generate doc.
+* Interface for db get table reference handler.
 * @package IGK
 */
 interface IDbGetTableReferenceHandler{
 
     /**
-    * auto generate doc.
+    * Returns Data Tables Reference.
     * @param mixed & $table
     */
     public function getDataTablesReference(& $table);
 
     /**
-    * auto generate doc.
+    * Resolv table definition.
     * @param string $table
     */
     public function resolvTableDefinition(string $table);
@@ -61,7 +61,7 @@ interface IController{
 }
 
 /**
-* auto generate doc.
+* Interface for node controller.
 * @package IGK
 */
 interface INodeController extends IController{
@@ -76,13 +76,13 @@ interface INodeController extends IController{
 }
 
 /**
-* auto generate doc.
+* Interface for view controller.
 * @package IGK
 */
 interface IViewController{
 
     /**
-    * auto generate doc.
+    * View.
     */
     function View();
 }
@@ -176,13 +176,13 @@ interface IDbUtility{
 }
 
 /**
-* auto generate doc.
+* Interface for db model.
 * @package IGK
 */
 interface IDbModel{
 
     /**
-    * auto generate doc.
+    * Returns Table.
     */
     function getTable();
 }
@@ -361,13 +361,13 @@ interface IHtmlUriItem{
 }
 
 /**
-* auto generate doc.
+* Interface for listener.
 * @package IGK
 */
 interface IListener{
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param mixed $name
     * @param mixed $callback
     */
@@ -597,7 +597,7 @@ interface IDbManager {
 }
 
 /**
-* auto generate doc.
+* Interface for db sqlmanager.
 * @package IGK
 */
 interface IDbSQLManager extends IDbManager{
@@ -666,7 +666,7 @@ interface IWebController extends IController {
 }
 
 /**
-* auto generate doc.
+* Interface for get value.
 * @package IGK
 */
 interface IGetValue{

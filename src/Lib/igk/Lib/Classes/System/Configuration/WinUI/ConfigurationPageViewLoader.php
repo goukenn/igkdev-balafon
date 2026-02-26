@@ -15,7 +15,7 @@ use IGK\System\WinUI\IViewLayoutLoader;
 class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutLoader{
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
@@ -30,7 +30,7 @@ class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutL
     }
 
     /**
-    * auto generate doc.
+    * Returns Controller.
     * @return BaseController
     */
     public function getController(): BaseController {
@@ -38,7 +38,7 @@ class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutL
     }
 
     /**
-    * auto generate doc.
+    * Includes.
     * @param string $file
     * @param null|array $args
     */
@@ -47,7 +47,7 @@ class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutL
     }
 
     /**
-    * auto generate doc.
+    * Returns View Loader.
     */
     public function getViewLoader(){
         return null;

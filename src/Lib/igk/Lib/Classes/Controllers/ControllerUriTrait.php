@@ -6,7 +6,7 @@
 namespace IGK\Controllers;
 
 /**
-* auto generate doc.
+* Trait providing controller uri functionality.
 * @package IGK\Controllers
 */
 trait ControllerUriTrait {

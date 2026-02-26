@@ -11,7 +11,7 @@ namespace IGK\System\Security\Web;
 class LoginEmailContentValidator extends EmailContentValidator{
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @param mixed $missing

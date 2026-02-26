@@ -22,13 +22,13 @@ final class HtmlDefaultMainPage extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Returns Page Title.
     * @return string
     */
     public function getPageTitle():string{

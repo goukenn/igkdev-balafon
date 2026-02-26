@@ -22,25 +22,25 @@ class SvgRenderer
 {
 
     /**
-    * auto generate doc.
+    * Path to register path.
     * @var mixed
     */
     public static $RegisterPath = [];
 
     /**
-    * auto generate doc.
+    * Collection of render list.
     * @var mixed
     */
     private static $sm_renderList = false;
 
     /**
-    * auto generate doc.
+    * Constant: folder.
     * @var mixed
     */
     const FOLDER = __CLASS__ . "::svgLibFolder";
 
     /**
-    * auto generate doc.
+    * Constant: render list method.
     * @var mixed
     */
     const RENDER_LIST_METHOD = 'RenderList';
@@ -153,7 +153,7 @@ class SvgRenderer
     }
 
     /**
-    * auto generate doc.
+    * Renders SVGList.
     * @param null|mixed $options
     * @param mixed $debug
     * @return string
@@ -185,7 +185,7 @@ class SvgRenderer
     }
 
     /**
-    * auto generate doc.
+    * Registers Icon.
     * @param mixed $name
     * @param null|mixed $context
     */

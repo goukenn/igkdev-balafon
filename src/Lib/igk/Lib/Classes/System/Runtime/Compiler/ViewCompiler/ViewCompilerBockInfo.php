@@ -10,13 +10,13 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 class ViewCompilerBockInfo{
 
     /**
-    * auto generate doc.
+    * Constant: condition block.
     * @var mixed
     */
     const CONDITION_BLOCK = "if|while|foreach|elseif|for|switch|catch";
 
     /**
-    * auto generate doc.
+    * Constant: inner block.
     * @var mixed
     */
     const INNER_BLOCK = "else|elseif|case|default";
@@ -47,7 +47,7 @@ class ViewCompilerBockInfo{
     var $buffer = "";
 
     /**
-    * auto generate doc.
+    * Flag: is close.
     * @var mixed
     */
     private $m_isClose;
@@ -71,7 +71,7 @@ class ViewCompilerBockInfo{
     }
 
     /**
-    * auto generate doc.
+    * Starts Block.
     */
     public function startBlock(){
         $c = $this->condition;
@@ -87,7 +87,7 @@ class ViewCompilerBockInfo{
     }
 
     /**
-    * auto generate doc.
+    * End block.
     */
     public function endBlock(){
         switch($this->type){
@@ -98,7 +98,7 @@ class ViewCompilerBockInfo{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Inner Block.
     * @return bool
     */
     public function isInnerBlock() : bool{
@@ -122,21 +122,21 @@ class ViewCompilerBockInfo{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Child Container.
     */
     public function isChildContainer(){
         return in_array($this->type, ["if", "switch", "case", "default"]);
     }
 
     /**
-    * auto generate doc.
+    * Closes.
     */
     public function close(){
         $this->m_isClose = true;
     }
 
     /**
-    * auto generate doc.
+    * Closed.
     */
     public function closed(){
         return $this->m_isClose;

@@ -12,7 +12,7 @@ class VCardEncodingBinaryData
 {
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
@@ -27,7 +27,7 @@ class VCardEncodingBinaryData
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     */
     public function getValue()
     {

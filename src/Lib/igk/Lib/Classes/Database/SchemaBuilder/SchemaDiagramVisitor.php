@@ -25,31 +25,31 @@ class SchemaDiagramVisitor extends DiagramVisitor
 {
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $m_controller;
 
     /**
-    * auto generate doc.
+    * Property: migrations.
     * @var mixed
     */
     private $m_migrations = [];
 
     /**
-    * auto generate doc.
+    * Callback handler for entity handler.
     * @var mixed
     */
     private $m_entityHandler;
 
     /**
-    * auto generate doc.
+    * Property: operation.
     * @var mixed
     */
     private $m_operation;
@@ -153,7 +153,7 @@ class SchemaDiagramVisitor extends DiagramVisitor
     }
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     var  $callback;
@@ -194,14 +194,14 @@ class SchemaDiagramVisitor extends DiagramVisitor
 }
 
 /**
-* auto generate doc.
+* Func handler.
 * @package IGK\Database\SchemaBuilder
 */
 class funcHandler
 {
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     var $callback;

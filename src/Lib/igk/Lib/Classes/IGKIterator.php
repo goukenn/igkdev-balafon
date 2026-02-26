@@ -11,43 +11,43 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     use \IGK\System\Polyfill\ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Index: it index.
     * @var mixed
     */
     private $it_index;
 
     /**
-    * auto generate doc.
+    * Property: it vtab.
     * @var mixed
     */
     private $it_vtab;
 
     /**
-    * auto generate doc.
+    * Count: count.
     * @var mixed
     */
     private $m_count;
 
     /**
-    * auto generate doc.
+    * Index: index.
     * @var mixed
     */
     private $m_index;
 
     /**
-    * auto generate doc.
+    * Property: it key.
     * @var mixed
     */
     private $m_it_key;
 
     /**
-    * auto generate doc.
+    * Property: target.
     * @var mixed
     */
     private $m_target;
 
     /**
-    * auto generate doc.
+    * Count: view count.
     * @var mixed
     */
     private $m_viewCount;

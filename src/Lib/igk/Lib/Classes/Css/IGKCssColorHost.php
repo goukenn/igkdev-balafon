@@ -8,20 +8,20 @@ use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 /**
-* auto generate doc.
+* Igkcss color host.
 * @package IGK\Css
 */
 class IGKCssColorHost implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Constant: primary color.
     * @var mixed
     */
     const PRIMARY_COLOR = 'inherit';
 
     /**
-    * auto generate doc.
+    * Property: .
     * @var mixed
     */
     private $_;

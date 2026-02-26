@@ -12,7 +12,7 @@ use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 
 /**
-* auto generate doc.
+* Igktwitter button link ctrl.
 */
 abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerTypeBase
 {

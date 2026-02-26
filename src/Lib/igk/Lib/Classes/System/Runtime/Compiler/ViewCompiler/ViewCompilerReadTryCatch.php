@@ -11,7 +11,7 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 trait ViewCompilerReadTryCatch{
 
     /**
-    * auto generate doc.
+    * Read read try catch block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -21,7 +21,7 @@ trait ViewCompilerReadTryCatch{
     }
 
     /**
-    * auto generate doc.
+    * Read handle read try catch block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -32,7 +32,7 @@ trait ViewCompilerReadTryCatch{
     }
 
     /**
-    * auto generate doc.
+    * End handle read try catch block.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value

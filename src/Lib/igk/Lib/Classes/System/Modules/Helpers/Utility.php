@@ -10,7 +10,7 @@ namespace IGK\System\Modules\Helpers;
 class Utility{
 
     /**
-    * auto generate doc.
+    * Sanitize name.
     * @param string $dirname
     */
     public static function SanitizeName(string $dirname){

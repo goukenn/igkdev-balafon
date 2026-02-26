@@ -15,13 +15,13 @@ use IGKException;
 class DbImportFile{
 
     /**
-    * auto generate doc.
+    * Constant: handle method prefix.
     * @var mixed
     */
     const HandleMethodPrefix = '_Handle';
 
     /**
-    * auto generate doc.
+    * Constant: support types.
     * @var mixed
     */
     const SUPPORT_TYPES= 'json|csv';

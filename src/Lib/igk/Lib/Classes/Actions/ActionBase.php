@@ -12,7 +12,7 @@ use IGKActionBase;
 use IGKUserInfo;
 
 /**
-* auto generate doc.
+* Action base.
 * @package IGK\Actions
 */
 abstract class ActionBase extends IGKActionBase{
@@ -39,7 +39,7 @@ abstract class ActionBase extends IGKActionBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns debug information for var_dump.
     */
     public function __debugInfo()
     {

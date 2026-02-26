@@ -17,38 +17,38 @@ use IGKModuleListMigration;
 !defined('IGK_CONSOLE_HTRAIT') &&  define('IGK_CONSOLE_HTRAIT', str_repeat('-', 60));
 
 /**
-* auto generate doc.
+* Db migrate command.
 * @package IGK\System\Console\Commands
 */
 class DbMigrateCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Constant: h trait.
     * @var mixed
     */
     const H_TRAIT = IGK_CONSOLE_HTRAIT;
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--db:migrate';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'db';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'migration command';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -65,7 +65,7 @@ class DbMigrateCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $ctrl
     */

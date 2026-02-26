@@ -21,13 +21,13 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Map of def table name.
     * @var mixed
     */
     var $defTableName;
 
     /**
-    * auto generate doc.
+    * Property: column info.
     * @var mixed
     */
     var $columnInfo;
@@ -38,37 +38,37 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
     var $controller;
 
     /**
-    * auto generate doc.
+    * Property: description.
     * @var mixed
     */
     var $description;
 
     /**
-    * auto generate doc.
+    * Property: entries.
     * @var mixed
     */
     var $entries;
 
     /**
-    * auto generate doc.
+    * Map of table row reference.
     * @var mixed
     */
     var $tableRowReference;
 
     /**
-    * auto generate doc.
+    * Property: model class.
     * @var mixed
     */
     var $modelClass;
 
     /**
-    * auto generate doc.
+    * Map of table name.
     * @var mixed
     */
     var $tableName;
 
     /**
-    * auto generate doc.
+    * Property: definition resolver.
     * @var mixed
     */
     var $definitionResolver;
@@ -103,7 +103,7 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
     var $indexes;
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     public function _access_OffsetGet($n)

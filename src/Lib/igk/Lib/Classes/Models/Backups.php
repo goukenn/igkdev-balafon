@@ -31,37 +31,37 @@ use IGK\Models\ModelBase;
 class Backups extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd backup type.
     * @var mixed
     */
     const FD_BACKUP_TYPE="backup_type";
 
     /**
-    * auto generate doc.
+    * Constant: fd backup class.
     * @var mixed
     */
     const FD_BACKUP_CLASS="backup_class";
 
     /**
-    * auto generate doc.
+    * Constant: fd backup path.
     * @var mixed
     */
     const FD_BACKUP_PATH="backup_path";
 
     /**
-    * auto generate doc.
+    * Constant: fd backup create at.
     * @var mixed
     */
     const FD_BACKUP_CREATE_AT="backup_create_at";
 
     /**
-    * auto generate doc.
+    * Constant: fd backup update at.
     * @var mixed
     */
     const FD_BACKUP_UPDATE_AT="backup_update_at";

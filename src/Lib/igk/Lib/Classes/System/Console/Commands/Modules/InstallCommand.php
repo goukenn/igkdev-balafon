@@ -22,25 +22,25 @@ class InstallCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--module:install';
 
     /**
-    * auto generate doc.
+    * Constant: url.
     * @var mixed
     */
     const URL = Constants::MODULE_PACKAGE_LIST_URI;
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'install module package';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -48,13 +48,13 @@ class InstallCommand extends AppExecCommand
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'module';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $module_name
     */

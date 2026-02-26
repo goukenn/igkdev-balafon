@@ -10,19 +10,19 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html head base uri node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlHeadBaseUriNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: item.
     * @var mixed
     */
     static $sm_item;
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -46,7 +46,7 @@ final class HtmlHeadBaseUriNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     */
 
     public function getIsVisible(){
@@ -54,7 +54,7 @@ final class HtmlHeadBaseUriNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Item.
     */
 
     public static function getItem(){

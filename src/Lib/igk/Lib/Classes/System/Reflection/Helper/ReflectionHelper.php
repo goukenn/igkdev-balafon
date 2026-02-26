@@ -51,7 +51,7 @@ class ReflectionHelper
     }
 
     /**
-    * auto generate doc.
+    * Property has type.
     * @param ReflectionProperty $prop
     */
     public static function PropertyHasType(ReflectionProperty $prop){

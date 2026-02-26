@@ -10,31 +10,31 @@ namespace IGK\System\Runtime\Compiler;
 class ReadTokenExpressionFlagOptions extends ReadTokenFlagOptions{
 
     /**
-    * auto generate doc.
+    * Property: t.
     * @var mixed
     */
     var $_t_;
 
     /**
-    * auto generate doc.
+    * Property: depend on.
     * @var mixed
     */
     var $dependOn = [];
 
     /**
-    * auto generate doc.
+    * Property: depth.
     * @var mixed
     */
     var $depth = 0;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
 
     /**
-    * auto generate doc.
+    * Property: quote start.
     * @var mixed
     */
     var $quoteStart = false;
@@ -56,7 +56,7 @@ class ReadTokenExpressionFlagOptions extends ReadTokenFlagOptions{
     var $functionDepth;
 
     /**
-    * auto generate doc.
+    * Property: rtrim.
     * @var mixed
     */
     var $rtrim = false;

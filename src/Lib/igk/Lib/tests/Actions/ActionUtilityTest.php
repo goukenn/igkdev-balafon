@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class ActionUtilityTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests expected action.
     */
     public function test_expected_action(){
         $cl = 'test\\dummy\\controller\\Actions\\ProductsAction';
@@ -33,13 +33,13 @@ class ActionUtilityTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Dummy action controller.
 * @package IGK\Tests\Actions
 */
 class DummyActionController extends BaseController{
 
     /**
-    * auto generate doc.
+    * Returns Entry Name Space.
     */
     public function getEntryNameSpace(){
         return 'test\\dummy\\controller';

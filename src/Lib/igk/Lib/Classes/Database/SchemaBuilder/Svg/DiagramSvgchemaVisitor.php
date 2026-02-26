@@ -15,43 +15,43 @@ use IGK\System\Html\XML\XmlNode;
 class DiagramSvgchemaVisitor extends DiagramVisitor{
 
     /**
-    * auto generate doc.
+    * Collection of visitor items.
     * @var mixed
     */
     private $visitor_items = [];
 
     /**
-    * auto generate doc.
+    * Property: defs.
     * @var mixed
     */
     private $defs = null;
 
     /**
-    * auto generate doc.
+    * Property: width.
     * @var mixed
     */
     var $width;
 
     /**
-    * auto generate doc.
+    * Property: height.
     * @var mixed
     */
     var $height;
 
     /**
-    * auto generate doc.
+    * Constant: default width.
     * @var mixed
     */
     const DEFAULT_WIDTH  = 500;
 
     /**
-    * auto generate doc.
+    * Constant: default height.
     * @var mixed
     */
     const DEFAULT_HEIGHT = 500;
 
     /**
-    * auto generate doc.
+    * Starts.
     * @return string
     */
     public function start():string{
@@ -63,7 +63,7 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
     }
 
     /**
-    * auto generate doc.
+    * Complete.
     * @return string
     */
     public function complete():string{
@@ -76,7 +76,7 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
     }
 
     /**
-    * auto generate doc.
+    * Visit diagram entity.
     * @param mixed $entity
     */
     public function visitDiagramEntity($entity){

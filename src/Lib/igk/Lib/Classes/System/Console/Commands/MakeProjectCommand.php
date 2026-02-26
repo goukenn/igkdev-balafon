@@ -44,25 +44,25 @@ class MakeProjectCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:project";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "make new project.";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -79,7 +79,7 @@ class MakeProjectCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Name of entry namespace.
     * @var mixed
     */
     var $entryNamespace;
@@ -90,7 +90,7 @@ class MakeProjectCommand extends AppExecCommand
     protected $author;
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param mixed $controller
     */
@@ -471,7 +471,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Store article.
     * @param mixed $f
     */
     protected function _store_article($f)
@@ -482,7 +482,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Bind articles.
     * @param array & $bind
     * @param mixed $dir
     */
@@ -520,7 +520,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Bind layout.
     * @param array & $bind
     * @param mixed $dir
     */
@@ -554,7 +554,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Bind database.
     * @param array & $bind
     * @param mixed $dir
     * @param mixed $controller
@@ -638,7 +638,7 @@ EOF;
     ///<summary>Represente help function</summary>
 
     /**
-    * auto generate doc.
+    * Help.
     */
     public function help()
     {

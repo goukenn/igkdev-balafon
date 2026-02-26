@@ -12,7 +12,7 @@ use IGKObject;
 class ReferenceObj extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: ref.
     * @var mixed
     */
     private $_ref;
@@ -26,14 +26,14 @@ class ReferenceObj extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is New.
     */
     public function getIsNew(){
         return $this->_ref->newValue;
     }
 
     /**
-    * auto generate doc.
+    * Returns Next Value.
     */
     public function getNextValue(){
         return $this->_ref->clNextValue;

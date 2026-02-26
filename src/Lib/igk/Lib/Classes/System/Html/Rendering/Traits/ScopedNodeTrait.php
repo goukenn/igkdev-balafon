@@ -11,13 +11,13 @@ namespace IGK\System\Html\Rendering\Traits;
 trait ScopedNodeTrait{
 
     /**
-    * auto generate doc.
+    * Property: before render.
     * @var mixed
     */
     private $m_beforeRender;
 
     /**
-    * auto generate doc.
+    * Property: after render.
     * @var mixed
     */
     private $m_afterRender;
@@ -32,7 +32,7 @@ trait ScopedNodeTrait{
     }
 
     /**
-    * auto generate doc.
+    * After render.
     * @param mixed $callable
     */
     public function afterRender($callable){
@@ -40,7 +40,7 @@ trait ScopedNodeTrait{
     }
 
     /**
-    * auto generate doc.
+    * Before render callback.
     * @param mixed $options
     * @param mixed $setting
     */
@@ -51,7 +51,7 @@ trait ScopedNodeTrait{
     }
 
     /**
-    * auto generate doc.
+    * After render callback.
     * @param mixed $options
     * @param mixed $setting
     */

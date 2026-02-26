@@ -6,51 +6,51 @@ use Exception;
 use IGK\Database\DbQueryResult;
 
 /**
-* auto generate doc.
+* Sqlite3result.
 * @package IGK\Ext\Adapters\SQLite3
 */
 class SQLite3Result extends DbQueryResult
 {
 
     /**
-    * auto generate doc.
+    * Property: result.
     * @var mixed
     */
     private $m_result;
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     private $m_info;
 
     /**
-    * auto generate doc.
+    * Property: query.
     * @var mixed
     */
     private $m_query;
 
     /**
-    * auto generate doc.
+    * Property: columns.
     * @var mixed
     */
     private $m_columns;
 
     /**
-    * auto generate doc.
+    * Property: fetch.
     * @var mixed
     */
     private $m_fetch = false;
 
     /**
-    * auto generate doc.
+    * Property: rows.
     * @var mixed
     */
     private $m_rows = [];
     private function __construct() {}
 
     /**
-    * auto generate doc.
+    * To json.
     * @param null|mixed $option
     * @param int $flag
     */
@@ -61,7 +61,7 @@ class SQLite3Result extends DbQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Success.
     * @return bool
     */
 
@@ -80,7 +80,7 @@ class SQLite3Result extends DbQueryResult
     }
 
     /**
-    * auto generate doc.
+    * To array.
     * @return ?array
     */
 
@@ -90,7 +90,7 @@ class SQLite3Result extends DbQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Creates Result.
     * @param mixed $result
     * @param mixed $query
     * @param mixed $info
@@ -107,7 +107,7 @@ class SQLite3Result extends DbQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Returns Row At Index.
     * @param int $index
     */
 
@@ -140,7 +140,7 @@ class SQLite3Result extends DbQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Fetches.
     */
 
     public function fetch()
@@ -158,7 +158,7 @@ class SQLite3Result extends DbQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Returns Columns.
     */
 
     public function getColumns()

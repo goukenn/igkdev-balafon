@@ -13,7 +13,7 @@ use IGK\IArrayObject;
 use Iterator;
 
 /**
-* auto generate doc.
+* Array list.
 * @package IGK\System\Collections
 */
 class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
@@ -27,13 +27,13 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     // protected $preserveKey = false;
 
     /**
-    * auto generate doc.
+    * Property: iterator.
     * @var mixed
     */
     private $m_iterator;
 
     /**
-    * auto generate doc.
+    * Iterator current.
     */
 
     public function _iterator_current() { 
@@ -41,7 +41,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Iterator next.
     * @return void
     */
 
@@ -50,7 +50,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Iterator key.
     */
 
     public function _iterator_key() { 
@@ -58,7 +58,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Iterator valid.
     * @return bool
     */
 
@@ -67,7 +67,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Iterator rewind.
     * @return void
     */
 
@@ -77,7 +77,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Returns debug information for var_dump.
     */
 
     function __debugInfo()
@@ -86,7 +86,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
 
     public function clear(){
@@ -94,7 +94,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Returns count of.
     * @return int
     */
 
@@ -103,7 +103,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * To array.
     * @return ?array
     */
 
@@ -112,7 +112,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Reverse.
     */
 
     public function reverse(){
@@ -120,7 +120,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -141,7 +141,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
 
@@ -150,7 +150,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     */
 
@@ -159,7 +159,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     */
 

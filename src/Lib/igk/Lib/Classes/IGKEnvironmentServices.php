@@ -11,13 +11,13 @@ namespace IGK;
 class IGKEnvironmentServices{
 
     /**
-    * auto generate doc.
+    * Property: creator.
     * @var mixed
     */
     private $m_creator;
 
     /**
-    * auto generate doc.
+    * Property: services.
     * @var mixed
     */
     private $m_services;

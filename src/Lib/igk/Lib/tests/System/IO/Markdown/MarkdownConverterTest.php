@@ -33,7 +33,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter string.
     */
     public function test_mdconverter_string()
     {
@@ -70,7 +70,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter emoji.
     */
     public function test_mdconverter_emoji()
     {
@@ -82,7 +82,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter headers.
     */
     public function test_mdconverter_headers()
     {
@@ -100,7 +100,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter image.
     */
     public function test_mdconverter_image()
     {
@@ -112,7 +112,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter at import.
     */
     public function test_mdconverter_at_import()
     {
@@ -122,7 +122,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter order.
     */
     public function test_mdconverter_order()
     {
@@ -145,7 +145,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter escaped.
     */
     public function test_mdconverter_escaped()
     {
@@ -160,7 +160,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter ordered.
     */
     public function test_mdconverter_ordered()
     {
@@ -179,7 +179,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter task.
     */
     public function test_mdconverter_task()
     {
@@ -193,7 +193,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter code.
     */
     public function test_mdconverter_code()
     {
@@ -212,7 +212,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter multi expression code.
     */
     public function test_mdconverter_multi_expression_code()
     {
@@ -235,7 +235,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter leave md.
     */
     public function test_mdconverter_leave_md()
     {
@@ -262,7 +262,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter document link.
     */
     public function test_mdconverter_document_link()
     {
@@ -279,7 +279,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter hr.
     */
     public function test_mdconverter_hr()
     {
@@ -295,7 +295,7 @@ class MarkdownConverterTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter litteral.
     */
     public function test_mdconverter_litteral()
     {
@@ -332,7 +332,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter load def resource.
     */
     public function test_mdconverter_load_def_resource()
     {
@@ -345,7 +345,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter chain state.
     */
     public function test_mdconverter_chain_state()
     {
@@ -362,7 +362,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter load array.
     */
     public function test_mdconverter_load_array()
     {
@@ -376,7 +376,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter inline code with html entities.
     */
     public function test_mdconverter_inline_code_with_html_entities()
     {
@@ -388,7 +388,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter node multiple.
     */
     public function test_mdconverter_node_multiple()
     {
@@ -407,7 +407,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter node multiple after header.
     */
     public function test_mdconverter_node_multiple_after_header()
     {
@@ -426,7 +426,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter node mixed.
     */
     public function test_mdconverter_node_mixed()
     {
@@ -447,7 +447,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter line feed.
     */
     public function test_mdconverter_line_feed()
     {
@@ -466,7 +466,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter quote marker.
     */
     public function test_mdconverter_quote_marker()
     {
@@ -485,7 +485,7 @@ EOF
     }
 
     /**
-    * auto generate doc.
+    * Tests mdconverter subitem.
     */
     public function test_mdconverter_subitem(){
         $g = MarkdownConverter::TreatMarkdownSubItem("        - info");

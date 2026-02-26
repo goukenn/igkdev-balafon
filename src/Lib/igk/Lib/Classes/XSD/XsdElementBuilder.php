@@ -8,20 +8,20 @@ use ArrayAccess;
 use IGKXmlNode;
 
 /**
-* auto generate doc.
+* Xsd element builder.
 * @package IGK\XSD
 */
 class XsdElementBuilder extends XsdElement 
 {
 
     /**
-    * auto generate doc.
+    * Property: builder.
     * @var mixed
     */
     private $m_builder;
 
     /**
-    * auto generate doc.
+    * Property: defining.
     * @var mixed
     */
     private $_defining; 
@@ -43,7 +43,7 @@ class XsdElementBuilder extends XsdElement
     }
 
     /**
-    * auto generate doc.
+    * Sets Attribute.
     * @param mixed $name
     * @param mixed $value
     */
@@ -54,7 +54,7 @@ class XsdElementBuilder extends XsdElement
     }
 
     /**
-    * auto generate doc.
+    * Sets Default.
     * @param mixed $defaultvalue
     */
 
@@ -70,7 +70,7 @@ class XsdElementBuilder extends XsdElement
     }
 
     /**
-    * auto generate doc.
+    * Sets Fixed.
     * @param mixed $defaultvalue
     */
 

@@ -9,7 +9,7 @@ use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkpick folder ctrl.
 */
 class IGKPickFolderCtrl extends NonVisibleControllerBase
 {
@@ -31,13 +31,13 @@ class IGKPickFolderCtrl extends NonVisibleControllerBase
 //define a pick folder item
 
 /**
-* auto generate doc.
+* Igkhtml pick folder item.
 */
 class IGKHtmlPickFolderItem extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Path to folder.
     * @var mixed
     */
     public $m_folder;

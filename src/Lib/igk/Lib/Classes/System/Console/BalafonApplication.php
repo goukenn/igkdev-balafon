@@ -63,7 +63,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     public $configs;
 
     /**
-    * auto generate doc.
+    * Property: environment.
     * @var mixed
     */
     public $environment;

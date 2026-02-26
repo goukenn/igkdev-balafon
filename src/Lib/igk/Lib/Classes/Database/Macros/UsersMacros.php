@@ -87,7 +87,7 @@ abstract class UsersMacros
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Active.
     * @param Users $user
     */
     public static function isActive(Users $user){
@@ -112,7 +112,7 @@ abstract class UsersMacros
     // + |
 
     /**
-    * auto generate doc.
+    * Adds Phone Book Entry.
     * @param Users $model
     * @param mixed $type
     * @param mixed $value
@@ -303,7 +303,7 @@ abstract class UsersMacros
     //
 
     /**
-    * auto generate doc.
+    * Clean and drop.
     * @param Users $model
     */
     public static function cleanAndDrop(Users $model){

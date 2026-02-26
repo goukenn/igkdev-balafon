@@ -13,25 +13,25 @@ class StatusCode extends RequestResponseCode
 {
 
     /**
-    * auto generate doc.
+    * Constant: bad request.
     * @var mixed
     */
     const BAD_REQUEST = 400;
 
     /**
-    * auto generate doc.
+    * Constant: unauthorized.
     * @var mixed
     */
     const UNAUTHORIZED = 401;
 
     /**
-    * auto generate doc.
+    * Constant: forbiden.
     * @var mixed
     */
     const FORBIDEN = 403;
 
     /**
-    * auto generate doc.
+    * Returns Status.
     * @param int $code
     */
     public static function GetStatus(int $code)

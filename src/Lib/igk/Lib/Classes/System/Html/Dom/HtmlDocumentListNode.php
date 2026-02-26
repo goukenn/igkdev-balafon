@@ -12,7 +12,7 @@ use IGK\System\Html\Dom\HtmlNode;
 class HtmlDocumentListNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "dl";

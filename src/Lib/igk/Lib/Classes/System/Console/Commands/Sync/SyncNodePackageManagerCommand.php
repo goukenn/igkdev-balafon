@@ -13,13 +13,13 @@ use IGK\System\Console\Logger;
 class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--sync:node-package-manager';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='sync node package manager';
@@ -41,7 +41,7 @@ class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
 	/* var $category; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param mixed ...$args
     */

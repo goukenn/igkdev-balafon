@@ -11,18 +11,18 @@
 use IGK\IFormBuilderEngine;
 
 /**
-* auto generate doc.
+* Igkform builder engine.
 */
 class IGKFormBuilderEngine implements IFormBuilderEngine{
 
     /**
-    * auto generate doc.
+    * Property: frm.
     * @var mixed
     */
     protected $frm;
 
     /**
-    * auto generate doc.
+    * Property: group.
     * @var mixed
     */
     var $group;

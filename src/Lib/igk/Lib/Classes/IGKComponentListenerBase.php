@@ -9,7 +9,7 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkcomponent listener base.
 */
 abstract class IGKComponentListenerBase extends IGKParamStorage implements IParamHostService{
 
@@ -22,7 +22,7 @@ abstract class IGKComponentListenerBase extends IGKParamStorage implements IPara
     final
 
     /**
-    * auto generate doc.
+    * Returns Uri.
     * @param mixed $n
     */
 

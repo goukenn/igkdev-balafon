@@ -10,43 +10,43 @@ namespace IGK\System\Html\Metadatas;
 class AppleTouchIconMetadataDefinition{
 
     /**
-    * auto generate doc.
+    * Property: media.
     * @var mixed
     */
     var $media;
 
     /**
-    * auto generate doc.
+    * Property: href.
     * @var mixed
     */
     var $href;
 
     /**
-    * auto generate doc.
+    * Property: sizes.
     * @var mixed
     */
     var $sizes;
 
     /**
-    * auto generate doc.
+    * Constant: media ipad portrait.
     * @var mixed
     */
     const MEDIA_IPAD_PORTRAIT = '(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 1)';
 
     /**
-    * auto generate doc.
+    * Constant: media ipad lanscape.
     * @var mixed
     */
     const MEDIA_IPAD_LANSCAPE = '(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 1)';
 
     /**
-    * auto generate doc.
+    * Constant: media ipad retina portrait.
     * @var mixed
     */
     const MEDIA_IPAD_RETINA_PORTRAIT = '(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)';
 
     /**
-    * auto generate doc.
+    * Constant: media ipad retina landscape.
     * @var mixed
     */
     const MEDIA_IPAD_RETINA_LANDSCAPE= '(device-width: 768px) and (device-height: 1024px) and (orientation: landscape) and (-webkit-device-pixel-ratio: 2)';

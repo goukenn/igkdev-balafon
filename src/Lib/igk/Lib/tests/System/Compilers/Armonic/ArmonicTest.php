@@ -19,7 +19,7 @@ class ArmonicTest  extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests armonic global var.
     */
     public function test_armonic_global_var()
     {
@@ -40,7 +40,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global var 1.
     */
     public function test_armonic_global_var_1()
     {
@@ -61,7 +61,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global var 2.
     */
     public function test_armonic_global_var_2()
     {
@@ -84,7 +84,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global var 3.
     */
     public function test_armonic_global_var_3()
     {
@@ -106,7 +106,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global var 4.
     */
     public function test_armonic_global_var_4()
     {
@@ -127,7 +127,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global dual var.
     */
     public function test_armonic_global_dual_var()
     {
@@ -151,7 +151,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global with expression.
     */
     public function test_armonic_global_with_expression()
     {
@@ -172,7 +172,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global with expression 1.
     */
     public function test_armonic_global_with_expression_1()
     {
@@ -201,7 +201,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global var 152.
     */
     public function test_armonic_global_var_152()
     {
@@ -222,7 +222,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global var 143.
     */
     public function test_armonic_global_var_143()
     {
@@ -244,7 +244,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global var 124.
     */
     public function test_armonic_global_var_124()
     {
@@ -265,7 +265,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global function.
     */
     public function test_armonic_global_function()
     {
@@ -295,7 +295,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic global function 2.
     */
     public function test_armonic_global_function_2()
     {
@@ -330,7 +330,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic interface trait and class.
     */
     public function test_armonic_interface_trait_and_class()
     {
@@ -347,7 +347,7 @@ PHP);
     }
 
     /**
-    * auto generate doc.
+    * Tests armonic interface trait and class 2.
     */
     public function test_armonic_interface_trait_and_class_2()
     {
@@ -397,7 +397,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Test armonic interface trait and class 3.
     */
     public function _test_armonic_interface_trait_and_class_3()
     {
@@ -447,7 +447,7 @@ PHP,  $g, "not ok");
     }
 
     /**
-    * auto generate doc.
+    * Tests static var in function.
     */
     function test_static_var_in_function(){
         $armonic = new ArmonicCompiler;
@@ -482,7 +482,7 @@ PHP,
     }
 
     /**
-    * auto generate doc.
+    * Tests public function.
     */
     function test_public_function(){
         $armonic = new ArmonicCompiler;

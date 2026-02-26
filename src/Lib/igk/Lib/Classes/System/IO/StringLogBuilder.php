@@ -6,13 +6,13 @@
 namespace IGK\System\IO;
 
 /**
-* auto generate doc.
+* String log builder.
 * @package IGK\System\IO
 */
 class StringLogBuilder extends StringBuilder{
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $m_listener;
@@ -29,7 +29,7 @@ class StringLogBuilder extends StringBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Append line.
     * @param mixed $text
     */
 
@@ -38,7 +38,7 @@ class StringLogBuilder extends StringBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Append.
     * @param mixed $text
     */
 

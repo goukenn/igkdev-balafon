@@ -21,25 +21,25 @@ use ReflectionException;
 require_once(__DIR__."/AppCommandConstant.php");
 
 /**
-* auto generate doc.
+* App command.
 * @package IGK\System\Console
 */
 abstract class AppCommand {
 
     /**
-    * auto generate doc.
+    * Constant: env key.
     * @var mixed
     */
     const ENV_KEY = "balafon/command_args";
 
     /**
-    * auto generate doc.
+    * Constant: options tab space.
     * @var mixed
     */
     const OPTIONS_TAB_SPACE = "\r\t\t\t\t";
 
     /**
-    * auto generate doc.
+    * Constant: init command method.
     * @var mixed
     */
     const INIT_COMMAND_METHOD = 'InitCommand';
@@ -75,7 +75,7 @@ abstract class AppCommand {
     var $usage;
 
     /**
-    * auto generate doc.
+    * Property: app.
     * @var mixed
     */
     var $app;

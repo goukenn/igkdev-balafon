@@ -11,13 +11,13 @@
 class IGKSQLiteConnectionManager{
 
     /**
-    * auto generate doc.
+    * Property: sql.
     * @var mixed
     */
     var $Sql;
 
     /**
-    * auto generate doc.
+    * Count: count.
     * @var mixed
     */
     var $count;

@@ -21,25 +21,25 @@ use IGKValidator;
 class subdomain{
 
     /**
-    * auto generate doc.
+    * Property: subdomain.
     * @var mixed
     */
     var $subdomain;
 
     /**
-    * auto generate doc.
+    * Property: subdomain info.
     * @var mixed
     */
     var $subdomainInfo;
 
     /**
-    * auto generate doc.
+    * Property: boot args.
     * @var mixed
     */
     var $boot_args;
 
     /**
-    * auto generate doc.
+    * Initializes.
     * @return bool
     */
     public function init():bool{
@@ -61,7 +61,7 @@ class subdomain{
     }
 
     /**
-    * auto generate doc.
+    * Bootapp.
     */
     public function bootapp(){
         IGKSubDomainManager::Init();

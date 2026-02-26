@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html ctrl node item base.
 * @package IGK\System\Html\Dom
 */
 abstract class HtmlCtrlNodeItemBase extends HtmlWebComponentNode{
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;

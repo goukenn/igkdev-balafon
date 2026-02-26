@@ -11,14 +11,14 @@ use IGK\XML\XMLNodeType;
 class HtmlTextNode extends HtmlItemBase{
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     function getCanRenderTag(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     function getCanAddChilds()
     {
@@ -26,7 +26,7 @@ class HtmlTextNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Node Type.
     */
     public function getNodeType(){
         return XMLNodeType::TEXT;
@@ -42,7 +42,7 @@ class HtmlTextNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options=null){
@@ -50,7 +50,7 @@ class HtmlTextNode extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Sets Content.
     * @param mixed $value
     */
     public function setContent($value){

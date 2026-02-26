@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class HtmlClassValueAttributeTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests add class.
     */
     public function test_add_class(){
         $t = igk_create_node('div');
@@ -24,7 +24,7 @@ class HtmlClassValueAttributeTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests add class array.
     */
     public function test_add_class_array(){
         $t = new HtmlNode('div');

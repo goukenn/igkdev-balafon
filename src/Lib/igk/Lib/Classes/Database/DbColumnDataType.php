@@ -10,49 +10,49 @@
 namespace IGK\Database;
 
 /**
-* auto generate doc.
+* Db column data type.
 * @package IGK\Database
 */
 final class DbColumnDataType{
 
     /**
-    * auto generate doc.
+    * Constant: date time.
     * @var mixed
     */
     const DATE_TIME="Datetime";
 
     /**
-    * auto generate doc.
+    * Constant: double single.
     * @var mixed
     */
     const DOUBLE_SINGLE="Double";
 
     /**
-    * auto generate doc.
+    * Constant: int32.
     * @var mixed
     */
     const INT32="Int";
 
     /**
-    * auto generate doc.
+    * Constant: single.
     * @var mixed
     */
     const SINGLE="Float";
 
     /**
-    * auto generate doc.
+    * Constant: text.
     * @var mixed
     */
     const TEXT="Text";
 
     /**
-    * auto generate doc.
+    * Constant: varchar.
     * @var mixed
     */
     const VARCHAR="VarChar";
 
     /**
-    * auto generate doc.
+    * Returns Db Types.
     */
 
     public static function GetDbTypes(){

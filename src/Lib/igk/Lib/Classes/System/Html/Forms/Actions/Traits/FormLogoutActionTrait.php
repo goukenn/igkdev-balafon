@@ -13,7 +13,7 @@ trait FormLogoutActionTrait{
     // }
 
     /**
-    * auto generate doc.
+    * Logout post.
     */
     public function logout_post(){
         $ctrl = $this->getController();

@@ -13,7 +13,7 @@ use stdClass;
 // */
 
 /**
-* auto generate doc.
+* Component manager controller.
 * @package IGK\Controllers
 */
 final class ComponentManagerController extends NonVisibleControllerBase{

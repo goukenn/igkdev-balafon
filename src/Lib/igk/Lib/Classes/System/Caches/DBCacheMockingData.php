@@ -7,31 +7,31 @@ namespace IGK\System\Caches;
 use IGK\Controllers\BaseController;
 
 /**
-* auto generate doc.
+* Dbcache mocking data.
 * @package IGK\System\Caches
 */
 class DBCacheMockingData {
 
     /**
-    * auto generate doc.
+    * Map of table.
     * @var mixed
     */
     var $table;
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
 
     /**
-    * auto generate doc.
+    * Map of table row reference.
     * @var mixed
     */
     var $tableRowReference;
 
     /**
-    * auto generate doc.
+    * Map of def table name.
     * @var mixed
     */
     var $defTableName;

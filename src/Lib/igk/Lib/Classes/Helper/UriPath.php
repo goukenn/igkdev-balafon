@@ -12,7 +12,7 @@ class UriPath
 {
 
     /**
-    * auto generate doc.
+    * Constant: action extention pattern.
     * @var mixed
     */
     const ACTION_EXTENTION_PATTERN = '(_:verbs)?((/:function(/:params+)?)?)?(:query)?(;:options)?';

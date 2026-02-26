@@ -13,19 +13,19 @@ use IGKObject;
 class BooleanQueryResult extends IGKObject implements IDbResultType{
 
     /**
-    * auto generate doc.
+    * Property: result.
     * @var mixed
     */
     private $m_result;
 
     /**
-    * auto generate doc.
+    * Property: srcquery.
     * @var mixed
     */
     private $m_srcquery;
 
     /**
-    * auto generate doc.
+    * Property: last error.
     * @var mixed
     */
     private $m_last_error;
@@ -39,7 +39,7 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
     }
 
     /**
-    * auto generate doc.
+    * Returns Src Query.
     */
     public function getSrcQuery(){
         return $this->m_srcquery;
@@ -66,7 +66,7 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     */
     public function getValue(){
         return $this->m_result;
@@ -81,21 +81,21 @@ class BooleanQueryResult extends IGKObject implements IDbResultType{
     }
 
     /**
-    * auto generate doc.
+    * Returns Row Count.
     */
     public function getRowCount(){
         return 0;
     }
 
     /**
-    * auto generate doc.
+    * Returns Rows.
     */
     public function getRows(){
         return [];
     }
 
     /**
-    * auto generate doc.
+    * Returns Row At Index.
     * @param int $index
     */
     public function getRowAtIndex(int $index){

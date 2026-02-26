@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkattribute.
 */
 class IGKAttribute extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: class attributes.
     * @var mixed
     */
     static $classAttributes=array();
@@ -25,7 +25,7 @@ class IGKAttribute extends IGKObject{
     public function __construct(){    }
 
     /**
-    * auto generate doc.
+    * Returns Attributes.
     * @param mixed $classOrObject
     */
 
@@ -40,7 +40,7 @@ class IGKAttribute extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param mixed $classname
     * @param mixed $attribute
     * @param mixed $allowmultiple

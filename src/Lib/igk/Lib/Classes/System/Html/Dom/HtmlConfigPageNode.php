@@ -11,13 +11,13 @@ namespace IGK\System\Html\Dom;
 class HtmlConfigPageNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     public $tagname = "div";
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     { 
@@ -26,7 +26,7 @@ class HtmlConfigPageNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Removes.
     */
     public function remove()
     {
@@ -34,7 +34,7 @@ class HtmlConfigPageNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

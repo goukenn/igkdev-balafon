@@ -14,7 +14,7 @@ trait CompilerTokenReadStructHandlerTrait
     use CompilerTokenBracketTrait;
 
     /**
-    * auto generate doc.
+    * Handles Read Class.
     * @param mixed & $flag
     * @param IReadTokenOptions $options
     * @param mixed $id

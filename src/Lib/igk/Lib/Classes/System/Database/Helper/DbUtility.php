@@ -28,7 +28,7 @@ abstract class DbUtility
 {
 
     /**
-    * auto generate doc.
+    * Escape slashes value for json detection.
     * @param string $value
     */
     public static function EscapeSlashesValueForJSonDetection(string $value)

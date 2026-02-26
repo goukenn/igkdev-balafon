@@ -5,13 +5,13 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igkraw data binding.
 */
 class IGKRawDataBinding implements ArrayAccess {
     use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data;

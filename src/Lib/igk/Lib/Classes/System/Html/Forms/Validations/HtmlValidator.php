@@ -13,13 +13,13 @@ use ReflectionException;
 class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
 
     /**
-    * auto generate doc.
+    * Property: skip all.
     * @var mixed
     */
     var $skip_all;
 
     /**
-    * auto generate doc.
+    * Property: allowed tags.
     * @var mixed
     */
     var $allowed_tags;
@@ -84,7 +84,7 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
     }
 
     /**
-    * auto generate doc.
+    * Returns Attribute Content.
     * @param mixed $value
     * @param mixed & $pos
     * @param mixed $ln
@@ -119,7 +119,7 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
     }
 
     /**
-    * auto generate doc.
+    * Reads Tag Name.
     * @param string $value
     * @param mixed & $pos
     * @param mixed $ln

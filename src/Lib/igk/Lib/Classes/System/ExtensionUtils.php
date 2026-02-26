@@ -10,7 +10,7 @@ use ReflectionException;
 use ReflectionMethod;
 
 /**
-* auto generate doc.
+* Extension utils.
 * @package IGK\System
 */
 class ExtensionUtils{

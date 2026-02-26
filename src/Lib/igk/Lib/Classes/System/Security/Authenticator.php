@@ -12,7 +12,7 @@ use IGK\System\Database\IUserProfile;
 class Authenticator{
 
     /**
-    * auto generate doc.
+    * Property: user.
     * @var mixed
     */
     private $m_user;
@@ -27,7 +27,7 @@ class Authenticator{
     }
 
     /**
-    * auto generate doc.
+    * Auth.
     * @param mixed $param
     * @return bool
     */

@@ -39,7 +39,7 @@ function igk_zip_content(string $temp_file, string $name, string $content, $clos
 }
 
 /**
-* auto generate doc.
+* Igk zip create dir.
 * @param mixed $outdir
 * @param mixed $name
 */
@@ -58,7 +58,7 @@ function igk_zip_create_dir($outdir, $name){
 }
 
 /**
-* auto generate doc.
+* Igk zip create file.
 * @param mixed $file
 * @param mixed $dir
 * @param null|mixed $folder
@@ -76,7 +76,7 @@ function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
 }
 
 /**
-* auto generate doc.
+* Igk zip delete.
 * @param mixed $file
 * @param mixed $entry
 * @param mixed $close
@@ -185,7 +185,7 @@ function igk_zip_excludedir(string $dir, string $outf,string $exclude_pattern){
 }
 
 /**
-* auto generate doc.
+* Igk zip folder.
 * @param mixed $outfile
 * @param mixed $dir
 * @param null|mixed $folder
@@ -219,7 +219,7 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
 }
 
 /**
-* auto generate doc.
+* Igk zip module.
 * @param mixed $outf
 */
 function igk_zip_module($outf){  
@@ -267,7 +267,7 @@ function igk_zip_unzip($file, $outdir, $entry=null){
 }
 
 /**
-* auto generate doc.
+* Igk zip unzip callback.
 * @param mixed $zipfile
 * @param mixed $callback
 */
@@ -276,7 +276,7 @@ function igk_zip_unzip_callback($zipfile, $callback){
 }
 
 /**
-* auto generate doc.
+* Igk zip unzip entry.
 * @param mixed $f
 * @param mixed $entry
 */

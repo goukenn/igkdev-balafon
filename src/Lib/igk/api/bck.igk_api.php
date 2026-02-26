@@ -24,7 +24,7 @@ final class ApiFunctionController extends ApplicationController
 {
 
     /**
-    * auto generate doc.
+    * Property: message.
     * @var mixed
     */
     public $message = array();

@@ -21,7 +21,7 @@ class FormFieldHelperTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests formfieldhelper handleformrequest.
     */
     public function test_formfieldhelper_handleformrequest()
     {
@@ -44,7 +44,7 @@ class FormFieldHelperTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests formfieldhelper validate.
     */
     public function test_formfieldhelper_validate()
     {

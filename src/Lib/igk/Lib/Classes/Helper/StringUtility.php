@@ -22,13 +22,13 @@ abstract class StringUtility
 {
 
     /**
-    * auto generate doc.
+    * Constant: identifier token.
     * @var mixed
     */
     const IDENTIFIER_TOKEN = "_1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
-    * auto generate doc.
+    * Constant: default trim char.
     * @var mixed
     */
     const DEFAULT_TRIM_CHAR = " \n\r\t\v\0";
@@ -179,7 +179,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Not null or empty filter callback.
     */
     public static function NotNullOrEmptyFilterCallback()
     {
@@ -355,7 +355,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Returns Application Mail Title.
     * @param BaseController $controller
     * @param null|string $title
     */
@@ -402,7 +402,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Name display.
     * @param null|string $firstname
     * @param null|string $lastname
     */
@@ -412,7 +412,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Date display.
     * @param mixed $date
     * @param mixed $in
     * @param null|string $out
@@ -427,7 +427,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Location display.
     * @param null|string $location
     */
     public static function LocationDisplay(?string $location = null)
@@ -436,7 +436,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Rm sub string.
     * @param string $str
     * @param mixed $offset
     * @param int $length
@@ -460,7 +460,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Identifier.
     * @param string $n
     */
     public static function Identifier(string $n)
@@ -481,7 +481,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Sanitize line.
     * @param string $str
     */
     public static function SanitizeLine(string $str)
@@ -503,7 +503,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Uri combine.
     * @param mixed ...$args
     */
     public static function UriCombine(...$args)
@@ -674,7 +674,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Single quote replace.
     * @param string $src
     */
     public static function SingleQuoteReplace(string $src)
@@ -795,7 +795,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Reads Array Constants.
     * @param mixed $v
     */
     public static function ReadArrayConstants($v)
@@ -900,7 +900,7 @@ abstract class StringUtility
     }
 
     /**
-    * auto generate doc.
+    * Displays Address.
     * @param null|string $street
     * @param null|string $number
     * @param null|string $box

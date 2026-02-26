@@ -12,13 +12,13 @@ use IGK\Tests\BaseTestCase;
 use IGK\Tests\Controllers\TestController;
 
 /**
-* auto generate doc.
+* Balafon cache view compiler test.
 * @package IGK\Tests\System\Compilers
 */
 class BalafonCacheViewCompilerTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests compile empty string.
     */
     public function test_compile_empty_string(){
         $temp = @tempnam( "tutest","test");
@@ -39,7 +39,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Tests compile with litteral quote.
     */
     public function test_compile_with_litteral_quote(){
         $temp = @tempnam( "tutest","test");
@@ -66,7 +66,7 @@ EDF, rtrim($out), "failed");
     }
 
     /**
-    * auto generate doc.
+    * Tests compile with litteral nowdoc.
     */
     public function test_compile_with_litteral_nowdoc(){
         $temp = @tempnam( "tutest","test");
@@ -95,7 +95,7 @@ EDF, rtrim($out), "failed");
 }
 
 /**
-* auto generate doc.
+* Dummy.
 * @package IGK\Tests\System\Compilers
 */
 class Dummy extends TestController{

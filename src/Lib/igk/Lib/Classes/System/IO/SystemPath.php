@@ -15,19 +15,19 @@ use IGKResourceUriResolver;
 class SystemPath{
 
     /**
-    * auto generate doc.
+    * Path to path.
     * @var mixed
     */
     var $path;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options;
 
     /**
-    * auto generate doc.
+    * Property: query.
     * @var mixed
     */
     var $query;

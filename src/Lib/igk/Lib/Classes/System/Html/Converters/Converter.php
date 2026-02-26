@@ -14,19 +14,19 @@ class Converter
 {
 
     /**
-    * auto generate doc.
+    * Property: ignore empty.
     * @var mixed
     */
     var $ignoreEmpty = 1;
 
     /**
-    * auto generate doc.
+    * Property: tag.
     * @var mixed
     */
     var $tag = "notagnode";
 
     /**
-    * auto generate doc.
+    * Collection of numeric array tag.
     * @var mixed
     */
     var $numeric_array_tag = "item";

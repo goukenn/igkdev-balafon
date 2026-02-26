@@ -14,13 +14,13 @@ use IGK\System\AnnotationBase;
 class AuthAnnotation extends AnnotationBase{
 
     /**
-    * auto generate doc.
+    * Property: auth.
     * @var mixed
     */
     var $auth;
 
     /**
-    * auto generate doc.
+    * Property: strict.
     * @var mixed
     */
     var $strict;
@@ -35,7 +35,7 @@ class AuthAnnotation extends AnnotationBase{
     }
 
     /**
-    * auto generate doc.
+    * Sets Auth.
     * @param null|bool $strict
     */
     public function setAuth(?bool $strict){

@@ -25,19 +25,19 @@ use IGK\Models\ModelBase;
 class Community extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl value type.
     * @var mixed
     */
     const FD_CL_VALUE_TYPE="clValueType";

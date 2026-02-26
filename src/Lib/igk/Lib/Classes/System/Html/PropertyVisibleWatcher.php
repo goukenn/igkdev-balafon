@@ -11,13 +11,13 @@ namespace IGK\System\Html;
 class PropertyVisibleWatcher{
 
     /**
-    * auto generate doc.
+    * Property: p.
     * @var mixed
     */
     private $p;
 
     /**
-    * auto generate doc.
+    * Property: prop.
     * @var mixed
     */
     private $prop;
@@ -41,7 +41,7 @@ class PropertyVisibleWatcher{
     }
 
     /**
-    * auto generate doc.
+    * Visible.
     */
     public function visible(){
         // igk_wln_e("the p ", $this->p->{$this->prop} );

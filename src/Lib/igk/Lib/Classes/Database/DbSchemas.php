@@ -31,79 +31,79 @@ abstract class DbSchemas
 {
 
     /**
-    * auto generate doc.
+    * Constant: entries tag.
     * @var mixed
     */
     const ENTRIES_TAG = IGK_ENTRIES_TAGNAME;
 
     /**
-    * auto generate doc.
+    * Constant: data definition.
     * @var mixed
     */
     const DATA_DEFINITION = IGK_DATA_DEF_TAGNAME;
 
     /**
-    * auto generate doc.
+    * Constant: row tag.
     * @var mixed
     */
     const ROW_TAG = "Row";
 
     /**
-    * auto generate doc.
+    * Constant: rows tag.
     * @var mixed
     */
     const ROWS_TAG = "Rows";
 
     /**
-    * auto generate doc.
+    * Constant: migration tag.
     * @var mixed
     */
     const MIGRATION_TAG = "Migration";
 
     /**
-    * auto generate doc.
+    * Constant: migrations tag.
     * @var mixed
     */
     const MIGRATIONS_TAG = "Migrations";
 
     /**
-    * auto generate doc.
+    * Constant: relations tag.
     * @var mixed
     */
     const RELATIONS_TAG = "Relations";
 
     /**
-    * auto generate doc.
+    * Constant: relation tag.
     * @var mixed
     */
     const RELATION_TAG = "Relation";
 
     /**
-    * auto generate doc.
+    * Constant: column tag.
     * @var mixed
     */
     const COLUMN_TAG = IGK_COLUMN_TAGNAME;
 
     /**
-    * auto generate doc.
+    * Constant: gen columns.
     * @var mixed
     */
     const GEN_COLUMNS = IGK_GEN_COLUMS;
 
     /**
-    * auto generate doc.
+    * Constant: rt requireschema tag.
     * @var mixed
     */
     const RT_REQUIRESCHEMA_TAG = "RequireSchema";
 
     /**
-    * auto generate doc.
+    * Constant: rt schema tag.
     * @var mixed
     */
     const RT_SCHEMA_TAG = IGK_SCHEMA_TAGNAME;
 
     /**
-    * auto generate doc.
+    * Constant: index.
     * @var mixed
     */
     const Index = 'Index';
@@ -171,7 +171,7 @@ abstract class DbSchemas
     }
 
     /**
-    * auto generate doc.
+    * Loads Entries.
     * @param mixed $schema
     * @param mixed $data
     */
@@ -195,7 +195,7 @@ abstract class DbSchemas
     }
 
     /**
-    * auto generate doc.
+    * Schema def.
     */
     public static function schemaDef()
     {

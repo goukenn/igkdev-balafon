@@ -16,7 +16,7 @@ abstract class ApiController extends ControllerTypeBase{
     // use ApplicationUserProfileTrait;
 
     /**
-    * auto generate doc.
+    * Bootstrap.
     * @param mixed $app
     */
     protected function bootstrap($app){

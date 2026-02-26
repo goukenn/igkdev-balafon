@@ -8,20 +8,20 @@ use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 
 /**
-* auto generate doc.
+* Xsd element.
 * @package IGK\XSD
 */
 abstract class XsdElement implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: node.
     * @var mixed
     */
     protected $m_node;
 
     /**
-    * auto generate doc.
+    * Returns Node.
     */
 
     public function getNode(){
@@ -29,7 +29,7 @@ abstract class XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Array offset exists.
     * @param mixed $offset
     */
 
@@ -39,7 +39,7 @@ abstract class XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Array offset get.
     * @param mixed $offset
     */
 
@@ -48,7 +48,7 @@ abstract class XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Array offset set.
     * @param mixed $offset
     * @param mixed $value
     */
@@ -59,7 +59,7 @@ abstract class XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Array offset unset.
     * @param mixed $offset
     */
 

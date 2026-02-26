@@ -16,13 +16,13 @@ class RouteHandler
 {
 
     /**
-    * auto generate doc.
+    * Property: user.
     * @var mixed
     */
     protected $user;
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     protected $info;
@@ -91,13 +91,13 @@ class RouteHandler
     protected $m_redirect_uri;
 
     /**
-    * auto generate doc.
+    * Property: auth requirement.
     * @var mixed
     */
     protected $auth_requirement;
 
     /**
-    * auto generate doc.
+    * Returns Route.
     */
     public function getRoute()
     {
@@ -105,7 +105,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Returns Path.
     */
     public function getPath()
     {
@@ -113,7 +113,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Returns Verbs.
     */
     public function getVerbs()
     {
@@ -121,7 +121,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Sets Route.
     * @param mixed $route
     */
     protected function setRoute($route)
@@ -154,7 +154,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Returns Routing Info.
     * @param null|mixed $name
     */
     public function getRoutingInfo($name=null)
@@ -178,7 +178,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Sets User.
     * @param mixed $user
     */
     public function setUser($user)
@@ -453,7 +453,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Security.
     * @param mixed $name
     */
     public function security($name){
@@ -474,7 +474,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * User required.
     * @param bool $require
     */
     public function userRequired(bool $require){
@@ -493,7 +493,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Returns Redirect To.
     */
     public function getRedirectTo(){
         return $this->m_redirect_uri;
@@ -534,7 +534,7 @@ class RouteHandler
     }
 
     /**
-    * auto generate doc.
+    * Processes.
     * @param mixed ...$arguments
     */
     protected function process(...$arguments)

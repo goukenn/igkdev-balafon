@@ -12,7 +12,7 @@ use IGKHtmlDoc;
 interface IDocumentScriptLoader{
 
     /**
-    * auto generate doc.
+    * Loads Scripts.
     * @param IGKHtmlDoc $doc
     */
     function loadScripts(IGKHtmlDoc $doc);

@@ -6,7 +6,7 @@
 namespace IGK\System\WinUI\Components;
 
 /**
-* auto generate doc.
+* Trait providing ajx component options functionality.
 * @package IGK\System\WinUI\Components
 */
 trait AjxComponentOptionsTrait{

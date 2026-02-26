@@ -15,37 +15,37 @@ use IGK\System\IO\File\PHPScriptBuilder;
 class ApiCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--api';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='api utility ';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'api';
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'action [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $action
     */
@@ -57,7 +57,7 @@ class ApiCommand extends AppExecCommand{
 	}
 
     /**
-    * auto generate doc.
+    * Help.
     */
     public function help(){	
 		parent::help();	 

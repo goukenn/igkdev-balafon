@@ -18,61 +18,61 @@ class ViewBlockCompiler
 {
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     var $controller;
 
     /**
-    * auto generate doc.
+    * Property: detector.
     * @var mixed
     */
     var $detector;
 
     /**
-    * auto generate doc.
+    * Property: variables.
     * @var mixed
     */
     var $variables = [];
 
     /**
-    * auto generate doc.
+    * Property: extract.
     * @var mixed
     */
     private $m_extract;
 
     /**
-    * auto generate doc.
+    * Property: header.
     * @var mixed
     */
     var $header;
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $m_listener;
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     private $m_source;
 
     /**
-    * auto generate doc.
+    * Property: init.
     * @var mixed
     */
     private $m_init = false;
 
     /**
-    * auto generate doc.
+    * Property: compiler args.
     * @var mixed
     */
     private static $sm_compiler_args = [];
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     private static $sm_SOURCE = null;
@@ -98,7 +98,7 @@ class ViewBlockCompiler
     }
 
     /**
-    * auto generate doc.
+    * Initialize.
     */
     protected function _initialize()
     {
@@ -271,7 +271,7 @@ class ViewBlockCompiler
     }
 
     /**
-    * auto generate doc.
+    * Complete.
     * @return ?string
     */
     public function complete(): ?string{

@@ -10,19 +10,19 @@ namespace IGK\System\Text;
 class TextBracket{
 
     /**
-    * auto generate doc.
+    * Property: bracket start.
     * @var mixed
     */
     var $bracketStart = "(";
 
     /**
-    * auto generate doc.
+    * Property: bracket end.
     * @var mixed
     */
     var $bracketEnd = ")";
 
     /**
-    * auto generate doc.
+    * Property: blocks.
     * @var mixed
     */
     private $m_blocks = [];

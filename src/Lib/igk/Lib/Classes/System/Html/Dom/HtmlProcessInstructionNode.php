@@ -12,13 +12,13 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGKException;
 
 /**
-* auto generate doc.
+* Html process instruction node.
 * @package IGK\System\Html\Dom
 */
 class HtmlProcessInstructionNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: no close.
     * @var mixed
     */
     private  $m_noClose;
@@ -35,7 +35,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $option
     */
 
@@ -44,7 +44,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString(){
@@ -52,7 +52,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Add child.
     * @param mixed $item
     * @param null|mixed $index
     */
@@ -62,7 +62,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Adds.
     * @param mixed $item
     * @param null|mixed $attributes
     * @param null|mixed $index
@@ -73,7 +73,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
 
     public function getCanRenderTag(){
@@ -95,7 +95,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
 

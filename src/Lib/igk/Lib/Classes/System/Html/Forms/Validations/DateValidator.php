@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Forms\Validations;
 
 /**
-* auto generate doc.
+* Date validator.
 * @package IGK\System\Html\Forms\Validations
 */
 class DateValidator extends FormFieldValidatorBase implements IFormValidator{

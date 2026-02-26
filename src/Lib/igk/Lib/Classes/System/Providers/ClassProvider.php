@@ -12,7 +12,7 @@ use IGKException;
 class ClassProvider{
 
     /**
-    * auto generate doc.
+    * Property: classes.
     * @var mixed
     */
     private $m_classes;

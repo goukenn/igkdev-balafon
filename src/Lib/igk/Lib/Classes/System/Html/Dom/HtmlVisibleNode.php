@@ -11,13 +11,13 @@ namespace IGK\System\Html\Dom;
 class HtmlVisibleNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     function getCanRenderTag()
     {
@@ -36,7 +36,7 @@ class HtmlVisibleNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     */
     public function getIsVisible()
     {

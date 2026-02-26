@@ -19,25 +19,25 @@ trait FormatterSplitterTrait
 {
 
     /**
-    * auto generate doc.
+    * Property: splitter join.
     * @var mixed
     */
     private $m_splitter_join;
 
     /**
-    * auto generate doc.
+    * Property: split node.
     * @var mixed
     */
     private $m_split_node;
 
     /**
-    * auto generate doc.
+    * Property: marked.
     * @var mixed
     */
     protected $m_marked;
 
     /**
-    * auto generate doc.
+    * Outputs.
     * @param null|string $source
     * @return string
     */
@@ -48,7 +48,7 @@ trait FormatterSplitterTrait
     }
 
     /**
-    * auto generate doc.
+    * Treat ouput.
     * @param string $o
     */
     protected function _treatOuput(string $o)

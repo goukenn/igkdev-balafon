@@ -31,7 +31,7 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
     var $appleWebAppStartupImage;
 
     /**
-    * auto generate doc.
+    * Map.
     * @return array
     */
     public function map(): array { 
@@ -44,7 +44,7 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
     }
 
     /**
-    * auto generate doc.
+    * Sets Property.
     * @param string $n
     * @param mixed $v
     */

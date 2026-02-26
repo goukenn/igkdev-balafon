@@ -13,25 +13,25 @@ class IGKCGIServer
 {
 
     /**
-    * auto generate doc.
+    * Property: sm temp file.
     * @var mixed
     */
     private static $smTempFile;
 
     /**
-    * auto generate doc.
+    * Callback handler for reg file callback.
     * @var mixed
     */
     private static $sm_regFileCallback;
 
     /**
-    * auto generate doc.
+    * Property: server info.
     * @var mixed
     */
     private static $sm_serverInfo;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
@@ -63,7 +63,7 @@ class IGKCGIServer
     }
 
     /**
-    * auto generate doc.
+    * Upload data.
     */
     public static function UploadData(){
         if (self::$sm_instance){
@@ -74,7 +74,7 @@ class IGKCGIServer
     // prepare cgi server
 
     /**
-    * auto generate doc.
+    * Prepares.
     */
     public static function Prepare(){
         parse_str(igk_server()->QUERY_STRING, $_GET);

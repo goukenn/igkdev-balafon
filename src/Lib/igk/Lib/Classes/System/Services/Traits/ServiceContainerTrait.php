@@ -21,13 +21,13 @@ trait ServiceContainerTrait
     protected $m_container;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     protected $m_name;
 
     /**
-    * auto generate doc.
+    * Sets Name.
     * @param null|string $name
     */
     public function setName(?string $name)
@@ -36,7 +36,7 @@ trait ServiceContainerTrait
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return ?string
     */
     public function getName(): ?string
@@ -85,7 +85,7 @@ trait ServiceContainerTrait
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param string $name
     * @return ?IAppService
     */
@@ -108,7 +108,7 @@ trait ServiceContainerTrait
     }
 
     /**
-    * auto generate doc.
+    * Returns count of.
     * @return int
     */
     public function count(): int

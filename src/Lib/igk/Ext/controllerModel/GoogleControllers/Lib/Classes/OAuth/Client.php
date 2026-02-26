@@ -14,31 +14,31 @@ namespace IGK\Core\Ext\Google\OAuth;
 class Client{
 
     /**
-    * auto generate doc.
+    * Constant: wellknow config.
     * @var mixed
     */
     const WELLKNOW_CONFIG = "https://accounts.google.com/.well-known/openid-configuration";
 
     /**
-    * auto generate doc.
+    * Property: api key.
     * @var mixed
     */
     var $api_key;
 
     /**
-    * auto generate doc.
+    * Identifier: client id.
     * @var mixed
     */
     var $client_id;
 
     /**
-    * auto generate doc.
+    * Property: client secret.
     * @var mixed
     */
     var $client_secret;
 
     /**
-    * auto generate doc.
+    * Property: scope.
     * @var mixed
     */
     var $scope;
@@ -51,7 +51,7 @@ class Client{
     }
 
     /**
-    * auto generate doc.
+    * Authinfo.
     */
     public function authinfo(){
         static $_auth;
@@ -62,7 +62,7 @@ class Client{
     }
 
     /**
-    * auto generate doc.
+    * Returns Token Info.
     * @param mixed $code
     * @param mixed $redirect_uri
     * @param mixed $grant_type
@@ -84,7 +84,7 @@ class Client{
     }
 
     /**
-    * auto generate doc.
+    * Returns User Info.
     * @param mixed $tokeninfo
     */
     public function getUserInfo($tokeninfo){

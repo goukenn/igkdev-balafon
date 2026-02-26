@@ -18,181 +18,181 @@ class PhoneBookEntryDetails implements IToJSon
 {
 
     /**
-    * auto generate doc.
+    * Name of firstname.
     * @var mixed
     */
     var $firstname;
 
     /**
-    * auto generate doc.
+    * Name of lastname.
     * @var mixed
     */
     var $lastname;
 
     /**
-    * auto generate doc.
+    * Property: title.
     * @var mixed
     */
     var $title;
 
     /**
-    * auto generate doc.
+    * Property: gsm.
     * @var mixed
     */
     var $gsm;
 
     /**
-    * auto generate doc.
+    * Property: tel.
     * @var mixed
     */
     var $tel;
 
     /**
-    * auto generate doc.
+    * Property: picture.
     * @var mixed
     */
     var $picture;
 
     /**
-    * auto generate doc.
+    * Property: site.
     * @var mixed
     */
     var $site;
 
     /**
-    * auto generate doc.
+    * Property: email.
     * @var mixed
     */
     var $email;
 
     /**
-    * auto generate doc.
+    * Property: address.
     * @var mixed
     */
     var $address;
 
     /**
-    * auto generate doc.
+    * Property: photo.
     * @var mixed
     */
     var $photo;
 
     /**
-    * auto generate doc.
+    * Property: vat.
     * @var mixed
     */
     var $vat;
 
     /**
-    * auto generate doc.
+    * Property: rrn.
     * @var mixed
     */
     var $rrn;
 
     /**
-    * auto generate doc.
+    * Property: company.
     * @var mixed
     */
     var $company;
 
     /**
-    * auto generate doc.
+    * Property: website.
     * @var mixed
     */
     var $website;
 
     /**
-    * auto generate doc.
+    * Property: birthdate.
     * @var mixed
     */
     var $birthdate;
 
     /**
-    * auto generate doc.
+    * Property: creditcard.
     * @var mixed
     */
     var $creditcard;
 
     /**
-    * auto generate doc.
+    * Count: bankaccount.
     * @var mixed
     */
     var $bankaccount;
 
     /**
-    * auto generate doc.
+    * Property: twitter.
     * @var mixed
     */
     var $twitter;
 
     /**
-    * auto generate doc.
+    * Property: instagram.
     * @var mixed
     */
     var $instagram;
 
     /**
-    * auto generate doc.
+    * Property: youtube.
     * @var mixed
     */
     var $youtube;
 
     /**
-    * auto generate doc.
+    * Property: soundclound.
     * @var mixed
     */
     var $soundclound;
 
     /**
-    * auto generate doc.
+    * Property: tiktok.
     * @var mixed
     */
     var $tiktok;
 
     /**
-    * auto generate doc.
+    * Property: snapchat.
     * @var mixed
     */
     var $snapchat;
 
     /**
-    * auto generate doc.
+    * Property: twitch.
     * @var mixed
     */
     var $twitch;
 
     /**
-    * auto generate doc.
+    * Property: discord.
     * @var mixed
     */
     var $discord;
 
     /**
-    * auto generate doc.
+    * Property: alias.
     * @var mixed
     */
     var $alias;
 
     /**
-    * auto generate doc.
+    * Property: asbl.
     * @var mixed
     */
     var $asbl;
 
     /**
-    * auto generate doc.
+    * Property: vcard.
     * @var mixed
     */
     var $vcard;
 
     /**
-    * auto generate doc.
+    * Property: notes.
     * @var mixed
     */
     var $notes;
 
     /**
-    * auto generate doc.
+    * Property: organization.
     * @var mixed
     */
     var $organization;
@@ -211,7 +211,7 @@ class PhoneBookEntryDetails implements IToJSon
     }
 
     /**
-    * auto generate doc.
+    * Returns Property Name.
     * @param string $name
     * @return string
     */
@@ -221,7 +221,7 @@ class PhoneBookEntryDetails implements IToJSon
     }
 
     /**
-    * auto generate doc.
+    * Displays.
     * @return string
     */
     public function display(): string

@@ -16,7 +16,7 @@ use ReflectionException;
 class Application extends IGKApplicationBase{
 
     /**
-    * auto generate doc.
+    * Runs.
     * @param string $entryfile
     * @param mixed $render
     */

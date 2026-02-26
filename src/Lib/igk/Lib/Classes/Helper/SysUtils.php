@@ -23,7 +23,7 @@ use ReflectionException;
 use TypeError;
 
 /**
-* auto generate doc.
+* Sys utils.
 * @package IGK\Helper
 */
 class SysUtils{
@@ -193,7 +193,7 @@ class SysUtils{
     }
 
     /**
-    * auto generate doc.
+    * Returns Declared Methods.
     * @param mixed $class
     */
     public static function GetDeclaredMethods($class){
@@ -223,7 +223,7 @@ class SysUtils{
     }
 
     /**
-    * auto generate doc.
+    * Notifies.
     * @param mixed $message
     * @param mixed $type
     */
@@ -248,7 +248,7 @@ class SysUtils{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Class Fields.
     * @param mixed $c
     * @param mixed $object
     */
@@ -271,7 +271,7 @@ class SysUtils{
     }
 
     /**
-    * auto generate doc.
+    * Asserts notify.
     * @param mixed $condition
     * @param mixed $successmsg
     * @param mixed $errormessage

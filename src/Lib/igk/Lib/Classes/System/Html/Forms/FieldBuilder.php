@@ -18,7 +18,7 @@ class FieldBuilder implements IteratorAggregate
     const LengthFields =  ['text', 'password', 'textarea'];
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data = [];
@@ -29,7 +29,7 @@ class FieldBuilder implements IteratorAggregate
     private $m_current;
 
     /**
-    * auto generate doc.
+    * To array.
     */
     public function to_array()
     {
@@ -37,7 +37,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Returns Iterator.
     * @return Traversable
     */
     public function getIterator(): Traversable
@@ -55,7 +55,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Text.
     * @param string $name
     * @param null|array $attribs
     */
@@ -66,7 +66,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Password.
     * @param string $name
     * @param null|array $attribs
     */
@@ -78,7 +78,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Radio.
     * @param string $name
     * @param null|array $attribs
     */
@@ -90,7 +90,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Checkbox.
     * @param string $name
     * @param null|array $attribs
     */
@@ -102,7 +102,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Datetime.
     * @param string $name
     * @param null|array $attribs
     */
@@ -114,7 +114,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Email.
     * @param string $name
     * @param null|array $attribs
     */
@@ -126,7 +126,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Number.
     * @param string $name
     * @param null|array $attribs
     */
@@ -226,7 +226,7 @@ class FieldBuilder implements IteratorAggregate
     // setter
 
     /**
-    * auto generate doc.
+    * Placeholder.
     * @param string $n
     */
     public function placeholder(string $n)
@@ -240,7 +240,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Max length.
     * @param string $n
     */
     public function maxLength(string $n)
@@ -254,7 +254,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Label.
     * @param string $text
     */
     public function label(string $text)
@@ -264,7 +264,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Id.
     * @param string $id
     */
     public function id(string $id)
@@ -276,7 +276,7 @@ class FieldBuilder implements IteratorAggregate
     }
 
     /**
-    * auto generate doc.
+    * Allows Empty.
     * @param null|bool $allow
     */
     public function allowEmpty(?bool $allow)

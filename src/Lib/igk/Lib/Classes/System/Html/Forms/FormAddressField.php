@@ -9,25 +9,25 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGKException;
 
 /**
-* auto generate doc.
+* Form address field.
 * @package IGK\System\Html\Forms
 */
 class FormAddressField extends HtmlNode implements IFormValidationNode{
 
     /**
-    * auto generate doc.
+    * Property: fields.
     * @var mixed
     */
     private $m_fields;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:form-address-field";
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
 
     public function getCanRenderTag(){
@@ -53,7 +53,7 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
     }
 
     /**
-    * auto generate doc.
+    * Validates Request.
     * @param mixed & $outputdata
     * @param mixed & $errors
     */
@@ -71,7 +71,7 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
 
     protected function initialize()
@@ -80,7 +80,7 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

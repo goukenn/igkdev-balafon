@@ -12,13 +12,13 @@ use IGK\System\Html\Dom\HtmlSharedContentNode;
 use IGKHtmlSharedNotifyDialog;
 
 /**
-* auto generate doc.
+* Shared content html item controller.
 * @package IGK\Controllers
 */
 final class SharedContentHtmlItemController extends BaseController{
 
     /**
-    * auto generate doc.
+    * Constant: notifybox.
     * @var mixed
     */
     const notifybox="notifybox";
@@ -83,7 +83,7 @@ final class SharedContentHtmlItemController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
 
@@ -93,7 +93,7 @@ final class SharedContentHtmlItemController extends BaseController{
     }
 
     /**
-    * auto generate doc.
+    * Reg entity.
     * @param mixed $name
     * @param mixed $node
     */

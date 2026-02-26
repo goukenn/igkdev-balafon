@@ -15,13 +15,13 @@ class CssMinifier
 {
 
     /**
-    * auto generate doc.
+    * Constant: css props.
     * @var mixed
     */
     const CSS_PROPS = "\\b(?:--|[a-zA-Z]+)[a-zA-Z\-0-9]*\\b";
 
     /**
-    * auto generate doc.
+    * Constant: css provider props.
     * @var mixed
     */
     const CSS_PROVIDER_PROPS = "-(webkit|moz|ms|o)-[a-zA-Z\-0-9]+\\b";
@@ -32,13 +32,13 @@ class CssMinifier
     var $preserveComment;
 
     /**
-    * auto generate doc.
+    * Property: container.
     * @var mixed
     */
     private $m_container;
 
     /**
-    * auto generate doc.
+    * Returns Regex Container.
     */
     protected function getRegexContainer(){
         if ($this->m_container){

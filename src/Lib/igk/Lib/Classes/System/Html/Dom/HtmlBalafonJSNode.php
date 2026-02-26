@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html balafon jsnode.
 * @package IGK\System\Html\Dom
 */
 class HtmlBalafonJSNode extends HtmlScriptNode{    

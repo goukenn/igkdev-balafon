@@ -6,7 +6,7 @@
 namespace IGK\System\Http;
 
 /**
-* auto generate doc.
+* Redirect request response.
 * @package IGK\System\Http
 */
 class RedirectRequestResponse extends RequestResponse{

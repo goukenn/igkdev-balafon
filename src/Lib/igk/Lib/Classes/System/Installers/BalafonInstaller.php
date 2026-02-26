@@ -23,19 +23,19 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
 {
 
     /**
-    * auto generate doc.
+    * Constant: installer key.
     * @var mixed
     */
     const INSTALLER_KEY = "installer://uploadfile";
 
     /**
-    * auto generate doc.
+    * Property: zipcore.
     * @var mixed
     */
     protected $zipcore = true;
 
     /**
-    * auto generate doc.
+    * Property: zipfile.
     * @var mixed
     */
     protected $zipfile;
@@ -56,7 +56,7 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
     }
 
     /**
-    * auto generate doc.
+    * Config dir.
     */
     public function configDir()
     {
@@ -186,7 +186,7 @@ class BalafonInstaller implements IActionResult , IBalafonInstaller
     }
 
     /**
-    * auto generate doc.
+    * Initializes installer.
     * @param InstallerMiddleWareActions $service
     */
     protected function init_installer(InstallerMiddleWareActions $service)

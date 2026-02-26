@@ -12,19 +12,19 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
 {
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "column"];
 
     /**
-    * auto generate doc.
+    * Property: cl.
     * @var mixed
     */
     private $m_cl;
 
     /**
-    * auto generate doc.
+    * Sets up.
     * @param string $table
     * @param mixed $column
     */
@@ -34,7 +34,7 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
     }
 
     /**
-    * auto generate doc.
+    * Up.
     */
     public function up()
     {
@@ -45,7 +45,7 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
     }
 
     /**
-    * auto generate doc.
+    * Down.
     */
     public function down()
     {

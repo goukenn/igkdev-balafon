@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Interface for html script.
 * @package IGK\System\Html\Dom
 */
 interface IHtmlScript{

@@ -16,7 +16,7 @@ use ReflectionException;
 class DbQueryDriver extends DatabaseDbQueryDriver {
 
     /**
-    * auto generate doc.
+    * Getselectdb.
     */
     public function getselectdb(){
         return $this->m_resource->selectdb;

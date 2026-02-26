@@ -13,7 +13,7 @@ namespace IGK\System\Controllers;
 class ControllerSysKeyConstants{
 
     /**
-    * auto generate doc.
+    * Constant: subdomain.
     * @var mixed
     */
     const subdomain = 'subdomain';

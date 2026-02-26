@@ -12,19 +12,19 @@ use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkjsscript init ctrl.
 */
 abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Support multiple.
     */
 
     public static function SupportMultiple(){//return false to indicate that an element of this type must be unique
@@ -32,7 +32,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Can Add Child.
     */
 
     public function getCanAddChild(){
@@ -40,7 +40,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Can Edit Data Base.
     */
 
     public function getCanEditDataBase()
@@ -49,7 +49,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Can Edit Data Table Info.
     */
 
     public function getCanEditDataTableInfo(){
@@ -57,7 +57,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?HtmlNode
     */
 
@@ -69,7 +69,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     * @return bool
     */
 
@@ -78,7 +78,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Page folder changed.
     */
 
     public function pageFolderChanged()
@@ -87,7 +87,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
 

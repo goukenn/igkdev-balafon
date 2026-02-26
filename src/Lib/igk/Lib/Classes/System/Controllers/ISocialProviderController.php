@@ -10,7 +10,7 @@ namespace IGK\System\Controllers;
 interface ISocialProviderController{
 
     /**
-    * auto generate doc.
+    * Registers Providers.
     */
     function registerProviders();
 }

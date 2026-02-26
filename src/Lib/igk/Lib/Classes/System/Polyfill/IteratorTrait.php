@@ -6,7 +6,7 @@
 namespace IGK\System\Polyfill;
 
 /**
-* auto generate doc.
+* Trait providing iterator functionality.
 * @package IGK\System\Polyfill
 */
 trait IteratorTrait{

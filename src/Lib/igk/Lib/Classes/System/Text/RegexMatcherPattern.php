@@ -19,19 +19,19 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Constant: match type.
     * @var mixed
     */
     const MATCH_TYPE = 'match';
 
     /**
-    * auto generate doc.
+    * Constant: begin end type.
     * @var mixed
     */
     const BEGIN_END_TYPE = 'begin/end';
 
     /**
-    * auto generate doc.
+    * Constant: begin while type.
     * @var mixed
     */
     const BEGIN_WHILE_TYPE = 'begin/while';
@@ -119,7 +119,7 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     private $m_type;
 
     /**
-    * auto generate doc.
+    * Json serialize.
     * @return mixed
     */
     public function jsonSerialize(): mixed {
@@ -129,14 +129,14 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
      }
 
     /**
-    * auto generate doc.
+    * Returns Type.
     */
     public function getType(){
         return $this->m_type;
     }
 
     /**
-    * auto generate doc.
+    * Sets Type.
     * @param mixed $v
     */
     public function setType($v){
@@ -144,7 +144,7 @@ class RegexMatcherPattern extends IGKObject implements ArrayAccess, IRegexMatche
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     protected function _access_OffsetGet($n){

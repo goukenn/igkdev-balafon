@@ -10,7 +10,7 @@ namespace IGK\System\Configuration;
 class ConfigurationFields{
 
     /**
-    * auto generate doc.
+    * Constant: app title.
     * @var mixed
     */
     const AppTitle = 'clAppTitle';

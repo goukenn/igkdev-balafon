@@ -7,13 +7,13 @@ namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
 
 /**
-* auto generate doc.
+* Schema delete table migration.
 * @package IGK\System\Database
 */
 class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table"]; 
@@ -25,7 +25,7 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     var $tables = [];
 
     /**
-    * auto generate doc.
+    * Up.
     */
 
     public function up(){    
@@ -35,7 +35,7 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Down.
     */
 
     public function down()

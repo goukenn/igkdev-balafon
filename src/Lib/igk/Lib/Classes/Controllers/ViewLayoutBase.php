@@ -24,14 +24,14 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
     protected $m_configs;
 
     /**
-    * auto generate doc.
+    * Returns Configs.
     */
     public function getConfigs(){
         return $this->m_configs;
     }
 
     /**
-    * auto generate doc.
+    * Returns Controller.
     * @return BaseController
     */
     public function getController(): BaseController
@@ -51,7 +51,7 @@ abstract class ViewLayoutBase extends IGKObject implements IViewLayoutLoader {
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize(){ 
     }

@@ -36,37 +36,37 @@ class DataAdapter extends DataAdapterBase implements
 {
 
     /**
-    * auto generate doc.
+    * Listener: query listener.
     * @var mixed
     */
     private $queryListener;
 
     /**
-    * auto generate doc.
+    * Property: init adapter.
     * @var mixed
     */
     private static $_initAdapter;
 
     /**
-    * auto generate doc.
+    * Collection of supported list.
     * @var mixed
     */
     private static $supportedList;
 
     /**
-    * auto generate doc.
+    * Constant: select data type query.
     * @var mixed
     */
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
 
     /**
-    * auto generate doc.
+    * Constant: select version query.
     * @var mixed
     */
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
 
     /**
-    * auto generate doc.
+    * Constant: db information schema.
     * @var mixed
     */
     const DB_INFORMATION_SCHEMA = 'information_schema';
@@ -103,7 +103,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Drops All Foreign Keys.
     * @param string $table
     */
     public function dropAllForeignKeys(string $table){
@@ -187,7 +187,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Constraint foreign key exists.
     * @param string $name
     * @return bool
     */
@@ -335,7 +335,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Removes unique.
     * @param string $table
     * @param string $info
     * @param null|mixed $db
@@ -448,7 +448,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Support group by.
     */
     public function supportGroupBy()
     {
@@ -473,7 +473,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Escape table column.
     * @param string $v
     * @return string
     */
@@ -495,7 +495,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Auto Increment Type.
     * @param string $type
     * @return bool
     */
@@ -602,7 +602,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Sends Query And Leave Open.
     * @param string $query
     */
     public function sendQueryAndLeaveOpen(string $query)
@@ -737,7 +737,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Deletes.
     * @param mixed $tablename
     * @param null|mixed $conditions
     */
@@ -904,7 +904,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Inserts array.
     * @param mixed $tbname
     * @param mixed $values
     * @param mixed $throwex
@@ -1106,7 +1106,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Send Db Query Listener.
     * @return ?IDbSendQueryListener
     */
     public function getSendDbQueryListener(): ?IDbSendQueryListener
@@ -1140,7 +1140,7 @@ class DataAdapter extends DataAdapterBase implements
     }
 
     /**
-    * auto generate doc.
+    * Last error.
     */
     public function last_error()
     {

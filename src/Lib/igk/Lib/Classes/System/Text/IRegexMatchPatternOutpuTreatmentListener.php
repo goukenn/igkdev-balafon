@@ -11,7 +11,7 @@ namespace IGK\System\Text;
 interface IRegexMatchPatternOutpuTreatmentListener{
 
     /**
-    * auto generate doc.
+    * Returns Output.
     * @return ?string
     */
     function getOutput():?string;

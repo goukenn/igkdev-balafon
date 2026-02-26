@@ -14,7 +14,7 @@ class JsonPackageValidator extends FormData{
     use JsonPackagePropertyTrait;
 
     /**
-    * auto generate doc.
+    * Returns Content Secure Form Request.
     * @param Request $request
     * @return ?array
     */
@@ -61,7 +61,7 @@ class JsonPackageValidator extends FormData{
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Validator Mapper.
     * @param null|array $tab
     */
     protected function getDataValidatorMapper(?array $tab = null)

@@ -11,13 +11,13 @@ namespace IGK\System\Html\Css;
 class CssDefintionPropertyLoader{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $m_data = [];
 
     /**
-    * auto generate doc.
+    * Loads.
     * @param array $data
     */
     public function load(array $data){

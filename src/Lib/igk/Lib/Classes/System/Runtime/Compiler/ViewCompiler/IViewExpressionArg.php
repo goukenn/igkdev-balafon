@@ -12,7 +12,7 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 interface IViewExpressionArg{
 
     /**
-    * auto generate doc.
+    * Returns Expression.
     */
     function getExpression();
 }

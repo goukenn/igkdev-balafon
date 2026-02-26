@@ -12,31 +12,31 @@ use function igk_resources_gets as __;
 class InstallerMiddleWareActions{
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     private $_list;
 
     /**
-    * auto generate doc.
+    * Path to base dir.
     * @var mixed
     */
     var $BaseDir;
 
     /**
-    * auto generate doc.
+    * Cache: cache dir.
     * @var mixed
     */
     var $CacheDir;
 
     /**
-    * auto generate doc.
+    * Path to lib dir.
     * @var mixed
     */
     var $LibDir;
 
     /**
-    * auto generate doc.
+    * Property: success.
     * @var mixed
     */
     var $Success;

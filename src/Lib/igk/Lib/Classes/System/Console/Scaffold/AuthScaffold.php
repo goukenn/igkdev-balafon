@@ -17,7 +17,7 @@ class AuthScaffold extends ScaffoldBase
 {
 
     /**
-    * auto generate doc.
+    * Property: description.
     * @var mixed
     */
     var $description = "authentication scaffold";

@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html options.
 * @package IGK\System\Html\Dom
 */
 abstract class HtmlOptions{
 
     /**
-    * auto generate doc.
+    * Property: close with close tags.
     * @var mixed
     */
     static $CloseWithCloseTags=array(

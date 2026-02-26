@@ -20,19 +20,19 @@ class ListComponentCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--list:components';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'list installed component';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[
@@ -42,13 +42,13 @@ class ListComponentCommand extends AppExecCommand
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'winui';
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     function showUsage()
 	{

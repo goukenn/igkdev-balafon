@@ -11,19 +11,19 @@ namespace IGK\System\Console;
 class AppCommandOptions{
 
     /**
-    * auto generate doc.
+    * Property: handle.
     * @var mixed
     */
     var $handle;
 
     /**
-    * auto generate doc.
+    * Property: app.
     * @var mixed
     */
     var $app;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options;

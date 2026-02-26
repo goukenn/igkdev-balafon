@@ -13,7 +13,7 @@ namespace IGK\Database;
 interface IDbEntryDefinition{
 
     /**
-    * auto generate doc.
+    * Returns Entry Values.
     * @return array
     */
     function getEntryValues():array;

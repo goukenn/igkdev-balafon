@@ -11,7 +11,7 @@ use \IGKObject;
 final class IGKMySQLTimeManager extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: ad.
     * @var mixed
     */
     var $ad;

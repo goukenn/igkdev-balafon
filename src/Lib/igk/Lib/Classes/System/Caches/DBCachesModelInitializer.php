@@ -27,13 +27,13 @@ class DBCachesModelInitializer
 {
 
     /**
-    * auto generate doc.
+    * Map of table info.
     * @var mixed
     */
     private $tableInfo;
 
     /**
-    * auto generate doc.
+    * Property: loaded.
     * @var mixed
     */
     private $m_loaded = [];
@@ -234,7 +234,7 @@ class DBCachesModelInitializer
     }
 
     /**
-    * auto generate doc.
+    * Remove prefix.
     * @param string $name
     * @param string $prefix
     */

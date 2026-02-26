@@ -13,43 +13,43 @@ class CssAnalyzer
 {
 
     /**
-    * auto generate doc.
+    * Property: regex.
     * @var mixed
     */
     private $m_regex;
 
     /**
-    * auto generate doc.
+    * Listener: split listener.
     * @var mixed
     */
     private $m_splitListener;
 
     /**
-    * auto generate doc.
+    * Property: selectors.
     * @var mixed
     */
     var $selectors = [];
 
     /**
-    * auto generate doc.
+    * Property: classes.
     * @var mixed
     */
     var $classes = [];
 
     /**
-    * auto generate doc.
+    * Property: identifiers.
     * @var mixed
     */
     var $identifiers = [];
 
     /**
-    * auto generate doc.
+    * Property: medias.
     * @var mixed
     */
     var $medias = [];
 
     /**
-    * auto generate doc.
+    * Returns Split Listener.
     */
     public function getSplitListener()
     {
@@ -57,7 +57,7 @@ class CssAnalyzer
     }
 
     /**
-    * auto generate doc.
+    * Sets Split Listerner.
     * @param null|ICssSplitListener $splitter
     */
     public function setSplitListerner(?ICssSplitListener $splitter)
@@ -66,7 +66,7 @@ class CssAnalyzer
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {
@@ -98,7 +98,7 @@ class CssAnalyzer
     }
 
     /**
-    * auto generate doc.
+    * Analyse.
     * @param string $file
     */
     public function analyse(string $file)

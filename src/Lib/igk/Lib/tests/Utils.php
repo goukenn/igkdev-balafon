@@ -74,7 +74,7 @@ class Utils{
     }
 
     /**
-    * auto generate doc.
+    * Post view.
     * @param BaseController $controller
     * @param mixed $view
     * @param null|mixed $params
@@ -84,7 +84,7 @@ class Utils{
     }
 
     /**
-    * auto generate doc.
+    * Returns View.
     * @param BaseController $controller
     * @param mixed $view
     * @param null|mixed $params
@@ -94,7 +94,7 @@ class Utils{
     }
 
     /**
-    * auto generate doc.
+    * Sends View.
     * @param BaseController $controller
     * @param mixed $view
     * @param null|mixed $params

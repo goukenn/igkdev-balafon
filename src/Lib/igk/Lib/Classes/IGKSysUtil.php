@@ -26,7 +26,7 @@ abstract class IGKSysUtil
 {
 
     /**
-    * auto generate doc.
+    * Constant: primary pwd.
     * @var mixed
     */
     const PRIMARY_PWD = '#_12549@abcdkqors';

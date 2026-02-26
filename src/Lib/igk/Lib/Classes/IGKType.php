@@ -13,7 +13,7 @@ use IGK\System\IInjectable;
 class IGKType{
 
     /**
-    * auto generate doc.
+    * Returns Type.
     * @param mixed $m
     */
     public static function GetType($m){

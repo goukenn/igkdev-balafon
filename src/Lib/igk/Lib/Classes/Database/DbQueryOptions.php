@@ -11,7 +11,7 @@ namespace IGK\Database;
 class DbQueryOptions implements IDbQueryOptions{
 
     /**
-    * auto generate doc.
+    * Constant: prop columns.
     * @var mixed
     */
     const PROP_COLUMNS = 'Columns';

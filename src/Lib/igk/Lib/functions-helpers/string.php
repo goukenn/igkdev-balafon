@@ -13,7 +13,7 @@ use IGK\System\Text\RegexMatcherUtility;
 if (!function_exists('igk_str_add_suffix')){
 
 /**
-* auto generate doc.
+* Igk str add suffix.
 * @param string $content
 * @param string $suffix
 * @param bool $check
@@ -75,7 +75,7 @@ function igk_str_format(string $data, ...$params):string
 if (!function_exists('igk_str_assert_prepend')){
 
 /**
-* auto generate doc.
+* Igk str assert prepend.
 * @param null|string $data
 * @param string $prepend
 */
@@ -121,7 +121,7 @@ if (!function_exists('igk_str_escape')) {
 if (!function_exists('igk_str_rm')) {
 
 /**
-* auto generate doc.
+* Igk str rm.
 * @param string $str
 * @param int $start_index
 * @param null|int $length
@@ -251,7 +251,7 @@ if (!function_exists('igk_str_repeat_callback')){
 if (!function_exists('igk_str_rm_php_csharp_summary')){
 
 /**
-* auto generate doc.
+* Igk str rm php csharp summary.
 * @param string $src
 */
 function igk_str_rm_php_csharp_summary(string $src){

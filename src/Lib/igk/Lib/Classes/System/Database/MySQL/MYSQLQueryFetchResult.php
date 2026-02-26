@@ -23,7 +23,7 @@ use ModelBase;
 final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult, IDbQueryFetchResult{
 
     /**
-    * auto generate doc.
+    * Property: init.
     * @var mixed
     */
     var $init;
@@ -34,55 +34,55 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     var $options;
 
     /**
-    * auto generate doc.
+    * Property: query.
     * @var mixed
     */
     private $m_query;
 
     /**
-    * auto generate doc.
+    * Count: rowcount.
     * @var mixed
     */
     private $m_rowcount;
 
     /**
-    * auto generate doc.
+    * Count: fieldcount.
     * @var mixed
     */
     private $m_fieldcount;
 
     /**
-    * auto generate doc.
+    * Property: result.
     * @var mixed
     */
     private $m_result;
 
     /**
-    * auto generate doc.
+    * Property: rowdef.
     * @var mixed
     */
     private $m_rowdef;
 
     /**
-    * auto generate doc.
+    * Property: columns.
     * @var mixed
     */
     private $m_columns = [];
 
     /**
-    * auto generate doc.
+    * Map of tables.
     * @var mixed
     */
     private $m_tables = [];
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     private $m_model;
 
     /**
-    * auto generate doc.
+    * Property: driver.
     * @var mixed
     */
     private $m_driver;
@@ -90,7 +90,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     // public function to_json($option = null, int $flag = 0) { }
 
     /**
-    * auto generate doc.
+    * To array.
     * @return ?array
     */
     public function to_array(): ?array {
@@ -98,14 +98,14 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Generates.
     */
     public function generate(){
         return yield $this->fetch();
     }
 
     /**
-    * auto generate doc.
+    * Returns Row At Index.
     * @param mixed $index
     */
     public function getRowAtIndex($index) { 
@@ -113,14 +113,14 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Iterator key.
     */
     protected function _iterator_key() { 
         return null;
     }
 
     /**
-    * auto generate doc.
+    * Handles.
     * @param mixed $result
     */
     public function handle($result){
@@ -131,7 +131,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Iterator valid.
     */
     protected function _iterator_valid(){
         return $this->m_rowdef !== null;
@@ -146,14 +146,14 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Returns Field Count.
     */
     public function getFieldCount(){
         return $this->m_fieldcount;
     }
 
     /**
-    * auto generate doc.
+    * Returns Row Count.
     */
     public function getRowCount(){
         return $this->m_rowcount;
@@ -272,7 +272,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Iterator rewind.
     */
     public function _iterator_rewind(){
         $dbresult = $this->m_result;
@@ -296,14 +296,14 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     }
 
     /**
-    * auto generate doc.
+    * Iterator current.
     */
     public function _iterator_current(){
         return $this->m_rowdef;
     }
 
     /**
-    * auto generate doc.
+    * Iterator next.
     */
     public function _iterator_next(){
         $this->fetch();

@@ -6,7 +6,7 @@
 namespace IGK\System\Console\Commands\Sync;
 
 /**
-* auto generate doc.
+* Sync setting base.
 * @package IGK\System\Console\Commands\Sync
 */
 abstract class SyncSettingBase{

@@ -11,7 +11,7 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 class CssStringConverter extends ConfigurationReader{
 
     /**
-    * auto generate doc.
+    * Property: delimiter.
     * @var mixed
     */
     var $delimiter = ";";

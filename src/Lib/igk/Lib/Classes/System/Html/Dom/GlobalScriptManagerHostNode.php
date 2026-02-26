@@ -27,7 +27,7 @@ final class GlobalScriptManagerHostNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {

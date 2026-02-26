@@ -30,20 +30,20 @@ class PHPScriptBuilder
 {
 
     /**
-    * auto generate doc.
+    * Property: no header comment.
     * @var mixed
     */
     var $no_header_comment;
 
     /**
-    * auto generate doc.
+    * Property: author.
     * @var mixed
     */
     var $author;
     use StoredPropertiesTrait;
 
     /**
-    * auto generate doc.
+    * Creates Empty Script Callback.
     */
     public static function CreateEmptyScriptCallback()
     {
@@ -127,7 +127,7 @@ class PHPScriptBuilder
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     public function render()
     {

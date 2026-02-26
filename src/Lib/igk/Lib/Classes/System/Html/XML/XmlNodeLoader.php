@@ -11,7 +11,7 @@ use IGKException;
 final class XmlNodeLoader extends XmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = 'igk:xml-loader';
@@ -20,7 +20,7 @@ final class XmlNodeLoader extends XmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {

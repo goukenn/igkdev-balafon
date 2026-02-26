@@ -58,7 +58,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     }
 
     /**
-    * auto generate doc.
+    * Returns Entry Values.
     * @return array
     */
     public function getEntryValues(): array
@@ -67,7 +67,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     }
 
     /**
-    * auto generate doc.
+    * Initializes Def Array.
     * @return array
     */
     public function initDefArray(): array
@@ -94,7 +94,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     }
 
     /**
-    * auto generate doc.
+    * Key.
     * @return mixed
     */
     public function key(): mixed
@@ -103,7 +103,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     }
 
     /**
-    * auto generate doc.
+    * Valid.
     * @return bool
     */
     public function valid(): bool
@@ -112,7 +112,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
     }
 
     /**
-    * auto generate doc.
+    * Rewind.
     * @return void
     */
     public function rewind(): void

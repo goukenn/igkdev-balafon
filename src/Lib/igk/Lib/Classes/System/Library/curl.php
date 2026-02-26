@@ -8,7 +8,7 @@
 namespace IGK\System\Library;
 
 /**
-* auto generate doc.
+* Curl.
 * @package IGK\System\Library
 */
 class curl extends \IGKLibraryBase{

@@ -14,7 +14,7 @@ use IGK\System\WinUI\Menus\MenuItem;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Igkgoogle configuration setting.
 * @package IGK\Ext\Controllers\Google
 */
 final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
@@ -22,7 +22,7 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	use ControllerLocationTrait;
 
     /**
-    * auto generate doc.
+    * Constant: api key.
     * @var mixed
     */
     const API_KEY = "google.ApiKey";

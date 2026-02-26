@@ -10,37 +10,37 @@ namespace IGK\Database;
 class DbSchemaLoadEntriesFromSchemaInfo{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $Data;
 
     /**
-    * auto generate doc.
+    * Property: entries.
     * @var mixed
     */
     var $Entries;
 
     /**
-    * auto generate doc.
+    * Property: relations.
     * @var mixed
     */
     var $Relations;
 
     /**
-    * auto generate doc.
+    * Property: relations def.
     * @var mixed
     */
     var $RelationsDef;
 
     /**
-    * auto generate doc.
+    * Property: migrations.
     * @var mixed
     */
     var $Migrations;
 
     /**
-    * auto generate doc.
+    * Property: version.
     * @var mixed
     */
     var $Version;

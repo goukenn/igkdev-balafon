@@ -27,19 +27,19 @@ use IGK\Models\ModelBase;
 class ReferenceModels extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl model.
     * @var mixed
     */
     const FD_CL_MODEL="clModel";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl next value.
     * @var mixed
     */
     const FD_CL_NEXT_VALUE="clNextValue";

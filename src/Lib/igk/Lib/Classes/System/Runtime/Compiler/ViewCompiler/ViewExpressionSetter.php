@@ -12,13 +12,13 @@ use IGK\System\Html\Dom\HtmlNode;
 final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Property: update.
     * @var mixed
     */
     private $m_update =false;
 
     /**
-    * auto generate doc.
+    * Property: update express.
     * @var mixed
     */
     private $update_express=null;    
@@ -29,7 +29,7 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
     private $m_name;
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -50,7 +50,7 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     protected function _access_OffsetGet($n){
@@ -68,14 +68,14 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Update.
     */
     public function getIsUpdate(){
         return $this->m_update;
     }
 
     /**
-    * auto generate doc.
+    * Resets Update.
     */
     public function resetUpdate(){
         $this->m_update = false;

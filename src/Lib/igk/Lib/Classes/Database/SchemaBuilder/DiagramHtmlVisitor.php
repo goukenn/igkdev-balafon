@@ -6,13 +6,13 @@
 namespace IGK\Database\SchemaBuilder;
 
 /**
-* auto generate doc.
+* Diagram html visitor.
 * @package IGK\Database\SchemaBuilder
 */
 class DiagramHtmlVisitor extends DiagramVisitor{
 
     /**
-    * auto generate doc.
+    * Visit diagram entity.
     * @param mixed $entity
     */
     public function visitDiagramEntity($entity){

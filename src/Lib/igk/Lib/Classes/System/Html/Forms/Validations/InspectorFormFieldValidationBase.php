@@ -40,7 +40,7 @@ abstract class InspectorFormFieldValidationBase implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Validation Fields.
     */
     protected function getValidationFields(){
         return $this->getFields(__METHOD__);

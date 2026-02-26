@@ -8,12 +8,12 @@
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Csvtest.
 */
 class CSVTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests csv date time.
     */
     public function test_csv_date_time(){
         $g = IGKCSVDataAdapter::ToDateTimeStr("Y-m-d", "04/08/1983"); 

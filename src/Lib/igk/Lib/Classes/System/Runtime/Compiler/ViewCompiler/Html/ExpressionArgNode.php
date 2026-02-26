@@ -20,7 +20,7 @@ class ExpressionArgNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Tag Name.
     * @param null|mixed $options
     */
     public function getTagName($options = null)

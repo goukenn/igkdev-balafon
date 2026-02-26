@@ -46,7 +46,7 @@ class NodeBuilderGenerateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests generate class.
     */
     public function test_generate_class(){
         $d = igk_create_rnode('div.main.sample#info%list');
@@ -56,7 +56,7 @@ class NodeBuilderGenerateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests generate class hello.
     */
     public function test_generate_class_hello(){
         $d = igk_create_rnode('div.main.sample#info%list');
@@ -67,7 +67,7 @@ class NodeBuilderGenerateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests generate class gen.
     */
     public function test_generate_class_gen(){
         $d = igk_create_rnode('div.main.sample#info%list');
@@ -79,7 +79,7 @@ class NodeBuilderGenerateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests generate class stagen.
     */
     public function test_generate_class_stagen(){
         $d = igk_create_rnode('div.main.sample#info%list');
@@ -91,7 +91,7 @@ class NodeBuilderGenerateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests generate active attribute.
     */
     public function test_generate_active_attribute(){
         $d = igk_create_rnode('div.main.sample#info!defer');     

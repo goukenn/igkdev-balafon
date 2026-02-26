@@ -9,13 +9,13 @@ use IGK\Controllers\SysDbController;
 use IGK\Models\ModelBase;
 
 /**
-* auto generate doc.
+* Article content binding helper.
 * @package IGK\Helper
 */
 class ArticleContentBindingHelper{
 
     /**
-    * auto generate doc.
+    * Constant: pipe arg format.
     * @var mixed
     */
     const PIPE_ARG_FORMAT = "#\{\{\s*(?P<property>%s)\s*((\|(?P<pipe>[^\}]+))?\s*)?\}\}#";

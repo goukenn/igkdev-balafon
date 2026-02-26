@@ -24,13 +24,13 @@ class MacrosHelper
 {
 
     /**
-    * auto generate doc.
+    * Property: macros.
     * @var mixed
     */
     private static $macros;
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param mixed $name
     */
     public static function Get($name)

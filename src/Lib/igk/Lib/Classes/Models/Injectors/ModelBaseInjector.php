@@ -14,7 +14,7 @@ use IGKValidator;
 class ModelBaseInjector implements IInjector{
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     protected $model;

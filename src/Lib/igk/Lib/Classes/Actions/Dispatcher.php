@@ -44,13 +44,13 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
 {
 
     /**
-    * auto generate doc.
+    * Constant: dispatch method.
     * @var mixed
     */
     const DISPATCH_METHOD = 'Dispatch';
 
     /**
-    * auto generate doc.
+    * Constant: instance.
     * @var mixed
     */
     const INSTANCE = IGKServices::KEY_INSTANCE;
@@ -61,13 +61,13 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     private $m_host;
 
     /**
-    * auto generate doc.
+    * Property: macro.
     * @var mixed
     */
     private static $sm_macro;
 
     /**
-    * auto generate doc.
+    * Property: matches.
     * @var mixed
     */
     private static $sm_matches = [
@@ -97,7 +97,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
+    * Returns Base Action Name.
     * @return string
     */
     public function getBaseActionName(): string
@@ -106,7 +106,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
+    * Returns Controller.
     */
     public function getController()
     {
@@ -114,7 +114,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
+    * Returns Host.
     */
     public function getHost()
     {
@@ -122,7 +122,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
+    * Skip verb check.
     * @param string $action_name
     */
     public function skipVerbCheck(string $action_name)
@@ -178,7 +178,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     * @param string $name
     * @param mixed ...$args
     */

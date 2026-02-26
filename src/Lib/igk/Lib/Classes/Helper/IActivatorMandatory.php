@@ -10,7 +10,7 @@ namespace IGK\Helper;
 interface IActivatorMandatory{
 
     /**
-    * auto generate doc.
+    * Returns Mandatory.
     * @return array
     */
     function getMandatory():array;

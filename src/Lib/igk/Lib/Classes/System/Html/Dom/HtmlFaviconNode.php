@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html favicon node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlFaviconNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     static $sm_instance;

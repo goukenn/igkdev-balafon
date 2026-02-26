@@ -17,25 +17,25 @@ class HtmlTemplateReaderDataBinding
 {
 
     /**
-    * auto generate doc.
+    * Property: node.
     * @var mixed
     */
     var $node;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $data;
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $source;

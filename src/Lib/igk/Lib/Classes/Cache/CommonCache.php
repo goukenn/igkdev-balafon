@@ -7,7 +7,7 @@ namespace IGK\Cache;
 /// contain only static method
 
 /**
-* auto generate doc.
+* Common cache.
 * @package IGK\Cache
 */
 abstract class CommonCache{

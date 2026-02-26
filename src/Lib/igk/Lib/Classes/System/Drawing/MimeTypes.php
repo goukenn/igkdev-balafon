@@ -11,13 +11,13 @@ class MimeTypes{
     public
 
     /**
-    * auto generate doc.
+    * Constant: svg.
     * @var mixed
     */
     const SVG = "image/svg+xml";
 
     /**
-    * auto generate doc.
+    * Formats.
     * @param string $data
     * @param string $type
     * @param mixed $code

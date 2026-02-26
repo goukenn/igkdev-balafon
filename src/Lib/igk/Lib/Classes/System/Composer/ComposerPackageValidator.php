@@ -17,7 +17,7 @@ class ComposerPackageValidator extends FormData{
     use ObjectFormDataTrait;
 
     /**
-    * auto generate doc.
+    * Returns Data Validator Mapper.
     * @param null|array $tab
     */
     protected function getDataValidatorMapper(?array $tab = null)
@@ -36,7 +36,7 @@ class ComposerPackageValidator extends FormData{
     }
 
     /**
-    * auto generate doc.
+    * Returns Content Secure.
     * @return ?array
     */
     protected function getContentSecure(): ?array {
@@ -55,7 +55,7 @@ class ComposerPackageValidator extends FormData{
     }
 
     /**
-    * auto generate doc.
+    * Returns Require Dev.
     * @param mixed $n
     * @param mixed $key
     * @param mixed & $errors

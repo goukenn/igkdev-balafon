@@ -11,7 +11,7 @@ use IGK\System\Console\Logger;
 abstract class PhpUnitHelper{
 
     /**
-    * auto generate doc.
+    * Tests Core Project.
     * @param string $phpunit
     * @param string $core_suite
     */

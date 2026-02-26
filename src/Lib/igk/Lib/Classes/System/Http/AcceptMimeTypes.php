@@ -11,7 +11,7 @@ namespace IGK\System\Http;
 abstract class AcceptMimeTypes{
 
     /**
-    * auto generate doc.
+    * Constant: event stream.
     * @var mixed
     */
     const EventStream = 'text/event-stream';

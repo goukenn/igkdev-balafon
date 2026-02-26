@@ -13,7 +13,7 @@ class FormBuilderItemOptions implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
@@ -69,7 +69,7 @@ class FormBuilderItemOptions implements ArrayAccess{
     var $data;
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     function _access_offsetGet($n){
@@ -77,7 +77,7 @@ class FormBuilderItemOptions implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */

@@ -38,55 +38,55 @@ trait RegisterUserActionTrait
     use FormLoginActionTrait;
 
     /**
-    * auto generate doc.
+    * Property: register options.
     * @var mixed
     */
     var $registerOptions = [];
 
     /**
-    * auto generate doc.
+    * Property: register controller.
     * @var mixed
     */
     var $registerController = null;
 
     /**
-    * auto generate doc.
+    * Name of notication name.
     * @var mixed
     */
     var $noticationName;
 
     /**
-    * auto generate doc.
+    * Name of register service notify name.
     * @var mixed
     */
     var $registerServiceNotifyName = 'register';
 
     /**
-    * auto generate doc.
+    * Property: register user action registration confirm uri.
     * @var mixed
     */
     var $registerUserActionRegistrationConfirmUri = 'confirmRegistration';
 
     /**
-    * auto generate doc.
+    * Property: register user action forgot password uri.
     * @var mixed
     */
     var $registerUserActionForgotPasswordUri = 'forgotPassword';
 
     /**
-    * auto generate doc.
+    * Property: register user action auth social uri.
     * @var mixed
     */
     var $registerUserActionAuthSocialUri = 'login';
 
     /**
-    * auto generate doc.
+    * Property: register user mail registration article.
     * @var mixed
     */
     var $registerUserMailRegistrationArticle = 'Registration/mail_registration';
 
     /**
-    * auto generate doc.
+    * Property: register user mail forgot password article.
     * @var mixed
     */
     var $registerUserMailForgotPasswordArticle = 'Registration/mail_forgotpassword';
@@ -163,7 +163,7 @@ trait RegisterUserActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Init trait register user action trait.
     * @param mixed $ctrl
     */
     protected function _init_trait_RegisterUserActionTrait($ctrl)
@@ -264,7 +264,7 @@ trait RegisterUserActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Returns Registration Actionvation Link.
     * @param Users $user
     */
     protected function getRegistrationActionvationLink(Users $user)
@@ -273,7 +273,7 @@ trait RegisterUserActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Returns Registration Unreg Actionvation Link.
     * @param Users $user
     */
     protected function getRegistrationUnregActionvationLink(Users $user)
@@ -356,25 +356,25 @@ trait RegisterUserActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Name of register user action notication name.
     * @var mixed
     */
     protected $registerUserActionNoticationName = 'register';
 
     /**
-    * auto generate doc.
+    * Property: register user action complete uri.
     * @var mixed
     */
     protected $registerUserActionCompleteUri = 'ServiceLogin';
 
     /**
-    * auto generate doc.
+    * Property: logout uri.
     * @var mixed
     */
     protected $logoutUri = 'logout';
 
     /**
-    * auto generate doc.
+    * Deletes Account delete.
     * @param null|\IGK\Models\Users $id
     */
     public function deleteAccount_delete(?\IGK\Models\Users $id = null)
@@ -383,7 +383,7 @@ trait RegisterUserActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Deletes Account post.
     * @param null|\IGK\Models\Users $id
     */
     public function deleteAccount_post(?\IGK\Models\Users $id = null)
@@ -421,7 +421,7 @@ trait RegisterUserActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Confirm registration.
     */
     public function confirmRegistration()
     {
@@ -444,7 +444,7 @@ trait RegisterUserActionTrait
     // + |
 
     /**
-    * auto generate doc.
+    * Forgot password get.
     */
     protected function forgotPassword_get()
     {
@@ -454,7 +454,7 @@ trait RegisterUserActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Forgot password post.
     * @param null|string $account
     */
     protected function forgotPassword_post(?string $account=null){
@@ -486,7 +486,7 @@ trait RegisterUserActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Sends Reset Password Link.
     * @param Users $user
     */
     protected function sendResetPasswordLink(Users $user){

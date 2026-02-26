@@ -31,7 +31,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Description.
     * @param null|string $description
     * @return IDiagramSchemaEntity
     */
@@ -46,7 +46,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Int.
     * @param string $name
     * @param int $length
     * @return IDiagramSchemaEntity
@@ -59,7 +59,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     // public function int(string $name): IDiagramSchemaEntity { return $this; }
 
     /**
-    * auto generate doc.
+    * Column.
     * @param string $id
     * @param null|mixed $type
     * @param mixed $length
@@ -72,7 +72,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Id.
     * @param string $id
     * @return IDiagramSchemaEntity
     */
@@ -91,7 +91,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Varchar.
     * @param string $id
     * @param int $length
     * @return IDiagramSchemaEntity
@@ -108,7 +108,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Address.
     * @param string $id
     * @return IDiagramSchemaEntity
     */
@@ -118,7 +118,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Date update.
     * @param null|string $prefix
     * @return IDiagramSchemaEntity
     */
@@ -128,7 +128,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Link guuid.
     * @param string $name
     * @param string $table_name
     * @param mixed $linkColumn
@@ -147,7 +147,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Text.
     * @param string $id
     * @return IDiagramSchemaEntity
     */
@@ -157,7 +157,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Email.
     * @param mixed $name
     * @param mixed $length
     * @param mixed $notnull
@@ -172,7 +172,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Link.
     * @param string $name
     * @param string $table
     * @param null|string $column
@@ -210,7 +210,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Float.
     * @param string $name
     * @return IDiagramSchemaEntity
     */
@@ -220,7 +220,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Unique.
     * @param string $name
     * @return IDiagramSchemaEntity
     */
@@ -230,7 +230,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Primary.
     * @param string $name
     * @return IDiagramSchemaEntity
     */
@@ -240,7 +240,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Sets Description.
     * @param null|string $description
     * @return IDiagramSchemaEntity
     */
@@ -264,7 +264,7 @@ class SchemaTableBuilder extends SchemaBuilderHelper implements IDiagramSchemaEn
     }
 
     /**
-    * auto generate doc.
+    * Column attributes.
     * @param array $attributes
     */
     public function columnAttributes(array $attributes)

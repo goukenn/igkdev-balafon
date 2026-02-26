@@ -10,7 +10,7 @@ namespace IGK\System\Database;
 interface IDbMigrationMethods{
 
     /**
-    * auto generate doc.
+    * Db add column.
     * @param string $table
     * @param mixed $columnInfo
     * @param null|string $after

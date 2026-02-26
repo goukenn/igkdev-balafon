@@ -16,31 +16,31 @@ class RegexTreatCapture{
     // + |
 
     /**
-    * auto generate doc.
+    * Property: source value.
     * @var mixed
     */
     private $m_source_value;
 
     /**
-    * auto generate doc.
+    * Property: captures.
     * @var mixed
     */
     private $m_captures;
 
     /**
-    * auto generate doc.
+    * Property: treat capture.
     * @var mixed
     */
     private $m_treat_capture;
 
     /**
-    * auto generate doc.
+    * Property: offset.
     * @var mixed
     */
     private $m_offset;
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     private $m_info;
@@ -51,13 +51,13 @@ class RegexTreatCapture{
     var $treatListener;
 
     /**
-    * auto generate doc.
+    * Constant: mark key.
     * @var mixed
     */
     const MARK_KEY = '\0:mark';
 
     /**
-    * auto generate doc.
+    * Constant: regex flag.
     * @var mixed
     */
     const REGEX_FLAG = PREG_OFFSET_CAPTURE;

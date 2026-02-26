@@ -12,7 +12,7 @@ namespace IGK\Ext\Controllers\Google;
 class GoogleAssets{
 
     /**
-    * auto generate doc.
+    * Icon.
     * @param mixed $name
     * @return callable
     */

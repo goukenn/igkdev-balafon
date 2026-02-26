@@ -6,7 +6,7 @@ use IGK\System\IO\StringBuilder;
 use IGKException;
 
 /**
-* auto generate doc.
+* Installer utils.
 * @package IGK\System\Installers
 */
 final class InstallerUtils
@@ -51,7 +51,7 @@ final class InstallerUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Data.
     * @param array $options
     * @return ?string
     */
@@ -67,7 +67,7 @@ final class InstallerUtils
     }
 
     /**
-    * auto generate doc.
+    * No access dir.
     * @param mixed $dir
     * @param mixed $framework_require
     */

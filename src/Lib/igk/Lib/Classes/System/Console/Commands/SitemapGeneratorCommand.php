@@ -22,13 +22,13 @@ use ReflectionException;
 class SitemapGeneratorCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--sitemap:gen";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "generate sitemaps";
@@ -57,7 +57,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Returns Project Indexes.
     */
     public static function GetProjectIndexes(){
         $indexes = [];

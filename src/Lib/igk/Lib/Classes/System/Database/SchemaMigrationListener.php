@@ -27,7 +27,7 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
     var $definition;
 
     /**
-    * auto generate doc.
+    * Returns Table Schema File Definition.
     * @param string $tablename
     */
     public function getTableSchemaFileDefinition(string $tablename)
@@ -36,7 +36,7 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
     }
 
     /**
-    * auto generate doc.
+    * Property: changes.
     * @var mixed
     */
     private $m_changes = [];
@@ -52,7 +52,7 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
     }
 
     /**
-    * auto generate doc.
+    * Did migration complete.
     */
     public function didMigrationComplete()
     {

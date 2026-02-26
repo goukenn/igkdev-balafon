@@ -7,7 +7,7 @@ namespace IGK\System\Security\Web;
 class NullOrEmptyHostContentValidator extends MapContentValidatorBase{
 
     /**
-    * auto generate doc.
+    * Property: parent.
     * @var mixed
     */
     private $parent;
@@ -22,7 +22,7 @@ class NullOrEmptyHostContentValidator extends MapContentValidatorBase{
     }
 
     /**
-    * auto generate doc.
+    * Map.
     * @param mixed $value
     * @param mixed $key
     * @param mixed & $error

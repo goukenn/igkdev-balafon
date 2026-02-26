@@ -69,109 +69,109 @@ use IGK\Models\ModelBase;
 class Users extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl login.
     * @var mixed
     */
     const FD_CL_LOGIN="clLogin";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl guid.
     * @var mixed
     */
     const FD_CL_GUID="clGuid";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl pwd.
     * @var mixed
     */
     const FD_CL_PWD="clPwd";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl first name.
     * @var mixed
     */
     const FD_CL_FIRST_NAME="clFirstName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl last name.
     * @var mixed
     */
     const FD_CL_LAST_NAME="clLastName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl display.
     * @var mixed
     */
     const FD_CL_DISPLAY="clDisplay";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl locale.
     * @var mixed
     */
     const FD_CL_LOCALE="clLocale";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl picture.
     * @var mixed
     */
     const FD_CL_PICTURE="clPicture";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl level.
     * @var mixed
     */
     const FD_CL_LEVEL="clLevel";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl status.
     * @var mixed
     */
     const FD_CL_STATUS="clStatus";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl date.
     * @var mixed
     */
     const FD_CL_DATE="clDate";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl last login.
     * @var mixed
     */
     const FD_CL_LAST_LOGIN="clLastLogin";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl parent id.
     * @var mixed
     */
     const FD_CL_PARENT_ID="clParent_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl class name.
     * @var mixed
     */
     const FD_CL_CLASS_NAME="clClassName";
 
     /**
-    * auto generate doc.
+    * Constant: fd clcreate at.
     * @var mixed
     */
     const FD_CLCREATE_AT="clcreate_at";
 
     /**
-    * auto generate doc.
+    * Constant: fd clupdate at.
     * @var mixed
     */
     const FD_CLUPDATE_AT="clupdate_at";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl deactivate at.
     * @var mixed
     */
     const FD_CL_DEACTIVATE_AT="clDeactivate_At";

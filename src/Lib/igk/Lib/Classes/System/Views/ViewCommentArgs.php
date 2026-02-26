@@ -16,19 +16,19 @@ class ViewCommentArgs{
     use ViewCommentEvalTrait;
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     private static $sm_info =[];
 
     /**
-    * auto generate doc.
+    * Property: entries.
     * @var mixed
     */
     private $m_entries;
 
     /**
-    * auto generate doc.
+    * Property: activates.
     * @var mixed
     */
     private $activates = [
@@ -36,7 +36,7 @@ class ViewCommentArgs{
     ];
 
     /**
-    * auto generate doc.
+    * Constant: comment expression regex.
     * @var mixed
     */
     const COMMENT_EXPRESSION_REGEX =  "/\/\/#\s*\{\{%(?P<expression>.+)%\}\}\s*$/";
@@ -62,7 +62,7 @@ class ViewCommentArgs{
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param mixed $n
     */
     public function get($n){
@@ -70,7 +70,7 @@ class ViewCommentArgs{
     }
 
     /**
-    * auto generate doc.
+    * Returns Bool.
     * @param mixed $n
     * @return bool
     */
@@ -103,7 +103,7 @@ class ViewCommentArgs{
     }
 
     /**
-    * auto generate doc.
+    * Main layout.
     */
     public function MainLayout(){
         $this->m_entries['@'.__FUNCTION__.'()'] = true;

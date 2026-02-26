@@ -16,7 +16,7 @@ use ReflectionException;
 final class Helper{
 
     /**
-    * auto generate doc.
+    * Constant: table property.
     * @var mixed
     */
     const TABLE_PROPERTY  = 'tables';

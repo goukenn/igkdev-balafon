@@ -50,7 +50,7 @@ abstract class NonVisibleControllerBase extends BaseController {
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Function Exposed.
     * @param mixed $func
     */
     public function IsFunctionExposed($func){        

@@ -11,13 +11,13 @@ namespace IGK\System\Text;
 final class RegexCaptureMarker{
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     var $list;

@@ -14,13 +14,13 @@ use IGKException;
 abstract class RequestResponse extends Response implements IInjectable{
 
     /**
-    * auto generate doc.
+    * Constant: response code 401 unauthorized.
     * @var mixed
     */
     const RESPONSE_CODE_401_UNAUTHORIZED= 401;
 
     /**
-    * auto generate doc.
+    * Constant: response code 403 forbiden.
     * @var mixed
     */
     const RESPONSE_CODE_403_FORBIDEN = 403;
@@ -39,7 +39,7 @@ abstract class RequestResponse extends Response implements IInjectable{
     var $status;
 
     /**
-    * auto generate doc.
+    * Returns Status.
     * @param mixed $code
     */
     public static function GetStatus($code){
@@ -57,7 +57,7 @@ abstract class RequestResponse extends Response implements IInjectable{
     }
 
     /**
-    * auto generate doc.
+    * Set header.
     */
     protected function _setHeader(){             
         if ($this->headers && count($this->headers)>0)
@@ -66,12 +66,12 @@ abstract class RequestResponse extends Response implements IInjectable{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     abstract function render();
 
     /**
-    * auto generate doc.
+    * Allow multiple header entry.
     * @param string $header_name
     */
     protected function _allow_multiple_header_entry(string $header_name){
@@ -79,7 +79,7 @@ abstract class RequestResponse extends Response implements IInjectable{
     }
 
     /**
-    * auto generate doc.
+    * Treat header.
     */
     protected function _treat_header(){
         $tab = [];
@@ -99,7 +99,7 @@ abstract class RequestResponse extends Response implements IInjectable{
     }
 
     /**
-    * auto generate doc.
+    * Cache output.
     * @param mixed $second
     */
     public function cache_output($second){
@@ -110,7 +110,7 @@ abstract class RequestResponse extends Response implements IInjectable{
     }
 
     /**
-    * auto generate doc.
+    * Clears headers.
     */
     public function clear_headers(){
         $this->headers = [];
@@ -162,7 +162,7 @@ abstract class RequestResponse extends Response implements IInjectable{
     }
 
     /**
-    * auto generate doc.
+    * Download.
     * @param mixed $name
     * @param mixed $size
     * @param mixed $data

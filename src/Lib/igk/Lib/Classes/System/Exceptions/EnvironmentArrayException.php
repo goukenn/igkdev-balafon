@@ -7,7 +7,7 @@ namespace IGK\System\Exceptions;
 use IGKException;
 
 /**
-* auto generate doc.
+* Environment array exception.
 * @package IGK\System\Exceptions
 */
 class EnvironmentArrayException extends IGKException{

@@ -10,7 +10,7 @@ namespace IGK\Actions;
 interface IActionDispatcher{
 
     /**
-    * auto generate doc.
+    * Sets Base Action Name.
     * @param string $actionName
     * @return string
     */
@@ -18,7 +18,7 @@ interface IActionDispatcher{
     function getBaseActionName():string;
 
     /**
-    * auto generate doc.
+    * Invoke.
     * @param string $action
     * @param mixed ...$args
     */

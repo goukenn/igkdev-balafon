@@ -15,7 +15,7 @@ use IGK\Helper\IO;
 class IGKSessionFileSaveHandler{
 
     /**
-    * auto generate doc.
+    * Properties: save path, sess name.
     * @var mixed
     */
     var $savePath, $sessName;
@@ -29,14 +29,14 @@ class IGKSessionFileSaveHandler{
     }
 
     /**
-    * auto generate doc.
+    * Closes.
     */
     public function close(){
         return true;
     }
 
     /**
-    * auto generate doc.
+    * Destroy.
     * @param mixed $id
     */
     public function destroy($id){
@@ -47,7 +47,7 @@ class IGKSessionFileSaveHandler{
     }
 
     /**
-    * auto generate doc.
+    * Gc.
     * @param mixed $maxlifetime
     */
     public function gc($maxlifetime){
@@ -59,7 +59,7 @@ class IGKSessionFileSaveHandler{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     public static function Init(){
         if(!defined("IGK_SESS_DIR")){
@@ -121,7 +121,7 @@ class IGKSessionFileSaveHandler{
     }
 
     /**
-    * auto generate doc.
+    * Reads.
     * @param mixed $id
     */
     public function read($id){

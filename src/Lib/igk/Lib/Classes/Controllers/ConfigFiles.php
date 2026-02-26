@@ -13,25 +13,25 @@ namespace IGK\Controllers;
 class ConfigFiles{
 
     /**
-    * auto generate doc.
+    * Constant: middlewares.
     * @var mixed
     */
     const middlewares = 'middlewares';
 
     /**
-    * auto generate doc.
+    * Constant: views.
     * @var mixed
     */
     const views = 'views';
 
     /**
-    * auto generate doc.
+    * Constant: routes.
     * @var mixed
     */
     const routes = 'routes';
 
     /**
-    * auto generate doc.
+    * Constant: services.
     * @var mixed
     */
     const services = 'services';

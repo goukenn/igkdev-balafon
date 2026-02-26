@@ -11,13 +11,13 @@ use Closure;
 class ViewEndConditional{
 
     /**
-    * auto generate doc.
+    * Property: info.
     * @var mixed
     */
     var $info;
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     var $listener;
@@ -34,7 +34,7 @@ class ViewEndConditional{
     }
 
     /**
-    * auto generate doc.
+    * Handles.
     * @param mixed $option
     * @param mixed $id
     * @param mixed $value

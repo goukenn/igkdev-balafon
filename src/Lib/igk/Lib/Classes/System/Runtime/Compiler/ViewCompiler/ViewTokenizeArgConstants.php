@@ -11,25 +11,25 @@ use IGK\System\Runtime\Compiler\CompilerConstants;
 abstract class ViewTokenizeArgConstants extends CompilerConstants{
 
     /**
-    * auto generate doc.
+    * Constant: setter var.
     * @var mixed
     */
     const SETTER_VAR = '$___IGK_PHP_SETTER_VAR___';
 
     /**
-    * auto generate doc.
+    * Constant: getter var.
     * @var mixed
     */
     const GETTER_VAR = '$___IGK_PHP_GETTER_VAR___';
 
     /**
-    * auto generate doc.
+    * Constant: expression.
     * @var mixed
     */
     const EXPRESSION = '$___IGK_PHP_EXPRESSION___'; // when depend on variables
 
     /**
-    * auto generate doc.
+    * Express eval getter.
     * @param string $v
     * @param null|array $dependOn
     */

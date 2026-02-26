@@ -11,7 +11,7 @@ use IGK\System\Html\Forms\FormHelper;
 use IGKValidator;
 
 /**
-* auto generate doc.
+* Trait providing sys user password management action functionality.
 * @package IGK\Actions\Traits
 */
 trait SysUserPasswordManagementActionTrait
@@ -19,7 +19,7 @@ trait SysUserPasswordManagementActionTrait
     use RedirectHelperActionTrait;
 
     /**
-    * auto generate doc.
+    * Resets Password get.
     * @param BaseController $ctrl
     */
     public function resetPassword_get(BaseController $ctrl)
@@ -63,7 +63,7 @@ trait SysUserPasswordManagementActionTrait
     }
 
     /**
-    * auto generate doc.
+    * Resets Password post.
     */
     public function resetPassword_post()
     {

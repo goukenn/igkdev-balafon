@@ -23,7 +23,7 @@ use IGK\System\IToJSon;
 interface IControllerConfigurationData extends IToArray, IToJSon{
 
     /**
-    * auto generate doc.
+    * Returns.
     */
     public function get();
     public function storeConfig();

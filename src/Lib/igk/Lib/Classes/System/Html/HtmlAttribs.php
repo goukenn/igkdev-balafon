@@ -14,38 +14,38 @@ use IGK\System\Html\Dom\XmlNode;
 use IGK\System\Html\HtmlExpressionAttribute;
 
 /**
-* auto generate doc.
+* Igkhtml attribs.
 */
 class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     use IGK\System\Polyfill\ArrayAccessSelfTrait;
     use IGK\System\Polyfill\IteratorTrait;
 
     /**
-    * auto generate doc.
+    * Constant: activate.
     * @var mixed
     */
     const ACTIVATE=1;
 
     /**
-    * auto generate doc.
+    * Constant: attribs.
     * @var mixed
     */
     const ATTRIBS=2;
 
     /**
-    * auto generate doc.
+    * Constant: iterator.
     * @var mixed
     */
     const ITERATOR=3;
 
     /**
-    * auto generate doc.
+    * Constant: owner.
     * @var mixed
     */
     const OWNER=4;
 
     /**
-    * auto generate doc.
+    * Property: f.
     * @var mixed
     */
     private $_f;
@@ -177,7 +177,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Iterator current.
     */
 
     protected function _iterator_current(){
@@ -188,7 +188,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Iterator key.
     */
 
     protected function _iterator_key(){
@@ -197,7 +197,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Activate.
     * @param mixed $n
     */
 
@@ -213,7 +213,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
 
     public function Clear(){
@@ -221,7 +221,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Deactivate.
     * @param mixed $n
     */
 
@@ -234,7 +234,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Dispose.
     */
 
     public function Dispose(){
@@ -246,7 +246,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Returns Activate Attribs.
     */
 
     public function getActivateAttribs(){
@@ -257,7 +257,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Returns Attributes.
     */
 
     public function getAttributes(){
@@ -265,7 +265,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Returns Count.
     */
 
     public function getCount(){
@@ -276,7 +276,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Returns NS.
     */
 
     public function getNS(){
@@ -284,7 +284,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Returns Owner.
     */
 
     public function getOwner(){
@@ -292,7 +292,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Next.
     * @return void
     */
 
@@ -306,7 +306,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     ///<remark >every expression key must start with '@igk:expression' name or value will be set to default </summary>
 
     /**
-    * auto generate doc.
+    * Offset set expression.
     * @param mixed $key
     * @param mixed $value
     * @return void
@@ -327,7 +327,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Rewind.
     * @return void
     */
 
@@ -350,7 +350,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Sets.
     * @param mixed $key
     * @param mixed $value
     */
@@ -391,7 +391,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * To array.
     */
 
     public function to_array(){
@@ -399,7 +399,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * To arrayi.
     */
 
     public function to_arrayi(){
@@ -412,7 +412,7 @@ class IGKHtmlAttribs extends IGKObject implements ArrayAccess, Iterator{
     }
 
     /**
-    * auto generate doc.
+    * Valid.
     * @return bool
     */
 

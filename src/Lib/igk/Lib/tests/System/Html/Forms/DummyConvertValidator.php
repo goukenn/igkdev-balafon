@@ -7,7 +7,7 @@ use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
 use IGK\System\Html\Forms\Validations\FormFieldValidatorContainerBase;
 
 /**
-* auto generate doc.
+* Dummy convert validator.
 * @package IGK\Tests\System\Html\Forms
 */
 class DummyConvertValidator extends FormFieldValidatorContainerBase{
@@ -18,7 +18,7 @@ class DummyConvertValidator extends FormFieldValidatorContainerBase{
     private $m_target;
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $data
     * @param null|mixed $default
     * @param array & $error
@@ -44,7 +44,7 @@ class DummyConvertValidator extends FormFieldValidatorContainerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Fields.
     * @return array
     */
     public function getFields():array{
@@ -54,7 +54,7 @@ class DummyConvertValidator extends FormFieldValidatorContainerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Target Class.
     */
     public function getTargetClass(){
         return $this->m_target;

@@ -10,25 +10,25 @@ namespace IGK\System\Composer\Traits;
 trait ComposerPackageFileTrait{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: authors.
     * @var mixed
     */
     var $authors;
 
     /**
-    * auto generate doc.
+    * Property: require.
     * @var mixed
     */
     var $require;
 
     /**
-    * auto generate doc.
+    * Property: require dev.
     * @var mixed
     */
     var $requireDev;

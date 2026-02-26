@@ -19,13 +19,13 @@ class SchemaBuilder implements ArrayAccess{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: output.
     * @var mixed
     */
     private $_output;
 
     /**
-    * auto generate doc.
+    * Property: migrations.
     * @var mixed
     */
     private $_migrations;
@@ -91,7 +91,7 @@ class SchemaBuilder implements ArrayAccess{
     //
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -101,7 +101,7 @@ class SchemaBuilder implements ArrayAccess{
     //
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     protected function _access_OffsetGet($n){
@@ -110,7 +110,7 @@ class SchemaBuilder implements ArrayAccess{
     //
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $n
     * @param mixed $v
     */
@@ -120,7 +120,7 @@ class SchemaBuilder implements ArrayAccess{
     //
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     * @param mixed $v
     */

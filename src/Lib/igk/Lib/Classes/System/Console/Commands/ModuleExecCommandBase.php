@@ -11,7 +11,7 @@ use IGK\System\Console\AppExecCommand;
 abstract class ModuleExecCommandBase extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: module.
     * @var mixed
     */
     protected $module;

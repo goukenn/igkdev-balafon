@@ -27,43 +27,43 @@ final class MenuController extends ConfigControllerBase
     use NoDbActiveControllerTrait;
 
     /**
-    * auto generate doc.
+    * Constant: config menu flag.
     * @var mixed
     */
     const CONFIG_MENU_FLAG = 0xa02;
 
     /**
-    * auto generate doc.
+    * Constant: config selected group.
     * @var mixed
     */
     const CONFIG_SELECTED_GROUP = 0xa03;
 
     /**
-    * auto generate doc.
+    * Constant: config selected menu.
     * @var mixed
     */
     const CONFIG_SELECTED_MENU = 0xa04;
 
     /**
-    * auto generate doc.
+    * Constant: config selected page.
     * @var mixed
     */
     const CONFIG_SELECTED_PAGE = 0xa05;
 
     /**
-    * auto generate doc.
+    * Constant: menu change key.
     * @var mixed
     */
     const MENU_CHANGE_KEY = "CustomMenuChanged";
 
     /**
-    * auto generate doc.
+    * Constant: system menu flag.
     * @var mixed
     */
     const SYSTEM_MENU_FLAG = 0xa01;
 
     /**
-    * auto generate doc.
+    * Constant: user menu flag.
     * @var mixed
     */
     const USER_MENU_FLAG = 0xa0a;
@@ -777,7 +777,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Adapter Name.
     * @return string
     */
     public function getDataAdapterName():string
@@ -1399,14 +1399,14 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Available.
     */
     protected function getIsAvailable(){
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     * @return bool
     */
     public function getIsVisible():bool{
@@ -1414,7 +1414,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Config Page Available.
     */
     public function getIsConfigPageAvailable(){
         return false;

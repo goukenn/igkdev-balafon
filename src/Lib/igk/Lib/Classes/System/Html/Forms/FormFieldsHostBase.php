@@ -95,7 +95,7 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Form Field Property Type.
     * @param ReflectionProperty $props
     * @param mixed $v_a
     * @param mixed & $r
@@ -113,7 +113,7 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Props Type.
     * @param ReflectionProperty $props
     * @param mixed & $r
     */
@@ -133,7 +133,7 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Field Type From Primitive.
     * @param string $type
     */
     public static function GetFieldTypeFromPrimitive(string $type)

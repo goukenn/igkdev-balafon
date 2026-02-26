@@ -26,19 +26,19 @@ abstract class PageControllerBase extends ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Constant: page constant.
     * @var mixed
     */
     const PAGE_CONSTANT= IGK_USER_SETTING + 0xB;
 
     /**
-    * auto generate doc.
+    * Constant: page user.
     * @var mixed
     */
     const PAGE_USER=self::PAGE_CONSTANT + 1;
 
     /**
-    * auto generate doc.
+    * Constant: page template.
     * @var mixed
     */
     const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
@@ -61,7 +61,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Table Const.
     * @param mixed $n
     */
     public function getTableConst($n){
@@ -74,7 +74,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Returns User Dir.
     */
     protected function getUserDir(){
         if($u=$this->User)
@@ -83,7 +83,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Returns User Setting File.
     */
     protected function getUserSettingFile(){
         if($u=$this->User){
@@ -93,7 +93,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Returns User Settings.
     */
     protected function getUserSettings(){
         $settings=$this->getEnvParam(self::ENV_PARAM_USER_SETTINGS);
@@ -110,7 +110,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Handles redirection uri.
     * @param mixed $u
     * @param mixed $forcehandle
     */
@@ -119,7 +119,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Handles Page.
     * @param mixed $ctrl
     * @param mixed $view
     */
@@ -128,7 +128,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Handles View.
     * @param mixed $view
     */
     protected function handleView($view){
@@ -159,7 +159,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Navtohome.
     */
     public function navtohome(){
         $this->resetCurrentView();
@@ -168,7 +168,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     }
 
     /**
-    * auto generate doc.
+    * Store user settings.
     */
     protected function storeUserSettings(){
         $settings=$this->getUserSettings();

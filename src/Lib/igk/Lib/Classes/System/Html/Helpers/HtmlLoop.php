@@ -11,7 +11,7 @@ namespace IGK\System\Html\Helpers;
 class HtmlLoop{
 
     /**
-    * auto generate doc.
+    * Lists.
     * @param mixed $n
     * @param mixed $i
     */

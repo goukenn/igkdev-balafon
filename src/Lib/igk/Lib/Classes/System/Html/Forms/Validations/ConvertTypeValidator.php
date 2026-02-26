@@ -11,13 +11,13 @@ namespace IGK\System\Html\Forms\Validations;
 class ConvertTypeValidator extends ConvertTypeValidatorBase{
 
     /**
-    * auto generate doc.
+    * Property: fields.
     * @var mixed
     */
     private $m_fields;
 
     /**
-    * auto generate doc.
+    * Sets Fields.
     * @param null|array $fields
     */
     public function setFields(?array $fields){
@@ -25,7 +25,7 @@ class ConvertTypeValidator extends ConvertTypeValidatorBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Fields.
     * @return array
     */
     public function getFields(): array {

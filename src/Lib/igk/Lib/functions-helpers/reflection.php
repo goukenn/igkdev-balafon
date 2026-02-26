@@ -119,7 +119,7 @@ function igk_reflection_get_constants($cl)
 if (!function_exists('igk_reflection_get_private_member')) {
 
 /**
-* auto generate doc.
+* Igk reflection get private member.
 * @param mixed $cl
 * @param mixed $modifier
 * @param mixed $non_static

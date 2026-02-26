@@ -22,37 +22,37 @@ use ReflectionException;
 class Loader implements IResponse {
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $m_controller;
 
     /**
-    * auto generate doc.
+    * Property: output.
     * @var mixed
     */
     private $m_output;
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $m_listener;
 
     /**
-    * auto generate doc.
+    * Cache: cache fs.
     * @var mixed
     */
     private $_cache_fs;
 
     /**
-    * auto generate doc.
+    * Property: loader load files.
     * @var mixed
     */
     private $loader_load_files = [];
 
     /**
-    * auto generate doc.
+    * Loaded files.
     */
     public function loaded_files(){
         return $this->loader_load_files;

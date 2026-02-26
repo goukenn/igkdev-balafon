@@ -14,7 +14,7 @@
 abstract class IGKPageZoneCtrl extends \IGK\Controllers\ControllerTypeBase {
 
     /**
-    * auto generate doc.
+    * Property: view zone.
     * @var mixed
     */
     private $m_viewZone;

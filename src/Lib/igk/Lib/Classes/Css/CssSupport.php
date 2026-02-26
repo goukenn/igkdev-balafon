@@ -9,19 +9,19 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKMedia;
 
 /**
-* auto generate doc.
+* Css support.
 * @package IGK\Css
 */
 class CssSupport implements ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Property: rule.
     * @var mixed
     */
     var $rule;
 
     /**
-    * auto generate doc.
+    * Property: media.
     * @var mixed
     */
     var $media; 
@@ -43,7 +43,7 @@ class CssSupport implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString()
@@ -63,7 +63,7 @@ class CssSupport implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -73,7 +73,7 @@ class CssSupport implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
 
@@ -82,7 +82,7 @@ class CssSupport implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Returns Css Def.
     * @param mixed $theme
     * @param mixed $systheme
     * @param mixed $minfile

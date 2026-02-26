@@ -15,7 +15,7 @@ namespace IGK\System\Http;
 class Cookies{
 
     /**
-    * auto generate doc.
+    * Constant: user id.
     * @var mixed
     */
     const USER_ID = 'uid';

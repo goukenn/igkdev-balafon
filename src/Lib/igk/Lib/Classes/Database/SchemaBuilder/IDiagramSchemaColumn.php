@@ -10,72 +10,72 @@ namespace IGK\Database\SchemaBuilder;
 interface IDiagramSchemaColumn{
 
     /**
-    * auto generate doc.
+    * Comment.
     * @param null|string $comment
     * @return IDiagramSchemaColumn
     */
     function comment(?string $comment): IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Type.
     * @param string $type
     * @return IDiagramSchemaColumn
     */
     function type(string $type):IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Size.
     * @param null|int $size
     * @return IDiagramSchemaColumn
     */
     function size(?int $size):IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Id.
     * @return IDiagramSchemaColumn
     */
     function id():IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Primary.
     * @return IDiagramSchemaColumn
     */
     function primary():IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Autoincrement.
     * @return IDiagramSchemaColumn
     */
     function autoincrement():IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Default.
     * @param mixed $defaultValue
     * @return IDiagramSchemaColumn
     */
     function default($defaultValue):IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Varchar.
     * @param int $length
     * @return IDiagramSchemaColumn
     */
     function varchar(int $length): IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Unique.
     * @return IDiagramSchemaColumn
     */
     function unique():IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Index.
     * @return IDiagramSchemaColumn
     */
     function index():IDiagramSchemaColumn;
 
     /**
-    * auto generate doc.
+    * Notnull.
     * @return IDiagramSchemaColumn
     */
     function notnull():IDiagramSchemaColumn;

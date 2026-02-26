@@ -15,7 +15,7 @@ class CompilerNodeModifyDetector extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: modify.
     * @var mixed
     */
     private $m_modify = false;
@@ -26,25 +26,25 @@ class CompilerNodeModifyDetector extends HtmlNode
     private $m_document;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:compiler-modifynode-detector";
 
     /**
-    * auto generate doc.
+    * Property: freeze clear modify.
     * @var mixed
     */
     private $m_freezeClearModify = false;
 
     /**
-    * auto generate doc.
+    * Property: sys modify.
     * @var mixed
     */
     static $sm_sys_modify = false;
 
     /**
-    * auto generate doc.
+    * Callback handler for filter callback.
     * @var mixed
     */
     static $sm_filter_callback = null;
@@ -55,7 +55,7 @@ class CompilerNodeModifyDetector extends HtmlNode
     private $m_class_array =[];
 
     /**
-    * auto generate doc.
+    * Constant: clear flag param.
     * @var mixed
     */
     const CLEAR_FLAG_PARAM = "clearFlag";
@@ -124,7 +124,7 @@ class CompilerNodeModifyDetector extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Returns Freeze Clear Modify.
     */
     public function getFreezeClearModify()
     {
@@ -132,7 +132,7 @@ class CompilerNodeModifyDetector extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Sets Freeze Clear Modify.
     * @param bool $freeze
     */
     public function setFreezeClearModify(bool $freeze)
@@ -141,7 +141,7 @@ class CompilerNodeModifyDetector extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -199,7 +199,7 @@ class CompilerNodeModifyDetector extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -207,7 +207,7 @@ class CompilerNodeModifyDetector extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Sets Content.
     * @param mixed $v
     */
     public function setContent($v)

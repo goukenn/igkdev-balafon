@@ -11,7 +11,7 @@ use IGK\System\IO\Path;
 trait HookNameTrait{
 
     /**
-    * auto generate doc.
+    * Hook name.
     * @param string $name
     */
     public static function HookName(string $name){

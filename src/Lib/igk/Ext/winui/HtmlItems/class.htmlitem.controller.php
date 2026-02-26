@@ -9,7 +9,7 @@
 use IGK\Controllers\NonVisibleControllerBase;
 
 /**
-* auto generate doc.
+* Html node controller.
 */
 final class HtmlNodeController extends NonVisibleControllerBase{
     /**

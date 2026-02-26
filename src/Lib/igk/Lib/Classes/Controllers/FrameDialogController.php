@@ -12,13 +12,13 @@ use IGK\System\Html\Dom\HtmlDialogFrameNode;
 use IGK\IFrameController;
 
 /**
-* auto generate doc.
+* Frame dialog controller.
 * @package IGK\Controllers
 */
 final class FrameDialogController extends NonVisibleControllerBase implements IFrameController{
 
     /**
-    * auto generate doc.
+    * Constant: frame keys.
     * @var mixed
     */
     const FRAME_KEYS="FRAMES";
@@ -31,7 +31,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Closes frame ajx.
     */
 
     public function close_frame_ajx(){
@@ -43,7 +43,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Closes All Frame.
     */
 
     public function closeAllFrame(){
@@ -58,7 +58,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Closes Frame.
     * @param null|mixed $id
     * @param null|mixed $navigate
     */
@@ -102,7 +102,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Closes Frame ajx.
     */
 
     public function closeFrame_ajx(){
@@ -111,7 +111,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Contain frame.
     * @param mixed $id
     * @param mixed $frame
     * @param mixed $remove
@@ -135,7 +135,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Creates Frame.
     * @param mixed $id
     * @param mixed $owner
     * @param null|mixed $closeuri
@@ -172,7 +172,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Returns Frame.
     * @param mixed $id
     */
 
@@ -185,7 +185,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Returns Frame Ids.
     */
 
     public function getFrameIds(){
@@ -196,7 +196,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Returns Frames.
     */
 
     public function getFrames(){
@@ -204,7 +204,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
 
@@ -213,7 +213,7 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Frame Available.
     * @param mixed $id
     */
 

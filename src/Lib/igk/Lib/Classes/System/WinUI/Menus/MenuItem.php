@@ -17,49 +17,49 @@ use function igk_resources_gets as __;
 class MenuItem{
 
     /**
-    * auto generate doc.
+    * Constant: gp name.
     * @var mixed
     */
     const GP_NAME=0x2;
 
     /**
-    * auto generate doc.
+    * Constant: name.
     * @var mixed
     */
     const NAME=0x1;
 
     /**
-    * auto generate doc.
+    * Constant: page.
     * @var mixed
     */
     const PAGE=0x6;
 
     /**
-    * auto generate doc.
+    * Constant: position.
     * @var mixed
     */
     const POSITION=0x4;
 
     /**
-    * auto generate doc.
+    * Constant: title.
     * @var mixed
     */
     const TITLE=0x5;
 
     /**
-    * auto generate doc.
+    * Constant: imagekey.
     * @var mixed
     */
     const IMAGEKEY=0x6;
 
     /**
-    * auto generate doc.
+    * Constant: uri.
     * @var mixed
     */
     const URI=0x3;
 
     /**
-    * auto generate doc.
+    * Property: .
     * @var mixed
     */
     private $_;
@@ -138,35 +138,35 @@ class MenuItem{
     // }
 
     /**
-    * auto generate doc.
+    * Returns Current Page.
     */
     public function getCurrentPage(){
         return igk_getv($this->_, self::PAGE);
     }
 
     /**
-    * auto generate doc.
+    * Returns Group.
     */
     public function getGroup(){
         return igk_getv($this->_, self::GP_NAME);
     }
 
     /**
-    * auto generate doc.
+    * Returns Has Childs.
     */
     public function getHasChilds(){
         return 0;
     }
 
     /**
-    * auto generate doc.
+    * Returns Index.
     */
     public function getIndex(){
         return igk_getv($this->_, self::POSITION);
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return mixed
     */
     public function getName(): mixed{
@@ -174,21 +174,21 @@ class MenuItem{
     }
 
     /**
-    * auto generate doc.
+    * Returns Title.
     */
     public function getTitle(){
         return igk_getv($this->_, self::TITLE);
     }
 
     /**
-    * auto generate doc.
+    * Returns Uri.
     */
     public function getUri(){
         return igk_getv($this->_, self::URI);
     }
 
     /**
-    * auto generate doc.
+    * Sets Flag.
     * @param mixed $p
     * @param mixed $v
     */
@@ -201,7 +201,7 @@ class MenuItem{
     }
 
     /**
-    * auto generate doc.
+    * Sets Group.
     * @param mixed $gpName
     */
     public function setGroup($gpName){
@@ -210,7 +210,7 @@ class MenuItem{
     }
 
     /**
-    * auto generate doc.
+    * Sorts Menu By Display Text.
     * @param mixed $a
     * @param mixed $b
     */
@@ -219,7 +219,7 @@ class MenuItem{
     }
 
     /**
-    * auto generate doc.
+    * Sorts Menu By Index.
     * @param mixed $a
     * @param mixed $b
     */
@@ -232,7 +232,7 @@ class MenuItem{
     }
 
     /**
-    * auto generate doc.
+    * Sorts Menu By Name.
     * @param mixed $a
     * @param mixed $b
     */
@@ -241,7 +241,7 @@ class MenuItem{
     }
 
     /**
-    * auto generate doc.
+    * Updates Uri.
     * @param mixed $uri
     */
     public function updateUri($uri){  

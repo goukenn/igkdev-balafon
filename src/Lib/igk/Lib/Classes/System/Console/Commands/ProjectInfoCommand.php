@@ -21,19 +21,19 @@ class ProjectInfoCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--project:info';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'view project\'s store information';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -42,19 +42,19 @@ class ProjectInfoCommand extends AppExecCommand
 	];
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "project";
 
     /**
-    * auto generate doc.
+    * Constant: cnf file.
     * @var mixed
     */
     const CNF_FILE = Constants::PROJECT_CONF_FILE;
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     */

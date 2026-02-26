@@ -31,19 +31,19 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     private $m_tokenOptions;
 
     /**
-    * auto generate doc.
+    * Property: converter.
     * @var mixed
     */
     var $converter;
 
     /**
-    * auto generate doc.
+    * Property: flags.
     * @var mixed
     */
     private $m_flags = [];
 
     /**
-    * auto generate doc.
+    * Property: clodeblock.
     * @var mixed
     */
     private $m_clodeblock = [];
@@ -57,7 +57,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     }
 
     /**
-    * auto generate doc.
+    * Handle white space.
     * @param mixed $options
     * @param mixed $id
     * @param mixed $value
@@ -66,7 +66,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     }
 
     /**
-    * auto generate doc.
+    * Handles Token.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value
@@ -281,7 +281,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     }
 
     /**
-    * auto generate doc.
+    * Compile source.
     * @param string $source
     * @return ?string
     */
@@ -292,7 +292,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     }
 
     /**
-    * auto generate doc.
+    * Merges Source Code.
     * @return ?string
     */
     public function mergeSourceCode(): ?string
@@ -422,7 +422,7 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
     }
 
     /**
-    * auto generate doc.
+    * Handles Read Class.
     * @param mixed & $flag
     * @param IReadTokenOptions $options
     * @param mixed $id

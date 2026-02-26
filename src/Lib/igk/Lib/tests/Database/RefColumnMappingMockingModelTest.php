@@ -12,20 +12,20 @@ use IGK\Models\ModelBase;
 * @author C.A.D. BONDJE DOUE
 */
 /**
-* auto generate doc.
+* Ref column mapping mocking model.
 * @package IGK\Tests\Database
 */
 class RefColumnMappingMockingModel extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Returns Data Table Definition.
     */
     public function getDataTableDefinition(){
         return [];
     }
 
     /**
-    * auto generate doc.
+    * Get table column info.
     * @return ?array
     */
     protected function _getTableColumnInfo() : ?array{
@@ -37,7 +37,7 @@ class RefColumnMappingMockingModel extends ModelBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Table.
     */
     public function getTable(){
         return 'mocking';

@@ -12,7 +12,7 @@ use IGKException;
 class ExceptionErrorRequestResponse extends ErrorRequestResponse{
 
     /**
-    * auto generate doc.
+    * Property: exception.
     * @var mixed
     */
     private $m_exception;

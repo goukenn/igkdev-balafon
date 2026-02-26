@@ -11,37 +11,37 @@ namespace IGK\XSD;
 abstract class XsdTypes{
 
     /**
-    * auto generate doc.
+    * Constant: tstring.
     * @var mixed
     */
     const TSTRING = "xs:string";
 
     /**
-    * auto generate doc.
+    * Constant: tfloat.
     * @var mixed
     */
     const TFLOAT = "xs:float";
 
     /**
-    * auto generate doc.
+    * Constant: tinteger.
     * @var mixed
     */
     const TINTEGER = "xs:integer";
 
     /**
-    * auto generate doc.
+    * Constant: tdecimal.
     * @var mixed
     */
     const TDECIMAL = "xs:decimal";
 
     /**
-    * auto generate doc.
+    * Constant: tdate.
     * @var mixed
     */
     const TDATE = "xs:date";
 
     /**
-    * auto generate doc.
+    * Constant: ttime.
     * @var mixed
     */
     const TTIME = "xs:time";

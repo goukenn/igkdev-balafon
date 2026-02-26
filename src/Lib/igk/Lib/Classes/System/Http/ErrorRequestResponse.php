@@ -9,25 +9,25 @@ use IGK\System\Html\Dom\HtmlDocTheme;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Error request response.
 * @package IGK\System\Http
 */
 class ErrorRequestResponse extends RequestResponse{
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type = "json";
 
     /**
-    * auto generate doc.
+    * Property: code.
     * @var mixed
     */
     var $code = RequestResponseCode::BadRequest;
 
     /**
-    * auto generate doc.
+    * Property: message.
     * @var mixed
     */
     var $message;

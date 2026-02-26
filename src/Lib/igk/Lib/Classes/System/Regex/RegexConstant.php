@@ -11,31 +11,31 @@ namespace IGK\System\Regex;
 class RegexConstant{
 
     /**
-    * auto generate doc.
+    * Constant: version check.
     * @var mixed
     */
     const VERSION_CHECK = '(?P<version>[0-9]+(\.[0-9]+){0,3})';
 
     /**
-    * auto generate doc.
+    * Constant: int regex.
     * @var mixed
     */
     const INT_REGEX = "/^[0-9]+$/i";
 
     /**
-    * auto generate doc.
+    * Constant: guid check.
     * @var mixed
     */
     const GUID_CHECK = "(?P<brack>\{)?(?P<guid>[0-9a-f]+(-[0-9a-f]+){4})(?(brack)\}|)";
 
     /**
-    * auto generate doc.
+    * Constant: guid regex.
     * @var mixed
     */
     const GUID_REGEX = "/".self::GUID_CHECK."/i";
 
     /**
-    * auto generate doc.
+    * Constant: template arg placeholder regex.
     * @var mixed
     */
     const TEMPLATE_ARG_PLACEHOLDER_REGEX = "/\{\{\s*\b(?P<name>[\w_]+)\b\s*\}\}/";

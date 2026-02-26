@@ -10,13 +10,13 @@ use IGK\Database\DbColumnInfo;
 use igk\PDF as PDFModule;
 
 /**
-* auto generate doc.
+* Igkbilling ctrl.
 */
 abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null)
@@ -28,7 +28,7 @@ abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Store.
     * @param mixed $caddyInfo
     */
     public function store($caddyInfo)

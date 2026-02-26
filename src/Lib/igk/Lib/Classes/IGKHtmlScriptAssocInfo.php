@@ -10,19 +10,19 @@
 use IGK\System\IToArray;
 
 /**
-* auto generate doc.
+* Igkhtml script assoc info.
 */
 final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
     use IGK\System\Polyfill\ScriptAssocArrayAccessTrait;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $data;
 
     /**
-    * auto generate doc.
+    * Properties: init cache, store.
     * @var mixed
     */
     static $sm_initCache, $sm_store;

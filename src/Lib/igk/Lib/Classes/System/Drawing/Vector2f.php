@@ -11,13 +11,13 @@ namespace IGK\System\Drawing;
 use IGKObject;
 
 /**
-* auto generate doc.
+* Vector2f.
 * @package IGK\System\Drawing
 */
 final class Vector2f extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: x, y.
     * @var mixed
     */
     private $m_x, $m_y;
@@ -33,7 +33,7 @@ final class Vector2f extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString(){
@@ -41,7 +41,7 @@ final class Vector2f extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * From string.
     * @param mixed $data
     */
 
@@ -53,7 +53,7 @@ final class Vector2f extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns X.
     */
 
     public function getX(){
@@ -61,7 +61,7 @@ final class Vector2f extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Y.
     */
 
     public function getY(){
@@ -69,7 +69,7 @@ final class Vector2f extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets X.
     * @param mixed $value
     */
 
@@ -78,7 +78,7 @@ final class Vector2f extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Y.
     * @param mixed $value
     */
 

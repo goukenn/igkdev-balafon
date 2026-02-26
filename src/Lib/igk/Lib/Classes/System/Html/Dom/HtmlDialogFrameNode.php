@@ -12,19 +12,19 @@ use IGK\Resources\R;
 use IGKEvents;
 
 /**
-* auto generate doc.
+* Html dialog frame node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlDialogFrameNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Properties: box, box content, height, title, width, callback method, close btn, close call back even
     * @var mixed
     */
     private $m_Box, $m_BoxContent, $m_Height, $m_Title, $m_Width, $m_callbackMethod, $m_closeBtn, $m_closeCallBackEvent, $m_closeMethodUri, $m_closeUri, $m_form, $m_framectrl, $m_id, $m_owner, $m_reloadcallbackMethod, $m_script;
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -82,7 +82,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Get dialog attrib.
     */
 
     public function __get_dialog_attrib(){
@@ -90,7 +90,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Adds Close Call Back Event.
     * @param mixed $obj
     * @param mixed $method
     */
@@ -102,7 +102,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Clears Childs.
     */
 
     public function ClearChilds(){
@@ -111,7 +111,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Closes Method.
     */
 
     public function closeMethod(){
@@ -125,7 +125,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Box.
     */
 
     public function getBox(){
@@ -133,7 +133,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Box Content.
     */
 
     public function getBoxContent(){
@@ -141,7 +141,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Getcallback method.
     */
 
     public function getcallbackMethod(){
@@ -149,7 +149,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Close Btn.
     */
 
     public function getCloseBtn(){
@@ -157,7 +157,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Getclose method uri.
     */
 
     public function getcloseMethodUri(){
@@ -165,7 +165,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Getclose uri.
     */
 
     public function getcloseUri(){
@@ -173,7 +173,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Form.
     */
 
     public function getForm(){
@@ -181,7 +181,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Height.
     */
 
     public function getHeight(){
@@ -189,7 +189,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Id.
     */
 
     public function getId(){
@@ -197,7 +197,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     */
 
     public function getIsVisible(){
@@ -208,7 +208,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Owner.
     */
 
     public function getOwner(){
@@ -216,7 +216,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Script.
     */
 
     public function getScript(){
@@ -224,7 +224,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Title.
     */
 
     public function getTitle(){
@@ -232,7 +232,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Width.
     */
 
     public function getWidth(){
@@ -240,7 +240,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Removes Close Call Back Event.
     * @param mixed $obj
     * @param mixed $method
     */
@@ -252,7 +252,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Setcallback method.
     * @param mixed $value
     */
 
@@ -261,7 +261,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Setclose method uri.
     * @param mixed $value
     */
 
@@ -270,7 +270,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Setclose uri.
     * @param mixed $value
     */
 
@@ -279,7 +279,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sets Form.
     * @param mixed $value
     */
 
@@ -288,7 +288,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sets Height.
     * @param mixed $value
     */
 
@@ -297,7 +297,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sets Title.
     * @param mixed $value
     */
 
@@ -306,7 +306,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sets Width.
     * @param mixed $value
     */
 

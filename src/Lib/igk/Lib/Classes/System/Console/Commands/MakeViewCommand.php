@@ -15,32 +15,32 @@ use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 
 /**
-* auto generate doc.
+* Make view command.
 * @package IGK\System\Console\Commands
 */
 class MakeViewCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--make:view";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "make";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "make new project's view";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -54,7 +54,7 @@ class MakeViewCommand extends AppExecCommand
     ];
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = "controller viewname | viewname [options]";
@@ -163,7 +163,7 @@ class MakeViewCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Help.
     */
 
     public function help()
@@ -175,7 +175,7 @@ class MakeViewCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Returns Init View Content.
     * @param string $viewname
     * @param null|string $type
     * @return string
@@ -198,7 +198,7 @@ class MakeViewCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Returns Styled Def Data.
     * @param string $ext
     * @return string
     */

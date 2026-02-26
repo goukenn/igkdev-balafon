@@ -8,20 +8,20 @@ namespace IGK\Tests\System\Compilers;
 use IGK\Tests\Controllers\TestController;
 
 /**
-* auto generate doc.
+* Compile test controller.
 * @package IGK\Tests\System\Compilers
 */
 class CompileTestController extends TestController
 {
 
     /**
-    * auto generate doc.
+    * Path to entry dir.
     * @var mixed
     */
     var $entryDir;
 
     /**
-    * auto generate doc.
+    * Returns Articles Dir.
     */
 
     public function getArticlesDir()
@@ -30,7 +30,7 @@ class CompileTestController extends TestController
     }
 
     /**
-    * auto generate doc.
+    * Returns Declared Dir.
     * @return string
     */
 
@@ -40,7 +40,7 @@ class CompileTestController extends TestController
     }
 
     /**
-    * auto generate doc.
+    * Returns App Uri.
     * @param null|string $m
     * @return string
     */
@@ -51,7 +51,7 @@ class CompileTestController extends TestController
     }
 
     /**
-    * auto generate doc.
+    * Returns Base Dir.
     * @return ?string
     */
 

@@ -41,7 +41,7 @@ class ObjectDataValidator implements IDataValidator{
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Validator Mapper.
     */
     public function getDataValidatorMapper(){
         return [];

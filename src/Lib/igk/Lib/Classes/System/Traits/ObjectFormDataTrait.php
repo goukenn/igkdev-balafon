@@ -11,7 +11,7 @@ use IGK\System\Http\Request;
 trait ObjectFormDataTrait{
 
     /**
-    * auto generate doc.
+    * Returns Content Secure Form Request.
     * @param Request $request
     * @return ?array
     */
@@ -21,7 +21,7 @@ trait ObjectFormDataTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Validator Mapper.
     * @param null|array $tab
     */
     protected function getDataValidatorMapper(?array $tab = null)

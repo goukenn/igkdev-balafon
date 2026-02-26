@@ -18,13 +18,13 @@ use IGKServices;
 class AppServiceTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Property: base services.
     * @var mixed
     */
     private static $sm_baseServices;
 
     /**
-    * auto generate doc.
+    * Sets up shared resources before all tests.
     * @return void
     */
     public static function setUpBeforeClass(): void
@@ -35,7 +35,7 @@ class AppServiceTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests services clear.
     */
     public function test_services_clear(){
         
@@ -45,7 +45,7 @@ class AppServiceTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests services register service.
     */
     public function test_services_register_service(){
         $i = IGKServices::getInstance();
@@ -64,7 +64,7 @@ class AppServiceTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests services register transient service.
     */
     public function test_services_register_transient_service(){
         $i = IGKServices::getInstance();
@@ -83,21 +83,21 @@ class AppServiceTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Interface for foo service test.
 * @package IGK\Tests\Core
 */
 interface IFooServiceTest extends IAppService{
 }
 
 /**
-* auto generate doc.
+* Dummy foo service test.
 * @package IGK\Tests\Core
 */
 class DummyFooServiceTest implements IFooServiceTest{
     use ServicePropertyTrait;
 
     /**
-    * auto generate doc.
+    * Property: x.
     * @var mixed
     */
     var $x = 'value';

@@ -13,19 +13,19 @@ use IGK\System\Uri;
 class ImageLoader{
 
     /**
-    * auto generate doc.
+    * Path to outdir.
     * @var mixed
     */
     var $outdir;
 
     /**
-    * auto generate doc.
+    * Flag: hash.
     * @var mixed
     */
     var $hash = "crc32b";
 
     /**
-    * auto generate doc.
+    * Property: loaded.
     * @var mixed
     */
     private $m_loaded = [];
@@ -68,7 +68,7 @@ class ImageLoader{
     }
 
     /**
-    * auto generate doc.
+    * Loads Content.
     * @param mixed $src
     */
     public function loadContent($src){

@@ -14,7 +14,7 @@ namespace IGK\Manager;
 class BalafonFrameworkManager{
 
     /**
-    * auto generate doc.
+    * Property: handle all action.
     * @var mixed
     */
     var $handleAllAction;

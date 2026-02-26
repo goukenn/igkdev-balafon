@@ -11,13 +11,13 @@ namespace IGK\System\WinUI\Menus;
 use IGKObject;
 
 /**
-* auto generate doc.
+* Menu item object.
 * @package IGK\System\WinUI\Menus
 */
 class MenuItemObject extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: sub menus, uri.
     * @var mixed
     */
     private $m_subMenus, $m_uri;
@@ -33,7 +33,7 @@ class MenuItemObject extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Submenu.
     */
 
     public function getSubmenu(){
@@ -41,7 +41,7 @@ class MenuItemObject extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Uri.
     */
 
     public function getUri(){

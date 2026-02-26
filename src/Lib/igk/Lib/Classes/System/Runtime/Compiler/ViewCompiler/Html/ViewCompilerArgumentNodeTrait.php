@@ -10,7 +10,7 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
 trait ViewCompilerArgumentNodeTrait{
 
     /**
-    * auto generate doc.
+    * Returns Instruction.
     * @param mixed $reset
     * @return ?string
     */

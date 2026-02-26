@@ -10,19 +10,19 @@ namespace IGK\System\Runtime\Compiler;
 abstract class CompilerConstants{
 
     /**
-    * auto generate doc.
+    * Constant: loop context data var.
     * @var mixed
     */
     const LOOP_CONTEXT_DATA_VAR = '__igk_loop_context_data__';
 
     /**
-    * auto generate doc.
+    * Constant: binding data context var.
     * @var mixed
     */
     const BINDING_DATA_CONTEXT_VAR = '___igk_binding_data_context___';
 
     /**
-    * auto generate doc.
+    * Constant: binding context var name.
     * @var mixed
     */
     const BINDING_CONTEXT_VAR_NAME = '$__igk_data_context__';

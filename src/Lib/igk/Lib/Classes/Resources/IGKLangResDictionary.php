@@ -17,7 +17,7 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: f.
     * @var mixed
     */
     private $_f;
@@ -77,7 +77,7 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Loads.
     * @param string $file
     */
     public function load(string $file){
@@ -90,7 +90,7 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Sets.
     * @param mixed $key
     * @param mixed $value
     */
@@ -99,7 +99,7 @@ final class IGKLangResDictionary implements ArrayAccess, IteratorAggregate{
     }
 
     /**
-    * auto generate doc.
+    * Returns Iterator.
     * @return Traversable
     */
     public function getIterator(): Traversable {

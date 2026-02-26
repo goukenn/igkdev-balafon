@@ -13,31 +13,31 @@ abstract class MapContentValidatorBase
 {
 
     /**
-    * auto generate doc.
+    * Property: validators.
     * @var mixed
     */
     private static $sm_validators;
 
     /**
-    * auto generate doc.
+    * Property: notvalid msg.
     * @var mixed
     */
     protected $notvalid_msg = 'not a valid number.';
 
     /**
-    * auto generate doc.
+    * Property: missing default value.
     * @var mixed
     */
     protected $missingDefaultValue = null;
 
     /**
-    * auto generate doc.
+    * Property: default value.
     * @var mixed
     */
     protected $defaultValue = null;
 
     /**
-    * auto generate doc.
+    * Property: allow null value.
     * @var mixed
     */
     protected $allowNullValue = false;
@@ -69,7 +69,7 @@ abstract class MapContentValidatorBase
     }
 
     /**
-    * auto generate doc.
+    * Updates Setting.
     * @param mixed $defaultValue
     * @param mixed $missingDefault
     * @param bool $allowNullValue
@@ -124,7 +124,7 @@ abstract class MapContentValidatorBase
     }
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @return bool
@@ -159,7 +159,7 @@ abstract class MapContentValidatorBase
     }
 
     /**
-    * auto generate doc.
+    * Handles Error.
     * @param mixed $value
     * @param mixed $key
     * @param mixed & $error

@@ -10,13 +10,13 @@ namespace IGK\System;
 class HookHandler{
 
     /**
-    * auto generate doc.
+    * Property: callable.
     * @var mixed
     */
     private $callable;
 
     /**
-    * auto generate doc.
+    * Property: args.
     * @var mixed
     */
     private $args;
@@ -33,7 +33,7 @@ class HookHandler{
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     * @param mixed $e
     */
     public function invoke($e){

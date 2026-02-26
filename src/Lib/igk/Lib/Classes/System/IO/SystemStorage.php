@@ -12,7 +12,7 @@ use IGKException;
 class SystemStorage extends Storage{
 
     /**
-    * auto generate doc.
+    * Path to root dir.
     * @var mixed
     */
     private $root_dir;
@@ -29,7 +29,7 @@ class SystemStorage extends Storage{
     }
 
     /**
-    * auto generate doc.
+    * Exists.
     * @param mixed $path
     * @return bool
     */
@@ -38,7 +38,7 @@ class SystemStorage extends Storage{
     }
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param mixed $path
     * @return ?object
     */
@@ -50,7 +50,7 @@ class SystemStorage extends Storage{
     }
 
     /**
-    * auto generate doc.
+    * Unlink.
     * @param mixed $path
     */
     public function unlink($path) {

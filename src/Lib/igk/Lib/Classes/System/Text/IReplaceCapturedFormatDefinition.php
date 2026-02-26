@@ -20,7 +20,7 @@ namespace IGK\System\Text;
 interface IReplaceCapturedFormatDefinition extends IRegexCaptureInfo{
 
     /**
-    * auto generate doc.
+    * Returns Has Sub Children.
     * @return bool
     */
     function getHasSubChildren():bool;

@@ -20,31 +20,31 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     // + | register user
 
     /**
-    * auto generate doc.
+    * Property: reg adapter.
     * @var mixed
     */
     private static $sm_regAdapter;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     protected $m_name;
 
     /**
-    * auto generate doc.
+    * Property: relations.
     * @var mixed
     */
     protected $m_relations;
 
     /**
-    * auto generate doc.
+    * Property: filter column.
     * @var mixed
     */
     protected $m_filter_column = true;
 
     /**
-    * auto generate doc.
+    * Property: lengthdata.
     * @var mixed
     */
     protected static $LENGTHDATA = ["int", "varchar", "char", "decimal"];
@@ -72,7 +72,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     public abstract function getSendDbQueryListener(): ?IDbSendQueryListener;
 
     /**
-    * auto generate doc.
+    * Returns Has Error.
     */
     function getHasError()
     {
@@ -80,7 +80,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
 
     /**
-    * auto generate doc.
+    * Returns Error Code.
     */
     function getErrorCode()
     {
@@ -88,7 +88,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
 
     /**
-    * auto generate doc.
+    * Returns Error.
     */
     function getError()
     {
@@ -106,7 +106,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
 
     /**
-    * auto generate doc.
+    * Returns Engine Support.
     * @return bool
     */
     public function getEngineSupport(): bool
@@ -133,7 +133,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Length Data.
     * @param string $type
     * @return bool
     */
@@ -171,7 +171,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     abstract function getDataTableDefinition(string $tablename);
 
     /**
-    * auto generate doc.
+    * Returns Adapter.
     * @param mixed $controllerOrAdpaterName
     * @param mixed $throwException
     */
@@ -326,7 +326,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     */
     public function getName()
     {
@@ -589,7 +589,7 @@ abstract class DataAdapterBase extends IGKObject implements IDataDriver
     }
 
     /**
-    * auto generate doc.
+    * Last id.
     */
     public function last_id()
     {

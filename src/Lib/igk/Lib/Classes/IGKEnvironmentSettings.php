@@ -13,19 +13,19 @@ use IGKEnvironment;
 class IGKEnvironmentSettings{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Cache: no page cache.
     * @var mixed
     */
     var $no_page_cache;
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
         if (self::$sm_instance === null){

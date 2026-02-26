@@ -12,19 +12,19 @@ use IGK\System\WinUI\Forms\FormData;
 class UserApiChangePwdFormData extends FormData{
 
     /**
-    * auto generate doc.
+    * Property: password.
     * @var mixed
     */
     var $password;
 
     /**
-    * auto generate doc.
+    * Property: confirm password.
     * @var mixed
     */
     var $confirmPassword;
 
     /**
-    * auto generate doc.
+    * Returns Content Secure Form Request.
     * @param Request $request
     * @return ?array
     */

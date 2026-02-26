@@ -10,7 +10,7 @@ namespace IGK\System\Security\Web;
 class ObjectContentValidator  extends MapContentValidatorBase{
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @return bool

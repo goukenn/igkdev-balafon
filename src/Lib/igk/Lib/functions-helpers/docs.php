@@ -9,7 +9,7 @@
 if (!function_exists('igk_doc_interface')){
 
 /**
-* auto generate doc.
+* Igk doc interface.
 * @param mixed $obj
 */
 function igk_doc_interface($obj){

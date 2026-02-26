@@ -16,38 +16,38 @@ use \ApplicationController;
 use Illuminate\Support\Facades\Log;
 
 /**
-* auto generate doc.
+* Out side links command.
 * @package IGK\System\Console\Commands
 */
 class OutSideLinksCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--outsidelinks";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "utility";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "retrieve all outside links";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [ 
     ];
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $path
     * @param mixed $viewname
@@ -83,7 +83,7 @@ class OutSideLinksCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Help.
     */
 
     public function help(){

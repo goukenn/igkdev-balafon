@@ -24,7 +24,7 @@ abstract class TokenCompilerBase implements ICompiler{
     var $noComment = false;
 
     /**
-    * auto generate doc.
+    * Handles Token.
     * @param ReadTokenOptions $options
     * @param null|string $id
     * @param string $value

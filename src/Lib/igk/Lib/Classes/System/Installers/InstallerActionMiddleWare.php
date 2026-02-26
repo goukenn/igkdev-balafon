@@ -11,19 +11,19 @@ use Exception;
 class InstallerActionMiddleWare implements IMiddleWareAction{
 
     /**
-    * auto generate doc.
+    * Property: next.
     * @var mixed
     */
     private $_next;
 
     /**
-    * auto generate doc.
+    * Property: service.
     * @var mixed
     */
     private $_service;
 
     /**
-    * auto generate doc.
+    * Invoke.
     */
     public function invoke() {
     }

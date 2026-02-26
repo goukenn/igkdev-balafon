@@ -10,13 +10,13 @@ namespace IGK\Actions\Traits;
 trait RedirectHelperActionTrait{
 
     /**
-    * auto generate doc.
+    * Path to redirect.
     * @var mixed
     */
     protected $redirect;
 
     /**
-    * auto generate doc.
+    * Path to redirect coder.
     * @var mixed
     */
     protected $redirectCoder;

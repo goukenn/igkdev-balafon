@@ -15,7 +15,7 @@ trait NotifyActionTrait{
     var $notifyActionName;
 
     /**
-    * auto generate doc.
+    * Error.
     * @param string $message
     */
     protected function error(string $message){
@@ -24,7 +24,7 @@ trait NotifyActionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Danger.
     * @param string $message
     */
     protected function danger(string $message){
@@ -33,7 +33,7 @@ trait NotifyActionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Success.
     * @param string $message
     */
     protected function success(string $message){
@@ -42,7 +42,7 @@ trait NotifyActionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Msg.
     * @param string $message
     * @param string $type
     */
@@ -52,7 +52,7 @@ trait NotifyActionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Notifies.
     * @param string $message
     * @param null|string $type
     */
@@ -63,7 +63,7 @@ trait NotifyActionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Notication Controller.
     */
     protected function getNoticationController(){
         return igk_notifyctrl($this->notifyActionName ?? $this->fname);

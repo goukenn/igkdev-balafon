@@ -20,169 +20,169 @@ class Mail extends IGKObject implements IMailAttachmentContainer
 {
 
     /**
-    * auto generate doc.
+    * Constant: content html text.
     * @var mixed
     */
     const CONTENT_HTML_TEXT = "text/html";
 
     /**
-    * auto generate doc.
+    * Constant: content img png.
     * @var mixed
     */
     const CONTENT_IMG_PNG = "image/png";
 
     /**
-    * auto generate doc.
+    * Constant: content plain text.
     * @var mixed
     */
     const CONTENT_PLAIN_TEXT = IGK_CT_PLAIN_TEXT;
 
     /**
-    * auto generate doc.
+    * Constant: part alternative.
     * @var mixed
     */
     const PART_ALTERNATIVE = "multipart/alternative";
 
     /**
-    * auto generate doc.
+    * Constant: part mixed.
     * @var mixed
     */
     const PART_MIXED = "multipart/mixed";
 
     /**
-    * auto generate doc.
+    * Constant: utf8 charset.
     * @var mixed
     */
     const UTF8_CHARSET = "UTF-8";
 
     /**
-    * auto generate doc.
+    * Constant: base64 chunk.
     * @var mixed
     */
     const BASE64_CHUNK = 76;
 
     /**
-    * auto generate doc.
+    * Property: error msg.
     * @var mixed
     */
     private $ErrorMsg;
 
     /**
-    * auto generate doc.
+    * Property: html charset.
     * @var mixed
     */
     private $html_charset = "iso-8859-1";
 
     /**
-    * auto generate doc.
+    * Property: files.
     * @var mixed
     */
     private $m_files;
 
     /**
-    * auto generate doc.
+    * Property: from.
     * @var mixed
     */
     private $m_from;
 
     /**
-    * auto generate doc.
+    * Property: htmlmsg.
     * @var mixed
     */
     private $m_htmlmsg;
 
     /**
-    * auto generate doc.
+    * Property: pwd.
     * @var mixed
     */
     private $m_pwd;
 
     /**
-    * auto generate doc.
+    * Property: replyto.
     * @var mixed
     */
     private $m_replyto;
 
     /**
-    * auto generate doc.
+    * Property: smtp port.
     * @var mixed
     */
     private $m_smtp_port;
 
     /**
-    * auto generate doc.
+    * Property: smtphost.
     * @var mixed
     */
     private $m_smtphost;
 
     /**
-    * auto generate doc.
+    * Property: socket timeout.
     * @var mixed
     */
     private $m_socketTimeout = 15;
 
     /**
-    * auto generate doc.
+    * Type of socket type.
     * @var mixed
     */
     private $m_socketType = "tls";
 
     /**
-    * auto generate doc.
+    * Property: textmsg.
     * @var mixed
     */
     private $m_textmsg;
 
     /**
-    * auto generate doc.
+    * Property: title.
     * @var mixed
     */
     private $m_title;
 
     /**
-    * auto generate doc.
+    * Property: to.
     * @var mixed
     */
     private $m_to;
 
     /**
-    * auto generate doc.
+    * Property: to bcc.
     * @var mixed
     */
     private $m_toBcc;
 
     /**
-    * auto generate doc.
+    * Property: tocc.
     * @var mixed
     */
     private $m_tocc;
 
     /**
-    * auto generate doc.
+    * Property: use auth.
     * @var mixed
     */
     private $m_useAuth;
 
     /**
-    * auto generate doc.
+    * Property: user.
     * @var mixed
     */
     private $m_user;
 
     /**
-    * auto generate doc.
+    * Property: text charset.
     * @var mixed
     */
     private $text_charset = "iso-8859-1";
 
     /**
-    * auto generate doc.
+    * Property: base64encoding.
     * @var mixed
     */
     var $Base64Encoding = true;
 
     /**
-    * auto generate doc.
+    * Returns Error Msg.
     */
     public function getErrorMsg()
     {
@@ -972,7 +972,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     }
 
     /**
-    * auto generate doc.
+    * Sets Mail Auth Password.
     * @param null|string $password
     */
     public function setMailAuthPassword(?string $password)

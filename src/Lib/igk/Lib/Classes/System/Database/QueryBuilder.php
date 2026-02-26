@@ -23,43 +23,43 @@ class QueryBuilder
 {
 
     /**
-    * auto generate doc.
+    * Property: conditions.
     * @var mixed
     */
     private $m_conditions;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     private $m_options;
 
     /**
-    * auto generate doc.
+    * Property: model.
     * @var mixed
     */
     private $m_model;
 
     /**
-    * auto generate doc.
+    * Property: with.
     * @var mixed
     */
     private $m_with;
 
     /**
-    * auto generate doc.
+    * Count: with total count.
     * @var mixed
     */
     private $m_withTotalCount;
 
     /**
-    * auto generate doc.
+    * Listener: row listener.
     * @var mixed
     */
     private $m_row_listener;
 
     /**
-    * auto generate doc.
+    * Constant: joins.
     * @var mixed
     */
     const JOINS = QueryOptions::JOINS;
@@ -76,7 +76,7 @@ class QueryBuilder
     }
 
     /**
-    * auto generate doc.
+    * Append columns.
     * @param null|array $columns
     */
     public function append_columns(?array $columns)
@@ -134,7 +134,7 @@ class QueryBuilder
     }
 
     /**
-    * auto generate doc.
+    * Inner join.
     * @param mixed $condition
     */
     public static function InnerJoin($condition)
@@ -143,7 +143,7 @@ class QueryBuilder
     }
 
     /**
-    * auto generate doc.
+    * Or.
     * @param array $conditions
     */
     public static function Or(array $conditions)
@@ -252,7 +252,7 @@ class QueryBuilder
     }
 
     /**
-    * auto generate doc.
+    * Joins table.
     * @param string $table
     */
     public function join_table(string $table)
@@ -284,7 +284,7 @@ class QueryBuilder
     }
 
     /**
-    * auto generate doc.
+    * Latest.
     * @param null|string $column
     */
     public function latest(?string $column = null)
@@ -665,7 +665,7 @@ class QueryBuilder
     }
 
     /**
-    * auto generate doc.
+    * Group by.
     * @param null|array $column
     */
     public function groupBy(?array $column = null)

@@ -14,19 +14,19 @@ use function igk_resources_gets as __;
 final class IGKLangKey implements IHtmlGetValue {
 
     /**
-    * auto generate doc.
+    * Property: args.
     * @var mixed
     */
     var $args;
 
     /**
-    * auto generate doc.
+    * Property: def.
     * @var mixed
     */
     var $def;
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     var $key;

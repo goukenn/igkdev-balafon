@@ -14,7 +14,7 @@ use IGK\System\Core\AppEvent;
 trait EventHostTrait{
 
     /**
-    * auto generate doc.
+    * Returns Event Object.
     * @return array
     */
     protected abstract function getEventObject():array;

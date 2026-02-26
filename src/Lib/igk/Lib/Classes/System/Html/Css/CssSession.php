@@ -13,25 +13,25 @@ use stdClass;
 class CssSession extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Constant: app theme name.
     * @var mixed
     */
     const APP_THEME_NAME = 'igk_app_theme_name';
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     private $_data;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
 		if (self::$sm_instance === null){
@@ -72,7 +72,7 @@ class CssSession extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Theme.
     * @param mixed $default
     * @return ?string
     */

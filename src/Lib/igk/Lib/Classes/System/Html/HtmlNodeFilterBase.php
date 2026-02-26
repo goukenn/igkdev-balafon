@@ -8,19 +8,19 @@ use IGK\Helper\StringUtility;
 use IGKException;
 
 /**
-* auto generate doc.
+* Html node filter base.
 * @package IGK\System\Html
 */
 abstract class HtmlNodeFilterBase{
 
     /**
-    * auto generate doc.
+    * Binds.
     * @param mixed $node
     */
     public abstract function bind($node);
 
     /**
-    * auto generate doc.
+    * Prefilter.
     * @param mixed $name
     * @param mixed $args
     */
@@ -29,7 +29,7 @@ abstract class HtmlNodeFilterBase{
     }
 
     /**
-    * auto generate doc.
+    * Creates Filter.
     * @param mixed $tag
     */
     public static function CreateFilter($tag){
@@ -70,7 +70,7 @@ abstract class HtmlNodeFilterBase{
     }
 
     /**
-    * auto generate doc.
+    * Prefilter node hook callback.
     * @param mixed $e
     */
     public static function PrefilterNodeHookCallback($e){
@@ -91,7 +91,7 @@ abstract class HtmlNodeFilterBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Entry Name Space.
     */
     protected static function GetEntryNameSpace(){
         return null;

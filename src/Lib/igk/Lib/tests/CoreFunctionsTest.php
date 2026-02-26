@@ -12,14 +12,14 @@ use IGK\Helper\StringUtility;
 use IGK\System\Html\HtmlUtils;
 
 /**
-* auto generate doc.
+* Core functions test.
 * @package IGK\Tests
 */
 class CoreFunctionsTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests func igk dirname.
     */
     public function test_func_igk_dirname(){
         $pd1 = igk_dirname('');
@@ -34,7 +34,7 @@ class CoreFunctionsTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests snake 1.
     */
     public function test_snake_1(){
 
@@ -50,7 +50,7 @@ class CoreFunctionsTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests parse bool.
     */
     public function test_parse_bool(){
 
@@ -74,7 +74,7 @@ class CoreFunctionsTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests Relative Path.
     */
     public function testRelativePath()
     {
@@ -133,7 +133,7 @@ class CoreFunctionsTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests String Utility Camel Case.
     */
     public function testStringUtilityCamelCase(){
         $this->assertEquals("Default",
@@ -152,7 +152,7 @@ class CoreFunctionsTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests str remove line.
     */
     public function test_str_remove_line(){
         $str = "la vie\n \n \n est\n belle";
@@ -161,7 +161,7 @@ class CoreFunctionsTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests str remove line 2.
     */
     public function test_str_remove_line_2(){ 
         $this->expectException(\TypeError::class);
@@ -169,7 +169,7 @@ class CoreFunctionsTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests html is html content.
     */
     public function test_html_is_html_content(){   
         $this->assertFalse(

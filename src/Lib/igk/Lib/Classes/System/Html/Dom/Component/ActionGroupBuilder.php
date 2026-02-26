@@ -10,26 +10,26 @@ namespace IGK\System\Html\Dom\Component;
 class ActionGroupBuilder{
 
     /**
-    * auto generate doc.
+    * Property: target.
     * @var mixed
     */
     var $target;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options;
 
     /**
-    * auto generate doc.
+    * Adds Seperator.
     */
     public function addSeperator(){
         return $this->target->span()->setClass('igk-sep');
     }
 
     /**
-    * auto generate doc.
+    * Input.
     * @param null|mixed $name
     * @param mixed $type
     * @param null|mixed $value
@@ -41,7 +41,7 @@ class ActionGroupBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Builds.
     * @param array $items
     */
     public function build(array $items){

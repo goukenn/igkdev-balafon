@@ -30,25 +30,25 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
 {
 
     /**
-    * auto generate doc.
+    * Property: context tab.
     * @var mixed
     */
     private $m_context_tab = [];
 
     /**
-    * auto generate doc.
+    * Property: template.
     * @var mixed
     */
     private $m_template = [];
 
     /**
-    * auto generate doc.
+    * Name of fallback tag name.
     * @var mixed
     */
     var $fallbackTagName = 'div';
 
     /**
-    * auto generate doc.
+    * Constant: raw context field.
     * @var mixed
     */
     const RAW_CONTEXT_FIELD = 'raw';
@@ -59,7 +59,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     var $contextDataArgsClass;
 
     /**
-    * auto generate doc.
+    * Property: t.
     * @var mixed
     */
     var $t;
@@ -74,7 +74,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     public $preserveTagCase = false;
 
     /**
-    * auto generate doc.
+    * Constant: key condition.
     * @var mixed
     */
     const KEY_CONDITION = '@_if:';
@@ -100,19 +100,19 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     const KEY_ATTRIBS_ACTIVATION = '_@';
 
     /**
-    * auto generate doc.
+    * Constant: key callback host.
     * @var mixed
     */
     const KEY_CALLBACK_HOST = 'fn()';
 
     /**
-    * auto generate doc.
+    * Constant: key invoke on last.
     * @var mixed
     */
     const KEY_INVOKE_ON_LAST = '::';
 
     /**
-    * auto generate doc.
+    * Constant: key invoke on parent last.
     * @var mixed
     */
     const KEY_INVOKE_ON_PARENT_LAST = '::@';
@@ -122,7 +122,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     const KEY_INVOKE_FUNC = '::fn()';
 
     /**
-    * auto generate doc.
+    * Constant: tag key.
     * @var mixed
     */
     const TAG_KEY = ':tag';
@@ -132,7 +132,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     protected $explode;
 
     /**
-    * auto generate doc.
+    * Pushes Context.
     * @param mixed $new_context
     */
     public function pushContext($new_context)
@@ -146,7 +146,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     }
 
     /**
-    * auto generate doc.
+    * Pops Context.
     */
     public function popContext()
     {
@@ -186,7 +186,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     }
 
     /**
-    * auto generate doc.
+    * Returns true if In Template Definition.
     */
     public function isInTemplateDefinition()
     {

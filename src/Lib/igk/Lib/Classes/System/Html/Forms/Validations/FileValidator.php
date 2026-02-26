@@ -27,7 +27,7 @@ class FileValidator extends FormFieldValidatorBase implements IFormValidator
     }
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param mixed & $error

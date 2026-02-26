@@ -12,20 +12,20 @@ use IGK\System\Html\Dom\HtmlNode;
 class DashboardBase extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: register.
     * @var mixed
     */
     private static $sm_register = [];
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds(){ 
         return false;
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param mixed $name
     * @param mixed $class
     */
@@ -34,7 +34,7 @@ class DashboardBase extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Un register.
     * @param mixed $name
     */
     public static function UnRegister($name){
@@ -42,14 +42,14 @@ class DashboardBase extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Registers List.
     */
     public static function RegisterList(){
         return self::$sm_register;
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param string $name
     */
     public static function Create(string $name){

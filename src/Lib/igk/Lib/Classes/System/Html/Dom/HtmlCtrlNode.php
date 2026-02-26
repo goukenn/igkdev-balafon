@@ -12,7 +12,7 @@ use IGK\Controllers\BaseController;
 class HtmlCtrlNode extends HtmlNode {
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $m_controller;
@@ -29,7 +29,7 @@ class HtmlCtrlNode extends HtmlNode {
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {
@@ -37,7 +37,7 @@ class HtmlCtrlNode extends HtmlNode {
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Visible.
     */
     public function getIsVisible(){
         return $this->m_controller->getIsVisible();

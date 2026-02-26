@@ -11,7 +11,7 @@ namespace IGK\System\Diagnostics;
 class Debugger{
 
     /**
-    * auto generate doc.
+    * Count: fs filesystem check counter.
     * @var mixed
     */
     var $fs_filesystem_check_counter;

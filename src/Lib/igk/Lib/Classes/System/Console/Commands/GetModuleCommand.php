@@ -12,13 +12,13 @@ use IGK\System\Console\Logger;
 class GetModuleCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--get-module';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='get module command';
@@ -26,7 +26,7 @@ class GetModuleCommand extends AppExecCommand{
 	/* var \$category; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $name
     * @param null|string $package_site

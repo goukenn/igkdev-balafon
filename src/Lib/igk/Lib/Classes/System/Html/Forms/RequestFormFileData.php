@@ -11,31 +11,31 @@ namespace IGK\System\Html\Forms;
 class RequestFormFileData{
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
 
     /**
-    * auto generate doc.
+    * Name of tmp name.
     * @var mixed
     */
     var $tmp_name;
 
     /**
-    * auto generate doc.
+    * Property: error.
     * @var mixed
     */
     var $error;
 
     /**
-    * auto generate doc.
+    * Property: size.
     * @var mixed
     */
     var $size;

@@ -11,13 +11,13 @@ namespace IGK\System\IO\Configuration;
 class ConfigurationEncoder{
 
     /**
-    * auto generate doc.
+    * Property: separator.
     * @var mixed
     */
     var $separator = '=';
 
     /**
-    * auto generate doc.
+    * Property: delimiter.
     * @var mixed
     */
     var $delimiter = ',';

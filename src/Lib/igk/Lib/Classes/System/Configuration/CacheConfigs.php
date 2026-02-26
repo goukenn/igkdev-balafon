@@ -21,7 +21,7 @@ final class CacheConfigs
 {
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
@@ -37,13 +37,13 @@ final class CacheConfigs
     private $changed = false;
 
     /**
-    * auto generate doc.
+    * Property: update references.
     * @var mixed
     */
     private $m_update_references = [];
 
     /**
-    * auto generate doc.
+    * Property: changed prop.
     * @var mixed
     */
     private $m_changed_prop = [];
@@ -55,13 +55,13 @@ final class CacheConfigs
     private $mtime;
 
     /**
-    * auto generate doc.
+    * Property: config times.
     * @var mixed
     */
     private $config_times = [];
 
     /**
-    * auto generate doc.
+    * Cache: disbale cache store.
     * @var mixed
     */
     private $m_disbale_cache_store;
@@ -232,7 +232,7 @@ final class CacheConfigs
     }
 
     /**
-    * auto generate doc.
+    * Registers Cache.
     * @param BaseController $controller
     * @param mixed $name
     * @param mixed $value

@@ -15,13 +15,13 @@ use IGK\System\IToArray;
 class IGKObjStorage implements IToArray{
 
     /**
-    * auto generate doc.
+    * Property: init.
     * @var mixed
     */
     private $m_init;
 
     /**
-    * auto generate doc.
+    * Property: storage.
     * @var mixed
     */
     private $m_storage = [];
@@ -100,7 +100,7 @@ class IGKObjStorage implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Isset.
     * @param mixed $name
     */
     public function isset($name){

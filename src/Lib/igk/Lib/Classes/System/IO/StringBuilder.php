@@ -14,19 +14,19 @@ use igk;
 class StringBuilder{
 
     /**
-    * auto generate doc.
+    * Property: src.
     * @var mixed
     */
     protected $m_src;
 
     /**
-    * auto generate doc.
+    * Property: instop.
     * @var mixed
     */
     private $m_instop;
 
     /**
-    * auto generate doc.
+    * Constant: trim charlist.
     * @var mixed
     */
     const TRIM_CHARLIST = " \t\n\r\0\x0B";
@@ -123,7 +123,7 @@ class StringBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Rm last.
     * @param string $text
     * @param mixed $number
     * @return StringBuilder
@@ -199,7 +199,7 @@ class StringBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Length.
     * @return int
     */
     public function length(): int{

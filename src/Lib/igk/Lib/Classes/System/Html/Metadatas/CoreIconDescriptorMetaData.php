@@ -10,13 +10,13 @@ namespace IGK\System\Html\Metadatas;
 class CoreIconDescriptorMetaData{
 
     /**
-    * auto generate doc.
+    * Property: rel.
     * @var mixed
     */
     var $rel;
 
     /**
-    * auto generate doc.
+    * Property: href.
     * @var mixed
     */
     var $href;

@@ -11,7 +11,7 @@ use IGK\Controllers\BaseController;
 trait ReigsterUserProfileControllerActionTrait{
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param BaseController $controller
     * @param string $login
     * @param string $pwd

@@ -39,7 +39,7 @@ class ViewCompileProcessCommandHandler{
         }
 
     /**
-    * auto generate doc.
+    * Evaluate.
     * @param mixed $data
     */
     public function evaluate($data){
@@ -72,7 +72,7 @@ class ViewCompileProcessCommandHandler{
         }
 
     /**
-    * auto generate doc.
+    * Reads Layout Args.
     * @param string $data
     */
     public static function ReadLayoutArgs(string $data){
@@ -80,14 +80,14 @@ class ViewCompileProcessCommandHandler{
         }
 
     /**
-    * auto generate doc.
+    * Renders Php Version.
     */
     public function renderPhpVersion(){
             return "echo PHP_VERSION;\n";
         }
 
     /**
-    * auto generate doc.
+    * Sets View As Main Layout.
     */
     public function setViewAsMainLayout(){
             $this->compiler->options->layout->{'@MainLayout'} = 1;
@@ -134,7 +134,7 @@ class ViewCompileProcessCommandHandler{
         }
 
     /**
-    * auto generate doc.
+    * Renders Blf Version.
     */
     public function renderBlfVersion(){
             return 'echo "'.IGK_VERSION.'";';

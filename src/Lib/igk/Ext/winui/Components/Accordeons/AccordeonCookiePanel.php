@@ -5,18 +5,18 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Accordeon cookie panel.
 */
 final class AccordeonCookiePanel extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Index: pindex.
     * @var mixed
     */
     private $m_pindex;
 
     /**
-    * auto generate doc.
+    * Property: o.
     * @var mixed
     */
     private $m_o;

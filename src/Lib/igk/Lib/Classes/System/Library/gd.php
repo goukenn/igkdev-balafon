@@ -7,7 +7,7 @@ namespace IGK\System\Library;
 use IGKGD;
 
 /**
-* auto generate doc.
+* Gd.
 * @package IGK\System\Library
 */
 class gd extends \IGKLibraryBase{

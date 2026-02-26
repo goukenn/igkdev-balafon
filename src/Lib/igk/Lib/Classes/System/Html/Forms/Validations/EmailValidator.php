@@ -14,7 +14,7 @@ use function igk_resources_gets as __;
 class EmailValidator extends FormFieldValidatorBase implements IFormValidator{
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param array & $error
@@ -33,7 +33,7 @@ class EmailValidator extends FormFieldValidatorBase implements IFormValidator{
     }
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */

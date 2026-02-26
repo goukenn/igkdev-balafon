@@ -18,31 +18,31 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
     use ArrayAccessSelfTrait;
 
     /**
-    * auto generate doc.
+    * Property: blocks.
     * @var mixed
     */
     private $m_blocks = [];
 
     /**
-    * auto generate doc.
+    * Property: marker.
     * @var mixed
     */
     private $m_marker = 0;
 
     /**
-    * auto generate doc.
+    * Property: space comment.
     * @var mixed
     */
     var $space_comment = 1;
 
     /**
-    * auto generate doc.
+    * Property: pattern marker.
     * @var mixed
     */
     var $pattern_marker = "/\/\/\s*\+\s*\|/";
 
     /**
-    * auto generate doc.
+    * Returns count of.
     * @return int
     */
     public function count(): int
@@ -51,7 +51,7 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-    * auto generate doc.
+    * Returns Iterator.
     * @return Traversable
     */
     public function getIterator(): Traversable
@@ -60,7 +60,7 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     protected function _access_OffsetGet($n)
@@ -69,7 +69,7 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -97,7 +97,7 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
-    * auto generate doc.
+    * Returns Block Reference.
     */
     public function &getBlockReference()
     {

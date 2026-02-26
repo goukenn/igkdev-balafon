@@ -17,13 +17,13 @@ class ActionFormOptions extends IGKObject{
     var $referer;
 
     /**
-    * auto generate doc.
+    * Property: good uri.
     * @var mixed
     */
     var $good_uri;
 
     /**
-    * auto generate doc.
+    * Property: no register.
     * @var mixed
     */
     var $noRegister;

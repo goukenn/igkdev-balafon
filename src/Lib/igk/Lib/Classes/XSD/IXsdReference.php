@@ -6,13 +6,13 @@
 namespace IGK\XSD;
 
 /**
-* auto generate doc.
+* Interface for xsd reference.
 * @package IGK\XSD
 */
 interface IXsdReference{
 
     /**
-    * auto generate doc.
+    * Returns Ref Type.
     */
     function getRefType();
     /** @return mixed  */

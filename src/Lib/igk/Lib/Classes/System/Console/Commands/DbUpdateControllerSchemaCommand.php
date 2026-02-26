@@ -14,25 +14,25 @@ use IGK\System\Database\Helper\DbUtility;
 class DbUpdateControllerSchemaCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = '--db:schema-update';
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = 'db';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'udpate data-schema and increment the release version';
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage(){
         parent::showUsage();
@@ -40,7 +40,7 @@ class DbUpdateControllerSchemaCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     * @param null|string $file

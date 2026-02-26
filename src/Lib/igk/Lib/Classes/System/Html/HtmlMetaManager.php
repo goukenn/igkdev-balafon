@@ -18,68 +18,68 @@ use IGKObject;
 final class HtmlMetaManager extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Constant: attr content.
     * @var mixed
     */
     const ATTR_CONTENT="content";
     // + | IE tools charset must be specified first
 
     /**
-    * auto generate doc.
+    * Constant: meta charset.
     * @var mixed
     */
     const META_CHARSET = 0;
 
     /**
-    * auto generate doc.
+    * Constant: meta author.
     * @var mixed
     */
     const META_AUTHOR=0x1;
 
     /**
-    * auto generate doc.
+    * Constant: meta content type.
     * @var mixed
     */
     const META_CONTENT_TYPE=self::META_AUTHOR + 0x4;
 
     /**
-    * auto generate doc.
+    * Constant: meta copyright.
     * @var mixed
     */
     const META_COPYRIGHT=self::META_AUTHOR + 0x1;
 
     /**
-    * auto generate doc.
+    * Constant: meta desc.
     * @var mixed
     */
     const META_DESC=self::META_AUTHOR + 0x2;
 
     /**
-    * auto generate doc.
+    * Constant: meta keywords.
     * @var mixed
     */
     const META_KEYWORDS=self::META_AUTHOR + 0x3;
 
     /**
-    * auto generate doc.
+    * Constant: meta generator.
     * @var mixed
     */
     const META_GENERATOR=self::META_AUTHOR + 0x5;
 
     /**
-    * auto generate doc.
+    * Constant: meta viewport.
     * @var mixed
     */
     const META_VIEWPORT=self::META_AUTHOR + 0x6;
 
     /**
-    * auto generate doc.
+    * Constant: meta lastupdate.
     * @var mixed
     */
     const META_LASTUPDATE=self::META_AUTHOR + 0x7;
 
     /**
-    * auto generate doc.
+    * Constant: meta color scheme.
     * @var mixed
     */
     const META_COLOR_SCHEME=self::META_AUTHOR + 0x8;
@@ -208,42 +208,42 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Author.
     */
     public function getAuthor(){
         return HtmlUtils::GetValue($this->m_metas[self::META_AUTHOR][self::ATTR_CONTENT]);
     }
 
     /**
-    * auto generate doc.
+    * Returns Content Type.
     */
     public function getContentType(){
         return HtmlUtils::GetValue($this->m_metas[self::META_CONTENT_TYPE][self::ATTR_CONTENT]);
     }
 
     /**
-    * auto generate doc.
+    * Returns Copyright.
     */
     public function getCopyright(){
         return HtmlUtils::GetValue($this->m_metas[self::META_COPYRIGHT][self::ATTR_CONTENT]);
     }
 
     /**
-    * auto generate doc.
+    * Returns Description.
     */
     public function getDescription(){
         return HtmlUtils::GetValue($this->m_metas[self::META_DESC][self::ATTR_CONTENT]);
     }
 
     /**
-    * auto generate doc.
+    * Returns Keywords.
     */
     public function getKeywords(){
         return HtmlUtils::GetValue($this->m_metas[self::META_KEYWORDS][self::ATTR_CONTENT]);
     }
 
     /**
-    * auto generate doc.
+    * Returns Meta By Id.
     * @param mixed $name
     */
     public function getMetaById($name){
@@ -254,7 +254,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options=null){
@@ -309,14 +309,14 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Clears Key Meta.
     */
     public function clearKeyMeta(){
         $this->m_key_metas = [];
     }
 
     /**
-    * auto generate doc.
+    * Rm meta.
     * @param mixed $name
     */
     public function rmMeta($name){
@@ -326,7 +326,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Attribute.
     * @param mixed $key
     * @param mixed $attr
     * @param mixed $value
@@ -337,7 +337,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Charset.
     * @param string $charset
     */
     public function setCharset(string $charset){
@@ -345,7 +345,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Author.
     * @param mixed $value
     */
     public function setAuthor($value){
@@ -353,7 +353,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Content Type.
     * @param mixed $value
     */
     public function setContentType($value){
@@ -361,7 +361,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Copyright.
     * @param mixed $value
     */
     public function setCopyright($value){
@@ -369,7 +369,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Last Update.
     * @param mixed $value
     */
     public function setLastUpdate($value){
@@ -377,7 +377,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Description.
     * @param mixed $value
     */
     public function setDescription($value){
@@ -385,7 +385,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Sets Keywords.
     * @param mixed $value
     */
     public function setKeywords($value){
@@ -396,7 +396,7 @@ final class HtmlMetaManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Updates Content.
     * @param mixed $key
     * @param mixed $value
     */

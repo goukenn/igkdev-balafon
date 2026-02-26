@@ -10,7 +10,7 @@ namespace IGK\Helper\Expressions;
 class CopyrightExpression extends ValueExpression{
 
     /**
-    * auto generate doc.
+    * Returns.
     * @param string $expression
     */
     public static function Get(string $expression){

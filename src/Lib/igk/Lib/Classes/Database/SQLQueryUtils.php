@@ -28,26 +28,26 @@ class SQLQueryUtils
 {
 
     /**
-    * auto generate doc.
+    * Constant: avail func.
     * @var mixed
     */
     const AVAIL_FUNC = ['IGK_PASSWD_ENCRYPT', 'AES_ENCRYPT', 'BIN', 'CHAR', 'COMPRESS', 'CURRENT_USER', 'AES_DECRYPTDATABASE', 'DAYNAME', 'DES_DECRYPT', 'DES_ENCRYPT', 'ENCRYPT', 'HEX', 'INET6_NTOA', 'INET_NTOA', 'LOAD_FILE', 'LOWER', 'LTRIM', 'MD5', 'MONTHNAME', 'OLD_PASSWORD', 'PASSWORD', 'QUOTE', 'REVERSE', 'RTRIM', 'SHA1', 'SOUNDEX', 'SPACE', 'TRIM', 'UNCOMPRESS', 'UNHEX', 'UPPER', 'USER', 'UUID', 'VERSION', 'ABS', 'ACOS', 'ASCII', 'ASIN', 'ATAN', 'BIT_COUNT', 'BIT_LENGTH', 'CEILING', 'CHAR_LENGTH', 'CONNECTION_ID', 'COS', 'COT', 'CRC32', 'CURRENT_DATE', 'CURRENT_TIME', 'DATE', 'DAYOFMONTH', 'DAYOFWEEK', 'DAYOFYEAR', 'DEGREES', 'EXP', 'FLOOR', 'FROM_DAYS', 'FROM_UNIXTIME', 'HOUR', 'INET6_ATON', 'INET_ATON', 'LAST_DAY', 'LENGTH', 'LN', 'LOG', 'LOG10', 'LOG2', 'MICROSECOND', 'MINUTE', 'MONTH', 'NOW', 'OCT', 'ORD', 'PI', 'QUARTER', 'RADIANS', 'RAND', 'ROUND', 'SECOND', 'SEC_TO_TIME', 'SIGN', 'SIN', 'SQRT', 'SYSDATE', 'TAN', 'TIME', 'TIMESTAMP', 'TIME_TO_SEC', 'TO_DAYS', 'TO_SECONDS', 'UNCOMPRESSED_LENGTH', 'UNIX_TIMESTAMP', 'UTC_DATE', 'UTC_TIME', 'UTC_TIMESTAMP', 'UUID_SHORT', 'WEEK', 'WEEKDAY', 'WEEKOFYEAR', 'YEAR', 'YEARWEEK'];
 
     /**
-    * auto generate doc.
+    * Property: adapter.
     * @var mixed
     */
     protected static $sm_adapter;
 
     /**
-    * auto generate doc.
+    * Property: lengthdata.
     * @var mixed
     */
     public static $LENGTHDATA = array("varchar" => "VarChar", "char" => "Char");
     ///<summary>Represente AllowedDefValue function</summary>
 
     /**
-    * auto generate doc.
+    * Allowed def value.
     */
     public static function AllowedDefValue()
     {
@@ -231,7 +231,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Fallback type.
     * @param mixed $t
     * @param mixed $adapter
     */
@@ -253,7 +253,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Column Definition.
     * @param mixed $v
     * @param mixed $nocomment
     */
@@ -294,7 +294,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Column List.
     * @param mixed $options
     * @param mixed $tbname
     */
@@ -413,7 +413,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Delete Query.
     * @param mixed $tbname
     * @param mixed $values
     */
@@ -450,7 +450,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Extra Options.
     * @param mixed $options
     * @param mixed $ad
     */
@@ -628,7 +628,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns FCN.
     * @param mixed $b
     */
     public static function GetFCN($b)
@@ -637,7 +637,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Insert Query.
     * @param mixed $tbname
     * @param mixed $values
     * @param null|mixed $tableInfo
@@ -678,7 +678,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Select Query.
     * @param mixed $ad
     * @param mixed $tbname
     * @param null|mixed $where
@@ -721,7 +721,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Update Query.
     * @param mixed $tbname
     * @param mixed $values
     * @param null|mixed $condition
@@ -776,7 +776,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param mixed $tbname
     * @param mixed $tableInfo
     * @param mixed $columnName
@@ -936,12 +936,12 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Initializes Config.
     */
     protected function initConfig() {}
 
     /**
-    * auto generate doc.
+    * Inserts.
     * @param mixed $tbname
     * @param mixed $values
     * @param null|mixed $tableinfo
@@ -967,7 +967,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Allowed Def Value.
     * @param mixed $def
     * @param mixed $type
     * @param mixed $value
@@ -996,7 +996,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Resolv type.
     * @param mixed $t
     */
     public static function ResolvType($t)
@@ -1005,7 +1005,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Sets Adapter.
     * @param mixed $ad
     */
     public static function SetAdapter($ad)
@@ -1014,7 +1014,7 @@ class SQLQueryUtils
     }
 
     /**
-    * auto generate doc.
+    * Support default value.
     * @param mixed $type
     */
     public static function supportDefaultValue($type)

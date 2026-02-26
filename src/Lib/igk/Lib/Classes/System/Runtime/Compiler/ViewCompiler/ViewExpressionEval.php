@@ -13,25 +13,25 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $source;
 
     /**
-    * auto generate doc.
+    * Property: variables.
     * @var mixed
     */
     var $variables = [];
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     var $listener;
@@ -43,13 +43,13 @@ class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
     var $dependOn;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "igk:view-expression-eval";
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag(){
         return true;
@@ -91,7 +91,7 @@ class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Returns Tag Name.
     * @param null|mixed $options
     */
     public function getTagName($options = null)
@@ -112,7 +112,7 @@ class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     public function _access_OffsetGet($n){
@@ -120,7 +120,7 @@ class ViewExpressionEval implements IHtmlGetValue, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */

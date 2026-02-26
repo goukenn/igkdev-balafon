@@ -10,25 +10,25 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 class ViewExpressionSetterValueInfo{
 
     /**
-    * auto generate doc.
+    * Property: in use.
     * @var mixed
     */
     private $m_inUse = false;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     private $m_value;
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     private $m_id;
 
     /**
-    * auto generate doc.
+    * Callback handler for update callback.
     * @var mixed
     */
     private $m_updateCallback;
@@ -62,7 +62,7 @@ class ViewExpressionSetterValueInfo{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is In Use.
     */
     public function getIsInUse(){
         return !$this->m_inUse;

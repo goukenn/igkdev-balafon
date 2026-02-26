@@ -7,7 +7,7 @@ namespace IGK\Models\Macros;
 use IGK\System\Number;
 
 /**
-* auto generate doc.
+* Reference models macros.
 * @package IGK\Models\Macros
 */
 class ReferenceModelsMacros {

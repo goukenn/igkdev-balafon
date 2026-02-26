@@ -6,13 +6,13 @@
 namespace IGK\Mapping;
 
 /**
-* auto generate doc.
+* Single map base.
 * @package IGK\Mapping
 */
 abstract class SingleMapBase{
 
     /**
-    * auto generate doc.
+    * Map.
     * @param mixed $data
     */
     abstract function map($data);

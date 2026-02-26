@@ -16,7 +16,7 @@ use IGK\System\Html\Forms\Validations\Annotations\FormFieldAnnotation as FormFie
 class InspectorFormFieldTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests inspectorformfield test list.
     */
     public function test_inspectorformfield_test_list(){
         $r = new DummyValidator; 
@@ -25,7 +25,7 @@ class InspectorFormFieldTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests inspectorformfield number.
     */
     public function test_inspectorformfield_number(){
         $r = new DummyNumberValidator; 
@@ -37,7 +37,7 @@ class InspectorFormFieldTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests inspectorformfield required.
     */
     public function test_inspectorformfield_required(){
         $r = new DummyRequiredValidator; 
@@ -49,26 +49,26 @@ class InspectorFormFieldTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Dummy validator.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class DummyValidator extends InspectorFormFieldValidationBase{
 
     /**
-    * auto generate doc.
+    * Property: x.
     * @var mixed
     */
     var $x;
 
     /**
-    * auto generate doc.
+    * Property: y.
     * @var mixed
     */
     var $y;
 }
 
 /**
-* auto generate doc.
+* Dummy number validator.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class DummyNumberValidator extends InspectorFormFieldValidationBase{
@@ -86,7 +86,7 @@ class DummyNumberValidator extends InspectorFormFieldValidationBase{
 }
 
 /**
-* auto generate doc.
+* Dummy required validator.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class DummyRequiredValidator extends InspectorFormFieldValidationBase{

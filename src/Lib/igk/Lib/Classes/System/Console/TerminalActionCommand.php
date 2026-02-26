@@ -27,7 +27,7 @@ class TerminalActionCommand
     protected $commands = [];
 
     /**
-    * auto generate doc.
+    * Property: errors.
     * @var mixed
     */
     protected $errors = [];
@@ -70,7 +70,7 @@ class TerminalActionCommand
     }
 
     /**
-    * auto generate doc.
+    * On exit.
     */
     protected function onExit()
     {
@@ -85,7 +85,7 @@ class TerminalActionCommand
     }
 
     /**
-    * auto generate doc.
+    * Run command.
     */
     static function _RunCommand()
     {

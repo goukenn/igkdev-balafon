@@ -83,7 +83,7 @@ class UnicodeUtility
     }
 
     /**
-    * auto generate doc.
+    * Regional indicator.
     * @param string $letter
     * @return int
     */

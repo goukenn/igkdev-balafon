@@ -6,13 +6,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html div node.
 * @package IGK\System\Html\Dom
 */
 class HtmlDivNode extends HtmlItemBase {
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = "div"; 

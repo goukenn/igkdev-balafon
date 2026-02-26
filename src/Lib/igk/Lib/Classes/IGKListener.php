@@ -9,18 +9,18 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igklistener.
 */
 class IGKListener implements IListener{
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $listener;
 
     /**
-    * auto generate doc.
+    * Handles calls to undefined methods.
     * @param mixed $n
     * @param mixed $args
     */
@@ -33,7 +33,7 @@ class IGKListener implements IListener{
     }
 
     /**
-    * auto generate doc.
+    * Handles static calls to undefined methods.
     * @param mixed $n
     * @param mixed $args
     */
@@ -43,7 +43,7 @@ class IGKListener implements IListener{
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     * @param mixed $n
     * @param mixed $callback
     */

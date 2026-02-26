@@ -31,37 +31,37 @@ use IGK\Models\ModelBase;
 class PhoneBookTypes extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd id.
     * @var mixed
     */
     const FD_ID="rcphbt_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd name.
     * @var mixed
     */
     const FD_NAME="rcphbt_Name";
 
     /**
-    * auto generate doc.
+    * Constant: fd cat.
     * @var mixed
     */
     const FD_CAT="rcphbt_Cat";
 
     /**
-    * auto generate doc.
+    * Constant: fd cardinality.
     * @var mixed
     */
     const FD_CARDINALITY="rcphbt_Cardinality";
 
     /**
-    * auto generate doc.
+    * Constant: fd create at.
     * @var mixed
     */
     const FD_CREATE_AT="rcphbt_Create_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd update at.
     * @var mixed
     */
     const FD_UPDATE_AT="rcphbt_Update_At";

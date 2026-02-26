@@ -30,7 +30,7 @@ use function igk_resources_gets as __;
 class UserAndGroupController extends ConfigControllerBase{
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -38,14 +38,14 @@ class UserAndGroupController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Config Page Available.
     */
     public function getIsConfigPageAvailable(){
         return true;
     }
 
     /**
-    * auto generate doc.
+    * Initializes Config Menu.
     */
     public function initConfigMenu(){
         return [
@@ -59,7 +59,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController{
@@ -70,7 +70,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Presentation.
     * @param mixed $t
     * @param mixed $ctrl
     */
@@ -341,7 +341,7 @@ class UserAndGroupController extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Removes user from group.
     */
     public function remove_user_from_group(){
         extract((array)igk_get_robj('uid|gid|id'));

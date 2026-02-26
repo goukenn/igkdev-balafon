@@ -10,7 +10,7 @@ use IGKResourceUriResolver;
 use IGKValidator;
 
 /**
-* auto generate doc.
+* Html resolv link value.
 * @package IGK\System\Html
 */
 class HtmlResolvLinkValue extends HtmlAttributeValue implements IHtmlGetValue {

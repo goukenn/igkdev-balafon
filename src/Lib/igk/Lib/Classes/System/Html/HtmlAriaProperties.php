@@ -6,25 +6,25 @@
 namespace IGK\System\Html;
 
 /**
-* auto generate doc.
+* Html aria properties.
 * @package IGK\System\Html
 */
 class HtmlAriaProperties{
 
     /**
-    * auto generate doc.
+    * Constant: label.
     * @var mixed
     */
     const label="aria-label";
 
     /**
-    * auto generate doc.
+    * Constant: hidden.
     * @var mixed
     */
     const hidden = "aria-hidden";
 
     /**
-    * auto generate doc.
+    * Constant: label types.
     * @var mixed
     */
     const label_types = [

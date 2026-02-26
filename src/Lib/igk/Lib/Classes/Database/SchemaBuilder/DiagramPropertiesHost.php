@@ -12,19 +12,19 @@ use IGK\Helper\Activator;
 abstract class DiagramPropertiesHost{
 
     /**
-    * auto generate doc.
+    * Property: p prefix.
     * @var mixed
     */
     protected $p_prefix;
 
     /**
-    * auto generate doc.
+    * Property: properties.
     * @var mixed
     */
     protected $m_properties;
 
     /**
-    * auto generate doc.
+    * Property: resolve link column.
     * @var mixed
     */
     protected $m_resolveLinkColumn;
@@ -35,7 +35,7 @@ abstract class DiagramPropertiesHost{
     protected $m_last;
 
     /**
-    * auto generate doc.
+    * Returns Last Property.
     */
     public function getLastProperty(){
         return $this->m_last;

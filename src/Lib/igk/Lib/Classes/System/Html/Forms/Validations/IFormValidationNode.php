@@ -11,7 +11,7 @@ namespace IGK\System\Html\Forms\Validations;
 interface IFormValidationNode{
 
     /**
-    * auto generate doc.
+    * Validates Request.
     * @param mixed & $outputdata
     * @param mixed & $errors
     */

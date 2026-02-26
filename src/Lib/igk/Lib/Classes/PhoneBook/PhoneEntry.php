@@ -13,67 +13,67 @@ use IGK\Helper\JSonEncodeOption;
 class PhoneEntry{
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     var $id;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type;
 
     /**
-    * auto generate doc.
+    * Property: tel.
     * @var mixed
     */
     var $tel;
 
     /**
-    * auto generate doc.
+    * Name of firstname.
     * @var mixed
     */
     var $firstname;
 
     /**
-    * auto generate doc.
+    * Name of lastname.
     * @var mixed
     */
     var $lastname;
 
     /**
-    * auto generate doc.
+    * Property: email.
     * @var mixed
     */
     var $email;
 
     /**
-    * auto generate doc.
+    * Property: gsm.
     * @var mixed
     */
     var $gsm;
 
     /**
-    * auto generate doc.
+    * Property: phone.
     * @var mixed
     */
     var $phone;
 
     /**
-    * auto generate doc.
+    * Property: organisation.
     * @var mixed
     */
     var $organisation;
 
     /**
-    * auto generate doc.
+    * Property: birthdate.
     * @var mixed
     */
     var $birthdate;
 
     /**
-    * auto generate doc.
+    * To json.
     */
     public function to_json(){
         return JSon::Encode($this, JSonEncodeOption::IgnoreEmpty(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

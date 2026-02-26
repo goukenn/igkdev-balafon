@@ -12,7 +12,7 @@ use IGK\System\Database\SchemaMigrationBuilder;
 abstract class MigrationBase{
 
     /**
-    * auto generate doc.
+    * Up.
     * @param SchemaMigrationBuilder $builder
     */
     abstract function up(SchemaMigrationBuilder $builder);

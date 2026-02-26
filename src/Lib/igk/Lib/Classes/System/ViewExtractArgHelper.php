@@ -12,13 +12,13 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 class ViewExtractArgHelper implements ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Property: output.
     * @var mixed
     */
     private $_output = "";
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     private $_name;
@@ -73,7 +73,7 @@ class ViewExtractArgHelper implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $name
     */
     public function _access_OffsetGet($name){

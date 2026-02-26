@@ -14,7 +14,7 @@
 final class IGKOb{
 
     /**
-    * auto generate doc.
+    * Clean and start.
     */
     public static function CleanAndStart(){
         while(ob_get_level() > 0){

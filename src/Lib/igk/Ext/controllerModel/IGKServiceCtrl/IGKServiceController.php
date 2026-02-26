@@ -26,13 +26,13 @@ abstract class IGKServiceController
 {
 
     /**
-    * auto generate doc.
+    * Constant: doc id.
     * @var mixed
     */
     const DOC_ID = "sys://documents/services";
 
     /**
-    * auto generate doc.
+    * Property: services.
     * @var mixed
     */
     private static $sm_services=[];
@@ -49,7 +49,7 @@ abstract class IGKServiceController
     }
 
     /**
-    * auto generate doc.
+    * Initializes Css Style.
     */
     protected function initCssStyle(){                    
         igk_ctrl_bind_css_file($this,ViewHelper::CurrentDocument()->getTheme(), dirname(__FILE__)."/Styles/".ConstantsEFAULT_THEME_STYLE, 1);  
@@ -57,7 +57,7 @@ abstract class IGKServiceController
     }
 
     /**
-    * auto generate doc.
+    * Configure document.
     * @param mixed $doc
     */
     protected function _configureDocument($doc){
@@ -89,7 +89,7 @@ abstract class IGKServiceController
     public final
 
     /**
-    * auto generate doc.
+    * Base evaluate uri.
     */
     function baseEvaluateUri(){
         $dir = dirname(__FILE__);
@@ -118,7 +118,7 @@ abstract class IGKServiceController
     }
 
     /**
-    * auto generate doc.
+    * Binds Node Class.
     * @param mixed $t
     * @param mixed $fname
     * @param null|mixed $css_def
@@ -133,7 +133,7 @@ abstract class IGKServiceController
     }
 
     /**
-    * auto generate doc.
+    * Cachewsl.
     */
     public function cachewsl(){
         $c = igk_getbool($this->Configs->get("clServiceDisableWSDLCache"));
@@ -143,7 +143,7 @@ abstract class IGKServiceController
     }
 
     /**
-    * auto generate doc.
+    * Clearwsdl cache.
     */
     public function clearwsdl_cache(){
         $tab=array();
@@ -160,7 +160,7 @@ abstract class IGKServiceController
     }
 
     /**
-    * auto generate doc.
+    * Controller loaded.
     */
     public static function controllerLoaded(){
         igk_wln_e(__FILE__.':'.__LINE__, "getConrollerLoaded", "services", igk_count(self::$sm_services));
@@ -168,7 +168,7 @@ abstract class IGKServiceController
     public final
 
     /**
-    * auto generate doc.
+    * Evaluate uri.
     */
     function evaluateUri(){
     
@@ -224,7 +224,7 @@ abstract class IGKServiceController
     }
 
     /**
-    * auto generate doc.
+    * Returns Additional Config Info.
     */
     public static function GetAdditionalConfigInfo(){
         return array(
@@ -237,7 +237,7 @@ abstract class IGKServiceController
     }
 
     /**
-    * auto generate doc.
+    * Returns Additional Default View Content.
     */
     public static function GetAdditionalDefaultViewContent(){
         return <<<EOF
@@ -249,7 +249,7 @@ EOF;
     ///SERVICE FUNC
 
     /**
-    * auto generate doc.
+    * Returns Desc.
     * @param mixed $method
     */
     public function getDesc($method){
@@ -310,7 +310,7 @@ EOF;
     ///<summary>Represente getExposedServiceFunction function</summary>
 
     /**
-    * auto generate doc.
+    * Returns Exposed Service Function.
     */
     public function getExposedServiceFunction(){
         $funclist= [];
@@ -330,7 +330,7 @@ EOF;
     ///<param name="m"></param>
 
     /**
-    * auto generate doc.
+    * Returns Extra.
     * @param mixed $m
     */
     public function getExtra($m){
@@ -347,7 +347,7 @@ EOF;
     public final
 
     /**
-    * auto generate doc.
+    * Returns Parent Article.
     * @param mixed $n
     */
     function getParentArticle($n){
@@ -363,7 +363,7 @@ EOF;
     public final
 
     /**
-    * auto generate doc.
+    * Returns Parent View.
     * @param mixed $n
     */
     function getParentView($n){
@@ -377,7 +377,7 @@ EOF;
     ///<summary>Represente getRootUri function</summary>
 
     /**
-    * auto generate doc.
+    * Returns Root Uri.
     */
     public function getRootUri(){
         return igk_io_baseUri()."/".IGK_SERVICE_BASE_URI;
@@ -385,7 +385,7 @@ EOF;
     ///<summary>Represente getServiceDescription function</summary>
 
     /**
-    * auto generate doc.
+    * Returns Service Description.
     */
     public function getServiceDescription(){
         return $this->getConfig( "clServiceDescription");
@@ -393,7 +393,7 @@ EOF;
     ///<summary>Represente getServiceName function</summary>
 
     /**
-    * auto generate doc.
+    * Returns Service Name.
     */
     public function getServiceName(){
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, "clServiceName"); // strtolower($this->getConfig( "clServiceName"));
@@ -402,7 +402,7 @@ EOF;
     public final
 
     /**
-    * auto generate doc.
+    * Returns Services.
     */
     function getServices(){
         return self::$sm_services;
@@ -411,7 +411,7 @@ EOF;
     ///<param name="d" default="null"></param>
 
     /**
-    * auto generate doc.
+    * Returns Service Uri.
     * @param null|mixed $d
     */
     public function getServiceUri($d=null){
@@ -421,7 +421,7 @@ EOF;
     ///<param name="m"></param>
 
     /**
-    * auto generate doc.
+    * Returns Service View Title.
     * @param mixed $m
     */
     public function getServiceViewTitle($m){
@@ -445,7 +445,7 @@ EOF;
     ///<summary>Represente getWsdlFile function</summary>
 
     /**
-    * auto generate doc.
+    * Returns Wsdl File.
     */
     protected function getWsdlFile(){
         return igk_dir($this->getDataDir()."/service.wsdl");
@@ -453,7 +453,7 @@ EOF;
     ///<summary>start server function</summary>
 
     /**
-    * auto generate doc.
+    * Initializes server.
     */
     protected function init_server(){
         ini_set("soap.wsdl_cache_enabled", $this->Configs->clServiceDisableWSDLCache ? "0": "1");
@@ -485,7 +485,7 @@ EOF;
     ///<param name="wsdl"></param>
 
     /**
-    * auto generate doc.
+    * Initializes wsdl.
     * @param mixed $wsdl
     */
     protected function init_wsdl($wsdl){
@@ -496,7 +496,7 @@ EOF;
     ///<summary>Represente InitComplete function</summary>
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
@@ -506,7 +506,7 @@ EOF;
     ///<summary>init service environment</summary>
 
     /**
-    * auto generate doc.
+    * Initializes Environment.
     * @param mixed $ctrl
     */
     public static function InitEnvironment($ctrl){
@@ -519,7 +519,7 @@ EOF;
     ///<param name="m"></param>
 
     /**
-    * auto generate doc.
+    * Initializes Row View.
     * @param mixed $m
     */
     public function initRowView($m){
@@ -530,7 +530,7 @@ EOF;
     public final
 
     /**
-    * auto generate doc.
+    * Returns true if Exposed Service Function.
     * @param mixed $fn
     */
     function IsExposedServiceFunction($fn){
@@ -543,7 +543,7 @@ EOF;
     ///<summary>Represente pageFolderChanged function</summary>
 
     /**
-    * auto generate doc.
+    * Page folder changed.
     */
     protected function pageFolderChanged(){    }
     ///<summary>Represente register_service function</summary>
@@ -554,7 +554,7 @@ EOF;
     ///<summary>Represente renderDefaultDoc function</summary>
 
     /**
-    * auto generate doc.
+    * Renders Default Doc.
     */
     protected function renderDefaultDoc(){
         $this->init_server();
@@ -565,7 +565,7 @@ EOF;
     ///<param name="c"></param>
 
     /**
-    * auto generate doc.
+    * Renders Error.
     * @param mixed $c
     */
     public function renderError($c){
@@ -579,7 +579,7 @@ EOF;
     ///<param name="t" ref="true"></param>
 
     /**
-    * auto generate doc.
+    * Sets Additional Config Info.
     * @param mixed & $t
     */
     public static function SetAdditionalConfigInfo(& $t){
@@ -594,7 +594,7 @@ EOF;
     ///<summary>call this function to generate a wsdl file</summary>
 
     /**
-    * auto generate doc.
+    * Wsdl.
     * @param null|mixed $a
     * @param mixed $appxml
     */
@@ -615,7 +615,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Refreshes wsdl.
     */
     public function refresh_wsdl(){
         $this->generate_wsdl();
@@ -623,7 +623,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Present title.
     */
     public function present_title(){
         return "SAMMMM";

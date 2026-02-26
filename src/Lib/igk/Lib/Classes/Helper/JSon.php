@@ -26,13 +26,13 @@ class JSon
 {
 
     /**
-    * auto generate doc.
+    * Constant: map to object method.
     * @var mixed
     */
     const _map_to_object_method = '_map_to_object';
 
     /**
-    * auto generate doc.
+    * Constant: json pretty view.
     * @var mixed
     */
     const JSON_PRETTY_VIEW = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES;
@@ -67,7 +67,7 @@ class JSon
     }
 
     /**
-    * auto generate doc.
+    * Filter array.
     * @param mixed & $tv
     */
     protected function _filter_array(&$tv)
@@ -140,7 +140,7 @@ class JSon
     }
 
     /**
-    * auto generate doc.
+    * Map to object.
     * @param mixed $data
     */
     protected function _map_to_object($data)

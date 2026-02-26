@@ -15,7 +15,7 @@ use IGK\XML\XMLNodeType;
 final class HtmlXmlViewerNode extends HtmlNode {
 
     /**
-    * auto generate doc.
+    * Property: cdata.
     * @var mixed
     */
     private $m_cdata;
@@ -30,7 +30,7 @@ final class HtmlXmlViewerNode extends HtmlNode {
     }
 
     /**
-    * auto generate doc.
+    * Returns Content.
     * @param null|mixed $options
     */
     public function getContent($options = null){ 
@@ -65,7 +65,7 @@ final class HtmlXmlViewerNode extends HtmlNode {
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     function getCanAddChilds()
     {

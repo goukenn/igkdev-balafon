@@ -9,12 +9,12 @@
 // @url: https://www.igkdev.com
 
 /**
-* auto generate doc.
+* Igkdata binding script.
 */
 final class IGKDataBindingScript extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: args, shifparent.
     * @var mixed
     */
     private $_args, $_shifparent;

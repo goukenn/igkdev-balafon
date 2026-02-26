@@ -14,13 +14,13 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
 {
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     protected $m_type;
 
     /**
-    * auto generate doc.
+    * Collection of support array.
     * @var mixed
     */
     private $m_supportArray = true;
@@ -36,7 +36,7 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Support Array.
     * @return bool
     */
     public function getSupportArray():bool{
@@ -74,7 +74,7 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
     }
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param array & $error
@@ -138,7 +138,7 @@ abstract class ConvertTypeValidatorBase extends FormFieldValidatorBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Fields.
     * @return array
     */
     abstract function getFields(): array;

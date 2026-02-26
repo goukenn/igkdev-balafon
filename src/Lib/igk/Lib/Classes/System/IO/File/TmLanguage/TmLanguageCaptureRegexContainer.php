@@ -14,13 +14,13 @@ use IGK\System\Text\RegexMatcherPattern;
 class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
 
     /**
-    * auto generate doc.
+    * Property: patterns.
     * @var mixed
     */
     private $m_patterns;
 
     /**
-    * auto generate doc.
+    * Property: container.
     * @var mixed
     */
     private $m_container;
@@ -36,7 +36,7 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
     }
 
     /**
-    * auto generate doc.
+    * Matches.
     * @param string $match
     * @param null|string $tokenID
     * @param null|string $refId
@@ -54,7 +54,7 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
      }
 
     /**
-    * auto generate doc.
+    * Begin.
     * @param string $begin
     * @param null|string $end
     * @param null|string $tokenID
@@ -74,7 +74,7 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
      }
 
     /**
-    * auto generate doc.
+    * While.
     * @param string $begin
     * @param null|string $end
     * @param null|string $tokenID

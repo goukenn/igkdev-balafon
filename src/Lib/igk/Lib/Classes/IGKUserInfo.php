@@ -17,37 +17,37 @@ use IGK\System\IToArray;
 use IGK\System\Traits\StoredPropertiesTrait;
 
 /**
-* auto generate doc.
+* Igkuser info.
 */
 class IGKUserInfo extends IGKObject implements IToArray{
 
     /**
-    * auto generate doc.
+    * Constant: db info key.
     * @var mixed
     */
     const DB_INFO_KEY="sys://db/info";
 
     /**
-    * auto generate doc.
+    * Identifier: cl id.
     * @var mixed
     */
     var $clId;
 
     /**
-    * auto generate doc.
+    * Property: cl login.
     * @var mixed
     */
     var $clLogin;
 
     /**
-    * auto generate doc.
+    * Identifier: cl guid.
     * @var mixed
     */
     var $clGuid;
     // var $clPwd;
 
     /**
-    * auto generate doc.
+    * Property: csrf.
     * @var mixed
     */
     var $csrf;
@@ -59,7 +59,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     public function __construct(){    }
 
     /**
-    * auto generate doc.
+    * Magic setter for dynamic properties.
     * @param mixed $name
     * @param mixed $value
     */
@@ -70,7 +70,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Magic getter for dynamic properties.
     * @param mixed $key
     */
 
@@ -94,7 +94,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Fullname.
     */
 
     public function fullname(){
@@ -115,7 +115,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     ///get all available authorisation for this user
 
     /**
-    * auto generate doc.
+    * Returns Auths.
     */
 
     public function getAuths(){ 
@@ -142,7 +142,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Returns Groups.
     */
 
     public function getGroups(){
@@ -161,7 +161,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Returns Is Authorize.
     * @param mixed $uinfo
     * @param mixed $authname
     * @param mixed $strict
@@ -187,7 +187,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     public final
 
     /**
-    * auto generate doc.
+    * Returns true if Authorize.
     * @param mixed $authname
     * @param null|mixed $authCtrl
     * @param mixed $adapter
@@ -199,7 +199,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * Loads Data.
     * @param mixed $userTableData
     */
 
@@ -212,7 +212,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * To json.
     */
 
     public function to_json(){
@@ -220,7 +220,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * To string.
     */
 
     public function toString(){
@@ -228,7 +228,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     }
 
     /**
-    * auto generate doc.
+    * To array.
     * @return ?array
     */
 

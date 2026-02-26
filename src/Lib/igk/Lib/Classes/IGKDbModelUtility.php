@@ -14,25 +14,25 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     ///note : it used clId as id by default if you don't want to used clId by default for row identification
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_Ctrl;
 
     /**
-    * auto generate doc.
+    * Property: ad.
     * @var mixed
     */
     private $m_ad;
 
     /**
-    * auto generate doc.
+    * Property: errorcode.
     * @var mixed
     */
     private $m_errorcode;
 
     /**
-    * auto generate doc.
+    * Property: errorstr.
     * @var mixed
     */
     private $m_errorstr;
@@ -41,7 +41,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     // }
 
     /**
-    * auto generate doc.
+    * Returns Hash Key.
     * @param mixed $v
     */
     protected function getHashKey($v){    
@@ -58,7 +58,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
 
     /**
-    * auto generate doc.
+    * Returns Cache Key.
     * @param mixed $n
     */
     protected function getCacheKey($n){
@@ -73,7 +73,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
 
     /**
-    * auto generate doc.
+    * Cache.
     * @param mixed $name
     * @param callable $callback
     */
@@ -91,7 +91,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
 
     /**
-    * auto generate doc.
+    * Last error.
     */
     public function last_error(){
         return $this->Ad->getError();
@@ -139,7 +139,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
 
     /**
-    * auto generate doc.
+    * Selectdb.
     * @param mixed $dbname
     */
     public function selectdb($dbname){
@@ -175,7 +175,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
 
     /**
-    * auto generate doc.
+    * Returns Table Name.
     * @param mixed $table
     */
     public function getTableName($table){
@@ -505,7 +505,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
 
     /**
-    * auto generate doc.
+    * Inserts array.
     * @param mixed $tbname
     * @param mixed $values
     * @param mixed $throwex
@@ -773,7 +773,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
     }
 
     /**
-    * auto generate doc.
+    * Updates row.
     * @param mixed $row
     * @param null|mixed $table
     * @param null|mixed $condition
@@ -784,7 +784,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
 	}
 
     /**
-    * auto generate doc.
+    * Selects rows.
     * @param null|mixed $table
     * @param null|mixed $condition
     * @param null|mixed $options
@@ -798,7 +798,7 @@ class IGKDbModelUtility extends IGKObject implements IDbUtility {
 	}
 
     /**
-    * auto generate doc.
+    * Drops.
     * @param mixed $table
     * @param null|mixed $condition
     */

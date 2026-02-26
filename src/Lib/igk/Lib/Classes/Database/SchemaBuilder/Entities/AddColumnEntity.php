@@ -14,7 +14,7 @@ class AddColumnEntity extends Factory implements IDiagramVisitorEntity
 {
 
     /**
-    * auto generate doc.
+    * Updates Schema.
     * @param mixed $schemaInfo
     * @param mixed $operation
     */

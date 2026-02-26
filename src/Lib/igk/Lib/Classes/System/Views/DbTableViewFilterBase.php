@@ -6,13 +6,13 @@
 namespace IGK\System\Views;
 
 /**
-* auto generate doc.
+* Db table view filter base.
 * @package IGK\System\Views
 */
 abstract class DbTableViewFilterBase implements IDbTableViewFilter{
 
     /**
-    * auto generate doc.
+    * Returns Header List.
     * @param mixed $firstRow
     */
     public function getHeaderList($firstRow){
@@ -20,7 +20,7 @@ abstract class DbTableViewFilterBase implements IDbTableViewFilter{
     }
 
     /**
-    * auto generate doc.
+    * Filters.
     * @param mixed $key
     * @param mixed $value
     * @param mixed $node

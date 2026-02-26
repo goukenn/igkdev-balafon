@@ -10,7 +10,7 @@ namespace IGK\Helper\Expressions;
 class ValueExpression{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     protected $data = [];

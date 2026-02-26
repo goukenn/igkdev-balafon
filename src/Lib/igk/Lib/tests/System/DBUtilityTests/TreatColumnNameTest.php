@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class TreatColumnNameTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests dbutest prefixname.
     */
     public function test_dbutest_prefixname(){
         $this->assertEquals("id", DbUtility::TreatColumnName("id", null));

@@ -20,37 +20,37 @@ final class IGKValidator extends IGKObject
 {
 
     /**
-    * auto generate doc.
+    * Constant: int regex.
     * @var mixed
     */
     const INT_REGEX = \IGK\System\Regex\RegexConstant::INT_REGEX;
 
     /**
-    * auto generate doc.
+    * Constant: pwd min length.
     * @var mixed
     */
     const PWD_MIN_LENGTH = IGK_PWD_LENGTH;
 
     /**
-    * auto generate doc.
+    * Constant: email regex.
     * @var mixed
     */
     const EMAIL_REGEX = '/^[a-z0-9\.\-_]+@[a-z0-9\.\-_]+\.[a-z]{2,6}$/i';
 
     /**
-    * auto generate doc.
+    * Property: cibling.
     * @var mixed
     */
     private $sm_cibling;
 
     /**
-    * auto generate doc.
+    * Property: enode.
     * @var mixed
     */
     private $sm_enode;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;

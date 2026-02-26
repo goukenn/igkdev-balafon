@@ -11,13 +11,13 @@ namespace IGK\System\Html\Dom;
 class HtmlCallbackValueAttribute extends HtmlItemAttribute{
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     var $callback;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options;
@@ -34,7 +34,7 @@ class HtmlCallbackValueAttribute extends HtmlItemAttribute{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $option
     */
     public function getValue($option = null) {  

@@ -14,25 +14,25 @@ require_once IGK_LIB_DIR."/api/.mysql.pinc";
 class MySQLSchemaCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--db:mysql-schema";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "db";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "get mysql stored schema";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -40,7 +40,7 @@ class MySQLSchemaCommand extends AppExecCommand{
     ];
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command){

@@ -17,25 +17,25 @@ use IGKException;
 class SchemaBuilderHelper{
 
     /**
-    * auto generate doc.
+    * Property: output.
     * @var mixed
     */
     protected $_output;
 
     /**
-    * auto generate doc.
+    * Property: schema.
     * @var mixed
     */
     protected $_schema;
 
     /**
-    * auto generate doc.
+    * Property: inf.
     * @var mixed
     */
     private $m_inf = [];
 
     /**
-    * auto generate doc.
+    * Property: last column.
     * @var mixed
     */
     private $m_last_column;
@@ -49,7 +49,7 @@ class SchemaBuilderHelper{
     }
 
     /**
-    * auto generate doc.
+    * Returns Definition.
     * @param mixed $n
     */
     public function getDefinition($n){
@@ -57,7 +57,7 @@ class SchemaBuilderHelper{
     }
 
     /**
-    * auto generate doc.
+    * Addcolumn attributes.
     * @param mixed $attributes
     * @param null|mixed $node
     */

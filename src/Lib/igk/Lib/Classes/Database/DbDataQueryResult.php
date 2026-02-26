@@ -11,19 +11,19 @@ namespace IGK\Database;
 use IGKQueryResult;
 
 /**
-* auto generate doc.
+* Db data query result.
 * @package IGK\Database
 */
 final class DbDataQueryResult extends IGKQueryResult{
 
     /**
-    * auto generate doc.
+    * Constant: create row.
     * @var mixed
     */
     const CREATE_ROW="obj://createrow";
 
     /**
-    * auto generate doc.
+    * Properties: columns, rows.
     * @var mixed
     */
     private $m_columns, $m_rows;
@@ -37,7 +37,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * To array.
     * @return ?array
     */
 
@@ -46,7 +46,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Row At Index.
     * @param mixed $index
     */
 
@@ -55,7 +55,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Success.
     * @return bool
     */
 
@@ -65,7 +65,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Adds Columns.
     * @param mixed $tab
     */
 
@@ -79,7 +79,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Adds Row.
     * @param mixed $row
     */
 
@@ -101,7 +101,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Creates Row.
     */
 
     public function createRow(){
@@ -116,7 +116,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Columns.
     */
 
     public function getColumns(){
@@ -124,7 +124,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Row Count.
     */
 
     public function getRowCount(){
@@ -132,7 +132,7 @@ final class DbDataQueryResult extends IGKQueryResult{
     }
 
     /**
-    * auto generate doc.
+    * Returns Rows.
     */
 
     public function getRows(){

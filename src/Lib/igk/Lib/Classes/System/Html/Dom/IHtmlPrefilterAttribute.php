@@ -10,7 +10,7 @@ namespace IGK\System\Html\Dom;
 interface IHtmlPrefilterAttribute{
 
     /**
-    * auto generate doc.
+    * Filters.
     * @param mixed $attrib
     */
     function filter($attrib);

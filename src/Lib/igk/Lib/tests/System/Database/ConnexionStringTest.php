@@ -13,13 +13,13 @@ use IGK\System\Database\MySQL\MySQLConnexionString;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Connexion string test.
 * @package IGK\Tests\BaseTestCase
 */
 class ConnexionStringTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests mysql connexion string.
     */
     public function test_mysql_connexion_string(){
 

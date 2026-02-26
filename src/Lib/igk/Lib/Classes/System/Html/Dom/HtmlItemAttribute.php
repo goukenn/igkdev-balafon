@@ -12,13 +12,13 @@ use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 
 /**
-* auto generate doc.
+* Html item attribute.
 * @package IGK\System\Html\Dom
 */
 abstract class HtmlItemAttribute extends IGKObject implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $option
     */
     abstract function getValue($option=null);

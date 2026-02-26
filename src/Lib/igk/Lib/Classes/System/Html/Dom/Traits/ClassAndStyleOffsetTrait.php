@@ -84,7 +84,7 @@ trait ClassAndStyleOffsetTrait{
     ///get sytem attribute loading context
 
     /**
-    * auto generate doc.
+    * Returns Loading Context.
     */
     public function getLoadingContext(){
         // - 

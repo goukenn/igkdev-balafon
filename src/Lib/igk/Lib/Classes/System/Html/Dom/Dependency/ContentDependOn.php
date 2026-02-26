@@ -11,13 +11,13 @@ namespace IGK\System\Html\Dom\Dependency;
 class ContentDependOn{
 
     /**
-    * auto generate doc.
+    * Name of arg name.
     * @var mixed
     */
     var $argName;
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options = null ){

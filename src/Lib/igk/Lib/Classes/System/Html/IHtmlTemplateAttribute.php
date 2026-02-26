@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 interface IHtmlTemplateAttribute{
 
     /**
-    * auto generate doc.
+    * Expression.
     * @return string
     */
     function expression():string;

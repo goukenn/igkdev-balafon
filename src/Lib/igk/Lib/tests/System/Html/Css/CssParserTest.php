@@ -11,13 +11,13 @@ use IGK\System\Html\Css\CssParser;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Css parser test.
 * @package IGK\Tests\System\Html\Css
 */
 class CssParserTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests css parse.
     */
     public function test_css_parse(){
         $c = CssParser::Parse("background-color:red")["background-color"];      
@@ -28,7 +28,7 @@ class CssParserTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests css parse 2.
     */
     public function test_css_parse_2(){        
         $this->assertEquals(
@@ -38,7 +38,7 @@ class CssParserTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests css parse 3.
     */
     public function test_css_parse_3(){        
         $this->assertEquals(
@@ -48,7 +48,7 @@ class CssParserTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests css parse to css.
     */
     public function test_css_parse_to_css(){        
         $this->assertEquals(
@@ -58,7 +58,7 @@ class CssParserTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests css parse to css 2.
     */
     public function test_css_parse_to_css_2(){   
         

@@ -14,13 +14,13 @@
 abstract class IGKErrors{
 
     /**
-    * auto generate doc.
+    * Constant: config mis configuration.
     * @var mixed
     */
     const ConfigMisConfiguration=0x102;
 
     /**
-    * auto generate doc.
+    * Constant: no appdirdefined.
     * @var mixed
     */
     const NoAPPDIRDEFINED=0x101;

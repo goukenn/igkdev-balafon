@@ -15,13 +15,13 @@ use IGKServices;
 class ListServicesCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--services:list';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='list registrated services provider';
@@ -29,13 +29,13 @@ class ListServicesCommand extends AppExecCommand{
 	/* var $category = ''; */
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '[options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     */
     public function exec($command) { 

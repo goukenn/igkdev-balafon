@@ -12,13 +12,13 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 abstract class ViewExpressionBase implements ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Property: vars.
     * @var mixed
     */
     protected $m_vars = [];
 
     /**
-    * auto generate doc.
+    * Property: variables.
     * @var mixed
     */
     protected $m_variables;

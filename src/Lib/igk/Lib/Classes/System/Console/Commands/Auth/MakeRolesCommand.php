@@ -15,13 +15,13 @@ use IGK\System\IO\Path;
 class MakeRolesCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--make:role';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='create a role definition file '; 
@@ -29,13 +29,13 @@ class MakeRolesCommand extends AppExecCommand{
 	/* var $category = ''; */
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'controller [options]';
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     */

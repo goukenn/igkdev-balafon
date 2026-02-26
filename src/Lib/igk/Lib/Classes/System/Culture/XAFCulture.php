@@ -10,31 +10,31 @@ namespace IGK\System\Culture;
 class XAFCulture extends Globalization{
 
     /**
-    * auto generate doc.
+    * Property: decimal separator.
     * @var mixed
     */
     var $decimalSeparator = '.';
 
     /**
-    * auto generate doc.
+    * Name of currency name.
     * @var mixed
     */
     var $currencyName = 'XAF';
 
     /**
-    * auto generate doc.
+    * Property: currency symbol.
     * @var mixed
     */
     var $currencySymbol = 'XAF';
 
     /**
-    * auto generate doc.
+    * Property: format.
     * @var mixed
     */
     var $format = '%.0f';
 
     /**
-    * auto generate doc.
+    * Property: symbol post fix.
     * @var mixed
     */
     var $symbolPostFix = true;

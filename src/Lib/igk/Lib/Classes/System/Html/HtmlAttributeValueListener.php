@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 class HtmlAttributeValueListener implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Listener: listener.
     * @var mixed
     */
     private $m_listener;
@@ -24,7 +24,7 @@ class HtmlAttributeValueListener implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null)

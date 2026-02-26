@@ -16,7 +16,7 @@ abstract class FormFieldHelper
 {
 
     /**
-    * auto generate doc.
+    * Constant: form field.
     * @var mixed
     */
     const FORM_FIELD = 'forms';

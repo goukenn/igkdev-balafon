@@ -10,19 +10,19 @@ namespace IGK\System\Text;
 class TextBrackerBlockInfo{
 
     /**
-    * auto generate doc.
+    * Property: buffer.
     * @var mixed
     */
     var $buffer = "";
 
     /**
-    * auto generate doc.
+    * Count: count.
     * @var mixed
     */
     var $count = 0;
 
     /**
-    * auto generate doc.
+    * Property: blocs.
     * @var mixed
     */
     var $blocs = [];

@@ -11,7 +11,7 @@ use IGK\System\Regex\Replacement;
 if (!function_exists("igk_array_find_first")) {
 
 /**
-* auto generate doc.
+* Igk array find first.
 * @param array $tab
 * @param callable $callback
 */
@@ -661,7 +661,7 @@ if (!function_exists("igk_array_key_map_implode")) {
 if (!function_exists("igk_array_unique_string")) {
 
 /**
-* auto generate doc.
+* Igk array unique string.
 * @param mixed $sep
 * @param mixed $source
 * @param mixed $add

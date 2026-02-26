@@ -9,7 +9,7 @@ use IGK\System\Html\XML\XmlNode;
 use IGKException;
 
 /**
-* auto generate doc.
+* Diagram helper.
 * @package IGK\Database\SchemaBuilder
 */
 abstract class DiagramHelper{

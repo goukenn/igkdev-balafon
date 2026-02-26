@@ -12,26 +12,26 @@ use IGKException;
 use ReflectionException;
 
 /**
-* auto generate doc.
+* Configuration page handler.
 * @package IGK\System\Http
 */
 class ConfigurationPageHandler
 {
 
     /**
-    * auto generate doc.
+    * Property: route.
     * @var mixed
     */
     var $route;
 
     /**
-    * auto generate doc.
+    * Property: engine.
     * @var mixed
     */
     var $engine;
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     var $file;

@@ -10,19 +10,19 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html single node viewer node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlSingleNodeViewerNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
 
     /**
-    * auto generate doc.
+    * Property: target node.
     * @var mixed
     */
     var $targetNode;
@@ -38,7 +38,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -64,7 +64,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $option
     */
 
@@ -73,7 +73,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Render complete.
     * @param null|mixed $options
     */
 
@@ -88,7 +88,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Add child.
     * @param mixed $item
     * @param null|mixed $index
     */
@@ -98,7 +98,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
 
     public function getCanRenderTag(){

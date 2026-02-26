@@ -9,7 +9,7 @@ use IGK\System\Text\RegexMatcherContainer;
 if (!function_exists('igk_sys_request_time')){
 
 /**
-* auto generate doc.
+* Igk sys request time.
 */
 function igk_sys_request_time(){
         $time = $_SERVER["REQUEST_TIME_FLOAT"];
@@ -39,7 +39,7 @@ if (!function_exists('igk_sys_reflect_filter_public_properties')) {
 if (!function_exists('igk_sys_get_html_components')){
 
 /**
-* auto generate doc.
+* Igk sys get html components.
 * @param null|string $pattern
 */
 function igk_sys_get_html_components(?string $pattern=null){
@@ -89,7 +89,7 @@ if (!function_exists('igk_sys_cookies_read_value')) {
 if (!function_exists('igk_sys_cookies_build')){
 
 /**
-* auto generate doc.
+* Igk sys cookies build.
 * @param array $cookies_entries
 */
 function igk_sys_cookies_build(array $cookies_entries){
@@ -101,7 +101,7 @@ function igk_sys_cookies_build(array $cookies_entries){
 if (!function_exists('preg_last_error_msg')){
 
 /**
-* auto generate doc.
+* Preg last error msg.
 */
 function preg_last_error_msg(){ 
 

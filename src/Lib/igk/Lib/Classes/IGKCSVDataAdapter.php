@@ -15,37 +15,37 @@ use IGK\System\IO\CSV\Helper\CSVHelper;
 final class IGKCSVDataAdapter extends DataAdapterBase {
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
 
     /**
-    * auto generate doc.
+    * Name of dbname.
     * @var mixed
     */
     private $m_dbname;
 
     /**
-    * auto generate doc.
+    * Property: fhandle.
     * @var mixed
     */
     private $m_fhandle;
 
     /**
-    * auto generate doc.
+    * Constant: delimiter.
     * @var mixed
     */
     const DELIMITER = '"';
 
     /**
-    * auto generate doc.
+    * Constant: separator.
     * @var mixed
     */
     const SEPARATOR = ',';
 
     /**
-    * auto generate doc.
+    * Queries Column Charset.
     * @param string $charset
     * @return ?string
     */
@@ -54,13 +54,13 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Sets Foreign Key Check.
     * @param mixed $flag
     */
     public function setForeignKeyCheck($flag) { }
 
     /**
-    * auto generate doc.
+    * Allows Type Length.
     * @param string $type
     * @param null|int $length
     * @return bool
@@ -70,7 +70,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Removes foreign.
     * @param string $name
     * @param string $column
     * @return ?string
@@ -78,19 +78,19 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     public function remove_foreign(string $name, string $column): ?string { return null; }
 
     /**
-    * auto generate doc.
+    * Sets Send Db Query Listener.
     * @param null|IDbSendQueryListener $listener
     */
     public function setSendDbQueryListener(?IDbSendQueryListener $listener) { }
 
     /**
-    * auto generate doc.
+    * Returns Send Db Query Listener.
     * @return ?IDbSendQueryListener
     */
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return null; }
 
     /**
-    * auto generate doc.
+    * Returns Date Time Format.
     * @return string
     */
     public function getDateTimeFormat(): string {
@@ -98,7 +98,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Exist column.
     * @param string $table
     * @param string $column
     * @param null|mixed $db
@@ -109,7 +109,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      }
 
     /**
-    * auto generate doc.
+    * Returns Version.
     * @return string
     */
     public function getVersion(): string { 
@@ -117,7 +117,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns Type.
     * @return string
     */
     public function getType(): string {
@@ -125,7 +125,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      }
 
     /**
-    * auto generate doc.
+    * Lists Tables.
     */
     public function listTables() {
         return ['name'=>['csv_file']];
@@ -144,7 +144,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      }
 
     /**
-    * auto generate doc.
+    * Constraint foreign key exists.
     * @param string $name
     * @return bool
     */
@@ -153,7 +153,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Table exists.
     * @param string $table
     * @param bool $throwex
     * @return bool
@@ -163,7 +163,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      }
 
     /**
-    * auto generate doc.
+    * Returns Is Connect.
     * @return bool
     */
     public function getIsConnect(): bool {
@@ -176,7 +176,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Creates Table Column Info Query.
     * @param SQLGrammar $grammar
     * @param string $table
     * @param string $column
@@ -188,7 +188,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns Create Table Format.
     * @param null|array $options
     * @return ?string
     */
@@ -197,7 +197,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Filters Column.
     * @param mixed $columninfo
     * @param mixed $value
     * @return bool
@@ -207,7 +207,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns Db Name.
     * @return ?string
     */
     public function getDbName(): ?string { 
@@ -215,7 +215,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Escape table name.
     * @param string $v
     * @return string
     */
@@ -224,7 +224,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Escape table column.
     * @param string $v
     * @return string
     */
@@ -233,7 +233,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Type Supported.
     * @param string $type
     * @return bool
     */
@@ -242,7 +242,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      }
 
     /**
-    * auto generate doc.
+    * Escape.
     * @param null|string $column
     * @return string
     */
@@ -251,7 +251,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      }
 
     /**
-    * auto generate doc.
+    * Support default value.
     * @param string $type
     * @return bool
     */
@@ -260,7 +260,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      }
 
     /**
-    * auto generate doc.
+    * Returns true if Auto Increment Type.
     * @param string $type
     * @return bool
     */
@@ -269,14 +269,14 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Value.
     * @param mixed $value
     * @param mixed $tinf
     */
     public function getDataValue($value, $tinf) { }
 
     /**
-    * auto generate doc.
+    * Returns Param.
     * @param string $key
     * @param null|mixed $rowInfo
     * @param null|mixed $tableInfo
@@ -287,7 +287,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      }
 
     /**
-    * auto generate doc.
+    * Returns Data Table Definition.
     * @param string $tablename
     */
     public function getDataTableDefinition(string $tablename) { 
@@ -295,14 +295,14 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Last error.
     */
     public function last_error() {
         return null;
      }
 
     /**
-    * auto generate doc.
+    * To date time str.
     * @param mixed $format
     * @param mixed $value
     */
@@ -456,7 +456,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     }
 
     /**
-    * auto generate doc.
+    * Returns File Name.
     */
     public function getFileName(){
         return $this->m_dbname;

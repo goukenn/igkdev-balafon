@@ -5,7 +5,7 @@
 // @desc:
 
 /**
-* auto generate doc.
+* Igk html node twitter follow us.
 * @param mixed $id
 * @param mixed $showcount
 */
@@ -37,7 +37,7 @@ EOF
 ///<summary>twitter time line zone</summary>
 
 /**
-* auto generate doc.
+* Igk html node twitter time line.
 * @param mixed $id
 * @param null|mixed $theme
 * @param null|mixed $color

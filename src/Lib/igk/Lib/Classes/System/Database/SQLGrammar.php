@@ -66,7 +66,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Returns Driver Version.
     */
     public function getDriverVersion()
     {
@@ -74,19 +74,19 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Constant: fd id.
     * @var mixed
     */
     const FD_ID = "clId";
 
     /**
-    * auto generate doc.
+    * Constant: callback opts.
     * @var mixed
     */
     const CALLBACK_OPTS = \IGK\Database\DbConstants::CALLBACK_OPTS;
 
     /**
-    * auto generate doc.
+    * Constant: and op.
     * @var mixed
     */
     const AND_OP = 'AND';
@@ -114,7 +114,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Constant: avail func.
     * @var mixed
     */
     const AVAIL_FUNC = [
@@ -257,7 +257,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Allowed def value.
     */
     protected static function AllowedDefValue()
     {
@@ -286,7 +286,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Creates Expression.
     * @param DbExpression $expression
     */
     public function createExpression(DbExpression $expression)
@@ -340,7 +340,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Fallback type.
     * @param mixed $t
     * @param mixed $adapter
     */
@@ -408,7 +408,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Removes foreign.
     * @param string $table
     * @param mixed $column
     * @return ?string
@@ -806,7 +806,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Drops All Unique Contraints.
     * @param string $table
     */
     public function dropAllUniqueContraints(string $table) {}
@@ -822,7 +822,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Drops index.
     * @param string $table
     * @param mixed $column
     * @return ?string
@@ -964,7 +964,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Drops foreign key.
     * @param mixed $table
     * @param mixed $info
     */
@@ -975,7 +975,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Drops column.
     * @param mixed $table
     * @param mixed $column
     */
@@ -1216,7 +1216,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Unsigned.
     * @param mixed $v
     */
     public static function IsUnsigned($v)
@@ -1417,7 +1417,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Allowed Def Value.
     * @param mixed $def
     * @param mixed $type
     * @param mixed $value
@@ -1590,7 +1590,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Escape table name.
     * @param mixed $tbname
     * @param mixed $ad
     */
@@ -1824,7 +1824,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Returns Key.
     * @param mixed $k
     * @param mixed $driver
     */
@@ -1858,7 +1858,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Builds Column.
     * @param mixed $v
     * @param mixed $ad
     * @param mixed $append
@@ -2173,7 +2173,7 @@ class SQLGrammar implements IDbQueryGrammar
     }
 
     /**
-    * auto generate doc.
+    * Creates Select Expression.
     * @param mixed $table_name
     * @param mixed $column
     * @param mixed $conditions

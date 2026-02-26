@@ -31,7 +31,7 @@ class JSonBindAsAnnotation extends AnnotationBase
     var $required;
 
     /**
-    * auto generate doc.
+    * Sets Required.
     * @param mixed $v
     */
     public function setRequired($v)

@@ -39,13 +39,13 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
 {
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     protected $file;
 
     /**
-    * auto generate doc.
+    * Returns Entryfile.
     */
     public function getEntryfile(){
         return $this->file;

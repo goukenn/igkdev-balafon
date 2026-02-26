@@ -34,19 +34,19 @@ class Database
     // + | init data field constants
 
     /**
-    * auto generate doc.
+    * Constant: insert extra fields method.
     * @var mixed
     */
     const InsertExtraFieldsMethod = 'InsertExtraFields';
 
     /**
-    * auto generate doc.
+    * Constant: auto insert cache method.
     * @var mixed
     */
     const AutoInsertCacheMethod = 'AutoInsertCache';
 
     /**
-    * auto generate doc.
+    * Property: shared info.
     * @var mixed
     */
     static $sm_shared_info;
@@ -162,7 +162,7 @@ class Database
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Number.
     * @param mixed $t
     */
     public static function IsNumber($t)
@@ -281,7 +281,7 @@ class Database
     }
 
     /**
-    * auto generate doc.
+    * Initializes System Db.
     * @param bool $force
     */
     public static function InitSystemDb(bool $force = false)
@@ -440,7 +440,7 @@ class Database
     }
 
     /**
-    * auto generate doc.
+    * Drops Uniques Contraints.
     * @param BaseController $controller
     */
     public static function DropUniquesContraints(BaseController $controller)

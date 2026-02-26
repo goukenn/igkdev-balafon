@@ -11,7 +11,7 @@ namespace IGK\System\Database;
 interface IInitUserProfile{
 
     /**
-    * auto generate doc.
+    * Sets User Info.
     * @param mixed $userInfo
     */
     function setUserInfo($userInfo);

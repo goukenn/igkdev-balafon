@@ -21,43 +21,43 @@ class AuthCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: group.
     * @var mixed
     */
     var $group = "management";
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--auth";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = 'Manage auth';
 
     /**
-    * auto generate doc.
+    * Constant: available action.
     * @var mixed
     */
     const AVAILABLE_ACTION = "auths|groups|grant";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = 'controller --action:'.self::AVAILABLE_ACTION;
 
     /**
-    * auto generate doc.
+    * Property: action helps.
     * @var mixed
     */
     var $action_helps = [];
 
     /**
-    * auto generate doc.
+    * Help.
     */
     public function help()
     { 
@@ -78,7 +78,7 @@ class AuthCommand extends AppExecCommand
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $username
     * @param mixed ...$options

@@ -16,25 +16,25 @@ use IGK\System\Console\App;
 class ProjectCheckViewCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--project:check-view";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "project";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "check -lint all views";
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     protected function showUsage()
     {
@@ -43,7 +43,7 @@ class ProjectCheckViewCommand extends AppExecCommand{
     }
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $controller
     */

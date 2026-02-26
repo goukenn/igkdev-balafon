@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class EngineReadArgsTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests engine read arg read global arg.
     */
     public function test_engine_read_arg_read_global_arg(){
         $this->assertEquals('8 - info - 8', 

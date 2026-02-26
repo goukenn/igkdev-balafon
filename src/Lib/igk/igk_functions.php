@@ -3319,7 +3319,7 @@ function igk_css_regpic($picname, $link)
 }
 
 /**
-* auto generate doc.
+* Igk css get core comment.
 * @param null|mixed $id
 */
 function igk_css_get_core_comment($id = null)
@@ -3573,7 +3573,7 @@ function igk_css_treat_entries(&$v, \IGK\Css\ICssStyleContainer $theme, $type, $
 }
 
 /**
-* auto generate doc.
+* Igk css get treat colors.
 * @param null|array $defColor
 */
 function &igk_css_get_treat_colors(?array $defColor = null)
@@ -8541,7 +8541,7 @@ function igk_get_defaultconfigdata()
 }
 
 /**
-* auto generate doc.
+* Returns defaultcron data.
 * @param mixed $file
 */
 function igk_get_defaultcron_data($file = "cronjob.php")
@@ -10890,7 +10890,7 @@ function igk_init_binding_context(HtmlItemBase $n, BaseController $ctrl, ?array 
 }
 
 /**
-* auto generate doc.
+* Igk html bind article content.
 * @param HtmlNode $n
 * @param string $content
 * @param mixed $data
@@ -12605,7 +12605,7 @@ function igk_html_skip_add($value = 1)
 }
 
 /**
-* auto generate doc.
+* Igk html is skipped.
 * @param mixed $autoreset
 */
 function igk_html_is_skipped($autoreset = true)
@@ -12752,7 +12752,7 @@ function igk_php_eval_in_context($exp)
 }
 
 /**
-* auto generate doc.
+* Extracts data.
 * @param mixed $tab
 */
 function igk_extract_data($tab)
@@ -25767,7 +25767,7 @@ function igk_env_action_chain_pop()
 }
 
 /**
-* auto generate doc.
+* Igk env current action.
 */
 function igk_env_current_action()
 {
@@ -25844,7 +25844,7 @@ function igk_view_handle_name()
 }
 
 /**
-* auto generate doc.
+* Returns true if request type.
 * @param \ReflectionType $ref
 */
 function igk_is_request_type(\ReflectionType $ref)
@@ -25870,7 +25870,7 @@ function igk_view_handle_obj_action($fname, $object, array $params = [], $exit =
 if (!function_exists('igk_view_navto')) {
 
 /**
-* auto generate doc.
+* Igk view navto.
 * @param mixed $path
 */
 function igk_view_navto($path)
@@ -26819,7 +26819,7 @@ if (!function_exists('igk_load_env')) {
 if (!function_exists('igk_map_conv_to_array')) {
 
 /**
-* auto generate doc.
+* Igk map conv to array.
 * @param mixed $a
 */
 function igk_map_conv_to_array($a)

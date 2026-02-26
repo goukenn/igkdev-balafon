@@ -8,7 +8,7 @@ use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
 
 /**
-* auto generate doc.
+* Trait providing cssdefault array access functionality.
 * @package IGK\System\Polyfill
 */
 trait CSSDefaultArrayAccess{

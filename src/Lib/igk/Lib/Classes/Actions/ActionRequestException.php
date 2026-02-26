@@ -27,7 +27,7 @@ class ActionRequestException extends RequestException
     }
 
     /**
-    * auto generate doc.
+    * Handles.
     */
     public function handle()
         {

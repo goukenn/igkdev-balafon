@@ -20,7 +20,7 @@ final class Number
 {
 
     /**
-    * auto generate doc.
+    * Property: size format.
     * @var mixed
     */
     static $sm_sizeFormat = array(
@@ -52,7 +52,7 @@ final class Number
     }
 
     /**
-    * auto generate doc.
+    * From base.
     * @param mixed $d
     * @param mixed $base
     */
@@ -69,7 +69,7 @@ final class Number
     }
 
     /**
-    * auto generate doc.
+    * Returns Memory Size.
     * @param mixed $value
     * @param mixed $round
     */
@@ -91,7 +91,7 @@ final class Number
     }
 
     /**
-    * auto generate doc.
+    * To base.
     * @param mixed $d
     * @param mixed $base
     * @param mixed $length

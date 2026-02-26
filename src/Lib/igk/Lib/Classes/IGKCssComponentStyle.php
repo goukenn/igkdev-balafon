@@ -10,12 +10,12 @@
 use IGK\System\Html\CallableConstants;
 
 /**
-* auto generate doc.
+* Igkcss component style.
 */
 final class IGKCssComponentStyle extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: loaded styles.
     * @var mixed
     */
     private $m_loadedStyles;
@@ -25,7 +25,7 @@ final class IGKCssComponentStyle extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
 
     public static function getInstance(){
@@ -39,7 +39,7 @@ final class IGKCssComponentStyle extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Reg file.
     * @param mixed $file
     * @param null|mixed $host
     */

@@ -6,7 +6,7 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html balafon jscomponent node.
 * @package IGK\System\Html\Dom
 */
 class HtmlBalafonJSComponentNode extends HtmlScriptNode{    
@@ -23,7 +23,7 @@ class HtmlBalafonJSComponentNode extends HtmlScriptNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */

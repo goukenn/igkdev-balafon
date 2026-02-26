@@ -10,19 +10,19 @@ namespace IGK\System\Html\Dom;
 class HtmlTableHeaderInfo{
 
     /**
-    * auto generate doc.
+    * Property: title.
     * @var mixed
     */
     var $title;
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     var $key;
 
     /**
-    * auto generate doc.
+    * Returns true if Empty.
     * @return bool
     */
     public function isEmpty():bool{
@@ -30,7 +30,7 @@ class HtmlTableHeaderInfo{
     }
 
     /**
-    * auto generate doc.
+    * Fill empty.
     * @param HtmlNode $td
     * @param mixed $data
     * @param int $pos
@@ -40,7 +40,7 @@ class HtmlTableHeaderInfo{
     }
 
     /**
-    * auto generate doc.
+    * Fill content.
     * @param HtmlNode $td
     * @param mixed $v
     * @param mixed $data

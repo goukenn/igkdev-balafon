@@ -31,13 +31,13 @@ class UriHandler extends BaseUriHandler
 {
 
     /**
-    * auto generate doc.
+    * Cache: cacheoutput.
     * @var mixed
     */
     var $cacheoutput = 5000;
 
     /**
-    * auto generate doc.
+    * Boots App.
     */
     protected function bootApp()
     {
@@ -106,7 +106,7 @@ class UriHandler extends BaseUriHandler
     }
 
     /**
-    * auto generate doc.
+    * Sitemap.
     */
     public function _sitemap()
     {
@@ -150,7 +150,7 @@ class UriHandler extends BaseUriHandler
     }
 
     /**
-    * auto generate doc.
+    * Retrieve server host.
     * @param null|mixed & $r
     */
     public static function RetrieveServerHost(&$r = null)

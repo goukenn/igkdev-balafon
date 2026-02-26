@@ -10,7 +10,7 @@ namespace IGK\System\Http\Session;
 class SessionOperatorIncCallback extends SessionOperatorBase {
 
     /**
-    * auto generate doc.
+    * Property: step.
     * @var mixed
     */
     var $step;
@@ -25,7 +25,7 @@ class SessionOperatorIncCallback extends SessionOperatorBase {
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     * @param mixed $a
     */
     public function invoke($a) { 

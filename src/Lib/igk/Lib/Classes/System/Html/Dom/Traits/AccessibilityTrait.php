@@ -10,7 +10,7 @@ namespace IGK\System\Html\Dom\Traits;
 trait AccessibilityTrait{
 
     /**
-    * auto generate doc.
+    * Aria controls.
     * @param null|string $value
     */
     public function ariaControls(?string $value){
@@ -19,7 +19,7 @@ trait AccessibilityTrait{
     }
 
     /**
-    * auto generate doc.
+    * Aria labelledby.
     * @param null|string $value
     */
     public function ariaLabelledby(?string $value){

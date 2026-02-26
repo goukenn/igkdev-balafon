@@ -11,7 +11,7 @@ namespace IGK\System\Http;
 class WebFileContentResponse extends WebFileResponse{
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     public function render(){
         return $this->file;

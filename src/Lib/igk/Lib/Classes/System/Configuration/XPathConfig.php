@@ -13,7 +13,7 @@ namespace IGK\System\Configuration;
 class XPathConfig{
 
     /**
-    * auto generate doc.
+    * Property: config.
     * @var mixed
     */
     private $m_config;

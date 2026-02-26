@@ -10,7 +10,7 @@ namespace IGK\System\Database;
 interface IDbSendQueryListenerSupport{
 
     /**
-    * auto generate doc.
+    * Sets Send Db Query Listener.
     * @param null|IDbSendQueryListener $listener
     * @return ?IDbSendQueryListener
     */

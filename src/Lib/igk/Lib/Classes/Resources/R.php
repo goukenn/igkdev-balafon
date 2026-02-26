@@ -24,86 +24,86 @@ use function igk_resources_gets as __;
 final class R extends IGKObject {
 
     /**
-    * auto generate doc.
+    * Constant: default lang.
     * @var mixed
     */
     const DEFAULT_LANG="fr";
 
     /**
-    * auto generate doc.
+    * Property: lang changed date.
     * @var mixed
     */
     private $m_langChangedDate;
 
     /**
-    * auto generate doc.
+    * Property: lang files.
     * @var mixed
     */
     private $m_langFiles;
 
     /**
-    * auto generate doc.
+    * Property: langctrl.
     * @var mixed
     */
     private $m_langctrl;
 
     /**
-    * auto generate doc.
+    * Property: langloaded.
     * @var mixed
     */
     private $m_langloaded;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: key var.
     * @var mixed
     */
     static $sm_keyVAR;
 
     /**
-    * auto generate doc.
+    * Property: keys added.
     * @var mixed
     */
     var $KeysAdded;
 
     /**
-    * auto generate doc.
+    * Property: lang changed event.
     * @var mixed
     */
     var $LangChangedEvent;
 
     /**
-    * auto generate doc.
+    * Property: page lang changed event.
     * @var mixed
     */
     var $PageLangChangedEvent;
 
     /**
-    * auto generate doc.
+    * Property: static.
     * @var mixed
     */
     private $sm_static;
 
     /**
-    * auto generate doc.
+    * Constant: handler key.
     * @var mixed
     */
     const _HANDLER_KEY = __CLASS__.'@string_resource_handler';
 
     /**
-    * auto generate doc.
+    * Returns String Resource Handler.
     */
     public static function GetStringResourceHandler(){
         return igk_environment()->peek(self::_HANDLER_KEY);
     }
 
     /**
-    * auto generate doc.
+    * Sets String Resource Handler.
     * @param null|callable $v
     */
     public static function SetStringResourceHandler(?callable $v){
@@ -146,7 +146,7 @@ final class R extends IGKObject {
     }
 
     /**
-    * auto generate doc.
+    * Localize.
     * @param string $text
     * @param null|string $locale
     * @param null|array $args
@@ -464,7 +464,7 @@ EOF;
     }
 
     /**
-    * auto generate doc.
+    * Exists.
     * @param string $file
     */
     static function Exists(string $file){

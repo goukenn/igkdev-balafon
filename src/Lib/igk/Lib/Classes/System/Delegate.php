@@ -14,7 +14,7 @@ use Closure;
 abstract class Delegate{
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     private $m_list = [];
@@ -53,7 +53,7 @@ abstract class Delegate{
     }
 
     /**
-    * auto generate doc.
+    * Adds.
     * @param Closure $closure
     */
     public function add(Closure $closure){
@@ -61,7 +61,7 @@ abstract class Delegate{
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function clear(){
 

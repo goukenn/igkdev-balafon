@@ -13,7 +13,7 @@ use IGK\System\Html\HtmlRenderer;
 final class ApiFunctionController extends ApplicationController {
 
     /**
-    * auto generate doc.
+    * Constant: libname.
     * @var mixed
     */
     const LIBNAME=IGK_API_MYSQLPINC;
@@ -504,7 +504,7 @@ final class ApiFunctionController extends ApplicationController {
     }
 
     /**
-    * auto generate doc.
+    * Returns Entry Name Space.
     */
     protected function getEntryNameSpace(){
         return "IGKApi";
@@ -529,7 +529,7 @@ final class ApiFunctionController extends ApplicationController {
     }
 
     /**
-    * auto generate doc.
+    * Returns App Name.
     */
     public function getAppName(){
         return IGK_API_CTRL;

@@ -10,7 +10,7 @@ namespace IGK\System\Runtime\Compiler;
 class ReadTokenOptions implements IReadTokenOptions{
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $source;
@@ -145,7 +145,7 @@ class ReadTokenOptions implements IReadTokenOptions{
     var $stop_read = false;
 
     /**
-    * auto generate doc.
+    * Property: exit detecteds.
     * @var mixed
     */
     var $exit_detecteds = [];

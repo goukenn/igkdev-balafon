@@ -6,13 +6,13 @@
 namespace IGK\System\Polyfill;
 
 /**
-* auto generate doc.
+* Trait providing items array access functionality.
 * @package IGK\System\Polyfill
 */
 trait ItemsArrayAccessTrait{
 
     /**
-    * auto generate doc.
+    * Collection of items.
     * @var mixed
     */
     protected $m_items;

@@ -11,7 +11,7 @@ use IGK\System\IO\Path;
 trait ControllerLocationTrait{
 
     /**
-    * auto generate doc.
+    * Returns View Dir.
     */
     public function getViewDir()
     {
@@ -19,7 +19,7 @@ trait ControllerLocationTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Articles Dir.
     */
     public function getArticlesDir()
     {
@@ -27,7 +27,7 @@ trait ControllerLocationTrait{
     }
 
     /**
-    * auto generate doc.
+    * Returns Scripts Dir.
     */
     public function getScriptsDir()
     {

@@ -17,13 +17,13 @@ use IGK\Tests\BaseTestCase;
 abstract class ModuleBaseTestCase extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     protected $controller;
 
     /**
-    * auto generate doc.
+    * Sets up shared resources before all tests.
     * @return void
     */
     public static function setUpBeforeClass(): void{
@@ -31,7 +31,7 @@ abstract class ModuleBaseTestCase extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Sets up the test environment before each test.
     * @return void
     */
     public function setUp():void{

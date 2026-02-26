@@ -16,31 +16,31 @@ use stdClass;
 class Benchmark{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Property: enabled.
     * @var mixed
     */
     public  static $Enabled;
 
     /**
-    * auto generate doc.
+    * Property: mark.
     * @var mixed
     */
     private $mark = [];
 
     /**
-    * auto generate doc.
+    * Property: configs.
     * @var mixed
     */
     private $m_configs;
 
     /**
-    * auto generate doc.
+    * Constant: request param.
     * @var mixed
     */
     const REQUEST_PARAM = "IGK_BENCHMARK";
@@ -50,7 +50,7 @@ class Benchmark{
     }
 
     /**
-    * auto generate doc.
+    * Returns Instance.
     */
     public static function getInstance(){
         if (self::$sm_instance === null)
@@ -150,7 +150,7 @@ class Benchmark{
     }
 
     /**
-    * auto generate doc.
+    * Logs.
     * @param mixed ...$args
     */
     public static function log(...$args){

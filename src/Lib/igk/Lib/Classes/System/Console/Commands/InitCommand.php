@@ -25,19 +25,19 @@ class InitCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--command:init";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc  = "initialize balafon command cache";
 
     /**
-    * auto generate doc.
+    * Constant: baseclass command.
     * @var mixed
     */
     const BASECLASS_COMMAND = Constants::BASECLASS_COMMAND;

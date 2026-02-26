@@ -87,49 +87,49 @@ class HtmlRendererOptions
     var $Document;
 
     /**
-    * auto generate doc.
+    * Property: body only.
     * @var mixed
     */
     var $BodyOnly = 0;
 
     /**
-    * auto generate doc.
+    * Property: attachement.
     * @var mixed
     */
     var $Attachement;
 
     /**
-    * auto generate doc.
+    * Property: stand alone.
     * @var mixed
     */
     var $StandAlone = 0;
 
     /**
-    * auto generate doc.
+    * Cache: cache.
     * @var mixed
     */
     var $Cache;
 
     /**
-    * auto generate doc.
+    * Cache: cache uri.
     * @var mixed
     */
     var $CacheUri = 0;
 
     /**
-    * auto generate doc.
+    * Cache: cache uri level.
     * @var mixed
     */
     var $CacheUriLevel = 0;
 
     /**
-    * auto generate doc.
+    * Property: flag no attrib escape.
     * @var mixed
     */
     var $flag_no_attrib_escape;
 
     /**
-    * auto generate doc.
+    * Property: attribute entity escape.
     * @var mixed
     */
     var $attribute_entity_escape;
@@ -140,7 +140,7 @@ class HtmlRendererOptions
     var $Tab = [];
 
     /**
-    * auto generate doc.
+    * Property: chain.
     * @var mixed
     */
     var $Chain;
@@ -228,7 +228,7 @@ class HtmlRendererOptions
     }
 
     /**
-    * auto generate doc.
+    * Returns Ref.
     * @param mixed $n
     */
     public function &getRef($n)

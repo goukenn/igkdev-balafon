@@ -11,7 +11,7 @@
 class PhpUnitApplication extends IGKApplicationBase{
 
     /**
-    * auto generate doc.
+    * Bootstrap.
     */
     public function bootstrap() { 
         $this->library("mysql");
@@ -23,7 +23,7 @@ class PhpUnitApplication extends IGKApplicationBase{
     }
 
     /**
-    * auto generate doc.
+    * Runs.
     * @param string $entryfile
     * @param mixed $render
     */

@@ -18,25 +18,25 @@ class EnvControllerCacheList{
    //  use CachableDataTrait;
 
     /**
-    * auto generate doc.
+    * Constant: file.
     * @var mixed
     */
     const FILE = ".env.controller.cache";
 
     /**
-    * auto generate doc.
+    * Cache: cachelist.
     * @var mixed
     */
     private static $sm_cachelist;
 
     /**
-    * auto generate doc.
+    * Property: changed.
     * @var mixed
     */
     private static $sm_changed;
 
     /**
-    * auto generate doc.
+    * Returns Cache File.
     */
     public static function GetCacheFile(){
         return igk_io_cachedir().'/'. self::FILE;

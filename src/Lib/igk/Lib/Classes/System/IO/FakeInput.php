@@ -10,7 +10,7 @@ namespace IGK\System\IO;
 abstract class FakeInput{
 
     /**
-    * auto generate doc.
+    * Returns Raw.
     */
     public abstract function getRaw();
 }

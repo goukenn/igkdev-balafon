@@ -10,13 +10,13 @@ namespace IGK\System\Html\Dom;
 final class HtmlHostChildren extends HtmlItemBase{
 
     /**
-    * auto generate doc.
+    * Property: children.
     * @var mixed
     */
     var $children;
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -24,7 +24,7 @@ final class HtmlHostChildren extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds()
     {
@@ -42,7 +42,7 @@ final class HtmlHostChildren extends HtmlItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Rendered Childs.
     * @param null|mixed $options
     */
     function getRenderedChilds($options = null)

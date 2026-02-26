@@ -11,7 +11,7 @@ namespace IGK\System\Services;
 class LoginServiceEvents{
 
     /**
-    * auto generate doc.
+    * Constant: login with social button.
     * @var mixed
     */
     const LoginWithSocialButton = "LoginWithSocialButton";

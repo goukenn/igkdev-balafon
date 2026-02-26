@@ -22,49 +22,49 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     use IGK\System\Polyfill\IGKMediaArrayAccessTrait;
 
     /**
-    * auto generate doc.
+    * Constant: custom color.
     * @var mixed
     */
     const CUSTOM_COLOR = 0x1;
 
     /**
-    * auto generate doc.
+    * Constant: default theme.
     * @var mixed
     */
     const DEFAULT_THEME = 0x2;
 
     /**
-    * auto generate doc.
+    * Constant: files theme.
     * @var mixed
     */
     const FILES_THEME = 0x5;
 
     /**
-    * auto generate doc.
+    * Constant: font theme.
     * @var mixed
     */
     const FONT_THEME = 0x3;
 
     /**
-    * auto generate doc.
+    * Constant: media id.
     * @var mixed
     */
     const MEDIA_ID = 0x0;
 
     /**
-    * auto generate doc.
+    * Constant: properties theme.
     * @var mixed
     */
     const PROPERTIES_THEME = 0x4;
 
     /**
-    * auto generate doc.
+    * Constant: animations.
     * @var mixed
     */
     const ANIMATIONS = 0x06;
 
     /**
-    * auto generate doc.
+    * Property: .
     * @var mixed
     */
     private $_;
@@ -95,7 +95,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     }
 
     /**
-    * auto generate doc.
+    * Clone.
     * @param IGKMedia $media
     */
     public static function Clone(IGKMedia $media)
@@ -124,7 +124,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function Clear()
     {
@@ -153,7 +153,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     }
 
     /**
-    * auto generate doc.
+    * Binds Support.
     * @param CssSupport $support
     */
     public function bindSupport(CssSupport $support)
@@ -300,7 +300,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     }
 
     /**
-    * auto generate doc.
+    * Returns Properties Css Def.
     * @param ICssStyleContainer $theme
     * @param ICssStyleContainer $systheme
     * @param mixed $minfile
@@ -345,7 +345,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     }
 
     /**
-    * auto generate doc.
+    * Returns Id.
     */
     public function getId()
     {
@@ -367,7 +367,7 @@ final class IGKMedia implements ArrayAccess, ICssStyleContainer, ICssAnimation
     }
 
     /**
-    * auto generate doc.
+    * Loads Def.
     * @param array $def
     */
     public function loadDef(array $def){

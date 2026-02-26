@@ -12,7 +12,7 @@ use IGK\System\Html\HtmlUtils;
 use IGK\XML\XMLNodeType;
 
 /**
-* auto generate doc.
+* Igkhtml to script tool.
 */
 class IGKHtmlToScriptTool extends ToolControllerBase
 {

@@ -14,109 +14,109 @@ use function igk_resources_gets as __;
 final class IGKSession extends IGKObject implements IParamHostService {
 
     /**
-    * auto generate doc.
+    * Constant: base sess param.
     * @var mixed
     */
     const BASE_SESS_PARAM=0x020;
 
     /**
-    * auto generate doc.
+    * Constant: igk domainbasedir sess param.
     * @var mixed
     */
     const IGK_DOMAINBASEDIR_SESS_PARAM=(self::BASE_SESS_PARAM + 0x005);
 
     /**
-    * auto generate doc.
+    * Constant: igk instances sess param.
     * @var mixed
     */
     const IGK_INSTANCES_SESS_PARAM=(self::BASE_SESS_PARAM + 0x006);
 
     /**
-    * auto generate doc.
+    * Constant: igk redirection sess param.
     * @var mixed
     */
     const IGK_REDIRECTION_SESS_PARAM=(self::BASE_SESS_PARAM + 0x004);
 
     /**
-    * auto generate doc.
+    * Constant: sess controllerparam key.
     * @var mixed
     */
     const SESS_CONTROLLERPARAM_KEY=(self::BASE_SESS_PARAM + 0x00C);
 
     /**
-    * auto generate doc.
+    * Constant: sess cref key.
     * @var mixed
     */
     const SESS_CREF_KEY=(self::BASE_SESS_PARAM + 0x001);
 
     /**
-    * auto generate doc.
+    * Constant: sess domain.
     * @var mixed
     */
     const SESS_DOMAIN=(self::BASE_SESS_PARAM + 0x00A);
 
     /**
-    * auto generate doc.
+    * Constant: sess domain basefile.
     * @var mixed
     */
     const SESS_DOMAIN_BASEFILE=(self::BASE_SESS_PARAM + 0x009);
 
     /**
-    * auto generate doc.
+    * Constant: sess global theme.
     * @var mixed
     */
     const SESS_GLOBAL_THEME=(self::BASE_SESS_PARAM + 0x007);
 
     /**
-    * auto generate doc.
+    * Constant: sess lang key.
     * @var mixed
     */
     const SESS_LANG_KEY=(self::BASE_SESS_PARAM + 0x00B);
 
     /**
-    * auto generate doc.
+    * Constant: sess pagefolder key.
     * @var mixed
     */
     const SESS_PAGEFOLDER_KEY=(self::BASE_SESS_PARAM + 0x003);
 
     /**
-    * auto generate doc.
+    * Constant: sess session events.
     * @var mixed
     */
     const SESS_SESSION_EVENTS=(self::BASE_SESS_PARAM + 0x008);
 
     /**
-    * auto generate doc.
+    * Constant: sess user key.
     * @var mixed
     */
     const SESS_USER_KEY=(self::BASE_SESS_PARAM + 0x0002);
 
     /**
-    * auto generate doc.
+    * Constant: sess service.
     * @var mixed
     */
     const SESS_SERVICE=(self::BASE_SESS_PARAM + 0x000F);
 
     /**
-    * auto generate doc.
+    * Constant: sysdb ctrl.
     * @var mixed
     */
     const SYSDB_CTRL=IGK_KEY_SYSDB_CTRL;
 
     /**
-    * auto generate doc.
+    * Constant: globalvars.
     * @var mixed
     */
     const GLOBALVARS = (self::BASE_SESS_PARAM + 0x0100);
 
     /**
-    * auto generate doc.
+    * Property: instances.
     * @var mixed
     */
     private $m_instances;
 
     /**
-    * auto generate doc.
+    * Property: session params.
     * @var mixed
     */
     private $m_sessionParams;
@@ -191,7 +191,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
 
     /**
-    * auto generate doc.
+    * Returns Reference.
     * @param mixed $name
     */
     public function & getReference($name){
@@ -325,7 +325,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
 
     /**
-    * auto generate doc.
+    * Returns Form.
     */
     public function getForm(){
 		if (!igk_app()->settings->form){
@@ -353,7 +353,7 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
 
     /**
-    * auto generate doc.
+    * No store.
     * @param mixed $data
     */
     public function NoStore($data){
@@ -648,14 +648,14 @@ final class IGKSession extends IGKObject implements IParamHostService {
     }
 
     /**
-    * auto generate doc.
+    * Returns Services.
     */
     public function getServices(){
         return $this->getParam(self::SESS_SERVICE);
     }
 
     /**
-    * auto generate doc.
+    * Sets Services.
     * @param null|array $service
     */
     public function setServices(?array $service=null){

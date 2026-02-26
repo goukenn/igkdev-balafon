@@ -11,7 +11,7 @@ use IGK\Resources\R;
 final class HtmlImgLnkNode extends HtmlANode{
 
     /**
-    * auto generate doc.
+    * Property: img.
     * @var mixed
     */
     private $m_img;

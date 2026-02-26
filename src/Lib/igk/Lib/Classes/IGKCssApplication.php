@@ -21,7 +21,7 @@ class IGKCssApplication extends IGKApplicationBase
     }
 
     /**
-    * auto generate doc.
+    * Bootstrap.
     */
     public function bootstrap() { 
         // + | activate the session 

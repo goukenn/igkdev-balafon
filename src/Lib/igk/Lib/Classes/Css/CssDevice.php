@@ -21,7 +21,7 @@ use IGKMedia;
 class CssDevice implements ICssSupport, ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Property: devices.
     * @var mixed
     */
     private $m_devices;
@@ -54,7 +54,7 @@ class CssDevice implements ICssSupport, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $n
     * @param mixed $v
     */
@@ -66,7 +66,7 @@ class CssDevice implements ICssSupport, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $n
     */
     public function _access_OffsetUnset($n)
@@ -92,7 +92,7 @@ class CssDevice implements ICssSupport, ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $n
     */
     public function _access_OffsetGet($n)

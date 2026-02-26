@@ -15,19 +15,19 @@ use Illuminate\Database\Eloquent\Builder;
 class DiagramFormActionVisitor extends DiagramVisitor{
 
     /**
-    * auto generate doc.
+    * Collection of visitor items.
     * @var mixed
     */
     private $visitor_items = [];
 
     /**
-    * auto generate doc.
+    * Property: builder.
     * @var mixed
     */
     var $builder;
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
@@ -42,7 +42,7 @@ class DiagramFormActionVisitor extends DiagramVisitor{
     }
 
     /**
-    * auto generate doc.
+    * Starts.
     * @return ?string
     */
     public function start():?string{
@@ -53,7 +53,7 @@ class DiagramFormActionVisitor extends DiagramVisitor{
     }
 
     /**
-    * auto generate doc.
+    * Complete.
     * @return ?string
     */
     public function complete():?string{
@@ -61,7 +61,7 @@ class DiagramFormActionVisitor extends DiagramVisitor{
     }
 
     /**
-    * auto generate doc.
+    * Visit diagram entity.
     * @param mixed $entity
     */
     public function visitDiagramEntity($entity){

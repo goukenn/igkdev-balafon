@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class ProjectBuilderTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests validate data.
     */
     function test_validate_data(){
         $json_data = json_decode('{"version":"1.0"}');

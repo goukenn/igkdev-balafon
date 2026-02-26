@@ -7,19 +7,19 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
 
 /**
-* auto generate doc.
+* Html code node.
 * @package IGK\System\Html\Dom
 */
 class HtmlCodeNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "code";
 
     /**
-    * auto generate doc.
+    * Sets Content.
     * @param mixed $v
     */
 
@@ -44,7 +44,7 @@ class HtmlCodeNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Rendered Childs.
     * @param null|mixed $options
     */
 

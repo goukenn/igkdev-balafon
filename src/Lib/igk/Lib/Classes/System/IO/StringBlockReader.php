@@ -16,19 +16,19 @@ namespace IGK\System\IO;
 class StringBlockReader{
 
     /**
-    * auto generate doc.
+    * Property: start.
     * @var mixed
     */
     var $start;
 
     /**
-    * auto generate doc.
+    * Property: end.
     * @var mixed
     */
     var $end;
 
     /**
-    * auto generate doc.
+    * Property: offset.
     * @var mixed
     */
     var $offset=0; 

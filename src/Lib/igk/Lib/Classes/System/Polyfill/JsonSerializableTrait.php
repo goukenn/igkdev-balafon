@@ -10,7 +10,7 @@ namespace IGK\System\Polyfill;
 trait JsonSerializableTrait{
 
     /**
-    * auto generate doc.
+    * Json serialize.
     * @return mixed
     */
     public function jsonSerialize(): mixed {

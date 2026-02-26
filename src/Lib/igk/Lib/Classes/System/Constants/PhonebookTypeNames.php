@@ -12,253 +12,253 @@ abstract class PhonebookTypeNames{
     use EnumeratesConstants;
 
     /**
-    * auto generate doc.
+    * Constant: pht locale.
     * @var mixed
     */
     const PHT_LOCALE = 'locale';
 
     /**
-    * auto generate doc.
+    * Constant: pht name.
     * @var mixed
     */
     const PHT_NAME = 'name';
 
     /**
-    * auto generate doc.
+    * Constant: pht lastname.
     * @var mixed
     */
     const PHT_LASTNAME = 'lastname';
 
     /**
-    * auto generate doc.
+    * Constant: pht firstname.
     * @var mixed
     */
     const PHT_FIRSTNAME = 'firstname';
 
     /**
-    * auto generate doc.
+    * Constant: pht surname.
     * @var mixed
     */
     const PHT_SURNAME = 'surname';
 
     /**
-    * auto generate doc.
+    * Constant: pht company.
     * @var mixed
     */
     const PHT_COMPANY = "company";
 
     /**
-    * auto generate doc.
+    * Constant: pht organization.
     * @var mixed
     */
     const PHT_ORGANIZATION = "organization";
 
     /**
-    * auto generate doc.
+    * Constant: pht profession.
     * @var mixed
     */
     const PHT_PROFESSION = "profession";
 
     /**
-    * auto generate doc.
+    * Constant: pht phone.
     * @var mixed
     */
     const PHT_PHONE = "phone";
 
     /**
-    * auto generate doc.
+    * Constant: pht tel.
     * @var mixed
     */
     const PHT_TEL = "tel";
 
     /**
-    * auto generate doc.
+    * Constant: pht gsm.
     * @var mixed
     */
     const PHT_GSM = "gsm";
 
     /**
-    * auto generate doc.
+    * Constant: pht email.
     * @var mixed
     */
     const PHT_EMAIL = "email";
 
     /**
-    * auto generate doc.
+    * Constant: pht url.
     * @var mixed
     */
     const PHT_URL = "url";
 
     /**
-    * auto generate doc.
+    * Constant: pht website.
     * @var mixed
     */
     const PHT_WEBSITE = "website";
 
     /**
-    * auto generate doc.
+    * Constant: pht birthdate.
     * @var mixed
     */
     const PHT_BIRTHDATE = "birthdate";
 
     /**
-    * auto generate doc.
+    * Constant: pht relatedname.
     * @var mixed
     */
     const PHT_RELATEDNAME = "relatedname";
 
     /**
-    * auto generate doc.
+    * Constant: pht social profile.
     * @var mixed
     */
     const PHT_SOCIAL_PROFILE = "social profile";
 
     /**
-    * auto generate doc.
+    * Constant: pht instant message.
     * @var mixed
     */
     const PHT_INSTANT_MESSAGE = "instant message";
 
     /**
-    * auto generate doc.
+    * Constant: pht vat.
     * @var mixed
     */
     const PHT_VAT = "vat";
 
     /**
-    * auto generate doc.
+    * Constant: pht rrn.
     * @var mixed
     */
     const PHT_RRN = "rrn";
 
     /**
-    * auto generate doc.
+    * Constant: pht notes.
     * @var mixed
     */
     const PHT_NOTES = "notes";
 
     /**
-    * auto generate doc.
+    * Constant: pht vcard.
     * @var mixed
     */
     const PHT_VCARD = "vcard";
 
     /**
-    * auto generate doc.
+    * Constant: pht photo.
     * @var mixed
     */
     const PHT_PHOTO = "photo";
 
     /**
-    * auto generate doc.
+    * Constant: pht bankaccount.
     * @var mixed
     */
     const PHT_BANKACCOUNT = "bankaccount";
 
     /**
-    * auto generate doc.
+    * Constant: pht credit card.
     * @var mixed
     */
     const PHT_CREDIT_CARD = "creditcard";
 
     /**
-    * auto generate doc.
+    * Constant: pht social facebook.
     * @var mixed
     */
     const PHT_SOCIAL_FACEBOOK = "facebook";
 
     /**
-    * auto generate doc.
+    * Constant: pht social twitter.
     * @var mixed
     */
     const PHT_SOCIAL_TWITTER = "twitter";
 
     /**
-    * auto generate doc.
+    * Constant: pht social instagram.
     * @var mixed
     */
     const PHT_SOCIAL_INSTAGRAM = "instagram";
 
     /**
-    * auto generate doc.
+    * Constant: pht social youtube.
     * @var mixed
     */
     const PHT_SOCIAL_YOUTUBE = "youtube";
 
     /**
-    * auto generate doc.
+    * Constant: pht social soundclound.
     * @var mixed
     */
     const PHT_SOCIAL_SOUNDCLOUND = "soundclound";
 
     /**
-    * auto generate doc.
+    * Constant: pht social tiktok.
     * @var mixed
     */
     const PHT_SOCIAL_TIKTOK = "tiktok";
 
     /**
-    * auto generate doc.
+    * Constant: pht social snapchat.
     * @var mixed
     */
     const PHT_SOCIAL_SNAPCHAT = "snapchat";
 
     /**
-    * auto generate doc.
+    * Constant: pht social linkedin.
     * @var mixed
     */
     const PHT_SOCIAL_LINKEDIN = "linkedin";
 
     /**
-    * auto generate doc.
+    * Constant: pht social twitch.
     * @var mixed
     */
     const PHT_SOCIAL_TWITCH = "twitch";
 
     /**
-    * auto generate doc.
+    * Constant: pht social discord.
     * @var mixed
     */
     const PHT_SOCIAL_DISCORD = "discord";
 
     /**
-    * auto generate doc.
+    * Constant: pht social reddit.
     * @var mixed
     */
     const PHT_SOCIAL_REDDIT = "reddit";
 
     /**
-    * auto generate doc.
+    * Constant: pht social pinterest.
     * @var mixed
     */
     const PHT_SOCIAL_PINTEREST = "pinterest";
 
     /**
-    * auto generate doc.
+    * Constant: pht title.
     * @var mixed
     */
     const PHT_TITLE = 'title';
 
     /**
-    * auto generate doc.
+    * Constant: pht alias.
     * @var mixed
     */
     const PHT_ALIAS = 'alias';
 
     /**
-    * auto generate doc.
+    * Constant: pht adr.
     * @var mixed
     */
     const PHT_ADR = 'address';
 
     /**
-    * auto generate doc.
+    * Constant: pht nickname.
     * @var mixed
     */
     const PHT_NICKNAME = 'nickname';
 
     /**
-    * auto generate doc.
+    * Constant: pht asbl.
     * @var mixed
     */
     const PHT_ASBL = 'asbl';

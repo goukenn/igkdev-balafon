@@ -10,7 +10,7 @@
 namespace IGK\System\Exceptions;
 
 /**
-* auto generate doc.
+* Css parser exception.
 * @package IGK\System\Exceptions
 */
 final class CssParserException extends \IGKException{

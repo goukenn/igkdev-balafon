@@ -12,7 +12,7 @@ class RegexMatcherInitMarker
 {
 
     /**
-    * auto generate doc.
+    * Property: tokens.
     * @var mixed
     */
     var $tokens = [];

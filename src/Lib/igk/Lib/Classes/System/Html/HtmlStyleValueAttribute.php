@@ -12,20 +12,20 @@ use IGK\System\Html\Css\CssStyle;
 use IGK\System\Html\Dom\HtmlCssValueAttribute;
 
 /**
-* auto generate doc.
+* Html style value attribute.
 * @package IGK\System\Html
 */
 final class HtmlStyleValueAttribute extends HtmlAttributeValue
 {
 
     /**
-    * auto generate doc.
+    * Property: o.
     * @var mixed
     */
     private $m_o;
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     protected $value;

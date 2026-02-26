@@ -11,7 +11,7 @@ namespace IGK\System\Shell;
 class OsUnixCommand extends OsShell{
 
     /**
-    * auto generate doc.
+    * Where.
     * @param mixed $cmd
     */
     public static function Where($cmd){ 

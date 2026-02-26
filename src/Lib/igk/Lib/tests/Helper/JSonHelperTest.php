@@ -16,7 +16,7 @@ class JSonHelperTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests render.
     */
     public function test_render()
     {
@@ -29,7 +29,7 @@ class JSonHelperTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests encoding with null.
     */
     public function test_encoding_with_null()
     {
@@ -51,7 +51,7 @@ class JSonHelperTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests encoding with db cache.
     */
     public function test_encoding_with_db_cache()
     {

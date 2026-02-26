@@ -12,20 +12,20 @@ use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\XML\XmlNode;
 
 /**
-* auto generate doc.
+* Html attrib expression node.
 * @package IGK\System\Html
 */
 class HtmlAttribExpressionNode extends XmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: node args.
     * @var mixed
     */
     var  $node_args;
 
     /**
-    * auto generate doc.
+    * Property: target node.
     * @var mixed
     */
     var  $target_node;

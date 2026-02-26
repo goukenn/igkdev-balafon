@@ -23,14 +23,14 @@ use ReflectionException;
 class MigrationHandler{
 
     /**
-    * auto generate doc.
+    * Property: controller.
     * @var mixed
     */
     private $m_controller;
     protected
 
     /**
-    * auto generate doc.
+    * Constant: match.
     * @var mixed
     */
     const match = '/\/migration_[0-9]+_(?P<name>.+)\.php$/';
@@ -45,7 +45,7 @@ class MigrationHandler{
     }
 
     /**
-    * auto generate doc.
+    * Get real class name.
     * @param mixed & $name
     * @param mixed & $tabc
     */
@@ -84,7 +84,7 @@ class MigrationHandler{
     }
 
     /**
-    * auto generate doc.
+    * Returns List.
     */
     public function getList(){
         list($files, $migrations) = $this->_getProps(); 

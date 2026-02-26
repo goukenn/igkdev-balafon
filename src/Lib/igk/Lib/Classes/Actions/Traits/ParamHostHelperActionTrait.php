@@ -10,7 +10,7 @@ namespace IGK\Actions\Traits;
 trait ParamHostHelperActionTrait{
 
     /**
-    * auto generate doc.
+    * Returns Params.
     * @param mixed $entry
     * @param mixed $autoreset
     */
@@ -23,7 +23,7 @@ trait ParamHostHelperActionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Sets Params.
     * @param mixed $entry
     * @param mixed $param
     */

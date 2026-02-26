@@ -14,7 +14,7 @@ use IGK\Tests\BaseTestCase;
 class FormBuilderTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests formfieldmethod build form.
     */
     public function test_formfieldmethod_build_form(){
         $n = igk_create_node('form');
@@ -26,7 +26,7 @@ class FormBuilderTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests formfieldmethod build multi field.
     */
     public function test_formfieldmethod_build_multi_field(){
         $n = igk_create_node('form');
@@ -38,7 +38,7 @@ class FormBuilderTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests formfieldmethod build multi field def.
     */
     public function test_formfieldmethod_build_multi_field_def(){
         $n = igk_create_node('form');

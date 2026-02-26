@@ -13,31 +13,31 @@ use Exception;
 class XsdBuilder extends XsdElement implements ArrayAccess{
 
     /**
-    * auto generate doc.
+    * Constant: schema.
     * @var mixed
     */
     const SCHEMA = "http://www.w3.org/2001/XMLSchema";
 
     /**
-    * auto generate doc.
+    * Constant: any attribute.
     * @var mixed
     */
     const ANY_ATTRIBUTE = -1; //strict any attribute
 
     /**
-    * auto generate doc.
+    * Constant: any attribute lax.
     * @var mixed
     */
     const ANY_ATTRIBUTE_LAX = -2; //strict any attribute
 
     /**
-    * auto generate doc.
+    * Constant: any attribute skip.
     * @var mixed
     */
     const ANY_ATTRIBUTE_SKIP = -3; //strict any attribute
 
     /**
-    * auto generate doc.
+    * Property: notation.
     * @var mixed
     */
     private $m_notation;
@@ -61,7 +61,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Creates Choice.
     * @param mixed $name
     * @param mixed $items
     * @param null|mixed $attributes
@@ -138,7 +138,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Adds Group Element.
     * @param mixed $name
     * @param mixed $items
     */
@@ -148,7 +148,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Adds Group Attributes.
     * @param mixed $name
     * @param mixed $items
     */
@@ -166,7 +166,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Adds Enum Element.
     * @param mixed $name
     * @param mixed $items
     */
@@ -181,7 +181,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Adds Enum Type.
     * @param mixed $name
     * @param mixed $items
     */
@@ -196,7 +196,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Adds Pattern Element.
     * @param mixed $name
     * @param mixed $pattern
     */
@@ -223,7 +223,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Adds Length Restriction Element.
     * @param mixed $name
     * @param mixed $minLength
     * @param mixed $maxLength
@@ -258,7 +258,7 @@ class XsdBuilder extends XsdElement implements ArrayAccess{
     }
 
     /**
-    * auto generate doc.
+    * Adds Attribute Only Complex Type Element.
     * @param mixed $name
     * @param mixed $attributes
     * @return XsdBuilder

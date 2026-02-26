@@ -8,13 +8,13 @@
 namespace IGK\Core\Ext\Google\OAuth;
 
 /**
-* auto generate doc.
+* Search console api.
 * @package IGK\Core\Ext\Google\OAuth
 */
 class SearchConsoleApi{
 
     /**
-    * auto generate doc.
+    * Constant: entry uri.
     * @var mixed
     */
     const ENTRY_URI = "https://www.googleapis.com/webmasters/v3";

@@ -21,13 +21,13 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     use ScriptTrait;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Returns Item.
     */
     public static function getItem()
     {
@@ -41,7 +41,7 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Childs.
     */
     public function getCanAddChilds()
     {
@@ -49,7 +49,7 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -57,7 +57,7 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -67,7 +67,7 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $options
     */
     protected function _getRenderingChildren($options = null)
@@ -76,7 +76,7 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options = null)

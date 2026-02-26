@@ -11,43 +11,43 @@ class FileMatcher
 {
 
     /**
-    * auto generate doc.
+    * Constant: not match.
     * @var mixed
     */
     const NOT_MATCH = 1;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     var $type = 0;
 
     /**
-    * auto generate doc.
+    * Path to base dir.
     * @var mixed
     */
     var $base_dir;
 
     /**
-    * auto generate doc.
+    * Property: regex.
     * @var mixed
     */
     var $regex;
 
     /**
-    * auto generate doc.
+    * Property: flags.
     * @var mixed
     */
     var $flags = 0;
 
     /**
-    * auto generate doc.
+    * Property: tab.
     * @var mixed
     */
     var $tab;
 
     /**
-    * auto generate doc.
+    * Property: init.
     * @var mixed
     */
     private $m_init;

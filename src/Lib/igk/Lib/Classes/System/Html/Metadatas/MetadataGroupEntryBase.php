@@ -11,19 +11,19 @@ use IGK\System\IO\StringBuilder;
 abstract class MetadataGroupEntryBase{
 
     /**
-    * auto generate doc.
+    * Property: def.
     * @var mixed
     */
     protected $m_def = [];
 
     /**
-    * auto generate doc.
+    * Map.
     * @return array
     */
     abstract function map():array;
 
     /**
-    * auto generate doc.
+    * Renders.
     */
     public function render(){
         $s = new StringBuilder;
@@ -36,7 +36,7 @@ abstract class MetadataGroupEntryBase{
     }
 
     /**
-    * auto generate doc.
+    * Sets Property.
     * @param string $n
     * @param mixed $v
     */
@@ -50,7 +50,7 @@ abstract class MetadataGroupEntryBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Set Data Callback.
     */
     public function getSetDataCallback(){
         return function($v, $n){
@@ -59,7 +59,7 @@ abstract class MetadataGroupEntryBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Dirty.
     */
     public function isDirty(){
         return count($this->m_def);  

@@ -15,7 +15,7 @@ class DieInfo{
     var $message;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options;

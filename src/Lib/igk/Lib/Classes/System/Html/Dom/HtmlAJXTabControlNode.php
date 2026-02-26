@@ -11,51 +11,51 @@ use IGKEvents;
 final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
 
     /**
-    * auto generate doc.
+    * Property: selected.
     * @var mixed
     */
     private $m_selected;
 
     /**
-    * auto generate doc.
+    * Listener: tab view listener.
     * @var mixed
     */
     private $m_tabViewListener;
 
     /**
-    * auto generate doc.
+    * Property: tabcontent.
     * @var mixed
     */
     private $m_tabcontent;
 
     /**
-    * auto generate doc.
+    * Collection of tablist.
     * @var mixed
     */
     private $m_tablist;
 
     /**
-    * auto generate doc.
+    * Property: demo component.
     * @var mixed
     */
     private static $demoComponent;
     public
 
     /**
-    * auto generate doc.
+    * Constant: control.
     * @var mixed
     */
     const CONTROL = HtmlComponents::AJXTabControl;
 
     /**
-    * auto generate doc.
+    * Returns Selected Index.
     */
     public function getSelectedIndex(){
         return $this->m_selected;
     }
 
     /**
-    * auto generate doc.
+    * Returns Settings.
     * @param mixed $key
     */
     public function getSettings($key){

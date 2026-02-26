@@ -2,7 +2,7 @@
 namespace IGK\Helper\Traits;
 
 /**
-* auto generate doc.
+* Trait providing iopath checker functionality.
 * @package IGK\Helper\Traits
 */
 trait IOPathCheckerTrait{

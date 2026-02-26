@@ -10,7 +10,7 @@ namespace IGK\System\Html\Encoding;
 class AttributeEncoder{
 
     /**
-    * auto generate doc.
+    * Collection of char list.
     * @var mixed
     */
     var $char_list = [

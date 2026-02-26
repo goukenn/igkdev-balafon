@@ -11,19 +11,19 @@ namespace IGK\System\Html\Dom;
 class HtmlBodyMainScript extends HtmlScriptNode{
 
     /**
-    * auto generate doc.
+    * Property: item.
     * @var mixed
     */
     static $item;
 
     /**
-    * auto generate doc.
+    * Property: scripts.
     * @var mixed
     */
     private $m_scripts = [];
 
     /**
-    * auto generate doc.
+    * Adds Script.
     * @param mixed $key
     * @param mixed $script
     */
@@ -45,7 +45,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     }
 
     /**
-    * auto generate doc.
+    * Adds Script Node.
     * @param mixed $id
     * @param mixed $n
     */
@@ -54,7 +54,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     }
 
     /**
-    * auto generate doc.
+    * Append script.
     * @param mixed $scriptFile
     */
     public function appendScript($scriptFile){
@@ -62,7 +62,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     }
 
     /**
-    * auto generate doc.
+    * Removes Script.
     * @param mixed $index
     */
     public function removeScript($index){
@@ -74,7 +74,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Script At.
     * @param mixed $index
     */
     public function getScriptAt($index){
@@ -82,7 +82,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Item.
     */
     public static function getItem(){
         if (self::$item === null)
@@ -101,7 +101,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     }
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $options
     */
     protected function _getRenderingChildren($options = null)
@@ -113,7 +113,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -131,7 +131,7 @@ class HtmlBodyMainScript extends HtmlScriptNode{
 final class SourceScriptRenderer extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: scripts.
     * @var mixed
     */
     private $m_scripts;
@@ -146,7 +146,7 @@ final class SourceScriptRenderer extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options = null) { 

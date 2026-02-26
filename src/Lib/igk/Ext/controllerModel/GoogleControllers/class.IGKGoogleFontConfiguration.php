@@ -124,7 +124,7 @@ final class IGKGoogleFontConfiguration extends ConfigControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Resave.
     */
     public function resave(){
 		igk_google_store_setting();

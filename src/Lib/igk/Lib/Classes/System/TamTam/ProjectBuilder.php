@@ -17,7 +17,7 @@ use IGK\Constants;
 class ProjectBuilder{
 
     /**
-    * auto generate doc.
+    * Property: setting.
     * @var mixed
     */
     protected $setting;
@@ -28,7 +28,7 @@ class ProjectBuilder{
     var $configFile;
 
     /**
-    * auto generate doc.
+    * Constant: builder entry class.
     * @var mixed
     */
     const BUILDER_ENTRY_CLASS='System\\Build\\ProjectBuilder';
@@ -43,7 +43,7 @@ class ProjectBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Builds.
     * @param mixed $e
     */
     public function build($e){
@@ -83,7 +83,7 @@ class ProjectBuilder{
     }
 
     /**
-    * auto generate doc.
+    * Before build.
     * @param mixed $e
     */
     public function beforeBuild($e){
@@ -106,14 +106,14 @@ class ProjectBuilder{
     }
 
     /**
-    * auto generate doc.
+    * After build.
     * @param mixed $e
     */
     public function afterBuild($e){
     }
 
     /**
-    * auto generate doc.
+    * Returns Setting Validation Data Class.
     */
     protected function getSettingValidationDataClass(){
         return ProjectSettingValidationData::class;

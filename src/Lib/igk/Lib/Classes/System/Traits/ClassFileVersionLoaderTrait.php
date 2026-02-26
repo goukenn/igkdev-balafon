@@ -18,7 +18,7 @@ trait ClassFileVersionLoaderTrait
 {
 
     /**
-    * auto generate doc.
+    * Property: load classes.
     * @var mixed
     */
     private $_load_classes = [];
@@ -32,7 +32,7 @@ trait ClassFileVersionLoaderTrait
     }
 
     /**
-    * auto generate doc.
+    * Registers Class.
     * @param string $file
     * @param string $classname
     * @param null|string $version

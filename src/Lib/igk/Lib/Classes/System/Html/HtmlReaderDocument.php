@@ -12,7 +12,7 @@ use IGK\Helper\SysUtils;
 use IGK\System\Html\XML\XmlNode;
 
 /**
-* auto generate doc.
+* Html reader document.
 * @package IGK\System\Html
 */
 final class HtmlReaderDocument extends XmlNode
@@ -27,7 +27,7 @@ final class HtmlReaderDocument extends XmlNode
     }
 
     /**
-    * auto generate doc.
+    * Returns properties to serialize.
     */
 
     public function __sleep()
@@ -37,7 +37,7 @@ final class HtmlReaderDocument extends XmlNode
     }
 
     /**
-    * auto generate doc.
+    * Copy to.
     * @param mixed $target
     */
 
@@ -53,7 +53,7 @@ final class HtmlReaderDocument extends XmlNode
     }
 
     /**
-    * auto generate doc.
+    * Rende ajx.
     * @param null|mixed $o
     */
 
@@ -63,7 +63,7 @@ final class HtmlReaderDocument extends XmlNode
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
 

@@ -19,13 +19,13 @@ namespace IGK\System\Text;
 interface IRegexCaptureInfo{
 
     /**
-    * auto generate doc.
+    * Getis root.
     * @return bool
     */
     function getisRoot():bool;
 
     /**
-    * auto generate doc.
+    * Getis root captured.
     * @return bool
     */
     function getisRootCaptured():bool;

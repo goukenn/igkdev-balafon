@@ -16,25 +16,25 @@ abstract class ViewExpressionArgHelper{
     const SETTER_VAR = '___IGK_PHP_SETTER_VAR___';
 
     /**
-    * auto generate doc.
+    * Constant: getter var.
     * @var mixed
     */
     const GETTER_VAR = '___IGK_PHP_GETTER_VAR___';
 
     /**
-    * auto generate doc.
+    * Constant: expression.
     * @var mixed
     */
     const EXPRESSION = '___IGK_PHP_EXPRESSION___';
 
     /**
-    * auto generate doc.
+    * Constant: response.
     * @var mixed
     */
     const RESPONSE = '___IGK_PHP_RESPONSE___';
 
     /**
-    * auto generate doc.
+    * Property: variables.
     * @var mixed
     */
     public static $Variables = [];    

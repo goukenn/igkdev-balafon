@@ -11,7 +11,7 @@ namespace IGK\System\Html\Dom;
 class HtmlDocumentBodyContentInjector{
 
     /**
-    * auto generate doc.
+    * Collection of list.
     * @var mixed
     */
     private $m_list;
@@ -39,14 +39,14 @@ class HtmlDocumentBodyContentInjector{
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function clear(){
         $this->m_list = [];
     }
 
     /**
-    * auto generate doc.
+    * Returns Items.
     */
     public function getItems(){
         return $this->m_list; 

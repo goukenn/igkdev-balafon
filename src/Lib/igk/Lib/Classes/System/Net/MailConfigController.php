@@ -26,7 +26,7 @@ class MailConfigController extends ConfigControllerBase
 {
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
     public function getConfigPage()
     {
@@ -34,7 +34,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     */
     public function getName()
     {
@@ -51,7 +51,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Initializes Mail Setting.
     */
     public function initMailSetting()
     {
@@ -61,7 +61,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Function Exposed.
     * @param mixed $func
     */
     public function IsFunctionExposed($func)
@@ -73,7 +73,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Locks mail.
     */
     public function lock_mail()
     {
@@ -125,7 +125,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Mail update.
     */
     public function mail_update()
     {
@@ -167,7 +167,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * On mail sended.
     * @param mixed $args
     */
     public function onMailSended($args)
@@ -176,7 +176,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Registers.
     */
     public function register()
     {
@@ -198,7 +198,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Removes Mail Send Event.
     * @param mixed $obj
     * @param mixed $func
     */
@@ -208,7 +208,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Sends contactmail.
     * @param mixed $fromName
     * @param null|mixed $message
     */
@@ -279,7 +279,7 @@ class MailConfigController extends ConfigControllerBase
     }
 
     /**
-    * auto generate doc.
+    * Sendmailto.
     */
     public function sendmailto()
     {
@@ -295,7 +295,7 @@ EOF;
     ///<summary></summary>
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View(): BaseController

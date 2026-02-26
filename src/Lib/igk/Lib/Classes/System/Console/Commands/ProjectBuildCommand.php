@@ -16,25 +16,25 @@ use function igk_resource_gets as __;
 class ProjectBuildCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command='--project:build';
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc='build project for production';
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options=[];
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
     public function showUsage(){
 		Logger::print($this->command." controller [options]");
@@ -42,7 +42,7 @@ class ProjectBuildCommand extends AppExecCommand{
 	/* var \$category; */
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     */

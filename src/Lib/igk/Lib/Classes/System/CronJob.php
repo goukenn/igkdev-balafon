@@ -31,7 +31,7 @@ class CronJob
     var $ctrl;
 
     /**
-    * auto generate doc.
+    * Executes.
     */
     public function execute()
     {

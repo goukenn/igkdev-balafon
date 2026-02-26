@@ -10,7 +10,7 @@ namespace IGK\System\Html;
 class ViewRefAttribute implements IHtmlTemplateAttribute{
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $data;

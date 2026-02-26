@@ -10,19 +10,19 @@ namespace IGK\Actions;
 class ActionResolutionInfo{
 
     /**
-    * auto generate doc.
+    * Property: class.
     * @var mixed
     */
     var $class;
 
     /**
-    * auto generate doc.
+    * Property: level.
     * @var mixed
     */
     var $level;
 
     /**
-    * auto generate doc.
+    * Property: params.
     * @var mixed
     */
     var $params;

@@ -15,7 +15,7 @@ class CssRulesParser
 {
 
     /**
-    * auto generate doc.
+    * Property: regex.
     * @var mixed
     */
     private $m_regex;
@@ -25,7 +25,7 @@ class CssRulesParser
     }
 
     /**
-    * auto generate doc.
+    * Init regex container.
     */
     protected function _initRegexContainer()
     {

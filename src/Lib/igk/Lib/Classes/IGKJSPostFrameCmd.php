@@ -10,12 +10,12 @@
 use IGK\System\Html\IHtmlGetValue;
 
 /**
-* auto generate doc.
+* Igkjspost frame cmd.
 */
 class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Properties: global, obj, t.
     * @var mixed
     */
     private $m_global, $m_obj, $m_t;
@@ -35,7 +35,7 @@ class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
 

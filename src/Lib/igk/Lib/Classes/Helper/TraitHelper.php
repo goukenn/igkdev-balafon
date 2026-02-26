@@ -10,7 +10,7 @@ namespace IGK\Helper;
 abstract class TraitHelper{
 
     /**
-    * auto generate doc.
+    * Support trait.
     * @param mixed $object_or_class
     * @param mixed $trait
     * @return bool

@@ -11,7 +11,7 @@ use IGK\System\IO\Path;
 trait AssetsActionTrait{
 
     /**
-    * auto generate doc.
+    * Assets.
     * @param null|mixed $f
     */
     public function assets($f=null){

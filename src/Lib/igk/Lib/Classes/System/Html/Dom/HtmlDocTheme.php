@@ -42,43 +42,43 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
 {
 
     /**
-    * auto generate doc.
+    * Constant: media key.
     * @var mixed
     */
     const MEDIA_KEY = "medias";
 
     /**
-    * auto generate doc.
+    * Constant: doc theme keystorage.
     * @var mixed
     */
     const DOC_THEME_KEYSTORAGE = "theme-storage";
 
     /**
-    * auto generate doc.
+    * Constant: inline style key.
     * @var mixed
     */
     const INLINE_STYLE_KEY = "css://temp/rendering";
 
     /**
-    * auto generate doc.
+    * Constant: global type.
     * @var mixed
     */
     const GLOBAL_TYPE = 'global';
 
     /**
-    * auto generate doc.
+    * Constant: temp type.
     * @var mixed
     */
     const TEMP_TYPE = 'temporary';
 
     /**
-    * auto generate doc.
+    * Property: document.
     * @var mixed
     */
     private $m_document;
 
     /**
-    * auto generate doc.
+    * Property: root ref.
     * @var mixed
     */
     private $m_root_ref;
@@ -104,55 +104,55 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     private $m_def;
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     private $m_id;
 
     /**
-    * auto generate doc.
+    * Property: medias.
     * @var mixed
     */
     private $m_medias;
 
     /**
-    * auto generate doc.
+    * Type of type.
     * @var mixed
     */
     private $m_type;
 
     /**
-    * auto generate doc.
+    * Flag: istemp.
     * @var mixed
     */
     private $m_istemp;
 
     /**
-    * auto generate doc.
+    * Property: resolver.
     * @var mixed
     */
     private $m_resolver;
 
     /**
-    * auto generate doc.
+    * Property: init global.
     * @var mixed
     */
     private $m_initGlobal;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     private $m_options;
 
     /**
-    * auto generate doc.
+    * Property: media.
     * @var mixed
     */
     private static $MEDIA;
 
     /**
-    * auto generate doc.
+    * Property: sm mediakey.
     * @var mixed
     */
     private static $SM_MEDIAKEY;
@@ -173,7 +173,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     private $m_charset;
 
     /**
-    * auto generate doc.
+    * Name of namespace.
     * @var mixed
     */
     private $m_namespace;
@@ -189,7 +189,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     private $m_themingResolv;
 
     /**
-    * auto generate doc.
+    * Property: includes.
     * @var mixed
     */
     private $m_includes;
@@ -240,7 +240,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Sets Include File List Listener.
     * @param mixed & $array
     */
     public function &setIncludeFileListListener(&$array)
@@ -251,7 +251,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Included Files.
     */
     public function &getIncludedFiles()
     {
@@ -278,7 +278,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Returns include args.
     */
     protected function get_include_args()
     {
@@ -296,7 +296,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Imports.
     */
     public function getImports()
     {
@@ -318,7 +318,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Charset.
     */
     public function getCharset()
     {
@@ -326,7 +326,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Sets Charset.
     * @param null|string $charset
     */
     public function setCharset(?string $charset)
@@ -335,7 +335,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Sets Namespace.
     * @param null|string $namespace
     */
     public function setNamespace(?string $namespace)
@@ -344,7 +344,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Returns Namespace.
     */
     public function getNamespace()
     {
@@ -352,7 +352,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Imports.
     * @param mixed $uri
     */
     public function import($uri)
@@ -430,7 +430,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Binds Theme Color.
     * @param string $theme
     * @param null|array $colors
     */
@@ -579,7 +579,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Resets Colors.
     */
     public function resetColors()
     {
@@ -596,7 +596,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Binds File.
     * @param mixed $file
     */
     public function bindFile($file)
@@ -1292,7 +1292,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Getxsm screen.
     */
     public function getxsm_screen()
     {
@@ -1300,7 +1300,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Getsm screen.
     */
     public function getsm_screen()
     {
@@ -1308,7 +1308,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Getlg screen.
     */
     public function getlg_screen()
     {
@@ -1316,7 +1316,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Getxlg screen.
     */
     public function getxlg_screen()
     {
@@ -1324,7 +1324,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Getxxlg screen.
     */
     public function getxxlg_screen()
     {
@@ -1764,7 +1764,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     }
 
     /**
-    * auto generate doc.
+    * Sets Param.
     * @param mixed $key
     * @param mixed $value
     */

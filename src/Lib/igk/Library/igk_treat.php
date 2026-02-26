@@ -39,7 +39,7 @@ function igk_treat_source($source, $callback, $tab=null, & $options=null){
     if(!function_exists("igk_treat_append")){
 
 /**
-* auto generate doc.
+* Igk treat append.
 * @param mixed $options
 * @param mixed $t
 * @param mixed $indent
@@ -58,7 +58,7 @@ function igk_treat_append($options, $t, $indent=0){
     if(!function_exists("igk_treat_create_options")){
 
 /**
-* auto generate doc.
+* Igk treat create options.
 */
 function igk_treat_create_options(){
             $options=(object)array();
@@ -68,7 +68,7 @@ function igk_treat_create_options(){
     if(!function_exists("igk_treat_source_expression")){
 
 /**
-* auto generate doc.
+* Igk treat source expression.
 * @param mixed $options
 */
 function igk_treat_source_expression($options){
@@ -175,13 +175,13 @@ function igk_treat_source_expression($options){
 class IGKProtectHtmlField{
 
     /**
-    * auto generate doc.
+    * Property: engines.
     * @var mixed
     */
     private $engines;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     private $options;

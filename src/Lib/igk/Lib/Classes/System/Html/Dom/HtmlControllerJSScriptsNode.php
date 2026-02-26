@@ -14,14 +14,14 @@ class HtmlControllerJSScriptsNode extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: item.
     * @var mixed
     */
     static $sm_item;
     use HtmlDocumentOnlyTrait;
 
     /**
-    * auto generate doc.
+    * Returns Item.
     */
     public static function getItem()
     {
@@ -35,7 +35,7 @@ class HtmlControllerJSScriptsNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     * @return ?string
     */

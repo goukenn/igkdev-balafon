@@ -13,13 +13,13 @@ namespace IGK\System\Text;
 final class RegexMatcherOutputListener{
 
     /**
-    * auto generate doc.
+    * Property: output.
     * @var mixed
     */
     var $output;
 
     /**
-    * auto generate doc.
+    * Returns Output.
     */
     public function getOutput(){
         return $this->output;

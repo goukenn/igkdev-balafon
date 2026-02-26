@@ -16,7 +16,7 @@ final class MailStyleValue implements IHtmlStyleAtribute
 {
 
     /**
-    * auto generate doc.
+    * Property: value.
     * @var mixed
     */
     var $value;
@@ -39,7 +39,7 @@ final class MailStyleValue implements IHtmlStyleAtribute
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null)

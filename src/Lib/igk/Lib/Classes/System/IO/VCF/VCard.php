@@ -16,91 +16,91 @@ class VCard
 {
 
     /**
-    * auto generate doc.
+    * Property: adr.
     * @var mixed
     */
     var $ADR;
 
     /**
-    * auto generate doc.
+    * Property: bday.
     * @var mixed
     */
     var $BDAY;
 
     /**
-    * auto generate doc.
+    * Property: email.
     * @var mixed
     */
     var $EMAIL;
 
     /**
-    * auto generate doc.
+    * Property: fn.
     * @var mixed
     */
     var $FN;
 
     /**
-    * auto generate doc.
+    * Property: n.
     * @var mixed
     */
     var $N;
 
     /**
-    * auto generate doc.
+    * Name of nickname.
     * @var mixed
     */
     var $NICKNAME;
 
     /**
-    * auto generate doc.
+    * Property: note.
     * @var mixed
     */
     var $NOTE;
 
     /**
-    * auto generate doc.
+    * Property: org.
     * @var mixed
     */
     var $ORG;
 
     /**
-    * auto generate doc.
+    * Property: photo.
     * @var mixed
     */
     var $PHOTO;
 
     /**
-    * auto generate doc.
+    * Identifier: prodid.
     * @var mixed
     */
     var $PRODID;
 
     /**
-    * auto generate doc.
+    * Property: tel.
     * @var mixed
     */
     var $TEL;
 
     /**
-    * auto generate doc.
+    * Property: title.
     * @var mixed
     */
     var $TITLE;
 
     /**
-    * auto generate doc.
+    * Property: version.
     * @var mixed
     */
     var $VERSION;
 
     /**
-    * auto generate doc.
+    * Property: x socialprofile.
     * @var mixed
     */
     var $X_SOCIALPROFILE;
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $SOURCE;
@@ -111,25 +111,25 @@ class VCard
     var $KIND;
 
     /**
-    * auto generate doc.
+    * Property: xml.
     * @var mixed
     */
     var $XML;
 
     /**
-    * auto generate doc.
+    * Property: anniversary.
     * @var mixed
     */
     var $ANNIVERSARY;
 
     /**
-    * auto generate doc.
+    * Property: gender.
     * @var mixed
     */
     var $GENDER;
 
     /**
-    * auto generate doc.
+    * Property: lang.
     * @var mixed
     */
     var $LANG;
@@ -145,61 +145,61 @@ class VCard
     var $GEO;
 
     /**
-    * auto generate doc.
+    * Property: role.
     * @var mixed
     */
     var $ROLE;
 
     /**
-    * auto generate doc.
+    * Property: logo.
     * @var mixed
     */
     var $LOGO;
 
     /**
-    * auto generate doc.
+    * Property: related.
     * @var mixed
     */
     var $RELATED;
 
     /**
-    * auto generate doc.
+    * Property: rev.
     * @var mixed
     */
     var $REV;
 
     /**
-    * auto generate doc.
+    * Property: sound.
     * @var mixed
     */
     var $SOUND;
 
     /**
-    * auto generate doc.
+    * Identifier: pid.
     * @var mixed
     */
     var $PID;
 
     /**
-    * auto generate doc.
+    * Map of clientpidmap.
     * @var mixed
     */
     var $CLIENTPIDMAP;
 
     /**
-    * auto generate doc.
+    * Property: key.
     * @var mixed
     */
     var $KEY;
 
     /**
-    * auto generate doc.
+    * Property: fburl.
     * @var mixed
     */
     var $FBURL;
 
     /**
-    * auto generate doc.
+    * Property: caladruri.
     * @var mixed
     */
     var $CALADRURI;

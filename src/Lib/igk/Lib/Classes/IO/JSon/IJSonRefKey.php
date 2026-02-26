@@ -11,7 +11,7 @@ namespace IGK\IO\JSon;
 interface IJSonRefKey{
 
     /**
-    * auto generate doc.
+    * Json refkey.
     * @param mixed $id
     * @return string
     */

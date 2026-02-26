@@ -22,13 +22,13 @@ class Logger{
     private static $sm_logger;
 
     /**
-    * auto generate doc.
+    * Property: colorizer.
     * @var mixed
     */
     private static $sm_colorizer;
 
     /**
-    * auto generate doc.
+    * Constant: tab space.
     * @var mixed
     */
     const TabSpace = "\r\t\t\t\t";
@@ -43,7 +43,7 @@ class Logger{
     }
 
     /**
-    * auto generate doc.
+    * Sets Colorizer.
     * @param null|Colorize $cl
     */
     public static function SetColorizer(?Colorize $cl){
@@ -51,7 +51,7 @@ class Logger{
     }
 
     /**
-    * auto generate doc.
+    * Returns Colorizer.
     */
     public static function GetColorizer(){
         return self::$sm_colorizer;

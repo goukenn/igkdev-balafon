@@ -10,7 +10,7 @@ namespace IGK\System\Actions\Traits;
 trait ServiceWorkerActionProviderTrait{
 
     /**
-    * auto generate doc.
+    * Sw worker js.
     */
     public function sw_worker_js(){
     }

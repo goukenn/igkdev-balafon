@@ -51,7 +51,7 @@ function igk_css_treat_value(string $v, \IGK\Css\ICssStyleContainer $theme, ?\IG
 }
 
 /**
-* auto generate doc.
+* Igk css minify.
 * @param string $source
 */
 function igk_css_minify(string $source){
@@ -137,7 +137,7 @@ function igk_css_rm_comment(string $src){
 if (!function_exists('igk_css_array_key_map_implode')){
 
 /**
-* auto generate doc.
+* Igk css array key map implode.
 * @param mixed $value
 */
 function igk_css_array_key_map_implode($value){

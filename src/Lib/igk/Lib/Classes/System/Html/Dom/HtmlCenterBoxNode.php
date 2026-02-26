@@ -6,14 +6,14 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html center box node.
 * @package IGK\System\Html\Dom
 */
 class HtmlCenterBoxNode extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: content node.
     * @var mixed
     */
     private $content_node;
@@ -41,7 +41,7 @@ class HtmlCenterBoxNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $options
     */
 
@@ -53,7 +53,7 @@ class HtmlCenterBoxNode extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Add.
     * @param mixed $n
     * @param mixed $force
     * @return bool

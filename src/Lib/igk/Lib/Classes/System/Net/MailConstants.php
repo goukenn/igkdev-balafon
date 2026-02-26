@@ -11,13 +11,13 @@ namespace IGK\System\Net;
 class MailConstants{
 
     /**
-    * auto generate doc.
+    * Constant: mail cid prefix.
     * @var mixed
     */
     const MAIL_CID_PREFIX = 'cid_';
 
     /**
-    * auto generate doc.
+    * Constant: mail attachement array option keys.
     * @var mixed
     */
     const MAIL_ATTACHEMENT_ARRAY_OPTION_KEYS = 'cid|content-type|content|name';

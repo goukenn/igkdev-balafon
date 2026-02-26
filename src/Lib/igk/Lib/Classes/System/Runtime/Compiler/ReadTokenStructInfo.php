@@ -13,7 +13,7 @@ class ReadTokenStructInfo
 {
 
     /**
-    * auto generate doc.
+    * Property: pop buffer.
     * @var mixed
     */
     var $popBuffer;
@@ -64,13 +64,13 @@ class ReadTokenStructInfo
     var $readCode = false;
 
     /**
-    * auto generate doc.
+    * Property: extends.
     * @var mixed
     */
     var $extends;
 
     /**
-    * auto generate doc.
+    * Property: implements.
     * @var mixed
     */
     var $implements;
@@ -96,7 +96,7 @@ class ReadTokenStructInfo
     protected $m_output;
 
     /**
-    * auto generate doc.
+    * Property: merge variable.
     * @var mixed
     */
     var $mergeVariable =false;
@@ -114,7 +114,7 @@ class ReadTokenStructInfo
     }
 
     /**
-    * auto generate doc.
+    * Returns Header.
     */
     protected function getHeader(){
         $mod = $this->modifiers ? implode(' ', $this->modifiers):'';
@@ -186,7 +186,7 @@ class ReadTokenStructInfo
     }
 
     /**
-    * auto generate doc.
+    * Initializes Flag Option.
     * @param ReadTokenOptions $options
     */
     public function initFlagOption(ReadTokenOptions $options){
@@ -194,7 +194,7 @@ class ReadTokenStructInfo
     }
 
     /**
-    * auto generate doc.
+    * Updates Parent Buffer.
     * @return bool
     */
     public function updateParentBuffer():bool{
@@ -202,7 +202,7 @@ class ReadTokenStructInfo
     }
 
     /**
-    * auto generate doc.
+    * Generates Php Doc.
     * @param mixed $options
     */
     public function generatePhpDoc($options){

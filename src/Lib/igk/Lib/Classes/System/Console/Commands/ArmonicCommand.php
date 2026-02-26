@@ -13,19 +13,19 @@ class ArmonicCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--armonic";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "armonise file ";
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $path
     */

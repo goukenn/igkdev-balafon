@@ -11,7 +11,7 @@ namespace IGK\System\Controllers;
 abstract class ControllerParamKeys{
 
     /**
-    * auto generate doc.
+    * Constant: actions instances.
     * @var mixed
     */
     const ACTIONS_INSTANCES = 'action-instances';

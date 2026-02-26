@@ -8,25 +8,25 @@
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkwin ui framebox.
 */
 class IGKWinUI_framebox extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Property: nodes.
     * @var mixed
     */
     private $m_nodes;
 
     /**
-    * auto generate doc.
+    * Property: close uri.
     * @var mixed
     */
     var $closeUri;
@@ -42,7 +42,7 @@ class IGKWinUI_framebox extends HtmlNode
 	}
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
 

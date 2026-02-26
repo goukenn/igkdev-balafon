@@ -31,37 +31,37 @@ use IGK\Models\ModelBase;
 class Groups extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd cl id.
     * @var mixed
     */
     const FD_CL_ID="clId";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl name.
     * @var mixed
     */
     const FD_CL_NAME="clName";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl description.
     * @var mixed
     */
     const FD_CL_DESCRIPTION="clDescription";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl controller.
     * @var mixed
     */
     const FD_CL_CONTROLLER="clController";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl create at.
     * @var mixed
     */
     const FD_CL_CREATE_AT="clCreate_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd cl update at.
     * @var mixed
     */
     const FD_CL_UPDATE_AT="clUpdate_At";
@@ -71,7 +71,7 @@ class Groups extends ModelBase{
 	protected $table = "%prefix%groups";
 
     /**
-    * auto generate doc.
+    * Property: unique columns.
     * @var mixed
     */
     protected $unique_columns = array (

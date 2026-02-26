@@ -12,7 +12,7 @@ use IGK\System\Html\Forms\IFormValidationField;
 interface IFormValidationFieldHost{
 
     /**
-    * auto generate doc.
+    * Sets Field Info.
     * @param null|IFormValidationField $field
     * @return ?IFormValidationField
     */

@@ -11,14 +11,14 @@ class SysColor{
     public
 
     /**
-    * auto generate doc.
+    * Constant: string cl.
     * @var mixed
     */
     const STRING_CL = "#D265B7";
     public
 
     /**
-    * auto generate doc.
+    * Constant: litteral cl.
     * @var mixed
     */
     const LITTERAL_CL = "#A90A07";

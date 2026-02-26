@@ -11,7 +11,7 @@ namespace IGK\System\Text;
 interface IRegexCapturePatternListener{
 
     /**
-    * auto generate doc.
+    * Treat pattern.
     * @param RegexTreatCapture $cap
     * @param mixed $patterns
     */

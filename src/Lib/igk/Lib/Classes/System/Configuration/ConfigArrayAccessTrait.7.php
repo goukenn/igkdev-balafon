@@ -6,13 +6,13 @@
 namespace IGK\System\Configuration;
 
 /**
-* auto generate doc.
+* Trait providing config array access functionality.
 * @package IGK\System\Configuration
 */
 trait ConfigArrayAccessTrait {
 
     /**
-    * auto generate doc.
+    * Offset unset.
     * @param mixed $n
     */
     public function offsetUnset($n){

@@ -12,14 +12,14 @@ use IGK\Tests\BaseTestCase;
 use IGKCSVDataAdapter;
 
 /**
-* auto generate doc.
+* String helper test.
 * @package IGK\Tests\FunctionHelper
 */
 class StringHelperTest extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Tests igk str transform linefeed.
     */
     public function test_igk_str_transform_linefeed()
     {
@@ -29,7 +29,7 @@ class StringHelperTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests igk addslashes.
     */
     public function test_igk_addslashes()
     {
@@ -39,7 +39,7 @@ class StringHelperTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests read csv json.
     */
     public function test_read_csv_json()
     {
@@ -59,7 +59,7 @@ class StringHelperTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests read csv json hello.
     */
     public function test_read_csv_json_hello()
     {
@@ -80,7 +80,7 @@ class StringHelperTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests read csv serie data.
     */
     public function test_read_csv_serie_data()
     {
@@ -121,7 +121,7 @@ class StringHelperTest extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Tests csv line data.
     */
     public function test_csv_line_data()
     {

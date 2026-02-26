@@ -10,19 +10,19 @@
 use IGK\Controllers\BaseController;
 
 /**
-* auto generate doc.
+* Igkuser connexion ctrl.
 */
 abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{return get_class($this);}
 
     /**
-    * auto generate doc.
+    * Initializes Complete.
     * @param null|mixed $context
     */
     protected function initComplete($context=null){
@@ -32,7 +32,7 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Info.
     */
     public static function GetInfo()
 	{
@@ -41,7 +41,7 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 	//@@@ init target node
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
@@ -50,14 +50,14 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Can Add Child.
     */
     public function getCanAddChild(){return false; }
  
 	//@@@ parent view control
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
     public function View():BaseController{
@@ -72,7 +72,7 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Connects.
     */
     public abstract function connect();
 	public abstract function logout();

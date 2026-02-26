@@ -12,25 +12,25 @@ class CssProperty implements ICssDefinition{
     use RenderDefinitionTrait;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Property: conditions.
     * @var mixed
     */
     var $conditions;
 
     /**
-    * auto generate doc.
+    * Property: def.
     * @var mixed
     */
     var $def = [];
 
     /**
-    * auto generate doc.
+    * Property: parent.
     * @var mixed
     */
     var $parent;
@@ -49,7 +49,7 @@ class CssProperty implements ICssDefinition{
     }
 
     /**
-    * auto generate doc.
+    * Returns Definition.
     * @return ?string
     */
     public function getDefinition(): ?string { 

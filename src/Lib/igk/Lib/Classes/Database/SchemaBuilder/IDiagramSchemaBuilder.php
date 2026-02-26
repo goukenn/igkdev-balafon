@@ -61,7 +61,7 @@ interface IDiagramSchemaBuilder{
     function dropColumn(string $tabble, string $column):void;
 
     /**
-    * auto generate doc.
+    * Description.
     * @param null|string $desc
     * @return IDiagramSchemaBuilder
     */

@@ -13,25 +13,25 @@ namespace IGK\System\Console\Commands\Projects;
 class RemoveProjectMiddleWare{
 
     /**
-    * auto generate doc.
+    * Property: chain.
     * @var mixed
     */
     private $m_chain;
 
     /**
-    * auto generate doc.
+    * Adds.
     */
     public function add(){
 	}
 
     /**
-    * auto generate doc.
+    * Next.
     */
     public function next(){
 	}
 
     /**
-    * auto generate doc.
+    * Runs.
     */
     public function run(){
 		$q = $this->m_chain; 

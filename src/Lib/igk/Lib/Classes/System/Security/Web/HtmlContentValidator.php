@@ -11,7 +11,7 @@ use IGK\System\Html\HtmlRenderer;
 class HtmlContentValidator extends MapContentValidatorBase{
 
     /**
-    * auto generate doc.
+    * Property: notvalid msg.
     * @var mixed
     */
     protected $notvalid_msg = "not a valid content.";
@@ -22,7 +22,7 @@ class HtmlContentValidator extends MapContentValidatorBase{
     var $skipTag = ['style','script'];
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @return bool

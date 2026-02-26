@@ -10,13 +10,13 @@ use IGK\System\Database\SchemaBuilder;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Make project test.
 * @package IGK\Test\System\Console\Commands
 */
 class MakeProjectTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests make comment.
     */
     function test_make_comment(){
         $build=new SchemaBuilder();

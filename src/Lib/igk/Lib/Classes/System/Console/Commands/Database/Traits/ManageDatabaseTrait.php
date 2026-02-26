@@ -14,12 +14,12 @@ use IGK\System\Console\Logger;
 trait ManageDatabaseTrait{
 
     /**
-    * auto generate doc.
+    * Returns Model Class.
     */
     abstract function getModelClass();
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $action
     */
@@ -38,7 +38,7 @@ trait ManageDatabaseTrait{
 	}
 
     /**
-    * auto generate doc.
+    * Handle add.
     * @param mixed $command
     * @param null|string $names
     */

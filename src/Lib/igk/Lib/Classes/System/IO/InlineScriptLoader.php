@@ -13,7 +13,7 @@ use IGKException;
 class InlineScriptLoader implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: file.
     * @var mixed
     */
     protected $file;
@@ -37,7 +37,7 @@ class InlineScriptLoader implements IHtmlGetValue{
     }
 
     /**
-    * auto generate doc.
+    * Content.
     * @return string
     */
     public function content():string{

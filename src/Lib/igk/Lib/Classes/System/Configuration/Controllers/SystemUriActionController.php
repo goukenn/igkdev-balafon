@@ -19,20 +19,20 @@ use IGKSystemUriActionPatternInfo;
 use IGK\IUriActionListener;
 
 /**
-* auto generate doc.
+* System uri action controller.
 * @package IGK\System\Configuration\Controllers
 */
 final class SystemUriActionController extends ConfigControllerBase implements IUriActionListener{
     //+ action routes
 
     /**
-    * auto generate doc.
+    * Constant: routes.
     * @var mixed
     */
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
 
     /**
-    * auto generate doc.
+    * Constant: cache file.
     * @var mixed
     */
     const CACHE_FILE = '.routes.cache';
@@ -46,13 +46,13 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     const AC_SYS_URI = 'sys';
 
     /**
-    * auto generate doc.
+    * Properties: actions, routes.
     * @var mixed
     */
     private static $sm_actions, $sm_routes;
 
     /**
-    * auto generate doc.
+    * Returns Cache File.
     */
 
     public static function GetCacheFile(){
@@ -103,7 +103,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Dispatches Message.
     */
 
     public function dispatchMessage(){
@@ -151,7 +151,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Actions.
     */
 
     public function getActions(){
@@ -159,7 +159,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Can Add Child.
     */
 
     public function getCanAddChild(){
@@ -167,7 +167,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Config Page.
     */
 
     public function getConfigPage(){
@@ -175,7 +175,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Data Table Name.
     * @return ?string
     */
 
@@ -184,7 +184,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Getmailto.
     */
 
     public function getmailto(){
@@ -195,7 +195,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
 
@@ -204,7 +204,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Pattern Info.
     */
 
     public function getPatternInfo(){
@@ -212,7 +212,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Use Data Schema.
     * @return bool
     */
 
@@ -243,7 +243,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Routes.
     */
 
     public function & getRoutes(){
@@ -258,7 +258,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns System Uri.
     * @param null|mixed $key
     */
 
@@ -268,7 +268,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Gotoconfig.
     */
 
     public function gotoconfig(){ 
@@ -277,7 +277,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Returns Configuration Path.
     */
 
     static function GetConfigurationPath(){
@@ -290,7 +290,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Initializes wakeup.
     */
 
     public function init_wakeup(){    }
@@ -366,7 +366,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Invoke action.
     */
 
     public function invoke_action(){
@@ -398,7 +398,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Invoke ctrl uri pattern.
     * @param \IGK\Controllers\BaseController $ctrl
     * @param mixed $pattern
     * @param mixed $render
@@ -419,7 +419,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Invoke page action.
     * @param mixed $type
     * @param mixed $ctrl
     * @param mixed $func
@@ -471,7 +471,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Invoke uri.
     * @param mixed $key
     */
 
@@ -481,7 +481,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Invoke uri pattern.
     * @param mixed $pattern
     * @param mixed $render
     */
@@ -529,7 +529,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Matche.
     * @param mixed $uri
     */
 
@@ -560,7 +560,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Matche global.
     * @param mixed $uri
     */
 
@@ -585,7 +585,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Sets Routes.
     * @param mixed $routes
     */
 
@@ -594,7 +594,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Sys ac navigateto.
     */
 
     public function sys_ac_navigateto(){
@@ -613,7 +613,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Sys ac register.
     * @param mixed $p
     * @param mixed $uri
     */
@@ -627,7 +627,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * Sys ac unregister.
     * @param mixed $uripattern
     */
 
@@ -640,7 +640,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     }
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
 

@@ -161,7 +161,7 @@ function igk_db_num_rows($r)
 }
 
 /**
-* auto generate doc.
+* Igk db seek.
 * @param mixed $r
 * @param int $row
 */
@@ -171,7 +171,7 @@ function igk_db_seek($r, int $row){
 }
 
 /**
-* auto generate doc.
+* Igk db fetch assoc.
 * @param mixed $r
 */
 function igk_db_fetch_assoc($r){
@@ -198,7 +198,7 @@ function igk_db_query(string $query, $res = null)
 }
 
 /**
-* auto generate doc.
+* Igk db multi query.
 * @param mixed $query
 * @param null|mixed $res
 */
@@ -320,7 +320,7 @@ function igk_mysql_db_last_id($r = null)
 }
 
 /**
-* auto generate doc.
+* Igk db last connect error.
 */
 function igk_db_last_connect_error(){
     $g = DbQueryDriver::GetFunc("connect_error");
@@ -382,7 +382,7 @@ function igk_mysql_time_span($date)
 }
 
 /**
-* auto generate doc.
+* Igk mysqli multi query.
 * @param mixed $con
 * @param mixed $query
 */

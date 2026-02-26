@@ -10,31 +10,31 @@ namespace IGK\Helper;
 class JSonEncodeOption{
 
     /**
-    * auto generate doc.
+    * Property: ignore empty.
     * @var mixed
     */
     var $ignore_empty = false;
 
     /**
-    * auto generate doc.
+    * Property: ignore null.
     * @var mixed
     */
     var $ignore_null = false;
 
     /**
-    * auto generate doc.
+    * Listener: filter array listener.
     * @var mixed
     */
     var $filter_array_listener;
 
     /**
-    * auto generate doc.
+    * Collection of allow key assoc empty array.
     * @var mixed
     */
     var $allow_key_assoc_empty_array;
 
     /**
-    * auto generate doc.
+    * Ignore empty.
     */
     public static function IgnoreEmpty(){
         $s = new static;

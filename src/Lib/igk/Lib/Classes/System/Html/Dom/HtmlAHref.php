@@ -20,19 +20,19 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
 {
 
     /**
-    * auto generate doc.
+    * Constant: owner.
     * @var mixed
     */
     const OWNER = 2;
 
     /**
-    * auto generate doc.
+    * Constant: uri.
     * @var mixed
     */
     const URI = 1;
 
     /**
-    * auto generate doc.
+    * Property: .
     * @var mixed
     */
     private $_;
@@ -118,7 +118,7 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     }
 
     /**
-    * auto generate doc.
+    * Returns Design Mode.
     */
     public function getDesignMode()
     {
@@ -126,7 +126,7 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     }
 
     /**
-    * auto generate doc.
+    * Returns Owner.
     */
     public function getOwner()
     {
@@ -134,7 +134,7 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     }
 
     /**
-    * auto generate doc.
+    * Returns Uri.
     */
     public function getUri()
     {
@@ -142,7 +142,7 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     }
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $options
     */
     public function getValue($options = null)
@@ -151,7 +151,7 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     }
 
     /**
-    * auto generate doc.
+    * Sets Uri.
     * @param mixed $v
     */
     public function setUri($v)
@@ -160,7 +160,7 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
     }
 
     /**
-    * auto generate doc.
+    * Sets Value.
     * @param mixed $v
     */
     public function setValue($v)

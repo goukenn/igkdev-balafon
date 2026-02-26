@@ -11,7 +11,7 @@ use IGK\System\IO\Path;
 if (!function_exists('igk_article')) {
 
 /**
-* auto generate doc.
+* Igk article.
 * @param string $file
 * @param null|mixed $params
 */
@@ -23,7 +23,7 @@ function igk_article(string $file, $params = null)
 if (!function_exists('igk_asset')) {
 
 /**
-* auto generate doc.
+* Igk asset.
 * @param string $file
 */
 function igk_asset(string $file)

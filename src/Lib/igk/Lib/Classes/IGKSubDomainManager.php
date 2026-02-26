@@ -16,25 +16,25 @@ use IGK\System\IO\Path;
 final class IGKSubDomainManager extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Flag: is sub domain.
     * @var mixed
     */
     private static $sm_isSubDomain;
 
     /**
-    * auto generate doc.
+    * Name of sub domain name.
     * @var mixed
     */
     private static $sm_subDomainName;
 
     /**
-    * auto generate doc.
+    * Cache: cached domains.
     * @var mixed
     */
     private static $sm_cached_domains;
@@ -80,7 +80,7 @@ final class IGKSubDomainManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * On install site.
     */
     public static function OnInstallSite(){
         if (!file_exists($f=self::GetCacheFile())){
@@ -378,7 +378,7 @@ final class IGKSubDomainManager extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Domain uri name.
     * @param null|mixed $uri
     */
     public static function DomainUriName($uri=null){

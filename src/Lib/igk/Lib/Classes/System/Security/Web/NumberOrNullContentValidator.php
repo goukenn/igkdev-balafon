@@ -11,7 +11,7 @@ class NumberOrNullContentValidator extends MapContentValidatorBase
 {
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @return bool
@@ -21,7 +21,7 @@ class NumberOrNullContentValidator extends MapContentValidatorBase
      }
 
     /**
-    * auto generate doc.
+    * Map.
     * @param mixed $value
     * @param mixed $key
     * @param mixed & $error

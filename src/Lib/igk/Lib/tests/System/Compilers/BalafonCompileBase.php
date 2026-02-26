@@ -38,13 +38,13 @@ abstract class BalafonCompileBase extends BaseTestCase
 {
 
     /**
-    * auto generate doc.
+    * Path to tempdir.
     * @var mixed
     */
     protected static $sm_tempdir;
 
     /**
-    * auto generate doc.
+    * Tears down shared resources after all tests.
     * @return void
     */
     public static function tearDownAfterClass(): void
@@ -53,7 +53,7 @@ abstract class BalafonCompileBase extends BaseTestCase
     }
 
     /**
-    * auto generate doc.
+    * Sets up shared resources before all tests.
     * @return void
     */
     public static function setUpBeforeClass(): void

@@ -11,7 +11,7 @@ use IGK\System\Traits\PropertyObjectTrait;
 abstract class AnnotationBase implements IAnnotation{
 
     /**
-    * auto generate doc.
+    * Property: params.
     * @var mixed
     */
     private $m_params;

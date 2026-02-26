@@ -10,7 +10,7 @@ namespace IGK\System\IO;
 interface IAssetManager{
 
     /**
-    * auto generate doc.
+    * Adds Assets.
     * @param string $file_or_reference
     */
     function addAssets(string $file_or_reference);

@@ -19,25 +19,25 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	use IteratorTrait;
 
     /**
-    * auto generate doc.
+    * Property: rows.
     * @var mixed
     */
     private $m_rows;
 
     /**
-    * auto generate doc.
+    * Property: it current.
     * @var mixed
     */
     private $it_current;
 
     /**
-    * auto generate doc.
+    * Property: it keys.
     * @var mixed
     */
     private $it_keys;
 
     /**
-    * auto generate doc.
+    * Property: it key.
     * @var mixed
     */
     private $it_key;
@@ -87,7 +87,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * To json.
     * @param null|mixed $flag
     */
     public function to_json($flag = null){
@@ -95,7 +95,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     }
 
     /**
-    * auto generate doc.
+    * Creates.
     * @param mixed $tab
     */
     public static function Create($tab){
@@ -107,7 +107,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * To array.
     * @param mixed $filter
     * @return array
     */
@@ -125,7 +125,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * Access exists.
     * @param mixed $i
     */
     protected function _access_Exists($i){ 
@@ -133,7 +133,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * Access offset exists.
     * @param mixed $i
     */
     protected function _access_offsetExists($i){
@@ -141,7 +141,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     }
 
     /**
-    * auto generate doc.
+    * Access offset set.
     * @param mixed $i
     * @param mixed $v
     */
@@ -150,7 +150,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * Access offset get.
     * @param mixed $i
     */
     public function _access_OffsetGet($i){
@@ -161,7 +161,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * Access offset unset.
     * @param mixed $i
     */
     protected function _access_offsetUnset($i){
@@ -202,21 +202,21 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
     }
 
     /**
-    * auto generate doc.
+    * Iterator current.
     */
     public function _iterator_current (){
 		return $this->it_current;
 	}
 
     /**
-    * auto generate doc.
+    * Iterator key.
     */
     public function _iterator_key (){
 		return $this->it_keys[$this->it_key];
 	}
 
     /**
-    * auto generate doc.
+    * Iterator next.
     */
     public function _iterator_next (){
 		$this->it_key++;
@@ -228,7 +228,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * Iterator rewind.
     */
     public function _iterator_rewind (){
 		$this->it_keys = array_keys($this->m_rows);
@@ -238,7 +238,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * Iterator valid.
     */
     public function _iterator_valid (){
 		return $this->it_key < count($this->it_keys);
@@ -254,7 +254,7 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	}
 
     /**
-    * auto generate doc.
+    * Returns count of.
     * @return int
     */
     public function count():int{

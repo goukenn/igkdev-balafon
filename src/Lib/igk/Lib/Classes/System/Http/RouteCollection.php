@@ -6,7 +6,7 @@
 namespace IGK\System\Http;
 
 /**
-* auto generate doc.
+* Route collection.
 * @package IGK\System\Http
 */
 class RouteCollection{

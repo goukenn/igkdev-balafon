@@ -6,25 +6,25 @@
 namespace IGK\System\Http;
 
 /**
-* auto generate doc.
+* Response html renderer.
 * @package IGK\System\Http
 */
 class ResponseHtmlRenderer{
 
     /**
-    * auto generate doc.
+    * Property: node.
     * @var mixed
     */
     private $m_node;
 
     /**
-    * auto generate doc.
+    * Property: obj.
     * @var mixed
     */
     private $m_obj;
 
     /**
-    * auto generate doc.
+    * Property: refs.
     * @var mixed
     */
     private $m_refs;
@@ -40,7 +40,7 @@ class ResponseHtmlRenderer{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     */
 
     public function render(){
@@ -56,7 +56,7 @@ class ResponseHtmlRenderer{
     }
 
     /**
-    * auto generate doc.
+    * Visit dd.
     * @param mixed $c
     * @param mixed $m
     */

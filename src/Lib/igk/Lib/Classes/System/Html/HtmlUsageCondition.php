@@ -16,7 +16,7 @@ use IGKObject;
 final class HtmlUsageCondition extends IGKObject implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Returns Value.
     * @param null|mixed $o
     */
     public function getValue($o=null){

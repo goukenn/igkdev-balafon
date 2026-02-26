@@ -15,7 +15,7 @@ use IGK\System\IO\Path;
 class ScriptConfigData{
 
     /**
-    * auto generate doc.
+    * Property: main.
     * @var mixed
     */
     var $main;

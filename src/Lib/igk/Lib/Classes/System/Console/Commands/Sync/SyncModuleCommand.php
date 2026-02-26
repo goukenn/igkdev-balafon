@@ -22,31 +22,31 @@ class SyncModuleCommand extends SyncAppExecCommandBase
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--sync:module";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "sync module through ftp-sync configuration";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "sync";
 
     /**
-    * auto generate doc.
+    * Property: help.
     * @var mixed
     */
     var $help = "--[list|restore[:foldername] --clearcache  --zip";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [
@@ -55,7 +55,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
     ];
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     var $usage = '[module_name] [options]';
@@ -66,13 +66,13 @@ class SyncModuleCommand extends SyncAppExecCommandBase
     var $use_zip;
 
     /**
-    * auto generate doc.
+    * Cache: remove cache.
     * @var mixed
     */
     private $remove_cache = false;
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $module
     */
@@ -129,7 +129,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
     }
 
     /**
-    * auto generate doc.
+    * Sync module.
     * @param ApplicationModuleController $module
     * @param mixed $setting
     */
@@ -208,7 +208,7 @@ class SyncModuleCommand extends SyncAppExecCommandBase
     }
 
     /**
-    * auto generate doc.
+    * Removes Cache.
     * @param mixed $ftp
     * @param mixed $app_dir
     */

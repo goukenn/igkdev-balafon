@@ -11,7 +11,7 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 trait ViewReadConditionTrait{
 
     /**
-    * auto generate doc.
+    * Read condition.
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value
@@ -48,7 +48,7 @@ trait ViewReadConditionTrait{
     }
 
     /**
-    * auto generate doc.
+    * Handle read condition.
     * @param ReadTokenOptions $options
     * @param mixed $id
     * @param mixed $value

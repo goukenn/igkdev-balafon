@@ -7,25 +7,25 @@
 use IGK\System\Html\Dom\HtmlNode;
 
 /**
-* auto generate doc.
+* Igkwin ui pane view.
 */
 class IGKWinUI_paneView extends IGKWinUIControl
 {
 
     /**
-    * auto generate doc.
+    * Property: script.
     * @var mixed
     */
     private $m_script;
 
     /**
-    * auto generate doc.
+    * Property: load uri.
     * @var mixed
     */
     private $m_loadUri;
 
     /**
-    * auto generate doc.
+    * Adds Group.
     * @param null|mixed $name
     */
 
@@ -48,7 +48,7 @@ class IGKWinUI_paneView extends IGKWinUIControl
 	}
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $options
     */
 
@@ -63,13 +63,13 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Getload uri.
     */
 
     public function getloadUri(){return $this->m_loadUri;}
 
     /**
-    * auto generate doc.
+    * Setload uri.
     * @param mixed $value
     */
 
@@ -78,7 +78,7 @@ EOF;
 }
 
 /**
-* auto generate doc.
+* Igkwin ui pane viewitem.
 */
 class IGKWinUI_paneViewitem extends HtmlNode
 {
@@ -86,13 +86,13 @@ class IGKWinUI_paneViewitem extends HtmlNode
 	private $m_link;
 
     /**
-    * auto generate doc.
+    * Gethref.
     */
 
     public function gethref(){return $this->m_link["href"]; }
 
     /**
-    * auto generate doc.
+    * Sethref.
     * @param mixed $value
     */
 
@@ -112,7 +112,7 @@ class IGKWinUI_paneViewitem extends HtmlNode
 	}
 
     /**
-    * auto generate doc.
+    * Adds Block.
     * @param null|mixed $attributes
     */
 
@@ -124,7 +124,7 @@ class IGKWinUI_paneViewitem extends HtmlNode
 	}
 
     /**
-    * auto generate doc.
+    * Add child.
     * @param mixed $item
     * @param null|mixed $index
     */
@@ -135,7 +135,7 @@ class IGKWinUI_paneViewitem extends HtmlNode
 	}
 
     /**
-    * auto generate doc.
+    * Sets Block Class.
     * @param mixed $class
     */
 
@@ -152,25 +152,25 @@ class IGKWinUI_paneViewitem extends HtmlNode
 }
 
 /**
-* auto generate doc.
+* Igkwin ui pane viewgroup.
 */
 class IGKWinUI_paneViewgroup extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Property: title.
     * @var mixed
     */
     private $m_title; //group name
 
     /**
-    * auto generate doc.
+    * Returns Name.
     */
 
     public function getName(){return $this->m_title->Content;}
 
     /**
-    * auto generate doc.
+    * Sets Name.
     * @param mixed $value
     */
 
@@ -188,7 +188,7 @@ class IGKWinUI_paneViewgroup extends HtmlNode
 	}
 
     /**
-    * auto generate doc.
+    * Add child.
     * @param mixed $item
     * @param null|mixed $index
     */
@@ -203,7 +203,7 @@ class IGKWinUI_paneViewgroup extends HtmlNode
 	}
 
     /**
-    * auto generate doc.
+    * Adds Item.
     * @param null|mixed $link
     */
 

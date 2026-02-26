@@ -10,7 +10,7 @@ namespace IGK\System\Assets;
 interface IAssetBuilder{
 
     /**
-    * auto generate doc.
+    * Builds.
     * @param mixed $module
     * @param string $asset_dir
     */

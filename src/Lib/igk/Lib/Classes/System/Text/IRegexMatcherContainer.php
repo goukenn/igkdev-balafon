@@ -11,7 +11,7 @@ namespace IGK\System\Text;
 interface IRegexMatcherContainer{
 
     /**
-    * auto generate doc.
+    * Matches.
     * @param string $match
     * @param null|string $tokenID
     * @param null|string $refId

@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class ControllerExtensionTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests bind css controller.
     */
     public function test_bind_css_controller(){
         $ctrl = TestController::ctrl(); 
@@ -28,7 +28,7 @@ class ControllerExtensionTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Test controller.
 * @package IGK\Tests\Controllers
 */
 class TestController extends NotRegistrableControllerBase{

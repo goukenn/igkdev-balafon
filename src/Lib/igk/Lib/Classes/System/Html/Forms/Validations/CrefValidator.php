@@ -11,7 +11,7 @@ namespace IGK\System\Html\Forms\Validations;
 class CrefValidator extends HiddenValidator{
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $value
     * @param null|mixed $default
     * @param null|array & $errors

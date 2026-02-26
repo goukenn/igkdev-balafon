@@ -13,31 +13,31 @@ use IGKViewMode;
 final class HtmlArticleConfigNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl;
 
     /**
-    * auto generate doc.
+    * Property: dropfile uri.
     * @var mixed
     */
     private $m_dropfileUri;
 
     /**
-    * auto generate doc.
+    * Name of filename.
     * @var mixed
     */
     private $m_filename;
 
     /**
-    * auto generate doc.
+    * Property: forceview.
     * @var mixed
     */
     private $m_forceview;
 
     /**
-    * auto generate doc.
+    * Property: target.
     * @var mixed
     */
     private $m_target;
@@ -100,14 +100,14 @@ final class HtmlArticleConfigNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Ctrl.
     */
     public function getCtrl(){
         return $this->m_ctrl;
     }
 
     /**
-    * auto generate doc.
+    * Returns File Name.
     */
     public function getFileName(){
         return $this->m_filename;

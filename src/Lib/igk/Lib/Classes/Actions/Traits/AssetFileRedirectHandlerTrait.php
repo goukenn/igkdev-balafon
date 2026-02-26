@@ -11,7 +11,7 @@ use IGK\System\Exceptions\ResourceNotFoundException;
 trait AssetFileRedirectHandlerTrait{
 
     /**
-    * auto generate doc.
+    * Assets.
     */
     public function assets(){
         // missing assets request 

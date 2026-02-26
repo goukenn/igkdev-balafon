@@ -11,7 +11,7 @@ namespace IGK\Actions;
 interface IActionProcessor{
 
     /**
-    * auto generate doc.
+    * Returns Host.
     */
     function getHost();
 }

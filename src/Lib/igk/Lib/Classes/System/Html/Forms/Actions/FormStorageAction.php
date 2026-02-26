@@ -16,31 +16,31 @@ use IGK\System\Http\Request;
 class FormStorageAction extends ActionBase{
 
     /**
-    * auto generate doc.
+    * Property: fields.
     * @var mixed
     */
     private $m_fields;
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
 
     /**
-    * auto generate doc.
+    * Property: form cref.
     * @var mixed
     */
     var $formCref = 1;
 
     /**
-    * auto generate doc.
+    * Property: method.
     * @var mixed
     */
     var $method = "POST";
 
     /**
-    * auto generate doc.
+    * Type of enc type.
     * @var mixed
     */
     var $encType;
@@ -119,7 +119,7 @@ class FormStorageAction extends ActionBase{
     }
 
     /**
-    * auto generate doc.
+    * Store.
     * @param Request $request
     */
     public function store(Request $request){      

@@ -10,13 +10,13 @@ namespace IGK\System\Articles;
 class ChainInfo{
 
     /**
-    * auto generate doc.
+    * Property: n.
     * @var mixed
     */
     var $n;
 
     /**
-    * auto generate doc.
+    * Property: data.
     * @var mixed
     */
     var $data;

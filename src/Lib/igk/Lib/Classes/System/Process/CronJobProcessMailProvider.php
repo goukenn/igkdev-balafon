@@ -10,7 +10,7 @@ use IGK\System\Net\Mail;
 use IGKObjStorage;
 
 /**
-* auto generate doc.
+* Cron job process mail provider.
 * @package IGK\System\Process
 */
 class CronJobProcessMailProvider extends CronJobProcessProviderBase

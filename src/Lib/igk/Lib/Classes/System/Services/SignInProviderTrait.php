@@ -8,7 +8,7 @@ use IGK\Helper\ViewHelper;
 use IGKEvents;
 
 /**
-* auto generate doc.
+* Trait providing sign in provider functionality.
 * @package IGK\System\Services
 */
 trait SignInProviderTrait{

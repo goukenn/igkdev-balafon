@@ -11,13 +11,13 @@ use function igk_resources_gets as __;
 trait NewsLetterFormActionTrait{
 
     /**
-    * auto generate doc.
+    * Property: form field engine.
     * @var mixed
     */
     protected $formFieldEngine;
 
     /**
-    * auto generate doc.
+    * Form news letter.
     * @param mixed $form
     */
     protected function form_news_letter($form){

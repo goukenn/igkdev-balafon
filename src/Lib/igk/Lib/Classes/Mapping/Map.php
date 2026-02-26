@@ -24,7 +24,7 @@ class Map{
     }
 
     /**
-    * auto generate doc.
+    * Returns Map Info.
     * @param string $property
     */
     public static function GetMapInfo(string $property){

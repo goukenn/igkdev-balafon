@@ -11,25 +11,25 @@ namespace IGK\System\Html\Dom;
 class HtmlNotifyResponse extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "div";
 
     /**
-    * auto generate doc.
+    * Property: autohide.
     * @var mixed
     */
     private $autohide;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     private $name;
 
     /**
-    * auto generate doc.
+    * Type of notifytype.
     * @var mixed
     */
     private $m_notifytype;
@@ -45,7 +45,7 @@ class HtmlNotifyResponse extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sets Notify Type.
     * @param mixed $type
     */
     public function setNotifyType($type){
@@ -66,7 +66,7 @@ class HtmlNotifyResponse extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
     protected function initialize()
     {
@@ -99,7 +99,7 @@ class HtmlNotifyResponse extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -117,7 +117,7 @@ class HtmlNotifyResponse extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Rendered Childs.
     * @param null|mixed $options
     */
     public function getRenderedChilds($options = null)

@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html form inner node.
 * @package IGK\System\Html\Dom
 */
 final class HtmlFormInnerNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Property: form.
     * @var mixed
     */
     private $m_form;

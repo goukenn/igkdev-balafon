@@ -37,7 +37,7 @@ abstract class ActionHelper
 {
 
     /**
-    * auto generate doc.
+    * Constant: entry name.
     * @var mixed
     */
     const ENTRY_NAME = 'Actions\\';
@@ -161,7 +161,7 @@ abstract class ActionHelper
     }
 
     /**
-    * auto generate doc.
+    * Unregister user.
     * @param mixed $ctrl
     * @param mixed $token
     */

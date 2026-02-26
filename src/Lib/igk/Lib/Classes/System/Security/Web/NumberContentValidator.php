@@ -11,25 +11,25 @@ class NumberContentValidator extends MapContentValidatorBase
 {
 
     /**
-    * auto generate doc.
+    * Property: notvalid msg.
     * @var mixed
     */
     protected $notvalid_msg = 'not a valid number.';
 
     /**
-    * auto generate doc.
+    * Property: missing default value.
     * @var mixed
     */
     var $missingDefaultValue = null;
 
     /**
-    * auto generate doc.
+    * Property: default value.
     * @var mixed
     */
     var $defaultValue = 0;
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed & $value
     * @param mixed $key
     * @return bool

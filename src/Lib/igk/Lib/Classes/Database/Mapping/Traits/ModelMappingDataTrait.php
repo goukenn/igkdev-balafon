@@ -12,7 +12,7 @@ use IGKSysUtil as sysutil;
 trait ModelMappingDataTrait{
 
     /**
-    * auto generate doc.
+    * Returns Model Mapping Data.
     * @param ModelBase $data
     * @param mixed $mapping
     */

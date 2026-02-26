@@ -11,25 +11,25 @@ use IGKMedia;
 class CssMapTheme{
 
     /**
-    * auto generate doc.
+    * Property: media.
     * @var mixed
     */
     var $media;
 
     /**
-    * auto generate doc.
+    * Property: lk.
     * @var mixed
     */
     var $lk;
 
     /**
-    * auto generate doc.
+    * Flag: is primary theme.
     * @var mixed
     */
     var $is_primaryTheme;
 
     /**
-    * auto generate doc.
+    * Property: skip property.
     * @var mixed
     */
     var $skipProperty;

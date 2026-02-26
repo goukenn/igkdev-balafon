@@ -12,13 +12,13 @@ use IGKObject;
 use IGK\IMailAttachmentContainer;
 
 /**
-* auto generate doc.
+* Mail attachement container.
 * @package IGK\System\Net
 */
 final class MailAttachementContainer extends IGKObject implements IMailAttachmentContainer{
 
     /**
-    * auto generate doc.
+    * Properties: files, ids.
     * @var mixed
     */
     private $m_files, $m_ids;

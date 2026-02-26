@@ -15,7 +15,7 @@ use IGKEvents;
 class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "column","new_name"];
@@ -30,7 +30,7 @@ class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Up.
     */
     public function up(){
         $ctrl = $this->getMigration()->controller;
@@ -55,7 +55,7 @@ class SchemaRenameColumnMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Down.
     */
     public function down(){
         $ctrl = $this->getMigration()->controller;

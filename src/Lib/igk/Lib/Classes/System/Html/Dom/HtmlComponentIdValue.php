@@ -10,13 +10,13 @@
 namespace IGK\System\Html\Dom;
 
 /**
-* auto generate doc.
+* Html component id value.
 * @package IGK\System\Html\Dom
 */
 final class HtmlComponentIdValue implements IHtmlGetValue{
 
     /**
-    * auto generate doc.
+    * Property: host.
     * @var mixed
     */
     private $m_host;

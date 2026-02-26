@@ -12,38 +12,38 @@ use IGK\System\IO\File\PHPScriptBuilder;
 use Models\Domains;
 
 /**
-* auto generate doc.
+* Dbcommand add domain command.
 * @package IGK\System\Console\Commands
 */
 class DBCommandAddDomainCommand extends AppExecCommand
 {
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--domain";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "set controller as domain";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     var $category = "administration";
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     var $options = [];
 
     /**
-    * auto generate doc.
+    * Shows Usage.
     */
 
     public function showUsage(){

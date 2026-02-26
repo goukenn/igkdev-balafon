@@ -8,13 +8,13 @@ namespace IGK\Tests\System\Html\Dom;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Html xml viewer test.
 * @package IGK\Tests\System\Html\Dom
 */
 class HtmlXmlViewerTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests load expression.
     */
     public function test_load_expression(){
         $n = igk_create_node("div");

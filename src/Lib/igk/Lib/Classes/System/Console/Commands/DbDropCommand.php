@@ -11,37 +11,37 @@ use IGKException;
 use function igk_resources_gets as __;
 
 /**
-* auto generate doc.
+* Db drop command.
 * @package IGK\System\Console\Commands
 */
 class DbDropCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     public $command = "--db:droptables";
 
     /**
-    * auto generate doc.
+    * Property: category.
     * @var mixed
     */
     public $category = "db";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     public $desc = "drop project's stored tables";
 
     /**
-    * auto generate doc.
+    * Property: usage.
     * @var mixed
     */
     public $usage = "controller";
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|string $controller
     */

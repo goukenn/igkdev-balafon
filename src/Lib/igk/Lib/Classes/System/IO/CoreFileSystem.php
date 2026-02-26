@@ -13,7 +13,7 @@ namespace IGK\System\IO;
 abstract class CoreFileSystem{
 
     /**
-    * auto generate doc.
+    * Constant: inc extension.
     * @var mixed
     */
     const INC_EXTENSION = '.pinc';

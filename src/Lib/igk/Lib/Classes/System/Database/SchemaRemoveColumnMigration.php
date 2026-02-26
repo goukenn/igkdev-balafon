@@ -11,19 +11,19 @@ namespace IGK\System\Database;
 class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
 
     /**
-    * auto generate doc.
+    * Property: fill properties.
     * @var mixed
     */
     protected $fill_properties = ["table", "column"];
 
     /**
-    * auto generate doc.
+    * Property: column info.
     * @var mixed
     */
     public $columnInfo;
 
     /**
-    * auto generate doc.
+    * Checks Requirement.
     */
     protected function checkRequirement()
     {
@@ -36,7 +36,7 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Up.
     */
     public function up(){
         $ctrl = $this->getMigration()->controller;
@@ -49,7 +49,7 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
     }
 
     /**
-    * auto generate doc.
+    * Down.
     */
     public function down(){ 
         $c_info = $this->columnInfo;

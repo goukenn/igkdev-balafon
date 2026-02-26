@@ -8,25 +8,25 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 
 /**
-* auto generate doc.
+* Update lib core command.
 * @package IGK\System\Console\Commands
 */
 class UpdateLibCoreCommand extends AppExecCommand{
 
     /**
-    * auto generate doc.
+    * Property: command.
     * @var mixed
     */
     var $command = "--updatecore";
 
     /**
-    * auto generate doc.
+    * Property: desc.
     * @var mixed
     */
     var $desc = "update core by copy it to location";
 
     /**
-    * auto generate doc.
+    * Exec.
     * @param mixed $command
     * @param null|mixed $path
     */

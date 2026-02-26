@@ -13,31 +13,31 @@ class CssItemInfo implements JsonSerializable, ICssClassList
 {
 
     /**
-    * auto generate doc.
+    * Count: count.
     * @var mixed
     */
     var $count;
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $source;
 
     /**
-    * auto generate doc.
+    * Property: references.
     * @var mixed
     */
     var $references;
 
     /**
-    * auto generate doc.
+    * Property: media references.
     * @var mixed
     */
     var $mediaReferences;
 
     /**
-    * auto generate doc.
+    * Identifier: id.
     * @var mixed
     */
     var $id;
@@ -62,7 +62,7 @@ class CssItemInfo implements JsonSerializable, ICssClassList
     }
 
     /**
-    * auto generate doc.
+    * Returns true if Reference Media.
     * @param int $index
     */
     public function isReferenceMedia(int $index)
@@ -71,7 +71,7 @@ class CssItemInfo implements JsonSerializable, ICssClassList
     }
 
     /**
-    * auto generate doc.
+    * Json serialize.
     * @return mixed
     */
     public function jsonSerialize(): mixed

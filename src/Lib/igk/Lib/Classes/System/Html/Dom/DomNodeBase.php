@@ -14,7 +14,7 @@ use IGKObject;
 abstract class DomNodeBase extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Constant: creator prefix key.
     * @var mixed
     */
     const CREATOR_PREFIX_KEY = 'dom_creator://'; 
@@ -38,7 +38,7 @@ abstract class DomNodeBase extends IGKObject{
     public abstract function getParentNode();
 
     /**
-    * auto generate doc.
+    * Returns Creator Engine.
     * @param string $name
     */
     public static function GetCreatorEngine(string $name){

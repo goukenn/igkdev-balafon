@@ -10,7 +10,7 @@ namespace  IGK\System\Configuration\Controllers;
 class ToolHost{
 
     /**
-    * auto generate doc.
+    * Property: tools.
     * @var mixed
     */
     private $_tools;

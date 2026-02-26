@@ -10,31 +10,31 @@ require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlPoweredByNode.php");
 // @copyright: igkdev © 2021
 
 /**
-* auto generate doc.
+* Html body node.
 * @package IGK\System\Html\Dom
 */
 class HtmlBodyNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     protected $tagname = "body";
 
     /**
-    * auto generate doc.
+    * Property: bodybox.
     * @var mixed
     */
     private $m_bodybox;
 
     /**
-    * auto generate doc.
+    * Property: body main script.
     * @var mixed
     */
     private $m_bodyMainScript;
 
     /**
-    * auto generate doc.
+    * Property: inline theme.
     * @var mixed
     */
     private $m_inlineTheme;
@@ -57,7 +57,7 @@ class HtmlBodyNode extends HtmlNode{
     // }
 
     /**
-    * auto generate doc.
+    * Removes Script.
     * @param mixed $scriptFile
     */
 
@@ -76,7 +76,7 @@ class HtmlBodyNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Returns Append Content.
     */
 
     public function getAppendContent(){
@@ -105,7 +105,7 @@ class HtmlBodyNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Adds Body Box.
     */
 
     public function addBodyBox(){
@@ -113,7 +113,7 @@ class HtmlBodyNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Get rendering children.
     * @param null|mixed $options
     */
 

@@ -12,7 +12,7 @@ use IGK\System\IInjectable;
 interface IAuthenticatorService extends IInjectable{
 
     /**
-    * auto generate doc.
+    * Returns New Token.
     * @param \IGK\Models\Users $user
     * @param BaseController $ctrl
     * @param bool $remember_me

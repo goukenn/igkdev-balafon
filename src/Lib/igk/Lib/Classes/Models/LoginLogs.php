@@ -47,85 +47,85 @@ use IGK\Models\ModelBase;
 class LoginLogs extends ModelBase{
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs id.
     * @var mixed
     */
     const FD_LOGLOGS_ID="loglogs_Id";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs user guid.
     * @var mixed
     */
     const FD_LOGLOGS_USER_GUID="loglogs_UserGuid";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs agent.
     * @var mixed
     */
     const FD_LOGLOGS_AGENT="loglogs_Agent";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs ip.
     * @var mixed
     */
     const FD_LOGLOGS_IP="loglogs_IP";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs geo x.
     * @var mixed
     */
     const FD_LOGLOGS_GEO_X="loglogs_GeoX";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs geo y.
     * @var mixed
     */
     const FD_LOGLOGS_GEO_Y="loglogs_GeoY";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs region.
     * @var mixed
     */
     const FD_LOGLOGS_REGION="loglogs_Region";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs code.
     * @var mixed
     */
     const FD_LOGLOGS_CODE="loglogs_Code";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs country name.
     * @var mixed
     */
     const FD_LOGLOGS_COUNTRY_NAME="loglogs_CountryName";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs city.
     * @var mixed
     */
     const FD_LOGLOGS_CITY="loglogs_City";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs status.
     * @var mixed
     */
     const FD_LOGLOGS_STATUS="loglogs_Status";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs description.
     * @var mixed
     */
     const FD_LOGLOGS_DESCRIPTION="loglogs_Description";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs create at.
     * @var mixed
     */
     const FD_LOGLOGS_CREATE_AT="loglogs_Create_At";
 
     /**
-    * auto generate doc.
+    * Constant: fd loglogs update at.
     * @var mixed
     */
     const FD_LOGLOGS_UPDATE_AT="loglogs_Update_At";

@@ -9,7 +9,7 @@ use IGK\System\ViewExtractArgHelper;
 if (!function_exists('igk_express_var')){
 
 /**
-* auto generate doc.
+* Igk express var.
 * @param mixed $name
 */
 function igk_express_var($name){
@@ -34,7 +34,7 @@ function igk_express_var($name){
 if (!function_exists('igk_php_expression')){
 
 /**
-* auto generate doc.
+* Igk php expression.
 * @param mixed $expression
 */
 function igk_php_expression($expression){

@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class DotEnvConfigurationTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests dotenv loading ignore comment config.
     */
     public function test_dotenv_loading_ignore_comment_config(){
         //
@@ -28,7 +28,7 @@ class DotEnvConfigurationTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests dotenv loading config.
     */
     public function test_dotenv_loading_config(){
         //        
@@ -46,7 +46,7 @@ class DotEnvConfigurationTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests dotenv loading string config.
     */
     public function test_dotenv_loading_string_config(){
         //        

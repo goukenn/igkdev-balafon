@@ -10,19 +10,19 @@ namespace IGK\Database;
 interface IDbColumnInfo extends IDbColumnProperties{
 
     /**
-    * auto generate doc.
+    * Returns true if Unsigned.
     * @return bool
     */
     function IsUnsigned():bool;
 
     /**
-    * auto generate doc.
+    * Returns Is Ref Id.
     * @return bool
     */
     function getIsRefId():bool;
 
     /**
-    * auto generate doc.
+    * Returns Is Dump Field.
     * @return bool
     */
     function getIsDumpField():bool;

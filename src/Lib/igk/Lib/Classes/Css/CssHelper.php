@@ -11,7 +11,7 @@ namespace IGK\Css;
 abstract class CssHelper{
 
     /**
-    * auto generate doc.
+    * Map to file callback.
     */
     public static function MapToFileCallback(){
         return function($a){ return explode("|", $a)[0]; };

@@ -12,7 +12,7 @@ use ApplicationLoader;
 class ServiceController extends NonVisibleControllerBase{
 
     /**
-    * auto generate doc.
+    * Registers autoload.
     */
     public static function register_autoload()
     {

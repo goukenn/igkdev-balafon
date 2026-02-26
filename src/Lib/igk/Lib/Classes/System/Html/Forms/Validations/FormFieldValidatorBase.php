@@ -14,7 +14,7 @@ use IGKException;
 abstract class FormFieldValidatorBase implements IFormValidator{
 
     /**
-    * auto generate doc.
+    * Constant: field info property.
     * @var mixed
     */
     const FIELD_INFO_PROPERTY = 'fieldInfo';
@@ -92,7 +92,7 @@ abstract class FormFieldValidatorBase implements IFormValidator{
     }
 
     /**
-    * auto generate doc.
+    * Allows Null.
     * @param bool $allowNull
     */
     public function allowNull(bool $allowNull){

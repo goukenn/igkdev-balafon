@@ -15,14 +15,14 @@ use IGK\System\Number;
 use function igk_clamp as clamp;
 
 /**
-* auto generate doc.
+* Colorf.
 * @package IGK\System\Drawing
 */
 class Colorf extends IGKObject
 {
 
     /**
-    * auto generate doc.
+    * Properties: a, b, g, r.
     * @var mixed
     */
     private $m_A, $m_B, $m_G, $m_R;
@@ -83,7 +83,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * From string.
     * @param mixed $v
     */
 
@@ -103,7 +103,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns A.
     */
 
     public function getA()
@@ -112,7 +112,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns B.
     */
 
     public function getB()
@@ -121,7 +121,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns G.
     */
 
     public function getG()
@@ -130,7 +130,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Returns R.
     */
 
     public function getR()
@@ -139,7 +139,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Loadw.
     * @param mixed $v
     */
 
@@ -149,7 +149,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Sets A.
     * @param mixed $value
     */
 
@@ -160,7 +160,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Sets B.
     * @param mixed $value
     */
 
@@ -171,7 +171,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Sets G.
     * @param mixed $value
     */
 
@@ -182,7 +182,7 @@ class Colorf extends IGKObject
     }
 
     /**
-    * auto generate doc.
+    * Sets R.
     * @param mixed $value
     */
 

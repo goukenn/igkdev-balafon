@@ -34,7 +34,7 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
     }
 
     /**
-    * auto generate doc.
+    * Init field requirement.
     */
     protected function _initFieldRequirement(){
         $f = new FieldInfo();

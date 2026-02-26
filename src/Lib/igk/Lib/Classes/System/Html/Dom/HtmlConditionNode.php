@@ -13,19 +13,19 @@ use IGK\System\IO\StringBuilder;
 class HtmlConditionNode extends HtmlNode{
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = 'igk:if-condition';
 
     /**
-    * auto generate doc.
+    * Property: condition.
     * @var mixed
     */
     var $condition;
 
     /**
-    * auto generate doc.
+    * Sets Sys Attribute.
     * @param mixed $key
     * @param mixed $value
     * @param null|mixed $context
@@ -41,7 +41,7 @@ class HtmlConditionNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Renders.
     * @param null|mixed $options
     */
     public function render($options =null){

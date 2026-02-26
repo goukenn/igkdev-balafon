@@ -12,21 +12,21 @@ class ControllerEnvParams{
     public
 
     /**
-    * auto generate doc.
+    * Constant: action view response.
     * @var mixed
     */
     const ActionViewResponse = "@ActionViewResponse";
     public
 
     /**
-    * auto generate doc.
+    * Constant: menus.
     * @var mixed
     */
     const Menus = "@menu";
     public
 
     /**
-    * auto generate doc.
+    * Constant: view loader.
     * @var mixed
     */
     const ViewLoader = "@viewLoader";

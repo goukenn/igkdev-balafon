@@ -14,31 +14,31 @@ class HtmlLayoutViewInclusion extends HtmlNode
 {
 
     /**
-    * auto generate doc.
+    * Path to path.
     * @var mixed
     */
     var $path;
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     var $ctrl;
 
     /**
-    * auto generate doc.
+    * Name of tagname.
     * @var mixed
     */
     var $tagname = "igk:view-include";
 
     /**
-    * auto generate doc.
+    * Property: args.
     * @var mixed
     */
     var $args;
 
     /**
-    * auto generate doc.
+    * Returns Can Render Tag.
     */
     public function getCanRenderTag()
     {
@@ -58,7 +58,7 @@ class HtmlLayoutViewInclusion extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -82,7 +82,7 @@ class HtmlLayoutViewInclusion extends HtmlNode
     }
 
     /**
-    * auto generate doc.
+    * Returns Path.
     */
     public function getPath(){
         $p = $this->path;

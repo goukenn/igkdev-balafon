@@ -12,7 +12,7 @@ use IGK\System\ServicesBase;
 abstract class DomCreatorNodeService extends ServicesBase{
 
     /**
-    * auto generate doc.
+    * Creates Node.
     * @param string $name
     * @param mixed ...$args
     */

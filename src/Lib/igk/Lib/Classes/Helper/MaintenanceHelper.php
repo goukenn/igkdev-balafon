@@ -12,13 +12,13 @@ class MaintenanceHelper
 {
 
     /**
-    * auto generate doc.
+    * Constant: lock file.
     * @var mixed
     */
     const lockFile = ".maintenance.lock";
 
     /**
-    * auto generate doc.
+    * Locks Site.
     * @param string $bdir
     */
     public static function LockSite(string $bdir)

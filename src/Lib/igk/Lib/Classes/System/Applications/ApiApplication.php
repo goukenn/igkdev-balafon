@@ -19,14 +19,14 @@ class ApiApplication extends IGKApplicationBase
     var $controller;
 
     /**
-    * auto generate doc.
+    * Bootstrap.
     */
     public function bootstrap() {       
         $this->library("mysql");
     }
 
     /**
-    * auto generate doc.
+    * Runs.
     * @param string $file
     * @param mixed $render
     */

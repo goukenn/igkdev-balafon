@@ -7,7 +7,7 @@ use IGKEvents;
 // @copyright: igkdev © 2021
 
 /**
-* auto generate doc.
+* Html web component node.
 * @package IGK\System\Html\Dom
 */
 class HtmlWebComponentNode extends HtmlNode{
@@ -22,7 +22,7 @@ class HtmlWebComponentNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Sets Component Listener.
     * @param mixed $listener
     * @param null|mixed $param
     */
@@ -31,7 +31,7 @@ class HtmlWebComponentNode extends HtmlNode{
     }
 
     /**
-    * auto generate doc.
+    * Creates Component.
     * @param mixed $name
     */
 

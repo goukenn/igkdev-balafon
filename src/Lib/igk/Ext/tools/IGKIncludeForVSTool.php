@@ -8,7 +8,7 @@
 use IGK\Controllers\ToolControllerBase;
 
 /**
-* auto generate doc.
+* Igkinclude for vstool.
 */
 class IGKIncludeForVSTool extends ToolControllerBase
 {

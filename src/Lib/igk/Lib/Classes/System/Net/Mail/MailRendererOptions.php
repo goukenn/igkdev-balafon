@@ -12,13 +12,13 @@ use IGK\System\Html\HtmlRenderingContext;
 class MailRendererOptions extends HtmlRendererOptions{
 
     /**
-    * auto generate doc.
+    * Property: render theme.
     * @var mixed
     */
     var $renderTheme;
 
     /**
-    * auto generate doc.
+    * Property: context.
     * @var mixed
     */
     var $Context = HtmlRenderingContext::Mail;

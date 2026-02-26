@@ -21,7 +21,7 @@ use Symfony\Component\Form\Extension\Validator\Constraints\FormValidator;
 class FormValidationTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests form validation.
     */
     public function test_form_validation(){
         $d = ['name'=>'Hello'];
@@ -54,7 +54,7 @@ class FormValidationTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests form complex validation.
     */
     public function test_form_complex_validation(){
         $d = ['name'=>'Hello'];
@@ -97,13 +97,13 @@ class FormValidationTest extends BaseTestCase{
 }
 
 /**
-* auto generate doc.
+* Balafon object validator.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class BalafonObjectValidator extends FormFieldValidatorContainerBase{
 
     /**
-    * auto generate doc.
+    * Validate.
     * @param mixed $data
     * @param null|mixed $default
     * @param array & $error
@@ -117,7 +117,7 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
     }
 
     /**
-    * auto generate doc.
+    * Asserts Validate.
     * @param mixed $value
     * @return bool
     */
@@ -133,7 +133,7 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns Fields.
     * @return array
     */
     public function getFields():array{  
@@ -143,25 +143,25 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
 }
 
 /**
-* auto generate doc.
+* Balafon script definition form.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class BalafonScriptDefinitionForm extends InspectorFormFieldValidationBase{
 
     /**
-    * auto generate doc.
+    * Property: version.
     * @var mixed
     */
     var $version;
 
     /**
-    * auto generate doc.
+    * Name of name.
     * @var mixed
     */
     var $name;
 
     /**
-    * auto generate doc.
+    * Returns Fields.
     * @param null|mixed $context
     * @return array
     */
@@ -175,19 +175,19 @@ class BalafonScriptDefinitionForm extends InspectorFormFieldValidationBase{
 }
 
 /**
-* auto generate doc.
+* Object inspector.
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class ObjectInspector{
 
     /**
-    * auto generate doc.
+    * Property: source.
     * @var mixed
     */
     var $source;
 
     /**
-    * auto generate doc.
+    * Validates.
     * @param mixed $data
     * @param mixed & $error
     */

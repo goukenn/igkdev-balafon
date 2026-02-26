@@ -11,13 +11,13 @@ namespace IGK\System;
 class HashContainer {
 
     /**
-    * auto generate doc.
+    * Callback handler for callback.
     * @var mixed
     */
     private $m_callback;
 
     /**
-    * auto generate doc.
+    * Property: code.
     * @var mixed
     */
     private $m_code;

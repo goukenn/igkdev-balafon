@@ -21,31 +21,31 @@ class IGKResourceUriResolver
 {
 
     /**
-    * auto generate doc.
+    * Property: environment.
     * @var mixed
     */
     private $environment;
 
     /**
-    * auto generate doc.
+    * Property: instance.
     * @var mixed
     */
     private static $sm_instance;
 
     /**
-    * auto generate doc.
+    * Flag: hash path.
     * @var mixed
     */
     private $m_hashPath;
 
     /**
-    * auto generate doc.
+    * Property: options.
     * @var mixed
     */
     private $m_options;
 
     /**
-    * auto generate doc.
+    * Constant: default mask.
     * @var mixed
     */
     const DEFAULT_MASK = IGK_DEFAULT_CACHE_FOLDER_MASK;
@@ -256,7 +256,7 @@ class IGKResourceUriResolver
     }
 
     /**
-    * auto generate doc.
+    * Resolves Full Uri.
     * @param mixed $uri
     */
     public function resolveFullUri($uri)
@@ -269,7 +269,7 @@ class IGKResourceUriResolver
     }
 
     /**
-    * auto generate doc.
+    * Resolves Only.
     * @param string $file
     * @param mixed & $notresolved
     */

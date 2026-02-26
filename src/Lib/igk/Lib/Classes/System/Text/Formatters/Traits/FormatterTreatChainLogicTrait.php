@@ -16,7 +16,7 @@ trait FormatterTreatChainLogicTrait
 {
 
     /**
-    * auto generate doc.
+    * Property: chain logic.
     * @var mixed
     */
     protected $m_chain_logic = [];

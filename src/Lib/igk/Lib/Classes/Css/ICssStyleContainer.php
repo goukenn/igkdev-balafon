@@ -6,7 +6,7 @@
 namespace IGK\Css;
 
 /**
-* auto generate doc.
+* Interface for css style container.
 * @package IGK\Css
 */
 interface ICssStyleContainer{

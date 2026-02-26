@@ -15,7 +15,7 @@ use IGK\Tests\BaseTestCase;
 class FormHelperTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests formhelper converttoinputdatetimelocal.
     */
     public function test_formhelper_converttoinputdatetimelocal(){
 

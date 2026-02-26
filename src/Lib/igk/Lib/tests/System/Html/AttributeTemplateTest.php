@@ -17,13 +17,13 @@ use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
 /**
-* auto generate doc.
+* Attribute template test.
 * @package IGK\Tests\System\Html
 */
 class AttributeTemplateTest extends BaseTestCase{
 
     /**
-    * auto generate doc.
+    * Tests html utils get value1.
     */
     public function test_html_utils_get_value1(){
         
@@ -35,7 +35,7 @@ class AttributeTemplateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests pipe expression.
     */
     public function test_pipe_expression(){
       
@@ -51,7 +51,7 @@ class AttributeTemplateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests simple loop.
     */
     public function test_simple_loop(){
         $n = igk_create_notagnode();
@@ -64,7 +64,7 @@ class AttributeTemplateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests simple loop with attribute.
     */
     public function test_simple_loop_with_attribute(){
         $n = igk_create_notagnode();
@@ -81,7 +81,7 @@ class AttributeTemplateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests binding attribute expression in loop.
     */
     public function test_binding_attribute_expression_in_loop(){
         $s = '<a *title="\'data\'" *for="$raw">data : {{ $raw }} - {{ $ctrl->getName() }} </a>';
@@ -100,7 +100,7 @@ class AttributeTemplateTest extends BaseTestCase{
     }
 
     /**
-    * auto generate doc.
+    * Tests binding attribute expression.
     */
     public function test_binding_attribute_expression(){
         // passing custom controller 
@@ -137,7 +137,7 @@ class AttributeTemplateTest extends BaseTestCase{
 class DummyController extends NotRegistrableControllerBase{
 
     /**
-    * auto generate doc.
+    * Returns Name.
     * @return string
     */
     public function getName(): string{
@@ -145,7 +145,7 @@ class DummyController extends NotRegistrableControllerBase{
     }
 
     /**
-    * auto generate doc.
+    * Returns App Uri.
     * @param null|string $s
     * @return ?string
     */

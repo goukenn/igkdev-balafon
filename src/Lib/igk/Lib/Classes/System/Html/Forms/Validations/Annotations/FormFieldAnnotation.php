@@ -60,7 +60,7 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
     private $m_internal_id;
 
     /**
-    * auto generate doc.
+    * Property: validation error.
     * @var mixed
     */
     private $m_validation_error;
@@ -75,7 +75,7 @@ class FormFieldAnnotation extends ValidateWithAnnotation implements IFormInterna
     }
 
     /**
-    * auto generate doc.
+    * Returns Error.
     */
     public function getError(){
         return $this->m_validation_error;

@@ -11,43 +11,43 @@ namespace IGK\System\Html\Metadatas;
 */
 
 /**
-* auto generate doc.
+* Twitter metadata.
 * @package IGK\System\Html\Metadatas
 */
 class TwitterMetadata extends MetadataGroupEntryBase{
 
     /**
-    * auto generate doc.
+    * Property: twitter card.
     * @var mixed
     */
     var $twitterCard;
 
     /**
-    * auto generate doc.
+    * Property: twitter site.
     * @var mixed
     */
     var $twitterSite;
 
     /**
-    * auto generate doc.
+    * Property: twitter creator.
     * @var mixed
     */
     var $twitterCreator;
 
     /**
-    * auto generate doc.
+    * Property: twitter title.
     * @var mixed
     */
     var $twitterTitle;
 
     /**
-    * auto generate doc.
+    * Property: twitter description.
     * @var mixed
     */
     var $twitterDescription;
 
     /**
-    * auto generate doc.
+    * Property: twitter image.
     * @var mixed
     */
     var $twitterImage;

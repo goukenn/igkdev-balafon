@@ -16,13 +16,13 @@ class Engine{
     use ResolveUriTrait;
 
     /**
-    * auto generate doc.
+    * Property: register.
     * @var mixed
     */
     private static $sm_register;
 
     /**
-    * auto generate doc.
+    * Registers Icon Engine Callback.
     * @param string $name
     * @param mixed $callback
     */
@@ -34,7 +34,7 @@ class Engine{
     }
 
     /**
-    * auto generate doc.
+    * Returns Icon Engine Callback.
     * @param string $name
     */
     public static function GetIconEngineCallback(string $name){
@@ -68,7 +68,7 @@ class Engine{
     }
 
     /**
-    * auto generate doc.
+    * Builds Sub Menu Item.
     * @param HtmlNode $hi
     */
     public function buildSubMenuItem(HtmlNode $hi ){  
@@ -76,7 +76,7 @@ class Engine{
     }
 
     /**
-    * auto generate doc.
+    * Builds Item.
     * @param HtmlNode $hi
     * @param string $text
     * @param string $u

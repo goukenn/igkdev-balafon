@@ -11,13 +11,13 @@ namespace IGK\Database;
 use IGKObject;
 
 /**
-* auto generate doc.
+* Db entry to load.
 * @package IGK\Database
 */
 final class DbEntryToLoad extends IGKObject{
 
     /**
-    * auto generate doc.
+    * Properties: ctrl, entries, tablename.
     * @var mixed
     */
     var $ctrl, $entries, $tablename;
@@ -35,7 +35,7 @@ final class DbEntryToLoad extends IGKObject{
     }
 
     /**
-    * auto generate doc.
+    * Loads Entries.
     */
 
     public function loadEntries(){

@@ -80,19 +80,19 @@ class IGKGD
 {
 
     /**
-    * auto generate doc.
+    * Property: height.
     * @var mixed
     */
     private $m_height;
 
     /**
-    * auto generate doc.
+    * Property: himg.
     * @var mixed
     */
     private $m_himg;
 
     /**
-    * auto generate doc.
+    * Property: width.
     * @var mixed
     */
     private $m_width;
@@ -122,7 +122,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Returns Height.
     */
     public function getHeight()
     {
@@ -256,7 +256,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Creates From File.
     * @param mixed $filename
     */
     public static function CreateFromFile($filename)
@@ -284,7 +284,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Creates Buffer.
     */
     public function CreateBuffer()
     {
@@ -324,7 +324,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Draws Line.
     * @param mixed $color
     * @param mixed $x1
     * @param mixed $y1
@@ -383,7 +383,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Fill image.
     * @param mixed $himg
     * @param mixed $x
     * @param mixed $y
@@ -433,7 +433,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Scale.
     * @param mixed $scalex
     * @param mixed $scaley
     */
@@ -529,7 +529,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Sets Line Width.
     * @param mixed $size
     */
     public function setLineWidth($size)
@@ -538,7 +538,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Returns Clip.
     */
     public function getClip()
     {
@@ -546,7 +546,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Clip.
     * @param mixed $x
     * @param mixed $y
     * @param mixed $w
@@ -558,7 +558,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Resetclip.
     */
     public function resetclip()
     {
@@ -566,7 +566,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Fill polygon.
     * @param mixed $points
     * @param mixed $color
     */
@@ -582,7 +582,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Draws Polygon.
     * @param mixed $points
     * @param mixed $color
     */
@@ -615,7 +615,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Alloc color.
     * @param mixed $color
     */
     public function allocColor($color)
@@ -663,7 +663,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Text.
     * @param mixed $text
     * @param int $x
     * @param int $y
@@ -746,7 +746,7 @@ class IGKGD
     }
 
     /**
-    * auto generate doc.
+    * Ellipse.
     * @param mixed $cx
     * @param mixed $cy
     * @param mixed $rx

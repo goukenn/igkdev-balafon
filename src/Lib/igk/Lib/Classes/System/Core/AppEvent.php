@@ -19,7 +19,7 @@ class AppEvent
     }
 
     /**
-    * auto generate doc.
+    * Invoke.
     * @param mixed $sender
     * @param mixed $args
     */
@@ -53,7 +53,7 @@ class AppEvent
     }
 
     /**
-    * auto generate doc.
+    * Clears.
     */
     public function clear(){
         return $this->remove(null, true);

@@ -29,62 +29,62 @@ require_once __DIR__. "/HorizontalPage.pinc";
 require_once __DIR__. "/IHorizontalPaneListener.php";
 
 /**
-* auto generate doc.
+* Horizontal pane item.
 * @package IGK\Ext\WinUI\Components\HorizontalPane
 */
 final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 {
 
     /**
-    * auto generate doc.
+    * Property: pane.
     * @var mixed
     */
     private $m_pane;
 
     /**
-    * auto generate doc.
+    * Listener: pagelistener.
     * @var mixed
     */
     private $m_pagelistener;
 
     /**
-    * auto generate doc.
+    * Property: manager.
     * @var mixed
     */
     private $m_manager;
 
     /**
-    * auto generate doc.
+    * Property: infobox.
     * @var mixed
     */
     private $m_infobox;
 
     /**
-    * auto generate doc.
+    * Property: infobox script.
     * @var mixed
     */
     private $m_infoboxScript;
 
     /**
-    * auto generate doc.
+    * Property: pattern.
     * @var mixed
     */
     private $m_pattern;
 
     /**
-    * auto generate doc.
+    * Path to folder.
     * @var mixed
     */
     private $m_folder;
 
     /**
-    * auto generate doc.
+    * Name of config file name.
     * @var mixed
     */
     private $m_ConfigFileName;
 
     /**
-    * auto generate doc.
+    * Property: ctrl.
     * @var mixed
     */
     private $m_ctrl; 
@@ -99,7 +99,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Folder.
     */
 
     public function getFolder()
@@ -108,7 +108,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Sets Folder.
     * @param mixed $v
     */
 
@@ -118,7 +118,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Config File Name.
     */
 
     public function getConfigFileName()
@@ -127,7 +127,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Sets Config File Name.
     * @param mixed $v
     */
 
@@ -137,7 +137,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Pattern.
     */
 
     public function getPattern()
@@ -146,7 +146,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Sets Pattern.
     * @param mixed $v
     */
 
@@ -156,7 +156,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Pane.
     */
 
     public function getPane()
@@ -165,7 +165,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns string representation.
     */
 
     public function __toString()
@@ -174,7 +174,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Has Page.
     */
 
     public function getHasPage()
@@ -183,7 +183,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Loading complete.
     */
 
     public function loadingComplete()
@@ -193,7 +193,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Sets Ctrl.
     * @param mixed $ctrl
     * @param null|mixed $folder
     */
@@ -227,7 +227,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Store dbconfigs setting.
     */
 
     public function storeDBConfigsSetting()
@@ -244,7 +244,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Options XML.
     * @param mixed $uri
     */
 
@@ -262,7 +262,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	}
 
     /**
-    * auto generate doc.
+    * Edit pane options.
     * @param mixed $target
     */
 
@@ -291,7 +291,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Initializes.
     */
 
     protected function initialize()
@@ -313,7 +313,7 @@ EOF;
 	///mage all visibility
 
     /**
-    * auto generate doc.
+    * Returns true if Visible.
     * @param mixed $n
     * @param mixed $t
     */
@@ -333,7 +333,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Loads Data.
     * @param mixed $data
     */
 
@@ -361,7 +361,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Accept render.
     * @param null|mixed $options
     * @return bool
     */
@@ -396,7 +396,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Sets Page View Listener.
     * @param mixed $listener
     */
 
@@ -408,7 +408,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Returns Page View Listener.
     */
 
     public function getPageViewListener()
@@ -417,7 +417,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Flush.
     */
 
     public function flush(){
@@ -425,7 +425,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Adds Page.
     * @param null|mixed $attributes
     */
 
@@ -435,7 +435,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Clears Pages.
     */
 
     public function clearPages()
@@ -444,7 +444,7 @@ EOF;
 	}
 
     /**
-    * auto generate doc.
+    * Configures.
     * @param mixed $AnimDuration
     * @param mixed $AnimInterval
     * @param mixed $AnimPeriod

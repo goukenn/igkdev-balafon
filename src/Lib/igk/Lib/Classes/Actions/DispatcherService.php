@@ -23,25 +23,25 @@ abstract class DispatcherService
 {
 
     /**
-    * auto generate doc.
+    * Property: services.
     * @var mixed
     */
     static $sm_services = [];
 
     /**
-    * auto generate doc.
+    * Property: last init service.
     * @var mixed
     */
     private static $sm_last_initService;
 
     /**
-    * auto generate doc.
+    * Constant: init args.
     * @var mixed
     */
     const INIT_ARGS = '@args';
 
     /**
-    * auto generate doc.
+    * Constant: type precision.
     * @var mixed
     */
     const TYPE_PRECISION = '@precision';

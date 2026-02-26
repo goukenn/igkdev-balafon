@@ -15,13 +15,13 @@ represent a canva zone controller type
 */
 
 /**
-* auto generate doc.
+* Igkcanva zone ctrl.
 */
 abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
     /**
-    * auto generate doc.
+    * Flag: canva.
     * @var mixed
     */
     private $m_canva;
@@ -34,7 +34,7 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Returns Can Add Child.
     */
 
     public function getCanAddChild(){
@@ -42,7 +42,7 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * Initializes Target Node.
     * @return ?HtmlNode
     */
 
@@ -57,7 +57,7 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 
     /**
-    * auto generate doc.
+    * View.
     * @return BaseController
     */
 
