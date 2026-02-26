@@ -29,12 +29,42 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $Name, string $Cat, int $Cardinality, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookTypes extends ModelBase{
-	const FD_ID="rcphbt_Id";
-	const FD_NAME="rcphbt_Name";
-	const FD_CAT="rcphbt_Cat";
-	const FD_CARDINALITY="rcphbt_Cardinality";
-	const FD_CREATE_AT="rcphbt_Create_At";
-	const FD_UPDATE_AT="rcphbt_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="rcphbt_Id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_NAME="rcphbt_Name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CAT="rcphbt_Cat";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CARDINALITY="rcphbt_Cardinality";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="rcphbt_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="rcphbt_Update_At";
 	/**
 	* table's name
 	*/

@@ -21,7 +21,11 @@ class HtmlImgNode extends HtmlNode{
         $this["src"] = $src; 
         $this["xmlns:igk"] = self::HTML_NAMESPACE; 
         $this->setSrc($src);
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     protected function createAttributeArray(){ 
         return new HtmlAttributeArray([
             "src"=>new HtmlResolvLinkValue()
@@ -33,6 +37,7 @@ class HtmlImgNode extends HtmlNode{
      * @return $this 
      * @throws IGKException 
      */
+
     public function setSrc($source){ 
         if (is_null($source)){
             unset($this["src"]);
@@ -46,6 +51,10 @@ class HtmlImgNode extends HtmlNode{
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getSrc(){
         return $this["src"]->value;
     }
@@ -53,6 +62,7 @@ class HtmlImgNode extends HtmlNode{
      * is self closing tag
      * @return bool 
      */
+
     public function closeTag():bool
     {
         return true;

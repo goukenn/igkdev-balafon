@@ -12,12 +12,38 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands\Users
 */
 class GroupCommand extends AppExecCommand{
-	var $command='--users:group';
-	var $desc='view user\'s group';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:group';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='view user\'s group';
 	/* var $options=[]; */
-	var $category = self::USER_CAT;
-	var $usage = 'login [option]';
-	public function exec($command, ?string $login=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = self::USER_CAT;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'login [option]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $login
+    */
+    public function exec($command, ?string $login=null) {
 		is_null($login) && igk_die('login required');
 		$user = igk_get_user_bylogin($login);
 		$groups = $user->groups();

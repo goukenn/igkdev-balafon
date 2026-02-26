@@ -31,13 +31,48 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $mail_from, int $mail_try, int $mail_status, string $mail_data, string|datetime $mail_updateAt, string|datetime $mail_createAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Mails extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_MAIL_FROM="mail_from";
-	const FD_MAIL_TRY="mail_try";
-	const FD_MAIL_STATUS="mail_status";
-	const FD_MAIL_DATA="mail_data";
-	const FD_MAIL_CREATE_AT="mail_createAt";
-	const FD_MAIL_UPDATE_AT="mail_updateAt";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MAIL_FROM="mail_from";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MAIL_TRY="mail_try";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MAIL_STATUS="mail_status";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MAIL_DATA="mail_data";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MAIL_CREATE_AT="mail_createAt";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MAIL_UPDATE_AT="mail_updateAt";
 	/**
 	* table's name
 	*/

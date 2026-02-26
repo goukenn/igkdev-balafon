@@ -9,14 +9,25 @@ use ZipArchive;
 * @package IGK\System
 */
 class Requirement{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_requirements;
     /**
      * after check get requirement
      * @return mixed 
      */
+
     public function getRequirements(){
         return $this->m_requirements;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function check() : bool{
         $is_webapp = igk_is_webapp();
         $requirement = []; 

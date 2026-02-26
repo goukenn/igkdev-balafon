@@ -13,17 +13,42 @@ use IGK\System\WinUI\IViewLayoutLoader;
 * @author C.A.D. BONDJE DOUE
 */
 class ConfigurationPageViewLoader extends ViewLayoutBase implements IViewLayoutLoader{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_ctrl;
+
+    /**
+    * .ctr
+    * @param ConfigureController $ctrl
+    */
     public function __construct(ConfigureController $ctrl)
     {
         $this->m_ctrl = $ctrl;
     }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function getController(): BaseController {
         return $this->m_ctrl;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @param null|array $args
+    */
     public function include(string $file, ?array $args) {  
         igk_include_view_file($this->getController(), $file, true, $args);   
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getViewLoader(){
         return null;
     }

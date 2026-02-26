@@ -12,13 +12,53 @@ use IGKException;
 */
 class PHPDocCommentParser extends PhpDocBlockBase{
     use PHPDocCommentParseTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_propertyFilterListener;
-    private $m_propertyHandleListener; 
-    var $summary; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_propertyHandleListener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $summary;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $param;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $return;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $description;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $api;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $throws;
     /**
      * authorization to bind to 
@@ -56,6 +96,10 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @var ?bool auth enable strict definition  
      */
     var $strict_auth;
+
+    /**
+    * auto generate doc.
+    */
     public function getPropertyFilterListener(){
         return $this->m_propertyFilterListener;
     }
@@ -64,6 +108,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @param mixed $listener 
      * @return void 
      */
+
     public function setPropertyFilterListener($listener){
         $this->m_propertyFilterListener = $listener;
     }
@@ -72,6 +117,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @param mixed $handler 
      * @return void 
      */
+
     public function setPropertyHandlerListener($handler){
         $this->m_propertyHandleListener = $handler;
     }
@@ -82,6 +128,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @param string $content 
      * @return string 
      */
+
     protected static function _TreatContent(string $content){
         if (igk_str_endwith($content, "\\")){
             $content.="\n";
@@ -95,6 +142,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function __call($name, $arguments)
     {
         $g = null;
@@ -129,6 +177,11 @@ class PHPDocCommentParser extends PhpDocBlockBase{
             return $this->$name;
         }
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         return null;
     }
@@ -136,6 +189,7 @@ class PHPDocCommentParser extends PhpDocBlockBase{
      * get if methods is deprecated
      * @return bool 
      */
+
     public function isDeprecated(){
         return property_exists($this, 'deprecated');
     }
@@ -152,6 +206,10 @@ class PHPDocCommentParser extends PhpDocBlockBase{
         }
         return $s;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         $s = "/**\n";

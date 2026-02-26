@@ -10,11 +10,17 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 class HtmlBarNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname ="span";
 
     /**
     * auto generate doc.
     */
+
     protected function initialize()
     {   
         $this["class"] = "igk-bar";

@@ -14,7 +14,18 @@ use IGK\IControllerInitListener;
  * represent a listener object used to initialize ontroller environment
  */
 class ControllerInitListener implements IControllerInitListener{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_folder, $m_type;
+
+    /**
+    * .ctr
+    * @param mixed $folder
+    * @param null|mixed $type
+    */
     public function __construct($folder, $type=null){
         $this->m_folder=$folder;
         $this->m_type=$type;
@@ -22,9 +33,21 @@ class ControllerInitListener implements IControllerInitListener{
             igk_die("can't created dir : ".$folder);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $dir
+    */
     public function addDir($dir){
         IO::CreateDir($this->m_folder."/{$dir}");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $content
+    * @param mixed $override
+    */
     public function addSource($name, $content, $override=true){
         igk_io_w2file($this->m_folder."/".$name, $content, $override);
     }

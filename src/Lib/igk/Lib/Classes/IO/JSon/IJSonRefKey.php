@@ -9,5 +9,11 @@ namespace IGK\IO\JSon;
 * @author C.A.D. BONDJE DOUE
 */
 interface IJSonRefKey{
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @return string
+    */
     function json_refkey($id):string;
 }

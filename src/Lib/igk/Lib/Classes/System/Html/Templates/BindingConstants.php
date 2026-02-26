@@ -8,6 +8,16 @@ namespace IGK\System\Html\Templates;
 * @package IGK\System\Html\Templates
 */
 abstract class BindingConstants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OP_CONDITION = 'condition';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OP_LOOP = 'loop';
 }

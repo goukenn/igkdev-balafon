@@ -22,16 +22,34 @@ class RegexDetectHandler{
      * @var ?callable($e)
      */
     var $itemTokenListener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_marker;
     /**
      * 
      * @var RegexMatcherContainer
      */
     public $regex;
+
+    /**
+    * .ctr
+    * @param RegexMatcherContainer $regex
+    */
     public function __construct(RegexMatcherContainer $regex){
         $this->regex = $regex;
         $this->m_marker = new RegexMatcherInitMarker;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $src
+    * @param int & $pos
+    * @param null|callable $preload
+    * @param null|callable $callable
+    */
     protected function _handleDetect(string $src,int & $pos, ?callable $preload, ?callable $callable){
          $regex = $this->regex;
          while($g = $regex->detect($src, $pos)){
@@ -59,6 +77,7 @@ class RegexDetectHandler{
      * @return void 
      * @throws Exception 
      */
+
     public function detect(string $src, callable $callable, ?callable $preload=null){
         $regex = $this->regex;
         $pos = 0;

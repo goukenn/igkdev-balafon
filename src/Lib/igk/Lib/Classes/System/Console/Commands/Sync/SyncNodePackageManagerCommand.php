@@ -11,12 +11,23 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
-	var $command='--sync:node-package-manager';
-	var $desc='sync node package manager';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--sync:node-package-manager';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='sync node package manager';
 	 /**
      * get merged scripts
      * @return string[] 
      */
+
     protected function getMergedScripts(){
         return [
             IGK_LIB_DIR."/Inc/core/installer-core-function.pinc",
@@ -28,7 +39,13 @@ class SyncNodePackageManagerCommand extends SyncAppExecCommandBase{
     }
 	/* var $options=[]; */
 	/* var $category; */
-	public function exec($command, ...$args) { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed ...$args
+    */
+    public function exec($command, ...$args) { 
 		$this->syncScriptCommand($command, 'sync-npm-package.php', ['args'=>$args]);	
         Logger::success("complete");
 	}

@@ -11,6 +11,11 @@ use IGKException;
  */
 class ReadTokenStructInfo
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $popBuffer;
     /**
      * type of the struct
@@ -57,7 +62,17 @@ class ReadTokenStructInfo
      * @var bool
      */
     var $readCode = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $extends;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $implements;
     /**
      * child structs 
@@ -79,7 +94,17 @@ class ReadTokenStructInfo
      * @var mixed
      */
     protected $m_output;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $mergeVariable =false;
+
+    /**
+    * .ctr
+    * @param string $type
+    */
     public function __construct(string $type)
     {
         if (!in_array($type, ["trait", "interface", "class", "function"])) {
@@ -87,6 +112,10 @@ class ReadTokenStructInfo
         }
         $this->type  = $type;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getHeader(){
         $mod = $this->modifiers ? implode(' ', $this->modifiers):'';
         return sprintf("%s", implode(" ", array_filter([$mod, $this->type, 
@@ -98,6 +127,7 @@ class ReadTokenStructInfo
      * @return void 
      * @throws IGKException 
      */
+
     public function buildBuffer(?IReadTokenMergeOption $options=null)
     { 
         $v_buffer = $this->buffer ?? "";
@@ -144,6 +174,7 @@ class ReadTokenStructInfo
      * get the generated output
      * @return mixed 
      */
+
     public function output(?IReadTokenMergeOption $options=null){ 
         $bck = & $this->buffer ;
         $this->m_output = "";
@@ -153,12 +184,27 @@ class ReadTokenStructInfo
         $this->buffer = & $bck;
         return $this->m_output;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    */
     public function initFlagOption(ReadTokenOptions $options){
         return ["op"=>"name"];
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function updateParentBuffer():bool{
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     public function generatePhpDoc($options){
         $sb = new StringBuilder();
         $sb->appendLine("/**");

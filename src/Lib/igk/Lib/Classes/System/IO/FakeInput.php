@@ -8,5 +8,9 @@ namespace IGK\System\IO;
 * @package IGK\System\IO
 */
 abstract class FakeInput{
+
+    /**
+    * auto generate doc.
+    */
     public abstract function getRaw();
 }

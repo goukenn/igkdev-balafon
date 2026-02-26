@@ -15,6 +15,11 @@ use IGK\System\Http\AcceptMimeTypes;
 * represent a communication controller base
 */
 abstract class IGKCommunicationServerCtrl extends ApplicationController{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HTTP_ACCEPT= AcceptMimeTypes::EventStream;
     /**
     * 
@@ -25,6 +30,7 @@ abstract class IGKCommunicationServerCtrl extends ApplicationController{
     /**
     * override this to handle server
     */
+
     abstract public function handle();
     /**
     * 

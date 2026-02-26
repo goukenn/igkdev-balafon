@@ -11,6 +11,10 @@ use IGKEvents;
 * @package IGK\System\Html\Dom
 */
 class HtmlDebuggerViewNode extends HtmlNode{
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {        
         parent::__construct("igk:debugger-view");
@@ -20,6 +24,7 @@ class HtmlDebuggerViewNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getCanRenderTag()
     {
         return false;
@@ -28,6 +33,7 @@ class HtmlDebuggerViewNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getMessage(){
         return null;
     }

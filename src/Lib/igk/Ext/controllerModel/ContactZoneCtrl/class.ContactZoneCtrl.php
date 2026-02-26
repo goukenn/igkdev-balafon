@@ -17,24 +17,37 @@ use IGK\System\Html\Dom\HtmlNotificationItemNode;
 */
 abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	private $m_viewZone;
-	private $m_error;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_viewZone;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_error;
 
     /**
     * auto generate doc.
     */
+
     public function getError(){return $this->m_error; }
 
     /**
     * auto generate doc.
     * @return string
     */
+
     public function getName(): string{return get_class($this);}
 
     /**
     * auto generate doc.
     * @param null|mixed $context
     */
+
     protected function initComplete($context=null){
 		parent::initComplete();
 		//please enter your controller declaration complete here
@@ -44,6 +57,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public static function GetAdditionalConfigInfo()
 	{
 		return null;
@@ -54,6 +68,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
+
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		$this->m_viewZone = $node->div();
@@ -63,6 +78,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public function getCanAddChild(){
 		return false;
 	}
@@ -70,6 +86,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     protected function validate_form()
 	{
 		$obj = igk_get_robj();
@@ -85,6 +102,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public function send_mail()
 	{
 		$obj = igk_get_robj();
@@ -126,6 +144,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @param mixed $target
     */
+
     protected function buildContactForm ($target)
 	{
 
@@ -150,6 +169,7 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @return BaseController
     */
+
     public function View(): BaseController{		
 		$t = $this->getTargetNode();
 		$t->clearChilds();

@@ -11,6 +11,11 @@ use IGKException;
 * @package IGK\System\Exceptions
 */
 class LoadArticleException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $key
+    */
     public function __construct($key){
         $file = igk_environment()->last("FileLoader");
         parent::__construct( sprintf("Load article throw an error %s", $file), 500);

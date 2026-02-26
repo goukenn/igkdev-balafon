@@ -18,5 +18,11 @@ interface IDiagramVisitorEntity{
      * @return SchemaBuilderMigration 
      */
     function setup(BaseController $controller, $schema, $props):SchemaBuilderMigration;
+
+    /**
+    * auto generate doc.
+    * @param mixed $schemaInfo
+    * @param string $operation
+    */
     function updateSchema($schemaInfo, string $operation='up'); 
 }

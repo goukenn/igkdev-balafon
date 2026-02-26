@@ -23,7 +23,17 @@ require_once IGK_LIB_CLASSES_DIR . "/System/Http/RouteCollection.php";
  */
 class Route
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DEFAULT_ENTRY_METHOD = 'index';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_controller;
     /**
      * action register
@@ -55,22 +65,39 @@ class Route
      * @var string
      */
     protected $path = "";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $controller = "";
     /**
      * route verbs supports
      */
     const SUPPORT_VERBS = "GET|POST|PUT|COPY|PATCH|DELETE|HEAD|LINK|UNLINK|OPTIONS|PURGE|LOCK|UNLOCK|STORE|PROPFIND|VIEW";
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_OffsetSet($n, $v)
     {
         $this->path = $n;
         $this->controller = $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetGet($n) {}
     /**
      * load controller route route config files
      * @param mixed $controller 
      * @return void 
      */
+
     public static function LoadConfig(BaseController $controller)
     {
         if (igk_io_file_exists($cf = $controller::configFile("routes"), true)) {
@@ -89,6 +116,7 @@ class Route
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function Uri_List(BaseController $controller, $classpath)
     {
         self::LoadConfig($controller);
@@ -99,6 +127,7 @@ class Route
      * get match all route 
      * @return Route 
      */
+
     public static function GetMatchAll(): Route
     {
         static $sm_route;
@@ -113,6 +142,7 @@ class Route
      * retrieve all route collection
      * @return array  
      */
+
     public static function GetRoutes()
     {
         return array_filter(array_map(function ($v) {
@@ -130,6 +160,7 @@ class Route
      * @param string|array|callable $handleClass method or action
      * @return RouteActionHandler|RouteHandler 
      */
+
     public static function RegisterAction(string $actionClass, string $path, $handleClass = null)
     {
         /**
@@ -157,12 +188,18 @@ class Route
      * @param string $controller controller in use
      * @return RouteHandler route handler
      */
+
     public static function RegisterRoute(string $path, string $controller)
     {
         $c = new RouteHandler($path, $controller);
         self::$sm_routes[] = $c;
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $actionClass
+    */
     public static function GetAction($actionClass)
     {
         return igk_getv(self::$sm_actions, $actionClass);
@@ -174,6 +211,7 @@ class Route
      * @return RouteActionHandler|RouteHandler 
      * @throws IGKException 
      */
+
     public static function __callStatic($name, $arguments)
     {
         $verbs = explode('|', self::SUPPORT_VERBS);
@@ -194,6 +232,7 @@ class Route
      * @return null|\IGK\System\Http\RouteActionHandler route action handler 
      * @throws IGKException 
      */
+
     public static function GetRouteByName($name, $classPath = null)
     {
         $actions = null;
@@ -220,6 +259,7 @@ class Route
      * get the current user
      * @return mixed 
      */
+
     public static function user(): ?IUserProfile
     {
         return self::$sm_controller ? self::$sm_controller->getUserProfile() : null;

@@ -26,10 +26,29 @@ use IGKSysUtil;
  */
 class SQLQueryUtils
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const AVAIL_FUNC = ['IGK_PASSWD_ENCRYPT', 'AES_ENCRYPT', 'BIN', 'CHAR', 'COMPRESS', 'CURRENT_USER', 'AES_DECRYPTDATABASE', 'DAYNAME', 'DES_DECRYPT', 'DES_ENCRYPT', 'ENCRYPT', 'HEX', 'INET6_NTOA', 'INET_NTOA', 'LOAD_FILE', 'LOWER', 'LTRIM', 'MD5', 'MONTHNAME', 'OLD_PASSWORD', 'PASSWORD', 'QUOTE', 'REVERSE', 'RTRIM', 'SHA1', 'SOUNDEX', 'SPACE', 'TRIM', 'UNCOMPRESS', 'UNHEX', 'UPPER', 'USER', 'UUID', 'VERSION', 'ABS', 'ACOS', 'ASCII', 'ASIN', 'ATAN', 'BIT_COUNT', 'BIT_LENGTH', 'CEILING', 'CHAR_LENGTH', 'CONNECTION_ID', 'COS', 'COT', 'CRC32', 'CURRENT_DATE', 'CURRENT_TIME', 'DATE', 'DAYOFMONTH', 'DAYOFWEEK', 'DAYOFYEAR', 'DEGREES', 'EXP', 'FLOOR', 'FROM_DAYS', 'FROM_UNIXTIME', 'HOUR', 'INET6_ATON', 'INET_ATON', 'LAST_DAY', 'LENGTH', 'LN', 'LOG', 'LOG10', 'LOG2', 'MICROSECOND', 'MINUTE', 'MONTH', 'NOW', 'OCT', 'ORD', 'PI', 'QUARTER', 'RADIANS', 'RAND', 'ROUND', 'SECOND', 'SEC_TO_TIME', 'SIGN', 'SIN', 'SQRT', 'SYSDATE', 'TAN', 'TIME', 'TIMESTAMP', 'TIME_TO_SEC', 'TO_DAYS', 'TO_SECONDS', 'UNCOMPRESSED_LENGTH', 'UNIX_TIMESTAMP', 'UTC_DATE', 'UTC_TIME', 'UTC_TIMESTAMP', 'UUID_SHORT', 'WEEK', 'WEEKDAY', 'WEEKOFYEAR', 'YEAR', 'YEARWEEK'];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected static $sm_adapter;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public static $LENGTHDATA = array("varchar" => "VarChar", "char" => "Char");
     ///<summary>Represente AllowedDefValue function</summary>
+
+    /**
+    * auto generate doc.
+    */
     public static function AllowedDefValue()
     {
         static $defvalue = null;
@@ -50,6 +69,7 @@ class SQLQueryUtils
      * @throws IGKException 
      * @deprecated use SQLGrammar 
      */
+
     public static function CreateTableQuery($tbname, $columninfo, $desc = null, $adapter = null, $noengine = 0, $nocomment = 0)
     {
         $query = "CREATE TABLE IF NOT EXISTS `" . igk_mysql_db_tbname($tbname) . "`(";
@@ -209,6 +229,12 @@ class SQLQueryUtils
         $query = rtrim($query) . ";";
         return $query;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed $adapter
+    */
     public static function fallbackType($t, $adapter)
     {
         switch (strtolower($t)) {
@@ -225,6 +251,12 @@ class SQLQueryUtils
         }
         return "text";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    * @param mixed $nocomment
+    */
     public static function GetColumnDefinition($v, $nocomment = 0)
     {
         $query = "";
@@ -260,6 +292,12 @@ class SQLQueryUtils
         }
         return $query;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed $tbname
+    */
     public static function GetColumnList($options, $tbname)
     {
         die(__METHOD__ . ":: obselete : use GetExtrasOptions instead");
@@ -272,6 +310,7 @@ class SQLQueryUtils
      * @param mixed $grammar 
      * @return mixed 
      */
+
     public static function GetCondString($tab, $operator = 'AND', $adapter = null, $grammar = null)
     {
         $query = "";
@@ -372,6 +411,12 @@ class SQLQueryUtils
         }
         return $query;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $values
+    */
     public static function GetDeleteQuery($tbname, $values)
     {
         $query = "";
@@ -403,6 +448,12 @@ class SQLQueryUtils
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed $ad
+    */
     public static function GetExtraOptions($options, $ad)
     {
         $defOrder = "ASC";
@@ -575,10 +626,22 @@ class SQLQueryUtils
         }
         return (object)["columns" => $columns, "join" => $join, "extra" => $q . $query, "flag" => $flag];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $b
+    */
     public static function GetFCN($b)
     {
         return strtoupper($b);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $values
+    * @param null|mixed $tableInfo
+    */
     public static function GetInsertQuery($tbname, $values, $tableInfo = null)
     {
         if (!$values)
@@ -613,6 +676,14 @@ class SQLQueryUtils
     {
         return "`" . implode("`.`", array_map([$adapter, "escape_string"], explode(".", $k))) . "`";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ad
+    * @param mixed $tbname
+    * @param null|mixed $where
+    * @param null|mixed $options
+    */
     public static function GetSelectQuery($ad, $tbname, $where = null, $options = null)
     {
         $q = "";
@@ -648,6 +719,14 @@ class SQLQueryUtils
         $q = "SELECT {$flag}{$column} FROM `" . igk_mysql_db_tbname($tbname) . "`" . rtrim($q) . ";";
         return $q;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $values
+    * @param null|mixed $condition
+    * @param null|mixed $tableInfo
+    */
     public static function GetUpdateQuery($tbname, $values, $condition = null, $tableInfo = null)
     {
         $rtbname = igk_mysql_db_tbname($tbname);
@@ -695,6 +774,15 @@ class SQLQueryUtils
         }
         return $out;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $tableInfo
+    * @param mixed $columnName
+    * @param mixed $value
+    * @param mixed $type
+    */
     public static function GetValue($tbname, $tableInfo, $columnName, $value, $type = "i")
     {
         $tinf = igk_getv($tableInfo, $columnName);
@@ -846,7 +934,18 @@ class SQLQueryUtils
         }
         return $tvalues;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initConfig() {}
+
+    /**
+    * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $values
+    * @param null|mixed $tableinfo
+    */
     public function insert($tbname, $values, $tableinfo = null)
     {
         $this->dieNotConnect();
@@ -866,6 +965,13 @@ class SQLQueryUtils
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $def
+    * @param mixed $type
+    * @param mixed $value
+    */
     protected static function IsAllowedDefValue($def, $type, $value)
     {
         if ($b = igk_getv($def, strtoupper($type))) {
@@ -888,14 +994,29 @@ class SQLQueryUtils
             array_map("trim", array_filter(explode(',', $t)))
         ));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    */
     public static function ResolvType($t)
     {
         return igk_getv(["int" => "Int", "uint" => "Int", "udouble" => "Double", "bigint" => "BIGINT", "ubigint" => "BIGINT", "date" => "Date", "enum" => "Enum", "json" => "JSON"], $t = strtolower($t), $t);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ad
+    */
     public static function SetAdapter($ad)
     {
         self::$sm_adapter = $ad;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $type
+    */
     public static function supportDefaultValue($type)
     {
         return !in_array($type, ["int"]);
@@ -910,6 +1031,7 @@ class SQLQueryUtils
      * @return void 
      * @throws Exception 
      */
+
     public static function BuildOrderBy($v, &$optset, string $k, $ad, $defOrder='ASC')
     {
         if (is_string($v)){
@@ -939,6 +1061,7 @@ class SQLQueryUtils
      * @param mixed $adapter escaped_string method 
      * @return string 
      */
+
     public static function GetGroupKey($columns, $type, $adapter){
           return implode(' ' . $type . ',', array_map(
             function ($t) use ($adapter) {

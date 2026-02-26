@@ -10,7 +10,16 @@ use IGK\System\Html\IFormFieldContainer;
 * @author C.A.D. BONDJE DOUE
 */
 class FieldContainer implements IFormFieldContainer{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fields;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_fields = [];
@@ -20,6 +29,7 @@ class FieldContainer implements IFormFieldContainer{
      * @param array $fields 
      * @return $this 
      */
+
     public function mergeField(array $fields, ?string $fieldset_name=null){
         if (!is_null($fieldset_name)){
             array_unshift($fields, ["type"=>"fieldset", "legend"=>$fieldset_name]);
@@ -33,9 +43,15 @@ class FieldContainer implements IFormFieldContainer{
      * @param mixed $context 
      * @return array 
      */
+
     public function getFields($context=null):array{
         return $this->m_fields;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $title
+    */
     public function submit(?string $title=null){
         $submit = igk_create_node("div");
         $submit->submit()->setClass('width-a');

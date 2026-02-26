@@ -11,12 +11,43 @@ use IGK\System\Shell\OsShell;
 * @package IGK\System\Console\Commands
 */
 class ComposerCommand extends AppExecCommand{
-	var $command='--composer';
-	var $desc='help manage balafon composer packages';
-	var $options=[]; 
-	var $category = 'composer';
-	var $usage = 'composer_args [options]';
-	public function exec($command, string ...$args) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--composer';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='help manage balafon composer packages';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'composer';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'composer_args [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param string ...$args
+    */
+    public function exec($command, string ...$args) { 
 		$packages = igk_io_packagesdir();
 		if (empty($composer = OsShell::where("composer.phar"))){
 			$composer = $packages."/composer.phar";

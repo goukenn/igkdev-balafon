@@ -14,11 +14,35 @@ use IGK\System\Text\RegexMatcherContainer;
  */
 class DotEnvConfiguration
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $key;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_refkey;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_dotEnv;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_sysDotEnv;
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const APP_DOT_ENV_CONFIG = 'dotenv_config_location_dir';
     /**
      * 
@@ -100,6 +124,7 @@ class DotEnvConfiguration
         }
         self::$sm_sysDotEnv = $config;
     }
+
     public function __construct(string $value, $ctrl = null)
     { 
         self::loadingEnvDev($this->m_refkey, $ctrl);
@@ -123,6 +148,7 @@ class DotEnvConfiguration
      * @param string $content 
      * @return void 
      */
+
     public static function LoadConfiguration(array &$config, string $content)
     {
         $regex = new RegexMatcherContainer;
@@ -169,6 +195,7 @@ class DotEnvConfiguration
      * to string
      * @return mixed 
      */
+
     public function __toString(): string
     {
         return igk_getv(self::$sm_dotEnv[$this->m_refkey], $this->key) ?? 
@@ -181,6 +208,7 @@ class DotEnvConfiguration
      * @param mixed $default default value 
      * @return mixed 
      */
+
     public static function Get(string $key, $default = null ){
         if (self::$sm_dotEnv && isset(self::$sm_dotEnv[$key])){
             return self::$sm_dotEnv[$key];

@@ -10,7 +10,17 @@ use IGK\System\Http\Request;
 */
 class IGKRoutes
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REG_KEY = "sys://reg/systemuri";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $request_entry;
 
     /**
@@ -19,6 +29,7 @@ class IGKRoutes
     * @param mixed $callback
     * @param mixed $prehandle
     */
+
     public static function Register($u, $callback, $prehandle = 1)
     {
         // TODO : remove register
@@ -35,6 +46,7 @@ class IGKRoutes
      * @param mixed $callback 
      * @return void 
      */
+
     public static function Invoke($uri, $u, $callback)
     {
         $uri_key = self::REG_KEY;

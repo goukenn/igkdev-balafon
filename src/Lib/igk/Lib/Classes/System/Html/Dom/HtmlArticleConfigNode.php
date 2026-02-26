@@ -11,10 +11,35 @@ use IGKViewMode;
 * Represent IGKHtmlArticleConfigNode class
 */
 final class HtmlArticleConfigNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_dropfileUri;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_filename;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_forceview;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_target;
     /**
     * 
@@ -23,6 +48,7 @@ final class HtmlArticleConfigNode extends HtmlNode{
     * @param mixed $filename the default value is null
     * @param mixed $forceview the default value is 0
     */
+
     public function __construct($ctrl=null, $target=null, $filename=null, $forceview=0){
         parent::__construct("div");
         $this->m_filename=$filename;
@@ -52,12 +78,14 @@ final class HtmlArticleConfigNode extends HtmlNode{
     /**
     * 
     */
+
     public function getdropFileUri(){
         return $this->m_dropfileUri;
     }
     /**
     * 
     */
+
     public function getIsVisible(){
         return $this->m_forceview || (parent::getIsVisible() && IGKViewMode::IsSupportViewMode(IGKViewMode::WEBMASTER));
     }
@@ -65,13 +93,22 @@ final class HtmlArticleConfigNode extends HtmlNode{
     * 
     * @param mixed $v
     */
+
     public function setdropFileUri($v){
         $this->m_dropfileUri=$v;
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCtrl(){
         return $this->m_ctrl;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFileName(){
         return $this->m_filename;
     } 

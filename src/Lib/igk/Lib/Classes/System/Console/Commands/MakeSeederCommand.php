@@ -18,9 +18,29 @@ use IGKDbModelUtility;
 */
 class MakeSeederCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--make:seeder";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "make project's seeder";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [];
     /**
      * Execute the command to generate a seeder class for the given controller and model.
@@ -30,6 +50,7 @@ class MakeSeederCommand extends AppExecCommand
      * @param string $modelname  The model name to base the seeder on.
      * @return bool|void Returns false on validation failure, void on success.
      */
+
     public function exec($command, $controller = "", $modelname = "")
     {
         if (empty($controller)) {
@@ -77,6 +98,7 @@ class MakeSeederCommand extends AppExecCommand
      *
      * @return void
      */
+
     public function help()
     {
         Logger::print("-");

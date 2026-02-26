@@ -12,7 +12,17 @@ use IGK\System\Text\RegexMatcherContainer;
 * @author C.A.D. BONDJE DOUE
 */
 trait FormatterChainTransformTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_sub_chain;
+
+    /**
+    * auto generate doc.
+    * @param RegexMatcherContainer $regex
+    */
     protected function saveState(RegexMatcherContainer $regex){
         $state = $regex->saveState(); 
         $state['sb'] = $this->m_sb.'';       
@@ -27,6 +37,12 @@ trait FormatterChainTransformTrait{
         $state['e_transform'] = $this->m_transform; 
         return $state;
     }
+
+    /**
+    * auto generate doc.
+    * @param RegexMatcherContainer $regex
+    * @param mixed $state
+    */
     protected function restoreState(RegexMatcherContainer $regex, $state){
         $regex->restoreState($state); 
         $this->m_chain_logic = $state['chain_logic'];
@@ -46,6 +62,7 @@ trait FormatterChainTransformTrait{
      * @param string $v 
      * @return mixed 
      */
+
     public function chainTransfrom(RegexMatcherContainer $regex, array $patterns, string $v) {  
       //  return $v; 
         $state = $this->saveState($regex);         

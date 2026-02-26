@@ -13,12 +13,33 @@ use IGK\System\IO\Path;
 * @author C.A.D. BONDJE DOUE
 */
 class MakeRolesCommand extends AppExecCommand{
-	var $command='--make:role';
-	var $desc='create a role definition file '; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--make:role';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='create a role definition file '; 
 	/* var $options=[]; */
 	/* var $category = ''; */
-	var $usage = 'controller [options]';
-	public function exec($command, ?string $controller = null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller = null) { 
 		$ctrl = self::GetController($controller);
 		$path = $ctrl->getConfigsDir();
 		$l = Path::Combine($path, 'profiles.php');

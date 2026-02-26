@@ -16,23 +16,80 @@ use IGKObject;
 class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
 {
     use ActivatorPrivateInitProperty;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $pos;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $to;
-    private $value; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $value;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $childs;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $_dynamic;
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getisRoot(): bool { return true;}
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getisRootCaptured(): bool { return true;}
+
+    /**
+    * auto generate doc.
+    */
     public function getPos(){
         return $this->pos;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getTo(){
         return $this->to;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getValue(){
         return $this->value;
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         if ($n === RegexTreatCapture::MARK_KEY){
             if ($this->_dynamic){
@@ -42,6 +99,12 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
         }  
         return parent::__get($n);
     }
+
+    /**
+    * destructor
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v){
         if ($n === RegexTreatCapture::MARK_KEY){
             if (!$this->_dynamic){
@@ -58,6 +121,7 @@ class RegexCaptureInfo extends IGKObject implements IRegexCaptureInfo
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function CreateFrom(array $def)
     {
         $inf = Activator::CreateNewInstance(static::class, $def);

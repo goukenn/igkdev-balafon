@@ -9,6 +9,11 @@ namespace IGK;
  * @package IGK
  */
 abstract class IGKTranslator{
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function get($n){
         return igk_resources_gets(...func_get_args());
     }

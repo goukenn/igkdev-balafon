@@ -12,6 +12,10 @@
 * auto generate doc.
 */
 abstract class IGKComponentListenerBase extends IGKParamStorage implements IParamHostService{
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         parent::__construct();
     }
@@ -21,6 +25,7 @@ abstract class IGKComponentListenerBase extends IGKParamStorage implements IPara
     * auto generate doc.
     * @param mixed $n
     */
+
     function getUri($n){
         return igk_get_component_uri($this, $n);
     }

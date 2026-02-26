@@ -15,15 +15,37 @@ use IGKException;
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpressionGetter extends ViewExpressionBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $listener;
+
+    /**
+    * .ctr
+    * @param mixed & $variables
+    * @param mixed $listener
+    */
     public function __construct(& $variables, $listener){
         parent::__construct($variables);
         $this->listener = $listener;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $src
+    * @param mixed $args
+    */
     public function eval($src, $args){
         $src = "return ".rtrim($src,';').";";
         return call_user_func_array($this->listener, func_get_args());
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     protected function _access_OffsetGet($name){
         if (is_string($name)){
             $p = ViewExpressionArgHelper::GetVar($name);
@@ -59,9 +81,20 @@ class ViewExpressionGetter extends ViewExpressionBase{
         // $args = new ViewExtractArgHelper($name, $p);
         // return $args;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $value
+    */
     protected function _access_OffsetSet($name, $value){
         throw new OperationNotAllowedException("Expression Getter can't set value");
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         // for real value
         return $this->getValue($name);
@@ -72,11 +105,16 @@ class ViewExpressionGetter extends ViewExpressionBase{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function getValue($name){
         // for real value
         $p = ViewExpressionArgHelper::GetVar($name);
         return $p;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return 'getter:::';

@@ -14,6 +14,11 @@ use ReflectionException;
  * @package IGK\System\IO
  */
 final class Helper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TABLE_PROPERTY  = 'tables';
     /**
      * 
@@ -25,6 +30,7 @@ final class Helper{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GenerateModel(BaseController $ctrl, callable $callback, $force=false){
         $manifest = [];
         $file = $ctrl->getDataSchemaFile();
@@ -49,6 +55,7 @@ final class Helper{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GenerateModelFromFile(string $file, callable $callback, $force=false){
         $manifest = [];
         $ctrl = igk_getctrl(IGKSystemController::class);

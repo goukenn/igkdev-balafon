@@ -8,6 +8,10 @@ namespace IGK\Actions\Traits;
 * @package IGK\Actions\Traits
 */
 trait ServiceWorkerHandlerActionTrait{
+
+    /**
+    * auto generate doc.
+    */
     public function sw_worker_js(){
         // not handle - response a script file
     }

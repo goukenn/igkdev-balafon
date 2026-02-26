@@ -14,6 +14,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class CssThemeRenderingTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_csstheme_minify_content_rendering(){
         $d = new HtmlDocTheme(null, 'testing', false);
         $d[] = 'body:after{content:""; background-color:red;}';

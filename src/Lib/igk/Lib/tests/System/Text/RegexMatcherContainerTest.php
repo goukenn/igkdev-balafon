@@ -15,6 +15,10 @@ use IGK\Tests\BaseTestCase;
  */
 class RegexMatcherContainerTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_list()
     {
         $container = new RegexMatcherContainer;
@@ -30,6 +34,9 @@ class RegexMatcherContainerTest extends BaseTestCase
         $this->assertEquals('hello friend', implode(' ', $match));
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_detect_htmlclass()
     {
         $container = new RegexMatcherContainer;
@@ -88,6 +95,10 @@ class RegexMatcherContainerTest extends BaseTestCase
         ];
         return $ctn;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_detect_func_skip_trailing_close()
     {
         $s = implode("\n", [
@@ -100,6 +111,10 @@ class RegexMatcherContainerTest extends BaseTestCase
                 echo $g->value;
         });
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_detect_func_2()
     {
         $s = implode("\n", [
@@ -132,6 +147,9 @@ class RegexMatcherContainerTest extends BaseTestCase
         return $ctn;
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_detect_declare_func()
     {
         $s = implode("\n", [
@@ -148,6 +166,7 @@ class RegexMatcherContainerTest extends BaseTestCase
      * 
      * @return void 
      */
+
     public function test_regexmatch_skip_multiline()
     {
         // phpunit -c phpunit.xml.dist --testsuite core --filter test_regexmatch_multiline
@@ -167,6 +186,10 @@ class RegexMatcherContainerTest extends BaseTestCase
         });
         echo trim($ch);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_skip_multiline_litteral()
     {
         // phpunit -c phpunit.xml.dist --testsuite core --filter test_regexmatch_multiline
@@ -200,6 +223,9 @@ class RegexMatcherContainerTest extends BaseTestCase
         echo trim($ch);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_skip_glue()
     {
         // phpunit -c phpunit.xml.dist --testsuite core --filter test_regexmatch_skip_glue
@@ -243,6 +269,9 @@ class RegexMatcherContainerTest extends BaseTestCase
 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_startline_b_only()
     {
         $ctn = new RegexMatcherContainer;
@@ -255,6 +284,10 @@ class RegexMatcherContainerTest extends BaseTestCase
                 echo $e->value;
         });
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_startline_ba_only()
     {
         $ctn = new RegexMatcherContainer;
@@ -267,6 +300,10 @@ class RegexMatcherContainerTest extends BaseTestCase
                 echo $e->value;
         });
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_number_line()
     {
         $container = new RegexMatcherContainer;
@@ -279,6 +316,10 @@ class RegexMatcherContainerTest extends BaseTestCase
         });
         $this->assertEquals('["capture : 1:count: 1","capture : 3:count: 2","capture : 5:count: 3","capture : 7:count: 4","capture : 9:count: 5","capture : 11:count: 6"]', json_encode($r));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_empty_line()
     {
         $container = new RegexMatcherContainer;
@@ -296,6 +337,7 @@ class RegexMatcherContainerTest extends BaseTestCase
      * 
      * @return void 
      */
+
     public function test_regexmatch_empty_block()
     {
 
@@ -348,7 +390,9 @@ class RegexMatcherContainerTest extends BaseTestCase
         }
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_detect_stop()
     {
         $src = "begin: one ! begin: test is! ok\nlogo begin: gesture is for beginner\nbegin: data ok";
@@ -372,6 +416,9 @@ class RegexMatcherContainerTest extends BaseTestCase
         ], $rp);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_detect_append_after_end_stop()
     {
         $src = "begin: one ; cause ! begin: data ok";
@@ -394,6 +441,10 @@ class RegexMatcherContainerTest extends BaseTestCase
 'begin: one ;', 'begin: data ok'
         ], $rp);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatch_detect_append_after_end_stop_2()
     {
         $src = "       g///<summary>info</summary>\nbegin: ";

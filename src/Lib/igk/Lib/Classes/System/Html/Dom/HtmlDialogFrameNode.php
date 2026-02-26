@@ -16,6 +16,11 @@ use IGKEvents;
 * @package IGK\System\Html\Dom
 */
 final class HtmlDialogFrameNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_Box, $m_BoxContent, $m_Height, $m_Title, $m_Width, $m_callbackMethod, $m_closeBtn, $m_closeCallBackEvent, $m_closeMethodUri, $m_closeUri, $m_form, $m_framectrl, $m_id, $m_owner, $m_reloadcallbackMethod, $m_script;
 
     /**
@@ -23,6 +28,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * @param null|mixed $options
     * @return bool
     */
+
     protected function _acceptRender($options = null):bool{
         if(!$this->m_framectrl || !$this->m_framectrl->ContainFrame($this->m_id, $this)){
             igk_html_rm($this);
@@ -36,6 +42,14 @@ final class HtmlDialogFrameNode extends HtmlNode{
         $this->m_Box["style"]=$def;
         return true;
     }
+
+    /**
+    * .ctr
+    * @param mixed $framectrl
+    * @param null|mixed $id
+    * @param null|mixed $owner
+    * @param null|mixed $reloadcallback
+    */
     public function __construct($framectrl, $id=null, $owner=null, $reloadcallback=null){
         parent::__construct("div");
         if(!igk_reflection_class_implement($framectrl, "IFrameController")){
@@ -70,6 +84,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function __get_dialog_attrib(){
         return "\"{w:'300px', h:'800px'}\"";
     }
@@ -79,6 +94,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * @param mixed $obj
     * @param mixed $method
     */
+
     public function addCloseCallBackEvent($obj, $method){
         if($this->m_closeCallBackEvent != null){
             $this->m_closeCallBackEvent->add($obj, $method);
@@ -88,6 +104,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function ClearChilds(){
         $this->m_BoxContent->clearChilds();
         return $this;
@@ -96,6 +113,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function closeMethod(){
         if($this->m_callbackMethod){
             $c=$this->m_callbackMethod;
@@ -109,6 +127,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getBox(){
         return $this->m_Box;
     }
@@ -116,6 +135,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getBoxContent(){
         return $this->m_BoxContent;
     }
@@ -123,6 +143,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getcallbackMethod(){
         return $this->m_callbackMethod;
     }
@@ -130,6 +151,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getCloseBtn(){
         return $this->m_closeBtn;
     }
@@ -137,6 +159,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getcloseMethodUri(){
         return $this->m_closeMethodUri;
     }
@@ -144,6 +167,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getcloseUri(){
         return $this->m_closeBtn["href"]->getValue();
     }
@@ -151,6 +175,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getForm(){
         return $this->m_form;
     }
@@ -158,6 +183,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getHeight(){
         return $this->m_Height;
     }
@@ -165,6 +191,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getId(){
         return $this->m_id;
     }
@@ -172,6 +199,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getIsVisible(){
         if(!parent::getIsVisible() && !$this->m_framectrl || !$this->m_framectrl->ContainFrame($this->m_id, $this)){
             return false;
@@ -182,6 +210,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getOwner(){
         return $this->m_owner;
     }
@@ -189,6 +218,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getScript(){
         return $this->m_script;
     }
@@ -196,6 +226,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getTitle(){
         return $this->m_Title->Content;
     }
@@ -203,6 +234,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getWidth(){
         return $this->m_Width;
     }
@@ -212,6 +244,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * @param mixed $obj
     * @param mixed $method
     */
+
     public function removeCloseCallBackEvent($obj, $method){
         if($this->m_closeCallBackEvent != null){
             $this->m_closeCallBackEvent->remove($obj, $method);
@@ -222,6 +255,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setcallbackMethod($value){
         $this->m_callbackMethod=$value;
     }
@@ -230,6 +264,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setcloseMethodUri($value){
         $this->m_closeMethod=$value;
     }
@@ -238,6 +273,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setcloseUri($value){
         $this->m_closeBtn["href"]=$value;
     }
@@ -246,6 +282,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setForm($value){
         $this->m_form=$value;
     }
@@ -254,6 +291,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setHeight($value){
         $this->m_Height=$value;
     }
@@ -262,6 +300,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setTitle($value){
         $this->m_Title->Content=$value;
     }
@@ -270,6 +309,7 @@ final class HtmlDialogFrameNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setWidth($value){
         $this->m_Width=$value;
     }

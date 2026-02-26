@@ -10,6 +10,16 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 abstract class HtmlNodeType{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const Node = "Node";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const Text = "Text";
 }

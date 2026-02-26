@@ -173,11 +173,22 @@ function igk_treat_source_expression($options){
 * Represent IGKProtectHtmlField class
 */
 class IGKProtectHtmlField{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $engines;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $options;
     /**
     * 
     */
+
     public function __construct(){
         $this->_initOptions();
         $this->engines=array();
@@ -294,6 +305,7 @@ class IGKProtectHtmlField{
     * 
     * @param mixed $v
     */
+
     public function protect($v){
         $this->_initOptions();
         $options=& $this->options;

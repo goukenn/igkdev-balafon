@@ -11,6 +11,11 @@ namespace IGK\System;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class ServiceNameConstants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MailService = 'MailService';
 
 }

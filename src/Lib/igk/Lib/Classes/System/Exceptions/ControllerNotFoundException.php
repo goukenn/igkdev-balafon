@@ -11,6 +11,11 @@ use function igk_resources_gets as __;
  * @package IGK\System\Exceptions
  */
 class ControllerNotFoundException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $controller
+    */
     public function __construct($controller)
     {
         parent::__construct(__(sprintf("Controller not found. [%s]", $controller)), 501);

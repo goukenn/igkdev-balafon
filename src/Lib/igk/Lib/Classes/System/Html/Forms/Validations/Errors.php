@@ -10,7 +10,17 @@ use function igk_resources_gets as __;
 * @author C.A.D. BONDJE DOUE
 */
 class Errors{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DISABLE_ARRAY = 1200;
+
+    /**
+    * auto generate doc.
+    * @param mixed $code
+    */
     public static function GetErrors($code){
         return [
             self::DISABLE_ARRAY => 'Converter disable array'

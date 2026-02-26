@@ -19,11 +19,17 @@ use IGK\System\Caches\EnvControllerCacheList;
  */
 class IGKAppSystem
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONF_FILE = 'configure';
     /**
      * check if configuration file is initialize
      * @return bool 
      */
+
     public static function IsConfigured(): bool
     {
         if (!IGKApp::IsInit()) {
@@ -50,6 +56,7 @@ class IGKAppSystem
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function InitEnv(string $dirname, IGKApp $app)
     {
         if (!is_dir($dirname))
@@ -124,6 +131,7 @@ class IGKAppSystem
             "domain_name" => !IGKValidator::IsIPAddress($ips) ? $ips : IGK_DOMAIN,
         ]);
     }
+
     public static function reloadConfigCallback()
     {
         igk_app()->getConfigs()->reload();
@@ -145,6 +153,7 @@ class IGKAppSystem
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function InstallDir(
         string $idx,
         string $app_dir,
@@ -246,6 +255,7 @@ class IGKAppSystem
      * @return void 
      * @throws IGKException 
      */
+
     public static function LoadEnvironment(IGKApp $app)
     {
         if (!IGKSysCache::LoadCacheLibFiles()) {

@@ -10,6 +10,12 @@ use IGK\Controllers\ViewLayoutCaller;
  * @package IGK\Helper
  */
 abstract class ViewCallback{
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         if (!($ctrl = ViewHelper::CurrentCtrl())){

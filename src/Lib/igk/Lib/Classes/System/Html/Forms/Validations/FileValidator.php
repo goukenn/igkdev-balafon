@@ -25,6 +25,14 @@ class FileValidator extends FormFieldValidatorBase implements IFormValidator
         /// TODO: Expect file validation data 
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param null|mixed $default
+    * @param mixed & $error
+    * @param null|object $options
+    */
     protected function _validate($value, $default = null, &$error = [], ?object $options = null)
     {
         $name = $maxSize = $fieldinfo = null;

@@ -11,6 +11,11 @@ use Exception;
 * @package IGK\System\Http
 */
 class RequestException extends \IGKException{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $status;
     /**
      * Constructor.
@@ -19,6 +24,7 @@ class RequestException extends \IGKException{
      * @param string         $message  Optional exception message; defaults to the status label.
      * @param Throwable|null $previous Optional previous throwable.
      */
+
     public function __construct($code, $message="", ?\Throwable $previous=null)
     {
         if (empty($message)){
@@ -30,6 +36,7 @@ class RequestException extends \IGKException{
     /**
     * auto generate doc.
     */
+
     function handle(){
         if (igk_server()->accept('json') || Request::getInstance()->isRestRequest()){
             igk_set_header($this->code);

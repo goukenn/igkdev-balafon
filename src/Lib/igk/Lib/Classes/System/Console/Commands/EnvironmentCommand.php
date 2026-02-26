@@ -16,13 +16,37 @@ use IGK\Constants;
 * @author C.A.D. BONDJE DOUE
 */
 class EnvironmentCommand extends AppExecCommand{
-	var $command='--env';
-	var $desc='view environment definition'; 
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--env';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='view environment definition';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		"--no-color"=>"flag: disable use of color"
-	]; 
-	var $category; 
-	static function Environment(){
+	];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category;
+
+    /**
+    * auto generate doc.
+    */
+    static function Environment(){
 		$env = []; 
 		$tenv = getenv();
 		foreach($tenv as $k => $v){
@@ -32,7 +56,12 @@ class EnvironmentCommand extends AppExecCommand{
 		}
 		return $env;
 	}
-	public function exec($command) { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) { 
 		$def = (object)array_fill_keys(['controller','project','context','module'],null);
 		$console = igk_environment()->console; 
 		$def->version = IGK_VERSION;

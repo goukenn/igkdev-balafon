@@ -9,7 +9,22 @@ namespace IGK\System\Database;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class JoinTableOp{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const EQUAL = "=";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const GT =">";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const LT ="<";
 }

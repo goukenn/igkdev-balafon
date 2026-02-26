@@ -14,16 +14,39 @@ use IGK\System\Html\Dom\HtmlItemAttribute;
  * @package 
  */
 final class IGKHtmlRelativeUriValueAttribute extends HtmlItemAttribute{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_lnk;
+
+    /**
+    * .ctr
+    * @param null|string $uri
+    */
     public function __construct(?string $uri=null){
         $this->m_lnk=$uri;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString(){
         return $this->getValue(null);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getLnk(){
         return $this->m_lnk;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options=null){
         $lnk=$this->m_lnk;
         if(empty($lnk)){

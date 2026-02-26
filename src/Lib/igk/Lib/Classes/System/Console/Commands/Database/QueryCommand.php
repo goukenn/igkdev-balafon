@@ -10,12 +10,39 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands\Database
 */
 class QueryCommand extends AppExecCommand{
-	var $command='--db:query';
-	var $desc='model fetch query';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:query';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='model fetch query';
 	/* var $options=[]; */
-	var $category="sys:db";
-	var $usage = "model [controller] [options]";
-	public function exec($command, ?string $model=null, ?string $controller = null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category="sys:db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = "model [controller] [options]";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $model
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $model=null, ?string $controller = null) {
 		$ctrl = null;
 		if ($controller){
 			$ctrl = self::GetController($controller) ?? igk_die('missing controller');

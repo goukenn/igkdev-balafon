@@ -10,13 +10,29 @@ use IGK\System\Html\Dom\HtmlNode;
 * @package IGK\System\Runtime\Compiler
 */
 final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAccess{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_update =false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $update_express=null;    
     /**
      * last update variable
      * @var mixed
      */
     private $m_name;
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_OffsetSet($n, $v){
         $c = new ViewExpressionSetterValueInfo($n, $v, function($n){
             $this->m_update = true;
@@ -32,6 +48,11 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
         else 
             $this->update_express .= var_export($v, true).";";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetGet($n){
         if ($v = igk_getv($this->m_vars, $n)){
             return $v->getValue();
@@ -45,18 +66,37 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
             return $p; 
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsUpdate(){
         return $this->m_update;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function resetUpdate(){
         $this->m_update = false;
         $this->update_express = null;
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         if ($this->contains($n))
             return $this->_access_OffsetGet($n);
         return $this->m_variables[$n];
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         $g = $this->__get($name);
@@ -68,6 +108,7 @@ final class ViewExpressionSetter extends ViewExpressionBase implements ArrayAcce
      * get update expression
      * @return null 
      */
+
     public function getExpression(string $source){
         $n =  $this->m_name;
         $o = igk_getv($this->m_variables, $n);

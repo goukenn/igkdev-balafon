@@ -12,7 +12,17 @@ use IGK\System\Configuration\EntityConfigurationSchema;
 * @author C.A.D. BONDJE DOUE
 */
 class ConfigurationFile extends EntityConfigurationSchema{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DEFAULT_MAINJS = 'default.js';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONFIG_FILE = Constants::PROJECT_CONF_FILE;
    
     /**
@@ -55,6 +65,7 @@ class ConfigurationFile extends EntityConfigurationSchema{
      * retrieve the main JS
      * @return mixed 
      */
+
     function getMainJS(){
         if ($this->mainJS){
             return $this->mainJS;

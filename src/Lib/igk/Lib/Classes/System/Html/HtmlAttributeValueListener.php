@@ -8,10 +8,25 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 class HtmlAttributeValueListener implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_listener;
+
+    /**
+    * .ctr
+    * @param callable $listener
+    */
     public function __construct(callable $listener){
         $this->m_listener = $listener;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options = null)
     {
         if ($fc = $this->m_listener){

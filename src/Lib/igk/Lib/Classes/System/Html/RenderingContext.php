@@ -8,5 +8,10 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 abstract class RenderingContext{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEMPLATE = "template";
 }

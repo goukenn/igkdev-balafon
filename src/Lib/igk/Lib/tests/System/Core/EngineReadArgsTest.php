@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class EngineReadArgsTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_engine_read_arg_read_global_arg(){
         $this->assertEquals('8 - info - 8', 
         EngineReadArgs::TreatGlobalArgs('[[:@raw]] - info - [[:@raw]]', [

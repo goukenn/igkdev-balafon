@@ -20,10 +20,35 @@ use IGKDbModelUtility;
 */
 class MakeFactoryCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--make:factory";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "make project's factory. use %sys% for system controller.";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = "[modelname --controller:controller]|[controller [modelname]] [option]";
 
     /**
@@ -32,6 +57,7 @@ class MakeFactoryCommand extends AppExecCommand
     * @param mixed $controller
     * @param mixed $modelname
     */
+
     public function exec($command, $controller = "", $modelname = "")
     {
         $ctrl = null;
@@ -97,6 +123,7 @@ class MakeFactoryCommand extends AppExecCommand
     /**
     * auto generate doc.
     */
+
     public function help()
     {
         Logger::print("-");

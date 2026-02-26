@@ -23,10 +23,35 @@ use Logger;
  */
 class SchemaDiagramVisitor extends DiagramVisitor
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_controller;
-    private $m_migrations = []; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_migrations = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_entityHandler;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_operation;
     /**
      * init SchemaDiagram
@@ -34,6 +59,7 @@ class SchemaDiagramVisitor extends DiagramVisitor
      * @param object $schemaInfo 
      * @return void 
      */
+
     public function __construct(BaseController $controller, $schemaInfo, $operation = 'migrate')
     {
         $this->m_controller = $controller;
@@ -45,6 +71,7 @@ class SchemaDiagramVisitor extends DiagramVisitor
      * @param mixed $entity 
      * @return void 
      */
+
     public function visitDiagramEntity($entity)
     {
         $defTableName = $entity->getName();
@@ -76,6 +103,7 @@ class SchemaDiagramVisitor extends DiagramVisitor
      * @param DiagramMigration $migration 
      * @return void 
      */
+
     public function visitDiagramMigration(DiagramMigration $migration)
     {
         /// TODO: add visit diagram migration 
@@ -123,11 +151,17 @@ class SchemaDiagramVisitor extends DiagramVisitor
             $this->m_migrations[] = $mig;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var  $callback;
     /**
      * finish diagram visit 
      * @return null|string 
      */
+
     public function complete(): ?string
     {
         if ($this->m_migrations) {
@@ -165,5 +199,10 @@ class SchemaDiagramVisitor extends DiagramVisitor
 */
 class funcHandler
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $callback;
 }

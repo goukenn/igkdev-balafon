@@ -8,7 +8,17 @@ namespace IGK\System\Runtime\Compiler;
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenFlagOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $buffer = "";
+
+    /**
+    * auto generate doc.
+    * @param null|array $tab
+    */
     public static function CreateFlag(?array $tab=null){
         $c = new static;
         if ($tab){

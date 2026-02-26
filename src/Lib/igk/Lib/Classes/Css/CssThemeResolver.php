@@ -32,42 +32,202 @@ class CssThemeResolver
      * @var ?HtmlDocTheme
      */
     var $parent;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $last;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $designmode = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $resolv = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $start = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $colordef = null;
     /**
      * resource resolver
      * @var ?ICssResourceResolver
      */
     var $resolver;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_RESOLV = 'resolv';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_TRANS = 'trans';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_TRANSFORM = 'transform';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_ANIM = 'anim';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_ANIMATION = 'animation';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_COLOR= 'cl';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_VAR= 'var';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_BACKGROUND_COLOR= 'bgcl';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_FOREGROUND_COLOR= 'fcl';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_FIT = 'fit';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_VAR_PROPERTY = 'varp';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_FONT = 'ft';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_FONT_NAME = 'ftn';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_RESOURCE = 'res';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_BACKGROUND_RESOURCE= 'bgres';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_URI = 'uri';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_BORDER_COLOR = 'bcl';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_SVG = 'svg';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_FILTER = 'filter';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_PROP = 'prop';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_PROPERTY = 'pr';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_SYS_BGCL = 'sysbgcl';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_SYS_FCL = 'sysfcl';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_SYS_COLOR = 'syscl';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_SYS_BCL = 'sysbcl';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_G_RESOLV_MODE = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ATTR_G_THEME_RESOLV_MODE = 'th';
     /**
      * treat theme value
@@ -77,6 +237,7 @@ class CssThemeResolver
      * @throws IGKException 
      * @throws CssParserException 
      */
+
     public function treatThemeValue(string $value, $theme_export){
         if (!empty($v = $this->treat($value, $theme_export))){
             return $this->treatInlineValue($v);
@@ -89,6 +250,7 @@ class CssThemeResolver
      * @return null|string 
      * @throws IGKException 
      */
+
     public function treatInlineValue(string $value){
         $v = $value;
         if (!empty($v) && ($gp = CssParser::Parse($v))){
@@ -101,6 +263,7 @@ class CssThemeResolver
      * @param string $value 
      * @return string 
      */
+
     public function treat(string $value, bool $themeexport = false)
     {
         // + | check not expression 
@@ -276,6 +439,7 @@ class CssThemeResolver
     /**
      * treat css  value
      */
+
     public function treat_value(string $v, bool $themeexport)
     {
         $reg = IGK_CSS_TREAT_REGEX;
@@ -305,6 +469,7 @@ class CssThemeResolver
      * reset theme treatment
      * @return void 
      */
+
     public function reset()
     {
         $this->resolv = [];
@@ -642,6 +807,7 @@ class CssThemeResolver
         }
         return trim($ncl);
     }
+
     protected function _get_bgcl($ncl, bool $themeexport){        
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
     }
@@ -651,6 +817,7 @@ class CssThemeResolver
     * @param mixed $value
     * @param mixed $resolved
     */
+
     protected function _get_fcl($value, $resolved=false){   
         if ($resolved){
             return sprintf("color: %s;", $value);

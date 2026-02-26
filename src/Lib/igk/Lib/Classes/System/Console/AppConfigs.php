@@ -17,11 +17,21 @@ use IGKException;
  */
 class AppConfigs
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $author;
     /**
      * load configuration file
      */
     const ConfigurationFileName = IGK_BALAFON_CONFIG;
+
+    /**
+    * auto generate doc.
+    * @param mixed $init_data
+    */
     public function init($init_data)
     {
         if (!function_exists('readline')) {
@@ -48,6 +58,12 @@ class AppConfigs
             }
         }
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public function __call($name, $args)
     {
         if (method_exists($this, $n = strtolower("read_" . $name))) {
@@ -141,6 +157,7 @@ class AppConfigs
      * @throws IGKException 
      * @throws Exception 
      */
+
     public static function LoadConfigurationFile(string $configFile)
     {
         $wd = dirname($configFile);
@@ -165,6 +182,7 @@ class AppConfigs
      * @param mixed $config 
      * @return void 
      */
+
     public static function InitEnvironment($config)
     {
         foreach (['IGK_MYSQL_DB_SERVER' => 'db_server'] as $k => $v) {

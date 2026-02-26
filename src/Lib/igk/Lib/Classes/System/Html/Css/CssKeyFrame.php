@@ -29,6 +29,12 @@ class CssKeyFrame implements ICssDefinition{
      * @var ?CssKeyFrame
      */
     var $parent;
+
+    /**
+    * .ctr
+    * @param string $name
+    * @param null|mixed $parent
+    */
     public function __construct(string $name, $parent = null)
     {
         $this->name = $name;
@@ -43,6 +49,7 @@ class CssKeyFrame implements ICssDefinition{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function getDefinition($option=null):?string{
         return '@keyframes '.$this->name.'{'.self::RenderDefinition($this->def, $option).'}';
     }

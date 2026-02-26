@@ -9,10 +9,19 @@ use IGKException;
 * @package IGK\System\Html\XML
 */
 final class XmlNodeLoader extends XmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = 'igk:xml-loader';
     private function __construct(){
         parent::__construct();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
@@ -23,6 +32,7 @@ final class XmlNodeLoader extends XmlNode{
      * @return static 
      * @throws IGKException 
      */
+
     public static function CreateFromContent(string $src){
         $n = new static;
         $n->load($src);

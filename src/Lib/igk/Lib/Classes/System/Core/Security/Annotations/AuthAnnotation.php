@@ -12,12 +12,32 @@ use IGK\System\AnnotationBase;
 * @author C.A.D. BONDJE DOUE
 */
 class AuthAnnotation extends AnnotationBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $auth;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $strict;
+
+    /**
+    * .ctr
+    * @param null|string $auth
+    */
     public function __construct(?string $auth)
     {
         $this->auth = $auth;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|bool $strict
+    */
     public function setAuth(?bool $strict){
         $this->strict = $strict;
     }

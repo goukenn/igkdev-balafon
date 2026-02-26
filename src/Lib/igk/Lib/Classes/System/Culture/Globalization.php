@@ -9,12 +9,46 @@ use IGK\Resources\R;
 * @package IGK\System\Culture
 */
 abstract class Globalization{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $decimalSeparator = '.';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $currencyName = 'EUR';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $currencySymbol = '€';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $format = '%.2f';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $symbolPostFix = true;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_regGlobals;
+
+    /**
+    * .ctr
+    */
     protected function __construct(){        
     }
     /**
@@ -22,6 +56,7 @@ abstract class Globalization{
      * @param string $v 
      * @return null|string 
      */
+
     public function getLitteralValue(string $v):?string{
         if (is_numeric($v)){
             $fm = $this->format;
@@ -30,6 +65,12 @@ abstract class Globalization{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $format
+    * @param null|string $lang
+    */
     public static function FromCurrencyFormat(string $format, ?string $lang = null){
         if (is_null(self::$sm_regGlobals)){
             self::$sm_regGlobals = [];

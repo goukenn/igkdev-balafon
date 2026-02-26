@@ -14,21 +14,70 @@ namespace IGK\Ext;
  * */
 class VideoStream
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $path = "";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $stream = "";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $buffer = 102400;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $start  = -1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $end    = -1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $size   = 0;
-	private $m_cache_callback;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_cache_callback;
+
+    /**
+    * .ctr
+    * @param mixed $filePath
+    */
     function __construct($filePath){
         $this->path = $filePath;
 
 		// igk_die("call video stream failed ".igk_io_request_uri());
     }
-	function setCacheCallback($m){
+
+    /**
+    * auto generate doc.
+    * @param mixed $m
+    */
+    function setCacheCallback($m){
 		$this->m_cache_callback = $m;
 	}
+
+    /**
+    * auto generate doc.
+    */
     function stop(){
 		$this->end = -1;
 	}
@@ -137,6 +186,7 @@ class VideoStream
     /**
      * Start streaming video content
      */
+
     function start()
     {
         $this->open();

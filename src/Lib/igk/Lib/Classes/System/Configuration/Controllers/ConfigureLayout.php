@@ -11,7 +11,17 @@ use function igk_resources_gets as __;
 * @package IGK\System\Configuration\Controllers
 */
 class ConfigureLayout{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $controller;
+
+    /**
+    * .ctr
+    * @param mixed $controller
+    */
     public function __construct($controller)
     {
         $this->controller = $controller;
@@ -21,6 +31,7 @@ class ConfigureLayout{
      * @param mixed $n 
      * @return void 
      */
+
     public function configBar($n){
         $n->setClass("+dispflex +flex-space-between flex-alignc");
         $n->div()->setClass("logo svg-fit posab")->Content = igk_svg_use("balafon_logo");
@@ -31,6 +42,7 @@ class ConfigureLayout{
     /**
     * auto generate doc.
     */
+
     public function __toString(){
         return 'layout';
     }

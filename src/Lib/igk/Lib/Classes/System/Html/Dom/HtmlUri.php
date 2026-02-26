@@ -17,10 +17,16 @@ use IGKValidator;
 * @package IGK\System\Html\Dom
 */
 final class HtmlUri extends IGKObject implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_v;
     /**
      * Constructor.
      */
+
     public function __construct(){    }
     /**
      * Returns the URI value, resolving file paths to base URIs when mail options are active.
@@ -28,6 +34,7 @@ final class HtmlUri extends IGKObject implements IHtmlGetValue{
      * @param mixed $options Optional rendering options.
      * @return mixed The resolved URI string or the raw stored value.
      */
+
     public function getValue($options=null){
         $bck=$this->m_v;
         if($options && igk_xml_is_mailoptions($options)){
@@ -56,6 +63,7 @@ final class HtmlUri extends IGKObject implements IHtmlGetValue{
      * @param mixed $v The URI value to store.
      * @return void
      */
+
     public function setValue($v){
         $this->m_v=$v;
     }

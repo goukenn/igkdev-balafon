@@ -135,9 +135,20 @@ class AttributeTemplateTest extends BaseTestCase{
  * dummy controller 
  */
 class DummyController extends NotRegistrableControllerBase{
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return "::test-dummy";
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $s
+    * @return ?string
+    */
     public function getAppUri(?string $s=null):?string{            
         return "test://".$s;
     }

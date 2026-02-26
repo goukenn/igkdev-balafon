@@ -12,12 +12,37 @@ require_once IGK_LIB_DIR."/api/.mysql.pinc";
  * @package IGK\System\Console\Commands
  */
 class MySQLSchemaCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--db:mysql-schema";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "get mysql stored schema";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--prefix-table'=>'flag allow prefix on view'
     ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command){
         DbCommandHelper::Init($command);
         $ctrl = DbConfigController::ctrl();        

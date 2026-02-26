@@ -11,5 +11,10 @@ namespace IGK\Database;
 * @author C.A.D. BONDJE DOUE
 */
 interface IDbEntryDefinition{
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     function getEntryValues():array;
 }

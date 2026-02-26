@@ -11,18 +11,35 @@ use IGKException;
  * @package IGK\System\Html\Forms
  */
 class DefaultValidator extends FormFieldValidatorBase implements IFormValidator, IFormValidationFieldHost{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_fieldInfo;
     /**
      * set validation field
      * @param null|IFormValidationField $field 
      * @return void 
      */
+
     public function setFieldInfo(?IFormValidationField $field){
         $this->_fieldInfo = $field;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?IFormValidationField
+    */
     public function getFieldInfo():?IFormValidationField{
         return $this->_fieldInfo;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     public function assertValidate($value): bool { 
         return true;
     } 
@@ -35,6 +52,7 @@ class DefaultValidator extends FormFieldValidatorBase implements IFormValidator,
      * @return mixed 
      * @throws IGKException 
      */
+
     protected function _validate($value, $default=null, & $error=[], $options=null){ 
         if (empty($value)){
             return $default;

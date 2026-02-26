@@ -9,12 +9,47 @@ namespace IGK\System\Services\Auth;
  * @package IGK\System\Services\Auth
  */
 class AuthSignInfo{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $login;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $verified;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $email;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $gender;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $firstname;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $lastname;
     /**
      * provile picture

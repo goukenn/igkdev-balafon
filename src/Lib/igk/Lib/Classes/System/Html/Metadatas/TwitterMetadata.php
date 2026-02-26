@@ -15,16 +15,47 @@ namespace IGK\System\Html\Metadatas;
 * @package IGK\System\Html\Metadatas
 */
 class TwitterMetadata extends MetadataGroupEntryBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $twitterCard;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $twitterSite;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $twitterCreator;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $twitterTitle;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $twitterDescription;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $twitterImage;
     /**
      * Return the mapping of property names to Twitter meta tag names.
      * @return array
      */
+
     public function map():array{
         return [
             'twitterSite' => 'twitter:site',

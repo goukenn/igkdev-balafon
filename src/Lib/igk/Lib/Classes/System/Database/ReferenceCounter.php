@@ -11,7 +11,17 @@ use IGKEvents;
  */
 class ReferenceCounter
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_refCallback = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $REF_UPDATE;
     /**
      * 
@@ -19,6 +29,7 @@ class ReferenceCounter
      * @param callable $callback 
      * @return void 
      */
+
     public static function Register(ModelBase $data, callable $callback)
     {
         self::$sm_refCallback[] = [
@@ -42,6 +53,10 @@ class ReferenceCounter
             igk_reg_hook(IGKEvents::HOOK_DB_INSERT, self::$REF_UPDATE);
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function Unregister(){
         if (self::$REF_UPDATE){
             igk_unreg_hook(IGKEvents::HOOK_DB_INSERT, self::$REF_UPDATE);

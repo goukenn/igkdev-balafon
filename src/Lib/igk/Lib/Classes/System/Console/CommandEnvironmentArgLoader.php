@@ -10,6 +10,11 @@ namespace IGK\System\Console;
 * @package IGK\System\Console
 */
 class CommandEnvironmentArgLoader{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $separator = "=";
 
     /**
@@ -17,6 +22,7 @@ class CommandEnvironmentArgLoader{
     * @param object $obj
     * @param string $args
     */
+
     public function load(object $obj, string $args){
         $tab = explode($this->separator, $args);
         $key = $tab[0];

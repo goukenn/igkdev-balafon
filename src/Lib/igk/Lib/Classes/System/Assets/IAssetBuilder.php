@@ -8,5 +8,11 @@ namespace IGK\System\Assets;
 * @package IGK\System\Assets
 */
 interface IAssetBuilder{
+
+    /**
+    * auto generate doc.
+    * @param mixed $module
+    * @param string $asset_dir
+    */
     function build($module, string $asset_dir);
 }

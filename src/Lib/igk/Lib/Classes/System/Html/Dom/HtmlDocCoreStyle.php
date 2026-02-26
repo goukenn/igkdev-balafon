@@ -11,10 +11,23 @@ use IGK\System\Html\Dom\HtmlCssLinkNode;
  * @package IGK\System\Html\Dom
  */
 class HtmlDocCoreStyle extends HtmlCssLinkNode{
+
+    /**
+    * .ctr
+    * @param mixed $link
+    * @param mixed $sys
+    * @param mixed $defer
+    */
     public function __construct($link, $sys, $defer)
     {     
         parent::__construct($link, $sys, $defer);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool
     { 
         $doc = null;

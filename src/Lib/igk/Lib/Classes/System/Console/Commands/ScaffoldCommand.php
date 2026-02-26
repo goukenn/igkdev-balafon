@@ -18,10 +18,35 @@ use ReflectionClass;
  */
 class ScaffoldCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--scaffold";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "scaffold";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "scaffold command line";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_scaffold;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
     ];
     private static function _InitScaffOfld(){
@@ -44,6 +69,12 @@ class ScaffoldCommand extends AppExecCommand
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param string $cl
+    */
     public static function RegisterScaffold(string $name, string $cl){
         if(empty($name)){
             throw new ArgumentNotValidException("name");
@@ -56,6 +87,12 @@ class ScaffoldCommand extends AppExecCommand
             self::$sm_scaffold[$name] = $cl;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $cmd
+    */
     public function exec($command, ?string $cmd =null)
     {   
         $result = null;
@@ -77,6 +114,11 @@ class ScaffoldCommand extends AppExecCommand
         }
         return $result;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed ...$args
+    */
     public function help(...$args)
     {
         Logger::print("-");

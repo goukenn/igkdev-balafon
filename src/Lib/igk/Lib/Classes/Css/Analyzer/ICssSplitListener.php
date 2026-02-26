@@ -10,5 +10,11 @@ namespace IGK\Css\Analyzer;
 */
 interface ICssSplitListener
 {
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    * @return array
+    */
     public function split(string $value): array;
 }

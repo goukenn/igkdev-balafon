@@ -14,8 +14,19 @@ use IGK\System\Traits\ActivableTrait;
 class ActionGroupComponent extends WebComponent{
     use HostableItemTrait;
     use FieldsDefintionItemTrait;
-    use ActivableTrait; 
+    use ActivableTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = 'div';
+
+    /**
+    * auto generate doc.
+    * @param array $items
+    * @param null|mixed $options
+    */
     public function fields(array $items, $options = null) { 
         $builder = new ActionGroupBuilder;
         $builder->target = $this;
@@ -23,6 +34,10 @@ class ActionGroupComponent extends WebComponent{
         $builder->build($items);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         $this["class"] = "igk-action-group";

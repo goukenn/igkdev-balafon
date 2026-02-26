@@ -24,6 +24,11 @@ class HtmlBindingRawTransform
      * @var mixed
      */
     var $pipe;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $root_context;
     /**
      * controller
@@ -35,10 +40,19 @@ class HtmlBindingRawTransform
      * @var mixed
      */
     var $key;
+
+    /**
+    * .ctr
+    * @param string $name
+    */
     public function __construct(string $name)
     {
         $this->name = $name;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         if (is_string($this->data)) {

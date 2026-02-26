@@ -15,15 +15,25 @@ use IGK\System\Exceptions\EnvironmentArrayException;
 * @author C.A.D. BONDJE DOUE
 */
 class ViewModuleHelper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_modules;
     /**
      * .ctr
      * @param array &$modules 
      * @return void 
      */
+
     public function __construct(array & $modules ){
         $this->m_modules = $modules;
     }
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return [];
@@ -37,6 +47,7 @@ class ViewModuleHelper{
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
+
     public function require(string $module_name){
         return  igk_require_module($module_name);
     }
@@ -45,6 +56,7 @@ class ViewModuleHelper{
      * @param string $module_name 
      * @return bool 
      */
+
     public function contains(string $module_name){
         return key_exists($module_name, $this->m_modules);
     }
@@ -54,6 +66,7 @@ class ViewModuleHelper{
      * @return mixed 
      * @throws Exception 
      */
+
     public function get(string $module_name){
         return igk_getv($this->m_modules, $module_name);
     }

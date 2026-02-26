@@ -11,11 +11,31 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class ProjectLinkCommand extends AppExecCommand{
-	var $command='--project:link';
-	var $desc='link project to folder'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--project:link';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='link project to folder'; 
 	/* var $options=[]; */
-	var $category="project";
-	public function exec($command) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category="project";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) { 
 		throw new IGKException('not implemented');
 	}
 }

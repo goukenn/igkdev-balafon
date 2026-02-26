@@ -8,5 +8,12 @@ namespace IGK\System\Database;
 * @package IGK\System\Database
 */
 interface IDbRetrieveColumnInfoDriver{
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param null|string $column
+    * @return array
+    */
     function getColumnInfo(string $table, ?string $column=null): array;
 }

@@ -9,12 +9,24 @@ use IGK\System\Html\HtmlRenderer;
 * @package IGK\System\Security\Web
 */
 class HtmlContentValidator extends MapContentValidatorBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $notvalid_msg = "not a valid content.";
     /**
      * remove tags for security reason
      * @var string[]
      */
     var $skipTag = ['style','script'];
+
+    /**
+    * auto generate doc.
+    * @param mixed & $value
+    * @param mixed $key
+    * @return bool
+    */
     protected  function validate(&$value, $key) :bool {   
         $skip_data = function(string $a) {           
             $dv = igk_create_notagnode(); 

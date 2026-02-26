@@ -9,7 +9,18 @@ namespace IGK\Database;
 * @author C.A.D. BONDJE DOUE
 */
 class DbDisplayExpression{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const EXP_REGEX = "/\{(?P<name>[^\}\W]*)\}/";
+
+    /**
+    * auto generate doc.
+    * @param string $subject
+    * @return bool
+    */
     public static function IsDisplayExpression(string $subject):bool{
         return preg_match(self::EXP_REGEX,$subject);
     }
@@ -19,6 +30,7 @@ class DbDisplayExpression{
      * @param mixed $row 
      * @return string|string[]|null 
      */
+
     public static function RenderDisplayExpression(string $exp, $row):string{
         return preg_replace_callback(self::EXP_REGEX, function($m)use($row){
             return igk_getv($row, trim($m['name']));

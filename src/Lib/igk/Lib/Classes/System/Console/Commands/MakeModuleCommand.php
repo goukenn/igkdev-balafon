@@ -25,9 +25,29 @@ use function igk_resources_gets as __;
 * @package IGK\System\Console\Commands
 */
 class MakeModuleCommand extends AppCommand{
-    var $command = "--make:module"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = "--make:module";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "make new module.";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [ 
         "--desc"=>"small description",
         "--git"=>"enabled git configuration",
@@ -42,6 +62,7 @@ class MakeModuleCommand extends AppCommand{
      * @param mixed $command The command context object.
      * @return void
      */
+
     public function run($args, $command)
     {
         $command->exec = function($command, ?string $name=null){
@@ -225,6 +246,7 @@ class MakeModuleCommand extends AppCommand{
      * @param string      $version The module version string.
      * @return string The formatted module definition block.
      */
+
     static function EntryModuleDefinition($author=null, $e_ns=null, $version="1.0" ){
         return <<<EOF
 //------------------------------------------------

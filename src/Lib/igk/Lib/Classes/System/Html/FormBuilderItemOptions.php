@@ -11,6 +11,11 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 */
 class FormBuilderItemOptions implements ArrayAccess{
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
     /**
      * text to litteral presentation
@@ -62,9 +67,20 @@ class FormBuilderItemOptions implements ArrayAccess{
      * @var mixed
      */
     var $data;
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     function _access_offsetGet($n){
         return $this->$n;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     function _access_offsetSet($n, $v){
         $this->$n = $v;        
     }

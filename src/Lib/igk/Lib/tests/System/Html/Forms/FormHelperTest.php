@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class FormHelperTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_formhelper_converttoinputdatetimelocal(){
 
         $this->assertEquals('1983-08-04T20:00', FormHelper::ConvertToInputDateTimelocal("1983-08-04 20:00:00"));

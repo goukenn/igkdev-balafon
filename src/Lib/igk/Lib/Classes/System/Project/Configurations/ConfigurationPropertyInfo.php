@@ -13,6 +13,16 @@ class ConfigurationPropertyInfo{
      * @var string? 'bool' | 'text' | null
      */
     var $clType;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $clDefaultValue;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $clRequire;
 }

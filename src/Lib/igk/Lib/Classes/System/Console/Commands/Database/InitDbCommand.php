@@ -19,15 +19,40 @@ use L81Controller;
 * @package IGK\System\Console\Commands\Database
 */
 class InitDbCommand extends AppExecCommand{
-	var $command="--db:initdb";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command="--db:initdb";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc='init databases';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--clean'=>'flag: enable drop database if exists',
 		'--force'=>'flag: force file creation',
 		// '--downgrade'=>'flag: downgrade',
 	];
-	var $category = "db";
-	var $usage = '[controller] [options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[controller] [options]';
 	/**
 	 * 
 	 * @param mixed $command 
@@ -36,7 +61,8 @@ class InitDbCommand extends AppExecCommand{
 	 * @throws Exception 
 	 * @throws IGKException 
 	 */
-	public function exec($command, ?string $ctrl = null) { 
+
+    public function exec($command, ?string $ctrl = null) { 
 		$c = null;
 		DbCommandHelper::Init($command);
 		$clean = false;

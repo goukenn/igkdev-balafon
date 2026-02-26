@@ -9,9 +9,34 @@ namespace IGK\System\Html\Forms;
  * @package IGK\System\Html\Forms
  */
 class FormPattern{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const number = "^[0-9]+(\.([0-9]+)?)?$";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const integer = "^[0-9]+$";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const url = "^(((http(s){0,1}):)?\/\/([\w\.0-9]+)|(\?))";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const identifier = "(\w|[_]+[\w0-9])([\w0-9_]*)";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const version = "^[0-9]+(\.[0-9]+){0,3}";
 }

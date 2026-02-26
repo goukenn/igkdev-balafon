@@ -8,6 +8,12 @@ namespace IGK\System\Runtime\Compiler\Traits;
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenBracketTrait{
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed $value
+    */
     protected function _checkBracket($options, $value)
     {
         // update branket value

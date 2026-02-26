@@ -9,6 +9,14 @@ namespace IGK\System\Text;
 * @author C.A.D. BONDJE DOUE
 */
 interface IRegexMatcherContainer{
+
+    /**
+    * auto generate doc.
+    * @param string $match
+    * @param null|string $tokenID
+    * @param null|string $refId
+    * @param null|array $patterns
+    */
     function match(string $match, ?string $tokenID=null, ?string $refId=null, ?array $patterns=null);
     function begin(string $begin, ?string $end=null, ?string $tokenID=null, ?string $refId=null, ?array $patterns=null);
     function while(string $begin, ?string $end=null, ?string $tokenID=null, ?string $refId=null, ?array $patterns=null);

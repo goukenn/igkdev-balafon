@@ -8,6 +8,16 @@ namespace IGK\System\Html\Metadatas;
 * @package IGK\System\Html\Metadatas
 */
 class CoreIconDescriptorMetaData{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $rel;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $href;
 }

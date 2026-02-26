@@ -28,5 +28,10 @@ class ApplicationSessionStorage{
      * @var mixed
      */
     var $ctrlParams;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $components;
 }

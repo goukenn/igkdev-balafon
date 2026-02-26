@@ -14,5 +14,10 @@ use stdClass;
  * @package IGK\System\Diagnostics
  */
 class BenchmarkOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $dieOnError; 
 }

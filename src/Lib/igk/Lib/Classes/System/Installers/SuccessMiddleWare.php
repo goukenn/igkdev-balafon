@@ -10,16 +10,23 @@ use function igk_resources_gets as __;
 * Represent SuccessMiddleWare class
 */
 final class SuccessMiddleWare extends InstallerActionMiddleWare{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const EVENT = __CLASS__."::Complete";
     /**
     * 
     */
+
     public function getMessage(){
         return __("welldone");
     }
     /**
     * 
     */
+
     public function invoke(){
         $srv=$this->getServiceInfo();
         if(is_dir($libdir= dirname($srv->LibDir)."/__tempigk")){

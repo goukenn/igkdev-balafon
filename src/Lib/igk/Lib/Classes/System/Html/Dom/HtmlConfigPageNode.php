@@ -9,16 +9,35 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlConfigPageNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $tagname = "div";
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     { 
         parent::initialize();
         $this->setAttribute("class", "igk-cnf-page fit igk-parentscroll igk-powered-viewer overflow-y-a");
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function remove()
     {
         igk_wln_e("try remove... ");
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null): bool
     { 
         return true;

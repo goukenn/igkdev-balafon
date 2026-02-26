@@ -11,17 +11,37 @@ use IGK\System\Text\RegexMatcherContainer;
  */
 class CssSpeudoSplitter implements ICssSplitListener
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_rg;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_rg = new RegexMatcherContainer;
         $this->initialize($this->m_rg);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $rg
+    */
     protected function initialize($rg)
     {
         $rg->appendStringDetection();
         $rg->match(',', 'split');
     }
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    * @return array
+    */
     public function split(string $value): array
     {
         $pos = 0;

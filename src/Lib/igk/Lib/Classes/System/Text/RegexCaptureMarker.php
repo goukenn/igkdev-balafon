@@ -9,8 +9,24 @@ namespace IGK\System\Text;
 * @author C.A.D. BONDJE DOUE
 */
 final class RegexCaptureMarker{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $value;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $list;
+
+    /**
+    * .ctr
+    * @param mixed $value
+    * @param mixed $list
+    */
     public function __construct($value, $list)
     {
         $this->value = $value;

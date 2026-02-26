@@ -13,15 +13,31 @@ use IGKException;
 * @package IGK\System\Html\Forms
 */
 class FormAddressField extends HtmlNode implements IFormValidationNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fields;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "igk:form-address-field";
 
     /**
     * auto generate doc.
     */
+
     public function getCanRenderTag(){
         return false;
     }
+
+    /**
+    * .ctr
+    * @param mixed $fiedname
+    */
     public function __construct($fiedname)
     {
         $this->fieldname = $fiedname;
@@ -41,6 +57,7 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
     * @param mixed & $outputdata
     * @param mixed & $errors
     */
+
     public function validateRequest(& $outputdata, & $errors){
         $outputdata[$this->fieldname] = (object)[
             "street"=>igk_getr("address_street"),
@@ -56,6 +73,7 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
     /**
     * auto generate doc.
     */
+
     protected function initialize()
     {
         parent::initialize();
@@ -66,6 +84,7 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
     * @param null|mixed $options
     * @return bool
     */
+
     protected function _acceptRender($options = null):bool
     {
         if (!parent::_acceptRender($options))
@@ -79,6 +98,7 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function getField($name){
         return igk_getv($this->m_fields, $name);
     }

@@ -18,12 +18,39 @@ use IGK\System\WinUI\IViewLayoutLoader;
 * @author C.A.D. BONDJE DOUE
 */
 class MakeViewLoaderCommand extends AppExecCommand{
-	var $command='--make:view-layout';
-	var $desc='make a view layout class';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--make:view-layout';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='make a view layout class';
 	/* var $options=[]; */
-	var $category = 'make';
-	var $usage = 'controller name [options]'; 	
-	public function exec($command, ?string $controller=null, ?string $name=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'make';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller name [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $name
+    */
+    public function exec($command, ?string $controller=null, ?string $name=null) { 
 		$ctrl = self::GetController($controller);
 		if (empty($name)){
 			igk_die('missing name');

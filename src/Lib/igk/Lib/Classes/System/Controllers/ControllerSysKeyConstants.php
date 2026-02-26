@@ -11,5 +11,10 @@ namespace IGK\System\Controllers;
 * @author C.A.D. BONDJE DOUE
 */
 class ControllerSysKeyConstants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const subdomain = 'subdomain';
 }

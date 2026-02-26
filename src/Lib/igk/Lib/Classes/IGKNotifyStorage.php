@@ -14,7 +14,17 @@ use function igk_resources_gets as __;
 * auto generate doc.
 */
 class IGKNotifyStorage{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_name, $tab;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_autohide;
 
     /**
@@ -22,6 +32,7 @@ class IGKNotifyStorage{
     * @param mixed $name
     * @param mixed $args
     */
+
     public function __call($name, $args){
         if(method_exists($this, $fc="add".$name)){
             return $this->$fc(...$args);
@@ -40,6 +51,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function addDanger($msg){
         return $this->addError(...func_get_args());        
     }
@@ -48,6 +60,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function addError($msg){
         $this->tab[]=["type"=>"igk-danger", "msg"=>$msg];
         return $this;
@@ -57,6 +70,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function addErrorr($msg){
         $this->addError(__($msg));
         return $this;
@@ -67,6 +81,7 @@ class IGKNotifyStorage{
     * @param mixed $msg
     * @param null|string $type
     */
+
     public function addMsg($msg, ?string $type='igk-defaul'){
         $this->tab[]=["type"=>$type, "msg"=>$msg];
         return $this;
@@ -76,6 +91,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function addMsgr($msg){
         $this->addMsg(__($msg));
         return $this;
@@ -85,6 +101,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function addSuccess($msg){
         $this->tab[]=["type"=>"igk-success", "msg"=>$msg];
         return $this;
@@ -94,6 +111,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function addSuccessr($msg){
         $this->tab[]=["type"=>"igk-success", "msg"=>__($msg)];
         return $this;
@@ -103,6 +121,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function addWarning($msg){
         $this->tab[]=["type"=>"igk-warning", "msg"=>$msg];
         return $this;
@@ -112,6 +131,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function addWarningr($msg){
         $this->tab[]=["type"=>"igk-warning", "msg"=>__($msg)];
         return $this;
@@ -120,6 +140,7 @@ class IGKNotifyStorage{
     /**
     * auto generate doc.
     */
+
     public function clear(){
         array_splice($this->tab, 0);
         return $this;
@@ -130,6 +151,7 @@ class IGKNotifyStorage{
     * @param mixed & $tab
     * @param mixed $name
     */
+
     public static function Create(& $tab, $name){
         if($tab === null){
             return null;
@@ -145,6 +167,7 @@ class IGKNotifyStorage{
     /**
     * auto generate doc.
     */
+
     public function getName(){
         return $this->m_name;
     }
@@ -152,6 +175,7 @@ class IGKNotifyStorage{
      * notity storage 
      * @return mixed 
      */
+
     public function & getTab(){  
         return $this->tab;
     }
@@ -160,6 +184,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param null|mixed & $options
     */
+
     public function renderAJX(& $options=null){
         igk_die(__METHOD__. " Not implement");
     }
@@ -168,6 +193,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param bool $hide
     */
+
     public function setAutohide(bool $hide){
         $this->m_autohide = $hide;
         return $this;
@@ -176,6 +202,7 @@ class IGKNotifyStorage{
     /**
     * auto generate doc.
     */
+
     public function getAutohide(){
         return $this->m_autohide;        
     }
@@ -184,6 +211,7 @@ class IGKNotifyStorage{
     * auto generate doc.
     * @param array $data
     */
+
     public function setResponse(array $data){
         $this->tab=[$data];
         return $this;
@@ -191,6 +219,7 @@ class IGKNotifyStorage{
     /**
      * get messages
      */
+
     public function getMessages(){
         return array_map(function($a){ return $a['msg']; }, $this->tab);
     }

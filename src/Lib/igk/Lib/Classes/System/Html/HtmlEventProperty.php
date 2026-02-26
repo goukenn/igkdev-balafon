@@ -16,8 +16,23 @@ use ArrayAccess;
 */
 class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     use \IGK\System\Polyfill\EventPropertyArrayAccessTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_n;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_p;
+
+    /**
+    * .ctr
+    * @param mixed $name
+    */
     protected function __construct($name){
         $this->_n=$name;
         $this->_p=[];
@@ -27,6 +42,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     * auto generate doc.
     * @param mixed $n
     */
+
     public function __get($n){
         return igk_getv($this->_p, $n);
     }
@@ -36,6 +52,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     * @param mixed $n
     * @param mixed $v
     */
+
     public function __set($n, $v){
         switch(strtolower($n)){
             case '@__callback':
@@ -54,6 +71,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     /**
     * auto generate doc.
     */
+
     public function __toString(){
         return get_class($this). " : ".$this->_n;
     }
@@ -62,6 +80,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     * auto generate doc.
     * @param mixed $name
     */
+
     public static function CreateEventProperty($name){
         return new HtmlEventProperty($name);
     }
@@ -69,6 +88,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     /**
     * auto generate doc.
     */
+
     public function getid(){
         return $this->_n;
     }
@@ -77,6 +97,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     * auto generate doc.
     * @param null|mixed $options
     */
+
     public function getValue($options=null){
         $s="";
         if(is_string($this->_p)){
@@ -100,6 +121,7 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     * auto generate doc.
     * @param mixed $id
     */
+
     public function setid($id){
         $this->_n=$id;
     }

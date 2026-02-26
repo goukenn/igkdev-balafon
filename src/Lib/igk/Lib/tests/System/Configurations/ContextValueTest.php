@@ -61,11 +61,17 @@ MSG_EOF, "balafon");
 */
 class DummyExpression extends SysAppConfigExpression
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tag = "baba";
 
     /**
     * auto generate doc.
     */
+
     public function getOperator()
     {
         return "operator:1";

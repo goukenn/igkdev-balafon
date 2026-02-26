@@ -12,12 +12,20 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html
 */
 class HtmlClassValueAttributeTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_add_class(){
         $t = igk_create_node('div');
         $this->assertEquals(
             '', $t['class']?->getValue()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_add_class_array(){
         $t = new HtmlNode('div');
         $t->setClass( ['info', 'data'=>true]);

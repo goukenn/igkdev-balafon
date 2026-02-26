@@ -8,6 +8,11 @@ namespace IGK\System\Views;
 * @package IGK\System\Views
 */
 interface IDbTableViewFilter{
+
+    /**
+    * auto generate doc.
+    * @param mixed $firstRow
+    */
     public function getHeaderList($firstRow);
     public function filter($key, $value, $node);
 }

@@ -12,6 +12,13 @@ use function igk_resources_gets as __;
  * @package IGK\Exceptions
  */
 class BindingContextPropertyNotFoundException extends IGKException{
+
+    /**
+    * .ctr
+    * @param string $propertyname
+    * @param mixed $code
+    * @param null|Throwable $throw
+    */
     public function __construct(string $propertyname,$code=500, ?Throwable $throw=null)
     {
         $msg = __("Property {0} not found", $propertyname);

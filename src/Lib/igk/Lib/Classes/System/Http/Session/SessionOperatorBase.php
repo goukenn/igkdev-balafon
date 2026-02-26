@@ -8,5 +8,10 @@ namespace IGK\System\Http\Session;
 * @package IGK\System\Http\Session
 */
 abstract class SessionOperatorBase{
+
+    /**
+    * auto generate doc.
+    * @param mixed $a
+    */
     public abstract function invoke($a);
 }

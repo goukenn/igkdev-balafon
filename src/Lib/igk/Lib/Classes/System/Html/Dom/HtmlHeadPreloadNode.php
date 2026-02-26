@@ -11,6 +11,11 @@ use IGK\System\Html\Dom\HtmlNoTagNode;
 * @package IGK\System\Html\Dom
 */
 final class HtmlHeadPreloadNode extends HtmlNoTagNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
     /**
      * Constructor.
@@ -23,6 +28,7 @@ final class HtmlHeadPreloadNode extends HtmlNoTagNode{
      *
      * @return self
      */
+
     public static function getItem(){
         if (is_null(self::$sm_instance)){
             self::$sm_instance = new self;

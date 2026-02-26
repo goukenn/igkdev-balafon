@@ -75,9 +75,17 @@ class Replacement{
         $this->infos[] = $rp;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clear(){
         $this->infos = [];
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return __CLASS__;
@@ -87,6 +95,7 @@ class Replacement{
      * @param mixed $s 
      * @return mixed 
      */
+
     public static function RegexWord($s){
         $s = str_replace("/","\/", $s);
         $s = str_replace(".",'\.', $s);
@@ -99,6 +108,7 @@ class Replacement{
      * @param string $op option to add 
      * @return string 
      */
+
     public static function RegexExpressionFromString(string $s, $delimiter="/", $op=""){
         $s = self::RegexWord($s);
         return $delimiter.$s.$delimiter.$op;
@@ -110,6 +120,7 @@ class Replacement{
      * @param int $flag 
      * @return Closure(mixed $s): bool 
      */
+
     public static function NotMatchRegex($regex, & $tab=null, $flag=0){
         return function($s)use($regex, & $tab, $flag){
             return !preg_match($regex, $s, $tab, $flag);
@@ -121,6 +132,7 @@ class Replacement{
      * @param mixed $replace_data 
      * @return string 
      */
+
     public static function Bind(string $template, ?array $replace_data=null){
         if (is_array($replace_data)) {
 			$rp = new Replacement;

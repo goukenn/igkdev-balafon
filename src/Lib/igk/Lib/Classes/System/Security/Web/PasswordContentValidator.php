@@ -11,6 +11,13 @@ use function igk_resources_gets as __;
  */
 class PasswordContentValidator extends MapContentValidatorBase
 {
+
+    /**
+    * auto generate doc.
+    * @param mixed & $value
+    * @param mixed $key
+    * @return bool
+    */
     protected function validate(&$value, $key): bool
     {
         // system password rules

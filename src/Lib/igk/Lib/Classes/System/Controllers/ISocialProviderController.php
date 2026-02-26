@@ -8,5 +8,9 @@ namespace IGK\System\Controllers;
 * @package IGK\System\Controllers
 */
 interface ISocialProviderController{
+
+    /**
+    * auto generate doc.
+    */
     function registerProviders();
 }

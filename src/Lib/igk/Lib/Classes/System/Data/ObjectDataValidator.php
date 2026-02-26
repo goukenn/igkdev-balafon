@@ -38,7 +38,11 @@ class ObjectDataValidator implements IDataValidator{
         // update action request data 
         $requestData = new DataArgs($r);
         return true;
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function getDataValidatorMapper(){
         return [];
     }

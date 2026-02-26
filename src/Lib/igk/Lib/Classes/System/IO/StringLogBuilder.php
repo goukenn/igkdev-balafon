@@ -10,7 +10,18 @@ namespace IGK\System\IO;
 * @package IGK\System\IO
 */
 class StringLogBuilder extends StringBuilder{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_listener;
+
+    /**
+    * .ctr
+    * @param mixed & $src
+    * @param callable $listener
+    */
     public function __construct(& $src, callable $listener)
     {
         parent::__construct($src);        
@@ -21,6 +32,7 @@ class StringLogBuilder extends StringBuilder{
     * auto generate doc.
     * @param mixed $text
     */
+
     public function appendLine($text){
         $this->append($text."\n");
     }
@@ -29,6 +41,7 @@ class StringLogBuilder extends StringBuilder{
     * auto generate doc.
     * @param mixed $text
     */
+
     public function append($text){
         if (($fc = $this->m_listener)&& $fc()){            
             $this->m_src .= $text; 

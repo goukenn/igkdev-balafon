@@ -11,7 +11,17 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class JSonObjClassConverter extends JSonBindToConverterBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $type;
+
+    /**
+    * .ctr
+    * @param mixed $type
+    */
     public function __construct($type){
         $this->type = $type;
     }
@@ -22,6 +32,7 @@ class JSonObjClassConverter extends JSonBindToConverterBase{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function convert($value, $options=null) {  
         if (is_null($value)){
             return null;

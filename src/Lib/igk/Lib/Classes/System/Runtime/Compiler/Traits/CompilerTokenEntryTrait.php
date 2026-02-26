@@ -8,6 +8,12 @@ namespace IGK\System\Runtime\Compiler\Traits;
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenEntryTrait{
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @return ?string
+    */
     public function compileFile(string $file): ?string
     {
         if (!empty($file) && is_file($file)) {
@@ -21,6 +27,7 @@ trait CompilerTokenEntryTrait{
      * @return null|string 
      * @throws IGKException 
      */
+
     public function compileSource(string $source): ?string
     {
         $this->parseToken($source);

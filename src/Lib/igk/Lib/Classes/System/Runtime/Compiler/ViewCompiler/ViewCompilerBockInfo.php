@@ -8,7 +8,17 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewCompilerBockInfo{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONDITION_BLOCK = "if|while|foreach|elseif|for|switch|catch";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INNER_BLOCK = "else|elseif|case|default";
     /**
      * 
@@ -35,7 +45,17 @@ class ViewCompilerBockInfo{
      * @var string
      */
     var $buffer = "";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_isClose;
+
+    /**
+    * .ctr
+    * @param string $type
+    */
     public function __construct(string $type)
     {
         $this->type = $type;   
@@ -45,9 +65,14 @@ class ViewCompilerBockInfo{
      * require condition block
      * @return bool 
      */
+
     public function requireCondition():bool{
         return in_array($this->type, explode("|", self::CONDITION_BLOCK));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function startBlock(){
         $c = $this->condition;
         switch($this->type){
@@ -60,6 +85,10 @@ class ViewCompilerBockInfo{
         }
         return $this->type.$c.":";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function endBlock(){
         switch($this->type){
             case 'case':
@@ -67,6 +96,11 @@ class ViewCompilerBockInfo{
         }
         return sprintf("end%s;", $this->type);
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function isInnerBlock() : bool{
         return in_array($this->type, explode("|", self::INNER_BLOCK));
     }
@@ -75,6 +109,7 @@ class ViewCompilerBockInfo{
      * @param string $type 
      * @return bool 
      */
+
     public function childOf(string $type):bool{
         $tab =[
             "if"=>["else","elseif"],
@@ -85,12 +120,24 @@ class ViewCompilerBockInfo{
         $g = igk_getv($tab, $type);
         return array_search($this->type, $g) !== false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function isChildContainer(){
         return in_array($this->type, ["if", "switch", "case", "default"]);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function close(){
         $this->m_isClose = true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function closed(){
         return $this->m_isClose;
     }

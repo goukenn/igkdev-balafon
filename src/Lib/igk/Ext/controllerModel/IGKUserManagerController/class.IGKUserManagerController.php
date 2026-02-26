@@ -19,10 +19,15 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	/** @var StdClass $m_user */
 	private $m_user;
 
-	public function getUser(){return $this->m_user; }
-	 
-	 
-	protected function getDefaultDataTableInfo(){//get default data tbale infor
+    /**
+    * auto generate doc.
+    */
+    public function getUser(){return $this->m_user; }
+
+    /**
+    * auto generate doc.
+    */
+    protected function getDefaultDataTableInfo(){//get default data tbale infor
 		return array(
 		new DbColumnInfo(array(IGK_FD_NAME=>"clId", IGK_FD_TYPE=>"Int", IGK_FD_TYPELEN=>11, "clIsUnique"=>true, "clIsPrimary"=>true, "clAutoIncrement"=>true)),
 		new DbColumnInfo(array(IGK_FD_NAME=>"clLogin", IGK_FD_TYPE=>"VARCHAR", IGK_FD_TYPELEN=>60, "clIsUnique"=>true,"clDescription"=>"email for login")),
@@ -33,7 +38,13 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		new DbColumnInfo(array(IGK_FD_NAME=>"clDescription", IGK_FD_TYPE=>"Text", "clDescription"=>"description that mark is user"))
 		);
 	}
-	public function initDataEntry($dbman, $tbname=null)
+
+    /**
+    * auto generate doc.
+    * @param mixed $dbman
+    * @param null|mixed $tbname
+    */
+    public function initDataEntry($dbman, $tbname=null)
 	{
 		$tb = $this->getDataTableName();
 		$tabInfo = $this->getDataTableInfo();
@@ -57,7 +68,11 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		$obj->clAvailable = 0;
 		$dbman->Insert($tb, (array)$obj);
 	}
-	public function getIsUserConnected(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getIsUserConnected(){
 		return ($this->m_user != null);
 	}
 	/**
@@ -72,7 +87,8 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 	 * @throws ArgumentTypeNotValidException 
 	 * @throws ReflectionException 
 	 */
-	public function connect($login=null, $pwd=null){
+
+    public function connect($login=null, $pwd=null){
 		$login = ($login==null)?igk_getp("clLogin", $login):$login;
 		$pwd = ($pwd==null)?igk_getp("clPwd", $pwd):$pwd;
 		$obj = igk_db_getobj($this->getDataTableInfo());
@@ -96,21 +112,32 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		return false;
 	}
 
-	public function logout(){
+    /**
+    * auto generate doc.
+    */
+    public function logout(){
 		if ($this->m_user !=null)
 		{
 			$this->m_user = null;
 			$this->App->Session->User = null;
 		}
 	}
-	public function resetPwd(){
+
+    /**
+    * auto generate doc.
+    */
+    public function resetPwd(){
 		if ($this->getIsUserConnected())
 		{
 			$this->m_user->clPwd = md5("clPwd");
 			Users::update(["clPwd"=>$this->m_user->clPwd ], array("clId"=>$this->m_user->clId) );
 		}
 	}
-	public function updateUserInfo()
+
+    /**
+    * auto generate doc.
+    */
+    public function updateUserInfo()
 	{
 		if (!$this->m_user)
 			return false;
@@ -127,13 +154,21 @@ abstract class IGKUserManagerController extends \IGK\Controllers\ControllerTypeB
 		igk_notifyctrl()->addMsgr("msg.userinfo.updated");
 		return true;
 	}
-	public function connect_frame(){
+
+    /**
+    * auto generate doc.
+    */
+    public function connect_frame(){
 		$this->setCurrentView("connexion", true);
 		$frame =  igk_html_frame($this, "connexion");
 		$frame->Title = R::ngets("title.connexion");
 		$frame->render();
 	}
-	public function register_frame(){
+
+    /**
+    * auto generate doc.
+    */
+    public function register_frame(){
 		$this->setCurrentView("register", true);
 	}
 }

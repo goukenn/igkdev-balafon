@@ -15,9 +15,28 @@ use IGKException;
 * @package IGK\System\Html\Dom
 */
 class HtmlHeadNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "head";
-    private $m_title; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_title;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_scripts = [];
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         parent::__construct();
@@ -29,6 +48,7 @@ class HtmlHeadNode extends HtmlNode{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function setTitle($value){
         if ($this->m_title == null){
             $this->m_title = new HtmlNode("title");
@@ -41,6 +61,7 @@ class HtmlHeadNode extends HtmlNode{
      * return header title
      * @return mixed 
      */
+
     public function getTitle(){
         if ($this->m_title){
             return $this->m_title->content;
@@ -51,6 +72,7 @@ class HtmlHeadNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getPreload(){
         return HtmlHeadPreloadNode::getItem();
     }
@@ -60,6 +82,7 @@ class HtmlHeadNode extends HtmlNode{
     * @param null|array $list
     * @param bool $temp
     */
+
     public function load_scripts(?array  $list, bool $temp = false){
         $this->m_scripts = $list;
         return $this;
@@ -68,6 +91,7 @@ class HtmlHeadNode extends HtmlNode{
     * 
     * @param mixed $options the default value is null
     */
+
     protected function _getRenderingChildren($options=null){
        // + | --------------------------------------------------------------------
        // + | for good header processing item order are important

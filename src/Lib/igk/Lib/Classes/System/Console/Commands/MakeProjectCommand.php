@@ -42,9 +42,29 @@ use stdClass;
  */
 class MakeProjectCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--make:project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "make new project.";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--type:[type]" => "project type. default is ApplicationController::class",
         "--entryNamespace:[namespace]" => "define project entry NS",
@@ -57,12 +77,23 @@ class MakeProjectCommand extends AppExecCommand
         "--conf:[name=value]" => "set configuration",
         "--version" => "application version"
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $entryNamespace;
     /**
      * define author
      * @var mixed
      */
     protected $author;
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed $controller
+    */
     public function exec($command, $controller = "")
     {
         if (empty($controller)) {
@@ -438,12 +469,23 @@ EOF;
         }
         Logger::success("done\n");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $f
+    */
     protected function _store_article($f)
     {
         $builder = new PHPScriptBuilder();
         $builder->type("function")->file(basename($f));
         igk_io_w2file($f, $builder->render());
     }
+
+    /**
+    * auto generate doc.
+    * @param array & $bind
+    * @param mixed $dir
+    */
     protected function _bind_articles(array &$bind, $dir)
     {
         $tab = R::GetSupportedLangs();
@@ -458,6 +500,7 @@ EOF;
     /**
      * 
      */
+
     protected function _bind_langs(array &$bind, $dir)
     { 
         $touch = function ($file) {
@@ -475,6 +518,12 @@ EOF;
             $bind[$dir . "/Configs/Lang/lang." . $l . IGK_LANG_FILE_EXTENSION] = $touch;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param array & $bind
+    * @param mixed $dir
+    */
     protected function _bind_layout(array &$bind, $dir)
     {
         $view_dir = implode("/", [$dir, IGK_VIEW_FOLDER]);
@@ -503,6 +552,13 @@ EOF;
             igk_io_w2file($f, $builder->render());
         };
     }
+
+    /**
+    * auto generate doc.
+    * @param array & $bind
+    * @param mixed $dir
+    * @param mixed $controller
+    */
     protected function _bind_database(array &$bind, $dir, $controller)
     {
         $bind[$dir . "/" . IGK_LIB_FOLDER . "/" . IGK_CLASSES_FOLDER . "/Database/InitMacros.php"] = function ($file) use ($controller) {
@@ -580,6 +636,10 @@ EOF;
         };
     }
     ///<summary>Represente help function</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function help()
     {
         Logger::print("-");

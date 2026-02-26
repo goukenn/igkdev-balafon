@@ -9,6 +9,11 @@ namespace IGK\System\Annotations;
 */
 class PhpDocBlocReader
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_docblock;
     /**
      * 
@@ -17,6 +22,7 @@ class PhpDocBlocReader
      * @param ?array $filter list of class annotation to filter 
      * @return IGK\System\IO\File\Php\Traits\PHPDocCommentParser 
      */
+
     public function readDoc(string $docblock, array $uses, ?array $filter=null)
     {
         $this->m_docblock = $docblock;
@@ -31,6 +37,7 @@ class PhpDocBlocReader
      * retrieve source document block
      * @return mixed 
      */
+
     function getDocBlock(){
         return $this->m_docblock;
     }

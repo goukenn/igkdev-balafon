@@ -25,10 +25,30 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(int|\IGK\Models\Users $clUser_Id, string $clModel, int $clNextValue) add entry if not exists. check for unique column.
 * */
 class UsersReferenceModels extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_USER_ID="clUser_Id";
-	const FD_CL_MODEL="clModel";
-	const FD_CL_NEXT_VALUE="clNextValue";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_USER_ID="clUser_Id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_MODEL="clModel";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NEXT_VALUE="clNextValue";
 	/**
 	* table's name
 	*/

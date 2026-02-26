@@ -8,7 +8,17 @@ namespace IGK\System\Html\Css;
 * @package IGK\System\Html\Css
 */
 abstract class CssEnvironment{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY = __CLASS__.":/init";
+
+    /**
+    * auto generate doc.
+    * @param string $cl
+    */
     public static function GetInitClass(string $cl){
         static $sm_init;
         if (is_null($sm_init)){

@@ -9,19 +9,50 @@
 */
 final class IGKBillingDetailsEntry
 {
-	var $clId;
-	var $clUId;
-	var $clBillId;
-	var $clRefId;
-	var $clQte;
-	var $clAmount;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clId;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clUId;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clBillId;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clRefId;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clQte;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clAmount;
 
 	/**
 	 * Return the string representation of this billing details entry.
 	 *
 	 * @return string
 	 */
-	public function __toString(){
+
+    public function __toString(){
 		return __CLASS__;
 	}
 }

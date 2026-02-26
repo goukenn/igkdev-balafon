@@ -16,9 +16,28 @@ use ReflectionClass;
  */
 class EnvControllerCacheList{
    //  use CachableDataTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FILE = ".env.controller.cache";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_cachelist;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_changed;
+
+    /**
+    * auto generate doc.
+    */
     public static function GetCacheFile(){
         return igk_io_cachedir().'/'. self::FILE;
     }
@@ -26,6 +45,7 @@ class EnvControllerCacheList{
      * get declared class list
      * @return mixed 
      */
+
     public static function GetControllersClasses(){ 
         if (is_null(self::$sm_cachelist)){ 
             $tab = false;

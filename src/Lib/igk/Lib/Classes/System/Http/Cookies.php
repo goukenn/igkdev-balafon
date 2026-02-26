@@ -13,6 +13,11 @@ namespace IGK\System\Http;
 * @package IGK\System\Http
 */
 class Cookies{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const USER_ID = 'uid';
     /**
      * store cookies
@@ -21,6 +26,7 @@ class Cookies{
      * @param mixed $options 
      * @return void 
      */
+
     public static function StoreCookie(string $name, ?string $value=null, $options=null){
         if (!is_null($value)){
             if (is_null($options)){

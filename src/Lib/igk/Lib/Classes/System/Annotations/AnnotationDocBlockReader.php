@@ -17,21 +17,76 @@ use IGK\Constants;
 class AnnotationDocBlockReader extends PhpDocBlockBase
 {
     use PHPDocCommentParseTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BEFORE_CREATE_INSTANCE_METHOD = 'BeforeCreateInstance';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_uses;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_alias;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $summary;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $api;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $params;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $package;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $var;
     /**
      * annotation in uses
      * @var array
      */
     private $m_annotations = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_filter;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_reader;
+
+    /**
+    * auto generate doc.
+    * @param null|array $cm
+    */
     public static function Uses(?array $cm)
     {
         if (is_null($cm)) {
@@ -45,6 +100,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * get annocation object
      * @return array 
      */
+
     public function getAnnotations()
     {
         return $this->m_annotations;
@@ -60,6 +116,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @return ?string 
      * @throws Exception 
      */
+
     static function ResolveClassType(string $name){
         $cl = null;
         $sp = strpos($name, '\\') === false;
@@ -74,6 +131,12 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
         }
         return $cl;
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         $cl = null;
@@ -116,6 +179,7 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
      * @param string $class_name 
      * @return null|string 
      */
+
     public static function GetExistingClass(string $class_name): ?string{
         foreach(['',Constants::ANNOTATION_SUFFIX] as $suffix){
             if (class_exists($cl = $class_name.$suffix)){

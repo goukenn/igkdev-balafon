@@ -16,22 +16,42 @@ require_once __DIR__."/AccordeonCookiePanel.php";
 final class HtmlAccordeonItem extends HtmlNode
 implements IHtmlCookieItem
 {
-	private $m_CookieId;
-	private $m_panCount;
-	private $m_script;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_CookieId;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_panCount;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_script;
 
     /**
     * auto generate doc.
     */
+
     public function getCookieId(){return $this->m_CookieId; }
 
     /**
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setCookieId($v){ $this->m_CookieId = $v; return $this;}
 
-	public function __construct(){
+    /**
+    * .ctr
+    */
+    public function __construct(){
 		parent::__construct("div");
 		// igk-panel-group panel-group
 		$this["class"] = "igk-accordeon";
@@ -44,6 +64,7 @@ implements IHtmlCookieItem
     * auto generate doc.
     * @param null|mixed $o
     */
+
     protected function _getRenderingChildren($o=null){
 		$s = parent::_getRenderingChildren($o);
 		if ($this->m_script)
@@ -55,6 +76,7 @@ implements IHtmlCookieItem
     * auto generate doc.
     * @param mixed $t
     */
+
     public function initDemo($t){
 
 		// igk_die("kljb");
@@ -79,6 +101,7 @@ EOF;
     * @param mixed $content
     * @param mixed $active
     */
+
     public function addPanel($title, $content, $active=false)
 	{
 		$d = $this->div();

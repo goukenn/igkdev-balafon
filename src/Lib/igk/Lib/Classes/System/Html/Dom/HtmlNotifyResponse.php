@@ -9,29 +9,65 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlNotifyResponse extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "div";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $autohide;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_notifytype;
     /**
      * set the autohide 
      * @param null|bool $autohide 
      * @return void 
      */
+
     public function setAutohide(?bool $autohide){
         $this->autohide = $autohide;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $type
+    */
     public function setNotifyType($type){
         $this->m_notifytype = $type;
         return $this;
     }
+
+    /**
+    * .ctr
+    * @param mixed $name
+    * @param null|bool $autohide
+    */
     public function __construct($name, ?bool $autohide=null)
     {
         $this->autohide = $autohide;
         $this->name = $name;
         parent::__construct();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         $this["class"] = "igk-notify-host";
@@ -46,6 +82,7 @@ class HtmlNotifyResponse extends HtmlNode{
      * 
      * @return false 
      */
+
     public function getCanAddChilds()
     {
         return false;
@@ -54,11 +91,18 @@ class HtmlNotifyResponse extends HtmlNode{
      * 
      * @return bool 
      */
+
     public function getIsVisible(): bool
     {
         $not = igk_notifyctrl($this->name);
         return $not && ($t = $not->getTab()) && (count($t)> 0);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool{
         if (!$this->getIsVisible()){
             return false;
@@ -71,6 +115,11 @@ class HtmlNotifyResponse extends HtmlNode{
             $this["class"] = '+igk-anim-autohide'; 
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getRenderedChilds($options = null)
     {
         $not = igk_notifyctrl($this->name);

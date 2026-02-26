@@ -17,15 +17,40 @@ use IGK\System\Text\RegexMatcherCapture;
  */
 trait FormatterSplitterTrait
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_splitter_join;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_split_node;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_marked;
+
+    /**
+    * auto generate doc.
+    * @param null|string $source
+    * @return string
+    */
     public function output(?string $source = null): string
     {
         $s = $this->_treatOuput(parent::output($source));
         return $s;
     }
 
+    /**
+    * auto generate doc.
+    * @param string $o
+    */
     protected function _treatOuput(string $o)
     {
         if ($this->m_split_node) {
@@ -38,6 +63,7 @@ trait FormatterSplitterTrait
      * @param string $v 
      * @return string 
      */
+
     protected function willFormatContentBeforePrefixTabStop(string $v): string
     {
         return ltrim($v);
@@ -49,6 +75,7 @@ trait FormatterSplitterTrait
      * @param array $args 
      * @return mixed 
      */
+
     protected function _dispatch($e, string $fname, array $args)
     {
         return call_user_func_array([$e, $fname], $args);
@@ -60,6 +87,7 @@ trait FormatterSplitterTrait
      * @param mixed $chainCallback on chain  
      * @return string[]|string 
      */
+
     protected function _treatChains(RegexMatcherCapture $e, $chains, ?callable $chainCallback = null)
     {
         $n = $cp = null;
@@ -144,6 +172,7 @@ trait FormatterSplitterTrait
      * @param mixed &$list 
      * @return void 
      */
+
     protected function formatSplittedList(RegexMatcherCapture $e, array &$list)
     {
         $dt = &$list;
@@ -177,6 +206,7 @@ trait FormatterSplitterTrait
      * @return void 
      * @throws Exception 
      */
+
     protected function _treatFlags(IReplaceCapturedFormatDefinition $e)
     {
         if (!$flags = $e->match->flags) {
@@ -196,6 +226,7 @@ trait FormatterSplitterTrait
      * @param IReplaceCapturedFormatDefinition $e 
      * @return string 
      */
+
     public function transform(IReplaceCapturedFormatDefinition $e): string
     {
         $tv = $e->value;
@@ -250,6 +281,7 @@ trait FormatterSplitterTrait
      * @throws ReflectionException 
      * @throws CssParserException 
      */
+
     public function splitterJoin(): string
     {
         if (is_null($this->m_splitter_join)) {

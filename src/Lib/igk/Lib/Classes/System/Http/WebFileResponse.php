@@ -34,11 +34,21 @@ class WebFileResponse extends RequestResponse{
      * @var int?
      */
     var $cache;
+
+    /**
+    * .ctr
+    * @param string $file
+    * @param null|string $content_type
+    */
     public function __construct(string $file, ?string $content_type=null)
     {
         $this->file = $file;
         $this->content_type = $content_type;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function render()
     {
         ob_start();
@@ -46,6 +56,10 @@ class WebFileResponse extends RequestResponse{
         $s= ob_get_clean();
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function output()
     {
         // +| check for header mimetype according to file extension        

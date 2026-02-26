@@ -16,10 +16,20 @@ class ApiApplication extends IGKApplicationBase
      * controller used to initialize the api servivce  
      * @var mixed
      */
-    var $controller; 
+    var $controller;
+
+    /**
+    * auto generate doc.
+    */
     public function bootstrap() {       
         $this->library("mysql");
     }
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @param mixed $render
+    */
     public function run(string $file, $render=1){   
         $app = IGKApp::RunApiEngine($this, 0);
         // DataAdapter::Register([

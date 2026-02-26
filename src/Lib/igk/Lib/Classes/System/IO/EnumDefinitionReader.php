@@ -9,9 +9,21 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 * @package IGK\System\IO
 */
 class EnumDefinitionReader extends ConfigurationReader{
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     protected function _readName(): ?string{
         return trim($this->_readData($this->separator) ?? '');
     }
+
+    /**
+    * auto generate doc.
+    * @param string $ch
+    * @param string $end
+    * @return bool
+    */
     protected function _readLitteralEnd(string $ch, string $end):bool{
         return ($ch==$this->delimiter) || ($ch == $end);
     }

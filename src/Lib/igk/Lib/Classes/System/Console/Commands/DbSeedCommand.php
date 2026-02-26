@@ -9,12 +9,39 @@ use IGK\System\Console\AppExecCommand;
 * @package IGK\System\Console\Commands
 */
 class DbSeedCommand extends AppExecCommand{
-	var $command='--db:seed';
-	var $desc='seed controller\'s database';
-	var $category='db'; 
-	var $usage  = "[controller] [class] [options]";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:seed';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='seed controller\'s database';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category='db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage  = "[controller] [class] [options]";
 	/* var $options=[]; */
-	public function exec($command, $ctrl = null, $class = null) {
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $ctrl
+    * @param null|mixed $class
+    */
+    public function exec($command, $ctrl = null, $class = null) {
 		DbCommandHelper::Init($command);
 		if (is_null($class)){
 			if (is_null($ctrl)){

@@ -14,6 +14,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html\Dom
 */
 class ConditionalNodeTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_conditional(){
         $d = new ConditionalNode;
         $d->condition = 'if lt IE 9';

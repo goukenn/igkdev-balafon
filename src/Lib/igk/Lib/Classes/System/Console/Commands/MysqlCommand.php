@@ -30,19 +30,54 @@ require_once IGK_LIB_DIR . "/api/.mysql.pinc";
  */
 class MySQLCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--db:mysql";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "mysql db management command";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ACTIONS = 'query|clean-tables|drop-tables|info|dump|restore-dump|initdb|resetdb|dropdb|migrate|seed|export_schema|preview_create_query|connect|supported-types';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $action_helps = [
         "drop-tables"=>"[--filter:(tables)]",
         "dump"=>"--zip,--type:(sql|csv),--filter:expression",
         'query'=>'send manual query to mysql dbms',
         '--filter'
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--filter:filter_def'=>'set filter definition used in action.'
     ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $query
+    */
     public function sendQuery($query)
     {
         if (preg_match("/^(CREATE|INSERT|ALTER)/i", $query)) {
@@ -54,6 +89,10 @@ class MySQLCommand extends AppExecCommand
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function help()
     {
         Logger::success($this->command . " [controller] [--action:options*]");
@@ -74,6 +113,12 @@ class MySQLCommand extends AppExecCommand
             Logger::print($rs);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $ctrl
+    */
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);
@@ -270,6 +315,7 @@ class MySQLCommand extends AppExecCommand
         }
         return -1;
     }
+
     public function action_drop_foreign_key($command, string $tablename , string $key_name){
         // query: SELECT * FROM `TABLE_CONSTRAINTS` WHERE `CONSTRAINT_NAME`='{$key_name}';
         $query = 'ALTER TABLE `'.$tablename.'` DROP FOREIGN KEY '.$key_name;
@@ -295,6 +341,7 @@ class MySQLCommand extends AppExecCommand
      * @param string $query 
      * @return string 
      */
+
     public function action_query($command, string $query){
         $db = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER);
         // $g = SysDbController::ctrl(true);\

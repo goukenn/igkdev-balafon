@@ -10,11 +10,33 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands
 */
 class GenSelfSignedCertCommand extends AppExecCommand{
-	var $command='--genself-signed-cert';
-	var $desc='create a self signed certificate'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--genself-signed-cert';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='create a self signed certificate'; 
 	/* var $options=[]; */
-	var $category = 'tools';
-	public function exec($command, string $public='public.crt', string $private='server_key.crt'){ 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'tools';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param string $public
+    * @param string $private
+    */
+    public function exec($command, string $public='public.crt', string $private='server_key.crt'){ 
 		Logger::info('generate private key');
 		$o = `openssl genrsa -aes256 -out keyfile.crt 2048 2>&2 1>&2`;
 		Logger::print($o);

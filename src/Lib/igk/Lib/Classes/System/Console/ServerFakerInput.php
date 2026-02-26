@@ -9,11 +9,25 @@ use IGK\System\IO\FakeInput;
 * @package IGK\System\Console
 */
 class ServerFakerInput extends FakeInput{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $jsondata;
+
+    /**
+    * .ctr
+    * @param null|string $jsondata
+    */
     public function __construct(?string $jsondata=null)
     {
         $this->jsondata = $jsondata;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getRaw() { 
         if ($r = $this->jsondata){
             $this->jsondata = null;

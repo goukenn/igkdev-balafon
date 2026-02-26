@@ -9,9 +9,27 @@ namespace IGK\Controllers;
  * @package IGK\Controllers
  */
 class ControllerEnvParams{
-    public const ActionViewResponse = "@ActionViewResponse";
-    public const Menus = "@menu";
-    public const ViewLoader = "@viewLoader";
+    public
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const ActionViewResponse = "@ActionViewResponse";
+    public
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const Menus = "@menu";
+    public
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const ViewLoader = "@viewLoader";
     /**
      * bool disable action handler 
      */

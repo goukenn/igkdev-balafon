@@ -10,12 +10,33 @@ use IGK\System\Configuration\Controllers\SystemUriActionController;
 * @package IGK\System\Caches
 */
 class EnvControllerCacheRoute implements IControllerCacheChain{
-    public const FILE = SystemUriActionController::CACHE_FILE;
+    public
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FILE = SystemUriActionController::CACHE_FILE;
+
+    /**
+    * auto generate doc.
+    */
     public static function GetCacheFile(){
         return igk_io_cachedir()."/".self::FILE;
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return void
+    */
     public function update(BaseController $controller):void{
     }
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function complete():void
     {
     }

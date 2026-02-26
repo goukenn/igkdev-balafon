@@ -9,7 +9,16 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlVisibleNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_callback;
+
+    /**
+    * auto generate doc.
+    */
     function getCanRenderTag()
     {
         return false;
@@ -19,11 +28,16 @@ class HtmlVisibleNode extends HtmlNode{
      * @param bool|callable $callback 
      * @return void 
      */
+
     function __construct($callback)
     {
         parent::__construct("igk:visible");
         $this->m_callback = $callback;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsVisible()
     {
         if ($fc = $this->m_callback){

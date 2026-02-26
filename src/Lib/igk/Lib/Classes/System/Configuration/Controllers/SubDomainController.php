@@ -44,6 +44,10 @@ final class SubDomainController extends ConfigControllerBase
         $this->View();
         igk_ajx_replace_node($s, "#igk-cnf-content");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function dom_add_db_domain_ajx()
     { 
         if (!igk_is_ajx_demand()) {
@@ -86,6 +90,10 @@ final class SubDomainController extends ConfigControllerBase
         igk_html_form_initfield($frm);
         igk_ajx_panel_dialog(__("Add domain"), $dv);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function dom_add_db_edit_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -110,6 +118,10 @@ final class SubDomainController extends ConfigControllerBase
         $frm->addConfirm(1);
         igk_ajx_panel_dialog(__("Edit Domain"), $dv);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function dom_drop_db_s_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -143,6 +155,10 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function dom_drop_domain_ajx()
     {
         $id = igk_getr("i");
@@ -182,6 +198,10 @@ final class SubDomainController extends ConfigControllerBase
         // $frame->Form->addHidden("i", igk_getr("i"));
         // $frame->renderAJX();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function dom_drop_domaintable()
     {
         if (!igk_is_conf_connected())
@@ -210,6 +230,10 @@ final class SubDomainController extends ConfigControllerBase
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function dom_edit_domain_ajx()
     {
         if (igk_qr_confirm()) {
@@ -239,11 +263,21 @@ final class SubDomainController extends ConfigControllerBase
         }
         igk_flush_data();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigPage()
     {
         return "domain";
     }   
     ///get the controller that contain domain from setting. for the first usage
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed & $row
+    */
     public function getDomainCtrl($n, &$row)
     {
         $g = Subdomains::select([IGK_FD_NAME => $n]); 
@@ -260,6 +294,7 @@ final class SubDomainController extends ConfigControllerBase
      * controller name 
      * @return string 
      */
+
     public function getName(): string{
         return IGK_SUBDOMAINNAME_CTRL;
     }
@@ -269,6 +304,7 @@ final class SubDomainController extends ConfigControllerBase
      * @throws Exception 
      * @throws IGKException 
      */
+
     public function View():BaseController{
         $t = $this->TargetNode;
         if (!$this->getIsVisible()) {
@@ -285,6 +321,7 @@ final class SubDomainController extends ConfigControllerBase
      * @param mixed $n 
      * @return void 
      */
+
     protected function subdomain_view($n)
     {
         $ctrl = $this;
@@ -340,6 +377,9 @@ final class SubDomainController extends ConfigControllerBase
         igk_ajx_replace_node($n, ".subdomain-listview");
     }
 
+    /**
+    * auto generate doc.
+    */
     public function showConfig()
     {
         parent::showConfig();     

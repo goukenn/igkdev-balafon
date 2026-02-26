@@ -30,15 +30,65 @@ use IGK\System\Http\IHeaderResponse;
  */
 class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocumentHost
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_privatetheme;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_theme;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_baseuri;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_noCache;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_noCoreScript;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_can_add;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_noPowered;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_noCoreCss;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_noFontInstall;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_noIFrame;
     use HtmlDocMetadataTrait;
     /**
@@ -48,6 +98,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function setFlagOption($o)
     {
         if (($r = Activator::CreateNewInstance(IGKHtmlDocFlagOption::class, $o))
@@ -59,10 +110,19 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getnoIframe()
     {
         return $this->m_noIFrame;
     }
+
+    /**
+    * auto generate doc.
+    * @param bool $value
+    */
     public function setNoIframe(bool $value)
     {
         $this->m_noIFrame = $value;
@@ -72,7 +132,8 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * set website icons 
      * @var string $href reference
      * @var string expected type 
-     * */ 
+     * */
+
     public function setWebSiteIcon(string $href, $type='png'){
         if (is_null($this->m_site_icon)){
             $ln = $this->head()->link();
@@ -82,48 +143,93 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $ln['href'] = $href;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getnoFontInstall()
     {
         return $this->m_noFontInstall;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|bool $value
+    */
     public function setnoFontInstall(?bool $value)
     {
         $this->m_noFontInstall = $value;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|bool $value
+    */
     public function setIsTemplate(?bool $value)
     {
         $this->isTemplate = $value;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsTemplate()
     {
         if (property_exists($this, "isTemplate"))
             return $this->isTemplate;
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getnoCoreScript()
     {
         return $this->m_noCoreScript;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|bool $n
+    */
     public function setnoCoreScript(?bool $n)
     {
         $this->m_noCoreScript = $n;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getNoCoreCss()
     {
         return $this->m_noCoreCss;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|bool $value
+    */
     public function setNoCoreCss(?bool $value = null)
     {
         $this->m_noCoreCss = $value;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getNoPowered()
     {
         return $this->m_noPowered;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|bool $value
+    */
     public function setNoPowered(?bool $value = null)
     {
         $this->m_noPowered = $value;
@@ -134,14 +240,24 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @return bool 
      * @throws IGKException 
      */
+
     public function getIsSysDoc()
     {
         return $this === igk_app()->getDoc();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getNoCache()
     {
         return $this->m_noCache;
     }
+
+    /**
+    * auto generate doc.
+    * @param bool $value
+    */
     public function setNoCache(bool $value)
     {
         $this->m_noCache = $value;
@@ -162,23 +278,73 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @var string
      */
     private $m_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_status;
     /**
      * store global themes
      * @var mixed
      */
     private static $sm_theme;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_scriptManager;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $namespaces = [
         "xmlns" => "http://www.w3.org/1999/xhtml",
         "xmlns:igk" => HtmlNode::HTML_NAMESPACE
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_DOC_FAVICON_FLAG = self::IGK_DOC_TYPE_FLAG + 3;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_DOC_LINKMANAGER_FLAG = self::IGK_DOC_TYPE_FLAG + 2;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_DOC_LOADED_SCRIPT_FLAG = self::IGK_DOC_TYPE_FLAG + 4;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_DOC_METAMANAGER_FLAG = self::IGK_DOC_TYPE_FLAG + 5;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_DOC_SCRIPTMANAGER_FLAG = self::IGK_DOC_TYPE_FLAG + 6;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_DOC_TITLE_FLAG = self::IGK_DOC_TYPE_FLAG + 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_DOC_TYPE_FLAG = 0xB01;
     /**
      * set color scheme
@@ -187,6 +353,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @throws Exception 
      * @throws IGKException 
      */
+
     public function setColorScheme($cl)
     {
         $this->_storeMeta('color-scheme', [
@@ -226,6 +393,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * 
      * @param mixed $cl
      */
+
     public function setHeaderColor($cl)
     {
         $sm = $this->getMetas();
@@ -242,6 +410,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * get header color
      */
+
     public function getHeaderColor()
     {
         if ($g = $this->getMetas()->getMetaById("theme-color")) {
@@ -253,6 +422,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * get reponse header
      * @return null|array 
      */
+
     public function getResponseHeaders(): ?array
     {
         return $this->m_responseHeader;
@@ -262,6 +432,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param null|array $headers 
      * @return self
      */
+
     public function setResponseHeaders(?array $headers = null)
     {
         $this->m_responseHeader = $headers;
@@ -272,11 +443,16 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param ?string $theme dark|light
      * @return $this 
      */
+
     public function setDefaultTheme(?string $theme)
     {
         $this->m_page_theme = $theme;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDefaultTheme()
     {
         return $this->m_page_theme;
@@ -285,6 +461,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * get the meta manager object
      * @return IGK\System\Html\HtmlMetaManager
      */
+
     public function getMetas()
     {
         if (!($g = $this->getTempFlag(self::IGK_DOC_METAMANAGER_FLAG))) {
@@ -299,6 +476,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function getSysTheme()
     {
         if (self::$sm_theme === null) {
@@ -313,6 +491,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param mixed $export
      * @param mixed $reset the default value is 0
      */
+
     public function getTemporaryCssDef($minfile, $export, $reset = 0)
     {
         igk_set_env("sys://css_temp", 1);
@@ -326,6 +505,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * @return ?IGK\System\Html\Dom\HtmlDocTheme 
      */
+
     public function getTempTheme()
     {
         return $this->m_privatetheme;
@@ -334,6 +514,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * get document responset status 
      * @return ?int 
      */
+
     public function getResponseStatus():?int{
         return $this->m_status;
     }
@@ -342,6 +523,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param null|int $code 
      * @return void 
      */
+
     public function setResponseStatus(?int $code ){
         $this->m_status = $code; 
         return $this;
@@ -351,6 +533,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @return mixed|IGK\System\Html\Dom\HtmlDocTheme 
      * @throws Exception
      */
+
     public function getTheme(?bool $ops = null)
     {
         $r = $this->m_theme;
@@ -366,6 +549,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * @return ?IGKHtmlScriptManager 
      */
+
     public function getScriptManager(): ?IGKHtmlScriptManager
     {
         return $this->getFlag(self::IGK_DOC_SCRIPTMANAGER_FLAG);
@@ -376,6 +560,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param string $tag : tag identifier
      * @param bool $canbeMerged merge the document 
      */
+
     public function addScript($file = null, $tag = null, $canbeMerged = true)
     {
         return $this->ScriptManager->addScript($file, $canbeMerged, $tag);
@@ -402,6 +587,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $this->setup_document();
         igk_hook(IGKEvents::HOOK_NEW_DOC_CREATED, array(igk_app(), $this));
     }
+
     public function getCanAddChilds()
     {
         return $this->m_can_add;
@@ -410,6 +596,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * get inline theme
      * @return HtmlDocTheme 
      */
+
     public function getInlineTheme()
     {
         $id = spl_object_id($this);
@@ -458,6 +645,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * check the presence of the favicon
      * @param mixed $icon
      */
+
     public function setFavicon($icon)
     {
         if ($icon) {
@@ -479,6 +667,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @return $this 
      * @throws IGKException 
      */
+
     public function setFaviconURL(string $uri)
     {
         $this->setFlag(self::IGK_DOC_FAVICON_FLAG, $uri);
@@ -487,6 +676,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * get favicon
      */
+
     public function getFavicon()
     {
         return $this->getFlag(self::IGK_DOC_FAVICON_FLAG);
@@ -504,6 +694,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @return IGKHtmlDoc 
      * @throws IGKException 
      */
+
     public static function CreateDocument($id, ?array $init_properties = null)
     {
         $doc = new static($id);
@@ -514,6 +705,11 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         }
         return $doc;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    */
     public static function CreateCoreDocument($id)
     {
         $document = new static($id);
@@ -523,6 +719,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * @return IGKHtmlDoc 
      */
+
     public static function LastRenderedDocument()
     {
         static $sm_lastDocument;
@@ -554,11 +751,17 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * setup global document
      */
+
     protected function setup_document()
     {
         $this->_initThemes();
         $this->m_body["class"] = "igk-body";
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options = null)
     {
         igk_app()->settings->CurrentDocumentIndex = $this->getId();
@@ -568,6 +771,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * register hooks
      */
+
     protected function registerHook()
     {
         // $v_cevent = array($this, 'setup_document');
@@ -582,6 +786,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @var string $file file or uri
      * @var ?array $query_args extra args
      */
+
     public function addTempScript(string $file, ?array $query_args = null)
     {
         if (!IGKValidator::IsUri($file))
@@ -621,6 +826,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param string $file css file to add to document
      * @return IHtmlNode style node 
      */
+
     public function addTempStyle(string $file)
     {
         $v_t = igk_get_env("sys://temp/css");
@@ -638,6 +844,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * clear component list
      */
+
     public function clearComponents()
     {
         $this->m_components = array();
@@ -645,6 +852,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * clear style 
      */
+
     public function clearStyle()
     {
         $v_childs = array();
@@ -660,6 +868,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * 
      */
+
     public function getHtmlOptions()
     {
         $c = $this->m_params;
@@ -671,6 +880,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * get doctype
      */
+
     public function getDocType()
     {
         !($d = $this->getFlag(self::IGK_DOC_TYPE_FLAG)) && ($d = IGK_DOC_TYPE);
@@ -679,6 +889,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * 
      */
+
     public function getNameSpace()
     {
         return Constants::NAMESPACE;
@@ -686,6 +897,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * 
      */
+
     public function Dispose()
     {
         $this->clearComponents();
@@ -694,6 +906,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * retrieve document style list
      */
+
     public function getStylesList()
     {
         $v_childs = array();
@@ -711,6 +924,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * file : relative path to file according to system base dir
      */
+
     public function addStyle(string $file, $system = false)
     {
         return $this->_addStyle($this->m_head, $file, $system);
@@ -721,6 +935,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param string $file system file path 
      * @param mixed $system the default value is false
      */
+
     protected function _addStyle($n, string $file, $system = false)
     {
         $g = $n->getParam("sys://css");
@@ -746,6 +961,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @throws Exception 
      * @note : for CEO description must be [50, 170] character. 
      */
+
     public function setDescription($value)
     {
         $this->getMetas()->setDescription($value);
@@ -757,6 +973,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @return $this 
      * @throws Exception 
      */
+
     public function setKeywords($value)
     {
         $this->getMetas()->setKeywords($value);
@@ -765,6 +982,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
     /**
      * 
      */
+
     public function setCanonical(?string $uri)
     {
         $v_tlinks = $this->getHead()->getElementsByTagName('link');
@@ -788,6 +1006,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * get the base uri
      * @return mixed 
      */
+
     public function getBaseUri()
     {
         return $this->m_baseuri;
@@ -797,6 +1016,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param mixed $baseuri 
      * @return $this 
      */
+
     public function setBaseUri($baseuri)
     {
         $this->m_baseuri = $baseuri;
@@ -808,6 +1028,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @return $this 
      * @throws Exception 
      */
+
     public function setViewport(string $portdefinition){
         $this->getMetas()->setAttribute(HtmlMetaManager::META_VIEWPORT,'content', $portdefinition);
         return $this;
@@ -817,6 +1038,7 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
      * @param mixed $name
      * @return mixed|array
      */
+
     public function getElementsByTagName($name, bool $stop_first = false)
     {
         $n = strtolower($name);
@@ -834,6 +1056,10 @@ class IGKHtmlDoc extends HtmlDocumentNode implements IHeaderResponse, IHtmlDocum
         $h = array_merge($tab1, $tab2);
         return $h;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function headerExtraAttribute()
     {
         $attr = "";

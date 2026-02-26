@@ -21,17 +21,55 @@ use function igk_resources_gets as __;
  * @package IGK\System\Configuration\Controllers
  */
 final class PicResConfigurationController extends ConfigControllerBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DATAFILE="Data/upload.csv";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY_FILES="sys://ctrl/allpics";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PICRES_FLAG=1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PICRES_KEY="PicResChanged";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TARGETDIR=IGK_RES_FOLDER."/Img";
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getIsVisible():bool{
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsConfigPageAvailable(){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigGroup(){
         igk_trace();
         igk_exit();
@@ -69,6 +107,11 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $dir=IGK_LIB_DIR."/Default/R/Img";
         $this->initPicturesRes($dir, $tab);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed & $tab
+    */
     function _loadData(& $tab=null){
         $f=igk_io_syspath(self::DATAFILE);
         $txt=IO::ReadAllText($f);
@@ -134,6 +177,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
     private function _updateRes($g){
         igk_set_env(self::KEY_FILES, $g);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $uri
+    */
     public function add_res($name, $uri){
         $g=$this->getAllPics();
         $g[$name]=$uri;
@@ -143,6 +192,10 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function deleteall(){
         if(igk_qr_confirm()){
             $dir=igk_io_baserelativepath(self::TARGETDIR);
@@ -164,6 +217,10 @@ final class PicResConfigurationController extends ConfigControllerBase{
             $frame->Form->Div->Content=__(IGK_MSG_ALLPICS_QUESTION);
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function delfile(){
         $id=igk_getr("name");
         if(($id == null) || !isset($this->m_fileres[$id]))
@@ -183,6 +240,10 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function dropdir(){
         $dir=basename(base64_decode(igk_getr("d", null)));
         $dir=igk_io_basedir(self::TARGETDIR. "/".$dir);
@@ -195,6 +256,10 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         igk_navtocurrent();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getAllPics(){
         return igk_get_env_init("sys://ctrl/allpics", function(){
             $g=array();
@@ -202,12 +267,27 @@ final class PicResConfigurationController extends ConfigControllerBase{
             return $g;
         });
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigPage(){
         return "pictureresconfig";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCurrentPage(){
         return $this->getParam("currentPage");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $check
+    * @param null|mixed & $path
+    */
     public function getImgUri($name, $check=false, & $path=null){
         $res=$this->getPicRes() ?? (function(){
             $t=array();
@@ -226,25 +306,52 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return igk_html_resolv_img_uri(igk_io_basedir($b));
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return IGK_PIC_RES_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getPicRes(){
         return $this->getEnvParam("@PictureRes");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getResFiles(){
         return igk_get_env("sys://resourcefiles", function(){
             $t=array();
             return $t;
         });
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getSearchKey(){
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function gotodefaultview(){
         $this->setCurrentPage(null);
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $dir
+    * @param null|mixed & $tab
+    */
     public function initPicturesRes($dir, & $tab=null){
         if(!is_dir($dir))
             return;
@@ -258,9 +365,18 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $this->_updateRes($g);
         $tab=$g;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return igk_create_node("div", array("class"=>strtolower($this->Name)));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function loadfile(){
         $notify="picres";
         $id=igk_getr("name");
@@ -306,6 +422,14 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tempfile
+    * @param mixed $name
+    * @param mixed $id
+    * @param mixed $dir
+    */
     public function loadtempfile($tempfile, $name, $id, $dir){
         $f=$tempfile;
         $ext=IO::GetFileExt($name);
@@ -331,9 +455,20 @@ final class PicResConfigurationController extends ConfigControllerBase{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $c
+    * @param null|mixed $t
+    */
     public function notify($c=null, $t=null){
         $this->_loadData();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function onHandleSystemEvent($msg){
         switch($msg){
             case IGK_ENV_SETTING_CHANGED:
@@ -349,6 +484,12 @@ final class PicResConfigurationController extends ConfigControllerBase{
             $this->_loadData();
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $link
+    */
     public function regPicture($name, $link){
         $g=$this->getAllPics();
         if($link){
@@ -356,6 +497,10 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $this->_updateRes($g);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function remove_broken_file(){
         $v_ttab=array_keys($this->m_fileres);
         sort($v_ttab);
@@ -379,6 +524,10 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function searchentry(){
         $this->m_searchentry=strtolower(igk_getr("q"));
         $this->View();
@@ -386,13 +535,26 @@ final class PicResConfigurationController extends ConfigControllerBase{
     private function setCurrentPage($page){
         $this->setParam("currentPage", $page);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function setdir(){
         $this->m_selectedir=basename(base64_decode(igk_getr("d", null)));
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    */
     protected function setPicRes($t){
         $this->setEnvParam("@PictureRes", $t);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function show_loadfile_frame(){
         $frame=igk_html_frame($this, "load_pic_frame");
         $frame->Title=__("title.loadpictureres");
@@ -400,6 +562,10 @@ final class PicResConfigurationController extends ConfigControllerBase{
         $d->clearChilds();
         $frm=$this->_addLoadPicForm($d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function showentries(){
         if(igk_app()->CurrentPageFolder != IGK_CONFIG_MODE){
             return;        }
@@ -459,12 +625,21 @@ final class PicResConfigurationController extends ConfigControllerBase{
         HtmlUtils::AddBtnLnk($div, "btn.loadfile", $this->getUri("show_loadfile_frame"));
         HtmlUtils::AddBtnLnk($div, __("btn.RemoveBrokenfiles"), $this->getUri("remove_broken_file"));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function uploadpic_ajx(){
         $div=igk_create_node("div");
         $rd=$div->addRow();
         $cl=$rd->addCol()->div();
         igk_ajx_panel_dialog("Upload Pictures", $div);
     }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View(): BaseController{
         $div=$this->TargetNode;
         $div->clearChilds();
@@ -483,6 +658,11 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $name
+    */
     public function viewpic($name=null){
         $n=($name == null) ? igk_getr("name", $name): $name;
         $f=igk_io_currentrelativepath(igk_getv($this->m_fileres, $n, IGK_STR_EMPTY));
@@ -495,6 +675,10 @@ final class PicResConfigurationController extends ConfigControllerBase{
         }
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function viewpic_ajx(){
         $frame=igk_html_frame($this, "viewpic_frame");
         $frame->Title=__("title.picture_1", igk_getr("name"));

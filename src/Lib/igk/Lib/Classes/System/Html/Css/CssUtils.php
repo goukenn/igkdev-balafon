@@ -41,13 +41,24 @@ require_once(IGK_LIB_CLASSES_DIR . "/Css/IGKCssColorHost.php");
  */
 abstract class CssUtils
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_treated_colors = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CSS_DESC_TITLE = 'Balafon Css Theme';
     /**
      * get code block definition 
      * @param mixed $definition 
      * @return mixed 
      */
+
     public static function BlockDefinition($definition){
         if (is_array($definition)){
             $sb = new StringBuilder;
@@ -63,6 +74,7 @@ abstract class CssUtils
      * @param mixed ...$args 
      * @return string
      */
+
     public static function MergeStyleDefinition(...$args)
     {
         if (!is_array($args)) {
@@ -77,6 +89,10 @@ abstract class CssUtils
         }, array_filter($args)));
         return $l;
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function &GetTreatedColors()
     {
         if (is_null(self::$sm_treated_colors)) {
@@ -84,6 +100,10 @@ abstract class CssUtils
         }
         return self::$sm_treated_colors;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function ClearTreatColors()
     {
         self::$sm_treated_colors = [];
@@ -93,6 +113,7 @@ abstract class CssUtils
      * @param string $k 
      * @return string 
      */
+
     public static function TreatMediaCondition(string $k)
     {
         if (!preg_match("/\(.*\)/", $k)) {
@@ -109,6 +130,7 @@ abstract class CssUtils
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public static function BindCoreFile(HtmlDocTheme $theme)
     {
         $theme->bindFile(
@@ -123,6 +145,7 @@ abstract class CssUtils
      * @param string $haystack 
      * @return array 
      */
+
     public static function GetClassValues(string $haystack): array
     {
         $tq = array_filter(explode(' ', $haystack));
@@ -146,6 +169,7 @@ abstract class CssUtils
      * @param null|string $default 
      * @return void 
      */
+
     public static function InitClass(string $tagname, ?string $default = null)
     {
         return implode(" ", array_filter([CssEnvironment::GetInitClass($tagname), $default]));
@@ -156,6 +180,7 @@ abstract class CssUtils
      * @param null|string $ruri 
      * @return null|string 
      */
+
     public static function GetControllerSelectorClassNameFromRegisterURI(BaseController $controller, ?string $ruri = null): ?string
     {
         if (!empty($ruri)) {
@@ -182,6 +207,7 @@ abstract class CssUtils
      * @throws EnvironmentArrayException 
      * @throws CssParserException 
      */
+
     public static function InjectStyleContent($doc, string $file)
     {
         $style = $doc->getEnvParam($key = '://inject_style') ?? [];
@@ -202,6 +228,7 @@ abstract class CssUtils
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function InitSysTheme($vsystheme)
     {
         $vsystheme->def->Clear();
@@ -243,6 +270,7 @@ abstract class CssUtils
      * @throws EnvironmentArrayException 
      * @throws CssParserException 
      */
+
     public static function GetInjectableStyleFromFileDefinition(
         string $file,
         ?BaseController $ctrl = null,
@@ -273,6 +301,7 @@ abstract class CssUtils
      * @throws EnvironmentArrayException 
      * @throws CssParserException 
      */
+
     public static function GenCss(BaseController $controller, string $theme = CssThemeOptions::DEFAULT_THEME_NAME, bool $embedresource = false, ?string $prefix = '')
     {
         if ($theme == CssThemeOptions::BOTH_THEME_NAME) {
@@ -323,6 +352,7 @@ abstract class CssUtils
      * @param array $imports 
      * @return string 
      */
+
     static function RenderImport(array $imports)
     {
         return implode(";\n", array_map(function ($s) {
@@ -340,6 +370,7 @@ abstract class CssUtils
      * @throws EnvironmentArrayException 
      * @throws CssParserException 
      */
+
     public static function GenCssWithThemeSupport(BaseController $controller, string $primaryTheme = CssThemeOptions::DEFAULT_THEME_NAME)
     {
         // + | bind global theme to start 
@@ -376,6 +407,7 @@ abstract class CssUtils
      * @param array $medias 
      * @return array<array-key, \IGKMedia> 
      */
+
     public static function CloneMedia(array $medias)
     {
         return array_map(function ($i) {
@@ -390,6 +422,7 @@ abstract class CssUtils
      * @param bool $theme_export 
      * @return mixed 
      */
+
     public static function RenderPrimaryTheme(HtmlDocTheme $a_theme, ?array $colors = null, $minfile = false, $theme_export = false)
     {
         $s = '';
@@ -409,6 +442,7 @@ abstract class CssUtils
      * @return array 
      * @throws IGKException 
      */
+
     public static function AppendDataTheme(
         BaseController $controller,
         HtmlDocTheme $a_theme,
@@ -520,6 +554,13 @@ abstract class CssUtils
         }
         return $def;
     }
+
+    /**
+    * auto generate doc.
+    * @param array & $rootdef
+    * @param mixed $theme
+    * @param string $theme_name
+    */
     public static function BindRootDataThemeDefinition(array & $rootdef, $theme, string $theme_name){
         $colors = $theme->getDef()->getCl();
         $keys = sprintf('html[data-theme="%s"]', $theme_name);
@@ -528,6 +569,12 @@ abstract class CssUtils
         }
         $rootdef[$keys] = array_merge($rootdef[$keys], $colors );
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @param mixed $theme
+    */
     public static function ExportColorAndProperties(BaseController $controller, $theme)
     {
         $tdef = explode('|', CssConstants::SUPPORT_THEME);
@@ -552,6 +599,7 @@ abstract class CssUtils
      * @param mixed $source_defs 
      * @return void 
      */
+
     public static function MapThemeDefinition(string $lk, array $tab, &$g, &$source_defs = null)
     {
         array_map(function ($v, $k) use (&$g, $lk, &$source_defs) {
@@ -575,6 +623,7 @@ abstract class CssUtils
      * @param ?array $medias array of medias list to map
      * @param bool $is_primary_theme 
      */
+
     public static function MapMediaCssTheme(
         HtmlDocTheme $theme,
         string $theme_name,
@@ -620,6 +669,7 @@ abstract class CssUtils
      * @return string 
      * @throws IGKException 
      */
+
     public static function RenderMedia(array $medias, $theme, $systheme, $minfile, $el, $is_root, ?array &$source_media = null)
     {
         $g = "";
@@ -668,6 +718,7 @@ abstract class CssUtils
      * @return string|void 
      * @throws IGKException 
      */
+
     public static function TreatValue(string $v)
     {
         $g = CssParser::Parse($v);
@@ -678,6 +729,7 @@ abstract class CssUtils
     /**
      * update array media properties 
      * */
+
     public static function MapTheme(array $medias, bool $is_primary_theme, string $lk, bool $skip = false)
     {
         while (count($medias) > 0) {
@@ -694,6 +746,7 @@ abstract class CssUtils
      * @param array<string,array> $tab key
      * @return string|void 
      */
+
     public static function GlueArrayDefinition(array $tab)
     {
         if (count($tab) > 0)
@@ -708,6 +761,7 @@ abstract class CssUtils
      * @param string $v 
      * @return string 
      */
+
     public static function RemoveTransformLitteralFrom(string $v)
     {
         // + | --------------------------------------------------------------------
@@ -794,6 +848,7 @@ abstract class CssUtils
      * @param string $v color:red; background-color:[bgcl]
      * @return string 
      */
+
     public static function RemoveNoTransformPropertyStyle(string $v)
     {
         if (empty($v)) {
@@ -807,6 +862,7 @@ abstract class CssUtils
      * @param string $style 
      * @return string 
      */
+
     public static function GetBranketOnlyStyle(string $style)
     {
         $container = new RegexMatcherContainer;
@@ -836,6 +892,7 @@ abstract class CssUtils
     /**
      * treat css detection 
      */
+
     public static function TreatCssDefinition($v, $k, &$g, bool $is_primaryTheme, string $lk, ?array &$source_defs = null)
     {
         $v_ev = false;
@@ -889,6 +946,7 @@ abstract class CssUtils
     /**
      * init sys global document 
      */
+
     public static function InitSysGlobal(\IGKHtmlDoc $doc)
     {
         $clear = 0;
@@ -921,6 +979,7 @@ abstract class CssUtils
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
+
     public static function InitBindingCssFile(
         BaseController $ctrl,
         //  \IGKHtmlDoc $document,  
@@ -949,6 +1008,7 @@ abstract class CssUtils
      * @throws CssParserException 
      * @throws Exception 
      */
+
     public static function GetInlineStyleRendering($doc, bool $themeexport)
     {
         $bvtheme = new HtmlDocTheme($doc, "temp://files", false);
@@ -996,6 +1056,7 @@ abstract class CssUtils
      * @return void 
      * @throws IGKException 
      */
+
     public static function AppendInlineStyle(string $file)
     {
         $ctrl = igk_get_current_base_ctrl();
@@ -1012,6 +1073,7 @@ abstract class CssUtils
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public static function GetFileContent(string $file, $ctrl, $theme)
     {
         self::Include($file, $ctrl, $theme);
@@ -1022,6 +1084,7 @@ abstract class CssUtils
      * @param BaseController $ctrl 
      * @return string 
      */
+
     public static function GetCssClassName(BaseController $ctrl){
         return strtolower(igk_css_str2class_name($ctrl->getName()));
     }
@@ -1034,6 +1097,7 @@ abstract class CssUtils
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public static function Include(
         string $file,
         ?BaseController $ctrl = null,
@@ -1104,6 +1168,11 @@ abstract class CssUtils
         igk_environment()->pop(IGKEnvironmentConstants::CSS_UTIL_ARGS);
         // + remove binding properties args
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $old_theme;
     /**
      * priority to file that match the current theme style in theme folder 
@@ -1132,6 +1201,7 @@ abstract class CssUtils
      * @param string $content 
      * @return array 
      */
+
     public static function GetCssSelectorKeys(string $content, $explode = true): array
     {
         $parse = CssParser::Parse($content);
@@ -1171,6 +1241,11 @@ abstract class CssUtils
         sort($tkeys);
         return $tkeys;
     }
+
+    /**
+    * auto generate doc.
+    * @param array $list
+    */
     public static function GetRootPropsArray(array $list)
     {
         // only detected properties must be update as root definition 

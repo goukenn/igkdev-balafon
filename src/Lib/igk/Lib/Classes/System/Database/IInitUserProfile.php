@@ -9,6 +9,11 @@ namespace IGK\System\Database;
  * @package IGK\System\Database
  */
 interface IInitUserProfile{
+
+    /**
+    * auto generate doc.
+    * @param mixed $userInfo
+    */
     function setUserInfo($userInfo);
     function getUserInfo();
 }

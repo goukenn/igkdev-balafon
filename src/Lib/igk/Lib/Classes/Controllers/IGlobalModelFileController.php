@@ -8,6 +8,11 @@ namespace IGK\Controllers;
 * @package IGK\Controllers
 */
 interface IGlobalModelFileController{
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function injectBaseModel();
     function handleModelCreation($table_list):bool;
 }

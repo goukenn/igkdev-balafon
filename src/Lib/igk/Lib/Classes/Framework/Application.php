@@ -14,6 +14,12 @@ use ReflectionException;
 * @package IGK\Framework
 */
 class Application extends IGKApplicationBase{
+
+    /**
+    * auto generate doc.
+    * @param string $entryfile
+    * @param mixed $render
+    */
     public function run(string $entryfile, $render = 1) { 
         // do nothing - to integrate with other framework
     }    
@@ -26,6 +32,7 @@ class Application extends IGKApplicationBase{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function bootstrap($bootoptions=null, ?callable $loader=null) {    
         IGKApp::Init();
         if($loader){

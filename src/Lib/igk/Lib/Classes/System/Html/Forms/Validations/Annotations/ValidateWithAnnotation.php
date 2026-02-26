@@ -16,6 +16,11 @@ use IGK\System\Html\Forms\Validations\FormFieldValidatorBase;
  */
 class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_validator;
     /**
      * define max length
@@ -66,14 +71,25 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
      * get the attribute validator
      * @return mixed 
      */
+
     public function getValidator()
     {
         return $this->m_validator;
     }
+
+    /**
+    * auto generate doc.
+    * @param array $params
+    */
     public function setParams(array $params)
     {
         parent::setParams($params);
     }
+
+    /**
+    * .ctr
+    * @param null|string $validator
+    */
     public function __construct(?string $validator = null)
     {
         if ($validator) {
@@ -84,6 +100,11 @@ class ValidateWithAnnotation extends AnnotationBase implements IAnnotation
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $type
+    */
     public function setType(?string $type=null){
         $type = $type ?? 'text';
         $this->type = $type;

@@ -10,6 +10,12 @@ use IGK\System\Html\Forms\IFormValidationField;
 * @author C.A.D. BONDJE DOUE
 */
 interface IFormValidationFieldHost{
+
+    /**
+    * auto generate doc.
+    * @param null|IFormValidationField $field
+    * @return ?IFormValidationField
+    */
     public function setFieldInfo(?IFormValidationField $field);
     public function getFieldInfo():?IFormValidationField;
 }

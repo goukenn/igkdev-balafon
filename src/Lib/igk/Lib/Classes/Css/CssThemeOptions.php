@@ -8,9 +8,29 @@ namespace IGK\Css;
 * @package IGK\System\Css
 */
 class CssThemeOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DEFAULT_THEME_NAME = self::DARK_THEME_NAME;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DARK_THEME_NAME = "dark";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const LIGTH_THEME_NAME = "light";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BOTH_THEME_NAME = "both";
     /**
      * is primary theme
@@ -32,6 +52,10 @@ class CssThemeOptions{
      * @var ?ICssStoreRootListener
      */
     var $rootListener;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     { 
     }

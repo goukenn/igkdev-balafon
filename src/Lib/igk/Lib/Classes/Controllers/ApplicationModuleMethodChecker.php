@@ -8,6 +8,11 @@ namespace IGK\Controllers;
 * @package IGK\Controllers
 */
 class ApplicationModuleMethodChecker{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_initDocs = [];
     /**
      * 
@@ -16,6 +21,7 @@ class ApplicationModuleMethodChecker{
      * @param mixed $args 
      * @return false 
      */
+
     public static function initDoc($module, $env_param, ...$args){
         $__name = $module->getName();
         if (!isset(self::$sm_initDocs[$__name])){

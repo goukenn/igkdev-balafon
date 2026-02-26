@@ -12,12 +12,28 @@ use ReflectionClass;
 * Represent IGKBalafonMiddleware class
 */
 abstract class BalafonMiddleware{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_next;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_manager;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $chainFlag;
     /**
     * 
     */
+
     protected function __construct(){}
     /**
     *  attach the middleware
@@ -25,6 +41,7 @@ abstract class BalafonMiddleware{
     * @param mixed $serviceapplication service to initialize
     * @param mixed $wherelist list that store the all middleware for chain list
     */
+
     public static function Attach($middle, $service){
         if($c=$service->GetLastMiddleware()){
             $c->_next=$middle;
@@ -38,6 +55,7 @@ abstract class BalafonMiddleware{
     * @param mixed $args
     * @param mixed $service
     */
+
     public static function CreateMiddleware($name, $args=null, $service=null){
         if($name === __CLASS__)
             return null;
@@ -60,6 +78,7 @@ abstract class BalafonMiddleware{
     /**
     * 
     */
+
     public static function GetManager(){
         if(count($c=self::$sm_manager) > 0){
             return self::$sm_manager[0];
@@ -69,6 +88,7 @@ abstract class BalafonMiddleware{
     /**
     * 
     */
+
     public function getService(){
         return self::GetManager();
     }
@@ -77,16 +97,19 @@ abstract class BalafonMiddleware{
     * initialize the middleware
     * @param mixed $serviceIBalafonApplicationMiddlewareService instance
     */
+
     protected function initialize($service){}
     /**
     * 
     */
+
     public function invoke(){
         $this->next();
     }
     /**
     * 
     */
+
     protected function next(){
         if($this->_next){
             $this->_next->invoke();
@@ -97,6 +120,7 @@ abstract class BalafonMiddleware{
     * @param mixed $service
     * @param mixed $wherelist
     */
+
     public static function Process($service, $wherelist){
         if(self::$sm_manager == null)
             self::
@@ -110,6 +134,7 @@ abstract class BalafonMiddleware{
     /**
     * 
     */
+
     protected function stopChain(){
         $this->chainFlag=1;
     }

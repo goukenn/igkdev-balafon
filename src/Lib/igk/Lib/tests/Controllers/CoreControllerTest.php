@@ -15,12 +15,18 @@ use IGK\Helper\IO;
 */
 class CoreControllerTest extends ControllerBaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_dir;
 
     /**
     * auto generate doc.
     * @return void
     */
+
     public function setUp() : void{
         $this->controller =  TestController::ctrl();
         parent::setUp();
@@ -31,6 +37,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     * auto generate doc.
     * @return void
     */
+
     public static function setUpBeforeClass(): void
     {
         $sdir = sys_get_temp_dir()."/testController";     
@@ -42,6 +49,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     * auto generate doc.
     * @return void
     */
+
     public static function tearDownAfterClass(): void
     {
         if (self::$sm_dir){
@@ -53,6 +61,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     /**
     * auto generate doc.
     */
+
     public function test_get_view_file_name()
     {
 
@@ -75,6 +84,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     /**
     * auto generate doc.
     */
+
     public function test_view_args(){    
         $p = [];
         $def = $this->controller->declaredDir . "/Views/default.phtml";
@@ -93,6 +103,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     /**
     * auto generate doc.
     */
+
     public function test_default_view_args(){    
         $p = [];
         $def = $this->controller->declaredDir . "/Views/default.phtml";
@@ -111,6 +122,7 @@ class CoreControllerTest extends ControllerBaseTestCase
     /**
     * auto generate doc.
     */
+
     public function test_request_action(){
         $c = TestApplicationController::ctrl();
         $sdir = sys_get_temp_dir()."/appController";

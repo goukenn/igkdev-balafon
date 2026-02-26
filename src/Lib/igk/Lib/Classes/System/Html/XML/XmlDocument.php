@@ -15,7 +15,18 @@ use IGK\System\Html\HtmlRenderer;
 * @package IGK\System\Html\XML
 */
 class XmlDocument extends XmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_docType;
+
+    /**
+    * .ctr
+    * @param mixed $tag
+    * @param null|mixed $docType
+    */
     public function __construct($tag, $docType=null){
         parent::__construct($tag);
         $this->_docType=$docType;
@@ -25,6 +36,7 @@ class XmlDocument extends XmlNode{
     * auto generate doc.
     * @param null|mixed $option
     */
+
     public function render($option=null){
         $sb=igk_xml_header().PHP_EOL;
         if($this->_docType)

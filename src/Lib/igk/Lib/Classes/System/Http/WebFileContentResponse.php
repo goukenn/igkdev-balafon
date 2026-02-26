@@ -9,6 +9,10 @@ namespace IGK\System\Http;
 * @author C.A.D. BONDJE DOUE
 */
 class WebFileContentResponse extends WebFileResponse{
+
+    /**
+    * auto generate doc.
+    */
     public function render(){
         return $this->file;
     }

@@ -42,14 +42,34 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\service;
  */
 class Dispatcher implements IActionProcessor, IActionDispatcher
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DISPATCH_METHOD = 'Dispatch';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INSTANCE = IGKServices::KEY_INSTANCE;
     /**
      * 
      * @var null|ActionBase|IActionProcessor|object
      */
     private $m_host;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_macro;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_matches = [
         "int" => MatchPattern::Int,
         "float" => MatchPattern::Float,
@@ -60,6 +80,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param null|IGKActionBase $host 
      * @return void 
      */
+
     public function __construct(?ActionBase $host)
     {
         $this->m_host = $host;
@@ -69,22 +90,41 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param string $actionName 
      * @return void 
      */
+
     public function setBaseActionName(string $actionName)
     {
         $this->m_host->baseActionName = $actionName;
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getBaseActionName(): string
     {
         return $this->m_host->baseActionName;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getController()
     {
         return $this->m_host ? $this->m_host->getController() : null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getHost()
     {
         return $this->m_host;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $action_name
+    */
     public function skipVerbCheck(string $action_name)
     {
         $h = $this->getHost();
@@ -103,6 +143,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @throws ReflectionException 
      * @throws Exception 
      */
+
     protected static function _HandleDispatch(callable $fc, ...$args)
     {
         $g = new ReflectionFunction($fc);
@@ -116,6 +157,12 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
             throw new OperationNotAllowedException('Dispatcher failed: ' . $ex->getMessage(), 405, $ex);
         }
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public static function __callStatic($name, $args)
     {
         if (self::$sm_macro === null) {
@@ -129,10 +176,22 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
         }
         return (new static(null))->$name(...$args);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param mixed ...$args
+    */
     public function invoke(string $name, ...$args)
     {
         return $this->__call($name, $args);
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         $v_host = $this->m_host;
@@ -162,6 +221,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param mixed $args 
      * @return void 
      */
+
     public static function ResolvDispatchMethod(ReflectionFunctionAbstract $g, &$args)
     {
         $args = self::GetInjectArgs($g, $args);
@@ -175,6 +235,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GetInjectArgsByParameters($parameters, $args, ?IInjectedArgHost $host = null)
     {
         $targs = [];
@@ -191,6 +252,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GetInjectArgs(ReflectionFunctionAbstract $g, $args, ?IInjectedArgHost $host = null): array
     {
         $parameters = $g->getParameters();
@@ -377,6 +439,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param mixed &$services 
      * @return void 
      */
+
     protected static function _UpdateService(&$services)
     {
         $lbService = IGKServices::getInstance()->services();
@@ -396,6 +459,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param mixed $type 
      * @return ?mixed 
      */
+
     public static function GetInstanceServiceFromArrayDefinition(array $rtype, $type)
     {
         $v_ci = null;
@@ -415,6 +479,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function GetInjectTypeInstance($class_name)
     {
         return self::_GetInjectable($class_name, []);
@@ -462,6 +527,7 @@ class Dispatcher implements IActionProcessor, IActionDispatcher
      * @param mixed $v_host 
      * @return void 
      */
+
     public static function LoadInjectableAndServices(?array &$services, $v_host)
     {
         $thost = [$v_host];

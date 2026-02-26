@@ -8,6 +8,16 @@
 * auto generate doc.
 */
 final class IGKViewActionsConstants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HANDLE_ERROR = "(@error)";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HANDLE_DEFAULT = "(@default)";
 }

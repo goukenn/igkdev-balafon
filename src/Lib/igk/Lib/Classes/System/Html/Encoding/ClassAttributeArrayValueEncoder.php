@@ -9,6 +9,11 @@ namespace IGK\System\Html\Encoding;
  */
 class ClassAttributeArrayValueEncoder extends AttributeEncoder
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $char_list = [
         "&quot;" => "'",
     ];

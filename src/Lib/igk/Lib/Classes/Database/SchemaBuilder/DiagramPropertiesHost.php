@@ -10,19 +10,39 @@ use IGK\Helper\Activator;
  * @package igk\db\schemaBuilder
  */
 abstract class DiagramPropertiesHost{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $p_prefix;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_properties;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_resolveLinkColumn;
      /**
      * get last property description 
      * @var mixed
      */
     protected $m_last;
+
+    /**
+    * auto generate doc.
+    */
     public function getLastProperty(){
         return $this->m_last;
     }
     /**
      *  */
+
     public function addProperties(?array $DiagramProperties ){
         $_key = IGK_FD_NAME;
         foreach(array_values($DiagramProperties) as $k){
@@ -54,6 +74,7 @@ abstract class DiagramPropertiesHost{
      * return a copy of properties
      * @return mixed 
      */
+
     public function getProperties(){
         return $this->m_properties;
     }
@@ -61,6 +82,7 @@ abstract class DiagramPropertiesHost{
      * 
      * @return ?array 
      */
+
     public function getResolveLinks(){
         return $this->m_resolveLinkColumn;
     }

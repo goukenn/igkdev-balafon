@@ -11,8 +11,13 @@ use IGK\System\Traits\ComposerFakerTrait;
 * @package IGK\Database\Factories
 */
 class UsersFactory extends FactoryBase{
-	use ComposerFakerTrait; 
-	public function definition(): ?array{
+	use ComposerFakerTrait;
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
+    public function definition(): ?array{
 		$faker = $this->getFaker(); 
 		return array (	 
 			'clLogin' => $faker->email(), 

@@ -9,7 +9,22 @@ namespace IGK\System\Database;
 * @author C.A.D. BONDJE DOUE
 */
 class DbReverseMappingLink{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $columns;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $model;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $table;
 }

@@ -8,5 +8,10 @@ namespace IGK\System\Articles;
 * @package IGK\System\Articles
 */
 class Constants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RAW = Constants::RAW_VAR;
 }

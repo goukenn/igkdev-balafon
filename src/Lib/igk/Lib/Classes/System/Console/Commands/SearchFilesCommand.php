@@ -15,13 +15,38 @@ use IGK\System\Console\Logger;
  */
 class SearchFilesCommand extends AppExecCommand
 {
-	var $command = '--find';
-	var $desc = 'find file with regex pattern';
-	var $options = [
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--find';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'find file with regex pattern';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [
 		'--real-only' => 'flag: real file only '
 	];
-	var $category = 'sys';
-	var $usage = 'directory pattern [options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'directory pattern [options]';
 	/**
 	 * 
 	 * @param mixed $command 
@@ -29,7 +54,8 @@ class SearchFilesCommand extends AppExecCommand
 	 * @param null|string $pattern 
 	 * @return void 
 	 */
-	public function exec($command, ?string $dir = null, ?string $pattern = null)
+
+    public function exec($command, ?string $dir = null, ?string $pattern = null)
 	{
 		$dir ?? igk_die('missing directory');
 		$T = 0;

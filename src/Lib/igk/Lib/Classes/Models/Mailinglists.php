@@ -35,15 +35,60 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clml_email, int $clml_state, string $clml_source, string $clml_init, string $clml_agent, string $clml_locale ="en", string|datetime $clml_create_at ="NOW()", string|datetime $clml_update_at ="NOW()") add entry if not exists. check for unique column.
 * */
 class Mailinglists extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CLML_EMAIL="clml_email";
-	const FD_CLML_STATE="clml_state";
-	const FD_CLML_SOURCE="clml_source";
-	const FD_CLML_LOCALE="clml_locale";
-	const FD_CLML_INIT="clml_init";
-	const FD_CLML_AGENT="clml_agent";
-	const FD_CLML_CREATE_AT="clml_create_at";
-	const FD_CLML_UPDATE_AT="clml_update_at";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLML_EMAIL="clml_email";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLML_STATE="clml_state";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLML_SOURCE="clml_source";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLML_LOCALE="clml_locale";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLML_INIT="clml_init";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLML_AGENT="clml_agent";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLML_CREATE_AT="clml_create_at";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLML_UPDATE_AT="clml_update_at";
 	/**
 	* table's name
 	*/

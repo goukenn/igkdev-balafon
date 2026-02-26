@@ -8,18 +8,29 @@ namespace IGK\System\Html\Dom;
 * no tag definition 
 */
 class HtmlNoTagNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = 'igk:notagnode';
     /**
     * .ctr
     */
+
     public function __construct(){       
         parent::__construct();
     }
     /**
     * can render tag
     */
+
     public function getCanRenderTag(){ 
         return false;
-    }    
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsActive(){}
 }

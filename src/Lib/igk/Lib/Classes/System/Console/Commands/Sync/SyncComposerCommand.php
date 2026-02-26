@@ -14,12 +14,23 @@ use ReflectionException;
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncComposerCommand extends SyncAppExecCommandBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--sync:composer";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'sync:ftp use global shared composer';
     /**
      * get merged scripts
      * @return string[] 
      */
+
     protected function getMergedScripts(){
         return [
             IGK_LIB_DIR."/Inc/core/installer-helper.pinc",
@@ -35,6 +46,7 @@ class SyncComposerCommand extends SyncAppExecCommandBase{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function exec($command, ...$args) { 
         $this->syncScriptCommand($command, "install-composer.php", ["args"=>$args]); 
     } 

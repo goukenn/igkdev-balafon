@@ -9,6 +9,16 @@
 * Represent IGKSQLiteConnectionManager class
 */
 class IGKSQLiteConnectionManager{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $Sql;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $count;
 }

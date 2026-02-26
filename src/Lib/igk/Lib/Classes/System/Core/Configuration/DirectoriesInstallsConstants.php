@@ -11,6 +11,11 @@ namespace IGK\System\Core\Configuration;
 * @author C.A.D. BONDJE DOUE
 */
 class DirectoriesInstallsConstants{
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public static function GetInstallableDirConstants(): array{
         return [
 

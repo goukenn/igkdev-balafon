@@ -9,10 +9,25 @@ use IGK\System\IO\Printer\IPrinterService;
 * @package IGK\Printing
 */
 abstract class PrinterModelBase implements IPrinterModel{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_printer_service;
+
+    /**
+    * auto generate doc.
+    * @param null|IPrinterService $service
+    */
     public function setPrinterService(?IPrinterService $service) {
         $this->_printer_service = $service;
      }
+
+    /**
+    * auto generate doc.
+    * @param bool $exit
+    */
     public function print(bool $exit = true) { 
         $srv = $this->_printer_service;
         if ($srv){
@@ -28,5 +43,6 @@ abstract class PrinterModelBase implements IPrinterModel{
      * @param IPrinterService $device 
      * @return mixed 
      */
+
     protected abstract function render(IPrinterService $device);
 }

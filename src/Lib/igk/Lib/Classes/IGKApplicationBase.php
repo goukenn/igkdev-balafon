@@ -19,7 +19,17 @@ abstract class IGKApplicationBase{
      * @var array
      */
     private $lib = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_library;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_appBuilder;
     /**
      * disable environment initialisation
@@ -31,6 +41,11 @@ abstract class IGKApplicationBase{
      * @var mixed
      */
     protected $_entry_file;
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         if (method_exists($this, $fc="get".ucfirst($n))){
             return $this->$fc();
@@ -40,6 +55,7 @@ abstract class IGKApplicationBase{
      * init not environment
      * @return mixed 
      */
+
     public function getNoEnvironment(){
         return $this->no_init_environment;
     }
@@ -48,6 +64,7 @@ abstract class IGKApplicationBase{
      * @param mixed $name 
      * @return mixed
      */
+
     public function options($name, $default=null){
         return false;
     }
@@ -55,6 +72,7 @@ abstract class IGKApplicationBase{
      * get library list
      * @return ?IGKObjectStorage 
      */
+
     public function getLibrary(){
         return $this->m_library;
     }
@@ -63,6 +81,7 @@ abstract class IGKApplicationBase{
      * @param mixed $libname 
      * @return mixed 
      */
+
     protected function library($libname)
     {
         if ($this->m_library == null){
@@ -83,6 +102,10 @@ abstract class IGKApplicationBase{
         }
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getBuilder(){
         if ($this->m_appBuilder == null ){
             ($this->m_appBuilder = $this->createAppBuilder()) || igk_die("builder not create");
@@ -93,6 +116,7 @@ abstract class IGKApplicationBase{
      * 
      * @return IGK\System\AppBuilder 
      */
+
     protected function createAppBuilder(){
         return new \IGK\System\AppBuilder();
     }
@@ -101,6 +125,7 @@ abstract class IGKApplicationBase{
      * @param mixed $libname 
      * @return bool 
      */
+
     public function lib($libname):bool{
         return isset($this->lib[$libname]);
     }
@@ -108,17 +133,27 @@ abstract class IGKApplicationBase{
      * initialize application environment
      * @return mixed 
      */
+
     abstract function bootstrap();
     /**
      * run application
      * @param string $entryfile 
      * @return mixed 
      */
+
     abstract function run(string $entryfile, $render=1);
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return [];
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getEntryFile(){
         return $this->_entry_file;
     }
@@ -126,6 +161,7 @@ abstract class IGKApplicationBase{
      * init core system component
      * @return void 
      */
+
     protected function initCoreSystemComponent(){
         \IGK\System\Configuration\SysConfigExpressionFactory::Register('dotenv', DotEnvConfiguration::class);
 

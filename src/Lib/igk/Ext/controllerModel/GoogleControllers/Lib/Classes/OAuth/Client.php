@@ -12,16 +12,47 @@ namespace IGK\Core\Ext\Google\OAuth;
  *
  * */
 class Client{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const WELLKNOW_CONFIG = "https://accounts.google.com/.well-known/openid-configuration";
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $api_key;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $client_id;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $client_secret;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $scope;
 
+    /**
+    * .ctr
+    */
     public function __construct()
     {
     }
+
+    /**
+    * auto generate doc.
+    */
     public function authinfo(){
         static $_auth;
         if ($_auth ===null){
@@ -29,6 +60,13 @@ class Client{
         }
         return $_auth;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $code
+    * @param mixed $redirect_uri
+    * @param mixed $grant_type
+    */
     public function getTokenInfo($code, $redirect_uri, $grant_type="authorization_code"){
         $s  = igk_curl_post_uri($this->authinfo()->token_endpoint, [
             "code"=>$code,
@@ -44,6 +82,11 @@ class Client{
         }
         return json_decode($s);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tokeninfo
+    */
     public function getUserInfo($tokeninfo){
         $m = "Authorization: {$tokeninfo->token_type} {$tokeninfo->access_token}";
         $s = igk_curl_post_uri($this->authinfo()->userinfo_endpoint,null,

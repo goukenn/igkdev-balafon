@@ -17,9 +17,29 @@ use IGK\System\Shell\OsShell;
 * @package IGK\System\Console\Commands
 */
 class ZipCoreCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--zipcore";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "zip balafon core";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "utils";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--no-test"=>"flag: disable test",
         "--no-test-file"=>"flag: disable file lint test",
@@ -33,6 +53,7 @@ class ZipCoreCommand extends AppExecCommand{
     * @param mixed $command
     * @param null|mixed $path
     */
+
     public function exec($command, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

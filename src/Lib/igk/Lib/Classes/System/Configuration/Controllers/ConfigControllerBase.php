@@ -29,6 +29,11 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     {
         return strtolower(static::class);
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getUseDataSchema(): bool
     {
         if (self::IsSysController(static::class)) {
@@ -36,6 +41,10 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getViewDir()
     {
         if (Path::IsInLibrary($this->getDeclaredDir())) {
@@ -43,6 +52,10 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return parent::getViewDir();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getArticlesDir()
     {
         if (Path::IsInLibrary($this->getDeclaredDir())) {
@@ -50,6 +63,10 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
         }
         return parent::getViewDir();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDataDir()
     {
         if (Path::IsInLibrary($this->getDeclaredDir())) {
@@ -66,6 +83,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function getConfig($name, $default = null)
     {
         return $this->getConfigs()->get($name, $default);
@@ -75,6 +93,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
      * @param mixed $node
      * @param mixed $title
      */
+
     protected function addTitle($node, $title)
     {
         $d = $node->div();
@@ -84,6 +103,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * 
      */
+
     public function getConfigCtrl()
     {
         return igk_getctrl(IGK_CONF_CTRL, false);
@@ -91,6 +111,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * 
      */
+
     public function getConfigNode()
     {
         return $this->getConfigCtrl()->getConfigNode();
@@ -98,6 +119,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * 
      */
+
     public function getConfigPage()
     {
         return "default";
@@ -105,6 +127,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * 
      */
+
     protected function getGlobalHelpArticle()
     {
         return "./help/help." . $this->Name;
@@ -112,6 +135,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * 
      */
+
     public function getIsConfigPageAvailable()
     {
         return igk_is_conf_connected();
@@ -119,6 +143,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * 
      */
+
     public function getIsVisible(): bool
     {
         $app = igk_app();
@@ -131,6 +156,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * 
      */
+
     protected function initComplete($context = null)
     {
         parent::initComplete($context);
@@ -141,6 +167,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * 
      */
+
     public function initConfigMenu()
     {
         if (!$this->getIsConfigPageAvailable()) {
@@ -183,6 +210,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
      * 
      * @param mixed $funcName
      */
+
     protected function IsFunctionExposed(string $function)
     {
         if (!igk_is_conf_connected() || igk_configs()->get("no_web_configuration")) {
@@ -193,6 +221,7 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * base show Configuration of the controller
      */
+
     public function showConfig()
     {
         // show config must be call one per configuration setting
@@ -218,10 +247,16 @@ abstract class ConfigControllerBase extends BaseController implements IConfigCon
     /**
      * used to initialize the config view node
      */
+
     protected function viewConfig($target, $titlekey, $descfile)
     {
         return igk_html_ctrl_view_config($this, $target, $titlekey, $descfile);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    */
     protected function _selectConfigView($ctrl)
     {
         igk_environment()->set('sys://config/selectedview', $ctrl);

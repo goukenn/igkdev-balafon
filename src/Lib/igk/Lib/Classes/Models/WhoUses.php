@@ -27,11 +27,36 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clWebSite, int $clState, string|datetime $clDateTime, string $clIP) add entry if not exists. check for unique column.
 * */
 class WhoUses extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_WEB_SITE="clWebSite";
-	const FD_CL_STATE="clState";
-	const FD_CL_DATE_TIME="clDateTime";
-	const FD_CL_IP="clIP";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_WEB_SITE="clWebSite";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_STATE="clState";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_DATE_TIME="clDateTime";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_IP="clIP";
 	/**
 	* table's name
 	*/

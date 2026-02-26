@@ -17,10 +17,35 @@ use IGK\System\Html\Templates\BindingContextInfo;
  */
 class BindingExpressionReader
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BINDING_RAW_PROPERTY = 'raw';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $startMarker = '{{';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $endMarker = '}}';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $escapedChar = "'";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $text;
     /**
      * get read value
@@ -62,11 +87,17 @@ class BindingExpressionReader
      * @var mixed
      */
     var $expressionValueName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $expressionTagName = IGK_ENGINE_EXPRESSION_NODE;
     /**
      * read marker 
      * @return bool 
      */
+
     public function read(): bool
     {
         $this->escaped = false;
@@ -139,6 +170,7 @@ class BindingExpressionReader
      * @param ?array|callable array of data or a callable $listener 
      * @return string 
      */
+
     public function treatContent(string $content, $listener = null)
     {
         $v = '';
@@ -240,6 +272,7 @@ class BindingExpressionReader
      * @param mixed $expression 
      * @return string 
      */
+
     public function tranformExpressionToEval($expression)
     {
         $pipe = null;

@@ -28,9 +28,23 @@ use IGKException;
  */
 class PHPScriptBuilder
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $no_header_comment;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $author;
     use StoredPropertiesTrait;
+
+    /**
+    * auto generate doc.
+    */
     public static function CreateEmptyScriptCallback()
     {
         return function ($file) {
@@ -39,14 +53,29 @@ class PHPScriptBuilder
             igk_io_w2file($file, $g->render());
         };
     }
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->author = IGK_AUTHOR;
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name)
     {
         return $this->getProperty($name);
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         if (isset($arguments[0]))
@@ -61,6 +90,7 @@ class PHPScriptBuilder
      * @return void 
      * @throws IGKException 
      */
+
     public static function WriteArray($file, $tab, $desc = "")
     {
         $builder = new static;
@@ -83,6 +113,7 @@ class PHPScriptBuilder
      * @return void 
      * @throws IGKException 
      */
+
     public static function WriteData($file, $data, $desc = "")
     {
         $builder = new static;
@@ -94,6 +125,10 @@ class PHPScriptBuilder
             ->defs("return {$data};");
         igk_io_w2file($file, $builder->render());
     }
+
+    /**
+    * auto generate doc.
+    */
     public function render()
     {
         $lf = "\n";
@@ -244,6 +279,7 @@ class PHPScriptBuilder
      * get script file header
      * @return string
      */
+
     public static function GenScriptFileHeader($options)
     {
         $l = igk_extract_var(

@@ -13,13 +13,34 @@ use IGK\System\Number;
 * @package IGK\System\Console\Commands
 */
 class ZipProjectCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--project:zip";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "zip balafon project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = "controller [path] [options]";
     /**
      * exec the command
      */
+
     public function exec($command, $controller=null, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

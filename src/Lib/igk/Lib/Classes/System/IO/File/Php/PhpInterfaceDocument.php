@@ -11,17 +11,48 @@ use IGK\System\IO\File\PHPScriptBuilder;
 * @package IGK\System\IO\File\Php
 */
 class PhpInterfaceDocument{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $type = "interface";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $namespace;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $file;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $doc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_listener;
     /**
      * 
      * @param ?callable|IInvokeAction #phpDocListener
      * @return void 
      */
+
     public function __construct($phpDocListener)
     {
         $this->m_listener = $phpDocListener;
@@ -30,6 +61,7 @@ class PhpInterfaceDocument{
     /**
     * auto generate doc.
     */
+
     public function generate(){
         $o = $this->_getPhpDoc();
         $builder = new PHPScriptBuilder();        

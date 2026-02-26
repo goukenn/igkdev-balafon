@@ -20,14 +20,45 @@ use IGK\System\Traits\EnumeratesConstants;
 * @author C.A.D. BONDJE DOUE
 */
 class CreateUserProfileClassCommand extends AppExecCommand{
-	var $command='--make:userprofile-class';
-	var $desc='scaffold file to enable project\'s controller user profile management'; 
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--make:userprofile-class';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='scaffold file to enable project\'s controller user profile management';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--force'=>'flags used to reset '
 	];
-	var $category="make";
-	var $usage = 'controller [options]';
-	public function exec($command, ?string $controller=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category="make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller=null) {
 		is_null($controller) && igk_die('require controller');
 		$ctrl = self::GetController($controller);
 		$v_pname = EntryClassResolution::UserProfile;

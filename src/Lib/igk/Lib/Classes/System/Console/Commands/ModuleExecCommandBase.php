@@ -9,5 +9,10 @@ use IGK\System\Console\AppExecCommand;
 * @package IGK\System\Console\Commands
 */
 abstract class ModuleExecCommandBase extends AppExecCommand{
-	protected $module;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $module;
 }

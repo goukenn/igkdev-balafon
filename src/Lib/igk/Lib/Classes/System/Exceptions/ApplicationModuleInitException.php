@@ -11,7 +11,19 @@ use Throwable;
 * @package IGK\System\Exceptions
 */
 class ApplicationModuleInitException extends IGKException{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $module;
+
+    /**
+    * .ctr
+    * @param ApplicationModuleController $module
+    * @param mixed $code
+    * @param null|Throwable $throwable
+    */
     public function __construct(ApplicationModuleController $module, $code, ?Throwable $throwable)
     {
         $this->module = $module;

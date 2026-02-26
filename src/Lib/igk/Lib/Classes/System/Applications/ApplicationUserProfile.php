@@ -17,9 +17,28 @@ use IGKUserInfo;
 * @package IGK\System\Application
 */
 class ApplicationUserProfile extends SystemUserProfile implements ICustomUserProfile{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_user;
-    private $m_app_user; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_app_user;
+
+    /**
+    * auto generate doc.
+    */
     protected function registerProfile() { }
+
+    /**
+    * auto generate doc.
+    * @return ModelsModelBase
+    */
     public function user(): ModelsModelBase {
         return $this->m_app_user;
      } 
@@ -28,9 +47,14 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @param mixed $userInfo 
      * @return void 
      */
+
     public function setUserInfo($userInfo) {
         $this->m_profile = $userInfo;
      }
+
+    /**
+    * auto generate doc.
+    */
     public function getUserInfo(){ 
         return $this->m_profile;
     } 
@@ -38,9 +62,15 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * get project user
      * @return mixed 
      */
+
     public function getApplicationUser():?ModelBase{
         return $this->m_app_user;
     }
+
+    /**
+    * auto generate doc.
+    * @return Users
+    */
     public function model(): Users { 
         return $this->m_user;
     }
@@ -50,6 +80,7 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @return void 
      * @throws Exception 
      */
+
     public function __construct(Users $user, ?BaseController $ctrl=null, ?IGKUserInfo $profile = null) {
         Users::IsMockInstance($user) && igk_die('mock instance not allowed');
         $ctrl = $ctrl ?? igk_current_ctrl();
@@ -64,6 +95,7 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @param mixed $appUser 
      * @return null|ICustomUserProfile 
      */
+
     public function bindInfo($userProfile, $appUser): ?ICustomUserProfile{ 
         $this->setUserInfo($userProfile);
         $this->m_app_user = $appUser;
@@ -75,6 +107,7 @@ class ApplicationUserProfile extends SystemUserProfile implements ICustomUserPro
      * @param mixed $user 
      * @return static 
      */
+
     protected static function _CreateClassInstance($user){
         return new static($user, ...array_slice(func_get_args(),1));
     }

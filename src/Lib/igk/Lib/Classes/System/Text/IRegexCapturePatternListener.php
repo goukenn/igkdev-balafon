@@ -9,5 +9,11 @@ namespace IGK\System\Text;
 * @author C.A.D. BONDJE DOUE
 */
 interface IRegexCapturePatternListener{
+
+    /**
+    * auto generate doc.
+    * @param RegexTreatCapture $cap
+    * @param mixed $patterns
+    */
     function treatPattern(RegexTreatCapture $cap, $patterns);
 }

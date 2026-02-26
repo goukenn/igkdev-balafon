@@ -29,6 +29,11 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
      * @var null|object|array|AppleTouchIconMetadataDefinition|AppleTouchIconMetadataDefinition[]
      */
     var $appleWebAppStartupImage;
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function map(): array { 
         return [
             'appleWebAppCapable'=>'apple-mobile-web-app-capable',
@@ -37,6 +42,12 @@ class AppleWebAppMetadata extends MetadataGroupEntryBase{
             'appleWebAppStartupImage'=>'apple-mobile-web-app-startup-image',
         ];
     }
+
+    /**
+    * auto generate doc.
+    * @param string $n
+    * @param mixed $v
+    */
     public function setProperty(string $n, $v)
     {
         if ($n == 'appleWebAppStartupImage'){

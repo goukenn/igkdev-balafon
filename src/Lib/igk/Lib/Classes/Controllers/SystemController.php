@@ -19,11 +19,21 @@ use IGKResourceUriResolver;
  * @package IGK\Controllers
  */
 final class SystemController extends NonVisibleControllerBase{
+
+    /**
+    * auto generate doc.
+    * @param null|string $path
+    * @return ?string
+    */
     public function getAppUri(?string $path=null):?string{
         empty($path) && igk_die("null path not allowed");
         $uri = igk_register_temp_uri(static::class);
         return implode("/", [$uri, $path]);        
     }
+
+    /**
+    * auto generate doc.
+    */
     public function logout(){
         UsersConfigurationController::ctrl()->logout();   
         if ($sess = igk_app()->getApplication()->getLibrary()->session){
@@ -33,6 +43,10 @@ final class SystemController extends NonVisibleControllerBase{
         $redirect = urldecode(igk_getr("redirect_uri", "/")); 
         igk_navto($redirect);
     }
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         parent::__construct();
     }
@@ -94,6 +108,11 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $lang
+    */
     public function changeLang_ajx($lang=null){ 
         $doc=igk_get_last_rendered_document();   
         if($doc !== null){
@@ -122,6 +141,11 @@ final class SystemController extends NonVisibleControllerBase{
         }
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function changeTheme($name){
         $s=igk_sys_srv_referer();
         if(empty($s)){
@@ -132,9 +156,17 @@ final class SystemController extends NonVisibleControllerBase{
         igk_css_render_balafon_style(igk_app()->getDoc());
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFontDir(){
         return igk_io_syspath(IGK_RES_FONTS);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFontList(){
         static $fontlist=null;
         if($fontlist === null){
@@ -146,12 +178,27 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return $fontlist;
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return IGK_SYS_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
     protected function initComplete($context=null){
         parent::initComplete();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $name
+    */
     public function installfont($name=null){
         $n=($name == null) ? base64_decode(igk_getr("n")): $name;
         if($this->m_fontList && isset($this->m_fontList->fonts[$n])){
@@ -164,6 +211,10 @@ final class SystemController extends NonVisibleControllerBase{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function installfont_ajx(){
         if(igk_parsebool($this->installfont())){
             $node=$this->getParam("sys:viewnode");
@@ -178,9 +229,18 @@ final class SystemController extends NonVisibleControllerBase{
             $frm->renderAJX();
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function IsFunctionExposed($n){
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function mod_rewrite(){
         if(igk_getv($_SERVER, 'IGK_REWRITE_MOD') || (igk_server()->REDIRECT_URL && (igk_getr('rwc') > 0))){
             igk_wl(1);
@@ -189,14 +249,32 @@ final class SystemController extends NonVisibleControllerBase{
         igk_wl(0);
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function update(){    }
+
+    /**
+    * auto generate doc.
+    */
     public function upload(){
         igk_wln_e("upload file ");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function viewFontList(){
         $r=$this->_getFontList();
         igk_wl($r);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param null|mixed $ctrl
+    */
     public function viewInstallFontForm($node, $ctrl=null){
         $frm=$node->addForm();
         $this->setParam("sys:binding", array("form"=>$frm, "ctrl"=>$ctrl));

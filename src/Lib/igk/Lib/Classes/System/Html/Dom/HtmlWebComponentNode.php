@@ -10,7 +10,12 @@ use IGKEvents;
 * auto generate doc.
 * @package IGK\System\Html\Dom
 */
-class HtmlWebComponentNode extends HtmlNode{    
+class HtmlWebComponentNode extends HtmlNode{
+
+    /**
+    * .ctr
+    * @param mixed $tagname
+    */
     public function __construct($tagname)
     {
         parent::__construct($tagname);
@@ -21,6 +26,7 @@ class HtmlWebComponentNode extends HtmlNode{
     * @param mixed $listener
     * @param null|mixed $param
     */
+
     public function setComponentListener($listener, $param=null){
     }
 
@@ -28,6 +34,7 @@ class HtmlWebComponentNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $name
     */
+
     public static function CreateComponent($name){
         $c = self::CreateWebNode($name);
         if ($c instanceof self){

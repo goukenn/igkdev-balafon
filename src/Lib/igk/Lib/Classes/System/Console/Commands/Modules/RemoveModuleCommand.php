@@ -16,13 +16,43 @@ use IGK\System\Controllers\ApplicationModules;
  */
 class RemoveModuleCommand extends AppExecCommand
 {
-	var $command = '--module:remove';
-	var $desc = 'remove installed module';
-	var $options = [];
-	var $category = 'module';
-	var $usage = '[options]';
 
-	public function exec($command, ?string $module_name = null)
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--module:remove';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'remove installed module';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'module';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $module_name
+    */
+    public function exec($command, ?string $module_name = null)
 	{
 		!$module_name && igk_die('module required');
 		try {

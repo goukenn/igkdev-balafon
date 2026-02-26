@@ -15,6 +15,11 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\Controllers
 */
 abstract class ControllerBaseTestCase extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $controller;
     // FOR PHP+8 disable construct of
 
@@ -22,6 +27,7 @@ abstract class ControllerBaseTestCase extends BaseTestCase{
     * auto generate doc.
     * @return void
     */
+
     public function setUp():void{
         parent::setUp();
         $ctrl = $this->controller;
@@ -48,6 +54,7 @@ abstract class ControllerBaseTestCase extends BaseTestCase{
      * @param string $uri 
      * @return RequestResponse 
      */
+
     protected function handleRequest(string $uri):RequestResponse{ 
         $this->controller->getConfigs()->no_auto_cache_view = true;
 		return $this->controller::handle($uri);

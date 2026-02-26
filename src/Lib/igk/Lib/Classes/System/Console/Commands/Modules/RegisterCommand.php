@@ -12,12 +12,43 @@ use IGK\System\Console\AppExecCommand;
 * @author C.A.D. BONDJE DOUE
 */
 class RegisterCommand extends AppExecCommand{
-	var $command='--module:register';
-	var $desc='register module to online Balafon\'s module package repository'; 
-	var $options=[];
-	var $category = 'module';
-	var $usage = '[options]';
-	public function exec($command, ?string $module_name=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--module:register';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='register module to online Balafon\'s module package repository';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'module';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $module_name
+    */
+    public function exec($command, ?string $module_name=null) { 
 		//TODO;
 		$mod = ($module_name ? igk_get_module($module_name) ?? igk_die('missing module'): null) ?? igk_current_module() ?? igk_die('module not found');
 

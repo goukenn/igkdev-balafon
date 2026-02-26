@@ -21,8 +21,23 @@ use ReflectionException;
 * @package IGK\System\Console\Commands
 */
 class RequestUriViewCommand extends RequestViewCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = '--request:uri';
-    var $desc = 'request uri call'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'request uri call';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = 'controller request [options]';
     /**
      * 
@@ -31,6 +46,7 @@ class RequestUriViewCommand extends RequestViewCommand{
      * @return void 
      * @throws IGKException 
      */
+
     public function doRequest($command, $path){ 
         igk_server()->SCRIPT_NAME = '/index.php';  
         RequestHandler::HandleRequestUri($path); 
@@ -56,6 +72,7 @@ class RequestUriViewCommand extends RequestViewCommand{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function exec($command, $controller=null, ?string $request=null){
         return parent::exec($command, igk_configs()->default_controller, $controller);
     }

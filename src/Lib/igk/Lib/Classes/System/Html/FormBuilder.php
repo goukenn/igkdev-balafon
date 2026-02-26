@@ -33,6 +33,11 @@ class FormBuilder
      * @var Closure|array|IFormBuilderDataSource
      */
     var $datasource;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ENV_CSS = IGKEnvironmentConstants::CSS_ENV_STYLE_KEY;
     /**
      * 
@@ -106,6 +111,7 @@ class FormBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function build(array $formFields, $render = 0, $engine = null, $tag = "div")
     {
         $o = "";
@@ -586,6 +592,7 @@ class FormBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function RenderComponent($component)
     {
         $o = '';
@@ -621,6 +628,7 @@ class FormBuilder
      * @param string $type 
      * @return int|false 
      */
+
     protected function isHtmlType(string $type)
     {
         return preg_match("/(text|checkbox|password|datetime|email|hidden|fieldset|button|submit|reset|datalist|select|number|file)/", $type);
@@ -632,6 +640,7 @@ class FormBuilder
      * @return int 
      * @throws Exception 
      */
+
     protected static function _SelectSortBySorkByText($a, $b)
     {
         $getv = function ($a, $tab) {
@@ -655,6 +664,7 @@ class FormBuilder
      * @return mixed 
      * @throws Exception 
      */
+
     protected function _getDataSourceValue($value, $id)
     {
         $_value = $value;
@@ -675,6 +685,7 @@ class FormBuilder
      * @param null|array $def_data 
      * @return mixed|null|array 
      */
+
     public function _getSelectDataOptions(string $id, ?array $def_data = null)
     {
         $_source = $this->datasource;
@@ -692,6 +703,7 @@ class FormBuilder
      * @param mixed $value 
      * @return void 
      */
+
     public static function SelectOptions($data, $key, $value)
     {
         $list = [];
@@ -703,6 +715,12 @@ class FormBuilder
         }
         return $list;
     }
+
+    /**
+    * auto generate doc.
+    * @param string & $o
+    * @param mixed $attrib
+    */
     public function build_submit(string &$o, $attrib)
     {
         $_closed = false;
@@ -725,6 +743,7 @@ class FormBuilder
      * @return void 
      * @throws Exception 
      */
+
     protected static function _LoadClassDefinition(&$tm, &$arg)
     {
         foreach (['class', 'classname', 'className'] as $ck) {
@@ -739,6 +758,12 @@ class FormBuilder
         // update merged attribes
         $tm = array_merge($tm, $arg);
     }
+
+    /**
+    * auto generate doc.
+    * @param string & $o
+    * @param mixed $attrib
+    */
     public function build_button(string &$o, $attrib)
     {
         $_closed = false;

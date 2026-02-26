@@ -8,12 +8,18 @@ namespace IGK\Helper\Expressions;
 * @package IGK\Helper\Expressions
 */
 class ValueExpression{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $data = [];
     /**
      * replace 
      * @param string $data 
      * @return string 
      */
+
     public function replace(string $data){
         foreach($this->data as $k=>$v){
             $data = str_replace($k, $v, $data);

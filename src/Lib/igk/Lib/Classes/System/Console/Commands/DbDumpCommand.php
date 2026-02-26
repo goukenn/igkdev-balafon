@@ -21,18 +21,60 @@ use IGKNonVisibleControllerBase;
  * @package IGK\System\Console\Commands
  */
 class DbDumpCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--db:dump";
-    var $desc = "dump controller database from schema definition"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = "dump controller database from schema definition";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "controller"=>"controller to target",
         "file"=>"file to export",
         "-o"=>"export type xml|json",
         '--inject'=>'flag: replace dump fields to schema',
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $help = "--db:dump controller [output_file] [-o:xml|json]";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = 'controller [outfile] [options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_entries;
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $ctrl
+    * @param null|mixed $file
+    */
     public function exec($command,  $ctrl=null, $file=null)
     {    
         if (!$ctrl  || !($ctrl = self::GetController($ctrl))){
@@ -97,9 +139,22 @@ class DbDumpCommand extends AppExecCommand{
         // Logger::success("Schema complete");
         return 0;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $type
+    */
     public function getGenerator($type){ 
         return $this; 
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param mixed $table
+    * @param mixed $info
+    * @param mixed & $manifest
+    */
     public function _generate(BaseController $ctrl, $table, $info, & $manifest = []){
         /**
          * @var \IGK\System\Database\MySQL\DataAdapter $ad data adapter
@@ -126,6 +181,7 @@ class DbDumpCommand extends AppExecCommand{
         } 
         $this->_entries[$tb] = $rest;
     }
+
     public function help(){
         parent::help();
         Logger::print("file [-o:[json]]");

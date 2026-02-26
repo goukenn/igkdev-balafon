@@ -9,7 +9,12 @@ use IGK\System\Database\InitBase;
 * @package IGK\Database
 */
 class InitData extends InitBase{
-	public static function Init(IGK\System\Configuration\Controllers\ConfigureController $controller){
+
+    /**
+    * auto generate doc.
+    * @param IGK\System\Configuration\Controllers\ConfigureController $controller
+    */
+    public static function Init(IGK\System\Configuration\Controllers\ConfigureController $controller){
 		// + | itialize your data base
 	}
 }

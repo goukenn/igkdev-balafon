@@ -11,11 +11,29 @@ use function igk_resources_gets as __;
 * @package IGK\System\Configuration
 */
 class LocaleSetting{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $setting;
+
+    /**
+    * auto generate doc.
+    */
     public static function getInstance(){
         return self::$sm_instance ?? self::$sm_instance = new self;
     }
+
+    /**
+    * .ctr
+    */
     protected function __construct(){        
     }
     /**
@@ -23,6 +41,7 @@ class LocaleSetting{
      * @param string $format 
      * @return mixed 
      */
+
     public static function Get(string $format){
         $format = StringUtility::CamelClassName($format);
         $i = self::getInstance();
@@ -30,6 +49,10 @@ class LocaleSetting{
             return call_user_func_array([$i, $fc], []);
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDateFormat(){
         if (__($k = "@date_format") == $k){
             switch(strtolower(R::GetCurrentLang() ?? 'fr')){

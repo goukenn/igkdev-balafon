@@ -10,7 +10,17 @@ use IGK\System\Installers\InstallerUtils;
  */
 class MaintenanceHelper
 {
-    const lockFile = ".maintenance.lock"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const lockFile = ".maintenance.lock";
+
+    /**
+    * auto generate doc.
+    * @param string $bdir
+    */
     public static function LockSite(string $bdir)
     {
         if (igk_io_file_exists($lock = $bdir . "/".self::lockFile)) {
@@ -40,6 +50,7 @@ EOF        );
      * @param string $bdir 
      * @return void 
      */
+
     public static function UnlockSite(string $bdir)
     {
         if (!igk_io_file_exists($lock = $bdir ."/".self::lockFile)) {

@@ -22,12 +22,39 @@ use Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class MakeformValidationCommand extends AppExecCommand{
-	var $command='--make:form-validation';
-	var $desc='make a form validation. Contextual command*.'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--make:form-validation';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='make a form validation. Contextual command*.'; 
 	/* var $options=[]; */
-	var $category = CommandCategories::MAKE; 
-	var $usage = '[controller] name [options]'; 
-	public function exec($command, ?string $controller=null, ?string $name=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = CommandCategories::MAKE;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[controller] name [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $name
+    */
+    public function exec($command, ?string $controller=null, ?string $name=null) {
 		self::ContextController($command, $controller, $name);
 		empty($name) && igk_die("name required");
 		$ctrl = self::GetController($controller);
@@ -36,7 +63,14 @@ class MakeformValidationCommand extends AppExecCommand{
 		Utility::MakeBindFiles($command, $bind, false);
 		ConsoleLogger::success('done');
 	 }
-	 protected function _bindingList(string $dir, BaseController $ctrl, $name){
+
+    /**
+    * auto generate doc.
+    * @param string $dir
+    * @param BaseController $ctrl
+    * @param mixed $name
+    */
+    protected function _bindingList(string $dir, BaseController $ctrl, $name){
 		$bind = [];
 		$name = igk_str_add_suffix(ucfirst(igk_ns_name($name)), 'FormData');
 		$bind[$dir."/".$name.".php"] = function($file)use($ctrl, $name){
@@ -63,7 +97,8 @@ class MakeformValidationCommand extends AppExecCommand{
 	  * @return void 
 	  * @throws Exception 
 	  */
-	 static function ContextController($command, & $controller, & $name){
+
+    static function ContextController($command, & $controller, & $name){
 		if (is_null($name)){
 			if (property_exists($command->options, '--controller')){
 				$ctrl = self::ResolveController($command, null, false) ?? igk_die('missing controller');

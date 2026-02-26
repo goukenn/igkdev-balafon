@@ -55,6 +55,11 @@ class ConfigurationReader
      * @var mixed
      */
     protected $m_ln;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_result;
     /**
      * escae start litter counter 
@@ -72,7 +77,17 @@ class ConfigurationReader
      * @var mixed
      */
     var $valueEscapeDelimiter;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MODE_NAME = 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MODE_VALUE = 2;
     /**
      * non marked string listener
@@ -85,6 +100,7 @@ class ConfigurationReader
      * @param mixed $expression 
      * @return string 
      */
+
     public function treatExpression(string $text, &$expression)
     {
         $expression = [];
@@ -106,6 +122,10 @@ class ConfigurationReader
             }
         return $l;
     }
+
+    /**
+    * .ctr
+    */
     public function __construct() {}
     /** 
      * read a value and return a object associated with it   
@@ -114,6 +134,7 @@ class ConfigurationReader
      * @param null|Closure $callback 
      * @return false|stdClass 
      */
+
     public function read(string $value, ?int $length = null, ?Closure $callback = null)
     {
         if (
@@ -207,6 +228,11 @@ class ConfigurationReader
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    */
     protected function _getActiveAttrib(string $name)
     {
         if ($ac = $this->activeAttribute) {
@@ -220,10 +246,16 @@ class ConfigurationReader
      * get the result of last reading string
      * @return mixed 
      */
+
     public function getResult()
     {
         return $this->m_result;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $str
+    */
     public static function RmStringMark($str)
     {
         if (!is_null($str) && !empty($g = trim($str))) {
@@ -233,6 +265,11 @@ class ConfigurationReader
         }
         return $str;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     protected function _canRead(): bool
     {
         if (count($this->m_errors) > 0) {
@@ -243,14 +280,30 @@ class ConfigurationReader
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     protected function _readName(): ?string
     {
         return trim($this->_readData($this->separator) ?? '');
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     protected function _readValue(): ?string
     {
         return trim($this->_readData($this->delimiter, true) ?? '');
     }
+
+    /**
+    * auto generate doc.
+    * @param string $end
+    * @param null|bool $read_value
+    */
     protected function _readData(string $end, ?bool $read_value = false)
     {
         /**
@@ -311,10 +364,15 @@ class ConfigurationReader
         }
         return $d;
     }
+
     protected function _readLitteralEnd(string $ch, string $end): bool
     {
         return $ch == $end;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getErrors()
     {
         return $this->m_errors;
@@ -323,6 +381,7 @@ class ConfigurationReader
      * create a css value reader
      * @return ConfigurationReader 
      */
+
     public static function CreateCssValueReader()
     {
         $reader = new self;
@@ -334,6 +393,7 @@ class ConfigurationReader
      * create a connection string value reader
      * @return ConfigurationReader 
      */
+
     public static function CreateConnexionStringValueReader()
     {
         $reader = new self;
@@ -343,6 +403,7 @@ class ConfigurationReader
      * create environment value reader
      * @return ConfigurationReader 
      */
+
     public static function CreateEnvironmentValueReader()
     {
         $reader = new self;
@@ -353,11 +414,17 @@ class ConfigurationReader
     /**
      * direct parsing
      */
+
     public static function Parse(string $value)
     {
         $reader = new self;
         return $reader->read($value);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    */
     public static function ParseEnumLitteralValue(string $value)
     {
         $r = new EnumDefinitionReader;

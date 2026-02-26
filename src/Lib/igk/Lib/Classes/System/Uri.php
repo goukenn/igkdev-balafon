@@ -11,13 +11,53 @@ use IGKException;
  */
 class Uri
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEMP_ENV_KEY = "sys://temp_uri";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_protocol;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_domain;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_port;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_path;
-    private $m_query; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_query;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_options;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fragment; 
     /**
      * build a query arg query
@@ -27,6 +67,7 @@ class Uri
      * @return string 
      * @throws IGKException 
      */
+
     public static function BuildUri($uri, ?array $append_args = [], ?array $exclude_query = null, $append = true)
     {
         $q = parse_url($uri);
@@ -58,6 +99,11 @@ class Uri
         }
         return $cpath;
     }
+
+    /**
+    * auto generate doc.
+    * @param array $data
+    */
     public static function FromParseUrl(array $data){
         $url = "";
         $url = implode("", array_filter([
@@ -70,10 +116,22 @@ class Uri
         ]));
         return new Uri($url);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param null|mixed $default
+    */
     public static function get(string $name, $default = null)
     {
         return igk_environment()->getArray(self::TEMP_ENV_KEY, $name, $default);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param string $uri
+    */
     public static function register(string $name, string $uri)
     {
         igk_environment()->setArray(self::TEMP_ENV_KEY, $name, $uri);
@@ -83,6 +141,7 @@ class Uri
      * @param string $uri 
      * @return void 
      */
+
     public function __construct(string $uri)
     {
         self::_Parse($this, $uri);
@@ -105,6 +164,7 @@ class Uri
      * get detected string option 
      * @return null|string 
      */
+
     public function getOptions():?string{
         return $this->m_options;
     }
@@ -112,6 +172,7 @@ class Uri
      * get parse query option
      * @return array 
      */
+
     public function getParseOptions():array{
         return igk_get_query_options($this->m_options);
     }
@@ -119,6 +180,7 @@ class Uri
      * get site uri. combine protocol and domain name
      * @return string 
      */
+
     public function getSiteUri()
     {
         return implode("", array_filter([
@@ -131,6 +193,7 @@ class Uri
      * get path
      * @return ?string 
      */
+
     public function getPath()
     {
         return $this->m_path;
@@ -139,6 +202,7 @@ class Uri
      * get the domain
      * @return ?string
      */
+
     public function getDomain(): ?string{
         return $this->m_domain;
     }
@@ -146,6 +210,7 @@ class Uri
      * get full uri
      * @return string 
      */
+
     public function getFullUri(): string
     {
         return implode("", array_filter([
@@ -163,6 +228,7 @@ class Uri
      * get query string
      * @return string
      */
+
     public function getQuery():?string{
         return $this->m_query;
     }
@@ -170,6 +236,7 @@ class Uri
      * get request uri
      * @return string 
      */
+
     public function getRequestUri():string{
         return "/".ltrim(implode("", [
             $this->m_path,

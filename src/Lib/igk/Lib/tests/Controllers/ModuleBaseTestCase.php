@@ -15,11 +15,25 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Tests\Controllers
  */
 abstract class ModuleBaseTestCase extends BaseTestCase{
-    protected $controller; 
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $controller;
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function setUpBeforeClass(): void{
         // gk_require_module(__NAMESPACE__); 
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function setUp():void{
         parent::setUp();
         if ($c = igk_getv($_ENV, "IGK_TEST_MODULE")){
@@ -34,6 +48,7 @@ abstract class ModuleBaseTestCase extends BaseTestCase{
      * get module 
      * @return mixed 
      */
+
     protected function getModule(): ?ApplicationModuleController{
         if ($dir = ApplicationModuleHelper::GetModuleNameFromTestClass(static::class)){        
             return  igk_require_module($dir);

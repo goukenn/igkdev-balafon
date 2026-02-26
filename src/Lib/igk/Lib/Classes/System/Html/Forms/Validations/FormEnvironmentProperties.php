@@ -10,12 +10,18 @@ namespace IGK\System\Html\Forms\Validations;
 * @property static $validation_error
 */
 abstract class FormEnvironmentProperties{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const _KEY_FORMAT = 'form_env_validation_%s';
     /**
      * store validation error
      * @param mixed $error 
      * @return void 
      */
+
     public static function validation_error($error){
         return self::_setEnv(__FUNCTION__, $error);
     }
@@ -23,6 +29,7 @@ abstract class FormEnvironmentProperties{
      * get store validation 
      * @return mixed 
      */
+
     public static function get_validation_error(){
         return self::_getEnv(__FUNCTION__);
     }
@@ -31,6 +38,7 @@ abstract class FormEnvironmentProperties{
      * @param mixed $name 
      * @return mixed 
      */
+
     protected static function _getEnv($name){
         $c =  igk_environment()->get(sprintf(self::_KEY_FORMAT, igk_str_rm_start($name,'get_'))); 
         return $c;
@@ -41,6 +49,7 @@ abstract class FormEnvironmentProperties{
      * @param mixed $value 
      * @return void 
      */
+
     protected static function _setEnv($name, $value){
         return igk_environment()->set(sprintf(self::_KEY_FORMAT, $name), $value);
     }

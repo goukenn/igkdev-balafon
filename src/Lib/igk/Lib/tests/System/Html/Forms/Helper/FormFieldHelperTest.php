@@ -19,6 +19,10 @@ use IGK\Tests\BaseTestCase;
  */
 class FormFieldHelperTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_formfieldhelper_handleformrequest()
     {
         $count = 0;
@@ -38,6 +42,10 @@ class FormFieldHelperTest extends BaseTestCase
 
         $this->assertTrue(empty((array)$v_form_sess_def));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_formfieldhelper_validate()
     {
 

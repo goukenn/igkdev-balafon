@@ -11,8 +11,23 @@ use IGK\System\Runtime\Compiler\ReadTokenUtility;
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewTokenBlock{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TOKEN_TYPES = "try|catch|finaly|if|elseif|else|switch|case|default|for|foreach|while|do";
-    var $type; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $type;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $parent;
     /**
      * block of instructions
@@ -34,8 +49,23 @@ class ViewTokenBlock{
      * @var int
      */
     var $depth = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tabstop = "\t";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $structs = [];
+
+    /**
+    * .ctr
+    * @param string $type
+    */
     public function __construct(string $type)
     {
         if (!in_array($type, $this->getTokenTypeArray())){
@@ -43,9 +73,17 @@ class ViewTokenBlock{
         }
         $this->type = $type;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getTokenTypeArray(){
         return explode("|", self::TOKEN_TYPES);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function generateCode(){
         $sb = new StringBuilder;
         $sb->tabstop = str_repeat($this->tabstop, $this->depth);  
@@ -57,6 +95,10 @@ class ViewTokenBlock{
         $sb->append(sprintf('%s', $endtag));
         return ''.$sb;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCodeBlock(){
         return [];
     }
@@ -64,6 +106,7 @@ class ViewTokenBlock{
      * return generated code string
      * @return string 
      */
+
     public function getCodeString(){
         $tab = $this->blocks;
         $p = null;

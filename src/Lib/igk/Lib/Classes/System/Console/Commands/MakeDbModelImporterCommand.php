@@ -15,14 +15,46 @@ use IGK\System\IO\StringBuilder;
 * @author C.A.D. BONDJE DOUE
 */
 class MakeDbModelImporterCommand extends AppExecCommand{
-	var $command='--make:db-model-importer';
-	var $desc='make database model importer';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--make:db-model-importer';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='make database model importer';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--force'=>'flag: force creations'
 	];
-	var $category = 'make';
-	var $usage = 'controller model [class]';
-	public function exec($command, $controller=null, $model=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'make';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller model [class]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $controller
+    * @param null|mixed $model
+    */
+    public function exec($command, $controller=null, $model=null) { 
 		($model ) || igk_die('required model');
 		$ctrl = self::ResolveController($command, $controller);
 		$mod = $ctrl->model($model);

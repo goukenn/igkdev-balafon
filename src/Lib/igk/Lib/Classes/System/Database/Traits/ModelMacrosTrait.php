@@ -13,8 +13,17 @@ use IGK\Models\ModelBase;
  */
 trait ModelMacrosTrait
 {
+
+    /**
+    * auto generate doc.
+    */
     protected abstract function _GetAutoInsertDefinition();
-    
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $name
+    */
     public static function AutoInsertCache(ModelBase $model, $name)
     {
         $tab = static::_GetAutoInsertDefinition();      

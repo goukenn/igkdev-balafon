@@ -10,8 +10,23 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 class HtmlAriaProperties{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const label="aria-label";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const hidden = "aria-hidden";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const label_types = [
         "pagination"
     ];

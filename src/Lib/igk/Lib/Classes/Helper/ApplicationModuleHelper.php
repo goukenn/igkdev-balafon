@@ -15,11 +15,17 @@ use stdClass;
  */
 class ApplicationModuleHelper
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SYS_ENV_KEY = 'sys://init_controller/modules';
     /**
      * get module name form class 
      * @var  $class_name get module name form class 
      */
+
     public static function GetModuleNameFromTestClass(string $class_name): ?string
     {
         $dir = igk_io_collapse_path(dirname(igk_sys_reflect_class($class_name)->getFileName()));
@@ -39,6 +45,7 @@ class ApplicationModuleHelper
      * @param BaseController $ctrl 
      * @return void 
      */
+
     public static function ImportRequiredModule(array $required_conf, BaseController $ctrl)
     {
         // + | load build requirement
@@ -65,6 +72,7 @@ class ApplicationModuleHelper
      * get module required info
      * @return mixed|ApplicationModuleConfigurationInfo
      */
+
     public static function GetModuleRequireInfo(\IGK\Controllers\ApplicationModuleController $module, ?BaseController $ctrl)
     {
         $g = igk_environment()->get(self::SYS_ENV_KEY);
@@ -81,6 +89,7 @@ class ApplicationModuleHelper
      * @throws IGKException 
      * @throws Exception 
      */
+
     public static function CreateApplicationModuleConfigurationInfo($info)
     {
         if ($info instanceof stdClass) {
@@ -95,6 +104,7 @@ class ApplicationModuleHelper
     /**
      * return get configuration key
      */
+
     public static function GetConfigKey(\IGK\Controllers\ApplicationModuleController $module): string
     {
         return str_replace('.', '/', ltrim($module->getName(), '.'));

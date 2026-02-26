@@ -21,9 +21,29 @@ use igk\System\Console\Commands\Utility as CommandsUtility;
 */
 class MakeActionCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--make:action";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "make new project's action. Contextual command.";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--type:type" => "defaut Model type class. 'api'|'def'|'project'|'middlewire'",
         "--force" => "flag: force create action"
@@ -38,11 +58,17 @@ class MakeActionCommand extends AppExecCommand
      * @var ?array|?string
      */
     var $uses;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = 'controller action_name [options]';
     /**
      * @var string $controller Controller
      * @var string $actionName the action to create 
      */
+
     public function exec($command, ?string $controller = null, ?string $action_name = null)
     {
         if (is_null($action_name) && !empty($controller)) {

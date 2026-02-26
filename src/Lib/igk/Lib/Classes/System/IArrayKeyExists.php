@@ -8,5 +8,11 @@ namespace IGK\System;
 * @package IGK\System\Array
 */
 interface IArrayKeyExists{
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return bool
+    */
     function keyExists(string $name):bool;
 }

@@ -9,11 +9,17 @@ use IGK\System\Html\Metadatas\MetaDataHost;
 * @package IGK\System\Html\Metadatas\Traits
 */
 trait HtmlDocMetadataTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_metadata;
     /**
      * get method data binding 
      * @return mixed 
      */
+
     public function getMetadatas(){
         if (is_null($this->m_metadata)){
             $this->m_metadata = new MetaDataHost($this);

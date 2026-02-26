@@ -11,6 +11,11 @@ namespace IGK\System\Configuration;
  * represent the xpath configuration
  */
 class XPathConfig{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_config;
     /**
      * get or set loading tempory. to save configuration
@@ -22,6 +27,11 @@ class XPathConfig{
      * @var bool
      */
     var $initController = true;
+
+    /**
+    * .ctr
+    * @param mixed $config
+    */
     public function __construct($config){
         $this->m_config = $config;
     }
@@ -29,9 +39,15 @@ class XPathConfig{
      * get the config by XPath 
      * 
      */
+
     public function get($path, $default=null, $strict=0){
         return igk_conf_get($this->m_config, $path, $default, $strict);
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         return $this->get($n,null);
     }

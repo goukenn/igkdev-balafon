@@ -12,12 +12,44 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class ChangePasswordCommand extends AppExecCommand{
-	var $command='--user:change-pwd';
-	var $desc='change user\'s password'; 
-	var $options=[];
-	var $category = 'users'; 
-	var $usage = 'user new_password [options]'; 
-	public function exec($command, ?string $user=null, ?string $newPassword = null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--user:change-pwd';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='change user\'s password';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'users';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'user new_password [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $user
+    * @param null|string $newPassword
+    */
+    public function exec($command, ?string $user=null, ?string $newPassword = null) { 
 		if ($newPassword && $user && ($v_tu = igk_get_user_bylogin($user))){ 
 			$v_tu->changePassword($newPassword);
 			Logger::success("done");

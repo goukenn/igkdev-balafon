@@ -8,6 +8,16 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 abstract class ViewCompilerConstants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OPERATOR_SYMBOL =  "+,-,->,?->,<=>,+=,-=,/=,%=,*=,&&,||,(,[";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BLOCK_TRIM_CHAR = "\t\n\r\0\x0B; ";
 }

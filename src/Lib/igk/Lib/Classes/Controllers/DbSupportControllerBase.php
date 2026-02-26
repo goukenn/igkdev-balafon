@@ -10,12 +10,23 @@ use IGKDbModelUtility;
  * 
  */
 abstract class DbSupportControllerBase extends RootControllerBase{
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     protected abstract function getDataTableName(): ?string;
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     protected abstract function getUseDataSchema(): bool;
     /**
      * get the data table info
      * @return null 
      */
+
     protected function getDataTableInfo(){
         return null;
     }
@@ -23,6 +34,7 @@ abstract class DbSupportControllerBase extends RootControllerBase{
      * create a db utility class
      * @return mixed 
      */
+
     protected function getDb(){
         static $db;
         if($db === null){

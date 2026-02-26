@@ -17,12 +17,18 @@ use stdClass;
  */
 class BalafonInitEnvironment
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const AppLibCore = '/Lib/igk';
     /**
      * retrieve vendor directory 
      * @param string $dir 
      * @return string|null 
      */
+
     public static function GetVendorDir(string $dir): ?string
     {
         while ($dir && ($dir != '.')) {
@@ -59,6 +65,7 @@ class BalafonInitEnvironment
      * @param mixed $appLibCore
      * @return void 
      */
+
     public function run($command, string $install_dir = 'src', string $appLibCore = self::AppLibCore)
     {
         igk_environment()->isDev() && Logger::info("--[init]--");
@@ -209,6 +216,7 @@ class BalafonInitEnvironment
      * @param mixed $app_dir 
      * @return void 
      */
+
     static function _InitIOFileAuth($command, string $app_dir)
     {
         // + | fix mod and owner
@@ -221,6 +229,10 @@ class BalafonInitEnvironment
             `chown -R {$o} {$d}`;
         })(realpath(dirname($app_dir)), $command);
     }
+
+    /**
+    * auto generate doc.
+    */
     static function _DefaultUserGroup(){
         if (strtolower(PHP_OS)=='darwin'){
             return '_www:_www';

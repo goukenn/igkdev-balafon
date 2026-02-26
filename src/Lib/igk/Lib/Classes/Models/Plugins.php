@@ -27,11 +27,36 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clEmail, string|datetime $clRelease, string $clVersion) add entry if not exists. check for unique column.
 * */
 class Plugins extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_NAME="clName";
-	const FD_CL_EMAIL="clEmail";
-	const FD_CL_RELEASE="clRelease";
-	const FD_CL_VERSION="clVersion";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NAME="clName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_EMAIL="clEmail";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_RELEASE="clRelease";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_VERSION="clVersion";
 	/**
 	* table's name
 	*/

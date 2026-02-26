@@ -18,7 +18,17 @@ use IGKException;
  */
 class EngineReadArgs
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $context;
+
+    /**
+    * .ctr
+    * @param mixed $context
+    */
     function __construct($context)
     {
         $this->context = $context;
@@ -27,6 +37,7 @@ class EngineReadArgs
      * 
      * @return mixed 
      */
+
     protected function evalContext()
     {
         extract(func_get_arg(1) ?? []);
@@ -37,6 +48,7 @@ class EngineReadArgs
      * @param string $e 
      * @return void 
      */
+
     public function evalExpression(string $src)
     {
         $r = $this->evalContext('return $context->' . $src . ';', $this->context);
@@ -53,6 +65,7 @@ class EngineReadArgs
      * @throws Exception 
      * @throws IGKException 
      */
+
     public function readCurlBranketDefinition(string $src, int &$position)
     {
         $regex = new RegexMatcherContainer;
@@ -85,6 +98,7 @@ class EngineReadArgs
      * @throws Error 
      * @throws Exception 
      */
+
     protected function _treat($src, $pos, $handlers, $regex)
     {
         $replaces = [];
@@ -106,6 +120,10 @@ class EngineReadArgs
         }
         return $out;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _handlers()
     {
         $handlers = [
@@ -125,6 +143,13 @@ class EngineReadArgs
         ];
         return $handlers;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $o
+    * @param mixed $replaces
+    * @param int $from
+    */
     protected function _replaceList($o, $replaces, int $from)
     {
         $ts = $o;
@@ -146,6 +171,11 @@ class EngineReadArgs
         $v .= substr($ts, $offset);
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $regex
+    */
     protected function _global_regex($regex)
     {
         $v_detect_arg = $regex->begin('\[\[:@(?P<name>[a-zA-Z_][a-zA-Z_0-9]*)\\b', '\]\]', 'detect-args')->last();
@@ -158,6 +188,7 @@ class EngineReadArgs
      * @param mixed $context 
      * @return void 
      */
+
     public static function TreatGlobalArgs(string $src, $context)
     {
         $c = new static(['context' => new DataArgs($context ?? [])]);

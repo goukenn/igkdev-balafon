@@ -10,12 +10,23 @@ namespace IGK\XSD;
 * @package IGK\XSD
 */
 class XsdGroup implements IXsdReference{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $attributes;
 
     /**
     * auto generate doc.
     */
+
     public function getRefType(){
         return "xs:group";
     }
@@ -23,6 +34,7 @@ class XsdGroup implements IXsdReference{
     /**
     * auto generate doc.
     */
+
     public function getRef() { 
         return $this->name;
     }

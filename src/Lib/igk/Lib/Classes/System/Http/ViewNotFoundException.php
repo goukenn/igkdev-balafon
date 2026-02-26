@@ -14,6 +14,12 @@ class ViewNotFoundException extends RequestException{
      * @var string
      */
     protected $status;
+
+    /**
+    * .ctr
+    * @param null|mixed $uri
+    * @param mixed $code
+    */
     public function __construct($uri=null, $code=RequestResponseCode::NotFound){
         $uri = $uri ?? igk_io_request_uri();
         $this->status = "View not found";

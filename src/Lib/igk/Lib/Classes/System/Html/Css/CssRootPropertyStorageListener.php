@@ -9,12 +9,18 @@ namespace IGK\System\Html\Css;
 * @author C.A.D. BONDJE DOUE
 */
 class CssRootPropertyStorageListener implements ICssStoreRootListener{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_roots;
     /**
      * root listener 
      * @param array $tab 
      * @return void 
      */
+
     public function store(array $tab){
         if (is_null($this->m_roots)){
             $this->m_roots =  $tab;
@@ -28,6 +34,7 @@ class CssRootPropertyStorageListener implements ICssStoreRootListener{
      * render root 
      * @return string 
      */
+
     public function render(){
         return $this->m_roots ? 
             sprintf(':root{%s}',igk_css_array_key_map_implode($this->m_roots)) : null; 

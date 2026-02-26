@@ -64,6 +64,12 @@ class BalafonConfiguration{
     public static function LoadConfig(BaseController $ctrl){
         return json_decode(file_get_contents(Path::Combine($ctrl->getDeclaredDir(), Constants::PROJECT_CONF_FILE )));
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param mixed $config
+    */
     public static function StoreConfig(BaseController $ctrl, $config){
         $file = self::GetConfigFile($ctrl);
         igk_io_w2file($file, json_encode($config, JSON_PRETTY_PRINT));

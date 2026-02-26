@@ -81,7 +81,11 @@ trait ClassAndStyleOffsetTrait{
      */
     protected function offsetSetExpression($k, $v){
     }
-    ///get sytem attribute loading context 
+    ///get sytem attribute loading context
+
+    /**
+    * auto generate doc.
+    */
     public function getLoadingContext(){
         // - 
         if ($this instanceof IHtmlContextContainer){

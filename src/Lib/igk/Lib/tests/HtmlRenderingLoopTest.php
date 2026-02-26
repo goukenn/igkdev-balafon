@@ -12,6 +12,9 @@ use IGK\Tests\BaseTestCase;
 */
 class HtmlRenderingLoopTest extends BaseTestCase{
 
+    /**
+    * auto generate doc.
+    */
     public function test_htmlrender_activate(){
         $src = implode("\n", [ 
             '<Column',
@@ -29,6 +32,9 @@ class HtmlRenderingLoopTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_on_range(){
         $n = igk_create_node('div');
         $n->ul()->loop(range(1,3))->host(function($a, $i){
@@ -39,6 +45,10 @@ class HtmlRenderingLoopTest extends BaseTestCase{
             $n->render(),
             "loop on range failed");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_loop_on_assoc_array(){
         $n = igk_create_node('div');
         $n->ul()->loop([

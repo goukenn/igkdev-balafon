@@ -8,9 +8,28 @@ namespace IGK\Controllers;
 * @package IGK\Controllers
 */
 interface IControllerManagerObject{
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param bool $throwException
+    * @return ?BaseController
+    */
     function getController($name, bool $throwException = true): ?BaseController;
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @return ?BaseController
+    */
     function register(BaseController $controller); 
     function getDefaultController(): ?BaseController;
+
+    /**
+    * auto generate doc.
+    * @param null|BaseController $controller
+    * @return ?array
+    */
     function setDefaultController(?BaseController $controller);
     function invokeUri(?string $uri=null, bool $render=false);
     function getControllerRef(): ?array;
@@ -18,17 +37,20 @@ interface IControllerManagerObject{
      * array of all controllers
      * @return array 
      */
+
     function getControllers():array;
     /**
      * list of project controller
      * @return array 
      */
+
     function getUserControllers():array;
     /**
      * get registrated named controller
      * @param string $name 
      * @return null|BaseController 
      */
+
     function getRegistratedNamedController(string $name): ?BaseController;
     /**
      * register named controller
@@ -36,6 +58,7 @@ interface IControllerManagerObject{
      * @param BaseController $controller 
      * @return mixed 
      */
+
     function registerNamedController(string $name, BaseController $controller);
     /**
      * invoke pattern

@@ -14,9 +14,29 @@ use JsonSerializable;
  */
 class RegexMatcherContainerTmDefinition implements JsonSerializable
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $scopeName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $version;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $repository;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $patterns;
     /**
      * private member definition
@@ -30,6 +50,7 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
      * @param mixed $value 
      * @return void 
      */
+
     public function __set($name, $value)
     {
         if (preg_match("/^\\$/", $name)) {
@@ -42,6 +63,7 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
      * @return mixed|void 
      * @throws Exception 
      */
+
     public function __get($name)
     {
         if (preg_match("/^\\$/", $name)) {
@@ -52,6 +74,7 @@ class RegexMatcherContainerTmDefinition implements JsonSerializable
      * serialize object 
      * @return mixed 
      */
+
     public function jsonSerialize(): mixed
     {
         $ref = (array)$this;

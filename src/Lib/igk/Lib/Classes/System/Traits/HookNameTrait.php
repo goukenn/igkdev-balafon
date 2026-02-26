@@ -9,6 +9,11 @@ use IGK\System\IO\Path;
 * @package IGK\System\Traits
 */
 trait HookNameTrait{
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    */
     public static function HookName(string $name){
         return Path::Combine(static::class, $name);
     }

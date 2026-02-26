@@ -16,6 +16,10 @@ use IGK\Tests\BaseTestCase;
  */
 class CssClassNameDetectorTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssclassdetector_detect_class()
     {
         $parser = CssParser::Parse(".card{ display:block; }");
@@ -30,6 +34,9 @@ class CssClassNameDetectorTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_cssclassdetector_detect_class_php()
     {
         // parse css content
@@ -56,6 +63,9 @@ PHP
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_css_node_multiclass()
     {
         $n = igk_create_node('div');

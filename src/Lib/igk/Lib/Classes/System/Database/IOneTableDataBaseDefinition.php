@@ -10,5 +10,10 @@ use IGK\System\Models\IModelDefinitionInfo;
 * @package IGK\System\Database
 */
 interface IOneTableDataBaseDefinition extends IDataBaseDefinition{
+
+    /**
+    * auto generate doc.
+    * @return IModelDefinitionInfo
+    */
     public function getModelDefinition(): IModelDefinitionInfo;
 }

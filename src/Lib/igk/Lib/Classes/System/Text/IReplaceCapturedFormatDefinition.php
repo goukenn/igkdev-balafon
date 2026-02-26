@@ -17,6 +17,11 @@ namespace IGK\System\Text;
 * @property bool $lineFeed;
 * @property mixed $match
 */
-interface IReplaceCapturedFormatDefinition extends IRegexCaptureInfo{ 
+interface IReplaceCapturedFormatDefinition extends IRegexCaptureInfo{
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function getHasSubChildren():bool;
 }

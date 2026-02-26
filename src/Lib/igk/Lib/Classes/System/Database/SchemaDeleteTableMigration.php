@@ -11,6 +11,11 @@ use IGK\Database\DbColumnInfo;
 * @package IGK\System\Database
 */
 class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $fill_properties = ["table"]; 
     // source column to restore
     /**
@@ -22,6 +27,7 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     /**
     * auto generate doc.
     */
+
     public function up(){    
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
@@ -31,6 +37,7 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     /**
     * auto generate doc.
     */
+
     public function down()
     {  
         //restore current table definition
@@ -41,6 +48,7 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
      * @param mixed $childs 
      * @return void 
      */
+
     protected function loadChilds($childs){  
         $this->tables = [];
         $ctrl = $this->getMigration()->controller;

@@ -12,6 +12,12 @@ use IGK\System\Console\Logger;
  */
 abstract class DbCommandHelper
 {
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrl
+    * @param null|mixed $class
+    */
     public static function Seed($ctrl=null, $class = null){
         if ($ctrl) {
             if ($c = SysUtils::GetControllerByName($ctrl, false)) {
@@ -37,6 +43,11 @@ abstract class DbCommandHelper
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public static function GetUsageCommandHelp(): array
     {
         $tab = self::GetDbCommandsProperties();
@@ -47,6 +58,7 @@ abstract class DbCommandHelper
      * 
      * @return array{-db_name: string, -db_user: string, -db_pwd: string, -db_server: string, -db_prefix: string, -db_driver: string, -db_port: string, -db_connexion_string: string} 
      */
+
     public static function GetDbCommandsProperties()
     {
         return [
@@ -61,6 +73,11 @@ abstract class DbCommandHelper
             "-db_connexion_string" => "db_connexion_string",
         ];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public static function Init($command)
     {
         $cnf = igk_configs();
@@ -75,6 +92,10 @@ abstract class DbCommandHelper
             igk_environment()->querydebug = 1;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function ShowUsage()
     {
         foreach (array_keys(self::GetDbCommandsProperties()) as $k) {

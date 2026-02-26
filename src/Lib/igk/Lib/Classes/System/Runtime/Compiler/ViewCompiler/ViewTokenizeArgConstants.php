@@ -9,9 +9,30 @@ use IGK\System\Runtime\Compiler\CompilerConstants;
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 abstract class ViewTokenizeArgConstants extends CompilerConstants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SETTER_VAR = '$___IGK_PHP_SETTER_VAR___';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const GETTER_VAR = '$___IGK_PHP_GETTER_VAR___';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const EXPRESSION = '$___IGK_PHP_EXPRESSION___'; // when depend on variables
+
+    /**
+    * auto generate doc.
+    * @param string $v
+    * @param null|array $dependOn
+    */
     public static function ExpressEvalGetter(string $v, ?array $dependOn=null){
         $v = str_replace("'", "\\'", $v);
         if ($dependOn){

@@ -9,13 +9,25 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewCompilerBockInfo;
 * @package IGK\System\Runtime\Compiler\ViewCompiler\CodeBlock
 */
 class DoWhileBlock extends ViewCompilerBockInfo{
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         parent::__construct("do");
         $this->condition = false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function startBlock(){
         return sprintf("do{");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function endBlock(){
         return ["}", sprintf("while (%s);", $this->condition)];
     }

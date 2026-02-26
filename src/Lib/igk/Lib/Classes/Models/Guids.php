@@ -25,10 +25,30 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clGUID, string $clDesc, string|datetime $clCreateAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Guids extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_GUID="clGUID";
-	const FD_CL_DESC="clDesc";
-	const FD_CL_CREATE_AT="clCreateAt";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_GUID="clGUID";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_DESC="clDesc";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_CREATE_AT="clCreateAt";
 	/**
 	* table's name
 	*/

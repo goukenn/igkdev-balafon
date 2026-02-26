@@ -8,12 +8,18 @@
 * auto generate doc.
 */
 class IGKHostParam{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
     /**
      * 
      * @param mixed $data 
      * @return void 
      */
+
     public function __construct(object $data)
     {
         if ($data == null){
@@ -26,6 +32,7 @@ class IGKHostParam{
     * auto generate doc.
     * @param mixed $n
     */
+
     public function __get($n){
         return igk_getv($this->m_data, $n);
     }
@@ -35,6 +42,7 @@ class IGKHostParam{
     * @param mixed $n
     * @param mixed $value
     */
+
     public function __set($n, $value){
         if ($value == null){
             unset($this->m_data->$n); 
@@ -46,6 +54,7 @@ class IGKHostParam{
     /**
     * auto generate doc.
     */
+
     public function __toString()
     {
         return __CLASS__;

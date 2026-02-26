@@ -28,11 +28,21 @@ class ViewCompileProcessCommandHandler{
             "@Import"=>'importFile',
             "@Include"=>'includeFile',
         ];
-        public function __construct(IViewCompiler $compiler)
+
+    /**
+    * .ctr
+    * @param IViewCompiler $compiler
+    */
+    public function __construct(IViewCompiler $compiler)
         {
             $this->compiler = $compiler;
         }
-        public function evaluate($data){
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    */
+    public function evaluate($data){
             $name = $data;
             $args = [];
             if (strpos($data, "@")=== 0){
@@ -60,19 +70,33 @@ class ViewCompileProcessCommandHandler{
                 }
             }
         }
-        public static function ReadLayoutArgs(string $data){
+
+    /**
+    * auto generate doc.
+    * @param string $data
+    */
+    public static function ReadLayoutArgs(string $data){
             return StringUtility::ReadArgs($data, ",");
         }
-        public function renderPhpVersion(){
+
+    /**
+    * auto generate doc.
+    */
+    public function renderPhpVersion(){
             return "echo PHP_VERSION;\n";
         }
-        public function setViewAsMainLayout(){
+
+    /**
+    * auto generate doc.
+    */
+    public function setViewAsMainLayout(){
             $this->compiler->options->layout->{'@MainLayout'} = 1;
         }
         /**
          * import file in layout
          */
-        public function includeFile(string $file){  
+
+    public function includeFile(string $file){  
             if (!$this->compiler->options->layout->{'@MainLayout'})
                 igk_die("import in -- @MainLayout required");
             $dir = $this->compiler->options->layout->viewDir;
@@ -86,7 +110,8 @@ class ViewCompileProcessCommandHandler{
          * @return string|void 
          * @throws IGKException 
          */
-        public function importFile(string $file){   
+
+    public function importFile(string $file){   
             $dir = $this->compiler->options->layout->viewDir;
             if (igk_io_file_exists($v_cfile = $dir."/".$file)){
                 $ext = ".cphtml";
@@ -107,7 +132,11 @@ class ViewCompileProcessCommandHandler{
                 return 'include '.igk_io_collapse_const_path($cache_file).";\n"; 
             }
         }
-        public function renderBlfVersion(){
+
+    /**
+    * auto generate doc.
+    */
+    public function renderBlfVersion(){
             return 'echo "'.IGK_VERSION.'";';
         }
     }

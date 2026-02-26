@@ -13,11 +13,19 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class RegexMatcherUtilityTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatcher_utility_begin_end(){
         $this->assertEquals('bonjoto',
             RegexMatcherUtility::TreatBeginEndCapture('bonjour', '', 'to',0,5)
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_regexmatcher_utility_begin_hello(){
         $this->assertEquals('hello',
             RegexMatcherUtility::TreatBeginEndCapture('bonjour', 'hello', null,null)

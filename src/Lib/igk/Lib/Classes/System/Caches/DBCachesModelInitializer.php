@@ -25,7 +25,17 @@ use IGKSysUtil;
  */
 class DBCachesModelInitializer
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $tableInfo;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_loaded = [];
     /**
      * instance for migration 
@@ -37,6 +47,7 @@ class DBCachesModelInitializer
      * create an instance for migration purpose
      * @return DBCachesModelInitializer 
      */
+
     public static function InitMigration($plist)
     {
         $item = new self;
@@ -51,6 +62,7 @@ class DBCachesModelInitializer
      * @return DBCachesModelInitializer 
      * @throws IGKException 
      */
+
     public static function Init($plist, bool $force = false, bool $clean = false)
     {
         $item = new self;
@@ -65,6 +77,7 @@ class DBCachesModelInitializer
      * @return void 
      * @throws IGKException 
      */
+
     public function bootStrap(bool $force = false, bool $clean = false)
     {
         if (!$this->tableInfo) {
@@ -146,6 +159,7 @@ class DBCachesModelInitializer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function getModelDefaultSourceDeclaration(string $name, string $table, $migrationInfo, BaseController $ctrl, 
     ?string $comment = null, ?string $prefix=null, ?string $display_expression=null)
     {
@@ -166,6 +180,7 @@ class DBCachesModelInitializer
      * @param BaseController $ctrl 
      * @return array 
      */
+
     public function dBGetPhpDocModelArgEntries(array $inf, BaseController $ctrl, ?string $prefix)
     {
         $tab = [];
@@ -201,6 +216,7 @@ class DBCachesModelInitializer
      * @param string $type 
      * @return void 
      */
+
     public function getPhpDocDefaultLinkType(string $type)
     {
         $type = strtolower($type);
@@ -216,6 +232,12 @@ class DBCachesModelInitializer
         }
         return 'string';
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param string $prefix
+    */
     protected static function _RemovePrefix(string $name, string $prefix){
         $ln = strlen($prefix);
         if (igk_str_startwith($name, $prefix) && ($prefix!=$name)){
@@ -234,6 +256,7 @@ class DBCachesModelInitializer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function getPhpDoPropertyType(string $name, $info, BaseController $ctrl, $extra = false, ?string $prefix= null)
     {
         if ($prefix){
@@ -284,6 +307,7 @@ class DBCachesModelInitializer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function getLinkType($type, ?bool $notnull, ?BaseController $ctrl = null)
     {
         $gu = null;

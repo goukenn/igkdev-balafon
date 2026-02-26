@@ -30,7 +30,17 @@ use ReflectionMethod;
  */
 class HtmlRenderer
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const reflect_class = 'reflec_class';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const render_method = 'render';
     /**
      * 
@@ -42,6 +52,7 @@ class HtmlRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function SplitterJoin(HtmlItemBase $n, $separator='')
     {
         $s = '';
@@ -72,6 +83,7 @@ class HtmlRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function Encapsulate(HtmlItemBase $s, $g): string
     {
         $t = $s->getTagName();
@@ -90,6 +102,7 @@ class HtmlRenderer
      * @return void 
      * @throws IGKException 
      */
+
     public static function AppendOptionNode($option, $node)
     {
         if (!($c = igk_getv($option, "__append__"))) {
@@ -103,6 +116,7 @@ class HtmlRenderer
      * @return object|IHtmlRenderOptions
      * @throws IGKException 
      */
+
     public static function CreateRenderOptions()
     {
         $o = new HtmlRendererOptions;
@@ -112,6 +126,7 @@ class HtmlRenderer
     /**
      * 
      */
+
     public static function InitRendererOption($o)
     {
         $o->Cache = igk_sys_cache_require();
@@ -131,6 +146,7 @@ class HtmlRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GetValue($o, $options = null)
     {
         if ($o instanceof IHtmlGetValue) {
@@ -144,6 +160,7 @@ class HtmlRenderer
     /**
      * force to render global html document
      */
+
     public static function RenderDocument($doc = null, $refreshDefault = 1, $ctrl = null)
     {
         //igk_wln_e("bind:ing");
@@ -179,6 +196,7 @@ class HtmlRenderer
      * @return void 
      * @throws IGKException 
      */
+
     public static function OutputDocument(IGKHtmldoc $doc)
     {
         $headers = [];
@@ -194,6 +212,7 @@ class HtmlRenderer
      * sanitize rendering option 
      * @param object 
      */
+
     public static function SanitizeOptions(object $options)
     {
         if (!isset($options->sanitizeRendering)) {
@@ -214,6 +233,11 @@ class HtmlRenderer
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed & $options
+    */
     public static function DefOptions(&$options = null)
     {
         if ($options == null) {
@@ -233,6 +257,7 @@ class HtmlRenderer
      * @param mixed|XmlRenderOptions $options 
      * @return string 
      */
+
     public static function GetTabStop($options)
     {
         $s = "";
@@ -247,6 +272,7 @@ class HtmlRenderer
      * @param mixed $options 
      * @return void 
      */
+
     public static function UpdateInvoke(string $method, $options)
     {
         if (!isset($options->__invoke[$method])) {
@@ -283,6 +309,7 @@ class HtmlRenderer
     /**
      * a way to render node
      */
+
     public static function Render(HtmlItemBase $item, $options = null)
     {
         // + | render option definition
@@ -466,6 +493,13 @@ class HtmlRenderer
         $options->child_renderCount = $child_render;
         return $s; // leave space after
     }
+
+    /**
+    * auto generate doc.
+    * @param HtmlItemBase $item
+    * @param mixed & $attribs
+    * @param null|mixed $options
+    */
     public static function MailThemeRendering(HtmlItemBase $item, &$attribs = [],  $options = null)
     {
         //for mail rendering attribures
@@ -516,6 +550,7 @@ class HtmlRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GetAttributeString(HtmlItemBase $item, $options)
     {
         $filter = $item->getPrefilterAttribute();
@@ -557,6 +592,12 @@ class HtmlRenderer
         }
         return  rtrim($out);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $attrs
+    * @param null|mixed $options
+    */
     public static function GetAttributeArrayToString($attrs, $options = null)
     {
         /**
@@ -665,6 +706,7 @@ class HtmlRenderer
      * @throws Exception 
      * @throws CssParserException 
      */
+
     public static function GetAttributeArray(HtmlItemBase $item, $options = null): array
     {
         $attribs = $item->getAttributes();
@@ -749,6 +791,7 @@ class HtmlRenderer
      * @param mixed $v
      * @param mixed $options
      */
+
     public static function GetStringAttribute($v, $options)
     {
         if (is_bool($v)) {
@@ -808,6 +851,7 @@ class HtmlRenderer
      * @return string 
      * @throws IGKException 
      */
+
     public static function GetInnerHtml(HtmlItemBase $item, $options = null)
     {
         $s = "";
@@ -838,6 +882,7 @@ class HtmlRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GetInneText(HtmlItemBase $item, $options = null): string
     {
         $s = "";

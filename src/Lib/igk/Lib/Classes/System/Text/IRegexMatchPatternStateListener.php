@@ -9,6 +9,10 @@ namespace IGK\System\Text;
 * @author C.A.D. BONDJE DOUE
 */
 interface IRegexMatchPatternStateListener{
+
+    /**
+    * auto generate doc.
+    */
     function saveState();
     function restoreState();
 }

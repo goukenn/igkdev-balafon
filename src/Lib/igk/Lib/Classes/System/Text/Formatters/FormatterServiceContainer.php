@@ -18,7 +18,12 @@ use IGKServices;
 * @author C.A.D. BONDJE DOUE
 */
 class FormatterServiceContainer implements IAppServiceContainer{
-    use ServiceContainerTrait; 
+    use ServiceContainerTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_resolvedScope = [];
     use ServicePropertyTrait;
     /**
@@ -26,6 +31,7 @@ class FormatterServiceContainer implements IAppServiceContainer{
      * @param mixed $configs 
      * @return bool 
      */
+
     public function init($configs = null): bool { 
         return true;
     }
@@ -34,12 +40,14 @@ class FormatterServiceContainer implements IAppServiceContainer{
      * @param mixed $scopeName 
      * @return void 
      */
+
     public function getFormatRegexContainer(string $scopeName){
 
     }
     /**
      * 
      */
+
     public function resolveFormat(string $scopeName){
         if($scopeName=='source.html'){
             $regex = new RegexMatcherContainer;

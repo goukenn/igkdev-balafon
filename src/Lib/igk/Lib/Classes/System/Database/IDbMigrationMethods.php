@@ -8,6 +8,13 @@ namespace IGK\System\Database;
 * @package IGK\System\Database
 */
 interface IDbMigrationMethods{
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param mixed $columnInfo
+    * @param null|string $after
+    */
     function db_add_column(string $table, $columnInfo, ?string $after=null);
     function db_rm_column(string $table, $columnInfo);
 }

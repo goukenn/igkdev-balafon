@@ -10,6 +10,12 @@ use IGK\Controllers\BaseController;
  * @package IGK\Helper
  */
 class ControllerHelper{
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         $controller = $arguments[0];

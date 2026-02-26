@@ -15,6 +15,11 @@ use IGK\System\WinUI\Forms\FormData;
 class ComposerPackageValidator extends FormData{
     use ComposerPackageFileTrait;
     use ObjectFormDataTrait;
+
+    /**
+    * auto generate doc.
+    * @param null|array $tab
+    */
     protected function getDataValidatorMapper(?array $tab = null)
     {
         $from_mapper = parent::getDataValidatorMapper($tab);
@@ -29,6 +34,11 @@ class ComposerPackageValidator extends FormData{
         $from_mapper->resolvKeys = ['require-dev'=>'requireDev'];
         return $from_mapper;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     protected function getContentSecure(): ?array {
         return [
             'authors'=>function($n, $key, &$errors, $missing, $required){
@@ -43,6 +53,15 @@ class ComposerPackageValidator extends FormData{
             'requireDev'=>[$this, 'getRequireDev'] 
         ];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $key
+    * @param mixed & $errors
+    * @param mixed $missing
+    * @param mixed $required
+    */
     public function getRequireDev($n, $key, &$errors, $missing, $required){
         if (is_object($n)){
             return $n;
@@ -52,6 +71,7 @@ class ComposerPackageValidator extends FormData{
      * expression to check that 
      * @return null|array 
      */
+
     function getNotRequired(): ?array
     {        
         return [function($a){

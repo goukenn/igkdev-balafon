@@ -9,8 +9,24 @@ namespace IGK\Helper;
  * @package IGK\Helper
  */
 class JSONUtilityOption{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ignore_empty;
-    var $default_ouput;  
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $default_ouput;
+
+    /**
+    * .ctr
+    * @param mixed $ignore_empty
+    * @param mixed $default_ouput
+    */
     public function __construct($ignore_empty=false, $default_ouput='{}')
     {
         $this->ignore_empty = $ignore_empty;

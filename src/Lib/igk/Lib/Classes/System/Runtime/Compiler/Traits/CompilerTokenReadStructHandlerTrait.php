@@ -12,6 +12,15 @@ use IGK\System\Runtime\Compiler\IReadTokenOptions;
 trait CompilerTokenReadStructHandlerTrait
 {
     use CompilerTokenBracketTrait;
+
+    /**
+    * auto generate doc.
+    * @param mixed & $flag
+    * @param IReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return bool
+    */
     protected function handleReadClass(&$flag, IReadTokenOptions $options, $id, $value): bool
     {
         $struct = $options->struct_info;
@@ -64,6 +73,7 @@ trait CompilerTokenReadStructHandlerTrait
      * @return bool 
      * @throws IGKException 
      */
+
     protected function handleGlobalUseFlag(&$flag, IReadTokenOptions $options, $id, $value): bool
     {
         $uses = &$options->uses;

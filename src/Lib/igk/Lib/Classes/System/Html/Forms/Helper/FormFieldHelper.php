@@ -14,6 +14,11 @@ use IGKValidator;
  */
 abstract class FormFieldHelper
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FORM_FIELD = 'forms';
     /**
      * handle session request args
@@ -21,6 +26,7 @@ abstract class FormFieldHelper
      * @return mixed 
      * @throws Exception 
      */
+
     public static function HandleSessionRequestArgs($data = null, $obj = null)
     {
         $sess_form = igk_app()->session->{self::FORM_FIELD};
@@ -34,6 +40,7 @@ abstract class FormFieldHelper
      * clear session from 
      * @return void 
      */
+
     public static function ClearFormSession()
     {
         igk_app()->session->{self::FORM_FIELD} = igk_createobj();
@@ -46,6 +53,7 @@ abstract class FormFieldHelper
      * @return mixed 
      * @throws Exception 
      */
+
     public static function HandleFormRequest($sess_form_form, ?array $request_data = null, $obj = null)
     {
         if (!is_object($sess_form_form)) {
@@ -83,6 +91,7 @@ abstract class FormFieldHelper
      * @param null|bool $r 
      * @return mixed 
      */
+
     public static function EnvDisableSessionGuid(?bool $r = null)
     {  
         $k = __CLASS__ . ":disable_session_guid";
@@ -98,6 +107,7 @@ abstract class FormFieldHelper
      * @return mixed|array 
      * @throws IGKException 
      */
+
     public static function FormRandFieldName(array $formFields)
     {
         $session = igk_app()->getSession();

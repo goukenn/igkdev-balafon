@@ -8,8 +8,23 @@ namespace IGK\System\Http;
 * @package IGK\System\Http
 */
 class HeaderData{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_heads;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $origin;
+
+    /**
+    * .ctr
+    * @param array $data
+    */
     public function __construct(array $data = [])
     {
         $cp = [];
@@ -21,6 +36,11 @@ class HeaderData{
         $this->m_heads = $cp;
         $this->origin = $this->__get('origin') ?? igk_io_baseuri();
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         return igk_getv($this->m_heads, $n);
     }

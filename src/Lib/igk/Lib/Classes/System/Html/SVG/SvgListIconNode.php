@@ -11,12 +11,28 @@ use IGKEvents;
  * @package IGK\System\Html\SVG
  */
 class SvgListIconNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "div";
+
+    /**
+    * .ctr
+    * @param mixed $name
+    */
     public function __construct($name){
         parent::__construct();
         $this["class"] = "igk-svg-lst-i";
         $this["igk:svg-name"] = $name; 
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool
     { 
         if (parent::_acceptRender($options)){

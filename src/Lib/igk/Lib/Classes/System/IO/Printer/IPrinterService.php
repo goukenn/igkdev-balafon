@@ -57,11 +57,17 @@ interface IPrinterService extends IInjectable{
     function printPdf();
     function addPage();
     function getPageWidth() : int;
+
+    /**
+    * auto generate doc.
+    * @return int
+    */
     function getPageHeight() : int;
     /**
      * change the current font size
      * @param mixed $size 
      * @return mixed 
      */
+
     function setFontSize($size);
 }

@@ -11,14 +11,40 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class ExecCommandInSyncCommand extends SyncAppExecCommandBase{
-	var $command='--sync:command';
-	var $desc='execute balafon sync command';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--sync:command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='execute balafon sync command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--name:[host-target]'=>'set host target'
 	];
 	/* var $category = ''; */
-	var $usage = '[options] -- ...command-args to exectue';
-	public function exec($command, ...$args) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options] -- ...command-args to exectue';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed ...$args
+    */
+    public function exec($command, ...$args) {
 		($h = $this->start($command, $setting)) || igk_die('missing config to sync');
    		if ($install_source = self::GetScriptInstall([			
             'sync/sync-command.pinc',

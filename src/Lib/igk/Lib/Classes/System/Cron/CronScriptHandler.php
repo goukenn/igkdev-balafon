@@ -14,13 +14,29 @@ namespace IGK\System\Cron;
  */
 class CronScriptHandler
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $file;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $args;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $status;
     /**
      * argument to handler 
      * @return int status code  
      */
+
     public function handle()
     {
         extract($this->args = func_get_arg(1));

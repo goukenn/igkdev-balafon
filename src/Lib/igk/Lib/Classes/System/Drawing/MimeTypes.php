@@ -8,7 +8,20 @@ namespace IGK\System\Drawing;
 * @package IGK\System\Drawing
 */
 class MimeTypes{
-    public const SVG = "image/svg+xml";
+    public
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const SVG = "image/svg+xml";
+
+    /**
+    * auto generate doc.
+    * @param string $data
+    * @param string $type
+    * @param mixed $code
+    */
     public static function Format(string $data, string $type, $code="base64"){
         return sprintf("data:%s;%s,%s", $type, $code, $data);
     }
@@ -19,6 +32,7 @@ class MimeTypes{
      * @param string $code 
      * @return string 
      */
+
     public static function SVGFormat(string $data, $code="base64"){
         return self::Format($data, self::SVG, $code);
     }

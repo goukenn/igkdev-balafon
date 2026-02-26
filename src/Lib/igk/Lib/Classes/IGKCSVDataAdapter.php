@@ -13,33 +13,120 @@ use IGK\System\IO\CSV\Helper\CSVHelper;
 * Represent IGKCSVDataAdapter class
 */
 final class IGKCSVDataAdapter extends DataAdapterBase {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_dbname;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fhandle;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DELIMITER = '"';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SEPARATOR = ',';
+
+    /**
+    * auto generate doc.
+    * @param string $charset
+    * @return ?string
+    */
     public function queryColumnCharset(string $charset): ?string { 
         return PHP_EOL;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $flag
+    */
     public function setForeignKeyCheck($flag) { }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @param null|int $length
+    * @return bool
+    */
     public function allowTypeLength(string $type, ?int $length = null): bool { 
         return in_array($type, ['int','varchar']);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param string $column
+    * @return ?string
+    */
     public function remove_foreign(string $name, string $column): ?string { return null; }
+
+    /**
+    * auto generate doc.
+    * @param null|IDbSendQueryListener $listener
+    */
     public function setSendDbQueryListener(?IDbSendQueryListener $listener) { }
+
+    /**
+    * auto generate doc.
+    * @return ?IDbSendQueryListener
+    */
     public function getSendDbQueryListener(): ?IDbSendQueryListener { return null; }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getDateTimeFormat(): string {
         return IGK_MYSQL_TIME_FORMAT;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param string $column
+    * @param null|mixed $db
+    * @return bool
+    */
     public function exist_column(string $table, string $column, $db = null): bool {
         return false;
      }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getVersion(): string { 
         return IGK_VERSION;
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getType(): string {
         return 'CSV';
      }
+
+    /**
+    * auto generate doc.
+    */
     public function listTables() {
         return ['name'=>['csv_file']];
      }
@@ -51,62 +138,174 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      * @param bool $autoclose 
      * @return null|bool|IDbQueryResult 
      */
+
     public function sendQuery($query, $throwex = true, $options = null, $autoclose = false) {
         return false;
      }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return bool
+    */
     public function constraintForeignKeyExists(string $name): bool { 
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param bool $throwex
+    * @return bool
+    */
     public function tableExists(string $table, bool $throwex = false): bool {
         return false;
      }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getIsConnect(): bool {
         /** allway return true*/
         return true;
     }
+
     public function constraintExists(string $name): bool {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param SQLGrammar $grammar
+    * @param string $table
+    * @param string $column
+    * @param string $dbname
+    * @return string
+    */
     public function createTableColumnInfoQuery(SQLGrammar $grammar, string $table, string $column,string $dbname): string {
         return "";
     }
+
+    /**
+    * auto generate doc.
+    * @param null|array $options
+    * @return ?string
+    */
     public function getCreateTableFormat(?array $options = null): ?string {
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $columninfo
+    * @param mixed $value
+    * @return bool
+    */
     public function filterColumn($columninfo, $value): bool { 
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function getDbName(): ?string { 
         return "file://csv";
     }
+
+    /**
+    * auto generate doc.
+    * @param string $v
+    * @return string
+    */
     public function escape_table_name(string $v): string {
         return  $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $v
+    * @return string
+    */
     public function escape_table_column(string $v): string { 
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @return bool
+    */
     public function isTypeSupported(string $type): bool {
         return true;
      }
+
+    /**
+    * auto generate doc.
+    * @param null|string $column
+    * @return string
+    */
     public function escape(?string $column=null): string {
         return $column;
      }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @return bool
+    */
     public function supportDefaultValue(string $type): bool {
         return false;
      }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @return bool
+    */
     public function isAutoIncrementType(string $type): bool { 
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed $tinf
+    */
     public function getDataValue($value, $tinf) { }
+
+    /**
+    * auto generate doc.
+    * @param string $key
+    * @param null|mixed $rowInfo
+    * @param null|mixed $tableInfo
+    * @return ?string
+    */
     public function getParam(string $key, $rowInfo = null, $tableInfo = null): ?string {
         return null;
      }
+
+    /**
+    * auto generate doc.
+    * @param string $tablename
+    */
     public function getDataTableDefinition(string $tablename) { 
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function last_error() {
         return null;
      }
+
+    /**
+    * auto generate doc.
+    * @param mixed $format
+    * @param mixed $value
+    */
     public static function ToDateTimeStr($format, $value){
         $_format = "Y-m-d";
         if (preg_match("#[0-9]{2}/[0-9]{2}/[0-9]{4}#", $value)){
@@ -129,7 +328,8 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
      * @param mixed $v 
      * @return string 
      */
-	public function escape_string(?string $v = null):string{
+
+    public function escape_string(?string $v = null):string{
         // same as XMLDataAdapter 
         $v = stripslashes($v);
         return addslashes($v); 
@@ -138,6 +338,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $ctrl the default value is null
     */
+
     public function __construct($ctrl=null){
         $this->m_ctrl=$ctrl;
     }
@@ -145,6 +346,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $data
     */
+
     static function __removeguillemet($data){
         $data = trim($data);
         if(0===strpos($data, '"')){
@@ -238,6 +440,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     /**
     * 
     */
+
     public function close(){
         if($this->m_fhandle){
             fclose($this->m_f);
@@ -247,15 +450,21 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $datafile the default value is "file"
     */
+
     public function connect($datafile="file"){
         $this->m_dbname=$datafile;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFileName(){
         return $this->m_dbname;
     }
     /**
     * 
     */
+
     public function selectCount(string $table,?array $where = null, ?array $options = null){
         igk_dev_wln_e("CSV Adapter: Not Implement, ".__METHOD__, igk_ob_get_func('igk_show_trace'));
     }
@@ -263,6 +472,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $result the default value is null
     */
+
     public function createEmptyResult($result=null){
         return null;
     }
@@ -270,6 +480,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $value
     */
+
     public static function GetValue(?string $value){
         if($value && ((strpos($value, igk_csv_sep()) !== false) || preg_match("/( |\t|\n)/i", $value))){
             $value = igk_str_replace_assoc_array(["\n"=>'\n',"\t"=>'\t',"\r"=>'\r'],$value);
@@ -282,11 +493,13 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * @param mixed $tablename
     * @param mixed $callback
     */
+
     public function initSystablePushInitItem($tablename, $callback){}
     /**
     * 
     * @param mixed $tablename
     */
+
     public function initSystableRequired($tablename){
         return false;
     }
@@ -294,6 +507,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $filename
     */
+
     public static function LoadData($filename, $options=null){
         $txt=IO::ReadAllText($filename);
         return self::LoadString($txt, true, $options);
@@ -304,6 +518,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * @param mixed $rmBom the default value is true
     * @param array|\IGK\System\IO\CSV\CSVDataAdapterLoadStringOptions $options assoc array of delimiter:ch|separator|flag : csv flag|filter callback to filter
     */
+
     public static function LoadString($txt, $rmBom=true, $options=null){
         if(empty($txt))
             return array();
@@ -344,6 +559,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $tbname
     */
+
     public function selectAll($tbname){
         $this->selectAllFile($tbname);
     }
@@ -351,6 +567,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * 
     * @param mixed $tbname
     */
+
     public function selectAllFile($tbname){
         $f=igk_io_applicationdatadir()."/".$tbname.".csv";
         if(igk_io_file_exists($f)){
@@ -365,6 +582,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     * @param mixed $filename
     * @param mixed $entries
     */
+
     public static function StoreData($filename, $entries){
         $out=IGK_STR_EMPTY;
         $v_ln=false;
@@ -389,6 +607,7 @@ final class IGKCSVDataAdapter extends DataAdapterBase {
     ///convert tab to line entry
     /**
     */
+
     public static function toCSVLineEntry($tab, $key=null){
         $out=IGK_STR_EMPTY;
         $v_sep=false;

@@ -10,10 +10,35 @@ use function igk_resources_gets as __;
 * Installer middel ware storage
 */
 class InstallerMiddleWareActions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_list;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $BaseDir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $CacheDir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $LibDir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $Success;
     /**
      * install directory
@@ -28,6 +53,7 @@ class InstallerMiddleWareActions{
     /**
     * 
     */
+
     public function __construct(){
         $this->_list=array(); 
     }
@@ -35,6 +61,7 @@ class InstallerMiddleWareActions{
      * abort list
      * @return void 
      */
+
     public function abort(){
         // if (count($this->_list)>0){
         //     $this->_list[0]->abort();
@@ -50,6 +77,7 @@ class InstallerMiddleWareActions{
     * 
     * @param mixed $middle
     */
+
     public function add(IMiddleWareAction $middle){
         if(!is_object($middle)){
             return;}
@@ -64,6 +92,7 @@ class InstallerMiddleWareActions{
      * is event stream request
     * @return bool
     */
+
     public function isEventStream():bool{
         return igk_server()->eventStreamRequest();
     }
@@ -71,6 +100,7 @@ class InstallerMiddleWareActions{
     * 
     * @return mixed
     */
+
     public function process(){
         if(count($this->_list)<=0)
             return false;
@@ -83,6 +113,7 @@ class InstallerMiddleWareActions{
     * 
     * @param mixed $msg
     */
+
     public function write($msg){
         if($this->isEventStream()){
             igk_flush_write($msg);

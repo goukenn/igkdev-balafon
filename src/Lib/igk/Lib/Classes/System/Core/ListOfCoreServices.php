@@ -15,8 +15,28 @@ abstract class ListOfCoreServices
     // + | --------------------------------------------------------------------
     // + | service name
     // + |
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PRINTER = "Printer";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MAPPING_SERVICE = "MappingService";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FORMATTER_SERVICE = 'formatters';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CORE_CODE_HIGHLIGHT = 'balafon-core-code-highlight';
 }

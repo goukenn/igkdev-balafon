@@ -9,7 +9,17 @@ use function igk_resources_gets as __;
 * @package IGK\Actions
 */
 trait NewsLetterFormActionTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $formFieldEngine;
+
+    /**
+    * auto generate doc.
+    * @param mixed $form
+    */
     protected function form_news_letter($form){
         $form['action'] = $this->getController()::uri('stay-in-touch');        
         $form->h2()->Content = __("Stay in touch");

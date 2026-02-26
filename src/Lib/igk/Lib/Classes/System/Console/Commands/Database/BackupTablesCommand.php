@@ -19,18 +19,56 @@ use IGK\System\Regex\Replacement;
  */
 class BackupTablesCommand extends AppExecCommand
 {
-	var $command = '--db:backup-tables';
-	var $desc = 'backup tables controller';
-	var $options = ['--restore' => 'flag to be in restore mode'];
-	var $category = 'db';
-	var $usage = 'controller outdir [options]';
-	public function prefixHandler(string $back_name, ?array $attr=null){
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--db:backup-tables';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'backup tables controller';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = ['--restore' => 'flag to be in restore mode'];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller outdir [options]';
+
+    /**
+    * auto generate doc.
+    * @param string $back_name
+    * @param null|array $attr
+    */
+    public function prefixHandler(string $back_name, ?array $attr=null){
 		$regex = new Replacement;
 		$regex->add("/%d/", date('Ymd'));
 		$regex->add("/%n/", igk_getv($attr, 'n'));
 		return $regex->replace($back_name);
 	}
-	public function exec($command, ?string $controller = null, ?string $outdir = null)
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $outdir
+    */
+    public function exec($command, ?string $controller = null, ?string $outdir = null)
 	{
 		$ctrl = self::ResolveController($command, $controller, true);
 		$_log = Logger::offscreen();

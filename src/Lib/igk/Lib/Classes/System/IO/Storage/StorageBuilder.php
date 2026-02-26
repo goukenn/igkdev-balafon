@@ -9,8 +9,24 @@ use IGK\System\IO\Path;
 * @package IGK\System\IO\Storage
 */
 class StorageBuilder implements IStorageBuilder{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $storage;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $prefix;
+
+    /**
+    * .ctr
+    * @param IStorage $storage
+    * @param string $prefix
+    */
     public function __construct(IStorage $storage, string $prefix)
     {
         $this->storage = $storage;
@@ -21,6 +37,7 @@ class StorageBuilder implements IStorageBuilder{
      * @param bool $ovewrite 
      * @return IStorageInfo 
      */
+
     public function store($file, bool $ovewrite=false, ?string $type=null): ?IStorageInfo{
         if (!is_string($file) && is_array($file)){
             if (count($file)>1)
@@ -34,6 +51,12 @@ class StorageBuilder implements IStorageBuilder{
             return $info;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param string $path
+    * @return bool
+    */
     public function delete(string $path):bool{
         return $this->storage->delete($path);
     }
@@ -44,6 +67,7 @@ class StorageBuilder implements IStorageBuilder{
      * @param null|string $type 
      * @return IStorageInfo 
      */
+
     public function __invoke($file, bool $ovewrite=false, ?string $type=null){
         return $this->store($file, $ovewrite, $type);
     }

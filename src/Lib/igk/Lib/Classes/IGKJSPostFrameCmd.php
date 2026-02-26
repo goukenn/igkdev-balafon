@@ -13,7 +13,19 @@ use IGK\System\Html\IHtmlGetValue;
 * auto generate doc.
 */
 class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_global, $m_obj, $m_t;
+
+    /**
+    * .ctr
+    * @param mixed $obj
+    * @param mixed $t
+    * @param mixed $global
+    */
     public function __construct($obj, $t, $global=false){
         if(($obj == null) || !igk_reflection_class_implement($obj, IHtmlGetValue::class))
             igk_die("PostFrameCommand");
@@ -26,6 +38,7 @@ class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
     * auto generate doc.
     * @param null|mixed $options
     */
+
     public function getValue($options=null){
         $s=$this->m_obj->getValue($options);
         if(preg_match("/^javascript:/", $s)){

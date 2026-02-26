@@ -8,9 +8,29 @@ namespace IGK\System\Runtime\Compiler;
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenFunctionFlagOption extends ReadTokenFlagOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $op="name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $depth = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $condition = "";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $type;
     /**
      * argument name

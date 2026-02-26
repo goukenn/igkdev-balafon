@@ -9,5 +9,9 @@ namespace IGK\Actions;
  * @package IGK\Actions
  */
 interface IInvokeAction{
+
+    /**
+    * auto generate doc.
+    */
     function invoke();
 }

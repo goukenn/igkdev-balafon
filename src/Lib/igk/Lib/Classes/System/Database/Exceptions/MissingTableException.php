@@ -9,6 +9,11 @@ use IGKException;
 * @package IGK\System\Database\Exceptions
 */
 class MissingTableException extends IGKException{
+
+    /**
+    * .ctr
+    * @param string $table
+    */
     public function __construct(string $table){
         parent::__construct(sprintf('missing table : %s', $table));
     }

@@ -10,5 +10,10 @@ use IGKHtmlDoc;
 * @author C.A.D. BONDJE DOUE
 */
 interface IDocumentScriptLoader{
+
+    /**
+    * auto generate doc.
+    * @param IGKHtmlDoc $doc
+    */
     function loadScripts(IGKHtmlDoc $doc);
 }

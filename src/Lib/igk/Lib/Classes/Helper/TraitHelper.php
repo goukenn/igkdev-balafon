@@ -8,6 +8,13 @@ namespace IGK\Helper;
 * @package IGK\Helper
 */
 abstract class TraitHelper{
+
+    /**
+    * auto generate doc.
+    * @param mixed $object_or_class
+    * @param mixed $trait
+    * @return bool
+    */
     public static function SupportTrait($object_or_class, $trait):bool{
         if (!trait_exists($trait, false)){
             return false;

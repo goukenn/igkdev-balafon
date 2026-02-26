@@ -11,9 +11,23 @@ use function igk_resources_gets as __;
  * @package IGK\System\Html\Forms
  */
 class UrlValidator extends FormFieldValidatorBase implements IFormValidator{
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     public function assertValidate($value): bool { 
         return $value && is_string($value);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param null|mixed $default
+    * @param array & $error
+    * @param null|object $options
+    */
     protected function _validate($value, $default=null, array & $error=[], ?object $options=null){ 
         $q = parse_url($value);   
         $is_required = igk_getv($options,'required');    

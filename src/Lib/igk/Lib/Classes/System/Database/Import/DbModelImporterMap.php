@@ -18,7 +18,17 @@ use IGK\System\Exceptions\NotImplementException;
  */
 class DbModelImporterMap
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MappingClassSuffix = EntryClassResolution::ImportMappingSuffix;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $p_inserted;
     /**
      * autoregister link value
@@ -40,9 +50,29 @@ class DbModelImporterMap
      * @var ModelBase
      */
     private $m_model;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_reversal_definition;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fieldListener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_resolved_values;
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function CreateFrom(ModelBase $model)
     {
         $n = $model::name();
@@ -63,6 +93,7 @@ class DbModelImporterMap
      * @param null|callable $callable 
      * @return void 
      */
+
     public function addFieldListener(string $field_name, ?callable $callable)
     {
         if (is_null($callable)) {
@@ -71,6 +102,11 @@ class DbModelImporterMap
         }
         $this->m_fieldListener[$field_name] = $callable;
     }
+
+    /**
+    * .ctr
+    * @param ModelBase $model
+    */
     public function __construct(ModelBase $model)
     {
         $this->m_model = $model ?? igk_die('required model');
@@ -84,6 +120,7 @@ class DbModelImporterMap
     /**
      * 
      */
+
     public function __invoke($data)
     {
         $this->_onImportData((array)$data);
@@ -94,6 +131,7 @@ class DbModelImporterMap
      * @return mixed raw
      * @throws Exception 
      */
+
     protected function _onImportData(array $data)
     {
         $cl = get_class($this->m_model);
@@ -143,6 +181,7 @@ class DbModelImporterMap
      * @param mixed $model_classe 
      * @return bool must return true to handle
      */
+
     protected function _onLoadData(array $data, string $model_classe, & $row):bool{
         return false;
     }
@@ -150,10 +189,16 @@ class DbModelImporterMap
      * get number of inserted/exported db entries
      * @return int 
      */
+
     public function count()
     {
         return $this->p_inserted;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     protected function _onRowInserted(ModelBase $model) {}
     /**
      * 
@@ -161,6 +206,7 @@ class DbModelImporterMap
      * @return mixed 
      * @throws Exception 
      */
+
     protected function getReservalMapping(string $columnName)
     {
         if ($this->m_reversal_definition) {
@@ -177,6 +223,7 @@ class DbModelImporterMap
      * @return mixed 
      * @throws Exception 
      */
+
     protected function _resolveLinkValue(string $column_name, DbReverseMappingLink $v,  $nv, &$found = true)
     {
         $found = true;
@@ -216,6 +263,10 @@ class DbModelImporterMap
         $found = true;
         return $lv;
     }
+
+    /**
+    * auto generate doc.
+    */
     function _get_reversal_value()
     {
         throw new NotImplementException(__METHOD__);
@@ -236,6 +287,7 @@ class DbModelImporterMap
      * get mapping resolved values
      * @return array 
      */
+
     public function getResolvedValues()
     {
         return $this->m_resolved_values;
@@ -245,6 +297,7 @@ class DbModelImporterMap
      * by default, select all model data
      * @return array 
      */
+
     public function export(): array{
         return $this->m_model->select_all();        
     }

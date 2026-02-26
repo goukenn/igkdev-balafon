@@ -11,13 +11,41 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands\Users
 */
 class UserRoleCheckCommand extends AppExecCommand{
-	var $command='--users:role-check';
-	var $desc='check user\'s roles';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:role-check';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='check user\'s roles';
 	/* var $options=[]; */
-	var $category = self::USER_CAT;
-	var $usage = 'login auth [ctrl] [options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = self::USER_CAT;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'login auth [ctrl] [options]';
 	// CarRentalController@ProposeCar
-	public function exec($command, ?string $user=null, ?string $auth=null, ?string $ctrl = null) {  
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $user
+    * @param null|string $auth
+    * @param null|string $ctrl
+    */
+    public function exec($command, ?string $user=null, ?string $auth=null, ?string $ctrl = null) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');		
 		if ($ctrl){
 			$ctrl = self::GetController($ctrl);

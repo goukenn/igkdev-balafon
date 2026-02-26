@@ -14,14 +14,39 @@ use IGK\System\Console\App;
  * @package IGK\System\Console\Commands
  */
 class ProjectCheckViewCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--project:check-view";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "check -lint all views";
+
+    /**
+    * auto generate doc.
+    */
     protected function showUsage()
     {
         Logger::info("--project:check-view ");
         DbCommandHelper::ShowUsage();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $controller
+    */
     public function exec($command, $controller=null) { 
         if (is_null($controller)){
             return -1;

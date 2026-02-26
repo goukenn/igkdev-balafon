@@ -13,5 +13,11 @@ use IGK\Services\IAppService;
 * @property ?string $engineClassName engine class name 
 */
 interface IFormatterService extends IAppService{
+
+    /**
+    * auto generate doc.
+    * @param string $src
+    * @return string
+    */
     function format(string $src):string;
 }

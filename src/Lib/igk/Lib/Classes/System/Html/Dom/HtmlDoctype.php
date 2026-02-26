@@ -14,7 +14,17 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 final class HtmlDoctype extends HtmlItemBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HTML_DOCTYPE = '<!DOCTYPE html>';
+
+    /**
+    * .ctr
+    * @param mixed $value
+    */
     public function __construct($value){
         $this->Content=$value;
     }
@@ -24,6 +34,7 @@ final class HtmlDoctype extends HtmlItemBase{
     * @param mixed $item
     * @param null|mixed $index
     */
+
     protected function _addChild($item, $index=null){
         return false;
     }
@@ -33,6 +44,7 @@ final class HtmlDoctype extends HtmlItemBase{
     * @param null|mixed $options
     * @return bool
     */
+
     protected function _acceptRender($options = null):bool{
         return true;
     }
@@ -41,6 +53,7 @@ final class HtmlDoctype extends HtmlItemBase{
     * auto generate doc.
     * @param null|mixed $options
     */
+
     public function render($options=null){ 
         $s = trim($this->Content ?? '');
         $out="<!DOCTYPE ".$s. ">".igk_html_indent_line($options);

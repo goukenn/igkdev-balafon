@@ -17,12 +17,22 @@ use IHeaderResponse;
  */
 class WebResponse extends RequestResponse
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $node;
     /**
      * enable cache on rendering
      * @var mixed
      */
     var $cache;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $headers = [
         "Content-Type: text/html"
     ];
@@ -33,6 +43,7 @@ class WebResponse extends RequestResponse
      * @param mixed $header 
      * @return void 
      */
+
     public function __construct($node_or_message, int $code = 200, $header = null)
     {
         $this->code = $code;
@@ -41,6 +52,10 @@ class WebResponse extends RequestResponse
             $this->headers = $header;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function render()
     {
         if (is_string($this->node)) {
@@ -63,6 +78,7 @@ class WebResponse extends RequestResponse
     /**
      * output web document
      */
+
     public function output()
     {
         $cache = $this->cache;

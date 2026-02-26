@@ -25,11 +25,17 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
      */
     protected $m_data = [];
     // protected $preserveKey = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_iterator;
 
     /**
     * auto generate doc.
     */
+
     public function _iterator_current() { 
         return $this->m_iterator->current();
     }
@@ -38,6 +44,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * auto generate doc.
     * @return void
     */
+
     public function _iterator_next():void { 
         $this->m_iterator->next();
     }
@@ -45,6 +52,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     /**
     * auto generate doc.
     */
+
     public function _iterator_key() { 
         return $this->m_iterator->key();
     }
@@ -53,6 +61,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * auto generate doc.
     * @return bool
     */
+
     public function _iterator_valid(): bool { 
         return $this->m_iterator->valid();
     }
@@ -61,6 +70,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * auto generate doc.
     * @return void
     */
+
     public function _iterator_rewind():void { 
         $this->m_iterator = new IGKIterator($this->m_data);
         $this->m_iterator->rewind();
@@ -69,6 +79,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     /**
     * auto generate doc.
     */
+
     function __debugInfo()
     {
         return ["count"=>$this->count()];
@@ -77,6 +88,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     /**
     * auto generate doc.
     */
+
     public function clear(){
         $this->m_data = [];
     }
@@ -85,6 +97,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * auto generate doc.
     * @return int
     */
+
     public function count(): int{
         return count($this->m_data);
     }
@@ -93,6 +106,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * auto generate doc.
     * @return ?array
     */
+
     public function to_array(): ?array{
         return $this->m_data;
     }
@@ -100,6 +114,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     /**
     * auto generate doc.
     */
+
     public function reverse(){
         $this->m_data = array_reverse($this->m_data);
     }
@@ -109,6 +124,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * @param mixed $n
     * @param mixed $v
     */
+
     protected function _access_OffsetSet($n, $v){
         if ($v===null){
             if($n !== null){
@@ -128,6 +144,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * auto generate doc.
     * @param mixed $n
     */
+
     protected function _access_OffsetGet($n){
         return igk_getv($this->m_data,$n);
     }
@@ -136,6 +153,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * auto generate doc.
     * @param mixed $n
     */
+
     protected function _access_OffsetUnset($n){
         unset($this->m_data[$n]);
     }
@@ -144,6 +162,7 @@ class ArrayList implements ArrayAccess, Countable, IArrayObject, Iterator{
     * auto generate doc.
     * @param mixed $n
     */
+
     protected function _access_offsetExists($n){
         return isset($this->m_data[$n]);
     }

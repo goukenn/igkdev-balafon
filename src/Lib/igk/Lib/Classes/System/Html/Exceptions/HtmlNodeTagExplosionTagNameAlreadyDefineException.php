@@ -13,6 +13,11 @@ use function igk_resources_sprintf as __;
 * @author C.A.D. BONDJE DOUE
 */
 class HtmlNodeTagExplosionTagNameAlreadyDefineException extends IGKException{
+
+    /**
+    * .ctr
+    * @param string $tagname
+    */
     public function __construct(string $tagname)
     {
         parent::__construct(__('tagname already defined [%s]', $tagname));

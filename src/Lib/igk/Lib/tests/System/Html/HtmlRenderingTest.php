@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html
 */
 class HtmlRenderingTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_copy_node(){
         $g = igk_create_node('div');
         $parent = igk_create_node('div');
@@ -26,6 +30,10 @@ class HtmlRenderingTest extends BaseTestCase{
         );
 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_copy_node_2(){
         $g = igk_create_node('div');
         $parent = igk_create_node('div');
@@ -37,6 +45,10 @@ class HtmlRenderingTest extends BaseTestCase{
             $g->render()
         ); 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_copy_config(){
         $g = igk_create_node('configs');
         $parent = igk_create_node('data');
@@ -48,6 +60,10 @@ class HtmlRenderingTest extends BaseTestCase{
             $g->render()
         ); 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_litteral(){
         $g = igk_create_node("div");
         $g->setAttribute('prop','"info"."data"'); 
@@ -56,6 +72,10 @@ class HtmlRenderingTest extends BaseTestCase{
             $g->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_load_text_area(){
         $g = igk_create_node("div");
         $g->Content = "<div><textarea>if (i<data){console.log('info');}</textarea></div>";

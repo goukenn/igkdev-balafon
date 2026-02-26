@@ -30,7 +30,11 @@ class IGKProcessDocument extends NonVisibleControllerBase
     protected function initComplete($context=null){
 		parent::initComplete();
 	}
-	public function __construct(){
+
+    /**
+    * .ctr
+    */
+    public function __construct(){
 		parent::__construct();
 	}
 
@@ -38,6 +42,7 @@ class IGKProcessDocument extends NonVisibleControllerBase
     * auto generate doc.
     * @param null|mixed $file
     */
+
     public function processFile($file=null)
 	{
 		$file = $file == null? base64_decode(igk_getr("file")): $file;
@@ -60,6 +65,7 @@ class IGKProcessDocument extends NonVisibleControllerBase
     * auto generate doc.
     * @param mixed $text
     */
+
     public function processDoc($text){
 
 		$v_tab = array();

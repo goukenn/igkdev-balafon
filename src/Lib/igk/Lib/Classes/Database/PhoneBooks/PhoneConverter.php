@@ -9,6 +9,11 @@ namespace IGK\Database\PhoneBooks;
 * @author C.A.D. BONDJE DOUE
 */
 class PhoneConverter extends PhoneBookConverterBase{
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function treat($v) { 
         $v = str_replace(' ', '', trim($v));
         $v = preg_replace('/^00/', '+', $v);

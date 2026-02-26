@@ -28,14 +28,39 @@ use IGK\System\EntryClassResolution;
 * @package IGK\System\Console\Commands
 */
 class MakeDbMacrosCommand extends AppExecCommand{
-    var $command = "--make:model-macros"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = "--make:model-macros";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "make model's macros class";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [ 
         // 
         "--clearcache"=>"clear cache",
         "--force"=>"destroy existing macros if exists",
-    ]; 
+    ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $help = "[options] controller macrosName";
     /**
      * 
@@ -51,6 +76,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
      * @var string $controller Controller
      * @var string $actionName the action to create 
      */
+
     public function exec($command, $controller="", $action_name=""){
         if (empty($controller)){
             Logger::danger("controller is required");
@@ -141,6 +167,7 @@ class MakeDbMacrosCommand extends AppExecCommand{
     /**
     * auto generate doc.
     */
+
     public function help(){
         Logger::print("-");
         Logger::info("Make db model macros");

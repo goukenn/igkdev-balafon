@@ -13,12 +13,23 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class FS{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_caches;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_auto_cache;
     /**
      * get cache file path
      * @return string 
      */
+
     public static function CacheFile(){
         return igk_io_cachedir()."/.fs-caches.php";
     }
@@ -27,6 +38,7 @@ class FS{
      * @param string $file 
      * @return bool 
      */
+
     public function fileExists(string $file, bool $autocheck=false){
         $l = isset($this->m_caches[$file]);
         // igk_dev_wln($file, $autocheck);
@@ -54,6 +66,7 @@ class FS{
      * @param string $file 
      * @return bool 
      */
+
     public function checkExists(string $file):bool{
         if (!$this->fileExists($file)){
             if (file_exists($file)){
@@ -64,6 +77,10 @@ class FS{
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function loadCache(){
         $this->m_caches = ($c = @include self::CacheFile()) === false ? [] : $c;
         if ($c===false){
@@ -71,6 +88,10 @@ class FS{
             $this->_registerStoreCache(); 
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _registerStoreCache(){        
         static $clean_cache;
         igk_reg_hook(IGKEvents::HOOK_APP_CLEAN_CACHE, function()use(& $clean_cache){
@@ -89,6 +110,7 @@ class FS{
      * @throws Exception 
      * @throws IGKException 
      */
+
     public function storeCache(){
         $sb = new StringBuilder;
         $ch ='';

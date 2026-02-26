@@ -8,8 +8,23 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 final class HtmlExtraHeaderScriptHost extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_list;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = 'igk-extra-header-script';
+
+    /**
+    * auto generate doc.
+    * @param array $list
+    */
     public static function Create(array $list){
         if (empty($list))
             return null;
@@ -17,10 +32,19 @@ final class HtmlExtraHeaderScriptHost extends HtmlNode{
         $g->m_list = $list;
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getRenderedChilds($options = null)
     { 
         return $this->m_childs? 

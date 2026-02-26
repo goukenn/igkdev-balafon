@@ -8,11 +8,24 @@ namespace IGK\System\Database;
 * @package IGK\System\Database
 */
 class SchemaRenameTableMigration extends SchemaMigrationItemBase{
-    protected $fill_properties = ["table", "to"]; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $fill_properties = ["table", "to"];
+
+    /**
+    * auto generate doc.
+    */
     public function up(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function down(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);

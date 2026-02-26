@@ -10,14 +10,39 @@ use IGK\System\Html\Forms\HtmlValidator;
 */
 class SkipHtmlContentValidator extends MapContentValidatorBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_validator;
+
+    /**
+    * auto generate doc.
+    * @param mixed & $value
+    * @param mixed $key
+    * @return bool
+    */
     protected function validate(&$value, $key): bool { 
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getValidator()
     {
         return new HtmlValidator;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed $key
+    * @param mixed & $error
+    * @param bool $missing
+    * @param bool $required
+    */
     public function map($value, $key, &$error, bool $missing=false, bool $required = true)
     {
         if (!$this->m_validator) {

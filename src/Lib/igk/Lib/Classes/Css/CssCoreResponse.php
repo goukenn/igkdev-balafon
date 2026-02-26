@@ -11,13 +11,24 @@ use IGK\System\Http\WebResponse;
 * @package IGK\Css
 */
 class CssCoreResponse extends WebResponse{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $file;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $no_cache;
     /**
      * Constructor.
      *
      * @param mixed $content The CSS content for the response.
      */
+
     public function __construct($content)
     {
         parent::__construct($content, 200, [

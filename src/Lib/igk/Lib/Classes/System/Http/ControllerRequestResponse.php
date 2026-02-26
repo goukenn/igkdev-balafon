@@ -10,13 +10,33 @@ use IGK\Controllers\BaseController;
  * @package IGK\System\Http
  */
 class ControllerRequestResponse extends RequestResponse{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $uri;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $controller;
+
+    /**
+    * .ctr
+    * @param string $uri
+    * @param null|BaseController $controller
+    */
     public function __construct(string $uri, ?BaseController $controller=null){
         $this->uri = $uri;
         $this->$controller = $controller; 
         parent::__construct();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function render() { 
     }
 }

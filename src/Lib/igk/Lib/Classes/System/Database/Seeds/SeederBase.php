@@ -9,6 +9,11 @@ namespace IGK\System\Database\Seeds;
  * @package IGK\System\Database\Seeds
  */
 abstract class SeederBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $controller;
    /**
     * 
@@ -17,7 +22,8 @@ abstract class SeederBase{
     * @param mixed $indexes generated random indexes
     * @return array 
     */
-	protected function getRandomValues(array $tab,int $count, & $indexes=null){
+
+    protected function getRandomValues(array $tab,int $count, & $indexes=null){
 		$indexes = array_rand($tab, min(count($tab), $count));
 		$values = [];
 		foreach($indexes as $i){
@@ -25,5 +31,9 @@ abstract class SeederBase{
 		} 
 		return $values;
 	}
+
+    /**
+    * auto generate doc.
+    */
     abstract function run();
 }

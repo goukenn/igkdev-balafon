@@ -10,6 +10,11 @@ use IGK\System\Html\Dom\HtmlItemBase;
  * @package IGK\System\Html\XML
  */
 class XmlNode extends HtmlItemBase{
+
+    /**
+    * .ctr
+    * @param null|mixed $tagname
+    */
     public function __construct($tagname=null)
     {
         parent::__construct();
@@ -21,14 +26,27 @@ class XmlNode extends HtmlItemBase{
      * @param string $text 
      * @return $this 
      */
+
     public function comment(?string $text){
         $c = new XmlComment($text);
         $this->add($c);
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function closeTag():bool{
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param null|mixed $attributes
+    * @param null|mixed $indexOrargs
+    */
     public static function CreateWebNode($n, $attributes = null, $indexOrargs = null)
     {
         $g = new self($n);

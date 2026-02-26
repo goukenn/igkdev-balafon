@@ -16,11 +16,31 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class ExportToDataFileCommand extends AppExecCommand{
-	var $command='--db:export';
-	var $desc='export structured data'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:export';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='export structured data'; 
 	/* var $options=[]; */
-	var $category = 'db'; 
-	var $usage = 'controller model outputfile [options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller model outputfile [options]';
 	/**
 	 * 
 	 * @param mixed $command 
@@ -31,7 +51,8 @@ class ExportToDataFileCommand extends AppExecCommand{
 	 * @throws IGKException 
 	 * @throws Exception 
 	 */
-	public function exec($command, ?string $controller=null, ?string $model=null, ?string $file=null) { 
+
+    public function exec($command, ?string $controller=null, ?string $model=null, ?string $file=null) { 
 		$ctrl = self::GetController($controller);
 		!$model && igk_die('require model');		
 		$file = $file ?? igk_die('required file');

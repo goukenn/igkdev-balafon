@@ -14,18 +14,61 @@ class RegexTreatCapture{
     // + | --------------------------------------------------------------------
     // + | private members
     // + |
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_source_value;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_captures;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_treat_capture;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_offset;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_info;
     /**
      * object treat listener
      * @var mixed
      */
     var $treatListener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MARK_KEY = '\0:mark';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REGEX_FLAG = PREG_OFFSET_CAPTURE;
+
+    /**
+    * .ctr
+    * @param string $source_value
+    * @param int $offset
+    * @param mixed $captures
+    * @param mixed $treat_capture
+    */
     protected function __construct(string $source_value, int $offset, $captures, $treat_capture)
     {    
         $this->m_source_value = $source_value;
@@ -39,6 +82,7 @@ class RegexTreatCapture{
      * @param array $capture 
      * @return void 
      */
+
     public function setRegexCaptures(array $captures){
         list($this->m_source_value, $this->m_offset) = array_shift($captures);
         $this->m_captures = $captures;
@@ -48,6 +92,7 @@ class RegexTreatCapture{
      * treat source capture 
      * @return string 
      */
+
     public function treat($listener=null){
         $listener = $listener ?? $this->treatListener;
         return self::TreatCapture($this->m_source_value, $this->m_offset, $this->m_info, $this->m_treat_capture, $listener);
@@ -57,6 +102,7 @@ class RegexTreatCapture{
      * @param array $captures 
      * @return array<int|string, object> 
      */
+
     public static function OrderCaptures(array $captures){
         $get_parent = function ($cap_info, $inf) {
             while (count($cap_info) > 0) {
@@ -111,6 +157,7 @@ class RegexTreatCapture{
      * @param null|array<int|string, string|callable>  $treat_capture 
      * @return null|static 
      */
+
     public static function CreateFromRegexResult(?array $tab, array $treat_capture){
         if (is_null($tab) || !$tab){
             return null;
@@ -130,6 +177,7 @@ class RegexTreatCapture{
      * @return mixed 
      * @throws Exception 
      */
+
     public static function TreatCapture(string $source_value, int $offset, array $capture_info, $capture, $callable){
         $mark_key = self::MARK_KEY;
         $v_output = '';

@@ -22,10 +22,35 @@ use IGKModuleListMigration;
 */
 class DbMigrateCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const H_TRAIT = IGK_CONSOLE_HTRAIT;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = '--db:migrate';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'migration command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--no-clear-db-cache'=>'flag: do not clear db cache',
         '--force'=>"flag: force module class creation"
@@ -34,6 +59,7 @@ class DbMigrateCommand extends AppExecCommand
      * 
      * @return void 
      */
+
     public function showUsage(){
         parent::showCommandUsage('controller [options]');
     }
@@ -43,6 +69,7 @@ class DbMigrateCommand extends AppExecCommand
     * @param mixed $command
     * @param null|mixed $ctrl
     */
+
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);

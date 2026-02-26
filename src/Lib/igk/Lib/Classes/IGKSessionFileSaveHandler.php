@@ -13,20 +13,43 @@ use IGK\Helper\IO;
  * @package 
  */
 class IGKSessionFileSaveHandler{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $savePath, $sessName;
+
+    /**
+    * .ctr
+    */
     protected function __construct(){    }
     private function _getFile($id){
         return igk_uri(implode(DIRECTORY_SEPARATOR, [$this->savePath, IGK_SESSION_FILE_PREFIX.$id]));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function close(){
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    */
     public function destroy($id){
         if($f=$this->_getFile($id)){
             @unlink($f);
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $maxlifetime
+    */
     public function gc($maxlifetime){
         foreach(glob($this->savePath.DIRECTORY_SEPARATOR.IGK_SESSION_FILE_PREFIX."*") as $v){
             if(filemtime($v) + $maxlifetime < time() && file_exists($v)){
@@ -34,6 +57,10 @@ class IGKSessionFileSaveHandler{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function Init(){
         if(!defined("IGK_SESS_DIR")){
             return;
@@ -50,6 +77,7 @@ class IGKSessionFileSaveHandler{
      * new in session handle to just register a single object 
      * @return SessionHandlerInterface 
      */
+
     public function getSessionHandlers(): SessionHandlerInterface {
 
         $handler = new class implements SessionHandlerInterface{
@@ -82,6 +110,7 @@ class IGKSessionFileSaveHandler{
      * @param string $sessname 
      * @return bool 
      */
+
     public function open($savepath, $sessname){
         if(defined("IGK_SESS_DIR")){
             $savepath=IGK_SESS_DIR;
@@ -90,6 +119,11 @@ class IGKSessionFileSaveHandler{
         $this->sessName=$sessname;
         return IO::CreateDir($this->savePath);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    */
     public function read($id){
         if(file_exists($f=$this->_getFile($id))){
             return file_get_contents($f);
@@ -100,6 +134,7 @@ class IGKSessionFileSaveHandler{
      * @param string $id id of the session 
      * @param mixed $data mixed data to write
      */
+
     public function write($id, $data){
         $f=$this->_getFile($id);
         return igk_io_w2file($f, $data);

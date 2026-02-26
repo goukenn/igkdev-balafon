@@ -8,6 +8,11 @@ namespace IGK\System\Actions\Services;
 * @package IGK\System\Actions\Services
 */
 class MacrosServices{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $macros = [];
     /**
      * register action method 
@@ -15,9 +20,15 @@ class MacrosServices{
      * @param callable $func 
      * @return void 
      */
+
     public static function Register(string $name, callable $func){
         self::$macros[$name] = $func;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    */
     public static function GetFunc(string $name){
         return igk_getv(self::$macros, $name);
     }

@@ -9,10 +9,16 @@ namespace IGK\System\Html\Dom;
  * used in ajx context. Replace controller view
  */
 final class HtmlAJXCtrlReplacementNode extends HtmlNode {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_ctrls;
     /**
     * 
     */
+
     public function __construct(){
         parent::__construct("igk:replace-ctrl");
         $this["type"] = "controlller";
@@ -22,6 +28,7 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     * 
     * @param mixed $option the default value is null
     */
+
     protected function _getRenderingChildren($option=null){
         $tab=array();
         foreach($this->m_ctrls as  $v){
@@ -37,12 +44,14 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     * @param mixed $b
     * @param mixed $target the default value is null
     */
+
     public function addCtrl($b, $target=null){
         $this->m_ctrls[$b->Name]=(object)["ctrl"=>$b, "target"=>$target];
     }
     /**
     * 
     */
+
     public function getCanAddChild(){
         return false;
     }
@@ -50,6 +59,7 @@ final class HtmlAJXCtrlReplacementNode extends HtmlNode {
     * 
     * @param  * $o the default value is null
     */
+
     protected function innerHTML(& $o=null){
         $so="";
         foreach($this->m_ctrls as  $v){

@@ -14,13 +14,24 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 */
 class CssColorDef implements ArrayAccess{
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $sm_instance;
     /**
      * return definition 
      * @param string $name 
      * @return mixed 
      */
+
     public function get(string $name){
         return $this[$name];
     }
@@ -28,6 +39,7 @@ class CssColorDef implements ArrayAccess{
      * global instances
      * @return mixed 
      */
+
     public static function getInstance(){
         if (is_null(self::$sm_instance)){
             self::$sm_instance = new self;            
@@ -41,6 +53,7 @@ class CssColorDef implements ArrayAccess{
      * @return void 
      * @throws Exception 
      */
+
     protected function _access_OffsetSet($k, $v){
         if ($g = CssColorMarkValue::Parse($v)){
             $this->m_data[$k] = $g;
@@ -61,6 +74,7 @@ class CssColorDef implements ArrayAccess{
      * @return mixed 
      * @throws Exception 
      */
+
     protected function _access_OffsetGet($k){
         return igk_getv($this->m_data, $k);
     }

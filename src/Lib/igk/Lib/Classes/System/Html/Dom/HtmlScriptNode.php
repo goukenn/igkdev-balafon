@@ -20,45 +20,85 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
      * @var string
      */
     protected $tagname = "script";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $link;
     /**
      * script version
      * @var mixed
      */
     protected $version;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ACCEPT=0xb3;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CANMERGE_LINK=0xb2;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NOT_SINGLEVIEW=0xb4;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SCRIPT_LINK=0xb1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SCRIPT_TAG=0xb0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEMPORARY=0xb5;
      /**
     * 
     */
+
     public function getCanBeMerged(){
         return $this->getFlag(self::CANMERGE_LINK) ?? true;
     }
 /**
     * 
     */
+
     public function getlink(){
         return $this->getFlag(self::SCRIPT_LINK);
     }
     /**
     * 
     */
+
     public function getNotSingleView(){
         return $this->getFlag(self::NOT_SINGLEVIEW);
     }
     /**
     * 
     */
+
     public function getTag(){
         return $this->getFlag(self::SCRIPT_TAG);
     }
      /**
     * get is temp
     */
+
     public function IsTemporary(){
         return $this->getFlag(self::TEMPORARY);
     }
@@ -66,10 +106,17 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * 
     * @param mixed $v
     */
+
     public function setIsTemp($v){
         $this->setFlag(self::TEMPORARY, $v);
         return $this;
     }
+
+    /**
+    * .ctr
+    * @param null|mixed $source
+    * @param null|mixed $version
+    */
     public function __construct($source=null, $version=null)
     {
         parent::__construct();
@@ -84,6 +131,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     /**
     * auto generate doc.
     */
+
     protected function createAttributeArray(){ 
         return new HtmlAttributeArray([
             "src"=>new HtmlResolvLinkValue()
@@ -94,6 +142,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * auto generate doc.
     * @param string $content
     */
+
     public function text(string $content){
         return $this->setContent($content);
     }
@@ -103,6 +152,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     private function _iaccept(){
         $this->setFlag(self::ACCEPT, !(!empty($this->link) && (!IGKValidator::IsUri($this->link) && !igk_io_file_exists(igk_getv(explode("?", $this->link), 0), true))));
     }
+
     public function getCanAddChilds()
     {
         return false;
@@ -111,6 +161,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * 
     * @param mixed $v
     */
+
     public function setCanBeMerged($v){
         $this->setFlag(self::CANMERGE_LINK, $v);
         return $this;
@@ -119,6 +170,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * 
     * @param mixed $v
     */
+
     public function setIsTemporary($v){
         $this->setFlag(self::TEMPORARY, $v);
     }
@@ -126,6 +178,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * 
     * @param mixed $v
     */
+
     public function setlink($v){
         $this->setFlag(self::SCRIPT_LINK, $v);
         return $this;
@@ -134,6 +187,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * 
     * @param mixed $v
     */
+
     public function setNotSingleView($v){
         $this->setFlag(self::NOT_SINGLEVIEW, $v);
         return $this;
@@ -142,6 +196,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * 
     * @param mixed $v
     */
+
     public function setTag($v){
         $this->setFlag(self::SCRIPT_TAG, $v);
         return $this;
@@ -152,6 +207,7 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     * @param mixed $value
     * @return bool
     */
+
     protected function getcanLoadContent($value):bool{        
         return false;
     }

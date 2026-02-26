@@ -10,8 +10,22 @@ use IGK\System\Html\HtmlRenderingContext;
 * @package IGK\System\Net\Mail
 */
 class MailRendererOptions extends HtmlRendererOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $renderTheme;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $Context = HtmlRenderingContext::Mail;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {        
     }

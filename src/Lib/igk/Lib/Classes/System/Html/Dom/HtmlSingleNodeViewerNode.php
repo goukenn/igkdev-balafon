@@ -14,13 +14,24 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 final class HtmlSingleNodeViewerNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_callback;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $targetNode;
     /**
      * 
      * @param array|mixed $v 
      * @return $this 
      */
+
     public function setContent($v){
         $this->targetNode->setContent(...func_get_args());
         return $this;
@@ -31,11 +42,18 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     * @param null|mixed $options
     * @return bool
     */
+
     protected function _acceptRender($options = null):bool{
         if($this->targetNode)
             return $this->IsVisible;
         return false;
     }
+
+    /**
+    * .ctr
+    * @param mixed $node
+    * @param null|mixed $callback
+    */
     public function __construct($node, $callback=null){
         parent::__construct("igk:singleViewItem");
         if (is_string($node) ){
@@ -49,6 +67,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     * auto generate doc.
     * @param null|mixed $option
     */
+
     protected function _getRenderingChildren($option=null){
         return [$this->targetNode];
     }
@@ -57,6 +76,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     * auto generate doc.
     * @param null|mixed $options
     */
+
     protected function __RenderComplete($options=null){ 
         igk_html_rm($this);
         if($this->m_callback){
@@ -72,6 +92,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     * @param mixed $item
     * @param null|mixed $index
     */
+
     protected function _addChild($item, $index=null){
         return false;
     }
@@ -79,6 +100,7 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getCanRenderTag(){
         return false;
     }

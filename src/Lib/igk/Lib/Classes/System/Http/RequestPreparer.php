@@ -13,6 +13,11 @@ use IGK\System\Uri;
 * @author C.A.D. BONDJE DOUE
 */
 class RequestPreparer{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PKEY = __CLASS__.'//preparefor_request';
     /**
      * prepare request. update $_SERVER and $_REQUEST
@@ -21,6 +26,7 @@ class RequestPreparer{
      * @return string 
      * 
      */
+
     public static function PrepareForRequest(string $path, ?string $base_uri = null):string{
         $storage =[
             $_SERVER,
@@ -47,6 +53,7 @@ class RequestPreparer{
      * 
      * @return void 
      */
+
     public static function PopPrepareForRequest(){
         if($storage = igk_pop_env(self::PKEY)){
             list($s,$r,$i) = igk_extract($storage, implode('|', range(0,2)));

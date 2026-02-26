@@ -11,12 +11,39 @@ use stdClass;
 * @package IGK\System\Console\Commands\Project
 */
 class RequireModuleCommand extends AppExecCommand{
-	var $command='--project:require';
-	var $desc='add required to project\'s controller configuration'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--project:require';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='add required to project\'s controller configuration'; 
 	/* var $options=[]; */
-	var $category = 'project';
-	var $usage = 'controller module [options]';
-	public function exec($command, ?string $controller=null, ?string $module_name=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller module [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $module_name
+    */
+    public function exec($command, ?string $controller=null, ?string $module_name=null) {
 		$project = self::GetController($controller);
 		($module = igk_get_module($module_name)) || igk_die_exception(\IGKException::class, "missing module name");
 		$m_module_config = $module->getModuleConfig();

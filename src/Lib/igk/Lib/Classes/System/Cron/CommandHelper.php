@@ -12,6 +12,11 @@ use IGK\Constants;
 * @author C.A.D. BONDJE DOUE
 */
 class CommandHelper{
+
+    /**
+    * auto generate doc.
+    * @return ?int
+    */
     public static function CleanSession(): ?int{       
         if (class_exists(ClearSessionCommand::class)){
             $e = func_get_arg(0);

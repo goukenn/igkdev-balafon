@@ -23,12 +23,21 @@ class ModuleManager
      * @var array
      */
     private $m_modules;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_boot_modules = [];
     /**
      * 
      * @var ModuleInitializer
      */
     private $m_init;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_modules =  & igk_environment()->require_modules();
@@ -38,6 +47,7 @@ class ModuleManager
      * reset the loaded module and return previous backup
      * @return array 
      */
+
     public function reset()
     {
         $bck = array_combine(array_keys($this->m_modules), array_values($this->m_modules));
@@ -45,6 +55,11 @@ class ModuleManager
         $this->m_init->reset();
         return $bck;
     }
+
+    /**
+    * auto generate doc.
+    * @param array $tab
+    */
     public function restore(array $tab)
     {
         $this->m_modules = $tab;
@@ -59,10 +74,15 @@ class ModuleManager
      * get reference to modules list
      * @return array 
      */
+
     public function &get()
     {
         return $this->m_modules;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function count()
     {
         return igk_count($this->m_modules);
@@ -71,6 +91,7 @@ class ModuleManager
      * return initialized modules 
      * @return ModuleInitializer 
      */
+
     public function init()
     {
         if (is_null($this->m_init)) {
@@ -82,6 +103,7 @@ class ModuleManager
      * create module inistializer
      * @return ModuleInitializer 
      */
+
     protected function _createModuleInitializer()
     {
         return new ModuleInitializer;
@@ -91,6 +113,7 @@ class ModuleManager
      * @return null|array 
      * @throws IGKException 
      */
+
     public static function GetInstalledModules(): ?array
     {  
         $d = ApplicationModules::GetCacheFile();
@@ -138,6 +161,7 @@ class ModuleManager
     private static function _SanitizeName(string $dirname){
         return Utility::SanitizeName($dirname);
     }
+
     public static function GetAutoloadModules(): ?array
     {
         $manager = igk_environment()->getModulesManager();
@@ -151,6 +175,7 @@ class ModuleManager
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public static function GetRequiredModules(): ?array
     {
         if ($mod = igk_environment()->require_modules()) {
@@ -162,6 +187,7 @@ class ModuleManager
      * bootstrap modules
      * @return void 
      */
+
     public static function Bootstrap()
     { 
         $boot_cache = igk_io_cachedir()."/.modules.boot.cache";
@@ -204,6 +230,7 @@ class ModuleManager
      * @param ApplicationModuleController $module 
      * @return bool 
      */
+
     public function registerBoot(ApplicationModuleController $module):bool{
         if (array_search($module, $this->m_boot_modules)===false){
             $this->m_boot_modules[] = $module;
@@ -217,6 +244,7 @@ class ModuleManager
      * @param ApplicationModuleController $module 
      * @return void 
      */
+
     public static function InitDoc(IGKHtmlDoc $doc, ApplicationModuleController $module){
         if ($module->boot){
             $module->boot = false;
@@ -228,6 +256,7 @@ class ModuleManager
      * @return array 
      * @throws IGKException 
      */
+
     public static function ResetModuleCache(){
         @unlink(ApplicationModules::GetCacheFile());
         return self::_InitModules();

@@ -9,6 +9,11 @@ use IGK\System\Traits\PropertyObjectTrait;
 * @package IGK\System
 */
 abstract class AnnotationBase implements IAnnotation{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_params;
     use PropertyObjectTrait;
     /**
@@ -16,6 +21,7 @@ abstract class AnnotationBase implements IAnnotation{
      * @param array $params 
      * @return void 
      */
+
     public function setParams(array $params){
         $this->m_params = $params;
     }
@@ -23,6 +29,7 @@ abstract class AnnotationBase implements IAnnotation{
      * get parameter 
      * @return mixed 
      */
+
     public function getParams():array{
         return $this->m_params;
     }

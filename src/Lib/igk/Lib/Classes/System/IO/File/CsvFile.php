@@ -13,6 +13,11 @@ use IGK\System\Text\RegexMatcherContainer;
  */
 class CsvFile
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SEPARATORS = [',', ':', ';', "\t", "|"];
     /**
      * limit the readed data
@@ -189,7 +194,8 @@ function _parseLine($line)
      * the callable must accept two parameter : (?string $v, int $i=null): value
      * @return null|object 
      */
-    public function map(array $data, $mapper): ?object
+    public
+function map(array $data, $mapper): ?object
     {
         return MapHelper::MapDataToObject($data, $mapper);
     }

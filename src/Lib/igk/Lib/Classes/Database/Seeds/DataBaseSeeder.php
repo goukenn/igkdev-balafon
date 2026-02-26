@@ -10,7 +10,11 @@ use IGK\System\Database\Seeds\SeederBase;
 * @package IGK\Database\Seeds
 */
 class DataBaseSeeder extends SeederBase{
-	public function run(){
+
+    /**
+    * auto generate doc.
+    */
+    public function run(){
 	// + | DATABASE Seeder
 	// + | [model]::factory(number)->create();
 	}

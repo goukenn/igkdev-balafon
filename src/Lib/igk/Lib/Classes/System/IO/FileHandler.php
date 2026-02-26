@@ -10,10 +10,35 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class FileHandler{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_handler;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FILE_CONTEXT_GLOBAL = 'global';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FILE_CONTEXT_VIEW = 'view_context';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FILE_CONTEXT_CSS = 'style_context';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONTEXT_KEY = '::context';
     /**
      * register file handler
@@ -21,6 +46,7 @@ abstract class FileHandler{
      * @param FileHandler $handler 
      * @return void 
      */
+
     public static function Register(string $extension, FileHandler $handler){
         if (is_null(self::$sm_handler)){
             self::$sm_handler = [];
@@ -55,6 +81,7 @@ abstract class FileHandler{
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function GetFileHandlerFromExtension(string $extension){
         if (self::$sm_handler){
             return igk_getv(self::$sm_handler, $extension);
@@ -67,6 +94,7 @@ abstract class FileHandler{
      * @return null|array 
      * @throws IGKException 
      */
+
     public static function GetContextFileHandlers(string $handler_context):?array{
         if (is_null(self::$sm_handler)){
             return null;
@@ -83,6 +111,10 @@ abstract class FileHandler{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function GetViewContextFileHandlers(){
         return self::GetContextFileHandlers(self::FILE_CONTEXT_VIEW);
     }
@@ -94,6 +126,7 @@ abstract class FileHandler{
      * @return string|false 
      * @throws IGKException 
      */
+
     public static function ResolveFile(string $dir, string $base_name, string $context){
         if ($g = self::GetContextFileHandlers($context)){
             $exts = array_keys($g);
@@ -110,6 +143,7 @@ abstract class FileHandler{
      * transform content an return data
      * @return mixed
      */
+
     abstract function transform(string $content);
     /**
      * init default source

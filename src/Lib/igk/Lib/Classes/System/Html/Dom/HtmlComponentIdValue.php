@@ -14,12 +14,18 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 final class HtmlComponentIdValue implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_host;
     /**
      * Constructor.
      *
      * @param mixed $host The host object whose component ID will be resolved.
      */
+
     public function __construct($host){
         $this->m_host=$host;
     }
@@ -28,6 +34,7 @@ final class HtmlComponentIdValue implements IHtmlGetValue{
      *
      * @return string
      */
+
     public function __toString(){
         return $this->getValue();
     }
@@ -37,6 +44,7 @@ final class HtmlComponentIdValue implements IHtmlGetValue{
      * @param mixed $options Optional rendering options.
      * @return mixed The component ID string.
      */
+
     public function getValue($options=null){
         if(method_exists($this->m_host, "getComponentId"))
             return $this->m_host->getComponentId();

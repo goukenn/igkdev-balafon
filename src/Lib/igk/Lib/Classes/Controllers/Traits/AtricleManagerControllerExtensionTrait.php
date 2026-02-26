@@ -49,6 +49,14 @@ trait AtricleManagerControllerExtensionTrait{
         $rt = IO::GetFiles($dir, $ext, $recursive, $exclude_dir, $callback);
         return $rt;
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param string $path
+    * @param string $ext
+    * @param bool $recursive
+    */
     public static function assets_list_uri(BaseController $ctrl, string $path, string $ext, bool $recursive = false){
         $g = [];
         self::assets_list($ctrl, $path, $ext, $recursive, function($f)use($ctrl, & $g){             

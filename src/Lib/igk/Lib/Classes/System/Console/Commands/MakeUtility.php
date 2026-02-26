@@ -12,6 +12,10 @@ use IGKException;
 * @package IGK\System\Commmands
 */
 class MakeUtility {
+
+    /**
+    * auto generate doc.
+    */
     public static function CreateEmptyScriptCallback(){
         return function($file){
             $sb = new StringBuilder();
@@ -31,6 +35,7 @@ class MakeUtility {
      * @return void 
      * @throws IGKException 
      */
+
     public static function BindDefaultLangSupport($command, $dir, & $bind){
         if (!igk_getv($command->options, "--no-init-lang")){
             if ($v_langs = R::GetSupportedLangs()){

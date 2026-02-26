@@ -13,7 +13,17 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class DbSchemaUtility{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $file;
+
+    /**
+    * .ctr
+    * @param mixed $controller
+    */
     public function __construct($controller)
     {
         $this->file = $controller->getDataSchemaFile();    
@@ -24,9 +34,15 @@ class DbSchemaUtility{
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function load(){
         return HtmlReader::LoadFile($this->file);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    */
     public function store($node){
         $option = (object)["Indent"=>true];
         igk_io_w2file($this->file, $node->render($option));

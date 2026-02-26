@@ -13,7 +13,11 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class StringDisplayTest extends BaseTestCase{
-public function test_stringdisplay_litteral(){
+
+    /**
+    * auto generate doc.
+    */
+    public function test_stringdisplay_litteral(){
     $l = StringDisplay::Display('hi!, ", ", login', ['login'], (object)['login'=>IGK_AUTHOR]);
     $this->assertEquals(sprintf('hi!, %s', IGK_AUTHOR), $l);
 }

@@ -8,8 +8,25 @@ namespace IGK\System\Security\Web;
 * @package IGK\System\Security\Web
 */
 class IntegerContentValidator extends NumberContentValidator{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $defaultValue = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $missingDefaultValue = null;
+
+    /**
+    * auto generate doc.
+    * @param mixed & $value
+    * @param mixed $key
+    * @return bool
+    */
     public function validate(&$value, $key): bool
     {
         if ($r = (is_integer($value) || is_numeric($value))){

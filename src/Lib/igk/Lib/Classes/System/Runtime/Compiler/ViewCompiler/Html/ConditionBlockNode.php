@@ -10,13 +10,42 @@ use IGK\System\IO\StringBuilder;
 * @package IGK\System\Runtime\Compiler\Html
 */
 class ConditionBlockNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "igk:compiler-condition-block";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $type;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $condition;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $output;
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag(){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options = null)
     {
         $out = "";
@@ -33,6 +62,12 @@ class ConditionBlockNode extends HtmlNode{
         }
         return $this->render_CodeBlock($this->type, $out);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $type
+    * @param mixed $out
+    */
     public function render_CodeBlock($type, $out){
         $t_pos = false;
         $_out = !empty($this->output) ? trim($this->output) : "";
@@ -71,7 +106,12 @@ class ConditionBlockNode extends HtmlNode{
                 $sb->appendLine('?>\n<?php '.$endtag.' ?>'); 
         }
         return $sb."";
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $out
+    */
     public function renderIf($out){
         return $this->render_CodeBlock($this->type, $out);        
     }

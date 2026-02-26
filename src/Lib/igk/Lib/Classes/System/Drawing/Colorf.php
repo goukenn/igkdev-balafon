@@ -20,6 +20,11 @@ use function igk_clamp as clamp;
 */
 class Colorf extends IGKObject
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_A, $m_B, $m_G, $m_R;
     private static function __bindStringData($cl, $v)
     {
@@ -39,6 +44,7 @@ class Colorf extends IGKObject
      * @param string $v 
      * @return void 
      */
+
     public static function ConvertStringToRGBA(string $v)
     {
         $v = str_replace("#", IGK_STR_EMPTY, $v);
@@ -80,6 +86,7 @@ class Colorf extends IGKObject
     * auto generate doc.
     * @param mixed $v
     */
+
     public static function FromString($v)
     {
         $t = igk_css_get_color_value($v);
@@ -98,6 +105,7 @@ class Colorf extends IGKObject
     /**
     * auto generate doc.
     */
+
     public function getA()
     {
         return $this->m_A;
@@ -106,6 +114,7 @@ class Colorf extends IGKObject
     /**
     * auto generate doc.
     */
+
     public function getB()
     {
         return $this->m_B;
@@ -114,6 +123,7 @@ class Colorf extends IGKObject
     /**
     * auto generate doc.
     */
+
     public function getG()
     {
         return $this->m_G;
@@ -122,6 +132,7 @@ class Colorf extends IGKObject
     /**
     * auto generate doc.
     */
+
     public function getR()
     {
         return $this->m_R;
@@ -131,6 +142,7 @@ class Colorf extends IGKObject
     * auto generate doc.
     * @param mixed $v
     */
+
     public function loadw($v)
     {
         self::__bindStringData($this, $v);
@@ -140,6 +152,7 @@ class Colorf extends IGKObject
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setA($value)
     {
         if (($value >= 0) && ($value <= 1.0))
@@ -150,6 +163,7 @@ class Colorf extends IGKObject
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setB($value)
     {
         if (($value >= 0) && ($value <= 1.0))
@@ -160,6 +174,7 @@ class Colorf extends IGKObject
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setG($value)
     {
         if (($value >= 0) && ($value <= 1.0))
@@ -170,6 +185,7 @@ class Colorf extends IGKObject
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setR($value)
     {
         if (($value >= 0) && ($value <= 1.0))
@@ -179,6 +195,7 @@ class Colorf extends IGKObject
      * convert to byte data 
      * @return Color
      */
+
     public function toByte(): Color
     {
         return Color::FromFloat($this->R, $this->G, $this->B, $this->A);
@@ -187,6 +204,7 @@ class Colorf extends IGKObject
      * convert to webcolor 
      * @return string 
      */
+
     public function toWebColor(): string{
         return Color::FromFloat($this->R, $this->G, $this->B, $this->A)->toWebColor();
     }

@@ -7,6 +7,11 @@ namespace IGK\XSD;
 use IGKException;
 /** @package IGK\XSD */
 class XsdBuilderException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $msg
+    */
     public function __construct($msg)
     {
         parent::__construct($msg);

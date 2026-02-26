@@ -9,8 +9,24 @@ namespace IGK\System;
  * @package System
  */
 class HashContainer {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_callback;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_code;
+
+    /**
+    * .ctr
+    * @param string $code
+    * @param callable $callback
+    */
     public function __construct(string $code, callable $callback)
     {
         $this->m_code = $code;
@@ -22,6 +38,7 @@ class HashContainer {
      * @param mixed $tab 
      * @return bool 
      */
+
     public function contains($key, $tab){
         $k = hash($this->m_code, $key);        
         $ck = $this->m_callback;

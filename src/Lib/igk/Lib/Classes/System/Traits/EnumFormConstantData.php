@@ -14,6 +14,9 @@ trait EnumFormConstantData
 {
     use EnumeratesConstants;
 
+    /**
+    * auto generate doc.
+    */
     public static function FormSelectData()
     {
         $l = [];

@@ -22,6 +22,11 @@ class Map{
         }
         return $target;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $property
+    */
     public static function GetMapInfo(string $property){
         return function($a)use($property){
             return igk_getv($a, $property);

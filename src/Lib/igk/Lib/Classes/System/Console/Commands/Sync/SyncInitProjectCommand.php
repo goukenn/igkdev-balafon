@@ -12,18 +12,44 @@ use IGKEvents;
 * @package IGK\System\Console\Commands
 */
 class SyncInitProjectCommand extends SyncAppExecCommandBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONF_FILE = '.balafon-sync.project.json';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command="--sync:init-project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "initialize sync project - configuration file";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options= [
         "--force"=>"flag: force config file creation",
         "--ignoredirs:dir"=>"directory or expression to ignore"
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = 'controller [options]';
     /**
      * init command - by register event 
      * @return void 
      */
+
     public static function InitCommand(){
         igk_reg_hook(IGKEvents::HOOK_COMMAND, function($e){
             extract($e->args);
@@ -34,6 +60,12 @@ class SyncInitProjectCommand extends SyncAppExecCommandBase{
             }  
         });
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
     public function exec($command, ?string $controller=null) { 
         if (is_null($controller)){
             igk_die("controller required");

@@ -9,5 +9,10 @@ namespace IGK\System\Diagnostics;
 * @author C.A.D. BONDJE DOUE
 */
 class Debugger{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $fs_filesystem_check_counter;
 }

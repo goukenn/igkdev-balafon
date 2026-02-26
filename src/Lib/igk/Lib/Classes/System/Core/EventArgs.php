@@ -12,13 +12,24 @@ namespace IGK\System\Core;
  */
 class EventArgs
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private  static $Empty;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_props;
     /**
      * retrieve the keys to define
      * @param string $key 
      * @return mixed 
      */
+
     public function get(string $key){
         return igk_getv($this->m_props, $key);
     }
@@ -26,6 +37,7 @@ class EventArgs
      * get empty object 
      * @return mixed 
      */
+
     public static function Empty()
     {
         if (empty(self::$Empty)) {
@@ -33,6 +45,11 @@ class EventArgs
         }
         return self::$Empty;
     }
+
+    /**
+    * .ctr
+    * @param null|mixed $props
+    */
     public function __construct($props=null)
     {
         $this->m_props = $props ?? [];

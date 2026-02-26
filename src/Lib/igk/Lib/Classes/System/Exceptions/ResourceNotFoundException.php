@@ -9,12 +9,18 @@ use IGKException;
 *  resource not found exception
 */
 class ResourceNotFoundException extends IGKException {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_file;
     /**
     * 
     * @param mixed $message
     * @param mixed $file
     */
+
     public function __construct($message, $file, $code=404){
         parent::__construct($message, $code);
         $this->m_file=$file;
@@ -22,6 +28,7 @@ class ResourceNotFoundException extends IGKException {
     /**
     * 
     */
+
     public function getResourceFile(){
         return $this->m_file;
     }

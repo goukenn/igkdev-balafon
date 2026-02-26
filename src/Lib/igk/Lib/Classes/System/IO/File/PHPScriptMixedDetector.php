@@ -13,11 +13,24 @@ use IGK\System\Text\RegexMatcherUtility;
  */
 class PHPScriptMixedDetector
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_regex;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->initialize();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         $regex = new RegexMatcherContainer;
@@ -48,6 +61,7 @@ class PHPScriptMixedDetector
      * @return object 
      * @throws Error 
      */
+
     public function detectFromFile(string $file)
     {
         return $this->detectFromSource(file_get_contents($file));
@@ -58,6 +72,7 @@ class PHPScriptMixedDetector
      * @return object|{mixed:string, source:array} 
      * @throws Error 
      */
+
     public function detectFromSource(string $source)
     {
         $regex = $this->m_regex;

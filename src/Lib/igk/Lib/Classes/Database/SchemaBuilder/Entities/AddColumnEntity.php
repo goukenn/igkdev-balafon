@@ -12,6 +12,12 @@ use IGKException;
  */
 class AddColumnEntity extends Factory implements IDiagramVisitorEntity
 {
+
+    /**
+    * auto generate doc.
+    * @param mixed $schemaInfo
+    * @param mixed $operation
+    */
     public function updateSchema($schemaInfo, $operation = 'up')
     {
         // add manually update 
@@ -33,6 +39,7 @@ class AddColumnEntity extends Factory implements IDiagramVisitorEntity
      * @return SchemaBuilderMigration 
      * @throws IGKException 
      */
+
     public function setup(BaseController $controller, $schema, $props): SchemaBuilderMigration
     {
         $this->_controller = $controller;

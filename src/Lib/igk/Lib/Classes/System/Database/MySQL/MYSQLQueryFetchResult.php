@@ -21,41 +21,118 @@ use ModelBase;
 *  implement fetch result
 */
 final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult, IDbQueryFetchResult{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $init;
     /**
      * get or define resources options
      * @var mixed
      */
     var $options;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_query;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_rowcount;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fieldcount;
-    private $m_result; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_result;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_rowdef;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_columns = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tables = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_model;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_driver;
     use IteratorTrait;
     // public function to_json($option = null, int $flag = 0) { }
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     public function to_array(): ?array {
         return null;// yield $this->fetch();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function generate(){
         return yield $this->fetch();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $index
+    */
     public function getRowAtIndex($index) { 
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _iterator_key() { 
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $result
+    */
     public function handle($result){
         $this->m_result = $result; 
         $this->m_fieldcount= igk_db_num_fields($result);
         $this->m_rowcount = igk_db_num_rows($result);
         $this->init = false;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _iterator_valid(){
         return $this->m_rowdef !== null;
     }
@@ -63,12 +140,21 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
      * check if query success
      * @return bool 
      */
+
     public function success():bool{
         return $this->m_rows !== null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFieldCount(){
         return $this->m_fieldcount;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getRowCount(){
         return $this->m_rowcount;
     }
@@ -84,6 +170,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
      * @param \IGK\System\Database\MySQL\IGK\Models\ModelBase $model source model
      * @return MYSQLQueryFetchResult 
      */
+
     public static function Create($query, IDataDriver $driver, ?\IGK\Models\ModelBase $model=null){
         $c = new self();
         $c->m_query = $query;
@@ -94,12 +181,14 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     ///retult of the query  uses for boolean data
     /**
     */
+
     public function __toString(){
         return __CLASS__." [RowCount: ".$this->RowCount."]";
     }
     /**
     * 
     */
+
     public function getColumnCount(){
         return igk_count($this->m_columns);
     }
@@ -107,6 +196,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     * 
     * @param mixed $columnname
     */
+
     public function getColumnIndex($columnname){
         if(isset($this->m_columns[$columnname])){
             return $this->m_columns[$columnname]->index;
@@ -116,36 +206,42 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
     /**
     * 
     */
+
     public function getColumns(){
         return $this->m_columns;
     }
     /**
     * 
     */
+
     public function getHasRow(){
         return ($this->getRowCount() > 0);
     }
     /**
     * retrieve the query
     */
+
     public function getQuery(){
         return $this->m_query;
     }
     /**
     * get the type of result. boolean|numeric|db_result
     */
+
     public function getResultType(){
         return "fetch";
     }   
     /**
     * 
     */
+
     public function getTables(){
         return $this->m_tables;
     }
     /**
     * get the request value
     */
+
     public function getValue(){
         return $this->m_value;
     }
@@ -154,6 +250,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
      * @return bool 
      * @throws Exception 
      */
+
     public function fetch():bool{
         //create and transform to db query row object
         $callback = $this->options ? igk_getv($this->options, DbConstants::CALLBACK_OPTS) : null;
@@ -173,6 +270,10 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
         }
         return $this->m_rowdef !== null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function _iterator_rewind(){
         $dbresult = $this->m_result;
         if (!$dbresult)
@@ -185,13 +286,25 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
         igk_db_seek($dbresult, 0);
         $this->fetch(); 
     }
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return [];
     }
+
+    /**
+    * auto generate doc.
+    */
     public function _iterator_current(){
         return $this->m_rowdef;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function _iterator_next(){
         $this->fetch();
     }
@@ -199,6 +312,7 @@ final class MYSQLQueryFetchResult extends DbQueryResult  implements IQueryResult
      * 
      * @return null|object|DbQueryRowObj
      */
+
     public function row(): ?object{
         return $this->m_rowdef;
     }

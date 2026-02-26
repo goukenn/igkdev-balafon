@@ -24,7 +24,17 @@ use stdClass;
  */
 class JSon
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const _map_to_object_method = '_map_to_object';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const JSON_PRETTY_VIEW = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES;
     /**
      * encoding option
@@ -46,6 +56,7 @@ class JSon
      * @param int $encode 
      * @return string|false 
      */
+
     public function enc(int $encode)
     {
         if (is_null($this->m_data)){
@@ -54,6 +65,11 @@ class JSon
         $root = $this->get_root_data($this->m_data);
         return $root ? json_encode($root, $encode) : null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $tv
+    */
     protected function _filter_array(&$tv)
     {
         if ($fc = $this->m_options->filter_array_listener) {
@@ -69,6 +85,7 @@ class JSon
      * @return mixed 
      * @throws Exception 
      */
+
     public function get_root_data($data)
     {
         $root = $keys = $c = null;
@@ -121,6 +138,11 @@ class JSon
         $root = $data;
         return $root;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    */
     protected function _map_to_object($data)
     {
         if (is_object($data) && (($data instanceof IToArrayResolver) || method_exists($data, 'to_array'))) {
@@ -147,6 +169,7 @@ class JSon
      * @return mixed 
      * @throws IGKException 
      */
+
     public function filter_array($a)
     {
         if (is_object($a)) {
@@ -249,6 +272,7 @@ class JSon
      * @param int $encode 
      * @return string|false 
      */
+
     public static function Encode($data, $options = null, int $encode = JSON_UNESCAPED_SLASHES)
     {
         if (is_null($options)) {
@@ -291,6 +315,10 @@ class JSon
         }
         return $r;
     }
+
+    /**
+    * .ctr
+    */
     protected function __construct() {}
     /**
      * code for html attribute
@@ -299,6 +327,7 @@ class JSon
      * @param int $js_options 
      * @return string 
      */
+
     public static function EncodeForHtmlAttribute($data, $encode_options, int $js_options = JSON_UNESCAPED_SLASHES)
     {
         return htmlentities(self::Encode($data, $encode_options));
@@ -311,6 +340,7 @@ class JSon
      * @throws JSonBindAsException missing required properties
      * @remarks properties with JSonBindAsAnnotation will define requirement of binding data
      */
+
     public static function BindData($object_or_class, $data, $throw_error = true)
     {
         if (is_string($object_or_class) && class_exists($object_or_class)) {
@@ -409,6 +439,7 @@ class JSon
      * @throws IGKException 
      * @throws Exception 
      */
+
     public static function EncodeWithNoEmpty($data){
         return self::Encode($data, JSonEncodeOption::IgnoreEmpty(), JSON_UNESCAPED_SLASHES);
     }

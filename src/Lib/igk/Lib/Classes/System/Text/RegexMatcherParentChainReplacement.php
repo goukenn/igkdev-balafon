@@ -10,7 +10,16 @@ namespace IGK\System\Text;
  */
 class RegexMatcherParentChainReplacement
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_chain_parent;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_chain_parent = [];
@@ -21,6 +30,7 @@ class RegexMatcherParentChainReplacement
      * @param IRegexEndInfo $e 
      * @return void 
      */
+
     public function mark(string $value, $e)
     {
         $cp = null;
@@ -42,6 +52,13 @@ class RegexMatcherParentChainReplacement
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $g
+    * @param string $value
+    * @param int $from
+    */
     public function replaceChain($g, string $value, int $from)
     {
         $chain_parent = &$this->m_chain_parent;

@@ -13,7 +13,18 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlHookNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_eventType, $m_context;
+
+    /**
+    * .ctr
+    * @param mixed $eventType
+    * @param null|string $context
+    */
     public function __construct($eventType, ?string $context=null){
         parent::__construct("igk-hook-node");
         $this->m_eventType=$eventType;
@@ -22,9 +33,19 @@ class HtmlHookNode extends HtmlNode{
     // protected function _getRenderingChildren($options=null){
     //     return null;
     // }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag(){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool
     {
         if($v = $this->getIsVisible()){

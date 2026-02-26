@@ -11,12 +11,32 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class ListComponentPackageCommand extends AppExecCommand{
-	var $command='--component-package:list';
-	var $desc='list system\'s node package namespaces'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--component-package:list';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='list system\'s node package namespaces'; 
 	/* var $options=[]; */
-	var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'sys';
 	/* var $usage = ''; */
-	public function exec($command) { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) { 
 		$l = igk_reg_component_package();
 		ksort($l);
 		Logger::print(implode("\n", array_keys($l)));

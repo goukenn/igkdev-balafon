@@ -14,9 +14,29 @@ use IGK\System\IO\Path;
 * subdomain manager
 */
 final class IGKSubDomainManager extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_isSubDomain;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_subDomainName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_cached_domains;
     /**
     * 
@@ -27,6 +47,7 @@ final class IGKSubDomainManager extends IGKObject{
     * @param mixed $domain
     * @param mixed $servername
     */
+
     public static function AcceptDomain($domain, $servername){
         if(IGKValidator::IsIpAddress($domain) && IGKValidator::IsIpAddress($servername)){
             return false;
@@ -53,9 +74,14 @@ final class IGKSubDomainManager extends IGKObject{
      * config file from data directory 
      * @return string 
      */
+
     public static function GetConfigFile(){
         return Path::getInstance()->getDataDir()."/subdomain.php";
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function OnInstallSite(){
         if (!file_exists($f=self::GetCacheFile())){
             igk_io_w2file($f, implode("\n", ['<?php','// direct entry access domain', 'return [];']));
@@ -65,6 +91,7 @@ final class IGKSubDomainManager extends IGKObject{
     * get the domain controller or return false
     * @return false|BaseController found controller 
     */
+
     public function checkDomain($uri=null, & $row=null){
         if(igk_is_atomic()){
             return false;
@@ -130,6 +157,7 @@ final class IGKSubDomainManager extends IGKObject{
      * @return BaseController|void 
      * @throws IGKException 
      */
+
     public static function GetSubDomainCtrl(){
         if (self::$sm_isSubDomain){
             $subdomain = self::$sm_subDomainName;
@@ -151,12 +179,14 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * 
     */
+
     public function Clear(){
         igk_environment()->{IGK_ENV_SESS_DOM_LIST} = null; 
     }
     /**
     * 
     */
+
     public function domainList(){
         if (is_array($t=$this->getRegList()))
             return array_keys($t);
@@ -165,6 +195,7 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * 
     */
+
     public static function GetBaseDomain(){
         $srv = igk_server()->SERVER_NAME;
         // + | auto dectect base domain
@@ -183,6 +214,7 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * 
     */
+
     public static function getInstance(){
         if(self::$sm_instance == null){
             $k=new IGKSubDomainManager();
@@ -193,6 +225,7 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * 
     */
+
     public function getRegList(){
         if (!($c = igk_environment()->get(IGK_ENV_SESS_DOM_LIST)))
             $c = [];
@@ -201,6 +234,7 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * 
     */
+
     public static function GetSubDomain(){
         $srv=igk_server_name() ?? '';
         if(preg_match("/^(www\.)/i", $srv)){
@@ -219,12 +253,14 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * 
     */
+
     public static function GetSubDomainName(){
         return self::$sm_subDomainName;
     }
     /**
     * init domain server - operation 
     */
+
     public static function Init(){
         self::$sm_isSubDomain=false;
         self::$sm_subDomainName=false;
@@ -259,6 +295,7 @@ final class IGKSubDomainManager extends IGKObject{
     * @param mixed $n
     * @param mixed $ctrl
     */
+
     public static function IsControl($n, $ctrl){
         $t=self::getInstance()->getRegList();
         return isset($t[$n]) && ($t[$n]->ctrl === $ctrl);
@@ -266,12 +303,14 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * 
     */
+
     public static function IsSubDomain(){
         return self::$sm_isSubDomain;
     }
     /**
     * 
     */
+
     protected function onDomainChanged(){
         $this->Clear();
     }
@@ -281,6 +320,7 @@ final class IGKSubDomainManager extends IGKObject{
     * @param mixed $ctrl
     * @param mixed $row the default value is null
     */
+
     public function reg_domain($n, $ctrl, $row=null){
         if(empty($n) || !igk_reflection_class_implement($ctrl, IUriActionRegistrableController::class)){
             return false;
@@ -296,6 +336,7 @@ final class IGKSubDomainManager extends IGKObject{
     /**
     * resole domain to match server name
     */
+
     public static function Resolv($domain){
         $servername=igk_server_name();
         $ex1=igk_io_path_ext($domain);
@@ -315,6 +356,7 @@ final class IGKSubDomainManager extends IGKObject{
     private function updateRegList($t){
         igk_environment()->{IGK_ENV_SESS_DOM_LIST} = $t; 
     }
+
     public static function SubDomainUriName(?string $uri=null){
         $domain=igk_io_domain_uri_name($uri);
         $bdom=self::GetBaseDomain();
@@ -334,6 +376,11 @@ final class IGKSubDomainManager extends IGKObject{
             $s=igk_getv($tab["name"], 0);
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $uri
+    */
     public static function DomainUriName($uri=null){
         $domain=$uri == null ? igk_io_baseuri(): $uri;
         $domain=preg_replace_callback("#((http(s)?://)?(www\.)?){0,1}#i", function($tmatch){

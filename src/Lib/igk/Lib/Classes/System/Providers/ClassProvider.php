@@ -10,6 +10,11 @@ use IGKException;
  * @package IGK\System\Providers
  */
 class ClassProvider{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_classes;
     /**
      * 
@@ -17,6 +22,7 @@ class ClassProvider{
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function GetClass(string $name ){
         $provider = new self;
         return igk_getv($provider->m_classes, $name);
@@ -25,6 +31,7 @@ class ClassProvider{
      * init class provider
      * @return array 
      */
+
     protected function initProvider() : array{
         return [
             "controller::info"=>\IGK\System\Controllers\ControllerInfo::class,
@@ -32,6 +39,10 @@ class ClassProvider{
             "composer:loader"=>\IGK\System\Composer\Loader::class,
         ];
     }
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         $this->m_classes = $this->initProvider();
     }

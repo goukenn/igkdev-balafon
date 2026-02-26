@@ -13,13 +13,35 @@ use ZipArchive;
 * @package IGK\System\Console\Commands
 */
 class ZipDirCommand extends AppExecCommand{
-	var $command='--zip';
-	var $desc='zip directory';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--zip';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='zip directory';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--regex:[]'=>'exclude file pattern'
 	]; 
 	/* var $category; */
-	public function exec($command, ?string $inputDir=null, ?string $outDir=null) {
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $inputDir
+    * @param null|string $outDir
+    */
+    public function exec($command, ?string $inputDir=null, ?string $outDir=null) {
 		!is_dir($inputDir) && igk_die('missing inputdir');
 		if (empty($outDir)){
 			$outDir = Path::Combine(getcwd());

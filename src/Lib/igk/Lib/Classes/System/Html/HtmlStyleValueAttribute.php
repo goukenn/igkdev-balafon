@@ -17,13 +17,24 @@ use IGK\System\Html\Dom\HtmlCssValueAttribute;
 */
 final class HtmlStyleValueAttribute extends HtmlAttributeValue
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_o;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $value;
     /**
      * Constructor.
      *
      * @param mixed $target The target HTML node that owns this style attribute
      */
+
     public function __construct($target)
     {
         $this->m_o = $target;
@@ -33,6 +44,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
      *
      * @return array Properties to include during serialization
      */
+
     public function __sleep()
     {
         if (empty($this->value)) {
@@ -45,6 +57,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
      *
      * @return array Empty debug info array
      */
+
     public function __debugInfo()
     {
         return [];
@@ -54,6 +67,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
      *
      * @return string The resolved style value
      */
+
     public function __toString()
     {
         $rv = $this->getValue();
@@ -65,6 +79,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
     /**
      * Restore the object state after unserialization.
      */
+
     function __wakeup() {}
     /**
      * Compute and return the CSS style attribute value, merging class styles when needed.
@@ -72,6 +87,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
      * @param mixed $options Optional rendering options
      * @return string|null The resolved style string, or null if empty
      */
+
     public function getValue($options = null)
     {
         $opt = IGK_STR_EMPTY;
@@ -106,6 +122,7 @@ final class HtmlStyleValueAttribute extends HtmlAttributeValue
      * @param mixed $value The style value to assign
      * @return static|void Returns $this when reassigning from another instance
      */
+
     public function setValue($value)
     {
         if ($value instanceof HtmlStyleValueAttribute) {

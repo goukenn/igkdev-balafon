@@ -14,12 +14,42 @@ use IGKServices;
 * @author C.A.D. BONDJE DOUE
 */
 class ServicesCommand extends AppExecCommand{
-	var $command='--services';
-	var $desc='service management command.'; 
-	var $options=[];
-	var $category = 'sys';
-	var $usage = 'action* [options]'; 
-	public function exec($command) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--services';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='service management command.';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'action* [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) { 
 
 		$srv = IGKServices::getInstance();
 		$l = $srv->services();
@@ -34,7 +64,8 @@ class ServicesCommand extends AppExecCommand{
 	 * show service informations 
 	 * @return void 
 	 */
-	protected function _service_info(){
+
+    protected function _service_info(){
 
 	}
 }

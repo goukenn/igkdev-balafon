@@ -8,11 +8,26 @@ namespace IGK\System\Http\Session;
 * @package IGK\System\Http\Session
 */
 class SessionOperatorIncCallback extends SessionOperatorBase {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $step;
+
+    /**
+    * .ctr
+    * @param null|int $step
+    */
     public function __construct(?int $step = 1)
     {
         $this->step = is_null($step) ? 1: $step;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $a
+    */
     public function invoke($a) { 
         if ($a)
             $a+= $this->step;

@@ -25,10 +25,30 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clGender, string $clFirstName, string $clLastName) add entry if not exists. check for unique column.
 * */
 class Humans extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_GENDER="clGender";
-	const FD_CL_FIRST_NAME="clFirstName";
-	const FD_CL_LAST_NAME="clLastName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_GENDER="clGender";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_FIRST_NAME="clFirstName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_LAST_NAME="clLastName";
 	/**
 	* table's name
 	*/

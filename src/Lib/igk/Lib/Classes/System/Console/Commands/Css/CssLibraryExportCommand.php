@@ -13,15 +13,41 @@ use IGK\System\Html\Css\CssUtils;
 * @package IGK\System\Console\Commands\CssCommands
 */
 class CssLibraryExportCommand extends AppExecCommand{
-	var $command='--css:lib-export';
-	var $category = 'css';
-	var $desc = 'help export css class selection from file';	
-	var $options=[];
-	var $usage = 'filename [options]'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--css:lib-export';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'css';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'help export css class selection from file';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'filename [options]'; 
 	/**
 	 * 
 	 */
-	public function exec($command, ?string $filename=null) {
+
+    public function exec($command, ?string $filename=null) {
 		is_null($filename) && igk_die('missing filename');
 		if (!igk_io_file_exists($filename)){
 			igk_die('missing file');

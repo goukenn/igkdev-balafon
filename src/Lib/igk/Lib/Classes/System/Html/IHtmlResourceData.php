@@ -12,5 +12,10 @@ namespace IGK\System\Html;
  * @package 
  */
 interface IHtmlResourceData{
+
+    /**
+    * get string presentation.
+    * @return string
+    */
     function __toString():string;
 }

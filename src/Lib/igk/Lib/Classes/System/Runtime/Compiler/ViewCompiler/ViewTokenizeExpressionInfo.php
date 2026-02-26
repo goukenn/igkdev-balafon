@@ -8,7 +8,17 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 class ViewTokenizeExpressionInfo{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $buffer;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $variables;
     /**
      * is contain operation

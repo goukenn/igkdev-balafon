@@ -17,8 +17,23 @@ use ReflectionException;
 */
 class ConfigurationPageHandler
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $route;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $engine;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $file;
     /**
      * 
@@ -28,6 +43,7 @@ class ConfigurationPageHandler
      * @return void 
      * @throws IGKException 
      */
+
     public function __construct($engine, ?string $file = null, ?string $route = null)
     {
         $this->file = $file;
@@ -44,6 +60,7 @@ class ConfigurationPageHandler
      * @throws ReflectionException 
      * @throws Exception 
      */
+
     public function handle_route(string $path_info, ?callable $redirect_callback = null)
     {
         $v_path = 0;

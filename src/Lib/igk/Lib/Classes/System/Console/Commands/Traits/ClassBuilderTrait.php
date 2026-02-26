@@ -10,6 +10,10 @@ use IGKException;
 * @package IGK\System\Console\Commands\Traits
 */
 trait ClassBuilderTrait{
+
+    /**
+    * auto generate doc.
+    */
     public static function GetAllowedTypes(){
         return ["class", "interface", "trait", "struct", "enum"];
     }
@@ -26,6 +30,7 @@ trait ClassBuilderTrait{
      * @return string|false 
      * @throws IGKException 
      */
+
     public function makeClass($command, string $dir, string $classPath, 
         string $type,
         ?string $ns=null,

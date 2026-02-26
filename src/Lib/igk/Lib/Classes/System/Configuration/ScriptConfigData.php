@@ -13,7 +13,16 @@ use IGK\System\IO\Path;
 * @author C.A.D. BONDJE DOUE
 */
 class ScriptConfigData{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $main;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->main = ConfigurationFile::DEFAULT_MAINJS;
@@ -23,6 +32,7 @@ class ScriptConfigData{
      * @param BaseController $ctrl 
      * @return void 
      */
+
     public static function GetControllerMainScript(BaseController $ctrl){
         if (($g = $ctrl->envConfiguration()) instanceof ConfigurationFile){
             if ($g->scripts){

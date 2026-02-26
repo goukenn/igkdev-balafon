@@ -217,6 +217,13 @@ trait ControllerDbExtensionTrait{
         $ad = self::getDataAdapter($ctrl);  
         return $ad->dropAllUniqueContraints($table);
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param string $table
+    * @param mixed $column
+    */
     public static function db_drop_index(BaseController $ctrl, string $table, $column){
         $ad = self::getDataAdapter($ctrl);  
         $query = $ad->grammar->drop_index($table, $column);
@@ -229,6 +236,13 @@ trait ControllerDbExtensionTrait{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param string $table
+    * @param mixed $column
+    */
     public static function db_drop_column(BaseController $ctrl, string $table, $column){
         $ad = self::getDataAdapter($ctrl);  
         $query = $ad->grammar->drop_column($table, $column);
@@ -248,6 +262,7 @@ trait ControllerDbExtensionTrait{
      * @param mixed $info 
      * @return true|void 
      */
+
     public static function db_change_column(BaseController $ctrl, string $table, $info)
     {
         $ad = self::getDataAdapter($ctrl); 

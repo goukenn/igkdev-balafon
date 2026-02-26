@@ -11,7 +11,16 @@ use IGK\Models\ModelBase;
  */
 class CacheModels
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_caches;
+
+    /**
+    * auto generate doc.
+    */
     public static function &_GetCaches()
     {
         if (self::$sm_caches == null) {
@@ -19,6 +28,11 @@ class CacheModels
         }
         return self::$sm_caches;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $key
+    */
     public static function Get(string $key)
     {
         $_v = self::_GetCaches();
@@ -30,6 +44,7 @@ class CacheModels
      * @param mixed $value 
      * @return void 
      */
+
     public static function Register($key, $value)
     {
         $_v = &self::_GetCaches();
@@ -41,6 +56,7 @@ class CacheModels
     /**
      * ClearModel Cache
      */
+
     public static function Clear()
     {
         self::$sm_caches = [];
@@ -52,6 +68,7 @@ class CacheModels
      * @param mixed $value 
      * @return string 
      */
+
     public static function GetCacheKey(ModelBase $model, $column, $value): string
     {
         return  "cache://" . igk_uri(get_class($model) . "/" . $column . "/" . $value);

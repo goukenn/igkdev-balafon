@@ -14,14 +14,59 @@ namespace IGK\XML;
 * @package IGK\XML
 */
 abstract class XMLNodeType{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CDATA=5;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const COMMENT=3;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ELEMENT=1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ENDELEMENT=4;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NONE=-1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PROCESSOR=2;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEXT=6;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INNER_TEXT = 7;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DOCTYPE=8;
     /**
      * Return the string name of an XML node type constant.
@@ -29,6 +74,7 @@ abstract class XMLNodeType{
      * @param int $i The node type constant value.
      * @return string
      */
+
     public static function GetString($i){
         switch($i){
             case self::NONE:

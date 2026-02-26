@@ -9,6 +9,11 @@ namespace IGK\Mapping;
  * @package IGK\Mapping
  */
 class ArrayModelMap extends SingleMapBase{
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    */
     public function map($data){
         if (is_array($data)){
             return array_map(function($a){

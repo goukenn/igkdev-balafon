@@ -8,11 +8,41 @@ namespace IGK\System\Modules;
 * @package IGK\System\Modules
 */
 class ModuleInfo{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $author;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $version;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $email;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $release;
     /**
      * 
@@ -24,6 +54,7 @@ class ModuleInfo{
      * @param null|array $require 
      * @return void 
      */
+
     public function setRequire(?array $require ){
         $this->m_require = $require;
     }
@@ -31,6 +62,7 @@ class ModuleInfo{
      * get require
      * @return mixed 
      */
+
     public function getRequire(){
         return $this->m_require;
     }

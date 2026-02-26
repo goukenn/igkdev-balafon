@@ -10,14 +10,59 @@ namespace IGK\System\Traits;
  */
 abstract class MacrosConstant
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ClosureSeparator = "@";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const StaticSeparator = "::";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RegisterExtensionMethod = "registerExtension";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const UnRegisterExtensionMethod = "unRegisterExtension";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RegisterMacroMethod = 'registerMacro';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const getMacroMethod = 'getMacro';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const getInstanceMethod = 'getInstance';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const getMacroKeysMethod = 'getMacroKeys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REF_MACROS = '@ref-macros';
     
 }

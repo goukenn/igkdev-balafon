@@ -11,12 +11,32 @@ use IGKEvents;
 * @package IGK\System\Console\Commands
 */
 class BuildAssetsCommand extends AppExecCommand{
-	var $command='--build:assets';
-	var $category='build';
-	var $desc='invoke asset builder - raise Build_asset event';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--build:assets';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category='build';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='invoke asset builder - raise Build_asset event';
 	/* var $options=[]; */
 	/* var $category; */
-	public function exec($command) {
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) {
 		Logger::print('Build assets');		
 		$v_projects = igk_sys_get_projects_controllers() ?? [];
 		$bdir = igk_io_basedir();
@@ -30,7 +50,13 @@ class BuildAssetsCommand extends AppExecCommand{
 		igk_hook(IGKEvents::BUILD_ASSETS, ['cmd'=>'console']);		
 		Logger::success('done');  
 	}
-	static function BuildAssets($modules, ?string $bdir = null){
+
+    /**
+    * auto generate doc.
+    * @param mixed $modules
+    * @param null|string $bdir
+    */
+    static function BuildAssets($modules, ?string $bdir = null){
 		$bdir = $bdir ?? igk_io_basedir();
 		foreach($modules as $ctrl){			
 			$ctrl->register_autoload();

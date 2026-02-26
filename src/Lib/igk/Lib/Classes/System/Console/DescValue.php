@@ -10,7 +10,17 @@ namespace IGK\System\Console;
 * @package IGK\System\Console
 */
 class DescValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $value;
+
+    /**
+    * .ctr
+    * @param mixed $v
+    */
     public function __construct($v){
         $this->value = $v;
     }
@@ -18,6 +28,7 @@ class DescValue{
     /**
     * auto generate doc.
     */
+
     public function __toString(){
         return $this->value;
     }

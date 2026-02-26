@@ -35,15 +35,60 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $name, int $pid, string $ip, string $session_id, string $data, string $description, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PoolingProcess extends ModelBase{
-	const FD_ID="pproc_id";
-	const FD_NAME="pproc_name";
-	const FD_PID="pproc_pid";
-	const FD_IP="pproc_ip";
-	const FD_SESSION_ID="pproc_session_id";
-	const FD_DATA="pproc_data";
-	const FD_DESCRIPTION="pproc_description";
-	const FD_CREATE_AT="pproc_Create_At";
-	const FD_UPDATE_AT="pproc_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="pproc_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_NAME="pproc_name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_PID="pproc_pid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_IP="pproc_ip";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_SESSION_ID="pproc_session_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_DATA="pproc_data";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_DESCRIPTION="pproc_description";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="pproc_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="pproc_Update_At";
 	/**
 	* table's name
 	*/

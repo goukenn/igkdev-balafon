@@ -9,14 +9,26 @@ use IGK\System\IO\Path;
 * @package IGK\System\Controllers\Traits
 */
 trait ControllerLocationTrait{
+
+    /**
+    * auto generate doc.
+    */
     public function getViewDir()
     {
         return Path::Combine($this->getDeclaredDir(), IGK_VIEW_FOLDER);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getArticlesDir()
     {
         return Path::Combine($this->getDeclaredDir(), IGK_ARTICLES_FOLDER);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getScriptsDir()
     {
         return Path::Combine($this->getDeclaredDir(), IGK_SCRIPT_FOLDER);

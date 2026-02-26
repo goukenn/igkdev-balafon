@@ -8,6 +8,11 @@ use IGK\Models\PhoneBookUserAssociations;
  * @package IGK\Database\Macros
  */
 class PhoneBookUserAssociationsMacros{
+
+    /**
+    * auto generate doc.
+    * @param string $guid
+    */
     public static function GetPhoneBookDetailsFromUserGuid(string $guid){
         $result = PhoneBookUserAssociations::prepare()
         ->join_left(PhoneBooks::table(),PhoneBooks::FD_RCPHB_ENTRY_GUID.'='.PhoneBookUserAssociations::FD_USRPHB_PHONE_BOOK_ENTRY_GUID )
@@ -30,6 +35,7 @@ class PhoneBookUserAssociationsMacros{
      * macros to get phone entries details
      * @return void 
      */
+
     public static function getEntries(PhoneBookUserAssociations $entry){
         return self::GetPhoneBookDetailsFromUserGuid($entry->usrphb_UserGuid);
     }    

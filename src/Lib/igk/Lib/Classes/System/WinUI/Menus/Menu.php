@@ -15,8 +15,23 @@ use IGKObject;
 * @package IGK\System\WinUI\Menus
 */
 final class Menu extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public static $sm_menus;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $Name, $m_menus;
+
+    /**
+    * .ctr
+    * @param mixed $name
+    */
     public function __construct($name){
         $this->Name=$name;
         $this->m_menus=array();
@@ -26,6 +41,7 @@ final class Menu extends IGKObject{
     * auto generate doc.
     * @param mixed $name
     */
+
     public function addMenu($name){
         $n=new MenuItem($name, null, null);
         $this->m_menus[$name]=$n;
@@ -35,6 +51,7 @@ final class Menu extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getMenuFile(){
         return igk_io_basedir(IGK_DATA_FOLDER. "/menu".$this->Name."conf.csv");
     }
@@ -42,6 +59,7 @@ final class Menu extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public static function GetMenus(){
         return array();
     }

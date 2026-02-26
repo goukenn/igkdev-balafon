@@ -15,12 +15,32 @@ use IGK\System\IO\FileHandler;
  */
 class NavigationFlowExtensionsCommand extends AppExecCommand
 {
-	var $command = '--navigation-flow-extensions';
-	var $desc = 'list navigation flow file extensions';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--navigation-flow-extensions';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'list navigation flow file extensions';
 	/* var $options=[]; */
-	var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'sys';
 	/* var $usage = ''; */
-	public function exec($command)
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command)
 	{
 
 		$cp = ['.' . IGK_DEFAULT_VIEW_EXT];

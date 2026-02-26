@@ -9,5 +9,10 @@ namespace IGK\System\Services;
  * @package IGK\System\Services
  */
 class LoginServiceEvents{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const LoginWithSocialButton = "LoginWithSocialButton";
 }

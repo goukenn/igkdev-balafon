@@ -19,9 +19,29 @@ use IGKException;
 class Request implements IInjectable, IContentSecurityProvider
 {
     use ContentSecurityManagementTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REQUEST_JSON_DATA_ENV_KEY = 'RequestFakeJsonInput';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FILES_FIELD = "\$files";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ARRAY_RESPONSE_CODE = '@__response_code';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const QUERY_OPTIONS = 'query_options';
 
     /**
@@ -29,6 +49,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param mixed $args 
      * @return string 
      */
+
     public static function glueActionRequestArgument($args){
         return '/'.implode('/', array_filter(array_map(function($a){
             if (is_string($a) || is_numeric($a))return $a;
@@ -40,6 +61,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param mixed $data 
      * @return bool 
      */
+
     public static function IsSupportFileRequest($data){
         return isset( ((object)$data)->{self::FILES_FIELD});
     }
@@ -48,15 +70,39 @@ class Request implements IInjectable, IContentSecurityProvider
      * @var self
      */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_params;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $js_data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_header_data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_query_info;
     /**
      * prepared request information
      * @var mixed
      */
     private $prepared;
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return null;
@@ -66,6 +112,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param null|string $data 
      * @return mixed old data 
      */
+
     public function setJsonData(?string $data){
         $env = igk_environment();
         $d = $env->get($k = self::REQUEST_JSON_DATA_ENV_KEY);
@@ -76,6 +123,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * retrieve up loaded data
      * @return ?string 
      */
+
     public function getUploadedData(){
         if (!$this->prepared){
             $this->js_data = igk_io_get_uploaded_data(); 
@@ -86,6 +134,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * check this current request support form data
      * @return bool 
      */
+
     public function isFormData():bool{
         return empty($this->js_data) && 
         (igk_server()->CONTENT_TYPE != 'application/json');
@@ -95,6 +144,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param mixed|Response|array|object $data response data.
      * @return mixed 
      */
+
     public function response($data){
         return igk_do_response($data);
     }
@@ -102,6 +152,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * prepare and return the updload data as json object
      * @return null|object|array
      */
+
     public function getJsonData(){
         $this->getUploadedData();
         if ($this->js_data !== null){
@@ -114,6 +165,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * transform global request data request object
      * @return object 
      */
+
     public function getFormData(){
         $ob = (object)$_REQUEST;
         if ($_FILES && (count($_FILES)>0)){
@@ -126,12 +178,14 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param mixed $key 
      * @return bool 
      */
+
     public function isset($key){
         return isset($_REQUEST[$key]);
     }
     /**
      * set the request parameters
      */
+
     public function setParam($params)
     {
         $this->m_params = $params;
@@ -139,6 +193,7 @@ class Request implements IInjectable, IContentSecurityProvider
     /**
      * get the set parameters
      */
+
     public function getParam($id = null, $default = null)
     {
         if ($id !== null) {
@@ -146,6 +201,10 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return $this->m_params;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getParams(){
         return $this->m_params;
     }
@@ -153,6 +212,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * base request instance
      * @return  Request
      */
+
     public static function getInstance()
     {
         if (self::$sm_instance === null)
@@ -163,6 +223,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * request view
      * @return bool 
      */
+
     public function requestView(): bool{
 
         if ($q = igk_getv($this->getQueryInfo(), self::QUERY_OPTIONS)){
@@ -176,6 +237,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * parse current query options 
      * @return string 
      */
+
     public function parseOptions(?bool $full=false):string{
         $s = '';
         if ($q = igk_getv($this->getQueryInfo(), self::QUERY_OPTIONS)){
@@ -193,6 +255,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @return null|string 
      * @throws Exception 
      */
+
     public function requestEntry(){
         $v_srv = igk_server();
         $b = $v_srv->REQUEST_URI; 
@@ -222,6 +285,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * get option header 
      * @return HeaderData 
      */
+
     public function getHeader(){
         if (is_null($this->m_header_data)){
             $this->m_header_data = new HeaderData(igk_get_allheaders());
@@ -234,10 +298,17 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param mixed|null $default 
      * @return mixed 
      */
+
     public function get($name, $default = null)
     {
         return igk_getr($name, $default);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|mixed $tab
+    */
     public function getBase64($name, $tab=null){
         if ($tab === null){
             $tab = $_REQUEST;
@@ -253,6 +324,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param mixed|null $default 
      * @return mixed 
      */
+
     public function have($name, $default=null){
         if (key_exists($name, $_REQUEST)){
             return igk_getr($name, $_REQUEST);
@@ -264,6 +336,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param mixed $type 
      * @return mixed 
      */
+
     public function method($type)
     {
         return igk_server()->method($type);
@@ -272,10 +345,17 @@ class Request implements IInjectable, IContentSecurityProvider
      * get the file
      * @return void 
      */
+
     public function file($name)
     {
         return igk_getv($_FILES, $name);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $params
+    * @param null|mixed $default
+    */
     public function view_args($params=null, $default=null)
     {
         $t = igk_get_view_args();
@@ -285,10 +365,19 @@ class Request implements IInjectable, IContentSecurityProvider
         }
         return $t;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return json_encode($this);
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         if (!array_key_exists($name, $_REQUEST)){ 
             igk_environment()->isDev() && igk_ilog(sprintf("key %s not present", $name ));
@@ -301,6 +390,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @return mixed|IGK\System\Http\IQueryInfoOptions
      * @throws IGKException 
      */
+
     public function getQueryInfo(){
         if (is_null($this->m_query_info)){
             $inf = igk_io_query_info();
@@ -314,6 +404,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param mixed $default 
      * @return mixed
      */
+
     public function option(string $key, $default=null){
         $inf = $this->getQueryInfo(); 
         return igk_getv($inf->options, $key, $default); 
@@ -324,6 +415,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @return null|array 
      * @throws IGKException 
      */
+
     public function getFile(string $key):?array{
         if (isset($_FILES)){
             return igk_getv($_FILES, $key);
@@ -337,6 +429,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param null|string $requestType 
      * @return null|bool 
      */
+
     public function  moveUploadedFile(string $name, string $destination, ?string $requestType=null):?bool{
         if ($file = $this->getFile($name)){
             if (($file['size'] == 0) || ($requestType && ($requestType!= $file['type']))){
@@ -351,6 +444,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * @param string $message 
      * @return array 
      */
+
     public function error(string $message, ?int $code=null):array{
         $t = ['error'=>true, 'message'=>$message];
         $t[self::ARRAY_RESPONSE_CODE] = $code ?? RequestResponseCode::BadRequest;         
@@ -360,6 +454,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * 
      * @return bool 
      */
+
     public function isRestRequest():bool{
         if ($this->getHeader()->{WebHearderConstants::igk_web_response} == 1){            
             return false;
@@ -373,9 +468,15 @@ class Request implements IInjectable, IContentSecurityProvider
      * 
      * @return bool 
      */
+
     public function isAjx():bool{
         return igk_is_ajx_demand();
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function sendsJSon():bool{
         $h = $this->getHeader();
         if ($t = $h->{'content_type'}){
@@ -387,6 +488,7 @@ class Request implements IInjectable, IContentSecurityProvider
      * 
      * @return bool 
      */
+
     public function isWebRequest():bool{
         return !$this->isRestRequest();
     }

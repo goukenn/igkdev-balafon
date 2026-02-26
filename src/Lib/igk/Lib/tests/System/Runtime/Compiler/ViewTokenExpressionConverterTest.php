@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Runtime\Compiler
 */
 class ViewTokenExpressionConverterTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_convert_affectation(){
         $src = implode("\n",[
             "<?php",
@@ -24,6 +28,10 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             '$___IGK_PHP_SETTER_VAR___[\'x\'] = $x = igk_create_node("div");'
         ]), $g, "failed to convers");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_convert_affectation_depend_on(){
         $src = implode("\n",[
             "<?php",
@@ -38,6 +46,9 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         ]), $g, "failed to convers");
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_convert_affectation_depend_on_expression(){
         $src = implode("\n",[
             "<?php",
@@ -52,6 +63,9 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         ]), $g, "failed to convers");
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_convert_atomic_expresison(){
         $src = implode("\n",[
             "<?php",
@@ -65,7 +79,9 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
         ]), $g, "failed to convers");
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_convert_atomic_collapse(){
         $src = implode("\n",[
             "<?php",
@@ -78,8 +94,11 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             "<?php",
             '$___IGK_PHP_SETTER_VAR___[\'a\'] = $a = function( $x ){ $x = "data"; ?>Base DE JOUR<?php };'
         ]), $g, "failed to convers");
-    } 
+    }
 
+    /**
+    * auto generate doc.
+    */
     public function test_block_if_single(){
         $src = implode("\n",[
             "<?php",
@@ -93,8 +112,11 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             '$___IGK_PHP_SETTER_VAR___[\'x\'] = $x = 8;',
             'endif;' 
         ]), $g, "failed to convers");
-    } 
+    }
 
+    /**
+    * auto generate doc.
+    */
     public function test_block_if_multi_1(){
         $src = implode("\n",[
             "<?php",
@@ -111,7 +133,11 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             // 'echo "Bonjour"',
             // 'endif:'
         ]), $g, "failed to convers");
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function test_block_if_multi_2(){
         $src = implode("\n",[
             "<?php",
@@ -128,10 +154,11 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             // 'echo "Bonjour"',
             // 'endif:'
         ]), $g, "failed to convers");
-    } 
+    }
 
- 
-
+    /**
+    * auto generate doc.
+    */
     public function test_block_if_multi_3(){
         $src = implode("\n",[
             "<?php",
@@ -153,9 +180,11 @@ class ViewTokenExpressionConverterTest extends BaseTestCase{
             // 'echo "Bonjour"',
             // 'endif:'
         ]), $g, "failed to convers");
-    } 
+    }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_block_if_class_condition(){
         $src = implode("\n",[
             "<?php",

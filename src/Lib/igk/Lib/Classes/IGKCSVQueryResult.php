@@ -12,6 +12,11 @@
 * auto generate doc.
 */
 final class IGKCSVQueryResult extends IGKQueryResult{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_columns, $m_rowcount, $m_rows;
     /**
      * Constructor.
@@ -23,6 +28,7 @@ final class IGKCSVQueryResult extends IGKQueryResult{
      * @param int $index Row index to retrieve.
      * @return mixed
      */
+
     public function getRowAtIndex(int $index) {
         return igk_getv($this->m_rows, $index);
     }
@@ -31,6 +37,7 @@ final class IGKCSVQueryResult extends IGKQueryResult{
      *
      * @return bool
      */
+
     public function success(): bool {
         return true;
     }
@@ -39,6 +46,7 @@ final class IGKCSVQueryResult extends IGKQueryResult{
      *
      * @return array|null
      */
+
     public function to_array(): ?array {
         return $this->m_rows;
     }
@@ -49,6 +57,7 @@ final class IGKCSVQueryResult extends IGKQueryResult{
      * @param mixed|null $tableinfo Optional table column info for name remapping.
      * @return void
      */
+
     public function AppendEntries($e, $tableinfo=null){
         $this->m_rowcount += igk_count($e);
         if($tableinfo != null){
@@ -74,6 +83,7 @@ final class IGKCSVQueryResult extends IGKQueryResult{
      * @param mixed|null $seacharray  Unused search array parameter.
      * @return IGKCSVQueryResult
      */
+
     public static function CreateEmptyResult($result=null, $seacharray=null){
         $out=new IGKCSVQueryResult();
         $out->m_rowcount=0;
@@ -85,6 +95,7 @@ final class IGKCSVQueryResult extends IGKQueryResult{
      *
      * @return mixed
      */
+
     public function getColumns(){
         return $this->m_columns;
     }
@@ -93,6 +104,7 @@ final class IGKCSVQueryResult extends IGKQueryResult{
      *
      * @return mixed
      */
+
     public function getRows(){
         return $this->m_rows;
     }

@@ -24,10 +24,18 @@ use ReflectionException;
  */
 class MailConfigController extends ConfigControllerBase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigPage()
     {
         return "mailserver";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getName()
     {
         return IGK_MAIL_CTRL;
@@ -41,12 +49,21 @@ class MailConfigController extends ConfigControllerBase
         $mail->SmtpHost = igk_configs()->mail_server;
         $mail->SocketType = igk_configs()->mail_authtype;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function initMailSetting()
     {
         ini_set("smpt_port", igk_configs()->mail_port);
         ini_set("SMTP", igk_configs()->mail_server);
         ini_set("sendmail_from", igk_configs()->mail_admin);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $func
+    */
     public function IsFunctionExposed($func)
     {
         $tab = igk_array_createkeyarray(array("sendmailto", "register"), 1);
@@ -54,6 +71,10 @@ class MailConfigController extends ConfigControllerBase
             return true;
         return parent::IsFunctionExposed($func);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function lock_mail()
     {
         if (!($maillist = constant('IGK_TB_MAINLINGLISTS'))) {
@@ -69,6 +90,7 @@ class MailConfigController extends ConfigControllerBase
      * @return void 
      * @throws IGKException 
      */
+
     public function mail_testmail()
     {
         $app = igk_app();
@@ -101,6 +123,10 @@ class MailConfigController extends ConfigControllerBase
         igk_environment()->replace_uri = igk_io_baseuri().igk_io_request_uri_path(); 
         $this->msbox = $msbox;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function mail_update()
     {
         $server = igk_getr("server");
@@ -139,10 +165,19 @@ class MailConfigController extends ConfigControllerBase
         }
         igk_navtocurrent();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $args
+    */
     public function onMailSended($args)
     {
         igk_hook("MailSend", array($this, $args));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function register()
     {
         $tb_maillist = constant('IGK_TB_MAINLINGLISTS');
@@ -161,10 +196,22 @@ class MailConfigController extends ConfigControllerBase
         igk_sys_force_view();
         igk_navtocurrent();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $obj
+    * @param mixed $func
+    */
     public function removeMailSendEvent($obj, $func)
     {
         igk_die(__METHOD__ . " Not Obselete");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $fromName
+    * @param null|mixed $message
+    */
     public function send_contactmail($fromName, $message = null)
     {
         $obj = igk_get_robj();
@@ -217,6 +264,7 @@ class MailConfigController extends ConfigControllerBase
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function sendmail(?string $from, string $to, ?string $subject, ?string $message,
         ?string $reply = null, 
         $attachement = null, 
@@ -229,6 +277,10 @@ class MailConfigController extends ConfigControllerBase
         }
         return Mail::Mail($to, $subject, $message, $from, $reply, $attachement, $type, $fromTitle);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function sendmailto()
     {
         $to = igk_getr("n");
@@ -241,6 +293,11 @@ EOF;
         igk_navtocurrent();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View(): BaseController
     {
         $c = $this->getTargetNode();

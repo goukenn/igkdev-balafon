@@ -13,12 +13,28 @@ use IGK\System\IO\File\PHPScriptBuilder;
  * @package IGK\System\Console\Commands
  */
 class FixCssCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--fix:css";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "Fixing";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "fix css file";
     /**
      * exec the command
      */
+
     public function exec($command, $path=null, $ctrl=null)
     { 
         Logger::info("fix css file");
@@ -88,6 +104,11 @@ class FixCssCommand extends AppExecCommand{
             Logger::danger("file not found or not defined");
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $clear
+    */
     public static function ignore_list($clear=false){
         if ($clear){
             igk_environment()->set(__METHOD__, 0);
@@ -100,6 +121,11 @@ class FixCssCommand extends AppExecCommand{
         igk_environment()->set(__METHOD__, $g);
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     static function ValueToString($v){
         if (is_string($v)){
             return '"'.$v.'"';
@@ -107,6 +133,11 @@ class FixCssCommand extends AppExecCommand{
         return $v;
     }
 }
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ExpressionHandler{
     private static function get_arg_s($arguments){
         return array_map(function($v){
@@ -116,10 +147,22 @@ class ExpressionHandler{
             return $v;
         }, $arguments );
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         return "\".\$ctrl::".$name."(".implode(", ",self::get_arg_s($arguments)).").\"";
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         return "\$ctrl->".$name.("");

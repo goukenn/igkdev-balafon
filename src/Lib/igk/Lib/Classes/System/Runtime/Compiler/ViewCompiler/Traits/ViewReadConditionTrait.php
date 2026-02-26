@@ -9,6 +9,13 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 * @package IGK\System\Runtime\Compiler\ViewCompiler\Traits
 */
 trait ViewReadConditionTrait{
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    */
     protected function _readCondition(ReadTokenOptions $options, $id, $value){
         igk_debug_wln(__FILE__.":".__LINE__, "begin read condition...");
         $this->_pushFlag($options);
@@ -27,6 +34,7 @@ trait ViewReadConditionTrait{
      * @param mixed $value 
      * @return void 
      */
+
     protected function _endReadCondition(ReadTokenOptions $options, $id, $value){
         $fop = $options->flagOptions;
         $this->_popFlag($options);
@@ -38,6 +46,13 @@ trait ViewReadConditionTrait{
             $options->buffer .= sprintf("(%s)", $fop->condition);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    */
     protected function _handleReadCondition(ReadTokenOptions $options, $id, $value){
         $fop = $options->flagOptions;
         $buffer = & $fop->buffer;

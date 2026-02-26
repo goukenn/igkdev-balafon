@@ -11,15 +11,41 @@ use function igk_resources_gets as __;
 */
 abstract class MapContentValidatorBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_validators;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $notvalid_msg = 'not a valid number.';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $missingDefaultValue = null;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $defaultValue = null;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $allowNullValue = false;
     /**
      * allow null value
      * @return bool 
      */
+
     public function getAllowNullValue(){
         return $this->allowNullValue;
     }
@@ -28,6 +54,7 @@ abstract class MapContentValidatorBase
      * @param bool $allowNull 
      * @return $this 
      */
+
     public function allowNull(bool $allowNull){
         $this->allowNullValue = $allowNull;
         return $this;
@@ -36,9 +63,17 @@ abstract class MapContentValidatorBase
      * check if can update setting
      * @return bool 
      */
+
     public function canUpdateSetting():bool{
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $defaultValue
+    * @param mixed $missingDefault
+    * @param bool $allowNullValue
+    */
     public function updateSetting($defaultValue, $missingDefault, bool $allowNullValue){
         if (!$this->canUpdateSetting()){
             return false;
@@ -47,7 +82,17 @@ abstract class MapContentValidatorBase
         $this->defaultValue = $defaultValue;
         $this->allowNullValue = $allowNullValue;
     }
-    public final function __invoke($value, $key, &$error, bool $missing, bool $required )
+    public final
+
+    /**
+    * Called when an object is used as a function.
+    * @param mixed $value
+    * @param mixed $key
+    * @param mixed & $error
+    * @param bool $missing
+    * @param bool $required
+    */
+    function __invoke($value, $key, &$error, bool $missing, bool $required )
     {
         return $this->map($value, $key, $error, $missing, $required);
     }
@@ -59,6 +104,7 @@ abstract class MapContentValidatorBase
      * @param mixed $missing key not provider in request
      * @return mixed 
      */
+
     public function map($value, $key, &$error, bool $missing=false, bool $required = true){
         if (is_null($value)){
             if (!$this->allowNullValue && $this->defaultValue && $required ){
@@ -76,11 +122,19 @@ abstract class MapContentValidatorBase
             return false;
         return $cvalue;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $value
+    * @param mixed $key
+    * @return bool
+    */
     protected abstract function validate(& $value, $key) : bool;
     /**
      * 
      * @return static 
      */
+
     public static function Get(string $t)
     {
         $cl = igk_str_ns( Path::Combine(__NAMESPACE__, sprintf('%sContentValidator', $t)));
@@ -98,10 +152,21 @@ abstract class MapContentValidatorBase
      * create a new instance of the validator
      * @return object 
      */
+
     public function createNewInstance(){
         $cl = static::class;
         return new $cl();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed $key
+    * @param mixed & $error
+    * @param mixed $missing
+    * @param bool $required
+    * @param null|bool & $error_value
+    */
     protected function handleError($value, $key, &$error, $missing , bool $required, ?bool & $error_value){
         $error_value = false;
         if (!$required){

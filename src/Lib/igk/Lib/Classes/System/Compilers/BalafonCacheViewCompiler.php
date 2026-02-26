@@ -74,6 +74,11 @@ class BalafonCacheViewCompiler{
         $cout =  $compiler->compile([$file]); 
         return $cout;
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    */
     public static function GetBindViewCompilerHandler(BaseController $controller){
         $__igk_attr__ = Closure::fromCallable(function($arr){
             /**

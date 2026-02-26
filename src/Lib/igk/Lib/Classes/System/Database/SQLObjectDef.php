@@ -10,12 +10,18 @@ use IGK\Database\DbColumnInfo;
  * @package IGK\System\Database
  */
 class SQLObjectDef{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_defs;
     /**
      * 
      * @param mixed $values 
      * @return ?array 
      */
+
     public static function Resolve($values, bool $insert=true): ?array{
         $cl = get_class($values);
         $p = igk_getv(self::$sm_defs, $cl);

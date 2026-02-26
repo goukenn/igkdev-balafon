@@ -13,12 +13,38 @@ use IGK\System\Console\Logger;
  */
 class dropUserCommand extends AppExecCommand
 {
-	var $command = '--users:remove';
-	var $desc='remove user'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--users:remove';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='remove user'; 
 	/* var $options=[]; */
-	var $category = 'users'; 
-	var $usage = 'login [option]';
-	public function exec($command, $userid = null)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'users';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'login [option]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $userid
+    */
+    public function exec($command, $userid = null)
 	{
 		$user = igk_get_user_bylogin($userid);
 		if (!$user) {

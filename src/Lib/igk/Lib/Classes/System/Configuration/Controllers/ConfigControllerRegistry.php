@@ -18,12 +18,23 @@ use ReflectionException;
  */
 class ConfigControllerRegistry
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const LOADED_CONFIG_CTRL = "config_controllers";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_regComplete;
     /**
      * RegisterInitComplete . if Ctrl is not null add it to base controller list
      * @param mixed $ctrl if null return the count number of the registrated controller. else register the controller to iniList
      */
+
     public static function RegisterInitComplete($ctrl = null)
     {
         if (self::$sm_regComplete === null)
@@ -39,6 +50,7 @@ class ConfigControllerRegistry
      * @param mixed $ctrl 
      * @return void 
      */
+
     public static function UnRegisterInitComplete($ctrl)
     {
         if (self::$sm_regComplete && ($index = array_search($ctrl, self::$sm_regComplete))) {
@@ -48,6 +60,7 @@ class ConfigControllerRegistry
     /**
      * 
      */
+
     public static function InvokeRegisterComplete($context = null)
     {
         if (self::$sm_regComplete){
@@ -73,6 +86,7 @@ class ConfigControllerRegistry
      * @return bool 
      * @throws EnvironmentArrayException 
      */
+
     public static function Register(string $class, $name = null)
     {
         if (is_subclass_of($class, ConfigControllerBase::class)) {
@@ -86,6 +100,7 @@ class ConfigControllerRegistry
      * Get merged system initial controller list with environment loaded config controller.
      * @return array
      */
+
     public static function GetResolvController():array
     {
         // merge controller view configuration controllers. 
@@ -102,6 +117,7 @@ class ConfigControllerRegistry
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException  
      */
+
     public static function ResolvAndInitControllers()
     {
         //

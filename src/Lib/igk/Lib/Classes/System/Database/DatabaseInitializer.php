@@ -30,9 +30,29 @@ require_once IGK_LIB_CLASSES_DIR."/System/Database/SchemaBuilderHelper.php";
 class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLinkListener
 {
     use DbCreateTableReferenceTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_hostController;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_defs = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_parentController;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_controllers = [];
     /**
      * store resolved links.
@@ -59,13 +79,28 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @var array
      */
     var $migrations = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $relations = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $definitions = [];
     /**
      * default resolutions
      * @var mixed
      */
     var $resolv;
+
+    /**
+    * auto generate doc.
+    * @param mixed & $table
+    */
     public function getDataTablesReference(&$table)
     {
     }
@@ -73,10 +108,16 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * get loaded definition array
      * @return array 
      */
+
     public function getDefs()
     {
         return $this->m_defs;
     }
+
+    /**
+    * .ctr
+    * @param null|BaseController $ctrl
+    */
     public function __construct(?BaseController $ctrl = null)
     {
         $this->m_parentController = (!$ctrl ||
@@ -90,6 +131,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @return object newly created definition - that will be the global bindign reference
      * @throws IGKException 
      */
+
     public function init(BaseController $ctrl, string $op = DbSchemasConstants::Migrate)
     {
         $ad_name = $ctrl->getDataAdapterName();
@@ -112,6 +154,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @param mixed $definition 
      * @return void 
      */
+
     public function add($adaptername, array $definition)
     {
         $this->definitions[$adaptername] = (object)$definition;
@@ -122,6 +165,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @return mixed 
      * @throws IGKException 
      */
+
     public function get($adaptername)
     {
         return igk_getv($this->definitions, $adaptername);
@@ -137,6 +181,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
+
     public function upgrade(BaseController $controller, array $definition, ?DatabaseInitializer $caches = null)
     {
         igk_hook(IGKEvents::HOOK_DB_INIT_START, ['initializer' => $this, 'method' => 'upgrade']);
@@ -214,6 +259,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
             }
         }
     }
+
     public function resolve(string $linkTable): bool{
         if (isset($this->m_resolvedLinks->resolved[$linkTable])){
             return true;
@@ -255,6 +301,11 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         // init require model logic
         Database::InitDbCoreLogic($ctrl, $tables, true);
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_definition;
     /**
      * 
@@ -266,6 +317,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @return void 
      * @throws IGKException 
      */
+
     public static function InitSchemaDefinition(
         string $file,
         $definition,
@@ -313,6 +365,14 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @param null|mixed $refTableResolver
+    * @param mixed $operation
+    * @param null|BaseController $controller
+    */
     public function loadSchemaDefinition(
         string $file,
         $refTableResolver = null,
@@ -330,10 +390,20 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
         );
         $this->m_hostController = null;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    */
     public function resolvTableDefinition(string $table)
     {
         return igk_getv($this->m_definition[$this->resolv], $table);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $op
+    */
     public function loadSystemProjects(string $op = DbSchemasConstants::Migrate)
     {
         $projects = Project::GetProjectInvocatorInitDbList(SysDbController::ctrl());
@@ -354,6 +424,7 @@ class DatabaseInitializer implements IDbGetTableReferenceHandler, IDbResolveLink
      * @return void 
      * @throws IGKException 
      */
+
     public function loadSystemModules(string $op = DbSchemasConstants::Migrate)
     {
         if ($migrations = IGKModuleListMigration::CreateModulesMigration()) {

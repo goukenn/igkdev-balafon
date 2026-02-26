@@ -17,10 +17,16 @@ use IGKObject;
 * @package IGK\System\Html\Css
 */
 final class CssStyle extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_properties;
     /**
      * Constructor.
      */
+
     public function __construct(){
         $this->m_properties=array();
     }
@@ -30,6 +36,7 @@ final class CssStyle extends IGKObject{
      * @param mixed $level The CSS specificity level.
      * @param mixed $source The source context for theme resolution.
      */
+
     public function load($v, $level, $source){
         $doc = igk_app()->getDoc();
         $v=igk_css_treat($v, false, $doc->getTheme(), $doc->getSysTheme());
@@ -42,6 +49,7 @@ final class CssStyle extends IGKObject{
      * Render the CSS properties as an inline style string.
      * @return string
      */
+
     public function render(){
         $o="";
         foreach($this->m_properties as $k=>$v){

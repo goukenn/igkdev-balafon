@@ -8,5 +8,10 @@ namespace IGK\Helper;
 * @package IGK\Helper
 */
 interface IActivatorMandatory{
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     function getMandatory():array;
 }

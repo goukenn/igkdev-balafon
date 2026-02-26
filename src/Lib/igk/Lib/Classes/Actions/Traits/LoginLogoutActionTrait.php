@@ -8,6 +8,16 @@ namespace IGK\Actions\Traits;
 * @package IGK\Actions\Traits
 */
 trait LoginLogoutActionTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $logoutUri = 'logout';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $logintUri = 'login';
 }

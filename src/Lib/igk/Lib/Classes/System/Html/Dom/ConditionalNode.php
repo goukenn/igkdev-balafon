@@ -11,10 +11,34 @@ use IGK\System\IO\StringBuilder;
  */
 class ConditionalNode extends HtmlNode
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const LOWER_THAN_IE9 = 'if lt IE 9';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const LOWER_OR_EQUAL_TO_IE9 = 'if lte IE 9';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = "igk:condition";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $condition = "";
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
@@ -24,6 +48,7 @@ class ConditionalNode extends HtmlNode
      * @param mixed $options 
      * @return string 
      */
+
     public function render($options = null)
     {
         $sb = new StringBuilder;

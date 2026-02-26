@@ -14,13 +14,29 @@ namespace IGK\System\IO;
 *)
 */
 class StringBlockReader{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $start;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $end;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $offset=0; 
     /**
      * create annotation string block reader
      * @return static 
      */
+
     public static function Annotation(){
         $l = new static;
         $l->start = '(';
@@ -32,6 +48,7 @@ class StringBlockReader{
      * @param mixed $s 
      * @return string
      */
+
     public function read(string $s):string{
         $ln = strlen($s);
         $offset = & $this->offset;

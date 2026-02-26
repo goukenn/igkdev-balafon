@@ -8,6 +8,11 @@ namespace IGK\Helper\Expressions;
 * @package IGK\Helper\Expressions
 */
 class CopyrightExpression extends ValueExpression{
+
+    /**
+    * auto generate doc.
+    * @param string $expression
+    */
     public static function Get(string $expression){
         $exp = new static;
         $exp->data["%year%"] = date('Y');

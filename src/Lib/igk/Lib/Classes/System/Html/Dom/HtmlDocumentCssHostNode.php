@@ -22,13 +22,26 @@ class HtmlDocumentCssHostNode extends HtmlNode{
      * @var \IGKHtmlDoc
      */
     protected $doc;
+
+    /**
+    * .ctr
+    * @param mixed $doc
+    */
     public function __construct($doc){
         $this->doc = $doc;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanAddChilds()
     {
         return false;
@@ -44,6 +57,7 @@ class HtmlDocumentCssHostNode extends HtmlNode{
      * @throws Exception 
      * @throws EnvironmentArrayException 
      */
+
     public function render($options = null)
     {     
         if (!$this->doc instanceof IGKHtmlDoc ){

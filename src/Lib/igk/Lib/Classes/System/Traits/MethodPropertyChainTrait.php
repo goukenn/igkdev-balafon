@@ -8,6 +8,12 @@ namespace IGK\System\Traits;
  * 
  */
 trait MethodPropertyChainTrait{
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $n
+    * @param mixed $args
+    */
     public function __call($n, $args){
         method_exists($this, "isAllowed") || igk_die("isAllowed method is missing in ".static::class); 
         if ($this->isAllowed($n, $args)){
@@ -20,6 +26,11 @@ trait MethodPropertyChainTrait{
         return $this;
     }
     // use of this trait require a isAllowed method in order to work properly
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         method_exists($this, "isAllowed") || igk_die("isAllowed method is missing in ".static::class); 
         if ($this->isAllowed($n, null)){

@@ -9,5 +9,11 @@ namespace IGK\System\Html\Forms\Validations;
  * @package IGK\System\Html\Forms
  */
 interface IFormValidationNode{
+
+    /**
+    * auto generate doc.
+    * @param mixed & $outputdata
+    * @param mixed & $errors
+    */
     public function validateRequest(& $outputdata, & $errors);
 }

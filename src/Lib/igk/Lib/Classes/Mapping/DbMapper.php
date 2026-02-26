@@ -8,7 +8,17 @@ namespace IGK\Mapping;
 * @package IGK\Mapping
 */
 class DbMapper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * .ctr
+    * @param mixed $data
+    */
     public function __construct($data){
         $this->m_data = $data;
     }
@@ -17,6 +27,7 @@ class DbMapper{
      * @param mixed $key_list 
      * @return array<array-key, object> 
      */
+
     public function map($key_list){
         return array_map(function($o)use($key_list){
             $m = [];

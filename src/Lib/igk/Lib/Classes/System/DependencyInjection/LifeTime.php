@@ -11,6 +11,16 @@ namespace IGK\System\DependencyInjection;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class LifeTime{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SINGLETON = 'singleton';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TRANSIENT = 'transient';
 }

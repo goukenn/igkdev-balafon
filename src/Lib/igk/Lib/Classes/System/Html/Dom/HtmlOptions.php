@@ -14,6 +14,11 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 abstract class HtmlOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $CloseWithCloseTags=array(
             "style"=>"style",
             "label"=>"label",
@@ -64,6 +69,7 @@ abstract class HtmlOptions{
      * @param string $name The attribute name to check.
      * @return bool True if the attribute is allowed, false otherwise.
      */
+
     public static function IsAllowedAttribute(string $name){
         // ---------------------------------------------------------------------------------
         // ignore igk:param cause have a special meaning for loading template - it will call setParam methoe- will pass data

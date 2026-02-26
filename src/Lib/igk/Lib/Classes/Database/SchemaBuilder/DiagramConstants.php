@@ -11,8 +11,28 @@ use IGK\Constants;
 * @package IGK\Database\SchemaBuilder
 */
 class DiagramConstants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const GUID_LENGTH =  Constants::GUID_LENGTH;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NAME_LENGTH = 30;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TITLE_LENGTH = 60;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PATH_LENGTH  = 255;
 }

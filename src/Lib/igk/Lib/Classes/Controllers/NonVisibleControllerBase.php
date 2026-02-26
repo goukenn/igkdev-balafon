@@ -48,6 +48,11 @@ abstract class NonVisibleControllerBase extends BaseController {
     public function View():BaseController{
         throw new IGKException("Not implement");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $func
+    */
     public function IsFunctionExposed($func){        
         return igk_is_conf_connected();
     }

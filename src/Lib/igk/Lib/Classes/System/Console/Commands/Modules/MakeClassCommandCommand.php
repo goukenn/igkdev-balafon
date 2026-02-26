@@ -14,14 +14,36 @@ use IGK\System\IO\StringBuilder;
 */
 class MakeClassCommandCommand extends AppExecCommand{
 	use ClassBuilderTrait;
-	var $command='--module:make-command';
-	var $desc='make module\'s command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--module:make-command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='make module\'s command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'module';
 	// var $options=[
 	// 	'--base'=>'flag: enable abstract base-definition'
 	// ];
 	/* var $category; */
-	public function exec($command, ?string $module_name = null, ?string $class_name=null) { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $module_name
+    * @param null|string $class_name
+    */
+    public function exec($command, ?string $module_name = null, ?string $class_name=null) { 
 		$mod = igk_get_module($module_name) ?? igk_die('missing or not found module');
 		empty($class_name) && igk_die('class name required');
 		$v_base = property_exists($command->options, '--base');

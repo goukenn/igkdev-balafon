@@ -15,15 +15,41 @@ use IGK\System\IO\StringBuilder;
 * @author C.A.D. BONDJE DOUE
 */
 class MakeModelMappingCommand extends AppExecCommand{
-	var $command='--make:model-mapping';
-	var $desc='make a class to map a model'; 
-	var $options=[]; 
-	var $category = 'make';
-	var $usage = 'model controller [options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--make:model-mapping';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='make a class to map a model';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'make';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'model controller [options]';
 	/**
 	 * location of sample . 
 	 */
-	public function exec($command, $model_name =null, $controller=null) {
+
+    public function exec($command, $model_name =null, $controller=null) {
 		$ctrl = self::ResolveController($command, $controller);
 		$model = $ctrl->model($model_name);
 		if (!$model){

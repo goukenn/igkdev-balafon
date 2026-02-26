@@ -22,8 +22,23 @@ use IGK\System\Http\Responses\UserResponse;
  */
 trait BearerAuthenticatorTrait
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_bearerAuthenticatorCookieLife = 3600;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_bearerAuthenticatorTokenHash = "-t-!#@4746QD-";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_bearerAuthenticatorCookieLifeConstants = 60 * 60 * 60 * 24;    // 60 days
     /**
      * retrieve user from server token service - connection must be store in action's controller table
@@ -31,16 +46,19 @@ trait BearerAuthenticatorTrait
      * @param mixed &$token 
      * @return null|ModelBase 
      */
+
     protected abstract function getUserFromToken(bool $update = true, &$token = null): ?ModelBase;
     /**
      * create use profile from application'user
      */
+
     protected abstract function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile;
     /**
      * get token user or die
      * @return ?ModelBase
      * @throws IGKException 
      */
+
     protected function getUserFromTokenOrDie($update = true, &$token = null)
     {
         $user = $this->getUserFromToken($update, $token) ?? igk_do_response(new ErrorRequestResponse(401, "unauthenticated"));
@@ -51,6 +69,7 @@ trait BearerAuthenticatorTrait
      * @param mixed $user 
      * @return string 
      */
+
     protected function bearerAuthenticatorCreateToken($user, string $prefix = "blf-"): string
     {
         $str = $this->_bearerAuthenticatorTokenHash . date('YmdHis') . $user->clGuid;
@@ -61,6 +80,7 @@ trait BearerAuthenticatorTrait
      * @param mixed $users 
      * @return ?array 
      */
+
     protected function bearerAuthenticatorRegisterToken(Users $user, BaseController $ctrl, bool $rememberme = false): ?array
     {
         if ($user->clStatus != 1) {
@@ -106,6 +126,11 @@ trait BearerAuthenticatorTrait
         igk_set_cookie('token', $token, true, $this->_bearerAuthenticatorCookieLife);
         return ['token' => $token, 'expire' => $exp_format, 'start' => $start, 'remember-me' => $rememberme];
     }
+
+    /**
+    * auto generate doc.
+    * @param \IGK\Models\Users $user
+    */
     protected function bearerAuthenticatorGetUserProfileInfo(\IGK\Models\Users $user)
     {
         return UserResponse::CreateResponseFromUserModel($user);

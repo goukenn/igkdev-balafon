@@ -24,6 +24,11 @@ use IGK\Test\IGKValueEntryCallbackTest;
  */
 abstract class IGKSysUtil
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PRIMARY_PWD = '#_12549@abcdkqors';
     private function __construct()
     {
@@ -32,6 +37,7 @@ abstract class IGKSysUtil
      * shuffle password files
      * @return string 
      */
+
     public static function GeneratePWD(){
         return substr(str_shuffle(self::PRIMARY_PWD), 0, 9);
     }
@@ -41,6 +47,7 @@ abstract class IGKSysUtil
      * @param ?BaseController $controller controller in use to the model type name
      * @return string 
      */
+
     public static function GetModelTypeName(string $defined_table_name, ?BaseController $ctrl = null): string
     {
         $_NS = "";
@@ -58,6 +65,7 @@ abstract class IGKSysUtil
      * @return null|string 
      * @throws IGKException 
      */
+
     public static function GetModelTypeNameFromInfo($tableinfo, & $table = null) :?string{
         $table = igk_getv($tableinfo, DbColumnInfoPropertyConstants::DefTableName);
         if (!empty($table)) {
@@ -71,6 +79,7 @@ abstract class IGKSysUtil
      * @param mixed $prefix 
      * @return string 
      */
+
     public static function Encrypt($data, $prefix = null)
     {
         if ($prefix === null) {
@@ -82,6 +91,7 @@ abstract class IGKSysUtil
      * clear lib controller
      * @return void 
      */
+
     public static function CleanLibFolder()
     {
         if ($hdir = opendir($rdir = realpath(IGK_LIB_DIR . "/../"))) {
@@ -101,6 +111,7 @@ abstract class IGKSysUtil
      * @return array 
      * @throws Exception 
      */
+
     public static function GetConfigDataInfo($dataadapter = IGK_MYSQL_DATAADAPTER)
     {
         $ctrl = igk_app()->getControllerManager()->getControllers();
@@ -115,6 +126,7 @@ abstract class IGKSysUtil
      * @param mixed $file 
      * @return void 
      */
+
     public static function GetDataDefinitionFromFile($file, $v = null, &$tables = null)
     {
         if ($tables === null)
@@ -143,6 +155,7 @@ abstract class IGKSysUtil
      * @return null|array 
      * @throws Exception 
      */
+
     public static function GetControllerConfigDataInfo($controller, $dataadapter = IGK_MYSQL_DATAADAPTER)
     {
         $tables = [];
@@ -171,6 +184,7 @@ abstract class IGKSysUtil
      * @param BaseController $controller 
      * @return string 
      */
+
     public static function GetControllerSqlQueryData(BaseController $controller): string
     {
         $s = "";
@@ -251,6 +265,7 @@ abstract class IGKSysUtil
      * @param null|BaseController $ctrl 
      * @return string|string[]|null 
      */
+
     public static function DBGetTableName(string $table, ?BaseController $ctrl = null)
     { 
         $v = Constants::MODEL_TABLE_REGEX;
@@ -284,6 +299,7 @@ abstract class IGKSysUtil
      * @param BaseController $ctrl 
      * @return array 
      */
+
     public static function DBGetPhpDocModelArgEntries(array $inf, BaseController $ctrl)
     {
         $tab = [];
@@ -323,6 +339,7 @@ abstract class IGKSysUtil
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GetPhpDoPropertyType($name, $info, BaseController $ctrl, $extra = false)
     { 
         $t = self::ConvertToPhpDocType($info->clType);
@@ -344,6 +361,7 @@ abstract class IGKSysUtil
      * @param null|BaseController $ctrl 
      * @return string 
      */
+
     public static function DBReverseTableName(string $table, ?BaseController $ctrl = null)
     {
         $c = $table;
@@ -364,6 +382,7 @@ abstract class IGKSysUtil
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GetLinkType($type, ?bool $notnull, ?BaseController $ctrl = null)
     {
         $t = "";
@@ -418,6 +437,7 @@ abstract class IGKSysUtil
      * @return mixed 
      * @throws Exception 
      */
+
     public static function ConvertToPhpDocType($type){
         if (is_null($type)){
             return 'string';

@@ -10,7 +10,18 @@ namespace IGK\Css\Traits;
  */
 trait CssConverterScssVisitorTrait
 {
+
+    /**
+    * auto generate doc.
+    */
     protected function _visit_return() {}
+
+    /**
+    * auto generate doc.
+    * @param mixed $converter
+    * @param mixed & $tab
+    * @param mixed $options
+    */
     protected static function _ReadBlock($converter, &$tab, $options)
     {
         $src = $converter->src;
@@ -35,10 +46,20 @@ trait CssConverterScssVisitorTrait
         }
         $tab[$v_1] = $body;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     protected function _visit_keyframes($options)
     {
         $this->_ReadBlock($this, $this->keyframes, $options);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     protected function _visit_webkit_keyframes($options)
     {
         $tab = [];
@@ -46,6 +67,11 @@ trait CssConverterScssVisitorTrait
         if ($tab)
             $this->keyframes['@-moz-webkit'][array_keys($tab)[0]] = array_values($tab)[0];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     protected function _visit_moz_keyframes($options)
     {
         $tab = [];
@@ -53,6 +79,11 @@ trait CssConverterScssVisitorTrait
         if ($tab)
             $this->keyframes['@-moz-keyframes'][array_keys($tab)[0]] = array_values($tab)[0];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     protected function _visit_function($options)
     {
         $src = $this->src;
@@ -78,6 +109,11 @@ trait CssConverterScssVisitorTrait
         }
         $this->functions[$v_1] = $body;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     protected function _visit_debug($options)
     {
         igk_die(__METHOD__ . ' not implement ');

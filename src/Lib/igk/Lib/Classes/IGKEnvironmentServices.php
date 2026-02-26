@@ -9,12 +9,31 @@ namespace IGK;
 * @author C.A.D. BONDJE DOUE
 */
 class IGKEnvironmentServices{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_creator;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_services;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_services = [];
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         return igk_getv($this->m_services , $n);
     }
@@ -24,6 +43,7 @@ class IGKEnvironmentServices{
      * @param mixed $cl 
      * @return void 
      */
+
     public function register(string $n, $cl){
         if ($cl === null){
             unset($this->m_services[$n]);

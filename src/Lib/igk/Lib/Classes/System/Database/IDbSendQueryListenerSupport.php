@@ -8,6 +8,12 @@ namespace IGK\System\Database;
 * @package IGK\System\Database
 */
 interface IDbSendQueryListenerSupport{
+
+    /**
+    * auto generate doc.
+    * @param null|IDbSendQueryListener $listener
+    * @return ?IDbSendQueryListener
+    */
     function setSendDbQueryListener(?IDbSendQueryListener $listener);
     function getSendDbQueryListener(): ?IDbSendQueryListener;
 }

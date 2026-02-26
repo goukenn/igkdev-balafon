@@ -28,11 +28,36 @@ use IGK\Models\ModelBase;
 * @method static mixed getEntries() macros function
 * */
 class PhoneBookUserAssociations extends ModelBase{
-	const FD_USRPHB_ID="rcphb_usrphb_Id";
-	const FD_USRPHB_USER_GUID="rcphb_usrphb_UserGuid";
-	const FD_USRPHB_PHONE_BOOK_ENTRY_GUID="rcphb_usrphb_PhoneBookEntryGuid";
-	const FD_USRPHB_CREATE_AT="usrphb_Create_At";
-	const FD_USRPHB_UPDATE_AT="usrphb_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USRPHB_ID="rcphb_usrphb_Id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USRPHB_USER_GUID="rcphb_usrphb_UserGuid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USRPHB_PHONE_BOOK_ENTRY_GUID="rcphb_usrphb_PhoneBookEntryGuid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USRPHB_CREATE_AT="usrphb_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USRPHB_UPDATE_AT="usrphb_Update_At";
 	/**
 	* table's name
 	*/
@@ -49,7 +74,12 @@ class PhoneBookUserAssociations extends ModelBase{
 	*override display key
 	*/
 	protected $display = "rcphb_usrphb_UserGuid";
-	protected $unique_columns = array (
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'rcphb_usrphb_UserGuid',

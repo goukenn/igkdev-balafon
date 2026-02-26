@@ -13,9 +13,29 @@ use IGKException;
  * clear cache in ftp sync server */
 class SyncInitPublicCommand extends SyncAppExecCommandBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--sync:init-public-dir";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "sync";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "sync init public folder";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command)
     {
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
@@ -44,6 +64,7 @@ class SyncInitPublicCommand extends SyncAppExecCommandBase
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public static function InstallFolder($h, string $pdir, string $uri, $no_subdomain=false, $no_webconfig = false){
         $index_temp = igk_io_sys_tempnam("blfcore");
         $access_temp = igk_io_sys_tempnam("blfcore");

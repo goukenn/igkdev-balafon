@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
  */
 class ScssToPcssConverterTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_reader()
     {
 

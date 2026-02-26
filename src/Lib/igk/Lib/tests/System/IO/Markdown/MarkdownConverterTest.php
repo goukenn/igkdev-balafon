@@ -31,6 +31,10 @@ class MarkdownConverterTest extends BaseTestCase
         $l = $converter->transformToHtml($src);
         return $l;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_string()
     {
         $src = '**bonjour * tout * le monde `est` present **';
@@ -44,6 +48,7 @@ class MarkdownConverterTest extends BaseTestCase
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
+
     public function test_mdconverter_two_tables()
     {
         $src = implode("\n", [
@@ -63,6 +68,10 @@ class MarkdownConverterTest extends BaseTestCase
             $d
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_emoji()
     {
         $src = implode("\n", [
@@ -71,6 +80,10 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('emoji ☕️ data', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_headers()
     {
         $src = implode("\n", [
@@ -85,6 +98,10 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<h1>Title</h1><h2>h2</h2><h3>h3</h3><h4>h4</h4><h5>h5</h5><h6>h6</h6>', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_image()
     {
         $src = implode("\n", [
@@ -93,12 +110,20 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<img alt="favicon igkdev.com" src="https://igkdev.com/favicon.ico"/>', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_at_import()
     {
         $src = '@igkdev is the best';
         $d = $this->_transform($src);
         $this->assertEquals('<a href="/@igkdev"><span class="mention">@igkdev</span></a> is the best', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_order()
     {
         $n = igk_create_notagnode();
@@ -118,6 +143,10 @@ class MarkdownConverterTest extends BaseTestCase
             'missing order definition'
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_escaped()
     {
         // escaped
@@ -129,6 +158,10 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<ol><li class="i">Info `data`</li><li class="i">: 🎂</li><li class="i">: 🥤</li></ol>', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_ordered()
     {
         // ordered
@@ -144,6 +177,10 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<ol><li class="i">a</li><li class="i">b</li></ol><ol><li class="i">Orange</li><li class="i"><code>Mangoes</code></li></ol>', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_task()
     {
         $src = implode("\n", [
@@ -154,6 +191,10 @@ class MarkdownConverterTest extends BaseTestCase
         $d = $this->_transform($src);
         $this->assertEquals('<ul class="igk-task-list"><li class="type-start">sample task</li><li class="type-complete">sample complete task</li><li class="type-progress">sample in progress complete task</li></ul>', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_code()
     {
         $src = implode("\n", [
@@ -169,6 +210,10 @@ class MarkdownConverterTest extends BaseTestCase
             '     info: "sample"}</code><h1>end code</h1>'
         ]), $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_multi_expression_code()
     {
         $src = implode("\n", [
@@ -188,6 +233,10 @@ class MarkdownConverterTest extends BaseTestCase
             '<h4>Views options</h4><p>passing parameters to layout</p><code class="igk-code code-php">//#{{% expression %}}</code><h5>default expression</h5>'
         ]), $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_leave_md()
     {
         // + | --------------------------------------------------------------------
@@ -212,6 +261,9 @@ class MarkdownConverterTest extends BaseTestCase
         ]), $d, 'ignore starting empty line ');
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_document_link()
     {
         $src = implode("\n", [
@@ -226,6 +278,9 @@ class MarkdownConverterTest extends BaseTestCase
         ]), $d);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_hr()
     {
         $src = implode("\n", [
@@ -239,6 +294,9 @@ class MarkdownConverterTest extends BaseTestCase
         ]), $d);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_litteral()
     {
         $d = $this->_transform('info < et >', false);
@@ -255,6 +313,7 @@ class MarkdownConverterTest extends BaseTestCase
      * @throws ReflectionException 
      * @throws ExpectationFailedException 
      */
+
     public function test_mdconverter_lines()
     {
         $d = $this->_transform(implode("\n", [
@@ -272,6 +331,9 @@ EOF
         $d);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_load_def_resource()
     {
         $d = $this->_transform(implode("\n", [
@@ -281,6 +343,10 @@ EOF
 
         $this->assertEquals('<p><a href="#click-me">click</a> </p><h1 id="click-me">intro </h1>', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_chain_state()
     {
         $d = $this->_transform(implode("\n", [
@@ -294,6 +360,10 @@ EOF
 
         $this->assertEquals("<code class=\"igk-code code-php\">\$x = 4;</code><p><b>Cas d'usage :</b><br/>martyr</p>", $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_load_array()
     {
         $src = implode("\n", [
@@ -304,6 +374,10 @@ EOF
         $d = $this->_transform($src, true);
         $this->assertEquals('<table class="igk-table"><tr><th>a</th><th>b</th></tr><tr><td><code>.xsm</code></td><td>Écran &lt; 576px</td></tr></table>', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_inline_code_with_html_entities()
     {
         $src = implode("\n", [
@@ -312,6 +386,10 @@ EOF
         $d = $this->_transform($src, true);
         $this->assertEquals('the heredoc <code>&lt;&lt;&lt;EOR ... EOR</code>', $d);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_node_multiple()
     {
         $n = igk_create_notagnode();
@@ -327,6 +405,10 @@ EOF
             'merging definition',
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_node_multiple_after_header()
     {
         $n = igk_create_notagnode();
@@ -342,6 +424,10 @@ EOF
             'merging definition',
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_node_mixed()
     {
         $n = igk_create_notagnode();
@@ -359,6 +445,10 @@ EOF
             'merging definition',
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_line_feed()
     {
         $n = igk_create_notagnode();
@@ -374,6 +464,10 @@ EOF
             'line feed '.__METHOD__,
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_quote_marker()
     {
         $n = igk_create_notagnode();
@@ -389,6 +483,10 @@ EOF
             'quote marker '.__METHOD__,
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mdconverter_subitem(){
         $g = MarkdownConverter::TreatMarkdownSubItem("        - info");
         $this->assertEquals(

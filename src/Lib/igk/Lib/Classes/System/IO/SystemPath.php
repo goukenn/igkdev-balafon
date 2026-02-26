@@ -13,8 +13,23 @@ use IGKResourceUriResolver;
 * @author C.A.D. BONDJE DOUE
 */
 class SystemPath{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $path;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $query;
     private function __construct(){
     }
@@ -24,6 +39,7 @@ class SystemPath{
      * @return static 
      * @throws Exception 
      */
+
     public static function Parse(string $path){
         $p = parse_url($path);
         $s = new static;
@@ -38,6 +54,7 @@ class SystemPath{
      * @return bool 
      * @throws Exception 
      */
+
     public function exists(){
         return igk_io_file_exists($this->path, true);
     }
@@ -45,6 +62,7 @@ class SystemPath{
      * get resolve 
      * @return ?string 
      */
+
     public function resolve(){
         if ($c = IGKResourceUriResolver::getInstance()->resolve($this->path)){
             // if ($this->options){

@@ -9,9 +9,28 @@ namespace IGK\System\Html\Templates;
  * @package IGK\System\Html\Templates
  */
 class BindingExpressionInfo {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $limiter_start= IGK_EXPRESSION_START_MARKER;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $limiter_end = IGK_EXPRESSION_END_MARKER;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $limiter_escape = IGK_EXPRESSION_ESCAPE_MARKER;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {        
     }
@@ -19,6 +38,7 @@ class BindingExpressionInfo {
      * return regext expression 
      * @return string 
      */
+
     public function getRegex():string{
         return '/((?P<scope>@*)(?P<escape>[' . $this->limiter_escape . '])?' . $this->limiter_start .
          '(?P<expression>([^\}\{])+)' . $this->limiter_end. ')/';

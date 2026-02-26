@@ -12,11 +12,31 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands\Users
 */
 class ListLoginCommand extends AppExecCommand{
-	var $command='--users:list';
-	var $desc='list system\'s user';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:list';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='list system\'s user';
 	/* var $options=[]; */
-	var $category = self::USER_CAT;
-	public function exec($command) {  
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = self::USER_CAT;
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) {  
 		$m = Users::select_all(null, ['OrderBy'=>['clLogin|ASC']]);
 		$c = count($m);
 		array_map(function($i)use(& $c){

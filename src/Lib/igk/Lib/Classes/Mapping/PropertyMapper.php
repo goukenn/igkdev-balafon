@@ -8,17 +8,42 @@ namespace IGK\Mapping;
 * @package IGK\Mapping
 */
 class PropertyMapper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $property;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $default;
+
+    /**
+    * .ctr
+    * @param string $propety
+    */
     public function __construct(string $propety){
         $this->property = $propety;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function map($value){
         if ($value){
             return igk_getv($value, $this->property);
         }
         return $this->default;
     }
+
+    /**
+    * Called when an object is used as a function.
+    * @param mixed $value
+    */
     public function __invoke($value)
     {
         return $this->map($value);

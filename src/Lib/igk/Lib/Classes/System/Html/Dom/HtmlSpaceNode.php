@@ -14,12 +14,17 @@ class HtmlSpaceNode extends HtmlNode{
     public function __construct(){
         parent::__construct("igk:space");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getContent(){
         return "&nbsp;";
     }
     /**
     * 
     */
+
     public function getCanRenderTag(){ 
         return false;
     }

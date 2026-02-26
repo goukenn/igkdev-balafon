@@ -16,11 +16,21 @@ use IGKException;
  * @package IGK\System\Database
  */
 class SchemaAddColumnMigration extends SchemaMigrationItemBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $fill_properties = ["table", "after"];
     /**
      * list of column info
      */
     protected $columns;
+
+    /**
+    * auto generate doc.
+    * @param mixed $childs
+    */
     protected function loadChilds($childs){
         $v_table = $this->table;
         $this->columns = [];
@@ -35,12 +45,23 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
             }
         }   
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function checkRequirement()
     {
         if (empty($this->raw->table)){
             igk_die("missing 'table' property");
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param IDbColumnInfo $column
+    * @param null|string $after
+    */
     public function setup(string $table, IDbColumnInfo $column, ?string $after=null){
         $this->raw = (object)['table'=>$table, 'after'=>$after];
         $this->columns = [$column];
@@ -51,6 +72,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function up(){ 
         $v_table = $this->table;
         $ctrl = $this->getMigration()->controller;
@@ -86,6 +108,7 @@ class SchemaAddColumnMigration extends SchemaMigrationItemBase{
      * 
      * @return void 
      */
+
     public function down(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);

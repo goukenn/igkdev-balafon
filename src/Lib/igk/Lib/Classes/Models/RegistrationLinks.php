@@ -31,13 +31,48 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string|?\IGK\Models\Users $regLinkUserGuid, string $regLinkToken, int $regLinkAlive, string|datetime $regLinkActivate, string|datetime $regLinkCreate_At ="NOW()", string|datetime $regLinkUpdate_At ="NOW()") add entry if not exists. check for unique column.
 * */
 class RegistrationLinks extends ModelBase{
-	const FD_REG_LINK_ID="regLinkId";
-	const FD_REG_LINK_USER_GUID="regLinkUserGuid";
-	const FD_REG_LINK_TOKEN="regLinkToken";
-	const FD_REG_LINK_ALIVE="regLinkAlive";
-	const FD_REG_LINK_ACTIVATE="regLinkActivate";
-	const FD_REG_LINK_CREATE_AT="regLinkCreate_At";
-	const FD_REG_LINK_UPDATE_AT="regLinkUpdate_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_REG_LINK_ID="regLinkId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_REG_LINK_USER_GUID="regLinkUserGuid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_REG_LINK_TOKEN="regLinkToken";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_REG_LINK_ALIVE="regLinkAlive";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_REG_LINK_ACTIVATE="regLinkActivate";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_REG_LINK_CREATE_AT="regLinkCreate_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_REG_LINK_UPDATE_AT="regLinkUpdate_At";
 	/**
 	* table's name
 	*/

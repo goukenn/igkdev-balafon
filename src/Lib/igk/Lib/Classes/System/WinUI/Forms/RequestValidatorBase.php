@@ -14,6 +14,13 @@ use IGK\System\Security\Web\RequestValiationMapper;
 * @package IGK\System\WinUI\Forms
 */
 abstract class RequestValidatorBase extends ObjectDataValidator implements IActionRequestValidator{
+
+    /**
+    * auto generate doc.
+    * @param Request $request
+    * @param string $formdata_class
+    * @param null|array & $error
+    */
     public function validateJSon(Request $request, string $formdata_class, ?array &$error = null)
     {
         if ($data = $request->getJsonData()) {
@@ -27,6 +34,18 @@ abstract class RequestValidatorBase extends ObjectDataValidator implements IActi
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    * @param array $mapper
+    * @param null|array $defaultValues
+    * @param null|array $not_required
+    * @param null|mixed & $requestData
+    * @param null|array & $error
+    * @param null|array $resolvKeys
+    * @return bool
+    */
     public function validate
     ($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, &$requestData = null,  ?array &$error = null, ?array $resolvKeys=null): bool
     { 

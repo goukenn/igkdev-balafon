@@ -95,7 +95,11 @@ abstract class IGKAppleIconCtrl extends \IGK\Controllers\ControllerTypeBase {
         $t["clAppleIconUri"]=igk_getr("clAppleIconUri");
         $t["clAppleTouchIconType"]=igk_getr("clAppleTouchIconType");
     }
-  
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View():BaseController{
         // DO NOTHING
         return $this;

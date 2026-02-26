@@ -12,6 +12,15 @@ use IGK\System\Runtime\Compiler\ViewCompiler\ViewReadBlockFlagInfo;
  */
 trait AttachBlockTrait
 {
+
+    /**
+    * auto generate doc.
+    * @param mixed $block
+    * @param mixed $options
+    * @param mixed $id
+    * @param mixed $value
+    * @param mixed $flagid
+    */
     protected function  _attacheBlock($block, $options, $id, $value, $flagid =  CompilerFlagState::READ_BLOCK)
     {
         if ($pblock = $this->m_block) {

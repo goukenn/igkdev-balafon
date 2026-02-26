@@ -35,15 +35,60 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $name, string $process, string $script, string $options, string $class, int $status, string|datetime $create_at ="CURRENT_TIMESTAMP", string|datetime $update_at ="CURRENT_TIMESTAMP") add entry if not exists. check for unique column.
 * */
 class Crons extends ModelBase{
-	const FD_ID="crons_id";
-	const FD_NAME="crons_name";
-	const FD_PROCESS="crons_process";
-	const FD_SCRIPT="crons_script";
-	const FD_OPTIONS="crons_options";
-	const FD_CLASS="crons_class";
-	const FD_STATUS="crons_status";
-	const FD_CREATE_AT="crons_create_at";
-	const FD_UPDATE_AT="crons_update_at";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="crons_id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_NAME="crons_name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_PROCESS="crons_process";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_SCRIPT="crons_script";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_OPTIONS="crons_options";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CLASS="crons_class";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_STATUS="crons_status";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="crons_create_at";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="crons_update_at";
 	/**
 	* table's name
 	*/

@@ -9,10 +9,21 @@ use IGK\System\Http\Request;
 * @package IGK\System\Traits
 */
 trait ObjectFormDataTrait{
+
+    /**
+    * auto generate doc.
+    * @param Request $request
+    * @return ?array
+    */
     protected function getContentSecureFormRequest(Request $request): ?array
     {
       return $this->getContentSecure();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|array $tab
+    */
     protected function getDataValidatorMapper(?array $tab = null)
     {
         $from_mapper = parent::getDataValidatorMapper($tab);
@@ -23,5 +34,6 @@ trait ObjectFormDataTrait{
      * 
      * @return null|array if assoc and validation : return treated value
      */
+
     protected abstract function getContentSecure():?array;
 }

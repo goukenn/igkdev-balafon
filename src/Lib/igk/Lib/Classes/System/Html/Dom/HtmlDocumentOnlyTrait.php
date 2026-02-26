@@ -9,14 +9,28 @@ namespace IGK\System\Html\Dom;
  */
 trait HtmlDocumentOnlyTrait
 {
+
+    /**
+    * auto generate doc.
+    */
     public function getCanAddChilds()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool
     {
         return $this->getIsVisible() && igk_getv($options, "Document");        

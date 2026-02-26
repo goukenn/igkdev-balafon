@@ -11,7 +11,17 @@ use IGK\Models\Injectors\ModelBaseInjector;
  * @package 
  */
 class InjectorProvider{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $injectors;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
     private function __construct() {
     }
@@ -19,6 +29,7 @@ class InjectorProvider{
      * 
      * @return static 
      */
+
     public static function getInstance(){
         if (self::$sm_instance === null){
             self::$sm_instance = new self();
@@ -29,6 +40,7 @@ class InjectorProvider{
      * 
      * @return mixed 
      */
+
     public static function GetInjectors(): ?array{
         return self::getInstance()->injectors;
     }
@@ -37,6 +49,7 @@ class InjectorProvider{
      * @param string $type 
      * @return ModelBaseInjector|void 
      */
+
     public function injector(string $type){
         if (is_subclass_of($type, \IGK\Models\ModelBase::class)){
             return new \IGK\Models\Injectors\ModelBaseInjector($type::model());

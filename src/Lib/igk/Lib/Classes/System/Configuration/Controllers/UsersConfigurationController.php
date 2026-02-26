@@ -33,7 +33,17 @@ use function igk_resources_gets as __;
  */
 class UsersConfigurationController extends ConfigControllerBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const view_action = self::class . "::ViewAction";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NOTIFY_KEY = 'sys://uc/auf';
     /**
      * 
@@ -41,11 +51,16 @@ class UsersConfigurationController extends ConfigControllerBase
     // public function __user_info(){
     //     igk_init_user_info();
     // }
+
     public static function ViewAction($a)
     {
         $ctrl = self::ctrl();
         $a->searchbox($ctrl->getUri("search"));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function search()
     {
         $this->setParam("search", igk_getr("search"));
@@ -54,6 +69,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function begin_pwd_reset()
     {
         $doc = new IGKHtmlDoc("reset_pwd");
@@ -80,6 +96,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * @param mixed $log display login
      * @param mixed $pwd clear pwd
      */
+
     public function connect(?string $log = null, ?string $pwd = null)
     {
         $u = igk_app()->session->User;
@@ -157,6 +174,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * @param string $pwd 
      * @return array 
      */
+
     public static function GetCheckCondition(string $login, string $pwd){
         $condition = [];
         if (!IGKValidator::IsEmail($login)) {
@@ -180,6 +198,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * @param string $pwd 
      * @return Users|false 
      */
+
     public function checkLogin(string $login, string $pwd){
         $condition = self::GetCheckCondition($login, $pwd);
         if ($r = Users::select_row($condition)){
@@ -190,6 +209,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function connectpage()
     {
         $u = igk_app()->session->User;
@@ -214,6 +234,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * setting config page name
      */
+
     public function getConfigPage()
     {
         return "users";
@@ -221,6 +242,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function getDataTableInfo(): ?IModelDefinitionInfo
     {
         return null;
@@ -228,6 +250,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function getDataTableName(): ?string
     {
         return igk_db_get_table_name(IGK_TB_USERS);
@@ -235,6 +258,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function getDb()
     {
         static $db;
@@ -251,6 +275,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function getName(): string
     {
         return IGK_USER_CTRL;
@@ -259,6 +284,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * 
      * @param mixed $u the default value is null
      */
+
     public function getRootUser($u = null)
     {
         if ($u == null)
@@ -283,6 +309,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * 
      * @param mixed $u the default value is null
      */
+
     public function getSubUsers($u = null)
     {
         if ($u == null)
@@ -298,6 +325,11 @@ class UsersConfigurationController extends ConfigControllerBase
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
     protected function initComplete($context = null)
     {
         parent::initComplete();
@@ -323,6 +355,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * Initialize default users
      */
+
     protected function initDataEntry()
     {       
         if (igk_environment()->isDev()) {
@@ -332,6 +365,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * @param mixed $func
      */
+
     protected function IsFunctionExposed($func)
     {
         return true;
@@ -339,6 +373,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * logout the current user
      */
+
     public function logout()
     {
         $u = igk_app()->session->User;
@@ -359,6 +394,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function logout_lnk()
     {
         $this->logout();
@@ -368,6 +404,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * List user group
      * @param mixed $id the default value is null
      */
+
     public function lstgrp($id = null)
     {
         $id = $id ?? igk_getr("id");
@@ -415,6 +452,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * @return void 
      * @throws IGKException 
      */
+
     function rm_grp_from_group($userid = null, $groupid = null)
     {
         $userid = $userid ?? igk_getr("id");
@@ -445,6 +483,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * @param mixed $parentclass the default value is null
      * @param mixed $level the default value is 1
      */
+
     public function register($login, $pwd, $firstname, $lastname, $parentclass = null, $level = 1)
     {
         $row = Users::createEmptyRow();        
@@ -459,6 +498,11 @@ class UsersConfigurationController extends ConfigControllerBase
         $result = Users::insert($row);       
         return $result;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $_edata
+    */
     public function registerOrConnect($_edata)
     {
         if (igk_is_uri_demand($this->getUri(__FUNCTION__)))
@@ -485,6 +529,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     protected function registerHook()
     {
         igk_reg_hook(IGKEvents::HOOK_DB_DATA_ENTRY, function ($hook) {
@@ -498,6 +543,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * store sessgin global user info
      * @param mixed $u
      */
+
     public function setGlobalUser($u){
         igk_app()->session->setUser($u, $this);
     }
@@ -505,6 +551,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * 
      * @param mixed $u
      */
+
     public function setUser($u)
     { 
         if (is_object($u)){ 
@@ -521,6 +568,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function signup()
     {
         $doc = igk_get_document("system/signup");
@@ -542,6 +590,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * toggle lock activate
      */
+
     public function u_block()
     {
         if (!igk_sys_authorize('sys://auth/blockuser')) {
@@ -566,6 +615,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function u_edit()
     {
         if (!igk_sys_authorize('sys://auth/edituser')) {
@@ -578,6 +628,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * add user frame - - 
      */
+
     public function uc_auf()
     {
         $data = Request::getInstance()->getJsonData();
@@ -671,6 +722,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function us_activate()
     {
         /**
@@ -706,6 +758,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function us_lockuser()
     {
         /**
@@ -725,6 +778,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function us_resetpwd()
     {
         /**
@@ -744,6 +798,7 @@ class UsersConfigurationController extends ConfigControllerBase
     /**
      * 
      */
+
     public function View(): BaseController
     {
         $t = $this->getTargetNode();
@@ -836,6 +891,14 @@ class UsersConfigurationController extends ConfigControllerBase
     //     $not->addSuccess('udpate_ajx');
     //     igk_navto($this->getUri('showConfig'));
     // }
+
+    /**
+    * auto generate doc.
+    * @param mixed $userid
+    * @param mixed $password
+    * @param mixed $repassword
+    * @param mixed & $msg
+    */
     public function changeUserPassword($userid, $password, $repassword, &$msg = [])
     {
         if (igk_is_uri_demand($this->getUri(__FUNCTION__))) {
@@ -862,6 +925,7 @@ class UsersConfigurationController extends ConfigControllerBase
      * @throws ReflectionException 
      * @throws CrefNotValidException 
      */
+
     public function changePassword(?int $id = null)
     {
         if (!igk_is_conf_connected()) {

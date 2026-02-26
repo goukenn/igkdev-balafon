@@ -19,18 +19,58 @@ use IGKException;
 class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
 {
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $defTableName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $columnInfo;
     /**
      * 
      * @var mixed
      */
     var $controller;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $description;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $entries;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tableRowReference;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $modelClass;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tableName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $definitionResolver;
     /**
      * display column property or expression that will be used for display.
@@ -62,13 +102,20 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      */
     var $indexes;
 
-
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function _access_OffsetGet($n)
     {
         if (property_exists($this, $n)) {
             return $this->$n;
         }
     }
+
+    /**
+    * .ctr
+    */
     public function __construct() {}
     /**
      * create from cache info
@@ -77,6 +124,7 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function CreateFromCacheInfo($d, $gctrl)
     {
         return Activator::CreateNewInstance(static::class,  [
@@ -95,6 +143,7 @@ class SchemaMigrationInfo implements ArrayAccess, IModelDefinitionInfo
      * return model instance
      * @return ?ModelBase 
      */
+
     public function model()
     {
         /**

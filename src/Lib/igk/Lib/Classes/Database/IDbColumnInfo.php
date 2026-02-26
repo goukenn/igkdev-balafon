@@ -8,7 +8,22 @@ namespace IGK\Database;
 * @package IGK\Database
 */
 interface IDbColumnInfo extends IDbColumnProperties{
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function IsUnsigned():bool;
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function getIsRefId():bool;
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function getIsDumpField():bool;
 }

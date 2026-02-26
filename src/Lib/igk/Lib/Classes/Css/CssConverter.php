@@ -14,36 +14,121 @@ use IGKException;
 */
 class CssConverter{
     use CssConverterScssVisitorTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $length;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $src;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $imports = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $variables = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $functions = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $medias = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $keyframes = [];
     /**
      * source file
      * @var mixed
      */
     private $source_file;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MODE_ROOT = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MODE_ATTRIB = 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MODE_VALUE = 2;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MODE_SELECTOR = 3;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MEDIA_KEY = '@media';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MEDIA_VARIABLES_KEY = '@variables';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MEDIA_FUNCTION_KEY = '@function';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MEDIA_KEYFRAME_KEY = '@keyframes';
     private function initialize(){
         $this->imports = [];
         $this->variables = [];
     }
+
+    /**
+    * auto generate doc.
+    * @param string $content
+    */
     public function parseScssContent(string $content){
         $this->initialize();
         $this->src = $content;
         $this->length = strlen($content);
         return $this->parse();
     }
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    */
     public static function ParseFormSCSS(string $file)
     {
         $src = file_get_contents($file);
@@ -58,6 +143,7 @@ class CssConverter{
      * @return array 
      * @throws IGKException 
      */
+
     public function parse()
     {
         $offset = 0;
@@ -362,6 +448,7 @@ class CssConverter{
         }
         return $n;
     }
+
     protected function _visit($name, $options)
     {
         $name = ltrim(str_replace('-', '_', $name), '_ ');
@@ -377,6 +464,11 @@ class CssConverter{
         $this->medias = array_merge($this->medias, igk_getv($gt, self::MEDIA_KEY, []));
         $this->functions = array_merge($this->functions, igk_getv($gt, self::MEDIA_FUNCTION_KEY, []));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     protected function _visit_import($options)
     {
         $iv = '';
@@ -415,6 +507,11 @@ class CssConverter{
             $iv .= $ch;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     protected function _visit_media($options)
     {
         // Logger::log("visit media");

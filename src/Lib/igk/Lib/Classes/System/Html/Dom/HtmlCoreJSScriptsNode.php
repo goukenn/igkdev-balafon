@@ -19,7 +19,16 @@ use IGKResourceUriResolver;
 final class HtmlCoreJSScriptsNode extends HtmlNode
 {
     use ScriptTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    */
     public static function getItem()
     {
         if (self::$sm_instance == null) {
@@ -30,22 +39,46 @@ final class HtmlCoreJSScriptsNode extends HtmlNode
     private function __construct(){
         parent::__construct("igk:js-core-script");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanAddChilds()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool
     {
         return $this->getIsVisible() && igk_getv($options, "Document");        
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     protected function _getRenderingChildren($options = null)
     {
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options = null)
     { 
         $tabstop = "";

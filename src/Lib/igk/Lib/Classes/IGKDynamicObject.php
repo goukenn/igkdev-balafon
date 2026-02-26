@@ -12,6 +12,11 @@
 * auto generate doc.
 */
 final class IGKDynamicObject extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_properties;
     /**
      * Invokes a stored callable property dynamically by name.
@@ -19,6 +24,7 @@ final class IGKDynamicObject extends IGKObject{
      * @param array $arguments Arguments to pass to the callable.
      * @return mixed The return value of the callable, or null if not found.
      */
+
     public function __call($name, $arguments){
         if(isset($this->m_properties[$name])){
             return call_user_func_array($this->m_properties[$name], $arguments);
@@ -28,6 +34,7 @@ final class IGKDynamicObject extends IGKObject{
     /**
      * Constructor.
      */
+
     public function __construct(){
         $this->m_properties=array();
     }
@@ -36,6 +43,7 @@ final class IGKDynamicObject extends IGKObject{
      * @param string $name The property name to retrieve.
      * @return mixed The property value, or the parent's result if not found.
      */
+
     public function __get($name){
         if(isset($this->m_properties[$name]))
             return $this->m_properties[$name];
@@ -46,6 +54,7 @@ final class IGKDynamicObject extends IGKObject{
      * @param string $name The property name to set.
      * @param mixed $v The value to assign.
      */
+
     public function __set($name, $v){
         if(!$this->_setIn($name, $v)){
             $this->m_properties[$name]=$v;
@@ -55,6 +64,7 @@ final class IGKDynamicObject extends IGKObject{
      * Returns a string representation of this dynamic object.
      * @return string The class name followed by a hash symbol.
      */
+
     public function __toString(){
         return __CLASS__."#";
     }
@@ -62,6 +72,7 @@ final class IGKDynamicObject extends IGKObject{
      * Initializes dynamic properties from an associative array or iterable.
      * @param iterable|null $data Key-value pairs to set as dynamic properties.
      */
+
     public function initProperties($data){
         if($data) foreach($data as $k=>$v){
             $this->m_properties[$k]=$v;

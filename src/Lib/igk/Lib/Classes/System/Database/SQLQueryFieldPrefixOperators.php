@@ -12,15 +12,50 @@ use IGK\Database\DbFieldOperator;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class SQLQueryFieldPrefixOperators extends DbFieldOperator{
-    const FIND = '@@';
-    const IN = '#';
-    const NOT_IN = '!<>';
-    const IN_EXPRESS = '<>';
-    const IN_E = '!!'; 
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FIND = '@@';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const IN = '#';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const NOT_IN = '!<>';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const IN_EXPRESS = '<>';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const IN_E = '!!';
+
+    /**
+    * auto generate doc.
+    * @param string $column
+    * @return string
+    */
     public static function IN(string $column):string{
         return self::IN_EXPRESS.$column;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $column
+    */
     public static function Find(string $column){
         return self::FIND.$column;
     }

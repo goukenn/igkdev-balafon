@@ -11,16 +11,23 @@ use IGK\System\Html\HtmlRenderer;
 * Represent IGKApiFunctionCtrl class
 */
 final class ApiFunctionController extends ApplicationController {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const LIBNAME=IGK_API_MYSQLPINC;
     /**
     * 
     */
+
     public function about(){
         igk_wln_e(__FILE__.":".__LINE__, "About");
     }
     /**
     * 
     */
+
     public function beginRequest(){
         $u=igk_getr("u");
         $pwd=igk_getr("pwd");
@@ -46,6 +53,7 @@ final class ApiFunctionController extends ApplicationController {
     * 
     * @param mixed $cmd the default value is null
     */
+
     public function ctrl($cmd=null){
         $args=array_slice(func_get_args(), 1);
         $_api=$this;
@@ -117,6 +125,7 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * represent a function database function list
     */
+
     public function datadb($cmd=null){       
         /**
          * @var ?array $_data 
@@ -476,6 +485,7 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * 
     */
+
     public function endRequest(){
         $node=HtmlNode::CreateWebNode("APIResponse");
         if($this->ConfigCtrl->IsConnected){
@@ -488,10 +498,14 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * 
     */
+
     public function getBasicUriPattern(){
         return IGK_API_URI;
     }
-   
+
+    /**
+    * auto generate doc.
+    */
     protected function getEntryNameSpace(){
         return "IGKApi";
     }
@@ -502,27 +516,35 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * 
     */
+
     public function getIsVisible():bool{
         return false;
     }
     /**
     * 
     */
+
     public function getName():string{
         return IGK_API_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getAppName(){
         return IGK_API_CTRL;
     }
     /**
     * 
     */
+
     public function getRegUriAction(){
         return IGK_API_URI.IGK_REG_ACTION_METH_OPTIONS;
     }
     /**
     * 
     */
+
     public function getVersion(){
         return IGK_API_VERSION;
     }
@@ -530,12 +552,14 @@ final class ApiFunctionController extends ApplicationController {
     * 
     * @param mixed $function
     */
+
     public function IsFunctionExposed($function){
         return true;
     }
     /**
     * 
     */
+
     public function request(){
         $u=igk_getr("u");
         $pwd=igk_getr("pwd");
@@ -558,6 +582,7 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * 
     */
+
     public function sendRequest(){
         $node=HtmlNode::CreateWebNode("APIResponse");
         $q=base64_decode(igk_getr("q"));
@@ -575,6 +600,7 @@ final class ApiFunctionController extends ApplicationController {
     * 
     * @param mixed $cmd the default value is null
     */
+
     public function setup($cmd=null){
         igk_wln(__FUNCTION__." command");
         igk_exit();
@@ -582,6 +608,7 @@ final class ApiFunctionController extends ApplicationController {
     /**
     * 
     */
+
     public function sysversion(){
         ob_clean();
         igk_wl(IGK_VERSION);

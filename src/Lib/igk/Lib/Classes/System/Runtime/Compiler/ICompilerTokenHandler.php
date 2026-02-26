@@ -8,5 +8,13 @@ namespace IGK\System\Runtime\Compiler;
 * @package IGK\System\Runtime\Compiler
 */
 interface ICompilerTokenHandler{
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool;
 }

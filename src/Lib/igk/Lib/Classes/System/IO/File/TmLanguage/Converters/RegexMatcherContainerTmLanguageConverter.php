@@ -23,8 +23,23 @@ use ReflectionException;
  */
 class RegexMatcherContainerTmLanguageConverter
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_references = [];
+
+    /**
+    * auto generate doc.
+    * @param mixed $a
+    */
     protected function _removeType($a)
     {
         $tab = [$a];
@@ -57,6 +72,7 @@ class RegexMatcherContainerTmLanguageConverter
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function convert(RegexMatcherContainer $ctn, string $scopeName):array
     {
         $this->m_data = Activator::CreateNewInstance(RegexMatcherContainerTmDefinition::class, (object)[
@@ -160,6 +176,7 @@ class RegexMatcherContainerTmLanguageConverter
      * @return mixed|array|void
      * @throws Exception 
      */
+
     protected function _chainRepository(&$repository, RegexMatcherPattern $q)
     {
         $r = $this->_unsetPrivateMembers((array)$q);

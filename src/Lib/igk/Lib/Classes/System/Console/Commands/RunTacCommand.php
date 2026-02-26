@@ -15,9 +15,29 @@ use IGK\System\Console\TerminalActionCommand;
 * @package IGK\System\Console\Command
 */
 class RunTacCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--run:tac";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "terminal action command";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command) {
          // terminal action command
          Logger::print('start : ' . $this->command);

@@ -11,6 +11,11 @@ use IGKException;
  * @package 
  */
 class FormHelper{
+
+    /**
+    * auto generate doc.
+    * @param string $datevalue
+    */
     public static function ConvertToInputDateTimelocal(string $datevalue) {
         $i =  strtotime($datevalue);
         return date('Y-m-d', $i).'T'.date('H:i', $i);
@@ -19,14 +24,27 @@ class FormHelper{
      * get submit callable
      * @return Closure 
      */
+
     public static function submit(){
         return Closure::fromCallable("igk_html_submit");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $form
+    * @param mixed $callback
+    */
     public static function FormActionHost($form, $callback){
         return function($a)use($callback, $form){
             return $callback($a, $form);
         };
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public static function __callStatic($name, $args){
         return null;
     }
@@ -39,6 +57,7 @@ class FormHelper{
      * @return void 
      * @throws IGKException 
      */
+
     public static function SelectOptions($data, string $key, string  $name,?array $options=null){
         if ($options && !key_exists('no_sort_text', $options))
             $options['no_sort_text'] = 1;
@@ -50,6 +69,7 @@ class FormHelper{
      * @param mixed $options 
      * @return Closure 
      */
+
     public static function  _InitOption($options){
         //
         return function ($d)use($options){
@@ -70,6 +90,7 @@ class FormHelper{
      * @param null|string $year 
      * @return array 
      */
+
     public static function YearMounthSelection(?string $year = null){
         $d = [];
         if (is_null($year)){

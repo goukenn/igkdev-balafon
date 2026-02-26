@@ -8,7 +8,13 @@ namespace IGK\System\Html\Forms\Validations;
 * @package IGK\System\Html\Forms\Validations
 * @author C.A.D. BONDJE DOUE
 */
-class TextareaValidator extends DefaultValidator{ 
+class TextareaValidator extends DefaultValidator{
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     public function assertValidate($value): bool { 
         return !empty($value);
     } 

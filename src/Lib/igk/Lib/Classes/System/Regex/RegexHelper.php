@@ -23,6 +23,11 @@ class RegexHelper{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    */
     public static function Escape(string $value){
         $value = str_replace("/","\\/", $value);
         return $value;

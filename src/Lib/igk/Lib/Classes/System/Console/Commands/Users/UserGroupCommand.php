@@ -13,14 +13,46 @@ use JSon;
 * @package IGK\System\Console\Commands\Users
 */
 class UserGroupCommand extends AppExecCommand{
-	var $command='--users:bind-group';
-	var $desc='bind user to group. prefix with (-) sign to remove from group.';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:bind-group';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='bind user to group. prefix with (-) sign to remove from group.';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--controller'=>'set controller'
 	];
-	var $category = self::USER_CAT;
-	var $usage = 'user group[] [options]';
-	public function exec($command, ?string $user=null, ...$groups) {  
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = self::USER_CAT;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'user group[] [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $user
+    * @param mixed ...$groups
+    */
+    public function exec($command, ?string $user=null, ...$groups) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');	
 		$ctrl = SysDbController::ctrl();
 		if (

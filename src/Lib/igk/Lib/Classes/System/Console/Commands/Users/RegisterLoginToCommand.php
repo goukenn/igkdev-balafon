@@ -10,12 +10,39 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands\Users
 */
 class RegisterLoginToCommand extends AppExecCommand{
-	var $command='--users:login';
-	var $desc='login command. to register to project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:login';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='login command. to register to project';
 	/* var $options=[]; */
-	var $category = self::USER_CAT;
-	var $usage = 'controller login [options]';
-	public function exec($command, ?string $controller=null, ?string $login = null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = self::USER_CAT;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller login [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $login
+    */
+    public function exec($command, ?string $controller=null, ?string $login = null) { 
 		$login || igk_die("require login");
 		$ctrl = self::GetController($controller);
 		$user = igk_get_user_bylogin($login) ?? igk_die('missing user');

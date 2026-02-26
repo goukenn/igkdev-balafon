@@ -10,9 +10,29 @@ use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
 /** @package IGK\System\Console\Commands */
 class EnvironmentsCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--environment";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "display environment setting";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command) { 
         Logger::info("Display environment settings");
         $env = [

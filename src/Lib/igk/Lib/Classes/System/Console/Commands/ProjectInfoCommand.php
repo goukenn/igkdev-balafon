@@ -19,15 +19,46 @@ use IGK\System\Npm\JsonPackage;
  */
 class ProjectInfoCommand extends AppExecCommand
 {
-	var $command = '--project:info';
-	var $desc = 'view project\'s store information';
-	var $options = [
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--project:info';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'view project\'s store information';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [
 		'--base-dir' => 'flag: render only declared directory',
 		'--logo' => 'flag: render only svg logo',
 	];
-	var $category = "project";
-	const CNF_FILE = Constants::PROJECT_CONF_FILE;
-	public function exec($command, ?string $controller = null)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = "project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const CNF_FILE = Constants::PROJECT_CONF_FILE;
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller = null)
 	{
 		$ctrl = ($controller ? self::GetController($controller) : null) ?? die("missing controller");
 		$dir = $ctrl->getDeclaredDir();

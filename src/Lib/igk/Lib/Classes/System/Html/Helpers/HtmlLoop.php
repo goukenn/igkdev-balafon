@@ -9,6 +9,12 @@ namespace IGK\System\Html\Helpers;
  * @package IGK\System\Html\Helpers
  */
 class HtmlLoop{
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $i
+    */
     public static function list($n, $i){
         $n->li()->Content = $i;
     }

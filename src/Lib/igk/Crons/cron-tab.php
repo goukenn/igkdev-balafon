@@ -35,6 +35,11 @@ require_once IGK_LIB_CLASSES_DIR.'/System/Cron/CronScriptHandler.php';
  */
 class cronApp extends IGKApplicationBase implements IConsoleLogger
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_configs;
 
     /**
@@ -42,41 +47,76 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
      */
     const CNF_NO_CRON_LOGGER = 'cron.no-logger';
 
+    /**
+    * auto generate doc.
+    */
     public function print()
     {
         print_r(...func_get_args());
         echo PHP_EOL;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function offscreen()
     {
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigs()
     {
         return $this->m_configs;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function log($msg) {}
 
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function info($msg)
     {
         $this->print(App::Gets(App::YELLOW, $msg));
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function warn($msg)
     {
         $this->print(App::Gets(App::BLUE, $msg));
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function success($msg)
     {
         $this->print(App::Gets(App::GREEN, $msg));
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function danger($msg)
     {
         echo App::Gets(App::RED, $msg);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function bootstrap()
     {
         if (igk_io_file_exists($v_conffile = Path::Combine(getcwd(), AppConfigs::ConfigurationFileName))) {
@@ -96,6 +136,7 @@ class cronApp extends IGKApplicationBase implements IConsoleLogger
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function run(string $entryfile, $render = 0)
     {
         IGKApp::StartEngine($this);

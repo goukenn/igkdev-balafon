@@ -145,22 +145,102 @@ require_once IGK_LIB_CLASSES_DIR . '/System/IInjectedArgHost.php';
  */
 abstract class BaseController extends RootControllerBase implements IDataController, IInjectedArgHost
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CHILDS_FLAG = 5;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CURRENT_VIEW = IGK_CURRENT_CTRL_VIEW;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ENV_PARAM_USER_SETTINGS = 0x200;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_ENV_PARAM_LANGCHANGE_KEY = "langchanged";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_ENV_PARAM_SETUP_LANG = "ctrl://setup_lang_in_request";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MAIN_VIEW = 9;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PAGE_VIEW_FLAG = 4;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PARAMS_FLAG = 7;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REG_VIEW_CHILD = 11;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SHOW_CHILD = 10;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const VIEWCHILDS_FLAG = 6;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const VISIBILITY_FLAG = 2;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const WEBPARENT_FLAG = 1;
     // + | activate this to disable action handling
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NO_ACTION_FLAG = 11;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const VIEW_ARGS = IGK_VIEW_ARGS;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const VIEW_EXTRA_ARGS = IGK_VIEW_EXTRA_ARGS;
     /**
      * 
@@ -170,6 +250,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * @return object 
      */
+
     protected function _loadCtrlConfig()
     {
         $t = igk_sys_getdefaultctrlconf();
@@ -196,6 +277,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * rende view file
      */
+
     protected function _renderViewFile()
     {
         $ctrl = $this;
@@ -288,6 +370,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @param string $view 
      * @return bool 
      */
+
     protected function _isAllowedView(string $view): bool
     {
         $allowed_view = true;
@@ -305,6 +388,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * create view loader 
      * @return IViewLayoutLoader
      */
+
     protected function createViewLoader(?string $fname = null): ?IViewLayoutLoader
     {
         $ctrl = ViewHelper::CurrentCtrl();
@@ -328,6 +412,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function getViewLoader(?string $fname = null)
     {
         if ($l = $this->getEnvParam(ControllerEnvParams::ViewLoader)) {
@@ -347,6 +432,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function handleAction(string $fname, array $params, &$handler = null, $is_ajx = null, $is_view = null)
     {
         // igk_trace();
@@ -371,6 +457,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
             return $r;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $fname
+    */
     protected function _config_entries($fname)
     {
         $conf = $this->configFile(ConfigFiles::views);
@@ -405,6 +496,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * default include function helper
      * @return void 
      */
+
     protected function _include_func_helpers()
     {
         include_once(IGK_LIB_DIR . "/Lib/functions-helpers/view.php");
@@ -413,7 +505,9 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * copy this fonction to allow file inclusion on the current context controller
      */
-    protected final function _include_view(string $file)
+    protected final
+
+    function _include_view(string $file)
     {
         $response = null;
         $this->_include_func_helpers();
@@ -535,6 +629,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         }
         return $response;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _getViewDataArgs()
     {
         $rep = $this->getEnvParam(ControllerEnvParams::ActionViewResponse);
@@ -547,6 +645,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * include constant
      */
+
     protected function _include_constants()
     {
         if (($f = $this->getConstantFile()) && igk_io_file_exists($f, true))
@@ -559,6 +658,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * 
      * @param mixed $file
      */
+
     protected function _get_extra_args($file)
     {
         $data = [];
@@ -571,6 +671,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * @return string default name attached to this controller 
      */
+
     public function getName(): string
     {
         return strtolower(get_class($this));
@@ -579,6 +680,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * get store parameter 
      * @return mixed objet reference value
      */
+
     public function &getParam($key, $default = null, $register = false)
     {
         $param = &$this->getM_();
@@ -589,6 +691,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * get stored params keys
      * @return array stored params keys
      */
+
     public function getParamKeys()
     {
         return array_keys((array)$this->getParams());
@@ -596,6 +699,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * get all controller's parameters
      */
+
     public function getParams()
     {
         return $this->getM_();
@@ -603,6 +707,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     ///override this method to show the controller view.
     /**
      */
+
     public function getDeclaredFileName()
     {
         $tab = &igk_environment()->createArray("reflect_info");
@@ -621,14 +726,23 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * @return string
      */
+
     public function getDeclaredDir(): string
     {
         return dirname($this->getDeclaredFileName());
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getClassesDir()
     {
         return implode("/", [$this->getDeclaredDir(), IGK_LIB_FOLDER, IGK_CLASSES_FOLDER]);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getLibDir()
     {
         return implode("/", [$this->getDeclaredDir(), IGK_LIB_FOLDER]);
@@ -641,6 +755,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @throws ReflectionException 
      * @throws Exception 
      */
+
     public function getConfigsDir()
     {
         return Path::Combine($this->getDeclaredDir(), IGK_CONF_FOLDER);
@@ -648,6 +763,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * get view dir
      */
+
     public function getViewDir()
     {
         return ControllerPaths::Gets($this)->viewDir;
@@ -655,6 +771,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     public function getStylesDir()
     {
         return ControllerPaths::Gets($this)->stylesDir;
@@ -662,6 +779,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * get style dir
      */
+
     protected function getPrimaryCssFile()
     {
         if ($prima_file = $this->getConfig("PrimaryStyle", Constants::DEFAULT_THEME_STYLE)) {
@@ -672,6 +790,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     protected function getConfigFile()
     {
         return $this->getDataDir() . "/" . IGK_CTRL_CONF_FILE;
@@ -679,6 +798,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     public function getDataDir()
     {
         return $this->getDeclaredDir() . "/" . IGK_DATA_FOLDER;
@@ -686,6 +806,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * get the constant file
      */
+
     public function getConstantFile()
     {
         return $this->getDeclaredDir() . "/.constants.php.inc";
@@ -693,6 +814,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * Db constant utility
      */
+
     public function getDbConstantFile()
     {
         return $this->getDeclaredDir() . "/.db.constants.php";
@@ -700,6 +822,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     public function getResourcesDir()
     {
         return $this->getDataDir() . "/" . IGK_RES_FOLDER;
@@ -708,6 +831,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * get controlleur current configuration
      * @return IControllerConfigurationData 
      */
+
     public function getConfigs()
     {
         $key = IGK_ENV_CONFIG_ENTRIES;
@@ -732,6 +856,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     public function getLoader()
     {
         $l = $this->getEnvParam("loader");
@@ -746,6 +871,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * utility view args
      */
+
     protected function utilityViewArgs(string $fname, ?string $file = null)
     {
         $this->setCurrentView($fname, false);
@@ -758,6 +884,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     public function getContentDir()
     {
         return igk_dir($this->getDeclaredDir() . DIRECTORY_SEPARATOR . IGK_CONTENT_FOLDER);
@@ -767,6 +894,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @param mixed $args Mixed, single value or array . if single value it will be converted into an array of single array element
      * @param mixed $options query options
      */
+
     public function regSystemVars($args = null, $options = null)
     {
         if ($args === null) {
@@ -795,6 +923,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @param string &extra view extension
      * @return string view file path
      */
+
     public function getViewFile(string $view, $checkfile = 1, &$param = null, $ajx_demand = null)
     {
         $detect = function ($f, $d, $exts) {
@@ -874,6 +1003,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * 
      * @param mixed $path
      */
+
     public function getCtrlFile($path)
     {
         if (Path::getInstance()->realpath($path) == $path)
@@ -884,6 +1014,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * 
      * @return *
      */
+
     protected function &getM_()
     {
         $param = &igk_app()->getSession()->getControllerParams();
@@ -897,6 +1028,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * get the flag value
      */
+
     public function getFlag($code, $default = null)
     {
         return $this->getM_()->getFlag($code, $default);
@@ -904,6 +1036,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     public function getCurrentView()
     {
         return $this->getEnvParam(self::CURRENT_VIEW, IGK_DEFAULT_VIEW);
@@ -920,6 +1053,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @throws ResourceNotFoundException 
      * @throws PageNotFoundException 
      */
+
     public function setCurrentView($view, $reload = true, $targetNode = null, $args = null, $options = null)
     {
         $cview = $this->getCurrentView();
@@ -946,6 +1080,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * get initialize target node 
      */
+
     public function getTargetNode(): ?HtmlNode
     {
         $b = $this->getEnvParam(IGK_CTRL_TG_NODE) ?? (function () {
@@ -958,6 +1093,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * init target node 
      */
+
     protected function initTargetNode(): ?HtmlNode
     {
         // igk_debug_wln_e(__FILE__.":".__LINE__,  "init target node .....");
@@ -970,6 +1106,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * get the visibility of this controller view node. 
      * @return bool
      */
+
     protected function getIsVisible(): bool
     {
         return true;
@@ -979,6 +1116,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * override this method to customize your view logic.
      * @return static
      */
+
     public function View(): BaseController
     {
         // + | ------------------------------------------------
@@ -1004,6 +1142,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * initialize require module
      */
+
     protected function _initRequiredModules()
     {
         $v_key = ApplicationModuleHelper::SYS_ENV_KEY;
@@ -1029,6 +1168,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         igk_set_env($v_key, $v_modules);
         return $data;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $project
+    */
     protected function _initCheckRequireProject($project)
     {
         if (!$project) {
@@ -1049,6 +1193,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @throws ReflectionException 
      * @throws Exception 
      */
+
     protected function _globalConfigSettings()
     {
         $g = self::IsSysController($this);
@@ -1060,6 +1205,10 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _createViewEnvArgs()
     {
         return new \IGK\System\ViewEnvironmentArgs;
@@ -1069,6 +1218,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @param mixed $doc document to reset 
      * @return void 
      */
+
     protected function setCurrentDocument(?HtmlDocumentNode $doc = null)
     {
         $this->setEnvParam(IGK_CURRENT_DOC_PARAM_KEY, $doc);
@@ -1077,6 +1227,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * init system's view variables for this controller.
      */
+
     public function getSystemVars()
     {
         $ck = igk_ctrl_env_view_arg_key($this);
@@ -1118,6 +1269,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * Initialize view setting - before rendering
      */
+
     protected function _initView()
     {
         // + | --------------------------------------------------------------------
@@ -1133,6 +1285,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * set environment param flags the flag
      */
+
     public function setFlag($code, $value)
     {
         $this->setEnvParam($code, $value);
@@ -1140,6 +1293,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * reset the value of the current view
      */
+
     protected function resetCurrentView($view = null)
     {
         $this->setParam(self::CURRENT_VIEW, $view);
@@ -1149,6 +1303,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * check if this controller class is a system controller
      * @param object|string $className of a controller
      */
+
     public static function IsSysController($className)
     {
         if (is_object($className) && ($className instanceof BaseController)) {
@@ -1164,6 +1319,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * @param mixed $forcecreation the default value is false
      * @param mixed $args the default value is null
      */
+
     public function getViewContent(string $view, $target, $forcecreation = false, $args = null)
     {
         $key = "ctrl/backupnode";
@@ -1183,6 +1339,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * set the controller parameters
      */
+
     public function setParam($key, $value)
     {
         $m = &$this->getM_();
@@ -1196,6 +1353,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * call view layout without changing current view
      */
+
     public function getView($view = null, $forcecreation = false, $args = null, $options = null)
     {
         extract($this->getSystemVars());
@@ -1220,6 +1378,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     public function getCurrentPageFolder()
     {
         return igk_app()->getCurrentPageFolder();
@@ -1228,6 +1387,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * view complete.
      */
+
     protected function _onViewComplete()
     {
         if ((($x = $this->getEnvParam(self::REG_VIEW_CHILD)) != null) && is_array($x)) {
@@ -1241,6 +1401,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * include view on contex
      */
+
     protected function _include_view_file(string $view, $args = null)
     {
         $v_file = igk_io_cache_file_exists($view) ? $view : $this->getViewFile($view);
@@ -1259,6 +1420,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * get default data adapter name
      */
+
     public function getDataAdapterName(): string
     {
         return igk_sys_getconfig("default_dataadapter", IGK_MYSQL_DATAADAPTER);
@@ -1266,6 +1428,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * @return ?IModelDefinitionInfo controller's table info
      */
+
     public function getDataTableInfo(): ?IModelDefinitionInfo
     {
         $tb = null;
@@ -1283,6 +1446,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * default table name
      * @return null|string 
      */
+
     public function getDataTableName(): ?string
     {
         // override this to handle management of a spécific table 
@@ -1292,6 +1456,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
      * 
      * @param mixed $className
      */
+
     public static function RegSysController($className)
     {
         if (self::$sm_sysController == null)
@@ -1303,6 +1468,7 @@ abstract class BaseController extends RootControllerBase implements IDataControl
     /**
      * 
      */
+
     public function getUseDataSchema(): bool
     {
         if (self::IsSysController($this)) {
@@ -1313,6 +1479,11 @@ abstract class BaseController extends RootControllerBase implements IDataControl
         }
         return $this->getConfig(IGK_CTRL_CNF_USE_DATASCHEMA, false);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    */
     public function setTargetNode($node)
     {
         $this->setEnvParam(IGK_CTRL_TG_NODE, $node);

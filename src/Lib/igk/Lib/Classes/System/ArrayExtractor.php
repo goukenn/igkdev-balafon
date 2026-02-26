@@ -10,7 +10,17 @@ use IGKException;
  * @package IGK\System
  */
 class ArrayExtractor{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $key;
+
+    /**
+    * .ctr
+    * @param string $key
+    */
     public function __construct(string $key)
     {
         $this->key = $key;
@@ -21,9 +31,15 @@ class ArrayExtractor{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function map($p){ 
         return igk_getv($p, $this->key);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $p
+    */
     public function li($p){ 
         return "<li>".igk_getv($p, $this->key)."</li>";
     }

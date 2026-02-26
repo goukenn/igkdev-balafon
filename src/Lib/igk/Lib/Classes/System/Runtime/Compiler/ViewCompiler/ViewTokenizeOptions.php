@@ -41,7 +41,17 @@ class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
      * @var mixed
      */
     var $flag;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $flagOptions;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $skipWhiteSpace = 0;
     /**
      * bracket depth counter
@@ -53,15 +63,40 @@ class ViewTokenizeOptions extends ReadTokenOptions implements IReadTokenOptions{
      * @var ?ViewTokenBlock
      */
     var $block;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $comment;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $modifiers = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $phpDoc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $struct_info;
     /**
      * 
      * @var ?ReadTokenOptions
      */
     var $options;
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function output():?string{
         $sb = new StringBuilder($this->m_output);
         $sb->appendLine("<?php");

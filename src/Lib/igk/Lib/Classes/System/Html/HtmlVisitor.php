@@ -36,6 +36,11 @@ class HtmlVisitor
      * @var mixed
      */
     protected $skip_end;
+
+    /**
+    * .ctr
+    * @param HtmlItemBase $t
+    */
     public function __construct(HtmlItemBase $t)
     {
         $this->target = $t;
@@ -44,16 +49,24 @@ class HtmlVisitor
      * skip visit.
      * @return $this 
      */
+
     public function skipVisit(){
         $this->skip = true;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param HtmlItemBase $n
+    * @param mixed & $childs
+    */
     protected function beforeBeginVisit(HtmlItemBase $n, & $childs){
     }
     /**
      * base visit algorithm
      * @return void 
      */
+
     public function visit()
     {
         /**

@@ -9,8 +9,22 @@ namespace IGK\System\Database;
  * @package IGK\System\Database
  */
 class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $fill_properties = ["table", "column"];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $columnInfo;
+
+    /**
+    * auto generate doc.
+    */
     protected function checkRequirement()
     {
         if (empty($this->raw->table)){
@@ -20,6 +34,10 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
             igk_die("missing 'column' property");
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function up(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
@@ -29,6 +47,10 @@ class SchemaRemoveColumnMigration extends SchemaMigrationItemBase{
             $ctrl::db_rm_column($tb, $this->column);
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function down(){ 
         $c_info = $this->columnInfo;
         if (!is_null($c_info)){

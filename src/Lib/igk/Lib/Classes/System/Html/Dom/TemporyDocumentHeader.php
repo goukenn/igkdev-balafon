@@ -9,7 +9,18 @@ namespace IGK\System\Html\Dom;
 * @author C.A.D. BONDJE DOUE
 */
 class TemporyDocumentHeader{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $sc = [];
+
+    /**
+    * auto generate doc.
+    * @param string $src
+    * @param mixed $type
+    */
     public function addTempScript(string $src, $type='module'){
         if (!isset($sc[$src])){
             $sc[$src] = 1;

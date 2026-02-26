@@ -9,5 +9,10 @@ namespace IGK\Database\PhoneBooks;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class PhoneBookConverterBase{
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     abstract function treat($v);
 }

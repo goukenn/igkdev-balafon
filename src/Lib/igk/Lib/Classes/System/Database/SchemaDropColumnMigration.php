@@ -10,12 +10,32 @@ use IGK\Database\DbSchemas;
  */
 class SchemaDropColumnMigration extends SchemaMigrationItemBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $fill_properties = ["table", "column"];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_cl;
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param mixed $column
+    */
     public function setup(string $table, $column)
     {
         $this->raw = get_defined_vars();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function up()
     {
         $ctrl = $this->getMigration()->controller;
@@ -23,6 +43,10 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
         $ctrl->db_drop_column($tb, $this->column);
         $this->m_cl = DbSchemas::GetTableColumnInfo($tb, $ctrl);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function down()
     {
         $ctrl = $this->getMigration()->controller;
@@ -35,6 +59,7 @@ class SchemaDropColumnMigration extends SchemaMigrationItemBase
      * get column info
      * @return mixed 
      */
+
     protected function getCl(){
         return $this->m_cl;
     }

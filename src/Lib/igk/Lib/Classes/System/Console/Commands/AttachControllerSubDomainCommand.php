@@ -14,12 +14,45 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class AttachControllerSubDomainCommand extends AppExecCommand{
-	var $command='--subdomain:attach';
-	var $desc='attach controller subdomain'; 
-	var $options=[];
-	var $category = 'sys'; 
-	var $usage = 'controller name [entry_point] [options...]';
-	public function exec($command, ?string $controller=null, ?string $name=null, ?string $entry_point=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--subdomain:attach';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='attach controller subdomain';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller name [entry_point] [options...]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $name
+    * @param null|string $entry_point
+    */
+    public function exec($command, ?string $controller=null, ?string $name=null, ?string $entry_point=null) { 
 		$ctrl = self::GetController($controller) ?? igk_die('require controller');	
 		$c = Subdomains::Add($name, $ctrl->getName(), $entry_point);
 		if ($c)

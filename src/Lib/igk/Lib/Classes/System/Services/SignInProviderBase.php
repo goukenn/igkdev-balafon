@@ -16,18 +16,36 @@ abstract class SignInProviderBase{
      * @var true
      */
     protected $navigate_onlogin = true;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $response;
     /**
      * url used for success
      * @var mixed
      */
     protected $successURL;
+
+    /**
+    * auto generate doc.
+    * @param null|string $uri
+    */
     public function setSuccessURL(?string $uri=null){
         $this->successURL = $uri;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getSuccessURL(){
         return $this->successURL;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getResponse(){
         return $this->response;
     }
@@ -36,6 +54,7 @@ abstract class SignInProviderBase{
      * @param mixed $value 
      * @return void 
      */
+
     public function setResponse($value){
         $this->response = $value;
     }

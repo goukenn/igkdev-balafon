@@ -15,9 +15,29 @@ use function igk_resources_gets as __;
 * @package IGK\System\Console\Commands
 */
 class DbDropCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $command = "--db:droptables";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $desc = "drop project's stored tables";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $usage = "controller";
 
     /**
@@ -25,6 +45,7 @@ class DbDropCommand extends AppExecCommand{
     * @param mixed $command
     * @param null|string $controller
     */
+
     public function exec($command, ?string $controller=null)
     { 
         if (!$controller){

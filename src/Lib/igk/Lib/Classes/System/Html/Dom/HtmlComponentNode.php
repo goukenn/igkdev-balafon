@@ -10,12 +10,18 @@ use IGK\IHtmlComponent;
 * represent the base component node item
 */
 abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_COMPONENT_CTRL_FLAG=0xc001;
     /**
     * 
     * @param mixed $tagname
     * @param mixed $controller the default value is null
     */
+
     public function __construct($tagname, $controller=null){
         $ctrl=$controller ?? igk_getctrl(IGK_COMPONENT_MANAGER_CTRL, false) ?? new ComponentManagerController();
         parent::__construct($tagname);
@@ -30,6 +36,7 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
     /**
     * dispose component
     */
+
     public function Dispose(){
         $c=$this->getController();
         if($c != null){
@@ -41,6 +48,7 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
     /**
     * 
     */
+
     public function getComponentId(){
         return $this->getParam(get_class($this->m_controller).":id");
     }
@@ -48,17 +56,20 @@ abstract class HtmlComponentNode extends HtmlNode implements IHtmlComponent {
     * 
     * @param mixed $uri
     */
+
     public function getComponentUri($uri){
         return $this->getController()->getUri($uri, $this);
     }
     /**
     * 
     */
+
     public function getController(){
         return $this->getFlag(self::IGK_COMPONENT_CTRL_FLAG);
     }
     /**
     *  override this to set component listner
     */
+
     public function setComponentListener($listener, $params=null){}
 }

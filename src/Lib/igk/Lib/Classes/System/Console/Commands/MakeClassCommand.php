@@ -26,9 +26,29 @@ use IGKException;
 class MakeClassCommand extends AppExecCommand
 {
     use ClassBuilderTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--make:class";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "make a new class. This is contextual command.";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--controller:[ctrl]" => "controller that will own the class",
         "--desc:[text]" => "description of the class",
@@ -41,8 +61,23 @@ class MakeClassCommand extends AppExecCommand
         "--file:[file_to_create]" => "generate a file",
         '--scaffold'=>'list of scaffold model to use with type'
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEST_CLASS = 'IGK\Tests';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CORE_NS = "IGK";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = "";
     /**
      * 
@@ -71,6 +106,7 @@ class MakeClassCommand extends AppExecCommand
      * @throws Exception 
      * @throws IGKException 
      */
+
     public function generateFileFromCommand($command, $file)
     {
         extract($this->_initCommand($command));
@@ -108,6 +144,7 @@ class MakeClassCommand extends AppExecCommand
      * @return mixed 
      * @throws Exception 
      */
+
     public function getScaffoldClassService()
     {
         return igk_app()->getService('make:class-scaffold');
@@ -118,6 +155,7 @@ class MakeClassCommand extends AppExecCommand
      * @param mixed $extensions 
      * @return string|null 
      */
+
     static function ScaffoldResolveClass(string $path, $extensions)
     {
         while (count($extensions) > 0) {
@@ -134,6 +172,7 @@ class MakeClassCommand extends AppExecCommand
      * @return mixed 
      * @throws Exception 
      */
+
     protected function resolveTypeDefinition($type)
     {
         if ($scaffold = $this->getScaffoldClassService()) {
@@ -149,6 +188,7 @@ class MakeClassCommand extends AppExecCommand
     /**
     * auto generate doc.
     */
+
     public function showlistOfScaffold(){
         $list = [];
         $docs = [
@@ -170,6 +210,7 @@ class MakeClassCommand extends AppExecCommand
     /**
      * exec command
      */
+
     public function exec($command, $class_path = null, ?string $definition = null)
     { 
         if ($scaffold_help = igk_getv($command->options, '--scaffold')){
@@ -331,6 +372,7 @@ class MakeClassCommand extends AppExecCommand
     /**
     * auto generate doc.
     */
+
     public function help()
     {
         parent::help();
@@ -339,6 +381,7 @@ class MakeClassCommand extends AppExecCommand
     /**
     * auto generate doc.
     */
+
     protected function showUsage()
     {
         Logger::print("Usage : balafon --make:class [options] classname");

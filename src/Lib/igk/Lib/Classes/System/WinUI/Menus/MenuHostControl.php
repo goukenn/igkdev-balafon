@@ -15,12 +15,22 @@ use IGKObject;
 * @package IGK\System\WinUI\Menus
 */
 final class MenuHostControl extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_active, $m_diseable;
+
+    /**
+    * .ctr
+    */
     public function __construct(){    }
 
     /**
     * auto generate doc.
     */
+
     public function getActive(){
         return $this->m_active;
     }
@@ -28,6 +38,7 @@ final class MenuHostControl extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getDiseable(){
         return $this->m_diseable;
     }
@@ -36,6 +47,7 @@ final class MenuHostControl extends IGKObject{
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setActive($v){
         $this->m_active=$v;
     }
@@ -44,6 +56,7 @@ final class MenuHostControl extends IGKObject{
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setDiseable($v){
         $this->m_diseable=$v;
     }

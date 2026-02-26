@@ -19,10 +19,35 @@ use function igk_resources_gets as __;
  */
 class IGKResourceUriResolver
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $environment;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_hashPath;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_options;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DEFAULT_MASK = IGK_DEFAULT_CACHE_FOLDER_MASK;
     /**
      * accept full uri resolution
@@ -37,6 +62,7 @@ class IGKResourceUriResolver
     /**
      * mark path that need to be hashed before resolution
      */
+
     public function hashPath(?string $path = null)
     {
         $this->m_hashPath = $path ? $this->resolve($path, ["initHash" => 1]) : null;
@@ -45,6 +71,7 @@ class IGKResourceUriResolver
      * resolver instance
      * @return self
      */
+
     public static function getInstance()
     {
         if (self::$sm_instance == null) {
@@ -57,6 +84,7 @@ class IGKResourceUriResolver
      * all public directory must have 775 mask 
      * @return void 
      */
+
     public function prepareEnvironment()
     {
         $app_dir = igk_io_applicationdir();    
@@ -147,6 +175,7 @@ class IGKResourceUriResolver
      * @return null|string 
      * @throws IGKException 
      */
+
     public function resolve(string $path, $options = null, $generate = 1) : ?string
     {
         static $appData = null;
@@ -203,6 +232,7 @@ class IGKResourceUriResolver
      * @param string $rp 
      * @return ?string
      */
+
     public function resolveResource(string $rp, bool $fulluri=false):?string{
         $v_cpath = igk_io_collapse_path($rp);
         $v_res_path = $this->_getResPath($v_cpath);
@@ -224,6 +254,11 @@ class IGKResourceUriResolver
         }
         return igk_io_currentrelativeuri($relative);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $uri
+    */
     public function resolveFullUri($uri)
     {
         $data = $this->resolve($uri);
@@ -232,6 +267,12 @@ class IGKResourceUriResolver
         }
         return igk_io_baseuri() . "/" . $data;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @param mixed & $notresolved
+    */
     public function resolveOnly(string $file, &$notresolved = 0)
     {
         $fulluri = $this->fulluri || igk_is_ajx_demand();

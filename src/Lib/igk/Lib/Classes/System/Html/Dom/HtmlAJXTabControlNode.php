@@ -9,16 +9,56 @@ use IGKEvents;
 * represent a tab control node where tab contains came from ajx query
 */
 final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_selected;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tabViewListener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tabcontent;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tablist;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $demoComponent;
-    public const CONTROL = HtmlComponents::AJXTabControl;
+    public
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const CONTROL = HtmlComponents::AJXTabControl;
+
+    /**
+    * auto generate doc.
+    */
     public function getSelectedIndex(){
         return $this->m_selected;
     }
-	public function getSettings($key){
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    */
+    public function getSettings($key){
 		if ($this->m_tabViewListener){
 			return $this->m_tabViewListener->getParam($key);
 		}
@@ -28,6 +68,7 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     * 
     * @param mixed $options the default value is null
     */
+
     protected function _acceptRender($options=null):bool{
         if($this->m_tabViewListener !== null){
             $this->m_tabViewListener->TabViewPage($this, $this->m_tablist, $this->m_tabcontent);
@@ -37,6 +78,7 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     /**
     * 
     */
+
     public function __construct(){
         parent::__construct("div");
         $this->setClass("igk-tabcontrol");
@@ -54,6 +96,7 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     * @param mixed $active the default value is false
     * @param mixed $method the default value is "GET"
     */
+
     public function addTabPage($content=null, $uri=null, $active=false, $method="GET"){
         $li=$this->m_tablist->add("li");
         $li->setParam("uri", $uri);
@@ -76,6 +119,7 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     /**
     * 
     */
+
     public function ClearChilds(){
         $this->m_tablist->clearChilds();
         $this->m_tabcontent->clearChilds();
@@ -84,6 +128,7 @@ final class HtmlAJXTabControlNode extends HtmlCtrlComponentNodeItemBase {
     * 
     * @param mixed $t
     */
+
     public function initDemo($t){
         // + unregister component
         $s=igk_get_component(__METHOD__);
@@ -128,6 +173,7 @@ EOF;
     * force select tag
     * @param string|int $i identified the selected tab
     */
+
     public function select($i){ 
         if($this->m_selected){
             $this->m_selected->setClass("-igk-active");
@@ -161,6 +207,7 @@ EOF;
     * @param mixed $listener
     * @param mixed $param the default value is null
     */
+
     public function setComponentListener($listener, $param=null){
         // mark component to listen for parameter
     }
@@ -170,6 +217,7 @@ EOF;
     * 
     * @param mixed $o
     */
+
     public function setTabViewListener($o){
         $this->m_tabViewListener=$o;
     }
@@ -177,6 +225,7 @@ EOF;
     /**
     *  , "for demonstration"
     */
+
     public function showpage($index=0){
         if($this->Ctrl){
             $this->Ctrl->showTabPage($index);

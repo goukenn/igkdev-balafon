@@ -10,26 +10,55 @@ use IGK\System\Http\Request;
 * @author C.A.D. BONDJE DOUE
 */
 class FormRequestWithFileValidationData{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * .ctr
+    * @param mixed $data
+    */
     public function __construct($data)
     {
         !$data ?? igk_die('missing data');
         $this->m_data = (object)$data;
     }
+
+    /**
+    * check if isset innaccessible property
+    * @param mixed $name
+    */
     public function __isset($name)
     { 
        return isset($this->m_data->$name) || ( $this->isSupportFileRequest() && 
         key_exists($name, $this->m_data->{Request::FILES_FIELD}));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function __empty($name){
         igk_wln_e("check form empty");
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         if (isset($this->m_data->$name)){
             return igk_getv($this->m_data, $name);
         }
         return igk_getv($this->m_data->{Request::FILES_FIELD}, $name);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function isSupportFileRequest(){
         return Request::IsSupportFileRequest($this->m_data);
     }

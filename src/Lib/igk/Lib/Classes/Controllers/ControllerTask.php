@@ -13,18 +13,33 @@ use IGK\System\Http\RouteActionHandler;
  * @package IGK\Controllers
  */
 abstract class ControllerTask{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $controller;
     /**
      * 
      * @var RouteActionHandler
      */
     protected $route;
+
+    /**
+    * .ctr
+    * @param mixed $controller
+    * @param null|RouteActionHandler $route
+    */
     public function __construct($controller, ?RouteActionHandler $route=null)
     {
         $this->controller = $controller;
         $this->route = $route;  
         $this->init(); 
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function init(){
         if (!$this->route){
             Route::LoadConfig($this->controller);
@@ -34,7 +49,14 @@ abstract class ControllerTask{
      * index start entry task
      * @return mixed 
      */
+
     abstract function index();
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public function __call($name, $args)
     {
         $n = $name."_".igk_server()->REQUEST_METHOD;

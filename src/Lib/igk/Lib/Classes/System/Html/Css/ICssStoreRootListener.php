@@ -9,5 +9,10 @@ namespace IGK\System\Html\Css;
 * @author C.A.D. BONDJE DOUE
 */
 interface ICssStoreRootListener{
+
+    /**
+    * auto generate doc.
+    * @param array $tab
+    */
     function store(array $tab);
 }

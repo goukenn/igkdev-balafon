@@ -14,7 +14,17 @@ use ReflectionClass;
 * @initdb()
 */
 class LayoutRules{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEXTAREA_HEIGHT = '18rem';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PADDING = '10px';
     /**
      * get system layout rules
@@ -23,6 +33,7 @@ class LayoutRules{
      * @throws Exception 
      * @throws IGKException 
      */
+
     public static function Get($name){
         $p = igk_sys_reflect_class(static::class);
         $const = $p->getConstants();

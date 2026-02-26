@@ -10,6 +10,12 @@ namespace IGK\Ext\Controllers\Google;
  * @package 
  */
 class GoogleAssets{
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @return callable
+    */
     public static function Icon($name):callable{
         return function($n)use($name){
             $n->google_icon(strtolower(str_replace(" ", "_", $name)));

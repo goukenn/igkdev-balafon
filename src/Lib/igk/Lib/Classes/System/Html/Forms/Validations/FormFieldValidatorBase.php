@@ -11,7 +11,12 @@ use IGKException;
 * @package IGK\System\Html\Forms\Validations
 * @author C.A.D BONDJE DOUE
 */
-abstract class FormFieldValidatorBase implements IFormValidator{     
+abstract class FormFieldValidatorBase implements IFormValidator{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FIELD_INFO_PROPERTY = 'fieldInfo';
     /**
      * allow null
@@ -26,7 +31,9 @@ abstract class FormFieldValidatorBase implements IFormValidator{
      * @return mixed 
      * @throws IGKException 
      */
-    final public function validate($value, $default=null, & $error=[], ...$extra){
+    final
+
+    public function validate($value, $default=null, & $error=[], ...$extra){
         $v_is_require = false;
         $v_allow_null = false;
         $v_allow_empty = false;
@@ -68,6 +75,7 @@ abstract class FormFieldValidatorBase implements IFormValidator{
      * @param null|object $options extra options
      * @return mixed 
      */
+
     protected abstract function _validate($value, $default=null, array & $error=[], ?object $options=null);
     /**
      * factory form field creation validator
@@ -82,6 +90,11 @@ abstract class FormFieldValidatorBase implements IFormValidator{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param bool $allowNull
+    */
     public function allowNull(bool $allowNull){
         $this->m_allowNull = $allowNull;
         return $this;

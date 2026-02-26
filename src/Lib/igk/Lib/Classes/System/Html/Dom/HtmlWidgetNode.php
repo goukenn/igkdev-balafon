@@ -9,10 +9,24 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlWidgetNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "div";
+
+    /**
+    * .ctr
+    * @param null|mixed $tagname
+    */
     public function __construct($tagname=null){
         parent::__construct($tagname);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         parent::initialize();

@@ -20,11 +20,17 @@ use IGKException;
  */
 class EnvironmentCommandScripts
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_caches;
     /**
      * get cached definition 
      * @return mixed 
      */
+
     public static function GetCacheDefinition(){
         if (is_null(self::$sm_caches)){
             self::EnvLoad();
@@ -35,6 +41,7 @@ class EnvironmentCommandScripts
      * get cache file 
      * @return string 
      */
+
     static function GetCacheFile(): string
     {
         return Path::Combine(igk_io_cachedir(), '.env.commands.cache');
@@ -44,6 +51,7 @@ class EnvironmentCommandScripts
      * 
      * @return void 
      */
+
     static function EnvLoad()
     {
         $f = self::GetCacheFile();
@@ -57,6 +65,10 @@ class EnvironmentCommandScripts
         }
         self::$sm_caches = $data ?? self::DetectCachingCommand();
     }
+
+    /**
+    * auto generate doc.
+    */
     static function StoreCache()
     {
         $f = self::GetCacheFile();
@@ -73,6 +85,7 @@ class EnvironmentCommandScripts
      * @throws Exception 
      * @throws IGKException 
      */
+
     static function DetectCachingCommand(?string $dir = null)
     {
         $dir = $dir ?? self::DefaultCommandLocation();
@@ -87,6 +100,7 @@ class EnvironmentCommandScripts
      * get default command location 
      * @return ?string
      */
+
     public static function DefaultCommandLocation(){
         return igk_configs()->commands_dir ??
         igk_app()->getApplication()->configs->commands_dir ?? 
@@ -96,6 +110,7 @@ class EnvironmentCommandScripts
     /**
      * 
      */
+
     public static function GetCommandFile(string $file, ?string $dir = null)
     {
         if ($dir){        
@@ -123,6 +138,7 @@ class EnvironmentCommandScripts
      * @throws IGKException 
      * @throws Exception 
      */
+
     static function LoadDefinition(string $file, &$definition)
     {
         $c_command = &$definition;

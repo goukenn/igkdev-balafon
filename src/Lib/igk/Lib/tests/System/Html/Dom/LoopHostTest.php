@@ -18,8 +18,17 @@ use IGK\System\Html\Templates\Engine\Traits\ExpressionEvalEngineTrait;
 class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
 {
     use ExpressionEvalEngineTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_value;
 
+    /**
+    * .ctr
+    * @param string $content
+    */
     public function __construct(string $content)
     {
         $this->m_value = $content;
@@ -29,6 +38,7 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
     * auto generate doc.
     * @return ?string
     */
+
     public function getValue(): ?string
     {
         return $this->m_value;
@@ -39,6 +49,7 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
     * @param mixed $context
     * @return mixed
     */
+
     public function evaluate($context): mixed
     {
         return self::EvalBindingExpression($this->m_value, (array)$context); // "data";
@@ -91,6 +102,10 @@ class LoopHostTest extends BaseTestCase
             ])
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_loop_with_sub_range()
     {
         $this->assertEquals(
@@ -103,6 +118,10 @@ class LoopHostTest extends BaseTestCase
             ])
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_loop_complex()
     {
         $this->assertEquals(
@@ -119,6 +138,10 @@ class LoopHostTest extends BaseTestCase
             ])
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_loop_second_complex_loop()
     {
         $this->assertEquals(
@@ -139,6 +162,9 @@ class LoopHostTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_html_rendering()
     {
         $n = igk_create_node('div');

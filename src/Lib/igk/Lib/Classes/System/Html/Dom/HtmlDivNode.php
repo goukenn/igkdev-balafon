@@ -10,5 +10,10 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 class HtmlDivNode extends HtmlItemBase {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = "div"; 
 }

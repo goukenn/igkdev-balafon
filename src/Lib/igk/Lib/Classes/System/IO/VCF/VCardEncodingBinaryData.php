@@ -10,11 +10,25 @@ namespace IGK\System\IO\VCF;
 */
 class VCardEncodingBinaryData
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * .ctr
+    * @param mixed $data
+    */
     public function __construct($data)
     {
         $this->m_data  = $data;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getValue()
     {
         return 'ENCODING=b:' . chunk_split(base64_encode($this->m_data), 76, "\n ");

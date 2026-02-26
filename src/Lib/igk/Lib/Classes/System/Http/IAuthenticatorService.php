@@ -10,5 +10,13 @@ use IGK\System\IInjectable;
 * @package IGK\System\Http
 */
 interface IAuthenticatorService extends IInjectable{
+
+    /**
+    * auto generate doc.
+    * @param \IGK\Models\Users $user
+    * @param BaseController $ctrl
+    * @param bool $remember_me
+    * @return ?array
+    */
     function getNewToken(\IGK\Models\Users $user, BaseController $ctrl, bool $remember_me=false):?array;
 }

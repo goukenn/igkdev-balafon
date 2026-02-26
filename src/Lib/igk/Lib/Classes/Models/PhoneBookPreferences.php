@@ -31,13 +31,48 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string|\IGK\Models\PhoneBookEntries $EntryGuid, string|\IGK\Models\PhoneBooks $phoneGuid, string|\IGK\Models\Users $userGuid, int|\IGK\Models\PhoneBookTypes $TypeId, string|datetime $Create_At ="Now()", string|datetime $Update_At ="Now()") add entry if not exists. check for unique column.
 * */
 class PhoneBookPreferences extends ModelBase{
-	const FD_ID="rcphbp_Id";
-	const FD_ENTRY_GUID="rcphbp_EntryGuid";
-	const FD_PHONE_GUID="rcphbp_phoneGuid";
-	const FD_USER_GUID="rcphbp_userGuid";
-	const FD_TYPE_ID="rcphbp_TypeId";
-	const FD_CREATE_AT="rcphbp_Create_At";
-	const FD_UPDATE_AT="rcphbp_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="rcphbp_Id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ENTRY_GUID="rcphbp_EntryGuid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_PHONE_GUID="rcphbp_phoneGuid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_USER_GUID="rcphbp_userGuid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_TYPE_ID="rcphbp_TypeId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="rcphbp_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="rcphbp_Update_At";
 	/**
 	* table's name
 	*/
@@ -50,7 +85,12 @@ class PhoneBookPreferences extends ModelBase{
 	* override refid key 
 	*/
 	protected $refId = "rcphbp_Id";
-	protected $unique_columns = array (
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'rcphbp_EntryGuid',

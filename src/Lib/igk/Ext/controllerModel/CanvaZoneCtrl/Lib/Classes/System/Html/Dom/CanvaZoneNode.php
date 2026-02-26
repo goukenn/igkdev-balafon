@@ -9,15 +9,29 @@ use IGK\System\Html\Dom\HtmlNode;
  */
 class CanvaZoneNode extends HtmlNode
 {
-	private $m_ctrl;
 
-	public function __construct($ctrl){
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_ctrl;
+
+    /**
+    * .ctr
+    * @param mixed $ctrl
+    */
+    public function __construct($ctrl){
 		parent::__construct("canvas");
 		$this->m_ctrl = $ctrl;
 		$this["width"] = "320px";
 		$this ["height"] = "500px;";
 	}
-	public function innerHTML(& $xmlOption=null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed & $xmlOption
+    */
+    public function innerHTML(& $xmlOption=null)
 	{
 		$o = parent::innerHTML($xmlOption);
 		$script =  HtmlNode::CreateWebNode("script");

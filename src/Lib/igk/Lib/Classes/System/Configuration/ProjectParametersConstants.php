@@ -8,5 +8,10 @@ namespace IGK\System\Configuration;
 * @package IGK\System\Configuration
 */
 abstract class ProjectParametersConstants{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const clDataTablePrefix = "clDataTablePrefix";
 }

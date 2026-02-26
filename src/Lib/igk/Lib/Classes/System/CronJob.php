@@ -29,6 +29,10 @@ class CronJob
      * @var ?string
      */
     var $ctrl;
+
+    /**
+    * auto generate doc.
+    */
     public function execute()
     {
         if ($rows = Crons::select_all([
@@ -105,6 +109,7 @@ class CronJob
      * @return void 
      * @throws Exception 
      */
+
     public static function ExecuteCronList(array $crons, callable $handle_cron_script, ?string $exclude_fs = null)
     {
         if (!class_exists('CommandHelper', false))

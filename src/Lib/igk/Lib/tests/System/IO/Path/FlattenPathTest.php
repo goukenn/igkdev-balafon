@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\IO\Path
 */
 class FlattenPathTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_resolv(){ 
         $this->assertEquals(
             'assets/_prj_/CarRental/assets/css/animate.min.css',
@@ -19,6 +23,9 @@ class FlattenPathTest extends BaseTestCase{
         ); 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_resolv_combine(){ 
         $this->assertEquals(
             'assets/_prj_/CarRental/assets/css/animate.min.css',
@@ -26,6 +33,9 @@ class FlattenPathTest extends BaseTestCase{
         ); 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_resolv_combine_1(){ 
         $this->assertEquals(
             'assets/_prj_/CarRental/assets/css/animate.min.css',

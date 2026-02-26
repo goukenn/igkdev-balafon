@@ -8,10 +8,20 @@ namespace IGK\System\Html\Dom\Traits;
 * @package IGK\System\Html\Dom\Trait
 */
 trait AccessibilityTrait{
+
+    /**
+    * auto generate doc.
+    * @param null|string $value
+    */
     public function ariaControls(?string $value){
         $this['aria-controls'] = $value;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $value
+    */
     public function ariaLabelledby(?string $value){
         $this['aria-labelledby'] = $value;
         return $this;
@@ -21,6 +31,7 @@ trait AccessibilityTrait{
      * @param null|string $value 
      * @return $this 
      */
+
     public function ariaLabel(?string $value){
         $this['aria-label'] = $value;
         return $this;

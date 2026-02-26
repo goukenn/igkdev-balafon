@@ -12,11 +12,29 @@ use IGK\System\Html\Dom\HtmlNode;
 */
 class IGKWinUI_framebox extends HtmlNode
 {
-	private $m_script;
-	private $m_nodes;
-	var $closeUri;
 
-	public function __construct()
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_script;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_nodes;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $closeUri;
+
+    /**
+    * .ctr
+    */
+    public function __construct()
 	{
 		parent::__construct("div");
 		$this["class"] = "posab fitw fith loc_t loc_l overflow_none ztop";
@@ -27,6 +45,7 @@ class IGKWinUI_framebox extends HtmlNode
     * auto generate doc.
     * @param null|mixed $options
     */
+
     public function render($options =null)
 	{
 		$out ="";

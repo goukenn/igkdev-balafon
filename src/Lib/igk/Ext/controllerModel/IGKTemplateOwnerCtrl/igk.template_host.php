@@ -15,7 +15,11 @@ use IGK\IUriActionRegistrableController;
  */
 abstract class IGKTemplateHostCtrl extends DefaultPageController implements IUriActionRegistrableController
 {
-	public function LoadTemplate(){
+
+    /**
+    * auto generate doc.
+    */
+    public function LoadTemplate(){
 		throw new IGKException(__METHOD__. " Not Implement");
 	}
 }

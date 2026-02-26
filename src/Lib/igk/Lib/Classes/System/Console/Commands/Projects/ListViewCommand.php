@@ -11,12 +11,38 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class ListViewCommand extends AppExecCommand{
-	var $command='--project:views';
-	var $desc='list view project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--project:views';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='list view project';
 	/* var $options=[]; */
-	var $category = 'project';
-	var $usage = 'controller [options]';
-	public function exec($command, ?string $controller=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller=null) {
 		$ctrl = self::GetController($controller);
 		$views = $ctrl::getViews(false,true);
 		usort($views, function($a, $b){

@@ -11,30 +11,130 @@ use ReflectionProperty;
 * @package IGK\System\Html\Metadatas
 */
 class CoreDocMetadata extends MetadataGroupEntryBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $applicationName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $generator;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $themeColor;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $colorScheme;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $creator;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $publisher;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $robots;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $alternates;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $icons;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $manifest;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $classification;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $other;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $archives;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $abstract;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $itunes;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $assets;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $bookmarks;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $appleItunesApp;
     /**
      * 
      * @var null|array|IGK\System\Html\Metadatas\formatDetection
      */
     var $formatDetection;
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function map(): array {
         static $mapped = null;
         if (is_null($mapped)){
@@ -47,6 +147,12 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
         }
         return $mapped; 
     }
+
+    /**
+    * auto generate doc.
+    * @param string $n
+    * @param mixed $v
+    */
     public function setProperty(string $n, $v)
     {
         switch($n){
@@ -98,6 +204,12 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
         }
         parent::setProperty($n, $v);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    * @param mixed $n
+    */
     public function handle_archives($v, $n){
         $notag = igk_create_notagnode();
         $link = $notag->link();
@@ -106,6 +218,12 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
         $link['href'] = $v;
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    * @param mixed $n
+    */
     public function handle_formatDetection($v, $n){
         $s = '';
         if(is_array($v)){
@@ -118,6 +236,12 @@ class CoreDocMetadata extends MetadataGroupEntryBase{
             return $s;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $content
+    */
     public function bindMetaDef($name, $content){
     }
 }

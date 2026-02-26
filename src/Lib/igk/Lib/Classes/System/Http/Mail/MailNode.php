@@ -10,15 +10,42 @@ namespace IGK\System\Http\Mail;
 */
 class MailNode extends MailNodeBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_inline_style = '';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_render_options;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_resolver;
+
+    /**
+    * .ctr
+    * @param mixed $options
+    * @param mixed $resolver
+    * @param null|string $tagname
+    */
     public function __construct($options, $resolver, ?string $tagname = null)
     {
         parent::__construct($tagname);
         $this->m_render_options = $options;
         $this->m_resolver = $resolver;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function setClass($value){
         // no class preview
     }
@@ -31,6 +58,12 @@ class MailNode extends MailNodeBase
         $cc = $this->m_resolver;
         return $cc($i);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_offsetSet($n, $v)
     {
         switch ($n) {
@@ -46,6 +79,11 @@ class MailNode extends MailNodeBase
         }
         return parent::_access_OffsetSet($n, $v);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $k
+    */
     protected function _access_OffsetGet($k)
     {
         if ($k == 'style') {

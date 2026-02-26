@@ -20,13 +20,24 @@ use IGK\Helper\IO;
 * Represent UtilityActions class
 */
 class UtilityActions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $target;
     /**
     * 
     * @param mixed $ctrl
     * @param mixed $t
     */
+
     public function __construct($ctrl, $t){
         $this->ctrl=$ctrl;
         $this->target=$t;
@@ -34,6 +45,7 @@ class UtilityActions{
     /**
     * 
     */
+
     public function rmDir(){
         $n=igk_getr("clName");
         if(!empty($n)){

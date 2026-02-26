@@ -9,10 +9,24 @@ namespace IGK\System\Database;
 * @author C.A.D. BONDJE DOUE
 */
 class DbQueryExpression{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_expression;
+
+    /**
+    * auto generate doc.
+    */
     public function getValue(){
         return $this->m_expression;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $v
+    */
     protected function setValue(string $v){
         $this->m_expression = $v;
     }
@@ -23,6 +37,7 @@ class DbQueryExpression{
      * @param string $expression 
      * @return static 
      */
+
     public static function Create(string $expression){
         $x = new static;
         $x->m_expression = $expression;

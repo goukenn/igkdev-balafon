@@ -17,6 +17,10 @@ use IGK\System\Html\XML\XmlNode;
 */
 final class HtmlReaderDocument extends XmlNode
 {
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         parent::__construct("DocumentToRender");
@@ -25,6 +29,7 @@ final class HtmlReaderDocument extends XmlNode
     /**
     * auto generate doc.
     */
+
     public function __sleep()
     {
         $t = [];
@@ -35,6 +40,7 @@ final class HtmlReaderDocument extends XmlNode
     * auto generate doc.
     * @param mixed $target
     */
+
     public function CopyTo($target)
     {
         $t = ($c = $this->getChilds()) ? SysUtils::ToArray($c) : null;
@@ -50,6 +56,7 @@ final class HtmlReaderDocument extends XmlNode
     * auto generate doc.
     * @param null|mixed $o
     */
+
     public function RendeAJX($o = null)
     {
         parent::renderAJX($o);
@@ -59,6 +66,7 @@ final class HtmlReaderDocument extends XmlNode
     * auto generate doc.
     * @param null|mixed $options
     */
+
     public function render($options = null)
     {
         $out = IGK_STR_EMPTY;

@@ -19,9 +19,24 @@ use IGKEvents;
  */
 class BalafonInitCommand extends AppExecCommand
 {
-	var $command = Constants::INIT_COMMAND;
-	var $desc = 'initiliaze environment';
-	var $options = [
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = Constants::INIT_COMMAND;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'initiliaze environment';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [
 		'--no-config' => 'flag: reset balafon.config.xml',
 		'--force' => 'flag: fore re-creation',
 		'--primary' => 'flag: if --no-config initialize activate the primary file generation',
@@ -33,8 +48,18 @@ class BalafonInitCommand extends AppExecCommand
 		'--clean'=>'flag: clean install directory',
 		'--install-dir'=>'change the install diectory'
 	];
-	var $category = 'system';
-	var $usage = 'install_dir [options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'system';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'install_dir [options]';
 
 	/**
 	 * 
@@ -42,7 +67,8 @@ class BalafonInitCommand extends AppExecCommand
 	 * @param mixed $argv 
 	 * @return void 
 	 */
-	public static function Handle(& $no_init_environment, array $argv){
+
+    public static function Handle(& $no_init_environment, array $argv){
 		$v_env = igk_environment();
 		$no_init_environment = false;
     	$v_env->NoAppInitFileStruct = false;  
@@ -58,7 +84,8 @@ class BalafonInitCommand extends AppExecCommand
 	 * @param null|string $install_dir 
 	 * @return null 
 	 */
-	public function exec($command, ?string $install_dir = 'src')
+
+    public function exec($command, ?string $install_dir = 'src')
 	{
 		$install_dir = empty($install_dir) ? 'src' : $install_dir;
 		if (property_exists($command->options, '--env-only')) {
@@ -82,12 +109,20 @@ class BalafonInitCommand extends AppExecCommand
 		igk_wln("install: ".$install_dir);
 		return (new BalafonInitEnvironment())->run($command, $install_dir);
 	}
-	public function __construct()
+
+    /**
+    * .ctr
+    */
+    public function __construct()
 	{
 		parent::__construct();
 		$this->registerHook();
 	}
-	public function registerHook()
+
+    /**
+    * auto generate doc.
+    */
+    public function registerHook()
 	{		
 		$fc = null;
 		igk_reg_hook(IGKEvents::HOOK_PREPROCESS_COMMAND_LINE, $fc = function ($e) use (& $fc) {

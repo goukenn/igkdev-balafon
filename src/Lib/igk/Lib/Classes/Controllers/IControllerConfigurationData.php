@@ -21,6 +21,10 @@ use IGK\System\IToJSon;
  * @property ?string $cssThemePrefix controller's default theme prefix
  */
 interface IControllerConfigurationData extends IToArray, IToJSon{
+
+    /**
+    * auto generate doc.
+    */
     public function get();
     public function storeConfig();
 }

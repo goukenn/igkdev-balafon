@@ -23,6 +23,12 @@ if (@file_exists(__DIR__.'/auto_inc.modules.php'))
 * @method static string info()
 */
 abstract class Modules implements IModuleDefinition{
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments){
         return str_replace("_", "\\", $name);
     }

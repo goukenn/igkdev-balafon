@@ -14,6 +14,11 @@ use Illuminate\Contracts\Container\BindingResolutionException;
  * sign provider helper with oauth
  */
 class SignProvider{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ENV_KEY = "signin_provider";
     /**
      * shared redirect uri
@@ -26,6 +31,7 @@ class SignProvider{
      * @return void 
      * @throws BindingResolutionException 
      */
+
     public static function Register(array $providerList){
         $tab = & igk_environment()->createArray(self::ENV_KEY);
         foreach($providerList as $k){
@@ -37,6 +43,7 @@ class SignProvider{
      * @return bool 
      * @throws BindingResolutionException 
      */
+
     public static function IsRegistered(){
         $tab = & igk_environment()->createArray(self::ENV_KEY); 
         return count($tab)>0;  
@@ -47,6 +54,7 @@ class SignProvider{
      * @return void 
      * @throws BindingResolutionException 
      */
+
     public static function Unregister(string $name){
         $tab = & igk_environment()->createArray(self::ENV_KEY);
         unset($tab[$name]);
@@ -57,6 +65,7 @@ class SignProvider{
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function Handle($callback){
         if ($provider = igk_environment()->getArray(self::ENV_KEY, igk_getr("provider"))){
             return $provider->login($callback);
@@ -69,6 +78,7 @@ class SignProvider{
      * @throws BindingResolutionException 
      * @throws IGKException 
      */
+
     public static function GetProvider(string $provider){
         $tab = & igk_environment()->createArray(self::ENV_KEY);
         return igk_getv($tab, $provider);
@@ -78,6 +88,7 @@ class SignProvider{
      * @param mixed $redirect_uri 
      * @return void 
      */
+
     public static function SetRedirectUri($redirect_uri){
         self::$sm_redirect_uri = $redirect_uri;
     }
@@ -85,9 +96,15 @@ class SignProvider{
      * get binded redirect uri
      * @return mixed 
      */
+
     public static function GetRedirectUri(){
         return self::$sm_redirect_uri; 
     }
+
+    /**
+    * auto generate doc.
+    * @param AuthSignInfo $userinfo
+    */
     public static function RegisterUserInfoCallback( AuthSignInfo $userinfo){
         $c = false;
         if ($user = Users::select_row(["clLogin"=>$userinfo->email])){            

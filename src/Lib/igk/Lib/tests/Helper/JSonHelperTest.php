@@ -14,6 +14,10 @@ use IGK\Tests\BaseTestCase;
  */
 class JSonHelperTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_render()
     {
         $d = '{"name":"Charles","email":"cbondje@igkdev.com","locale":"en","authorizations": null,"roles": ["AdminOK","ClientOK"]}';
@@ -23,6 +27,10 @@ class JSonHelperTest extends BaseTestCase
             JSon::Encode($m, (object)["ignore_empty" => true])
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_encoding_with_null()
     {
         $d = [
@@ -42,6 +50,9 @@ class JSonHelperTest extends BaseTestCase
         ); 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_encoding_with_db_cache()
     {
         $d = [

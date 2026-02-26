@@ -9,6 +9,14 @@ namespace IGK\System\Security\Web;
 * @author C.A.D. BONDJE DOUE
 */
 class LoginEmailContentValidator extends EmailContentValidator{
+
+    /**
+    * auto generate doc.
+    * @param mixed & $value
+    * @param mixed $key
+    * @param mixed $missing
+    * @return bool
+    */
     public function validate(&$value, $key, $missing = false): bool
     {
         if (!preg_match('/@[^\.]+(\.[^\.]+)+$/', $value)){

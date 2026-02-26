@@ -26,6 +26,11 @@ use IGKSysUtil;
  */
 abstract class DbUtility
 {
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    */
     public static function EscapeSlashesValueForJSonDetection(string $value)
     {
         return str_replace("/", "\\\\\\\\/", $value);
@@ -34,6 +39,7 @@ abstract class DbUtility
      * prepare columnt list 
      * @var array
      */
+
     public static function PrepareColumnList(array $columns, string $prefix = IGK_FIELD_PREFIX): array
     {
         $user_tab_c = array_combine($columns, array_map(function ($a) use ($prefix) {
@@ -50,6 +56,7 @@ abstract class DbUtility
      * @return void 
      * @throws Exception 
      */
+
     public static function TreatColumnsCondition(&$conditions, $columns)
     {
         if (!$conditions) return;
@@ -68,6 +75,7 @@ abstract class DbUtility
      * @param string $prefix 
      * @return string 
      */
+
     public static function TreatColumnName(string $columnName, ?string $prefix)
     {
         if ($prefix && !igk_str_startwith($columnName, $prefix)) {
@@ -81,6 +89,7 @@ abstract class DbUtility
      * @param null|string $prefix 
      * @return string|string[]|null 
      */
+
     public static function RemoveColumnPrefixName(string $columnName, ?string $prefix)
     {
         if ($prefix) {
@@ -95,6 +104,7 @@ abstract class DbUtility
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function ExportToXMLSchemaData(BaseController $ctrl, $tables)
     {
         $xml = HtmlNode::CreateWebNode('dbdataschema');
@@ -130,6 +140,7 @@ abstract class DbUtility
      * @return void 
      * @throws IGKException 
      */
+
     public static function UpdateDbSchema(BaseController $ctrl, $options = null)
     {
         $file = $ctrl::getDataSchemaFile();
@@ -153,6 +164,7 @@ abstract class DbUtility
     /**
      * 
      */
+
     public static function BackupDataSchema(BaseController $ctrl, $defentries)
     {
         $tb = igk_db_get_ctrl_tables($ctrl);
@@ -180,6 +192,7 @@ abstract class DbUtility
      * @param null|string $prefix 
      * @return string
      */
+
     public static function GetLinkColumn($columnInfo, $column, ?string $prefix = null)
     {
         // 
@@ -204,6 +217,7 @@ abstract class DbUtility
      * @param mixed $conditions 
      * @return array<string|int, mixed> 
      */
+
     public static function TreatSelectCondition(array $columns, array $conditions, ?string $prefix = null)
     {
         $keys = array_keys($conditions);
@@ -234,6 +248,7 @@ abstract class DbUtility
      * @return array<string, IDbColumnInfo>|false 
      * @throws IGKException 
      */
+
     public static function GetReversalUniqueColumn(string $table_name, bool $use_autoincrement = false)
     {
         $r = DbSchemas::GetTableColumnInfo($table_name);
@@ -255,6 +270,7 @@ abstract class DbUtility
      * @return mixed|<string,DbReverseMappingLink>
      * @throws IGKException 
      */
+
     public static function GetReversalMappingLink(ModelBase $model)
     {
         // load link definition if mandatory
@@ -283,6 +299,7 @@ abstract class DbUtility
      * @param mixed $condition 
      * @return array 
      */
+
     public static function PreparateConditionsListToAvoidDuplicate($columns, $condition)
     {
         $tab = [];
@@ -335,6 +352,7 @@ abstract class DbUtility
      * @param string $prefix 
      * @return array<int|string, mixed> 
      */
+
     public static function MapSysValues(array $data, string $prefix = IGK_FIELD_PREFIX)
     {
         return array_combine(array_map(function ($a) use ($prefix) {
@@ -352,6 +370,7 @@ abstract class DbUtility
      * @param array $conditions link model conditions
      * @return void 
      */
+
     public static function CleanRereference(ModelBase $model, ModelBase $link, string $model_column, 
         string $link_column,
         array $conditions)

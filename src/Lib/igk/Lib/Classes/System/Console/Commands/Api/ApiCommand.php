@@ -13,25 +13,61 @@ use IGK\System\IO\File\PHPScriptBuilder;
 * @package IGK\System\Console\Commands\Api
 */
 class ApiCommand extends AppExecCommand{
-	var $command='--api';
-	var $desc='api utility ';
-	var $options=[];
-	var $category = 'api';
-	var $usage = 'action [options]';
-	public function exec($command, ?string $action=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--api';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='api utility ';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'api';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'action [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $action
+    */
+    public function exec($command, ?string $action=null) { 
 		empty($action) ?? igk_die('action is required');
 		if (method_exists($this,$fc = 'action_'.$action)){
 			$this->$fc($command);
 		}
 	}
-	public function help(){	
+
+    /**
+    * auto generate doc.
+    */
+    public function help(){	
 		parent::help();	 
 	}
 	/**
 	 * list api url 
 	 * @return void 
 	 */
-	public function action_ls(){
+
+    public function action_ls(){
 		$v_fc_showRoute = function($routes){
 			foreach($routes as $k=>$r){
 				echo $k;

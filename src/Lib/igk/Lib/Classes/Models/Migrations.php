@@ -31,13 +31,48 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $migration_name, int $migration_batch, string $migration_desc, string $migration_controller, string|datetime $migration_create_at ="NOW()", string|datetime $migration_update_at ="NOW()") add entry if not exists. check for unique column.
 * */
 class Migrations extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_MIGRATION_NAME="migration_name";
-	const FD_MIGRATION_BATCH="migration_batch";
-	const FD_MIGRATION_DESC="migration_desc";
-	const FD_MIGRATION_CONTROLLER="migration_controller";
-	const FD_MIGRATION_CREATE_AT="migration_create_at";
-	const FD_MIGRATION_UPDATE_AT="migration_update_at";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MIGRATION_NAME="migration_name";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MIGRATION_BATCH="migration_batch";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MIGRATION_DESC="migration_desc";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MIGRATION_CONTROLLER="migration_controller";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MIGRATION_CREATE_AT="migration_create_at";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_MIGRATION_UPDATE_AT="migration_update_at";
 	/**
 	* table's name
 	*/

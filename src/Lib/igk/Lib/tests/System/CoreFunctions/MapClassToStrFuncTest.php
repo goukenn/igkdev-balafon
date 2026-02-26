@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class MapClassToStrFuncTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_maptostr_bool(){
         $r = trim(igk_map_array_to_str(['info'=>true]));
         $this->assertEquals('"info"=>true,', $r);

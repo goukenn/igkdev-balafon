@@ -11,7 +11,17 @@ namespace IGK\System\Html\Dom;
 */
 class HtmlCenterBoxNode extends HtmlNode
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $content_node;
+
+    /**
+    * .ctr
+    * @param null|mixed $content
+    */
     public function __construct($content = null)
     {
         parent::__construct("div");
@@ -34,6 +44,7 @@ class HtmlCenterBoxNode extends HtmlNode
     * auto generate doc.
     * @param null|mixed $options
     */
+
     protected function _getRenderingChildren($options = null)
     {
         return [
@@ -47,6 +58,7 @@ class HtmlCenterBoxNode extends HtmlNode
     * @param mixed $force
     * @return bool
     */
+
     protected function _add($n, $force=false):bool {
         return $this->content_node->_add($n, $force);
     }

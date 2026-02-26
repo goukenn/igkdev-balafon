@@ -22,10 +22,16 @@ define("IGK_API_URI", "^/api/v2");
  */
 final class ApiFunctionController extends ApplicationController
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $message = array();
     /**
      * 
      */
+
     public function beginRequest()
     {
         $u = igk_getr("u");
@@ -51,6 +57,7 @@ final class ApiFunctionController extends ApplicationController
      * argument
      * @param mixed $cmd the default value is null
      */
+
     public function datadb($cmd = null, ...$args)
     {
         $args = array_slice(func_get_args(), 1);
@@ -186,6 +193,7 @@ final class ApiFunctionController extends ApplicationController
     /**
      * 
      */
+
     public function endRequest()
     {
         $node = HtmlNode::CreateWebNode("APIResponse");
@@ -200,6 +208,7 @@ final class ApiFunctionController extends ApplicationController
     /**
      * check if this controller allow view
      */
+
     public function getIsVisible():bool
     {
         return false;
@@ -207,6 +216,7 @@ final class ApiFunctionController extends ApplicationController
     /**
      * 
      */
+
     public function getName()
     {
         return IGK_API_CTRL;
@@ -214,6 +224,7 @@ final class ApiFunctionController extends ApplicationController
     /**
      * 
      */
+
     public function getRegUriAction()
     {
         return IGK_API_URI . IGK_REG_ACTION_METH;
@@ -221,6 +232,7 @@ final class ApiFunctionController extends ApplicationController
     /**
      * 
      */
+
     public function getVersion()
     {
         return IGK_API_VERSION;
@@ -229,6 +241,7 @@ final class ApiFunctionController extends ApplicationController
      * 
      * @param mixed $function
      */
+
     public function IsFunctionExposed($function)
     {
         return true;
@@ -236,6 +249,7 @@ final class ApiFunctionController extends ApplicationController
     /**
      * 
      */
+
     public function request()
     {
         $u = igk_getr("u");
@@ -259,6 +273,7 @@ final class ApiFunctionController extends ApplicationController
     /**
      * 
      */
+
     public function sendRequest()
     {
         $node = HtmlNode::CreateWebNode("APIResponse");
@@ -277,6 +292,7 @@ final class ApiFunctionController extends ApplicationController
      * 
      * @param mixed $cmd the default value is null
      */
+
     public function setup($cmd = null)
     {
         igk_wln(__FUNCTION__ . " command");

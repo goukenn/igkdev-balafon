@@ -19,12 +19,46 @@ use SQLQueryUtils;
  */
 class AuthCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $group = "management";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--auth";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'Manage auth';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const AVAILABLE_ACTION = "auths|groups|grant";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = 'controller --action:'.self::AVAILABLE_ACTION;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $action_helps = [];
+
+    /**
+    * auto generate doc.
+    */
     public function help()
     { 
         Logger::success($this->command . " [controller] [--action:options*]");
@@ -42,6 +76,13 @@ class AuthCommand extends AppExecCommand
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $username
+    * @param mixed ...$options
+    */
     public function exec($command, $username = null, ...$options)
     {
         DbCommandHelper::Init($command);

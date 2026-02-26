@@ -13,16 +13,36 @@ use IGK\System\Html\Dom\HtmlComponentNode;
 * auto generate doc.
 */
 class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
-	private $m_users; //list of user attached to this mail box
 
-	private $m_cuser; //current user;
-	private $m_imap;
-	private $m_error; //rerror node;
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_users; //list of user attached to this mail box
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_cuser; //current user;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_imap;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_error; //rerror node;
 
 	/**
 	 * Constructor.
 	 */
-	public function __construct(){
+
+    public function __construct(){
 		parent::__construct("div");
 		$this->m_users = array();
 	}
@@ -36,7 +56,8 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	 * @param string $pwd     The account password.
 	 * @return void
 	 */
-	public function addUser($server, $port, $options,  $login, $pwd){
+
+    public function addUser($server, $port, $options,  $login, $pwd){
 
 		$d = new StdClass();
 		$d->clPort = $port;
@@ -52,7 +73,8 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	 *
 	 * @return void
 	 */
-	public function initView(){
+
+    public function initView(){
 		$this->clearChilds();
 
 		$r = $this->addRow();
@@ -181,7 +203,8 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	 *
 	 * @return void
 	 */
-	public function mbx_rm(){
+
+    public function mbx_rm(){
 	}
 	/**
 	 * View messages in a mailbox folder via AJAX and replace the message zone.
@@ -190,7 +213,8 @@ class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	 * @param string|null $q The base64-encoded folder path; read from request if null.
 	 * @return void
 	 */
-	public function mbx_vmsg($u=null,$q=null){
+
+    public function mbx_vmsg($u=null,$q=null){
 
 		if ($u==null){
 		$tab = igk_getquery_args(base64_decode(igk_getr("q")));

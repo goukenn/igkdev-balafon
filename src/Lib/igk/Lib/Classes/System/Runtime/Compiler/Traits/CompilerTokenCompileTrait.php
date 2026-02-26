@@ -13,11 +13,23 @@ trait CompilerTokenCompileTrait{
      * @var ?ReadTokenOptions
      */
     var $options;
+
+    /**
+    * auto generate doc.
+    * @param string $source
+    * @return ?string
+    */
     public function compileSource(string $source): ?string
     { 
         $this->parseToken($source); 
         return $this->mergeSourceCode();
     }
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @return ?string
+    */
     public function compileFile(string $file): ?string
     {
         if (is_file($file)) {

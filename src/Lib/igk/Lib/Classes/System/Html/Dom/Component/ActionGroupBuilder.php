@@ -8,16 +8,42 @@ namespace IGK\System\Html\Dom\Component;
 * @package IGK\System\Html\Dom\Component
 */
 class ActionGroupBuilder{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $target;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options;
+
+    /**
+    * auto generate doc.
+    */
     public function addSeperator(){
         return $this->target->span()->setClass('igk-sep');
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $name
+    * @param mixed $type
+    * @param null|mixed $value
+    */
     public function input($name=null, $type='text', $value=null){
         $i = $this->target->input($name, $type, $value);
         $i->setClass('action-item');
         return $i;
     }
+
+    /**
+    * auto generate doc.
+    * @param array $items
+    */
     public function build(array $items){
         while(count($items)>0){
             $key = key($items);

@@ -18,18 +18,44 @@ use PHPFormatter;
 * @author C.A.D. BONDJE DOUE
 */
 class FormatCommand extends AppExecCommand{
-	var $command='--format';
-	var $desc='use to format code';
-	var $options=[];
-	var $category = 'code';
-	var $usage = '';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--format';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='use to format code';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'code';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '';
 	/**
 	 * 
 	 * @param mixed $command 
 	 * @param null|string $file 
 	 * @return void 
 	 */
-	public function exec($command, ?string $file=null) { 
+
+    public function exec($command, ?string $file=null) { 
 		igk_assert_die(!$file, 'missing file');
 		$l = IGKServices::FORMATTER_SERVICE;
 		IGKServices::Register($l, FormatterServiceContainer::class);

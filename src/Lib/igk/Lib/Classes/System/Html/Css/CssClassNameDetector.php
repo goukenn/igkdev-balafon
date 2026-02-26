@@ -20,16 +20,45 @@ class CssClassNameDetector
      * @var array<ICssClassList>
      */
     var $list;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CL_REGEX = "/\.\b[a-z][a-z0-9\-]*\b((?::\w+|(?:\[[a-z][a-z0-9\-]*\])))?/i";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MEDIA_KEY = '@media';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_references;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_mapped;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_frames;
     /**
      * media flag in use
      * @var ?string
      */
     private $m_media;
+
+    /**
+    * .ctr
+    */
     function __construct()
     {
         $this->list = [];
@@ -41,6 +70,7 @@ class CssClassNameDetector
      * retrieve frames 
      * @return array 
      */
+
     public function getFrames()
     {
         return $this->m_frames;
@@ -55,6 +85,7 @@ class CssClassNameDetector
      * @param mixed $option 
      * @return string 
      */
+
     public function renderToCss(array $resolv_definition, $option = null)
     {
         $option = $option ?? (object)[
@@ -104,6 +135,7 @@ class CssClassNameDetector
      * @param static $detector 
      * @return string 
      */
+
     static function _RenderList($d, $c, $option, $detector)
     {
         $lf = $option->lf;
@@ -152,6 +184,7 @@ class CssClassNameDetector
      * @param array|null $references 
      * @throws Exception 
      */
+
     public function resolv(string $src, ?array &$references = null)
     {
         $v_c_mkey = self::MEDIA_KEY;
@@ -199,6 +232,7 @@ class CssClassNameDetector
      * @return mixed 
      * @throws Exception 
      */
+
     public function getReferencedByIndex(int $index)
     {
         list($v, $k) = $this->m_mapped ?? $this->m_mapped = [array_values($this->m_references), array_keys($this->m_references)];
@@ -214,6 +248,7 @@ class CssClassNameDetector
      * @return mixed 
      * @throws Exception 
      */
+
     public function getReference(string $sourcekey)
     {
         if ($sourcekey[0] != '.') {
@@ -243,6 +278,7 @@ class CssClassNameDetector
      * get regex definition 
      * @return string 
      */
+
     public function getMatchRegex()
     {
         if ($r = array_keys($this->list)) {
@@ -269,6 +305,7 @@ class CssClassNameDetector
      * @param bool $clear 
      * @return array<string|int, \ICssClassList> 
      */
+
     public function map(array $tab, bool $clear = false)
     {
         if ($clear) {
@@ -369,6 +406,7 @@ class CssClassNameDetector
      * @param null|CssClassNameDetector $detector 
      * @return null 
      */
+
     public static function Detect(array $a, ?CssClassNameDetector  $detector = null)
     {
         $q = $detector ?? new static;

@@ -16,7 +16,17 @@ use IGK\System\ApplicationSessionStorage;
  * @property bool $config in config mode
  */
 class IGKAppInfoStorage extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $data;
+
+    /**
+    * .ctr
+    * @param null|object $o
+    */
     public function __construct(?object $o=null){
         $o = $o ?? $this->createSessionInfoStorage();
         $this->data = $o;        
@@ -25,6 +35,7 @@ class IGKAppInfoStorage extends IGKObject{
     * application storage 
     * @return object 
     */
+
     protected function createSessionInfoStorage(){
         $src = new ApplicationSessionStorage;
         $src->components = igk_prepare_components_storage();
@@ -37,13 +48,27 @@ class IGKAppInfoStorage extends IGKObject{
         //     "components" => igk_prepare_components_storage()
         // ];
     }
+
+    /**
+    * auto generate doc.
+    */
     public function & getData(){
         return $this->data;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function & getSession(){
         $g = & $this->data->session;
         return $g;
     }
+
+    /**
+    * destructor
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v){
         if ($v ===null){
             unset($this->data->$n);
@@ -51,9 +76,19 @@ class IGKAppInfoStorage extends IGKObject{
             $this->data->$n = $v;
         }
     }
+
+    /**
+    * unset innacessible property
+    * @param mixed $n
+    */
     public function __unset($n){
         unset($this->data->$n); 
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function & __get($n)
     {
         $g = null;
@@ -62,14 +97,29 @@ class IGKAppInfoStorage extends IGKObject{
         }
         return $g;
     }
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return [];
     }
+
+    /**
+    * auto generate doc.
+    * @param string $n
+    * @param mixed $v
+    */
     public function store(string $n, $v){
         $this->$n = $v;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $n
+    */
     public function & getRef(string $n){
         if (isset($this->data->$n)){
             $g = & $this->data->$n;

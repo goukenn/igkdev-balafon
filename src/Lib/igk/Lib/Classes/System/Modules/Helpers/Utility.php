@@ -8,6 +8,11 @@ namespace IGK\System\Modules\Helpers;
 * @package IGK\System\Modules\Helpers
 */
 class Utility{
+
+    /**
+    * auto generate doc.
+    * @param string $dirname
+    */
     public static function SanitizeName(string $dirname){
         return preg_replace("/[^0-9_a-z\/]/i", "",$dirname);
     }

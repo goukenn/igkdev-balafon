@@ -9,6 +9,11 @@ namespace IGK\Database;
  * @package IGK\Database
  */
 class DbQueryOptions implements IDbQueryOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PROP_COLUMNS = 'Columns';
     /**
      * selected columns 

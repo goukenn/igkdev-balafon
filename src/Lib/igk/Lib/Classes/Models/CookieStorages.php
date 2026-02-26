@@ -25,10 +25,30 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clIdentifier, string $clName, string|datetime $clDateTime) add entry if not exists. check for unique column.
 * */
 class CookieStorages extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_IDENTIFIER="clIdentifier";
-	const FD_CL_NAME="clName";
-	const FD_CL_DATE_TIME="clDateTime";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_IDENTIFIER="clIdentifier";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NAME="clName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_DATE_TIME="clDateTime";
 	/**
 	* table's name
 	*/

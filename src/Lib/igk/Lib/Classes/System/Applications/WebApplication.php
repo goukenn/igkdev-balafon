@@ -37,7 +37,16 @@ require_once IGK_LIB_CLASSES_DIR . "/IGKCaches.php";
  */
 class WebApplication extends IGKApplicationBase implements IRequestFileHandler
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $file;
+
+    /**
+    * auto generate doc.
+    */
     public function getEntryfile(){
         return $this->file;
     }
@@ -54,6 +63,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function bootstrap($bootoptions = null, ?callable $loader=null)
     { 
         // - |
@@ -163,6 +173,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @return void 
      * @throws IGKException 
      */
+
     public function setDefaultController(?BaseController $controller)
     {
         igk_app()->getControllerManager()->setDefaultController($controller);
@@ -178,6 +189,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @throws RequestException 
      * @throws Exception 
      */
+
     public function handleRequest(string $file, bool $render=true)
     {  
         $srv = igk_server();
@@ -297,6 +309,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @throws ReflectionException 
      * @throws TypeError 
      */
+
     public function run(string $file, $render = 1)
     { 
         $this->file = $file;
@@ -327,6 +340,7 @@ class WebApplication extends IGKApplicationBase implements IRequestFileHandler
      * @param mixed $app 
      * @return void 
      */
+
     public static function InitWebAppLibrary($app){
         $app->library('subdomain');
         $app->library('session');

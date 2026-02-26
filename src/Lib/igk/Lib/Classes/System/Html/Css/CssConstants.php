@@ -13,7 +13,22 @@ class CssConstants{
      * core theme file extension.
      */
     const THEME_FILE_EXT = ".theme.pcss";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const THEME_SELECTOR_PREFIX = 'html[data-theme=';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const THEME_SELECTOR_FORMAT = self::THEME_SELECTOR_PREFIX. "'%s'] ";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SUPPORT_THEME = 'dark|light';
 }

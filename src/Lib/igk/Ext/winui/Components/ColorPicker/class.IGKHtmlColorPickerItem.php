@@ -15,16 +15,37 @@ use IGK\System\Number;
 */
 final class IGKHtmlColorPickerItem extends HtmlNode
 {
-	private $m_script;
-	private $r;
-	private $g;
-	private $b;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_script;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $r;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $g;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $b;
 	/**
 	 * Returns the current color as a hex web color string (e.g. #rrggbb).
 	 *
 	 * @return string
 	 */
-	public function getWebValue(){
+
+    public function getWebValue(){
 		$v_r = Number::ToBase($this->r, 16, 2);
 		$v_g = Number::ToBase($this->g, 16, 2);
 		$v_b = Number::ToBase($this->b, 16, 2);
@@ -34,7 +55,8 @@ final class IGKHtmlColorPickerItem extends HtmlNode
 	/**
 	 * Constructor.
 	 */
-	public function __construct(){
+
+    public function __construct(){
 		parent::__construct("div");
 		$this->setClass("igk-clpicker");
 
@@ -63,7 +85,8 @@ EOF;
 	 * @param mixed $t The demo context or target node.
 	 * @return void
 	 */
-	public function initDemo($t){
+
+    public function initDemo($t){
 		$this["demo"] = "1";
 		$this->div()->Content = "for demo";
 
@@ -75,17 +98,43 @@ EOF;
 */
 final class IGKHtmlCircleColorPickerItem extends HtmlNode
 {
-	private $m_script;
-	private $m_ctrl;
-	private $r;
-	private $g;
-	private $b;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_script;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $r;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $g;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $b;
 	/**
 	 * Returns the current color as a hex web color string (e.g. #rrggbb).
 	 *
 	 * @return string
 	 */
-	public function getWebValue(){
+
+    public function getWebValue(){
 		$v_r = Number::ToBase($this->r, 16, 2);
 		$v_g = Number::ToBase($this->g, 16, 2);
 		$v_b = Number::ToBase($this->b, 16, 2);
@@ -95,7 +144,8 @@ final class IGKHtmlCircleColorPickerItem extends HtmlNode
 	/**
 	 * Constructor.
 	 */
-	public function __construct(){
+
+    public function __construct(){
 		$this->m_ctrl = igk_getctrl("igkcolorpickercomponentcontroller");
 		parent::__construct("div");
 		$this->setClass("igk-circ-clpicker");
@@ -107,7 +157,8 @@ final class IGKHtmlCircleColorPickerItem extends HtmlNode
 	 *
 	 * @return void
 	 */
-	public function initView(){
+
+    public function initView(){
 		$this->clearChilds();
 		$d = $this->div()->setClass("dispib");
 		$c = $d->div();
@@ -133,7 +184,8 @@ EOF;
 	 * @param mixed $t The demo context or target node.
 	 * @return void
 	 */
-	public function initDemo($t){
+
+    public function initDemo($t){
 		$this["demo"] = "1";
 		$this->div()->setClass("demo")->Content = "for demo";
 	}
@@ -149,11 +201,13 @@ final class IGKColorPickerComponentController extends NonVisibleControllerBase
 	 *
 	 * @return bool
 	 */
-	public function getcanModify(){return false;}
+
+    public function getcanModify(){return false;}
 	/**
 	 * Returns whether the resource can be deleted.
 	 *
 	 * @return bool
 	 */
-	public function getcanDelete(){return false;}
+
+    public function getcanDelete(){return false;}
 }

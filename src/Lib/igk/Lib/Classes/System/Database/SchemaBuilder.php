@@ -17,8 +17,22 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
  */
 class SchemaBuilder implements ArrayAccess{
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_output;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_migrations;
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         $this->_output = igk_create_xmlnode(IGK_SCHEMA_TAGNAME);
     }
@@ -29,6 +43,7 @@ class SchemaBuilder implements ArrayAccess{
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function render($options=null){
         return rtrim($this->_output->render($options));
     }
@@ -40,6 +55,7 @@ class SchemaBuilder implements ArrayAccess{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function createTable(string $table, ?string $desc=null){
         $n = $this->_output->add(DbSchemas::DATA_DEFINITION);
         $n["TableName"] = $table;
@@ -52,6 +68,7 @@ class SchemaBuilder implements ArrayAccess{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function migrations(){
         if ($this->_migrations==null){
             $n =  $this->_output->add(DbSchemas::MIGRATIONS_TAG);
@@ -64,25 +81,49 @@ class SchemaBuilder implements ArrayAccess{
      * @param string $comment 
      * @return HtmlCommentNode 
      */
+
     public function comment(?string $comment=null): HtmlCommentNode{
         $n = new HtmlCommentNode();
         $n->setContent($comment);
         $this->_output->add($n);
         return $n;
     }
-    // 
+    //
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_OffsetSet($n,$v){
         $this->_output[$n] = $v;
     }
     //
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetGet($n){
         return $this->_output[$n];
     }
     //
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_offsetExists($n,$v){
         return isset($this->_output[$n]);
     }
     //
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_OffsetUnset($n,$v){
         unset($this->_output[$n]);
     }

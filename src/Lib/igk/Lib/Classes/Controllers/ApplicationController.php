@@ -36,10 +36,35 @@ use function igk_resources_gets as __;
 abstract class ApplicationController extends  PageControllerBase
 implements IDatabaseHost
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_CTRL_APPS_KEY = IGK_USER_SETTING + 0xA0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_CTRL_APP_INIT = self::IGK_CTRL_APPS_KEY + 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGK_CTRL_APP_TEMPLATE = self::IGK_CTRL_APPS_KEY + 2;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $INIT;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_apps;
     /**
      * 
@@ -53,6 +78,7 @@ implements IDatabaseHost
     /**
      *  override this method to handle shortcut evaluationUri according to function and param
      */
+
     protected function _handle_uri_param($fc, $param, $options = null)
     {
         return false;
@@ -60,6 +86,7 @@ implements IDatabaseHost
     /**
      * override to create the application db utility intance
      */
+
     protected function _createDbUtility()
     {
         return new IGKDbModelUtility($this);
@@ -67,6 +94,7 @@ implements IDatabaseHost
     /**
      * 
      */
+
     public function administration()
     {
         $doc = $this->getAppDocument();
@@ -84,6 +112,7 @@ implements IDatabaseHost
      * @param mixed $func
      * @param mixed $args
      */
+
     protected function bind_func($func, $args)
     {
         if ($func) {
@@ -98,6 +127,7 @@ implements IDatabaseHost
     /**
      * check before controller add
      */
+
     public static function CheckBeforeAddControllerInfo($request)
     {
         $title = igk_getv($request, IGK_CTRL_CNF_TITLE);
@@ -115,7 +145,9 @@ implements IDatabaseHost
      * 
      * @param mixed $funcname
      */
-    protected final function checkFunc($funcname)
+    protected final
+
+    function checkFunc($funcname)
     {
         if (igk_is_conf_connected() || $this->UserAllowedTo($funcname))
             return true;
@@ -128,6 +160,7 @@ implements IDatabaseHost
      * 
      * @param mixed $node the default value is null
      */
+
     public function conffunctions($node = null)
     {
         if (!igk_is_conf_connected()) {
@@ -161,6 +194,7 @@ implements IDatabaseHost
      * 
      * @param mixed $clear the default value is false
      */
+
     public function createNewDoc($clear = false)
     {
         $key = $this::name("app_document");
@@ -179,7 +213,9 @@ implements IDatabaseHost
     /**
      * 
      */
-    public final function dbinitentries()
+    public final
+
+    function dbinitentries()
     {
         $s = igk_is_conf_connected() || $this->IsUserAllowedTo(igk_ctrl_auth_key($this, __FUNCTION__));
         if (!$s) {
@@ -227,6 +263,7 @@ implements IDatabaseHost
     /**
      * drop application table from system config
      */
+
     protected static function dropDb($navigate = true, $force = false)
     {
         if (!($c = igk_getctrl(static::class, false))) {
@@ -246,7 +283,9 @@ implements IDatabaseHost
     /**
      * use to handle redirection uri
      */
-    public final function evaluateUri()
+    public final
+
+    function evaluateUri()
     {
         $inf = igk_sys_ac_getpatterninfo();
         if ($inf === null) {
@@ -258,6 +297,7 @@ implements IDatabaseHost
     /**
      * List Exposed Functions
      */
+
     public function functions($n = false)
     {
         if (!igk_server_is_local() && !igk_is_conf_connected()) {
@@ -296,6 +336,7 @@ implements IDatabaseHost
     /**
      * retrieve data schame definition
      */
+
     public function get_data_schemas()
     {
         $u = $this->App->Session->User;
@@ -317,6 +358,7 @@ implements IDatabaseHost
      * primary configuration additional configuration 
      * @return <string,ConfigInfo
      */
+
     public static function GetAdditionalConfigInfo(): array
     {
         return array(
@@ -331,6 +373,7 @@ implements IDatabaseHost
     /**
      * 
      */
+
     public static function GetAdditionalDefaultViewContent()
     {
         return <<<EOF
@@ -346,6 +389,7 @@ EOF;
     /**
      * 
      */
+
     protected function getAllowViewDirectAccess()
     {
         return 0;
@@ -354,6 +398,7 @@ EOF;
     /**
      * 
      */
+
     public function getAppImgUri()
     {
         return igk_html_resolv_img_uri($this->getDataDir() . IGK_APP_LOGO);
@@ -362,6 +407,7 @@ EOF;
     /**
      * 
      */
+
     public function getAppName()
     {
         return $this->getConfig(IGK_CTRL_CNF_APPNAME, static::class);
@@ -370,6 +416,7 @@ EOF;
     /**
      * get if this application is not active
      */
+
     public function getAppNotActive()
     {
         return $this->getConfig(IGK_CTRL_CNF_APPNOTACTIVE);
@@ -380,6 +427,7 @@ EOF;
      * 
      * @return *
      */
+
     public static function &GetApps()
     {
         if (self::$sm_apps === null) {
@@ -402,6 +450,7 @@ EOF;
     /**
      * 
      */
+
     public function getAppTitle()
     {
         return $this->getConfig(IGK_CTRL_CNF_TITLE);
@@ -410,6 +459,7 @@ EOF;
     /**
      * Basic uri pattern
      */
+
     public function getBasicUriPattern()
     {
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, IGK_CTRL_CNF_BASEURIPATTERN);
@@ -419,6 +469,7 @@ EOF;
      * @param string $function 
      * @return string 
      */
+
     protected function getAppAccessUri(string $function): string
     {
         $s = "";
@@ -447,6 +498,7 @@ EOF;
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function getAppUri(?string $function = null, bool $full = true, bool $force_access=false, ?bool $entry_controller = null): ?string
     {
         $entry_controller = $entry_controller ?? $this::IsEntryController();
@@ -493,6 +545,7 @@ EOF;
     /**
      * 
      */
+
     public function getcanAddChild()
     {
         return false;
@@ -501,6 +554,7 @@ EOF;
     /**
      * 
      */
+
     public function getDataTablePrefix()
     {
         return $this->getConfig(IGK_CTRL_CNF_TABLEPREFIX);
@@ -509,6 +563,7 @@ EOF;
     /**
      * 
      */
+
     public function getDb()
     {
         if (!$db = $this->getEnvParam("dbu")) {
@@ -521,6 +576,7 @@ EOF;
     /**
      * 
      */
+
     public function getDomainUriAction(): string
     {
         return "^(/(?P<lang>" . R::GetSupportLangRegex() . "))?" . IGK_REG_ACTION_METH_OPTIONS;
@@ -529,6 +585,7 @@ EOF;
     /**
      * get exposed functions list
      */
+
     public function getExposed()
     {
         static $exposed = null;
@@ -541,6 +598,7 @@ EOF;
     /**
      * 
      */
+
     public function getIsVisible(): bool
     {
         parent::getIsVisible();
@@ -553,6 +611,7 @@ EOF;
     /**
     * auto generate doc.
     */
+
     public function getNoGlobalAction()
     {
         return true;
@@ -561,6 +620,7 @@ EOF;
     /**
      * 
      */
+
     public function getRegInvokeUri(): string
     {
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
@@ -569,6 +629,7 @@ EOF;
     /**
      * get sub application app uri
      */
+
     public function getRegUriAction(): ?string
     {
         $primary = $this->getBasicUriPattern();
@@ -584,6 +645,7 @@ EOF;
     /**
      * get base uri pattern configured
      */
+
     protected function getRootPattern()
     {
         $t = array();
@@ -601,6 +663,7 @@ EOF;
     /**
      * init argument with application's document 
      */
+
     public function getSystemVars()
     {
         $v_key = IGK_CURRENT_DOC_PARAM_KEY;
@@ -621,6 +684,7 @@ EOF;
      * @param mixed|string|\IGK\System\Http\UriHandleObject $u
      * @param mixed $forcehandle default is true. will stop the script 
      */
+
     public function handle_redirection_uri($u, $forcehandle = 1)
     {
         // D: base handle 
@@ -726,6 +790,7 @@ EOF;
      * 
      * @param mixed $code the default value is 0
      */
+
     protected function HandleError($code = 0)
     {
         return 0;
@@ -737,6 +802,7 @@ EOF;
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function initMacros()
     {
         if (is_null($cl = $this->resolveClass(EntryClassResolution::DbInitMacros))) {
@@ -750,6 +816,7 @@ EOF;
      * @return void 
      * @throws IGKException 
      */
+
     protected function _initMacros()
     {
         if (self::IsSysController(static::class)) {
@@ -776,6 +843,7 @@ EOF;
     /**
     * auto generate doc.
     */
+
     protected function _registerApp()
     {
         if ($n = get_class($this)) {
@@ -796,6 +864,7 @@ EOF;
      * init application complete    
      * @param mixed $context init object context 
      */
+
     protected function initComplete($context = null)
     {
         parent::initComplete();
@@ -815,6 +884,7 @@ EOF;
      * force session uris 
      * @return ?array 
      */
+
     protected function forceSessionUris()
     {
         return null;
@@ -825,6 +895,7 @@ EOF;
      * 
      * @param mixed $ctrl
      */
+
     public static function InitEnvironment($ctrl)
     {
         IO::CreateDir($ctrl->getDataDir());
@@ -862,6 +933,7 @@ EOF;
     /**
      * check that if the controller handle base uri
      */
+
     public function is_handle_uri($uri = null)
     {
         if (igk_const('IGK_REDIRECTION') == 1) {
@@ -874,6 +946,7 @@ EOF;
     /**
      * 
      */
+
     public function IsActive()
     {
         $inf = igk_sys_ac_getpatterninfo();
@@ -885,6 +958,7 @@ EOF;
      * 
      * @param mixed $k
      */
+
     public function isAuthKeys($k)
     {
         if (preg_match("/^(" . $this->getAuthKey() . ")/", $k))
@@ -895,6 +969,7 @@ EOF;
     /**
      * get if function is available
      */
+
     protected function IsFuncUriAvailable(&$func)
     {
         $c = new ReflectionMethod($this, $func);
@@ -912,6 +987,7 @@ EOF;
     /**
      * 
      */
+
     public function load_data()
     {
         $doc = $this->getAppDocument();
@@ -935,6 +1011,7 @@ EOF;
     /**
      * 
      */
+
     public function load_data_files()
     {
         if (isset($_FILES["clFileName"])) {
@@ -963,7 +1040,9 @@ EOF;
     /**
      * register action bind
      */
-    protected final function _registerAction()
+    protected final
+
+    function _registerAction()
     {
         $k = $this->getEnvParam("appkeys");
         if (!empty($k)) {
@@ -985,6 +1064,7 @@ EOF;
      * @param mixed $doc the default value is null
      * @param mixed $render the default value is true
      */
+
     protected function renderDefaultDoc($view = 'default', $doc = null, $render = true)
     {
         $d = $doc ?? $this->getAppDocument(true);
@@ -1015,6 +1095,7 @@ EOF;
      * 
      * @param mixed $c
      */
+
     protected function renderError($c)
     {
         igk_dev_wln_e(__FILE__ . "." . __LINE__, "RenderError document");
@@ -1035,6 +1116,7 @@ EOF;
     /**
      *  save data schema
      */
+
     public function save_data_schemas($exit = 1)
     {
         $this->checkFunc(__FUNCTION__);
@@ -1050,6 +1132,7 @@ EOF;
      * 
      * @param  * $t
      */
+
     public static function SetAdditionalConfigInfo(&$t)
     {
         $t[IGK_CTRL_CNF_BASEURIPATTERN] = igk_getr(IGK_CTRL_CNF_BASEURIPATTERN);
@@ -1064,6 +1147,7 @@ EOF;
      * 
      * @param mixed $param
      */
+
     public function setupCtrl($param)
     {
         parent::SetUpCtrl($param);
@@ -1079,6 +1163,7 @@ EOF;
     /**
      * 
      */
+
     public function storeConfigSettings()
     {
         // + bypass invoke parent class       
@@ -1094,6 +1179,7 @@ EOF;
     /**
      * 
      */
+
     public function sync_from_user_data()
     {
         igk_wln(__FUNCTION__ . " Not implements");
@@ -1102,6 +1188,7 @@ EOF;
     /**
      *  synchronize the current user data to target server
      */
+
     public function sync_user_data($login = null)
     {
         if (($login == null) && ($this->User != null))

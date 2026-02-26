@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\TamTam
 */
 class ProjectBuilderTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     function test_validate_data(){
         $json_data = json_decode('{"version":"1.0"}');
         $this->assertTrue( ProjectBuilderHelper::ValidateConfigData($json_data, ProjectSettingValidationData::class) != null );

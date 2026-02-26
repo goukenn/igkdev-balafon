@@ -14,6 +14,11 @@ use IGK\System\Html\Dom\HtmlNode;
 */
 class MySQLDataController extends BaseController{
     use NoDbActiveControllerTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DROP_TABLE_QUERY = 'Drop Table IF EXISTS `%s`;';
     const TABLE_CONSTRAINTS =  DataAdapter::DB_INFORMATION_SCHEMA.'.`TABLE_CONSTRAINTS`';
     protected function getAutoGenerateModels(){

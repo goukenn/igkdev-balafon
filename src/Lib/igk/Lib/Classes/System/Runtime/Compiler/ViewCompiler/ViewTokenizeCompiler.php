@@ -29,15 +29,49 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
      * @var ViewTokenizeOptions
      */
     private $m_tokenOptions;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $converter;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_flags = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_clodeblock = [];
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_tokenOptions = new ViewTokenizeOptions();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed $id
+    * @param mixed $value
+    */
     protected function _handleWhiteSpace($options, $id, $value){
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     public function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $_opt = $this->m_tokenOptions;
@@ -245,11 +279,22 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
             return $this->handleGlobalUseFlag($flag, $option, $id, $value);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param string $source
+    * @return ?string
+    */
     public function compileSource(string $source): ?string
     {
         $this->parseToken($source);
         return $this->mergeSourceCode();
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function mergeSourceCode(): ?string
     {
         return $this->m_tokenOptions->output();
@@ -375,6 +420,15 @@ class ViewTokenizeCompiler  extends TokenCompilerBase
             "options" => $options->flagOptions
         ]);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $flag
+    * @param IReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return bool
+    */
     protected function handleReadClass(&$flag, IReadTokenOptions $options, $id, $value): bool
     {
         $struct = $options->struct_info;

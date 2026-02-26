@@ -14,7 +14,17 @@ use IGKException;
 * @package IGK\Database\Mapping
 */
 class SysDbMapping extends ModelMappingBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_info;
+
+    /**
+    * Called when an object is used as a function.
+    * @param mixed $o
+    */
     public function __invoke($o){
         return $this->map($o);
     }
@@ -23,6 +33,7 @@ class SysDbMapping extends ModelMappingBase{
      * @param array<ModelBase> $arr 
      * @return array<string|int, mixed> 
      */
+
     public function mapArray(array $arr){
         return array_map($this, $arr);
     }
@@ -31,6 +42,7 @@ class SysDbMapping extends ModelMappingBase{
      * @param ModelBase $model
      * @return object
      */
+
     public function map(ModelBase $model){
         $this->m_info  = $this->m_info ?? $this->initInfoFromModel($model);        
         $prefix = $this->m_info['prefix'];
@@ -49,6 +61,7 @@ class SysDbMapping extends ModelMappingBase{
      * @param ?string $prefix 
      * @return string 
      */
+
     protected function resolveMapColumn($column, $prefix){        
         $v_nk = $prefix && igk_str_startwith($column, $prefix)? ltrim(substr($column, strlen($prefix)),' _') : $column;
         return lcfirst($v_nk);
@@ -59,6 +72,7 @@ class SysDbMapping extends ModelMappingBase{
      * @return object 
      * @throws IGKException 
      */
+
     public static function CreateMapping(ModelBase $model){
         $n = basename(igk_uri(get_class($model)));
         $cl = null;
@@ -86,6 +100,7 @@ class SysDbMapping extends ModelMappingBase{
     /**
      * 
      */
+
     protected function initInfoFromModel($model){
         $v_tabInfo = $model->getTableInfo();//->columns();
         $v_prefix = $v_tabInfo->prefix ?? IGK_FIELD_PREFIX;

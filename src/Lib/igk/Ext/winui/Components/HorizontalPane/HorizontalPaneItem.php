@@ -34,28 +34,74 @@ require_once __DIR__. "/IHorizontalPaneListener.php";
 */
 final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 {
-	private $m_pane;
-	private $m_pagelistener;
-	private $m_manager;
-	private $m_infobox;
-	private $m_infoboxScript;
 
-	private $m_pattern;
-	private $m_folder;
-	private $m_ConfigFileName;
-	private $m_ctrl; 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_pane;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_pagelistener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_manager;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_infobox;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_infoboxScript;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_pattern;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_folder;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_ConfigFileName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_ctrl; 
 
 	/**
 	 * get binded controller
 	 * @return mixed 
 	 */
-	public function getCtrl(){
+
+    public function getCtrl(){
 		return $this->m_ctrl;
 	}
 
     /**
     * auto generate doc.
     */
+
     public function getFolder()
 	{
 		return $this->m_folder;
@@ -65,6 +111,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setFolder($v)
 	{
 		$this->m_folder = IO::GetDir($v);
@@ -73,6 +120,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     /**
     * auto generate doc.
     */
+
     public function getConfigFileName()
 	{
 		return $this->m_ConfigFileName;
@@ -82,6 +130,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setConfigFileName($v)
 	{
 		$this->m_ConfigFileName = $v;
@@ -90,6 +139,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     /**
     * auto generate doc.
     */
+
     public function getPattern()
 	{
 		return $this->m_pattern;
@@ -99,6 +149,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setPattern($v)
 	{
 		$this->m_pattern = $v;
@@ -107,6 +158,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     /**
     * auto generate doc.
     */
+
     public function getPane()
 	{
 		return $this->m_pane;
@@ -115,6 +167,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     /**
     * auto generate doc.
     */
+
     public function __toString()
 	{
 		return __CLASS__;
@@ -123,6 +176,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     /**
     * auto generate doc.
     */
+
     public function getHasPage()
 	{
 		return $this->m_pane->pageNode->HasChilds;
@@ -131,6 +185,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     /**
     * auto generate doc.
     */
+
     public function loadingComplete()
 	{
 		$this->configure();
@@ -142,6 +197,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     * @param mixed $ctrl
     * @param null|mixed $folder
     */
+
     public function setCtrl($ctrl, $folder = null)
 	{
 		$this->clearPages();
@@ -173,6 +229,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     /**
     * auto generate doc.
     */
+
     public function storeDBConfigsSetting()
 	{
 		$f = $this->Folder . "/" . $this->ConfigFileName;
@@ -190,6 +247,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     * auto generate doc.
     * @param mixed $uri
     */
+
     public function getOptionsXML($uri)
 	{
 		$d = HtmlNode::CreateWebNode("div");
@@ -207,6 +265,7 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
     * auto generate doc.
     * @param mixed $target
     */
+
     public function EditPaneOptions($target)
 	{
 		if ($target == null)
@@ -222,7 +281,11 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 EOF;
 		$target->Load(igk_html_databinding_treatresponse($s, null, null, null));
 	}
-	public function __construct()
+
+    /**
+    * .ctr
+    */
+    public function __construct()
 	{
 		parent::__construct("div");		
 	}
@@ -230,6 +293,7 @@ EOF;
     /**
     * auto generate doc.
     */
+
     protected function initialize()
 	{
 		$this["class"] = "igk-hpane-container";
@@ -253,6 +317,7 @@ EOF;
     * @param mixed $n
     * @param mixed $t
     */
+
     public function isVisible($n, $t)
 	{
 
@@ -271,6 +336,7 @@ EOF;
     * auto generate doc.
     * @param mixed $data
     */
+
     public function loadData($data)
 	{
 		// igk_ilog("load data");
@@ -299,6 +365,7 @@ EOF;
     * @param null|mixed $options
     * @return bool
     */
+
     protected function _acceptRender($options = null):bool
 	{
 		if (!$this->IsVisible)
@@ -332,6 +399,7 @@ EOF;
     * auto generate doc.
     * @param mixed $listener
     */
+
     public function setPageViewListener($listener)
 	{
 		if (($listener == null) || !igk_reflection_class_implement($listener, IHorizontalPaneListener::class))
@@ -342,6 +410,7 @@ EOF;
     /**
     * auto generate doc.
     */
+
     public function getPageViewListener()
 	{
 		return $this->m_pagelistener;
@@ -350,6 +419,7 @@ EOF;
     /**
     * auto generate doc.
     */
+
     public function flush(){
 		$this->m_pane->flush(); 
 	}
@@ -358,6 +428,7 @@ EOF;
     * auto generate doc.
     * @param null|mixed $attributes
     */
+
     public function addPage($attributes = null)
 	{
 		return $this->m_pane->addPage($attributes);
@@ -366,6 +437,7 @@ EOF;
     /**
     * auto generate doc.
     */
+
     public function clearPages()
 	{
 		$this->m_pane->Clear();
@@ -379,6 +451,7 @@ EOF;
     * @param mixed $IsAutoAnimate
     * @param mixed $AnimType
     */
+
     public function configure(
 		$AnimDuration = 500,
 		$AnimInterval = 20,
@@ -425,7 +498,8 @@ EOF;
 	 * @throws EnvironmentArrayException 
 	 * @throws CssParserException 
 	 */
-	public static function InitComponent($doc, ?BaseController $ctrl=null){
+
+    public static function InitComponent($doc, ?BaseController $ctrl=null){
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl(); 
 		$doc->addTempScript( __DIR__."/Scripts/igk.winui.horizontalScrollPane.js", ["v"=>IGK_VERSION])->activate('defer'); 
 		if (igk_environment()->isOPS()){ 

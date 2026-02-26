@@ -11,12 +11,22 @@ use IGKException;
  */
 class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $condition;
     /**
      * params arguments
      * @var array
      */
     var $args = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $return;
     /**
      * ref function 
@@ -32,10 +42,15 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
      * get if method is anonymous
      * @return bool 
      */
+
     public function getIsAnonymous(): bool
     {
         return empty($this->name);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getHeader()
     {
         $mod = $this->modifiers ? implode(' ', $this->modifiers) : '';
@@ -51,6 +66,7 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
      * @return void 
      * @throws IGKException 
      */
+
     public function buildBuffer(?IReadTokenMergeOption $options=null)
     {  
         $v_buffer = $this->buffer;
@@ -108,14 +124,29 @@ class ReadTokenStructFunctionInfo extends ReadTokenStructInfo
         }
         $this->m_output = $sb . '';
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    */
     public function initFlagOption(ReadTokenOptions $options)
     {
         return ["op" => "name", "condition" => false, "argType" => null, "type" => null];
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function updateParentBuffer(): bool
     {
         return $this->getIsAnonymous();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     public function generatePhpDoc($options)
     {
         $sb = new StringBuilder();

@@ -13,6 +13,11 @@ use IGK\System\Html\CallableConstants;
 * auto generate doc.
 */
 final class IGKCssComponentStyle extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_loadedStyles;
     ///.ctr
     private function __construct(){
@@ -22,6 +27,7 @@ final class IGKCssComponentStyle extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public static function getInstance(){
         $k=igk_get_instance_key(__CLASS__);
         $v=igk_app()->session->getParam($k);
@@ -37,6 +43,7 @@ final class IGKCssComponentStyle extends IGKObject{
     * @param mixed $file
     * @param null|mixed $host
     */
+
     public function regFile($file, $host=null){
         if(!igk_io_file_exists($file))
             return null;

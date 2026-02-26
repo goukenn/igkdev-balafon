@@ -22,11 +22,27 @@ use ReflectionException;
  */
 class MacrosHelper
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $macros;
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public static function Get($name)
     {
         return self::__callStatic($name, null);
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         if (self::$macros == null) {
@@ -139,6 +155,7 @@ class MacrosHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function AddUser(\IGK\Models\Users $user, ?array $data){
         $storage = new IGKObjStorage($data); 
         $r = null; 

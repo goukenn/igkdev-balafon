@@ -21,10 +21,35 @@ use ReflectionException;
 * @author C.A.D. BONDJE DOUE
 */
 class CssControllerStyleRenderer{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $defctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $doc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $debug;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $primaryTheme;
     /**
      * disable or not core style definition on rendering
@@ -36,6 +61,11 @@ class CssControllerStyleRenderer{
      * @var mixed
      */
     var $theme;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $doc_id;
     /**
      * render style
@@ -50,6 +80,7 @@ class CssControllerStyleRenderer{
      * @throws Exception 
      * @throws CssParserException 
      */
+
     public static function RenderStyle(?BaseController $ctrl, ?HtmlDocTheme $theme=null){
         $c = new static;
         $c->ctrl = $ctrl;
@@ -68,6 +99,7 @@ class CssControllerStyleRenderer{
      * @throws Exception 
      * @throws CssParserException 
      */
+
     public function output(){
         ob_start();
         echo '@charset "utf-8";' . "\n";

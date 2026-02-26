@@ -39,19 +39,39 @@ abstract class IGKActionBase implements IActionProcessor
      * @var mixed
      */
     protected $_user;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INIT_TRAIT_PREFIX =   '_init_trait_' ;
     /**
      * 
      * @var BaseController
      */
     protected $ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $context;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $defaultEntryMethod = 'index';
     /**
      * the view entry request 
      * @var string
      */
     protected $fname = '';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_validator;
     /**
      * store error message
@@ -68,8 +88,23 @@ abstract class IGKActionBase implements IActionProcessor
      * @var true
      */
     protected $throwActionNotFound = true;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $handleAllAction;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $baseActionName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FAILED_STATUS = "@error";
     /**
      * define function handle
@@ -89,6 +124,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return void 
      * @deprecated
      */
+
     public function setController(?BaseController $controller){          
         ($controller ? $this->initialize($controller) : $this->ctrl = null);
     }
@@ -96,6 +132,7 @@ abstract class IGKActionBase implements IActionProcessor
      * get default entry method
      * @return string 
      */
+
     public function getDefaultEntryMethod(): string{
         return $this->defaultEntryMethod;
     }
@@ -103,6 +140,7 @@ abstract class IGKActionBase implements IActionProcessor
      * .ctr
      * @return void 
      */
+
     public function __construct()
     {
         if (empty($this->notify_name)) {
@@ -113,6 +151,7 @@ abstract class IGKActionBase implements IActionProcessor
      * 
      * @return mixed 
      */
+
     public function getNotifyName(){
         return $this->notify_name;
     }
@@ -120,12 +159,14 @@ abstract class IGKActionBase implements IActionProcessor
      * called before invoke - used to initialize 
      * @return void 
      */
+
     protected function setup(){ 
     }
     /**
      * action processor host
      * @return $this 
      */
+
     public function getHost()
     {
         return $this;
@@ -134,14 +175,23 @@ abstract class IGKActionBase implements IActionProcessor
      * current app action 
      * @return mixed 
      */
+
     public static function CurrentAction()
     {
         return igk_environment()->get(IGKEnvironment::VIEW_CURRENT_ACTION);
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function CurrentViewName()
     {
         return igk_environment()->get(IGKEnvironment::VIEW_CURRENT_VIEW_NAME);
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function ActionParams()
     {
         return igk_environment()->get(IGKEnvironment::VIEW_ACTION_PARAMS);
@@ -150,6 +200,7 @@ abstract class IGKActionBase implements IActionProcessor
      * get action request validate
      * @return ActionRequestValidator 
      */
+
     protected function getValidator(){
         if (is_null($this->m_validator)){
             $this->m_validator = new ActionRequestValidator($this);
@@ -164,6 +215,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return null|bool 
      * @throws IGKException 
      */
+
     protected function handleBool(?bool $result, string $successMsg, string $dangerMsg)
     {
         if ($result) {
@@ -177,6 +229,7 @@ abstract class IGKActionBase implements IActionProcessor
      * override this to handle request header
      * @return void 
      */
+
     protected function fetchRequestHeader()
     {
     }   
@@ -185,6 +238,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @param mixed $ctrl
      * @return static
      */
+
     protected function initialize(BaseController $ctrl)
     {    
         $this->ctrl = $ctrl;
@@ -203,6 +257,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return mixed 
      * @throws Exception 
      */
+
     public function getUserId()
     {
         return igk_sys_current_user_id();
@@ -214,6 +269,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return static 
      * @throws Exception 
      */
+
     public static function CreateInstance($ctrl, $context = null)
     {
         $cl = static::class;
@@ -231,9 +287,16 @@ abstract class IGKActionBase implements IActionProcessor
      * @param static $action 
      * @return void 
      */
+
     protected static function InitSelfAction( $action){
         igk_environment()->action_handler_instance = $action ; 
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         $c =  (new static);
@@ -251,6 +314,7 @@ abstract class IGKActionBase implements IActionProcessor
      * - override 1 :  (BaseController , $fname, $args, $exit=1, $flag=0,$verb='GET')
      * - override 2 :  ($fname, $args,  $exit=1, $flag=0, $verb='GET')
      */
+
     protected function Handle($fname, $args, $exit = 1, $flag = 0, $verb='GET', $user=null)
     {
         $ctrl = null;
@@ -297,6 +361,11 @@ abstract class IGKActionBase implements IActionProcessor
         }
         return self::HandleActions($fname, $b, $args, $exit, $flag);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $m
+    */
     protected function checkMethodExists(string $m){
         $p = $m = ActionHelper::SanitizeMethodName($m);
         $tab = [$m];
@@ -322,6 +391,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @throws ReflectionException 
      * @throws ActionNotFoundException 
      */
+
     public function __call($name, $arguments)
     {
         // + : -----------------------------------------
@@ -370,6 +440,11 @@ abstract class IGKActionBase implements IActionProcessor
         $this->_handleMethodNotFound($name);
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     protected function _handleMethodNotFound($name){
         if ($this->throwActionNotFound) {
             throw new ActionNotFoundException(sprintf("[%s]->%s(...)", get_class($this), $name));
@@ -379,6 +454,7 @@ abstract class IGKActionBase implements IActionProcessor
      * 
      * @return string|object classname or IActionProcessor Object 
      */
+
     protected function getActionProcessor()
     {
         return IGK\Actions\Dispatcher::class;
@@ -387,6 +463,7 @@ abstract class IGKActionBase implements IActionProcessor
      * get controller
      * @return BaseController 
      */
+
     public function getController()
     {
         return $this->ctrl;
@@ -395,9 +472,15 @@ abstract class IGKActionBase implements IActionProcessor
      * get current user profile
      * @return ?object session user profile
      */
+
     protected function currentUser(){
         return $this->getController()->getUser();
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n)
     {
         if (method_exists($this, $fc = "get" . $n)) {
@@ -415,6 +498,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function HandleActions($viewname, $arrayList, $params, $exit = 1, $flag = 0)
     {
         igk_set_env(IGKEnvironment::VIEW_HANDLE_ACTIONS, array("v" => $viewname, "list" => $arrayList, "args" => $params));
@@ -449,6 +533,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return bool 
      * @throws IGKException 
      */
+
     protected function _handleResponse($response): bool
     {
         // + | --------------------------------------------------------------------
@@ -474,6 +559,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function HandleObjAction(string $fname, $object, array $params = [], $exit = 1, $flag = 0)
     {
         // + | -------------------------------------------------------------
@@ -582,6 +668,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @param Throwable $ex 
      * @return false 
      */
+
     protected function _handleThrowable(Throwable $ex){
         return false;
     }
@@ -592,6 +679,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return mixed|void 
      * @throws Exception 
      */
+
     protected function handleError($code, ...$params)
     {
         $c = $this->getController();
@@ -605,6 +693,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return mixed 
      * @throws IGKException 
      */
+
     protected function get_notify(?string $notifykey = null)
     {
         $notkey = $notifykey ?? $this->getController()->notifyKey($this->notify_name);
@@ -618,6 +707,7 @@ abstract class IGKActionBase implements IActionProcessor
      * @return mixed 
      * @throws IGKException 
      */
+
     protected function assert_notify($result, $success, $danger)
     {
         if ($result) {
@@ -627,10 +717,22 @@ abstract class IGKActionBase implements IActionProcessor
         }
         return $result;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    * @param null|string $target_name
+    */
     protected function notify_danger($msg, ?string $target_name = null)
     {
         $this->get_notify($target_name)->danger($msg);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    * @param null|string $target_name
+    */
     protected function notify_success($msg, ?string $target_name = null)
     {
         $this->get_notify($target_name)->success($msg);
@@ -639,6 +741,7 @@ abstract class IGKActionBase implements IActionProcessor
      * retrieve base uri attached to this controller's action 
      * @return string 
      */
+
     protected function getActionUri(){
         $action_ns = igk_uri($this->getController()->getEntryNamespace().'/'. EntryClassResolution::Actions);
         $uri = '@/'.lcfirst(ltrim(igk_str_rm_start( igk_str_rm_last($uri = igk_uri(static::class), 
@@ -650,6 +753,7 @@ abstract class IGKActionBase implements IActionProcessor
      * index action entry point
      * @return void|mixed|IResponse|null 
      */
+
     public function index()
     {
     }

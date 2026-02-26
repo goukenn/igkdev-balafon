@@ -16,10 +16,16 @@ use IGKHtmlSharedNotifyDialog;
 * @package IGK\Controllers
 */
 final class SharedContentHtmlItemController extends BaseController{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const notifybox="notifybox";
     /**
      * Constructor.
      */
+
     public function __construct(){
         parent::__construct();
     }
@@ -28,6 +34,7 @@ final class SharedContentHtmlItemController extends BaseController{
      *
      * @return mixed
      */
+
     public function getEntities(){
         return $this->m_entity;
     }
@@ -37,6 +44,7 @@ final class SharedContentHtmlItemController extends BaseController{
      * @param string $n The entity name.
      * @return mixed
      */
+
     public function getEntity($n){
         $g=igk_getv($this->m_entity, $n);
         if(($g == null) && ($n == self::notifybox)){
@@ -50,6 +58,7 @@ final class SharedContentHtmlItemController extends BaseController{
      *
      * @return mixed
      */
+
     public function getm_entity(){
         return $this->getEnvParam("entities");
     }
@@ -58,6 +67,7 @@ final class SharedContentHtmlItemController extends BaseController{
      *
      * @return string
      */
+
     public function getName(): string{
         return IGK_SHARED_CONTENT_CTRL;
     }
@@ -67,6 +77,7 @@ final class SharedContentHtmlItemController extends BaseController{
      * @param mixed $context Optional initialisation context.
      * @return void
      */
+
     protected function initComplete($context=null){
         parent::initComplete();
     }
@@ -75,6 +86,7 @@ final class SharedContentHtmlItemController extends BaseController{
     * auto generate doc.
     * @return ?\IGK\System\Html\Dom\HtmlNode
     */
+
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $c=new HtmlSharedContentNode($this);
         return $c;
@@ -85,6 +97,7 @@ final class SharedContentHtmlItemController extends BaseController{
     * @param mixed $name
     * @param mixed $node
     */
+
     public function regEntity($name, $node){
         $this->m_entity[$name]=$node;
     }

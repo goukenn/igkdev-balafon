@@ -11,9 +11,29 @@ require_once __DIR__.'/RequestResponseCode.php';
  */
 class StatusCode extends RequestResponseCode
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BAD_REQUEST = 400;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const UNAUTHORIZED = 401;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FORBIDEN = 403;
+
+    /**
+    * auto generate doc.
+    * @param int $code
+    */
     public static function GetStatus(int $code)
     {
         static $t = null;

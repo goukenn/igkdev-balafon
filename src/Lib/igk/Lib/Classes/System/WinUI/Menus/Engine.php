@@ -14,13 +14,29 @@ use IGKException;
  */
 class Engine{
     use ResolveUriTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_register;
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param mixed $callback
+    */
     public static function RegisterIconEngineCallback(string $name, $callback){
         if (is_null(self::$sm_register)){
             self::$sm_register = [];
         }
         return self::$sm_register[$name] = $callback;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    */
     public static function GetIconEngineCallback(string $name){
         return self::$sm_register ? igk_getv(self::$sm_register, $name) : null;
     }
@@ -32,6 +48,7 @@ class Engine{
      * @param mixed $options 
      * @return void 
      */
+
     public static function BuildMenuItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
         $a = $ajx ? $hi->addAJXA($u) : $hi->addA($u);
         $icon = $options ? igk_getv($options, 'icon') : null;
@@ -49,9 +66,23 @@ class Engine{
         $a->className = $v_class_name;
         igk_hook("filter-menu-item", ["item"=>$a, "ajx"=>$ajx]);
     }
+
+    /**
+    * auto generate doc.
+    * @param HtmlNode $hi
+    */
     public function buildSubMenuItem(HtmlNode $hi ){  
         throw new IGKException('not implement '.__METHOD__);     
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    * @param HtmlNode $hi
+    * @param string $text
+    * @param string $u
+    * @param bool $ajx
+    * @param null|mixed $options
+    */
     public function buildItem(HtmlNode $hi, string $text, string $u="#", bool $ajx=false, $options=null  ){
         return self::BuildMenuItem($hi, $text, $u, $ajx, $options);
     }

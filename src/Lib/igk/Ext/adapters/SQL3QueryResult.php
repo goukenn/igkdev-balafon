@@ -11,11 +11,41 @@ use IGK\Database\DbQueryResult;
 */
 class SQLite3Result extends DbQueryResult
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_result;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_info;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_query;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_columns;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fetch = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_rows = [];
     private function __construct() {}
 
@@ -24,6 +54,7 @@ class SQLite3Result extends DbQueryResult
     * @param null|mixed $option
     * @param int $flag
     */
+
     public function to_json($option = null, int $flag = 0)
     {
         igk_die('not implement ' . __METHOD__);
@@ -33,6 +64,7 @@ class SQLite3Result extends DbQueryResult
     * auto generate doc.
     * @return bool
     */
+
     public function success(): bool
     {
         return true;
@@ -41,6 +73,7 @@ class SQLite3Result extends DbQueryResult
      * get rows definition 
      * @return null|iterable|array 
      */
+
     public function getRows()
     {
         return $this->m_rows;
@@ -50,6 +83,7 @@ class SQLite3Result extends DbQueryResult
     * auto generate doc.
     * @return ?array
     */
+
     public function to_array(): ?array
     {
         return $this->getRows();
@@ -61,6 +95,7 @@ class SQLite3Result extends DbQueryResult
     * @param mixed $query
     * @param mixed $info
     */
+
     public static function CreateResult($result, $query, $info)
     {
         $ri = new self;
@@ -75,6 +110,7 @@ class SQLite3Result extends DbQueryResult
     * auto generate doc.
     * @param int $index
     */
+
     public function getRowAtIndex(int $index)
     {
         if (!$this->m_fetch) {
@@ -93,6 +129,7 @@ class SQLite3Result extends DbQueryResult
      * @return array 
      * @throws Exception 
      */
+
     public function fetch_all()
     {
 
@@ -105,6 +142,7 @@ class SQLite3Result extends DbQueryResult
     /**
     * auto generate doc.
     */
+
     public function fetch()
     {
         $this->m_fetch = true;
@@ -122,6 +160,7 @@ class SQLite3Result extends DbQueryResult
     /**
     * auto generate doc.
     */
+
     public function getColumns()
     {
         $res = $this->m_result; //->res;

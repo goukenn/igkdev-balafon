@@ -7,5 +7,10 @@ namespace IGK\System\WinUI;
 use IGK\System\Html\Dom\HtmlNode;
 /** @package IGK\System\WinUI */
 class DashboardItem extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "div";
 }

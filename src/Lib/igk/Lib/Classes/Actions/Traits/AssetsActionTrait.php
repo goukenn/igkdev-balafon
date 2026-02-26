@@ -9,6 +9,11 @@ use IGK\System\IO\Path;
 * @package IGK\Actions\Traits
 */
 trait AssetsActionTrait{
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $f
+    */
     public function assets($f=null){
 		$f = implode("/", func_get_args());
 		$dir = $this->getController()->getAssetsDir();

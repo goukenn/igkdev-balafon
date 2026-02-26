@@ -13,18 +13,54 @@ use IGK\System\EntryClassResolution;
 * @package IGK\System\Console\Commands
 */
 class RunDumpDbPropertyCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = '--db:dump-property';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--create-query'=>'',
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'dump model property in controller';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = 'model controller';
+
+    /**
+    * auto generate doc.
+    */
     protected function showUsage()
     {
         Logger::print("Usage:\n");
         Logger::info(sprintf("%s model controller",$this->command));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $model
+    * @param null|string $controller
+    */
     public function exec($command, ?string $model=null, ?string $controller = null) { 
         if (igk_is_null_or_empty($model)){
             igk_die('require model');

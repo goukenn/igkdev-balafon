@@ -10,13 +10,46 @@ namespace IGK\Tests\Systems\Compilers\Armonic\Demo;
 * @package IGK\Tests\Systems\Compilers\Armonic\Demo
 */
 abstract class MyTrait{
-    const data = "dsdf"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const data = "dsdf";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $jump = "info";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $a;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $b = "";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $c = [];
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $h = array("basic"=>8,  "find"=>8);
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INVOKE = self::data + "presentation";
 }

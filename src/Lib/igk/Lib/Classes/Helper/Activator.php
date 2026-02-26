@@ -26,7 +26,17 @@ use ReflectionProperty;
  */
 class Activator
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_dyn_sources;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_dyn_class;
     /**
      * register class source 
@@ -81,6 +91,7 @@ class Activator
      * @throws Exception 
      * @throws IGKException 
      */
+
     public static function CreateFromInterface(string $interface, $resolver = null)
     {
         $root = $g = igk_sys_reflect_class($interface);
@@ -177,6 +188,7 @@ class Activator
      * @param mixed $class_name 
      * @return array 
      */
+
     public static function GetClassVar($class_name)
     {
         return get_class_vars($class_name);
@@ -184,6 +196,7 @@ class Activator
     /**
      * create new instanace and validate
      */
+
     static function CreateNewInstanceWithValidation(string $class_name, $data, IContentSecurityProvider $request, IActionRequestValidator $validator, &$errors = null)
     {
         $validation = (method_exists($class_name, $fc = 'ValidationData') ?
@@ -204,6 +217,7 @@ class Activator
      * @param string $class_name 
      * @return mixed 
      */
+
     public static function CreateFrom($options, string $class_name)
     {
         if (is_null($options)) {
@@ -225,6 +239,7 @@ class Activator
      * @throws IGKException 
      * @throws Exception class not found
      */
+
     public static function CreateNewInstance($class_name, $data = null, bool $fullfill = false)
     {
         if ($data instanceof $class_name) {
@@ -308,6 +323,7 @@ class Activator
      * @param mixed $def definition
      * @return void 
      */
+
     public static function InitPrivatePropety(callable $callable, $inf, $def)
     {
         if ($fc = $callable->bindTo($inf)) {
@@ -321,6 +337,7 @@ class Activator
      * @return void 
      * @throws IGKException 
      */
+
     public static function BindProperties($p, $v)
     {
         $tvar = array_keys(get_class_vars(get_class($p)));
@@ -335,6 +352,7 @@ class Activator
      * @param string $className 
      * @return array 
      */
+
     public static function GetInstanceProperties(string $className): array
     {
         $props = [];

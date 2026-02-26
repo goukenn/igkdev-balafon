@@ -8,5 +8,11 @@ namespace IGK\System\Html\Traits;
 * @package IGK\System\Html\Traits
 */
 trait FieldsDefintionItemTrait{
+
+    /**
+    * auto generate doc.
+    * @param array $items
+    * @param null|mixed $options
+    */
     public abstract function fields(array $items, $options=null);
 }

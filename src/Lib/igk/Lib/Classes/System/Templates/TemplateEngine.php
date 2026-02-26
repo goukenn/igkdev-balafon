@@ -13,6 +13,11 @@ use ReflectionFunction;
  */
 class TemplateEngine
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $start;
     private function getFuncArgInfo($rffunc, ?array $creationargs = null)
     {
@@ -28,6 +33,12 @@ class TemplateEngine
         }
         return $info;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param null|mixed $options
+    */
     public function Render($node, $options = null)
     {
         $infos = [];

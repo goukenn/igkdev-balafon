@@ -12,6 +12,11 @@
 * auto generate doc.
 */
 class IGKDateTime extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_day, $m_hour, $m_min, $m_month, $m_sec, $m_year;
     /**
      * Constructor.
@@ -22,6 +27,7 @@ class IGKDateTime extends IGKObject{
      *
      * @return string
      */
+
     public function __toString(){
         return "IGKDateTime:[".$this->day."-".$this->month."-".$this->year."]";
     }
@@ -32,6 +38,7 @@ class IGKDateTime extends IGKObject{
      * @param IGKDateTime|null $date2 The second date.
      * @return int
      */
+
     public static function compareDate($date1, $date2){
         if(!$date1 || !$date2)
             return -2;
@@ -46,6 +53,7 @@ class IGKDateTime extends IGKObject{
      * @param string $value  The date string to parse.
      * @return IGKDateTime|null
      */
+
     public static function CreateFrom($format, $value){
         $tab=(object)date_parse_from_format($format, $value);
         if($tab->error_count == 0){
@@ -69,6 +77,7 @@ class IGKDateTime extends IGKObject{
     * auto generate doc.
     * @param mixed $birthdate
     */
+
     public static function GetAge($birthdate){
         return (new DateTime())->diff(new DateTime($birthdate))->y;
     }
@@ -77,6 +86,7 @@ class IGKDateTime extends IGKObject{
     * auto generate doc.
     * @param mixed $format
     */
+
     public function getDate($format){
         $s=$format;
         $s=str_replace("Y", $this->year, $s);
@@ -91,6 +101,7 @@ class IGKDateTime extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getday(){
         return $this->m_day;
     }
@@ -98,6 +109,7 @@ class IGKDateTime extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function gethour(){
         return $this->m_hour;
     }
@@ -105,6 +117,7 @@ class IGKDateTime extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getmin(){
         return $this->m_min;
     }
@@ -112,6 +125,7 @@ class IGKDateTime extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getmonth(){
         return $this->m_month;
     }
@@ -119,6 +133,7 @@ class IGKDateTime extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getsec(){
         return $this->m_sec;
     }
@@ -126,6 +141,7 @@ class IGKDateTime extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getyear(){
         return $this->m_year;
     }
@@ -135,6 +151,7 @@ class IGKDateTime extends IGKObject{
     * @param mixed $date1
     * @param mixed $date2
     */
+
     public static function isDateEqual($date1, $date2){
         return self::compareDate($date1, $date2) == 0;
     }
@@ -144,6 +161,7 @@ class IGKDateTime extends IGKObject{
     * @param mixed $date1
     * @param mixed $date2
     */
+
     public static function isDateMonthEqual($date1, $date2){
         return (self::IsDateYearEqual($date1, $date2) === true) && ($date1->month == $date2->month);
     }
@@ -153,6 +171,7 @@ class IGKDateTime extends IGKObject{
     * @param mixed $date1
     * @param mixed $date2
     */
+
     public static function isDateYearEqual($date1, $date2){
         if(!$date1 || !$date2)
             return -2;

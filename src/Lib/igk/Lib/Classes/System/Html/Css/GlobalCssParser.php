@@ -6,11 +6,26 @@ use IGK\System\IO\Configuration\ConfigurationReader;
  * @package IGK\System\Html\Css
  */
 class GlobalCssParser{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $definition;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $source;
     private function __construct()
     {
     }
+
+    /**
+    * auto generate doc.
+    * @param string $content
+    */
     public static function Parse(string $content){
         $ln = strlen($content);
         $pos = 0;

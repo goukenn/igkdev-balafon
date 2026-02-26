@@ -13,17 +13,48 @@ use IGK\Tests\Controllers\ModuleBaseTestCase;
 */
 class ModuleMakeClassCommand extends AppExecCommand{
     use ClassBuilderTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = '--module:make-class';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'module';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'help create a class|interface|trait for module';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--type:[type]'=>'class type. class|interface|trait',
         "--desc:[text]" => "description of the class",
         "--test" => "create a test file"
     ];
+
+    /**
+    * auto generate doc.
+    */
     public function showUsage(){
         $this->showCommandUsage(" module [class_path] [options]");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $module
+    * @param null|string $class_path
+    */
     public function exec($command, ?string $module = null, ?string $class_path=null) 
     {
         if (!$module || !($mod = igk_get_module($module))){

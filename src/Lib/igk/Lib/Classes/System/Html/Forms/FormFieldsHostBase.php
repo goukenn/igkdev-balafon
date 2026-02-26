@@ -93,6 +93,13 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
         }
         return $data;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReflectionProperty $props
+    * @param mixed $v_a
+    * @param mixed & $r
+    */
     public static function GetFormFieldPropertyType(ReflectionProperty $props, $v_a, & $r){
         if ($v_a){
             if (igk_getv($v_a, 'required')){
@@ -104,6 +111,12 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
         }
         return self::GetPropsType($props, $r) ?? 'text';
     }
+
+    /**
+    * auto generate doc.
+    * @param ReflectionProperty $props
+    * @param mixed & $r
+    */
     public static function GetPropsType(ReflectionProperty $props, & $r){
         if (ReflectionHelper::PropertyHasType($props)) {
             $v_gt = $props->getType();
@@ -118,6 +131,11 @@ abstract class FormFieldsHostBase extends InspectorFormFieldValidationBase
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    */
     public static function GetFieldTypeFromPrimitive(string $type)
     {
         return igk_getv([

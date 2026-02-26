@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Css
 */
 class CssUtilsTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_detected_operator(){
         $tabs = CssUtils::GetClassValues("-value +info");
 
@@ -21,12 +25,19 @@ class CssUtilsTest extends BaseTestCase{
         ], $tabs);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_remove_transform(){
         $v =  'color:[cl:red]; [trans:2.s ease] display:block';
         //remove brank definitions  
         $v = CssUtils::RemoveNoTransformPropertyStyle($v);
         $this->assertEquals('color:[cl:red];', $v);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_remove_transform_before(){
         $v =  'color:blue; border: 1px    solid [cl:red]; display:block';
                     //remove brank definitions 
@@ -34,17 +45,28 @@ class CssUtilsTest extends BaseTestCase{
         $v = CssUtils::RemoveNoTransformPropertyStyle($v);
         $this->assertEquals('border:1px solid [cl:red];', $v);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssutils_remove_transform_litteral_style(){
         $v ="{sys:posab, fitw} margin-top:-10px; {sys:flex}  content:'{present   day}'; [trans: .5s all    ease-out]  color:indigo;"; 
         $v = CssUtils::RemoveTransformLitteralFrom($v);
         $this->assertEquals('margin-top:-10px;content:\'{present   day}\';[trans:.5s all ease-out]color:indigo;', $v);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssutils_check_default_style(){
         $v ="{sys:posab, fitw} margin-top:-10px; visibility: hidden; [trans: .5s all ease-out] opacity:0; left:0px; right:0px; z-index: 100; min-height: 80px; background-color: [cl:menuLayerBackground,#222a];"; 
         $v = CssUtils::RemoveNoTransformPropertyStyle($v);
         $this->assertEquals('background-color:[cl:menuLayerBackground,#222a];', $v);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_check_default_in_string_style(){
         $v ="m:['sys: -10px;'];"; 
         $v = CssUtils::RemoveNoTransformPropertyStyle($v);

@@ -27,19 +27,44 @@ use ReflectionException;
 */
 final class HtmlCssClassValueAttribute extends HtmlItemAttribute
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_classes, $m_expressions;
-    private $m_listener; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_listener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_regClass = null;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_treat_ClassName;
     /**
      * 
      * @param ?callable $listener 
      * @return void 
      */
+
     public function setListener($listener){
         $this->m_listener = $listener;
         return $this;
-    }   
+    }
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_classes = array();
@@ -49,6 +74,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     /**
     * auto generate doc.
     */
+
     public function __serialize()
     {
         if (igk_get_env("seri")) {
@@ -65,6 +91,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * auto generate doc.
     * @param mixed $data
     */
+
     public function __unserialize($data)
     {
         if (is_array($data)) {
@@ -89,6 +116,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function __toString()
     {
         return $this->getValue();
@@ -172,6 +200,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
      * add css class value
      * @param mixed|array|object $class
      */
+
     public function add($class)
     {
         if (empty($class))
@@ -234,6 +263,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     /**
     * auto generate doc.
     */
+
     static function ClassDefinitionTreatment(){
         $r = new RegexMatcherContainer;
         $r->match('(?i)\.([\\w+\\-\\\\]+)\\b', 'word');
@@ -262,6 +292,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
      * clear classes_name storage
      * @return void 
      */
+
     public function Clear()
     {
         $this->m_expression = array();
@@ -272,6 +303,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
      * @param mixed $name 
      * @return bool 
      */
+
     public function contain($name)
     {
         return isset($this->m_classes[$name]);
@@ -280,6 +312,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     /**
     * auto generate doc.
     */
+
     public function evalClassStyle()
     {
         $out = IGK_STR_EMPTY;
@@ -297,6 +330,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     /**
     * auto generate doc.
     */
+
     public function getKeys()
     {
         return array_keys($this->m_classes);
@@ -320,6 +354,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     /**
     * auto generate doc.
     */
+
     public static function GetRegClass()
     {
         return self::_GetRegClass();
@@ -330,6 +365,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * @param null|mixed $options
     * @return string
     */
+
     public function getValue($options = null):string
     {
         $out = IGK_STR_EMPTY;
@@ -368,6 +404,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * auto generate doc.
     * @param mixed $v
     */
+
     public static function IsCssChild($v)
     {
         if (!IGKApp::IsInit()) {
@@ -388,6 +425,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * auto generate doc.
     * @param mixed $class
     */
+
     public function remove($class)
     {
         if (empty($class))
@@ -401,6 +439,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * auto generate doc.
     * @param mixed $expression
     */
+
     public function setClasses($expression)
     {
         $tb = array_filter(explode(" ", $expression));
@@ -414,6 +453,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * auto generate doc.
     * @param mixed $key
     */
+
     public static function UnRegClass($key)
     {
         self::_UnRegClass($key);
@@ -423,6 +463,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
     * auto generate doc.
     * @param mixed $name
     */
+
     public function __isset($name)
     {
         return isset($this->m_classes[$name]);
@@ -432,6 +473,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
      * @param mixed $expression 
      * @return void 
      */
+
     public function addListener($expression){
         if (!is_null($expression)){
             $this->m_expressions[] = $expression;
@@ -441,6 +483,7 @@ final class HtmlCssClassValueAttribute extends HtmlItemAttribute
      * get stored classes definition
      * @return array 
      */
+
     public function getClasses(){
         return $this->m_classes;
     }

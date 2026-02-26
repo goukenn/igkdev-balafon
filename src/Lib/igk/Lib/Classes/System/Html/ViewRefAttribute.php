@@ -8,11 +8,17 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 class ViewRefAttribute implements IHtmlTemplateAttribute{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $data;
     /**
      * get expression
      * @return string 
      */
+
     public function expression():string{
         return $this->data;
     }

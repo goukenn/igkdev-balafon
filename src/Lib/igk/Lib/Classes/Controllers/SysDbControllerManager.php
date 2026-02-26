@@ -10,6 +10,10 @@ use IGKException;
  * @package IGK\Controllers
  */
 class SysDbControllerManager{
+
+    /**
+    * auto generate doc.
+    */
     public static function getInstance(){
         static $sm ;
         if ($sm === null){
@@ -25,6 +29,7 @@ class SysDbControllerManager{
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function GetDataTableDefinition(?string $table=null){
         $ctrl = igk_getctrl(SysDbController::class);
         $cnf = null;
@@ -43,6 +48,7 @@ class SysDbControllerManager{
      * ]
      * @throws IGKException 
      */
+
     public static function GetDataTableDefinitionFormController(?BaseController $ctrl, string $tablename){
         $g = null;
         if (($ctrl===null) || ($ctrl instanceof SysDbController)){ 

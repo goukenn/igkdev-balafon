@@ -9,17 +9,53 @@ namespace IGK\System\Regex;
  */
 class FileMatcher
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NOT_MATCH = 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $type = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $base_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $regex;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $flags = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tab;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_init;
     /**
      * parse matcher
      * @return null|string 
      */
+
     public function parseMachter():?string{
         if (is_null($this->regex)){
             return null;
@@ -34,6 +70,7 @@ class FileMatcher
      * @param null|string $file 
      * @return int|bool 
      */
+
     public function match(?string $file)
     {
         if (!$this->m_init){
@@ -49,6 +86,11 @@ class FileMatcher
         }
         return $r;
     }
+
+    /**
+    * Called when an object is used as a function.
+    * @param null|string $file
+    */
     public function __invoke(?string $file)
     {
         return $this->match($file);

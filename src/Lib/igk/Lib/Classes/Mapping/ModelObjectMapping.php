@@ -25,6 +25,12 @@ class ModelObjectMapping{
      * @var ?array
      */
     var $mapping;
+
+    /**
+    * .ctr
+    * @param \IGK\Models\ModelBase $model
+    * @param null|string $prefix
+    */
     public function __construct(\IGK\Models\ModelBase $model, ?string $prefix){
         $this->model = $model;
         $this->prefix = $prefix;
@@ -35,6 +41,7 @@ class ModelObjectMapping{
      * @param mixed $ob object to bind 
      * @return object|bool 
      */
+
     public function map($data, $ob=null){
         $keys = array_fill_keys($this->model->colKeys(), 1); 
         $result = false;

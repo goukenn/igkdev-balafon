@@ -9,16 +9,42 @@ use Exception;
 * @package IGK\Database
 */
 class DbQueryCondition{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $row;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $operand = 'AND';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OP_AND = 'AND';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OP_OR = 'OR';
     /**
      * association query array 
      * @param array $data 
      * @return void 
      */
+
     public function set(?array $data){
         $this->m_data = $data;
     }
@@ -28,15 +54,27 @@ class DbQueryCondition{
      * @param 'OR'|'AND' $operand tag 
      * @return void 
      */
+
     public function __construct($obj, $operand='AND')
     {
         $this->row = $obj;
         $this->m_data = [];
         $this->operand = $operand;
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         return igk_getv($this->row, $n);
     }
+
+    /**
+    * destructor
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v){ 
         $pk = ltrim($n, "@!<=>");
         if (property_exists($this->row, $pk)){
@@ -48,6 +86,10 @@ class DbQueryCondition{
         }
         $this->row->$n = $v;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function to_array(){
         return $this->m_data;
     }
@@ -58,6 +100,7 @@ class DbQueryCondition{
      * @return $this 
      * @throws Exception 
      */
+
     public function __call($n, $arguments){
         $this->__set($n, $arguments[0]);
         return $this;
@@ -67,6 +110,7 @@ class DbQueryCondition{
      * @param array $list 
      * @return static 
      */
+
     public static function Create(array $list, $operand = self::OP_AND){
         $s = new static((object)array_fill_keys (array_keys($list), null));
         $s->m_data = $list; 

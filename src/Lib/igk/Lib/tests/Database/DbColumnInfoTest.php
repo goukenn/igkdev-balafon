@@ -14,6 +14,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class DbColumnInfoTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     function test_dbcolumninfo_createlength(){
         $g = new DbColumnInfo([
             "clType"=>"varchar(30)"
@@ -34,6 +38,10 @@ class DbColumnInfoTest extends BaseTestCase{
         $this->assertEquals('varchar', strtolower($g->clType));
 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_dbcolumninfo_link_column_definition(){
         $g = new DbColumnInfo([
             "clType"=>"int",
@@ -43,6 +51,10 @@ class DbColumnInfoTest extends BaseTestCase{
         $this->assertEquals('clguid', strtolower($g->clLinkColumn));
 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_dbcolumninfo_column_not_null(){
         $g = new DbColumnInfo([
             "clType"=>"int",

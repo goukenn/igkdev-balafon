@@ -35,6 +35,11 @@ class ModelArrayMapping{
         $this->info = $model->getTableInfo();
         $this->model = $model;
     }
+
+    /**
+    * Called when an object is used as a function.
+    * @param mixed $a
+    */
     public function __invoke($a){
         $info = $this->info;
         $g = igk_createObj();

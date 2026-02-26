@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Configurations
 */
 class ParseLitteralTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_parse_configuration(){
         $g= ConfigurationReader::ParseEnumLitteralValue("home=1,3,basic=4");
         $this->assertEquals((object)[

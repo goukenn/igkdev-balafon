@@ -14,9 +14,29 @@ abstract class ViewExpressionArgHelper{
      * define setter object variable : new ViewExpressionSetter($vars);
      */
     const SETTER_VAR = '___IGK_PHP_SETTER_VAR___';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const GETTER_VAR = '___IGK_PHP_GETTER_VAR___';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const EXPRESSION = '___IGK_PHP_EXPRESSION___';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RESPONSE = '___IGK_PHP_RESPONSE___';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public static $Variables = [];    
     /**
      * get variable property
@@ -24,6 +44,7 @@ abstract class ViewExpressionArgHelper{
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function GetVar(string $name){
         $c = igk_array_peek_last(self::$Variables); 
         if ($c){

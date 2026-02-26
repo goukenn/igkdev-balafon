@@ -12,12 +12,28 @@ use IGK\System\Library\session;
 * @author C.A.D. BONDJE DOUE
 */
 class EmptySessionCommand extends AppExecCommand{
-	var $command='--empty-session';
-	var $desc='reset sess to force it reloads'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--empty-session';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='reset sess to force it reloads'; 
 	/* var $options=[]; */
 	/* var $category = ''; */
 	/* var $usage = ''; */
-	public function exec($command, ?string $sessionid =null) { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $sessionid
+    */
+    public function exec($command, ?string $sessionid =null) { 
 		$sessionid || igk_die('required session id');
 		if (file_exists( $file = session::SessionPath($sessionid))){
 			igk_io_w2file($file, serialize(['igk'=>'']));

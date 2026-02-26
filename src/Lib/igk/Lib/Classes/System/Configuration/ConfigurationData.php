@@ -13,7 +13,18 @@ use IGKObject;
  */
 class ConfigurationData extends IGKObject implements ArrayAccess{  
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected  $m_configs;
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_OffsetSet($n, $v){
         if (is_null($n)){
             igk_die("set null as array key not allowed");
@@ -24,12 +35,27 @@ class ConfigurationData extends IGKObject implements ArrayAccess{
         }
         $this->m_configs[$n] = $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetGet($n){
         return igk_getv($this->m_configs,$n);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_offsetExists($n){
         return isset($this->m_configs[$n]);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetUnset($n){
         unset($this->m_configs[$n]);
     }

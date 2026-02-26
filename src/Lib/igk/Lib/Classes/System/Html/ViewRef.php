@@ -8,10 +8,25 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 class ViewRef implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $data;
+
+    /**
+    * .ctr
+    * @param mixed $data
+    */
     public function __construct($data){
         $this->data = $data;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options = null) {
         // + evaluate expression        
         if ($options && ($options->renderingContext == RenderingContext::TEMPLATE)){
@@ -25,6 +40,10 @@ class ViewRef implements IHtmlGetValue{
         }
         return $this->data;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString(){
         return $this->data;
     }

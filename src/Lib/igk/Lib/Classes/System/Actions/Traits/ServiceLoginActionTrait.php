@@ -11,12 +11,25 @@ use IGK\System\Services\SignProvider;
 */
 trait ServiceLoginActionTrait{
     use FormLoginActionTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $serviceLoginSigninView = 'ServiceLogin';
+
+    /**
+    * auto generate doc.
+    */
     public function ServiceLogin(){
         if ($this->currentUser()){
             $this->redirect = $this->getController()->uri('');
         }         
     }
+
+    /**
+    * auto generate doc.
+    */
     public function connect(){ 
         // + | --------------------------------------------------------------------
         // + | connection with service providers - autoloaded 

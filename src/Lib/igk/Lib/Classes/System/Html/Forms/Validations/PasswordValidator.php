@@ -32,6 +32,10 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
             && preg_match("/[#@_!\?]/", $value ) // <- contains special symbol
         ;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _initFieldRequirement(){
         $f = new FieldInfo();
         $f->maxLength = IGK_PWD_MAX_LENGTH;
@@ -46,6 +50,7 @@ class PasswordValidator extends FormFieldValidatorBase implements IFormValidator
      * @param array $error 
      * @return null|mixed passing value or mixed 
      */
+
     protected function _validate($value, $default=null,  & $error=[], ?object $options=null){    
         $fieldinfo = $fieldinfo ?? $this->_initFieldRequirement();
         if (empty($value)){

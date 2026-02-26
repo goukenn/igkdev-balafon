@@ -12,7 +12,11 @@ use IGK\Resources\R;
 */
 abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	public function __construct(){
+
+    /**
+    * .ctr
+    */
+    public function __construct(){
 		parent::__construct();
 	}
 	//
@@ -21,6 +25,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @return ?IModelDefinitionInfo
     */
+
     public function getDataTableInfo(): ?IModelDefinitionInfo{
 		return null;
 	}
@@ -29,6 +34,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @param null|mixed $context
     */
+
     protected function initComplete($context=null){
 		parent::initComplete();
 		$k = "^/blog(/:function(/:params+)?)?";
@@ -38,6 +44,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public function evaluateUri(){
 		$inf = igk_sys_ac_getpatterninfo();
 		$p = $inf->getParams();
@@ -64,6 +71,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public function getcanAddChild(){
 		return false;
 	}
@@ -72,6 +80,7 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @param mixed $c
     */
+
     public function renderError($c){
 			//render error
 			$d = new IGKHtmlDoc($this->App, true);

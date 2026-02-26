@@ -15,11 +15,16 @@ use IGK\Controllers\BaseController;
  */
 abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getCanAddChild(){return false;}
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild(){return false;}
 	/**
 	 * warning initialize 
 	 */
-	protected function initComplete($context=null)
+
+    protected function initComplete($context=null)
 	{
 		parent::initComplete($context); 
 		$clname = ".".strtolower($this->Name);
@@ -27,7 +32,12 @@ abstract class IGKCookiesWarningCtrl  extends \IGK\Controllers\ControllerTypeBas
 		igk_css_regclass($clname." span","line-height:1; font-size:0.8em;  display:inline-block; vertical-align:middle; ");
 		igk_css_regclass($clname." .btn_close","[res:btn_close_warning]{sys:dispb,posab} top:50%; right:4px;margin-top:-12px; width:24px; height:24px;");
 	}
-	public function View() : BaseController
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View() : BaseController
 	{
 		if (!isset($_COOKIE["igk-app-cookieswarning-inform"]) && $this->IsVisible)
 		{

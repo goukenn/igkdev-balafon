@@ -36,14 +36,59 @@ trait RegisterUserActionTrait
     use NotifyActionTrait;
     use SysUserPasswordManagementActionTrait;
     use FormLoginActionTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $registerOptions = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $registerController = null;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $noticationName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $registerServiceNotifyName = 'register';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $registerUserActionRegistrationConfirmUri = 'confirmRegistration';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $registerUserActionForgotPasswordUri = 'forgotPassword';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $registerUserActionAuthSocialUri = 'login';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $registerUserMailRegistrationArticle = 'Registration/mail_registration';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $registerUserMailForgotPasswordArticle = 'Registration/mail_forgotpassword';
     /**
      * subscribe user 
@@ -57,6 +102,7 @@ trait RegisterUserActionTrait
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function register_post()
     {
         $not = igk_notifyctrl($this->registerServiceNotifyName);
@@ -115,6 +161,11 @@ trait RegisterUserActionTrait
             $this->redirect = base64_decode($uri);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    */
     protected function _init_trait_RegisterUserActionTrait($ctrl)
     {
         $this->registerOptions = [
@@ -138,6 +189,7 @@ trait RegisterUserActionTrait
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function sendRegistrationMail(\IGK\Models\Users $user)
     {
         $login = $user->clLogin;
@@ -181,6 +233,7 @@ trait RegisterUserActionTrait
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function getRegistrationMailMessage(Users $user, ?string $registerUri = null, ?string $unregisterUri = null)
     {
         $ctrl = $this->getController();
@@ -209,10 +262,20 @@ trait RegisterUserActionTrait
         $n->loop([$user])->div()->Content = $c;
         return $node->render();
     }
+
+    /**
+    * auto generate doc.
+    * @param Users $user
+    */
     protected function getRegistrationActionvationLink(Users $user)
     {
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param Users $user
+    */
     protected function getRegistrationUnregActionvationLink(Users $user)
     {
         return null;
@@ -226,6 +289,7 @@ trait RegisterUserActionTrait
      * @param mixed $form 
      * @return void 
      */
+
     public function form_subscribe($form, $options = null)
     {
         $ctrl = $this->getController();
@@ -274,6 +338,7 @@ trait RegisterUserActionTrait
     /**
      * activate user account
      */
+
     public function activate_get()
     {
         $ctrl = $this->getController();
@@ -289,13 +354,38 @@ trait RegisterUserActionTrait
         $this->notify(__('account activation failed'), 'igk-danger');
         $this->redirect = $ctrl::uri('');
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $registerUserActionNoticationName = 'register';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $registerUserActionCompleteUri = 'ServiceLogin';
-    protected $logoutUri = 'logout';  
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $logoutUri = 'logout';
+
+    /**
+    * auto generate doc.
+    * @param null|\IGK\Models\Users $id
+    */
     public function deleteAccount_delete(?\IGK\Models\Users $id = null)
     {
         return $this->deleteAccount_post($id);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|\IGK\Models\Users $id
+    */
     public function deleteAccount_post(?\IGK\Models\Users $id = null)
     {
         $cuser = ActionHelper::CurrentActionUserModel($this);
@@ -324,10 +414,15 @@ trait RegisterUserActionTrait
      * get deactivated account prefix
      * @return string 
      */
+
     protected function getDeactivatedAccountPrefix(): string
     {
         return SystemUserActionContants::DEACTIVATED_ACCOUNT_PREFIX;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function confirmRegistration()
     {
         // + | -------------------------------------------------------------------------
@@ -347,12 +442,21 @@ trait RegisterUserActionTrait
     // + | --------------------------------------------------------------------
     // + | PASSWORD MANAGEMENT
     // + |
+
+    /**
+    * auto generate doc.
+    */
     protected function forgotPassword_get()
     {
         if ($token = igk_getr('token')){
             return $this->error('token is empty');
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $account
+    */
     protected function forgotPassword_post(?string $account=null){
         $account = $account ?? igk_getr('account'); 
         if (empty($account) && !IGKValidator::IsValidPwd($account)){
@@ -380,6 +484,11 @@ trait RegisterUserActionTrait
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param Users $user
+    */
     protected function sendResetPasswordLink(Users $user){
         ActionHelper::SendMail($this->getController(), 
             $user->clLogin, igk_configs()->mail_user, __("reset password"), 
@@ -395,6 +504,7 @@ trait RegisterUserActionTrait
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function getResetPasswordMailMessage(Users $user){
         $ctrl = $this->getController();
         $content = '';
@@ -429,6 +539,7 @@ trait RegisterUserActionTrait
      * @param mixed $options 
      * @return void 
      */
+
     protected function form_forgot_password($a, $options=null){
         $a['action'] = $this->getController()::uri('forgotPassword');
         $a->h2()->Content = __('Reset password');

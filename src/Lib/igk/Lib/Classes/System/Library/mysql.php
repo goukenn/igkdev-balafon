@@ -11,7 +11,17 @@ use IGK\System\EntryClassResolution;
  * @package IGK\System\Library
  */
 class mysql extends \IGKLibraryBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const IGKMYSQLDataAdapter = 'IGKMYSQLDataAdapter';
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function init():bool{
         if (!extension_loaded("mysqli")){
             // missing mysqli extension

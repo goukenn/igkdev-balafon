@@ -8,6 +8,11 @@ namespace IGK\System\Html\Encoding;
 * @package IGK\System\Html\Encoding
 */
 class AttributeEncoder{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $char_list = [
         "\""=>"&quot;"
     ];

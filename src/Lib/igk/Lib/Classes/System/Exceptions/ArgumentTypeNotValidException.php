@@ -11,6 +11,11 @@ use IGKException;
 * @package IGK\System\Exceptions
 */
 class ArgumentTypeNotValidException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $index
+    */
     public function __construct($index){
         parent::__construct( sprintf("Parameter not valid %s", $index));
     }

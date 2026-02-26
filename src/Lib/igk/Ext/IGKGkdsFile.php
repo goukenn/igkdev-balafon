@@ -17,15 +17,43 @@ define("IGK_GKDS_LAYERDOCUMENT", "LayerDocument");
  */
 final class IGKGkdsFile extends IGKObject
 {
-	private $m_source;
-	private $m_gd;
-	private $m_document;
 
-	public function getGD(){return $this->m_gd; }
-	public function getDocument(){return $this->m_document; }
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_source;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_gd;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_document;
+
+    /**
+    * auto generate doc.
+    */
+    public function getGD(){return $this->m_gd; }
+
+    /**
+    * auto generate doc.
+    */
+    public function getDocument(){return $this->m_document; }
 	private function __construct(){
 	}
-	public static function ParseToGD($filename, $index=0){
+
+    /**
+    * auto generate doc.
+    * @param mixed $filename
+    * @param mixed $index
+    */
+    public static function ParseToGD($filename, $index=0){
 		if (!defined("IGK_GD_SUPPORT") || !igk_io_file_exists($filename))
 			return null;
 
@@ -54,14 +82,24 @@ final class IGKGkdsFile extends IGKObject
 				$this->$m($v);
 		}
 	}
-	public function VisitLayer($layer){
+
+    /**
+    * auto generate doc.
+    * @param mixed $layer
+    */
+    public function VisitLayer($layer){
 		foreach($layer->Childs as $v){
 			$m = "Visit".$v->TagName;
 			if (method_exists(__CLASS__, $m))
 				$this->$m($v);
 		}
 	}
-	public function VisitCircle($i){
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    */
+    public function VisitCircle($i){
 		$c = Vector2f::FromString($i["Center"]);
 		$t = explode(" ", $i["Radius"]);
 		$r = 0;
@@ -76,11 +114,19 @@ final class IGKGkdsFile extends IGKObject
 		$this->GD->FillEllipse(Colorf::FromString("red")->toByte(),  $c, $r);
 		$this->GD->DrawEllipse(Colorf::FromString("black"),  $c, $r);
 	}
-	public function RenderPicture(){
+
+    /**
+    * auto generate doc.
+    */
+    public function RenderPicture(){
 		header("Content-Type: image/png");
 		$this->GD->render();
 	}
-	public function Dispose(){
+
+    /**
+    * auto generate doc.
+    */
+    public function Dispose(){
 		$this->GD->Dispose();
 		unset($this->m_gd);
 	}

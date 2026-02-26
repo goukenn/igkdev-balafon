@@ -15,7 +15,18 @@ use IGKObject;
 * @package IGK\System\WinUI\Menus
 */
 class MenuItemObject extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_subMenus, $m_uri;
+
+    /**
+    * .ctr
+    * @param mixed $uri
+    * @param null|mixed $submenu
+    */
     public function __construct($uri, $submenu=null){
         $this->m_uri=$uri;
         $this->m_subMenus=$submenu;
@@ -24,6 +35,7 @@ class MenuItemObject extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getSubmenu(){
         return $this->m_subMenus;
     }
@@ -31,6 +43,7 @@ class MenuItemObject extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function getUri(){
         return $this->m_uri;
     }

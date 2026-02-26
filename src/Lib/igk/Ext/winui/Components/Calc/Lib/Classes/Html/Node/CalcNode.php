@@ -15,33 +15,49 @@ use IGK\ValueListener;
 */
 final class CalcNode extends HtmlNode
 {
-	private $m_mode;
-	private $m_value;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_mode;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_value;
 
     /**
     * auto generate doc.
     */
+
     public function getMode(){return $this->m_mode; }
 
     /**
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setMode($v){$this->m_mode = $v; return $this; }
 
     /**
     * auto generate doc.
     */
+
     public function getValue(){return $this->m_value; }
 
     /**
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setValue($v){$this->m_value = $v; return $this; }
 
-
-	public function __construct(){
+    /**
+    * .ctr
+    */
+    public function __construct(){
 		parent::__construct("div");
 		$this["class"]="igk-calc";
 
@@ -50,6 +66,7 @@ final class CalcNode extends HtmlNode
     /**
     * auto generate doc.
     */
+
     public function initView(){
 		$this->clearChilds();
 		//model de vuew

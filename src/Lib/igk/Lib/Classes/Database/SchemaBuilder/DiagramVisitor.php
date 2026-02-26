@@ -9,10 +9,25 @@ namespace IGK\Database\SchemaBuilder;
  * @package igk\db\schemaBuilder
  */
 class DiagramVisitor extends DiagramVisitorBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $diagram;
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function start():?string{
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function complete():?string{
         return null;
     }
@@ -21,6 +36,7 @@ class DiagramVisitor extends DiagramVisitorBase{
      * @param mixed $item 
      * @return null 
      */
+
     public function visit($item){
         if (is_object($item)){
         $fc = "visit".basename(igk_uri(get_class($item)));  
@@ -33,6 +49,7 @@ class DiagramVisitor extends DiagramVisitorBase{
      * @param mixed $item 
      * @return false 
      */
+
     public function acceptVisit($item):bool
     {
         if (is_object($item)){

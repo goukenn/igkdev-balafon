@@ -18,15 +18,39 @@ use ReflectionFunction;
  */
 class ListComponentCommand extends AppExecCommand
 {
-	var $command = '--list:components';
-	var $desc = 'list installed component';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--list:components';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'list installed component';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		"--count"=>"flag: show number of definded functions",
 		"--files"=>"flag: group with file",
 		"--info"=>"flag: show info",
 	];
-	var $category = 'winui';
-	function showUsage()
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'winui';
+
+    /**
+    * auto generate doc.
+    */
+    function showUsage()
 	{
 		parent::showUsage();
 		Logger::info(sprintf('%s [pattern] [options]', $this->command));
@@ -40,7 +64,8 @@ class ListComponentCommand extends AppExecCommand
 	 * @throws IGKException 
 	 * @throws ArgumentTypeNotValidException 
 	 */
-	public function exec($command, ?string $pattern=null)
+
+    public function exec($command, ?string $pattern=null)
 	{
 		if (!is_null($pattern)){
 			$pattern = Replacement::RegexExpressionFromString($pattern);

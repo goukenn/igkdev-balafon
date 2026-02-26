@@ -11,6 +11,12 @@ use IGKException;
 * @package IGK\System\Exceptions
 */
 class NotInjectableTypeException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $index
+    * @param mixed $code
+    */
     public function __construct($index, $code = RequestResponseCode::NotFound){
         parent::__construct( sprintf("Parameter not Injectable %s", $index), $code);
     }

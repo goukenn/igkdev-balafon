@@ -11,7 +11,17 @@ use IGKValidator;
 * @package IGK\System\Http
 */
 class CurlHttpClient implements IHttpClient{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HEADER_CONTENT_TYPE= 1048594;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HEADER_STATUS = 2097154;
     /**
      * enable use of session id
@@ -43,12 +53,21 @@ class CurlHttpClient implements IHttpClient{
      * @var mixed
      */
     private $m_status = -1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_requestInfo = null;
     /**
      * header to pass 
      * @var mixed
      */
     private $m_headers;
+
+    /**
+    * destructor
+    */
     public function __destruct()
     {
         if ($this->m_session_file){
@@ -60,6 +79,7 @@ class CurlHttpClient implements IHttpClient{
      * info to get
      * @return null|array 
      */
+
     public function getRequestHeaderResponse(): ?array {
         return $this->m_requestInfo; 
     }
@@ -67,17 +87,36 @@ class CurlHttpClient implements IHttpClient{
      * get last request status code
      * @return mixed 
      */
+
     public function getStatus():int{
         return $this->m_status;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $url
+    * @param IHttpClientOptions $options
+    */
     public function download(string $url, IHttpClientOptions $options) { }
+
+    /**
+    * auto generate doc.
+    * @param string $url
+    */
     public function get(string $url) { }
+
+    /**
+    * auto generate doc.
+    * @param string $url
+    * @param array $data
+    */
     public function post(string $url, array $data = []) { } 
     /**
      * 
      * @param string $url 
      * @return  
      */
+
     public function request(string $url){
         $v_is_uri = IGKValidator::IsUri($url);
         if ($this->controller){
@@ -111,6 +150,7 @@ class CurlHttpClient implements IHttpClient{
      * @param ?array $args the parameters
      * @return ?string the response  
      */
+
     public function _sendRequest(string $url, $args=null){
         if (!function_exists('igk_curl_post_uri')){
             igk_die("missing : igk_curl_post_uri");
@@ -135,6 +175,7 @@ class CurlHttpClient implements IHttpClient{
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function ConvertCurlOptionKeyToName($key){
         return igk_getv([                
                 self::HEADER_STATUS => 'Status',
@@ -174,6 +215,16 @@ class CurlHttpClient implements IHttpClient{
         return $options;
     }
     private $m_session_file;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_session_id;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_session_name;
 }

@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class DotEnvConfigurationTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_dotenv_loading_ignore_comment_config(){
         //
         $src = implode("\n", [
@@ -22,6 +26,10 @@ class DotEnvConfigurationTest extends BaseTestCase{
         DotEnvConfiguration::LoadConfiguration($configs, $src);
         $this->assertEquals([], $configs, 'ignore comments');
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_dotenv_loading_config(){
         //        
         $src = implode("\n", [
@@ -36,6 +44,10 @@ class DotEnvConfigurationTest extends BaseTestCase{
             'default_css'=>'primary.css'
         ], $configs, 'ignore comments');
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_dotenv_loading_string_config(){
         //        
         $src = implode("\n", [

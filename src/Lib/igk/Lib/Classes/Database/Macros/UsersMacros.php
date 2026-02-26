@@ -85,6 +85,11 @@ abstract class UsersMacros
         unset($user->clPwd);
         return $user->save();
     }
+
+    /**
+    * auto generate doc.
+    * @param Users $user
+    */
     public static function isActive(Users $user){
         return $user->clStatus == 1;
     }
@@ -94,6 +99,7 @@ abstract class UsersMacros
      * @param string $newPassword 
      * @return null|IGK\Models\IQueryResult 
      */
+
     public static function changePassword(Users $user, string $newPassword)
     {
         if ($user->is_mock()){ igk_die(__METHOD__.": mock is not allowed");}
@@ -104,6 +110,13 @@ abstract class UsersMacros
     // + | -----------------------------------------------------------    
     // + | phone book macros
     // + |
+
+    /**
+    * auto generate doc.
+    * @param Users $model
+    * @param mixed $type
+    * @param mixed $value
+    */
     public static function addPhoneBookEntry(Users $model, $type, $value)
     {
         $r = static::getPhoneBookEntry($model);
@@ -152,6 +165,7 @@ abstract class UsersMacros
      * @param Users $model 
      * @return mixed 
      */
+
     public static function getPhoneBookEntries(Users $model)
     {
         return PhoneBookUserAssociations::select_all([
@@ -163,6 +177,7 @@ abstract class UsersMacros
      * @param Users $model 
      * @return null|PhoneBookUserAssociations 
      */
+
     public static function getPhoneBookEntry(Users $model)
     {
         return PhoneBookUserAssociations::select_row([
@@ -178,6 +193,7 @@ abstract class UsersMacros
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function getPhoneBookEntryByType(Users $model, ?string $type = PhonebookTypeNames::PHT_PHONE)
     {
         if ($g = PhoneBookUserAssociations::select_row([
@@ -212,6 +228,7 @@ abstract class UsersMacros
      * @param Users $user 
      * @return string 
      */
+
     public static function fullName(Users $user){
         $s = trim(implode(' ', array_filter([$user->clFirstName, strtoupper($user->clLastName ?? '')])));
         return empty($s)? $user->clLogin : $s;
@@ -223,6 +240,7 @@ abstract class UsersMacros
      * @param string $groupname 
      * @return object|null|false 
      */
+
     public static function bindToGroup(Users $user, BaseController $ctrl, string $groupname){
         return \IGK\Helper\Authorization::BindUserToGroup($ctrl, $user, $groupname);
     }
@@ -235,6 +253,7 @@ abstract class UsersMacros
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function removeFromGroup(Users $user, string $groupName):bool{
         $user->is_mock() ?? igk_die('mock not allowed');
         $uid = $user->clId;
@@ -266,6 +285,7 @@ abstract class UsersMacros
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function CreateUserApiResponseData(Users $user):array{
         $user->is_mock() ?? igk_die('not allowed');
         $v_user = SysDbMapping::CreateMapping($user)->map($user);
@@ -280,7 +300,12 @@ abstract class UsersMacros
         ];
         return $data;
     }
-    // 
+    //
+
+    /**
+    * auto generate doc.
+    * @param Users $model
+    */
     public static function cleanAndDrop(Users $model){
         igk_hook(IGKEvents::HOOK_USER_CLEAN, ['user'=>$model]); 
         $model->delete();
@@ -292,6 +317,7 @@ abstract class UsersMacros
      * @param mixed $data 
      * @return null|Users 
      */
+
     public static function resolve(Users $model, $data){
         if (is_numeric($data)){
             $r = $model::GetCache($model::FD_CL_ID, $data);

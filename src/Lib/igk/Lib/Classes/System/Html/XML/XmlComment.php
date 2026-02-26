@@ -11,15 +11,34 @@ use IGK\System\Html\HtmlRenderer;
  * @package IGK\System\Html\XML
  */
 class XmlComment extends HtmlItemBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "igk:comment";
+
+    /**
+    * .ctr
+    * @param null|string $data
+    */
     public function __construct(?string $data = null)
     {
         parent::__construct();
         $this->setContent($data);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanAddChilds(){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options=null){ 
         if (igk_getv($options, "NoComment"))
             return null;    
@@ -28,6 +47,10 @@ class XmlComment extends HtmlItemBase{
             return "<!-- " .trim($c). " -->";
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;

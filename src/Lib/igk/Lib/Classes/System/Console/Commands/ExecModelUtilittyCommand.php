@@ -14,13 +14,44 @@ use ReflectionMethod;
 * @author C.A.D. BONDJE DOUE
 */
 class ExecModelUtilittyCommand extends AppExecCommand{
-	var $command='--db:utility';
-	var $desc='exec model db utility method';
-	var $options=['--controller:controller'=>'set controller', 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:utility';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='exec model db utility method';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=['--controller:controller'=>'set controller', 
 	'--list'=>'list function'];
-	var $category = 'db';
-	var $usage = 'utilityName.methods ...args [options]';
-	public function exec($command , ?string $utility_name_call = null ) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'utilityName.methods ...args [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $utility_name_call
+    */
+    public function exec($command , ?string $utility_name_call = null ) { 
 		if (is_null($utility_name_call)){
 			igk_die('required model utility');
 		}
@@ -48,7 +79,12 @@ class ExecModelUtilittyCommand extends AppExecCommand{
 		}
 		Logger::success('done');
 	}
-	public function showList($utility){
+
+    /**
+    * auto generate doc.
+    * @param mixed $utility
+    */
+    public function showList($utility){
 		$ref = igk_sys_reflect_class($utility);
 		$l = [];
 		array_map(function($a)use($ref, & $l){

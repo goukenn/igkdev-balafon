@@ -23,6 +23,11 @@ use Throwable;
  */
 class App implements ICLICommandApp
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const GREEN = "\e[1;32m";
     const GRAY = "\e[1;90m";
     const GRAY_I = "\e[3;90m";

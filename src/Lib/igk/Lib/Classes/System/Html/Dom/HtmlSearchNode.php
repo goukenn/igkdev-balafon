@@ -11,16 +11,71 @@ use IGK\ValueListener;
 * Represent HtmlSearchNode class
 */
 final class HtmlSearchNode extends HtmlNode {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_AJX;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_TargetId;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_ajxfunc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_frm;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_input;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_link;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_method;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_prop;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_search;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_uri;
     /**
     * 
@@ -30,6 +85,7 @@ final class HtmlSearchNode extends HtmlNode {
     * @param mixed $ajx the default value is 0
     * @param mixed $target the default value is null
     */
+
     public function __construct($uri=null, $search=null, $prop="q", $ajx=0, $target=null){
         parent::__construct("div");
         $this["class"]="clsearch search_fcl";
@@ -45,30 +101,35 @@ final class HtmlSearchNode extends HtmlNode {
     /**
     * 
     */
+
     public function getAJX(){
         return $this->m_AJX;
     }
     /**
     * 
     */
+
     public function getMethod(){
         return $this->m_method;
     }
     /**
     * 
     */
+
     public function getTargetId(){
         return $this->m_TargetId;
     }
     /**
     * 
     */
+
     public function getUri(){
         return $this->m_uri;
     }
     /**
     * 
     */
+
     public function initView(){
         $uri=$this->m_uri;
         $tab=igk_getquery_args($uri);
@@ -124,6 +185,7 @@ final class HtmlSearchNode extends HtmlNode {
     * 
     * @param mixed $v
     */
+
     public function setAJX($v){
         $this->m_AJX=$v;
         return $this;
@@ -132,6 +194,7 @@ final class HtmlSearchNode extends HtmlNode {
     * 
     * @param mixed $v
     */
+
     public function setMethod($v){
         $this->m_method=$v;
         return $this;
@@ -140,6 +203,7 @@ final class HtmlSearchNode extends HtmlNode {
     * 
     * @param mixed $v
     */
+
     public function setTargetId($v){
         $this->m_TargetId=$v;
         return $this;
@@ -148,6 +212,7 @@ final class HtmlSearchNode extends HtmlNode {
     * 
     * @param mixed $v
     */
+
     public function setUri($v){
         $this->m_uri=$v;
         return $this;
@@ -156,6 +221,7 @@ final class HtmlSearchNode extends HtmlNode {
     * 
     * @param mixed $v
     */
+
     public function setValue($v){
         $this->m_search=$v;
         return $this;

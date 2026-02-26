@@ -17,10 +17,30 @@ use Iterator;
 class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	use ArrayAccessSelfTrait;
 	use IteratorTrait;
-	private $m_rows; 
-	private $it_current;
-	private $it_keys;
-	private $it_key;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_rows;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $it_current;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $it_keys;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $it_key;
     private function __construct(){}
 	/**
 	 * retrieve column name index
@@ -28,13 +48,22 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 * @return mixed 
 	 * @throws Exception 
 	 */
-	public function column(int $index){
+
+    public function column(int $index){
 		return igk_getv(array_keys($this->m_rows), $index);
 	}
+
+    /**
+    * get string presentation.
+    */
     public function __toString(){
         return "[".__CLASS__."]";
     }
-	public function __debugInfo()
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
+    public function __debugInfo()
 	{
 		return $this->m_rows; 
 	}
@@ -42,7 +71,8 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 * get the first value
 	 * @return mixed 
 	 */
-	public function firstValue(){
+
+    public function firstValue(){
 		$c = $this->m_rows;
 		return array_shift($c);
 	}
@@ -50,21 +80,38 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 * get the last value
 	 * @return mixed 
 	 */
-	public function lastValue(){
+
+    public function lastValue(){
 		$c = $this->m_rows;
 		return array_pop($c);
 	}
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $flag
+    */
     public function to_json($flag = null){
         return Utility::To_JSON($this->m_rows, null, $flag);
     }
-	public static function Create($tab){
+
+    /**
+    * auto generate doc.
+    * @param mixed $tab
+    */
+    public static function Create($tab){
 		if (!$tab || !is_array($tab))
 			return null;
 		$g = new DbQueryRowObj();
 		$g->m_rows = $tab;
 		return $g;
 	}
-	public function to_array($filter=false):array{
+
+    /**
+    * auto generate doc.
+    * @param mixed $filter
+    * @return array
+    */
+    public function to_array($filter=false):array{
 		$tab = $this->m_rows;
 		if ($filter){
 			$tab = array_filter($tab, function($k, $m){
@@ -76,43 +123,102 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		}
 		return $tab;
 	}
-	protected function _access_Exists($i){ 
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    */
+    protected function _access_Exists($i){ 
 		return isset($this->m_rows[$i]);
 	}
-	protected function _access_offsetExists($i){
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    */
+    protected function _access_offsetExists($i){
 		return isset($this->m_rows[$i]);
     }
-	protected function _access_offsetSet($i, $v){
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    * @param mixed $v
+    */
+    protected function _access_offsetSet($i, $v){
 		$this->m_rows[$i] = $v;
 	}
-	public function _access_OffsetGet($i){
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    */
+    public function _access_OffsetGet($i){
 		if ($this->OffsetExists($i)){
 			return $this->m_rows[$i];
 		}
 		return null;
 	}
-	protected function _access_offsetUnset($i){
+
+    /**
+    * auto generate doc.
+    * @param mixed $i
+    */
+    protected function _access_offsetUnset($i){
 		 unset( $this->m_rows[$i]);
 	}
-	public function __isset($i){ 
+
+    /**
+    * check if isset innaccessible property
+    * @param mixed $i
+    */
+    public function __isset($i){ 
 		return $this->OffsetExists($i);
 	}
-	public function __get($i){  
+
+    /**
+    * .destructor
+    * @param mixed $i
+    */
+    public function __get($i){  
 		return $this[$i];
 	}
-	public function __set($i,$v){
+
+    /**
+    * destructor
+    * @param mixed $i
+    * @param mixed $v
+    */
+    public function __set($i,$v){
 		$this[$i] = $v;
 	}
+
+    /**
+    * unset innacessible property
+    * @param mixed $n
+    */
     public function __unset($n){
         $this->OffsetUnset($n);
     }
-	public function _iterator_current (){
+
+    /**
+    * auto generate doc.
+    */
+    public function _iterator_current (){
 		return $this->it_current;
 	}
-	public function _iterator_key (){
+
+    /**
+    * auto generate doc.
+    */
+    public function _iterator_key (){
 		return $this->it_keys[$this->it_key];
 	}
-	public function _iterator_next (){
+
+    /**
+    * auto generate doc.
+    */
+    public function _iterator_next (){
 		$this->it_key++;
 		if (isset($this->it_keys[$this->it_key])){
 			$s =  $this->it_keys[$this->it_key];
@@ -120,13 +226,21 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 		}else
 			$this->it_current = null;
 	}
-	public function _iterator_rewind (){
+
+    /**
+    * auto generate doc.
+    */
+    public function _iterator_rewind (){
 		$this->it_keys = array_keys($this->m_rows);
 		$this->it_key = 0;
 		$s =  $this->it_keys[$this->it_key];
 		$this->it_current = $this[$s];
 	}
-	public function _iterator_valid (){
+
+    /**
+    * auto generate doc.
+    */
+    public function _iterator_valid (){
 		return $this->it_key < count($this->it_keys);
 	}
 	/**
@@ -134,10 +248,16 @@ class DbQueryRowObj implements ArrayAccess, Iterator, IDbArrayResult{
 	 * @param mixed $name 
 	 * @return bool 
 	 */
+
     public function columnExists($name):bool{
 		return key_exists($name, $this->m_rows);
 	}
-	public function count():int{
+
+    /**
+    * auto generate doc.
+    * @return int
+    */
+    public function count():int{
 		return count($this->m_rows);
 	} 
 }

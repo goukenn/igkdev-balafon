@@ -158,13 +158,53 @@ use function igk_resources_gets as __;
  */
 class HtmlNode extends HtmlItemBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HTML_NAMESPACE = "http://schemas.igkdev.com/balafon/html";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $AutoTagNameClass = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NODE_LIST = "a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|center|cite|code|col|colgroup|data|datalist|dd|del|details|dfn|dialog|dir|div|dl|dt|em|embed|fieldset|figcaption|figure|font|footer|form|frame|frameset|head|header|hgroup|h1|h2|h3|h4|h5|h6|hr|html|i|iframe|img|input|ins|kbd|keygen|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ARIA_LIST = "autocomplete|checked|disabled|expanded|haspopup|hidden|invalid|label|level|multiline|multiselectable|orientation|pressed|readonly|required|selected|sort|valuemax|valuemin|valuenow|valuetext|live|relevant|atomic|busy|dropeffect|dragged|activedescendant|controls|describedby|flowto|labelledby|owns|posinset|setsize";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NATIVE_ELEMENT = "text|loop";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const LOOP_HOST_TAG = '@loop';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FIELDS_HOST_TAG = '@fields';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEXT_TAG = 'text';
     use HtmlNodeTrait;
     use ClassAndStyleOffsetTrait;
@@ -179,6 +219,7 @@ class HtmlNode extends HtmlItemBase
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
+
     public function n(string $tagname_selector, $index_or_args = null){
         if ($this->getCanAddChilds()){
             $index_or_args = $index_or_args ?? []; 
@@ -194,6 +235,7 @@ class HtmlNode extends HtmlItemBase
      * @param string $tagname 
      * @return bool 
      */
+
     public static function IsNative(string $tagname):bool{
         return in_array($tagname, explode('|', self::NATIVE_ELEMENT)) || function_exists(IGK_FUNC_NODE_PREFIX.$tagname);
     }
@@ -203,6 +245,7 @@ class HtmlNode extends HtmlItemBase
      * @param null|string $class 
      * @return null|HtmlCssClassValueAttribute 
      */
+
     protected static function InitWebClassWith(HtmlItemBase $node, ?string $class): ?HtmlCssClassValueAttribute {
         $node['class'] = $class; 
         return $node['class'];
@@ -215,6 +258,7 @@ class HtmlNode extends HtmlItemBase
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function initWith($data, $engine= null ){
         return HtmlUtils::Init($this, $data, $engine);
     }
@@ -223,6 +267,10 @@ class HtmlNode extends HtmlItemBase
      * @var mixed
      */
     private $m_property = [];
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return $this->render();
@@ -233,6 +281,7 @@ class HtmlNode extends HtmlItemBase
      * @param string $expression expression to evaluate
      * @return $this 
      */
+
     public function setAttributeRef(string $name, string $expression){
         $this->setAttribute($name, new ViewRef($expression) );
         return $this;
@@ -244,6 +293,7 @@ class HtmlNode extends HtmlItemBase
      * @param mixed $eventObj event name
      * @return HtmlNode|HtmlEvenProperty depend of number of argument. 
      */
+
     public function on($eventObj)
     {
         $c = $this->getFlag(self::EVENTS) ?? array();
@@ -260,6 +310,11 @@ class HtmlNode extends HtmlItemBase
         }
         return $b;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function addNode($name)
     {
         if ($this->getCanAddChilds()) {
@@ -273,6 +328,7 @@ class HtmlNode extends HtmlItemBase
      * @param mixed $value 
      * @return static 
      */
+
     public function setAria(string $type, $value){
         static $arias = null;
         if ($arias === null ){
@@ -284,6 +340,11 @@ class HtmlNode extends HtmlItemBase
         $this->setAttribute("aria-".$type, $value);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param array $childs
+    */
     public function addRange(array $childs)
     {
         if ($this->getCanAddChilds()) {
@@ -294,6 +355,7 @@ class HtmlNode extends HtmlItemBase
     /**
      * set the class combination of this item
      */
+
     public function setClass($value)
     {
         $this['class'] = $value;
@@ -305,6 +367,7 @@ class HtmlNode extends HtmlItemBase
      * @param mixed $height 
      * @return $this 
      */
+
     public function setSize($width, $height){
         $this->setAttributes(get_defined_vars());
         return $this;
@@ -313,11 +376,16 @@ class HtmlNode extends HtmlItemBase
      * clear class
      * @return $this 
      */
+
     public function clearClass()
     {
         $this["class"] = null;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clear()
     {
         $this->getAttributes()->clear();
@@ -328,6 +396,7 @@ class HtmlNode extends HtmlItemBase
      * set or append style to 
      * @param string|array $value
      */
+
     public function setStyle($value)
     {
         if (empty($value))
@@ -368,6 +437,7 @@ class HtmlNode extends HtmlItemBase
     /**
      * 
      */
+
     public function getChildCount()
     {
         return $this->getChilds()->count();
@@ -378,6 +448,7 @@ class HtmlNode extends HtmlItemBase
      * @param mixed $value 
      * @return $this 
      */
+
     public function setAssertClass($condition, $value)
     {
         if ($condition) {
@@ -388,11 +459,17 @@ class HtmlNode extends HtmlItemBase
     /**
      * set the id of this item
      */
+
     public function setId($id)
     {
         $this["id"] = $this["name"] = $id;
         return $this;
     }
+
+    /**
+    * .ctr
+    * @param null|string $tagname
+    */
     public function __construct(?string $tagname = null)
     {
         parent::__construct($tagname);
@@ -405,6 +482,7 @@ class HtmlNode extends HtmlItemBase
      * initialize this node
      * @return void 
      */
+
     protected function initialize()
     {
     }
@@ -414,6 +492,7 @@ class HtmlNode extends HtmlItemBase
      * @param mixed $value
      * @param mixed $context the default value is null
      */
+
     public function setSysAttribute($key, $value, $context = null)
     {
         $eval = false;
@@ -448,6 +527,11 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    */
     public function getProperty(string $name){
         return igk_getv($this->m_property, $name);
     }
@@ -460,6 +544,7 @@ class HtmlNode extends HtmlItemBase
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function setProperty($name, $value)
     {
         $n = igk_getv($this->m_property, $name);
@@ -476,7 +561,12 @@ class HtmlNode extends HtmlItemBase
             ]);
         }
         return $this;
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_offsetExists($n)
     {
         return isset($this->m_attributes[$n]);
@@ -487,6 +577,7 @@ class HtmlNode extends HtmlItemBase
      * @param mixed $key
      * @param mixed $value
      */
+
     function offsetSetExpression($key, $value)
     {
         if (preg_match("/^@igk:expression/", $key)) {
@@ -501,11 +592,21 @@ class HtmlNode extends HtmlItemBase
         }
         return $this->Set($key, $value);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    * @param mixed $value
+    */
     public function Set($key, $value)
     {
         $this->m_attributes[$key] = $value;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         if ($this->iscallback(__FUNCTION__)) {
@@ -520,6 +621,7 @@ class HtmlNode extends HtmlItemBase
      * @return $this 
      * @throws IGKException 
      */
+
     public function activate($n, $activate_condition=null)
     {
         // igk_wln_e("activate....", $activate_condition);
@@ -528,6 +630,11 @@ class HtmlNode extends HtmlItemBase
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function deactivate($n)
     {
         $this->m_attributes->deactivate($n);
@@ -536,6 +643,7 @@ class HtmlNode extends HtmlItemBase
     /**
      * @return bool get if close tag
      */
+
     public function closeTag():bool
     {
         $closeTags = HtmlContext::GetCloseTagArray();
@@ -560,6 +668,7 @@ class HtmlNode extends HtmlItemBase
      * @return HtmlItemBase 
      * @throws IGKException 
      */
+
     public function address($index_content_or_args=null){
         $n = new HtmlNode("address");
         HtmlItemBase::BindDefaultContent($n, $index_content_or_args); 

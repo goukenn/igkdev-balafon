@@ -15,7 +15,17 @@ use IGKException;
  */
 class ActionRequestValidator extends RequestValidatorBase implements IActionRequestValidator
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $action;
+
+    /**
+    * .ctr
+    * @param mixed $action
+    */
     public function __construct($action)
     {
         $this->action = $action;
@@ -32,6 +42,7 @@ class ActionRequestValidator extends RequestValidatorBase implements IActionRequ
      * @return bool 
      * @throws IGKException 
      */
+
     public function validate($data, array $mapper, ?array $defaultValues=null, ?array $not_required=null, 
      & $requestData = null,  ?array &$error = null,
      ?array $resolvKeys=null): bool    

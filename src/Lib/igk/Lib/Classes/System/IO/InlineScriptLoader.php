@@ -11,7 +11,17 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class InlineScriptLoader implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $file;
+
+    /**
+    * .ctr
+    * @param string $file
+    */
     public function __construct(string $file){
         igk_io_file_exists($file, true) || igk_die('missing file '.igk_sys_lib_filename($file));
         $this->file = $file;
@@ -21,9 +31,15 @@ class InlineScriptLoader implements IHtmlGetValue{
      * @param mixed $options 
      * @return string 
      */
+
     public function getValue($options = null) { 
         return $this->content();
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function content():string{
         if (igk_environment()->isDev()){
             return file_get_contents($this->file);

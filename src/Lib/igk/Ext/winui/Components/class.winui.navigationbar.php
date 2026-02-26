@@ -31,34 +31,61 @@ define("IGK_WINUI_NAVIGATIONBAR",1);
 */
 class IGKWinUINavigationBar extends  IGKWinUIControl
 {
-	private $m_target; //target that will host navigation bar
-	private $m_scripts ;
-	private $m_pages;
-	private $m_ciblingCtrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_target; //target that will host navigation bar
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_scripts ;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_pages;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_ciblingCtrl;
 
     /**
     * auto generate doc.
     */
+
     public function getTarget(){return $this->m_target;}
 
     /**
     * auto generate doc.
     * @param mixed $target
     */
+
     public function setTarget($target) { $this->m_target  = $target;}
 
     /**
     * auto generate doc.
     */
+
     public function getCiblingCtrl(){return $this->m_ciblingCtrl;}
 
     /**
     * auto generate doc.
     * @param mixed $value
     */
+
     public function setCiblingCtrl($value){ $this->m_ciblingCtrl = $value; }
 
-	public function __construct()
+    /**
+    * .ctr
+    */
+    public function __construct()
 	{
 		parent::__construct("div");
 		$this["class"] ="IGKWinUI";
@@ -72,6 +99,7 @@ class IGKWinUINavigationBar extends  IGKWinUIControl
     * auto generate doc.
     * @param null|mixed & $xmloptions
     */
+
     protected function innerHTML(& $xmloptions=null)
 	{
 		$o =  parent::innerHtml($xmloptions);
@@ -94,6 +122,7 @@ EOF;
     * @param mixed $page
     * @param mixed $target
     */
+
     public function addPage($page, $target)
 	{
 		$t = $this->add("a", array(
@@ -107,6 +136,7 @@ EOF;
     /**
     * auto generate doc.
     */
+
     public function init()
 	{
 

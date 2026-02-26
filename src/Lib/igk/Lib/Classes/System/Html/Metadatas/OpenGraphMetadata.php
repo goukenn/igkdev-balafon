@@ -10,10 +10,35 @@ use IGK\System\IO\StringBuilder;
 * @package IGK\System\Html\Metadatas\Traits
 */
 class OpenGraphMetadata extends MetadataGroupEntryBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ogTitle;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ogDescription;
-    var $ogImage; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $ogImage;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ogSiteName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ogUrl;
     /**
      * 
@@ -24,6 +49,7 @@ class OpenGraphMetadata extends MetadataGroupEntryBase{
      * mapping properties
      * @return array 
      */
+
     public function map():array{
         return [
             'ogTitle' => 'og:title',

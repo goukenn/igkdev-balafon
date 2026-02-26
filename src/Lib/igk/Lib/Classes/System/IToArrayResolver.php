@@ -8,5 +8,10 @@ namespace IGK\System;
 * @package IGK\System
 */
 interface IToArrayResolver{
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     function to_array():array;
 }

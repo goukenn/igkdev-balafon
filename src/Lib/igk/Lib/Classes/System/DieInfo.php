@@ -13,12 +13,27 @@ class DieInfo{
      * @var 
      */
     var $message;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options;
+
+    /**
+    * .ctr
+    * @param string $message
+    * @param null|array $options
+    */
     public function __construct(string $message, ?array $options=null)
     {
         $this->message = $message;
         $this->options = $options;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return implode("\n", [$this->message] + $this->options);

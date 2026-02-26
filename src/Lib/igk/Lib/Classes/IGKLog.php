@@ -21,6 +21,11 @@ final class IGKLog extends IGKObject
      * @var false
      */
     private static $sm_loggin = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
     /**
      * 
@@ -31,18 +36,24 @@ final class IGKLog extends IGKObject
     /**
      * 
      */
+
     public function ClearLog()
     {
         $f = $this->getLogFile();
         $r = fopen($f, "w+");
         fclose($r);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function write_i_data(){
         throw new NotImplementException(__METHOD__);
     }
     /**
      * @return static
      */
+
     public static function getInstance()
     {
         // if (!isset($_SESSION)) {
@@ -59,6 +70,7 @@ final class IGKLog extends IGKObject
      * get log file in use 
      * @var GetLogFile
      */
+
     public static function GetSystemLogFile():string {
         $f = igk_environment()->get("logfile", igk_const("IGK_LOG_FILE"));
         if (!$f) {
@@ -72,6 +84,7 @@ final class IGKLog extends IGKObject
      * @param mixed $tag
      * @param mixed $traceindex
      */
+
     public static function Append(string $msg, ?string $tag = null,int $traceindex = 0, bool $dblog=true)
     {
         if (self::$sm_loggin){          
@@ -131,6 +144,7 @@ final class IGKLog extends IGKObject
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function WriteDbLog($msg, $tag, $dblog){
         if ($dblog && self::CanDBLog()){  
             try{          
@@ -152,6 +166,7 @@ final class IGKLog extends IGKObject
      * @return void|false 
      * @throws IGKException 
      */
+
     public static function CanDBLog(){
         if (defined("IGK_TEST_INIT")){
             return false;
@@ -167,6 +182,7 @@ final class IGKLog extends IGKObject
      * get writing log file 
      * @return string
      */
+
     public function getLogFile()
     {  
         return igk_getv(igk_configs(), "LogFile") ?? $this->getDefaultLogFile(); 
@@ -175,6 +191,7 @@ final class IGKLog extends IGKObject
      * get default log file
      * @return string 
      */
+
     public function getDefaultLogFile():string{
         return igk_io_cachedir()."/Data/Logs/.global." . igk_environment()->getToDay() . IGK_LOG_FILE_EXT; 
     }
@@ -182,6 +199,7 @@ final class IGKLog extends IGKObject
      * get default log file
      * @return string 
      */
+
     public function getDefaultErrorLogFile():string{
         return igk_io_cachedir()."/Data/Logs/.global-error." . igk_environment()->getToDay() . IGK_LOG_FILE_EXT; 
     }
@@ -189,6 +207,7 @@ final class IGKLog extends IGKObject
      * 
      * @param mixed $msg
      */
+
     public function write($msg)
     {
         $this->write_i("IGKLOG", $msg);
@@ -199,6 +218,7 @@ final class IGKLog extends IGKObject
      * @param mixed $message
      * @param mixed $eval the default value is 1
      */
+
     public function write_i($tag, $message, $eval = 1)
     {
         $f = $this->getLogFile();

@@ -24,6 +24,11 @@ use IGKResourceUriResolver;
 class HtmlScriptLoader
 {
     use ScriptTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options;
     /**
      * directory to load
@@ -40,10 +45,20 @@ class HtmlScriptLoader
      * @var ?array excluded directory options
      */
     var $excludir;
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function getExcludeDir(): array
     {
         return $this->excludir ? $this->excludir : igk_sys_js_exclude_dir();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getscript($options = null)
     {
         return self::LoadScripts($this->dirs, $options, $this->production, $this->getExcludeDir());
@@ -58,6 +73,7 @@ class HtmlScriptLoader
      * @return string|false result
      * @throws IGKException 
      */
+
     public static function LoadScripts($tab, $options = null, $production = false, $exclude_dir = [], $cachePath = "corejs:/igk.js", $defer = 0, $no_page_cache=null)
     {
         $no_page_cache = $no_page_cache ?? igk_setting()->no_page_cache();
@@ -254,6 +270,7 @@ class HtmlScriptLoader
      * import content as module 
      * @param string $content script with module 
      */
+
     public static function ImportContentAsModule(string $content): string
     {
         $content = self::RemoveGlobalExportFromContent($content);
@@ -272,6 +289,7 @@ class HtmlScriptLoader
      * @throws IGKException 
      * @throws Exception 
      */
+
     public static function RemoveGlobalExportFromContent(string $content, & $export_list =[])
     {
         $ctx = new RegexMatcherContainer;
@@ -316,6 +334,7 @@ class HtmlScriptLoader
      * system loading accept regex 
      * @return string 
      */
+
     public static function GetLoadingAssetRegex()
     {
         return "/\.((m)?js|json|xml|svg|shader|txt)$/";
@@ -327,6 +346,7 @@ class HtmlScriptLoader
      * @return string 
      * @throws IGKException 
      */
+
     public static function GetModuleInlineScriptContent(string $file, $uri = "/")
     {
         $sb = new StringBuilder;
@@ -345,6 +365,7 @@ class HtmlScriptLoader
      * @return never 
      * @throws NotImplementException 
      */
+
     public static function GetCoreScriptInlineContent()
     {
         throw new NotImplementException(__METHOD__);

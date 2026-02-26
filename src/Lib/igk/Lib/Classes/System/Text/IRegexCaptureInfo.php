@@ -17,6 +17,16 @@ namespace IGK\System\Text;
 * @property ?string $tokenID the token identification
 */
 interface IRegexCaptureInfo{
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function getisRoot():bool;
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function getisRootCaptured():bool;
 }

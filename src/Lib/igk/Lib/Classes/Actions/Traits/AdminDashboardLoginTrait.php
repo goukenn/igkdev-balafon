@@ -11,6 +11,10 @@ use IGKException;
 */
 trait AdminDashboardLoginTrait{
     #region login - logout request
+
+    /**
+    * auto generate doc.
+    */
     public function logout_get(){
         $this->getController()->logout(); 
     }
@@ -20,6 +24,7 @@ trait AdminDashboardLoginTrait{
      * @return bool 
      * @throws IGKException 
      */
+
     public function login_post(Request $request){ 
         $notkey = $this->baseActionName ?? 'login';      
         $ctrl = $this->getController();

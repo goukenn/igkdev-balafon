@@ -8,10 +8,35 @@ namespace IGK\System;
 * @package IGK\System
 */
 class Version{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $major;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $minor=0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $build=0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $release=0;
+
+    /**
+    * auto generate doc.
+    * @param string $version
+    */
     public static function Parse(string $version){
         $p = explode('.', $version);
         $check = true;
@@ -32,6 +57,12 @@ class Version{
         }
         return $o;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tab
+    * @param mixed $count
+    */
     static function GetArrayValue($tab, $count){
         $o = [];
         $i = 0;
@@ -42,6 +73,10 @@ class Version{
         }
         return $o;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         $tab = [];

@@ -20,14 +20,45 @@ use function igk_resources_gets as __;
  */
 class InstallCommand extends AppExecCommand
 {
-	var $command = '--module:install';
-	const URL = Constants::MODULE_PACKAGE_LIST_URI;
-	var $desc = 'install module package';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--module:install';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const URL = Constants::MODULE_PACKAGE_LIST_URI;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'install module package';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--force'=>'flag: for new installation'
 	];
-	var $category = 'module';
-	public function exec($command, ?string $module_name = null)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'module';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $module_name
+    */
+    public function exec($command, ?string $module_name = null)
 	{
 		empty($module_name) && igk_die('required module name');
 		$force = property_exists($command->options, '--force');

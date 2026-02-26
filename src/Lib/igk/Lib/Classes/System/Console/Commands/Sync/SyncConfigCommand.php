@@ -9,9 +9,24 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands\Sync
 */
 class SyncConfigCommand extends SyncAppExecCommandBase{
-	var $command='--sync:config';
-	var $desc='show ftp-sync configuration';   
-	public function exec($command) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--sync:config';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='show ftp-sync configuration';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) {
 		$cf = $command->app->getConfigs(); 
 		$rf = $cf->get('ftp-sync');
 		if (!$rf){

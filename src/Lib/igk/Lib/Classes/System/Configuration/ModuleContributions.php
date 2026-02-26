@@ -11,9 +11,34 @@ namespace IGK\System\Configuration;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class ModuleContributions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const database = 'database';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const theme = 'theme';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const layout = 'layout';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const dashboard = 'dashboard';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const dom ='dom';
 }

@@ -7,13 +7,34 @@
 * represent Internal session flag data
 */
 class IGKFv {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_;
-	private $_id;
-	private $_listener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $_id;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $_listener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_def;
     /**
     * 
     */
+
     public function __construct(){
         $this->_=array();
 		$this->_listener = null;
@@ -23,6 +44,7 @@ class IGKFv {
     * 
     * @param mixed $n
     */
+
     public function __get($n){
         return $this->getFlag($n);
     }
@@ -31,6 +53,7 @@ class IGKFv {
     * @param mixed $n
     * @param mixed $v
     */
+
     public function __set($n, $v){
         $this->setFlag($n, $v);
         return $this;
@@ -38,6 +61,7 @@ class IGKFv {
     /**
     * 
     */
+
     public function __sleep(){
         if(count($this->_) == 0){
             return array();
@@ -49,6 +73,7 @@ class IGKFv {
     /**
     * 
     */
+
     public function __wakeup(){
         if($this->_ == null)
             $this->_=array();
@@ -56,6 +81,7 @@ class IGKFv {
     /**
     * 
     */
+
     public function Clear(){
         $this->_=array();
     }
@@ -65,6 +91,7 @@ class IGKFv {
     * @param mixed * $tab
 	* @param mixed * $listener update listener
     */
+
     public static function Create($classname, & $tab, $listener = null){
         if(isset(self::$sm_def[$classname])){
             igk_die("- already created for {$classname} -");
@@ -79,6 +106,7 @@ class IGKFv {
     /**
     * free the flag if test ok
     */
+
     public function freeFlag($code, $force=0){
         $g=$this->getFlag($code);
         if($force || ($g == null) || ((is_array($g) && (count($g) == 0)))){
@@ -90,6 +118,7 @@ class IGKFv {
     * 
     * @param mixed $classname
     */
+
     public static function Get($classname){
         if(isset(self::$sm_def[$classname])){
             return self::$sm_def[$classname];
@@ -99,6 +128,7 @@ class IGKFv {
     /**
     * get the flag.use explicitly setFlag to store reference data
     */
+
     public function & getFlag($code, & $default=null, $register=0){
         $g=null;
         if(isset($this->_[$code]))
@@ -117,6 +147,7 @@ class IGKFv {
     /**
     * 
     */
+
     public function IsEmpty(){
         return count($this->_) == 0;
     }
@@ -125,6 +156,7 @@ class IGKFv {
     * @param mixed $code
     * @param mixed $v
     */
+
     public function setFlag($code, $v){
         if(func_num_args() < 2){
             igk_die("Argument count");
@@ -158,6 +190,7 @@ class IGKFv {
     * 
     * @param mixed $code
     */
+
     public function unsetFlag($code){
         unset($this->_[$code]);
     }
@@ -166,6 +199,7 @@ class IGKFv {
     * @param mixed $code
     * @param mixed $v
     */
+
     public function updateFlag($code, $v){
         $this->setFlag($code, $v);
         $this->freeFlag($code);

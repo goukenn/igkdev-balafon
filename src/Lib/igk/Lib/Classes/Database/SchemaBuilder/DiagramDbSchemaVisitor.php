@@ -11,14 +11,35 @@ use IGK\System\Html\XML\XmlNode;
  * @package igk\db\schemaBuilder
  */
 class DiagramDbSchemaVisitor extends DiagramVisitor{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $visitor_items = [];
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function start():?string{
         $this->visitor_items = [];
         return  "<".IGK_SCHEMA_TAGNAME.">";
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function complete():?string{
         return  "</".IGK_SCHEMA_TAGNAME.">";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $entity
+    * @param null|mixed $diagram
+    */
     public function visitDiagramEntity($entity, $diagram=null){
         $o = "";
         $n = new XmlNode(DbSchemas::DATA_DEFINITION);

@@ -13,7 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class NodeBuildTest extends BaseTestCase{
-    
+
+    /**
+    * auto generate doc.
+    */
     public function test_list_build(){
         $n = igk_create_node();
         $builder = new HtmlNodeBuilder($n);

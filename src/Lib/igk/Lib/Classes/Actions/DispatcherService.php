@@ -21,9 +21,29 @@ use ReflectionMethod;
  */
 abstract class DispatcherService
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_services = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_last_initService;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INIT_ARGS = '@args';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TYPE_PRECISION = '@precision';
     /**
      * 
@@ -34,6 +54,7 @@ abstract class DispatcherService
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function CreateOrGetServiceInstance(BaseController $ctrl, $rtype, string $typecheck = IInjectable::class)
     {
         $arguments = null;
@@ -74,6 +95,7 @@ abstract class DispatcherService
      * @param mixed $array 
      * @return int|string|null 
      */
+
     public static function GetFirstClassTypeFromArray($array){
         while(count($array)>0){
             $key = key($array);
@@ -92,6 +114,7 @@ abstract class DispatcherService
      * @param mixed ...$args 
      * @return mixed 
      */
+
     public static function  GetServiceInstance(BaseController $ctrl, string $class_name, $transient=false,  ...$args)
     {
         self::$sm_last_initService = null;
@@ -114,6 +137,7 @@ abstract class DispatcherService
      * 
      * @return bool 
      */
+
     public static function IsServiceNewInstance():bool{
         return !is_null(self::$sm_last_initService);
     }
@@ -124,6 +148,7 @@ abstract class DispatcherService
      * @param mixed $m 
      * @return void 
      */
+
     public static function SetupServiceInstance($p, $m)
     {
         $fc_bindprop = function ($p, $m) {
@@ -151,6 +176,7 @@ abstract class DispatcherService
      * @param mixed $p 
      * @return mixed[] 
      */
+
     public static function ConfigPropertyList($p){
         $o = [];
         foreach(array_keys($p) as $t){

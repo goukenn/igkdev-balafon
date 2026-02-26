@@ -14,12 +14,45 @@ use IGK\System\Text\RegexMatcherPatternContainer;
 * @author C.A.D. BONDJE DOUE
 */
 class InsertCommmandCommand extends AppExecCommand{
-	var $command='--db:insert';
-	var $desc='insert database in data manually ';
-	var $options=[];
-	var $category = 'db';
-	var $usage = '[options]';
-	public function exec($command, ?string $ctrl = null, ?string $model = null, ...$params) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:insert';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='insert database in data manually ';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $ctrl
+    * @param null|string $model
+    * @param mixed ...$params
+    */
+    public function exec($command, ?string $ctrl = null, ?string $model = null, ...$params) { 
 
 		if (property_exists($command->options, '--controller')){
 			$model = $ctrl;
@@ -52,7 +85,8 @@ class InsertCommmandCommand extends AppExecCommand{
 	 * @param string $src 
 	 * @return void 
 	 */
-	public static function Format(string $src){
+
+    public static function Format(string $src){
 		$regex = new RegexMatcherContainer;
 		$regex->match(';', 'split');
 		$regex->match(',', 'separator');

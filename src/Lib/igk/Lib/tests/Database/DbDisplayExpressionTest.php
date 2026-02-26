@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class DbDisplayExpressionTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_dbmodel_displayvalue(){
         $row = ["id"=>10, "name"=>"to_render", "title"=>"ok"];
         $exp = "{id} - {title}";

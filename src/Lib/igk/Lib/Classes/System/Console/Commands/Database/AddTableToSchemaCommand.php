@@ -12,12 +12,39 @@ use IGK\System\Console\Commands\Exceptions\CommandException;
 * @author C.A.D. BONDJE DOUE
 */
 class AddTableToSchemaCommand extends AppExecCommand{
-	var $command ='--db:schema-add-table';
-	var $desc	 ='add table to db schema file';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command ='--db:schema-add-table';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc	 ='add table to db schema file';
 	/* var $options=[]; */
-	var $category = 'db';
-	var $usage = "table_list [controller]";
-	public function exec($command, ?string $table_list=null, ?string $controller=null){
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = "table_list [controller]";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $table_list
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $table_list=null, ?string $controller=null){
 		if (igk_is_null_or_empty($table_list)){
 			throw new CommandException('table\"s required');
 		}

@@ -11,14 +11,36 @@ use IGK\Helper\Utility;
  * @package IGK\System\Http
  */
 class JsonResponse extends RequestResponse{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $headers = ["Content-Type:application/json"];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ignore_empty = true;
     /**
      * pretty print 
      * @var ?bool
      */
     var $pretty_print;
+
+    /**
+    * .ctr
+    * @param mixed $data
+    * @param mixed $code
+    * @param null|mixed $headers
+    */
     public function __construct($data, $code=200, $headers=null)
     {
         $headers = $headers ?? \IGK\System\Http\Helper\Response::GetHeaderOptions(igk_server()->REQUEST_METHOD);
@@ -38,6 +60,7 @@ class JsonResponse extends RequestResponse{
      * @return void 
      * @throws Exception 
      */
+
     public function render(){
         $n = $this->data;
         $s = "";

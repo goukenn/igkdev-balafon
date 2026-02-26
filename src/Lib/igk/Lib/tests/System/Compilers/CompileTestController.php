@@ -13,11 +13,17 @@ use IGK\Tests\Controllers\TestController;
 */
 class CompileTestController extends TestController
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $entryDir;
 
     /**
     * auto generate doc.
     */
+
     public function getArticlesDir()
     {
         return $this->entryDir . "/Articles";
@@ -27,6 +33,7 @@ class CompileTestController extends TestController
     * auto generate doc.
     * @return string
     */
+
     public function getDeclaredDir(): string
     {
         return $this->entryDir;
@@ -37,6 +44,7 @@ class CompileTestController extends TestController
     * @param null|string $m
     * @return string
     */
+
     public function getAppUri(?string $m = null): string
     {
         return "testuri://" . $m;
@@ -46,6 +54,7 @@ class CompileTestController extends TestController
     * auto generate doc.
     * @return ?string
     */
+
     protected function getBaseDir():?string{
         return $this->entryDir;
     }

@@ -47,14 +47,29 @@ trait SystemStateFlagTrait
     {
         unset($this->m_flags[$name]);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return string
+    */
     public function issetFlag(string $name): string
     {
         return isset($this->m_flags[$name]);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function clearFlags()
     {
         $this->m_flags = [];
     }
+
+    /**
+    * auto generate doc.
+    * @param array $flags
+    */
     protected function loadFlags(array $flags)
     {
         $this->m_flags = $flags;
@@ -66,6 +81,7 @@ trait SystemStateFlagTrait
      * @param null|callable $filter 
      * @return void 
      */
+
     public function updateFlags($flag, ?callable $filter = null)
     {
         $filter = $filter ?? function ($k) {

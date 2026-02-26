@@ -15,6 +15,11 @@ trait DbColumnInfoMethodTrait{
     public function IsUnsigned():bool{
         return preg_match("/u(((big|smal|tiny)?int)|float)/i", $this->clType);
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getIsRefId():bool{
         return preg_match("/int/i", $this->clType ) && ($this->clAutoIncrement || $this->clIsPrimary);
     }  
@@ -23,6 +28,7 @@ trait DbColumnInfoMethodTrait{
      * @param mixed $t 
      * @return int|false 
      */
+
     public static function SupportTypeLength($t):bool{
         return preg_match("/((u(big|smal|tiny))?int|varchar|char|enum|guid|decimal)/i", strtolower($t));
     }

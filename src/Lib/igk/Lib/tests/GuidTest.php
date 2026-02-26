@@ -14,6 +14,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests
 */
 class GuidTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_guid(){ 
         $d = preg_match(RegexConstant::GUID_REGEX, '{0b3a8f0c-9030-fb31-e150-5f1f2e224a39}', $tab);
         $this->assertTrue($d==1);

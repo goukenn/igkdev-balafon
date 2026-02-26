@@ -14,7 +14,17 @@ use IGK\ICtrlDirManagement;
 * auto generate doc.
 */
 final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_filename;
+
+    /**
+    * .ctr
+    * @param mixed $fname
+    */
     public function __construct($fname){
         $this->m_filename=$fname;
     }
@@ -22,6 +32,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     /**
     * auto generate doc.
     */
+
     public function getContentDir(){
         return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_CONTENT_FOLDER);
     }
@@ -29,6 +40,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     /**
     * auto generate doc.
     */
+
     public function getDataDir(){
         return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_DATA_FOLDER);
     }
@@ -37,6 +49,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     * auto generate doc.
     * @return string
     */
+
     public function getDeclaredDir():string{
         return dirname($this->m_filename);
     }
@@ -45,6 +58,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     * auto generate doc.
     * @return string
     */
+
     public function getName(): string{
         return strtolower(__CLASS__."://".$this->m_filename);
     }
@@ -52,6 +66,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     /**
     * auto generate doc.
     */
+
     public function getResourcesDir(){
         return $this->getDataDir()."/".IGK_RES_FOLDER;
     }
@@ -59,6 +74,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     /**
     * auto generate doc.
     */
+
     public function getScriptsDir(){
         return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_SCRIPT_FOLDER);
     }
@@ -66,6 +82,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     /**
     * auto generate doc.
     */
+
     public function getStylesDir(){
         return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_STYLE_FOLDER);
     }
@@ -73,6 +90,7 @@ final class IGKCtrlZone extends IGKObject implements ICtrlDirManagement{
     /**
     * auto generate doc.
     */
+
     public function getViewDir(){
         return igk_dir($this->getDeclaredDir().DIRECTORY_SEPARATOR.IGK_VIEW_FOLDER);
     }

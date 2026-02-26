@@ -19,11 +19,26 @@ trait ServiceContainerTrait
      * @var array
      */
     protected $m_container;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_name;
+
+    /**
+    * auto generate doc.
+    * @param null|string $name
+    */
     public function setName(?string $name)
     {
         $this->m_name = $name;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function getName(): ?string
     {
         return $this->m_name;
@@ -32,6 +47,7 @@ trait ServiceContainerTrait
      * 
      * @return array 
      */
+
     public function listServicesKeys(): array
     {
         $c = [];
@@ -50,6 +66,7 @@ trait ServiceContainerTrait
      * init all services 
      * @return array 
      */
+
     public function initAllSevices(): array
     {
         $all = [];
@@ -58,10 +75,20 @@ trait ServiceContainerTrait
         }
         return $all;
     }
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_container = [];
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return ?IAppService
+    */
     public function get(string $name): ?IAppService
     {
         return igk_getv($this->m_container, $name);
@@ -73,12 +100,17 @@ trait ServiceContainerTrait
      * @param IAppService $service 
      * @return bool 
      */
+
     public function register(string $name, IAppService $service): bool
     {
         $this->m_container[$name] = $service;
         return true;
     }
 
+    /**
+    * auto generate doc.
+    * @return int
+    */
     public function count(): int
     {
         return count($this->m_container);

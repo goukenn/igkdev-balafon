@@ -20,25 +20,65 @@ require_once __DIR__ . "/IService.php";
 */
 class IGKServices extends ListOfCoreServices
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_services = [];
     /**
      * store init transient service 
      * @var array
      */
     private $m_transients = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY_DEF = '@def';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY_LIFETIME = '@lifetime';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INIT_ARGS = DispatcherService::INIT_ARGS;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY_INSTANCE = 'instance';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PATH_SEPARATOR = '::';
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_initDef;
 
     /**
     * auto generate doc.
     * @param mixed $n
     */
+
     public static function SetDefinition($n)
     {
         self::$sm_initDef = $n;
@@ -47,6 +87,7 @@ class IGKServices extends ListOfCoreServices
      * service configurate file
      * @return string 
      */
+
     public static function ConfigurationFile()
     {
         return igk_configs()->get('service_configuration_file') ?? igk_io_sys_datadir() . '/services.php';
@@ -60,6 +101,7 @@ class IGKServices extends ListOfCoreServices
     * auto generate doc.
     * @param mixed $name
     */
+
     public function __get($name)
     {
         return igk_getv($this->m_services, $name);
@@ -70,6 +112,7 @@ class IGKServices extends ListOfCoreServices
     * @param mixed $name
     * @param null|IAppService $service
     */
+
     public function __set($name, ?IAppService $service = null)
     {
         if ($service == null) {
@@ -82,6 +125,7 @@ class IGKServices extends ListOfCoreServices
      * retrieve the core service instances 
      * @return static 
      */
+
     public static function getInstance()
     {
         if (self::$sm_instance === null) {
@@ -95,6 +139,7 @@ class IGKServices extends ListOfCoreServices
      * @return mixed 
      * @throws Exception 
      */
+
     public static function Get(string $serviceName)
     {
         $i = self::getInstance();
@@ -138,6 +183,7 @@ class IGKServices extends ListOfCoreServices
      * @return bool
      * @throws IGKException 
      */
+
     public static function Register(string $serviceName, string $className, ?array $args = null, $life_time = LifeTime::SINGLETON): bool
     {
         $instance = self::getInstance();
@@ -281,6 +327,7 @@ class IGKServices extends ListOfCoreServices
      * @param null|array $args 
      * @return object|null 
      */
+
     public static function CreateServiceNewInstance(ReflectionClass $v_refclass, ?array $args){
         static $createedInstance;
         ($v_refclass->isAbstract()) && igk_die('class is abstract');
@@ -366,6 +413,7 @@ class IGKServices extends ListOfCoreServices
      * retrieve services 
      * @return array 
      */
+
     public function services(): array
     {
         if (is_null($this->m_services)){
@@ -377,6 +425,7 @@ class IGKServices extends ListOfCoreServices
      * clear loading service
      * @return void 
      */
+
     public function clear(){
         $this->m_services = [];
         $this->m_transients = [];

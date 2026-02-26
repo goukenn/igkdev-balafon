@@ -22,5 +22,13 @@ abstract class TokenCompilerBase implements ICompiler{
      * @var bool
      */
     var $noComment = false;
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     abstract function HandleToken(ReadTokenOptions $options, ?string $id, string $value):bool;
 }

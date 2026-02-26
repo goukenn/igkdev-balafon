@@ -9,6 +9,18 @@ use IGK\Controllers\BaseController;
 * @package IGK\Systems\Controllers\Traits
 */
 trait ReigsterUserProfileControllerActionTrait{
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @param string $login
+    * @param string $pwd
+    * @param string $firstName
+    * @param string $lastName
+    * @param int $level
+    * @param int $status
+    * @param mixed $locale
+    */
     public static function Register(
         BaseController $controller,
         string $login,

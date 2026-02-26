@@ -9,5 +9,10 @@ namespace IGK\System\Configuration\Controllers;
  * @package IGK\System\Configuration\Controllers
  */
 abstract class ConfigsGroups{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const admin = "admin";
 }

@@ -9,11 +9,45 @@ namespace IGK\Database\SchemaBuilder;
  * @package igk\db\schemaBuilder
  */
 class DiagramRelation extends DiagramPropertiesHost{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $sc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $dc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $startType;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $endType;
+
+    /**
+    * .ctr
+    * @param string $relationName
+    * @param mixed $sourceEntity
+    * @param mixed $endEntity
+    * @param mixed $startType
+    * @param null|mixed $endType
+    */
     public function __construct(string $relationName, $sourceEntity, $endEntity, $startType, $endType=null)
     {
         if (is_null($sourceEntity)){
@@ -29,6 +63,10 @@ class DiagramRelation extends DiagramPropertiesHost{
         $this->endType = $endType;
         $this->m_properties = [];
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDefinition(){
         return sprintf("%s", implode(",", array_filter([
             $this->sc->getName(),

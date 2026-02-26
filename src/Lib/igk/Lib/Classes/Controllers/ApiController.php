@@ -14,6 +14,11 @@ use ReflectionException;
  */
 abstract class ApiController extends ControllerTypeBase{
     // use ApplicationUserProfileTrait;
+
+    /**
+    * auto generate doc.
+    * @param mixed $app
+    */
     protected function bootstrap($app){
         WebApplication::InitWebAppLibrary($app); 
     }

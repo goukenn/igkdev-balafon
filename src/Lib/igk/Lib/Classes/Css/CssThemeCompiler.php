@@ -45,6 +45,12 @@ class CssThemeCompiler
      * @var array
      */
     var $resolv = [];
+
+    /**
+    * .ctr
+    * @param mixed $colors
+    * @param mixed $designmode
+    */
     public function __construct($colors, $designmode = false)
     {
         $this->designmode = $designmode;
@@ -57,6 +63,7 @@ class CssThemeCompiler
      * @param null|ICssStyleContainer $parentTheme 
      * @return string 
      */
+
     public function treatValue(string $value, ICssStyleContainer $theme, ?ICssStyleContainer $parentTheme = null)
     {
         $result = "";
@@ -67,6 +74,7 @@ class CssThemeCompiler
      * @param string $value 
      * @return bool 
      */
+
     public static function CanCompile(string $value)
     {
         return (strpos($value, "[") !== false) || (strpos($value, "{") !== false);
@@ -87,6 +95,7 @@ class CssThemeCompiler
      * @throws EnvironmentArrayException 
      * @throws CssParserException 
      */
+
     public static function CompileAndRenderTheme(
         HtmlDocTheme $theme,
         string $docid,
@@ -155,6 +164,7 @@ class CssThemeCompiler
     * @param mixed $theme_export
     * @param mixed $resolver
     */
+
     static function CacheCssStoreAndExport($express_cf, $cf, $theme, $minfile, $theme_export, $resolver){
         igk_css_bind_sys_global_files($theme);
         igk_css_load_theme($theme);

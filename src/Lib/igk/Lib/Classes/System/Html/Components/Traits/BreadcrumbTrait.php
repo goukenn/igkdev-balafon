@@ -11,9 +11,34 @@ namespace IGK\System\Html\Components\Traits;
 * @author C.A.D. BONDJE DOUE
 */
 trait BreadcrumbTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $text;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $uri;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $current_page;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $childs;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $id;
 }

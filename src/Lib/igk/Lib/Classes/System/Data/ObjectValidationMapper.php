@@ -11,17 +11,69 @@ use IGK\System\Security\Web\ObjectContentValidator;
 * @package IGK\System\Data
 */
 class ObjectValidationMapper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_resolv_data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_errors;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_not_required;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_defaultValues;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_resolvKeys;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $mapper;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $validating = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $defaultContentValidator;
+
+    /**
+    * auto generate doc.
+    */
     protected function getDefaultContentValidator(){
         return $this->defaultContentValidator ??  new ObjectContentValidator;
     }
+
+    /**
+    * .ctr
+    * @param mixed $map
+    * @param null|array $defaultValues
+    * @param null|array $not_required
+    * @param null|array $resolv_keys
+    */
     public function __construct($map, ?array $defaultValues=null , ?array $not_required=null, ?array $resolv_keys=null)
     {
         $this->mapper = $map;
@@ -33,10 +85,16 @@ class ObjectValidationMapper{
      * 
      * @return bool 
      */
+
     public function isValidate():bool
     {
         return empty($this->m_errors) && !$this->validating;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    */
     public function validate($data)
     {
         $this->validating = 1;
@@ -109,6 +167,7 @@ class ObjectValidationMapper{
      * get map
      * @return mixed 
      */
+
     public function map($outMap = null)
     {
         if ($this->isValidate()) {

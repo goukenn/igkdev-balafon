@@ -11,6 +11,11 @@ use IGKException;
 * @package IGK\System\Http
 */
 class CookieManager{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
     /**
      * supported properties
@@ -26,7 +31,16 @@ class CookieManager{
      * @var false
      */ 
     private $m_saved = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * auto generate doc.
+    */
     public static function getInstance(){
         if (!self::$sm_instance){
             self::$sm_instance = new self;
@@ -51,6 +65,7 @@ class CookieManager{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function get($n){
         return igk_getv($this->_getdata(), $n);
     }
@@ -60,6 +75,7 @@ class CookieManager{
      * @param mixed $v 
      * @return void 
      */
+
     public function set($n, $v){
         $d = $this->_getdata();
         $d->$n = $v;

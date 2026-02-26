@@ -59,6 +59,13 @@ class ActionScaffold extends ScaffoldBase
         Logger::print("--model:[model_name]\r\t\t\tset the model");
         Logger::print("--force \r\t\t\tfoce model creation");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $controller
+    * @param null|string $name
+    */
     protected function run($command, $controller = null, ?string $name=null)
     {
         $model = igk_getv($command->options, "--model");

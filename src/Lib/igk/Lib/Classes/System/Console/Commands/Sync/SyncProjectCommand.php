@@ -32,10 +32,35 @@ use ReflectionException;
  */
 class SyncProjectCommand extends SyncAppExecCommandBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--sync:project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "sync project through ftp configuration";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "sync";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $help = "ftp sync project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--[list|restore[:foldername]] [--clearcache] [--no-zip]' => '',
         '--comment:[_litteral_]' => 'comment litteral to pass when backup the project',
@@ -46,7 +71,19 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      * @var bool
      */
     var $use_zip;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $remove_cache = false;
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed $project
+    * @param mixed $setting
+    */
     public function syncSingleFile($command, $project, $setting){
         $rf = igk_getv($command->options, "--file");
         if (!is_array($rf)){
@@ -88,6 +125,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         $o_dir = $setting[$path_key] . "/" . $project;
         return $o_dir;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $project
+    */
     public function exec($command, ?string $project = null)
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
@@ -243,6 +286,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
         ftp_close($h);
         error_clear_last();
     }
+
     static function SyncFiles($v_files, $o_dir,  $h , $pdir,  & $cdir, string $project){
         foreach ($v_files as $f) {
             $g = substr($f, strlen($pdir));
@@ -258,6 +302,12 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ftp
+    * @param mixed $app_dir
+    */
     protected function removeCache($ftp, $app_dir)
     {
         if ($this->remove_cache) {
@@ -394,6 +444,7 @@ class SyncProjectCommand extends SyncAppExecCommandBase
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public static function SyncAndInstall(
         $h,
         $project_name,
@@ -446,6 +497,10 @@ class SyncProjectCommand extends SyncAppExecCommandBase
             Logger::warn($response);
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function showUsage()
     {
         parent::showUsage();

@@ -15,20 +15,52 @@ use IGKException;
  * @package IGK\System\Database
  */
 class SchemaBuilderHelper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_output;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $_schema;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_inf = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_last_column;
     /**
      * get last column info blueprint node
      * @return null|IGK\System\Database\HmtlItemBase 
      */
+
     protected function getLastColumnInfo():?HtmlItemBase{
         return $this->m_last_column;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function getDefinition($n){
         return igk_getv($this->m_inf, $n);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $attributes
+    * @param null|mixed $node
+    */
     protected function _addcolumnAttributes($attributes, $node=null){
         $node = $node ?? $this->_output;
         $c = new DbColumnInfo($attributes);
@@ -45,6 +77,7 @@ class SchemaBuilderHelper{
      * @return false 
      * @throws IGKException 
      */
+
     public static function Migrate($options, ?BaseController $controller = null){
         if ($m = igk_getv($options, "migrations")){ 
             try{
@@ -68,6 +101,7 @@ class SchemaBuilderHelper{
      * @return bool 
      * @throws IGKException 
      */
+
     public static function Downgrade( $options, ?BaseController $controller = null){
         if ($m = igk_getv($options, "migrations")){ 
             try{

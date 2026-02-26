@@ -11,7 +11,16 @@ use IGK\System\Database\SchemaMigrationItemBase;
  * @package IGK\System\Database
  */
 class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
-    protected $fill_properties = ["table", "from", "on", "columns", 'foreignKeyName']; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $fill_properties = ["table", "from", "on", "columns", 'foreignKeyName'];
+
+    /**
+    * auto generate doc.
+    */
     public function up(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
@@ -43,6 +52,7 @@ class SchemaAddForeignConstraintMigration extends SchemaMigrationItemBase{
      * 
      * @return void 
      */
+
     public function down(){
         igk_dev_wln_e(__FILE__.":".__LINE__ , "down....add constraint key .... not implement");
     }

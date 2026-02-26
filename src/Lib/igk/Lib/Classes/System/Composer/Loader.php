@@ -11,16 +11,46 @@ use IGK\System\Console\Logger;
  */
 class Loader
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $package_file;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $init;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $to_merge;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const spl_autoload_unregister = 'spl_autoload_unregister';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const spl_autoload_register = 'spl_autoload_register';
     /**
      * register misssing classes
      * @var array
      */
     var $registerMissings = [];
+
+    /**
+    * auto generate doc.
+    * @param string $path
+    */
     public function register(string $path)
     {
         $this->package_file = $path;
@@ -52,6 +82,11 @@ class Loader
         array_map(self::spl_autoload_register, $this->to_merge);
         return $found;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $f
+    */
     public function _final($f)
     {
         // missing in core definitions - possibility to be handle by compooser package

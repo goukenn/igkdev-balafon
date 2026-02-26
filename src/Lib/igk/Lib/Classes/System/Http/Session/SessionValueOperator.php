@@ -8,6 +8,12 @@ namespace IGK\System\Http\Session;
 * @package IGK\System\Http\Session
 */
 class SessionValueOperator{
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         $cl = "\\".__NAMESPACE__."\\SessionOperator".ucfirst($name)."Callback";

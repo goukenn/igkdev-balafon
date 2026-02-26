@@ -23,6 +23,12 @@ class NotifyConnexionMailDocument extends MailDocument{
      * @var mixed
      */
     protected $m_data_service;
+
+    /**
+    * .ctr
+    * @param ConfigureController $controller
+    * @param null|mixed $provider
+    */
     public function __construct(ConfigureController $controller, $provider=null)
     {
         $this->m_controller = $controller;
@@ -33,6 +39,7 @@ class NotifyConnexionMailDocument extends MailDocument{
     /**
     * auto generate doc.
     */
+
     protected function initialize()
     {
         $message = igk_create_node("div");
@@ -44,6 +51,7 @@ class NotifyConnexionMailDocument extends MailDocument{
     /**
     * auto generate doc.
     */
+
     protected function getmaildata(){
         if ($this->m_data_service){
             return $this->m_data_service->getMailData();

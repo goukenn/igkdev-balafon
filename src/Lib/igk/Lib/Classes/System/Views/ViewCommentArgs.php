@@ -14,11 +14,31 @@ use ReflectionException;
 */
 class ViewCommentArgs{
     use ViewCommentEvalTrait;
-    private static $sm_info =[]; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private static $sm_info =[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_entries;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $activates = [
         "MainLayout"
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const COMMENT_EXPRESSION_REGEX =  "/\/\/#\s*\{\{%(?P<expression>.+)%\}\}\s*$/";
     /**
      * 
@@ -29,6 +49,7 @@ class ViewCommentArgs{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function Check(string $comment, string $file): bool{
         if (isset(self::$sm_info[$file])){
             return self::$sm_info[$file]->getBool($comment);
@@ -39,9 +60,20 @@ class ViewCommentArgs{
         self::$sm_info[$file] = $g;
         return $g->getBool($comment);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function get($n){
         return igk_getv($this->m_entries , $n);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @return bool
+    */
     public function getBool($n):bool{
         $c = igk_getv($this->m_entries , $n); 
         return boolval($c); 
@@ -68,7 +100,11 @@ class ViewCommentArgs{
     } 
     private function _evaluate(string $expression){
         $this->evalData($expression);
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function MainLayout(){
         $this->m_entries['@'.__FUNCTION__.'()'] = true;
     }

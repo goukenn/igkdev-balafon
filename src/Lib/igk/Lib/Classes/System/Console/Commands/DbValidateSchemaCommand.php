@@ -17,11 +17,37 @@ use IGKNonVisibleControllerBase;
  * @package IGK\System\Console\Commands
  */
 class DbValidateSchemaCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--db:validate-schema";
-    var $desc = "validate file schema"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = "validate file schema";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [ 
     ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $file
+    */
     public function exec($command,  $file=null)
     {
         if (empty($file) || !igk_io_file_exists($file)){

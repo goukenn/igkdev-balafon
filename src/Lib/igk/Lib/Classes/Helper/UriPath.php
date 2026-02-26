@@ -10,6 +10,11 @@ use IGKException;
  */
 class UriPath
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ACTION_EXTENTION_PATTERN = '(_:verbs)?((/:function(/:params+)?)?)?(:query)?(;:options)?';
     /**
      * check url path key 

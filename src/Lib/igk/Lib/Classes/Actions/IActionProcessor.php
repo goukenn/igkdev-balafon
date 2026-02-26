@@ -9,5 +9,9 @@ namespace IGK\Actions;
  * @package IGK\Actions
  */
 interface IActionProcessor{
+
+    /**
+    * auto generate doc.
+    */
     function getHost();
 }

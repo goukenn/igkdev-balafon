@@ -13,11 +13,20 @@ use IGK\System\Text\RegexMatcherContainer;
  */
 class CssRulesParser
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_regex;
     private function __construct()
     {
         $this->m_regex = $this->_initRegexContainer();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _initRegexContainer()
     {
         $c = new RegexMatcherContainer;
@@ -79,6 +88,7 @@ class CssRulesParser
      * @return array 
      * @throws Exception 
      */
+
     public static function Parse(string $src): array
     {
         $tab = [];

@@ -59,5 +59,11 @@ interface IDiagramSchemaBuilder{
      * @return mixed 
      */
     function dropColumn(string $tabble, string $column):void;
+
+    /**
+    * auto generate doc.
+    * @param null|string $desc
+    * @return IDiagramSchemaBuilder
+    */
     function description(?string $desc ): IDiagramSchemaBuilder;
 }

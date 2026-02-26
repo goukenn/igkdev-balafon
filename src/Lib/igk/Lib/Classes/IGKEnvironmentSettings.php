@@ -11,8 +11,22 @@ use IGKEnvironment;
  * @property bool $no_init_controller in bootstrap disable the init controller behaviour
  */
 class IGKEnvironmentSettings{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $no_page_cache;
+
+    /**
+    * auto generate doc.
+    */
     public static function getInstance(){
         if (self::$sm_instance === null){
             self::$sm_instance = new self();
@@ -21,9 +35,20 @@ class IGKEnvironmentSettings{
     }
     private function __function(){        
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         return null;
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public function __call($name, $args){
         return IGKEnvironment::getInstance()->$name;
     }
@@ -31,6 +56,7 @@ class IGKEnvironmentSettings{
      * no use page cache
      * @return bool 
      */
+
     public function no_page_cache(){
         return defined("IGK_NO_PAGE_CACHE") || $this->no_page_cache;
     }
@@ -38,6 +64,7 @@ class IGKEnvironmentSettings{
      * no use view cache
      * @return bool 
      */
+
     public function no_view_cache(){
         return defined("IGK_NO_VIEW_CACHE") || $this->no_view_cache;
     }

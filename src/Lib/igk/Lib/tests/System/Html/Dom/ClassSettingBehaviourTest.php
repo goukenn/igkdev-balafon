@@ -11,12 +11,20 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html\Dom
 */
 class ClassSettingBehaviourTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_remove_class(){
         $t = igk_create_node('div');
         $t['class'] = 'cl1 cl2';
         $t->setClass('-cl1');
         $this->assertEquals('cl2', $t['class']->getValue());
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_remove_class_attr(){
         $t = igk_create_node('div');
         $t['class'] = 'cl1 cl2';

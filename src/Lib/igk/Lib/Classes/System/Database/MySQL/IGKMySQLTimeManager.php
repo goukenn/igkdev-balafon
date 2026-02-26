@@ -9,17 +9,24 @@ use \IGKObject;
 * Represent IGKMySQLTimeManager class
 */
 final class IGKMySQLTimeManager extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ad;
     /**
     * 
     * @param mixed $ad
     */
+
     public function __construct($ad){
         $this->ad=$ad;
     }
     /**
     * 
     */
+
     public function Now(){
         return date($this->ad->getFormat("datetime"));
     }

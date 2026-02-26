@@ -9,9 +9,20 @@ use IGK\System\Exceptions\OperationNotAllowedException;
 * @package IGK\Core\Traits
 */
 trait NoDynamicPropertyTrait{
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         throw new OperationNotAllowedException(__METHOD__);
     }
+
+    /**
+    * destructor
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v){
         throw new OperationNotAllowedException(__METHOD__);
     }

@@ -10,12 +10,25 @@ use function igk_resources_gets as __;
 * class used to register global user in system
 */
 class ComposerController extends ConfigControllerBase {
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return IGK_COMPOSER_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigPage(){
         return "composer";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigGroup(){
         return "administration";
     }
@@ -23,14 +36,25 @@ class ComposerController extends ConfigControllerBase {
      * enable or not the use of this configuration
      * @return true 
      */
+
     public function getIsConfigPageAvailable()
     {
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getIsVisible():bool
     {
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View():BaseController
 	{
         $t = $this->getTargetNode();
@@ -38,6 +62,12 @@ class ComposerController extends ConfigControllerBase {
         $t->panelbox()->host([$this, "_composer_pan"], $this);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $ctrl
+    */
     protected function _composer_pan($n, $ctrl){
         $_json = igk_io_packagesdir()."/composer.json";
         $_available = file_exists($_json); 

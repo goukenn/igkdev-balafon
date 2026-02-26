@@ -8,5 +8,10 @@ namespace IGK\Controllers;
 * @package IGK\Controllers
 */
 abstract class ControllerParams{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REPLACE_URI = '@ReplaceURI';
 }

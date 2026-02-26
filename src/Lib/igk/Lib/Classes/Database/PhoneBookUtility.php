@@ -255,6 +255,11 @@ class PhoneBookUtility
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $entries
+    */
     public static function PhoneDetailList($entries){
     }
 }

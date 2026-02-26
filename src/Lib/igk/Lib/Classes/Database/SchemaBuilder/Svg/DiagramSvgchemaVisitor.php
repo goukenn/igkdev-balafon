@@ -13,12 +13,47 @@ use IGK\System\Html\XML\XmlNode;
  * @package igk\db\schemaBuilder
  */
 class DiagramSvgchemaVisitor extends DiagramVisitor{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $visitor_items = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $defs = null;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $width;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $height;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DEFAULT_WIDTH  = 500;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DEFAULT_HEIGHT = 500;
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function start():string{
         $this->defs = new XmlNode("defs");
         $this->visitor_items = [];
@@ -26,6 +61,11 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
         "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox='0 0 {0} {1}' width='{0}' height='{1}' >", 
             $this->width ?? self::DEFAULT_WIDTH, $this->height ?? self::DEFAULT_HEIGHT);
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function complete():string{
         return $this->defs->render().
         implode("", array_map(function($n){
@@ -34,6 +74,11 @@ class DiagramSvgchemaVisitor extends DiagramVisitor{
         .        
         "</svg>";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $entity
+    */
     public function visitDiagramEntity($entity){
         $o = "";       
         $n = new XmlNode("g");

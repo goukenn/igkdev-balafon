@@ -15,6 +15,11 @@ use IGK\IHtmlComponent;
 * @package IGK\System\Html\Dom
 */
 abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implements IHtmlComponent{
+
+    /**
+    * .ctr
+    * @param mixed $tag
+    */
     public function __construct($tag){
         $this->m_controller=igk_getctrl(IGK_COMPONENT_MANAGER_CTRL, true);
         parent::__construct($tag);
@@ -24,6 +29,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     /**
     * auto generate doc.
     */
+
     public function Dispose(){
         $this->free();
     }
@@ -31,6 +37,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     /**
     * auto generate doc.
     */
+
     public function free(){
         $this->m_controller->Unregister($this);
     }
@@ -38,6 +45,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     /**
     * auto generate doc.
     */
+
     public function getComponentId(){
         return $this->getParam(get_class($this->m_controller).":id");
     }
@@ -46,6 +54,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     * auto generate doc.
     * @param mixed $uri
     */
+
     public function getComponentUri($uri){
         return ($c=$this->getController()) ? $c->getUri($uri, $this): null;
     }
@@ -53,6 +62,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     /**
     * auto generate doc.
     */
+
     public function getController(){
         $c=$this->getParam("Controller");
         return $c;
@@ -63,6 +73,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     * @param mixed $listener
     * @param null|mixed $param
     */
+
     public function setComponentListener($listener, $param=null){    }
 
     /**
@@ -70,6 +81,7 @@ abstract class HtmlCtrlComponentNodeItemBase extends HtmlCtrlNodeItemBase implem
     * @param mixed $n
     * @param null|mixed $context
     */
+
     protected function setParentNode($n, $context=null){
         if(($n === null) && ($context && (strtolower($context) == 'clearchilds'))){
             $this->free();

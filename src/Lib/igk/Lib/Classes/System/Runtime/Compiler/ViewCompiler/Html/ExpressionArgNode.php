@@ -9,10 +9,20 @@ use IGK\System\Html\Dom\HtmlNode;
 * @package IGK\System\Runtime\Compiler\Html
 */
 class ExpressionArgNode extends HtmlNode{
+
+    /**
+    * .ctr
+    * @param string $tagname
+    */
     public function __construct(string $tagname)
     {
         parent::__construct($tagname);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getTagName($options = null)
     { 
         return  $this->tagname;

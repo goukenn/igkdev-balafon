@@ -12,6 +12,11 @@ use IGK\System\Core\AppEvent;
 * @author C.A.D. BONDJE DOUE
 */
 trait EventHostTrait{
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     protected abstract function getEventObject():array;
     /**
      * remove event 
@@ -19,6 +24,7 @@ trait EventHostTrait{
      * @param callable $callback 
      * @return void 
      */
+
     public function removeEvent(string $name, ?callable $callback, bool $all = true)
     {
         if (($g = igk_getv($this->getEventObject(), $name)) instanceof AppEvent) {
@@ -32,6 +38,7 @@ trait EventHostTrait{
      * @param callable $callback 
      * @return void 
      */
+
     public function addEvent(string $name, callable $callback)
     {
         if (($g = igk_getv($this->getEventObject(), $name)) instanceof AppEvent) {

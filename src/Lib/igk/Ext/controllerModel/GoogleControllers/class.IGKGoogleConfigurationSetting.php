@@ -20,27 +20,35 @@ use function igk_resources_gets as __;
 final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	use NoDbActiveControllerTrait;
 	use ControllerLocationTrait;
-	const API_KEY = "google.ApiKey";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const API_KEY = "google.ApiKey";
 
 	/**
 	 * Returns the configuration page identifier for Google settings.
 	 *
 	 * @return string
 	 */
-	public function getConfigPage(){return "google.sdk";}
+
+    public function getConfigPage(){return "google.sdk";}
 	/**
 	 * Returns the configuration group name for Google settings.
 	 *
 	 * @return string
 	 */
-	public function getConfigGroup(){return "google";}
+
+    public function getConfigGroup(){return "google";}
 	 
 	/**
 	 * Initializes and returns the configuration menu items for Google settings.
 	 *
 	 * @return array
 	 */
-	public function initConfigMenu(){
+
+    public function initConfigMenu(){
 		return array(
 			(new MenuItem($this->ConfigPage, $this->ConfigPage, $this->getUri("showConfig")))->setGroup($this->ConfigGroup),
 		);
@@ -50,7 +58,8 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	 *
 	 * @return string
 	 */
-	protected function getConfigFile()
+
+    protected function getConfigFile()
 	{
 		return igk_dir(IGK_DATA_FOLDER."/google.".IGK_CTRL_CONF_FILE);
 	}
@@ -59,7 +68,8 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	 *
 	 * @return void
 	 */
-	public function showConfig(){
+
+    public function showConfig(){
 		parent::showConfig();
 		$cnf = $this->ConfigNode;
 		$box = $cnf->addPanelBox();
@@ -79,7 +89,8 @@ final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	 *
 	 * @return void
 	 */
-	public function storeApiKey(){
+
+    public function storeApiKey(){
 		if (!igk_is_conf_connected()){
 			return;
 		}

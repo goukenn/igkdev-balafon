@@ -20,7 +20,17 @@ class ModelMapping implements IDataMapper{
      * @var ?array
      */
     var $references;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_mapkey;
+
+    /**
+    * .ctr
+    * @param mixed $model_or_model_class
+    */
     public function __construct($model_or_model_class)
     {
         (is_string($model_or_model_class) && is_subclass_of($model_or_model_class, \IGK\Models\ModelBase::class)) || 
@@ -34,6 +44,7 @@ class ModelMapping implements IDataMapper{
      * @return null|array 
      * @throws IGKException 
      */
+
     public function map($key, $value): ?array{        
         $map_ref= $key;
         if ($tabinfo = $this->model->getTableInfo()){ 
@@ -62,6 +73,11 @@ class ModelMapping implements IDataMapper{
         }
         return [$key, $value]; 
     }
+
+    /**
+    * Called when an object is used as a function.
+    * @param mixed $row
+    */
     public function __invoke($row)
     {   
         return array_map([$this, 'map'], $row->to_array());

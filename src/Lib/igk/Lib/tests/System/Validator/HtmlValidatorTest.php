@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Validator
 */
 class HtmlValidatorTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_remove_tag(){
         $validator = new HtmlValidator;
         $s = "<div>Hello </div><div />word!!!";
@@ -20,6 +24,9 @@ class HtmlValidatorTest extends BaseTestCase{
         $validator->validate($s));
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_remove_leave_one_tag(){
         $validator = new HtmlValidator;
         $validator->allowed_tags = ['p'];

@@ -9,5 +9,10 @@ namespace IGK\System\Http;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class AcceptMimeTypes{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const EventStream = 'text/event-stream';
 }

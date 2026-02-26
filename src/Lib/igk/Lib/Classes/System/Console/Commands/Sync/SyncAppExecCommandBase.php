@@ -39,15 +39,55 @@ use IGKException;
 * @package IGK\System\Console\Commands\Sync
 */
 abstract class SyncAppExecCommandBase extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "sync";
     // + | entry config tagname
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SELF_KEY_CONFIG = 'ftp-sync';
     // + | configuration keys
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SESSION_DIR = "session_dir";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const APP_DIR = "application_dir";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PROJECT_DIR = "project_dir";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RELEASE_DIR = "release_dir";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SITE_DIR = "site_dir";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HOME_DIR = "home_dir";
     /**
      * initialize setting 
@@ -56,6 +96,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * @return mixed 
      * @throws Exception 
      */
+
     protected function initSyncSetting($command, & $setting){
         $setting = null;
         $sync = $command->app->getConfigs()->get(self::SELF_KEY_CONFIG); 
@@ -130,6 +171,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     * @param mixed $command
     * @param mixed & $setting
     */
+
     protected function start($command, &$setting){
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
             return $c;
@@ -146,6 +188,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     * @param mixed $user
     * @param mixed $pwd
     */
+
     protected function connect($server, $user, $pwd){
         $h = null;
         // connect to ftp server
@@ -167,6 +210,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     * @param mixed $ftp
     * @param mixed $app_dir
     */
+
     protected function removeCache($ftp, $app_dir){        
         FtpHelper::RmDir($ftp, $app_dir."/.Caches"); 
     }
@@ -176,6 +220,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * @param mixed $dir 
      * @return void 
      */
+
     protected function emptyDir($ftp, string $dir){
         FtpHelper::RmDir($ftp, $dir); 
         FtpHelper::CreateDir($ftp, $dir);
@@ -185,6 +230,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * @param array|string installed script 
      * @param string $token $ref token
      */
+
     public static function GetScriptInstall($script, & $token, $name=null){
         $src = null;
         $v_bdir = IGK_LIB_DIR . "/Inc/core/";
@@ -232,6 +278,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * generate sync command token-
      * @return string 
      */
+
     protected static function GenerateSyncCommandToken(){
         return base64_encode(date("Ymd") .'-'.rand(2, 85) . igk_create_guid());
     }
@@ -239,6 +286,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     /**
     * auto generate doc.
     */
+
     protected function getMergedScripts(){
         return [];
     }
@@ -252,6 +300,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     protected function syncScriptCommand($command, $script, $args){
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
             return $c;
@@ -301,6 +350,7 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     /**
     * auto generate doc.
     */
+
     public function getHelpOptions(){
         return ['--no-timeout'=>'flag: disable timeout'];
     }

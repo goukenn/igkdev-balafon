@@ -9,6 +9,12 @@ use IGK\System\Console\Logger;
 * @package IGK\Helper
 */
 abstract class PhpUnitHelper{
+
+    /**
+    * auto generate doc.
+    * @param string $phpunit
+    * @param string $core_suite
+    */
     public static function TestCoreProject(string $phpunit, string $core_suite){
         Logger::info("run test...");
         $r = `{$phpunit} -c phpunit.xml.dist --testsuite {$core_suite} 1>&2 2>&2 && echo 'ok-complete'`;

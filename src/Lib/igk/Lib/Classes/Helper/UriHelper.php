@@ -13,6 +13,11 @@ use IGKException;
 * @package IGK\Helper
 */
 abstract class UriHelper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const URI_SYS_REPLACE = "base|base_config";
     /**
      * get command action type
@@ -22,6 +27,7 @@ abstract class UriHelper{
      * @param mixed $port 
      * @return string 
      */
+
     public static function GetCmdAction(BaseController $ctrl, $u = null, $type = SystemUriActionController::AC_SYS_URI, $port = null){
         if ($port)
             $port = ":" . $port;
@@ -33,6 +39,7 @@ abstract class UriHelper{
     * auto generate doc.
     * @param string $uri
     */
+
     public static function UriSysReplace(string $uri){
         $v_regex = "/%(?P<name>(".self::URI_SYS_REPLACE."))%/i";
         return preg_replace_callback( $v_regex, function($m){
@@ -52,6 +59,7 @@ abstract class UriHelper{
      * @return array
      * @throws IGKException 
      */
+
     public static function GetQueryTab(string $uri){
         $d = parse_url($uri);
         parse_str(igk_getv($d, "query", ""), $d);

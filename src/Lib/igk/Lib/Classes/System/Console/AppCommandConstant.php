@@ -10,12 +10,23 @@ namespace IGK\System\Console;
 * @package IGK\System\Console
 */
 abstract class AppCommandConstant{
-    const COMMAND_LIST= '.command.list.pinc'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const COMMAND_LIST= '.command.list.pinc';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ENV = '.balafon';
     /**
      * get cache file 
      * @return string 
      */
+
     public static function GetCacheFile():string{
         return App::GetAppBasePath()."/".self::ENV."/".self::COMMAND_LIST;  
     }

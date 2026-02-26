@@ -11,6 +11,12 @@ use IGK\System\Html\Dom\HtmlItemBase;
 * @property ?string $fallbackTagName fallback tag name 
 */
 interface IHtmlNodeBuilderVisitor{
+
+    /**
+    * auto generate doc.
+    * @param null|object $context
+    * @return ?object
+    */
     function setContext(?object $context);
     function getContext():?object;
     /**
@@ -18,6 +24,7 @@ interface IHtmlNodeBuilderVisitor{
      * @param mixed $new_context 
      * @return mixed last context
      */
+
     function pushContext($new_context);
     /**
      * pop current context 

@@ -10,6 +10,10 @@ namespace IGK\System\Traits;
  */
 trait NoDebugTrait
 {
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return [];

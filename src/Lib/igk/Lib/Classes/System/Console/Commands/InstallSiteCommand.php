@@ -26,9 +26,29 @@ use IGKEvents;
 */
 class InstallSiteCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--install-site";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "create new site";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--root-dir:[dir]" => "document root. default is current install directory. if relative, base on the install site",
         "--apache:[host_dir]" => "apache server vitual host directory",
@@ -52,6 +72,7 @@ class InstallSiteCommand extends AppExecCommand
     * @param mixed $install_dir
     * @param mixed $viewname
     */
+
     public function exec($command, $install_dir = "", $viewname = "")
     {
         $force = property_exists($command->options, "--force");
@@ -152,6 +173,7 @@ class InstallSiteCommand extends AppExecCommand
     /**
     * auto generate doc.
     */
+
     public function help()
     {
         Logger::print("-");

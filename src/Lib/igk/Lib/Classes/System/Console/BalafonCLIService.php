@@ -13,6 +13,12 @@ use IGKException;
 * @package IGK\System\Console
 */
 class BalafonCLIService{
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         // $command = AppCommand::Create('');
@@ -20,6 +26,13 @@ class BalafonCLIService{
         // + | get balafon command to call 
         throw new IGKException(sprintf('cli %s command not found', $name));
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param mixed $class_name
+    * @param null|mixed $options
+    */
     public function makeProjectClass(BaseController $ctrl, $class_name, $options=null){
         $file = Path::Combine($ctrl::classdir(), igk_uri($class_name));
         $author = IGK_AUTHOR;
@@ -50,6 +63,10 @@ class BalafonCLIService{
         igk_is_debug() && Logger::info('generate: '.$file);
         return igk_io_w2file($file, $builder->render());
     }
+
+    /**
+    * Called when an object is used as a function.
+    */
     public function __invoke()
     {
     }

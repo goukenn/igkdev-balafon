@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\IO
 */
 class PathTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_relative_flatten_path(){
         $this->assertEquals(
             "/index.html", 
@@ -28,6 +32,9 @@ class PathTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_relative_current_path(){
         $file = Path::CombineAndFlattenPath('/bondje', './');
         $this->assertEquals("/bondje", $file);

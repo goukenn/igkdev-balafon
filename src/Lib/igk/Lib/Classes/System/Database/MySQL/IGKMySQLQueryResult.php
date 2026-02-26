@@ -18,23 +18,97 @@ use IGK\IQueryResult;
  */
 final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_adapterName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_columns;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_dbname;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fieldcount;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_irows;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_primarykey;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_query;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_rows;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_rowsEntity;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tables;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_type;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_value;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_multitable;
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function success(): bool
     {
         return $this->m_rows !== null;
@@ -43,6 +117,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
      * get array for result
      * @return null|iterable 
      */
+
     public function to_array(): ?array
     {
         return $this->getRows();
@@ -51,6 +126,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
      * encode to json 
      * @return mixed 
      */
+
     public function to_json($option = null, $json_option = JSON_UNESCAPED_SLASHES)
     {
         return JSon::Encode($this->to_array(), $option, $json_option);
@@ -73,6 +149,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     ///retult of the query  uses for boolean data
     /**
      */
+
     public function __toString()
     {
         return "IGKMySQLQueryResult [RowCount: " . $this->RowCount . "]";
@@ -83,6 +160,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * add a row to query result
      */
+
     public function addRow($row)
     {
         if (($this->m_type == "igk_db_query_result") && ($this->m_query == ":igk_build_in_query_result")) {
@@ -106,6 +184,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * create a empty result from result type
      */
+
     public static function CreateEmptyResult($result, $seacharray = null)
     {
         $out = new IGKMySQLQueryResult();
@@ -131,6 +210,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public static function CreateResult($dbresult, $query = null, $options = null)
     {
         // + | -------------------------------------------------------------------------------------------------
@@ -248,6 +328,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * 
      */
+
     public function getColumnCount()
     {
         return igk_count($this->m_columns);
@@ -258,6 +339,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
      * 
      * @param mixed $columnname
      */
+
     public function getColumnIndex($columnname)
     {
         if (isset($this->m_columns[$columnname])) {
@@ -269,6 +351,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * 
      */
+
     public function getColumns()
     {
         return $this->m_columns;
@@ -277,6 +360,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * 
      */
+
     public function getHasRow()
     {
         return ($this->getRowCount() > 0);
@@ -285,6 +369,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * 
      */
+
     public function getQuery()
     {
         return $this->m_query;
@@ -293,6 +378,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * 
      */
+
     public function getResult()
     {
         if (strtolower($this->m_type) == 'boolean') {
@@ -304,6 +390,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * get the type of result. boolean|numeric|db_result
      */
+
     public function getResultType()
     {
         return $this->m_type;
@@ -314,6 +401,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
      * 
      * @param mixed $index
      */
+
     public function getRowArray($index)
     {
         if (($index < 0) && ($index >= $this->RowCount)) {
@@ -336,6 +424,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
      * 
      * @param mixed $index
      */
+
     public function getRowAtIndex($index)
     {
         if (strtolower($this->m_type) == 'igk_db_query_result') {
@@ -347,6 +436,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * 
      */
+
     public function getRowCount()
     {
         return igk_count($this->m_rows);
@@ -355,6 +445,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * retrieve loaded rows
      */
+
     public function getRows()
     {
         return $this->m_rows;
@@ -363,6 +454,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * 
      */
+
     public function getSuccess()
     {
         return ($this->resultTypeIsBoolean() && $this->getValue()) || ($this->RowCount > 0);
@@ -371,6 +463,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * 
      */
+
     public function getTables()
     {
         return $this->m_tables;
@@ -379,6 +472,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * get the request value
      */
+
     public function getValue()
     {
         return $this->m_value;
@@ -387,6 +481,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * @param mixed $equalsTab array for searching
      */
+
     public function searchEqual($equalsTab)
     {
         if (!is_array($equalsTab))
@@ -415,6 +510,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
      * 
      * @param mixed $callback
      */
+
     public function select($callback)
     {
         $result = new IGKMySQLQueryResult();
@@ -438,6 +534,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
      * @param mixed $asc the default value is true
      * @param mixed $preserveid the default value is true
      */
+
     public function SortBy($key, $asc = true, $preserveid = true)
     {
         return $this->SortValueBy($key, $asc, null, $preserveid);
@@ -447,6 +544,7 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
     /**
      * sort result
      */
+
     public function SortValueBy($key, $asc = true, $param = null, $preserveid = false)
     {
         if (is_callable($key))
@@ -475,6 +573,11 @@ final class IGKMySQLQueryResult extends DbQueryResult implements IQueryResult
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function toAssocArray($name)
     {
         $o = null;

@@ -15,10 +15,37 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 */
 class DbModuleReferenceTable implements ArrayAccess{
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tabledef;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_controller;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_source;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_request_changed = [];
+
+    /**
+    * .ctr
+    * @param IDbGetTableReferenceHandler $controller
+    * @param array $tables
+    * @param array $source
+    */
     public function __construct(IDbGetTableReferenceHandler $controller, array $tables, array $source)
     {
         $this->m_tabledef = $tables;
@@ -29,6 +56,7 @@ class DbModuleReferenceTable implements ArrayAccess{
      * update reference
      * @return array 
      */
+
     public function udpate(){              
         if ($rc = $this->m_request_changed){
             foreach($rc as $v){
@@ -41,15 +69,30 @@ class DbModuleReferenceTable implements ArrayAccess{
      * get table reference definition
      * @return null|array 
      */
+
     public function & getRefTableDefinition():?array{
         return  $this->m_tabledef;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getTableDefinition(){
         return $this->m_tabledef;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function _access_offsetExists($n){
         return key_exists($n, $this->m_tabledef);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function _access_offsetGet($n){
         if (key_exists($n, $this->m_tabledef)){
             return $this->m_tabledef[$n];

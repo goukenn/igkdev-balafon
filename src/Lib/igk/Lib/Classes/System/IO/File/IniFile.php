@@ -9,10 +9,26 @@ namespace IGK\System\IO\File;
  * @package 
  */
 class IniFile{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_configs = [];
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         return igk_getv($this->m_configs, $n);
     }
+
+    /**
+    * destructor
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v){
         if ($v === null){
             unset($this->m_configs[$n]);
@@ -20,15 +36,29 @@ class IniFile{
         }
         $this->m_configs[$n] = $v;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function to_array(){
         return $this->m_configs; 
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $d
+    */
     public function comment($d){
         if (isset($this->m_configs[$d])){
             $this->m_configs["#".$d] = $this->m_configs[$d];
             unset($this->m_configs[$d]);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $d
+    */
     public function activate($d){
         if (isset($this->m_configs["#".$d])){
             $this->m_configs[$d] = $this->m_configs["#".$d];
@@ -41,6 +71,7 @@ class IniFile{
     * @param string $file 
     * @return null|self 
     */
+
     public static function LoadConfig(string $file){
         $conf = [];
         array_map(
@@ -62,6 +93,11 @@ class IniFile{
         return $c;
     }
     //store to file
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    */
     public function store(string $file){
         $m = "";
         foreach($this->m_configs as $k=>$v){

@@ -10,12 +10,30 @@ use IGKApplicationBase;
  */
 abstract class BaseUriHandler
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_routes;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_application;
+
+    /**
+    * .ctr
+    */
     protected function __construct()
     {
         $this->m_routes = $this->initRoutes();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initRoutes()
     {
         return [];
@@ -26,6 +44,7 @@ abstract class BaseUriHandler
      * @param null|IGKApplicationBase $application 
      * @return void 
      */
+
     public static function Handle(string $uri, ?IGKApplicationBase $application =null, ?callable $bootload=null )
     {
         $g = new static;

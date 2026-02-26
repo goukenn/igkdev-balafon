@@ -9,9 +9,34 @@ namespace IGK\System\Console;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class CommandCategories{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MAKE = 'make';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DATABASE = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const USER = 'users';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PROJECT = 'project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MODULES = 'modules;';
 }

@@ -12,13 +12,39 @@ use IGK\System\Database\Helper\DbUtility;
 * @package IGK\System\Console\Commands
 */
 class DbUpdateControllerSchemaCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = '--db:schema-update';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'udpate data-schema and increment the release version';
+
+    /**
+    * auto generate doc.
+    */
     public function showUsage(){
         parent::showUsage();
         Logger::print(sprintf("%s controller [file]", $this->command));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $file
+    */
     public function exec($command, ?string $controller=null, ?string $file = null ) {
         if ($controller && !($ctrl = self::GetController($controller, false))){            
             igk_die("controller not found");

@@ -25,20 +25,35 @@ class SchemaMigrationListener implements ISchemaMigrationInfoListener
      * @var ?ISchemaMigrationLoadingList
      */
     var $definition;
+
+    /**
+    * auto generate doc.
+    * @param string $tablename
+    */
     public function getTableSchemaFileDefinition(string $tablename)
     {
         return igk_getv($this->definition->tables, $tablename);
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_changes = [];
     /**
      * 
      * @param string $tablename 
      * @return void 
      */
+
     public function regDefTableChanged(string $tablename)
     {
         $this->m_changes[$tablename] = 1;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function didMigrationComplete()
     {
         if ($this->m_changes) {

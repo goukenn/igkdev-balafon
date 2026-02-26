@@ -9,10 +9,37 @@ use IGKMedia;
 * @package IGK\System\Html\Css
 */
 class CssMapTheme{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $media;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $lk;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $is_primaryTheme;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $skipProperty;
+
+    /**
+    * .ctr
+    * @param IGKMedia $media
+    * @param mixed $is_primaryTheme
+    * @param mixed $lk
+    */
     public function __construct(IGKMedia $media, $is_primaryTheme, $lk)
     {
         $this->media = $media;
@@ -23,6 +50,7 @@ class CssMapTheme{
      * map definition 
      * @return void 
      */
+
     public function map(){
         $g = & $this->media->getDef(); // ->getAttributes();
         if (!$g)return;

@@ -10,6 +10,13 @@ use Throwable;
 * @package IGK\System\Exceptions
 */
 class OperationNotAllowedException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $msg
+    * @param mixed $code
+    * @param null|Throwable $throwable
+    */
     public function __construct($msg, $code= 500, ?Throwable $throwable=null)
     {
         parent::__construct($msg, $code, $throwable);

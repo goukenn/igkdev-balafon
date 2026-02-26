@@ -13,12 +13,39 @@ use IGK\System\EntryClassResolution;
 * @package IGK\System\Console\Commands
 */
 class DbInitDataCommand extends AppExecCommand{
-	var $command='--db:initdata';
-	var $desc='initialize data command'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:initdata';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='initialize data command'; 
 	/* var $options=[]; */
-	var $category='db';
-	var $usage = 'controller [action_name] [options]';
-	public function exec($command, ?string $controller = null, ?string $action_name=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category='db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [action_name] [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $action_name
+    */
+    public function exec($command, ?string $controller = null, ?string $action_name=null) {
 		is_null($controller) && igk_die('required controller');
 		($ctrl = self::GetController($controller)) ?? igk_die('missing controller');
 		$cl = $ctrl->resolveClass(EntryClassResolution::DbInitData) ?? igk_die('init data class is missing');

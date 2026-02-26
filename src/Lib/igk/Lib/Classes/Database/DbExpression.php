@@ -18,7 +18,17 @@ use ModelBase;
 * @package IGK\Database
 */
 class DbExpression extends IGKObject implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_v;
+
+    /**
+    * .ctr
+    * @param null|mixed $value
+    */
     public function __construct($value=null){
         $this->m_v=$value;
     }
@@ -26,6 +36,7 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
      * 
      * @return mixed 
      */
+
     public static function Now(){
         static $now;
         if (is_null($now)){
@@ -38,6 +49,7 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
     * auto generate doc.
     * @param mixed $expression
     */
+
     public static function Create($expression){
         $g=new static($expression); 
         return $g;
@@ -47,6 +59,7 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
     * auto generate doc.
     * @param null|mixed $o
     */
+
     public function getValue($o=null){
         if (!is_string($this->m_v)){
             if ($this->m_v instanceof static){
@@ -64,6 +77,7 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
     * @param string $column_in_source_model
     * @param string $column_in_target_model
     */
+
     public static function NotInSelectedField(\IGK\System\Models\ModelBase  $source_model, \IGK\System\Models\ModelBase $target_model, 
         string $column_in_source_model, 
         string $column_in_target_model){

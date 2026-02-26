@@ -48,10 +48,19 @@ class HtmlLoadingContextOptions{
      * @var bool 
      */
     var $noInterpolation = false;
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return static::class;
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         igk_trace();
         igk_wln_e("try = ".$name);

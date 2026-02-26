@@ -10,17 +10,28 @@ namespace IGK\System\Console;
 * @package IGK\System\Console
 */
 class ConsoleLoggerOffscreen implements IConsoleLogger{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $parent;
 
     /**
     * auto generate doc.
     */
+
     public function offscreen() { 
         return null;
     }
     private function getApp(){
         return $this->parent->app;
     }
+
+    /**
+    * .ctr
+    * @param mixed $logger
+    */
     public function __construct($logger)
     {
         $this->parent = $logger; 
@@ -30,6 +41,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function log($msg) { 
         $this->print( $msg);
     }
@@ -38,6 +50,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function info($msg) { 
         $this->print($this->getApp()::Gets(App::YELLOW, $msg));
     }
@@ -46,6 +59,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function warn($msg) { 
         $this->print($this->getApp()::Gets(App::SHA_INDIGO, $msg));
     }
@@ -54,6 +68,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function success($msg) { 
         $this->print($this->getApp()::Gets(App::GREEN, $msg));
     }
@@ -62,6 +77,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function danger($msg){
         $this->print($this->getApp()::Gets(App::RED, $msg));
     }
@@ -70,6 +86,7 @@ class ConsoleLoggerOffscreen implements IConsoleLogger{
     * auto generate doc.
     * @param mixed $msg
     */
+
     public function print($msg){
         if (defined('STDERR')){
             fwrite(\STDERR, $msg."\n");

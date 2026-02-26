@@ -12,14 +12,45 @@ use Symfony\Component\Serializer\Encoder\JsonEncode;
 * @package IGK\System\Console\Commands\Database
 */
 class GetControllerSchemaTablesCommand extends AppExecCommand{
-	var $command='--db:schema-tables';
-	var $desc='get controller schema table';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:schema-tables';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='get controller schema table';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'-o:xml|json'=>'get output type'
-	]; 
-	var $category = 'db';
-	var $usage = 'controller [options]';
-	public function exec($command, ?string $controller =null) {
+	];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller =null) {
 		$ctrl = self::GetController($controller);
 		$info = $ctrl->getDataTableDefinition();
 		$option = igk_getv($command->options, '-o');

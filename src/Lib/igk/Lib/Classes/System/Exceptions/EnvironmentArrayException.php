@@ -11,6 +11,11 @@ use IGKException;
 * @package IGK\System\Exceptions
 */
 class EnvironmentArrayException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $key
+    */
     public function __construct($key){
         parent::__construct( sprintf("Environment key %s not an array", $key), 500);
     }

@@ -15,12 +15,36 @@ use ReflectionException;
 * @package IGK\System\Database
 */
 abstract class UserProfileBase implements ICustomUserProfile{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_info;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_model;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_controller;
+
+    /**
+    * auto generate doc.
+    * @param mixed $userInfo
+    */
     public function setUserInfo($userInfo) {
         $this->m_info = $userInfo;
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function getUserInfo()
     {
         return $this->m_info;
@@ -29,6 +53,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * return the model attached to this UserProfile
      * @return mixed 
      */
+
     public function model(): \IGK\Models\Users{        
         return $this->m_model;
     }
@@ -36,6 +61,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * return the system model 
      * @return null|Users 
      */
+
     public function systemModel() : ?\IGK\Models\Users{
         return $this->m_info->model();
     }
@@ -45,6 +71,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * @param ModelBase $app_user 
      * @return void 
      */
+
     public function bindInfo($userInfo, ModelBase $app_user): ?ICustomUserProfile{
         if (is_null($userInfo)){
             igk_die("can't bind user to null");
@@ -54,6 +81,11 @@ abstract class UserProfileBase implements ICustomUserProfile{
         $this->m_controller = $this->m_model->getController();
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?BaseController
+    */
     public function getController(): ?BaseController
     {
         return $this->m_controller;
@@ -62,6 +94,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * get auth list
      * @return mixed 
      */
+
     public function auths(){
         return $this->systemModel()->auths();
     }
@@ -70,9 +103,14 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * @param mixed $auth 
      * @return bool 
      */
+
     public function auth($auth, bool $strict=false, ?BaseController $ctrl=null):bool{
         return $this->systemModel()->auth($auth, $strict, $ctrl);
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return $this->m_model->to_json();
@@ -81,21 +119,37 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * get the profile display
      * @return string 
      */
+
     public function display(): ?string{
         return StringUtility::DisplayName(
             $this->m_info->clFirstName, 
             $this->m_info->clLastName
         );
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $n
+    * @param mixed $args
+    */
     public function __call($n, $args){
         if (method_exists($this ,  $fc = 'get'.ucfirst($n))){
             return $this->$fc(...$args);
         }
         return $this->m_info->{IGK_FIELD_PREFIX.ucfirst($n)};
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         return $this->m_info->$n;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function save(){
         return $this->m_model->save();
     }
@@ -106,6 +160,7 @@ abstract class UserProfileBase implements ICustomUserProfile{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function memberOf(){
         $mod = $this->systemModel(); 
         return $mod->memberOf(); 

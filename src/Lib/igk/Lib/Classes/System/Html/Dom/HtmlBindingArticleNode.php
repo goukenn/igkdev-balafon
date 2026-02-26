@@ -10,11 +10,41 @@ use IGK\System\Runtime\Compiler\CompilerConstants;
 * @package IGK\System\Html\Dom
 */
 class HtmlBindingArticleNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = "igk:binding-article";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $file;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $index;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $target;
     /**
      * bool caching result 
@@ -22,22 +52,50 @@ class HtmlBindingArticleNode extends HtmlNode{
      */
     var $caching = false;
     // binding counter:
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_Count;
+
+    /**
+    * auto generate doc.
+    */
     public static function ResetBindingCounter(){
         static::$sm_Count = 0;
     }
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         parent::__construct(); 
         $this->index = self::$sm_Count;
         self::$sm_Count++;  
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function getCanRenderTag():bool{
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getRenderedChilds($options = null)
     {
         return [];
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options = null)
     {  
         // + | --------------------------------------------------------------------

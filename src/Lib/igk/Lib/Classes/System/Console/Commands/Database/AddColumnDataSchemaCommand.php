@@ -14,12 +14,40 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class AddColumnDataSchemaCommand extends AppExecCommand{
-	var $command='--db:schema-add-column';
-	var $desc='dbschema: add new column to controller\'s project tables';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:schema-add-column';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='dbschema: add new column to controller\'s project tables';
 	/* var $options=[]; */
-	var $category="db";
-	var $usage = 'table_name column_definition [controller]';
-	public function exec($command, ?string $table_name=null, ?string $column_definition=null, ?string $controller=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category="db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'table_name column_definition [controller]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $table_name
+    * @param null|string $column_definition
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $table_name=null, ?string $column_definition=null, ?string $controller=null) { 
 		if (igk_is_null_or_empty($table_name)){
 			throw new CommandException('table\"s  name required');
 		}

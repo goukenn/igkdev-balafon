@@ -20,9 +20,29 @@ use IGK\System\IO\StringBuilder;
 */
 class MakeViewCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--make:view";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "make new project's view";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--controller:controller" => "set controller to use",
         "--action" => "flag: enable action",
@@ -32,11 +52,17 @@ class MakeViewCommand extends AppExecCommand
         '--clear-cache' => 'flag: clear cache',
         "--scaffold:[scaffoldtype]" => "type of view to generate. default is null. or builder"
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = "controller viewname | viewname [options]";
     /**
      * exec command. 
      * controller viewname
      */
+
     public function exec($command, $controller = null, $viewname = "")
     {
         $gctrl = igk_getv($command->options, "--controller");
@@ -139,6 +165,7 @@ class MakeViewCommand extends AppExecCommand
     /**
     * auto generate doc.
     */
+
     public function help()
     {
         Logger::print("-");
@@ -153,6 +180,7 @@ class MakeViewCommand extends AppExecCommand
     * @param null|string $type
     * @return string
     */
+
     public function getInitViewContent(string $viewname, ?string $type = null): string
     {
         if ($type) {
@@ -174,6 +202,7 @@ class MakeViewCommand extends AppExecCommand
     * @param string $ext
     * @return string
     */
+
     public static function GetStyledDefData(string $ext): string
     {
         $s = '';

@@ -8,5 +8,10 @@ namespace IGK\System\Configuration;
 * @package IGK\System\Configuration
 */
 class ConfigurationFields{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const AppTitle = 'clAppTitle';
 }

@@ -10,10 +10,20 @@ use IGK\System\Html\Dom\HtmlNode;
  * @package IGK\System\WinUI
  */
 class View{
+
+    /**
+    * .ctr
+    * @param null|array $options
+    */
     public function __construct(?array $options = null)
     {   
         $this->init($options);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|array $options
+    */
     public function init(?array $options=null){
         // init the view
         if ($options){
@@ -22,11 +32,19 @@ class View{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function reset(){
         foreach($this as $k=>$v){
             $this->$k = null;
         }
     }
+
+    /**
+    * Called when an object is used as a function.
+    */
     public function __invoke()
     {
         if (($args = func_get_args()) && 
@@ -38,6 +56,7 @@ class View{
     /**
      * view of the compoent
      */
+
     public function view(HtmlNode $n){
         // implement to build custom view
     }

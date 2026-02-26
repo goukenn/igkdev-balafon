@@ -11,8 +11,23 @@ namespace IGK\System\Controllers;
 abstract class ControllerMethods{
     // + | --------------------------------------------------------------------
     // + | primary theme methods
-    // + | 
+    // + |
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const setupTheme = 'setupTheme';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const getPrimaryTheme = 'getPrimaryTheme';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const register_autoload = 'register_autoload';
 }

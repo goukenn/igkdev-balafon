@@ -12,8 +12,23 @@ use IGKHtmlDoc;
  */
 class MetaDataHost
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_host;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_register;
+
+    /**
+    * .ctr
+    * @param IGKHtmlDoc $host
+    */
     public function __construct(IGKHtmlDoc $host)
     {
         $this->m_host = $host;
@@ -22,6 +37,7 @@ class MetaDataHost
      * 
      * @return (CoreDocMetadata|OpenGraphMetadata|TwitterMetadata|AppLinkMetadata|AppleWebAppMetadata)[] 
      */
+
     public static function InitCoreMetaDataDefinition()
     {
         return [
@@ -38,6 +54,7 @@ class MetaDataHost
      * @return void 
      * @throws IGKException 
      */
+
     public function bind(array $settings)
     {
         $register = &$this->m_register;

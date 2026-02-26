@@ -13,7 +13,17 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 class DbImportFile{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const HandleMethodPrefix = '_Handle';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SUPPORT_TYPES= 'json|csv';
     /**
      * 
@@ -21,6 +31,7 @@ class DbImportFile{
      * @param string $file 
      * @return void 
      */
+
     public static function Import(ModelBase $model, string $file, ?string $type=null, ?bool $autoregister=null, $entry = null){
         $ext = null;
         if (!is_null($type) && in_array($type, explode('|', self::SUPPORT_TYPES))){
@@ -41,6 +52,7 @@ class DbImportFile{
      * @return true|void 
      * @throws IGKException 
      */
+
     protected static function _HandleJson(ModelBase $model, string $file, ?bool $autoregister, ?string $entry=null){
         if ($data = json_decode(file_get_contents($file))){
             if ($entry){
@@ -58,6 +70,7 @@ class DbImportFile{
     /**
      * s
      */
+
     protected static function _HandleCsv(ModelBase $model, string $file){
         $data = [];
         $mapping = DbModelImporterMap::CreateFrom($model);

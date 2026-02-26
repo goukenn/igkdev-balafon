@@ -45,6 +45,10 @@ class FieldInfo implements IFormFieldOptions{
      * @var ?int
      */
     var $minLength;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->type = 'text';

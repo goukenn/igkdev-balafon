@@ -12,12 +12,37 @@ use SQLQueryUtils;
  * @package IGK\System\Console\Commands
  */
 class JSCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--js:dist";
-    var $desc = "get core minified js"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = "get core minified js";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "js";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--js-debug'=>'flag: js debug on generation'
     ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command)
     {   
         $src = igk_sys_balafon_js(null, property_exists($command->options, '--js-debug'), true, false);

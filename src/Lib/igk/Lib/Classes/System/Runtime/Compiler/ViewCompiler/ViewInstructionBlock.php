@@ -16,22 +16,63 @@ use Traversable;
 class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
 {
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_blocks = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_marker = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $space_comment = 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $pattern_marker = "/\/\/\s*\+\s*\|/";
+
+    /**
+    * auto generate doc.
+    * @return int
+    */
     public function count(): int
     {
         return count($this->m_blocks);
     }
+
+    /**
+    * auto generate doc.
+    * @return Traversable
+    */
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->m_blocks);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetGet($n)
     {
         return $this->m_blocks[$n];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_OffsetSet($n, $v)
     {
         if ($this->space_comment) {
@@ -54,6 +95,10 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function &getBlockReference()
     {
         return $this->m_blocks;
@@ -62,6 +107,7 @@ class ViewInstructionBlock implements ArrayAccess, IteratorAggregate, Countable
      * shift block
      * @return mixed 
      */
+
     public function shift()
     {
         return array_shift($this->m_blocks);

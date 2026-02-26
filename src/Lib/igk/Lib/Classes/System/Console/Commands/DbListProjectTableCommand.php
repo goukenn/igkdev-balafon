@@ -14,9 +14,29 @@ use function igk_resources_gets as __;
 * @package IGK\System\Console\Commands
 */
 class DbListProjectTableCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $command = "--db:list-project-tables";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $desc = "list project's stored tables";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $usage = 'controller [options]';
     /**
      * Execute the command to list all tables defined for a given project controller.
@@ -25,6 +45,7 @@ class DbListProjectTableCommand extends AppExecCommand{
      * @param string|null $controller The controller name to look up.
      * @return int Returns 0 on success or -1 on failure.
      */
+
     public function exec($command, ?string $controller=null)
     {
         if (is_null($controller)){

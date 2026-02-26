@@ -72,12 +72,34 @@ class Utils{
         }
 
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @param mixed $view
+    * @param null|mixed $params
+    */
     public static function PostView(BaseController $controller, $view="default", $params=null){
         self::SendView($controller, $view, $params, "POST");
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @param mixed $view
+    * @param null|mixed $params
+    */
     public static function GetView(BaseController $controller, $view="default", $params=null){
         self::SendView($controller, $view, $params, "GET");
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @param mixed $view
+    * @param null|mixed $params
+    * @param mixed $method
+    */
     public static function SendView(BaseController $controller, $view="default", $params=null, $method="GET"){
         igk_server()->REQUEST_METHOD = $method;
         $controller->loader->View($view, ["params"=>self::_GetParams($params)]);

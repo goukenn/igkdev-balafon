@@ -11,8 +11,26 @@ use IGK\System\IO\StringBuilder;
 * @package IGK\System\Html\Dom
 */
 class HtmlConditionNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = 'igk:if-condition';
-    var $condition; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $condition;
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    * @param mixed $value
+    * @param null|mixed $context
+    * @return bool
+    */
     public function setSysAttribute($key, $value, $context = null): bool
     {
         if ($key == 'condition'){
@@ -21,6 +39,11 @@ class HtmlConditionNode extends HtmlNode{
         }
         return parent::setSysAttribute($key, $value);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options =null){
         $tab= $this->getRenderedChilds();
         if (!$tab || (count($tab) == 0)){

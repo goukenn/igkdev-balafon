@@ -9,9 +9,29 @@ namespace IGK\Controllers;
  * @package 
  */
 class ViewLayoutCaller{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $arguments;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $host;
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    */
     public function invoke($node){
         $args = array_merge(func_get_args(), $this->arguments ?? []);
         return call_user_func_array([$this->host, $this->name], $args);

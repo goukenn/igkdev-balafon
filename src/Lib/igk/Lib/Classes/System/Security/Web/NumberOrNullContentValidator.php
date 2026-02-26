@@ -9,9 +9,25 @@ namespace IGK\System\Security\Web;
 */
 class NumberOrNullContentValidator extends MapContentValidatorBase
 {
+
+    /**
+    * auto generate doc.
+    * @param mixed & $value
+    * @param mixed $key
+    * @return bool
+    */
     protected function validate(&$value, $key): bool {
         return true;
      }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed $key
+    * @param mixed & $error
+    * @param bool $missing
+    * @param bool $required
+    */
     public function map($value, $key, &$error, bool $missing=false, bool $required = true)
     {
         if (empty($value) || is_null($value) || is_numeric($value)) {

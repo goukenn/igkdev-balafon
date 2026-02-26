@@ -8,6 +8,11 @@ namespace IGK\Database\Mapping;
 * @package IGK\Database\Mapping
 */
 abstract class ModelCacheFilterBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $model;
     /**
      * auto insertin
@@ -24,9 +29,19 @@ abstract class ModelCacheFilterBase{
      * @var mixed
      */
     var $default;
+
+    /**
+    * .ctr
+    */
     protected function __construct()
     {
     }
+
+    /**
+    * Called when an object is used as a function.
+    * @param null|string $data
+    * @param null|string $column_name
+    */
     public function __invoke(?string $data, ?string $column_name = null){
         return $this->map($data, $column_name);
     }
@@ -36,6 +51,7 @@ abstract class ModelCacheFilterBase{
      * @param null|string $column_name 
      * @return mixed 
      */
+
     abstract function map(?string $data, ?string $column_name = null);
     /**
      * create the filter
@@ -44,6 +60,7 @@ abstract class ModelCacheFilterBase{
      * @param bool $autoinsert 
      * @return static 
      */
+
     public static function CreateFilter($model, $column, $autoinsert=false){
 		$s = new static;
 		$s->auto_insert = $autoinsert;

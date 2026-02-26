@@ -39,13 +39,48 @@ use IGK\Models\ModelBase;
 * @method static mixed userSearchPhoneEntries(\IGK\Models\Users $user,string $search,?string $type= IGK\Database\Macros\PhoneBooksMacros::PHONE_DEFAULT_TEL) macros function
 * */
 class PhoneBooks extends ModelBase{
-	const FD_ID="rcphb_Id";
-	const FD_ENTRY_GUID="rcphb_EntryGuid";
-	const FD_TYPE="rcphb_Type";
-	const FD_VALUE="rcphb_Value";
-	const FD_IS_PREFERRED="rcphb_is_preferred";
-	const FD_CREATE_AT="rcphb_Create_At";
-	const FD_UPDATE_AT="rcphb_Update_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ID="rcphb_Id";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_ENTRY_GUID="rcphb_EntryGuid";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_TYPE="rcphb_Type";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_VALUE="rcphb_Value";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_IS_PREFERRED="rcphb_is_preferred";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CREATE_AT="rcphb_Create_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_UPDATE_AT="rcphb_Update_At";
 	/**
 	* table's name
 	*/
@@ -62,7 +97,12 @@ class PhoneBooks extends ModelBase{
 	*override display key
 	*/
 	protected $display = "rcphb_Value";
-	protected $unique_columns = array (
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    protected $unique_columns = array (
 	  0 => 
 	  array (
 	    0 => 'rcphb_Type',

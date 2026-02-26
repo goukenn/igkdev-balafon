@@ -17,6 +17,10 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Test\System\IO\Configuration 8
  */
 class ConfigurationReaderTest extends BaseTestCase {
+
+    /**
+    * auto generate doc.
+    */
     public function test_read_connexion_string(){
         $connexion = "user=root, pwd=test, db_name=sample.db, charset=utf8";
         $obj = (object)[
@@ -34,6 +38,9 @@ class ConfigurationReaderTest extends BaseTestCase {
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_read_connexion_string_with_litteral(){
         $connexion = "user=root, pwd='test,presentation', db_name=sample.db, charset=utf8";
         $obj = (object)[
@@ -51,6 +58,9 @@ class ConfigurationReaderTest extends BaseTestCase {
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_read_css_style(){
         $connexion = "background-color:red; color:white;";
         $obj = (object)[
@@ -67,6 +77,10 @@ class ConfigurationReaderTest extends BaseTestCase {
             "can't read css style string"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_read_environment_value(){
         $connexion = "BASE_URL=https://localhost.com\nPRESENTATION=\nINFO=BALAFON";
         $obj = (object)[
@@ -84,6 +98,10 @@ class ConfigurationReaderTest extends BaseTestCase {
             "can't read css style string"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_read_environment_value_2(){
         //add empty space so value ca be empty 
         $connexion = "BASE_URL=https://localhost.com\nPRESENTATION= \nINFO=BALAFON";
@@ -102,6 +120,10 @@ class ConfigurationReaderTest extends BaseTestCase {
             "can't read css style string"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_remove_str_mark(){
         $this->assertEquals(
             'bonjour',

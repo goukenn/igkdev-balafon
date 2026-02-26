@@ -15,7 +15,17 @@ class ActionFormOptions extends IGKObject{
      * @var mixed
      */
     var $referer;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $good_uri;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $noRegister;
     /**
      * passing extra data 

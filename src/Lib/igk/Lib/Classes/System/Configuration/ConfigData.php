@@ -257,10 +257,18 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
         }
         return $this->get($key);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function menu_default_page()
     {
         return $this->get("menu_default_page", "default");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function reload()
     {
         if (file_exists($this->m_confile))
@@ -270,6 +278,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
      * get the primary configuration file
      * @return ?string 
      */
+
     public function getConfigFile()
     {
         return $this->m_confile;
@@ -279,6 +288,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
      * @return mixed 
      * @throws IGKException 
      */
+
     public function website_title($default="IGKDEV"){
         return $this->get(__FUNCTION__, $default);
     }
@@ -288,6 +298,7 @@ class ConfigData // TODO: ICONFIG DATA  implements ISysConfigurationData
      * @return mixed 
      * @throws IGKException 
      */
+
     public function assets_cache_output($default=3600){
         return $this->get(__FUNCTION__, $default);
     }

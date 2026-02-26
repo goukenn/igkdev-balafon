@@ -10,6 +10,11 @@ use IGK\System\Text\RegexMatcherContainer;
 * @author C.A.D. BONDJE DOUE
 */
 class JSTreatment{
+
+    /**
+    * auto generate doc.
+    * @param string $t
+    */
     public static function RemoveOutsideSymbol(string $t){
         $rgex = new RegexMatcherContainer;
         $rgex->begin("(\"|')", "\\1","string");

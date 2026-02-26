@@ -13,7 +13,13 @@ class BalafonCLICommand extends AppExecCommand{
 	/* var $desc='desc'; */
 	/* var $options=[]; */
 	/* var $category; */
-	public function exec($command, ...$args) { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed ...$args
+    */
+    public function exec($command, ...$args) { 
 		// exec cli command
 	}
 }

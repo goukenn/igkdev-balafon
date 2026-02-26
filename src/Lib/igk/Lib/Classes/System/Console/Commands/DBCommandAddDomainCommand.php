@@ -17,20 +17,42 @@ use Models\Domains;
 */
 class DBCommandAddDomainCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--domain";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "set controller as domain";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "administration";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [];
 
     /**
     * auto generate doc.
     */
+
     public function showUsage(){
         Logger::print(sprintf( "%s domain_name controller [options]", $this->command));
     }
     /**
      * exec the command
      */
+
     public function exec($command, ?string $domainname = null, $controller = null)
     {
         if (is_null($domainname)) {

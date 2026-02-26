@@ -12,20 +12,56 @@ use IGK\System\Html\HtmlNodeBuilder;
  */
 class HtmlLayoutViewInclusion extends HtmlNode
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $path;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = "igk:view-include";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $args;
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
     }
+
+    /**
+    * .ctr
+    * @param string $path
+    * @param BaseController $ctrl
+    */
     public function __construct(string $path, BaseController $ctrl)
     {
         parent::__construct();
         $this->path = $path;
         $this->ctrl = $ctrl;
-    }  
+    }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null): bool
     {
         if ($this->getIsVisible() && ($path = $this->getPath()) ) {
@@ -44,6 +80,10 @@ class HtmlLayoutViewInclusion extends HtmlNode
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getPath(){
         $p = $this->path;
         if (igk_str_startwith($this->path, "@")){

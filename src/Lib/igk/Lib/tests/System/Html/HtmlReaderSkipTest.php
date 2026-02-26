@@ -14,6 +14,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html
 */
 class HtmlReaderSkipTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     function test_skip_script(){
         $n = igk_create_node("div");         
         $n->load(<<<'HTML'
@@ -25,6 +29,9 @@ HTML,   $n->render());
 
     }
 
+    /**
+    * auto generate doc.
+    */
     function test_skip_code(){
         $n = igk_create_node("div"); 
         // code must be wheel writed 
@@ -39,6 +46,9 @@ HTML,   $n->render(),
 
     }
 
+    /**
+    * auto generate doc.
+    */
     function test_skip_area_code(){
         $n = igk_create_node("div");
        

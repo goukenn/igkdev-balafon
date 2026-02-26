@@ -49,6 +49,11 @@ class ReflectionHelper
         }
         return $v_params;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReflectionProperty $prop
+    */
     public static function PropertyHasType(ReflectionProperty $prop){
         if (method_exists($prop, 'hasType')){
             return $prop->hasType();
@@ -61,6 +66,7 @@ class ReflectionHelper
      * @param mixed $i 
      * @return array 
      */
+
     public static function DebugOnlyPublicMember($i):array{
         $r = [];
         $tab = (array)$i;

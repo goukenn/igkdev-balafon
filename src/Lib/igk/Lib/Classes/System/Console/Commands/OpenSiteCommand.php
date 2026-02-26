@@ -12,13 +12,43 @@ use IGK\System\Console\AppExecCommand;
 * @author C.A.D. BONDJE DOUE
 */
 class OpenSiteCommand extends AppExecCommand{
-	var $command='--open';
-	var $desc='desc';
-	var $options=[];
-	var $category = 'dev';
-	var $usage = 'location';
-	
-	public function exec($command, ?string $location=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--open';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='desc';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'dev';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'location';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $location
+    */
+    public function exec($command, ?string $location=null) {
 		$agent = 'firefox';
 		if ($page = getenv('IGK_WEB_URL')){
 			`open -a {$agent} {$page}/{$location}`;

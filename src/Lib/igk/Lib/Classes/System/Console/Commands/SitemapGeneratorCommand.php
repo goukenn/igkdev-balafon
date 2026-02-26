@@ -20,7 +20,17 @@ use ReflectionException;
  * @package igk\sitemaps\System\Console\Commands
  */
 class SitemapGeneratorCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--sitemap:gen";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "generate sitemaps";
     /**
      * sitemap exec command
@@ -28,6 +38,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @param mixed $controller 
      * @return void 
      */
+
     public function exec($command, $controller =null) {
         $curi = igk_io_baseuri();
         $baseuri = igk_getv($command->options, "--baseuri", $curi);
@@ -44,6 +55,10 @@ class SitemapGeneratorCommand extends AppExecCommand{
         $baseuri = $baseuri.str_replace($curi, "", $ctrl->getAppUri()); 
         echo self::GenerateSiteMap($ctrl->getViews(false, true), $baseuri);
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function GetProjectIndexes(){
         $indexes = [];
         $c = igk_sys_get_projects_controllers(); 
@@ -71,6 +86,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @throws Exception 
      * @throws IGKException 
      */
+
     public static function GenerateSiteMap(array $views, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,
@@ -116,6 +132,7 @@ class SitemapGeneratorCommand extends AppExecCommand{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function GenerateSiteMapIndex(array $indexes, string $baseuri, ?array & $error = null){
         $options = (object)[
             "Indent"=>1,

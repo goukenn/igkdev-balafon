@@ -21,9 +21,28 @@ use ReflectionException;
  */
 class RequestViewCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = '--request:view';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'request view call';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = 'controller request [options]';
+
+    /**
+    * auto generate doc.
+    */
     public function showOptions()
     {
         // + | ----------------------------------
@@ -47,6 +66,13 @@ class RequestViewCommand extends AppExecCommand
         $this->options = $opts;
         parent::showOptions();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $controller
+    * @param null|string $request
+    */
     public function exec($command, $controller = null, ?string $request = null)
     {
         $ctrl = $controller ?? igk_getv($command->options, '--controller');
@@ -116,6 +142,7 @@ class RequestViewCommand extends AppExecCommand
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function doRequest($command, string $path)
     {
         $ctrl = self::GetController(igk_configs()->default_controller, false)

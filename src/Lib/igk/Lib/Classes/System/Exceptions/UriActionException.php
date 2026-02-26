@@ -9,6 +9,11 @@ use IGKException;
 * represent uri action exception
 */
 class UriActionException extends IGKException{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_uri;
     /**
     * 
@@ -16,6 +21,7 @@ class UriActionException extends IGKException{
     * @param mixed $uri the default value is null
     * @param mixed $code the default value is 0
     */
+
     public function __construct($msg, $uri=null, $code=0){
         parent::__construct($msg);
         $this->m_uri=$uri;
@@ -23,6 +29,7 @@ class UriActionException extends IGKException{
     /**
     * 
     */
+
     public function getUri(){
         return $this->m_uri;
     }

@@ -8,16 +8,23 @@ namespace  IGK\System\Configuration\Controllers;
 * Represent IGKToolHost class
 */
 class ToolHost{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_tools;
     /**
     * Represent __construct function
     */
+
     public function __construct($tab){
         $this->_tools=$tab;
     }
     /**
     * Represent getTools function
     */
+
     public function getTools(){
         return $this->_tools;
     }
@@ -25,6 +32,7 @@ class ToolHost{
     * Represent register function
     * @param  $ctrl
     */
+
     public function register($ctrl){
         $this->_tools->setFlag($ctrl->getName(), 1);//$ctrl;
     }

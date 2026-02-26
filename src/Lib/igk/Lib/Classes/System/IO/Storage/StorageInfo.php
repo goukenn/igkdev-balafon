@@ -8,6 +8,16 @@ namespace IGK\System\IO\Storage;
 * @package IGK\System\IO\Storage
 */
 class StorageInfo implements IStorageInfo{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $type;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $path;
 }

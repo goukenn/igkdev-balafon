@@ -15,6 +15,11 @@ use ReflectionException;
  */
 trait ViewCompilerReadDoLoopTrait
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_do_loop_config;
     /**
      * @param ReadTokenOptions $options 
@@ -22,6 +27,7 @@ trait ViewCompilerReadDoLoopTrait
      * @param string $value 
      * @return void 
      */
+
     protected function _readDoWhileBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
         $this->flagHandler = null; // [$this, '_readHandleDoWhileBlock'];
@@ -47,6 +53,7 @@ trait ViewCompilerReadDoLoopTrait
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function _readHandleDoWhileBlock(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $fop = $options->flagOptions;
@@ -103,6 +110,13 @@ trait ViewCompilerReadDoLoopTrait
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    */
     protected function _endHandleDoWhileBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
         $fop = $options->flagOptions;

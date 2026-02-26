@@ -13,7 +13,17 @@ use IGK\System\Html\IHtmlStyleAtribute;
 * @package IGK\System\Html\Dom
 */
 class HtmlCssValueAttribute implements IHtmlStyleAtribute{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $value;
+
+    /**
+    * .ctr
+    * @param string $value
+    */
     public function __construct(string $value)
     {
         $this->value = $value;
@@ -23,6 +33,7 @@ class HtmlCssValueAttribute implements IHtmlStyleAtribute{
     * auto generate doc.
     * @param null|mixed $options
     */
+
     public function getValue($options = null) { 
         if (isset($options->Document) && CssThemeCompiler::CanCompile($this->value)){
             $systheme = $options->Document->getSysTheme();

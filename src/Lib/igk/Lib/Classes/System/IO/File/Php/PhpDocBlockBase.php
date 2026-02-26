@@ -8,7 +8,18 @@ namespace IGK\System\IO\File\Php;
 * @package IGK\System\IO\File\Php
 */
 abstract class PhpDocBlockBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NAME_TOKEN = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-\\';
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed & $offset
+    */
     protected function _readName($t, & $offset){
         $ln = strlen($t);
         $s  = "";
@@ -27,6 +38,7 @@ abstract class PhpDocBlockBase{
      * @param string $content 
      * @return string 
      */
+
     protected static function _TreatContent(string $content){
         if (igk_str_endwith($content, "\\")){
             $content.="\n";

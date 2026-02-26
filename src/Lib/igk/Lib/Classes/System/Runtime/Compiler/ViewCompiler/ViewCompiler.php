@@ -33,6 +33,11 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     use ViewCompilerReadTryCatch;
     use AttachBlockTrait;
     use ViewReadConditionTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_containers = [];
     /**
      * enable cache usage
@@ -43,6 +48,11 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * options to poss to view
      */
     var $options;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $params;
     /**
      * expression regex to handle comment
@@ -74,6 +84,11 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @var mixed
      */
     var $variables = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $flagHandler = null;
     /**
      * instruction blocks
@@ -90,9 +105,29 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @var string
      */
     var $tab_stop = "    ";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $top_expression;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $instruct_flag = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_init_variables = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_compile_handler;
     /**
      * getter expression list.
@@ -113,13 +148,52 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @var ?ViewCompilerBockInfo
      */
     private $m_block;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_end_condiontal = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const READ_SETTER_VARIABLE = CompilerFlagState::READ_VARIABLE . "_setter";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const READ_BLOCK = CompilerFlagState::READ_BLOCK;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const READ_EXPECT_BLOCK_CONTAINER = "expect_block_childs";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const READ_BLOCK_INSTRUCTION = "handle_instruction";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const READ_CONDITIONAL_EXPRESSION = "handle_conditional_expression";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BLOCK_TRIM_CHAR = ViewCompilerConstants::BLOCK_TRIM_CHAR;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         // parent::__construct();
@@ -133,6 +207,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function evaluationComment($data)
     {
         if (is_null($this->m_compile_handler)) {
@@ -144,10 +219,19 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * create process command handler
      * @return ViewCompileProcessCommandHandler 
      */
+
     protected function _createCompileHandler()
     {
         return new ViewCompileProcessCommandHandler($this);
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     public function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         if (!$options->struct_info) {
@@ -270,6 +354,13 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         return parent::HandleToken($options, $id, $value);
     }
     #block instruction that must end with )
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    */
     protected function _readConditionalExpression(ReadTokenOptions $options, ?string $id, string $value){
         $this->_pushFlag($options);
         $v_foption = (object)[
@@ -289,6 +380,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
             return false;
         });
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleConditionalExpression(ReadTokenOptions $options, ?string $id, string $value): bool{
         $fop = $options->flagOptions;
         if ($id == T_VARIABLE){
@@ -304,6 +403,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _endConditionalExpression(ReadTokenOptions $options, ?string $id, string $value): bool{
         $fop = $options->flagOptions;
         array_pop($this->m_end_condiontal);
@@ -323,6 +430,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function endHandleToken($options)
     {
         // clear container
@@ -373,6 +481,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         // parent::endHandleToken($options);
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleFlag(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $flag = &$options->flag;
@@ -393,6 +509,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return parent::_handleFlag($options, $id, $value);
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleInstruction(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         if ($value == ";") {
@@ -432,6 +556,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function _endReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         /**
@@ -466,6 +591,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return parent::_endReadExpression($options, $id, $value) && !$options->stop_read;
     }
+
     protected function _handleComment(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         if (preg_match($this->expression_use_comment_regex, $value)) {
@@ -488,6 +614,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         if (!$options->struct_info) { 
@@ -554,6 +688,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
     #endregion
     #region GLOBAL_VARIABLE
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _readSetterVariable(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $this->_pushFlag($options);
@@ -566,6 +708,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         $options->skipWhiteSpace = true;
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleSetterVariable(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $v_buffer = &$options->buffer;
@@ -623,6 +773,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _endSetterVariable(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $name = $options->flagOptions->name;
@@ -635,6 +793,12 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
     }
     #endregion
     #region BLOCK
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @return bool
+    */
     protected static function IsBlockCase($id): bool
     {
         switch ($id) {
@@ -656,6 +820,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleExpectContainer(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $c = trim($value);
@@ -673,6 +845,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _readBlock(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $this->_pushFlag($options);
@@ -680,6 +860,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         $this->_attacheBlock($block, $options, $id, $value);
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleReadCaseBlock(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         throw new NotImplementException(__METHOD__);
@@ -702,6 +890,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         // }
         // return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleReadBlock(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $v_block = $this->m_block;
@@ -812,6 +1008,14 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _endReadBlock(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $code = $this->m_block;
@@ -835,6 +1039,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * @param array $files 
      * @return null|string 
      */
+
     public function compile(array $files): ?string
     {
         $this->m_output = false;
@@ -849,6 +1054,7 @@ class ViewCompiler extends ArmonicCompiler implements IViewCompiler
      * merge source script
      * @return null|string 
      */
+
     public function mergeSourceCode($header = false): ?string
     {
         if (!$this->m_output) return null;

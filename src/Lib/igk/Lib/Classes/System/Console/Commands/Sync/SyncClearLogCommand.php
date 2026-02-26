@@ -9,9 +9,29 @@ use IGK\System\Console\Logger;
  * clear sites session 
  *  */
 class SyncClearLogCommand extends SyncAppExecCommandBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--sync:clearlogs";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "sync";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "sync:ftp clear logs";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command) { 
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
             return $c;

@@ -16,9 +16,28 @@ use IGK\System\IO\StringBuilder;
  */
 class MakeCommandCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = '--make:command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "make CLI command.";
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         parent::__construct();
@@ -26,7 +45,14 @@ class MakeCommandCommand extends AppExecCommand
             "[controller] command [options]",
             "\t\t{in :module-context:} command [option]",
         ]);
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $command_name
+    */
     public function exec($command, ?string $controller = null, ?string $command_name = null){
         $context = $command->app->getContext();
         if ($context == 'module') {

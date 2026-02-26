@@ -19,6 +19,10 @@ class IGKCssApplication extends IGKApplicationBase
     public function getNoEnvironment(){
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function bootstrap() { 
         // + | activate the session 
         $this->library("mysql");         
@@ -31,6 +35,7 @@ class IGKCssApplication extends IGKApplicationBase
      * @param int $render 
      * @return mixed 
      */
+
     public function run(string $entryfile, $render = 1) {      
         igk_setting()->no_init_controller = igk_io_file_exists(SystemUriActionController::GetCacheFile()); 
     }

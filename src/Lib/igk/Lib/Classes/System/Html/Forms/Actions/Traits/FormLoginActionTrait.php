@@ -17,8 +17,23 @@ use function igk_resources_gets as __ ;
 */
 trait FormLoginActionTrait{
     use ActionFormHandlerTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $formLoginActionRememberMe = true;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $formLoginActionRegisterUri = "registerLogin";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $formLoginActionLogin = 'login';
     /**
      * form login builder 
@@ -28,6 +43,7 @@ trait FormLoginActionTrait{
      * @throws IGKException 
      * @throws BindingResolutionException 
      */
+
     protected function form_login($form, $options = null)
     { 
         $user = ViewHelper::CurrentCtrl()->getUser();

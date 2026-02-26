@@ -17,14 +17,44 @@ use function igk_resources_gets as __;
  */
 class CommandRegisterCommand extends AppExecCommand
 {
-	var $command = '--command:ls';
-	var $desc = 'list registered command';
-	var $options = [
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--command:ls';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'list registered command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [
 		'--location' =>'flag: show default location'
 	];
-	var $category = 'command';
-	var $usage = '[options]';
-	public function exec($command)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command)
 	{
 		$def = EnvironmentCommandScripts::GetCacheDefinition();
 		if (property_exists($command->options, '--location')){

@@ -8,6 +8,12 @@ namespace IGK\System\Http;
  * 
  */
 class XmlResponse extends WebResponse{
+
+    /**
+    * .ctr
+    * @param mixed $data
+    * @param mixed $status
+    */
     public function __construct($data, $status=200)
     {
         parent::__construct($data, $status, ["Content-Type: application/xml"]);

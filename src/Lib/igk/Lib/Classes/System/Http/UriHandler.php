@@ -29,7 +29,16 @@ require_once IGK_LIB_CLASSES_DIR . '/ApplicationLoader.php';
  */
 class UriHandler extends BaseUriHandler
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $cacheoutput = 5000;
+
+    /**
+    * auto generate doc.
+    */
     protected function bootApp()
     {
         ApplicationLoader::getInstance()->bootApp($this->m_application);
@@ -37,6 +46,7 @@ class UriHandler extends BaseUriHandler
     /**
      * 
      */
+
     protected function __construct()
     {
         $this->m_routes = $this->initRoutes();
@@ -44,6 +54,7 @@ class UriHandler extends BaseUriHandler
     /**
      * initialize system route 
      */
+
     protected function initRoutes()
     {
         return [
@@ -59,6 +70,7 @@ class UriHandler extends BaseUriHandler
      * @param mixed &$key 
      * @return bool 
      */
+
     function match(string $uri, &$key = null): bool
     {
         $t = array_values($this->m_routes);
@@ -77,6 +89,7 @@ class UriHandler extends BaseUriHandler
      * @throws IGKException 
      * @throws Exception 
      */
+
     protected function _favicon()
     {
         igk_set_header(
@@ -91,6 +104,10 @@ class UriHandler extends BaseUriHandler
         include(IGK_LIB_DIR . "/Default/R/Img/balafon.ico");
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function _sitemap()
     {
         // if not loader boot application then get controller list  
@@ -126,10 +143,16 @@ class UriHandler extends BaseUriHandler
      * @return void 
      * @throws IGKException 
      */
+
     public function _caching_style()
     {
         include IGK_LIB_DIR . '/igk_serve_static.php';
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed & $r
+    */
     public static function RetrieveServerHost(&$r = null)
     {
         $g = parse_url(igk_server()->HTTP_HOST);
@@ -140,7 +163,9 @@ class UriHandler extends BaseUriHandler
     /**
      * check subdmain. or OP Address 
      */
-    protected final static function _CheckSubDomain(string $path, ?string $host=null)
+    protected final
+
+    static function _CheckSubDomain(string $path, ?string $host=null)
     {
         \IGK\ApplicationLoader::InitConstants();
         $v_host = $host ?? self::RetrieveServerHost();
@@ -176,6 +201,7 @@ class UriHandler extends BaseUriHandler
      * @param string $domain 
      * @return mixed 
      */
+
     protected static function _GetAgaintsWillCard(array $domains, string $domain){
         $tc = array_keys($domains);
         $willcard = [];
@@ -206,6 +232,7 @@ class UriHandler extends BaseUriHandler
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected static function _GetDomainManagerEntry(array $v_domains, string $domain, string $path)
     {
         $v_pdir = igk_io_projectdir();
@@ -262,6 +289,7 @@ class UriHandler extends BaseUriHandler
      * @param string $callaback
      * @param string|true $subdomain 
      */
+
     public static function Handle(string $uri, $app = null, ?callable $bootload = null, ?string  $subdomain = null)
     {
         $v_tab = parse_url($uri);
@@ -303,6 +331,7 @@ class UriHandler extends BaseUriHandler
     /**
      * 
      */
+
     public static function HandlePublicDir(string $path, ?string $cwd = null)
     {
         if (empty($tc = trim($path, '/'))) {

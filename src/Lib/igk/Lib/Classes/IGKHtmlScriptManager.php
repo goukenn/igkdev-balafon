@@ -10,17 +10,58 @@ use IGK\System\Html\Dom\HtmlScriptNode;
 * Represent IGKHtmlScriptManager class
 */
 final class IGKHtmlScriptManager extends IGKObject {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DOC_FLAG=3;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const JSMAN_ASSOC_TABLE_FLAG=2;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const JSMAN_NODE=4;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MANAGER_FLAG=1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SCRIPT_ITEM_MANAGER=5;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEMPORARY_SCRIPT=6;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_f;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_scripts = [];
     /** 
     * @param mixed $owner
     */
+
     public function __construct(){
         $this->_f=new IGKFv(); 
         igk_reg_hook(IGKEvents::HOOK_HTML_HEAD, function($e){
@@ -51,6 +92,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * display value
     */
+
     public function __toString(){
         return get_class($this);
     }
@@ -61,6 +103,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     * @param bool $canbeMerged serve on production allow to merge on system rendering script
     * @param string $tag 'priv'| or any tag to identify associate script
     */
+
     public function addScript($file, $canbeMerged=true, $tag='priv'){  
         if (!($s = igk_getv($this->m_scripts, $file))){
             $item = new HtmlScriptNode();
@@ -72,18 +115,21 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * clear loaded script
     */
+
     public function Clear($tag=null){
         throw new NotImplementException(__METHOD__);
     }
     /**
     * 
     */
+
     public function Flags(){
         return $this->_f;
     }
     /**
     * 
     */
+
     public function getAssoc(){
         igk_trace();
         throw new NotImplementException(__METHOD__);
@@ -94,12 +140,14 @@ final class IGKHtmlScriptManager extends IGKObject {
     * @param mixed $default the default value is null
     * @return mixed 
     */
+
     public function getFlag($n, $default=null){
         return $this->_f->getFlag($n, $default);
     }
     /**
     * 
     */
+
     public function getManager(){
         return $this->getFlag(self::MANAGER_FLAG);
     }
@@ -109,12 +157,14 @@ final class IGKHtmlScriptManager extends IGKObject {
     * @param mixed $files will recieve all merged scripts
     * @deprecated
     */
+
     public function getMergedContent($zip=0, & $files=null){
         throw new IGKException(__METHOD__. " Not implement");
     }
     /**
     * 
     */
+
     public function getNode(){
         return $this->getFlag(self::JSMAN_NODE);
     }
@@ -122,6 +172,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     * 
     * @param mixed $tab the default value is null
     */
+
     public function getNonMergedContent($tab=null){
         throw new Exception("Not implement = ".__METHOD__);
         // $nonMerged=$tab == null ? $this->getMergedContent()->notMerged: $tab->notMerged;
@@ -135,6 +186,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     * 
     * @param mixed $file
     */
+
     public function getScript($file){
         igk_wln("get scripts ".$file);
         $tasc=$this->getAssoc();
@@ -145,6 +197,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * return document tempory script
     */
+
     public function & getTempScripts(){
         $c=$this->_f->getFlag(self::TEMPORARY_SCRIPT);
         if(!$c){
@@ -156,6 +209,7 @@ final class IGKHtmlScriptManager extends IGKObject {
     /**
     * get if this script file is loaded to the document
     */
+
     public function isLoaded($file){
         return isset($this->m_assocTable[$file]);
     }

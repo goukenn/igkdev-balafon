@@ -11,5 +11,10 @@ use IGK\System\Traits\NoSetExtraPropertyTrait;
  */
 class ControllerInfo{
     use NoSetExtraPropertyTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $initCount;
 }

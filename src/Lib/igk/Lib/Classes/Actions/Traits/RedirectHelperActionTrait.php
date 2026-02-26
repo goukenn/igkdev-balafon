@@ -8,13 +8,24 @@ namespace IGK\Actions\Traits;
 * @package IGK\Actions\Traits
 */
 trait RedirectHelperActionTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $redirect;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $redirectCoder;
     /**
      * set the redirect 
      * @param string $path 
      * @return void 
      */
+
     protected function redirectTo(?string $path=null, ?int $code = 301){
         $this->redirect = $this->getController()->uri($path);
         $this->redirectCode = $code; 

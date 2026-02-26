@@ -10,11 +10,17 @@ use IGKObject;
 * Represent IGKLangExpression class
 */
 final class IGKLangExpression extends IGKObject implements IHtmlGetValue {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_keys;
     /**
     * 
     * @param mixed $keys
     */
+
     public function __construct($keys){
         if(!is_array($keys) || (igk_count($keys) == 0))
             igk_die("keys is not an array");
@@ -24,6 +30,7 @@ final class IGKLangExpression extends IGKObject implements IHtmlGetValue {
     * 
     * @param mixed $options the default value is null
     */
+
     public function getValue($options=null){
         $nl=R::GetCurrentLang();
         return igk_getv($this->m_keys, $nl, igk_getv(array_values($this->m_keys), 0));

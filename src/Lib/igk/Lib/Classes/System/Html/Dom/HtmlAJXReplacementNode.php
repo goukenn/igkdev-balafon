@@ -8,10 +8,16 @@ namespace IGK\System\Html\Dom;
 * Represent IGKHtmlAJXReplacementNode class
 */
 final class HtmlAJXReplacementNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_nodes;
     /**
     * 
     */
+
     public function __construct(){
         parent::__construct("igk:replace-ctrl");
         $this->m_nodes=array();
@@ -22,6 +28,7 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     * @param mixed $n
     * @param mixed $tag the default value is null
     */
+
     public function addNode($n, $tag=null){
         $this->m_nodes[]=$n;
         return $this;
@@ -29,12 +36,14 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     /**
     * 
     */
+
     public function getChildCount(){
         return igk_count($this->m_nodes);
     }
     /**
     * 
     */
+
     public function getChilds(){
         return $this->m_nodes;
     }
@@ -42,6 +51,7 @@ final class HtmlAJXReplacementNode extends HtmlNode{
     * 
     * @param  * $o the default value is null
     */
+
     protected function innerHTML(& $o=null){
         $so="";
         foreach($this->m_nodes as  $v){
@@ -50,6 +60,11 @@ final class HtmlAJXReplacementNode extends HtmlNode{
         }
         return $so;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     protected function _getRenderingChildren($options = null)
     {
         return $this->m_nodes;

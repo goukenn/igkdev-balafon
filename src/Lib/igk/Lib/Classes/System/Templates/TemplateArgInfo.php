@@ -11,12 +11,31 @@ use IGK\Controllers\BaseController;
  */
 class TemplateArgInfo
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $args;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $creationargs;
+
+    /**
+    * auto generate doc.
+    * @param mixed $args
+    */
     public function setCreationArg($args)
     {
         $this->creationargs = $args;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getArgs()
     {
         if ($this->creationargs) {
@@ -39,6 +58,11 @@ class TemplateArgInfo
         return implode(", ", array_keys($this->args));
         //return "@@ctrl, @@args";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $params
+    */
     public function push($params)
     {
         $this->args[$params->getName()] = $params;

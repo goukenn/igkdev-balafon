@@ -12,6 +12,16 @@
  * @package 
  */
 abstract class IGKErrors{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ConfigMisConfiguration=0x102;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const NoAPPDIRDEFINED=0x101;
 }

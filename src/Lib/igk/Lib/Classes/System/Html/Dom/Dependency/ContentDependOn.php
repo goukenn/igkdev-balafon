@@ -9,7 +9,17 @@ namespace IGK\System\Html\Dom\Dependency;
  * @package IGK\System\Html\Dom
  */
 class ContentDependOn{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $argName;
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options = null ){
         return sprintf("<?= %s ?>", $this->argName); 
     }

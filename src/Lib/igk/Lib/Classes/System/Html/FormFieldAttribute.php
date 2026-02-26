@@ -8,7 +8,17 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 class FormFieldAttribute{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $attribs;
+
+    /**
+    * .ctr
+    * @param array $tab
+    */
     public function __construct(array $tab)
     {
         $this->attribs = $tab;

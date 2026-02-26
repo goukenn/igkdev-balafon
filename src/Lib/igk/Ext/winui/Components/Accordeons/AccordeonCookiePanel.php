@@ -8,8 +8,18 @@
 * auto generate doc.
 */
 final class AccordeonCookiePanel extends IGKObject{
-	private $m_pindex;
-	private $m_o;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_pindex;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_o;
 
 	/**
 	 * Constructor.
@@ -17,7 +27,8 @@ final class AccordeonCookiePanel extends IGKObject{
 	 * @param mixed $o     The parent accordeon object providing the base cookie ID.
 	 * @param int   $index The panel index used to qualify the cookie ID.
 	 */
-	public function __construct($o, $index){
+
+    public function __construct($o, $index){
 		$this->m_o = $o;
 		$this->m_pindex = $index;
 
@@ -27,7 +38,8 @@ final class AccordeonCookiePanel extends IGKObject{
 	 *
 	 * @return string|null The qualified cookie ID, or null if no base ID is set.
 	 */
-	public function getCookieId(){
+
+    public function getCookieId(){
 	$m = $this->m_o->getCookieId();
 	return  $m ? $m."#".$this->m_pindex : null; }
 }

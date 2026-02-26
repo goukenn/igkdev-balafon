@@ -20,8 +20,17 @@ use function igk_html_host  as _h;
  */
 final class HtmlDefaultMainPage extends HtmlNode
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_instance;
 
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getPageTitle():string{
         return 'Balafon Startup Page!';
     }
@@ -30,6 +39,7 @@ final class HtmlDefaultMainPage extends HtmlNode
      * @param mixed $options 
      * @return bool 
      */
+
     protected function _acceptRender($options = null): bool
     {
         if (!$this->getIsVisible()) {
@@ -86,6 +96,7 @@ final class HtmlDefaultMainPage extends HtmlNode
      * singleton instance 
      * @return static 
      */
+
     public static function getInstance()
     {
         if (self::$sm_instance == null) {
@@ -98,6 +109,7 @@ final class HtmlDefaultMainPage extends HtmlNode
      * @return int|bool 
      * @throws IGKException 
      */
+
     public function getIsVisible()
     {
         if (igk_get_env("sys://defaultpage/off") == 1) {

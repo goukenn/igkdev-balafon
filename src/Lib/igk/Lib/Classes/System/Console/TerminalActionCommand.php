@@ -25,11 +25,17 @@ class TerminalActionCommand
      * @var array
      */
     protected $commands = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $errors = [];
     /**
      * retun command line
      * @return int 
      */
+
     public function run()
     {
         $result = 0;
@@ -62,6 +68,10 @@ class TerminalActionCommand
         } while ($e);
         return $result;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function onExit()
     {
         $this->_clearLastErrors();
@@ -73,6 +83,10 @@ class TerminalActionCommand
             $this->errors[] = $l_error;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     static function _RunCommand()
     {
         extract([

@@ -12,6 +12,10 @@ use function igk_html_host as _h;
 * @author C.A.D. BONDJE DOUE
 */
 class HtmlBuildHostTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_use_loop(){
         $m = _h("div.card", _h('@loop', [range(0,2), function($t, $r){
             $t->span()->content = $r;

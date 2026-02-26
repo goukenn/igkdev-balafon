@@ -21,23 +21,64 @@ use ReflectionException;
  */
 class QueryBuilder
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_conditions;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_options;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_model;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_with;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_withTotalCount;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_row_listener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const JOINS = QueryOptions::JOINS;
     /**
      * field to add as total counter 
      * @param bool|string $value 
      * @return $this 
      */
+
     public function withTotalCount($value)
     {
         $this->m_withTotalCount = $value;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|array $columns
+    */
     public function append_columns(?array $columns)
     {
         if (isset($this->m_options["Columns"]) && $columns) {
@@ -56,6 +97,7 @@ class QueryBuilder
      * @param null|string $key 
      * @return $this 
      */
+
     public function with($table, ?string $key = null, ?bool $ignore_data = false)
     {
         if (!$this->m_with)
@@ -67,6 +109,11 @@ class QueryBuilder
         $this->m_with[$table] = $cinfo;
         return $this;
     }
+
+    /**
+    * .ctr
+    * @param ModelBase $model
+    */
     public function __construct(ModelBase $model)
     {
         if (!$model)
@@ -80,14 +127,25 @@ class QueryBuilder
      * @param mixed $condition 
      * @return array 
      */
+
     public static function LeftJoin($condition)
     {
         return ["type" => QueryBuilderConstant::LeftJoin, $condition];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $condition
+    */
     public static function InnerJoin($condition)
     {
         return ["type" => QueryBuilderConstant::InnerJoin, $condition];
     }
+
+    /**
+    * auto generate doc.
+    * @param array $conditions
+    */
     public static function Or(array $conditions)
     {
         return (object)["operand" => "OR", "conditions" => $conditions];
@@ -97,6 +155,7 @@ class QueryBuilder
      * @param mixed $string 
      * @return DbExpression 
      */
+
     public static function Expression($string)
     {
         return new DbExpression($string);
@@ -106,6 +165,7 @@ class QueryBuilder
      * @param array $condition 
      * @return static 
      */
+
     public function conditions(?array $condition = null)
     {
         $this->m_conditions = $condition;
@@ -116,6 +176,7 @@ class QueryBuilder
      * @param array $condition 
      * @return static 
      */
+
     public function where(array $condition)
     {
         return $this->conditions($condition);
@@ -125,6 +186,7 @@ class QueryBuilder
      * @param ?callable $callback 
      * @return $this 
      */
+
     public function registerRowListener($callback){
         $this->m_row_listener = $callback;
         return $this;
@@ -139,6 +201,7 @@ class QueryBuilder
      * @example \
      * ::prepare()->join(["table1"=>["table1.id=table2.id", "type"=>"left", "alias"=>"GTab"]])
      */
+
     public function join(array $join)
     {
         foreach (array_keys($join) as $k) {
@@ -162,6 +225,7 @@ class QueryBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function join_left(string $table, string $condition, ?string $alias = null)
     {
         $rc = [$condition, "type" => QueryBuilderConstant::LeftJoin];
@@ -181,10 +245,16 @@ class QueryBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function join_left_on(string $table, string $first_column, string $second_column, ?string $alias = null)
     {
         return $this->join_left($table, sprintf("%s=%s", $first_column, $second_column), $alias);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    */
     public function join_table(string $table)
     {
         return $this->join([
@@ -197,6 +267,7 @@ class QueryBuilder
      * @param ?int $limit_max
      * @return $this 
      */
+
     public function limit($limit_raw, ?int $max = null)
     {
         if (!is_null($limit_raw)) {
@@ -211,6 +282,11 @@ class QueryBuilder
         $this->m_options[QueryOptions::LIMIT] = $limit_raw;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $column
+    */
     public function latest(?string $column = null)
     {
         $cl = $column;
@@ -224,6 +300,7 @@ class QueryBuilder
      * @param array $columnsList 
      * @return $this 
      */
+
     public function columns(?array $columnsList = null)
     {
         $this->m_options["Columns"] = $columnsList;
@@ -235,6 +312,7 @@ class QueryBuilder
      * @return $this 
      * 
      */
+
     public function orderBy(?array $order = null)
     {
         $this->m_options[QueryOptions::ORDER_BY] = $order;
@@ -245,6 +323,7 @@ class QueryBuilder
      * @param null|\callbable|Closure $filter 
      * @return $this 
      */
+
     public function filter(?callable $filter = null)
     {
         $this->m_options[DbConstants::CALLBACK_OPTS] = $filter;
@@ -255,6 +334,7 @@ class QueryBuilder
      * @param bool $distinct 
      * @return $this 
      */
+
     public function distinct(bool $distinct = true)
     {
         if ($distinct)
@@ -267,6 +347,7 @@ class QueryBuilder
      * send query
      * @return IGK\Models\IQueryResult 
      */
+
     public function query()
     {
         if (!isset($this->m_options["primaryKey"])) {
@@ -278,6 +359,7 @@ class QueryBuilder
      * get rows form request
      * @return mixed 
      */
+
     public function query_rows()
     {
         if ($r = $this->query()) {
@@ -289,6 +371,7 @@ class QueryBuilder
      * retrieve the query to send
      * @return ?string 
      */
+
     public function get_query()
     {
         if (!isset($this->m_options["primaryKey"])) {
@@ -314,6 +397,7 @@ class QueryBuilder
      * retrieve select sub query to send. remove the trailling ";"
      * @return string 
      */
+
     public function get_sub_query()
     {
         return rtrim($this->get_query(), " ;");
@@ -323,6 +407,7 @@ class QueryBuilder
      * @param null|object $options 
      * @return static 
      */
+
     public function setOptions($options = null)
     {
         $this->m_options = (array)$options;
@@ -333,6 +418,7 @@ class QueryBuilder
      * @return null|IGK\Database\IDbFetchResult 
      * @throws IGKException 
      */
+
     public function query_fetch($options=null)
     {
         // + | --------------------------------------------------------------------
@@ -356,6 +442,7 @@ class QueryBuilder
      * @return bool|null|IDbQueryResult|\IGK\System\IToJSon
      * @throws IGKException 
      */
+
     public function execute($throwOnError = true, $options = null, $autoclose = false)
     {
         $driver = $this->m_model->getDataAdapter();
@@ -536,6 +623,7 @@ class QueryBuilder
      * @return mixed 
      * @throws IGKException 
      */
+
     public function select_row()
     {
         if (($result = $this->query_fetch())
@@ -545,6 +633,10 @@ class QueryBuilder
             return $result->row();
         }
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return __CLASS__ . "[" . $this->get_query() . "]";
@@ -553,6 +645,7 @@ class QueryBuilder
      * get model
      * @return ModelBase 
      */
+
     public function model()
     {
         return $this->m_model;
@@ -563,12 +656,18 @@ class QueryBuilder
      * @return mixed 
      * @throws IGKException 
      */
+
     public function get()
     {
         if ($tab = $this->execute()) {
             return  $tab->getRows(); //->to_array();
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param null|array $column
+    */
     public function groupBy(?array $column = null)
     {
         $this->m_options[QueryOptions::GROUP_BY] = $column;

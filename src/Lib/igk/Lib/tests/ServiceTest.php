@@ -9,8 +9,11 @@ namespace IGK\Tests;
 use IGK\System\IO\Path;
 use IGK\Tests\BaseTestCase;
 use IGKServices;
-
 class ServiceTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_service(){
         $service_key = 'test-service';
         $srv = igk_app()->getService($service_key );        
@@ -31,11 +34,25 @@ class ServiceTest extends BaseTestCase{
     }
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class DummyService implements \IGK\IService{
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function getConfigurableProperties(): array { 
         return [];
     }
 
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     public function init($options =null): bool {
         $fc = igk_configs()->get("ovh.ovhconfig");
         if ($fc && igk_io_file_exists($fc)){

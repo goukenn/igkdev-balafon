@@ -12,12 +12,28 @@ use IGK\System\IO\File\PHPScriptBuilder;
  * @package 
  */
 class FixLangCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--fix:lang";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "Fixing";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "fix language file";
     /**
      * fix language 
      */
+
     public function exec($command, $path=null)
     { 
         Logger::info("fix lang file");

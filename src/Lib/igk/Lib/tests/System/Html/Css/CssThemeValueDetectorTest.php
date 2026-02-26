@@ -16,6 +16,10 @@ use IGKHtmlDoc;
 * @author C.A.D. BONDJE DOUE
 */
 class CssThemeValueDetectorTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_csstheme_remove_litteral(){
         $exp = 'background-color    : red;  content:\'{ marge    du roi}\'  {sys: posfix, fitw}  [bgcl:   --info] color: [cl:--marge];';
         $d = CssThemeValueDetector::RemoveTransformLitteralFrom($exp);
@@ -25,6 +29,9 @@ class CssThemeValueDetectorTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_csstheme_remove_global(){
         $exp = 'background-color    : [cl:   --bg-color]; [trans:.4s indigan ease-inout]';
         $d = CssThemeValueDetector::RemoveTransformLitteralFrom($exp, true);
@@ -33,6 +40,10 @@ class CssThemeValueDetectorTest extends BaseTestCase{
             $d
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_csstheme_remove_property(){
         $exp = 'color:red; background-color    : [cl:   --bg-color]; [trans:.4s indigan ease-inout]';
         $d = CssThemeValueDetector::RemoveTransformLitteralFrom($exp, true,true);
@@ -41,6 +52,10 @@ class CssThemeValueDetectorTest extends BaseTestCase{
             $d
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_csstheme_treat_global(){ 
         $detector = new CssThemeValueDetector;
         $v ="{sys:posab, fitw} margin-top:-10px; visibility: hidden; [trans: .5s all ease-out] opacity:0; left:0px; right:0px; z-index: 100; min-height: 80px; background-color: [cl:menuLayerBackground,#222a];"; 
@@ -49,6 +64,9 @@ class CssThemeValueDetectorTest extends BaseTestCase{
 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_csstheme_render_d(){
         $v_doc = IGKHtmlDoc::CreateCoreDocument('temp');
         $systheme = new HtmlDocTheme(null,'sys-temp-global'); 

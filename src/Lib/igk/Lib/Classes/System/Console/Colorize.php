@@ -23,6 +23,11 @@ class Colorize
      * @var mixed
      */
     var $colors;
+
+    /**
+    * auto generate doc.
+    * @param RegexMatcherContainer $match
+    */
     protected function _initRegexMatcherContainer(RegexMatcherContainer $match){
         $match->begin("('|\")", "(?<!\\\\)\\1", "string");
         $match->begin("#", "$", "comment");
@@ -31,6 +36,11 @@ class Colorize
         $match->match("(\\}|\\])", "emarker");
         $match->match("\b(null|true|false)\b", "words");
     }
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     protected function _initColor():array{
         return [
             "email"=>"\e[38;2;71;100;244m",
@@ -48,6 +58,7 @@ class Colorize
      * @return null|string 
      * @throws Exception 
      */
+
     public function __invoke($s, ?RegexMatcherContainer $match = null, $filter = null):?string
     {
         if (is_null($match)) {

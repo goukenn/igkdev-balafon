@@ -13,12 +13,32 @@ use IGKServices;
 * @author C.A.D. BONDJE DOUE
 */
 class ListServicesCommand extends AppExecCommand{
-	var $command='--services:list';
-	var $desc='list registrated services provider';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--services:list';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='list registrated services provider';
 	/* var $options=[]; */
 	/* var $category = ''; */
-	var $usage = '[options]';
-	public function exec($command) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command) { 
 		$ic = IGKServices::getInstance();
 		if ($ic instanceof IGKServices){
 			$l = $ic->services();

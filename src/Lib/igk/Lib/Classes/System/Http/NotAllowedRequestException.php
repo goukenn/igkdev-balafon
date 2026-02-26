@@ -10,6 +10,13 @@ use Throwable;
  * @package IGK\System\Http
  */
 class NotAllowedRequestException extends RequestException{
+
+    /**
+    * .ctr
+    * @param null|mixed $uri
+    * @param null|string $status
+    * @param null|Throwable $previous
+    */
     public function __construct($uri=null, ?string $status=null, ?Throwable $previous=null){
         $this->code = RequestResponseCode::Forbiden;
         $this->status = $status ?? "Not allowed";

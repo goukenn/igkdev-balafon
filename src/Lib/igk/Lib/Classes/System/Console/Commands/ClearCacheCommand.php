@@ -13,12 +13,28 @@ use IGK\System\IO\File\PHPScriptBuilder;
 * @package IGK\System\Console\Commands
 */
 class ClearCacheCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--clearcache";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "clear cache command";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "administration";
     /**
      * exec the command
      */
+
     public function exec($command)
     { 
         //defined("NO")

@@ -12,10 +12,36 @@ namespace IGK\System\IO\Markdown;
 */
 interface IMarkdownElementListener
 {
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     function didStateChanged();
     function didHandleOutput(& $isSingleDefinition, & $output);
     function title(string $text, int $level, ?string $slug = null): string;
+
+    /**
+    * auto generate doc.
+    * @param string $text
+    * @return string
+    */
     function par(string $text): string;
+
+    /**
+    * auto generate doc.
+    * @param string $text
+    * @return string
+    */
     function default(string $text): string;
+
+    /**
+    * auto generate doc.
+    * @param mixed $token_id
+    * @param mixed $value
+    * @param bool $root
+    * @param null|\Closure $callback
+    * @param null|string $buffer
+    */
     function filter($token_id, $value, bool $root, ?\Closure $callback=null, ?string $buffer=null);
 }

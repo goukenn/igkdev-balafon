@@ -18,6 +18,11 @@ use Reflector;
  */
 final class AnnotationHelper
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REGEX_USES = "/use\s+(?P<name>[^\s;]+)(\s+as\s+(?P<alias>[^\s+;]+))?/im";
     private static $sm_cacheData;
     /**

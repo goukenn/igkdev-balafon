@@ -36,8 +36,23 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     use CompilerTokenReadStructHandlerTrait;
     use CompilerTokenCompileTrait;
     use CompilerTokenMergeSourceTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OPERATOR_SYMBOL = ViewCompilerConstants::OPERATOR_SYMBOL;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $flagHandler;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tab_stop;
     // var $flagHandler;
     /**
@@ -47,6 +62,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param string $value 
      * @return void 
      */
+
     protected function _handleWhiteSpace(ReadTokenOptions $options, ?string $id, string &$value)
     {
         if ($id == T_WHITESPACE) {
@@ -66,6 +82,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param mixed $options 
      * @return string 
      */
+
     protected function _getTabStop($options)
     {
         // + | --------------------------------------------------------------------
@@ -73,6 +90,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         // + |
         return str_repeat($this->tab_stop, $options->bracketDepth);
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     public function HandleToken(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $v_buffer = &$options->buffer;
@@ -159,9 +184,17 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param string $value 
      * @return bool 
      */
+
     protected static function IsOperator(string $value): bool{
         return in_array($value, explode(',', self::OPERATOR_SYMBOL));
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    */
     protected function _handleReadConst(ReadTokenOptions $options, $id, $value)
     {
         if (is_null($options->flagOptions)) {
@@ -219,6 +252,13 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     // + | -------------------------------------------------------------------------------
     // + | READ FUNCTIONS
     // + |
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    */
     protected function _readFunction(ReadTokenOptions $options, $id, $value)
     {
         $this->_pushFlag($options);
@@ -234,6 +274,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $options->struct_info = $struct;
         $this->_resetCommentAndModifier($options);
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return bool
+    */
     protected function _handleReadFunction(ReadTokenOptions $options, $id, $value): bool
     {
         /**
@@ -415,6 +463,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $buffer .= $value;
         return true;
     }
+
     protected function _endReadFunction(ReadTokenOptions $options, $id, $value): bool
     {
         $this->_popBuffer($options, 'func_code');
@@ -426,6 +475,12 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed $struct
+    */
     protected function _attachFuncToParent($options, $struct)
     {
         if (!$struct->getIsAnonymous()) {
@@ -438,6 +493,11 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
     }
     #endregion
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    */
     protected function _pushFlag(ReadTokenOptions $options)
     {
         array_push($options->flags, [
@@ -445,6 +505,11 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             "options" => $options->flagOptions
         ]);
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    */
     protected function _popFlag(ReadTokenOptions $options)
     {
         if ($q = array_pop($options->flags)) {
@@ -455,11 +520,24 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             $options->flagOptions = null;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed & $buffer
+    * @param null|string $id
+    */
     protected function _pushBuffer(ReadTokenOptions $options, &$buffer, ?string $id = "")
     {
         $options->buffers[] = ["buffer" => &$options->buffer, "id" => $id];
         $options->buffer = &$buffer;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    */
     protected function _popBuffer(ReadTokenOptions $options, ?string $id = null)
     {
         if ($op = array_pop($options->buffers)) {
@@ -469,6 +547,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             $options->buffer = "";
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleFlag(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $flag = &$options->flag;
@@ -544,6 +630,13 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
     // + | -------------------------------------------------------------------------------
     // + | READ STRUCTS
     // + |
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    */
     protected function _readStruct(ReadTokenOptions $options, $id, $value)
     {
         $this->_pushFlag($options);
@@ -561,6 +654,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         $options->struct_info = $struct;
         $this->_resetCommentAndModifier($options);
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return bool
+    */
     protected function _handleReadStruct(ReadTokenOptions $options, $id, $value): bool
     {
         $struct = $options->struct_info;
@@ -616,6 +717,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param mixed $id
+    * @param mixed $value
+    * @return bool
+    */
     protected function _endReadStruct(ReadTokenOptions $options, $id, $value): bool
     {
         $struct =  $options->struct_info;
@@ -656,6 +765,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param ReadTokenOptions $options 
      * @return void 
      */
+
     protected function _appendVariable(ReadTokenOptions $options)
     {
         $tab = &$options->variables;
@@ -744,6 +854,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param string $type 
      * @return void 
      */
+
     protected function _readExpression(ReadTokenOptions $options, string $type)
     {
         $this->_pushFlag($options);
@@ -765,6 +876,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param mixed $value 
      * @return bool 
      */
+
     protected function _endReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $fop = $options->flagOptions;
@@ -845,6 +957,15 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         // }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed $id
+    * @param mixed $value
+    * @param mixed $data
+    * @return bool
+    */
     protected function _appendEndEqualExpression($options, $id, $value, $data): bool
     {
         $this->_popBuffer($options);
@@ -857,6 +978,12 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed $data
+    */
     protected function _appendToFlagOptionBuffer($options, $data)
     {
         if ($options->flag) {
@@ -865,6 +992,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
             $options->buffer .= $data;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _handleComment(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         return true;
@@ -879,6 +1014,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function _handleReadExpression(ReadTokenOptions $options, ?string $id, string $value): bool
     {
         $fop = $options->flagOptions;
@@ -947,6 +1083,14 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
         return true;
     }
     #endregion
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param string $s
+    * @param mixed $id
+    * @param mixed $value
+    */
     protected function _bindToFlag(ReadTokenOptions $options, string $s, $id, $value)
     {
         if ($options->flag) {
@@ -981,6 +1125,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param string $value 
      * @return void 
      */
+
     protected function _readConditionBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
         $this->_pushFlag($options);
@@ -998,6 +1143,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param string $value 
      * @return void 
      */
+
     protected function _handleConditionBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
         $fop = $options->flagOptions;
@@ -1020,6 +1166,7 @@ class ArmonicCompiler extends TokenCompilerBase implements ICompiler, ICompilerT
      * @param string $value 
      * @return void 
      */
+
     protected function _endReadConditionBlock(ReadTokenOptions $options, ?string $id, string $value)
     {
         $fop = $options->flagOptions;

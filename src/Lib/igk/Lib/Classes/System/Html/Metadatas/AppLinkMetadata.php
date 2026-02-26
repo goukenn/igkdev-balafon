@@ -14,10 +14,35 @@ namespace IGK\System\Html\Metadatas;
      *
 */
 class AppLinkMetadata extends MetadataGroupEntryBase{
-    var $alIOSAppId;  
-    var $alIOSUrl;  
-    var $alAndroidPackage;  
-    var $alAndroidUrl;  
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $alIOSAppId;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $alIOSUrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $alAndroidPackage;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $alAndroidUrl;
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function map():array{
         return [
             'alIOSAppId'=>'al:ios:app_store_id',  

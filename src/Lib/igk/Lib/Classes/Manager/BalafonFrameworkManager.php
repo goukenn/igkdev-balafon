@@ -12,12 +12,18 @@ namespace IGK\Manager;
 * Framework manager
 */
 class BalafonFrameworkManager{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $handleAllAction;
     /**
     * 
     * @param mixed $name
     * @param mixed $args
     */
+
     public function __call($name, $args){
         $f="igk_".$name;
         if(function_exists($f)){
@@ -30,30 +36,35 @@ class BalafonFrameworkManager{
     /**
     * 
     */
+
     public function __construct(){
         $this->handleAllAction=1;
     }
     /**
     * 
     */
+
     public function clear_cache(){
         igk_clear_cache();
     }
     /**
     * echo help message
     */
+
     public function help(){
         echo "help ";
     }
     /**
     * 
     */
+
     public function install(){
         echo "running install";
     }
     /**
     * 
     */
+
     public function test(){
         echo "run test";
     }

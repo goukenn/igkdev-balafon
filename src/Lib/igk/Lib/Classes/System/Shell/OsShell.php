@@ -9,11 +9,23 @@ namespace IGK\System\Shell;
  * @package IGK\System\Shell
  * @method static ?string Where(string $command):?string search and resolve a command. 
  */
-class OsShell {    
+class OsShell {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_commands = [
         "Unix"=>OsUnixCommand::class,
         "Window"=>OsWindowCommand::class
     ];
+
+    /**
+    * auto generate doc.
+    * @param string $command
+    * @param string $workingdir
+    * @param null|string $success
+    */
     public static function ExecInWorkingDir(string $command, string $workingdir, ?string $success=null){
         $bck = getcwd();
         chdir($workingdir);
@@ -24,9 +36,21 @@ class OsShell {
         chdir($bck);
         return $o;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @param string $class
+    */
     public static function Register(string $type, string $class ){
         self::$sm_commands[$type] = $class;
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $n
+    * @param mixed $args
+    */
     public static function __callStatic($n, $args){        
         if (igk_environment()->isUnix()){
             $cl = self::$sm_commands["Unix"];            
@@ -40,13 +64,19 @@ class OsShell {
      * @param mixed $command 
      * @return string|false 
      */
+
     public static function Exec($command){ 
         $c = exec($command, $output, $retcode);
         if (!$retcode){
             return implode("\n", $output);
         }
         return '/!\error '.$c;
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $pid
+    */
     public static function Kill($pid){
         if (igk_environment()->isUnix()){
             return `kill {$pid}`;

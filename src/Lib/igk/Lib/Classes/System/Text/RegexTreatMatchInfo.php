@@ -14,9 +14,34 @@ class RegexTreatMatchInfo{
      * @var int?
      */
     var $pos;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $value;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $match;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $captures;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $parent;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $endTreat;
 }

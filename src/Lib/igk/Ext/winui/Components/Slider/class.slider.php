@@ -17,7 +17,11 @@ final class IGKHtmlSliderZone extends HtmlNode{
     * auto generate doc.
     */
     function getCanRenderTag(){return false; }
-	public function __construct(){
+
+    /**
+    * .ctr
+    */
+    public function __construct(){
 		parent::__construct("igk-slider-zone");
 	}
 }
@@ -29,27 +33,43 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
 
 	/** @var HtmlNode*/
 	private $m_content;
-	private $m_script;
-	private $m_orientation;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_script;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_orientation;
 
     /**
     * auto generate doc.
     */
+
     public function getOrientation(){return $this->m_orientation; }
 
     /**
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setOrientation($v){ $this->m_orientation = $v; return $this; }
 
-	public function __construct(){
+    /**
+    * .ctr
+    */
+    public function __construct(){
 		parent::__construct("div");		
 	}
 
     /**
     * auto generate doc.
     */
+
     protected function initialize()
 	{
 		parent::initialize();
@@ -64,6 +84,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
     * auto generate doc.
     * @param mixed $n
     */
+
     public function addPage($n){
 		$dv = $this->m_content->div();
 		$dv["class"] = "igk-slider-page";
@@ -74,6 +95,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
     /**
     * auto generate doc.
     */
+
     public function ClearChilds(){
 		$this->m_content->clearChilds();
 	}
@@ -82,6 +104,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
     * auto generate doc.
     * @param mixed $t
     */
+
     public function initDemo($t){
 		$this->clearChilds();
 		$this->addPage(igk_create_node("div")->setContent("page1"));
@@ -94,6 +117,7 @@ class IGKHtmlSliderItem extends HtmlComponentNode{
     * @param null|mixed $options
     * @return bool
     */
+
     protected function _acceptRender($options = null):bool {
 		$this->m_script->setIsVisible(false);
 		// $this->m_script->Content = "igk.winui.slider.init({orientation:'{$this->m_orientation}'})";

@@ -9,9 +9,22 @@ use IGK\Controllers\BaseController;
 * @package IGK\Helpers
 */
 class DbUtilityHelper{
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @param mixed $autoclose
+    */
     public static function InvokeOnStartDropTable(BaseController $controller, $autoclose=true){
         return self::InvokeEventCommand($controller, 'onStartDropTable', $autoclose);
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    * @param string $command
+    * @param mixed $autoclose
+    */
     public static function InvokeEventCommand(BaseController $controller, string $command, $autoclose=true){
         $rdb = $controller->getDb();
         if ($rdb){

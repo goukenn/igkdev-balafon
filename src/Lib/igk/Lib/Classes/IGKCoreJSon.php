@@ -14,6 +14,11 @@ use IGK\System\Html\HtmlUtils;
 */
 final class IGKCoreJSon extends IGKObject
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ExpressionRegex = "\\{(?<expression>(.)+)\\}";
     // private static function json_key($n){
     //     if(preg_match_all("/^(?P<delimiter>('|\")*)(?P<key>(.)+)\\1$/i", $n, $tab)){
@@ -27,6 +32,7 @@ final class IGKCoreJSon extends IGKObject
     * @param mixed $expression
     * @param mixed $strict
     */
+
     public function ToDictionary($expression, $strict = true){
         $h = self::GetExpression($expression, $strict);
         if (is_int($h) && ($h <= 0))
@@ -39,6 +45,7 @@ final class IGKCoreJSon extends IGKObject
     * @param mixed $exp
     * @param mixed $strict
     */
+
     public static function GetExpression($exp, $strict = true)
     {
         if (is_string($exp) == false)

@@ -9,13 +9,24 @@ namespace IGK\System\IO\Configuration;
  * @package IGK\System\IO\Configuration
  */
 class ConfigurationEncoder{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $separator = '=';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $delimiter = ',';
     /**
      * encode data
      * @param mixed $data 
      * @return string 
      */
+
     public function encode($data){
         $sb = '';
         $sep = '';

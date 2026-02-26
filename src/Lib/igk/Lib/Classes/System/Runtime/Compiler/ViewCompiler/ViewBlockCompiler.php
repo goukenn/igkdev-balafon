@@ -16,30 +16,90 @@ require_once __DIR__."/helper-functions.php";
  */
 class ViewBlockCompiler
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $controller;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $detector;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $variables = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_extract;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $header;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_listener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_source;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_init = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_compiler_args = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_SOURCE = null;
     /**
      * compile source
      * @param string $src 
      * @return bool|string 
      */
+
     public function compile(string $src)
     {
         $this->m_source = $src;
         return $this->_execute();
     }
+
+    /**
+    * .ctr
+    * @param bool $extract
+    */
     public function __construct(bool $extract=false)
     {
         $this->m_extract = $extract;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _initialize()
     {
         if ($this->m_init){
@@ -209,6 +269,11 @@ class ViewBlockCompiler
         array_pop(ViewExpressionArgHelper::$Variables);
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function complete(): ?string{
         $v_detector = $this->detector;
         $vars = &$this->variables;

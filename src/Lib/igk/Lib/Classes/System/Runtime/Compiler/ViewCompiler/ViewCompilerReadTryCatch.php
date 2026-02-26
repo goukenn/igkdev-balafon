@@ -9,12 +9,34 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 * @package IGK\System\Runtime\Compiler\ViewCompiler
 */
 trait ViewCompilerReadTryCatch{
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    */
     protected function _readReadTryCatchBlock(ReadTokenOptions $options , ?string $id, string $value){
         $this->flagHandler = [$this, '_readHandleReadTryCatchBlock'];
-    }  
+    }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    * @return bool
+    */
     protected function _readHandleReadTryCatchBlock(ReadTokenOptions $options , ?string $id, string $value):bool{
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param ReadTokenOptions $options
+    * @param null|string $id
+    * @param string $value
+    */
     protected function _endHandleReadTryCatchBlock(ReadTokenOptions $options , ?string $id, string $value){
     }
 }

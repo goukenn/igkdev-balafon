@@ -34,11 +34,41 @@ class DataAdapter extends DataAdapterBase implements
     IDbRetrieveColumnInfoDriver,
     IDataDriverCharsetSupport
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $queryListener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $_initAdapter;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $supportedList;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SELECT_DATA_TYPE_QUERY = 'SELECT distinct data_type as type FROM INFORMATION_SCHEMA.COLUMNS';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SELECT_VERSION_QUERY = "SHOW VARIABLES where Variable_name='version'";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DB_INFORMATION_SCHEMA = 'information_schema';
 
     
@@ -50,6 +80,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function dropAllUniqueContraints(string $table)
     {
         $tb = '`' . self::DB_INFORMATION_SCHEMA . '`.`TABLE_CONSTRAINTS`';
@@ -70,6 +101,11 @@ class DataAdapter extends DataAdapterBase implements
         }
         return $r;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    */
     public function dropAllForeignKeys(string $table){
         $tb = '`' . self::DB_INFORMATION_SCHEMA . '`.`TABLE_CONSTRAINTS`';
         $dbname = $this->getDbName();
@@ -88,6 +124,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param string $charset 
      * @return ?string
      */
+
     public function queryColumnCharset(string $charset): ?string
     {
         if (in_array($charset, ['utf8mb4'])) {
@@ -99,6 +136,7 @@ class DataAdapter extends DataAdapterBase implements
      * get date time format
      * @return string 
      */
+
     function getDateTimeFormat(): string
     {
         return IGK_MYSQL_DATETIME_FORMAT;
@@ -108,6 +146,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param string $type 
      * @return bool 
      */
+
     public function allowTypeLength(string $type, ?int $length = null): bool
     {
         return (($type != 'int') || (($type == 'int') && version_compare($this->getVersion(), '8.0', '<')));
@@ -118,6 +157,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param string $column_name 
      * @return void 
      */
+
     public function drop_column(string $table, string $column_name)
     {
         if ($this->exist_column($table, $column_name)) {
@@ -130,6 +170,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param string $name 
      * @return bool 
      */
+
     function constraintExists(string $name): bool
     {
         $name = $this->escape_string($name);
@@ -144,6 +185,12 @@ class DataAdapter extends DataAdapterBase implements
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return bool
+    */
     function constraintForeignKeyExists(string $name): bool
     {
         $name = $this->escape_string($name);
@@ -169,6 +216,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws ReflectionException 
      * @throws EnvironmentArrayException 
      */
+
     function exist_column(string $table, string $column, $db = null): bool
     {
         $db = $db ?? $this->getDbName() ?? igk_die("no db name");
@@ -200,6 +248,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws EnvironmentArrayException 
      * @throws Exception 
      */
+
     public function drop_foreign_key($table, $info)
     {
         if ($query = $this->remove_foreign($table, $info->clName)) {
@@ -222,6 +271,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function remove_foreign(string $table, string $info, $db = null): ?string
     {
         static $check_exist = null;
@@ -283,6 +333,13 @@ class DataAdapter extends DataAdapterBase implements
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param string $info
+    * @param null|mixed $db
+    */
     public function remove_unique(string $table, string $info, $db = null)
     {
         $adapter  = $this;
@@ -325,6 +382,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function remove_reverse_foreign_keys(string $table_name, string $referenced_column, ?string $db = null)
     {
         $adapter  = $this;
@@ -366,6 +424,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     function dropForeignKeys($keys, int $type = 0)
     {
         $type = igk_getv([1 => 'UNIQUE'], $type, 'FOREIGN KEY');
@@ -387,6 +446,10 @@ class DataAdapter extends DataAdapterBase implements
         }
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function supportGroupBy()
     {
         return true;
@@ -396,6 +459,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param string $v 
      * @return string 
      */
+
     public function escape_table_name(string $v): string
     {
         if (preg_match('/^`.*`$/', $v)) {
@@ -407,6 +471,12 @@ class DataAdapter extends DataAdapterBase implements
         }
         return '`' . $v . '`';
     }
+
+    /**
+    * auto generate doc.
+    * @param string $v
+    * @return string
+    */
     public function escape_table_column(string $v): string
     {
         return '`' . $v . '`';
@@ -417,11 +487,18 @@ class DataAdapter extends DataAdapterBase implements
      * @param ?\IGK\Models\ModelBase $model source model
      * @return MYSQLQueryFetchResult 
      */
+
     public function createFetchResult(string $query, ?\IGK\Models\ModelBase $model = null, ?IDataDriver $driver = null)
     {
         $driver = $driver ?? ($model ? $model->getDataAdapter() : igk_get_data_adapter(IGK_MYSQL_DATAADAPTER));
         return MYSQLQueryFetchResult::Create($query, $driver, $model);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @return bool
+    */
     public function isAutoIncrementType(string $type): bool
     {
         return in_array(strtolower($type), ["int", "bigint"]);
@@ -438,6 +515,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws Exception 
      * @throws EnvironmentArrayException 
      */
+
     public function update($tbname, $entries, $where = null, $querytabinfo = null, ?bool $filter=null)
     {
         if ($query = $this->getGrammar()->createUpdateQuery($tbname, $entries, $where, $querytabinfo, $filter)) {
@@ -452,6 +530,7 @@ class DataAdapter extends DataAdapterBase implements
      * @return string 
      * @throws IGKException 
      */
+
     public function get_query(string $tbname, ?array $where = null, ?array $options = null)
     {
         return $this->getGrammar()->createSelectQuery($tbname, $where, $options);
@@ -462,6 +541,7 @@ class DataAdapter extends DataAdapterBase implements
      * @return null|array definition
      * @throws IGKException 
      */
+
     public function getDataTableDefinition($table)
     {
         if ($ctrl = igk_getctrl(IGK_MYSQL_DB_CTRL, false)) {
@@ -472,6 +552,7 @@ class DataAdapter extends DataAdapterBase implements
      * 
      * @param mixed $ctrl the default value is null
      */
+
     public function __construct($ctrl = null)
     {
         parent::__construct($ctrl);
@@ -483,6 +564,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function isTypeSupported(string $type): bool
     {
         if (self::$supportedList === null) {
@@ -508,6 +590,7 @@ class DataAdapter extends DataAdapterBase implements
      * 
      * @var  
      */
+
     public static function GetSupportedType()
     {
         if (is_null(self::$supportedList)) {
@@ -517,6 +600,11 @@ class DataAdapter extends DataAdapterBase implements
         }
         return self::$supportedList;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $query
+    */
     public function sendQueryAndLeaveOpen(string $query)
     {
         return $this->sendQuery($query, true, null, false);
@@ -526,6 +614,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param mixed $type 
      * @return bool 
      */
+
     public function supportDefaultValue($type): bool
     {
         return in_array($type, ["float", "int", "varchar", "enum", "datetime", "time", "float"]);
@@ -533,6 +622,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * 
      */
+
     protected function _createDriver()
     {
         if (class_exists(DbQueryDriver::class)) {
@@ -562,6 +652,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param null|string $v 
      * @return string 
      */
+
     public function escape_string(?string $v = null): string
     {
         if (is_null($v)) {
@@ -583,6 +674,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param mixed|DbColumnInfo $tinf 
      * @return mixed 
      */
+
     public function getDataValue($value, $tinf)
     {
         if ($type = $tinf->clType) {
@@ -612,6 +704,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * display value
      */
+
     public function __toString()
     {
         return __CLASS__;
@@ -620,6 +713,7 @@ class DataAdapter extends DataAdapterBase implements
      * get the driver charset
      * @return null|string 
      */
+
     public function get_charset()
     {
         $b = $this->m_dbManager->getResId();
@@ -633,6 +727,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param string|'utf-8'|'utf8mb4' $charset 
      * @return bool|void 
      */
+
     public function set_charset($charset = "utf8")
     {
         $b = $this->m_dbManager->getResId();
@@ -640,6 +735,12 @@ class DataAdapter extends DataAdapterBase implements
             return mysqli_set_charset($b, $charset);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tablename
+    * @param null|mixed $conditions
+    */
     public function delete($tablename, $conditions = null)
     {
         if ($query = $this->getGrammar()->createDeleteQuery($tablename, $conditions)) {
@@ -652,6 +753,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param string $tbname the table name
      * @param string $name column name
      */
+
     public function addColumn($tbname, $name)
     {
         if (empty($tbname))
@@ -677,6 +779,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function resetAutoIncrement($table, $value = 1)
     {
         $table =  igk_db_escape_string($table);
@@ -691,6 +794,7 @@ class DataAdapter extends DataAdapterBase implements
      * 
      * @param mixed $tbname
      */
+
     public function clearTable($tbname)
     {
         $tbname = igk_mysql_db_tbname($tbname);
@@ -701,6 +805,7 @@ class DataAdapter extends DataAdapterBase implements
      * create database
      * @param mixed $dbname
      */
+
     public function createdb(?string $dbname = null)
     {
         if ($this->m_dbManager != null) {
@@ -716,6 +821,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param mixed $desc the default value is null
      * @param string $dbname the default value is null
      */
+
     public function createTable(string $tablename, $columninfoArray, $entries = null, $desc = null, $dbname = null, ?string $prefix=null, $extra=null)
     {
         if (($this->m_dbManager != null) && !empty($tablename) && $this->m_dbManager->isConnect()) {
@@ -737,6 +843,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * 
      */
+
     public function die_error()
     {
         return igk_mysql_db_error();
@@ -744,6 +851,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * 
      */
+
     public function getDbIdentifier()
     {
         return "mysqli";
@@ -751,6 +859,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * 
      */
+
     public function getError()
     {
         return $this->m_dbManager->getError();
@@ -758,6 +867,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * 
      */
+
     public function getErrorCode()
     {
         return $this->m_dbManager->getErrorCode();
@@ -765,6 +875,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * 
      */
+
     public function getHasError()
     {
         return $this->m_dbManager->getHasError();
@@ -773,6 +884,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * create table links definition
      */
+
     public function haveNoLinks($tablename, $ctrl = null)
     {
         return $this->m_dbManager->haveNoLinks($tablename, $ctrl);
@@ -783,12 +895,20 @@ class DataAdapter extends DataAdapterBase implements
      * @param mixed $entry table entries
      * @param mixed $tableinfo the default value is null
      */
+
     public function insert($tablename, $entry, $tableinfo = null, bool $throwException = true, $options = null, $autoclose = false)
     {
         if ($query = $this->getGrammar()->createInsertQuery($tablename, $entry, $tableinfo)) {
             return $this->sendQuery($query, $throwException, $options, $autoclose);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $values
+    * @param mixed $throwex
+    */
     public function insert_array($tbname, $values, $throwex = 1)
     {
         $query = "";
@@ -802,6 +922,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * enable relation checking
      */
+
     public function restoreRelationChecking()
     {
         return $this->sendQuery("SET foreign_key_checks=1;");
@@ -811,6 +932,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param mixed $tbname
      * @param mixed $name
      */
+
     public function rmColumn($tbname, $name)
     {
         if ($query = $this->getGrammar()->rm_column($tbname, $name)) {
@@ -821,6 +943,7 @@ class DataAdapter extends DataAdapterBase implements
      * select all
      * @param mixed $tbname    
      */
+
     public function selectAll($tbname)
     {
         if ($q = $this->getGrammar()->createSelectQuery($tbname)) {
@@ -836,6 +959,7 @@ class DataAdapter extends DataAdapterBase implements
      * @throws IGKException 
      * @throws Error 
      */
+
     public function select_all(string $table, ?array $conditions = null)
     {
         return $this->select($table, $conditions);
@@ -847,6 +971,7 @@ class DataAdapter extends DataAdapterBase implements
      * @return array 
      * @throws IGKException 
      */
+
     public function getColumnInfo(string $table, ?string $column_name = null): array
     {
         // get descriptions data for columns
@@ -903,6 +1028,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param mixed $options extra option. used by query result
      * @return IDbQueryResult|\Iterable|null|bool
      */
+
     public function sendQuery(string $query, $throwex = true, $options = null, $autoclose = false)
     {
         $listener = $this->queryListener ?? $this->m_dbManager;
@@ -939,6 +1065,7 @@ class DataAdapter extends DataAdapterBase implements
      * @param bool $throwex 
      * @return int|null 
      */
+
     public function sendMultiQuery($query, $throwex = true)
     {
         $sendquery = $this->queryListener ?? $this->m_dbManager;
@@ -954,6 +1081,7 @@ class DataAdapter extends DataAdapterBase implements
      * return version 
      * @return string
      */
+
     public function getVersion(): string
     {
         return $this->m_dbManager->getVersion();
@@ -962,6 +1090,7 @@ class DataAdapter extends DataAdapterBase implements
      * get adapter type
      * @return string 
      */
+
     public function getType(): string
     {
         return IGK_MYSQL_DATAADAPTER;
@@ -970,10 +1099,16 @@ class DataAdapter extends DataAdapterBase implements
      * 
      * @param mixed $listener
      */
+
     public function setSendDbQueryListener(?IDbSendQueryListener $listener)
     {
         $this->queryListener = $listener;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?IDbSendQueryListener
+    */
     public function getSendDbQueryListener(): ?IDbSendQueryListener
     {
         return $this->queryListener;
@@ -981,6 +1116,7 @@ class DataAdapter extends DataAdapterBase implements
     /**
      * 
      */
+
     public function stopRelationChecking()
     {
         return $this->sendQuery("SET foreign_key_checks=0;");
@@ -989,14 +1125,23 @@ class DataAdapter extends DataAdapterBase implements
      * check if table exists
      * @param mixed $tablename
      */
+
     public function tableExists(string $tablename, bool $throwex = true): bool
     {
         return $this->m_dbManager->tableExists($tablename, $throwex);
     }
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return [];
     }
+
+    /**
+    * auto generate doc.
+    */
     public function last_error()
     {
         return $this->m_dbManager->getError();

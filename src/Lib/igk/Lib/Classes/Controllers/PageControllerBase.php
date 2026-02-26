@@ -24,12 +24,28 @@ use ReflectionClass;
 abstract class PageControllerBase extends ControllerTypeBase 
     implements IUriActionRegistrableController, ILibaryController
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PAGE_CONSTANT= IGK_USER_SETTING + 0xB;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PAGE_USER=self::PAGE_CONSTANT + 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PAGE_TEMPLATE=self::PAGE_CONSTANT + 2;
     /**
      * init view
      * */
+
     protected function _initView(){ 
         $this->register_autoload();
         parent::_initView();
@@ -38,10 +54,16 @@ abstract class PageControllerBase extends ControllerTypeBase
      * get buffer output
      * @return mixed 
      */
+
     public function get_output(){
         $s=$this->getEnvParam("_output");
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function getTableConst($n){
         $cl=get_class($this)."DbConstants";
         if(class_exists($cl, false)){
@@ -50,17 +72,29 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getUserDir(){
         if($u=$this->User)
             return $this->getDataDir()."/users/".$u->clLogin;
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getUserSettingFile(){
         if($u=$this->User){
             return $this->getUserDir()."/.settings.xml";
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getUserSettings(){
         $settings=$this->getEnvParam(self::ENV_PARAM_USER_SETTINGS);
         if($settings)
@@ -74,12 +108,29 @@ abstract class PageControllerBase extends ControllerTypeBase
         $this->setEnvParam(self::ENV_PARAM_USER_SETTINGS, $settings);
         return $settings;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $u
+    * @param mixed $forcehandle
+    */
     public function handle_redirection_uri($u, $forcehandle=1){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @param mixed $view
+    */
     public static function HandlePage($ctrl, $view){
         return $ctrl->handleView($view);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $view
+    */
     protected function handleView($view){
         $f=$this->getViewFile($view);
         if(igk_io_file_exists($f) && method_exists($this, "renderDefaultDoc")){
@@ -94,6 +145,7 @@ abstract class PageControllerBase extends ControllerTypeBase
      * @param object $u 
      * @return IUserProfile 
      */
+
     protected function initUserFromSysUser(object $u): \IGK\System\Database\IUserProfile{
         if (!is_null($u)){ 
             $cl = $this->resolveClass(EntryClassResolution::UserProfile);
@@ -105,11 +157,19 @@ abstract class PageControllerBase extends ControllerTypeBase
         }
         return $u;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function navtohome(){
         $this->resetCurrentView();
         $c=$this->getAppUri();
         igk_navto($c);
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     protected function storeUserSettings(){
         $settings=$this->getUserSettings();
         if($settings && ($file=$this->getUserSettingFile())){
@@ -133,6 +193,7 @@ abstract class PageControllerBase extends ControllerTypeBase
     /**
     *  get a application document. getDoc return the global document
     */
+
     protected function getAppDocument($newdoc=false){
         return igk_get_document($this::name("app_document"), $newdoc);
     }

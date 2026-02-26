@@ -10,12 +10,23 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 class HtmlNotifyToastResponse extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_notifyname;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "notify:toast";
     /**
      * Indicates that this node does not accept child nodes.
      * @return bool
      */
+
     public function getCanAddChilds()
     {
         return false;
@@ -24,6 +35,7 @@ class HtmlNotifyToastResponse extends HtmlNode{
      * Constructor.
      * @param string $name The notification channel name to bind this toast to.
      */
+
     public function __construct($name)
     {
         parent::__construct();
@@ -34,6 +46,7 @@ class HtmlNotifyToastResponse extends HtmlNode{
      * @param mixed $options Render options.
      * @return string|null
      */
+
     public function render($options=null){
         $o = null;
         if ($tg = igk_notifyctrl($this->m_notifyname)){

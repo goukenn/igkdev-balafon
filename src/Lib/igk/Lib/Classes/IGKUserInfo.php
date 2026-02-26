@@ -19,14 +19,43 @@ use IGK\System\Traits\StoredPropertiesTrait;
 /**
 * auto generate doc.
 */
-class IGKUserInfo extends IGKObject implements IToArray{ 
+class IGKUserInfo extends IGKObject implements IToArray{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DB_INFO_KEY="sys://db/info";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $clId;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $clLogin;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $clGuid;
     // var $clPwd;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $csrf;
     use StoredPropertiesTrait;
+
+    /**
+    * .ctr
+    */
     public function __construct(){    }
 
     /**
@@ -34,6 +63,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     * @param mixed $name
     * @param mixed $value
     */
+
     public function __set($name, $value){
         if(!$this->_setIn($name, $value))
             $this->setProperty($name, $value);
@@ -43,6 +73,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     * auto generate doc.
     * @param mixed $key
     */
+
     public function __get($key){
         if(method_exists($this, $fc = "get".ucfirst($key))){ 
             return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
@@ -56,6 +87,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
      * @param ?BaseController $ctrl current - load controller
      * @return mixed 
      */
+
     public function auth($name, $strict=false, $ctrl=null){   
         $name = AuthorizationHelper::Map($name, $ctrl);
         return $this->model()->auth($name, $strict);
@@ -64,6 +96,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     /**
     * auto generate doc.
     */
+
     public function fullname(){
         return igk_user_fullname($this);
     }
@@ -72,6 +105,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
      * @return mixed 
      * @throws Exception 
      */
+
     public function display():string{
         if (strlen(trim( $s = $this->fullname())) == 0){
             $s = $this->clLogin;
@@ -83,6 +117,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     /**
     * auto generate doc.
     */
+
     public function getAuths(){ 
         if($this->clId){
             $tab=array();
@@ -109,6 +144,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     /**
     * auto generate doc.
     */
+
     public function getGroups(){
         if($this->clId){
             $tab=array();
@@ -132,6 +168,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     * @param null|mixed $authCtrl
     * @param mixed $adapter
     */
+
     public static function GetIsAuthorize($uinfo, $authname, $strict=false, $authCtrl=null, $adapter=IGK_MYSQL_DATAADAPTER){
         $s=$uinfo;
         $k=self::DB_INFO_KEY;
@@ -155,6 +192,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     * @param null|mixed $authCtrl
     * @param mixed $adapter
     */
+
     function IsAuthorize($authname, $authCtrl=null, $adapter=IGK_MYSQL_DATAADAPTER){
         $s=$this;
         return self::GetIsAuthorize($s, $authname, $authCtrl, $adapter);
@@ -164,6 +202,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     * auto generate doc.
     * @param mixed $userTableData
     */
+
     public function loadData($userTableData){
         if($userTableData){
             foreach($userTableData as $k=>$v){
@@ -175,6 +214,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     /**
     * auto generate doc.
     */
+
     public function to_json(){
         return json_encode($this);
     }
@@ -182,6 +222,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     /**
     * auto generate doc.
     */
+
     public function toString(){
         return get_class($this);
     }
@@ -190,6 +231,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
     * auto generate doc.
     * @return ?array
     */
+
     public function to_array():?array{
         return (array)$this;
     }
@@ -197,6 +239,7 @@ class IGKUserInfo extends IGKObject implements IToArray{
      * retrieve the model
      * @return object|null 
      */
+
     public function model(){
         $model = IGK\Models\Users::model();
         $key = CacheModels::GetCacheKey($model, Users::FD_CL_GUID, $this->clGuid);

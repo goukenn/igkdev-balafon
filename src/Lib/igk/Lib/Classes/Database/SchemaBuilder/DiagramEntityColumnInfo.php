@@ -16,7 +16,11 @@ class DiagramEntityColumnInfo implements IDbColumnInfo
 {
      use DbColumnInfoTrait;
      use DbColumnInfoMethodTrait;
-     public function __construct()
+
+    /**
+    * .ctr
+    */
+    public function __construct()
      {
           $this->clType = "Int";
           $this->clTypeLength = 9;
@@ -25,7 +29,8 @@ class DiagramEntityColumnInfo implements IDbColumnInfo
       * 
       * @return bool 
       */
-     public function getIsDumpField(): bool
+
+    public function getIsDumpField(): bool
      {
           return DbUtils::GetIsDumpField($this);
      }

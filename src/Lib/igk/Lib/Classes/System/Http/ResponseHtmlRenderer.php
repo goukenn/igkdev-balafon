@@ -10,9 +10,30 @@ namespace IGK\System\Http;
 * @package IGK\System\Http
 */
 class ResponseHtmlRenderer{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_node;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_obj;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_refs;
+
+    /**
+    * .ctr
+    * @param mixed $node
+    * @param mixed $object
+    */
     public function __construct($node, $object){
         $this->m_node = $node;
         $this->m_obj = $object;
@@ -21,6 +42,7 @@ class ResponseHtmlRenderer{
     /**
     * auto generate doc.
     */
+
     public function render(){
         $this->m_refs = [];
         $this->m_node->clearChilds();
@@ -38,6 +60,7 @@ class ResponseHtmlRenderer{
     * @param mixed $c
     * @param mixed $m
     */
+
     public function visitDd($c, $m){
         $cp = [[$c, $m]];
         while($q = array_pop($cp)){

@@ -65,6 +65,10 @@ class DummySysUtilController extends BaseController{
     protected function getEntryNameSpace(){
         return __NAMESPACE__;
     }
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->getConfigs()->clDataTablePrefix = "tbjojo";

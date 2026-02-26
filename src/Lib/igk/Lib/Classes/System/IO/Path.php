@@ -15,31 +15,122 @@ use IGKException;
  */
 class Path
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $lib_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $class_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $app_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $package_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $vendor_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $base_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $project_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $module_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $data_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $sys_data_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $css_path;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $backup_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $home_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $temp_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $cache_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $public_assets_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
     /**
      * get temp directory 
      * @return mixed 
      */
+
     public function getTempDir()
     {
         return $this->temp_dir;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $path
+    */
     public static function GetExtension($path)
     {
         if (empty($path))
@@ -55,6 +146,7 @@ class Path
      * @param mixed $extension 
      * @return bool 
      */
+
     public static function GetExistingFile(&$path, array $extension = []): bool
     {
         if (igk_io_file_exists($path)) {
@@ -73,6 +165,7 @@ class Path
      * get system path instance
      * @return self path instance
      */
+
     public static function getInstance()
     {
         if (self::$sm_instance === null) {
@@ -84,6 +177,7 @@ class Path
      * get the backup directory
      * @return mixed 
      */
+
     public function getBackupDir()
     {
         return $this->backup_dir;
@@ -92,6 +186,7 @@ class Path
      * get public asset directory
      * @return string 
      */
+
     public function getPublicAssetDir():string{
         return $this->public_assets_dir;
     }
@@ -99,6 +194,7 @@ class Path
      * get module directory
      * @return mixed 
      */
+
     public function getModuleDir()
     {
         return $this->module_dir;
@@ -107,12 +203,14 @@ class Path
      * get cache directory 
      * @return mixed 
      */
+
     public function getCacheDir(){
         return $this->cache_dir;
     }
     /**
      * 
      */
+
     public function prepareData()
     {
         if (!defined('IGK_BASE_DIR')){   
@@ -160,6 +258,7 @@ class Path
      * get home dir
      * @return null|string 
      */
+
     public function getHomeDir(): ?string
     {
         return $this->home_dir;
@@ -168,6 +267,10 @@ class Path
     {
         $this->prepareData();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getPackagesDir()
     {
         return $this->package_dir;
@@ -176,6 +279,7 @@ class Path
      * 
      * @return string 
      */
+
     public function getStyleUri()
     {
         $d = $this->css_path;
@@ -191,6 +295,7 @@ class Path
      * retrieve setup system app directory
      * @return ?string 
      */
+
     public function getApplicationDir()
     {
         return $this->app_dir;
@@ -199,6 +304,7 @@ class Path
      * retrieve setupe system class directory
      * @return mixed 
      */
+
     public function getClassDir()
     {
         return $this->class_dir;
@@ -207,14 +313,23 @@ class Path
      * 
      * @return string get server root directory 
      */
+
     public function getRootDir()
     {
         return igk_server()->root_dir;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getBaseDir()
     {
         return $this->base_dir;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDataDir()
     {
         return $this->data_dir;
@@ -223,6 +338,7 @@ class Path
      * return sys data directory
      * @return string 
      */
+
     public function getSysDataDir(): string
     {
         return $this->sys_data_dir;
@@ -232,6 +348,7 @@ class Path
      * @param mixed|null $dir 
      * @return string base dir
      */
+
     public function basedir($dir = null)
     {
         $bdir = igk_environment()->get("basedir", $this->base_dir);
@@ -262,6 +379,7 @@ class Path
      * @return string|false|null 
      * @throws IGKException 
      */
+
     public function baseuri($dir = null, $secured = null, &$path = null): ?string
     {
         if (!is_null($baseURI = igk_environment()->get("baseURI"))) {
@@ -303,6 +421,7 @@ class Path
      * @return string|false|null 
      * @throws IGKException 
      */
+
     public function realpath(string $path)
     {
         $o = "";
@@ -334,6 +453,7 @@ class Path
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function basepath(?string $dir, $sep = DIRECTORY_SEPARATOR)
     {
         $p = $this->realpath($dir);
@@ -354,6 +474,7 @@ class Path
     /**
      * 
      */
+
     public function baserelativepath($dir, $basedir = null, $sep = DIRECTORY_SEPARATOR)
     {
         if (empty($dir)) {
@@ -366,6 +487,7 @@ class Path
     /**
      * 
      */
+
     public function relativepath($spath, $link)
     {
         if (is_dir($link)) {
@@ -380,6 +502,7 @@ class Path
      * @param mixed $target 
      * @return string|null 
      */
+
     public static function GetRelativePath(string $source, string $target, string $separator = DIRECTORY_SEPARATOR)
     {
         $vsource = igk_uri($source);
@@ -434,6 +557,7 @@ class Path
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function LocalPath(string $path)
     {
         return igk_io_expand_path(
@@ -445,6 +569,7 @@ class Path
      * @param array $path 
      * @return string 
      */
+
     public static function Combine(...$path)
     {
         $sep = '/';
@@ -472,6 +597,7 @@ class Path
      * @param mixed $a 
      * @return string 
      */
+
     public static function TrimDir(?string $a = null, $sep = DIRECTORY_SEPARATOR)
     {
         return trim($a ?? '', $sep);
@@ -483,6 +609,7 @@ class Path
      * @param null|array $dirs 
      * @return string|null 
      */
+
     public static function SearchFile(string $path, array $exts, ?array $dirs=null){ 
            if (is_file($path)){
                 return $path;
@@ -512,6 +639,7 @@ class Path
      * @param string $path 
      * @return string 
      */
+
     public static function FlattenPath(string $path)
     {
         $s = trim($path);
@@ -545,6 +673,7 @@ class Path
      * @param ?string[] $path 
      * @return string 
      */
+
     public static function CombineAndFlattenPath(...$path)
     {
         return self::FlattenPath(self::Combine(...$path));
@@ -555,6 +684,7 @@ class Path
      * @return bool 
      * @throws IGKException 
      */
+
     public static function IsInLibrary(string $path): bool
     {
         return self::DetectPathMode($path) == 'lib';
@@ -565,6 +695,7 @@ class Path
      * @param string $new_extension 
      * @return string 
      */
+
     public static function ChangeExtensionTo(string $path, string $new_extension): string{
         return self::Combine(dirname($path), igk_io_basenamewithoutext($path).$new_extension);
     }
@@ -573,6 +704,7 @@ class Path
      * @param string $path 
      * @return ?string 
      */
+
     public static function DetectPathMode(string $path): ?string
     {
         $p = igk_io_collapse_path($path);
@@ -586,6 +718,7 @@ class Path
      * @param string $path 
      * @return false|string 
      */
+
     public static function ResolvePath(string $path, ?array $include_pathlist =null){
         if (is_null($include_pathlist)){
             $include_pathlist = get_include_path();
@@ -606,7 +739,8 @@ class Path
     /**
  * get string local path
  */
-public static function ToLocalPath(string $path, ?string $cwd=null):string{
+
+    public static function ToLocalPath(string $path, ?string $cwd=null):string{
     $cwd = $cwd ?? getcwd();
     $c = igk_uri($path);
     $absolute = false;
@@ -621,7 +755,14 @@ public static function ToLocalPath(string $path, ?string $cwd=null):string{
     } 
     return igk_dir($c);
 }
-public static function SubLocalPath(string $path, string $cwd): ?string{
+
+    /**
+    * auto generate doc.
+    * @param string $path
+    * @param string $cwd
+    * @return ?string
+    */
+    public static function SubLocalPath(string $path, string $cwd): ?string{
      $g = self::ToLocalPath($path, $cwd);
 return \IGK\System\IO\Path::GetRelativePath($cwd, $g); //
 

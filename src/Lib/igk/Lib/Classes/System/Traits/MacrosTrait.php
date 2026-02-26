@@ -7,7 +7,18 @@ namespace IGK\System\Traits;
 use Closure;
 trait MacrosTrait
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $macros;
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         if (is_null(self::$macros)) {
@@ -18,11 +29,22 @@ trait MacrosTrait
             return static::_InvokeMacros(self::$macros, $name, $arguments);
         }
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         array_unshift($arguments, $this);
         return self::__callStatic($name, $arguments);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $macros
+    */
     protected static function InitMacros(& $macros)
     {
         $macros = [

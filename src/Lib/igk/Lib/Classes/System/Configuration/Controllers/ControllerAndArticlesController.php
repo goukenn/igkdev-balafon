@@ -31,6 +31,11 @@ use function igk_resources_gets as __;
  */
 final class ControllerAndArticlesController extends ConfigControllerBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SL_SELECTCONTROLLER = 1;
     /**
      * hook name when a controller require to config option 
@@ -168,6 +173,7 @@ final class ControllerAndArticlesController extends ConfigControllerBase
         igk_io_save_file_as_utf8($file, $v_content, true);
         return true;
     }
+
     public function _buildAdditionalInfo($ctrl, $p)
     {
         $d =
@@ -309,6 +315,12 @@ final class ControllerAndArticlesController extends ConfigControllerBase
             $ul->li()->Content = __("no sys controller found.");
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @param mixed $target
+    */
     protected function _view_ctrl_info($ctrl, $target)
     {
         if ($ctrl == null)
@@ -455,6 +467,10 @@ EOF;
             } 
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function add_view()
     {
         $n = igk_getr(IGK_FD_NAME);
@@ -486,6 +502,10 @@ EOF;
         igk_navtocurrent();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_add_article()
     {
         $ctrl = igk_getr("clCtrl");
@@ -520,6 +540,10 @@ EOF;
         $this->View();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_add_article_frame()
     {
         $ctrl = (($c = igk_getctrl(igk_getr("ctrlid", null), false)) != null) ? $c : $this->SelectedController;
@@ -548,6 +572,10 @@ EOF;
         return $d;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_add_article_frame_ajx()
     {
         $frame = $this->ca_add_article_frame();
@@ -556,11 +584,19 @@ EOF;
         }
     }
     ///<summary>add controller request</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_add_ctrl()
     {
         $this->ca_add_ctrl_frame_ajx();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_add_ctrl_frame()
     {
         $frameid = __FUNCTION__ . "::Frame";
@@ -653,6 +689,11 @@ JS;
         return $frame;
     }
     ///<summary>view add controller frame</summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $renderframe
+    */
     public function ca_add_ctrl_frame_ajx($renderframe = true)
     {
         $frame = $this->ca_add_ctrl_frame();
@@ -661,6 +702,10 @@ JS;
         }
     }
     ///<summary>build a add view frame</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_add_view_frame()
     {
         $frame = igk_create_node("div");
@@ -686,6 +731,10 @@ JS;
         return $frame;
     }
     ///<summary>Request add controller</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_addCtrl()
     {
         if (igk_qr_confirm() && $this->ConfigCtrl->getIsConnected() && ($ctrl = igk_getctrl(IGK_CTRL_MANAGER, false))) {
@@ -716,6 +765,10 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_addfield_ajx()
     {
         $c = $this->ca_getFieldInfo(DbColumnInfo::NewEntryInfo());
@@ -725,6 +778,10 @@ JS;
         igk_wln($c->render());
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_ClearTableList_ajx()
     {
         $this->setParam("ctrl:ca_tabInfo", null);
@@ -734,6 +791,10 @@ JS;
         igk_wl($this->ca_getTableInfo()->render());
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_ctrl_article_select_lang_ajx()
     {
         $ctrl = igk_getctrl(igk_getr("ctrl"), false);
@@ -743,11 +804,19 @@ JS;
         igk_wl($div->getInnerHtml());
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_ctrl_drop()
     {
         $this->ca_drop_controller_ajx($this->SelectedController);
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_db_drop_db_file_ajx()
     {
         $f = igk_getctrl($this->SelectedController)->getDataSchemaFile();
@@ -759,6 +828,10 @@ JS;
         igk_exit();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_download_view()
     {
         $n = igk_getr("n");
@@ -772,6 +845,10 @@ JS;
         }
     }
     ///<summary>drop article in ajx request</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_drop_article_ajx()
     {
         $n = base64_decode(igk_getr("n"));
@@ -811,6 +888,12 @@ JS;
     ///<summary></summary>
     ///<param name="ctrl" default="null"></param>
     ///<param name="reconnect" default="1"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrl
+    * @param mixed $reconnect
+    */
     public function ca_drop_controller_ajx($ctrl = null, $reconnect = 1)
     {
         $a = $ctrl ? $ctrl : (($ctrl = igk_getr("clController")) ? $ctrl : igk_getr("n"));
@@ -874,6 +957,10 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_drop_view()
     {
         $n = igk_getr("n");
@@ -909,6 +996,10 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_dropfield()
     {
         $n = igk_getr("n");
@@ -919,6 +1010,12 @@ JS;
         }
     }
     ///<summary> edition d'article simple par une demande ajax</summary>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrlid
+    * @param null|mixed $name
+    */
     public function ca_edit_article_ajx($ctrlid = null, $name = null)
     {
         $ajx = 0;
@@ -958,6 +1055,15 @@ JS;
     ///$mode: si mode = 1 alors le name un le chemin d'accès complet au fichier sinon il s'agit du nom dans le repertoire Articles du controlleur
     ///$force: force creation if not exists
     ///</params>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrlid
+    * @param null|mixed $name
+    * @param mixed $ajx
+    * @param mixed $mode
+    * @param mixed $force
+    */
     public function ca_edit_article_frame($ctrlid = null, $name = null, $ajx = 0, $mode = 0, $force = false)
     {
         $ctrl = igk_getctrl($ctrlid ? $ctrlid : igk_getr("ctrlid"), false);
@@ -991,6 +1097,10 @@ JS;
         return null;
     }
     ///<summary>Represente ca_edit_articlewtiny function</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_edit_articlewtiny()
     {
         $q = igk_getr("q");
@@ -1017,6 +1127,12 @@ JS;
     ///<summary></summary>
     ///<param name="ctrlid" default="null"></param>
     ///<param name="name" default="null"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrlid
+    * @param null|mixed $name
+    */
     public function ca_edit_articlewtiny_f_ajx($ctrlid = null, $name = null)
     {
         $n = $name ? $name : igk_getr("n", igk_getr("fn"));
@@ -1035,6 +1151,15 @@ JS;
     ///<param name="ajx"></param>
     ///<param name="mode"></param>
     ///<param name="force" default="false"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrlid
+    * @param null|mixed $name
+    * @param mixed $ajx
+    * @param mixed $mode
+    * @param mixed $force
+    */
     public function ca_edit_articlewtiny_f_frame($ctrlid = null, $name = null, $ajx = 0, $mode = 0, $force = false)
     {
         $ctrl = igk_getctrl($ctrlid ? $ctrlid : igk_getr("ctrlid"), false);
@@ -1070,6 +1195,14 @@ JS;
     ///<param name="name" default="null"></param>
     ///<param name="ajx"></param>
     ///<param name="mode"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrlid
+    * @param null|mixed $name
+    * @param mixed $ajx
+    * @param mixed $mode
+    */
     public function ca_edit_articlewtiny_frame($ctrlid = null, $name = null, $ajx = 0, $mode = 0)
     {
         $ctrl = igk_getctrl($ctrlid ? $ctrlid : igk_getr("ctrlid"), false);
@@ -1104,6 +1237,11 @@ JS;
     }
     ///<summary></summary>
     ///<param name="oldcontent" default="null"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $oldcontent
+    */
     public function ca_edit_ctrl_ajx($oldcontent = null)
     {
         $name = igk_getr("n", null);
@@ -1135,6 +1273,11 @@ JS;
     }
     ///<summary></summary>
     ///<param name="rendering" default="true"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $rendering
+    */
     public function ca_edit_ctrl_atricles_ajx($rendering = true)
     {
         $frame_name = "ca_edit_ctrl_atricles_ajx_frame";
@@ -1165,6 +1308,10 @@ JS;
         $frame->ForCtrl = $ctrl;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_edit_ctrl_force_view_ajx()
     {
         $n = igk_getctrl(igk_getr("n"));
@@ -1174,6 +1321,11 @@ JS;
     }
     ///<summary></summary>
     ///<param name="render" default="true"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $render
+    */
     public function ca_edit_ctrl_properties_ajx($render = true)
     {
         $name = igk_getr("n", null);
@@ -1232,11 +1384,22 @@ JS;
     }
     ///<summary></summary>
     ///<param name="render" default="true"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $render
+    */
     public function ca_edit_ctrl_views_ajx($render = true)
     {
         igk_die(__METHOD__);
     }
     ///<summary>request edit data table structures with ajx </summary>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrl
+    * @param null|mixed $table
+    */
     public function ca_edit_db_ajx($ctrl = null, $table = null)
     {
         $ctrl = $ctrl == null ? igk_getctrl($this->SelectedController) : $ctrl;
@@ -1273,6 +1436,10 @@ JS;
         igk_wl($frame->render());
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_edit_db_close_frame()
     {
         $table = igk_getr("db_tbr");
@@ -1283,6 +1450,13 @@ JS;
     ///<param name="oldcontent" default="null">the old content</param>
     ///<param name="errormesage" default="null">error message</param>
     ///<param name="error" default="null"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $oldcontent
+    * @param null|mixed $errormesage
+    * @param null|mixed $error
+    */
     public function ca_edit_view($oldcontent = null, $errormesage = null, $error = null)
     {
         $ctrl = igk_getctrl($this->SelectedController, false);
@@ -1323,6 +1497,10 @@ JS;
         }
     }
     ///<summary>get controller type addition info</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_get_ctrl_type_info_ajx()
     {
         $p = $this->getParam("ca:view_frame");
@@ -1337,6 +1515,11 @@ JS;
     }
     ///<summary></summary>
     ///<param name="info"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $info
+    */
     public function ca_getFieldInfo($info)
     {
         $tr = igk_create_node("tr");
@@ -1374,6 +1557,12 @@ JS;
     ///<summary>retrieve data table info</summary>
     ///<param name="ctrl" default="null">controller table</param>
     ///<param name="table" default="null">table name</param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $ctrl
+    * @param null|mixed $table
+    */
     public function ca_getTableInfo($ctrl = null, $table = null)
     {
         $key = "ctrl:ca_tabInfo" . ($table ? "/" . $table : "");
@@ -1414,6 +1603,10 @@ JS;
         return $tb;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_remove_child()
     {
         $ctrl = igk_getctrl(igk_getr("clParentCtrl"));
@@ -1425,6 +1618,10 @@ JS;
         $this->View();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_remove_parent()
     {
         $ctrl = igk_getctrl(igk_getr("clCtrl"));
@@ -1436,6 +1633,10 @@ JS;
         $this->View();
     }
     ///<summary>use to reset data base for the current controller</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_reset_db_ajx()
     {
         if (igk_qr_confirm()) {
@@ -1457,6 +1658,10 @@ JS;
         $frame->renderAJX();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_selectedCtrlChanged()
     {
         $t = $this->getParam("ctrl:ca_tabInfo");
@@ -1465,6 +1670,10 @@ JS;
         $this->setParam("ctrl:ca_tabInfo", null);
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_setmenuhost()
     {
         $v_n = igk_getr("clCtrlMenuHost");
@@ -1476,11 +1685,19 @@ JS;
         igk_sys_viewctrl($v_n);
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_setmenuhost_ajx()
     {
         $this->ca_setmenuhost();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_tabv_ajx()
     {
         if (!igk_is_ajx_demand()) {
@@ -1510,6 +1727,10 @@ JS;
         igk_exit();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_update_articlewtiny_f()
     {
         if (!igk_app()->ConfigMode) {
@@ -1523,6 +1744,10 @@ JS;
         igk_navtocurrent();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_update_ctrl_properties()
     {
         $name = igk_getr("n", null);
@@ -1572,6 +1797,10 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_update_dbdata()
     {
         $obj = igk_get_robj();
@@ -1595,6 +1824,10 @@ JS;
         $this->View();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_update_view()
     {
         $f = urldecode(base64_decode(igk_getr("clfile")));
@@ -1615,6 +1848,10 @@ JS;
         igk_frame_close($v_frame);
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function ca_view_body_ajx()
     {
         $uri = base64_decode(igk_getr("uri"));
@@ -1622,6 +1859,11 @@ JS;
         igk_app()->getControllerManager()->invokeUri($uri, true);
     }
     ///<summary> handle view tab information </summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $view
+    */
     public function controller($view = "infotab")
     {
         // igk_dev_wln('write info tab');
@@ -1636,6 +1878,10 @@ JS;
         igk_exit();
     }
     ///<summary>get an article and download it </summary>
+
+    /**
+    * auto generate doc.
+    */
     public function download_article()
     {
         $n = igk_getr("n");
@@ -1650,6 +1896,10 @@ JS;
         }
     }
     ///<summary>remove an article.	</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function drop_article()
     {
         $n = igk_getr("n");
@@ -1671,27 +1921,47 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function edit_article()
     {
         $this->ca_edit_article_frame($this->SelectedController, igk_getr("n"));
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function edit_articlewtiny()
     {
         $this->ca_edit_articlewtiny_frame($this->SelectedController, igk_getr("n"));
     }
     ///<summary>filter article by language</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function filter_article_by_lang()
     {
         $this->m_filter_article_lang = igk_getr("n");
         $this->View();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigPage()
     {
         return "articleconfig";
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getCtrlArticle()
     {
         $c = igk_getr("ctrl");
@@ -1700,16 +1970,30 @@ JS;
         igk_exit();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string
     {
         return IGK_CA_CTRL;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getSelectedController()
     {
         return $this->getParam(self::SL_SELECTCONTROLLER);
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
     protected function initComplete($context = null)
     {
         parent::initComplete();
@@ -1718,12 +2002,21 @@ JS;
         });
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         igk_reg_hook("SelectedControllerChanged", array($this, "ca_selectedCtrlChanged"));
     }
     ///<summary></summary>
     ///<param name="funcname"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $funcname
+    */
     public function IsFunctionExposed($funcname)
     {
         $rgx = "/(view_body_ajx|update_article)/i";
@@ -1732,6 +2025,10 @@ JS;
         return parent::IsFunctionExposed($funcname);
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function lst_adapter_ajx()
     {
         $n = igk_create_node("div");
@@ -1744,23 +2041,39 @@ JS;
         igk_exit();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     protected function onSelectedControllerChanged()
     {
         igk_hook("SelectedControllerChanged", $this, array($this->getSelectedController()));
     }
     ///<summary>search article . reload the view</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function search_article()
     {
         $this->m_search_article = igk_getr("m_search_article");
         $this->View();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function search_view()
     {
         $this->m_search_view = igk_getr("m_search_view");
         $this->View();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function select_controller_ajx()
     {
         $data = [];
@@ -1775,6 +2088,10 @@ JS;
         return new JsonResponse(json_encode($data));
     }
     ///<summary>set the default page controller</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function setdefaultpage()
     {
         $n = igk_getr("clDefaultCtrl");
@@ -1789,6 +2106,10 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function setdefaultpage_ajx()
     {
         if ($this->setdefaultpage()) {
@@ -1797,6 +2118,11 @@ JS;
     }
     ///<summary></summary>
     ///<param name="value"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function setSelectedController($value)
     {
         if ($this->SelectedController != $value) {
@@ -1822,6 +2148,13 @@ JS;
     ///<param name="n"></param>
     ///<param name="list"></param>
     ///<param name="content"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $list
+    * @param mixed $content
+    */
     public function TabViewPage($n, $list, $content)
     {
         $g = $this->getParam(__CLASS__ . "://tabselected", 1);
@@ -1837,6 +2170,10 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function unreg_view_frame()
     {
         $frame_name = "ca_edit_ctrl_atricles_ajx_frame";
@@ -1847,6 +2184,10 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function update_article()
     {
         $ajx = igk_is_ajx_demand() || igk_getr("ajx");
@@ -1890,6 +2231,10 @@ JS;
         igk_exit();
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function update_articlewtiny()
     {
         $f = urldecode(base64_decode(igk_getr("clfile")));
@@ -1910,6 +2255,11 @@ JS;
     }
     ///<summary></summary>
     ///<param name="oldcontent" default="null"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $oldcontent
+    */
     public function update_ctrl($oldcontent = null)
     {
         $f = urldecode(base64_decode(igk_getr("clfile")));
@@ -1926,6 +2276,11 @@ JS;
         }
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View(): BaseController
     {
         $t = $this->TargetNode;
@@ -1955,6 +2310,10 @@ JS;
         return $this;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function view_frame_complete()
     {
         $tb = $_REQUEST;

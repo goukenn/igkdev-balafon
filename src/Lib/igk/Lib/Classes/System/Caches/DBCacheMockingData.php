@@ -11,10 +11,36 @@ use IGK\Controllers\BaseController;
 * @package IGK\System\Caches
 */
 class DBCacheMockingData {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $table;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $controller;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tableRowReference;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $defTableName;
+
+    /**
+    * .ctr
+    * @param string $table
+    * @param null|BaseController $controller
+    */
     public function __construct(string $table, ?BaseController $controller = null  ){
         $this->table = $table;
         $this->controller = $controller;

@@ -5,6 +5,11 @@ namespace IGK\System\Console;
  * @package IConsoleLogger
  */
 interface IConsoleLogger{
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     function log($msg); 
     function info($msg);
     function warn($msg);

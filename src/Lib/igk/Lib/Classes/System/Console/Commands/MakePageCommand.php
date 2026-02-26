@@ -17,12 +17,44 @@ use IGK\System\IO\File\PHPScriptBuilder;
  */
 class MakePageCommand extends AppExecCommand
 {
-	var $command = '--make:page';
-	var $desc = 'make a project-controller page ';
-	var $options = [];
-	var $category = 'make';
-	var $usage = 'controller [options]';
-	public function exec($command, ?string $controller =null, ?string $page=null)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--make:page';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'make a project-controller page ';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'make';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $page
+    */
+    public function exec($command, ?string $controller =null, ?string $page=null)
 	{
 		$ctrl = self::GetController($controller) ?? igk_die('missing controller'); 
 		$page || igk_die('missing page name');

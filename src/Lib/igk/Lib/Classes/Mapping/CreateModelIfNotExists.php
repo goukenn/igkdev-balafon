@@ -8,13 +8,35 @@ namespace IGK\Mapping;
 * @package IGK\Mapping
 */
 class CreateModelIfNotExists{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $model ;
-    var $defCallback; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $defCallback;
+
+    /**
+    * .ctr
+    * @param mixed $model
+    * @param mixed $defCallback
+    */
     public function __construct($model, $defCallback)
     {
         $this->model  = $model;        
         $this->defCallback = $defCallback;
     }
+
+    /**
+    * Called when an object is used as a function.
+    * @param mixed $v
+    * @param mixed $k
+    */
     public function __invoke($v, $k)
     {
         $defCallback = $this->defCallback ;

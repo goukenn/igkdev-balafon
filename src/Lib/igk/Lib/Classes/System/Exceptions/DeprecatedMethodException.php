@@ -9,6 +9,11 @@ use IGKException;
 * @package IGK\System\Exceptions
 */
 class DeprecatedMethodException extends IGKException{
+
+    /**
+    * .ctr
+    * @param string $method
+    */
     public function __construct(string $method)
     {
         parent::__construct($method);

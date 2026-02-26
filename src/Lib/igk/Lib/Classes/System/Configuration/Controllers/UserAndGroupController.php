@@ -28,12 +28,25 @@ use function igk_resources_gets as __;
  * @package IGK\System\Configuration\Controllers
  */
 class UserAndGroupController extends ConfigControllerBase{
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return IGK_USER_AND_GROUP_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsConfigPageAvailable(){
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function initConfigMenu(){
         return [
             new MenuItem(
@@ -44,12 +57,23 @@ class UserAndGroupController extends ConfigControllerBase{
             )
         ];
     }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View():BaseController{
         $t = $this->getTargetNode();
         $t->clearChilds();
         $t->panelbox()->host(static::class."::Presentation", $this);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed $ctrl
+    */
     public static function Presentation($t, $ctrl){
         $t->h2()->Content = __("User's group");
         $t->hr();
@@ -86,6 +110,7 @@ class UserAndGroupController extends ConfigControllerBase{
     * @param  $groupname
     * @param  $n
     */
+
     public function addAuthToGroup($groupname, $n){
         Groups::grantAuthorization($groupname, $n);
         $ad=igk_get_data_adapter($this);
@@ -117,6 +142,7 @@ class UserAndGroupController extends ConfigControllerBase{
     * @param  $groupname
     * @param  $u
     */
+
     public function addUserToGroup($groupname, $u){
         if(empty($groupname) || !$u)
             return false;
@@ -133,12 +159,14 @@ class UserAndGroupController extends ConfigControllerBase{
      /**
     * return an array of authorisation that this user support
     */
+
     public function getUserAuths($u){
         igk_die( __METHOD__." not implement");
     }
     /**
     * return an array of groups that this user is member of
     */
+
     public function getUserGroups($u){
         $ad=igk_get_data_adapter($this);
         if(!$ad->connect())
@@ -158,6 +186,7 @@ class UserAndGroupController extends ConfigControllerBase{
     * add group
     * @param  $n the default value is null
     */
+
     public function group_add($n=null){
         $conditions = null;
         if($n == null){
@@ -186,6 +215,7 @@ class UserAndGroupController extends ConfigControllerBase{
     /**
     * Represent group_add_group_ajx function
     */
+
     public function group_add_group_ajx(){
         $fields = $this->getAddGroupFields();
         // $frame=igk_html_frame($this, "group_add_new_frame");
@@ -202,6 +232,7 @@ class UserAndGroupController extends ConfigControllerBase{
     /**
     * Represent group_add_userto_group function
     */
+
     public function group_add_userto_group(){
         $obj=igk_get_robj();
         if(Usergroups::insertIfNotExists([
@@ -218,6 +249,7 @@ class UserAndGroupController extends ConfigControllerBase{
     /**
     * Represent group_default_view function
     */
+
     public function group_default_view(){
         $this->CurrentView=null;
         $this->View();
@@ -225,6 +257,7 @@ class UserAndGroupController extends ConfigControllerBase{
     /**
     * drop group
     */
+
     public function group_dropgroup_ajx(){
         $id=igk_getr("clId");
         if(igk_qr_confirm() && igk_server()->method("POST")){
@@ -255,6 +288,7 @@ class UserAndGroupController extends ConfigControllerBase{
     /**
     * Represent group_remove_user function
     */
+
     public function group_remove_user(){
         igk_db_delete($this, IGK_TB_USERGROUPS, igk_getr("clId"));
         $this->View();
@@ -262,6 +296,7 @@ class UserAndGroupController extends ConfigControllerBase{
     /**
     * Represent group_view_auth function
     */
+
     public function group_view_auth(){
         $this->CurrentView="viewauth";
         $this->View();
@@ -269,6 +304,7 @@ class UserAndGroupController extends ConfigControllerBase{
     /**
     * view user in groups
     */
+
     public function group_view_user(){
         $id = igk_getr("clId");
         if ($id){
@@ -303,6 +339,10 @@ class UserAndGroupController extends ConfigControllerBase{
         $this->View(); 
         SysUtils::exitOnAJX(); 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function remove_user_from_group(){
         extract((array)igk_get_robj('uid|gid|id'));
         NotifyHelper::Notify(
@@ -319,6 +359,7 @@ class UserAndGroupController extends ConfigControllerBase{
     /**
     * Represent registerHook function
     */
+
     protected function registerHook(){
         igk_reg_hook(IGKEvents::HOOK_DB_DATA_ENTRY, function($hook){
             $db=$hook->args[0];

@@ -11,31 +11,71 @@ use IGKException;
 use IGKHtmlCommentItem;
 /** @package  */
 abstract class SchemaMigrationItemBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_migration;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $raw;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $fill_properties; 
     /**
      * 
      * @return ?ISchemaMigrationInfoListener 
      */
+
     public function getMigrationInfoListener(){
         if ($mig = $this->getMigration()){
             return $mig->migrationListener;
         }
         return null;
     }
+
+    /**
+    * check if isset innaccessible property
+    * @param mixed $name
+    */
     public function __isset($name){
         return  property_exists($this->raw, $name);
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         return igk_getv($this->raw, $name);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getMigration(){
         return $this->m_migration;
     }
+
+    /**
+    * .ctr
+    * @param SchemaBuilderMigration $migration
+    */
     function __construct(SchemaBuilderMigration $migration){
         $this->m_migration = $migration;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    */
     public function load($node){  
         $this->raw = igk_get_robjs($this->fill_properties, 0, $node->getAttributes()->to_array());
         $this->checkRequirement();
@@ -50,6 +90,7 @@ abstract class SchemaMigrationItemBase{
      * @return bool|mixed
      * @throws \Exception on requirement failed
      */
+
     protected function checkRequirement(){
     }
     /**
@@ -57,18 +98,21 @@ abstract class SchemaMigrationItemBase{
      * @param mixed $childs 
      * @return void 
      */
+
     protected function loadChilds($childs){
     }
     /**
      * up the migration
      * @return void 
      */
+
     public function up(){
     }
     /**
      * down migration item
      * @return void 
      */
+
     public function down(){
     }
 }

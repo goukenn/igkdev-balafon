@@ -9,13 +9,34 @@ use IGK\Controllers\BaseController;
  * uri helper controller
  */
 class ViewUriHelper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $controller;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $fname;
+
+    /**
+    * .ctr
+    * @param BaseController $controller
+    * @param mixed $fname
+    */
     public function __construct(BaseController $controller, $fname)
     {
         $this->controller = $controller;
         $this->fname = $fname;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $path
+    */
     public function uri(?string $path=""){
         return $this->controller->getAppUri($this->fname.$path);
     }

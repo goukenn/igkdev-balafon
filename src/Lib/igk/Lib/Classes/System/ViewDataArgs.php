@@ -21,6 +21,11 @@ use Traversable;
 class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, JsonSerializable
 {
     use JsonSerializableTrait;
+
+    /**
+    * .ctr
+    * @param mixed $data
+    */
     public function __construct($data)
     {
         parent::__construct($data);
@@ -29,14 +34,26 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
      * 
      * @return mixed 
      */
+
     public function _json_serialize()
     {
         return json_encode($this->p_data);
     }
+
+    /**
+    * destructor
+    * @param string $name
+    * @param mixed $args
+    */
     public function __set(string $name, $args)
     {
         $this->p_data[$name] = $args;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function isEmpty():bool{
         return empty($this->p_data);
     }
@@ -46,6 +63,7 @@ class ViewDataArgs extends DataArgs implements ArrayAccess, IteratorAggregate, J
      * @param mixed $def_value default value 
      * @return void 
      */
+
     public function get(string $key, $def_value=null){
         return igk_getv($this->p_data, $key, $def_value);
     }

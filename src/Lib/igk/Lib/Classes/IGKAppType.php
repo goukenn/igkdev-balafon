@@ -8,6 +8,16 @@
 * auto generate doc.
 */
 abstract class IGKAppType{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const web="web";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const balafon = "balafon-cli";    
 }

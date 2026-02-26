@@ -10,8 +10,28 @@ namespace IGK\Database;
  */
 class DbDataTypes
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const VarChar = 'VarChar';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const Int = 'Int';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PhoneNumber = 'phone_number';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PHONE_NUMBER_MAX_LENGTH = 15;
 }

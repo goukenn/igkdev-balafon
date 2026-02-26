@@ -25,15 +25,46 @@ use Traversable;
  */
 class ViewCompilerCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--compile-view";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "compile view file";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "compilation";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--cache" => "for cache."
     ];
+
+    /**
+    * auto generate doc.
+    */
     public function showUsage(){
         Logger::print(sprintf('%s file [controller] [options]', $this->command));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $path
+    * @param null|mixed $ctrl
+    */
     public function exec($command, ?string $path = null, $ctrl = null)
     {
         if (is_null($path)) {
@@ -71,6 +102,11 @@ class ViewCompilerCommand extends AppExecCommand
         //     echo "finish:".$fc($compiler, $src);
         // }
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    */
     public static function CreateEvalCode(BaseController $controller){
         return Closure::fromCallable(function($compiler, $src){
             ob_start();
@@ -84,9 +120,19 @@ class ViewCompilerCommand extends AppExecCommand
         })->bindTo($controller);
     }
 }
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class NoDataProvided implements ArrayAccess
 {
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @param mixed $index
+    */
     public function _access_OffsetGet($index)
     {
         return [];

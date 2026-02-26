@@ -13,9 +13,23 @@ use IGK\System\Html\HtmlUtils;
  * @package IGK\System\Html\XML
  */
 class XmlConfigurationNode extends XmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SYS_CONFIG = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const APP_CONFIG = 'app';
 
+    /**
+    * .ctr
+    * @param mixed $tagname
+    */
     public function __construct($tagname)
     {
         parent::__construct($tagname);
@@ -27,6 +41,7 @@ class XmlConfigurationNode extends XmlNode{
      * @param mixed $indexOrargs 
      * @return $this 
      */
+
     public function add($n, $attributes = null, $indexOrargs = null){
         if (!($n instanceof self))
         {
@@ -53,6 +68,7 @@ class XmlConfigurationNode extends XmlNode{
         }
         return parent::add($n, $attributes, $indexOrargs);
     }
+
     public static function CreateWebNode($name, $attributes = null, $indexOrargs = null)
     {
         $g = new self($name);
@@ -65,6 +81,7 @@ class XmlConfigurationNode extends XmlNode{
      * 
      * @return SysAppConfigExpression|SysConfigExpression|null|object|string 
      */
+
     public function getInnerHtml()
     {
         $s = trim(parent::getInnerHtml());     

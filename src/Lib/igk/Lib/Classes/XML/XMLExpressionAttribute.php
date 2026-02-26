@@ -9,10 +9,25 @@ namespace IGK\System\XML;
  * @package 
  */
 class XMLExpressionAttribute implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_value;
+
+    /**
+    * .ctr
+    * @param string $expression
+    */
     public function __construct(string $expression){
         $this->m_value = $expression;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options = null) {     
         return  $this->m_value;
     }

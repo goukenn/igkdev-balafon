@@ -28,6 +28,13 @@ class AppBuilder extends MacrosConstant{
     public function registerService(string $name, string $instance_class){
         return IGKServices::Register($name, $instance_class);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $macros
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     static function _InvokeMacros($macros, $name, $arguments ){ 
         $key = static::class .self::StaticSeparator. $name;
         $instance = igk_getv($arguments, 0); 

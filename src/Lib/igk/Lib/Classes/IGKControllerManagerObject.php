@@ -40,7 +40,17 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * @var array store [name:instance] of registrated controller
      */
     private $m_tbcontrollers;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_initEvent;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_register;
     /**     
      * @var IGKControllerManagerObject controller instance
@@ -58,18 +68,42 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $this->m_classReg = [];
         $this->m_initEvent = 0;
     }
+
     public function getUserControllers(): array {
         return [];
      }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return ?BaseController
+    */
     public function getRegistratedNamedController(string $name): ?BaseController {
         return null;
      }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param BaseController $controller
+    */
     public function registerNamedController(string $name, BaseController $controller) { }
+
+    /**
+    * auto generate doc.
+    * @return ?BaseController
+    */
     public function getDefaultController(): ?BaseController { return null; }
+
+    /**
+    * auto generate doc.
+    * @param null|BaseController $controller
+    */
     public function setDefaultController(?BaseController $controller) { }
     /**
      * get or init controller instance
      */
+
     public function getControllerInstance($classname)
     {
         // priority to class name       
@@ -109,6 +143,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * 
      * @param mixed $key
      */
+
     public function __get($key)
     {
         $key = strtolower($key);
@@ -127,6 +162,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * @param mixed $key
      * @param mixed $value
      */
+
     public function __set($key, $value)
     {
         $key = strtolower($key);
@@ -144,6 +180,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * get registrated keys
      * @return int[]|string[] 
      */
+
     public function getInitControllerKeys()
     {
         return array_keys($this->m_tbcontrollers);
@@ -151,6 +188,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * display value
      */
+
     public function __toString()
     {
         return "Controllers [#" . count($this->m_tbcontrollers) . "]";
@@ -225,6 +263,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * clear cache for base dir
      */
+
     public static function ClearCache($bdir = null, $init = 0)
     {
        \IGK\Helper\SysUtils::ClearCache($bdir, $init);
@@ -232,6 +271,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * 
      */
+
     public function ClearCtrlCache()
     {
         $fc = self::FileCtrlCache();
@@ -242,6 +282,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * 
      */
+
     public function cm_controllerschema()
     {
         if (!defined("IGK_GD_SUPPORT")) {
@@ -282,6 +323,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * 
      */
+
     public function Count()
     {
         return count($this->m_tbcontrollers);
@@ -290,6 +332,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * 
      * @param mixed $ctrl
      */
+
     public function dropController($ctrl)
     {
         if (!$ctrl)
@@ -313,6 +356,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * 
      * @param mixed $name
      */
+
     public function dropControllerByName($name)
     {
         $k = strtolower($name);
@@ -342,6 +386,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * 
      * @param mixed $classname
      */
+
     public function getControllerFromClass($classname)
     {
         if ($this->m_classReg == null)
@@ -360,6 +405,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * get array of initialized controller
      * @return mixed|array controller list 
      */
+
     public function getControllers(): array
     {
         return array_unique(array_values($this->m_tbcontrollers));
@@ -367,6 +413,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     // /**
     //  * get controller reference
     //  */
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     public function & getControllerRef(): ?array
     {
         return $this->m_tbcontrollers;
@@ -374,6 +425,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * get the current instance manager
      */
+
     public static function getInstance()
     {
         if (func_num_args() > 0) {
@@ -392,6 +444,10 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return self::$sm_instance;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function complete(){
         $this->m_complete = true;
     }
@@ -422,6 +478,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * get registerd global controller for specific fonctionnality
      */
+
     public function getRegCtrl($name)
     {
         igk_die("not allowed: " . __METHOD__);
@@ -430,6 +487,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * 
      * @return mixed|array register list
      */
+
     public function &getRegisters()
     {
         if ($this->m_register == null)
@@ -589,6 +647,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * @param mixed $ctrl
      * @param mixed $new the default value is false
      */
+
     public function initCtrl($ctrl, $new = false)
     {
         $n = strtolower($ctrl->getName());
@@ -605,6 +664,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     ///used to invoke function and return response. main used in igk_api
     /**
      */
+
     public function InvokeFunctionUri($uri = null)
     {
         $c = null;
@@ -629,6 +689,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * 
      * @param mixed $uri
      */
+
     public function InvokeNavUri($uri)
     {
         $args = igk_getquery_args($uri);
@@ -664,6 +725,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * 
      * @param mixed $pattern
      */
+
     public function InvokePattern($pattern)
     {
         return $this->InvokeUri($pattern->value, 1, $pattern);
@@ -671,6 +733,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * use to invoke system controller method
      */
+
     public function InvokeUri($uri = null, $defaultBehaviour = true, $pattern = null)
     {
         igk_sys_handle_uri($uri);
@@ -776,6 +839,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * register controller for specific fonctionnality
      * @deprecated register controller not allowed
      */
+
     public function register(BaseController $ctrl)
     {
         $this->m_tbcontrollers[get_class($ctrl)] = $ctrl;
@@ -783,6 +847,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * register controller. register to init complete
      */
+
     public function registerController(BaseController $controller, $regname = null,  $initComplete = true)
     {
         $this->_registerCtrl($controller, $regname);
@@ -791,6 +856,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * reload controller table list
      */
+
     public function reloadModules($tab, $redirect, $initCtrl = 1)
     {
         igk_set_env("sys://reloadingCtrl", 1);
@@ -884,6 +950,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * 
      * @param mixed $forceview the default value is 0
      */
+
     public function ViewControllers($forceview = 0)
     {
         $u = igk_io_base_request_uri();
@@ -907,6 +974,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * @return mixed 
      * @throws IGKException 
      */
+
     public function getController($ctrlname, bool $throwex = true): ?BaseController
     {
         $cc = $this;
@@ -952,6 +1020,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
     /**
      * resolv project class 
      */
+
     public static function ProjectClass($n)
     {
         static $project_info;
@@ -984,6 +1053,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrlname
+    */
     public static function InitController($ctrlname)
     {
         $n = self::GetSystemController($ctrlname);  
@@ -998,6 +1072,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public static function GetSystemController($n)
     {
         $b = igk_environment()->get("sys://app/controllers");
@@ -1008,6 +1087,10 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         $g = self::GetRegisteryController();
         return igk_getv($g, $n);
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function GetRegisteryController()
     {
         return ConfigControllerRegistry::GetResolvController();        
@@ -1016,6 +1099,7 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
      * get .controller.pinc registrated
      * @return mixed 
      */
+
     public static function &GetResolvController()
     {
         static $resolv_ctrl;
@@ -1024,6 +1108,11 @@ final class IGKControllerManagerObject extends IGKObject implements IApplication
         }
         return $resolv_ctrl;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $class
+    */
     public static function GetResolvName($class)
     {
         $g = self::GetResolvController();

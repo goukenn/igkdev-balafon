@@ -15,13 +15,39 @@ use IGK\System\EntryClassResolution;
  * @package IGK\System\Console\Commands
  */
 class MakeManifestCommand extends AppExecCommand{
-    var $command = "--make:manifest"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = "--make:manifest";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "make new project's manifest";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--name"=>"display name of the application",
         "--force"=>"force generation" 
-    ]; 
+    ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed $controller
+    */
     public function exec($command, $controller=""){
         $pwa = igk_require_module("igk/PWA");
         if (empty($controller)){
@@ -52,6 +78,10 @@ class MakeManifestCommand extends AppExecCommand{
         \IGK\Helper\SysUtils::ClearCache(); 
         Logger::success("done\n");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function help(){
         Logger::print("-");
         Logger::info("Make new Balafon's manifest");

@@ -14,6 +14,11 @@ use IGK\System\Text\IReplaceCapturedFormatDefinition;
  */
 trait FormatterTreatChainLogicTrait
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_chain_logic = [];
     /**
      * 
@@ -22,6 +27,7 @@ trait FormatterTreatChainLogicTrait
      * @throws Error 
      * @throws Exception 
      */
+
     protected function beforeFormat(IReplaceCapturedFormatDefinition $e)
     {
         $p = null;
@@ -69,6 +75,7 @@ trait FormatterTreatChainLogicTrait
      * @return void 
      * @throws Exception 
      */
+
     protected function afterFormat(IReplaceCapturedFormatDefinition $e)
     {
         $chains_logic = &$this->m_chain_logic;

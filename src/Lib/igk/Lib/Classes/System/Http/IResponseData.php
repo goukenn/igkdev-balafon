@@ -8,6 +8,15 @@ namespace IGK\System\Http;
 * @package IGK\System\Http
 */
 interface IResponseData{
+
+    /**
+    * auto generate doc.
+    * @return int
+    */
     function getCode() : int;
+
+    /**
+    * auto generate doc.
+    */
     function getData();
 }

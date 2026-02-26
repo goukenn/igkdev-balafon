@@ -11,9 +11,28 @@ use IGK\System\Data\ObjectValidationMapper;
 */
 class RequestValiationMapper extends ObjectValidationMapper
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $mapper;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $validating = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $defaultContentValidator;
+
+    /**
+    * auto generate doc.
+    */
     protected function getDefaultContentValidator(){
         return $this->defaultContentValidator ??  new HtmlContentValidator;
     }
@@ -24,6 +43,11 @@ class RequestValiationMapper extends ObjectValidationMapper
     //     $this->m_not_required = $not_required;
     //     $this->m_resolvKeys = $resolv_keys;
     // }
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    */
     public function validate($data)
     {
         $this->validating = 1;

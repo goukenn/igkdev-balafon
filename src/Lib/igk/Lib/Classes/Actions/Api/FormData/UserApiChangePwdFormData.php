@@ -9,9 +9,25 @@ use IGK\System\WinUI\Forms\FormData;
 * 
 * @package IGK\Actions\Api\FormData
 */
-class UserApiChangePwdFormData extends FormData{    
+class UserApiChangePwdFormData extends FormData{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $password;
-    var $confirmPassword; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $confirmPassword;
+
+    /**
+    * auto generate doc.
+    * @param Request $request
+    * @return ?array
+    */
     function getContentSecureFormRequest(Request $request): ?array
     {
         return [

@@ -9,11 +9,17 @@ namespace IGK\System\Html;
 * @author C.A.D. BONDJE DOUE
 */
 interface IHtmlNodeEvaluableExpression{
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     function getValue():?string;
     /**
      * evalue expression in context
      * @param mixed|array $context 
      * @return mixed 
      */
+
     function evaluate($context);
 }

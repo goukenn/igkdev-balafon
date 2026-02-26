@@ -9,6 +9,11 @@ namespace IGK\System\Html\Templates\Engine\Traits;
 * @author C.A.D. BONDJE DOUE
 */
 trait LooperArgsTrait{
+
+    /**
+    * auto generate doc.
+    * @param mixed $argument
+    */
     public static function TreatArgument($argument){
         $v_args = $argument;
         if (is_null($v_args)){

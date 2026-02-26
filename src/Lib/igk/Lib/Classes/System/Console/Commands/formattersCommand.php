@@ -15,17 +15,48 @@ use IGKServices;
 * @author C.A.D. BONDJE DOUE
 */
 class formattersCommand extends AppExecCommand{
-	var $command='--formatters';
-	var $desc='handle formatters';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--formatters';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='handle formatters';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'action*'=>[
 			'register'=>'register external formatter as default',
 			'list'=>'list formatters',
 		], 
 	];
-	var $category = 'formatters';
-	var $usage = 'action [options]';
-	public function exec($command, ?string $action=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'formatters';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'action [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $action
+    */
+    public function exec($command, ?string $action=null) { 
 		$action || igk_die('required action');
 
 		if (!method_exists($this, $fc = '_action_'.$action)){
@@ -35,7 +66,13 @@ class formattersCommand extends AppExecCommand{
 		array_unshift($args, $command);
 		call_user_func_array([$this, $fc], $args);
 	}
-	protected function _action_register(?string $name=null, ?string $classname=null){
+
+    /**
+    * auto generate doc.
+    * @param null|string $name
+    * @param null|string $classname
+    */
+    protected function _action_register(?string $name=null, ?string $classname=null){
 		if (empty($args = array_filter(func_get_args()))){
 			igk_die('arguments required');
 		}
@@ -45,7 +82,8 @@ class formattersCommand extends AppExecCommand{
 	 * @return void 
 	 * @throws Exception 
 	 */
-	protected function _action_list(){
+
+    protected function _action_list(){
 		Logger::print('list formatters: ');
 		$g = igk_app()->getService(IGKServices::FORMATTER_SERVICE); 
 		print_r($g); 

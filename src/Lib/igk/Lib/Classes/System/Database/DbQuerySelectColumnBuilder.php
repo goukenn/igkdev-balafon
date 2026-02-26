@@ -12,8 +12,23 @@ use IGKException;
 * @package IGK\System\Database
 */
 class DbQuerySelectColumnBuilder{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tab = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_uniques = [];
+
+    /**
+    * auto generate doc.
+    * @param bool $filter_null
+    */
     public function getColumns(bool $filter_null){
         $cp =null; 
         $res = [];
@@ -28,6 +43,12 @@ class DbQuerySelectColumnBuilder{
         }
         return $res;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $cl
+    * @param mixed $value
+    */
     public function addUnique($cl, $value){
         $this->m_tab[$cl] = $value;
     }
@@ -38,6 +59,7 @@ class DbQuerySelectColumnBuilder{
      * @param mixed $value 
      * @return void 
      */
+
     public function addUniqueColumn($index, $cl, $value ){
         if (!$index){
             $index = -1;
@@ -49,6 +71,13 @@ class DbQuerySelectColumnBuilder{
     }
     private function __construct(){
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $info
+    * @param mixed $conditions
+    * @param bool $filter_null
+    */
     public static function Build($info, $conditions, bool $filter_null = false){
         if (is_null($info))
         {

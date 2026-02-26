@@ -18,10 +18,35 @@ use IGKDbModelUtility;
 */
 class MakeModelUtilityCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--make:model-utility";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "make";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "make new project's model utility";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = "[controller] model_utility_name [options]";
     /**
      * Execute the command to generate a model utility class for the given controller.
@@ -31,6 +56,7 @@ class MakeModelUtilityCommand extends AppExecCommand
      * @param string|null $modelname  The model utility name to create.
      * @return bool|void Returns false on validation failure, void on success.
      */
+
     public function exec($command,?string $controller = null, ?string $modelname = "")
     {
         $ctrl = null;

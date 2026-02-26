@@ -12,15 +12,29 @@ namespace IGK\System\IO\File\Php;
  */
 class PHPDoc{
     // var $var;
-    
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return $this->getValue();
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name)
     {
         return null;
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         if (isset($arguments[0]))
@@ -31,6 +45,7 @@ class PHPDoc{
      * get value
      * @return string 
      */
+
     public function getValue():string{
         $g = [];
         if ($c = $this->comment){
@@ -57,6 +72,7 @@ class PHPDoc{
      * @param null|string $comment 
      * @return $this 
      */
+
     public function var(string $name, ?string $type=null, ?string $comment=null){
       $g = null;
       if(property_exists($this, "var")) 

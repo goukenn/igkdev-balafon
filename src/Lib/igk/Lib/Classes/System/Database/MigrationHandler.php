@@ -21,12 +21,34 @@ use ReflectionException;
 * @package IGK\System\Database
 */
 class MigrationHandler{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_controller;
-    protected const match = '/\/migration_[0-9]+_(?P<name>.+)\.php$/';
+    protected
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const match = '/\/migration_[0-9]+_(?P<name>.+)\.php$/';
+
+    /**
+    * .ctr
+    * @param BaseController $controller
+    */
     public function __construct(BaseController $controller)
     {
         $this->m_controller = $controller;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $name
+    * @param mixed & $tabc
+    */
     static function _GetRealClassName(& $name, & $tabc){
         $new = array_slice(get_declared_classes(), $tabc);
         if ($new && (strtolower($new[0]) ==  $name)){
@@ -40,6 +62,7 @@ class MigrationHandler{
      * @return null|string[] 
      * @throws IGKException 
      */
+
     protected function getfiles(string $order='up'){
         $ctrl = $this->m_controller;
         $dir = $ctrl->getClassesDir()."/Database/Migrations";
@@ -59,6 +82,10 @@ class MigrationHandler{
         ArrayUtils::FillKeyWithProperty($migrations, 'migration_name'); 
         return [$files, $migrations]; // compact('files','migrations');
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getList(){
         list($files, $migrations) = $this->_getProps(); 
         $list = [];
@@ -84,6 +111,7 @@ class MigrationHandler{
     /**
      * 
      */
+
     public function remove(string $name){
         /**
          * @var \IGK\Controllers\BaseController $ctrl;
@@ -148,6 +176,7 @@ class MigrationHandler{
      * @throws ReflectionException 
      * @throws Exception 
      */
+
     public function up(bool $fist_only=true){
         return $this->migrate(__FUNCTION__, $fist_only);         
     }
@@ -161,6 +190,7 @@ class MigrationHandler{
      * @throws ReflectionException 
      * @throws Exception 
      */
+
     public function down(bool $fist_only=true){
         return $this->migrate(__FUNCTION__, $fist_only);
     }
@@ -176,6 +206,7 @@ class MigrationHandler{
      * @throws ReflectionException 
      * @throws Exception 
      */
+
     public function migrate(string $method, bool $first_only=true){
         $files = $this->getfiles($method);
         if (empty($files)){

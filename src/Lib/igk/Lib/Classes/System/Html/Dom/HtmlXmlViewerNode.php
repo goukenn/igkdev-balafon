@@ -13,15 +13,26 @@ use IGK\XML\XMLNodeType;
 * Represent IGKHtmlXmlViewerItem class
 */
 final class HtmlXmlViewerNode extends HtmlNode {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_cdata;
     /**
     * contruct xml viewer
     */
+
     public function __construct(){
         parent::__construct("div");
         $this["class"]="igk-xml-viewer";
         $this->m_cdata = new HtmlCommentNode();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getContent($options = null){ 
         return null;
     }
@@ -30,6 +41,7 @@ final class HtmlXmlViewerNode extends HtmlNode {
      * @param array|mixed $v 
      * @return $this 
      */
+
     public function setContent($v){
         $this->m_cdata->Content = $v; 
         return $this;
@@ -46,10 +58,15 @@ final class HtmlXmlViewerNode extends HtmlNode {
             }
         }
     }
+
     function getRenderedChilds($options = null)
     {
         return [$this->m_cdata];
     }
+
+    /**
+    * auto generate doc.
+    */
     function getCanAddChilds()
     {
         return false;
@@ -58,6 +75,7 @@ final class HtmlXmlViewerNode extends HtmlNode {
     * 
     * @param mixed $t
     */
+
     public function initDemo($t){
         $t->div()->addSectionTitle(5)->Content="Samples ";
         $t->div()->addPhpCode()->Content="\$t->addXmlViewer()->Load('[xml_content]');";
@@ -74,6 +92,7 @@ EOF        , HtmlContext::XML);
     * @param mixed $content
     * @param mixed $context the default value is XML
     */
+
     public function load($content, $context=HtmlContext::XML, ?callable $creator=null){
         if(empty($content))
             return;
@@ -97,6 +116,7 @@ EOF        , HtmlContext::XML);
     * @param mixed $target
     * @param mixed $depth the default value is 0
     */
+
     public function loadItem($r, $target, $depth=0){
         $this->__renderDepth($target, $depth);
         $target->add("span")->setClass("s")->Content="&lt;".$r->TagName;

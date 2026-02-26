@@ -239,23 +239,48 @@ class ViewEnvironmentArgs implements ArrayAccess{
         $g = Activator::CreateNewInstance(static::class, get_defined_vars());
         return $g; 
     }
+
+    /**
+    * check if isset innaccessible property
+    * @param mixed $name
+    */
     public function __isset($name)
     { 
         return property_exists($this, $name);
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString(){
         return __CLASS__;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetGet($n){
         if (property_exists($this,$n)){
             return $this->$n;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     protected function _access_OffsetSet($n, $v){
         if (property_exists($this,$n)){
             $this->$n = $v;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_offsetExists($n){
         return (property_exists($this,$n));
     }

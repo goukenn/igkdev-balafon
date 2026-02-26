@@ -39,8 +39,17 @@ abstract class DragDropZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 */
 class DragDropZoneItem extends HtmlNode
 {
-	private $m_scriptNode;
-	public function __construct(){
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_scriptNode;
+
+    /**
+    * .ctr
+    */
+    public function __construct(){
 		parent::__construct("div");
 		$this["class"]="role-drag-drop";
 		$this->m_scriptNode =  HtmlNode::CreateWebNode("script");

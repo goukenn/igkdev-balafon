@@ -9,6 +9,14 @@ use Throwable;
 use function igk_resources_gets as __;
 /** @package  */
 class RequireArgumentException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $expected
+    * @param mixed $passed
+    * @param mixed $code
+    * @param null|Throwable $throwabble
+    */
     public function __construct($expected, $passed, $code=404, 
     ?Throwable $throwabble=null)
     {

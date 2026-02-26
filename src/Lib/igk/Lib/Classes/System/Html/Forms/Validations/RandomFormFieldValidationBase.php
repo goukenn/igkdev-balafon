@@ -33,6 +33,10 @@ class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
         $v_fields = parent::getFields($context);
         return FormFieldHelper::FormRandFieldName($v_fields);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getValidationFields(){
         return parent::getFields(__METHOD__);
     }
@@ -46,6 +50,7 @@ class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function  handleRandSessionRequest(array & $error){
         $obj = FormFieldHelper::HandleSessionRequestArgs();
         return  ($obj && parent::validate((array)$obj, $error));
@@ -61,6 +66,7 @@ class RandomFormFieldValidationBase extends InspectorFormFieldValidationBase{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function validate($data, ?array &$error = [])
     {
         // merge data with session argument then validate

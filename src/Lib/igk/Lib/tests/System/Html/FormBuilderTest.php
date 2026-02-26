@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class FormBuilderTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_formfieldmethod_build_form(){
         $n = igk_create_node('form');
         $n->fields([]);
@@ -20,6 +24,10 @@ class FormBuilderTest extends BaseTestCase{
             $n->getBodyContent()->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_formfieldmethod_build_multi_field(){
         $n = igk_create_node('form');
         $n->fields(['i[]']);
@@ -28,6 +36,10 @@ class FormBuilderTest extends BaseTestCase{
             $n->getBodyContent()->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_formfieldmethod_build_multi_field_def(){
         $n = igk_create_node('form');
         $n->fields(['i[]'=>[

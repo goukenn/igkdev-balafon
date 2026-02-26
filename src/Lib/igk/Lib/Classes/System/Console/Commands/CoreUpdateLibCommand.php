@@ -13,10 +13,35 @@ use function igk_resources_gets as __;
 * @package IGK\System\Console\Commands
 */
 class CoreUpdateLibCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const GET_URI = "https://igkdev.com/balafon/get-download";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = '--update-corelib';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = 'utils';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'update or restore core library';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command) { 
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");
@@ -53,6 +78,7 @@ class CoreUpdateLibCommand extends AppExecCommand{
     /**
      * check core library
      */
+
     static function CheckZipFile(string $file, & $errors = null) :bool{
         $s = igk_zip_unzip_filecontent($file, "manifest.xml");
         if (empty($s)) {

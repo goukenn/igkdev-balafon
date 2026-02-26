@@ -8,6 +8,12 @@ namespace IGK\Actions\Traits;
 * @package IGK\Actions\Traits
 */
 trait ParamHostHelperActionTrait{
+
+    /**
+    * auto generate doc.
+    * @param mixed $entry
+    * @param mixed $autoreset
+    */
     protected function getParams($entry, $autoreset=true){
         $g = $this->getController()->getParam($entry);
         if ($autoreset && $g){
@@ -15,6 +21,12 @@ trait ParamHostHelperActionTrait{
         }
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $entry
+    * @param mixed $param
+    */
     protected function setParams($entry, $param){
         $this->getController()->setParam($entry, $param);
     }

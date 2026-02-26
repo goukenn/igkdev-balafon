@@ -12,13 +12,23 @@ use Closure;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class Delegate{
- private $m_list = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_list = [];
+
+    /**
+    * .ctr
+    */
     protected function __construct(){        
     }
     /**
      * override declaration to force parameter definitions
      * @return void 
      */
+
     public function __invoke()
     {
         $args = func_get_args();
@@ -33,16 +43,26 @@ abstract class Delegate{
      * @param null|Closure $initial_closure 
      * @return static 
      */
+
     public static function CreateDelegate(?Closure $initial_closure=null){
         $e = new static;
         if (!is_null($initial_closure)){
             $e->m_list[] = $initial_closure;
         }
         return $e;
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    * @param Closure $closure
+    */
     public function add(Closure $closure){
          $this->m_list[] = $closure;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clear(){
 
         $this->m_list = [];
@@ -51,6 +71,7 @@ abstract class Delegate{
      * count number off all closured 
      * @return int 
      */
+
     public function getCount():int{
         return count($this->m_list);
     }
@@ -60,6 +81,7 @@ abstract class Delegate{
      * @param bool $all 
      * @return void 
      */
+
     public function remove(Closure $closure, $all= false){
         $tab = & $this->m_list;
         while(false !== ($idx = array_search($closure, $this->m_list))){

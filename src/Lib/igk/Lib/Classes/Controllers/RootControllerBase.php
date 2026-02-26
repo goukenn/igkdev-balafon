@@ -30,14 +30,52 @@ require_once IGK_LIB_CLASSES_DIR.'/Controllers/ControllerExtension.php';
  * @method static null|callable getMacro($name, $args) . from context force macros invocation if method is present.
  */
 abstract class RootControllerBase extends IGKObject{
-	static $macros;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    static $macros;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected static $func_defs;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MACRO_INITDB_METHOD = 'initDb';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MACRO_RESETDB_METHOD = 'resetDb';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MACRO_INVOKE_METHOD = 'invokeMacros';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MACRO_GET_DB_METHOD = 'getDb';
+
+    /**
+    * .ctr
+    */
     public function __construct(){        
     }
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return [];
@@ -47,6 +85,7 @@ abstract class RootControllerBase extends IGKObject{
      * @param mixed $n 
      * @return int 
      */
+
     protected function auto_load_class($n){        
         $entryNS=$this->getEntryNameSpace() ?? "";
         $classdir = $this->getClassesDir();
@@ -60,7 +99,9 @@ abstract class RootControllerBase extends IGKObject{
 	/**
     * 
     */
-    protected final function getIsSystemController(){       
+    protected final
+
+    function getIsSystemController(){       
         return  !empty(strstr($this->getDeclaredDir(), IGK_LIB_DIR));
     }
     /**
@@ -68,7 +109,8 @@ abstract class RootControllerBase extends IGKObject{
      * @param RootControllerBase $controller 
      * @return bool 
      */
-	public static function IsSystemController( RootControllerBase $controller):bool{
+
+    public static function IsSystemController( RootControllerBase $controller):bool{
 		return $controller->getIsSystemController();
 	}
     /**
@@ -79,6 +121,7 @@ abstract class RootControllerBase extends IGKObject{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function IsIncludedController( RootControllerBase $controller):bool{
         $dir = igk_io_collapse_path($controller->getDeclaredDir());
         $o  =  igk_io_collapse_path(IGK_LIB_DIR . "/Ext");        
@@ -87,7 +130,9 @@ abstract class RootControllerBase extends IGKObject{
     /**
      * return registrated macro function 
      */
-    public final static function getMacro($name){
+    public final
+
+    static function getMacro($name){
         return igk_getv(self::$macros, $name);
     }
     /**
@@ -100,6 +145,7 @@ abstract class RootControllerBase extends IGKObject{
      * @throws ReflectionException 
      * @throws ActionNotFoundException 
      */
+
     public static function __callStatic($name, $arguments)
 	{   
         // + |  PHP 7 - BUG - declare static on __callStatic magic function not get static call - context
@@ -169,7 +215,13 @@ abstract class RootControllerBase extends IGKObject{
             throw new \IGK\System\Exceptions\ActionNotFoundException($name);
         }
 	}
-	public function __call($name, $argument){     
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $argument
+    */
+    public function __call($name, $argument){     
         // + | --------------------------------------------------------------------
         // + | by pass method protected call - internally
         // + |
@@ -184,6 +236,7 @@ abstract class RootControllerBase extends IGKObject{
      * @param mixed $name 
      * @return mixed 
      */
+
     public function __get($name){
         if(method_exists($this, $fc = "get".ucfirst($name))){       
             return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
@@ -196,6 +249,7 @@ abstract class RootControllerBase extends IGKObject{
      * @param mixed $value 
      * @return $this 
      */
+
     public function __set($name, $value){
         if (!$this->_setIn($name, $value)){   
            // self::$sm_bindController = $this;
@@ -206,22 +260,29 @@ abstract class RootControllerBase extends IGKObject{
         }
         return $this;
     }
-	abstract function View();
+
+    /**
+    * auto generate doc.
+    */
+    abstract function View();
     /**
      * get application manager instance
      *  @return IGKApp  
      * */
-	public function getApp(){ return IGKApp::getInstance(); }
+
+    public function getApp(){ return IGKApp::getInstance(); }
     /**
      * return system document
      * @return mixed 
      */
+
     public function getDoc(){
         return $this->getApp()->getDoc();
     }
 	 /**
     * getfull uri
     */
+
     public function getAppUri(?string $function=null):?string{ 
         if(SysUtils::GetSubDomainCtrl() === $this){
             $g= igk_app()->SubDomainCtrlInfo->clView;
@@ -238,12 +299,14 @@ abstract class RootControllerBase extends IGKObject{
     * 
     * @param mixed $name
     */
+
     public function getArticle($name){
         return $this->getArticleInDir($name, $this->getArticlesDir());
     }
     /**
     * get the article binding content
     */
+
     public function getArticleBindingContent($name, $entries, $prebuild=true){
         if(is_object($entries) && ($entries->RowCount > 0)){
             $d=igk_create_node("div");
@@ -255,6 +318,7 @@ abstract class RootControllerBase extends IGKObject{
     /**
     * get the article binding content with name. of the target controller
     */
+
     public function getArticleBindingContentW($name, $targetCtrlName){
         die(__METHOD__.": Not implement");
         //return $this->getArticleBindingContent($name, igk_db_select_all(igk_getctrl($targetCtrlName)));
@@ -265,6 +329,7 @@ abstract class RootControllerBase extends IGKObject{
     * @param mixed $evalExpression demand for eval expression .default is true
     * @param mixed $row row used info to eval expression
     */
+
     public function getArticleContent($name, $evalExpression=true, $row=null){
         if(igk_io_file_exists($f=$name) || igk_io_file_exists($f=$this->getArticle($name))){
             $out=IGK_STR_EMPTY;
@@ -280,6 +345,7 @@ abstract class RootControllerBase extends IGKObject{
     * 
     * @param mixed $fullname
     */
+
     public function getArticleFull($fullname){
         return igk_dir($this->getArticlesDir()."/".$fullname);
     }
@@ -288,24 +354,28 @@ abstract class RootControllerBase extends IGKObject{
     * @param mixed $name
     * @param mixed $dir
     */
+
     public function getArticleInDir($name, $dir){        
         return IO::GetArticleInDir($dir, $name); 
     }
     /**
     * 
     */
+
     public function getArticlesDir(){  
         return igk_dir($this->getDeclaredDir()."/".IGK_ARTICLES_FOLDER);
     }
         /**
     * 
     */
+
     public function getScriptsDir(){
         return $this->getDeclaredDir()."/".IGK_SCRIPT_FOLDER;
     }
     /**
     * 
     */
+
     public function getBaseUri(){
         return $this->getEnvParam("fulluri") ?? $this->getAppUri($this->currentView);
     }
@@ -313,11 +383,13 @@ abstract class RootControllerBase extends IGKObject{
      * override this to initialize context
      * @return void 
      */
+
     protected function initComplete($context = null){
     }
     /***
      * create controller an 
      */
+
     public static function CreateInstanceAndInit($n, callable $init){
         if (!class_exists($n, false) || !is_subclass_of($n, self::class)){
             return null;
@@ -335,6 +407,7 @@ abstract class RootControllerBase extends IGKObject{
      * @param null|array $args 
      * @return mixed 
      */
+
     public static function Invoke($instance, string $method, ?array $args=null){
         if (is_null($args))
             $args = []; 

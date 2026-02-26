@@ -12,8 +12,17 @@ use IGK\System\IO\StringBuilder;
  */
 class HtmlControllerJSScriptsNode extends HtmlNode
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_item;
     use HtmlDocumentOnlyTrait;
+
+    /**
+    * auto generate doc.
+    */
     public static function getItem()
     {
         if (self::$sm_item === null)
@@ -24,6 +33,12 @@ class HtmlControllerJSScriptsNode extends HtmlNode
     {
         $this->tagname = "igk-controller-js";
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return ?string
+    */
     public function render($options = null): ?string
     {
         $ctrl = ViewHelper::BaseController();

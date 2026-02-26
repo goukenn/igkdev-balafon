@@ -12,7 +12,17 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands
 */
 class UpdateLibCoreCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--updatecore";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "update core by copy it to location";
 
     /**
@@ -20,6 +30,7 @@ class UpdateLibCoreCommand extends AppExecCommand{
     * @param mixed $command
     * @param null|mixed $path
     */
+
     public function exec($command, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

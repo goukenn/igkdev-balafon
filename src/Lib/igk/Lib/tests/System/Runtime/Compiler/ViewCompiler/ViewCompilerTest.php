@@ -18,6 +18,10 @@ class ViewCompilerTest extends BaseTestCase{
         $t = array_merge(["<?php"],  $args);
         return implode("\n", $t);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_expression_1(){
 
         $compiler = new ViewCompiler;
@@ -31,6 +35,9 @@ class ViewCompilerTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_expression_2(){
 
         $compiler = new ViewCompiler;
@@ -43,6 +50,9 @@ class ViewCompilerTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_expression_3(){
 
         $compiler = new ViewCompiler;
@@ -54,6 +64,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_expression_4(){
         $compiler = new ViewCompiler;
         $compiler->variables = [];
@@ -64,6 +78,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_expression_5(){
         $compiler = new ViewCompiler;
         $compiler->variables = [];
@@ -75,6 +93,9 @@ class ViewCompilerTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_expression_6(){
         $compiler = new ViewCompiler;
         $compiler->variables = [];
@@ -85,6 +106,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_block_expression_1(){
         $compiler = new ViewCompiler;
         $compiler->variables = [];
@@ -95,6 +120,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_block_expression_do(){
         $compiler = new ViewCompiler;
         $compiler->variables = [];
@@ -106,6 +135,9 @@ class ViewCompilerTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_block_expression_if_litteral(){
         $compiler = new ViewCompiler;
         $compiler->variables = [];
@@ -116,6 +148,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_block_build_cache_litteral(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           
@@ -142,6 +178,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_block_build_cache_condition(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           
@@ -171,6 +211,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_block_build_cache_condition_2(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           
@@ -201,6 +245,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function _st_block_loop_template(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           
@@ -229,7 +277,9 @@ class ViewCompilerTest extends BaseTestCase{
         );
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_block_build_cache_condition_3(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           
@@ -257,6 +307,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_block_build_cache_condition_4(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           
@@ -278,6 +332,10 @@ class ViewCompilerTest extends BaseTestCase{
             "failed to get data: ".__METHOD__
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_block_build_cache_condition_5(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           
@@ -300,6 +358,9 @@ class ViewCompilerTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_comment_specifics(){
         $compiler = new ViewCompiler;
         $compiler->variables = [           

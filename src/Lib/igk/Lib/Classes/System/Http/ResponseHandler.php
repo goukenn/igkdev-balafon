@@ -14,6 +14,10 @@ use IGK\System\IO\StringBuilder;
  */
 class ResponseHandler
 {
+
+    /**
+    * auto generate doc.
+    */
     public function requestHandlerMimeType(){
          if($v_qoptions =Request::getInstance()->getQueryInfo()->query_options){
                 if ($fmt = igk_getv($v_qoptions, 'fmt')){
@@ -31,6 +35,7 @@ class ResponseHandler
      * @return mixed 
      * @throws IGKException 
      */
+
     public function HandleReponse($r, $code = RequestResponseCode::Ok)
     {
         $e = 0;

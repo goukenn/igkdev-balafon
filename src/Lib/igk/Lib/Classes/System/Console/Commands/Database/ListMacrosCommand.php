@@ -21,14 +21,46 @@ use ReflectionMethod;
  */
 class ListMacrosCommand extends AppExecCommand
 {
-	var $command = '--db:macros';
-	var $desc = 'list controller\'s model macros';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--db:macros';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'list controller\'s model macros';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--all'
 	];
-	var $category = 'db';
-	var $usage = 'controller modelName* [options]';
-	public function exec($command, ?string $controller = null, ?string $ModelName = null)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller modelName* [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $ModelName
+    */
+    public function exec($command, ?string $controller = null, ?string $ModelName = null)
 	{
 		$ctrl = $controller ? self::GetController($controller) : SysDbController::ctrl();
 		if ($ctrl instanceof BaseController) {

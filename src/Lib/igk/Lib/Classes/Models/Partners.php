@@ -27,11 +27,36 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clCategory, string $clWebSite, string $clDescription) add entry if not exists. check for unique column.
 * */
 class Partners extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_NAME="clName";
-	const FD_CL_CATEGORY="clCategory";
-	const FD_CL_WEB_SITE="clWebSite";
-	const FD_CL_DESCRIPTION="clDescription";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NAME="clName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_CATEGORY="clCategory";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_WEB_SITE="clWebSite";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_DESCRIPTION="clDescription";
 	/**
 	* table's name
 	*/

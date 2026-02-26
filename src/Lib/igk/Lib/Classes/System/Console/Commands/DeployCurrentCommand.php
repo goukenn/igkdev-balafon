@@ -12,11 +12,32 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands
 */
 class DeployCurrentCommand extends AppExecCommand{
-	var $command='--deploy-current';
-	 var $desc='deploy "current" dir script'; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--deploy-current';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='deploy "current" dir script'; 
 	/* var $options=[]; */
-	var $category='script'; 
-	public function exec($command, ?string $folder = null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category='script';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $folder
+    */
+    public function exec($command, ?string $folder = null) {
 		$folder || igk_die('require folder');
 		if (is_link('current'))
         	@unlink('current');

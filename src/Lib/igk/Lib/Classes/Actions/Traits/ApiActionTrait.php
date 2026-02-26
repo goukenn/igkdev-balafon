@@ -8,5 +8,10 @@ namespace IGK\Actions\Traits;
 * @package IGK\Actions\Traits
 */
 trait ApiActionTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $exitAfterHandle = true;
 }

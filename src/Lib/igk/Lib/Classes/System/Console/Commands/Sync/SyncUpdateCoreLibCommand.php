@@ -16,9 +16,29 @@ use IGK\System\Shell\OsShell;
  * clear cache in ftp sync server */
 class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--sync:update-corelib";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "sync";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "sync balafon corelib";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--force" => "flag: force, do not check library before sync",
         "--core-test-suite"=>"core test-suite to check. default is set in ".IGK_BALAFON_CONFIG,
@@ -26,6 +46,11 @@ class SyncUpdateCoreLibCommand extends SyncAppExecCommandBase
         '--no-subdomain'=>'flag: disable subdomain',
         '--no-webconfig'=>'disable web configuration'
     ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command)
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {

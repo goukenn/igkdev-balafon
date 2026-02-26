@@ -15,7 +15,19 @@ use IGKObject;
 * @package IGK\Database
 */
 final class DbEntryToLoad extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ctrl, $entries, $tablename;
+
+    /**
+    * .ctr
+    * @param mixed $ctrl
+    * @param mixed $tablename
+    * @param mixed $entries
+    */
     public function __construct($ctrl, $tablename, $entries){
         $this->ctrl=$ctrl;
         $this->tablename=$tablename;
@@ -25,6 +37,7 @@ final class DbEntryToLoad extends IGKObject{
     /**
     * auto generate doc.
     */
+
     public function loadEntries(){
         igk_db_load_entries($this->ctrl, $this->tablename, $this->entries);
     }

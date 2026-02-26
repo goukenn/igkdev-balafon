@@ -98,6 +98,11 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
     public function getisRoot():bool{
         return is_null($this->parentInfo);
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getisRootCaptured():bool{
         return $this->getisRoot() && !isset($this->trailingEnd);
     }
@@ -105,6 +110,7 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * check if end
      * @return bool 
      */
+
     public function getisEnd(){
         $m = $this->match;
         if ($m && ($m->type == 'match')){
@@ -116,9 +122,15 @@ class RegexMatcherCapture implements IRegexCaptureInfo{
      * get if is treated value
      * @return bool 
      */
+
     public function getisTreatedValue(){
         return $this->value != $this->sourceValue;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    */
     public function updateWith($data){
         $this->parentInfo->value .= " ---- ";
         throw new \Exception('not implement');

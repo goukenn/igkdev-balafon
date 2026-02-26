@@ -12,6 +12,11 @@ use IGK\System\AnnotationBase;
 * @author C.A.D. BONDJE DOUE
 */
 class SecurityAnnotation extends AnnotationBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BEARER_AUTH = 'BearerAuth';
     /**
      * authentication list 
@@ -34,10 +39,16 @@ class SecurityAnnotation extends AnnotationBase{
      * @param null|string $security security type 
      * @return void 
      */
+
     public function __construct(?string $security = self::BEARER_AUTH)
     {
         $this->security = $security ?? self::BEARER_AUTH;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|bool $strict
+    */
     public function setStrict(?bool $strict){
         $this->strict = $strict;
     }
@@ -46,6 +57,7 @@ class SecurityAnnotation extends AnnotationBase{
      * @param mixed $auth 
      * @return void 
      */
+
     public function setAuth($auth){
         if (is_string($auth)){
             $this->auth = explode(',', $auth);

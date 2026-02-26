@@ -10,12 +10,37 @@ use IGK\Helper\ViewHelper;
 * @package IGK\System\Console\Commands
 */
 class ViewListCommand extends AppExecCommand{
-	var $command='--view:list';
-	var $desc='list controller\'s view'; 
-	var $category = "controller";
-	var $options=[]; 
-	
-	public function exec($command, ?string $controller = null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--view:list';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='list controller\'s view';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = "controller";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller = null) {
 		$ctrl = ($controller ? self::GetController($controller) : null)?? die("missing controller");
 		array_map(function($f){
 			igk_wln($f);

@@ -11,10 +11,35 @@ use IGK\System\Html\HtmlReader;
  */
 class IGKCGIServer
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $smTempFile;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_regFileCallback;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_serverInfo;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
+
+    /**
+    * .destructor
+    * @param mixed $v
+    */
     public function __get($v){
         return igk_getv(self::$sm_serverInfo, $v);
     }
@@ -36,6 +61,10 @@ class IGKCGIServer
         self::$sm_instance = new IGKCGIServer();
         return self::$sm_instance;
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function UploadData(){
         if (self::$sm_instance){
             return self::$sm_instance->UploadedData;
@@ -43,6 +72,10 @@ class IGKCGIServer
         return null;
     }
     // prepare cgi server
+
+    /**
+    * auto generate doc.
+    */
     public static function Prepare(){
         parse_str(igk_server()->QUERY_STRING, $_GET);
         $fin=fopen("php://stdin", "r");

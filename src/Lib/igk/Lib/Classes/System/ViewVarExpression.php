@@ -8,16 +8,43 @@ namespace IGK\System;
 * @package IGK\System
 */
 class ViewVarExpression{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $value;
+
+    /**
+    * .ctr
+    * @param string $name
+    * @param null|mixed $value
+    */
     public function __construct(string $name, $value = null)
     {
         $this->name = $name;
         $this->value = $value;
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         return $this->value->$name;
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments){
         return call_user_func_array([$this->value, $name], $arguments);
     }

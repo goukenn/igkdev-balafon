@@ -14,22 +14,68 @@ use IGK\System\Html\HtmlUtils;
 */
 final class IGKCaddyInfo
 {
-	var $clId; //current id of the caddy
-	var $clRef;	//product ref
-	var $clCaddId; //
-	var $clUId; //
-	var $clTitle; //title of the product
-	var $clDescription; //title of product
-	var $clUnitPrice; //title of
-	var $clTva;
-	var $clQte;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clId; //current id of the caddy
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clRef;	//product ref
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clCaddId; //
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clUId; //
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clTitle; //title of the product
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clDescription; //title of product
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clUnitPrice; //title of
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clTva;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $clQte;
 
 	/**
 	 * Calculate the total amount including VAT for this caddy item.
 	 *
 	 * @return float
 	 */
-	public function getAmount(){
+
+    public function getAmount(){
 		return ($this->clUnitPrice * $this->clQte ) * (1 + $this->clTva/100.0);
 	}
 
@@ -38,7 +84,8 @@ final class IGKCaddyInfo
 	 *
 	 * @return float
 	 */
-	public function getTvaAmount(){
+
+    public function getTvaAmount(){
 		return ($this->clUnitPrice * $this->clQte ) * (1 + $this->clTva/100.0);
 	}
 
@@ -48,7 +95,8 @@ final class IGKCaddyInfo
 	 * @param object|array $e Source object or array of key-value pairs to copy.
 	 * @return void
 	 */
-	public function Copy($e)
+
+    public function Copy($e)
 	{
 		foreach($e as $k=>$v)
 		{
@@ -61,7 +109,8 @@ final class IGKCaddyInfo
 	 *
 	 * @return string
 	 */
-	public function __toString(){
+
+    public function __toString(){
 		return "caddy_info";
 	}
 }
@@ -71,15 +120,26 @@ final class IGKCaddyInfo
 */
 abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	private $m_cadid; //caddy id
-	private $m_caddyinfo;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_cadid; //caddy id
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_caddyinfo;
 
 	/**
 	 * Return the current caddy info collection.
 	 *
 	 * @return array|null
 	 */
-	public function getCaddyInfo(){
+
+    public function getCaddyInfo(){
 		return $this->m_caddyinfo;
 	}
 
@@ -88,7 +148,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return null
 	 */
-	public static function GetAdditionalConfigInfo()
+
+    public static function GetAdditionalConfigInfo()
 	{
 		return null;
 	}
@@ -98,7 +159,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return string
 	 */
-	public function getDataAdapterName():string{
+
+    public function getDataAdapterName():string{
 		return IGK_MYSQL_DATAADAPTER;
 	}
 
@@ -107,7 +169,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return mixed
 	 */
-	public function getDBEntries()
+
+    public function getDBEntries()
 	{
 		return $this->selectAndWhere( array(
 			"clCaddId"=>$this->m_cadid,
@@ -119,7 +182,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function __updateCaddyInfo()
+
+    public function __updateCaddyInfo()
 	{//used to load caddy from current cad id
 		$s = $this->getDBEntries();
 
@@ -140,7 +204,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 * @param mixed $context Optional initialization context.
 	 * @return void
 	 */
-	protected function initComplete($context=null)
+
+    protected function initComplete($context=null)
 	{
 		parent::initComplete();
 		$this->m_cadid =($this->m_cadid) ?  $this->m_cadid : igk_new_id();
@@ -172,7 +237,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function __userChanged()
+
+    public function __userChanged()
 	{
 		// if use haven't a caddy associate the current caddy to the connected users
 		$u = $this->app->Session->User;
@@ -228,7 +294,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return bool
 	 */
-	public function getIsVisible():bool{
+
+    public function getIsVisible():bool{
 		return true;
 	}
 
@@ -237,7 +304,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return bool
 	 */
-	public function getCanAddChild() {
+
+    public function getCanAddChild() {
 		return false;
 	}
 
@@ -246,7 +314,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function cadd_initusercaddy()
+
+    public function cadd_initusercaddy()
 	{//used to initialize or retreive a user caddy
 
 	}
@@ -258,7 +327,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 * @param object|null $obj Product data object; uses request object if null.
 	 * @return bool
 	 */
-	public function caddy_addproduct($obj=null){
+
+    public function caddy_addproduct($obj=null){
 
 		$obj = ($obj==null)? igk_get_robj() :$obj;
 
@@ -301,7 +371,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function caddy_clear_ajx(){
+
+    public function caddy_clear_ajx(){
 
 		$this->caddy_clear();
 		igk_wl($this->caddy_render());
@@ -312,7 +383,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function caddy_clear()
+
+    public function caddy_clear()
 	{
 		$this->delete($this->m_caddyinfo);
 		$this->m_caddyinfo = array();
@@ -323,7 +395,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return float
 	 */
-	public function caddy_totalamout()
+
+    public function caddy_totalamout()
 	{
 		$amount = 0.0;
 			if ($this->m_caddyinfo)
@@ -340,7 +413,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function caddy_validate()
+
+    public function caddy_validate()
 	{
 		if (igk_count($this->m_caddyinfo )> 0)
 		{
@@ -368,7 +442,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function caddy_validate_ajx()
+
+    public function caddy_validate_ajx()
 	{
 
 		$this->caddy_validate();
@@ -385,7 +460,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function caddy_remove()
+
+    public function caddy_remove()
 	{
 		$n = igk_getr("n");
 		$this->delete((object)array("clId"=>$n ));
@@ -396,7 +472,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function caddy_store()
+
+    public function caddy_store()
 	{
 		$this->update($this->m_caddyinfo);
 	}
@@ -407,7 +484,8 @@ abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return string
 	 */
-	public function caddy_render(){
+
+    public function caddy_render(){
 		$t = $this->TargetNode;
 		$t->clearChilds();
 		$t = $t->div();

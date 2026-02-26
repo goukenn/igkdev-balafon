@@ -12,10 +12,40 @@ namespace IGK\System\Console;
 */
 class CommandInfo
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $cat;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $help;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $file;
 }

@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\System\Html\Encoding
 */
 class ClassAttributeArrayValueEncoderTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_encode_litteral(){
         $e = (new ClassAttributeArrayValueEncoder)->encode("[".htmlentities('"one","two"')."]");
         $this->assertEquals("['one','two']", $e);
@@ -21,6 +25,9 @@ class ClassAttributeArrayValueEncoderTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_encode_litteral_expression(){
 
         $e = (new ClassAttributeArrayValueEncoder)->encode("[".htmlentities('$raw == 1? "one" : 0')."]");
@@ -29,6 +36,10 @@ class ClassAttributeArrayValueEncoderTest extends BaseTestCase{
         $g = eval("?><?php return ".$e.";");
         $this->assertEquals(['one'],$g);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_encode_litteral_expression_1(){
 
         $e = (new ClassAttributeArrayValueEncoder)->encode("[".htmlentities('"one\'" => 0')."]");

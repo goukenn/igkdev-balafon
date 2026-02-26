@@ -12,6 +12,11 @@ use IGK\System\Html\Dom\HtmlItemBase;
 */
 abstract class XsdBuilderUtility
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SEQUENCE = "xs:sequence";
 
     /**
@@ -19,6 +24,7 @@ abstract class XsdBuilderUtility
     * @param mixed $node
     * @param mixed $defs
     */
+
     public static function BuildDef($node, $defs)
     {
         $s = $node;
@@ -57,6 +63,7 @@ abstract class XsdBuilderUtility
     * @param mixed $defs
     * @param mixed $ctype
     */
+
     public static function BuildSequence($node, $defs, $ctype = self::SEQUENCE)
     {
         $s = $node->add($ctype);
@@ -71,6 +78,7 @@ abstract class XsdBuilderUtility
     * @param mixed $ctype
     * @param null|mixed $tattributes
     */
+
     public static function BuildComplexType($node, $defs, $ctype = "xs:sequence", $tattributes = null)
     {
         $b = $node->add("xs:complexType");
@@ -110,6 +118,7 @@ abstract class XsdBuilderUtility
     * @param mixed $node
     * @param mixed $attributes
     */
+
     public static function BindAnyAttribute($node, $attributes)
     {
         if (is_integer($attributes)) {
@@ -139,6 +148,7 @@ abstract class XsdBuilderUtility
     * @param mixed $value
     * @param mixed $tag
     */
+
     public static function AddSequenceElement($node, $name, $value, $tag = "xs:element")
     {
         $e = $node->add($tag);

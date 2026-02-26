@@ -20,16 +20,29 @@ class BindingContextInfo{
      * @var ?IGK\Controllers\BaseController 
      */
     var $ctrl;
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return json_encode(array_filter((array)$this));
     }
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
     public function __get($n){
         if (is_object($this->raw) && property_exists($this->raw, $n)){
             return $this->raw->$n;
         }
         throw new BindingContextPropertyNotFoundException($n);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function to_array(){
         return (array)$this;
     }

@@ -35,6 +35,12 @@ class BearerAuthenticatorService implements IAuthenticatorService{
     protected function userProfileFromApplicationUser(ModelBase $app_user): ?IUserProfile{
         throw new NotImplementException(__METHOD__);
     }
+
+    /**
+    * auto generate doc.
+    * @param bool $update
+    * @param null|mixed & $token
+    */
     public function resolveBearerToken(bool $update, & $token =null){
         return $this->getUserFromToken($update, $token);
     }
@@ -48,6 +54,7 @@ class BearerAuthenticatorService implements IAuthenticatorService{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function getNewToken(Users $user, BaseController $ctrl, bool $rememberme=false): ?array{
         return $this->bearerAuthenticatorRegisterToken($user, $ctrl, $rememberme); 
     }

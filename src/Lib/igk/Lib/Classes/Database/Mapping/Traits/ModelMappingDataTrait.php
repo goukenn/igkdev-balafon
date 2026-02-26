@@ -10,6 +10,12 @@ use IGKSysUtil as sysutil;
 * @package IGK\Database\Mapping
 */
 trait ModelMappingDataTrait{
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $data
+    * @param mixed $mapping
+    */
     protected function getModelMappingData(ModelBase $data, $mapping){
         $info = $data->getTableInfo();
         $tn = $info ? sysutil::GetModelTypeNameFromInfo($info): null; 

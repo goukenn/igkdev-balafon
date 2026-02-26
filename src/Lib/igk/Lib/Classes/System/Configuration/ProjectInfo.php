@@ -8,9 +8,29 @@ namespace IGK\System\Configuration;
 * @package IGK\System\Configuration
 */
 class ProjectInfo{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TYPE_PROJECT = 'project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $base_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $type = self::TYPE_PROJECT;     
     /**
      * 

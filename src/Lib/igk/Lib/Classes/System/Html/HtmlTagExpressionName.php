@@ -8,11 +8,25 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 class HtmlTagExpressionName{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * .ctr
+    * @param mixed $name
+    */
     public function __construct($name)
     {
         $this->name = $name;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return $this->name;

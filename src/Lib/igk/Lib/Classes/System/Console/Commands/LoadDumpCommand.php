@@ -11,12 +11,28 @@ use ZipArchive;
  * restore db from dump json
  */
 class LoadDumpCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--db:load-dump";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "Load database dump file";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "db";
     /**
      * 
      */
+
     public function exec($command, $file=null) { 
         if (empty($file) || !igk_io_file_exists($file)){
             Logger::danger("Json file required");
@@ -83,6 +99,7 @@ class LoadDumpCommand extends AppExecCommand{
     /**
      * - `help`
      */
+
     public function help(){
         parent::help();
         Logger::print(Logger::TabSpace. " [options] file\n");

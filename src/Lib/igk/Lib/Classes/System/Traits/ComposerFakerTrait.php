@@ -10,12 +10,18 @@ use InvalidArgumentException;
 * @package IGK\System\Traits
 */
 trait ComposerFakerTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $faker;
     /**
      * 
      * @return Generator 
      * @throws InvalidArgumentException 
      */
+
     public function getFaker(){
         if (is_null($this->faker)){
             $this->faker = \Faker\Factory::create();

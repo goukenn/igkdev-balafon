@@ -10,9 +10,29 @@ use IGK\System\Exceptions\ArgumentNotValidException;
  * @package IGK\System\Database
  */
 class DbConditionExpressionBuilder{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $operand = "AND";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $conditions = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OP_AND = "AND";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OP_OR = "OR";
     /**
      * call back expression
@@ -25,6 +45,7 @@ class DbConditionExpressionBuilder{
      * @return void 
      * @throws ArgumentNotValidException 
      */
+
     public function __construct($operand = self::OP_AND)
     {
         if (!in_array($operand, explode("|", "OR|AND"))){
@@ -38,10 +59,15 @@ class DbConditionExpressionBuilder{
      * @param mixed $value 
      * @return $this 
      */
+
     public function add($key, $value){
         $this->conditions[] = [$key, $value];
         return $this;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return implode($this->operand == self::OP_AND ? ' AND ': ' OR ', array_map(function($v){
@@ -54,6 +80,7 @@ class DbConditionExpressionBuilder{
      * @param mixed $operand 
      * @return static 
      */
+
     public static function Create($conditions, $operand = self::OP_AND){
         $s = new static($operand);
         foreach($conditions as $k=>$v){

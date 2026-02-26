@@ -16,7 +16,10 @@ use IGK\Tests\BaseTestCase;
  * @package IGK\Test\System\IO\Configuration
  */
 class ConfigurationEncoderTest extends BaseTestCase {
-   
+
+    /**
+    * auto generate doc.
+    */
     public function test_connexion_string_encode(){
         $encoder = new ConfigurationEncoder;
         $this->assertEquals(

@@ -13,6 +13,11 @@ use IGK\System\IO\StringBuilder;
  */
 class MySQLDbHelper
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_ad;
     /**
      * backup database 
@@ -24,6 +29,7 @@ class MySQLDbHelper
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public static function BackupToCSV(IGKCSVDataAdapter $adapter, MySQLDbAdapter $mysql, array $tables, $skip_array = [])
     {
         $error = [];
@@ -54,6 +60,12 @@ class MySQLDbHelper
         }
         return $out;
     }
+
+    /**
+    * auto generate doc.
+    * @param MySQLDbAdapter $mysql
+    * @param mixed $tables
+    */
     public static function BackupToSQL(MySQLDbAdapter $mysql, $tables)
     {
         self::$sm_ad = $mysql;
@@ -116,6 +128,7 @@ EOF);
      * @param string $table 
      * @return string 
      */
+
     public static function GetDatableCreateQuery($ad, string $table){
         $db_name = $ad->getDbName();
         $table_comment = null;
@@ -183,6 +196,11 @@ EOF);
         Logger::info($q);
         return $q;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public static function DumpValue($v)
     {
         $ad = self::$sm_ad;
@@ -202,6 +220,12 @@ EOF);
         //$v = stripslashes($v);
         return igk_str_surround($v, "'");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $rows
+    * @return string
+    */
     public static function DumpInsertTable($rows):string{
         $q = new StringBuilder;
         $ch = '';

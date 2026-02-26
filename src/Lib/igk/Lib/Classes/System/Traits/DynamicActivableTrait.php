@@ -13,14 +13,36 @@ use IGKException;
 * @author C.A.D. BONDJE DOUE
 */
 trait DynamicActivableTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $data;
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     public function to_array(): ?array {return $this->data; }
-    public function __get($n){ return igk_getv($this->data, $n); } 
+
+    /**
+    * .destructor
+    * @param mixed $n
+    */
+    public function __get($n){ return igk_getv($this->data, $n); }
+
+    /**
+    * destructor
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v){ return $this->data[$n] = $v; } 
     /**
      * to implement serialisation
      * @return mixed 
      */
+
     public function _json_serialize(){
         return $this->data;
     }
@@ -30,9 +52,15 @@ trait DynamicActivableTrait{
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function to_json($option = NULL, int $flag = 0){
         return JSon::Encode($this->data, JSonEncodeOption::IgnoreEmpty());
     }
+
+    /**
+    * check if isset innaccessible property
+    * @param mixed $n
+    */
     public function __isset($n){        
         return isset($this->data[$n]);
     }

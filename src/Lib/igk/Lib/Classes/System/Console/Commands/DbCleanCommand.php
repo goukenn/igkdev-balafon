@@ -23,9 +23,29 @@ require_once IGK_LIB_DIR . "/api/igk_api.php";
  */
 class DbCleanCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--db:clean";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "clean database";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command)
     {
         if (defined('IGK_API_MYSQLPINC'))

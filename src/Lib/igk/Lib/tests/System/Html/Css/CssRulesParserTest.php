@@ -14,36 +14,64 @@ use IGK\Tests\BaseTestCase;
  */
 class CssRulesParserTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssruleparser_test()
     {
         $tab = CssRulesParser::Parse("background-color:red;");
         $this->assertEquals([], $tab);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssruleparser_body()
     {
         $tab = CssRulesParser::Parse("body{background-color:red;}");
         $this->assertEquals(['body{background-color:red;}'], $tab);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssruleparser_body_line()
     {
         $tab = CssRulesParser::Parse("body{   \n   background-color:red; \n  }");
         $this->assertEquals(['body{background-color:red;}'], $tab);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssruleparser_selector()
     {
         $tab = CssRulesParser::Parse("div.span +      .card:hover{background-color:red;}");
         $this->assertEquals(['div.span+.card:hover{background-color:red;}'], $tab);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssruleparser_media()
     {
         $tab = CssRulesParser::Parse("@media(max-width:77) {.card{color:   red; border-color: indianred;}}");
         $this->assertEquals(['@media(max-width:77){.card{color:red;border-color:indianred;}}'], $tab);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssruleparser_multi_media()
     {
         $tab = CssRulesParser::Parse("@media(max-width:77px) {.card{color:   red; second{border-color:      indianred;} }}");
         $this->assertEquals(['@media(max-width:77px){.card{color:red;second{border-color:indianred;}}}'], $tab);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssruleparser_multi_selector()
     {
         $tab = CssRulesParser::Parse("body a, img a, a:focus{color:red;}");

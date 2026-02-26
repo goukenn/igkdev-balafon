@@ -21,7 +21,16 @@ class GenCacheCommand extends AppExecCommand{
      * description
      */
     var $desc = "generate web cache";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->options =  DbCommandHelper::GetDbCommandsProperties();
@@ -32,6 +41,7 @@ class GenCacheCommand extends AppExecCommand{
     * @param mixed $command
     * @param null|mixed $uri
     */
+
     public function exec($command, $uri=null){
         DbCommandHelper::Init($command);
         Logger::print("generate cache");

@@ -13,5 +13,14 @@ use ReflectionProperty;
 * @author C.A.D. BONDJE DOUE
 */
 trait AnnotationConverterValueTrait{
+
+    /**
+    * auto generate doc.
+    * @param mixed $obj
+    * @param mixed $value
+    * @param mixed $name
+    * @param null|mixed $comment
+    * @param null|mixed $store
+    */
     abstract static function ConvertValue($obj, $value, $name, $comment = null, $store=null);
 }

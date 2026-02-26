@@ -11,15 +11,65 @@ use ReflectionMethod;
 * used to generate file
 */
 class WsdlFile extends IGKObject {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_attributes;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_binding;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_cservice;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_def;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_message;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_porttype;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_service;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_srv;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_uri;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $uri;
     /**
     * 
@@ -27,6 +77,7 @@ class WsdlFile extends IGKObject {
     * @param mixed $uri
     * @param mixed $attributes the default value is null
     */
+
     public function __construct($name, $uri, $attributes=null){
         $this->m_uri=$uri;
         $this->m_attributes=$attributes;
@@ -50,6 +101,7 @@ class WsdlFile extends IGKObject {
     * @param mixed $porttype the default value is null
     * @param mixed $enctype the default value is 'encoded'
     */
+
     public function addBindingService($name, $style="rpc", $porttype=null, $enctype='encoded'){
         $c=$this->m_binding->AddChild();
         $c["name"]=$name;
@@ -67,6 +119,7 @@ class WsdlFile extends IGKObject {
     * @param mixed $output the default value is null
     * @param mixed $porttype the default value is null
     */
+
     public function addMethod($n, $input, $output=null, $porttype=null){
         $m=$this->m_message->AddChild();
         $m["name"]=$n."Request";
@@ -100,6 +153,7 @@ class WsdlFile extends IGKObject {
     * @param mixed $srv
     * @param mixed $loc
     */
+
     public function addService($srvname, $doc, $srv, $loc){
         $d=$this->m_service->AddChild();
         $d["name"]=$srvname;
@@ -118,6 +172,7 @@ class WsdlFile extends IGKObject {
     * @param mixed $type the default value is "encoded"
     * @param mixed $urn the default value is "sample:demo"
     */
+
     protected function addServiceOperation($srv, $name, $type="encoded", $urn="sample:demo"){
         $op=$srv->addNode("operation");
         $op["name"]=$name;
@@ -152,6 +207,7 @@ class WsdlFile extends IGKObject {
     /**
     * 
     */
+
     public function getDocumentation(){
         return igk_getv($this->m_attributes, "doc", "service documentation");
     }
@@ -159,6 +215,7 @@ class WsdlFile extends IGKObject {
     /**
     * 
     */
+
     public function getNSPrefix(){
         return igk_getv($this->m_attributes, "nsprefix", "igkns");
     }
@@ -166,6 +223,7 @@ class WsdlFile extends IGKObject {
     /**
     * 
     */
+
     public function getNSUri(){
         return igk_getv($this->m_attributes, "nsuri", "http://www.igkdev.com");
     }
@@ -173,6 +231,7 @@ class WsdlFile extends IGKObject {
     /**
     * 
     */
+
     public function getTargetNS(){
         return igk_getv($this->m_attributes, "targetns", "http://www.igkdev.com");
     }
@@ -182,7 +241,9 @@ class WsdlFile extends IGKObject {
     * 
     * @param mixed $t
     */
-    protected final function getXSDType($t){
+    protected final
+
+    function getXSDType($t){
         $v_rt="xsd:string";
         $args=array(
             "i1"=>"xsd:boolean",
@@ -207,6 +268,7 @@ class WsdlFile extends IGKObject {
     * @param mixed $n
     * @param mixed $attrs the default value is null
     */
+
     public function initService($n, $attrs=null){
         $this->m_srv=$this->addBindingService($n."_bindingService");
         $this->addService($n, igk_getv($attrs, "doc"), $this->m_srv, $this->m_uri);
@@ -221,6 +283,7 @@ class WsdlFile extends IGKObject {
     * @param mixed $srvName
     * @param mixed $attrs the default value is null
     */
+
     public function registerClass($className, $srvName, $attrs=null){
         $cl=is_object($className) ? get_class($className): (class_exists($className) ? $className: null);
         if($cl == null)
@@ -260,6 +323,7 @@ class WsdlFile extends IGKObject {
     * @param mixed $srvName service name
     * @param mixed $funclist array list of available functions
     */
+
     public function registerMethod($className, $srvName, $funclist){
         $_subtolocal = [
             "float"=>"f4",
@@ -311,6 +375,7 @@ class WsdlFile extends IGKObject {
     * 
     * @param mixed $f
     */
+
     public function Save($f){
         $options = (object)["Indent"=>true];
         $s = $this->m_def->render($options);  

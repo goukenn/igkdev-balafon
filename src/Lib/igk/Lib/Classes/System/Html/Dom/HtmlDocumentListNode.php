@@ -10,6 +10,11 @@ use IGK\System\Html\Dom\HtmlNode;
  * @package IGK\System\Html\Dom
  */
 class HtmlDocumentListNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "dl";
     /**
      * dt definition 
@@ -21,7 +26,7 @@ class HtmlDocumentListNode extends HtmlNode{
      * @var mixed
      */
     // var $dt;
-   
+
     protected function initialize()
     {
         parent::initialize();
@@ -34,6 +39,7 @@ class HtmlDocumentListNode extends HtmlNode{
      * clear childs 
      * @return static
      */
+
     public function clearChilds()
     {
         parent::clearChilds();

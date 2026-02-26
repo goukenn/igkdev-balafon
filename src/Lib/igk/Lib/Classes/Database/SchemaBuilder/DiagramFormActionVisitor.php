@@ -13,22 +13,57 @@ use Illuminate\Database\Eloquent\Builder;
  * @package igk\db\schemaBuilder
  */
 class DiagramFormActionVisitor extends DiagramVisitor{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $visitor_items = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $builder;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ctrl;
+
+    /**
+    * .ctr
+    * @param mixed $ctrl
+    */
     public function __construct($ctrl)
     {
         $this->ctrl = $ctrl;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function start():?string{
         $this->visitor_items = [];
         $this->builder = new PHPScriptBuilder();
         $this->builder->type("function");
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function complete():?string{
         return  $this->builder->render();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $entity
+    */
     public function visitDiagramEntity($entity){
         $n = $this->ctrl::db_getTableName($entity->getName());
         $o  = "// | ---------------------------------". PHP_EOL;

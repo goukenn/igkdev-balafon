@@ -8,7 +8,17 @@ namespace IGK\System\Database;
 * @package IGK\System\Database
 */
 class DbEnvironment{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_instance;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $no_db_select = false;
     private function __construct(){        
     }
@@ -16,6 +26,7 @@ class DbEnvironment{
      * get shared instance
      * @return mixed 
      */
+
     public static function getInstance(){
         $f = self::$sm_instance ?? self::$sm_instance = new self;
         igk_environment()->set("sys://Db", $f);

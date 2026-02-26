@@ -8,5 +8,13 @@ namespace IGK\System\IO\Storage;
 * @package IGK\System\IO\Storage
 */
 interface IStorageBuilder{
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    * @param bool $ovewrite
+    * @param null|string $type
+    * @return ?IStorageInfo
+    */
     function store(string $file, bool $ovewrite=false, ?string $type=null): ?IStorageInfo;
 }

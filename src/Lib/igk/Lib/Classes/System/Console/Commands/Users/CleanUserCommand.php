@@ -17,12 +17,43 @@ use IGKEvents;
 * @author C.A.D. BONDJE DOUE
 */
 class CleanUserCommand extends AppExecCommand{
-	var $command='--users:clean-user';
-	var $desc='remove user';
-	var $options=[];
-	var $category = 'users';
-	var $usage = 'login [options]';
-	public function exec($command, ?string $login = null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:clean-user';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='remove user';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'users';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'login [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $login
+    */
+    public function exec($command, ?string $login = null) { 
 		!$login && igk_die('missing login');  
 		$user = igk_get_user_bylogin($login) ?? igk_die('missing user'); 
 		$user->cleanAndDrop();

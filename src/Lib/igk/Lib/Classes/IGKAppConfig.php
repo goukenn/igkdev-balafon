@@ -89,10 +89,35 @@ use function igk_resources_gets as __;
 * @property string $doc_nocache
 */
 final class IGKAppConfig extends IGKObject {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CHANGE_REG_KEY="IGKConfigDataChanged";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_configEntries;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_configSavedEvent;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_datas;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_oldState;
     /** @var IGKAppConfig */
     private static $sm_instance;
@@ -166,6 +191,7 @@ final class IGKAppConfig extends IGKObject {
     * @param mixed $obj
     * @param mixed $arg
     */
+
     public function addConfigSavedEvent($obj, $arg){
         igk_die(__METHOD__." Not Obselete");
     }
@@ -173,6 +199,7 @@ final class IGKAppConfig extends IGKObject {
     * 
     * @param mixed $ctrl
     */
+
     public function checkConfigDataChanged($ctrl){
         $v=$ctrl->isChanged(IGKAppConfig::CHANGE_REG_KEY, $this->m_oldState);
         if($v){
@@ -184,6 +211,7 @@ final class IGKAppConfig extends IGKObject {
     /**
     * 
     */
+
     public function getConfigEntries(){
         return $this->m_configEntries;
     }
@@ -191,6 +219,7 @@ final class IGKAppConfig extends IGKObject {
      * get data storage
     * @return \IGK\System\Configuration\ConfigData
     */
+
     public function getData(){
         return $this->m_datas;
     }
@@ -198,6 +227,7 @@ final class IGKAppConfig extends IGKObject {
     * get singleton instance
     * @return self
     */
+
     public static function getInstance(){
         if(self::$sm_instance === null){
             self::$sm_instance=new IGKAppConfig();
@@ -207,6 +237,7 @@ final class IGKAppConfig extends IGKObject {
     /**
     * 
     */
+
     public function onConfigSaved(){
         if($this->m_configSavedEvent){
             $this->m_configSavedEvent->Call($this, null);
@@ -217,6 +248,7 @@ final class IGKAppConfig extends IGKObject {
     * @param mixed $obj
     * @param mixed $arg
     */
+
     public function removeConfigSavedEvent($obj, $arg){
         igk_die(__METHOD__." Not Obselete");
     }
@@ -224,6 +256,7 @@ final class IGKAppConfig extends IGKObject {
     * save configuration 
     * @return bool save config result 
     */
+
     public function saveConfig($force=false){
         if($this->m_datas == null)
             return false;

@@ -9,6 +9,10 @@ use IGK\System\Exceptions\ResourceNotFoundException;
 * @package IGK\Actions\Traits
 */
 trait AssetFileRedirectHandlerTrait{
+
+    /**
+    * auto generate doc.
+    */
     public function assets(){
         // missing assets request 
         $ctrl = $this->getController();

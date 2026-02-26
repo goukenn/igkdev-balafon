@@ -19,28 +19,63 @@ class RegexDetectBuffer
      * @var string
      */
     var $output = '';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $offset = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $source;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $lineFeedSeparator = "\n";
     /**
      * 
      * @var ?string
      */
     var $depth;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $lineFeed = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $replace = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tabListener;
     /**
      * @var ?string
      */
     var $flag;
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_initFormatBuilderListener;
     /**
      * 
      * @param null|callable $init 
      * @return void 
      */
+
     public function setinitFormatBuilderListener(?callable $init){
         $this->m_initFormatBuilderListener = $init;
     }
@@ -48,6 +83,7 @@ class RegexDetectBuffer
      * 
      * @return string 
      */
+
     public function __toString()
     {
         return $this->output.'';
@@ -56,6 +92,7 @@ class RegexDetectBuffer
      * 
      * @return bool 
      */
+
     public function isEmpty()
     {
         return empty(trim($this->output));
@@ -66,6 +103,7 @@ class RegexDetectBuffer
      * @param string $value 
      * @return void 
      */
+
     function replace(RegexMatcherCapture $e, string $value = '')
     {
         igk_is_debug() && Logger::warn('replace: ['.json_encode($value).']');
@@ -84,22 +122,43 @@ class RegexDetectBuffer
         $this->offset = $e->to;
         $this->lineFeed = $this->lineFeed || $this->checkLineFeed($value);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $v
+    */
     public function checkLineFeed(string $v)
     {
         return preg_match("/\}$/", $v);
     }
+
+    /**
+    * auto generate doc.
+    */
     function end()
     {
         $this->output .= substr($this->source, $this->offset);
     }
+
+    /**
+    * auto generate doc.
+    */
     function output()
     {
         $this->end();
         return $this->output;
     }
+
+    /**
+    * auto generate doc.
+    */
     function rtrim(){
         $this->output = rtrim($this->output);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function initFormatBuilder(){
         if ($fc = $this->m_initFormatBuilderListener){
             return $fc() ?? igk_die('failed to initialize listener');
@@ -112,6 +171,7 @@ class RegexDetectBuffer
      * @return void 
      * @throws Exception 
      */
+
     public function bindReplacement($e, ?callable $update = null)
     {
         $v_rp = &$this->replace;
@@ -152,6 +212,11 @@ class RegexDetectBuffer
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return int
+    */
     public function outputLength():int{
         return strlen($this->output);
     }
@@ -165,6 +230,10 @@ class RegexDetectBuffer
             $cp[1] = '' . $s;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clearOutput(){
         $this->output = '';
     }
@@ -173,6 +242,7 @@ class RegexDetectBuffer
      * @param string $source 
      * @return void 
      */
+
     public function append(string $source){
         $this->output.= $source;
     }
@@ -181,6 +251,7 @@ class RegexDetectBuffer
      * @param null|int $depth 
      * @return string 
      */
+
     public function tab(?int $depth=null):string{
         if ($fc = $this->tabListener){
             return $fc($depth);

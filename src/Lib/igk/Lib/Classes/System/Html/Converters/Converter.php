@@ -12,8 +12,23 @@ use IGKException;
  */
 class Converter
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ignoreEmpty = 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tag = "notagnode";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $numeric_array_tag = "item";
     /**
      * convert to node
@@ -22,6 +37,7 @@ class Converter
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function Convert($o)
     {
         $tag = $this->tag;

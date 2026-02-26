@@ -9,6 +9,16 @@ namespace IGK\System\Http;
 * @author C.A.D. BONDJE DOUE
 */
 class Security{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BASIC_AUTH = 'BasicAuth';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BEARER_AUTH = 'BearerAuth';
 }

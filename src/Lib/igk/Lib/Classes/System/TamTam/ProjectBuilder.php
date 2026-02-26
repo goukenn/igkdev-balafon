@@ -15,18 +15,37 @@ use IGK\Constants;
 * @package IGK\System\TamTam
 */
 class ProjectBuilder{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $setting;
     /**
      * configuration file
      * @var ?string
      */
     var $configFile;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BUILDER_ENTRY_CLASS='System\\Build\\ProjectBuilder';
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         igk_reg_hook(ProjectBuilderEvents::AFTER_BUILD, [$this, 'afterBuild']);
         igk_reg_hook(ProjectBuilderEvents::BUILD, [$this, 'build']);
         igk_reg_hook(ProjectBuilderEvents::BEFORE_BUILD, [$this, 'beforeBuild']);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $e
+    */
     public function build($e){
         extract($e->args);
         if ($cl = $ctrl->resolveClass(self::BUILDER_ENTRY_CLASS)){
@@ -62,6 +81,11 @@ class ProjectBuilder{
             },$v_plugins, array_keys($v_plugins)); 
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $e
+    */
     public function beforeBuild($e){
         extract($e->args);
         $install_dir = $ctrl->getDeclaredDir();
@@ -80,8 +104,17 @@ class ProjectBuilder{
             Logger::danger('missing configuration file: '. $cnf);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $e
+    */
     public function afterBuild($e){
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getSettingValidationDataClass(){
         return ProjectSettingValidationData::class;
     }

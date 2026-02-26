@@ -12,7 +12,17 @@ use IGKException;
  * @package IGK\System\Http
  */
 abstract class RequestResponse extends Response implements IInjectable{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RESPONSE_CODE_401_UNAUTHORIZED= 401;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RESPONSE_CODE_403_FORBIDEN = 403;
     /**
      * return code
@@ -27,6 +37,11 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @var mixed
      */
     var $status;
+
+    /**
+    * auto generate doc.
+    * @param mixed $code
+    */
     public static function GetStatus($code){
         return  StatusCode::GetStatus($code);
     }
@@ -34,20 +49,38 @@ abstract class RequestResponse extends Response implements IInjectable{
      * output the current response
      * @return void 
      */
+
     public function output(){ 
         $this->_setHeader();
         igk_wl($this->render());
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _setHeader(){             
         if ($this->headers && count($this->headers)>0)
             $this->_treat_header();
         igk_set_header($this->code, self::GetStatus($this->code), $this->headers);  
     }
+
+    /**
+    * auto generate doc.
+    */
     abstract function render();
+
+    /**
+    * auto generate doc.
+    * @param string $header_name
+    */
     protected function _allow_multiple_header_entry(string $header_name){
         return in_array($header_name, ['Set-Cookie']);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _treat_header(){
         $tab = [];
         array_map(function($a) use (& $tab){
@@ -64,12 +97,21 @@ abstract class RequestResponse extends Response implements IInjectable{
         }, $this->headers); 
         $this->headers = array_values($tab); 
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $second
+    */
     public function cache_output($second){
         $ts=gmdate("D, d M Y H:i:s", time() + $second). " GMT";
         $this->headers[] = ("Expires: {$ts}");
         $this->headers[] = ("Pragma: cache");
         $this->headers[] = ("Cache-Control: max-age={$second}, public");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clear_headers(){
         $this->headers = [];
     }
@@ -81,6 +123,7 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @param null|array $headers extrat header
      * @return object 
      */
+
     public static function Create(?string $type, $data,int $code=200, ?array $headers=null){
         $cl = ($type)? __NAMESPACE__."\\".ucfirst($type)."Response" : null;
         if ($cl && class_exists($cl)){
@@ -90,6 +133,10 @@ abstract class RequestResponse extends Response implements IInjectable{
         }  
         return $obj;
     }
+
+    /**
+    * .ctr
+    */
     protected function __construct()
     {
         $this->status = self::GetStatus($this->code);
@@ -99,6 +146,7 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @return object 
      * @throws IGKException 
      */
+
     public static function CreateResponse(){
         $type = igk_getv(["application/json"=>"json"], igk_server()->CONTENT_TYPE);
         return self::Create($type, null, 200);
@@ -108,9 +156,20 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @param mixed $data 
      * @return object 
      */
+
     public function json($data){
         return static::Create(__FUNCTION__, $data);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $size
+    * @param mixed $data
+    * @param null|mixed $mimeType
+    * @param mixed $encoding
+    * @param mixed $exit
+    */
     public function download($name, $size, $data, $mimeType=null, $encoding="binary", $exit=0){
         igk_download_content($name, $size, $data, $mimeType, $encoding, $exit);
     }
@@ -120,6 +179,7 @@ abstract class RequestResponse extends Response implements IInjectable{
      * @param string $type 
      * @return object 
      */
+
     public static function Response(array $data=[], $type='json'){
         $ref = Activator::CreateNewInstance(RequestResponseInfo::class, $data, true);
         return self::Create($type,

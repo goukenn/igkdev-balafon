@@ -8,7 +8,17 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 class HtmlAttributeExpression implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * .ctr
+    * @param string $data
+    */
     public function __construct(string $data)
     {
         $this->m_data = $data; 
@@ -18,6 +28,7 @@ class HtmlAttributeExpression implements IHtmlGetValue{
      * @param string $data 
      * @return void 
      */
+
     public function prepend(string $data){
         $this->m_data = $data.$this->m_data;
     }
@@ -26,6 +37,7 @@ class HtmlAttributeExpression implements IHtmlGetValue{
      * @param string $data 
      * @return void 
      */
+
     public function append(string $data){
         $this->m_data = $this->m_data.$data;
     }
@@ -34,9 +46,14 @@ class HtmlAttributeExpression implements IHtmlGetValue{
      * @param mixed $options 
      * @return null|string 
      */
+
     public function getValue($options = null):?string{
         return $this->m_data;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString(){
         return $this->getValue(null);
     }

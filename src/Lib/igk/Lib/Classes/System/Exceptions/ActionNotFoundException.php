@@ -12,12 +12,22 @@ use function igk_resources_gets as __;
  * @package IGK\System\Exceptions
  */
 class ActionNotFoundException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $name
+    * @param null|Throwable $throwable
+    */
     public function __construct($name, ?Throwable $throwable=null )
     { 
         parent::__construct(
             sprintf(__("Action [%s] not found"), $name),
             404, $throwable );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function headers(){
         return [
             // "WWW-Authenticate: Basic realm=".escapeshellarg($this->getMessage())

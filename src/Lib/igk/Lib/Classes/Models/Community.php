@@ -23,9 +23,24 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clValueType) add entry if not exists. check for unique column.
 * */
 class Community extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_NAME="clName";
-	const FD_CL_VALUE_TYPE="clValueType";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NAME="clName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_VALUE_TYPE="clValueType";
 	/**
 	* table's name
 	*/

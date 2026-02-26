@@ -13,13 +13,24 @@ use IGK\System\Html\IHtmlGetValue;
 * auto generate doc.
 */
 final class IGKFrameScript implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_type;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $owner;
     /**
      * Constructor.
      * @param mixed $owner The owner node of this frame script.
      * @param string $type The frame script type identifier.
      */
+
     public function __construct($owner, $type="f"){
         $this->owner=$owner;
         $this->m_type=$type;
@@ -29,6 +40,7 @@ final class IGKFrameScript implements IHtmlGetValue{
      * @param mixed $option Optional rendering option.
      * @return string The formatted JavaScript call string.
      */
+
     public function getValue($option=null){
         $n=IGK_STR_EMPTY;
         switch($n){

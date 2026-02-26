@@ -23,9 +23,29 @@ class RegexFormatStringBuilder
      * @var bool
      */
     var $lineFeed;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tabStop = '    ';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $depth = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $inlineCommentPrefix = "\r\t\t";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $space = ' ';
     /**
      * 
@@ -36,6 +56,7 @@ class RegexFormatStringBuilder
      * get tab display
      * @return string 
      */
+
     public function tab(?int $depth=null):string
     {
         return str_repeat($this->tabStop, $depth ?? $this->depth);
@@ -45,6 +66,7 @@ class RegexFormatStringBuilder
      * @param string $data 
      * @return void 
      */
+
     public function append(string $data)
     {
         if ($this->lineFeed) {
@@ -61,6 +83,10 @@ class RegexFormatStringBuilder
         $this->lineFeed = false;
         $this->m_sb->append($data);
     }
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_sb = new StringBuilder;
@@ -69,10 +95,15 @@ class RegexFormatStringBuilder
      * rtrim 
      * @return StringBuilder 
      */
+
     public function rtrim()
     {
         return $this->m_sb->rtrim();
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return $this->m_sb . '';
@@ -83,6 +114,7 @@ class RegexFormatStringBuilder
      * @param string $depth 
      * @return string 
      */
+
     public static function ClueDef(string $c, string $depth)
     {
         $tab = explode("\n", $c);
@@ -120,6 +152,7 @@ class RegexFormatStringBuilder
      * append inline prefix depth
      * @return static
      */
+
     public function appendPrefixInlineComment(){
         if ($this->noInlinePrefixComment){
             $this->appendSpace();
@@ -129,10 +162,19 @@ class RegexFormatStringBuilder
         $this->append($c.$this->tab(1));
         return $this; 
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function appendSpace(){
         $this->append($this->space);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @return int
+    */
     public function outputLength():int{
         return $this->m_sb->length();
     }

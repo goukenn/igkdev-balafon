@@ -12,7 +12,17 @@
 * auto generate doc.
 */
 class IGKUserAgent{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REGEX_ANDROID="android";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REGEX_ANDROID_BUILDNUMBER="android\s+(?P<version>[0-9\.]+);\s*(?P<model>[\w0-9\.]+)\s+build\/(?P<buildnumber>[a-z0-9\.]+)";
     const REGEX_ANDROID_MODELNUMBER="android\s+(?P<version>[0-9\.]+);\s*(?P<model>[\w0-9\.]+)\s*";
     const REGEX_ANDROID_VERSION="android\s+(?P<version>[0-9\.]+);";

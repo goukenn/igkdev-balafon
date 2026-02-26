@@ -9,7 +9,17 @@ use IGK\System\Runtime\Compiler\ReadTokenOptions;
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_read_options;
+
+    /**
+    * auto generate doc.
+    * @param string $source
+    */
     function parseToken(string $source){
         $this->m_read_options = $options = $this->m_read_options ?? $this->createReadOptionsToken() ?? igk_die("failed to create option token"); 
         $this->m_read_options->source = $source;
@@ -39,6 +49,13 @@ trait CompilerTokenTrait{
         } 
         $this->endHandleToken($options);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed $id
+    * @param mixed $value
+    */
     protected function _checkHereDocDocument($options, $id, $value){
         switch($id){
             case T_START_HEREDOC:
@@ -49,6 +66,10 @@ trait CompilerTokenTrait{
                 break;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function createReadOptionsToken(){
         $g = new ReadTokenOptions;    
         $g->mergeVariable = $this->mergeVariable;
@@ -56,6 +77,11 @@ trait CompilerTokenTrait{
         // igk_debug_wln_e("no comment", $this->noComment);
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    */
     protected function endHandleToken($options){
         // check that buffer is empty
         if (count($options->buffers)!=0){         

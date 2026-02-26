@@ -16,7 +16,9 @@ use IGK\Tests\BaseTestCase;
 class PHPScriptBuilderTest extends BaseTestCase
 {
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_builder_gen()
     {
         $src = <<<'PHP'
@@ -62,6 +64,9 @@ PHP;
         $this->assertEquals($src, $builder->render(), "-- ! --");
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_gen_factory()
     {
         $builder = new PHPScriptBuilder();

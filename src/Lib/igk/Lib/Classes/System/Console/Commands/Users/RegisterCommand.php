@@ -13,14 +13,47 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands\Users
 */
 class RegisterCommand extends AppExecCommand{
-	var $command='--users:register';
-	var $desc='register command user'; 
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:register';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='register command user';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--activate'=>'flag: active the user'
 	];
-	var $category = self::USER_CAT;
-	var $usage = 'login [firstname] [lastname] [options]';
-	public function exec($command, ?string $login = null , ?string $firtname=null, ?string $lastname=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = self::USER_CAT;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'login [firstname] [lastname] [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $login
+    * @param null|string $firtname
+    * @param null|string $lastname
+    */
+    public function exec($command, ?string $login = null , ?string $firtname=null, ?string $lastname=null) { 
 		!$login && igk_die('login is an empty string');
 		// $ctrl = self::ResolveController($command);
 		$activate = property_exists($command->options, '--activate');

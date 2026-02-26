@@ -11,12 +11,25 @@ use IGK\System\Runtime\Compiler\ViewCompiler\IViewCompilerArgument;
 * @package IGK\System\Runtime\Compiler\Html
 */
 class ViewDocumentBody extends HtmlNoTagNode implements IViewCompilerArgument{
-    use ViewCompilerArgumentNodeTrait; 
+    use ViewCompilerArgumentNodeTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_body;
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         $this->m_body = new HtmlBodyNode;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getBodyBox(){
         return $this->m_body->getBodyBox();
     }

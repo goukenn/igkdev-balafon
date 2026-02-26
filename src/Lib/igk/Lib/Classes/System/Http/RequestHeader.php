@@ -16,13 +16,37 @@ namespace IGK\System\Http;
  * @var ?string ACCEPT_ENCODING
  */
 class RequestHeader{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_prepared;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_data;
+
+    /**
+    * .ctr
+    */
     public function __construct(){
     }
+
+    /**
+    * .destructor
+    * @param mixed $name
+    */
     public function __get($name){
         return $this($name);
     }
+
+    /**
+    * Called when an object is used as a function.
+    * @param string $name
+    */
     public function __invoke(string $name){
         if (!$this->m_prepared){
             $this->m_prepared=  true;

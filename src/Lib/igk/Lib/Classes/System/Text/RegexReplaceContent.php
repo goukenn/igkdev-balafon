@@ -10,6 +10,11 @@ use Exception;
 * @author C.A.D. BONDJE DOUE
 */
 class RegexReplaceContent{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $info;
     /**
      * 
@@ -24,6 +29,7 @@ class RegexReplaceContent{
      * @return string 
      * @throws Exception 
      */
+
     public function replaceWith (string $source, RegexMatcherContainer $container, $replaceListener = null ){
         $offset = 0;
         $output = '';

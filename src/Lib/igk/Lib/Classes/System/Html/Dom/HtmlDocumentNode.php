@@ -11,17 +11,51 @@ use IGK\System\Html\HtmlRenderer;
 use IGKEvents;
 /** @package IGK\System\Html\Dom */
 class HtmlDocumentNode extends HtmlItemBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_head;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_body;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_id;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_lang = 'fr';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = 'igk-document';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DocumentInjectorKey = 'DocumentInjector';
     /**
      * define doc type 
      * @var ?string
      */
     var $docType;
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo(){
         return [];
     }
@@ -29,6 +63,10 @@ class HtmlDocumentNode extends HtmlItemBase{
      * define name spaces
      */
     protected $namespaces;
+
+    /**
+    * auto generate doc.
+    */
     public function getId(){
         return $this->m_id;
     }
@@ -36,16 +74,19 @@ class HtmlDocumentNode extends HtmlItemBase{
      * 
      * @return HtmlBodyNode 
      */
+
     public function getBody(): ?HtmlBodyNode{ return $this->m_body; }
     /**
      * @return HtmlHeadNode 
      */
+
     public function getHead(): ?HtmlHeadNode{ return $this->m_head; }
     /**
      * set document title
      * @param string $value 
      * @return $this 
      */
+
     public function setTitle(?string $value=null){
         $this->m_head->title = $value; 
         return $this;
@@ -54,21 +95,35 @@ class HtmlDocumentNode extends HtmlItemBase{
      * get document title
      * @return mixed 
      */
+
     public function getTitle(){
         return $this->m_head->title;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getMetas(){
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getBaseUri(){
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFavicon(){
         return null;
     }
     /**
      * use igkdoc to handle theme
      */
+
     public function __construct(?HtmlItemBase $head = null, ?HtmlItemBase $body = null){
         $this->m_head = $head ?? $this->add(new HtmlHeadNode());
         $this->m_body = $body ?? $this->add(new HtmlBodyNode());
@@ -77,9 +132,15 @@ class HtmlDocumentNode extends HtmlItemBase{
      * 
      * @return HtmlDefaultMainPage 
      */
+
     public function getDefaultMainPage(): HtmlDefaultMainPage{
         return HtmlDefaultMainPage::getInstance();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options=null){
         HtmlRenderer::DefOptions($options); 
         $options->Document = $this; 
@@ -144,6 +205,7 @@ class HtmlDocumentNode extends HtmlItemBase{
      * @return mixed 
      * @throws Exception 
      */
+
     public function getDocumentInjector(){
         return $this->getParam(self::DocumentInjectorKey);
     }
@@ -151,6 +213,7 @@ class HtmlDocumentNode extends HtmlItemBase{
      * get extra attribute
      * @return null 
      */
+
     protected function headerExtraAttribute(){
         return null;
     }

@@ -8,11 +8,25 @@ namespace IGK\System\IO\Printer;
 * @package IGK\System\IO\Print
 */
 abstract class PrintDocumentBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $printer;
+
+    /**
+    * .ctr
+    * @param IPrinterService $printer
+    */
     public function __construct(IPrinterService $printer)
     {
         $this->printer = $printer;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function printPdf(){
         $this->generateDocument($this->printer);
         $this->printer->printPdf();
@@ -22,9 +36,20 @@ abstract class PrintDocumentBase{
      * override this method to generate printing documnet
      * @return void 
      */
+
     protected abstract function generateDocument(IPrinterService $printer);
+
+    /**
+    * auto generate doc.
+    * @param IPrinterService $printer
+    */
     protected function header(IPrinterService $printer){
     }
+
+    /**
+    * auto generate doc.
+    * @param IPrinterService $printer
+    */
     protected function footer(IPrinterService $printer){
     }
 }

@@ -12,13 +12,29 @@
 * auto generate doc.
 */
 final class IGKViewMode extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ADMINISTRATOR=6;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const VISITOR=1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const WEBMASTER=2;
     /**
      * 
      * @return string 
      */
+
     public static function GetSystemViewMode(): string{
         $m=igk_app()->getViewMode();
         $t=array();
@@ -32,6 +48,7 @@ final class IGKViewMode extends IGKObject{
     * 
     * @param mixed $view
     */
+
     public static function IsSupportViewMode($view){
         return ((igk_app()->getViewMode() & $view) == $view);
     }
@@ -40,6 +57,7 @@ final class IGKViewMode extends IGKObject{
      * @param mixed $mode 
      * @return bool 
      */
+
     public static function IsViewMode($mode): bool{
         return self::IsSupportViewMode($mode);
     }
@@ -47,6 +65,7 @@ final class IGKViewMode extends IGKObject{
      * 
      * @return bool 
      */
+
     public static function IsWebMaster(): bool{
         return self::IsSupportViewMode(IGKViewMode::WEBMASTER);
     }

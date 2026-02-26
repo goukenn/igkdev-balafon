@@ -9,10 +9,25 @@ namespace IGK\System\Html;
 * @exemple $div()->Content = ContentCallback::Create($callback)
 */
 class ContentCallback implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_callable;
+
+    /**
+    * .ctr
+    * @param callable $callback
+    */
     public function __construct(callable $callback){
         $this->m_callable = $callback;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options = null) {
         $fc = $this->m_callable;
         return $fc($options);
@@ -22,6 +37,7 @@ class ContentCallback implements IHtmlGetValue{
      * @param callable $callback 
      * @return ContentCallback 
      */
+
     public static function Create(callable $callback){
         return new self($callback);
     }

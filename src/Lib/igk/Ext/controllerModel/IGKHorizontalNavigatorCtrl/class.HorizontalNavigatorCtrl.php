@@ -20,15 +20,31 @@ use IGK\Controllers\ExtraControllerProperty;
  * @package 
  */
 abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBase {
-	public function getName(): string{return get_class($this);} 
 
-	public function getcanAddChild(){
+    /**
+    * auto generate doc.
+    * @return string
+    */
+    public function getName(): string{return get_class($this);}
+
+    /**
+    * auto generate doc.
+    */
+    public function getcanAddChild(){
 		return false;
 	}
-	public static function GetAdditionalDefaultViewContent(){
+
+    /**
+    * auto generate doc.
+    */
+    public static function GetAdditionalDefaultViewContent(){
 		return null;
-	}	
-	public static function GetAdditionalConfigInfo()
+	}
+
+    /**
+    * auto generate doc.
+    */
+    public static function GetAdditionalConfigInfo()
 	{
 		return array(
 		"clShowBullet"=> new ExtraControllerProperty("bool", true),
@@ -41,7 +57,12 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		"translation")
 		);
 	}
-	public static function SetAdditionalConfigInfo(& $t)
+
+    /**
+    * auto generate doc.
+    * @param mixed & $t
+    */
+    public static function SetAdditionalConfigInfo(& $t)
 	{
 		$t["clShowBullet"] = igk_getr("clShowBullet");
 		$t["clanim_NAV_ANIMFREQUENCY"] = igk_getr("clanim_NAV_ANIMFREQUENCY");
@@ -51,7 +72,12 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		$t["clanim_NAV_AUTOPERIOD"] = igk_getr("clanim_NAV_AUTOPERIOD");
 	} 
 	//@@@ parent view control
-	public function View():BaseController{
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController{
 		$this->TargetNode->clearChilds();
 		$c = new JSHorizontalPane($this->TargetNode);
 		$this->buildPage($c);
@@ -67,7 +93,11 @@ abstract class HorizontalNavigatorCtrl extends \IGK\Controllers\ControllerTypeBa
 		return $this;
 	}
 
-	protected function buildPage($pane){//build page
+    /**
+    * auto generate doc.
+    * @param mixed $pane
+    */
+    protected function buildPage($pane){//build page
 		$t = $this->getAllArticles();
 		if (is_array($t))
 		{

@@ -12,13 +12,36 @@ use IGK\System\Text\RegexMatcherPattern;
 * @author C.A.D. BONDJE DOUE
 */
 class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_patterns;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_container;
+
+    /**
+    * .ctr
+    * @param mixed $container
+    */
     public function __construct($container)
     {
         $this->m_container = $container;
         $this->m_patterns = [];
     }
+
+    /**
+    * auto generate doc.
+    * @param string $match
+    * @param null|string $tokenID
+    * @param null|string $refId
+    * @param null|array $patterns
+    */
     public function match(string $match, ?string $tokenID = null, ?string $refId = null, ?array $patterns = null) {
         $inf = Activator::CreateNewInstance(RegexMatcherPattern::class, [
             $this->m_container,
@@ -29,6 +52,15 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
         ]);
         $this->m_patterns[]=  $inf;
      }
+
+    /**
+    * auto generate doc.
+    * @param string $begin
+    * @param null|string $end
+    * @param null|string $tokenID
+    * @param null|string $refId
+    * @param null|array $patterns
+    */
     public function begin(string $begin, ?string $end = null, ?string $tokenID = null, ?string $refId = null, ?array $patterns = null) {
         $inf = Activator::CreateNewInstance(RegexMatcherPattern::class, [
             $this->m_container,
@@ -40,6 +72,15 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
         ]);
         $this->m_patterns[]=  $inf;
      }
+
+    /**
+    * auto generate doc.
+    * @param string $begin
+    * @param null|string $end
+    * @param null|string $tokenID
+    * @param null|string $refId
+    * @param null|array $patterns
+    */
     public function while(string $begin, ?string $end = null, ?string $tokenID = null, ?string $refId = null, ?array $patterns = null) { 
         $inf = Activator::CreateNewInstance(RegexMatcherPattern::class, [
             $this->m_container,
@@ -55,6 +96,7 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
      * retrieve the pattern
      * @return array 
      */
+
     public function getPatterns(){
         return $this->m_patterns;
     }
@@ -63,6 +105,7 @@ class TmLanguageCaptureRegexContainer implements IRegexMatcherContainer{
      * @param RegexMatcherPattern $c 
      * @return void 
      */
+
     public function append(RegexMatcherPattern $c){
         if($c->getMatcher() === $this->m_container){
             if (is_null($this->m_patterns))

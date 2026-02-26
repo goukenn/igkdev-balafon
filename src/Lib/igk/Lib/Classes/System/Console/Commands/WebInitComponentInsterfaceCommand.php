@@ -16,8 +16,23 @@ use ReflectionFunction;
 */
 class WebInitComponentInsterfaceCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--web:init-component";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "init component file interface helper";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "web";
     /**
      * Execute the command to generate the HTML component interface file.
@@ -25,6 +40,7 @@ class WebInitComponentInsterfaceCommand extends AppExecCommand
      * @param mixed $command The command context object.
      * @return void
      */
+
     public function exec($command)
     {
         $doc = new \IGK\System\IO\File\Php\PhpInterfaceDocument([PhpHelper::class, "HtmlComponentDocumention"]);

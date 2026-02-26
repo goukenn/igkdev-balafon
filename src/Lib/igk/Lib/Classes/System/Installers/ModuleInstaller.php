@@ -33,6 +33,10 @@ class ModuleInstaller{
      * @var mixed
      */
     var $version;
+
+    /**
+    * auto generate doc.
+    */
     public function install(){
     }
 }

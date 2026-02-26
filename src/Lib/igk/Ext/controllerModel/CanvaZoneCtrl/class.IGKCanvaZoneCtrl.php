@@ -19,14 +19,24 @@ represent a canva zone controller type
 */
 abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	private $m_canva;
-	public function __construct(){
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_canva;
+
+    /**
+    * .ctr
+    */
+    public function __construct(){
 		parent::__construct();
 	}
 
     /**
     * auto generate doc.
     */
+
     public function getCanAddChild(){
 		return false;
 	}
@@ -35,6 +45,7 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @return ?HtmlNode
     */
+
     protected function initTargetNode():?HtmlNode{
 		$n = parent::initTargetNode();
 		$this->m_canva = new CanvaZoneNode($this);
@@ -49,6 +60,7 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @return BaseController
     */
+
     public function View():BaseController{
 		if (!$this->IsVisible)
 		{
@@ -63,7 +75,8 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	 * @throws ArgumentTypeNotValidException 
 	 * @throws ReflectionException 
 	 */
-	public function getCanvaRendering(){
+
+    public function getCanvaRendering(){
 		//override this method to render on canvas
 		//exit for rectangle
 		//default canvas width : 300, height:150 . to change used canva.width and canva.height properties. value is an integer.

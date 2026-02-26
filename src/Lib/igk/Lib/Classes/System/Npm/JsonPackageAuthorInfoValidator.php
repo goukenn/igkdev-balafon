@@ -9,9 +9,29 @@ use IGK\System\WinUI\Forms\FormData;
 * @package IGK\System\Npm
 */
 class JsonPackageAuthorInfoValidator extends FormData{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $email;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $url;
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     function getNotRequired(): ?array
     {
         return ['*'];

@@ -5,5 +5,10 @@ namespace IGK\api;
  * @package IGK\api
  */
 class ApiVersion{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const VERSION="3.1";
 }

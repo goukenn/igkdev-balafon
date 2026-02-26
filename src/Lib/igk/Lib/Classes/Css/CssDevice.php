@@ -19,6 +19,11 @@ use IGKMedia;
  * css device helper 
  */
 class CssDevice implements ICssSupport, ArrayAccess{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_devices;
     use ArrayAccessPropertyTrait;
     /**
@@ -26,6 +31,7 @@ class CssDevice implements ICssSupport, ArrayAccess{
      * @param mixed $devices medias
      * @return void 
      */
+
     public function __construct(IGKMedia & ...$devices)
     {
         $this->m_devices = $devices;
@@ -35,6 +41,7 @@ class CssDevice implements ICssSupport, ArrayAccess{
      * @param string $rule 
      * @return mixed 
      */
+
     public function supports(string $rule) {  
         $rule = $this->m_devices[0]->supports($rule);
         if ($rule){
@@ -45,12 +52,23 @@ class CssDevice implements ICssSupport, ArrayAccess{
         }
         return $rule;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function _access_OffsetSet($n, $v)
     {
         foreach($this->m_devices as $def){
             $def[$n] = $v;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function _access_OffsetUnset($n)
     {
         foreach($this->m_devices as $def){
@@ -62,6 +80,7 @@ class CssDevice implements ICssSupport, ArrayAccess{
      * @param mixed $n 
      * @return void 
      */
+
     public function _access_offsetExists($n)
     {
         $r = true;
@@ -71,6 +90,11 @@ class CssDevice implements ICssSupport, ArrayAccess{
         }
         return $r;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function _access_OffsetGet($n)
     {
         if ($this->_access_offsetExists($n)){

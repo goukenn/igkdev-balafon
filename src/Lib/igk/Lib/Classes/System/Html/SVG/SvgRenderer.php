@@ -20,14 +20,35 @@ use ReflectionException;
  */
 class SvgRenderer
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public static $RegisterPath = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_renderList = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FOLDER = __CLASS__ . "::svgLibFolder";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RENDER_LIST_METHOD = 'RenderList';
     /**
      * return svg folder 
      * @return mixed 
      */
+
     public static function GetPath($name, &$class = null)
     {
         if (!empty($name)) {
@@ -46,6 +67,7 @@ class SvgRenderer
      * return svg key folder 
      * @return array 
      */
+
     public static function GetSvgFolder()
     {
         $svg_folder = igk_environment()->get(self::FOLDER) ?? [];
@@ -58,6 +80,7 @@ class SvgRenderer
      * @return void 
      * @throws EnvironmentArrayException 
      */
+
     public static function RegisterFolder(string $folder, ?string $targetLib = null)
     {
         if (is_dir($folder)) {
@@ -74,6 +97,7 @@ class SvgRenderer
      * @param mixed $name 
      * @return bool 
      */
+
     public static function Exists(string $name)
     {
         $f = self::GetSvgFolder();
@@ -93,6 +117,7 @@ class SvgRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function AcceptRenderList($options)
     {
         if (!self::$sm_renderList) {
@@ -117,6 +142,7 @@ class SvgRenderer
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function RenderList($e)
     {
         $options = igk_getv($e->args, "options");
@@ -125,6 +151,13 @@ class SvgRenderer
         // clear the registrated path
         self::$RegisterPath = [];
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @param mixed $debug
+    * @return string
+    */
     public static function RenderSVGList($options=null, $debug = false): string
     {
         ob_start();
@@ -150,6 +183,12 @@ class SvgRenderer
         ob_end_clean();
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|mixed $context
+    */
     public static function RegisterIcon($name, $context = null)
     {
         return self::svgNewIcons($name);

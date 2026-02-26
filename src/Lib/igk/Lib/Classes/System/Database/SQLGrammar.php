@@ -64,28 +64,59 @@ class SQLGrammar implements IDbQueryGrammar
     {
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDriverVersion()
     {
         return $this->m_driver->getVersion();
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FD_ID = "clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CALLBACK_OPTS = \IGK\Database\DbConstants::CALLBACK_OPTS;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const AND_OP = 'AND';
     /**
      * set SQL driver to use
      * @param mixed $driver 
      * @return void 
      */
+
     public function setDriver($driver)
     {
         $this->m_driver = $driver;
     }
+
+    /**
+    * destructor
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v)
     {
         if (method_exists($this, $fc = "set" . $n)) {
             $this->$fc($v);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const AVAIL_FUNC = [
         'IGK_PASSWD_ENCRYPT',
         'AES_ENCRYPT',
@@ -200,6 +231,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param SchemaForeignConstraintInfo $a 
      * @return string 
      */
+
     public function createAddConstraintReferenceForeignQuery(string $tbname, SchemaForeignConstraintInfo $a)
     {
         if ($keyName = $a->foreignKeyName) {
@@ -212,12 +244,21 @@ class SQLGrammar implements IDbQueryGrammar
             $a->columns
         ));
     }
+
+    /**
+    * .ctr
+    * @param IDataDriver $driver
+    */
     public function __construct(IDataDriver $driver)
     {
         ($driver === null) && die("driver must setup");
         $this->m_driver = $driver;
         // igk_wln_e("create driver .... ", $driver);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected static function AllowedDefValue()
     {
         static $defvalue = null;
@@ -243,6 +284,11 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $defvalue;
     }
+
+    /**
+    * auto generate doc.
+    * @param DbExpression $expression
+    */
     public function createExpression(DbExpression $expression)
     {
         if ($expression instanceof DbLitteralExpression) {
@@ -260,6 +306,7 @@ class SQLGrammar implements IDbQueryGrammar
      * - 
      * @var IGK\System\Database\SplitColumnMemberRereference
      */
+
     public static function SplitColumnMemberRereference(string $d)
     {
         return array_filter(array_map('trim', preg_split('/,|-/', $d)), function ($a) {
@@ -272,6 +319,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function ResolvType(string $t)
     {
         return getv([
@@ -290,6 +338,12 @@ class SQLGrammar implements IDbQueryGrammar
             'boolean' => 'tinyint'
         ], $t = strtolower($t), $t);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed $adapter
+    */
     public static function fallbackType($t, $adapter)
     {
         switch (strtolower($t)) {
@@ -324,6 +378,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param int $limit 
      * @return string 
      */
+
     public function createRandomQueryTableOnColumn(string $table, string $column, ?array $columns = null, $limit = 1): ?string
     {
         $v_column = '*';
@@ -346,10 +401,18 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $type 
      * @return bool 
      */
+
     public function allowTypeLength(string $type): bool
     {
         return $this->m_driver->allowTypeLength($type, null);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param mixed $column
+    * @return ?string
+    */
     public function remove_foreign(string $table, $column): ?string
     {
         return $this->m_driver->remove_foreign($table, $column);
@@ -364,6 +427,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
+
     public function createTablequery(string $tablename, array $columninfo, $desc_or_options = null, $options = null, ?string $prefix = null, ?array $extra = null)
     {
         $desc = '';
@@ -634,6 +698,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $d 
      * @return null|string 
      */
+
     public static function GetEnumQueryValueQueryString(string $d, $driver): ?string
     {
         if ($g = ConfigurationReader::ParseEnumLitteralValue($d)) {
@@ -652,6 +717,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $table
      * @param IDbColumnInfo|array $column_info
      */
+
     public function add_foreign_key(string $table, $column_info, $nk = null, $db = null)
     {
         $db = $db ?? $this->m_driver->getDbName();
@@ -691,6 +757,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param null|string $column 
      * @return string 
      */
+
     public function joinTableName(string $table, ?string $db = null, ?string $column = null): string
     {
         if (strpos($table, '`') !== false) {
@@ -712,6 +779,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $column 
      * @return null|string|array
      */
+
     public function add_index(string $table, $column): ?string
     {
         if (!$column) {
@@ -730,11 +798,17 @@ class SQLGrammar implements IDbQueryGrammar
      * @param array $columns 
      * @return string 
      */
+
     public function addUnique(string $table, $columns, ?string $id = null)
     {
         $id = $id ? sprintf('`%s`', $this->m_driver->escape_string($id)) : null;
         return sprintf('ALTER TABLE `%s` ADD UNIQUE %s(`%s`);', $table, $id, implode('`,`', $columns));
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    */
     public function dropAllUniqueContraints(string $table) {}
     private function _get_column_list($column)
     {
@@ -746,6 +820,13 @@ class SQLGrammar implements IDbQueryGrammar
         }, $column)));
         return $column;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param mixed $column
+    * @return ?string
+    */
     public function drop_index(string $table, $column): ?string
     {
         if (!$column) {
@@ -768,6 +849,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param mixed $after after columns
      * @return string 
      */
+
     public function add_column(string $table, $info, ?string $after = null)
     {
         Logger::warn('try add column: ' . $table . ' :-> ' . $info->clName);
@@ -791,6 +873,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
+
     public function rm_column(string $table, $info)
     {
         $name = is_object($info) ? getv($info, "clName") : $info;
@@ -804,6 +887,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string|null 
      * @throws IGKException 
      */
+
     public function rename_column(string $table, string  $column, string $new_name): string
     {
         // + |  rename columns 
@@ -837,6 +921,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $column 
      * @return null|IDbColumnInfo 
      */
+
     public function retrieveStoredColumnInfo(string $table, string $column): ?IDbColumnInfo
     {
         $v_info = null;
@@ -856,6 +941,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return ?string 
      * @throws IGKException 
      */
+
     public function change_column(string $table, object $info, ?string $new_name = null)
     {
         igk_debug_wln("change_column grammar: " . $table);
@@ -876,11 +962,23 @@ class SQLGrammar implements IDbQueryGrammar
         $q .= ';';
         return $q;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $table
+    * @param mixed $info
+    */
     public function drop_foreign_key($table, $info)
     {
         // TODO: drop foreign grammar
         Logger::warn('drop foreign key');
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $table
+    * @param mixed $column
+    */
     public function drop_column($table, $column)
     {
         return $this->createDropColumnQuery($table, $column);
@@ -890,6 +988,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $s 
      * @return bool 
      */
+
     public function isNumber(string $s): bool
     {
         return in_array($s, ['int', 'float', 'decimal']);
@@ -901,6 +1000,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
+
     public function getColumnInfo($v, bool $nocomment = false): string
     {
         $adapter  = $this->m_driver;
@@ -981,6 +1081,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function createInsertQuery(string $tbname, $values, $tableInfo = null): ?string
     {
         if ($tableInfo === null) {
@@ -1032,6 +1133,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
+
     public function createUpdateQuery(string $tbname, $values, $condition = null, $tableInfo = null, ?bool $filter = null): ?string
     {
         if (is_null($values)) {
@@ -1099,6 +1201,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param null|string $dbname 
      * @return string 
      */
+
     public function createDropColumnQuery(string $tablename, string $column_name, ?string $dbname = null): string
     {
         $d = $this->m_driver;
@@ -1111,6 +1214,11 @@ class SQLGrammar implements IDbQueryGrammar
             $d->escape_string($column_name)
         );
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public static function IsUnsigned($v)
     {
         if (method_exists($v, "IsUnsigned")) {
@@ -1126,6 +1234,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param mixed $value
      * @param mixed $type the default value is "i"
      */
+
     public static function GetValue($driver, $tbname, IDbColumnInfo $tinf, $columnName, $value, $type = "i")
     {
         if ($tinf === null) {
@@ -1306,6 +1415,13 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return "'" . $driver->escape_string($value) . "'";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $def
+    * @param mixed $type
+    * @param mixed $value
+    */
     protected static function IsAllowedDefValue($def, $type, $value)
     {
         if ($b = getv($def, strtoupper($type))) {
@@ -1324,6 +1440,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return mixed 
      * @throws IGKException 
      */
+
     protected static function GetValues($driver, $values, &$tableInfo, $update = 0, ?bool $filter = null)
     {
         $tvalues = new stdClass();
@@ -1426,6 +1543,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws IGKException 
      */
+
     public function createSelectQuery(string $tbname, $where = null, $options = null): ?string
     {
         $q = "";
@@ -1470,6 +1588,12 @@ class SQLGrammar implements IDbQueryGrammar
         $q = "SELECT {$flag}{$column} FROM " . $tbname . "" . rtrim($q) . ";";
         return $q;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tbname
+    * @param mixed $ad
+    */
     public static function EscapeTableName($tbname, $ad)
     {
         return implode(".", array_map(function ($i) use ($ad) {
@@ -1484,6 +1608,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param ?string $primaryKey 
      * @return mixed 
      */
+
     public static function GetCondString($driver, $tab, $operator = 'AND', string $primaryKey = IGK_FD_ID, $tableInfo = null)
     {
         $query = "";
@@ -1643,6 +1768,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param mixed $adapter 
      * @return mixed 
      */
+
     protected static function _GetKeyOperator($k, $v,  &$query, &$c, &$op, &$t, &$c_exp, $adapter)
     {
         if (preg_match("/^((?:!)?\<\>|!(!|<>)?|@@|@&|(?:<|>)=?|#|\||&)/", $k, $tab)) {
@@ -1696,6 +1822,12 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $k;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $k
+    * @param mixed $driver
+    */
     protected static function GetKey($k, $driver)
     {
         return  implode(".", array_map([$driver, "escape_table_column"], explode(".", $k)));
@@ -1705,6 +1837,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param string $type 
      * @return string 
      */
+
     public static function GetJointType(string $type)
     {
         $t = $type;
@@ -1723,6 +1856,13 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $t;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    * @param mixed $ad
+    * @param mixed $append
+    */
     public static function BuildColumn($v, $ad, $append = false)
     {
         $columns = '';
@@ -1771,6 +1911,7 @@ class SQLGrammar implements IDbQueryGrammar
      * Order query extra options
      * @param IDbSQLGrammarExtraOptions $options
      */
+
     protected static function GetExtraOptions($options, $ad)
     {
         /**
@@ -1918,6 +2059,7 @@ class SQLGrammar implements IDbQueryGrammar
         $query = trim($query);
         return (object)["columns" => $columns, "join" => $join, "extra" => $q . $query, "flag" => $flag];
     }
+
     protected static function Key($t, $adapter, $separator = ",")
     {
         return implode($separator, array_map(
@@ -1934,6 +2076,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param mixed $adapter 
      * @return string 
      */
+
     protected static function GetGroupKey($columns, string $type, $adapter): string
     {
         return SQLQueryUtils::GetGroupKey($columns, $type, $adapter);
@@ -1945,6 +2088,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws Exception 
      */
+
     public function createDeleteQuery($tbname, $condition = null)
     {
         $c = "";
@@ -1958,6 +2102,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @param null|string $filter 
      * @return array 
      */
+
     public function listTables(?string $filter = null)
     {
         $tables = [];
@@ -1981,6 +2126,7 @@ class SQLGrammar implements IDbQueryGrammar
     /**
      * get column string concatenation
      */
+
     public static function GetColumnString(array $s)
     {
         return implode(", ", array_map(function ($a, $k) {
@@ -1999,6 +2145,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return ?object 
      * @throws IGKException 
      */
+
     public function get_relation(string $table, $field, string $dbname)
     {
         // igk_die(__METHOD__ . " not implements");
@@ -2011,6 +2158,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return mixed 
      * @throws IGKException 
      */
+
     public function get_column_info(string $table, string $column)
     {
         $db = $this->m_driver->getDbName();
@@ -2023,6 +2171,13 @@ class SQLGrammar implements IDbQueryGrammar
         }
         return $res;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $table_name
+    * @param mixed $column
+    * @param mixed $conditions
+    */
     public function createSelectExpression($table_name, $column, $conditions)
     {
         $g = $this->createSelectQuery($table_name, $conditions, [
@@ -2038,6 +2193,7 @@ class SQLGrammar implements IDbQueryGrammar
      * @return string 
      * @throws \IGKException 
      */
+
     public function createJoinOperation($type, $a, $b): string
     {
         if (preg_match("/<|>|=/", $type))

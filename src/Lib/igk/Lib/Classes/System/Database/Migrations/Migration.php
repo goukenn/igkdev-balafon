@@ -13,8 +13,16 @@ namespace IGK\System\Database\Migrations;
  * @package IGK\System\Database\Migrations
  */
 abstract class Migration{
+
+    /**
+    * auto generate doc.
+    */
     public function up(){
     }
+
+    /**
+    * auto generate doc.
+    */
     public function down(){
     }
 }

@@ -12,12 +12,44 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
  */
 class ExtractClassCommand extends AppExecCommand
 {
-	var $command = '--extract-class';
-	var $desc = 'extract class from json definition';
-	var $options = ['-n' => 'name of the class'];
-	var $category = 'utils';
-	var $usage = 'file|json_data [path] [options]';
-	public function exec($command, ?string $file = null, $path = null)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--extract-class';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'extract class from json definition';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = ['-n' => 'name of the class'];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'utils';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'file|json_data [path] [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $file
+    * @param null|mixed $path
+    */
+    public function exec($command, ?string $file = null, $path = null)
 	{
 		if (is_null($file)) {
 			igk_die('required file');

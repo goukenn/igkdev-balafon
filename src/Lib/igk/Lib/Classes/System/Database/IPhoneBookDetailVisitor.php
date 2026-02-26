@@ -12,5 +12,13 @@ use IGK\System\IInjectable;
 * @author C.A.D. BONDJE DOUE
 */
 interface IPhoneBookDetailVisitor extends IInjectable{
+
+    /**
+    * auto generate doc.
+    * @param string $propertyName
+    * @param mixed $value
+    * @param mixed $oldvalue
+    * @param null|mixed $cardinality
+    */
     function visit(string $propertyName, $value, $oldvalue, $cardinality=null);
 }

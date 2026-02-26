@@ -41,10 +41,35 @@ use ReflectionException;
 class SchemaMigration
 {
     use SchemaGenerationFieldTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $node;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $reload;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $resovlname;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $table;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tbrelations;
     /**
      * @var ?array
@@ -70,6 +95,7 @@ class SchemaMigration
      * @param mixed $ctrl 
      * @return array 
      */
+
     public function load($ctrl)
     {
         // + | --------------------------------------------------------------------
@@ -267,6 +293,12 @@ class SchemaMigration
         );
         return $v_result;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $cl
+    * @param null|string $prefix
+    */
     protected function _treatColumnName($cl, ?string $prefix){
         if ($prefix) {
             $cl->clName = DbUtility::TreatColumnName($cl->clName, $prefix); 
@@ -278,6 +310,7 @@ class SchemaMigration
      * @param mixed &$indexes 
      * @return void 
      */
+
     protected function _load_index($list, & $indexes){
         while(count($list)>0){
             $q = array_shift($list);
@@ -293,6 +326,7 @@ class SchemaMigration
      * @param mixed $passing 
      * @return void 
      */
+
     public static function UpdateGenColumn($node, &$cl, $passing = null, $info = null)
     {
         $name = $node["name"];
@@ -407,6 +441,7 @@ class SchemaMigration
      * @param bool $reload 
      * @return static 
      */
+
     public static function LoadSchema(
         DomNodeBase $node,
         &$result,
@@ -746,6 +781,7 @@ class SchemaMigration
      * @param BaseController $ctrl 
      * @return void 
      */
+
     public function upgrade($migrations, array &$tables,  ?BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoUpgrade']);
@@ -754,6 +790,7 @@ class SchemaMigration
      * load schema and downgrade
      * @return void 
      */
+
     public function downgrade($migrations, array &$tables,  BaseController $ctrl)
     {
         return $this->_do_migration($migrations, $tables, $ctrl, [self::class, '_DoDowngrade']);

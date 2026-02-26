@@ -15,11 +15,40 @@ use function igk_resources_gets as __;
  * @package IGK\System\Console\Commands
  */
 class ModuleCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--module";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "module";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "module management command";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = "action [options]";
+
+    /**
+    * auto generate doc.
+    */
     protected function showUsage()
     {
         parent::showUsage();
@@ -32,6 +61,12 @@ class ModuleCommand extends AppExecCommand{
         Logger::print('');
         Utility::PrintCommand($v_actions);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed $args
+    */
     public function exec($command, $args="ls"){
        $args = $args ?? "ls";
        switch($args){

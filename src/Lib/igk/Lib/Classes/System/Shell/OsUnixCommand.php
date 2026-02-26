@@ -9,6 +9,11 @@ namespace IGK\System\Shell;
  * @package IGK\System\Shell
  */
 class OsUnixCommand extends OsShell{
+
+    /**
+    * auto generate doc.
+    * @param mixed $cmd
+    */
     public static function Where($cmd){ 
         return exec("which ".$cmd);
     }

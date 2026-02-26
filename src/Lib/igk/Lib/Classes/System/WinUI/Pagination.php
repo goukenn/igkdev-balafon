@@ -43,6 +43,11 @@ class Pagination{
      * @var string
      */
     var $className = "igk-pagination";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $pageQuery;
     /**
      * 
@@ -51,6 +56,7 @@ class Pagination{
      * @param string $p request page field
      * @return void 
      */
+
     public function __construct(int $itemPerPage, int $total, $p="p", $default_page=1, $shift=1)
     {
         if (!$default_page){
@@ -74,6 +80,7 @@ class Pagination{
      * @return mixed|object
      * @throws IGKException 
      */
+
     public function list($ajx=0, $request_uri = null){ 
         $total = floor($this->total/$this->count)+1;
         $n = igk_create_node("ul");
@@ -122,6 +129,7 @@ class Pagination{
     * @param mixed $ajx
     * @param mixed $param
     */
+
     function _geta($n, $ajx, $param){
         if ($ajx){
             return $n->ajx($param);
@@ -158,6 +166,7 @@ class Pagination{
     /**
     * auto generate doc.
     */
+
     public function getLimit(){     
         $p = $this->page - 1;   
         return implode(",", [($p * $this->count),  

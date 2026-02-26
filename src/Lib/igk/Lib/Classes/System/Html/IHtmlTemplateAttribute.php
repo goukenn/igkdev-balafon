@@ -8,5 +8,10 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 interface IHtmlTemplateAttribute{
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     function expression():string;
 }

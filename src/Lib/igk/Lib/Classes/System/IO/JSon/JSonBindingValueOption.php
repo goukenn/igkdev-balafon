@@ -9,9 +9,29 @@ namespace IGK\System\IO\JSon;
 * @author C.A.D. BONDJE DOUE
 */
 class JSonBindingValueOption{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $bindReference;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $property;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $source;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $handle;
     /**
      * to resolve relative type according to the source type 
@@ -24,6 +44,7 @@ class JSonBindingValueOption{
      * @param mixed $value 
      * @return void 
      */
+
     function unshiftData($obj, $value){
         array_unshift($this->bindReference, ['o'=>$obj, 'd'=>$value]);
     }

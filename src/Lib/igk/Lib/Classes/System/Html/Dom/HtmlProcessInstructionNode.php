@@ -16,7 +16,18 @@ use IGKException;
 * @package IGK\System\Html\Dom
 */
 class HtmlProcessInstructionNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private  $m_noClose;
+
+    /**
+    * .ctr
+    * @param mixed $content
+    * @param mixed $noClose
+    */
     public function __construct($content, $noClose=false){
         parent::__construct("igk-process");
         $this->content = $content;
@@ -27,6 +38,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     * auto generate doc.
     * @param null|mixed $option
     */
+
     protected function _getRenderingChildren($option=null){
         return null;
     }
@@ -34,6 +46,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function __toString(){
         return __CLASS__."#".$this->render();
     }
@@ -43,6 +56,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     * @param mixed $item
     * @param null|mixed $index
     */
+
     protected function _addChild($item, $index=null){
         return false;
     }
@@ -53,6 +67,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     * @param null|mixed $attributes
     * @param null|mixed $index
     */
+
     public function add($item, $attributes=null, $index=null){
         return null;
     }
@@ -60,6 +75,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getCanRenderTag(){
         return false;
     }
@@ -69,6 +85,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
      * @return bool 
      * @throws IGKException 
      */
+
     public static function IsPhpCloseInstruct($option){
         $g = igk_getv($option, 'lastRendering');
         if($g && ($g instanceof self)){
@@ -81,6 +98,7 @@ class HtmlProcessInstructionNode extends HtmlNode{
     * auto generate doc.
     * @param null|mixed $options
     */
+
     public function render($options=null){
         $src=$this->getContent();
         if($compiler=igk_getv($options, "PHP.Compiler")){

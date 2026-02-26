@@ -20,6 +20,11 @@ class Project{
             '.git', '.vscode', 'node_modules', '.DS_Store'
         ],1);
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $sysdb
+    */
     public static function GetProjectInvocatorInitDbList(BaseController $sysdb)
     {
         $sysdb_adapter = $sysdb->getDataAdapterName();

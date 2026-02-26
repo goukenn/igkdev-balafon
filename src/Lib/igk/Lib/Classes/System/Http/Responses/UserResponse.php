@@ -19,16 +19,56 @@ use ReflectionException;
  */
 class UserResponse
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $user;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $groups;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $auths;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $token_info;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $message;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $user_app;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $controller;
     private static function _CreateUserData(Users $user){
         return $user->CreateUserApiResponseData();
     }
+
+    /**
+    * auto generate doc.
+    * @param Users $user
+    */
     public static function CreateResponseFromUserModel(Users $user){
         $data = self::_CreateUserData($user);
         return $data;
@@ -44,6 +84,7 @@ class UserResponse
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function CreateResponse(IUserProfile $profile, BaseController $ctrl, IAuthenticatorService $authenticator, bool $rememberme=false)
     {
         $app = $profile->user();
@@ -51,6 +92,14 @@ class UserResponse
         $token = $authenticator->getNewToken($user, $ctrl, $rememberme); 
         return self::CreateResponseFromSystemUser($ctrl, $user, $app, $token); 
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    * @param mixed $user
+    * @param null|mixed $app_user
+    * @param null|mixed $token
+    */
     public static function CreateResponseFromSystemUser(BaseController $ctrl, $user, $app_user=null, $token=null){
         $data = array_merge(self::_CreateUserData($user), [
             'user_app'=>$app_user ? SysDbMapping::CreateMapping($app_user)->map($app_user) :null,
@@ -60,6 +109,10 @@ class UserResponse
         igk_hook('filter_user_response_data', (object)['data'=>& $data]);
         return Activator::CreateNewInstance(static::class, $data);
     }
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     function __debugInfo()
     {
         return [];

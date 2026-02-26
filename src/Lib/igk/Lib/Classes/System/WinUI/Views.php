@@ -11,7 +11,13 @@ use function igk_resources_gets as __;
  * @property static callable @Contact;
  * @method static void ActionBarConfirmDialog() action bar confirm dialog callable
  */
-class Views {    
+class Views {
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         if (method_exists(static::class, $fc = "View".$name)){
@@ -19,6 +25,13 @@ class Views {
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $info
+    * @param null|mixed $key
+    */
     public static function ViewContact($n, $info, $key=null){
         $li = $n->li()->setClass("contact-block-item");
         $s = $li;
@@ -30,6 +43,16 @@ class Views {
         }
         $s->span()->Content = igk_getv($info, "text", $key ? __($key):null);       
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    * @param mixed $model
+    * @param callable $callback
+    * @param null|mixed $conditions
+    * @param null|mixed $options
+    * @param mixed $key
+    */
     public static function ModelViewLimit($target, $model, callable $callback, $conditions=null, $options=null, $key = "page") {
         $options = $options ?? [];
         $c = $model::count($conditions, $options);
@@ -48,12 +71,29 @@ class Views {
         }
         return $pan;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $host
+    * @param mixed $target
+    * @param mixed $model
+    * @param callable $callback
+    * @param null|mixed $conditions
+    * @param null|mixed $options
+    * @param mixed $key
+    */
     public static function ModelViewHandleLimit($host, $target, $model, callable $callback, $conditions=null, $options=null, $key = "page") {
         $limit = self::ModelViewLimit($target, $model, $callback, $conditions, $options, $key);
         if ($limit){
             $host->add($limit->list());
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $a
+    * @param null|array $options
+    */
     public static function ViewActionBarConfirmDialog($a, ?array $options=null){        
         $title = null;
         $title = igk_getv($options, "lb.submit");

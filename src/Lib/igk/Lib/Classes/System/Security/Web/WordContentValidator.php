@@ -9,7 +9,21 @@ use IGK\System\Regex\Replacement;
 * @package IGK\System\Security\Web
 */
 class WordContentValidator extends MapContentValidatorBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $allowNull;
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed $key
+    * @param mixed & $error
+    * @param bool $missing
+    * @param bool $required
+    */
     public function map($value, $key, &$error, bool $missing=false, bool $required = true)
     { 
         if (!is_string($value)){

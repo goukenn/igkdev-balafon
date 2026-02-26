@@ -11,11 +11,17 @@ namespace IGK\Core;
 * @author C.A.D. BONDJE DOUE
 */
 class EvalBinding{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_evals;
     /**
      * 
      * @return mixed 
      */
+
     public static function getLastEval(){
         return self::$sm_evals;
     }
@@ -23,6 +29,7 @@ class EvalBinding{
      * 
      * @return mixed 
      */
+
     public static function EvalContentOnContext(){
         extract(func_get_arg(1));
         self::$sm_evals = func_get_arg(0);

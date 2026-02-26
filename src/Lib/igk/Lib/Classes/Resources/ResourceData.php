@@ -13,15 +13,34 @@ use IGKValidator;
  * @package IGK\Resources
  */
 class ResourceData extends HtmlAttributeValue implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $value;
+
+    /**
+    * .ctr
+    * @param string $value
+    */
     public function __construct(string $value)
     {
         $this->value = $value;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return $this->value;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $option
+    */
     public function getValue($option = null){
         igk_wln_e("get value ... ");
         if (IGKValidator::IsUri($this->value)){

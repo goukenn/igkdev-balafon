@@ -22,11 +22,27 @@ use function igk_resources_gets as __;
  */
 class IGKInstallSiteConfig extends ConfigControllerBase
 {
-	const REF_NAME = "{31f1fa34-33ef-a96c-08c8-f15dc54fadef}";
-	public function getName(): string{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const REF_NAME = "{31f1fa34-33ef-a96c-08c8-f15dc54fadef}";
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
+    public function getName(): string{
 		return  self::REF_NAME;
-	} 
-	public function install($folder = null, $packagefolder = null)
+	}
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $folder
+    * @param null|mixed $packagefolder
+    */
+    public function install($folder = null, $packagefolder = null)
 	{
 		if ($packagefolder === null) {
 			$packagefolder = igk_get_packages_dir();
@@ -49,26 +65,51 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 		InstallSite::Install($folder, $packagefolder, $listen, $environment);
 		igk_notifyctrl("installsite")->addSuccessr("Install site success");
 	}
-	public function __construct()
+
+    /**
+    * .ctr
+    */
+    public function __construct()
 	{
 		parent::__construct();
 	}
-	public function setConfig($c)
+
+    /**
+    * auto generate doc.
+    * @param mixed $c
+    */
+    public function setConfig($c)
 	{
 	}
-	public function getConfigPage()
+
+    /**
+    * auto generate doc.
+    */
+    public function getConfigPage()
 	{
 		return "installsite";
 	}
-	public function getConfigGroup()
+
+    /**
+    * auto generate doc.
+    */
+    public function getConfigGroup()
 	{
 		return "administration";
 	}
-	public function getIsConfigPageAvailable()
+
+    /**
+    * auto generate doc.
+    */
+    public function getIsConfigPageAvailable()
 	{
 		return !igk_io_is_subdir(igk_io_applicationdir(), IGK_LIB_DIR);
 	}
-	public function initConfigMenu()
+
+    /**
+    * auto generate doc.
+    */
+    public function initConfigMenu()
 	{
 		return [
 			new MenuItem(
@@ -79,7 +120,12 @@ class IGKInstallSiteConfig extends ConfigControllerBase
 			)
 		];
 	}
-	public function View():BaseController
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController
 	{
 		$t = $this->getTargetNode();
 		$t->clearChilds();

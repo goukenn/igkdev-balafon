@@ -9,6 +9,10 @@
  * @package 
  */
 class PhpUnitApplication extends IGKApplicationBase{
+
+    /**
+    * auto generate doc.
+    */
     public function bootstrap() { 
         $this->library("mysql");
         $this->library("zip");
@@ -17,6 +21,12 @@ class PhpUnitApplication extends IGKApplicationBase{
         // init server definition
         igk_server()->REQUEST_URI = "/";
     }
+
+    /**
+    * auto generate doc.
+    * @param string $entryfile
+    * @param mixed $render
+    */
     public function run(string $entryfile, $render = 1) { 
         // treat argv before start value 
         $options = (object)[];

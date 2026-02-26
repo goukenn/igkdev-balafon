@@ -61,12 +61,18 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @var mixed
      */
     public $configs;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $environment;
 
     /**
      * 
      * @return mixed 
      */
+
     public function getInitEnvironmentFileStructure()
     {
         return igk_environment()->NoAppInitFileStruct;
@@ -74,6 +80,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
     /**
      * initialize application modules 
      * */
+
     public static function InitModule($v_pdir, $conf, &$argv)
     {
         if (!preg_match("/--module:/", implode(' ', $argv))) {
@@ -92,6 +99,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @return void 
      * @throws Exception 
      */
+
     public static function InitProject($v_pdir, $conf, &$argv)
     {
         if (!preg_match("/--controller:/", implode(' ', $argv))) {
@@ -107,6 +115,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function FilterArgs($a)
     {
         if (strpos($a, "--wdir:") === 0) {
@@ -178,6 +187,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
             }
         }
     }
+
     public function bootstrap()
     {
         // + | because prefilter command line args
@@ -260,6 +270,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function run(string $entryfile, $render = 1)
     {
         // + | --------------------------------------------------------------------------
@@ -287,6 +298,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * return primary command array
      * @return array
      */
+
     public function getPrimaryCommand(array $argv): array
     {
         // + |--------------------------------------------------------
@@ -635,6 +647,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @param array $argv 
      * @return void 
      */
+
     protected function initCommand(array $command, array $argv)
     {
         igk_environment()->NoAppInitFileStruct = true;
@@ -670,6 +683,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @return void 
      * @throws Exception 
      */
+
     public static function BindCommandUser($command, ?BaseController $ctrl = null, &$user = null)
     {
         $user = null;
@@ -688,6 +702,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @param null|Users $user 
      * @return void 
      */
+
     public static function BindCommandController(BaseController $ctrl, ?Users $user = null)
     {
         igk_environment()->set(IGKEnvironment::CURRENT_CTRL, $ctrl);
@@ -698,6 +713,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * get working dirctory
      * @return ?string
      */
+
     public function getWorkingDir()
     {
         return $this->basePath;
@@ -707,6 +723,7 @@ class BalafonApplication extends IGKApplicationBase implements ICLICommandApp
      * @param mixed &$argv 
      * @return void 
      */
+
     public static function InitAndTreatArgument(&$argv)
     {
         (function (&$argv) {

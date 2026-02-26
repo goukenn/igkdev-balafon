@@ -8,10 +8,37 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpressionSetterValueInfo{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_inUse = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_value;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_id;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_updateCallback;
+
+    /**
+    * .ctr
+    * @param mixed $id
+    * @param mixed $v
+    * @param mixed $update
+    */
     public function __construct($id, $v, $update){
         $this->m_value = $v;
         $this->m_id = $id;
@@ -21,6 +48,7 @@ class ViewExpressionSetterValueInfo{
      * get value and count
      * @return mixed 
      */
+
     public function getValue(){
         if (!$this->m_inUse){
             $this->m_inUse = 1;
@@ -32,6 +60,10 @@ class ViewExpressionSetterValueInfo{
         }
         return $this->m_value;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsInUse(){
         return !$this->m_inUse;
     }

@@ -27,6 +27,11 @@ use IGK\System\IToJSon;
  */
 class PhoneBooksMacros
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PHONE_DEFAULT_TEL = 'gsm|tel|phone';
 
     /**
@@ -37,6 +42,7 @@ class PhoneBooksMacros
      * @param null|string $search 
      * @return bool|null|IDbQueryResult|IToJSon 
      */
+
     public static function userPhoneEntries(PhoneBooks $model, Users $user, ?string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL, ?string $search = null)
     {
 
@@ -83,6 +89,7 @@ class PhoneBooksMacros
      * @param string $type 
      * @return mixed 
      */
+
     public static function userSearchPhoneEntries(PhoneBooks $model, ?Users $user, ?string $search, ?string $type = PhoneBooksMacros::PHONE_DEFAULT_TEL)
     {
         return $model::userPhoneEntries($user, $type ?? '@@', $search);
@@ -96,6 +103,7 @@ class PhoneBooksMacros
      * @param string $type 
      * @return mixed 
      */
+
     public static function addPhoneBookEntry(PhoneBooks $model, Users $user, $value, $type = PhonebookTypeNames::PHT_PHONE)
     {
         return $user->addPhoneBookEntry($type, $value);
@@ -106,6 +114,7 @@ class PhoneBooksMacros
      * @param Users $user 
      * @return mixed 
      */
+
     public static function getPhoneBookEntry(PhoneBooks $model, Users $user)
     {
         return $user->getPhoneBookEntry();
@@ -115,6 +124,7 @@ class PhoneBooksMacros
      * @param PhoneBooks $model 
      * @return void 
      */
+
     public static function getEntries(PhoneBooks $model, ?string $entry = null)
     {
         if ($entry) {
@@ -134,7 +144,11 @@ class PhoneBooksMacros
         }
     }
 
-
+    /**
+    * auto generate doc.
+    * @param PhoneBooks $phone
+    * @param string $search
+    */
     public static function searchForEntry(PhoneBooks $phone, string $search)
     {
         return PhoneBooks::select_all([
@@ -146,6 +160,7 @@ class PhoneBooksMacros
      * @param PhoneBooks $phone 
      * @return bool 
      */
+
     public static function deleteEntry(PhoneBooks $phone)
     {
         $key = $phone->EntryGuid;
@@ -161,6 +176,7 @@ class PhoneBooksMacros
      * @param PhoneBooks $phone 
      * @return mixed 
      */
+
     public static function getPhoneDetails(PhoneBooks $phone, ?IPhoneBookDetailVisitor $visitor = null)
     {
         $phone->is_mock() && igk_die('require non mocking instance object');
@@ -208,6 +224,7 @@ class PhoneBooksMacros
      * @param mixed $search 
      * @return mixed 
      */
+
     public static function resolve(PhoneBooks $phone, $search)
     {
         if (is_numeric($search)) {
@@ -225,6 +242,7 @@ class PhoneBooksMacros
      * @param mixed $search 
      * @return array<\IGK\Models\PhoneBooks, mixed> 
      */
+
     public static function vcard(PhoneBooks $phone, ?Users $user, $search)
     {
         /**

@@ -13,14 +13,33 @@ use IGK\System\Text\RegexMatcherContainer;
  */
 class CssMinifier
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CSS_PROPS = "\\b(?:--|[a-zA-Z]+)[a-zA-Z\-0-9]*\\b";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CSS_PROVIDER_PROPS = "-(webkit|moz|ms|o)-[a-zA-Z\-0-9]+\\b";
     /**
      * leave comment
      * @var ?bool
      */
     var $preserveComment;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_container;
+
+    /**
+    * auto generate doc.
+    */
     protected function getRegexContainer(){
         if ($this->m_container){
             return $this->m_container;
@@ -59,6 +78,7 @@ class CssMinifier
      * @return string 
      * @throws Exception 
      */
+
     public function minify(string $css)
     {   
         //return $css;     

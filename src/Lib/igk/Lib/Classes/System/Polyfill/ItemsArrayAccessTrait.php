@@ -10,11 +10,17 @@ namespace IGK\System\Polyfill;
 * @package IGK\System\Polyfill
 */
 trait ItemsArrayAccessTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_items;
      /**
     * 
     * @param mixed $key
     */
+
     public function offsetExists($key){
         return isset($this->m_items[$key]);
     }
@@ -22,6 +28,7 @@ trait ItemsArrayAccessTrait{
     * 
     * @param mixed $key
     */
+
     public function offsetGet($key){
         return $this->m_items[$key];
     }
@@ -30,6 +37,7 @@ trait ItemsArrayAccessTrait{
     * @param mixed $key
     * @param mixed $value
     */
+
     public function offsetSet($key, $value){
         $this->m_items[$key]=$value;
     }
@@ -37,6 +45,7 @@ trait ItemsArrayAccessTrait{
     * 
     * @param mixed $key
     */
+
     public function offsetUnset($key){
         unset($this->m_items[$key]);
     }

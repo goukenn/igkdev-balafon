@@ -10,6 +10,11 @@ use IGKException;
  * @package IGK\System\Database
  */
 class SchemaBuilderMigration{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $controller;
     /**
      * listerner call after
@@ -33,6 +38,7 @@ class SchemaBuilderMigration{
      * @return object 
      * @throws IGKException 
      */
+
     public function __call($name, $arguments)
     {
         $cl = __NAMESPACE__."\\Schema".ucfirst($name)."Migration";
@@ -50,6 +56,7 @@ class SchemaBuilderMigration{
      * 
      * @return bool 
      */
+
     public function upgrade(){
         if (!$this->items)return false;
         foreach($this->items as $c){
@@ -61,6 +68,10 @@ class SchemaBuilderMigration{
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function downgrade(){
         if (!$this->items)
             return false;
@@ -72,6 +83,10 @@ class SchemaBuilderMigration{
         }
         return true;
     }
+
+    /**
+    * .ctr
+    */
     public function __construct(){
     }
 }

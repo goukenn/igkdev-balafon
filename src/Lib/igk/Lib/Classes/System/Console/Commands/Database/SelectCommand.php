@@ -27,9 +27,24 @@ use IGK\System\Mapping\Helper\ArrayMapHelper;
  */
 class SelectCommand extends AppExecCommand
 {
-	var $command = '--db:select';
-	var $desc = 'send a db select query or execute a Model Macros by choose a model.';
-	var $options = [
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--db:select';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'send a db select query or execute a Model Macros by choose a model.';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [
 		'--count' => 'flag: count all entries for simple select',
 		'--limit:from[,size]' => 'limit query result',
 		'--order:column|order,...' => 'order query',
@@ -42,9 +57,26 @@ class SelectCommand extends AppExecCommand
 		'--for:id' => 'id to resolve mocking reference',
 		'--json:arg' => 'passing sigle json string definition',
 	];
-	var $category = 'db';
-	var $usage = '[controller] model[.macrosFunction] [options]';
-	public function exec($command, ?string $ctrl = null, ?string $model = null)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[controller] model[.macrosFunction] [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $ctrl
+    * @param null|string $model
+    */
+    public function exec($command, ?string $ctrl = null, ?string $model = null)
 	{
 		if (property_exists($command->options, '--controller')) {
 			$model = $ctrl;
@@ -150,7 +182,8 @@ class SelectCommand extends AppExecCommand
 	 * @param ModelBase $model 
 	 * @return int 
 	 */
-	public function showModelMacros($command, BaseController $ctrl, ModelBase $model)
+
+    public function showModelMacros($command, BaseController $ctrl, ModelBase $model)
 	{
 		$macros = $model->getMacroKeys($model);
 		foreach ($macros as $s) {
@@ -163,7 +196,8 @@ class SelectCommand extends AppExecCommand
 	 * @param mixed $g 
 	 * @return void 
 	 */
-	public static function PrintResult($g, $flag)
+
+    public static function PrintResult($g, $flag)
 	{
 		if ($g instanceof ModelBase) {
 			echo $g->to_json($flag);

@@ -13,10 +13,35 @@ use Exception;
  */
 abstract class RegexMatcherUtility
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REGEX_OPTION = RegexMatcherContainer::REGEX_OPTION;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REGEX_MOVEMENT_CAPTURE  = "/(|)?\(\?(=|<|!).+?[^\\\]\)(|)?/";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REGEX_EMPTY_LINE = '^\\h*(?=\\n)';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REGEX_CAPTURE_REPLACE = "/^\\s*(.+)\\s*$/";
+
+    /**
+    * auto generate doc.
+    * @param array $list
+    */
     public static function EscapeCharList(array $list){
         $t = str_split('.)(*+[]/', 1);
         return array_map(function($a)use ($t){
@@ -32,6 +57,7 @@ abstract class RegexMatcherUtility
      * @param mixed $replaceCapturedDataCallback
      * @return void 
      */
+
     public static function ReplaceWith(string $source, $replacement, $pattern, $g , ?Closure $replaceCapturedDataCallback = null){
             if ($replacement instanceof Closure) {
                 $source = $replacement($source, $g, $pattern);
@@ -50,6 +76,7 @@ abstract class RegexMatcherUtility
     /**
      * 
      */
+
     public static function ReplaceWithOnly(string $s, $rp, $e){
         $g = '/^(.+)$/m';
         if ($rp instanceof Closure){
@@ -66,6 +93,7 @@ abstract class RegexMatcherUtility
      * @param string $regex 
      * @return string|string[]|null 
      */
+
     public static function RemoveMovementCapture(string $regex)
     {
         $src = $regex;
@@ -112,6 +140,7 @@ abstract class RegexMatcherUtility
      * @return mixed 
      * @throws Exception 
      */
+
     public static function GetEndCaptures($info)
     {
         list($endCaptures, $captures) = igk_extract($info->match, 'beginCaptures|endCaptures|captures');
@@ -125,6 +154,7 @@ abstract class RegexMatcherUtility
      * @throws Exception 
      * @throws IGKException 
      */
+
     public static function ConverToRegex(string $match): string
     {
         $o = '';
@@ -171,6 +201,7 @@ abstract class RegexMatcherUtility
      * @return (string|array)[] 
      * @throws Exception 
      */
+
     public static function TreatByRemoveRootScopePattern(RegexMatcherContainer $ctn, string $haystack)
     {
         $ch = '';
@@ -194,6 +225,7 @@ abstract class RegexMatcherUtility
      * @throws IGKException 
      * @throws Exception 
      */
+
     public static function ParameterReference($begin = '\(', $end = '\)')
     {
         $ctn = new RegexMatcherContainer;
@@ -203,6 +235,13 @@ abstract class RegexMatcherUtility
         ];
         return $ctn;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $match
+    * @param RegexMatcherContainer $ref
+    * @param mixed & $pos
+    */
     public static function ExtractFirst(string $match, RegexMatcherContainer $ref, &$pos)
     {
         $v = '';
@@ -221,6 +260,7 @@ abstract class RegexMatcherUtility
      * @throws IGKException 
      * @throws Exception 
      */
+
     public static function CodeCommentMatcherReference()
     {
         $ctn = new RegexMatcherContainer;
@@ -235,6 +275,7 @@ abstract class RegexMatcherUtility
      * @throws IGKException 
      * @throws Exception 
      */
+
     public static function RemoveComment(string $match)
     {
         $cnf = self::CodeCommentMatcherReference();
@@ -256,6 +297,7 @@ abstract class RegexMatcherUtility
      * @param mixed &$ch 
      * @return void 
      */
+
     public static function Skip($g, $next_pos, $data, &$pos, &$ch)
     {
         $ch .= rtrim(substr($data, $pos, $g->from - $pos));
@@ -270,6 +312,7 @@ abstract class RegexMatcherUtility
      * @param null|int $endPos 
      * @return string 
      */
+
     public static function TreatBeginEndCapture(string $source, ?string $begin, ?string $end, ?int $startLength = 0, ?int $endPos = null): string
     {
         $endPos = $endPos ?? strlen($source);
@@ -286,6 +329,7 @@ abstract class RegexMatcherUtility
      * @param string $c 
      * @return string 
      */
+
     public static function TreatExtended(string $c): string
     {
         $ctn = new RegexMatcherContainer;
@@ -311,6 +355,7 @@ abstract class RegexMatcherUtility
      * @return 'include'|'match'|'begin/while'|'begin/end' 
      * @throws Exception 
      */
+
     public static function GetPatternType($k)
     {
         list($match, $include, $begin, $while) = igk_extract($k, 'match|include|begin|while|end');
@@ -332,6 +377,7 @@ abstract class RegexMatcherUtility
      * @param array &$patterns 
      * @return void 
      */
+
     public static function AppendPhpHereDoc($regex, &$patterns = [])
     {
         $patterns[] = $regex->begin('(<<<)([a-zA-Z][a-zA-Z\-0-9]*)', "^\\2", 'here-doc')->last();
@@ -344,6 +390,7 @@ abstract class RegexMatcherUtility
      * @param IRegexMatcherEndDetectionInfo $e 
      * @return array 
      */
+
     public static function GetChainUntil(&$v_plc, $e)
     {
         $chain = [];
@@ -361,6 +408,7 @@ abstract class RegexMatcherUtility
      * @param string $regex 
      * @return string 
      */
+
     public static function RemoveEmptyGroup(string $regex)
     {
         $sb = $regex;

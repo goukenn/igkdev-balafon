@@ -18,33 +18,172 @@ use IGK\IMailAttachmentContainer;
  */
 class Mail extends IGKObject implements IMailAttachmentContainer
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONTENT_HTML_TEXT = "text/html";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONTENT_IMG_PNG = "image/png";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONTENT_PLAIN_TEXT = IGK_CT_PLAIN_TEXT;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PART_ALTERNATIVE = "multipart/alternative";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PART_MIXED = "multipart/mixed";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const UTF8_CHARSET = "UTF-8";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BASE64_CHUNK = 76;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $ErrorMsg;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $html_charset = "iso-8859-1";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_files;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_from;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_htmlmsg;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_pwd;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_replyto;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_smtp_port;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_smtphost;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_socketTimeout = 15;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_socketType = "tls";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_textmsg;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_title;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_to;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_toBcc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_tocc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_useAuth;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_user;
-    private $text_charset = "iso-8859-1"; 
-    var $Base64Encoding = true; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $text_charset = "iso-8859-1";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $Base64Encoding = true;
+
+    /**
+    * auto generate doc.
+    */
     public function getErrorMsg()
     {
         return $this->ErrorMsg;
@@ -55,6 +194,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * @return null|string 
      * @throws Exception 
      */
+
     public static function MailFromArrayToString(array $definition): ?string
     {
         list($title, $mail) = igk_extract($definition, "title|mail");
@@ -81,6 +221,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * @throws Exception 
      * @throws Error 
      */
+
     public static function Mail(
         string $to,
         ?string $subject,
@@ -144,6 +285,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function __construct()
     {
         $this->ErrorMsg = "";
@@ -325,6 +467,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $to
      */
+
     public function addTo($to)
     {
         if (is_string($to)) {
@@ -358,6 +501,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $to
      */
+
     public function addToCC($to)
     {
         if (is_string($to)) {
@@ -375,6 +519,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * set carbon gcc 
      * @param string|string<array> $to mails list comma separated.
      */
+
     public function addToGCC($to)
     {
         if (is_string($to)) {
@@ -392,6 +537,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $attachement
      */
+
     public function attach($attachement)
     {
         if ($attachement)
@@ -403,6 +549,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * @param mixed $contentType the default value is IGK_CT_PLAIN_TEXT
      * @param mixed $cid the default value is null
      */
+
     public function attachContent($content, $contentType = IGK_CT_PLAIN_TEXT, $cid = null)
     {
         $attach = new MailAttachement();
@@ -419,6 +566,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * @param mixed $contentType the default value is IGK_CT_PLAIN_TEXT
      * @param mixed $cid the default value is null
      */
+
     public function attachFile($file, $contentType = IGK_CT_PLAIN_TEXT, $cid = null)
     {
         $attach = new MailAttachement();
@@ -433,6 +581,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function ClearTo()
     {
         $this->m_to = array();
@@ -440,6 +589,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getFrom()
     {
         return $this->m_from;
@@ -447,6 +597,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getHtmlCharset()
     {
         return $this->html_charset;
@@ -454,6 +605,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getHtmlMsg()
     {
         return $this->m_htmlmsg;
@@ -462,6 +614,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $tab
      */
+
     static function GetMailList($tab)
     {
         $o = IGK_STR_EMPTY;
@@ -475,6 +628,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getPort()
     {
         return $this->m_smtp_port;
@@ -482,6 +636,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getPwd()
     {
         return $this->m_pwd;
@@ -489,6 +644,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getReplyTo()
     {
         return $this->m_replyto;
@@ -496,6 +652,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getSmtpHost()
     {
         return $this->m_smtphost;
@@ -503,6 +660,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getSocketTimeout()
     {
         return $this->m_socketTimeout;
@@ -510,6 +668,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getSocketType()
     {
         return $this->m_socketType;
@@ -517,6 +676,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getTextCharset()
     {
         return $this->text_charset;
@@ -524,6 +684,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getTextMsg()
     {
         return $this->m_textmsg;
@@ -532,6 +693,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * get title
      * @return ?string
      */
+
     public function getTitle()
     {
         return $this->m_title;
@@ -539,6 +701,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getToString()
     {
         return self::GetMailList($this->m_to);
@@ -546,6 +709,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getUseAuth()
     {
         return $this->m_useAuth;
@@ -553,6 +717,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
     /**
      * 
      */
+
     public function getUser()
     {
         return $this->m_user;
@@ -561,6 +726,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $c
      */
+
     static function MailEntry($c)
     {
         $out = IGK_STR_EMPTY;
@@ -575,6 +741,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * send mail after configuration 
      * @return boolean
      */
+
     public function sendMail():bool
     {
         $boundary = igk_new_id();
@@ -684,6 +851,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param string $value
      */
+
     public function setFrom($value)
     {
         $this->m_from = $value;
@@ -694,6 +862,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * @param string $mail 
      * @return void 
      */
+
     public function setFromTitle(string $title, string $mail){
         $this->setFrom(sprintf("\"%s\" <%s>", $title, $mail));
     }
@@ -701,6 +870,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $v
      */
+
     public function setHtmlCharset($v)
     {
         $this->html_charset = $v;
@@ -709,6 +879,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $content
      */
+
     public function setHtmlMsg($content)
     {
         $this->m_htmlmsg = $content;
@@ -717,6 +888,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $value
      */
+
     public function setPort($value)
     {
         $this->m_smtp_port = $value;
@@ -725,6 +897,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $value
      */
+
     public function setPwd($value)
     {
         $this->m_pwd = $value;
@@ -733,6 +906,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $value
      */
+
     public function setReplyTo($value)
     {
         $this->m_replyto = $value;
@@ -741,6 +915,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $value
      */
+
     public function setSmtpHost($value)
     {
         $this->m_smtphost = $value;
@@ -749,6 +924,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $value
      */
+
     public function setSocketTimeout($value)
     {
         $this->m_socketTimeout = $value;
@@ -757,6 +933,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $v
      */
+
     public function setSocketType($v)
     {
         switch (strtolower($v)) {
@@ -770,6 +947,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $v
      */
+
     public function setTextCharset($v)
     {
         $this->text_charset = $v;
@@ -778,6 +956,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $content
      */
+
     public function setTextMsg($content)
     {
         $this->m_textmsg = $content;
@@ -786,10 +965,16 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * set title
      * @param ?string $value
      */
+
     public function setTitle($value)
     {
         $this->m_title = $value;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $password
+    */
     public function setMailAuthPassword(?string $password)
     {
         $this->m_auth_password = $password;
@@ -798,6 +983,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $value
      */
+
     public function setUseAuth($value)
     {
         $this->m_useAuth = $value;
@@ -806,6 +992,7 @@ class Mail extends IGKObject implements IMailAttachmentContainer
      * 
      * @param mixed $value
      */
+
     public function setUser($value)
     {
         $this->m_user = $value;

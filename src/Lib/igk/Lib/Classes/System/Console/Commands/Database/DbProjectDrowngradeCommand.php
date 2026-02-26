@@ -15,12 +15,38 @@ use IGK\System\Database\SchemaMigrationInfo;
 * @package IGK\System\Console\Commands\Database
 */
 class DbProjectDrowngradeCommand extends AppExecCommand{
-	var $command='--db:downgrade';
-	var $desc='downgrade project database';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:downgrade';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='downgrade project database';
 	/* var $options=[]; */
-	var $category = 'sys:db';
-	var $usage = 'controller [options]';
-	public function exec($command, ?string $controller=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'sys:db';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller=null) {
 		// get controller schema
 		$ctrl = self::GetController($controller);
 		DbCommandHelper::Init($command);

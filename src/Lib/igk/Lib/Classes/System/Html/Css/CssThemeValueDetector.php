@@ -23,10 +23,19 @@ class CssThemeValueDetector{
      * @var bool
      */
     var $removeStaticProps;
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         $this->treatGlobal = true;
         $this->removeStaticProps = true;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    */
     public static function IsGlobalExpression(string $name){
         return preg_match("/^\b(resolv|trans|transform|anim(ation)?|sysfcl|syscl|sysbcl)\b\s*:/", $name);
     }
@@ -52,6 +61,7 @@ class CssThemeValueDetector{
      * @return string 
      * @throws Exception 
      */
+
     public static function RemoveTransformLitteralFrom(string $v, 
         bool $remove_global=false,
         bool $remove_static_property=false)
@@ -153,6 +163,7 @@ class CssThemeValueDetector{
      * @param string $value 
      * @return string 
      */
+
     public function treat(string $value){
         $s = $value;
         $s = self::RemoveTransformLitteralFrom($s, $this->treatGlobal, $this->removeStaticProps);   

@@ -82,6 +82,11 @@ class UnicodeUtility
         return $k . $r;
     }
 
+    /**
+    * auto generate doc.
+    * @param string $letter
+    * @return int
+    */
     public static function RegionalIndicator(string $letter): int
     {
         return 0x1F1E6 + (ord(strtoupper($letter)) - ord('A'));
@@ -91,6 +96,7 @@ class UnicodeUtility
      * @param string|'BE'|'CM' $countryCode 
      * @return void 
      */
+
     public static function EmojisFlag(string $countryCode){
         return self::RegionalChar(
             self::RegionalIndicator($countryCode[0]),

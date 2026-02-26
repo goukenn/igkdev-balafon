@@ -13,6 +13,11 @@ use IGK\System\Html\HtmlRenderer;
 * @package IGK\System\Net
 */
 class MailDocument extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "div";
     /**
      * Renders the mail document using the mail HTML context.
@@ -20,6 +25,7 @@ class MailDocument extends HtmlNode{
      * @param object|null $option Rendering options; defaults to mail context.
      * @return string
      */
+
     public function render($option=null){
         if ($option==null){
             $option = (object)["Context"=>HtmlContext::Mail];

@@ -18,9 +18,29 @@ use IGKValidator;
  */
 class HtmlAHref extends IGKObject implements IHtmlGetValue
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OWNER = 2;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const URI = 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_;
+
+    /**
+    * .ctr
+    * @param mixed $a
+    */
     public function __construct($a)
     {
         $this->_ = array();
@@ -96,26 +116,53 @@ class HtmlAHref extends IGKObject implements IHtmlGetValue
         // }
         return $bck;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDesignMode()
     {
         return igk_is_design_mode();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getOwner()
     {
         return igk_getv($this->_, self::OWNER);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getUri()
     {
         return igk_getv($this->_, self::URI);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options = null)
     {
         return $this->_checkLnk($options);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setUri($v)
     {
         $this->_[self::URI] = $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setValue($v)
     {
         $this->setUri($v);

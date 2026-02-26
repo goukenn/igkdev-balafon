@@ -10,13 +10,34 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\CoreFileSystem;
 use IGK\System\IO\File\PHPScriptBuilder;
 class ClearSessionCommand extends AppExecCommand{
-    var $command = "--clearsession";    
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = "--clearsession";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "clear session command";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $expired_duration;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $skip = false;
     /**
      * exec the command
      */
+
     public function exec($command)
     { 
         if ($command){

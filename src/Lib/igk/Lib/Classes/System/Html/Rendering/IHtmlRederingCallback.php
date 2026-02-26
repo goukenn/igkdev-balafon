@@ -9,6 +9,11 @@ namespace IGK\System\Html\Rendering;
 * @author C.A.D. BONDJE DOUE
 */
 interface IHtmlRederingCallback{
+
+    /**
+    * auto generate doc.
+    * @param null|callable $callable
+    */
     function beforeRender(?callable $callable);
     function afterRender(?callable $callable);
     /**

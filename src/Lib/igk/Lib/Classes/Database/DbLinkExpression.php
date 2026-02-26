@@ -12,10 +12,38 @@ use Exception;
 * @package IGK\Database
 */
 class DbLinkExpression extends DbExpression{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $linkTable;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $columnName;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $columnValue;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public $primaryColumn;
+
+    /**
+    * .ctr
+    * @param mixed $linkTable
+    * @param mixed $columnName
+    * @param mixed $columnValue
+    * @param mixed $primaryColumn
+    */
     public function __construct($linkTable, $columnName, $columnValue, $primaryColumn="clId"){
         parent::__construct("link.expression");
         $this->linkTable = $linkTable;
@@ -30,6 +58,7 @@ class DbLinkExpression extends DbExpression{
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function getValue($grammarOptions=null){
         //link value 
         if ($grammarOptions==null){

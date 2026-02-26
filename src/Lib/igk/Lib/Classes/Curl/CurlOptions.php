@@ -8,5 +8,10 @@ namespace IGK\Curl;
 * @package IGK\Curl
 */
 class CurlOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const FOLLOWLOCATION = 'FOLLOWLOCATION';
 }

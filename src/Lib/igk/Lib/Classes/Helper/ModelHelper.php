@@ -8,6 +8,10 @@ namespace IGK\Helper;
 * @package IGK\Helper
 */
 class ModelHelper{
+
+    /**
+    * auto generate doc.
+    */
     static function MapToArray(){
         return function($a){
             return $a->to_array();

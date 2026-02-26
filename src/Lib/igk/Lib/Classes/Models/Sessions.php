@@ -39,17 +39,72 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clSessId, string $clSessIp, float $clSessLatitude, float $clSessLongitude, string $clSessCountryName, string $clSessCountryCode, string $clSessCityName, string $clSessRegionName, string $clSessAgent, string|datetime $clSessStartAt ="NOW()") add entry if not exists. check for unique column.
 * */
 class Sessions extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_SESS_ID="clSessId";
-	const FD_CL_SESS_IP="clSessIp";
-	const FD_CL_SESS_START_AT="clSessStartAt";
-	const FD_CL_SESS_LATITUDE="clSessLatitude";
-	const FD_CL_SESS_LONGITUDE="clSessLongitude";
-	const FD_CL_SESS_COUNTRY_NAME="clSessCountryName";
-	const FD_CL_SESS_COUNTRY_CODE="clSessCountryCode";
-	const FD_CL_SESS_CITY_NAME="clSessCityName";
-	const FD_CL_SESS_REGION_NAME="clSessRegionName";
-	const FD_CL_SESS_AGENT="clSessAgent";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_ID="clSessId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_IP="clSessIp";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_START_AT="clSessStartAt";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_LATITUDE="clSessLatitude";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_LONGITUDE="clSessLongitude";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_COUNTRY_NAME="clSessCountryName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_COUNTRY_CODE="clSessCountryCode";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_CITY_NAME="clSessCityName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_REGION_NAME="clSessRegionName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_SESS_AGENT="clSessAgent";
 	/**
 	* table's name
 	*/

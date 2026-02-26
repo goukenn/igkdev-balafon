@@ -11,20 +11,63 @@ use IGK\System\Text\RegexMatcherContainer;
 */
 class CssAnalyzer
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_regex;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_splitListener;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $selectors = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $classes = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $identifiers = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $medias = [];
+
+    /**
+    * auto generate doc.
+    */
     public function getSplitListener()
     {
         return $this->m_splitListener;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|ICssSplitListener $splitter
+    */
     public function setSplitListerner(?ICssSplitListener $splitter)
     {
         $this->m_splitListener = $splitter;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         $rg = new RegexMatcherContainer;
@@ -53,6 +96,11 @@ class CssAnalyzer
         $rg->begin('@\\w+', '(?=;|\{)', 'skip');
         $this->m_regex = $rg;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    */
     public function analyse(string $file)
     {
         $this->initialize();

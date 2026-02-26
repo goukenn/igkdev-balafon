@@ -14,11 +14,22 @@ use IGK\System\IToArray;
 */
 final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
     use IGK\System\Polyfill\ScriptAssocArrayAccessTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $data;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_initCache, $sm_store;
     /**
      * Constructor.
      */
+
     public function __construct(){
         $this->data=array();
     }
@@ -27,6 +38,7 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
      *
      * @return array
      */
+
     public function __serialize(){
         if(self::$sm_store){
             if(!igk_io_file_exists($cache=self::GetCacheFile())){
@@ -50,6 +62,7 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
      * @param array $s Serialized data array.
      * @return void
      */
+
     public function __unserialize($s){
         return;    }
     /**
@@ -57,6 +70,7 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
      *
      * @return string
      */
+
     public static function GetCacheFile(){
         return igk_dir(igk_io_cachedir()."/.core.scripts.cache");
     }
@@ -66,6 +80,7 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
      * @param mixed $d The value to store as the flag.
      * @return void
      */
+
     protected function store($d){
         self::$sm_store=$d;
     }
@@ -74,6 +89,7 @@ final class IGKHtmlScriptAssocInfo implements ArrayAccess, IToArray{
      *
      * @return array|null
      */
+
     public function to_array():?array{
         return $this->data;
     }

@@ -12,17 +12,49 @@ use IGK\System\Database\Import\DbImportFile;
 * @author C.A.D. BONDJE DOUE
 */
 class ImportDataFileCommand extends AppExecCommand{
-	var $command='--db:import';
-	var $desc='import data from description file';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--db:import';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='import data from description file';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		"-f:file"=>"file to import",
 		"--entry:"=>"set entry definition",
 		"--autoregister"=>"flag: autore register unknow entries"
 		// "-t:type"=>"force file as type json|csv"
 	];
-	var $category="db";
-	var $usage = "([controller] model [options]";
-	public function exec($command, ?string $controller=null, ?string $model=null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category="db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = "([controller] model [options]";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $model
+    */
+    public function exec($command, ?string $controller=null, ?string $model=null) { 
 		if (empty($model)){
 			if (!empty($controller)){
 				$model = $controller;

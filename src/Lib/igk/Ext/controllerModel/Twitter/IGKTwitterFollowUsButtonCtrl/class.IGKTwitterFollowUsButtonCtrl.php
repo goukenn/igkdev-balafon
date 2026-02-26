@@ -20,15 +20,26 @@ use IGK\Resources\R;
 */
 abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	private $m_script;
-	const sn = "twitter://followbutton";//script name
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_script;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const sn = "twitter://followbutton";//script name
 
 	/**
 	 * Returns additional configuration properties for the follow button.
 	 *
 	 * @return array
 	 */
-	public static function GetAdditionalConfigInfo()
+
+    public static function GetAdditionalConfigInfo()
 	{
 	 return array(
 		"clUri"=> new ExtraControllerProperty("text", "https://twitter.com/"),
@@ -46,7 +57,8 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 	 *
 	 * @return \IGK\System\Html\Dom\HtmlNode|null
 	 */
-	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
+
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		return parent::initTargetNode();
 	}
 	/**
@@ -55,7 +67,8 @@ abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerT
 	 * @param mixed $context
 	 * @return void
 	 */
-	protected function initComplete($context=null){
+
+    protected function initComplete($context=null){
 		parent::initComplete();
 
 		$s = $this->App->Doc->getScriptManager()->getScript(self::sn);
@@ -75,7 +88,8 @@ EOF
 	 *
 	 * @return BaseController
 	 */
-	public function View():BaseController{
+
+    public function View():BaseController{
 		$t = $this->getTargetNode();
 		if ($this->getIsVisible())
 		{ 
@@ -98,7 +112,8 @@ EOF
 	 *
 	 * @return string|null
 	 */
-	public function getlang()
+
+    public function getlang()
 	{
 		$l = R::GetCurrentLang();
 		if (preg_match("/(fr|en|de|it|es|co|jp)/i", strtolower($l)))

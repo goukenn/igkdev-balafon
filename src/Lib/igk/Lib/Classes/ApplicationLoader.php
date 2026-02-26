@@ -497,6 +497,11 @@ class ApplicationLoader
             return 0;
         };
     }
+
+    /**
+    * auto generate doc.
+    * @param string $filekey
+    */
     public static function TryRequireOnceLoadFile(string $filekey){
         static $_loaded_;
         if (is_null($_loaded_)){

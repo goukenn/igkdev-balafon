@@ -9,14 +9,35 @@ use IGK\Helper\BalafonJSHelper;
 * @package IGK\System\Html
 */
 class HtmlJsOptionDefinition implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_callbable;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_name;
+
+    /**
+    * .ctr
+    * @param string $name
+    * @param \Closure $options
+    */
     public function __construct(string $name, \Closure $options)
     {
         (empty(trim($name)) || preg_match("/[^0-9\.a-z_]/i", $name ) ) && igk_die("name not valid");
         $this->m_name = $name;
         $this->m_callbable = $options;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options = null) {
         $name = $this->m_name;
         $o = $this->m_callbable;
@@ -34,6 +55,7 @@ class HtmlJsOptionDefinition implements IHtmlGetValue{
      * @param mixed $options 
      * @return HtmlJsOptionDefinition|string 
      */
+
     public static function GetJsScript(string $name, $options){
         if ($options instanceof \Closure){
 		    return new \IGK\System\Html\HtmlJsOptionDefinition($name, $options);

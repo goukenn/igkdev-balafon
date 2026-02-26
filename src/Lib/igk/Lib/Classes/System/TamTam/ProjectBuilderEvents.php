@@ -8,7 +8,22 @@ namespace IGK\System\TamTam;
 * @package IGK\System\TamTam
 */
 abstract class ProjectBuilderEvents{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BEFORE_BUILD = 'BEFORE_GRAPH_BUILD';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const BUILD = 'GRAPH_BUILD';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const AFTER_BUILD = 'AFTER_GRAPHBUILD';
 }

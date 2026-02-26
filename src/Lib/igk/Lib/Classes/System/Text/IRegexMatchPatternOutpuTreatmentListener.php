@@ -9,5 +9,10 @@ namespace IGK\System\Text;
 * @author C.A.D. BONDJE DOUE
 */
 interface IRegexMatchPatternOutpuTreatmentListener{
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     function getOutput():?string;
 }

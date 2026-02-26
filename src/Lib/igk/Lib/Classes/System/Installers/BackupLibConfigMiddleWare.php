@@ -10,10 +10,23 @@ use function igk_resources_gets as __;
  * @package IGK\System\Installers
  */
 final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_config;
+
+    /**
+    * auto generate doc.
+    */
     public function getMessage(){
         return __("backup library configuration");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function invoke(){
         $service = $this->getServiceInfo();        
         $f = implode("/", [$service->Listener->LibDir, IGK_DATA_FOLDER, "config.xml"]);
@@ -27,6 +40,10 @@ final class BackupLibConfigMiddleWare extends InstallerActionMiddleWare{
         }
         $this->next();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function abort()
     {
         return parent::abort();

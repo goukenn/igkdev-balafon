@@ -78,8 +78,23 @@ function igk_gd_resize_proportional($src, $w, $h, $type = 1, $compression = 0, b
  */
 class IGKGD
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_height;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_himg;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_width;
     /**
      * transparent color 
@@ -98,12 +113,17 @@ class IGKGD
         $this->m_height = $h;
         $this->m_himg = $himg;
     }
+
     public function getWidth()
     {
         if ($this->m_width == -1)
             $this->m_width = imagesx($this->m_himg);
         return $this->m_width;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getHeight()
     {
         if ($this->m_height == -1)
@@ -115,6 +135,7 @@ class IGKGD
      * @param mixed $b 
      * @return bool 
      */
+
     public function setAntialias(bool $b)
     {
         $r = imageantialias($this->m_himg, $b);
@@ -125,6 +146,7 @@ class IGKGD
      * @param bool $b 
      * @return void 
      */
+
     public function setAlphaBlending($b)
     {
         imagealphablending($this->m_himg, $b);
@@ -133,6 +155,7 @@ class IGKGD
      * clear with color byte object
      * @param mixed $color object R,G,B byte
      */
+
     public function clear($color)
     {
         $hcl = imagecolorallocate($this->m_himg, $color->R, $color->G, $color->B);
@@ -143,6 +166,7 @@ class IGKGD
      * clear with float color value 
      * @param mixed|float|array|string $color
      */
+
     public function clearf($color)
     {
         if (is_string($color) && !empty($color)) {
@@ -163,6 +187,7 @@ class IGKGD
      * @param mixed|string|array $color color name | float array of color
      * @return int
      */
+
     protected function _createColorf($color)
     {
         if (is_string($color))
@@ -179,6 +204,7 @@ class IGKGD
      * clear with web color
      * @param mixed $webcolor
      */
+
     public function Clearw($webcolor)
     {
         $this->clearf(Colorf::FromString($webcolor));
@@ -190,6 +216,7 @@ class IGKGD
      * @param mixed $B byte yellow color component
      * @return object 
      */
+
     public static function CreateColorRGB($R, $G, $B)
     {
         return (object)compact('R', 'G', 'B');
@@ -201,6 +228,7 @@ class IGKGD
      * @param mixed $B byte yellow color component
      * @return object 
      */
+
     public static function CreateColorfRGB($R, $G, $B)
     {
         $R = clamp($R * 255.0, 255);
@@ -214,6 +242,7 @@ class IGKGD
      * @param mixed $imgheight
      * @return static
      */
+
     public static function Create($imgwidth, $imgheight)
     {
         if (function_exists("imagecreatetruecolor")) {
@@ -225,6 +254,11 @@ class IGKGD
             igk_ilog("no imagecreateturecolor  function found");
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $filename
+    */
     public static function CreateFromFile($filename)
     {
         if (igk_io_file_exists($filename) && function_exists("imagecreatefromstring")) {
@@ -241,12 +275,17 @@ class IGKGD
      * render inline gd
      * @return string 
      */
+
     public function renderURL()
     {
         return "data:image/png;base64," . base64_encode(igk_ob_get_func(function () {
             $this->render();
         }));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function CreateBuffer()
     {
         $c = self::Create($this->getWidth(), $this->getHeight());
@@ -264,6 +303,7 @@ class IGKGD
      * @param mixed $color 
      * @return void 
      */
+
     public function setTransparentColor($color)
     {
         if (!is_null($this->m_transparentColor)) {
@@ -277,10 +317,20 @@ class IGKGD
     /**
      * 
      */
+
     public function Dispose()
     {
         imagedestroy($this->m_himg);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $color
+    * @param mixed $x1
+    * @param mixed $y1
+    * @param mixed $x2
+    * @param mixed $y2
+    */
     public function DrawLine($color, $x1, $y1, $x2, $y2)
     {
         $hcl = $this->_createColorf($color);
@@ -293,6 +343,7 @@ class IGKGD
      * @param mixed $center
      * @param mixed $radius
      */
+
     public function DrawEllipse($color, $center, $radius)
     {
         $hcl = $this->_createColorf($color);
@@ -307,6 +358,7 @@ class IGKGD
      * @param mixed $w the default value is -1
      * @param mixed $h the default value is -1
      */
+
     public function DrawImage($himg, $x, $y, $w = -1, $h = -1)
     {
         if (get_class($himg) === __CLASS__) {
@@ -329,6 +381,15 @@ class IGKGD
             imagecopy($this->m_himg, $himg, $x, $y, 0, 0, $w, $h);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $himg
+    * @param mixed $x
+    * @param mixed $y
+    * @param mixed $w
+    * @param mixed $h
+    */
     public function FillImage($himg, $x, $y, $w = -1, $h = -1)
     {
         $this->DrawImage($himg, $x, $y, $w, $h);
@@ -358,6 +419,7 @@ class IGKGD
      * @param mixed $width the default value is null
      * @param mixed $height the default value is null
      */
+
     public function DrawRectangle($color, $rect, $y = null, $width = null, $height = null)
     {
         if (is_string($color))
@@ -369,6 +431,12 @@ class IGKGD
         imagerectangle($this->m_himg, $rect->X, $rect->Y, $rect->X + $rect->Width, $rect->y + $rect->Height, $hcl);
         imagecolordeallocate($this->m_himg, $hcl);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $scalex
+    * @param mixed $scaley
+    */
     public function Scale($scalex, $scaley) {}
     /**
      * 
@@ -379,6 +447,7 @@ class IGKGD
      * @param mixed $y
      * @param mixed $color
      */
+
     public function DrawString($string, $font, $size, $x, $y, $color)
     {
         $hcl = imagecolorallocate($this->m_himg, $color->R, $color->G, $color->B);
@@ -397,6 +466,7 @@ class IGKGD
      * @param mixed $center
      * @param mixed $radius
      */
+
     public function fillEllipse($color, $center, $radius)
     {
         $hcl = $this->_createColorf($color);
@@ -411,6 +481,7 @@ class IGKGD
      * @param mixed $width the default value is null
      * @param mixed $height the default value is null
      */
+
     public function fillRectangle($color, $rectx, $y = null, $width = null, $height = null)
     {
         $hcl = $this->_createColorf($color);
@@ -428,6 +499,7 @@ class IGKGD
      * 
      * @param mixed $himg
      */
+
     public static function FromGd($himg)
     {
         return new IGKGD(imagesx($himg), imagesy($himg), $himg);
@@ -436,6 +508,7 @@ class IGKGD
      * output the image
      * @param string|null|1| $type null
      */
+
     public function render($type = null, $quality = null)
     {
         if (($type === null) || preg_match('/png/i', $type))
@@ -445,6 +518,7 @@ class IGKGD
     /**
      * 
      */
+
     public function renderText()
     {
         ob_start();
@@ -453,22 +527,49 @@ class IGKGD
         ob_end_clean();
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $size
+    */
     public function setLineWidth($size)
     {
         imagesetthickness($this->m_himg, $size);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getClip()
     {
         return imagegetclip($this->m_himg); //, $x, $y, $x+ $w, $y+$h);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $x
+    * @param mixed $y
+    * @param mixed $w
+    * @param mixed $h
+    */
     public function clip($x, $y, $w, $h)
     {
         imagesetclip($this->m_himg, $x, $y, $x + $w, $y + $h);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function resetclip()
     {
         imagesetclip($this->m_himg, 0, 0, imagesx($this->m_himg), imagesy($this->m_himg));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $points
+    * @param mixed $color
+    */
     public function FillPolygon($points, $color)
     {
         $pt = count($points) / 2;
@@ -479,6 +580,12 @@ class IGKGD
         imagefilledpolygon($this->m_himg, $points, $pt, $allocColor);
         imagecolordeallocate($this->m_himg, $allocColor);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $points
+    * @param mixed $color
+    */
     public function DrawPolygon($points, $color)
     {
         $pt = count($points) / 2;
@@ -506,6 +613,11 @@ class IGKGD
         $hcl = imagecolorallocate($this->m_himg,  $color->R, $color->G, $color->B);
         return $hcl;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $color
+    */
     public function allocColor($color)
     {
         return $this->_allocColor($color);
@@ -520,6 +632,7 @@ class IGKGD
      * @param mixed $color_id 
      * @return void 
      */
+
     public function rect($x, $y, $width, $height, $color_id, $fill = 0)
     {
         if (is_object($color_id)){
@@ -537,6 +650,7 @@ class IGKGD
      * @param int $fill 
      * @return void 
      */
+
     public function polygon($points, $color_or_brush_res, $fill = 0)
     {
         // + | --------------------------------------------------------------------
@@ -547,6 +661,15 @@ class IGKGD
         } else
             imagepolygon($this->m_himg, $points, $color_or_brush_res);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $text
+    * @param int $x
+    * @param int $y
+    * @param mixed $color_or_brush_res
+    * @param mixed $font
+    */
     public function text($text, int $x, int $y, $color_or_brush_res, $font = 1)
     {
         if (is_int($font)) {
@@ -566,6 +689,7 @@ class IGKGD
      * @return void 
      * @throws Exception 
      */
+
     public function setLayerEffect(string $effect)
     {
         $t = igk_getv(
@@ -587,6 +711,7 @@ class IGKGD
      * @param mixed $color_or_brush_res 
      * @return void 
      */
+
     public function drawCurve(array $points, $color_or_brush_res, $fill = 0, $closed = false)
     {
         if ($fill)
@@ -608,6 +733,7 @@ class IGKGD
      * @return void 
      * @throws ImageException 
      */
+
     public function circle($cx, $cy, $r, $color_or_brush_res, $fill = 0)
     {
         $w = $h = $r * 2;
@@ -618,6 +744,16 @@ class IGKGD
         else
             imageellipse($this->m_himg, $cx, $cy, $w, $h, $color_or_brush_res);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $cx
+    * @param mixed $cy
+    * @param mixed $rx
+    * @param mixed $ry
+    * @param mixed $color_or_brush_res
+    * @param mixed $fill
+    */
     public function ellipse($cx, $cy, $rx, $ry, $color_or_brush_res, $fill = 0)
     {
 

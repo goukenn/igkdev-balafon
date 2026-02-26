@@ -17,15 +17,41 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Database/SchemaBuilderHelper.php';
  */
 class SchemaMigrationBuilder extends SchemaBuilderHelper
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $is_migration;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $table_prefix;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_table;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_column;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SUPPORTED_TYPES = 'int|float|bigint|long|varchar|text|json|enum|double|date|datetime|boolean';
     /**
      * clean and start new edition 
      * @return static 
      */
+
     public function edit():SchemaMigrationBuilder{
         $this->m_column = null;
         $this->m_table = null;
@@ -36,6 +62,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param string $name 
      * @return static 
      */
+
     public function column(string $name):SchemaMigrationBuilder{
         if ($this->m_table){
             $this->m_column = $this->m_table->add('Column');
@@ -46,6 +73,11 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @return SchemaMigrationBuilder
+    */
     public function id():SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -53,6 +85,11 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clIsPrimary'] = true;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @return SchemaMigrationBuilder
+    */
     public function text():SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -68,12 +105,14 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function ref(string $id = IGK_FD_ID):SchemaMigrationBuilder{
         return $this->column($id)->id()->autoincrement();
     }
     /**
      * add generate colummn update time
      */
+
     public function updateTime(){
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -83,6 +122,11 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $g['prefix'] = $this->getPrefixTable('');//$this->getPrefix();
         return $this; 
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function getPrefix(): ?string{
         if ($this->m_table){
             return $this->m_table['prefix'];
@@ -97,6 +141,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function autoincrement():SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -104,6 +149,12 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clAutoIncrement'] = true;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|int $index
+    * @return SchemaMigrationBuilder
+    */
     public function uniqueColumnMember(?int $index):SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -112,6 +163,11 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clColumnMemberIndex'] = $index;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @return SchemaMigrationBuilder
+    */
     public function primary():SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -127,6 +183,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function unique():SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -134,6 +191,11 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clIsPrimary'] = true;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @return SchemaMigrationBuilder
+    */
     public function notnull():SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -141,6 +203,12 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clNotNull'] = true;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param int $length
+    * @return SchemaMigrationBuilder
+    */
     public function varchar(int $length):SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -149,6 +217,12 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clTypeLength'] = $length;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $description
+    * @return SchemaMigrationBuilder
+    */
     public function description(?string $description):SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -157,6 +231,12 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         $this->m_column['clDescription'] = $description;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @return SchemaMigrationBuilder
+    */
     public function type(string $type):SchemaMigrationBuilder{
         if (!$this->m_column){
             igk_die('not in column edition');
@@ -175,6 +255,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @return static 
      * @throws IGKException 
      */
+
     public function addTable(string $name, ?string $description=null, ?array $options = null):SchemaMigrationBuilder{
         if ($this->is_migration){
             $this->edit();
@@ -187,6 +268,11 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         } 
         return $this->migration()->addTable($name, $description, $options);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $tablename
+    */
     public function dropTable(string $tablename){
         if ($this->is_migration){
             $this->edit();
@@ -196,10 +282,20 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
         } 
         return $this->migration()->dropTable($tablename);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @return string
+    */
     public function getPrefixTable(string $table): string
     {
         return sprintf("%s%s", $this->table_prefix, $table);
     }
+
+    /**
+    * .ctr
+    */
     protected function __construct()
     {
     }
@@ -209,6 +305,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param mixed $schema 
      * @return static 
      */
+
     public static function Create($node, $schema)
     {
         $c = new static();
@@ -221,6 +318,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * add migration node if not exists
      * @return $this|SchemaMigrationBuilder 
      */
+
     public function migration()
     {
         if ($this->is_migration) {
@@ -238,6 +336,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param mixed $after 
      * @return $this 
      */
+
     public function addColumn($table, ?array $options = null, $after = null)
     {
         if ($this->is_migration) {
@@ -259,6 +358,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param array $options 
      * @return $this|void 
      */
+
     public function changeColumn($table, $column, array $options)
     {
         if ($this->is_migration) {
@@ -279,6 +379,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param mixed $newname 
      * @return $this 
      */
+
     public function renameColumn($table, $colname, $newname)
     {
         if ($this->is_migration) {
@@ -297,6 +398,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param mixed $colname 
      * @return $this 
      */
+
     public function removeColumn($table, $colname):SchemaMigrationBuilder
     {
         if ($this->is_migration) {
@@ -314,6 +416,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param string $colname 
      * @return static 
      */
+
     public function addIndex(string $table, $colname):SchemaMigrationBuilder
     {
         if ($this->is_migration) {
@@ -330,6 +433,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param string $table 
      * @return SchemaTableBuilder 
      */
+
     public function createTable(string $table): SchemaTableBuilder
     {
         if ($this->is_migration) {
@@ -345,6 +449,7 @@ class SchemaMigrationBuilder extends SchemaBuilderHelper
      * @param string $table 
      * @return mixed 
      */
+
     public function deleteTable(string $table)
     {
         if ($this->is_migration) {

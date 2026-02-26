@@ -33,13 +33,48 @@ use IGK\Models\ModelBase;
 * @method static mixed RegisterSubDomain(string $domain,\IGK\Controllers\BaseController $controller,?string $view= null) macros function
 * */
 class Subdomains extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_NAME="clName";
-	const FD_CL_CTRL="clCtrl";
-	const FD_CL_VIEW="clView";
-	const FD_CL_DEACTIVATE_AT="clDeactivate_At";
-	const FD_CL_CREATE_AT="clCreate_At";
-	const FD_CL_UPDATE_AT="clUpdate_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NAME="clName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_CTRL="clCtrl";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_VIEW="clView";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_DEACTIVATE_AT="clDeactivate_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_CREATE_AT="clCreate_At";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_UPDATE_AT="clUpdate_At";
 	/**
 	* table's name
 	*/

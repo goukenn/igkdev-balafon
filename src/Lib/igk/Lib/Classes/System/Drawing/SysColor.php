@@ -8,6 +8,18 @@ namespace IGK\System\Drawing;
 * @package IGK\System\Drawing
 */
 class SysColor{
-    public const STRING_CL = "#D265B7";
-    public const LITTERAL_CL = "#A90A07";
+    public
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const STRING_CL = "#D265B7";
+    public
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const LITTERAL_CL = "#A90A07";
 }

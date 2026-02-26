@@ -10,7 +10,16 @@ use function igk_resources_gets as __;
 * configuration manage session
 */
 final class SessionManagerController extends ConfigControllerBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SESS_NOTIFY="sys://notify/sessionmanager";
+
+    /**
+    * auto generate doc.
+    */
     public function getName()
     {
         return IGK_CTRL_SESSION_MANAGER;
@@ -18,6 +27,7 @@ final class SessionManagerController extends ConfigControllerBase{
     /**
     * Represent clearall function
     */
+
     public function clearall_ajx(){
         igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); session_destroy();
         igk_sess_write_close();
@@ -31,6 +41,7 @@ final class SessionManagerController extends ConfigControllerBase{
     /**
     * Represent drop function
     */
+
     public function drop(){
         $i=igk_getr("i");
         $d=ini_get("session.save_path");
@@ -53,12 +64,21 @@ final class SessionManagerController extends ConfigControllerBase{
     /**
     * Represent getConfigPage function
     */
+
     public function getConfigPage(){
         return "session";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigGroup(){
         return ConfigsGroups::admin;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsConfigPageAvailable()
     {
         return igk_app()->getApplication()->getLibrary("session");
@@ -66,6 +86,7 @@ final class SessionManagerController extends ConfigControllerBase{
     /**
     * Represent View function
     */
+
     public function View():BaseController {
         $t=$this->getTargetNode()->clearChilds()->addPanelBox();
         $t->addSectionTitle(4)->Content=__("Session Manager");
@@ -119,6 +140,10 @@ final class SessionManagerController extends ConfigControllerBase{
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function session_list(){
         $n = igk_create_notagnode(); 
         $maxItem=10;

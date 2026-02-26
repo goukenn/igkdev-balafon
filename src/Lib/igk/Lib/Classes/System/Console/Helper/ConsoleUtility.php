@@ -51,8 +51,11 @@ abstract class ConsoleUtility
     {
         echo ($result ? Utility::TO_JSON($result, null, JSON_PRETTY_PRINT) : '') . PHP_EOL;
     }
-    
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const OPTIONS_TAB_SPACE = AppCommand::OPTIONS_TAB_SPACE;
     use BacktickHelperCommandTrait;
 
@@ -62,6 +65,7 @@ abstract class ConsoleUtility
      * @param mixed $command 
      * @return bool 
      */
+
     static function MakeFiles(array $bind, $command, bool $force = false)
     {
         return CommandsUtility::MakeBindFiles($command, $bind, $force);
@@ -73,6 +77,7 @@ abstract class ConsoleUtility
      * @param bool $is_force 
      * @return bool
      */
+
     public static function MakeBindFiles($command, $bind, $is_force = false): bool
     {
         $gen = false;
@@ -97,6 +102,7 @@ abstract class ConsoleUtility
      * @param mixed $color_two 
      * @return void 
      */
+
     public static function PrintCommand($opts, $color_one = App::AQUA, $color_two = App::GREEN)
     {
         foreach ($opts as $k => $v) {
@@ -114,6 +120,7 @@ abstract class ConsoleUtility
      * @param bool $override 
      * @return Closure 
      */
+
     public static function TouchFileCallback($content = "", bool $override = true)
     {
         return function ($file) use ($content, $override) {
@@ -126,6 +133,7 @@ abstract class ConsoleUtility
      * @param mixed $command 
      * @return object 
      */
+
     public static function PackageJsonAuthor($command)
     {
         $name = $command->app->getAuthor() ?? IGK_AUTHOR;
@@ -139,6 +147,7 @@ abstract class ConsoleUtility
      * @param array $arg 
      * @return bool 
      */
+
     public static function HaveArg(array $arg):bool{
         while(count($arg)){
             $q = array_shift($arg);
@@ -154,6 +163,7 @@ abstract class ConsoleUtility
      * @param array $arg 
      * @return string 
      */
+
     public static function BuildArgs(array $arg): string
     {
         $cm = implode(' ', array_filter(array_map(function ($v, $k) {
@@ -178,6 +188,7 @@ abstract class ConsoleUtility
      * @param array &$args 
      * @return stdClass|mixed 
      */
+
     public static function TreatCommandArgs(ICLICommandApp $app, $argv, array & $args, ?array $handle=null){
         $command = igk_createobj();
         $command->app = $app;

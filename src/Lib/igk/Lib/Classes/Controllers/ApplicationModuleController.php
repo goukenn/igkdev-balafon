@@ -25,16 +25,71 @@ use TypeError;
 * @method function initDoc($doc, ...$args) initialize document
 */
 final class ApplicationModuleController extends BaseController{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INIT_DOC_METHOD = "initDoc";
-    const CONF_MODULE = Constants::MODULE_CONF_FILE; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const CONF_MODULE = Constants::MODULE_CONF_FILE;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MODULE_INITIALIZER_FNAME = ".module.pinc";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_dir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_doc;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_fclist;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_listener;
-    private $m_src;             // source code 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_src;             // source code
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_initializer;     // used to extend module class properties
-    private $m_configs;         // configuration 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_configs;         // configuration
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $boot;
     /**
      * get application module configuration value
@@ -43,13 +98,23 @@ final class ApplicationModuleController extends BaseController{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function config($name, $default=null){
         return igk_conf_get($this->m_configs, $name, $default, 1);
     }
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $controllerClass
+    */
     public static function IsModule($controllerClass){
         return is_object($controllerClass) && (get_class($controllerClass) == static::class) && strstr($controllerClass->getDeclaredDir(), igk_get_module_dir());
     }
@@ -57,6 +122,7 @@ final class ApplicationModuleController extends BaseController{
      * module always target system data adapter
      * @return mixed
      */
+
     public function getDataAdapter(){
         return SysDbController::ctrl()->getDataAdapter();
     }
@@ -66,14 +132,24 @@ final class ApplicationModuleController extends BaseController{
      * @return bool 
      * @throws IGKException 
      */
+
     public function supportMethod($method):bool{
         return is_callable(igk_getv($this->m_fclist, $method));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $classname
+    */
     public function initClass($classname){
         if (class_exists($classname)){
             $this->m_initializer = new $classname();
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function environmentSettings(){
         $e = igk_environment();
         $v_k = str_replace('.', '\\', trim($this->getName(), '.'));
@@ -84,6 +160,7 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $n
     * @param mixed $args
     */
+
     function __call($n, $args){
         $fc=igk_getv($this->m_fclist, $n);
         if($fc){
@@ -102,6 +179,11 @@ final class ApplicationModuleController extends BaseController{
         } 
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     protected function getModuleKey($name=""){
         $s = "module://".$this->name;
         if (!empty($name = trim($name, "/"))){
@@ -115,13 +197,24 @@ final class ApplicationModuleController extends BaseController{
      * @param mixed $value 
      * @return $this 
      */
+
     public function setEnvParam($name, $value){
         igk_set_env($this->getModuleKey($name), $value); 
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|mixed $default
+    */
     public function getEnvParam($name, $default=null){
         return igk_get_env($this->getModuleKey($name), $default); 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getEntryNamespace(){
         return str_replace("/","\\", $this->config("entry_NS",igk_get_module_name($this->m_dir)));
     }
@@ -131,6 +224,7 @@ final class ApplicationModuleController extends BaseController{
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function getTestClassesDir(){
         if ($fc=igk_getv($this->m_fclist, __FUNCTION__)){
             return $this->__call(__FUNCTION__, []);
@@ -143,6 +237,7 @@ final class ApplicationModuleController extends BaseController{
      * @throws Exception 
      * @throws EnvironmentArrayException 
      */
+
     public function getAssetsDir(){
         if ($fc=igk_getv($this->m_fclist, __FUNCTION__)){
             return $this->__call($fc, []);
@@ -153,6 +248,7 @@ final class ApplicationModuleController extends BaseController{
     * 
     * @param mixed $dir base directory 
     */
+
     public function __construct(string $dir){
         parent::__construct();
         $this->m_dir=IO::GetDir($dir);
@@ -229,6 +325,7 @@ final class ApplicationModuleController extends BaseController{
     /**
     * 
     */
+
     function __sleep(){
         $this->m_fclist=array();
         $this->m_src=null;
@@ -237,6 +334,7 @@ final class ApplicationModuleController extends BaseController{
     /**
     * 
     */
+
     function __wakeup(){
         $this->_init();
     }
@@ -286,6 +384,7 @@ final class ApplicationModuleController extends BaseController{
      * get module configuration
      * @return mixed 
      */
+
     public function getModuleConfig(){
         return $this->m_configs;
     }
@@ -293,6 +392,7 @@ final class ApplicationModuleController extends BaseController{
     * 
     * @param  * $configs
     */
+
     protected function _initconfig(& $configs){
         $configs["libdir"]= igk_io_collapse_path(IGK_LIB_DIR); 
     }
@@ -306,6 +406,7 @@ final class ApplicationModuleController extends BaseController{
     /**
     * 
     */
+
     public function getAppDocument(){
         return null;
     }
@@ -313,6 +414,7 @@ final class ApplicationModuleController extends BaseController{
     * 
     * @param mixed $function the default value is null
     */
+
     public function getAppUri(?string $function=null):?string{
         $q="";
         if($this->Listener)
@@ -324,45 +426,56 @@ final class ApplicationModuleController extends BaseController{
     /**
     * 
     */
+
     public function getCallee(){
         return igk_peek_env(__CLASS__."/callee");
     }
     /**
     * get the inline calling function
     */
+
     public function getCaller(){
         return $this->m_caller;
     }
     /**
     * 
     */
+
     public static function GetCanCreateFrameworkInstance(){
         return false;
     }
     /**
     * 
     */
+
     public function getCurrentDoc(){
         return $this->m_doc;
     }
     /**
     * 
     */
+
     public function getDeclaredDir():string{
         return $this->m_dir;
     }
     /**
     * 
     */
+
     public function getDeclaredFileName(){
         return realpath($this->getDeclaredDir()."/.module.pinc");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getLibDir(){
         return implode("/", [$this->getDeclaredDir(), IGK_LIB_FOLDER]);
     }
     /**
     * get module environment configuration
     */
+
     public function getEnvironmentConfigs(){
         /** @var string $c */
         static $_configs=null;
@@ -384,12 +497,14 @@ final class ApplicationModuleController extends BaseController{
     /**
     * 
     */
+
     public function getListener(){
         return $this->m_listener ?? igk_ctrl_current_view_ctrl();
     }
     /**
     * 
     */
+
     public function getName(): string{
         return strtolower(str_replace("/", ".", igk_uri(substr($this->m_dir, strlen(igk_get_module_dir())))));
     }
@@ -400,6 +515,7 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $register the default value is false
     * @return *
     */
+
     public function & getParam($n, $def=null, $register=false){
         $l=$this->Listener;
         $h=null;
@@ -412,6 +528,7 @@ final class ApplicationModuleController extends BaseController{
     * 
     * @param mixed $c the default value is null
     */
+
     public function getUri($c=null){
         return $this->getAppUri($c);
     }
@@ -419,6 +536,7 @@ final class ApplicationModuleController extends BaseController{
     * 
     * @param mixed $n
     */
+
     public function methodExists($n){
         return isset($this->m_fclist[$n]);
     }
@@ -427,6 +545,7 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $n
     * @param mixed $fc
     */
+
     protected function reg_function($n, $fc){
         if (is_string($fc) && (strpos($fc, '@')!== false)){
             $fc = \IGK\Helper\PhpHelper::GetCallable($fc);
@@ -444,6 +563,7 @@ final class ApplicationModuleController extends BaseController{
     * 
     * @param mixed $v
     */
+
     public function setListener($v){
         $this->m_listener=$v;
     }
@@ -452,18 +572,36 @@ final class ApplicationModuleController extends BaseController{
     * @param mixed $n
     * @param mixed $v
     */
+
     public function setParam($n, $v){
         $l=$this->Listener;
         if($l){
             $l->setParam($this->Name."/{$n}", $v);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $value
+    */
     public function set($name, $value){
         return $this->setEnvParam($name, $value);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|mixed $default
+    */
     public function get($name, $default=null){
         return $this->getEnvParam($name, $default);
     }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View(): BaseController{
         if ($this->methodExists(__FUNCTION__)){
             $fc = igk_getv($this->m_fclist, __FUNCTION__);
@@ -478,6 +616,7 @@ final class ApplicationModuleController extends BaseController{
      * @param mixed $arguments 
      * @return null 
      */
+
     public static function __callStatic($name, $arguments)
     {        
         if(igk_environment()->isDev() && ($name=== ControllerMethods::register_autoload)){       
@@ -485,6 +624,10 @@ final class ApplicationModuleController extends BaseController{
         }  
         return null; 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function exposeAssets(){
         return ControllerExtension::exposeAssets($this);
     }
@@ -496,6 +639,7 @@ final class ApplicationModuleController extends BaseController{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function resolveAssets($assets){ 
         return ControllerExtension::resolveAssets($this, $assets);
     }
@@ -503,6 +647,7 @@ final class ApplicationModuleController extends BaseController{
      * use allway schema to update the user
      * @return true 
      */
+
     public function getUseDataSchema():bool{ 
         return true;
     }
@@ -511,12 +656,21 @@ final class ApplicationModuleController extends BaseController{
      * @return string 
      * @throws IGKException 
      */
+
     public function getDataSchemaFile(){
         return ControllerExtension::getDataSchemaFile($this);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function initDbFromSchemas(){
         return ControllerExtension::initDbFromSchemas($this);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function loadDataAndNewEntriesFromSchemas(){
         return ControllerExtension::loadDataAndNewEntriesFromSchemas($this);
     }
@@ -524,9 +678,14 @@ final class ApplicationModuleController extends BaseController{
      * all module can participate to init db by default
      * @return bool 
      */
+
     public function getCanInitDb():bool{
         return true;
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return sprintf("%s - [%s]", __CLASS__, $this->getName());
@@ -536,10 +695,16 @@ final class ApplicationModuleController extends BaseController{
      * @param string $name 
      * @return string|null 
      */
+
     public function resolveClass(string $name){
         $m = ControllerExtension::resolveClass($this, $name);
         return $m;
     }
+
+    /**
+    * auto generate doc.
+    * @param ApplicationModuleController $ctrl
+    */
     public static function GetSettingKey(ApplicationModuleController $ctrl){
         return sprintf('module://%s', trim($ctrl->getName(),'. '));
     }

@@ -11,15 +11,47 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Command
 */
 class GenerateViewCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--gen:view";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--shared"=>"flag: share resources"
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "tools";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "generate view";
+
+    /**
+    * auto generate doc.
+    */
     public function showUsage(){
         Logger::print(sprintf("%s controller domain [view]", $this->command));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $controller
+    * @param null|mixed $domain
+    * @param null|mixed $view
+    */
     public function exec($command, $controller = null, $domain = null, $view=null) { 
         $controller = self::GetController($controller, false) ?? igk_die("require controller");
         $view = $view ?? 'default';

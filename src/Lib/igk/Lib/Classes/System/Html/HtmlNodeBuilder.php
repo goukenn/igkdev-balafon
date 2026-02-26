@@ -28,15 +28,40 @@ use ReflectionException;
  */
 class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_context_tab = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_template = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $fallbackTagName = 'div';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RAW_CONTEXT_FIELD = 'raw';
     /**
      * class name user to handle data view args context 
      * @var ?string
      */
     var $contextDataArgsClass;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $t;
     /**
      * building context
@@ -47,6 +72,11 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @var false
      */
     public $preserveTagCase = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY_CONDITION = '@_if:';
     /**
      * get node property 
@@ -68,18 +98,43 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * attribute activation key ["_@"]=[]
      */
     const KEY_ATTRIBS_ACTIVATION = '_@';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY_CALLBACK_HOST = 'fn()';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY_INVOKE_ON_LAST = '::';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const KEY_INVOKE_ON_PARENT_LAST = '::@';
     /**
      * should be use with string method name, ['::fn()'=>function()]
      */
     const KEY_INVOKE_FUNC = '::fn()';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TAG_KEY = ':tag';
     /**
      * tag exploder
      */
     protected $explode;
+
+    /**
+    * auto generate doc.
+    * @param mixed $new_context
+    */
     public function pushContext($new_context)
     {
         $l_context = $this->m_context;
@@ -89,6 +144,10 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
         $this->m_context = $new_context;
         return $l_context;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function popContext()
     {
         $l_context = $this->m_context;
@@ -98,6 +157,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
      * set context object 
      */
+
     public function setContext(?object $context)
     {
         $this->m_context = $context;
@@ -105,6 +165,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
      * 
      */
+
     public function getContext(): ?object
     {
         return $this->m_context;
@@ -118,10 +179,15 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function __toString()
     {
         return $this->t->render();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function isInTemplateDefinition()
     {
         return count($this->m_template) > 0;
@@ -131,6 +197,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param HtmlItemBase $node core node
      * @return void 
      */
+
     public function __construct(?HtmlItemBase $node = null)
     {
         $this->t = $node ?? igk_create_notagnode();
@@ -146,6 +213,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function build($data, ?HtmlItemBase $target = null, ?IHtmlNodeBuilderVisitor $visitor = null,  $context = null)
     {
         $this->m_context = $context ?? $this->m_context;
@@ -167,6 +235,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function setup($node, $data, &$lastchild = null)
     {
         $tnode = $node;
@@ -194,6 +263,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function __invoke($def_or_tag_expression)
     {
         $v_context = null;
@@ -245,6 +315,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function explodeTag(string $tag, &$node, $context = null)
     {
         return $this->explode->explode($tag, $node, $context ?? $this->getContext());
@@ -254,6 +325,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param HtmlItemBase $n 
      * @return string 
      */
+
     public static function Generate(HtmlItemBase $n, bool $ignore_empty_string = true): string
     {
         $g = new HtmlVisitor($n);
@@ -360,6 +432,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param ?object $visitor visitor to use
      * @return HtmlItemBase last created element node
      */
+
     public static function Init(HtmlItemBase $n, $data, ?IHtmlNodeBuilderVisitor $visitor = null)
     {
         if (!is_array($data) && is_string($data)) {
@@ -881,6 +954,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param mixed $attribute 
      * @return void 
      */
+
     public function activateAttribute($node, $attribute)
     {
         if (is_string($attribute)) {
@@ -896,6 +970,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @param array $definition 
      * @return mixed 
      */
+
     public static function RunBuild(HtmlItemBase $node, array $definition)
     {
         $s = new static($node);
@@ -910,6 +985,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
     /**
      * call on create node 
      */
+
     public function onCreate(HtmlItemBase $node)
     {
         $this->_checkForTemplate($node);
@@ -920,6 +996,7 @@ class HtmlNodeBuilder implements IHtmlNodeBuilderVisitor
      * @return void 
      * @throws Error 
      */
+
     public function onClose(HtmlItemBase $node)
     {
         $this->_popTemplateContext($node);

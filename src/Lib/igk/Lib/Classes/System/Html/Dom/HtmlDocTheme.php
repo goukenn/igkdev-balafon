@@ -40,12 +40,47 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     ICssAddRule,
     ICssAnimation
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MEDIA_KEY = "medias";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DOC_THEME_KEYSTORAGE = "theme-storage";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INLINE_STYLE_KEY = "css://temp/rendering";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const GLOBAL_TYPE = 'global';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const TEMP_TYPE = 'temporary';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_document;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_root_ref;
     /**
      * disable write of css header 
@@ -67,14 +102,59 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var ?IGKCssDefaultStyle
      */
     private $m_def;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_id;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_medias;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_type;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_istemp;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_resolver;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_initGlobal;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_options;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $MEDIA;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $SM_MEDIAKEY;
     /**
      * theme colors
@@ -91,6 +171,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var ?string
      */
     private $m_charset;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_namespace;
     /**
      * store the entries importations
@@ -102,6 +187,11 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var ?bool
      */
     private $m_themingResolv;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_includes;
     /**
      * register frame to current theme
@@ -109,6 +199,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param string $expression 
      * @return void 
      */
+
     public function frame(string $name, string $expression)
     {
         return $this->registerKeyFrame($this, $name, $expression);
@@ -120,6 +211,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @return $this 
      * @throws IGKException 
      */
+
     public function load(string $filename, ?string $ext = null)
     {
         $ext = trim($ext ?? igk_io_path_ext($filename), ' .');
@@ -140,17 +232,27 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param string $expression 
      * @return mixed 
      */
+
     public function addRule(string $name, string $expression)
     {
         $v_def = $this->getdef();
         return $v_def->addRule($name, $expression);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $array
+    */
     public function &setIncludeFileListListener(&$array)
     {
         $g = &$this->m_includes;
         $this->m_includes = &$array;
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function &getIncludedFiles()
     {
         return $this->m_includes;
@@ -160,6 +262,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param string $file 
      * @return void 
      */
+
     public function include_once(string $file, $args = null)
     {
         if (is_null($this->m_includes)) {
@@ -173,6 +276,10 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
             })($f, $args ?? $this->get_include_args());
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function get_include_args()
     {
         return igk_environment()->get(IGKEnvironmentConstants::CSS_UTIL_ARGS) ?? [];
@@ -182,10 +289,15 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param null|array $theme_colors 
      * @return void 
      */
+
     public function setThemeColors(?array $theme_colors)
     {
         $this->m_themeColors = $theme_colors;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getImports()
     {
         return $this->m_imports;
@@ -196,6 +308,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @return ?array
      * @throws IGKException 
      */
+
     public function getThemeColorsByName(string $theme_name): ?array
     {
         if ($this->m_themeColors) {
@@ -203,22 +316,45 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCharset()
     {
         return $this->m_charset;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $charset
+    */
     public function setCharset(?string $charset)
     {
         $this->m_charset = $charset;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $namespace
+    */
     public function setNamespace(?string $namespace)
     {
         $this->m_namespace = $namespace;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getNamespace()
     {
         return $this->m_namespace;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $uri
+    */
     public function import($uri)
     {
         if (null === $this->m_imports) {
@@ -232,6 +368,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param string $condition 
      * @return mixed 
      */
+
     public function supports(string $condition)
     {
         return $this->getdef()->supports($condition);
@@ -241,6 +378,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param null|string $id 
      * @return void 
      */
+
     public function setId(?string $id)
     {
         $this->m_id = $id;
@@ -249,6 +387,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * get the redering options
      */
+
     public function getRenderOptions()
     {
         return $this->m_options;
@@ -258,6 +397,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param null|CssThemeOptions $options 
      * @return $this 
      */
+
     public function setRenderOptions(?CssThemeOptions $options = null)
     {
         $this->m_options = $options;
@@ -271,6 +411,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param mixed $def 
      * @return void 
      */
+
     public function setThemeColor(string $color, string $value, $themeName = 'light', $def = null)
     {
         $def = $def ?? $this->getdef();
@@ -280,12 +421,19 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * clear root 
      */
+
     public function clearRoot()
     {
         $root = &$this->getRootReference();
         $root = [];
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $theme
+    * @param null|array $colors
+    */
     public function bindThemeColor(string $theme, ?array $colors)
     {
         if (is_null($colors)) {
@@ -296,6 +444,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * get :root reference
      */
+
     public function &getRootReference()
     {
         return $this->m_root_ref;
@@ -305,6 +454,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param mixed $ref 
      * @return void 
      */
+
     public function setRootReference(&$ref)
     {
         $this->m_root_ref = &$ref;
@@ -312,6 +462,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * get if is init global
      */
+
     public function getInitGlobal()
     {
         return $this->m_initGlobal;
@@ -320,6 +471,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get global color definition used to render color on current context
      * @return void 
      */
+
     public function getGlobalColor()
     {
         return CssColorDef::getInstance();
@@ -327,6 +479,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * initialize global theme definition
      */
+
     public function initGlobalDefinition(bool $force = false)
     {
         if ($force || !$this->getInitGlobal()) {
@@ -341,6 +494,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @throws IGKException 
      * @throws Exception 
      */
+
     public function resetSysGlobal()
     {
         if (!defined("IGK_FORCSS")) {
@@ -363,6 +517,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get current theme resolver
      * @return mixed 
      */
+
     public function getResolver()
     {
         return $this->m_resolver;
@@ -371,6 +526,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get resources list 
      * @return void 
      */
+
     public function &getRes()
     {
         $o = null;
@@ -382,6 +538,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param string|id $id
      * @param string|false $type the default value is "global", if false the the is no need to initialize
      */
+
     public function __construct(?HtmlItemBase $document = null, ?string $id = null, $type = self::GLOBAL_TYPE)
     {
         $this->m_id = $id ?? igk_create_guid();
@@ -394,6 +551,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     * create tempory theme - no save in session
     * @param string $id
     **/
+
     public static function CreateTemporaryTheme(string $id): HtmlDocTheme
     {
         $c = new HtmlDocTheme(null, $id, false);
@@ -403,6 +561,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      */
+
     public function getIsTemp(): bool
     {
         return $this->m_istemp;
@@ -412,11 +571,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @var array<string,string> $color <color name, color_value>
      * @exemple setColor(['indigo'=>'#323232'])  
      */
+
     public function setColors(array $color)
     {
         $cl = &$this->getCl();
         $cl = array_unique(array_filter(array_merge($cl, $color)));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function resetColors()
     {
         $cl = &$this->getCl();
@@ -425,10 +589,16 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * display value
      */
+
     public function __toString()
     {
         return "HtmlDocTheme : [id:" . $this->m_id . ", type: {$this->m_type} ]";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    */
     public function bindFile($file)
     {
         igk_css_bind_file($this, null, $file, $this);
@@ -437,6 +607,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * convert data to array
      * @return mixed 
      */
+
     public function to_array()
     {
         $out = $this->m_def->to_array();
@@ -457,6 +628,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param array $data 
      * @return false 
      */
+
     public function load_data(array $data)
     {
         $this->m_def->load_data($data);
@@ -476,6 +648,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param null|array $list 
      * @return $this 
      */
+
     public function replaceMediaList(?array $list)
     {
         $this->m_medias = $list;
@@ -679,6 +852,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
         $this->m_resolver = null;
         return $out;
     }
+
     static function GlueDef(array $v):string{
         return CssUtils::GlueArrayDefinition($v);
     }
@@ -687,6 +861,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param mixed $mapper 
      * @return void 
      */
+
     public function map($mapper, $systheme, $resourceResolver)
     {
         $def = $this->def;
@@ -777,6 +952,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     //     igk_wln("checking ..... ? ", $this->m_id, $r, $this->def, $this->_root_def);
     //     return $r;
     // }
+
     public function __debugInfo()
     {
         return [];
@@ -823,6 +999,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param mixed $cl
      * @param mixed $value
      */
+
     public function addColor($cl, $value)
     {
         $changed = false;
@@ -842,6 +1019,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * Add file to document theme
      */
+
     public function addFile(?BaseController $host, string $f, $temp = 1)
     {
         if ($host === null)
@@ -851,6 +1029,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * add font package
      */
+
     public function addFont($name, $path)
     {
         $changed = false;
@@ -867,6 +1046,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * attach tempory css file
      * @return bool 
      */
+
     public function addTempFile($file)
     {
         if (!igk_io_cache_file_exists($file))
@@ -882,6 +1062,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param BaseController $host controller that host the file
      * @param string $f file path 
      */
+
     public function addInlineStyle($host, string $f)
     {
         if (!igk_io_file_exists($f))
@@ -907,6 +1088,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param bool $reset 
      * @return mixed 
      */
+
     public function getInlineStyle($reset = false)
     {
         $g = $this->getParam(self::INLINE_STYLE_KEY);
@@ -918,6 +1100,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      */
+
     public function ClearChilds()
     {
         $this->m_def->clear();
@@ -925,6 +1108,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      */
+
     public function ClearFont()
     {
         $tab = $this->ft->Attributes;
@@ -953,6 +1137,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param ?ICssResourceResolver $resourceResolver
      * @param mixed $doc the default value is null
      */
+
     public function get_css_def(
         bool $minfile = false,
         bool $themeexport = false,
@@ -1002,6 +1187,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @return null|string 
      */
+
     public function getDefaultTheme()
     {
         return $this->m_default_theme;
@@ -1011,6 +1197,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param null|string $default_theme 
      * @return void 
      */
+
     public function setDefaultTheme(?string $default_theme)
     {
         $this->m_default_theme = $default_theme;
@@ -1048,6 +1235,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get register media
      * @param mixed $id
      */
+
     public function getMedia($id)
     {
         $g = null;
@@ -1063,6 +1251,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      */
+
     public function getAllClassExpression()
     {
         $out = IGK_STR_EMPTY;
@@ -1079,6 +1268,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      */
+
     public function getAppend()
     {
         return "";
@@ -1086,6 +1276,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      */
+
     public function getAttributes()
     {
         igk_die(__METHOD__ . ". not avaiable for theme");
@@ -1094,26 +1285,47 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get color definitions
      * @return mixed|array colors
      */
+
     public function &getCl()
     {
         return $this->m_def->getCl();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getxsm_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XSM_MEDIA);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getsm_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::SM_MEDIA);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::LG_MEDIA);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getxlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XLG_MEDIA);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getxxlg_screen()
     {
         return $this->getMedia(HtmlDocThemeMediaType::XXLG_MEDIA);
@@ -1122,6 +1334,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get printer media
      * @return mixed 
      */
+
     public function getptr()
     {
         return $this->getPrintMedia();
@@ -1130,6 +1343,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @param mixed $key the default value is null
      */
+
     public function getDeclaration($key = null)
     {
         /**
@@ -1177,6 +1391,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * retrieve reference to definition
      * @return mixed|array|object definition
      */
+
     public function &getdef()
     {
         return $this->m_def;
@@ -1184,6 +1399,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      *  get the parent document
      */
+
     public function getDoc()
     {
         return $this->m_document;
@@ -1191,6 +1407,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * return registrated fontn
      */
+
     public function getFont()
     {
         return null;
@@ -1198,6 +1415,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      *  return the id of the data
      */
+
     public function getId()
     {
         return $this->m_id;
@@ -1206,6 +1424,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @param mixed $idk
      */
+
     public static function GetMediaClassInfo($idk)
     {
         if (self::$SM_MEDIAKEY == null) {
@@ -1222,6 +1441,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get registrated media name
      * @param mixed $idk
      */
+
     public static function GetMediaName($idk)
     {
         if (!isset(self::$MEDIA))
@@ -1231,6 +1451,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * get all registrated medias
      */
+
     public function getMedias()
     {
         return $this->m_medias;
@@ -1238,6 +1459,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * get print media
      */
+
     public function getPrintMedia()
     {
         return $this->reg_media("print", null, 'print');
@@ -1245,6 +1467,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      */
+
     public function getRegChangedKey()
     {
         return __CLASS__ . "_" . $this->Name;
@@ -1253,6 +1476,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * get rules attached to theme definition
      * @return mixed|array rules
      */
+
     public function &getRules()
     {
         $sd = &$this->m_def->getRules();
@@ -1262,6 +1486,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @param mixed $file
      */
+
     public function LoadThemeFromFile($file)
     {
         if (igk_io_file_exists($file)) {
@@ -1272,6 +1497,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @param mixed $i
      */
+
     protected function _access_offsetExists($i): bool
     {
         if (isset($this->m_tc))
@@ -1282,6 +1508,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @param mixed $key
      */
+
     protected function _access_offsetGet($key)
     {
         return $this->def[$key];
@@ -1291,6 +1518,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param mixed $key
      * @param mixed $value
      */
+
     protected function _access_offsetSet($key, $value)
     {
         // if ($key == "file") {
@@ -1319,6 +1547,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @param mixed $i
      */
+
     protected function _access_offsetUnset($i)
     {
         if (isset($this->m_tc))
@@ -1327,6 +1556,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * output 
      */
+
     public function output()
     {
         header("Content-Type:text/css");
@@ -1339,6 +1569,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param string $name
      * @param string $expression
      */
+
     public function registerKeyFrame(ICssAddRule $def, string $name, string $expression)
     {
         $def->addRule("@-webkit-keyframes " . $name, $expression);
@@ -1353,6 +1584,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @param mixed|array|string $definition defintion 
      * @return void 
      */
+
     public function animation(string $name, $definition)
     {
         $definition = CssUtils::BlockDefinition($definition);
@@ -1362,6 +1594,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * register a media
      * @param mixed $name name or condition
      */
+
     public function reg_media($name = "print", $id = null, $display = null)
     {
         $s = "";
@@ -1382,6 +1615,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @param mixed $cl
      */
+
     public function removeColor($cl)
     {
         if (isset($this->cl[$cl])) {
@@ -1392,6 +1626,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     ///remove a specific font
     /**
      */
+
     public function removeFont($name)
     {
         $f = $this->ft[$name];
@@ -1417,6 +1652,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * reset all media definition 
      */
+
     public function reset($save = false)
     {
         $this->def->Clear();
@@ -1438,6 +1674,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * clear all - 
      */
+
     public function resetAll()
     {
         $this->def->Clear();
@@ -1448,6 +1685,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @param mixed $file the default value is null
      */
+
     public function save($file = null)
     {
         if (($file == null) && empty($this->Name))
@@ -1478,6 +1716,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     ///protected the access to allow parent or child call via calluser func
     /**
      */
+
     protected function setdef(?IGKCssDefaultStyle $v)
     {
         if ($v === null) {
@@ -1489,6 +1728,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * store document tempory property 
      */
+
     public function setProperty($name, $value)
     {
         $p = &$this->m_def->getParams();
@@ -1502,6 +1742,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * 
      * @return mixed|array properties
      */
+
     public function &getProperties($k = null)
     {
         $g = &$this->m_def->getParams();
@@ -1516,10 +1757,17 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
     /**
      * 
      */
+
     public function getParam($key)
     {
         return $this->getProperties($key);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    * @param mixed $value
+    */
     public function setParam($key, $value)
     {
         $this->setProperty($key, $value);
@@ -1530,6 +1778,7 @@ final class HtmlDocTheme extends IGKObjectGetProperties implements
      * @return bool
      * @throws IGKException not initialize
      */
+
     public function isSystemTheme(): bool
     {
         return $this === igk_app()->getDoc()->getSysTheme();

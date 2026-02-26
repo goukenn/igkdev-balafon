@@ -79,6 +79,13 @@ abstract class CssClassNameDetectorUtils{
         }
         return $detector->resolv(implode("\n", array_unique($expression)), $references);
     }
+
+    /**
+    * auto generate doc.
+    * @param CssClassNameDetector $detector
+    * @param string $source
+    * @param null|mixed & $references
+    */
     public static function DetectFromPHtmlSource(CssClassNameDetector $detector, string $source, & $references=null){
         return self::DetectFromPhpSource($detector, $source, $references, 'phtml');
     }
@@ -90,6 +97,7 @@ abstract class CssClassNameDetectorUtils{
      * @return mixed 
      * @throws Exception 
      */
+
     public static function DetectFromHtmlSource($detector , $source, & $references = null){        
         $container = new RegexMatcherContainer;
         $container->begin("<!--", "-->", "comment"); 

@@ -9,10 +9,25 @@ namespace IGK\System\Html;
  * @package IGK\System\Html
  */
 class HtmlAttributeValue implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $value;
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options = null) { 
         return $this->value;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function setValue($value){
         $this->value = $value;
         return $this;

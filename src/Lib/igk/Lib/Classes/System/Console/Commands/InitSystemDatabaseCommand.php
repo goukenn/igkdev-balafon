@@ -17,13 +17,38 @@ use IGK\System\Console\Logger;
  */
 class InitSystemDatabaseCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--dbsys:initdb";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = 'init core system db';
-	var $category="sys:db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category="sys:db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--force'=>'flag: force database initialisation model',
         '--drop'=>'flag: drop database before initialize',
-    ];    
+    ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public function exec($command)
     {
         DbCommandHelper::Init($command);  

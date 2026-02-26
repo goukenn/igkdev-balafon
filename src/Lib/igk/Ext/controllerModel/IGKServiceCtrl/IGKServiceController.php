@@ -24,7 +24,17 @@ abstract class IGKServiceController
     extends \IGK\Controllers\ControllerTypeBase 
     implements ILibaryController, IDatabaseHost
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DOC_ID = "sys://documents/services";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_services=[];
    
 
@@ -37,10 +47,19 @@ abstract class IGKServiceController
     private function _getAvailableFuncs($new=false, $funcrequest=null){ 
         return $this->getExposedServiceFunction(); 
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initCssStyle(){                    
         igk_ctrl_bind_css_file($this,ViewHelper::CurrentDocument()->getTheme(), dirname(__FILE__)."/Styles/".ConstantsEFAULT_THEME_STYLE, 1);  
         ControllerExtension::bindCssStyle($this);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $doc
+    */
     protected function _configureDocument($doc){
         $doc->setHeaderColor("#af104f");
     }
@@ -67,7 +86,12 @@ abstract class IGKServiceController
         $doc->renderAJX();
     }
     
-    public final function baseEvaluateUri(){
+    public final
+
+    /**
+    * auto generate doc.
+    */
+    function baseEvaluateUri(){
         $dir = dirname(__FILE__);
 	 	$f=$dir."/".IGK_VIEW_FOLDER."/default.phtml";
         $doc= igk_get_document(self::DOC_ID);
@@ -92,6 +116,13 @@ abstract class IGKServiceController
         igk_set_session_redirection($u);
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    * @param mixed $fname
+    * @param null|mixed $css_def
+    */
     protected function bindNodeClass($t, $fname, $css_def=null){
         $m=igk_getv(igk_get_env(IGK_ENV_INVOKE_ARGS), "m");
         if($m == "global"){
@@ -100,12 +131,20 @@ abstract class IGKServiceController
         else
             parent::bindNodeClass($t, $fname, $css_def);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function cachewsl(){
         $c = igk_getbool($this->Configs->get("clServiceDisableWSDLCache"));
         $this->Configs->clServiceDisableWSDLCache =!$c;
         $this->storeConfigSettings(); 
         igk_navto($this->getServiceUri());
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clearwsdl_cache(){
         $tab=array();
         $d=ini_get("soap.wsdl_cache_dir");
@@ -119,10 +158,19 @@ abstract class IGKServiceController
             igk_nav_session();
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function controllerLoaded(){
         igk_wln_e(__FILE__.':'.__LINE__, "getConrollerLoaded", "services", igk_count(self::$sm_services));
     }
-    public final function evaluateUri(){
+    public final
+
+    /**
+    * auto generate doc.
+    */
+    function evaluateUri(){
     
 
         ($inf=igk_sys_ac_getpatterninfo()) || die("uri evaluation setting action not resolved");
@@ -174,6 +222,10 @@ abstract class IGKServiceController
         $this->init_wsdl($g);
         $g->Save($b);
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function GetAdditionalConfigInfo(){
         return array(
             "clServiceName"=>(object)array("clType"=>"text", "clRequire"=>1, "default"=>function($o){
@@ -183,6 +235,10 @@ abstract class IGKServiceController
             "clServiceDisableWSDLCache"=>(object)["clType"=>"bool"]
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function GetAdditionalDefaultViewContent(){
         return <<<EOF
 <?php
@@ -191,6 +247,11 @@ include(\$f);
 EOF;
     }
     ///SERVICE FUNC
+
+    /**
+    * auto generate doc.
+    * @param mixed $method
+    */
     public function getDesc($method){
         $t=igk_create_node("div");
         $t->div()->article($this, $method.".desc");
@@ -247,6 +308,10 @@ EOF;
         return $t->render();
     }
     ///<summary>Represente getExposedServiceFunction function</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getExposedServiceFunction(){
         $funclist= [];
         $cl = get_class($this); 
@@ -263,6 +328,11 @@ EOF;
     }
     ///<summary>Represente getExtra function</summary>
     ///<param name="m"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $m
+    */
     public function getExtra($m){
         $n=igk_create_node("div");
         $f=$this->getArticlesDir()."/".$m.".json";
@@ -274,7 +344,13 @@ EOF;
     }
     ///<summary>Represente getParentArticle function</summary>
     ///<param name="n"></param>
-    public final function getParentArticle($n){
+    public final
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
+    function getParentArticle($n){
         if(($s=realpath($n)) == $n)
             return $n;
         $g=IO::GetDir(dirname(__FILE__)."/".IGK_ARTICLES_FOLDER. "/".$n);
@@ -284,7 +360,13 @@ EOF;
     }
     ///<summary>Represente getParentView function</summary>
     ///<param name="n"></param>
-    public final function getParentView($n){
+    public final
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
+    function getParentView($n){
         if(realpath($n) == $n)
             return $n;
         $g=IO::GetDir(dirname(__FILE__)."/".IGK_VIEW_FOLDER. "/".$n);
@@ -293,28 +375,55 @@ EOF;
         return null;
     }
     ///<summary>Represente getRootUri function</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getRootUri(){
         return igk_io_baseUri()."/".IGK_SERVICE_BASE_URI;
     }
     ///<summary>Represente getServiceDescription function</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getServiceDescription(){
         return $this->getConfig( "clServiceDescription");
     }
     ///<summary>Represente getServiceName function</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getServiceName(){
         return \IGK\System\Configuration\CacheConfigs::GetCachedOption($this, "clServiceName"); // strtolower($this->getConfig( "clServiceName"));
     }
     ///<summary>Represente getServices function</summary>
-    public final function getServices(){
+    public final
+
+    /**
+    * auto generate doc.
+    */
+    function getServices(){
         return self::$sm_services;
     }
     ///<summary>Represente getServiceUri function</summary>
     ///<param name="d" default="null"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $d
+    */
     public function getServiceUri($d=null){
         return $this->getRootUri()."/".$this->getServiceName(). (($d) ? "/".$d: null);
     }
     ///<summary>Represente getServiceViewTitle function</summary>
     ///<param name="m"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $m
+    */
     public function getServiceViewTitle($m){
         $n=igk_create_node("div")->setClass("title");
         $info = new ReflectionMethod($this, $m);
@@ -334,10 +443,18 @@ EOF;
         return $n->render();
     }
     ///<summary>Represente getWsdlFile function</summary>
+
+    /**
+    * auto generate doc.
+    */
     protected function getWsdlFile(){
         return igk_dir($this->getDataDir()."/service.wsdl");
     }
     ///<summary>start server function</summary>
+
+    /**
+    * auto generate doc.
+    */
     protected function init_server(){
         ini_set("soap.wsdl_cache_enabled", $this->Configs->clServiceDisableWSDLCache ? "0": "1");
         $header=igk_get_allheaders();
@@ -366,17 +483,32 @@ EOF;
     }
     ///<summary>Represente init_wsdl function</summary>
     ///<param name="wsdl"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $wsdl
+    */
     protected function init_wsdl($wsdl){
         $cl=get_class($this);
         $funclist=$this->getExposedServiceFunction();
         $wsdl->registerMethod($cl, $this->getServiceName(), $funclist);
     }
     ///<summary>Represente InitComplete function</summary>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
     protected function initComplete($context=null){
         parent::initComplete();
         $this->register_service();       
     }
     ///<summary>init service environment</summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    */
     public static function InitEnvironment($ctrl){
         if(!is_object($ctrl) || !igk_reflection_class_extends(get_class($ctrl), __CLASS__))
             return 0;
@@ -385,12 +517,23 @@ EOF;
     }
     ///<summary>Represente initRowView function</summary>
     ///<param name="m"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $m
+    */
     public function initRowView($m){
         $this->getExtra($m);
     }
     ///<summary>Represente IsExposedServiceFunction function</summary>
     ///<param name="fn"></param>
-    public final function IsExposedServiceFunction($fn){
+    public final
+
+    /**
+    * auto generate doc.
+    * @param mixed $fn
+    */
+    function IsExposedServiceFunction($fn){
         $tab=igk_get_env(IGK_SERVICE_PREFIX_PATH.get_class($this)."/notexposed");
         if(isset($tab[strtolower($fn)])){
             return 0;
@@ -398,6 +541,10 @@ EOF;
         return preg_match("/^(view|getname|getdb|clearwsdl_cache|getusedataschema)$/i", $fn) ? 0: 1;
     }
     ///<summary>Represente pageFolderChanged function</summary>
+
+    /**
+    * auto generate doc.
+    */
     protected function pageFolderChanged(){    }
     ///<summary>Represente register_service function</summary>
     private function register_service(){
@@ -405,6 +552,10 @@ EOF;
         
     }
     ///<summary>Represente renderDefaultDoc function</summary>
+
+    /**
+    * auto generate doc.
+    */
     protected function renderDefaultDoc(){
         $this->init_server();
         $this->_viewDoc();;
@@ -412,6 +563,11 @@ EOF;
     }
     ///<summary>Represente renderError function</summary>
     ///<param name="c"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $c
+    */
     public function renderError($c){
         $doc=igk_get_document("sys:://document/services");
         $doc->Title="!Error - ".$this->getServiceName();
@@ -421,6 +577,11 @@ EOF;
     }
     ///<summary>Represente SetAdditionalConfigInfo function</summary>
     ///<param name="t" ref="true"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed & $t
+    */
     public static function SetAdditionalConfigInfo(& $t){
         $t["clServiceName"]=igk_getr("clServiceName");
         $t["clServiceDescription"]=igk_getr("clServiceDescription");
@@ -431,6 +592,12 @@ EOF;
         return 1;
     }
     ///<summary>call this function to generate a wsdl file</summary>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $a
+    * @param mixed $appxml
+    */
     public function wsdl($a=null, $appxml=1){
         // igk_wln_e("l:::DATA");
         $b=$this->getWsdlFile();
@@ -446,10 +613,18 @@ EOF;
         igk_wl($s);
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function refresh_wsdl(){
         $this->generate_wsdl();
         igk_navto($this->getServiceUri()); 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function present_title(){
         return "SAMMMM";
     }

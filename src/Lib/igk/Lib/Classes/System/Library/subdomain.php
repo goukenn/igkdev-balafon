@@ -19,9 +19,29 @@ use IGKValidator;
  * @package IGK\System\Library
  */
 class subdomain{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $subdomain;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $subdomainInfo;
-    var $boot_args; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $boot_args;
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function init():bool{
         if (defined('IGK_NO_SUBDOMAIN')){
             return false;
@@ -39,6 +59,10 @@ class subdomain{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function bootapp(){
         IGKSubDomainManager::Init();
         $c = $this->boot_args;

@@ -18,17 +18,50 @@ use IGK\System\Traits\EnumeratesConstants;
  */
 class MakeAbstractEnumClassCommand extends AppExecCommand
 {
-	var $command = '--make:enum';
-	var $desc = 'make abstract enum class';
-	var $options = [
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--make:enum';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'make abstract enum class';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [
 		'--force' => 'force file re-creation',
 		'--enum' => 'flag: enable php8 enum definition',
 		'--strict' => 'flag: enable declare strict',
 		'--no-save' => 'flag: do not save file'
 	];
-	var $category = 'make';
-	var $usage = 'controller name value [options]';
-	public function exec($command, ?string $controller = null, ?string $name = null, ?string $value = null)
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'make';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller name value [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $name
+    * @param null|string $value
+    */
+    public function exec($command, ?string $controller = null, ?string $name = null, ?string $value = null)
 	{
 		$ctrl = self::GetController($controller);
 		$name || igk_die('missing name');

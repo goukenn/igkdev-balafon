@@ -25,12 +25,47 @@ use function igk_resources_gets as __;
 final class MenuController extends ConfigControllerBase
 {
     use NoDbActiveControllerTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONFIG_MENU_FLAG = 0xa02;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONFIG_SELECTED_GROUP = 0xa03;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONFIG_SELECTED_MENU = 0xa04;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CONFIG_SELECTED_PAGE = 0xa05;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const MENU_CHANGE_KEY = "CustomMenuChanged";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SYSTEM_MENU_FLAG = 0xa01;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const USER_MENU_FLAG = 0xa0a;
     /**
      * state changed
@@ -41,6 +76,7 @@ final class MenuController extends ConfigControllerBase
      * 
      * @param mixed $storeconfig the default value is true
      */
+
     function __ClearConfigMenu($storeconfig = true)
     {
         $this->m_customMenu = array();
@@ -53,6 +89,7 @@ final class MenuController extends ConfigControllerBase
      * @param mixed $key the default value is "lb.Controller"
      * @param mixed $remove the default value is IGK_STR_EMPTY
      */
+
     public function __getEditController($div, $selectedMenu, $key = "lb.Controller", $remove = IGK_STR_EMPTY)
     {
         $tab = igk_sys_get_projects_controllers();
@@ -172,6 +209,7 @@ final class MenuController extends ConfigControllerBase
     /**
      * 
      */
+
     function __saveConfigMenu()
     {
         igk_debug_wln("warning: _saveConfigMenu [" . igk_count($this->m_customMenu) . "]");
@@ -439,6 +477,7 @@ EOF;
      * 
      * @param mixed $newPage the default value is null
      */
+
     public function changeDefaultPage($newPage = null)
     {
         $newPage = igk_gettv($newPage, igk_getr("defaultmenupage"));
@@ -454,6 +493,7 @@ EOF;
     /**
      * 
      */
+
     public function getConfigCurrentPage()
     {
         return $this->getParam("m_CurrentPage");
@@ -462,6 +502,7 @@ EOF;
     /**
      * get config menu node
      */
+
     public function getConfigMenu()
     {
         return $this->getParam(self::CONFIG_MENU_FLAG);
@@ -470,6 +511,7 @@ EOF;
     /**
      * 
      */
+
     public function getConfigPage()
     {
         return "menu";
@@ -478,6 +520,7 @@ EOF;
     /**
      * 
      */
+
     public function getConfigSelectedGroup()
     {
         return $this->getParam(self::CONFIG_SELECTED_GROUP);
@@ -486,6 +529,7 @@ EOF;
     /**
      * 
      */
+
     public function getConfigSelectedMenu()
     {
         return $this->getParam(self::CONFIG_SELECTED_MENU);
@@ -494,6 +538,7 @@ EOF;
     /**
      * 
      */
+
     public function getConfigSelectedPage()
     {
         return $this->getParam(self::CONFIG_SELECTED_PAGE);
@@ -502,6 +547,7 @@ EOF;
     /**
      * 
      */
+
     public function getConfigTargetNode()
     {
         static $config_target = null;
@@ -514,6 +560,7 @@ EOF;
     /**
      * 
      */
+
     public function getCurrentPage()
     {
         return $this->getParam("currentPage", igk_app()->getConfigs()->get("menu_defaultPage", IGK_DEFAULT_VIEW));
@@ -522,6 +569,7 @@ EOF;
     /**
      * 
      */
+
     public function getCurrentPageIndex()
     {
         return $this->getParam("currentPageIndex", 0);
@@ -530,6 +578,7 @@ EOF;
     /**
      * return data table info
      */
+
     public function getDataTableInfo(): ?IModelDefinitionInfo
     {
         return Activator::CreateNewInstance(DbModelDefinitionInfo::class,  array(
@@ -568,6 +617,7 @@ EOF;
     /**
      * 
      */
+
     public function getDataTableName(): ?string
     {
         return '%prefix%globalmenu';
@@ -576,6 +626,7 @@ EOF;
     /**
      * 
      */
+
     public function getDefaultEntry()
     {
         return array(
@@ -592,6 +643,7 @@ EOF;
     /**
      * 
      */
+
     public function getGlobalMenu()
     {
         if (is_array($this->m_Menus)) {
@@ -607,6 +659,7 @@ EOF;
      * 
      * @param mixed $name
      */
+
     public function getMenu($name)
     {
         if ($v = igk_getv($this->getGlobalMenu(), strtoupper($name)))
@@ -617,6 +670,7 @@ EOF;
     /**
      * 
      */
+
     public function getName()
     {
         return IGK_MENU_CTRL;
@@ -625,6 +679,7 @@ EOF;
     /**
      * 
      */
+
     public function getPageList()
     {
         if ($this->m_Pages)
@@ -637,6 +692,7 @@ EOF;
      * 
      * @param mixed $name
      */
+
     public function getRootMenu($name)
     {
         return $this->_getRootMenu($name);
@@ -645,6 +701,7 @@ EOF;
     /**
      * 
      */
+
     public function getRoots()
     {
         $t = array();
@@ -661,6 +718,7 @@ EOF;
     /**
      * 
      */
+
     public function getUserMenu()
     {
         return $this->m_customMenu;
@@ -681,6 +739,7 @@ EOF;
      * @param mixed $li the default value is "li"
      * @param mixed $selected the default value is null
      */
+
     public function initCustomMenu($name, $ctrl, $target, $tab, $li = "li", $selected = null)
     {
         static $cs_regmenu = null;
@@ -699,6 +758,7 @@ EOF;
     /**
      * 
      */
+
     protected static function initDb($force = false)
     {
         $f = igk_io_syspath(IGK_MENU_CONF_DATA);
@@ -715,6 +775,11 @@ EOF;
         }
         return 0;
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getDataAdapterName():string
     {
         return IGK_CSV_DATAADAPTER;
@@ -723,6 +788,7 @@ EOF;
     /**
      * 
      */
+
     protected function initTargetNode():HtmlNode
     {
         $ul = igk_create_node("ul");
@@ -734,6 +800,7 @@ EOF;
      * 
      * @param mixed $navigate the default value is true
      */
+
     public function menu_add_menu($navigate = true)
     {
         $this->reg_menu($_REQUEST);
@@ -746,6 +813,7 @@ EOF;
     /**
      * 
      */
+
     public function menu_add_menu_frame_ajx()
     {
         $frame = igk_html_frame($this, "theme_menu_add_menu_frame");
@@ -773,6 +841,7 @@ EOF;
     /**
      * 
      */
+
     public function menu_Clearallmenu()
     {
         if (igk_qr_confirm()) {
@@ -790,6 +859,7 @@ EOF;
     /**
      * 
      */
+
     public function menu_drop_selected_menu()
     {
         $this->menu_drop_selected_menu_ajx();
@@ -798,6 +868,7 @@ EOF;
     /**
      * 
      */
+
     public function menu_drop_selected_menu_ajx()
     {
         if (!$this->ConfigCtrl->IsConnected)
@@ -824,6 +895,7 @@ EOF;
     /**
      * 
      */
+
     public function menu_dropmenu()
     {
         $n = igk_getr("n", IGK_STR_EMPTY);
@@ -843,6 +915,7 @@ EOF;
     /**
      * 
      */
+
     public function menu_dropmenu_ajx()
     {
         if (igk_qr_confirm()) {
@@ -860,6 +933,7 @@ EOF;
      * 
      * @param mixed $name the default value is null
      */
+
     public function menu_editmenuframe($name = null)
     {
         $name = ($name == null) ? igk_getr("n") : $name;
@@ -895,6 +969,7 @@ EOF;
     /**
      * 
      */
+
     public function menu_sortby()
     {
         $r = igk_getr("n");
@@ -922,6 +997,7 @@ EOF;
      * 
      * @param mixed $t
      */
+
     public function MenuConfig($t)
     {
         $v_mdiv = $t->div();
@@ -984,6 +1060,7 @@ EOF;
     /**
      * 
      */
+
     protected function onConfigPageChanged()
     {
         $this->m_configCurrentPageChangedEvent->Call($this, null);
@@ -1004,6 +1081,7 @@ EOF;
      * @param mixed $t
      * @param mixed $saveconfig the default value is true
      */
+
     public function reg_menu($t, $saveconfig = true)
     {
         if (is_array($t) == false)
@@ -1036,6 +1114,7 @@ EOF;
     /**
      * 
      */
+
     protected function registerHook()
     {
     }
@@ -1045,6 +1124,7 @@ EOF;
      * 
      * @param mixed $pageName
      */
+
     public function registerPage($pageName)
     {
         $pages = $this->getParam("pages", array(), 1);
@@ -1056,6 +1136,7 @@ EOF;
     /**
      * 
      */
+
     public function save_menu()
     {
         if (!igk_qr_confirm()) {
@@ -1073,6 +1154,7 @@ EOF;
      * @param mixed $page
      * @param mixed $fromcontext the default value is null
      */
+
     public function selectConfigMenu($page, $fromcontext = null)
     {
         $page = strtolower($page);
@@ -1094,6 +1176,7 @@ EOF;
      * @param mixed $page
      * @param mixed $index the default value is 0
      */
+
     public function selectGlobalMenu($page, $index = 0)
     {
         $page = strtolower($page);
@@ -1125,6 +1208,7 @@ EOF;
      * 
      * @param mixed $node
      */
+
     public function setConfigParentView($node)
     {
         if ($node) {
@@ -1140,6 +1224,7 @@ EOF;
      * 
      * @param mixed $menu
      */
+
     public function setConfigSelectedMenu($menu)
     {
         $this->setParam(self::CONFIG_SELECTED_MENU, $menu);
@@ -1150,6 +1235,7 @@ EOF;
      * 
      * @param mixed $page
      */
+
     public function setConfigSelectedPage($page)
     {
         $this->setParam(self::CONFIG_SELECTED_PAGE, $page);
@@ -1170,6 +1256,7 @@ EOF;
      * 
      * @param mixed $value
      */
+
     public function setMenuhostCtrl($value)
     {
         $mhostctrl = $this->getParam("menuhostctrl");
@@ -1187,6 +1274,7 @@ EOF;
     /**
      * 
      */
+
     public function setMenuview()
     {
         if (igk_configs()->menuHostCtrl) {
@@ -1205,6 +1293,7 @@ EOF;
      * @param mixed $page
      * @param mixed $index
      */
+
     public function setPage($page, $index)
     {
         if (!$this->ConfigCtrl->IsConfiguring) {
@@ -1225,6 +1314,7 @@ EOF;
      * 
      * @param mixed $node
      */
+
     public function setParentView($node)
     {
         if ($node) {
@@ -1239,6 +1329,7 @@ EOF;
      * @param mixed $a
      * @param mixed $b
      */
+
     public function sortmenu($a, $b)
     {
         if ($this->m_sortby) {
@@ -1300,17 +1391,31 @@ EOF;
      * 
      * @param mixed $pageName
      */
+
     public function unregisterPage($pageName)
     {
         $pages = $this->getParam("pages", array());
         unset($pages[$pageName]);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getIsAvailable(){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getIsVisible():bool{
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsConfigPageAvailable(){
         return false;
     }
@@ -1318,6 +1423,7 @@ EOF;
     /**
      * 
      */
+
     public function View():BaseController
     {         
         return $this;

@@ -10,13 +10,24 @@ use IGKHtmlDoc;
 * Represent default script loader 
 */
 class ScriptLoader implements IDocumentScriptLoader{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $target;
     /**
     * Represent __construct function
     * @param  $controller
     * @param  $cachetarget
     */
+
     public function __construct($controller, $cachetarget){
         $this->ctrl=$controller;
         $this->target=$cachetarget;
@@ -27,6 +38,7 @@ class ScriptLoader implements IDocumentScriptLoader{
     * @param  $folder
     * @param  $created
     */
+
     public function loadScripts(IGKHtmlDoc $doc, ?string $folder=null, bool $created=false){
         $is_prod=igk_environment()->isOPS();
         $files=igk_io_getfiles($this->ctrl->getScriptsDir(), '/\.js$/i');

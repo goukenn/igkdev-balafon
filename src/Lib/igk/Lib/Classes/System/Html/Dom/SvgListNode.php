@@ -8,7 +8,16 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 class SvgListNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = 'igk:svg-list';
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         parent::initialize();

@@ -23,6 +23,10 @@ use IGKValidator;
 abstract class ServerCommandHelper
 {
     //load command serve command
+
+    /**
+    * auto generate doc.
+    */
     public static function GetDbCommandsProperties()
     {
         return [
@@ -43,6 +47,10 @@ abstract class ServerCommandHelper
             '-srv_ajx'=>'ajx' // set command to ajx request 
         ];
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function GetUsageCommandHelp()
     {
         $tab = self::GetDbCommandsProperties();
@@ -58,6 +66,7 @@ abstract class ServerCommandHelper
      * @throws IGKException 
      * @throws Error 
      */
+
     public static function Init($command)
     {
         global $_REQUEST;
@@ -119,6 +128,10 @@ abstract class ServerCommandHelper
         igk_server()->IS_WEBAPP = 0;
         Path::getInstance()->prepareData();
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function ShowUsage()
     {
         foreach (array_keys(self::GetDbCommandsProperties()) as $k) {

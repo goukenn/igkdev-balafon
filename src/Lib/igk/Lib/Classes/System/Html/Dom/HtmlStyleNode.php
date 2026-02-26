@@ -10,10 +10,16 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 class HtmlStyleNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "style";
     /**
      * Constructor.
      */
+
     public function __construct(){
         parent::__construct();
         $this["type"] = "text/css";

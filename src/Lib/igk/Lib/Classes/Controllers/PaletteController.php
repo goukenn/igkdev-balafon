@@ -15,10 +15,16 @@ use IGK\Helper\IO;
 *
 */
 final class PaletteController extends NonVisibleControllerBase {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_palettes;
     /**
     * 
     */
+
     public function __construct(){
         parent::__construct();
         $this->m_palettes=array();
@@ -26,18 +32,21 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * 
     */
+
     public function getName(): string{
         return IGK_PALETTE_CTRL;
     }
     /**
     * 
     */
+
     public function getPaletteDir(){
         return $this->getConfigs()->Location;
     }
     /**
     * 
     */
+
     public function getPalettes(){
         if ($this->m_palettes === null){
             $this->loadPalette();
@@ -47,6 +56,7 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * 
     */
+
     protected function initComplete($context=null){
        parent::initComplete(); 
     }
@@ -54,6 +64,7 @@ final class PaletteController extends NonVisibleControllerBase {
     * 
     * @param mixed $fname
     */
+
     public function loadFile($fname){
         if(!igk_io_file_exists($fname))
             return;
@@ -84,6 +95,7 @@ final class PaletteController extends NonVisibleControllerBase {
     /**
     * 
     */
+
     public function loadPalette(){
         $dir=$this->getPaletteDir();
         if($dir && is_dir($dir)){
@@ -98,6 +110,7 @@ final class PaletteController extends NonVisibleControllerBase {
     * 
     * @param mixed $id
     */
+
     public function RemovePalette($id){
         $s=$this->getPaletteDir()."/".$id.".gkpal";
         if(igk_io_file_exists($s)){

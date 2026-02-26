@@ -9,6 +9,13 @@ namespace IGK\System\Console;
  * @package IGK\System\Console
  */
 class Utils{
+
+    /**
+    * auto generate doc.
+    * @param mixed $public_dir
+    * @param mixed $app_dir
+    * @param mixed $base_uri
+    */
     public static function GenerateConfiguration($public_dir, $app_dir, $base_uri="//localhost"){
         $init_data = igk_create_xmlnode("balafon");
         $base_uri = igk_get_domain_name($base_uri) ?? '//localhost';

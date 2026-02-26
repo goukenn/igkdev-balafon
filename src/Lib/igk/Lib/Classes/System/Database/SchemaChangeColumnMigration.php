@@ -19,10 +19,30 @@ use IGK\System\Console\Logger;
 */
 class SchemaChangeColumnMigration extends SchemaMigrationItemBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $fill_properties = ["table", "column", 'tag'];
     // source column to restore
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $columnInfo;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $columns;
+
+    /**
+    * .ctr
+    * @param mixed $migrations
+    */
     public function __construct($migrations)
     {
         parent::__construct($migrations);
@@ -32,6 +52,7 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
      * @return void 
      * @throws Exception 
      */
+
     public function up()
     {
         if (!$this->columnInfo) {
@@ -90,6 +111,7 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
      * down migrate
      * @return void 
      */
+
     public function down()
     {
         if (!$this->columnInfo)
@@ -103,6 +125,7 @@ class SchemaChangeColumnMigration extends SchemaMigrationItemBase
      * @param mixed $childs 
      * @return void 
      */
+
     protected function loadChilds($childs)
     {
         $this->columns = [];

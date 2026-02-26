@@ -16,11 +16,17 @@ use IGK\System\Html\Dom\HtmlNode;
 */
 abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	private $m_script;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_script;
 
     /**
     * auto generate doc.
     */
+
     public static function SupportMultiple(){//return false to indicate that an element of this type must be unique
 		return false;
 	}
@@ -28,6 +34,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public function getCanAddChild(){
 		return false;
 	}
@@ -35,6 +42,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public function getCanEditDataBase()
 	{
 		return false;
@@ -43,6 +51,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public function getCanEditDataTableInfo(){
 		return false;
 	}
@@ -51,6 +60,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @return ?HtmlNode
     */
+
     protected function initTargetNode(): ?HtmlNode
 	{
 		$n =  HtmlNode::CreateWebNode("script");
@@ -62,6 +72,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @return bool
     */
+
     public function getIsVisible():bool{
 		return !igk_is_confpagefolder();
 	}
@@ -69,6 +80,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
     /**
     * auto generate doc.
     */
+
     public function pageFolderChanged()
 	{
 		$this->View();
@@ -78,6 +90,7 @@ abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
     * auto generate doc.
     * @return BaseController
     */
+
     public function View():BaseController
 	{
 		if ($this->IsVisible)

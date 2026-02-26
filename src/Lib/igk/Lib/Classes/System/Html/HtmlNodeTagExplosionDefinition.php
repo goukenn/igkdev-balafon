@@ -26,13 +26,38 @@ use ReflectionException;
 class HtmlNodeTagExplosionDefinition
 {
     use HtmlNodeTagExplosionTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const split = '>';
     // + | --------------------------------------------------------------------
     // + | prefix definition 
     // + |
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const identifier = '#';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const name = '%';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const classes = '.';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DEF_METHOD = 'DefinitionArgs';
     /**
      * 
@@ -43,7 +68,17 @@ class HtmlNodeTagExplosionDefinition
      * explode definition 
      */
     protected $split = self::split;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_static;
+
+    /**
+    * .ctr
+    * @param HtmlNodeBuilder $builder
+    */
     public function __construct(HtmlNodeBuilder $builder)
     {
         $this->builder = $builder;
@@ -52,6 +87,7 @@ class HtmlNodeTagExplosionDefinition
      * get core builder 
      * @return static
      */
+
     public static function Core()
     {
         return self::$sm_static ?? self::$sm_static = new static(new HtmlNodeBuilder(igk_create_notagnode()));
@@ -64,6 +100,7 @@ class HtmlNodeTagExplosionDefinition
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function setup($node, $data, $tnode = null)
     {
         $bck = $this->builder->t;
@@ -84,6 +121,7 @@ class HtmlNodeTagExplosionDefinition
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function explode(string $tagname, &$pnode, $context = null)
     {
         //  $context = $context ?? $this->getContext();
@@ -137,6 +175,7 @@ class HtmlNodeTagExplosionDefinition
      * @param mixed $i 
      * @return mixed 
      */
+
     public static function DefinitionArgs($i)
     {
         if (!is_string($i)) {
@@ -185,6 +224,7 @@ class HtmlNodeTagExplosionDefinition
      * @throws ReflectionException 
      * @deprecated
      */
+
     public static function ExplodeTag(string $tagname, $context = null): array
     {
         $id = null;
@@ -291,6 +331,7 @@ class HtmlNodeTagExplosionDefinition
      * @throws IGKException 
      * @throws Exception 
      */
+
     public static function ExplodeTag2(string $tagname, $context = null): array
     {
         $regex = new RegexMatcherContainer;
@@ -404,6 +445,7 @@ class HtmlNodeTagExplosionDefinition
      * 
      * @return ConfigurationReader 
      */
+
     protected static function InitConfigurationReader()
     {
         $r = new ConfigurationReader();
@@ -443,6 +485,7 @@ class HtmlNodeTagExplosionDefinition
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function CreateNodes(string $tag_def, ...$args)
     {
         $ctn = new RegexMatcherContainer;
@@ -492,6 +535,7 @@ class HtmlNodeTagExplosionDefinition
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function CreateNodeArg(string $tagname, ...$index_or_args)
     {
         list($tagname, $id, $classes, $args, $name, $attr) = self::ExplodeTag2($tagname);

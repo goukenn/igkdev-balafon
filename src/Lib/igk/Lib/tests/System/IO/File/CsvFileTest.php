@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
  */
 class CsvFileTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function _testParseData()
     {
         $file = new CsvFile;
@@ -23,6 +27,9 @@ EOF
         $this->assertEmpty($data);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function testParseData2()
     {
         $file = new CsvFile;
@@ -37,6 +44,10 @@ EOF
             json_encode($data)
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function testParseData3()
     {
         $file = new CsvFile;
@@ -50,7 +61,11 @@ EOF
             [['One', 'Two presentation, du jour', 'Tree']],
             $data
         );
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function testParseData4()
     {
         $file = new CsvFile;
@@ -64,7 +79,11 @@ EOF
             [['One', "'Two'; Tree"]],
             $data
         );
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function testParseData_multiline()
     {
         $file = new CsvFile;
@@ -81,9 +100,11 @@ EOF
             ],
             $data
         );
-    } 
+    }
 
-
+    /**
+    * auto generate doc.
+    */
     public function testParseData_implodeline()
     {
         $file = new CsvFile;
@@ -93,8 +114,11 @@ EOF
             "One, 'Two'",
             $file->exportLine(['One', "'Two'"])
         );
-    } 
+    }
 
+    /**
+    * auto generate doc.
+    */
     public function test_mapping_data()
     {
         $file = new CsvFile;
@@ -113,7 +137,11 @@ EOF
             ],
             $file->map($data[0], $mapper)
         );
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function test_mapping_data_with_callable()
     {
         $file = new CsvFile;

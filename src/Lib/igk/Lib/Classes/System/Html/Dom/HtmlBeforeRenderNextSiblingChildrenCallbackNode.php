@@ -8,19 +8,43 @@ namespace IGK\System\Html\Dom;
 * before next sibling, call configuration callback every time AcceptRender is called 
 */
 final class HtmlBeforeRenderNextSiblingChildrenCallbackNode extends HtmlNode {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $listener;
+
+    /**
+    * .ctr
+    * @param callable $listener
+    */
     public function __construct(callable $listener){
         parent::__construct();
         $this->listener = $listener;        
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanAddChilds()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool 
     {
         $b = $this->listener;

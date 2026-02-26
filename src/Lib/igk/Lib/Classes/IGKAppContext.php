@@ -8,7 +8,22 @@
 * represent application context
 */
 abstract class IGKAppContext{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const initializing="initializing";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const running="running";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const starting="starting";
 }

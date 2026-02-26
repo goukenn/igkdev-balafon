@@ -12,6 +12,11 @@
 * auto generate doc.
 */
 class IGKListener implements IListener{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $listener;
 
     /**
@@ -19,6 +24,7 @@ class IGKListener implements IListener{
     * @param mixed $n
     * @param mixed $args
     */
+
     public function __call($n, $args){
         $f=igk_getv($this->listener, $n);
         if(is_callable($f)){
@@ -31,6 +37,7 @@ class IGKListener implements IListener{
     * @param mixed $n
     * @param mixed $args
     */
+
     public static function __callStatic($n, $args){
         die("dieNotAllowed");
     }
@@ -40,6 +47,7 @@ class IGKListener implements IListener{
     * @param mixed $n
     * @param mixed $callback
     */
+
     public function Register($n, $callback){
         $this->listener[$n]=$callback;
     }

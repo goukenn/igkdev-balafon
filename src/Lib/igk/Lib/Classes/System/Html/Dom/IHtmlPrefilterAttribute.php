@@ -8,5 +8,10 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 interface IHtmlPrefilterAttribute{
+
+    /**
+    * auto generate doc.
+    * @param mixed $attrib
+    */
     function filter($attrib);
 }

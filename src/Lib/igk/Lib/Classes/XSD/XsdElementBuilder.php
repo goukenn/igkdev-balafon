@@ -12,8 +12,18 @@ use IGKXmlNode;
 * @package IGK\XSD
 */
 class XsdElementBuilder extends XsdElement 
-{ 
+{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_builder;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $_defining; 
     private function __construct()
     {
@@ -23,6 +33,7 @@ class XsdElementBuilder extends XsdElement
      * @param XsdBuilder $builder 
      * @return XsdElementBuilder 
      */
+
     public static function Create(IGKXmlNode $node, XsdBuilder $builder)
     {
         $n = new XsdElementBuilder;
@@ -36,6 +47,7 @@ class XsdElementBuilder extends XsdElement
     * @param mixed $name
     * @param mixed $value
     */
+
     public function setAttribute($name, $value){
         $this->m_node->setAttribute($name, $value);
         return $this;
@@ -45,6 +57,7 @@ class XsdElementBuilder extends XsdElement
     * auto generate doc.
     * @param mixed $defaultvalue
     */
+
     public function setDefault($defaultvalue){
         if ($this->_defining) {
             throw new XsdBuilderException("type already defined");
@@ -60,6 +73,7 @@ class XsdElementBuilder extends XsdElement
     * auto generate doc.
     * @param mixed $defaultvalue
     */
+
     public function setFixed($defaultvalue){
         if ($this->_defining) {
             throw new XsdBuilderException("type already defined");
@@ -77,6 +91,7 @@ class XsdElementBuilder extends XsdElement
      * @return void 
      * @throws XsdBuilderException 
      */
+
     public function addComplexType(array $defs, $attributes=null, $type="sequence", $tattributes=null)
     {
         if (!in_array($type, explode("|","choice|sequence|all"))){

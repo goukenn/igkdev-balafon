@@ -20,21 +20,62 @@ use IGK\System\Shell\OsShell;
  */
 class SyncModuleCommand extends SyncAppExecCommandBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--sync:module";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "sync module through ftp-sync configuration";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "sync";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $help = "--[list|restore[:foldername] --clearcache  --zip";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         '--no-test'=>'flag: disable unit testing',
         '--name:[sync-name]'=>'sync name'
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = '[module_name] [options]';
     /**
      * use zip to indicate 
      * @var bool
      */
     var $use_zip;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $remove_cache = false;
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $module
+    */
     public function exec($command, ?string $module = null)
     {
         if (($c = $this->initSyncSetting($command, $setting)) && !$setting) {
@@ -86,6 +127,12 @@ class SyncModuleCommand extends SyncAppExecCommandBase
         }
         error_clear_last();
     }
+
+    /**
+    * auto generate doc.
+    * @param ApplicationModuleController $module
+    * @param mixed $setting
+    */
     protected function sync_module(ApplicationModuleController $module, $setting)
     {
         if (!is_object($h = $this->connect($setting["server"], $setting["user"], $setting["password"]))) {
@@ -159,6 +206,12 @@ class SyncModuleCommand extends SyncAppExecCommandBase
                 'install.module.script.pinc'
             ], $token, $name);      
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ftp
+    * @param mixed $app_dir
+    */
     protected function removeCache($ftp, $app_dir)
     {
         if ($this->remove_cache) {

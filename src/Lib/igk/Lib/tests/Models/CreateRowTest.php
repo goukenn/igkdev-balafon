@@ -21,9 +21,18 @@ use PHPUnit\Framework\ExpectationFailedException;
  * @group disabled
  */
 class CreateRowTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     function setUp():void {
         require_once(dirname(__FILE__)."/dbMocTable.pinc");
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_create_usergroup_row(){
         require_once IGK_LIB_CLASSES_DIR . "/IGKSysUtil.php"; 
         $u_model = Usergroups::model();
@@ -64,6 +73,7 @@ class CreateRowTest extends BaseTestCase{
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
+
     public function test_user_query_create_query(){
         //$gram = Users::driver()->getGrammar();  
         $gram = (new SupportNothingDataAdapter(null))->getGrammar();
@@ -84,10 +94,22 @@ class CreateRowTest extends BaseTestCase{
 
 /** @package IGK\Tests\Models */
 class SupportNothingDataAdapter extends \IGK\System\Database\MySQL\DataAdapter{
+
+    /**
+    * auto generate doc.
+    * @param mixed $type
+    * @return bool
+    */
     public function isTypeSupported($type):bool{ 
         return false;
-    } 
-    
+    }
+
+    /**
+    * auto generate doc.
+    * @param string $type
+    * @param null|int $length
+    * @return bool
+    */
     public function allowTypeLength(string $type, ?int $length=null):bool{
         return true; 
     }

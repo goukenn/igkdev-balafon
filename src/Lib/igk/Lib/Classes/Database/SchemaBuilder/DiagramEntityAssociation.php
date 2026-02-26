@@ -16,8 +16,23 @@ use ReflectionException;
  */
 class DiagramEntityAssociation implements IDiagramSchemaBuilder
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_migrations;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_entities;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_relations;
     /**
      * get table prefix
@@ -29,15 +44,31 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
      * @var ?string database name
      */
     var $db_name;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->m_entities = [];
         $this->m_relations = [];
         $this->m_migrations = [];
     }
+
+    /**
+    * auto generate doc.
+    * @param null|string $desc
+    * @return IDiagramSchemaBuilder
+    */
     public function description(?string $desc ): IDiagramSchemaBuilder {
         return $this;
      }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param mixed $column
+    */
     public function addIndex(string $table, $column) { 
         $mig = new DiagramMigration;
         $mig->type = __FUNCTION__;
@@ -45,6 +76,12 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_migrations[] = $mig;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param mixed $column
+    */
     public function dropIndex(string $table, $column) { 
         $mig = new DiagramMigration;
         $mig->type = __FUNCTION__;
@@ -52,6 +89,13 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_migrations[] = $mig;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    * @param string $name
+    * @return IDiagramSchemaColumn
+    */
     public function addColumn(string $table, string $name): IDiagramSchemaColumn
     {
         $n = new DiagramSchemaColumn($name);
@@ -61,6 +105,12 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_migrations[] = $mig;
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @return void
+    */
     public function dropEntity(string $name): void
     {
         $g = null;
@@ -72,6 +122,13 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $g[$name] = $mig;
         $this->m_migrations[$k] = $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $tablename
+    * @param string $columnName
+    * @return void
+    */
     public function dropColumn(string $tablename, string $columnName): void
     {
         $k = __FUNCTION__;
@@ -82,6 +139,14 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $g[json_encode($mig->properties)] = $mig;
         $this->m_migrations[$k] = $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $tablename
+    * @param string $columnName
+    * @param IDbColumnInfo $columnInfo
+    * @return void
+    */
     public function changeColumn(string $tablename, string $columnName, IDbColumnInfo $columnInfo): void
     {
         $k = __FUNCTION__;
@@ -93,10 +158,19 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $g[json_encode($v_ofkey)] = $mig;
         $this->m_migrations[$k] = $g;
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getTablePrefix(): string
     {
         return $this->table_prefix;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getEntityKeys()
     {
         return array_keys($this->m_entities);
@@ -106,6 +180,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
      * @param string $table 
      * @return string 
      */
+
     public function getPrefixTable(string $table): string
     {
         return sprintf("%s%s", $this->table_prefix, $table);
@@ -116,6 +191,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
      * @return string 
      * @throws IGKException 
      */
+
     public function render(?DiagramVisitor $visitor = null)
     {
         $o = "";
@@ -177,6 +253,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
      * @return null|(object|string)[] 
      * @throws IGKException 
      */
+
     public function getTableInfo(string $name)
     {
         $g = igk_getv($this->m_entities, $name);
@@ -224,6 +301,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
      * get or generated entities
      * @return DiagramEntity
      */
+
     public function entity($name, ?string $desc = null, ?string $prefix = null): IDiagramSchemaEntity
     {
         if (is_string($name)) {
@@ -236,6 +314,15 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
         $this->m_entities[$e->getName()] = $e;
         return $e;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $relationName
+    * @param mixed $sourceEntity
+    * @param mixed $endEntity
+    * @param mixed $startType
+    * @param null|mixed $endType
+    */
     public function link(string $relationName, $sourceEntity, $endEntity, $startType, $endType = null)
     {
         $sc = (is_string($sourceEntity) ? igk_getv($this->m_entities, $sourceEntity) : (in_array($sourceEntity, $this->m_relations) ?
@@ -253,6 +340,7 @@ class DiagramEntityAssociation implements IDiagramSchemaBuilder
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public static function LoadFromXMLSchema($loadSchemaObject)
     {
         $o = new self;

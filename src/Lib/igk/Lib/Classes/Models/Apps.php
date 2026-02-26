@@ -25,10 +25,30 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDownloadTime, string|datetime $clLast) add entry if not exists. check for unique column.
 * */
 class Apps extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_NAME="clName";
-	const FD_CL_DOWNLOAD_TIME="clDownloadTime";
-	const FD_CL_LAST="clLast";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NAME="clName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_DOWNLOAD_TIME="clDownloadTime";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_LAST="clLast";
 	/**
 	* table's name
 	*/

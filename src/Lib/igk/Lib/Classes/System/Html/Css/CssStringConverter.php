@@ -9,6 +9,11 @@ use IGK\System\IO\Configuration\ConfigurationReader;
 * @package IGK\System\Html\Css
 */
 class CssStringConverter extends ConfigurationReader{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $delimiter = ";";
     var $separator = ":";
     protected function _readValue(): ?string

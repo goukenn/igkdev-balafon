@@ -14,6 +14,11 @@ use IGKObject;
  * @package 
  */
 final class HtmlUsageCondition extends IGKObject implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $o
+    */
     public function getValue($o=null){
         $c=igk_create_node("span");
         $tc=igk_get_regctrl("sys://articles");

@@ -10,16 +10,48 @@ use IGK\System\Html\Css\Traits\RenderDefinitionTrait;
 */
 class CssProperty implements ICssDefinition{
     use RenderDefinitionTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $conditions;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $def = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $parent;
+
+    /**
+    * .ctr
+    * @param string $name
+    * @param null|string $conditions
+    * @param null|mixed $parent
+    */
     public function __construct(string $name, ?string $conditions = null, $parent=null)
     {
         $this->name = $name;
         $this->conditions = $conditions;
         $this->parent = $parent;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function getDefinition(): ?string { 
         return sprintf("@%s -- %s{\n", $this->name,  $this->conditions). self::RenderDefinition($this->def). "\n}";
     }

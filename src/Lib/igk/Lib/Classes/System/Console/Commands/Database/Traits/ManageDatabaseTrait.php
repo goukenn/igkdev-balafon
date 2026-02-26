@@ -12,8 +12,17 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 trait ManageDatabaseTrait{
+
+    /**
+    * auto generate doc.
+    */
     abstract function getModelClass();
 
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $action
+    */
     public function exec($command, ?string $action=null)
 	{
 		if ($action){
@@ -27,6 +36,12 @@ trait ManageDatabaseTrait{
 			Logger::print($a->name."\r\t\t\t".$a->url);
 		}, $this->getModelClass()::select_all());
 	}
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $names
+    */
     protected function _handle_add($command, ?string $names=null){
 		if ($names){
 			array_map(function($i){ 

@@ -9,17 +9,53 @@
 final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Countable {
     use \IGK\System\Polyfill\IteratorTrait; 
     use \IGK\System\Polyfill\ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $it_index;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $it_vtab;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_count;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_index;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_it_key;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_target;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_viewCount;
     /**
     * 
     * @param mixed $ob
     */
+
     public function __construct($ob){
         $this->m_target= $ob;
         $this->m_count=igk_count($ob);
@@ -28,24 +64,28 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     /**
     * 
     */
+
     public function count():int{
         return igk_count($this->m_target);
     }
     /**
     * @return mixed data
     */
+
     function _iterator_current(){
         return $this->m_target[$this->m_it_key];
     }
     /**
     *  @return mixed data
     */
+
     function _iterator_key(){
         return $this->m_it_key;
     }
     /**
     * 
     */
+
     function _iterator_next():void{
         $this->it_index++;
         if($this->it_index < $this->m_count){
@@ -56,6 +96,7 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     * 
     * @param mixed $key
     */
+
     protected function _access_offsetExists($key):bool{
         return isset($this->m_target[$key]);
     }
@@ -63,6 +104,7 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     * 
     * @param mixed $key
     */
+
     protected function _access_offsetGet(mixed $key):mixed{
         if(isset($this->m_target[$key]))
             return $this->m_target[$key];
@@ -72,15 +114,18 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     * @param mixed $key
     * @param mixed $value
     */
+
     protected function _access_offsetSet($key, $value):void{}
     /**
     * 
     * @param mixed $key
     */
+
     protected function _access_offsetUnset($key):void{}
     /**
     * 
     */
+
     function _iterator_rewind():void{
         $this->it_vtab=array_keys($this->m_target);
         $this->it_index=$this->m_index;
@@ -96,6 +141,7 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     * 
     * @param mixed $i
     */
+
     public function setrewindStart($i){
         $this->m_index=$i;
     }
@@ -104,6 +150,7 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     * @param mixed $index
     * @param mixed $count the default value is null
     */
+
     public function Shift($index, $count=null){
         $this->m_index=$index;
         if($count && is_numeric($count)){
@@ -113,6 +160,7 @@ final class IGKIterator extends IGKObject implements ArrayAccess, Iterator, Coun
     /**
     * 
     */
+
     function _iterator_valid(){
         $v=($this->it_index>=0) && ($this->it_index < $this->m_count);
         return $v;

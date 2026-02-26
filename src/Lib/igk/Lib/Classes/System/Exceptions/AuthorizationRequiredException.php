@@ -12,6 +12,13 @@ use Throwable;
 * @package IGK\Exceptions
 */
 class AuthorizationRequiredException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $msg
+    * @param mixed $code
+    * @param null|Throwable $throwable
+    */
     public function __construct($msg, $code=500, ?Throwable $throwable = null)
     {
         parent::__construct($msg, $code, $throwable);

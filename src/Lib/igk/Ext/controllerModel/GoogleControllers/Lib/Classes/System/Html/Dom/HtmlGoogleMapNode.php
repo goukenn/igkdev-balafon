@@ -11,14 +11,35 @@ use IGK\System\Html\Dom\HtmlNode;
 * Represent IGKHtmlGoogleMapNodeItem class
 */
 final class HtmlGoogleMapNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_key;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_location;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_query;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_type;
     /**
     * 
     * @param mixed $options the default value is null
     */
+
     protected function __acceptRender($options=null){
         $this->initView();
         return parent::_acceptRender($options);
@@ -26,6 +47,7 @@ final class HtmlGoogleMapNode extends HtmlNode{
     /**
     * 
     */
+
     public function __construct(?string $key=null){
         parent::__construct("div");
         $this["class"]="igk-winui-google-map";
@@ -35,30 +57,35 @@ final class HtmlGoogleMapNode extends HtmlNode{
     /**
     * retrieve the stored key
     */
+
     public function getKey(){
         return $this->m_key;
     }
     /**
     * 
     */
+
     public function getLocation(){
         return $this->m_location;
     }
     /**
     * 
     */
+
     public function getQuery(){
         return $this->m_query;
     }
     /**
     * 
     */
+
     public function getType(){
         return $this->m_type;
     }
     /**
     * 
     */
+
     public function initView(){
         $this->clearChilds();
         $key=$this->getKey();
@@ -78,6 +105,7 @@ EOF;
     * 
     * @param mixed $v
     */
+
     public function setKey($v){
         $this->m_key=$v;
         return $this;
@@ -88,6 +116,7 @@ EOF;
     * 
     * @param mixed $v
     */
+
     public function setLocation($v){
         $this->m_location=$v;
         return $this;
@@ -98,6 +127,7 @@ EOF;
     * 
     * @param mixed $v
     */
+
     public function setQuery($v){
         $this->m_query=$v;
         return $this;
@@ -108,6 +138,7 @@ EOF;
     * 
     * @param mixed $v
     */
+
     public function setType($v){
         $this->m_type=$v;
         return $this;

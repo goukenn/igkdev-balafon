@@ -14,10 +14,21 @@ use Throwable;
  */
 class ActionRequestException extends RequestException
 {
+
+    /**
+    * .ctr
+    * @param mixed $message
+    * @param null|int $code
+    * @param null|Throwable $previous
+    */
     public function __construct( $message, ?int $code=null, ?Throwable $previous = null)
     {
         return parent::__construct($code, $message, $previous);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function handle()
         {
             return parent::handle();

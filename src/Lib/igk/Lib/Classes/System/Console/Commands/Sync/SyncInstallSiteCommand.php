@@ -13,9 +13,29 @@ use IGKException;
  * clear cache in ftp sync server */
 class SyncInstallSiteCommand extends SyncAppExecCommandBase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--sync:install-site";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "sync";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "sync install site from sync configuration";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--no-subdomain"=>"disable subdomain support",
         "--no-webconfig"=>"disable web configuration",
@@ -29,6 +49,7 @@ class SyncInstallSiteCommand extends SyncAppExecCommandBase
      * @throws IGKException 
      * @throws EnvironmentArrayException 
      */
+
     public function exec($command)
     {
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){

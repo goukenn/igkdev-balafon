@@ -10,6 +10,10 @@ use ApplicationLoader;
  * @package IGK\Controllers
  */
 class ServiceController extends NonVisibleControllerBase{
+
+    /**
+    * auto generate doc.
+    */
     public static function register_autoload()
     {
         $services = igk_app()->session->getServices();
@@ -27,6 +31,7 @@ class ServiceController extends NonVisibleControllerBase{
      * @param string $file 
      * @return void 
      */
+
     public static function register($classname, $file){
         $g = igk_app()->session->getServices();
         if ($g === null)
@@ -38,6 +43,7 @@ class ServiceController extends NonVisibleControllerBase{
      * clear services
      * @return void 
      */
+
     public static function clear(){
         igk_app()->session->setServices(null);
     }

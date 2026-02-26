@@ -17,6 +17,12 @@ class AppEvent
     {
         return 'obj-event://' . spl_object_id($this);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $sender
+    * @param mixed $args
+    */
     public function invoke($sender, $args)
     {
         $k = $this->_getkey();
@@ -27,6 +33,7 @@ class AppEvent
      * @param callable $callback 
      * @return void 
      */
+
     public function add(callable $callback)
     {
         $k = $this->_getkey();
@@ -38,11 +45,16 @@ class AppEvent
      * @param bool $all 
      * @return void 
      */
+
     public function remove(?callable $callback, bool $all = true)
     {
         $k = $this->_getkey();
         igk_unreg_hook($k, $callback, $all);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clear(){
         return $this->remove(null, true);
     }

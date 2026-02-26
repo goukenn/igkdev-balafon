@@ -13,10 +13,16 @@ use IGK\Models\ModelBase;
 * @package IGK\Helper
 */
 class ArticleContentBindingHelper{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const PIPE_ARG_FORMAT = "#\{\{\s*(?P<property>%s)\s*((\|(?P<pipe>[^\}]+))?\s*)?\}\}#";
     /**
      * get system binding array of 
      */
+
     public static function GetData($data): array{
         $v_result = [];
         if (!is_null($data)){
@@ -36,6 +42,7 @@ class ArticleContentBindingHelper{
      * @param BaseController $ctrl 
      * @return false|string 
      */
+
     public static function GetBindingArticle(BaseController $ctrl, string $article){
         $sysdb = SysDbController::ctrl();
         $p = [$ctrl];
@@ -56,6 +63,7 @@ class ArticleContentBindingHelper{
      * @param mixed|null $args 
      * @return void 
      */
+
     public static function BindContent(string $content, $args){
         if ($args){
             foreach($args as $k=>$v){ 

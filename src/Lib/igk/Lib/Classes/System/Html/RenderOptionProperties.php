@@ -8,5 +8,10 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 abstract class RenderOptionProperties{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const DOCUMENT = 'Document';
 }

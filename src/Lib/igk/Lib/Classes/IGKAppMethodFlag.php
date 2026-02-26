@@ -7,11 +7,17 @@
 * @package IGK
 */
 class IGKAppMethodFlag{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_f;
     /**
      * 
      * @return bool 
      */
+
     public function isEmpty(): bool{
         return empty($this->m_f);
     }
@@ -21,6 +27,7 @@ class IGKAppMethodFlag{
      * @param mixed $def 
      * @return mixed 
      */
+
     public function getFlag($n, $def=null){
         return igk_getv($this->m_f, $n, $def);
     }
@@ -30,6 +37,7 @@ class IGKAppMethodFlag{
      * @param mixed $v 
      * @return void 
      */
+
     public function setFlag($n, $v){
         $this->m_f[$n] = $v;
     }

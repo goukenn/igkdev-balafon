@@ -13,14 +13,30 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands
 */
 class RunPhpUnitCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--run:phpunit";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "run php unit";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "phpunit";
 
     /**
     * auto generate doc.
     * @param mixed $command
     */
+
     public function exec($command) {
         DbCommandHelper::Init($command);
         $pwd = igk_getv($_SERVER, 'PWD', getcwd());

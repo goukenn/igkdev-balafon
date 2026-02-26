@@ -18,6 +18,11 @@ use function igk_resources_gets as __;
  */
 final class Number
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $sm_sizeFormat = array(
         "Tb" => 1099511627776,
         "Gb" => 1073741824,
@@ -31,6 +36,7 @@ final class Number
      * @param mixed $string 
      * @return bool 
      */
+
     static function IsRomanNumeral($string): bool
     {
         // Pattern pour les chiffres romains valides
@@ -44,6 +50,12 @@ final class Number
         } else
             return 10 + (ord($d) - ord('A'));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $d
+    * @param mixed $base
+    */
     public static function FromBase($d, $base)
     {
         $o = 0;
@@ -55,6 +67,12 @@ final class Number
         }
         return $o;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed $round
+    */
     public static function GetMemorySize($value, $round = 4)
     {
         if ($value == 0)
@@ -71,6 +89,13 @@ final class Number
         $g = ($r >= 10) ? chr(ord("A") + ($r - 10)) : $r;
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $d
+    * @param mixed $base
+    * @param mixed $length
+    */
     public static function ToBase($d, $base, $length = -1)
     {
         if (is_numeric($d) == false)
@@ -119,6 +144,7 @@ final class Number
      * @return int|float|void 
      * @throws Exception 
      */
+
     public static function MemoryToBytes(string $value)
     {
         if (is_numeric($value)) {
@@ -146,6 +172,7 @@ final class Number
      * @param string|int $q 
      * @return void 
      */
+
     public static function IsZeroIndexNumber($q)
     {
         return (is_string($q) && (strlen($q) > 0) && ($q === '0')) ||

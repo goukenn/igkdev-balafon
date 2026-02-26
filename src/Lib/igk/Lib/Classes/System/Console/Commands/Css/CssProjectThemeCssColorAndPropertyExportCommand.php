@@ -16,12 +16,43 @@ use IGK\System\IO\Path;
 * @author C.A.D. BONDJE DOUE
 */
 class CssProjectThemeCssColorAndPropertyExportCommand extends AppExecCommand{
-	var $command='--project:css-export';
-	var $desc='use to export project\'s css';
-	var $options=[]; 
-	var $category = 'project';
-	var $usage = 'controller [option]';
-	public function exec($command, ?string $controller=null) {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--project:css-export';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='use to export project\'s css';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [option]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller=null) {
 		$ctrl = self::ResolveController($command, $controller, false) ?? igk_die('required controller'); 
 		$theme = in_array($theme = igk_getv($command->options, '--theme'), 
 		explode('|', CssConstants::SUPPORT_THEME)) ? $theme : 'dark'; 

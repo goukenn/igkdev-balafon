@@ -14,6 +14,11 @@ use IGKObject;
  * @package IGK\Controllers
  */
 final class ExtraControllerProperty extends IGKObject{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_DefaultValue, $m_Type, $m_Values;
     /**
      * 
@@ -22,6 +27,7 @@ final class ExtraControllerProperty extends IGKObject{
      * @param mixed $def1 
      * @return void 
      */
+
     public function __construct($type, $def, $def1=null){
         $this->m_Type=$type;
         if(strtolower($type) == "select"){
@@ -33,15 +39,31 @@ final class ExtraControllerProperty extends IGKObject{
             $this->m_Values=null;
         }
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString(){
         return __CLASS__; 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getclDefaultValue(){
         return $this->m_DefaultValue;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getclType(){
         return $this->m_Type;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getclValues(){
         return $this->m_Values;
     }

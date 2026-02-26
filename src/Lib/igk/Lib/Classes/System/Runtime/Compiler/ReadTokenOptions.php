@@ -8,6 +8,11 @@ namespace IGK\System\Runtime\Compiler;
 * @package IGK\System\Runtime\Compiler
 */
 class ReadTokenOptions implements IReadTokenOptions{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $source;
     /**
      * array of uses 
@@ -138,6 +143,11 @@ class ReadTokenOptions implements IReadTokenOptions{
      * @var false
      */
     var $stop_read = false;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $exit_detecteds = [];
     /**
      * bracket depth

@@ -9,12 +9,25 @@ namespace IGK\System\Database;
  * @package IGK\System\Database
  */
 class SchemaAlterColumnMigration extends SchemaMigrationItemBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $fill_properties = ["column"];
+
+    /**
+    * auto generate doc.
+    */
     public function up(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl::db_alter_column($tb, $this->column, $this->new_name);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function down(){
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);

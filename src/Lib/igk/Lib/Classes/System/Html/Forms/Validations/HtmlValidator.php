@@ -11,13 +11,24 @@ use ReflectionException;
 * @package IGK\System\Html\Forms
 */
 class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $skip_all;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $allowed_tags;
     /**
      * asset that data can't be validated
      * @param mixed $value 
      * @return bool 
      */
+
     public function assertValidate($value): bool {
         return is_string($value);
     }
@@ -31,6 +42,7 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function _validate($value, $default=null, array & $error=[], ?object $options=null) { 
         if ($this->assertValidate($value)){
             $value = $this->treatValue($value);
@@ -45,6 +57,7 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function treatvalue(string $value){
         $ln = strlen($value);
         $cpos = $pos = 0;
@@ -69,6 +82,13 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
         $output.= substr($value, $cpos);
         return $output;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed & $pos
+    * @param mixed $ln
+    */
     public static function GetAttributeContent($value, &$pos, $ln){
         $content = "";
         $empty = false;
@@ -97,6 +117,14 @@ class HtmlValidator extends FormFieldValidatorBase implements IFormValidator{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    * @param mixed & $pos
+    * @param mixed $ln
+    * @param mixed & $end
+    */
     public static function ReadTagName(string $value, & $pos, $ln, & $end){
         $n = "";
         $end = false;

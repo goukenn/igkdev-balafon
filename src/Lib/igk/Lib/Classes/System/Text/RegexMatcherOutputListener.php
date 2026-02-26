@@ -11,8 +11,16 @@ namespace IGK\System\Text;
 * @author C.A.D. BONDJE DOUE
 */
 final class RegexMatcherOutputListener{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $output;
 
+    /**
+    * auto generate doc.
+    */
     public function getOutput(){
         return $this->output;
     }

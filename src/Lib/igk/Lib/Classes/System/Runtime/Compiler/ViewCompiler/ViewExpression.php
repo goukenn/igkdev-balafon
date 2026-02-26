@@ -12,15 +12,42 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 * @package IGK\System\Runtime\Compiler
 */
 class ViewExpression implements ArrayAccess{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_variables;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $extract;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $callback;
     use ArrayAccessSelfTrait;
+
+    /**
+    * .ctr
+    * @param mixed & $variables
+    * @param mixed $callback
+    * @param mixed $extract
+    */
     public function __construct(& $variables, $callback, $extract=false){
         $this->m_variables = & $variables;
         $this->extract = $extract;
         $this->callback = $callback;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $expression
+    */
     public function _access_OffsetGet($expression){
         $fc = $this->callback;
         $value = null;
@@ -70,6 +97,12 @@ class ViewExpression implements ArrayAccess{
         }
         return $response;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $expression
+    * @param mixed $value
+    */
     public function _access_OffsetSet($expression, $value){
         throw new NotImplementException(__METHOD__);
     }

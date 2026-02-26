@@ -12,9 +12,19 @@ use IGKApplicationBase;
 * @author C.A.D. BONDJE DOUE
 */
 class PostInstallApplication extends IGKApplicationBase{
+
+    /**
+    * auto generate doc.
+    */
     public function bootstrap()
     {        
     }
+
+    /**
+    * auto generate doc.
+    * @param string $entryfile
+    * @param mixed $render
+    */
     public function run(string $entryfile, $render = 1)
     {        
     } 

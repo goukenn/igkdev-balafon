@@ -10,10 +10,16 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 class HtmlTableNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "table";
     /**
      * Constructor.
      */
+
     public function __construct(){
         parent::__construct();
         $this["class"] = "igk-table";

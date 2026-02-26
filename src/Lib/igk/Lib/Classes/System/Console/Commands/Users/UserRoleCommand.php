@@ -10,11 +10,32 @@ use IGK\System\Console\AppExecCommand;
 * @package IGK\System\Console\Commands\Users
 */
 class UserRoleCommand extends AppExecCommand{
-	var $command='--users:role';
-	var $desc='get user\'s roles';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:role';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='get user\'s roles';
 	/* var $options=[]; */
-	var $category = self::USER_CAT;
-	public function exec($command, ?string $user=null) {  
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = self::USER_CAT;
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $user
+    */
+    public function exec($command, ?string $user=null) {  
 		$user = igk_get_user_bylogin($user) ?? igk_die('missing user');		
 		$auths = $user->auths();
 		//$roles = $user::role();

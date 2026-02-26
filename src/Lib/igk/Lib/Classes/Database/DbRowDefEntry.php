@@ -57,10 +57,19 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
         $this->m_model = $model ? get_class($model) : null;
     }
 
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function getEntryValues(): array
     {
         return (array)$this->m_ref;
     }
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function initDefArray(): array
     {
         return array_fill_keys(array_keys((array)$this->m_ref), 1);
@@ -69,6 +78,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * 
      * @return mixed 
      */
+
     public function current(): mixed
     {
         return $this->m_ref->{$this->key()};
@@ -77,21 +87,34 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * 
      * @return void 
      */
+
     public function next(): void
     {
         $this->m_it_info->key++;
     }
 
+    /**
+    * auto generate doc.
+    * @return mixed
+    */
     public function key(): mixed
     {
         return $this->m_it_info->tab[$this->m_it_info->key];
     }
 
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function valid(): bool
     {
         return $this->m_it_info->key < $this->m_it_info->count;
     }
 
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function rewind(): void
     {
         $tab = $this->reccords();
@@ -106,6 +129,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * return primary key reccord
      * @return array 
      */
+
     public function reccords(): array
     {
         $tab = array_keys((array)$this->m_ref);
@@ -117,6 +141,11 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
 
         return $tab; // array_keys((array)$this->m_ref);
     }
+
+    /**
+    * .destructor
+    * @param string $name
+    */
     public function __get(string $name)
     {
         $g =  ['', $this->m_prefix];
@@ -128,6 +157,12 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
             }
         }
     }
+
+    /**
+    * destructor
+    * @param string $name
+    * @param mixed $value
+    */
     public function __set(string $name, $value)
     {
         $g =  ['', $this->m_prefix];
@@ -150,6 +185,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @param string $name 
      * @return bool 
      */
+
     public function keyExists(string $name): bool
     {
         return property_exists($this->m_ref, $name);
@@ -159,10 +195,16 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @param string $n 
      * @return void 
      */
+
     function __unset(string $n)
     {
         unset($this->m_ref->$n);
     }
+
+    /**
+    * check if isset innaccessible property
+    * @param string $n
+    */
     function __isset(string $n)
     {
         return $this->keyExists($n);
@@ -173,6 +215,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @param array $data 
      * @return static 
      */
+
     public function loadFromArray(array $data)
     {
         $tab = $this->reccords();
@@ -190,6 +233,7 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
      * @return mixed 
      * @throws mixed 
      */
+
     public function __call($name, $arguments)
     {
         if ($cl = $this->m_model){
@@ -200,6 +244,12 @@ class DbRowDefEntry implements Iterator, IDbEntryDefinition
         }
         throw new \Exception(sprintf('%s, Not allowed in dbrow entry reccord', $name));
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments){
         throw new \Exception('Not implemented');
     }

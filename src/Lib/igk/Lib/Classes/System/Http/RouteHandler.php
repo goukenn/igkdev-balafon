@@ -14,7 +14,17 @@ use ReflectionMethod;
  */
 class RouteHandler
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $user;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $info;
     /**
      * name for searching
@@ -79,19 +89,41 @@ class RouteHandler
      * @var ?string
      */
     protected $m_redirect_uri;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $auth_requirement;
+
+    /**
+    * auto generate doc.
+    */
     public function getRoute()
     {
         return $this->route;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getPath()
     {
         return $this->path;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getVerbs()
     {
         return $this->verbs;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $route
+    */
     protected function setRoute($route)
     {
         $this->route = $route;
@@ -101,6 +133,7 @@ class RouteHandler
      * get if auth is required
      * @return bool 
      */
+
     public function isAuthRequired(){
         return !empty($this->auth);
     }
@@ -109,6 +142,7 @@ class RouteHandler
      * @param object $info 
      * @return void 
      */
+
     public function setRoutingInfo(object $info)
     {
         if ($info == null) {
@@ -118,6 +152,11 @@ class RouteHandler
         $this->info = igk_get_robjs("ruri|args", 0, $info);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $name
+    */
     public function getRoutingInfo($name=null)
     {
         if ($name!==null && $this->info){
@@ -129,6 +168,7 @@ class RouteHandler
      * return the selected user auth
      * @return mixed 
      */
+
     public function getUserAuth()
     {
         if ($u = $this->user) {
@@ -136,6 +176,11 @@ class RouteHandler
         }
         return;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $user
+    */
     public function setUser($user)
     {
         $this->user = $user;
@@ -145,6 +190,7 @@ class RouteHandler
      * get the security
      * @return null|'BasicAuth'|'BearerAuth' 
      */
+
     public function getSecurity(){
         return $this->security;
     }
@@ -152,6 +198,7 @@ class RouteHandler
      * return the selected use
      * @return mixed 
      */
+
     public function getUser()
     {
         return $this->user;
@@ -159,6 +206,7 @@ class RouteHandler
     /**
      * return the name
      */
+
     public function getName()
     {
         return $this->name;
@@ -166,6 +214,7 @@ class RouteHandler
     /** 
      * return route type
      */
+
     public function getType()
     {
         return $this->route_type;
@@ -176,6 +225,7 @@ class RouteHandler
      * @param mixed $controller 
      * @return void 
      */
+
     public function __construct(string $path, $controller)
     {
         $this->path = $path;
@@ -185,6 +235,7 @@ class RouteHandler
      * get if user required;
      * @return bool 
      */
+
     public function isUserRequired(){     
         return $this->user_required;
     }
@@ -195,6 +246,7 @@ class RouteHandler
      * @return bool
      * @throws Exception 
      */
+
     public function match($path, $verb = 'GET', string $defaultEntryMethod='index'):bool
     { 
         // + match verb
@@ -220,6 +272,7 @@ class RouteHandler
      * @param string $path 
      * @return bool 
      */
+
     public function isAccessible(string $path, string $defaultEntryMethod=Route::DEFAULT_ENTRY_METHOD):bool{
         // if (!$this->m_expressions){
         //     return false;
@@ -233,6 +286,7 @@ class RouteHandler
      * @return string 
      * @throws Exception 
      */
+
     protected function getPatternRegex(string $defaultEntryMethod= Route::DEFAULT_ENTRY_METHOD): string
     {
         return static::GetRouteRegex($this->path, $this->m_expressions ?? [], true, $defaultEntryMethod);
@@ -242,6 +296,7 @@ class RouteHandler
      * @param string $type 
      * @return string 
      */
+
     public static function GetTypePattern(string $type):string{
         return igk_getv([
             'guid'=>MatchPattern::Guid,
@@ -258,6 +313,7 @@ class RouteHandler
      * @param bool $strict_dir 
      * @return string 
      */
+
     public static function GetRouteRegex(string $path, ?array $expressions=null, bool $strict_dir = true, 
         ?string $defaultEntryMethod=Route::DEFAULT_ENTRY_METHOD,
         ?string $format=null): string{
@@ -333,6 +389,7 @@ class RouteHandler
      * @return string 
      * @throws IGKException 
      */
+
     public static function GetResolveURI(string $routepattern, ?array $resolve=null, ?string $baseUri=null){
         $croute = "/" . ltrim($routepattern, "/");
         if (preg_match_all("/(?P<mark1>\/)?(\{\\s*(?P<name>" . IGK_IDENTIFIER_PATTERN . ")(?P<option>\\*)?\\s*\})(?P<mark2>\/)?/i", $croute, $tab)) {
@@ -375,6 +432,7 @@ class RouteHandler
      * set the shorcut key name
      * @return RouteHandler 
      */
+
     public function name($name)
     {
         $this->name = $name;
@@ -386,12 +444,18 @@ class RouteHandler
      * @param bool $strict authorisation requirement
      * @return static 
      */
+
     public function auth($name, bool $strict=true)
     {
         $this->auth = $name;
         $this->auth_requirement = $strict;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function security($name){
         if (is_null($name) || in_array($name, ['BearerAuth','BasicAuth']))
             $this->security = $name;
@@ -403,10 +467,16 @@ class RouteHandler
      * @param mixed $pattern regular expression
      * @return RouteHandler 
      */
+
     public function where(string $id, string $pattern)
     {
         return $this->addExpression($id, $pattern);
     }
+
+    /**
+    * auto generate doc.
+    * @param bool $require
+    */
     public function userRequired(bool $require){
         $this->user_required = $require;
         return $this;
@@ -416,10 +486,15 @@ class RouteHandler
      * @param mixed $url 
      * @return void 
      */
+
     public function redirectTo(string $url){
         $this->m_redirect_uri = $url;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getRedirectTo(){
         return $this->m_redirect_uri;
     }
@@ -428,6 +503,7 @@ class RouteHandler
      * @param bool $strict_dir 
      * @return $this 
      */
+
     public function strict_dir(bool $strict_dir){
         $this->strict_dir = $strict_dir;
         return $this;
@@ -437,6 +513,7 @@ class RouteHandler
      * @param array $verb 
      * @return RouteHandler
      */
+
     public function setVerb(array $verb)
     {
         $this->verbs = $verb;
@@ -447,6 +524,7 @@ class RouteHandler
      * @param array|string $verb 
      * @return static 
      */
+
     public function verbs($verb)
     {
         if (is_string($verb)){
@@ -454,6 +532,11 @@ class RouteHandler
         }
         return $this->setVerb($verb);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed ...$arguments
+    */
     protected function process(...$arguments)
     {
         $ctrl = igk_getctrl($this->controller); 
@@ -482,6 +565,7 @@ class RouteHandler
      * @param array $arguments argument 
      * @return mixed 
      */
+
     public static function Handle($route, ...$arguments){
         return $route->process(...$arguments);
     }   
@@ -490,6 +574,7 @@ class RouteHandler
      * @param bool $value 
      * @return $this 
      */
+
     public function ajx(bool $value =  true){
         $this->ajx = $value;
         return $this;

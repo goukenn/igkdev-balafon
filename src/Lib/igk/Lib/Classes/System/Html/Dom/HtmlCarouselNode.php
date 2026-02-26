@@ -15,7 +15,16 @@ use IGKException;
  * @package IGK\System\Html\Dom
  */
 class HtmlCarouselNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "div";
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         parent::initialize();        
@@ -25,11 +34,18 @@ class HtmlCarouselNode extends HtmlNode{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function addSlide(){
         $n = $this->add("div");
         $n["class"] = "igk-winui-carousel-slide";
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool
     {
         if ($doc = $options ? igk_getv($options, "Document") : null){

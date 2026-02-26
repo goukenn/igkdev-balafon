@@ -14,6 +14,11 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 final class HtmlNotificationItemNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_autohided, $m_owner, $m_script;
     /**
      * Determines whether the notification node should be rendered.
@@ -21,6 +26,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      * @param mixed $options Optional render options.
      * @return bool
      */
+
     protected function _acceptRender($options = null):bool{
         if(!$this->IsVisible || !$this->HasChilds)
             return false;
@@ -38,6 +44,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      * @param mixed  $owner The owning controller of this notification node.
      * @param string $name  The control name identifier.
      */
+
     public function __construct($owner, $name){
         parent::__construct("div");
         $this->m_autohided=true;
@@ -53,6 +60,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      *
      * @param mixed $o Optional render context object.
      */
+
     protected function __RenderComplete($o=null){
         $this->clearChilds();
         if($this->m_owner->TargetNode === $this){
@@ -62,12 +70,14 @@ final class HtmlNotificationItemNode extends HtmlNode{
     /**
      * Restores the object state after unserialization.
      */
+
     public function __wakeup(){    }
     /**
      * Adds a danger-styled error notification message.
      *
      * @param string $msg The error message to display.
      */
+
     function addError($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-danger"))->Content=$msg;
     }
@@ -76,6 +86,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      *
      * @param string $key The translation key for the error message.
      */
+
     function addErrorr($key){
         $this->addError(__($key, array_slice(func_get_args(), 1)));
     }
@@ -84,6 +95,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      *
      * @param string $msg The informational message to display.
      */
+
     function addInfo($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-info"))->Content=$msg;
     }
@@ -92,6 +104,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      *
      * @param string $key The translation key for the informational message.
      */
+
     function addInfor($key){
         $this->addInfo(__($key, array_slice(func_get_args(), 1)));
     }
@@ -101,6 +114,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      * @param string $msg  The message to display.
      * @param string $type The notification type (e.g. 'default', 'danger', 'info').
      */
+
     function addMsg($msg, $type='default'){
         $this->add("div", array("class"=>"igk-notify igk-notify-{$type}"))->Content=$msg;
     }
@@ -109,6 +123,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      *
      * @param string $key The translation key for the message.
      */
+
     function addMsgr($key){
         $this->addMsg(__($key, array_slice(func_get_args(), 1)));
     }
@@ -117,6 +132,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      *
      * @param string $msg The success message to display.
      */
+
     function addSuccess($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-success"))->Content=$msg;
     }
@@ -125,6 +141,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
      *
      * @param string $key The translation key for the success message.
      */
+
     function addSuccessr($key){
         $this->addSuccess(__($key, array_slice(func_get_args(), 1)));
     }
@@ -133,6 +150,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $msg
     */
+
     function addWarning($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-warning"))->Content=$msg;
     }
@@ -141,6 +159,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $key
     */
+
     function addWarningr($key){
         $this->addWarning(__($key, array_slice(func_get_args(), 1)));
     }
@@ -148,6 +167,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getAutoHide(){
         return $this->m_autohided;
     }
@@ -156,6 +176,7 @@ final class HtmlNotificationItemNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $v
     */
+
     public function setAutohide($v){
         $this->m_autohided=$v;
     }

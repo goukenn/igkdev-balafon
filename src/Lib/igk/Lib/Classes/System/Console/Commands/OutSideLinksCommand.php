@@ -20,9 +20,29 @@ use Illuminate\Support\Facades\Log;
 * @package IGK\System\Console\Commands
 */
 class OutSideLinksCommand extends AppExecCommand{
-    var $command = "--outsidelinks"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = "--outsidelinks";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "utility";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc  = "retrieve all outside links";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [ 
     ];
 
@@ -32,6 +52,7 @@ class OutSideLinksCommand extends AppExecCommand{
     * @param null|mixed $path
     * @param mixed $viewname
     */
+
     public function exec($command, $path=null, $viewname=""){
         if (empty($path)){
             $path = getcwd();
@@ -64,6 +85,7 @@ class OutSideLinksCommand extends AppExecCommand{
     /**
     * auto generate doc.
     */
+
     public function help(){
         parent::help();
         Logger::print("-");

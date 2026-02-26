@@ -20,6 +20,11 @@ abstract class DisplayRawBase{
         }
         return $this->_fallback($item);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $item
+    */
     protected function _fallback($item){        
     }
 }

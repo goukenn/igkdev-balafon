@@ -16,7 +16,17 @@ class RouteMatcher extends RouteHandler{
      * @var self route matcher chain
      */
     private $chainTo;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $root;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $throwClass;
     private function __construct($controller)
     {   
@@ -26,6 +36,7 @@ class RouteMatcher extends RouteHandler{
      * 
      * @return RouteMatcher 
      */
+
     function next (){
         if ($this->root ==null){
             $this->root = $this;
@@ -39,20 +50,34 @@ class RouteMatcher extends RouteHandler{
      * get root chain
      * @return mixed 
      */
+
     function root(){
         if ($this->root === null){
             return $this;
         }
         return $this->root;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $controller
+    */
     public static function Create($controller){
         $m = new self($controller);
         return $m;
     }
+
+    /**
+    * Used by var_dump() to customize debug output.
+    */
     public function __debugInfo()
     {
         return [];
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString()
     {
         return __CLASS__;
@@ -61,6 +86,7 @@ class RouteMatcher extends RouteHandler{
      * handle all 
      * @return mixed 
      */
+
     public function checkAll(bool $throwException=true){
         /**
          * @var self $rc self
@@ -86,6 +112,7 @@ class RouteMatcher extends RouteHandler{
     /**
      * 
      */
+
     public function check(?string $verb=null){
         $verb = $verb ?? igk_server()->REQUEST_METHOD;
         // check verb

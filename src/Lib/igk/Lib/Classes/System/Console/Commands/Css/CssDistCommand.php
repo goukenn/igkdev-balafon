@@ -11,10 +11,35 @@ use IGK\System\Console\Logger;
  * @package IGK\System\Console\Commands
  */
 class CssDistCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--css:dist";
-    var $desc = "get core balafon css"; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = "get core balafon css";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "css";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--min-file"=>"flag: min file",
         "--theme-export"=>"flag: theme export",
@@ -22,6 +47,7 @@ class CssDistCommand extends AppExecCommand{
     /**
      * 
      */
+
     public function exec($command){   
         $minfile = property_exists($command->options, '--min-file');
         $theme_export = property_exists($command->options, '--theme-export');

@@ -10,5 +10,9 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler;
 * @property string $value the value
 */
 interface IViewExpressionArg{
+
+    /**
+    * auto generate doc.
+    */
     function getExpression();
 }

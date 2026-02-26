@@ -14,11 +14,17 @@ namespace IGK\System\Html\Dom;
 * @package IGK\System\Html\Dom
 */
 final class HtmlFormInnerNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_form;
     /**
      * Constructor.
      * @param mixed $form The form node this inner node belongs to.
      */
+
     public function __construct($form){
         parent::__construct( "igk:form-inner");
         $this->m_form=$form;
@@ -27,6 +33,7 @@ final class HtmlFormInnerNode extends HtmlNode{
      * Indicates that this node does not render its tag.
      * @return bool
      */
+
     public function getCanRenderTag()
     {
         return false;

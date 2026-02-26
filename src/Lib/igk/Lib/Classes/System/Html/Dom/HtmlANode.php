@@ -17,7 +17,17 @@ use function igk_resources_gets as __;
 */
 class HtmlANode extends HtmlNode
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_href, $m_rdef;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $domainLink;
     /**
      * Prepares href, onclick, and title attributes before rendering the anchor node.
@@ -25,6 +35,7 @@ class HtmlANode extends HtmlNode
      * @param mixed $option Rendering options.
      * @return bool
      */
+
     protected function _acceptRender($option = null):bool
     {
         if (!$this->getIsVisible())
@@ -56,6 +67,7 @@ class HtmlANode extends HtmlNode
      *
      * @param string $uri The href URI for the anchor element.
      */
+
     public function __construct($uri = "#")
     {
         parent::__construct("a");
@@ -69,6 +81,7 @@ class HtmlANode extends HtmlNode
     * auto generate doc.
     * @param null|mixed $option
     */
+
     protected function __RenderComplete($option = null)
     {
         if ($this->m_rdef == 1) {
@@ -83,6 +96,7 @@ class HtmlANode extends HtmlNode
     * @param mixed $v
     * @return void
     */
+
     public function offsetSet($k, $v): void
     {
         if ($k == "href") {

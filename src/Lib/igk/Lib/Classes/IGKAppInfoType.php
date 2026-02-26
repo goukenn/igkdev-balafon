@@ -8,6 +8,16 @@
 * auto generate doc.
 */
 class IGKAppInfoType{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const Local = 'local';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const Session = 'session';
 }

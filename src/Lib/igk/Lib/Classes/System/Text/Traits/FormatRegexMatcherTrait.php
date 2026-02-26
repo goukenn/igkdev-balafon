@@ -40,6 +40,14 @@ trait FormatRegexMatcherTrait
             return self::TreatFormatCapture($s, $e, $captures, $e->captures, $format);
         }];
     }
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    * @param mixed $cap
+    * @param string $sourceValue
+    * @param int $pos
+    */
     protected function treatCapture(string $value, $cap, string $sourceValue, int $pos)
     {
         return $value;

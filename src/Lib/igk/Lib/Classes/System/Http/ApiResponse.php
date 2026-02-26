@@ -9,13 +9,19 @@ use IGKException;
 * 
 * @package IGK\System\Http
 */
-class ApiResponse extends Response{ 
+class ApiResponse extends Response{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_header;
     /**
      * set the current header 
      * @param mixed $header 
      * @return void 
      */
+
     public function setHeader($header){
         $this->m_header = $header;
     }
@@ -23,6 +29,7 @@ class ApiResponse extends Response{
      * get header
      * @return mixed 
      */
+
     public function getHeader(){
         return $this->m_header ; 
     }
@@ -30,8 +37,15 @@ class ApiResponse extends Response{
      * base output 
      * @return mixed 
      */
+
     public function output(){
     }
+
+    /**
+    * auto generate doc.
+    * @param string $message
+    * @param mixed $code
+    */
     public function die(string $message, $code=500){
         igk_do_response(new ErrorRequestResponse($code, $message));
     }
@@ -40,6 +54,7 @@ class ApiResponse extends Response{
      * @param mixed $data 
      * @return array 
      */
+
     public function response($data, $code=200){
         return [
             "code"=>$code,
@@ -49,6 +64,7 @@ class ApiResponse extends Response{
     /**
      * return an empty api response 
      */
+
     public static function EmptyJsonResponse(){
         return new JsonResponse([], 204);
     }
@@ -60,6 +76,7 @@ class ApiResponse extends Response{
      * @throws Exception 
      * @throws IGKException 
      */
+
     public function doResponse($data, int $code=200){
         igk_do_response(
             new JsonResponse($this->response($data, $code), $code, $this->m_header)

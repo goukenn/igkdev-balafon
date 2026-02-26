@@ -24,7 +24,17 @@ use IGK\IUriActionListener;
 */
 final class SystemUriActionController extends ConfigControllerBase implements IUriActionListener{
     //+ action routes
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ROUTES=IGK_CUSTOM_CTRL_PARAM + 0x1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const CACHE_FILE = '.routes.cache';
     /**
      * handle resources 
@@ -34,11 +44,17 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
      * handle system uri
      */
     const AC_SYS_URI = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_actions, $sm_routes;
 
     /**
     * auto generate doc.
     */
+
     public static function GetCacheFile(){
         return igk_io_cachedir()."/".self::CACHE_FILE;
     }
@@ -78,6 +94,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
         }
         return self::$sm_actions;
     }
+
     public function contains($key){
         $tab=$this->_refRoutes();
         if(is_array($tab))
@@ -88,6 +105,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function dispatchMessage(){
         if(!igk_is_srv_request()){
             if(!igk_sys_env_production()){
@@ -135,6 +153,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function getActions(){
         return $this->getRoutes();
     }
@@ -142,6 +161,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function getCanAddChild(){
         return false;
     }
@@ -149,6 +169,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function getConfigPage(){
         return "systemuri";
     }
@@ -157,6 +178,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @return ?string
     */
+
     public function getDataTableName(): ?string{
         return igk_db_get_table_name(IGK_TB_SYSTEMURI);
     }
@@ -164,6 +186,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function getmailto(){
         igk_trace();
         igk_wln_e("get mail to");
@@ -175,6 +198,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @return string
     */
+
     public function getName(): string{
         return IGK_SYSACTION_CTRL;
     }
@@ -182,6 +206,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function getPatternInfo(){
         return igk_get_env(IGK_ENV_URI_PATTERN_KEY);
     }
@@ -190,6 +215,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @return bool
     */
+
     public function getUseDataSchema():bool{
         return false;
     }
@@ -199,6 +225,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
      * @param int|bool $redirection force redirection 
      * @param int|bool $render render content
      */
+
     public function handle_redirection_uri($uri, $params = null, $redirection = 0, $render = 1){
         $app = igk_app();
         $actionctrl = $this; 
@@ -218,6 +245,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function & getRoutes(){
         if(self::$sm_routes === null){
             self::$sm_routes=array();
@@ -233,6 +261,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @param null|mixed $key
     */
+
     public function getSystemUri($key=null){
         $tab=$this->_refRoutes();
         return igk_getv($tab,$key);
@@ -241,6 +270,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function gotoconfig(){ 
         $uri = self::GetConfigurationPath();
         igk_navto($uri, 301);
@@ -249,6 +279,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     static function GetConfigurationPath(){
         static $conf_path;
         if (is_null($conf_path)){
@@ -261,12 +292,14 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function init_wakeup(){    }
     /**
      * check configuration path
      * @param string $path 
      * @return true 
      */
+
     static function _CheckConfPath(string $path){
         return preg_match("/^\/[a-z]+[a-z\-]*$/i", $path);
     }
@@ -335,6 +368,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function invoke_action(){
         $u=igk_getv($_SERVER, "REQUEST_URI");
         $c=preg_match_all("/^\/@!(?P<name>([^\/]+))(\/(?P<param>(.)+))?$/i", $u, $tab);
@@ -369,6 +403,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * @param mixed $pattern
     * @param mixed $render
     */
+
     public function invokeCtrlUriPattern(\IGK\Controllers\BaseController $ctrl, $pattern, $render=1){
         if(igk_get_env("sys://call/".__METHOD__) == 1){
             igk_debug_wln("Invoke Ctrl Uri Pattern is not allowed");
@@ -390,6 +425,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * @param mixed $func
     * @param mixed $args
     */
+
     public function invokePageAction($type, $ctrl, $func, $args){
         self::_RegActions($this); 
         switch($type){
@@ -438,6 +474,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @param mixed $key
     */
+
     public function invokeUri($key){
         igk_app()->getControllerManager()->InvokeUri($this->getSystemUri($key));
         HtmlRenderer::RenderDocument(); 
@@ -448,6 +485,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * @param mixed $pattern
     * @param mixed $render
     */
+
     public function invokeUriPattern($pattern, $render=1){
         $r=$this->_refRoutes();
         $v_uri=$r ? igk_getv($r, $pattern->action): null;
@@ -470,6 +508,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
      * @return null|\IGK\Controllers\BaseController 
      * @throws IGKException 
      */
+
     public static function GetMatchCtrl(string $uri, bool $forceMatch=false){
         static $rsolv = true;
         if ($rsolv){
@@ -493,6 +532,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @param mixed $uri
     */
+
     public function matche($uri){
         if (empty($uri)){
             return null;
@@ -523,6 +563,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @param mixed $uri
     */
+
     public function matche_global($uri){
         $v_routes = $this->_refRoutes();
         if($v_routes){
@@ -547,6 +588,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @param mixed $routes
     */
+
     protected function setRoutes($routes){
         $this->setEnvParam(self::ROUTES, $routes);
     }
@@ -554,6 +596,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     /**
     * auto generate doc.
     */
+
     public function sys_ac_navigateto(){
         $p=igk_getr('p');
         if(isset($p)){
@@ -574,6 +617,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * @param mixed $p
     * @param mixed $uri
     */
+
     public function sys_ac_register($p, $uri){
         $v_tab = & $this->_refRoutes(); 
         if(isset($v_tab[$p])){
@@ -586,6 +630,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @param mixed $uripattern
     */
+
     public function sys_ac_unregister($uripattern){
         $tab=& $this->_refRoutes();
         if(isset($tab[$uripattern])){
@@ -598,6 +643,7 @@ final class SystemUriActionController extends ConfigControllerBase implements IU
     * auto generate doc.
     * @return BaseController
     */
+
     public function View():BaseController{
         $c=$this->getTargetNode();
         if(!$this->getIsVisible()){

@@ -9,6 +9,11 @@ use IGK\Resources\R;
 * Represent IGKHtmlImgLnkItem class
 */
 final class HtmlImgLnkNode extends HtmlANode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_img;
     /**
     * 
@@ -18,6 +23,7 @@ final class HtmlImgLnkNode extends HtmlANode{
     * @param mixed $height the default value is "16px"
     * @param mixed $desc the default value is null
     */
+
     public function __construct($uri=null, $img=null, $width="16px", $height="16px", $desc=null){
         parent::__construct();
         $this["href"]=$uri;
@@ -31,6 +37,7 @@ final class HtmlImgLnkNode extends HtmlANode{
     /**
     * 
     */
+
     public function getAlt(){
         return $this->m_img["alt"];
     }
@@ -38,6 +45,7 @@ final class HtmlImgLnkNode extends HtmlANode{
     * 
     * @param mixed $v
     */
+
     public function setAlt($v){
         $this->m_img["alt"]=$v;
         return $this;

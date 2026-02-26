@@ -14,14 +14,39 @@ use function igk_resource_gets as __;
 * @package IGK\System\Commmands
 */
 class ProjectBuildCommand extends AppExecCommand{
-	var $command='--project:build';
-	var $desc='build project for production'; 
-	var $options=[]; 
-	public function showUsage(){
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--project:build';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='build project for production';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[];
+
+    /**
+    * auto generate doc.
+    */
+    public function showUsage(){
 		Logger::print($this->command." controller [options]");
 	}
 	/* var \$category; */
-	public function exec($command, ?string $controller =null ) { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller =null ) { 
 		$ctrl = $this->_dieController($command, $controller);
 		$project_builder_cl = igk_configs()->get('ProjectBuilder', \IGK\System\TamTam\ProjectBuilder::class) ?? igk_die("require a global project builder");
 		$project_after_build_options_cl = igk_configs()->get('ProjectBuilder', \IGK\System\TamTam\ProjectBuilderAfterBuildHookOption::class) ?? igk_die("require a global project builder");

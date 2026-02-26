@@ -10,7 +10,18 @@ use IGKException;
 * @package IGK\System\Http
 */
 class ExceptionErrorRequestResponse extends ErrorRequestResponse{
-    private $m_exception; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_exception;
+
+    /**
+    * .ctr
+    * @param \Exception $ex
+    * @param null|mixed $header
+    */
     public function __construct(\Exception $ex, $header=null){
         parent::__construct($ex->getCode(), $ex->getMessage(), $header);
         $this->m_exception = $ex;
@@ -20,6 +31,7 @@ class ExceptionErrorRequestResponse extends ErrorRequestResponse{
      * @return HtmlItemBase 
      * @throws IGKException 
      */
+
     public function title(){
         $n = igk_create_node('div');
         $n->h1()->Content = get_class($this->m_exception);

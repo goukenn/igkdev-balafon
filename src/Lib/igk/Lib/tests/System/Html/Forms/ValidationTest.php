@@ -322,7 +322,17 @@ class ValidationTest extends BaseTestCase
 * @package IGK\Tests\System\Html\Forms
 */
 class ValidationConvert{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $x;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $y;
 }
 
@@ -336,6 +346,7 @@ class ValidationConvertValidator extends ConvertTypeValidatorBase{
     * auto generate doc.
     * @return array
     */
+
     public function getFields():array{
         return [
             'x'=>['type'=>'int', 'required'=>1],

@@ -33,6 +33,10 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     {
         return "administration";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigPage()
     {
         return "console";
@@ -41,6 +45,7 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     /**
      * 
      */
+
     public function getConfigImageKey()
     {
         return "";
@@ -48,6 +53,7 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     /**
      * 
      */
+
     public function getConfigIndex()
     {
         return 10;
@@ -59,10 +65,16 @@ final class IGKConsoleToolManager extends ConfigControllerBase
     /**
      * 
      */
+
     public function getIsConfigPageAvailable()
     {
         return !igk_environment()->isOPS();
     }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View(): BaseController
     {
         $t = $this->getTargetNode();

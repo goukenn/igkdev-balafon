@@ -19,7 +19,17 @@ class HtmlBindingContextOptions extends HtmlLoadingContextOptions{
      * @var ?string
      */
     var $type;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $key;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $value;
     /**
      * enable transforming to data

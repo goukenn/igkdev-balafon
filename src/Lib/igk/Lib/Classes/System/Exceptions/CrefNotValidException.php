@@ -11,6 +11,12 @@ use function igk_resources_gets as __;
  * @package IGK\System\Security
  */
 class CrefNotValidException extends IGKException{
+
+    /**
+    * .ctr
+    * @param mixed $code
+    * @param null|\Throwable $throwable
+    */
     public function __construct($code=500, ?\Throwable $throwable=null){
         parent::__construct(__("Cref Security failed"), $code, $throwable);
     }

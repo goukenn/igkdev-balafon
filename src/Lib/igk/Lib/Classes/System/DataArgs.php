@@ -19,8 +19,16 @@ use Traversable;
 class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
     use ArrayAccessSelfTrait;
     use JsonSerializableTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $p_data;
 
+    /**
+    * auto generate doc.
+    */
     public function _json_serialize(){ 
         return self::Extract($this);
     } 
@@ -28,6 +36,7 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
      * 
      * @return Traversable<mixed, mixed>|mixed[] 
      */
+
     public function getIterator(): Traversable
     {
         return new ArrayIterator($this->p_data, 0);
@@ -36,13 +45,24 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
      * retrieve affected data
      * @return mixed 
      */
+
     public function getData(){
         return $this->p_data;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $index
+    */
     public function _access_OffsetGet($index)
     {
         return igk_getv($this->p_data, $index);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function _access_offsetExists($n){
         if (is_object($this->p_data))
             return isset($this->p_data->{$n});
@@ -54,10 +74,16 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
      * @return mixed 
      * @throws Exception 
      */
+
     public function __get($name)
     {
         return igk_getv($this->p_data, $name);
     }
+
+    /**
+    * .ctr
+    * @param mixed $data
+    */
     public function __construct($data)
     {
         $this->p_data = $data;
@@ -66,6 +92,7 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
      * return the string result
      * @return string|false 
      */
+
     public function __toString()
     {
         if (is_numeric($this->p_data)){
@@ -75,6 +102,12 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
         }
         return json_encode($this->p_data);
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public function __call($name, $arguments)
     {
         if (is_object($this->p_data)) {
@@ -87,6 +120,7 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
      * @return array 
      * @throws Exception 
      */
+
     public function mapToArray(array $mapping_table, ?callable $treat_value = null){
         $c = [];
         foreach($mapping_table as $k=>$v){
@@ -95,6 +129,11 @@ class DataArgs implements IProxyDataArgs, IteratorAggregate, JsonSerializable{
         }
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $raw
+    */
     public static function Extract($raw){
         $c = $raw;
         while($c instanceof static){

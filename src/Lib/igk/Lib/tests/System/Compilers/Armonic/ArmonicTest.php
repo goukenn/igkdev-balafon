@@ -17,6 +17,10 @@ use IGKException;
  */
 class ArmonicTest  extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_var()
     {
         $armonic = new ArmonicCompiler;
@@ -34,6 +38,10 @@ PHP,
             "failed global"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_var_1()
     {
         $armonic = new ArmonicCompiler;
@@ -52,6 +60,9 @@ PHP,
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_var_2()
     {
         $armonic = new ArmonicCompiler;
@@ -71,6 +82,10 @@ PHP,
             "failed global"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_var_3()
     {
         $armonic = new ArmonicCompiler;
@@ -90,6 +105,9 @@ PHP,
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_var_4()
     {
         $armonic = new ArmonicCompiler;
@@ -107,6 +125,10 @@ PHP,
             "failed global"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_dual_var()
     {
         $armonic = new ArmonicCompiler;
@@ -127,6 +149,10 @@ PHP,
             "failed global"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_with_expression()
     {
         $armonic = new ArmonicCompiler;
@@ -144,6 +170,10 @@ PHP,
             "failed global"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_with_expression_1()
     {
         $armonic = new ArmonicCompiler;
@@ -169,6 +199,10 @@ PHP,
             "failed global"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_var_152()
     {
         $armonic = new ArmonicCompiler;
@@ -187,7 +221,9 @@ PHP,
         );
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_var_143()
     {
         $armonic = new ArmonicCompiler;
@@ -206,6 +242,10 @@ PHP,
             "failed global"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_var_124()
     {
         $armonic = new ArmonicCompiler;
@@ -223,6 +263,10 @@ PHP,
             "failed global"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_function()
     {
         $armonic = new ArmonicCompiler;
@@ -250,7 +294,9 @@ PHP,
         );
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_global_function_2()
     {
         $armonic = new ArmonicCompiler;
@@ -283,8 +329,9 @@ PHP,
         );
     }
 
-
-
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_interface_trait_and_class()
     {
         $armonic = new ArmonicCompiler;
@@ -299,6 +346,9 @@ interface A{
 PHP);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_armonic_interface_trait_and_class_2()
     {
 
@@ -344,7 +394,11 @@ PHP,
             $g,
             "failed global"
         );
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function _test_armonic_interface_trait_and_class_3()
     {
         // TODO : TEST ARMONIC
@@ -392,7 +446,9 @@ PHP,  $g, "not ok");
     
     }
 
-
+    /**
+    * auto generate doc.
+    */
     function test_static_var_in_function(){
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = true;
@@ -425,8 +481,9 @@ PHP,
 
     }
 
-
-
+    /**
+    * auto generate doc.
+    */
     function test_public_function(){
         $armonic = new ArmonicCompiler;
         $armonic->mergeVariable = true;

@@ -10,16 +10,35 @@ use IGK\Controllers\BaseController;
  * @package IGK\System\Html\Dom
  */
 class HtmlCtrlNode extends HtmlNode {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_controller;
+
+    /**
+    * .ctr
+    * @param BaseController $controller
+    * @param null|mixed $tagname
+    */
     public function __construct(BaseController $controller, $tagname=null)
     {
         parent::__construct($tagname);
         $this->m_controller = $controller;        
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         $this['igk-type'] = 'controller';
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsVisible(){
         return $this->m_controller->getIsVisible();
     }

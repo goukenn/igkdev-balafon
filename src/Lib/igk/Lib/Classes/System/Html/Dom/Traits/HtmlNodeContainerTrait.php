@@ -11,15 +11,35 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 */
 trait HtmlNodeContainerTrait{
     use ArrayAccessSelfTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $host;
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag()
     {
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     function getRenderedChilds($options = null)
     {
         return [$this->host];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $value
+    */
     public function setAttribute($n, $value){
         $this->host->setAttribute($n, $value);
         return $this;
@@ -29,31 +49,65 @@ trait HtmlNodeContainerTrait{
      * @param mixed $n 
      * @return $this 
      */
+
     public function setContent($n){
         $this->host->setContent(...func_get_args());
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setClass($v){
         $this->host->setClass($v);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     function _access_OffsetSet($n, $v){
         $this->host->_access_OffsetSet($n, $v);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     function _access_OffsetGet( $n){
         $g =   $this->host->_access_OffsetGet($n);
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     function _access_OffsetUnset( $n){
         $this->host->_access_OffsetUnset($n);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @return bool
+    */
     function _access_offsetExists( $n):bool{
         return $this->host->_access_offsetExists($n); 
     }
     // - + drop fix router context prefer update _add method 
     // public function __call($n, $arg){
     //     return $this->host->__call($n, $arg);
-    // }  
+    // }
+
+    /**
+    * Triggered when calling an inaccessible or undefined method on an object.
+    * @param mixed $n
+    * @param mixed $arg
+    */
     public function __call($n, $arg){
         if (method_exists($this->host , $n)){
             return call_user_func_array([$this->host,$n], $arg);
@@ -62,14 +116,33 @@ trait HtmlNodeContainerTrait{
             return $r;
         } 
         return parent::__call($n, $arg); 
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $k
+    * @param null|mixed $default
+    */
     public function getFlag($k, $default = null){
         return $this->host->getFlag($k, $default);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $k
+    * @param mixed $value
+    */
     public function setFlag($k, $value){
         $this->host->setFlag($k, $value);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param bool $force
+    * @return bool
+    */
     protected function _add($n, bool $force=false):bool{         
         return $this->host->_add($n, $force);
     }

@@ -11,5 +11,11 @@ namespace IGK\System\Text;
 * @author C.A.D. BONDJE DOUE
 */
 interface ITextCodeFormatter{
+
+    /**
+    * auto generate doc.
+    * @param string $source
+    * @return string
+    */
     function format(string $source):string;
 }

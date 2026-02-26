@@ -11,6 +11,11 @@ use IGK\Controllers\BaseController;
 * @package IGK\System\Database
 */
 abstract class InitBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const INIT_METHOD = 'Init';
     // + | public static function Init(SourceController $controller){
     // + |      override this to init your database
@@ -22,6 +27,7 @@ abstract class InitBase{
      * @param ?BaseController $owner Optional owning controller.
      * @return void
      */
+
     protected static function InitAuthorisations( string $classname, ?BaseController $owner=null){
         self::_initConstantModel($classname, \IGK\Models\Authorizations::class, $owner, function($v, $cl)use($owner){
             return [
@@ -39,6 +45,7 @@ abstract class InitBase{
      * @param ?callable $callback Optional callback to build the row data.
      * @return void
      */
+
     protected static function _initConstantModel(string $classname, $modelclass,  ?BaseController $owner=null, ?callable $callback=null){
         $cl = null;
         if ($owner)
@@ -59,6 +66,7 @@ abstract class InitBase{
      * @param ?BaseController $owner Optional owning controller.
      * @return void
      */
+
     protected static function InitGroups( string $classname, ?BaseController $owner=null){
         self::_initConstantModel($classname,\IGK\Models\Groups::class, $owner, function($v, $cl)use($owner){
             return [

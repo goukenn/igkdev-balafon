@@ -9,7 +9,18 @@ namespace IGK\System;
  * @package IGK\System
  */
 abstract class Helper{
-    static $_init; 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    static $_init;
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    * @param null|callable $handling
+    */
     public static function PolyfillTrait($file, ?callable $handling=null){
         $n = basename($file);        
         if (version_compare(PHP_VERSION, "8", ">="))
@@ -23,6 +34,10 @@ abstract class Helper{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function __init(){
         if (self::$_init)
             return;

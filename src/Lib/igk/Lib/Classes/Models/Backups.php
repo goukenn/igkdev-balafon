@@ -29,12 +29,42 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $backup_type, string $backup_class, string $backup_path, string|datetime $backup_create_at, string|datetime $backup_update_at) add entry if not exists. check for unique column.
 * */
 class Backups extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_BACKUP_TYPE="backup_type";
-	const FD_BACKUP_CLASS="backup_class";
-	const FD_BACKUP_PATH="backup_path";
-	const FD_BACKUP_CREATE_AT="backup_create_at";
-	const FD_BACKUP_UPDATE_AT="backup_update_at";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_BACKUP_TYPE="backup_type";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_BACKUP_CLASS="backup_class";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_BACKUP_PATH="backup_path";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_BACKUP_CREATE_AT="backup_create_at";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_BACKUP_UPDATE_AT="backup_update_at";
 	/**
 	* table's name
 	*/

@@ -8,7 +8,22 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 interface IFormFields extends IFormFieldContainer{
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     function getDataSource(): ?array;
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     function getTag(): ?string;
+
+    /**
+    * auto generate doc.
+    * @return ?object
+    */
     function getEngine(): ?object;
 }

@@ -13,6 +13,10 @@ use function igk_resources_gets as __;
 * represent language selection options
 */
 final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
+
+    /**
+    * auto generate doc.
+    */
     public function & getSetting(){
         $m = [];
         return $m;
@@ -20,6 +24,7 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
     /**
     * .ctr
     */
+
     public function __construct(){
         parent::__construct("div");
         $this->add("div")->Content=new ValueListener($this, "MemoryInUsed");
@@ -29,6 +34,7 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
     /**
     * 
     */
+
     public function clear_component(){
         igk_getctrl(IGK_COMPONENT_MANAGER_CTRL)->DisposeAll();
         igk_ilog( __FILE__.":".__LINE__ , 'destroy session '); session_destroy();
@@ -37,6 +43,7 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
     /**
     * 
     */
+
     public function component_info_ajx(){
         $d=igk_create_node();
         $c=igk_getctrl(IGK_COMPONENT_MANAGER_CTRL)->getComponents();
@@ -56,24 +63,28 @@ final class HtmlMemoryUsageInfoNode extends HtmlComponentNode {
     /**
     * 
     */
+
     public function getComponents(){
         return __("Component : {0}",  igk_count(igk_getctrl(IGK_COMPONENT_MANAGER_CTRL)->getComponents()));
     }
     /**
     * 
     */
+
     public function getMemoryInUsed(){
         return Number::GetMemorySize(memory_get_usage());
     }
     /**
     * 
     */
+
     public function getMemoryPeekInUsed(){
         return Number::GetMemorySize(memory_get_peak_usage());
     }
     /**
     * 
     */
+
     public function memoryinfo(){
         $this->renderAJX();
         igk_exit();

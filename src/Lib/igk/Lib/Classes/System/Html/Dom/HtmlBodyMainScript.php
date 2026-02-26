@@ -9,8 +9,24 @@ namespace IGK\System\Html\Dom;
  * @package IGK\System\Html\Dom
  */
 class HtmlBodyMainScript extends HtmlScriptNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     static $item;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_scripts = [];
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    * @param mixed $script
+    */
     public function addScript($key, $script){
         if(!isset($this->m_scripts[$key])){            
             if (!empty($script)){
@@ -27,12 +43,28 @@ class HtmlBodyMainScript extends HtmlScriptNode{
         }
         return igk_count($this->m_scripts);
     }
-     public function addScriptNode($id, $n){
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param mixed $n
+    */
+    public function addScriptNode($id, $n){
         return $this->m_bodyMainScript->addScriptNode($id, $n);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $scriptFile
+    */
     public function appendScript($scriptFile){
         return $this->appendScript($scriptFile);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $index
+    */
     public function removeScript($index){
         $str=igk_getv($this->m_scripts, $index);
         if($str){
@@ -40,20 +72,38 @@ class HtmlBodyMainScript extends HtmlScriptNode{
             $this->_initValue();
         }
     }
-public function getScriptAt($index){
+
+    /**
+    * auto generate doc.
+    * @param mixed $index
+    */
+    public function getScriptAt($index){
         return igk_getv($this->m_scripts, $index, null);
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function getItem(){
         if (self::$item === null)
             self::$item = new self();
         return self::$item;
     }
+
+    /**
+    * .ctr
+    */
     function __construct(){
         parent::__construct();
         $this["class"] = "igk-mbody-script";
         // avoid defering on script
         $this->activate('defer');
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     protected function _getRenderingChildren($options = null)
     {
         return array_filter([ 
@@ -61,6 +111,12 @@ public function getScriptAt($index){
             count($this->m_scripts)>0 ? new SourceScriptRenderer($this->m_scripts) : null
         ]);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null): bool
     {      
         // $r = count($this->m_scripts)>0;
@@ -73,11 +129,26 @@ public function getScriptAt($index){
  * @package IGK\System\Html\Dom
  */
 final class SourceScriptRenderer extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_scripts;
+
+    /**
+    * .ctr
+    * @param mixed $scripts
+    */
     public function __construct($scripts)
     {
         $this->m_scripts = $scripts;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options = null) { 
         return $this->m_scripts ? implode("\n", array_values($this->m_scripts )) : null;
     }

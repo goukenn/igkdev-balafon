@@ -18,6 +18,11 @@ use IGKException;
 * @package IGK\Database
 */
 class DbInitManager{
+
+    /**
+    * auto generate doc.
+    * @param BaseController $controller
+    */
     public function init(BaseController $controller){
         // + | --------------------------------------------------------------------
         // + | init profiles
@@ -32,6 +37,7 @@ class DbInitManager{
      * @throws Error 
      * @throws IGKException 
      */
+
     protected function initProfile(BaseController $controller){
         // igk_debug_wln('init controller profiles ... ');
         DbInitManagement::InitControllerProfile($controller);
@@ -41,6 +47,7 @@ class DbInitManager{
      * @param string $name 
      * @return (null|Groups|Authorizations)[] 
      */
+
     protected function _registerGroupAndAuth(string $name, ?BaseController $controller){
         return DbInitManagement::RegisterGroupAndAuth($name, $controller);
     }

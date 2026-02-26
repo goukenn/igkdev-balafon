@@ -9,5 +9,10 @@ namespace IGK\System\Controllers;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class ControllerParamKeys{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const ACTIONS_INSTANCES = 'action-instances';
 }

@@ -12,6 +12,14 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class RegexFormatMatcherUtility{
+
+    /**
+    * auto generate doc.
+    * @param string $value
+    * @param mixed $chain
+    * @param int $from
+    * @param RegexFormatStringBuilder $builder
+    */
     public static function ReplaceChain(string $value, $chain, int $from, RegexFormatStringBuilder $builder ){
         $Tss = $value;
         $offset = $from;

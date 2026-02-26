@@ -8,5 +8,10 @@ namespace IGK\System\Html;
 * @package IGK\System\Html
 */
 interface IDomHtmlCssClassValueAttribute{
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     function getValue():string;
 }

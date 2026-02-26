@@ -12,6 +12,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\HelperFunctions\Array
 */
 class KeyMapImplodeTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_normal(){
         $r = igk_array_key_map_implode(["one"=>1, "offert"=>2]);
         $this->assertEquals(
@@ -19,6 +23,10 @@ class KeyMapImplodeTest extends BaseTestCase{
             $r
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_normal_width_array(){
         $r = igk_array_key_map_implode(["one"=>1, "offert"=>["jump"=>"ok"]]);
         $this->assertEquals(
@@ -26,6 +34,10 @@ class KeyMapImplodeTest extends BaseTestCase{
             $r
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_normal_width_index_array(){
         $r = igk_array_key_map_implode(["one"=>1, "offert"=>["jump:ok"]]);
         $this->assertEquals(

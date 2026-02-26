@@ -9,5 +9,11 @@ namespace IGK\System\Html;
 * @author C.A.D. BONDJE DOUE
 */
 interface IHtmlNodeConditionEvaluableAttribute{
+
+    /**
+    * auto generate doc.
+    * @param mixed $context
+    * @return bool
+    */
     function evaluate($context):bool;
 }

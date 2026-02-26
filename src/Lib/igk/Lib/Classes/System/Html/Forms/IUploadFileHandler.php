@@ -9,5 +9,11 @@ namespace IGK\System\Html\Forms;
 * @author C.A.D. BONDJE DOUE
 */
 interface IUploadFileHandler{
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed $identifier
+    */
     function upload($value, $identifier);
 }

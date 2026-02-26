@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
  */
 class HtmlUtilsInitFunctionTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_render()
     {
         $this->assertEquals(
@@ -20,6 +24,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             HtmlUtils::Init(igk_create_node('div'), 'hello!!!')
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_with_array()
     {
 
@@ -32,6 +40,9 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_render_with_array_last()
     {
         // last item 
@@ -42,6 +53,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             ])->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_with_array_multi()
     {
         // last item 
@@ -55,6 +70,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_class()
     {
         // last item 
@@ -69,6 +88,9 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_render_class_pseudo()
     {
         // last item 
@@ -82,6 +104,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_after_node()
     {
         // last item 
@@ -95,6 +121,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_form()
     {
         // last item 
@@ -106,6 +136,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_form_ajx()
     {
         // last item 
@@ -119,6 +153,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_form_ajx_call_twice()
     {
         // last item 
@@ -133,6 +171,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_form_ajx_call_twice_2()
     {
         // last item 
@@ -148,6 +190,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_form_ajx_call_twice_3()
     {
         // last item  
@@ -162,6 +208,10 @@ class HtmlUtilsInitFunctionTest extends BaseTestCase
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_render_loop()
     {
         // last item  

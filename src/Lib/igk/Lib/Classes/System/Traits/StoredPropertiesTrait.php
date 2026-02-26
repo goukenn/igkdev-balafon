@@ -9,10 +9,26 @@ namespace IGK\System\Traits;
 * @package IGK\System\Traits
 */
 trait StoredPropertiesTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_properties = [];
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function getProperty($n){
         return igk_getv($this->m_properties, $n);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function setProperty($n, $v){
         if (is_null($v)){
             unset($this->m_properties[$n]);

@@ -36,11 +36,26 @@ use IGKException;
  */
 abstract class BalafonCompileBase extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected static $sm_tempdir;
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function tearDownAfterClass(): void
     {
         IO::RmDir(self::$sm_tempdir);
     }
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function setUpBeforeClass(): void
     {
         $sdir = sys_get_temp_dir() . "/testCompiler";

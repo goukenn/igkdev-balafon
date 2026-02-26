@@ -23,13 +23,19 @@ represent a IGKPDFViewerCtrl
 */
 final class IGKHtmlPdfViewNode extends HtmlNode
 {
-	private $m_ctrl;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_ctrl;
 	/**
 	 * Constructor.
 	 *
 	 * @param mixed $ctrl The parent PDF viewer controller.
 	 */
-	public function __construct($ctrl)
+
+    public function __construct($ctrl)
 	{
 		parent::__construct("iframe");
 		$this->m_ctrl = $ctrl;
@@ -42,7 +48,8 @@ final class IGKHtmlPdfViewNode extends HtmlNode
 	 * @param mixed $xmloption Optional XML render options.
 	 * @return string
 	 */
-	public function render($xmloption=null)
+
+    public function render($xmloption=null)
 	{
 		$uri = $this->m_ctrl->getUri("render_pdf_ajx");
 		$this["src"] = igk_io_baseuri().$uri;
@@ -54,7 +61,8 @@ final class IGKHtmlPdfViewNode extends HtmlNode
 	 * @param mixed $xmloption Optional XML render options passed by reference.
 	 * @return string
 	 */
-	public function innerHTML (& $xmloption =null)
+
+    public function innerHTML (& $xmloption =null)
 	{
 
 			$o = parent::innerHTML($xmloption);
@@ -74,11 +82,17 @@ final class IGKHtmlPdfViewNode extends HtmlNode
 */
 abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	private $m_pdf;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_pdf;
 	/**
 	 * Constructor.
 	 */
-	public function __construct(){
+
+    public function __construct(){
 		parent::__construct();
 	}
 	/**
@@ -87,7 +101,8 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 	 * @param mixed $context Optional initialization context.
 	 * @return void
 	 */
-	protected function initComplete($context=null){
+
+    protected function initComplete($context=null){
 		parent::initComplete();
 	}
 	/**
@@ -95,7 +110,8 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return bool
 	 */
-	public function getCanAddChild(){
+
+    public function getCanAddChild(){
 		return false;
 	}
 	/**
@@ -103,7 +119,8 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return \IGK\System\Html\Dom\HtmlNode|null
 	 */
-	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
+
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$n = parent::initTargetNode();
 		$pdf = new IGKHtmlPdfViewNode($this);
 		$n->add(	$pdf);
@@ -116,7 +133,8 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return BaseController
 	 */
-	public function View():BaseController{
+
+    public function View():BaseController{
 		if (!$this->IsVisible)
 		{
 			igk_html_rm($this->TargetNode);
@@ -128,7 +146,8 @@ abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 	 *
 	 * @return void
 	 */
-	public function render_pdf_ajx()
+
+    public function render_pdf_ajx()
 	{
 		$pdf = new IGKPdf();
 		include(dirname(__FILE__)."/".IGK_DATA_FOLDER."/temp.iwpdfsrc");

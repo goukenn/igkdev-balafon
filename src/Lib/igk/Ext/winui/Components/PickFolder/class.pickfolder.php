@@ -35,13 +35,19 @@ class IGKPickFolderCtrl extends NonVisibleControllerBase
 */
 class IGKHtmlPickFolderItem extends HtmlNode
 {
-	public $m_folder;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    public $m_folder;
 	/**
 	 * Get the folder associated with this item.
 	 *
 	 * @return mixed The folder value.
 	 */
-	public function getFolder(){return $this->m_folder;}
+
+    public function getFolder(){return $this->m_folder;}
 
 	/**
 	 * Set the folder associated with this item.
@@ -49,12 +55,14 @@ class IGKHtmlPickFolderItem extends HtmlNode
 	 * @param mixed $value The folder value to set.
 	 * @return void
 	 */
-	public function setFolder($value){ $this->m_folder = $value;}
+
+    public function setFolder($value){ $this->m_folder = $value;}
 
 	/**
 	 * Constructor.
 	 */
-	public function __construct(){
+
+    public function __construct(){
 		parent::__construct("div");
 	} 
 } 

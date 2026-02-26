@@ -10,5 +10,11 @@ use IGK\System\ServicesBase;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class DomCreatorNodeService extends ServicesBase{
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    * @param mixed ...$args
+    */
     abstract function createNode(string $name, ...$args);
 }

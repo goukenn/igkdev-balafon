@@ -15,17 +15,28 @@ use IGK\Tests\BaseTestCase;
 */
 class TestUriDetection extends BaseTestCase{
 
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function setUpBeforeClass(): void
     {
         igk_require_module('igk\devtools');
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_ignore_inline_data(){
         $v_detector = new UriDetector;
         $data = "background-image: url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e\");";
         $uris = $v_detector->cssUrl($data);        
         $this->assertTrue(is_null($uris), "match uris not ok");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_detect(){
         $v_detector = new UriDetector;
         $data = "background-image: url(data:/presentation.com);";
@@ -37,7 +48,9 @@ class TestUriDetection extends BaseTestCase{
         $this->assertTrue(!is_null($uris), "match ok");
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_detect_css_cloud(){
         $v_detector = new UriDetector;
         $data = "background-image: url(../webfonts/fa-brands-400.eot?#iefix);";
@@ -49,6 +62,10 @@ class TestUriDetection extends BaseTestCase{
 
  
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_detect_css_svg_data(){
         $v_detector = new UriDetector;
         $data = <<<EOF
@@ -61,6 +78,10 @@ EOF;
  
 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_detect_css_full_uri_data(){
         $v_detector = new UriDetector;
         $data = <<<EOF
@@ -78,6 +99,9 @@ $uris = $v_detector->cssUrl($data);
             $rp, "after missting flatten"); 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_next_css(){
         $v_detector = new UriDetector;
         $data = <<<'CSS'
@@ -91,6 +115,9 @@ CSS;
         $this->assertFalse(is_null($uris), "must detect uris");
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_uri_on_css(){
         $src = <<<'CSS'
 @font-face {

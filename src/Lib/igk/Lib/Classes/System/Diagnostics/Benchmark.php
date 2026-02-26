@@ -14,15 +14,44 @@ use stdClass;
  * @package IGK\System\Diagnostics
  */
 class Benchmark{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     public  static $Enabled;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $mark = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_configs;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const REQUEST_PARAM = "IGK_BENCHMARK";
     private function __construct(){  
         $this->m_configs = new BenchmarkOptions();
         $this->m_configs->dieOnError = false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function getInstance(){
         if (self::$sm_instance === null)
             self::$sm_instance = new self();
@@ -35,6 +64,7 @@ class Benchmark{
      * @return void 
      * @throws IGKException 
      */
+
     public static function Activate(bool $enabled, ?array $options=null){
         self::$Enabled = $enabled;
         if ($options){
@@ -48,6 +78,7 @@ class Benchmark{
      * @param float $duration duration
      * @return void 
      */
+
     public static function expect(string $name, float $duration, ?string $message=null){
         if (!self::$Enabled){
             return;
@@ -81,6 +112,7 @@ class Benchmark{
      * @param bool $unset unset the mark measure
      * @return int|float|void 
      */
+
     public static function measure(string $name, bool $unset = false){
         if (!self::$Enabled){
             return;
@@ -99,7 +131,8 @@ class Benchmark{
      * mark to bench mark
      * @param mixed $name 
      * @return void 
-     */    
+     */
+
     public static function mark($name){
         self::getInstance()->mark[$name] = igk_sys_request_time();
     }
@@ -109,11 +142,17 @@ class Benchmark{
      * @return void 
      * @throws IGKException 
      */
+
     public static function write(...$args){
         if (self::$Enabled){
             igk_wln($args);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed ...$args
+    */
     public static function log(...$args){
         if (self::$Enabled){
             igk_ilog($args);
@@ -124,9 +163,16 @@ class Benchmark{
      * @param bool $b 
      * @return void 
      */
+
     public function dieOnError(bool $b){
         $this->m_configs->dieOnError = $b;
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $arguments
+    */
     public static function __callStatic($name, $arguments)
     {
         if (method_exists(static::class, $m = "Set".$name)){

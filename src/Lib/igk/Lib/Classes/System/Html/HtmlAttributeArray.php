@@ -20,7 +20,17 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
 {
     use ArrayAccessSelfTrait;
     // protected $preserverKeys = true;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_protectedList;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $add_listener;
     /**
      * activate attribute
@@ -28,6 +38,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @return $this 
      * @throws IGKException 
      */
+
     public function activate($n)
     {
         $t = array_filter(explode(" ", $n));
@@ -41,6 +52,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     * auto generate doc.
     * @param mixed $n
     */
+
     public function keyExists($n)
     {
         return key_exists($n, $this->m_data);
@@ -49,6 +61,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     /**
     * auto generate doc.
     */
+
     public function sortKeys(){
         if($this->m_data){
             ksort($this->m_data);
@@ -59,6 +72,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @param mixed $n 
      * @return void 
      */
+
     public function deactivate($n)
     {
         unset($this->m_data[$n]);
@@ -68,6 +82,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @param mixed $n 
      * @return bool 
      */
+
     public function isActive($n)
     {
         return isset($this->m_data[$n]) && ($this->m_data[$n] instanceof HtmlActiveAttrib);
@@ -76,6 +91,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     /**
     * auto generate doc.
     */
+
     function __debugInfo()
     {
         return ["attribCount" => $this->count()];
@@ -85,6 +101,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @param mixed $protectedlist attribute to protected with data
      * @return void 
      */
+
     public function __construct(?array $protectedlist = null)
     {
         $this->m_protectedList = $protectedlist;
@@ -97,6 +114,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     * auto generate doc.
     * @param mixed $n
     */
+
     protected function _access_OffsetGet($n)
     {
         if ($this->m_protectedList && isset($this->m_protectedList[$n])) {
@@ -113,6 +131,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     protected function _access_OffsetSet($n, $v)
     {      
         if (!is_null($this->add_listener)) {
@@ -130,6 +149,7 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     * auto generate doc.
     * @param mixed $n
     */
+
     protected function _access_OffsetUnset($n)
     {
         if ($this->m_protectedList && isset($this->m_protectedList[$n])) {

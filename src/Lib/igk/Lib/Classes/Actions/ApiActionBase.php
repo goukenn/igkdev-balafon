@@ -17,17 +17,43 @@ use Throwable;
  * @package IGK\Actions
  */
 abstract class ApiActionBase extends MiddlewireActionBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $response;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $status;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         parent::__construct();
         $this->status = RequestResponseCode::Ok;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $message
+    * @param mixed $code
+    */
     protected function die($message, $code=400){
         igk_ilog("[api - die] : ".json_encode($message));
         igk_do_response(new ErrorRequestResponse($code, $message));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    * @param mixed $code
+    */
     protected function _json($data, $code=RequestResponseCode::Ok){
         return igk_json(json_encode($data), $code);
     }
@@ -36,6 +62,7 @@ abstract class ApiActionBase extends MiddlewireActionBase{
      * @param mixed $response 
      * @return bool 
      */
+
     protected function _handleResponse($response): bool
     {
         // + | --------------------------------------------------------------------
@@ -47,11 +74,21 @@ abstract class ApiActionBase extends MiddlewireActionBase{
         }
         return parent::_handleResponse($response) || is_array($response); 
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     protected function _handleMethodNotFound($name)
     {
         igk_ilog(sprintf('method %s not found in ', $name, get_class($this)));
         $this->die("method not found:".$name, 500);
     }
+
+    /**
+    * auto generate doc.
+    * @param Throwable $ex
+    */
     protected function _handleThrowable(Throwable $ex)
     { 
         $this->die(

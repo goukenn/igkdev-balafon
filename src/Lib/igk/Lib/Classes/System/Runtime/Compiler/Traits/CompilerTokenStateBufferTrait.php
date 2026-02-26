@@ -8,6 +8,13 @@ namespace IGK\System\Runtime\Compiler\Traits;
 * @package IGK\System\Runtime\Compiler\Traits
 */
 trait CompilerTokenStateBufferTrait{
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param mixed & $buffer
+    * @param string $id
+    */
     protected function pushBuffer($options, &$buffer, string $id='')
     {
         $bckBuffer =  &$options->buffer;
@@ -15,6 +22,12 @@ trait CompilerTokenStateBufferTrait{
         array_push($options->buffers,['id'=>$id, 'buffer'=>& $bckBuffer]);
         $options->buffer = &$buffer;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $options
+    * @param string $id
+    */
     protected function popBuffer($options, string $id='')
     {
         if (count($options->buffers) != 0) {        

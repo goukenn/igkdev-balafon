@@ -8,7 +8,16 @@ namespace IGK\System\Net;
 * @package IGK\System\Net
 */
 class NetworkStatus{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_is_alive;
+
+    /**
+    * auto generate doc.
+    */
     public static function IsConnectionAlive(){
         if (!is_null(self::$sm_is_alive)){
             return self::$sm_is_alive;

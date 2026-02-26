@@ -15,12 +15,22 @@ use IGK\System\Text\RegexMatcherContainer;
  * @package 
  */
 class HtmlColorizer extends Colorize{
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     protected function _initColor(): array
     {
         return array_merge(parent::_initColor(), [
            'tagname'=>"\e[38;2;170;65;30m" 
         ]);
     }
+
+    /**
+    * auto generate doc.
+    * @param RegexMatcherContainer $match
+    */
     protected function _initRegexMatcherContainer(RegexMatcherContainer $match)
     {
         parent::_initRegexMatcherContainer($match);
@@ -41,6 +51,7 @@ class HtmlColorizer extends Colorize{
      * @return ?string 
      * @throws Exception 
      */
+
     public function __invoke($s, ?RegexMatcherContainer $match = null, $filter = null): ?string
     {
         return parent::__invoke($s,$match, $filter);

@@ -97,6 +97,10 @@ class RouteActionHandler extends RouteHandler
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getPathUri()
     {
         $croute = "/" . ltrim($this->path, "/");
@@ -111,6 +115,7 @@ class RouteActionHandler extends RouteHandler
      * @param Users $user 
      * @return bool
      */
+
     public function isAuth(Users $user): bool
     {
         // + | --------------------------------------------------------------------
@@ -125,6 +130,11 @@ class RouteActionHandler extends RouteHandler
         }
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed ...$arguments
+    */
     public function process(...$arguments)
     {
         if (func_num_args() == 0) {
@@ -136,6 +146,12 @@ class RouteActionHandler extends RouteHandler
         }
         return $this->_processAction($controller, ...array_slice(func_get_args(), 1));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $route
+    * @param mixed ...$arguments
+    */
     public static function Handle($route, ...$arguments)
     {
         if (!($route instanceof RouteActionHandler)) {
@@ -143,6 +159,10 @@ class RouteActionHandler extends RouteHandler
         }
         return $route->process(...$arguments);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getBindClass()
     {
         return $this->classBind;
@@ -228,6 +248,7 @@ class RouteActionHandler extends RouteHandler
                 return call_user_func_array($func_name, $args);                
         }
     }
+
     public static function GetRouteUri(RouteActionHandler $route, BaseController $controller, $routepattern = null)
     {
         $t = $route->gettype();

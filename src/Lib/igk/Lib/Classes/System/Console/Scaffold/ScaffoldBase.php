@@ -9,13 +9,19 @@ namespace IGK\System\Console\Scaffold;
  * @package IGK\System\Console\Scaffold
  */
 abstract class ScaffoldBase{
-  var $description;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $description;
   /**
    * sho help 
    * @param mixed $command 
    * @return mixed 
    */
-  abstract function showHelp($command);
+
+    abstract function showHelp($command);
   /**
    * help command option 
    * @param mixed $command 

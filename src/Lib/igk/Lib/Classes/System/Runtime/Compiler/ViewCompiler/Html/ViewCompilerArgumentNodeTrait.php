@@ -8,6 +8,12 @@ namespace IGK\System\Runtime\Compiler\ViewCompiler\Html;
 * @package IGK\System\Runtime\Compiler\Html
 */
 trait ViewCompilerArgumentNodeTrait{
+
+    /**
+    * auto generate doc.
+    * @param mixed $reset
+    * @return ?string
+    */
     public function getInstruction($reset = true): ?string { 
         $changed = $this->getChildCount()>0;
         if ($changed){

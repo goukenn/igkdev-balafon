@@ -19,9 +19,29 @@ use Illuminate\Database\Console\Seeds\SeedCommand;
  */
 class ResetDbCommand extends AppExecCommand
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--db:resetdb";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "reset database";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $options = [
         "--force" => "flag: force class generation",
         "--clean"=>"flag: clean model output directory",
@@ -29,7 +49,18 @@ class ResetDbCommand extends AppExecCommand
         "--querydebug" => "flag: activate query debug",
         "--controller:controller_name" => "set controller"
     ];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = '[controller] [db-command-options] [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $ctrl
+    */
     public function exec($command, ?string $ctrl = null)
     {
         DbCommandHelper::Init($command);
@@ -76,6 +107,7 @@ class ResetDbCommand extends AppExecCommand
      * @param bool $force 
      * @return void 
      */
+
     public function controllerResetDatabase($c, bool $force, bool $seed=false, bool $clean=false){
         foreach ($c as $m) {
             $n = get_class($m);
@@ -94,6 +126,14 @@ class ResetDbCommand extends AppExecCommand
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param bool $force
+    * @param bool $seed
+    * @param bool $clean
+    * @return bool
+    */
     public function globalResetDatabase(bool $force, bool $seed=false, bool $clean =false):bool{
         $migrations = IGKModuleListMigration::CreateModulesMigration();
         $sysdb = SysDbController::ctrl();
@@ -144,6 +184,7 @@ class ResetDbCommand extends AppExecCommand
      * @param mixed $command 
      * @return void 
      */
+
     public function seedController($command){ 
         $seed = $command->app->command["--db:seed"];
         $fc = $seed["0"];

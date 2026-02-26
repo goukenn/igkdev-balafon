@@ -20,5 +20,10 @@ interface ISignInProvider{
      * @return bool 
      */
     function login(callable $callable) : bool;
+
+    /**
+    * auto generate doc.
+    * @param mixed $uri
+    */
     function redirectTo($uri);
 }

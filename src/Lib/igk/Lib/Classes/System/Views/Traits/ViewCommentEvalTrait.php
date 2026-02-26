@@ -9,6 +9,11 @@ use IGK\Helper\StringUtility;
 * @package IGK\System\Views\Traits
 */
 trait ViewCommentEvalTrait{
+
+    /**
+    * auto generate doc.
+    * @param string $data
+    */
     protected function evalData(string $data){
         $name = $data;
             $args = [];

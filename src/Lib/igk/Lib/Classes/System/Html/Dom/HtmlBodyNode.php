@@ -14,15 +14,39 @@ require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlPoweredByNode.php");
 * @package IGK\System\Html\Dom
 */
 class HtmlBodyNode extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $tagname = "body";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_bodybox;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_bodyMainScript;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_inlineTheme;
     /**
      * html node 
      * @var mixed
      */
     private $m_appendContent;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         parent::__construct();
@@ -36,6 +60,7 @@ class HtmlBodyNode extends HtmlNode{
     * auto generate doc.
     * @param mixed $scriptFile
     */
+
     public function removeScript($scriptFile){
         return $this->m_bodyMainScript->removeScript($scriptFile);
     }
@@ -45,6 +70,7 @@ class HtmlBodyNode extends HtmlNode{
      * @param mixed $scriptFile 
      * @return mixed 
      */
+
     public function appendScript($id, $scriptFile){ 
         return $this->m_bodyMainScript->addScript($id, $scriptFile);
     }
@@ -52,6 +78,7 @@ class HtmlBodyNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function getAppendContent(){
         if($this->m_appendContent === null){
             $this->m_appendContent = new HtmlNoTagNode();
@@ -61,6 +88,7 @@ class HtmlBodyNode extends HtmlNode{
     ///load addition script content when page request loaded.
     /**
     */
+
     public function addScriptContent($key, $script){       
         return $this->m_bodyMainScript->addScript($key, $script);
     }
@@ -68,6 +96,7 @@ class HtmlBodyNode extends HtmlNode{
      * retrieve the body box 
      * @return mixed 
      */
+
     public function getBodyBox(){
         if ($this->m_bodybox ===null){
             $this->m_bodybox = new HtmlBodyBoxNode($this);
@@ -78,6 +107,7 @@ class HtmlBodyNode extends HtmlNode{
     /**
     * auto generate doc.
     */
+
     public function addBodyBox(){
         return $this->getBodyBox();
     }
@@ -86,6 +116,7 @@ class HtmlBodyNode extends HtmlNode{
     * auto generate doc.
     * @param null|mixed $options
     */
+
     protected function _getRenderingChildren($options = null)
     { 
         $doc = igk_getv($options, RenderOptionProperties::DOCUMENT);

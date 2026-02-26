@@ -10,7 +10,16 @@ namespace IGK\System\Text;
  */
 class RegexMatcherInitMarker
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tokens = [];
+
+    /**
+    * .ctr
+    */
     public function __construct() {}
     /**
      * 
@@ -20,6 +29,7 @@ class RegexMatcherInitMarker
      * @param callable $fc 
      * @return bool 
      */
+
     public function mark($e, $src, $pos, callable $fc)
     {
         return $this->init($this->tokens, $e, $src, $pos, $fc);
@@ -28,6 +38,7 @@ class RegexMatcherInitMarker
      * retrieve identifier 
      * @return string 
      */
+
     public function identifier()
     {
         $s = [];
@@ -47,6 +58,7 @@ class RegexMatcherInitMarker
      * @param callable({tokenID:string,pos:int})  $fc 
      * @return bool 
      */
+
     public function init(&$v_rt, $e, $src, $pos, callable $fc)
     {
         $tg = igk_last($v_rt);

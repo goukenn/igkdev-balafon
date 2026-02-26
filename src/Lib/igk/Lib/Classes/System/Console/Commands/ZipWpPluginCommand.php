@@ -13,7 +13,17 @@ use ZipArchive;
 * @package IGK\System\Console\Commands
 */
 class ZipWpPluginCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--zipwp_plugin";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "zip wordpress plugin";
 
     /**
@@ -22,6 +32,7 @@ class ZipWpPluginCommand extends AppExecCommand{
     * @param null|mixed $sourcepath
     * @param null|mixed $path
     */
+
     public function exec($command, $sourcepath=null, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

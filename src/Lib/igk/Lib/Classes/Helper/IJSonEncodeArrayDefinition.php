@@ -8,6 +8,16 @@ namespace IGK\Helper;
 * @package IGK\Helper
 */
 interface IJSonEncodeArrayDefinition{
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function isEmpty():bool;
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function isRequired():bool;
 }

@@ -12,10 +12,37 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Command
 */
 class DbDropForeignKeysCommand extends AppExecCommand{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $command = "--db:drop-foreign-keys";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $category = "db";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $desc = "remove all foreign keys for database";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $usage = 'controller [model] [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $model
+    */
     public function exec($command,?string $controller=null, ?string $model=null ) {
         if ($controller && !($ctrl = self::GetController($controller, false))){            
             igk_die("controller not found");

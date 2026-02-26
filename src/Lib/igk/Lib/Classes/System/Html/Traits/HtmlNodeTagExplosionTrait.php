@@ -9,7 +9,18 @@ namespace IGK\System\Html\Traits;
 * @author C.A.D. BONDJE DOUE
 */
 trait HtmlNodeTagExplosionTrait{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $split = '>';
+
+    /**
+    * auto generate doc.
+    * @param string $tagname
+    * @param array & $defs
+    */
     protected function explodeTagDefinition(string $tagname , array & $defs){
         $v = '';
         if (preg_match('/[\(\[\{\>]/', $tagname)) {

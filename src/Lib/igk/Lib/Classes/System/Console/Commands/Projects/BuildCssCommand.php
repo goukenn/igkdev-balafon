@@ -15,14 +15,46 @@ use IGK\System\IO\Path;
 * @author C.A.D. BONDJE DOUE
 */
 class BuildCssCommand extends AppExecCommand{
-	var $command='--project:build-css';
-	var $desc='css. generate project\'s style theme'; 
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--project:build-css';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='css. generate project\'s style theme';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'-f:file'=>'file to parse'
-	]; 
-	var $category = "project";
-	var $usage = 'controller [file] [options]';
-	public function exec($command, ?string $controller=null, ?string $file=null) {
+	];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = "project";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [file] [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    * @param null|string $file
+    */
+    public function exec($command, ?string $controller=null, ?string $file=null) {
 		$ctrl = self::GetController($controller);
 		$dirs = [$ctrl->getViewDir(),$ctrl->getArticlesDir()];
 		$output = "dist";

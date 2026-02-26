@@ -25,10 +25,30 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clDescription, string $clRegex) add entry if not exists. check for unique column.
 * */
 class DataTypes extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_NAME="clName";
-	const FD_CL_DESCRIPTION="clDescription";
-	const FD_CL_REGEX="clRegex";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NAME="clName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_DESCRIPTION="clDescription";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_REGEX="clRegex";
 	/**
 	* table's name
 	*/

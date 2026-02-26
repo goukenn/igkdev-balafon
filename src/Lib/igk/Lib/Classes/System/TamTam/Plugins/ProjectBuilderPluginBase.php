@@ -25,6 +25,11 @@ abstract class ProjectBuilderPluginBase{
     protected function getCLIService(): ?BalafonCLIService{
         return igk_get_service('balafon', 'cli'); 
     }
+
+    /**
+    * auto generate doc.
+    * @param BaseController $baseController
+    */
     protected function genAction(BaseController $baseController){
         // generate action command
     }

@@ -23,6 +23,12 @@ class ViewTokenExpressionConverter{
      * @var string
      */
     var $tabstop = "";
+
+    /**
+    * auto generate doc.
+    * @param string $source
+    * @return ?string
+    */
     public function convert(string $source): ?string{
         $v_ = new ViewTokenizeCompiler;
         $v_->converter = $this;

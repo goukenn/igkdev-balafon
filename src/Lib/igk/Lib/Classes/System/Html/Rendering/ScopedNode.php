@@ -12,6 +12,11 @@ use IGK\System\Html\Rendering\Traits\ScopedNodeTrait;
 */
 class ScopedNode extends HtmlItemBase implements IHtmlRederingCallback{
     use ScopedNodeTrait;
+
+    /**
+    * .ctr
+    * @param string $tagname
+    */
     public function __construct(string $tagname)
     {
         parent::__construct();

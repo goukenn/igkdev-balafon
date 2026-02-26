@@ -18,6 +18,11 @@ use IGKSorter;
 * @package IGK\Database
 */
 abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_error, $m_errormsg;
     /**
      * key name use to filter result
@@ -27,6 +32,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function createEmptyEntry(){
         return null;
     }
@@ -34,6 +40,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getColumns(){
         return null;
     }
@@ -41,6 +48,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getError(){
         return $this->m_error;
     }
@@ -48,6 +56,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getHasError(){
         return !empty($this->m_error);
     }
@@ -55,6 +64,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getHasRow(){
         return ($this->getRowCount() > 0);
     }
@@ -62,6 +72,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getIterator(){
         $t=new IGKIterator($this->getRows());
         return $t;
@@ -70,6 +81,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getResultType(){
         return "unknow";
     }
@@ -77,6 +89,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getRowCount(){
         return 0;
     }
@@ -84,6 +97,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
      * get rows
      * @return null|Iterable|array
      */
+
     public function getRows(){
         return null;
     }
@@ -91,6 +105,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getSuccess(){
         return false;
     }
@@ -98,6 +113,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function getValue(){
         return null;
     }
@@ -105,6 +121,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     /**
     * auto generate doc.
     */
+
     public function resultTypeIsBoolean(){
         return $this->getResultType() == "boolean";
     }
@@ -113,6 +130,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     * auto generate doc.
     * @param mixed $error
     */
+
     protected function setError($error){
         $this->m_error=$error;
     }
@@ -121,6 +139,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     * auto generate doc.
     * @param mixed $msg
     */
+
     protected function setErrorMsg($msg){
         $this->m_errormsg=$msg;
     }
@@ -130,6 +149,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     * @param mixed $key
     * @param mixed $asc
     */
+
     public function SortBy($key, $asc=true){
         $t=new IGKSorter();
         $t->key=$key;
@@ -142,6 +162,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
     * auto generate doc.
     * @param mixed $keyname
     */
+
     public function to_key_array($keyname){
         $tm=[];
         foreach($this->getRows() as $r){
@@ -155,6 +176,7 @@ abstract class DbQueryResult extends IGKObject implements IDbQueryResult{
      * @return mixed 
      * @throws IGKException 
      */
+
     public function getRowAtIndex(int $index){
         return igk_getv(array_values($this->getRows()), $index);
     }

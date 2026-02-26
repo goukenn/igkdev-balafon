@@ -10,19 +10,48 @@ use IGK\System\Html\Dom\HtmlNode;
  * @package IGK\System\WinUI
  */
 class DashboardBase extends HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_register = [];
+
+    /**
+    * auto generate doc.
+    */
     public function getCanAddChilds(){ 
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $class
+    */
     public static function Register($name, $class){
         self::$sm_register[$name] = $class;
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public static function UnRegister($name){
         unset(self::$sm_register[$name]);
-    }  
+    }
+
+    /**
+    * auto generate doc.
+    */
     public static function RegisterList(){
         return self::$sm_register;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $name
+    */
     public static function Create(string $name){
         $cl = null;
         if (isset(self::$sm_register[$name])){
@@ -41,6 +70,7 @@ class DashboardBase extends HtmlNode{
      * @param array $params 
      * @return void 
      */
+
     public function initParam(array $params){
     }
 }

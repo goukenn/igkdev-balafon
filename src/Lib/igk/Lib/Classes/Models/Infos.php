@@ -23,9 +23,24 @@ use IGK\Models\ModelBase;
 * @method static ?self AddIfNotExists(string $clName, string $clValue) add entry if not exists. check for unique column.
 * */
 class Infos extends ModelBase{
-	const FD_CL_ID="clId";
-	const FD_CL_NAME="clName";
-	const FD_CL_VALUE="clValue";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_ID="clId";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_NAME="clName";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    const FD_CL_VALUE="clValue";
 	/**
 	* table's name
 	*/

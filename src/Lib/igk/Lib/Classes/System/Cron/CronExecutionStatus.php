@@ -9,7 +9,22 @@ namespace IGK\System\Cron;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class CronExecutionStatus{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const RESTART = 0;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const STOP = 1;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const SKIP = -1;
 }

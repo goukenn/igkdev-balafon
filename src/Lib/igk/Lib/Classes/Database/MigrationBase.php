@@ -10,6 +10,11 @@ use IGK\System\Database\SchemaMigrationBuilder;
 * @package IGK\Database
 */
 abstract class MigrationBase{
+
+    /**
+    * auto generate doc.
+    * @param SchemaMigrationBuilder $builder
+    */
     abstract function up(SchemaMigrationBuilder $builder);
     abstract function down(SchemaMigrationBuilder $builder);
 }

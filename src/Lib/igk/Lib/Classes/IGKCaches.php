@@ -20,11 +20,20 @@ require_once IGK_LIB_CLASSES_DIR . '/System/Configuration/ConfigData.php';
  */
 final class IGKCaches
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_storage = []; 
     /**
      * @var IGKCaches caches
      */
     private static $sm_instance;
+
+    /**
+    * auto generate doc.
+    */
     public static function getInstance()
     {
         if (self::$sm_instance === null) {
@@ -41,10 +50,15 @@ final class IGKCaches
      * @return mixed 
      * @throws IGKException 
      */
+
     public static function ResolvPath($file)
     {
         return $file;
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function HandleCache()
     {
         if (igk_setting()->no_page_cache()) {
@@ -66,6 +80,7 @@ final class IGKCaches
      * get system cache uri
      * @return (string|bool)[]  uri and zip flag 
      */
+
     public static function CacheUri($controller = null, ?string $requestUri = null)
     {
         $o = "";
@@ -98,12 +113,19 @@ final class IGKCaches
      * @param string|IGK\Controllers\BaseController $controller 
      * @return bool 
      */
+
     public static function IsCachedUri(string $requestUri, $controller = null)
     {
         list($uri, $zip) = self::CacheUri($controller, $requestUri);
         $file = IGKCaches::page_filesystem()->getCacheFilePath($uri);
         return igk_io_file_exists($file,true);
     }
+
+    /**
+    * Triggered when calling an inaccessible or undefined static method.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public static function __callStatic($name, $args)
     {
         $i = self::getInstance();
@@ -122,6 +144,7 @@ final class IGKCaches
      * init and get javascript filesystem
      * @return FileSystem|null  
      */
+
     public static function article_filesystem()
     {
         return self::__callStatic(__FUNCTION__, []);
@@ -130,6 +153,7 @@ final class IGKCaches
      * init and get javascript filesystem
      * @return FileSystem  
      */
+
     public static function page_filesystem()
     {
         return self::__callStatic(__FUNCTION__, []);
@@ -137,6 +161,7 @@ final class IGKCaches
     /**
      * init and get css filesystem caching
      */
+
     public static function css_filesystem()
     {
         return self::__callStatic(__FUNCTION__, []);
@@ -145,6 +170,7 @@ final class IGKCaches
      * init and get javascript filesystem
      * @return FileSystem  
      */
+
     public static function js_filesystem()
     {
         return self::__callStatic(__FUNCTION__, []);
@@ -223,6 +249,7 @@ final class IGKCaches
      * @param int $mtime time to check
      * @return bool 
      */
+
     public static function CheckCaches($files, int $mtime, & $file = null):bool
     {
         foreach ($files as $f) {

@@ -20,15 +20,39 @@ use IGK\System\Html\Traits\HostableItemTrait;
 class MailPreviewNode extends HtmlNode
 {
     use HostableItemTrait;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $tagname = 'div';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_theme_resolver;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $resolvedList = [];
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         $this['class'] = 'igk-winui-preview';
         $resolver = new CssThemeResolver;
         $this->m_theme_resolver = $resolver;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getRenderedChilds($options = null)
     {
         // convert rendering to view 

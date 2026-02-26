@@ -13,16 +13,36 @@ use ReflectionException;
 * @package IGK\System\Caches
 */
 class InitEnvControllerChain{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_chain = [];
+
+    /**
+    * auto generate doc.
+    * @param mixed $chain
+    * @return InitEnvControllerChain
+    */
     public function add($chain): InitEnvControllerChain{
         array_push($this->m_chain, $chain);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    */
     public function update($ctrl){
         foreach($this->m_chain as $k){
             $k->update($ctrl);
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function complete(){
         foreach($this->m_chain as $k){
             $k->complete();
@@ -38,6 +58,7 @@ class InitEnvControllerChain{
      * @throws ArgumentTypeNotValidException 
      * @throws ReflectionException 
      */
+
     public function load(array $tab, $manager, $loader){
         $no_def = [
             ApplicationModuleController::class

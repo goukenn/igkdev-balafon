@@ -14,12 +14,18 @@ namespace IGK\Database;
 * @package IGK\Database
 */
 class DbSingleValueResult{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $RowCount, $query, $type, $value;
 
     /**
     * auto generate doc.
     * @param mixed $name
     */
+
     public function __get($name){
         if(method_exists($this, $name)){
             return $this->$name();
@@ -30,6 +36,7 @@ class DbSingleValueResult{
     /**
     * auto generate doc.
     */
+
     public function __toString(){
         return $this->getValue();
     }
@@ -37,6 +44,7 @@ class DbSingleValueResult{
     /**
     * auto generate doc.
     */
+
     public function getResultType(){
         return $this->type;
     }
@@ -45,6 +53,7 @@ class DbSingleValueResult{
     * auto generate doc.
     * @param int $index
     */
+
     public function getRowAtIndex(int $index){
         return null;
     }
@@ -52,6 +61,7 @@ class DbSingleValueResult{
     /**
     * auto generate doc.
     */
+
     public function getRowCount(){
         return 0;
     }
@@ -59,6 +69,7 @@ class DbSingleValueResult{
     /**
     * auto generate doc.
     */
+
     public function getRows(){
         return [];
     }
@@ -66,6 +77,7 @@ class DbSingleValueResult{
     /**
     * auto generate doc.
     */
+
     public function getValue(){
         return $this->value;
     }
@@ -73,6 +85,7 @@ class DbSingleValueResult{
     /**
     * auto generate doc.
     */
+
     public function resultTypeIsBoolean(){
         return ($this->type == "boolean");
     }
@@ -80,11 +93,13 @@ class DbSingleValueResult{
     /**
     * auto generate doc.
     */
+
     public function sortBy(){    }
 
     /**
     * auto generate doc.
     */
+
     public function Success(){
         return ($this->type == "boolean") && ($this->value == true);
     }

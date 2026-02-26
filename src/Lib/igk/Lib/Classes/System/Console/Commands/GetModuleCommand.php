@@ -10,11 +10,28 @@ use IGK\System\Console\Logger;
 * @package IGK\System\Console\Commands
 */
 class GetModuleCommand extends AppExecCommand{
-	var $command='--get-module';
-	var $desc='get module command';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--get-module';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='get module command';
 	/* var $options=[]; */
 	/* var \$category; */
-	public function exec($command, ?string $name = null, ?string $package_site=null) { 
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $name
+    * @param null|string $package_site
+    */
+    public function exec($command, ?string $name = null, ?string $package_site=null) { 
 		empty($name) && igk_die("require module name");
 		$site = "https://igkdev.com/balafon/get-modules";
 		// check module exists

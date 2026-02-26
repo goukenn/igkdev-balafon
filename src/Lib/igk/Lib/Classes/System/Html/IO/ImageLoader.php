@@ -11,9 +11,29 @@ use IGK\System\Uri;
 * @package IGK\System\Html\IO
 */
 class ImageLoader{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $outdir;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $hash = "crc32b";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_loaded = [];
+
+    /**
+    * Called when an object is used as a function.
+    * @param mixed $uri
+    */
     public function __invoke($uri){ 
         if (isset($this->m_loaded[$uri])){
             Logger::warn("already loaded : ".$uri);
@@ -46,6 +66,11 @@ class ImageLoader{
             Logger::danger("failed : ");
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $src
+    */
     public function loadContent($src){
         $dv = igk_create_notagnode();
         $dv->load($src);

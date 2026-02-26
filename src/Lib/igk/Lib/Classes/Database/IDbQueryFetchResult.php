@@ -10,5 +10,10 @@ use Iterator;
  * @package IGK\Database
  */
 interface IDbQueryFetchResult extends Iterator , IDbFetchResult{
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     function fetch(): bool;
 }

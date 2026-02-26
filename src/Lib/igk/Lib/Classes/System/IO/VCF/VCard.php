@@ -14,29 +14,124 @@ use IGK\System\Text\RegexMatcherContainer;
 */
 class VCard
 {
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ADR;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $BDAY;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $EMAIL;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $FN;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $N;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $NICKNAME;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $NOTE;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ORG;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $PHOTO;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $PRODID;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $TEL;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $TITLE;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $VERSION;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $X_SOCIALPROFILE;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $SOURCE;
     /**
      * 
      * @var ?string|'individual'|'group'|'org'|'location'
      */
     var $KIND;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $XML;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ANNIVERSARY;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $GENDER;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $LANG;
     /**
      * time zone
@@ -48,16 +143,70 @@ class VCard
      * @var mixed
      */
     var $GEO;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $ROLE;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $LOGO;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $RELATED;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $REV;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $SOUND;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $PID;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $CLIENTPIDMAP;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $KEY;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $FBURL;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $CALADRURI;
+
+    /**
+    * .ctr
+    */
     public function __construct()
     {
         $this->VERSION = '3.0';
@@ -67,6 +216,7 @@ class VCard
      * @param string $type 
      * @return null 
      */
+
     public function getPreferred(string $type){
         return null;
     }
@@ -77,6 +227,7 @@ class VCard
      * @param array|IVCardSaveOptions $save_options 
      * @return void 
      */
+
     public static function Save($file, array $vcards,  $save_options = null)
     {
         $v_sb = new StringBuilder;
@@ -111,6 +262,7 @@ class VCard
      * @param string $file 
      * @return mixed 
      */
+
     public static function OpenFile(string $file)
     {
         $t = []; //entries;

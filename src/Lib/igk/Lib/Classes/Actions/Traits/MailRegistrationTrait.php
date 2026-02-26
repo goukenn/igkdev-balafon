@@ -8,6 +8,11 @@ namespace IGK\Actions\Traits;
 * @package IGK\Actions\Traits
 */
 trait MailRegistrationTrait{
+
+    /**
+    * auto generate doc.
+    * @param mixed $user
+    */
     public function getMailRegistrationMessage($user){
         $ctrl = $this->getController();
         $t = igk_create_node('div');

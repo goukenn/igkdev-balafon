@@ -10,9 +10,24 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 * @package IGK\System\Runtime\Compiler
 */
 abstract class ViewExpressionBase implements ArrayAccess{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_vars = [];
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $m_variables;
     use ArrayAccessSelfTrait;
+
+    /**
+    * .ctr
+    * @param mixed & $variables
+    */
     public function __construct(& $variables)
     {
         $this->m_variables = & $variables;
@@ -22,6 +37,7 @@ abstract class ViewExpressionBase implements ArrayAccess{
      * @param mixed $name 
      * @return bool 
      */
+
     public function contains($name): bool{
         return key_exists($name, $this->m_vars);
     }

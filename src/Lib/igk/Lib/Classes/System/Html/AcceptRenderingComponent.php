@@ -10,14 +10,43 @@ use Exception;
 * @author C.A.D. BONDJE DOUE
 */
 class AcceptRenderingComponent{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $guid;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_script;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_styles;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_injects;
+
+    /**
+    * .ctr
+    * @param string $guid
+    */
     public function __construct(string $guid)
     {
         $this->guid = $guid;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function script(){
         if (is_null($this->m_script)){
             $this->m_script = igk_create_node('script');
@@ -31,6 +60,7 @@ class AcceptRenderingComponent{
      * @return false|void 
      * @throws Exception 
      */
+
     public function __invoke($n, $options){
         if (!$n->acceptRender($options))
             return false;

@@ -15,15 +15,46 @@ use IGKEvents;
 * @author C.A.D. BONDJE DOUE
 */
 class InitRolesCommand extends AppExecCommand{
-	var $command='--users:init-role';
-	var $desc='initiliaze user\'s role';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:init-role';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='initiliaze user\'s role';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		'--controller'=>'host controller',
 		'--reset'=>'reset all authorization',
 	];
-	var $category = 'users';
-	var $usage = '';
-	public function exec($command, ?string $user = null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'users';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $user
+    */
+    public function exec($command, ?string $user = null) { 
 		
 		!$user && igk_die('require user');
 		$ctrl = igk_getv($command->options, '--controller');

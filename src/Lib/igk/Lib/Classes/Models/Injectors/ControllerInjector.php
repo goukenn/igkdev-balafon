@@ -12,7 +12,17 @@ use IGK\System\IInjector;
  * @package IGK\Models\Injectors
  */
 class ControllerInjector implements IInjector{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     protected $controller;
+
+    /**
+    * .ctr
+    * @param null|BaseController $controller
+    */
     public function __construct(?BaseController $controller=null)
     {
         $this->controller = $controller;
@@ -23,12 +33,17 @@ class ControllerInjector implements IInjector{
      * @param null|string $type 
      * @return mixed 
      */
+
     public function resolve($value, ?string $type=null){      
         if ($value instanceof BaseController){
             return $value;
         }
         return $this->controller;        
     }
+
+    /**
+    * get string presentation.
+    */
     public function __toString(){
         return __CLASS__;
     }

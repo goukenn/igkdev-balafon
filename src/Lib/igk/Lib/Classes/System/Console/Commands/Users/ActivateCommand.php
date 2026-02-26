@@ -11,12 +11,38 @@ use IGK\System\Console\Logger;
 * @author C.A.D. BONDJE DOUE
 */
 class ActivateCommand extends AppExecCommand{
-	var $command='--users:activate';
-	var $desc='activate the current user';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--users:activate';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='activate the current user';
 	/* var $options=[]; */
-	var $category = 'users';
-	var $usage = 'login'; 
-	public function exec($command, ?string $login = null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'users';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'login';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $login
+    */
+    public function exec($command, ?string $login = null) { 
 		$login || igk_die("missing users");
 		$user = igk_get_user_bylogin($login) ?? igk_die("user not found");
 		$user->clStatus = 1;

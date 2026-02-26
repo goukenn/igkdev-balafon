@@ -12,8 +12,17 @@
 * auto generate doc.
 */
 final class DbQueryListener{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $squery;
     ///query list
+
+    /**
+    * .ctr
+    */
     public function __construct(){
         $this->squery="";
     }
@@ -22,6 +31,7 @@ final class DbQueryListener{
     * auto generate doc.
     * @param mixed $s
     */
+
     function sendQuery($s){
         if(preg_match("/^SELECT Count\(\*\) FROM/i", $s)){
             return null;

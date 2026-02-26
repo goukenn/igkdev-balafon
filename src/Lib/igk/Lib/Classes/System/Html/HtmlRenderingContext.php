@@ -9,8 +9,28 @@ namespace IGK\System\Html;
 * @author C.A.D. BONDJE DOUE
 */
 abstract class HtmlRenderingContext{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const Html = 'html';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const Mail = 'mail';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const XML="XML";
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     const AJX = "ajx";
 }

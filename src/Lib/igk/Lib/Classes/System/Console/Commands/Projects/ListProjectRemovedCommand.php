@@ -19,13 +19,37 @@ use IGKSysUtil;
  */
 class ListProjectRemovedCommand extends AppExecCommand
 {
-	var $command = '--project:removed';
-	var $desc = 'list removed project';
-	var $options = [
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--project:removed';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc = 'list removed project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options = [
 		'--restore' => 'flag restore removed project list '
 	];
-	var $usage = 'action* [options]';
-	public function showUsage()
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'action* [options]';
+
+    /**
+    * auto generate doc.
+    */
+    public function showUsage()
 	{
 		parent::showUsage();
 		Logger::info('');
@@ -35,7 +59,13 @@ class ListProjectRemovedCommand extends AppExecCommand
 		}
 	}
 	/* var $category='project'; */
-	public function exec($command, ?string $action = null)
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $action
+    */
+    public function exec($command, ?string $action = null)
 	{
 		DbCommandHelper::Init($command);
 		$dir = IGK_PROJECT_DIR . '/.removed';
@@ -91,7 +121,8 @@ class ListProjectRemovedCommand extends AppExecCommand
 	 * @param string $project_dir 
 	 * @return void 
 	 */
-	public static function InstallProject(string $project_dir): bool
+
+    public static function InstallProject(string $project_dir): bool
 	{
 		$v_o = false;
 		//+----------------------------------------------

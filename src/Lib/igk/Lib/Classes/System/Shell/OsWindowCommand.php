@@ -9,6 +9,11 @@ namespace IGK\System\Shell;
  * @package IGK\System\Shell
  */
 class OsWindowCommand extends OsShell{
+
+    /**
+    * auto generate doc.
+    * @param mixed $cmd
+    */
     public static function Where($cmd){ 
         return exec("where ".$cmd);
     }

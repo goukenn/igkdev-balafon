@@ -12,12 +12,20 @@ use IGK\Tests\BaseTestCase;
 * @author C.A.D. BONDJE DOUE
 */
 class ClassDefinitionTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_html_set_class_array(){
         $n = igk_create_node('div');
         $n['class'] = ['underline'=>true, 'litteral'=>false];
         $n->Content = 'Hello';
         $this->assertEquals('<div class="underline">Hello</div>', $n->render(), 'cannot load array class');
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_html_set_class_object(){
         $n = igk_create_node('div');
         $n['class'] = (object)['underline'=>true, 'litteral'=>false];
