@@ -159,10 +159,21 @@ function igk_db_num_rows($r)
     $g = DbQueryDriver::GetFunc("num_rows");
     return $g($r);
 }
+
+/**
+* auto generate doc.
+* @param mixed $r
+* @param int $row
+*/
 function igk_db_seek($r, int $row){
     $g = DbQueryDriver::GetFunc("seek");
     return $g($r, $row);  
 }
+
+/**
+* auto generate doc.
+* @param mixed $r
+*/
 function igk_db_fetch_assoc($r){
     if ($g = DbQueryDriver::GetFunc("fetch_assoc")){
         return $g($r);  
@@ -185,6 +196,12 @@ function igk_db_query(string $query, $res = null)
     }
     return $g($query);
 }
+
+/**
+* auto generate doc.
+* @param mixed $query
+* @param null|mixed $res
+*/
 function igk_db_multi_query($query, $res = null)
 {
     $g = DbQueryDriver::GetFunc("multi_query");
@@ -301,6 +318,10 @@ function igk_mysql_db_last_id($r = null)
     }
     return $g($r);
 }
+
+/**
+* auto generate doc.
+*/
 function igk_db_last_connect_error(){
     $g = DbQueryDriver::GetFunc("connect_error");
     if (DbQueryDriver::Is("MySQLI")) {
@@ -359,6 +380,12 @@ function igk_mysql_time_span($date)
 {
     return igk_time_span(IGK_MYSQL_DATETIME_FORMAT, $date);
 }
+
+/**
+* auto generate doc.
+* @param mixed $con
+* @param mixed $query
+*/
 function igk_mysqli_multi_query($con, $query)
 {
     $cr =  mysqli_multi_query($con, $query);

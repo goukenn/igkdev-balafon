@@ -10,7 +10,15 @@ namespace IGK\Test\Controller;
 use IGK\Tests\BaseTestCase;
 use IGK\IUriActionRegistrableController;
 
-class ManageControllerTest extends BaseTestCase{ 
+/**
+* auto generate doc.
+* @package IGK\Test\Controller
+*/
+class ManageControllerTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     function test_manage_subdomain(){
         
         $data = igk_app()->getControllerManager()->getUserControllers(function ($v) {

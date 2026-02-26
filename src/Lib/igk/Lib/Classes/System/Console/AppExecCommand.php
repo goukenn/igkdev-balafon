@@ -12,6 +12,11 @@ use IGK\System\Console\Commands\DbCommandHelper;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console
+*/
 abstract class AppExecCommand extends AppCommand{
     protected $handle;
     private $m_colorizer;
@@ -106,6 +111,11 @@ abstract class AppExecCommand extends AppCommand{
             };
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
     public abstract function exec($command);
     /**
      * get controller helper

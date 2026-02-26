@@ -5,6 +5,11 @@
 // @desc:
 namespace IGK\System\Library;
 use IGKGD;
+
+/**
+* auto generate doc.
+* @package IGK\System\Library
+*/
 class gd extends \IGKLibraryBase{
     /**
      * Initializes the GD library extension.

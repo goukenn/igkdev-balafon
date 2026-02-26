@@ -9,6 +9,11 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
 use IGKObject;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class HtmlDocThemeMediaType extends IGKObject{
     const CTN_LG_MEDIA=self::LG_MEDIA + self::CTN_OFFSET;
     const CTN_OFFSET=10;

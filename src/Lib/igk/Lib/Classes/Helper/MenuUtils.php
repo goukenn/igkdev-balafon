@@ -11,10 +11,30 @@ namespace IGK\Helper;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\WinUI\Menus\MenuItem;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 final class MenuUtils{
+
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    * @param mixed $table
+    * @param mixed $tab
+    */
     public static function BuildDbMenu($target, $table, $tab){
         self::BuildMenu($target, $tab, $menu, $pages);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $targetNode
+    * @param mixed $tab
+    * @param mixed & $menus
+    * @param mixed & $pages
+    */
     public static function BuildMenu($targetNode, $tab, & $menus, & $pages){
         $v_list=array();
         $v_rlist=array();
@@ -50,6 +70,11 @@ final class MenuUtils{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $menu
+    */
     public static function GetMenuLevel($menu){
         $q=$menu->MenuParent;
         $i=0;
@@ -59,6 +84,11 @@ final class MenuUtils{
         }
         return $i;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public static function GetParentName($name){
         $t=explode(".", $name);
         $c=count($t);
@@ -119,6 +149,12 @@ final class MenuUtils{
         $target->li()->a() 
         ->setAttribute("href", $menu->getUri())->Content=__("menu.".$menu->Name);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    * @param mixed $menuTab
+    */
     public static function InitMenuArray($target, $menuTab){
         $pages=array();
         foreach($menuTab as $k=>$v){

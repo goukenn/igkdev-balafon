@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\XML;
 use DOMDocument;
+
+/**
+* auto generate doc.
+* @package IGK\XML
+*/
 class XSDValidator
 {
     /**

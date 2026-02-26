@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Exceptions;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Exceptions
+*/
 class NotInjectableTypeException extends IGKException{
     public function __construct($index, $code = RequestResponseCode::NotFound){
         parent::__construct( sprintf("Parameter not Injectable %s", $index), $code);

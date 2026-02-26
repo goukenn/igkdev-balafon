@@ -4,6 +4,11 @@
 // @date: 20220518 09:57:10
 // @desc: 
 namespace IGK\System\Console\Commands\Sync;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Sync
+*/
 abstract class SyncSettingBase{
     /**
      * installing core 

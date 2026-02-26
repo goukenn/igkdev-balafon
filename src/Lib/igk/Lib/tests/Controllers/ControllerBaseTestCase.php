@@ -10,9 +10,18 @@ use IGK\Controllers\BaseController;
 use IGK\System\Http\RequestResponse;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Controllers
+*/
 abstract class ControllerBaseTestCase extends BaseTestCase{
     protected $controller;
-    // FOR PHP+8 disable construct of 
+    // FOR PHP+8 disable construct of
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function setUp():void{
         parent::setUp();
         $ctrl = $this->controller;

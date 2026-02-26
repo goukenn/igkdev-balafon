@@ -8,6 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\Database;
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 final class DbColumnDataType{
     const DATE_TIME="Datetime";
     const DOUBLE_SINGLE="Double";
@@ -15,6 +20,10 @@ final class DbColumnDataType{
     const SINGLE="Float";
     const TEXT="Text";
     const VARCHAR="VarChar";
+
+    /**
+    * auto generate doc.
+    */
     public static function GetDbTypes(){
         static $t;
         if($t === null)

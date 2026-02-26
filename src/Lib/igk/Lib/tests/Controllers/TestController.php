@@ -6,8 +6,12 @@
 
 namespace IGK\Tests\Controllers;
 
-use IGK\Controllers\BaseController; 
+use IGK\Controllers\BaseController;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Controllers
+*/
 class TestController extends BaseController{
     
     /**
@@ -20,9 +24,17 @@ class TestController extends BaseController{
     public function getDeclaredDir():string{
         return $this->_getTestDeclaredDir();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDeclaredFileName(){
         return $this->_getTestDeclaredDir()."/TestController.php"; 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getBasicUriPattern(){
         return "^/unittest";
     }

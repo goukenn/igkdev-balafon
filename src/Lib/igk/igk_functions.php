@@ -3317,6 +3317,11 @@ function igk_css_regpic($picname, $link)
 {
     igk_getctrl(IGK_PIC_RES_CTRL)->regPicture($picname, $link);
 }
+
+/**
+* auto generate doc.
+* @param null|mixed $id
+*/
 function igk_css_get_core_comment($id = null)
 {
     $o = "/*\r\nBalafon.css Dynamic css-defition \r" . IGK_LF;
@@ -3566,6 +3571,11 @@ function igk_css_treat_entries(&$v, \IGK\Css\ICssStyleContainer $theme, $type, $
 {
     igk_die("not allowed. " . __FUNCTION__ . ". please use CssThemeResolver");
 }
+
+/**
+* auto generate doc.
+* @param null|array $defColor
+*/
 function &igk_css_get_treat_colors(?array $defColor = null)
 {
     static $gcolor;
@@ -8529,6 +8539,11 @@ function igk_get_defaultconfigdata()
     ksort($data);
     return igk_cache_array_content(igk_map_array_to_str($data));
 }
+
+/**
+* auto generate doc.
+* @param mixed $file
+*/
 function igk_get_defaultcron_data($file = "cronjob.php")
 {
     $bal = IGK_APP_DIR . "/Lib/igk/bin/balafon";
@@ -10874,6 +10889,16 @@ function igk_init_binding_context(HtmlItemBase $n, BaseController $ctrl, ?array 
     return $ldcontext;
 }
 
+/**
+* auto generate doc.
+* @param HtmlNode $n
+* @param string $content
+* @param mixed $data
+* @param mixed $ctrl
+* @param mixed $id
+* @param mixed $evalExpression
+* @param null|mixed $ldcontext
+*/
 function igk_html_bind_article_content(HtmlNode $n, string $content, $data, $ctrl, $id, $evalExpression = true, $ldcontext = null)
 {
     if ($evalExpression) {
@@ -12578,6 +12603,11 @@ function igk_html_skip_add($value = 1)
 {
     HtmlUtils::SkipAdd($value);
 }
+
+/**
+* auto generate doc.
+* @param mixed $autoreset
+*/
 function igk_html_is_skipped($autoreset = true)
 {
     return HtmlUtils::IsSkipped($autoreset);
@@ -12720,6 +12750,11 @@ function igk_php_eval_in_context($exp)
     extract(igk_extract_data(igk_getv(array_slice(func_get_args(), 1), 0, [])));
     return @eval('return ' . $exp . ';');
 }
+
+/**
+* auto generate doc.
+* @param mixed $tab
+*/
 function igk_extract_data($tab)
 {
     if (is_array($tab)) {
@@ -25730,6 +25765,10 @@ function igk_env_action_chain_pop()
         return $s;
     }
 }
+
+/**
+* auto generate doc.
+*/
 function igk_env_current_action()
 {
     if ($chain = igk_environment()->action_hain) {
@@ -25803,6 +25842,11 @@ function igk_view_handle_name()
 {
     return igk_get_env(IGKEnvironment::VIEW_CURRENT_ACTION);
 }
+
+/**
+* auto generate doc.
+* @param \ReflectionType $ref
+*/
 function igk_is_request_type(\ReflectionType $ref)
 {
     return IGKType::GetName($ref) == \IGK\System\Http\Request::class;
@@ -25824,7 +25868,12 @@ function igk_view_handle_obj_action($fname, $object, array $params = [], $exit =
     return IGKActionBase::HandleObjAction($fname, $object, $params, $exit, $flag);
 }
 if (!function_exists('igk_view_navto')) {
-    function igk_view_navto($path)
+
+/**
+* auto generate doc.
+* @param mixed $path
+*/
+function igk_view_navto($path)
     {
         if ($fname = ViewHelper::GetViewArgs('fname')) {
             igk_navto(ViewHelper::CurrentCtrl()->getAppUri($fname . $path));
@@ -26768,7 +26817,12 @@ if (!function_exists('igk_load_env')) {
 }
 
 if (!function_exists('igk_map_conv_to_array')) {
-    function igk_map_conv_to_array($a)
+
+/**
+* auto generate doc.
+* @param mixed $a
+*/
+function igk_map_conv_to_array($a)
     {
         return $a->to_array();
     }

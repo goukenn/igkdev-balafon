@@ -5,6 +5,11 @@
 // @date: 20211007 08:31:28
 namespace IGK\System\Database;
 use IGK\Controllers\BaseController;
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 abstract class InitBase{
     const INIT_METHOD = 'Init';
     // + | public static function Init(SourceController $controller){

@@ -18,10 +18,19 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlSessionBlockNode;
 use IGK\System\Http\Cookies;
 use IGKEvents;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 final class SessionController extends BaseController{
     private function _viewTarget(){
         $this->getTargetNode()->clearChilds();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function changeviewmode(){
         if(!igk_is_conf_connected()){
             return;        }
@@ -36,6 +45,10 @@ final class SessionController extends BaseController{
         igk_navto_referer();
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function ClearAllS(){
         igk_kill_all_sessions();
         $l=igk_sys_srv_referer();
@@ -43,6 +56,10 @@ final class SessionController extends BaseController{
             $l=igk_io_baseuri();
         igk_navto($l);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clearAllSession(){
         $exclude=igk_getr("exclude");
         if(igk_is_conf_connected() || igk_server_is_local()){
@@ -62,6 +79,10 @@ final class SessionController extends BaseController{
             igk_navtobaseuri();
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clearcache(){
         if(Server::IsLocal() || igk_is_conf_connected() || !igk_sys_env_production()){
             igk_clear_cache();
@@ -72,6 +93,11 @@ final class SessionController extends BaseController{
     //     $g = parent::__callStatic('invokeMacros', [__FUNCTION__, $this, $funcname]);        
     //     return $g;
     // }
+
+    /**
+    * auto generate doc.
+    * @param mixed $navigate
+    */
     public function ClearS($navigate=true){
         if ($session = igk_app()->getApplication()->getLibrary()->session){
             $session->destroy(); 
@@ -102,25 +128,52 @@ final class SessionController extends BaseController{
             igk_navto(igk_io_baseuri());
         } 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function configPropertyChanged(){
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function ConfUserChanged(){
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function forceview(){ 
         if ($doc=igk_app()->getDoc()){
             igk_hook(IGKEvents::HOOK_FORCE_VIEW, [$this]);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getIsVisible():bool{
         if(igk_get_env("sys://error"))
             return false;
         return !defined('IGK_NO_WEB') && !igk_const_defined('IGK_NO_SESSION_BUTTON') && (Server::IsLocal() || (!IGKUserAgent::isMobileDevice() && igk_is_conf_connected() && igk_configs()->allow_debugging));
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return IGK_SESSION_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
     protected function initComplete($context=null){   
         parent::initComplete();
         if(igk_is_atomic() || defined("IGK_INIT_SYSTEM"))
@@ -159,9 +212,18 @@ final class SessionController extends BaseController{
             // igk_wln_e("init session controller --- ");
         });
     }
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         return  new HtmlSessionBlockNode($this);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function invmodule(){
         if(igk_get_env(__METHOD__))
             igk_die("Can't invoke module twice");
@@ -185,10 +247,19 @@ final class SessionController extends BaseController{
         igk_set_env(__METHOD__, null);
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function notify_forceview(){
         R::LoadLang();
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function onHandleSystemEvent($msg){
         switch($msg){
             case IGK_ENV_NEW_DOC_CREATED:
@@ -206,9 +277,17 @@ final class SessionController extends BaseController{
             igk_html_add($n, $e->body);
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function PageChanged(){
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function RunCron(){
         $c=igk_getr("ctrl");
         if($c){
@@ -251,6 +330,10 @@ final class SessionController extends BaseController{
         $doc->Dispose();
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function update_setting(){
         $this->View();
     }

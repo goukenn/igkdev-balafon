@@ -12,6 +12,9 @@
 
 use IGK\System\Html\Dom\HtmlNode;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKWinUIControl extends HtmlNode
 {
 	private $m_id;

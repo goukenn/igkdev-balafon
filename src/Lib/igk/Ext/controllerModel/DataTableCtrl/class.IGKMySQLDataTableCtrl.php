@@ -6,6 +6,10 @@
 
 /*datatable controller
 */
+
+/**
+* auto generate doc.
+*/
 abstract class IGKMySqlDataTableCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	// public static function GetAdditionalConfigInfo()

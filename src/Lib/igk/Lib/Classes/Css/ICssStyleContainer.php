@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:58
 // @desc: 
 namespace IGK\Css;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 interface ICssStyleContainer{
     /**
      * Get the CSS definition.

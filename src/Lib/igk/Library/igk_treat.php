@@ -37,7 +37,14 @@ function igk_treat_source($source, $callback, $tab=null, & $options=null){
         $source=explode("\n", $source);
     }
     if(!function_exists("igk_treat_append")){
-        function igk_treat_append($options, $t, $indent=0){
+
+/**
+* auto generate doc.
+* @param mixed $options
+* @param mixed $t
+* @param mixed $indent
+*/
+function igk_treat_append($options, $t, $indent=0){
             if(isset($options->writeListener)){
                 $fc=$options->writeListener;
                 call_user_func_array($fc, func_get_args());
@@ -49,13 +56,22 @@ function igk_treat_source($source, $callback, $tab=null, & $options=null){
         }
     }
     if(!function_exists("igk_treat_create_options")){
-        function igk_treat_create_options(){
+
+/**
+* auto generate doc.
+*/
+function igk_treat_create_options(){
             $options=(object)array();
             return $options;
         }
     }
     if(!function_exists("igk_treat_source_expression")){
-        function igk_treat_source_expression($options){
+
+/**
+* auto generate doc.
+* @param mixed $options
+*/
+function igk_treat_source_expression($options){
             $tab=array();
             return $tab;
         }

@@ -9,9 +9,19 @@ use IGK\Helper\ActionHelper;
 use IGK\Models\Users;
 use IGK\System\Html\Forms\FormHelper;
 use IGKValidator;
+
+/**
+* auto generate doc.
+* @package IGK\Actions\Traits
+*/
 trait SysUserPasswordManagementActionTrait
 {
     use RedirectHelperActionTrait;
+
+    /**
+    * auto generate doc.
+    * @param BaseController $ctrl
+    */
     public function resetPassword_get(BaseController $ctrl)
     {
         if (!($token = igk_getr('token'))) {
@@ -51,6 +61,10 @@ trait SysUserPasswordManagementActionTrait
             igk_wln_e(__FILE__.":".__LINE__, $linkLoken.'');
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function resetPassword_post()
     {
         $u = ActionHelper::CurrentActionUserModel($this);

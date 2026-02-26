@@ -2,17 +2,26 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: class.IGKUserRegistratonCtrl.php
 // @date: 20220803 13:48:58
-// @desc: 
+// @desc:
 
+/**
+* auto generate doc.
+*/
 abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
-	public function register()
+    /**
+    * auto generate doc.
+    */
+    public function register()
 	{
 
 	}
 
-	public function subscribe(){
+    /**
+    * auto generate doc.
+    */
+    public function subscribe(){
 		$obj = igk_get_robj();
 		igk_val_init();
 		igk_val_check(IGKValidator::IsStringNullOrEmpty($obj->clEmail) ||
@@ -33,7 +42,10 @@ abstract class IGKUserRegistrationCtrl extends \IGK\Controllers\ControllerTypeBa
 		igk_val_unregParam($this, "subscribe");
 	}
 
-	public function InitEnvironment()
+    /**
+    * auto generate doc.
+    */
+    public function InitEnvironment()
 	{
 		igk_io_save_file_as_utf8($this->_getViewFile("registration_mail"), <<<EOF
 <?php

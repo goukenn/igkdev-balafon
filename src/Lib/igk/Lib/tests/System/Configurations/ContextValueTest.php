@@ -17,9 +17,16 @@ use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html
+*/
 class ContextValueTest extends BaseTestCase
 {
 
+    /**
+    * auto generate doc.
+    */
     function test_loading_configuration()
     {
         $g = igk_conf_load_content(<<<MSG_EOF
@@ -30,6 +37,10 @@ MSG_EOF, "balafon");
             "div" => "sample"
         ], "failed to load configuration");
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_get_custom_expression()
     {
         $s = "";
@@ -44,9 +55,17 @@ MSG_EOF, "balafon");
     }
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html
+*/
 class DummyExpression extends SysAppConfigExpression
 {
     protected $tag = "baba";
+
+    /**
+    * auto generate doc.
+    */
     public function getOperator()
     {
         return "operator:1";

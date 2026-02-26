@@ -8,6 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\XML;
+
+/**
+* auto generate doc.
+* @package IGK\XML
+*/
 abstract class XMLNodeType{
     const CDATA=5;
     const COMMENT=3;

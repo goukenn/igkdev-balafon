@@ -18,7 +18,12 @@ use IGK\System\Modules\Helpers\Utility as modUtility;
 use IGK\Tests\BaseTestCase;
 use IGK\Constants;
 use IGKEvents;
-use function igk_resources_gets as __; 
+use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeModuleCommand extends AppCommand{
     var $command = "--make:module"; 
     var $category = "make";

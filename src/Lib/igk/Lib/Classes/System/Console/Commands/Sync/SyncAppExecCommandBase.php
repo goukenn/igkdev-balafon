@@ -33,6 +33,11 @@ use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 use IGK\System\Regex\Replacement;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Sync
+*/
 abstract class SyncAppExecCommandBase extends AppExecCommand{
     var $category = "sync";
     // + | entry config tagname
@@ -119,6 +124,12 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         ];
         return $sync;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed & $setting
+    */
     protected function start($command, &$setting){
         if ( ($c = $this->initSyncSetting($command, $setting)) && !$setting){
             return $c;
@@ -128,6 +139,13 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         }
         return $h;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $server
+    * @param mixed $user
+    * @param mixed $pwd
+    */
     protected function connect($server, $user, $pwd){
         $h = null;
         // connect to ftp server
@@ -143,6 +161,12 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
         }
         return $h;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ftp
+    * @param mixed $app_dir
+    */
     protected function removeCache($ftp, $app_dir){        
         FtpHelper::RmDir($ftp, $app_dir."/.Caches"); 
     }
@@ -211,6 +235,10 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
     protected static function GenerateSyncCommandToken(){
         return base64_encode(date("Ymd") .'-'.rand(2, 85) . igk_create_guid());
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getMergedScripts(){
         return [];
     }
@@ -269,6 +297,10 @@ abstract class SyncAppExecCommandBase extends AppExecCommand{
             Logger::danger(igk_curl_status());
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getHelpOptions(){
         return ['--no-timeout'=>'flag: disable timeout'];
     }

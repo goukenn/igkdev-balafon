@@ -23,6 +23,10 @@ use IGK\Helper\Utility;
 use igk\System\Console\Commands\Utility as CommandsUtility;
 use IGK\System\EntryClassResolution;
 
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeDbMacrosCommand extends AppExecCommand{
     var $command = "--make:model-macros"; 
     var $category = "make";
@@ -133,6 +137,10 @@ class MakeDbMacrosCommand extends AppExecCommand{
         }
         return [];
     }
+
+    /**
+    * auto generate doc.
+    */
     public function help(){
         Logger::print("-");
         Logger::info("Make db model macros");

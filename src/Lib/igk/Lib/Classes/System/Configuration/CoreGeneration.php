@@ -5,6 +5,10 @@
 // @desc: 
 namespace IGK\System\Configuration;
 
+/**
+* auto generate doc.
+* @package IGK\System\Configuration
+*/
 class CoreGeneration
 {
     /**

@@ -13,6 +13,11 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 
 use IGKDbModelUtility;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeFactoryCommand extends AppExecCommand
 {
     var $command = "--make:factory";
@@ -20,6 +25,13 @@ class MakeFactoryCommand extends AppExecCommand
     var $desc  = "make project's factory. use %sys% for system controller.";
     var $options = [];
     var $usage = "[modelname --controller:controller]|[controller [modelname]] [option]";
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param mixed $controller
+    * @param mixed $modelname
+    */
     public function exec($command, $controller = "", $modelname = "")
     {
         $ctrl = null;
@@ -81,6 +93,10 @@ class MakeFactoryCommand extends AppExecCommand
         }
         Logger::success("done\n");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function help()
     {
         Logger::print("-");

@@ -9,17 +9,36 @@ namespace IGK\Ext\WinUI\Components\Calc\Html\Node;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\ValueListener;
 
+/**
+* auto generate doc.
+* @package IGK\Ext\WinUI\Components\Calc\Html\Node
+*/
 final class CalcNode extends HtmlNode
 {
 	private $m_mode;
 	private $m_value;
 
-	public function getMode(){return $this->m_mode; }
-	public function setMode($v){$this->m_mode = $v; return $this; }
+    /**
+    * auto generate doc.
+    */
+    public function getMode(){return $this->m_mode; }
 
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
+    public function setMode($v){$this->m_mode = $v; return $this; }
 
-	public function getValue(){return $this->m_value; }
-	public function setValue($v){$this->m_value = $v; return $this; }
+    /**
+    * auto generate doc.
+    */
+    public function getValue(){return $this->m_value; }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
+    public function setValue($v){$this->m_value = $v; return $this; }
 
 
 	public function __construct(){
@@ -27,7 +46,11 @@ final class CalcNode extends HtmlNode
 		$this["class"]="igk-calc";
 
 	}
-	public function initView(){
+
+    /**
+    * auto generate doc.
+    */
+    public function initView(){
 		$this->clearChilds();
 		//model de vuew
 		$frm = $this->addForm();

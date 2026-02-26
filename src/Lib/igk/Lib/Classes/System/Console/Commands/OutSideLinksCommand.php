@@ -14,12 +14,24 @@ use IGK\Helper\IO as IGKIO;
 use \ApplicationController;
 
 use Illuminate\Support\Facades\Log;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class OutSideLinksCommand extends AppExecCommand{
     var $command = "--outsidelinks"; 
     var $category = "utility";
     var $desc  = "retrieve all outside links";
     var $options = [ 
-    ]; 
+    ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $path
+    * @param mixed $viewname
+    */
     public function exec($command, $path=null, $viewname=""){
         if (empty($path)){
             $path = getcwd();
@@ -48,6 +60,10 @@ class OutSideLinksCommand extends AppExecCommand{
         Logger::print(implode("\n", $links));        
         Logger::success("done\n");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function help(){
         parent::help();
         Logger::print("-");

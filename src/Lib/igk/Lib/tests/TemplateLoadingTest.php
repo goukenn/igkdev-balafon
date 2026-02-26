@@ -9,7 +9,15 @@ namespace IGK\Tests;
 use IGK\System\Html\HtmlContext;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class TemplateLoadingTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_loading_data(){
   
         $s = <<<EOF
@@ -34,7 +42,9 @@ $this->assertEquals("<div></div>", $m, "loading failed");
 
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_load_pipe_with_no_data(){
         $src = '<a>{{ $raw | json }}</a>';
         $n = igk_create_node("div");
@@ -46,6 +56,9 @@ $this->assertEquals("<div></div>", $m, "loading failed");
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_load_pipe_with_data(){
         $src = '<a>{{ $raw | json }}</a>';
         $n = igk_create_node("div");
@@ -65,6 +78,9 @@ $this->assertEquals("<div></div>", $m, "loading failed");
         ); 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_visibile_attribute(){
         $src = '<a *visible="false">item first ok</a>';
         $n = igk_create_node("div");
@@ -142,6 +158,9 @@ $this->assertEquals("<div></div>", $m, "loading failed");
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_title_properties(){
         $src = '<a *title="$raw->title" >info</a>';
         $n = igk_create_node("div");

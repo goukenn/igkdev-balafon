@@ -9,8 +9,17 @@ namespace IGK\Tests;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 abstract class BaseTestCase extends TestCase{
     // call before all launching test - and output is consider in return of the output string test.
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function setUp():void{ 
         igk_server()->prepareServerInfo();
     }

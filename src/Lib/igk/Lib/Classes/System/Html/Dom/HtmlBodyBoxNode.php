@@ -5,6 +5,11 @@ use IGKEvents;
 // @author: C.A.D. BONDJE DOUE
 // @description:
 // @copyright: igkdev © 2021
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlBodyBoxNode extends HtmlNode{
     protected $tagname = "div";
     /**

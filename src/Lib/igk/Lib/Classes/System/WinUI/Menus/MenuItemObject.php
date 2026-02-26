@@ -9,15 +9,28 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\WinUI\Menus;
 use IGKObject;
+
+/**
+* auto generate doc.
+* @package IGK\System\WinUI\Menus
+*/
 class MenuItemObject extends IGKObject{
     private $m_subMenus, $m_uri;
     public function __construct($uri, $submenu=null){
         $this->m_uri=$uri;
         $this->m_subMenus=$submenu;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getSubmenu(){
         return $this->m_subMenus;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getUri(){
         return $this->m_uri;
     }

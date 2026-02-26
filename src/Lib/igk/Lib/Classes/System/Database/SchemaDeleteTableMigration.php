@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table"]; 
     // source column to restore
@@ -13,11 +18,19 @@ class SchemaDeleteTableMigration extends SchemaMigrationItemBase{
      * @var array
      */
     var $tables = [];
+
+    /**
+    * auto generate doc.
+    */
     public function up(){    
         $ctrl = $this->getMigration()->controller;
         $tb = igk_db_get_table_name($this->table, $ctrl);
         $ctrl->getDataAdapter()->dropTable($tb);       
     }
+
+    /**
+    * auto generate doc.
+    */
     public function down()
     {  
         //restore current table definition

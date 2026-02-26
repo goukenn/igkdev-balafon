@@ -8,6 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class HtmlExpressionAttribute implements IHtmlGetValue{
     private $m_v;
     /**

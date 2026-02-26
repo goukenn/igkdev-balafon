@@ -10,6 +10,11 @@
 namespace IGK\System\Html;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\Html\XML\XmlNode;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class HtmlAttribExpressionNode extends XmlNode
 {
     var  $node_args;

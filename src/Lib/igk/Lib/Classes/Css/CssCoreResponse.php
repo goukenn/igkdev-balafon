@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\Css;
 use IGK\System\Http\WebResponse;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 class CssCoreResponse extends WebResponse{
     var $file;
     var $no_cache;

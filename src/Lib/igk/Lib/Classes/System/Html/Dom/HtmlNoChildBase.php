@@ -4,8 +4,18 @@
 // @description: 
 // @copyright: igkdev © 2021
 namespace IGK\System\Html\Dom;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 abstract class HtmlNoChildBase extends HtmlItemBase{
-   public final function getCanAddChilds(){
+   public final
+
+    /**
+    * auto generate doc.
+    */
+    function getCanAddChilds(){
        return false;
    }
 }

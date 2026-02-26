@@ -8,7 +8,10 @@
 //author: C.A.D. BONDJE DOUE
 //version : 1.0
 
-
+/**
+* auto generate doc.
+* @param mixed $t
+*/
 function igk_community_init_node_callback($t){
 	// igk_wln("call init node  . ".$t);
 	$ctrl = igk_db_sys_ctrl("community");
@@ -16,6 +19,11 @@ function igk_community_init_node_callback($t){
 		$ctrl->loadCommunityNode($t);
 	}
 }
+
+/**
+* auto generate doc.
+* @param mixed $t
+*/
 function igk_community_init_ShareWith_callback($t){
 	$ctrl = igk_db_sys_ctrl("community");
 	if ($ctrl){
@@ -23,6 +31,9 @@ function igk_community_init_ShareWith_callback($t){
 	}
 }
 
+/**
+* auto generate doc.
+*/
 function igk_html_node_CommunityNode(){
 	$n = igk_create_node("div");
 	$n["class"]="igk-community-node";
@@ -30,6 +41,10 @@ function igk_html_node_CommunityNode(){
 	return $n;
 }
 
+/**
+* auto generate doc.
+* @param null|mixed $tab
+*/
 function igk_html_node_SharedWithCommunity($tab=null){
 	$n = igk_create_node("div");
 	$n["class"]="igk-shared-comm";
@@ -42,9 +57,11 @@ function igk_html_node_SharedWithCommunity($tab=null){
 	return $n;
 }
 
-
-
-
+/**
+* auto generate doc.
+* @param mixed $name
+* @param mixed $uid
+*/
 function igk_html_node_FollowUsButton($name, $uid){
 	$srv = igk_community_get_followus_service();
 	$fc = igk_getv($srv, $name);
@@ -56,6 +73,11 @@ function igk_html_node_FollowUsButton($name, $uid){
 	}
 	return null;
 }
+
+/**
+* auto generate doc.
+* @param mixed $cnf
+*/
 function igk_community_get_follow_entries($cnf){
 	$tab = igk_community_get_followus_service();
 	if (!$tab){

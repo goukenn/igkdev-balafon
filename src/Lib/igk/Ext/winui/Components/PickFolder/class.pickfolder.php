@@ -8,6 +8,9 @@
 use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Html\Dom\HtmlNode;
 
+/**
+* auto generate doc.
+*/
 class IGKPickFolderCtrl extends NonVisibleControllerBase
 {
 	/**
@@ -26,6 +29,10 @@ class IGKPickFolderCtrl extends NonVisibleControllerBase
 }
 
 //define a pick folder item
+
+/**
+* auto generate doc.
+*/
 class IGKHtmlPickFolderItem extends HtmlNode
 {
 	public $m_folder;

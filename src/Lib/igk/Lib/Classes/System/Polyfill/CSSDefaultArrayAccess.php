@@ -6,6 +6,11 @@
 namespace IGK\System\Polyfill;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\Css\CssUtils;
+
+/**
+* auto generate doc.
+* @package IGK\System\Polyfill
+*/
 trait CSSDefaultArrayAccess{
     /**
     * 

@@ -15,6 +15,9 @@ use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 use IGK\Resources\R;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKTwitterFollowUsButtonCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_script;

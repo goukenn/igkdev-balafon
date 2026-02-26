@@ -10,6 +10,11 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlProcessInstructionNode extends HtmlNode{
     private  $m_noClose;
     public function __construct($content, $noClose=false){
@@ -17,18 +22,44 @@ class HtmlProcessInstructionNode extends HtmlNode{
         $this->content = $content;
         $this->m_noClose = $noClose; 
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $option
+    */
     protected function _getRenderingChildren($option=null){
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function __toString(){
         return __CLASS__."#".$this->render();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $item
+    * @param null|mixed $index
+    */
     protected function _addChild($item, $index=null){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $item
+    * @param null|mixed $attributes
+    * @param null|mixed $index
+    */
     public function add($item, $attributes=null, $index=null){
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag(){
         return false;
     }
@@ -45,6 +76,11 @@ class HtmlProcessInstructionNode extends HtmlNode{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options=null){
         $src=$this->getContent();
         if($compiler=igk_getv($options, "PHP.Compiler")){

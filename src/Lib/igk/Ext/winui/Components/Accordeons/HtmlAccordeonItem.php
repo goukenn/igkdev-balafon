@@ -10,15 +10,26 @@ use IGK\ValueListener;
 
 require_once __DIR__."/AccordeonCookiePanel.php";
 
-
+/**
+* auto generate doc.
+*/
 final class HtmlAccordeonItem extends HtmlNode
 implements IHtmlCookieItem
 {
 	private $m_CookieId;
 	private $m_panCount;
 	private $m_script;
-	public function getCookieId(){return $this->m_CookieId; }
-	public function setCookieId($v){ $this->m_CookieId = $v; return $this;}
+
+    /**
+    * auto generate doc.
+    */
+    public function getCookieId(){return $this->m_CookieId; }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
+    public function setCookieId($v){ $this->m_CookieId = $v; return $this;}
 
 	public function __construct(){
 		parent::__construct("div");
@@ -28,13 +39,23 @@ implements IHtmlCookieItem
 		$this->m_script = igk_create_node("balafonJS");
 		$this->m_script->Content = "if (igk.winui.accordeon)igk.winui.accordeon.init();";
 	}
-	protected function _getRenderingChildren($o=null){
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $o
+    */
+    protected function _getRenderingChildren($o=null){
 		$s = parent::_getRenderingChildren($o);
 		if ($this->m_script)
 			$s[] = $this->m_script;
 		return $s;
 	}
-	public function initDemo($t){
+
+    /**
+    * auto generate doc.
+    * @param mixed $t
+    */
+    public function initDemo($t){
 
 		// igk_die("kljb");
 
@@ -51,7 +72,14 @@ EOF;
 
 
 	}
-	public function addPanel($title, $content, $active=false)
+
+    /**
+    * auto generate doc.
+    * @param mixed $title
+    * @param mixed $content
+    * @param mixed $active
+    */
+    public function addPanel($title, $content, $active=false)
 	{
 		$d = $this->div();
 		$d->setClass("igk-panel");

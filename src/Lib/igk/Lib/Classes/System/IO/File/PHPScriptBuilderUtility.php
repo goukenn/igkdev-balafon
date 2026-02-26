@@ -7,6 +7,11 @@
 // @author: C.A.D. BONDJE DOUE
 namespace IGK\System\IO\File;
 use IGK\System\IO\StringBuilder;
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\File
+*/
 abstract class PHPScriptBuilderUtility
 {
     /**

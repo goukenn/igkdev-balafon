@@ -13,6 +13,10 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGKHtmlRelativeUriValueAttribute;
 use IGKResourceUriResolver;
 
+/**
+* auto generate doc.
+* @package IGK\Test\System\Html
+*/
 class DocumentRenderTest extends BaseTestCase{
 
     /**

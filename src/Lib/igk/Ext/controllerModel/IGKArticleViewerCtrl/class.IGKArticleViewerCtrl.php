@@ -15,6 +15,9 @@ use IGK\System\Html\Dom\HtmlNode;
 
 igk_js_bind_script_folder(dirname(__FILE__)."/".IGK_SCRIPT_FOLDER);
 
+/**
+* auto generate doc.
+*/
 abstract class IGKArticleViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 

@@ -10,6 +10,16 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 abstract class HtmlItemAttribute extends IGKObject implements IHtmlGetValue{
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $option
+    */
     abstract function getValue($option=null);
 }

@@ -13,6 +13,10 @@ use IGK\Tests\BaseTestCase;
 * @package IGK\Tests\Controllers
 */
 class ControllerExtensionTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_bind_css_controller(){
         $ctrl = TestController::ctrl(); 
         igk_server()->REQUEST_URI = 'http://local.phpunit';
@@ -23,6 +27,10 @@ class ControllerExtensionTest extends BaseTestCase{
     }
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Controllers
+*/
 class TestController extends NotRegistrableControllerBase{
 
 }

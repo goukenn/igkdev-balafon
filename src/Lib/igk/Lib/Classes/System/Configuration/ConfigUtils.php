@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Configuration;
+
+/**
+* auto generate doc.
+* @package IGK\System\Configuration
+*/
 class ConfigUtils{
     /**
      * load configuration utility

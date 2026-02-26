@@ -4,7 +4,17 @@
 // @date: 20220531 13:35:47
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
+
+/**
+* auto generate doc.
+* @package IGK\Database\SchemaBuilder
+*/
 class DiagramHtmlVisitor extends DiagramVisitor{
+
+    /**
+    * auto generate doc.
+    * @param mixed $entity
+    */
     public function visitDiagramEntity($entity){
         $o = "";
         $n = igk_create_node("div");

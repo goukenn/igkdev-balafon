@@ -8,6 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class HtmlFormInnerNode extends HtmlNode{
     private $m_form;
     /**

@@ -7,6 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
+/**
+* auto generate doc.
+*/
 final class IGKSystemUriActionPatternInfo extends IGKObject{
     var $action, $context, $ctrl, $keys, $pattern, $requestparams, $uri, $value;
     /**
@@ -19,10 +23,19 @@ final class IGKSystemUriActionPatternInfo extends IGKObject{
             $this->$k=$v;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getQueryParams(){
         $t=igk_pattern_get_matches($this->pattern, $this->uri, $this->keys);
         return $t;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $uri
+    */
     public function matche($uri=null){
         $uri=$uri ?? $this->uri; 
         if($uri && preg_match($this->pattern, $uri)){

@@ -9,6 +9,11 @@
 // @url: https://www.igkdev.com
 namespace IGK\Database;
 use IGKObject;
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 final class DbEntryToLoad extends IGKObject{
     var $ctrl, $entries, $tablename;
     public function __construct($ctrl, $tablename, $entries){
@@ -16,6 +21,10 @@ final class DbEntryToLoad extends IGKObject{
         $this->tablename=$tablename;
         $this->entries=$entries;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function loadEntries(){
         igk_db_load_entries($this->ctrl, $this->tablename, $this->entries);
     }

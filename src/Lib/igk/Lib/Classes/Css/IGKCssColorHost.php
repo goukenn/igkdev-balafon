@@ -6,6 +6,11 @@
 namespace IGK\Css;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 class IGKCssColorHost implements ArrayAccess{
     use ArrayAccessSelfTrait;
     const PRIMARY_COLOR = 'inherit';

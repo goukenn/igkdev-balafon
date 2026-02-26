@@ -18,6 +18,9 @@ igk_bind_attribute("class","IGKPDFViewerCtrl", new IGKControllerTypeAttribute())
 represent a IGKPDFViewerCtrl
 */
 
+/**
+* auto generate doc.
+*/
 final class IGKHtmlPdfViewNode extends HtmlNode
 {
 	private $m_ctrl;
@@ -65,6 +68,10 @@ final class IGKHtmlPdfViewNode extends HtmlNode
 			return $o;
 	}
 }
+
+/**
+* auto generate doc.
+*/
 abstract class IGKPDFViewerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_pdf;

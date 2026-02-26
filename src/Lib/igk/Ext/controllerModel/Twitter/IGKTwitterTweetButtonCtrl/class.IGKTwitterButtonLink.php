@@ -11,6 +11,9 @@ description: use to share a link to twitter
 use IGK\Controllers\BaseController;
 use IGK\Resources\R;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKTwitterButtonLinkCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 	/**

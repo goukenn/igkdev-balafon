@@ -12,6 +12,11 @@ use IGK\System\Http\ResponseHtmlRenderer;
 use IGK\System\Http\WebFileResponse;
 use IGK\System\Http\WebResponse;
 use IGK\System\IO\MimeType;
+
+/**
+* auto generate doc.
+* @package IGK\Actions
+*/
 abstract class ProjectDefaultAction extends ActionBase{
     use ProjectAssetHandlerTrait;
     /**
@@ -19,9 +24,17 @@ abstract class ProjectDefaultAction extends ActionBase{
      * @var mixed
      */
     protected $manifest_cache;
+
+    /**
+    * auto generate doc.
+    */
     public function logout(){
         $this->ctrl->logout(1);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function manifest_json(){
         $dir = $this->ctrl->getDeclaredDir();
         if (igk_io_file_exists($fname = ($dir."/manifest.json"))){ 
@@ -38,6 +51,12 @@ abstract class ProjectDefaultAction extends ActionBase{
             throw new RequestException(RequestResponseCode::NotFound);
        }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public function __call($name, $args){
         if (preg_match("/^manifest(\.json)?$/", $name)){
             return $this->manifest_json(...$args);

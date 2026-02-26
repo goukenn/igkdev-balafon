@@ -9,12 +9,22 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\XML;
 use IGK\System\Html\HtmlRenderer;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\XML
+*/
 class XmlDocument extends XmlNode{
     private $_docType;
     public function __construct($tag, $docType=null){
         parent::__construct($tag);
         $this->_docType=$docType;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $option
+    */
     public function render($option=null){
         $sb=igk_xml_header().PHP_EOL;
         if($this->_docType)

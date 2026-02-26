@@ -9,18 +9,29 @@ use IGK\Controllers\NonAtomicTypeBase;
 use IGK\Database\DbColumnInfo;
 use igk\PDF as PDFModule;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKBillingCtrl extends \IGK\Controllers\ControllerTypeBase
 {
- 
-	
-	protected function initComplete($context=null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
+    protected function initComplete($context=null)
 	{ 
 		parent::initComplete();
 		//register a billing
 		$this->app->getControllerManager()->register(IGKBillingConstants::BILL_CTRL, $this);
 		$this->app->getControllerManager()->register(IGKBillingConstants::BILL_DETAIL_CTRL, new IGKBillingDetailsCtrl());
 	}
-	public function store($caddyInfo)
+
+    /**
+    * auto generate doc.
+    * @param mixed $caddyInfo
+    */
+    public function store($caddyInfo)
 	{
 		$u = $this->app->Session->User;
 		if ( ($u==null) || ($caddyInfo==null) || igk_count($caddyInfo)==0)

@@ -6,6 +6,11 @@
 namespace IGK\System\Services;
 use IGK\Helper\ViewHelper;
 use IGKEvents;
+
+/**
+* auto generate doc.
+* @package IGK\System\Services
+*/
 trait SignInProviderTrait{
     /**
      * Registers user-added and user-exists event hooks for sign-in handling.

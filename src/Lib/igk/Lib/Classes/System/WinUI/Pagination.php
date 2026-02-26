@@ -8,6 +8,11 @@ use Exception;
 use IGK\Helper\UriHelper; 
 use IGKException;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\WinUI
+*/
 class Pagination{
     /**
      * selected pan
@@ -110,6 +115,13 @@ class Pagination{
         $this->_postfix($n, $u,   $total , $ajx);
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $ajx
+    * @param mixed $param
+    */
     function _geta($n, $ajx, $param){
         if ($ajx){
             return $n->ajx($param);
@@ -142,6 +154,10 @@ class Pagination{
             break;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getLimit(){     
         $p = $this->page - 1;   
         return implode(",", [($p * $this->count),  

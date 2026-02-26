@@ -6,6 +6,9 @@
 
 use IGK\Controllers\BaseController;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKProductViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	/**

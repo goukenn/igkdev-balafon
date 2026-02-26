@@ -15,6 +15,10 @@ use IGK\Actions\ProjectDefaultAction;
 use IGK\Helper\StringUtility; 
 use igk\System\Console\Commands\Utility as CommandsUtility;
 
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeActionCommand extends AppExecCommand
 {
     var $command = "--make:action";

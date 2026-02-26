@@ -2,9 +2,11 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: class.ArticlesCtrl.php
 // @date: 20220803 13:48:58
-// @desc: 
+// @desc:
 
-
+/**
+* auto generate doc.
+*/
 class IGKArticleController extends IGKAtriclesCtrlBase
 { 
 

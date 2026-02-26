@@ -6,6 +6,9 @@
 
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKAtriclesCtrlBase extends \IGK\Controllers\ControllerTypeBase
 {
 	use NoDbActiveControllerTrait;

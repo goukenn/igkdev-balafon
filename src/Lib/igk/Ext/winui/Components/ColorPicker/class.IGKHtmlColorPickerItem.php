@@ -10,6 +10,9 @@ use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Number;
 
+/**
+* auto generate doc.
+*/
 final class IGKHtmlColorPickerItem extends HtmlNode
 {
 	private $m_script;
@@ -67,6 +70,9 @@ EOF;
 	}
 }
 
+/**
+* auto generate doc.
+*/
 final class IGKHtmlCircleColorPickerItem extends HtmlNode
 {
 	private $m_script;
@@ -133,8 +139,9 @@ EOF;
 	}
 }
 
-
-
+/**
+* auto generate doc.
+*/
 final class IGKColorPickerComponentController extends NonVisibleControllerBase
 {
 	/**

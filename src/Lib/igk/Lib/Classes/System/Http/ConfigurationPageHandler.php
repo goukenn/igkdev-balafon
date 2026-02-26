@@ -10,6 +10,11 @@ use IGK\Server;
 use IGK\System\IO\Path;
 use IGKException; 
 use ReflectionException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class ConfigurationPageHandler
 {
     var $route;

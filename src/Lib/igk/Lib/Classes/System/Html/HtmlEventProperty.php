@@ -9,6 +9,11 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 use ArrayAccess;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
     use \IGK\System\Polyfill\EventPropertyArrayAccessTrait;
     private $_n;
@@ -17,9 +22,20 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
         $this->_n=$name;
         $this->_p=[];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function __get($n){
         return igk_getv($this->_p, $n);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v){
         switch(strtolower($n)){
             case '@__callback':
@@ -34,15 +50,33 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
         }
         $this->_p[$n]=$v;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function __toString(){
         return get_class($this). " : ".$this->_n;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public static function CreateEventProperty($name){
         return new HtmlEventProperty($name);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getid(){
         return $this->_n;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options=null){
         $s="";
         if(is_string($this->_p)){
@@ -61,6 +95,11 @@ class HtmlEventProperty implements IHtmlGetValue, ArrayAccess{
         },array_filter(explode(" ", $this->_n))));
         // return "[".$this->_n. "]=\"".HtmlUtils::GetAttributeValue($s)."\"";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    */
     public function setid($id){
         $this->_n=$id;
     }

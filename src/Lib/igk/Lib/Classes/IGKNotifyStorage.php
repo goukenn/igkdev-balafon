@@ -9,9 +9,19 @@
 // @url: https://www.igkdev.com
 use IGK\System\Exceptions\OperationNotAllowedException;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+*/
 class IGKNotifyStorage{
     private $m_name, $tab;
     private $m_autohide;
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public function __call($name, $args){
         if(method_exists($this, $fc="add".$name)){
             return $this->$fc(...$args);
@@ -25,45 +35,101 @@ class IGKNotifyStorage{
         throw new OperationNotAllowedException('notifyStorage');
     }
     private function __construct(){    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addDanger($msg){
         return $this->addError(...func_get_args());        
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addError($msg){
         $this->tab[]=["type"=>"igk-danger", "msg"=>$msg];
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addErrorr($msg){
         $this->addError(__($msg));
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    * @param null|string $type
+    */
     public function addMsg($msg, ?string $type='igk-defaul'){
         $this->tab[]=["type"=>$type, "msg"=>$msg];
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addMsgr($msg){
         $this->addMsg(__($msg));
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addSuccess($msg){
         $this->tab[]=["type"=>"igk-success", "msg"=>$msg];
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addSuccessr($msg){
         $this->tab[]=["type"=>"igk-success", "msg"=>__($msg)];
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addWarning($msg){
         $this->tab[]=["type"=>"igk-warning", "msg"=>$msg];
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addWarningr($msg){
         $this->tab[]=["type"=>"igk-warning", "msg"=>__($msg)];
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clear(){
         array_splice($this->tab, 0);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $tab
+    * @param mixed $name
+    */
     public static function Create(& $tab, $name){
         if($tab === null){
             return null;
@@ -75,6 +141,10 @@ class IGKNotifyStorage{
         $o->m_autohide=true;
         return $o;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getName(){
         return $this->m_name;
     }
@@ -85,16 +155,35 @@ class IGKNotifyStorage{
     public function & getTab(){  
         return $this->tab;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed & $options
+    */
     public function renderAJX(& $options=null){
         igk_die(__METHOD__. " Not implement");
     }
+
+    /**
+    * auto generate doc.
+    * @param bool $hide
+    */
     public function setAutohide(bool $hide){
         $this->m_autohide = $hide;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getAutohide(){
         return $this->m_autohide;        
     }
+
+    /**
+    * auto generate doc.
+    * @param array $data
+    */
     public function setResponse(array $data){
         $this->tab=[$data];
         return $this;

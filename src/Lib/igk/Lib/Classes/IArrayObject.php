@@ -9,5 +9,9 @@ use ArrayAccess;
 use Countable;
 use IGK\System\IToArray;
 
+/**
+* auto generate doc.
+* @package IGK
+*/
 interface IArrayObject extends ArrayAccess, Countable, IToArray{
 }

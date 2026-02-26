@@ -4,6 +4,11 @@
 namespace IGK\System\Installers;
 use IGK\System\IO\StringBuilder;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Installers
+*/
 final class InstallerUtils
 {
     private function __construct(){        
@@ -44,6 +49,12 @@ final class InstallerUtils
         }
         return $src;
     }
+
+    /**
+    * auto generate doc.
+    * @param array $options
+    * @return ?string
+    */
     public static function GetConfigData(array $options):?string{
         $sb = new StringBuilder;
         if (igk_getv($options, "no_subdomain")){
@@ -54,6 +65,12 @@ final class InstallerUtils
         }
         return trim($sb.'');
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $dir
+    * @param mixed $framework_require
+    */
     public static function NoAccessDir($dir, $framework_require = 0){
         $src = "<?php\n";
         if ($framework_require){

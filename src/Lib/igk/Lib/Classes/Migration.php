@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\System\Database\Migrations;
+
+/**
+* auto generate doc.
+* @package IGK\System\Database\Migrations
+*/
 abstract class Migration{
     /**
      * Applies the migration (runs the forward schema changes).

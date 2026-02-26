@@ -13,22 +13,43 @@ use IGK\System\Html\Dom\HtmlNode;
 /** @package  */
 abstract class IGKFacebookLikeCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getcanAddChild(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getcanAddChild(){
 		return false;
 	}
-	public static function GetAdditionalConfigInfo()
+
+    /**
+    * auto generate doc.
+    */
+    public static function GetAdditionalConfigInfo()
 	{
 		return array("clFacebookUri"=>igk_create_additional_config_info(array("clRequire"=>1)));
 	}
-	public static function SetAdditionalConfigInfo(& $t)
+
+    /**
+    * auto generate doc.
+    * @param mixed & $t
+    */
+    public static function SetAdditionalConfigInfo(& $t)
 	{
 		$t["clFacebookUri"] = igk_getr("clFacebookUri");
 	}
-	public static function GetCtrlCategory(){
+
+    /**
+    * auto generate doc.
+    */
+    public static function GetCtrlCategory(){
 		return "COMMUNITY";
 	}
 
-	public function View():BaseController
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController
 	{
 		$t = $this->getTargetNode();
 		$t->clearChilds();
@@ -40,15 +61,34 @@ return $this;
 	}
 }
 
+/**
+* auto generate doc.
+*/
 final class IGKHtmlFacebookLikeItem extends HtmlNode
 implements IHtmlUriItem
 {
-	private $m_uri;
 
-	public function getUri(){ return $this->m_uri; }
-	public function setUri($v) { $this->m_uri = $v; return $this;}
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    private $m_uri;
 
-	public function View() {
+    /**
+    * auto generate doc.
+    */
+    public function getUri(){ return $this->m_uri; }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
+    public function setUri($v) { $this->m_uri = $v; return $this;}
+
+    /**
+    * auto generate doc.
+    */
+    public function View() {
 		$this->clearChilds();
         //$uri = $this->m_uri;
 		$c = $this->Add("div");
@@ -60,8 +100,12 @@ $c->Content = <<<EOF
 <iframe src="//www.facebook.com/plugins/like.php?href={$href}&layout=button_count&action=like" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:65px;" allowTransparency="true"></iframe>
 EOF; 
 
-	} 
-	public function __construct()
+	}
+
+    /**
+    * .ctr
+    */
+    public function __construct()
 	{
 		parent::__construct("div");
 		$this->m_uri = "https://www.facebook.com/IGKDEV";

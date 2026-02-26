@@ -10,6 +10,11 @@
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlUtils;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlANode extends HtmlNode
 {
     private $m_href, $m_rdef;
@@ -59,6 +64,11 @@ class HtmlANode extends HtmlNode
         parent::offsetSet("href", $this->m_href);
         $this->m_href->setValue($uri);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $option
+    */
     protected function __RenderComplete($option = null)
     {
         if ($this->m_rdef == 1) {
@@ -66,6 +76,13 @@ class HtmlANode extends HtmlNode
             $this->m_rdef = 0;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $k
+    * @param mixed $v
+    * @return void
+    */
     public function offsetSet($k, $v): void
     {
         if ($k == "href") {

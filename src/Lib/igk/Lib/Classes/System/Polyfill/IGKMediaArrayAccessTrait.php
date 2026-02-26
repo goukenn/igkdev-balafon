@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Polyfill;
+
+/**
+* auto generate doc.
+* @package IGK\System\Polyfill
+*/
 trait IGKMediaArrayAccessTrait
 {
     /**

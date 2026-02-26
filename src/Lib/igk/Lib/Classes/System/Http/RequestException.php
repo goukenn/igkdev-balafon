@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Http;
 use Exception;
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class RequestException extends \IGKException{
     protected $status;
     /**
@@ -21,6 +26,10 @@ class RequestException extends \IGKException{
         }
         parent::__construct($message, $code, $previous);
     }
+
+    /**
+    * auto generate doc.
+    */
     function handle(){
         if (igk_server()->accept('json') || Request::getInstance()->isRestRequest()){
             igk_set_header($this->code);

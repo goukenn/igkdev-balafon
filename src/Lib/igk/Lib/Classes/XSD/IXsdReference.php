@@ -4,7 +4,16 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\XSD;
+
+/**
+* auto generate doc.
+* @package IGK\XSD
+*/
 interface IXsdReference{
+
+    /**
+    * auto generate doc.
+    */
     function getRefType();
     /** @return mixed  */
     function getRef();

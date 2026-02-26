@@ -47,7 +47,12 @@ use function igk_get_robjs as get_robjs;
 use function igk_count as fcount;
 use function igk_environment as environment;
 use function igk_form_input_type as form_input_type;
-// require_once IGK_LIB_CLASSES_DIR . 
+// require_once IGK_LIB_CLASSES_DIR .
+
+/**
+* auto generate doc.
+* @package IGK\Models
+*/
 abstract class ModelEntryExtension
 {
     use ModelExtensionTrait;
@@ -149,6 +154,12 @@ abstract class ModelEntryExtension
         }
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $target
+    * @param ModelBase $g
+    */
     public static function updateRaw(ModelBase $target, ModelBase $g){
         if (get_class($target) == get_class($g)) {
             $target::updateRawFrom($target, $g);
@@ -232,6 +243,13 @@ abstract class ModelEntryExtension
         }
         return $row;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $condition
+    * @param null|callable $updating
+    */
     public static function insertOrUpdate(ModelBase $model, $condition, ?callable $updating = null)
     {
         if (!($row = $model->select_row($condition))) {
@@ -385,10 +403,21 @@ abstract class ModelEntryExtension
     {
         return $model->getDataAdapter()->commit();
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function rollback(ModelBase $model)
     {
         return $model->getDataAdapter()->rollback();
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param bool $result
+    */
     public static function endTransaction(ModelBase $model, bool $result)
     {
         return $model->getDataAdapter()->endTransaction($result);
@@ -472,11 +501,25 @@ abstract class ModelEntryExtension
         }
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param null|mixed $conditions
+    * @param null|mixed $options
+    */
     public static function query_all(ModelBase $model, $conditions = null, $options = null)
     {
         $driver = $model->getDataAdapter();
         return  $driver->select($model->getTable(), $conditions, $options);
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param null|mixed $conditions
+    * @param null|mixed $options
+    */
     public static function count(ModelBase $model, $conditions = null, $options = null)
     {
         $driver = $model->getDataAdapter();
@@ -535,6 +578,13 @@ abstract class ModelEntryExtension
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $conditions
+    * @param null|mixed $options
+    */
     public static function select_row_query(ModelBase $model, $conditions, $options = null)
     {
         $r = static::select_query($model, $conditions, $options);
@@ -761,14 +811,31 @@ abstract class ModelEntryExtension
         $key = $model->getPrimaryKey();
         return $model->select_row([$column ?? $key => $model->last_id()]);
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function last_id(ModelBase $model)
     {
         return $model->getDataAdapter()->last_id();
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function last_error(ModelBase $model)
     {
         return $model->getDataAdapter()->last_error();
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param string $column
+    * @param null|array $columns
+    */
     public static function select_rand_row(ModelBase $model, string $column, ?array $columns = null)
     {
         $ad = $model->getDataAdapter();
@@ -822,6 +889,11 @@ abstract class ModelEntryExtension
         }
         igk_die("factory class not found . " . $cl);
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function viewFilter(ModelBase $model)
     {
         // create a factory object         
@@ -904,6 +976,11 @@ abstract class ModelEntryExtension
             return $r;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function createTable(ModelBase $model)
     {
         $driver = $model->getDataAdapter();
@@ -1394,6 +1471,11 @@ abstract class ModelEntryExtension
         $b = get_robjs($model->getFormFields());
         return $model::update((array)$b, $model->{$model->getPrimaryKey()});
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function requestAdd(ModelBase $model)
     {
         $b = get_robjs($model->getFormFields());
@@ -1437,6 +1519,11 @@ abstract class ModelEntryExtension
         $model->with($modelUnion, $propertyName);
         return $model;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function modelTableInfo(ModelBase $model)
     {
         return $model->getTableColumnInfo();
@@ -1488,6 +1575,11 @@ abstract class ModelEntryExtension
         ]), null, false);
         return $res;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function get_insert_query(ModelBase $model)
     {
         $inf = $model->modelTableInfo();
@@ -1528,6 +1620,12 @@ abstract class ModelEntryExtension
     {
         return self::_Add($model, false, ...array_slice(func_get_args(), 1));
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $params
+    */
     public static function AddIfNotExists(ModelBase $model, $params)
     {
         return self::_Add($model, true, ...array_slice(func_get_args(), 1));
@@ -1788,6 +1886,13 @@ abstract class ModelEntryExtension
         }
         return $model::columnList($prefix, $l);
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param string $column
+    * @param mixed ...$args
+    */
     public static function columnSelectArray(ModelBase $model, string $column, ...$args)
     {
         $m = count($args) > 0 ? $args : [];
@@ -1836,6 +1941,12 @@ abstract class ModelEntryExtension
         }
         return [$cl::table()];
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    * @param mixed $column
+    */
     public static function joinTableTargetOn(ModelBase $model, $column)
     {
         return $model::column($column);

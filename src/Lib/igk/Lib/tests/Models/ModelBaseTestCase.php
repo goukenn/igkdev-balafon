@@ -10,16 +10,37 @@ namespace IGK\Tests\Models;
 use IGK\Tests\BaseTestCase;
 use IGK\Tests\Utils;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Models
+*/
 abstract class ModelBaseTestCase extends BaseTestCase{
     // call before all launching test - and output is consider in return of the output string test.
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     protected function setUp():void{ 
         parent::setUp();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getDefaultModelName(){
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     abstract protected function getControllerClass();
 
+    /**
+    * auto generate doc.
+    * @param null|mixed $modelName
+    */
     protected function getModel($modelName=null){
         try{
             $controller = $this->CreateController($this->getControllerClass());
@@ -36,6 +57,9 @@ abstract class ModelBaseTestCase extends BaseTestCase{
         }
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_db_schema(){
         Utils::CheckControllerDataBase($this, $this->getControllerClass());
     }

@@ -4,7 +4,18 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Configuration;
+
+/**
+* auto generate doc.
+* @package IGK\System\Configuration
+*/
 trait ConfigArrayAccessTrait {
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @return void
+    */
     public function offsetUnset(mixed  $n): void{
         unset($this->m_configs->$n);
     }

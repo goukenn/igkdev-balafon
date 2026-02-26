@@ -11,6 +11,11 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use IGKValidator;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class HtmlUri extends IGKObject implements IHtmlGetValue{
     private $m_v;
     /**

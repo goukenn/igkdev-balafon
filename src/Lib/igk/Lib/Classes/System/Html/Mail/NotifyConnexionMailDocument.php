@@ -7,6 +7,11 @@ namespace IGK\System\Html\Mail;
 use IGK\System\Configuration\Controllers\ConfigureController;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Net\MailDocument;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Mail
+*/
 class NotifyConnexionMailDocument extends MailDocument{
     /**
      * source tag
@@ -24,6 +29,10 @@ class NotifyConnexionMailDocument extends MailDocument{
         $this->m_data_service = $provider;
         parent::__construct();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         $message = igk_create_node("div");
@@ -31,6 +40,10 @@ class NotifyConnexionMailDocument extends MailDocument{
         $message->article($this->m_controller, "mail.notify.template", $data);
         $this->add($message);
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getmaildata(){
         if ($this->m_data_service){
             return $this->m_data_service->getMailData();

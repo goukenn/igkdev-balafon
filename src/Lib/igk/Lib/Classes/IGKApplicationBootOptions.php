@@ -2,7 +2,11 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: IGKApplicationBootOptions.php
 // @date: 20220901 12:03:01
-// @desc: 
+// @desc:
+
+/**
+* auto generate doc.
+*/
 class IGKApplicationBootOptions{
     /**
      * default controller to use

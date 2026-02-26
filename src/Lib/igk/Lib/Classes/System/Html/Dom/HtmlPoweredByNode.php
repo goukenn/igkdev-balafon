@@ -11,6 +11,11 @@ namespace IGK\System\Html\Dom;
 use function igk_resources_gets as __;
 use IGKApp;
 use IGKHtmlDoc;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlPoweredByNode extends HtmlNode{
     protected $tagname = "div";
     /**

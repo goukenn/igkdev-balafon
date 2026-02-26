@@ -15,6 +15,11 @@ use IGK\System\Console\Logger;
 use IGK\System\Database\MigrationHandler;
 use IGKModuleListMigration;
 !defined('IGK_CONSOLE_HTRAIT') &&  define('IGK_CONSOLE_HTRAIT', str_repeat('-', 60));
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class DbMigrateCommand extends AppExecCommand
 {
     const H_TRAIT = IGK_CONSOLE_HTRAIT;
@@ -32,6 +37,12 @@ class DbMigrateCommand extends AppExecCommand
     public function showUsage(){
         parent::showCommandUsage('controller [options]');
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $ctrl
+    */
     public function exec($command, $ctrl = null)
     {
         DbCommandHelper::Init($command);

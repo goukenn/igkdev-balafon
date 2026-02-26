@@ -8,5 +8,10 @@ use IGK\System\Exceptions\NotImplementException;
 // + | --------------------------------------------------------------------
 // + | 
 // + |
+
+/**
+* auto generate doc.
+* @package IGK\System\Caches
+*/
 class EnvControllerInitControllers{
 }

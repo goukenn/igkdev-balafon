@@ -14,14 +14,39 @@ use IGK\System\Regex\RegexHelper;
  */
 class FaviconCommand extends AppExecCommand
 {
-	var $command = '--favicon';
-	var $desc ='retrieve default icon';
-	var $options=[
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command = '--favicon';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc ='retrieve default icon';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $options=[
 		"--html"=>"flag: active html rendering",
 		"--type:expected_type"=>"'base64' | 'html' | 'svg' | 'png' default is 'base64'"
 	];
-	var $category = 'sys';
-	var $usage = '[options]';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'sys';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = '[options]';
 	private static function CheckType(string $type){
 		if (in_array($type, explode("|", "base64|svg|html|png")))
 			return $type;
@@ -31,7 +56,12 @@ class FaviconCommand extends AppExecCommand
 		if (property_exists($command->options, '--html'))
 			return 'html';
 	}
-	public function exec($command)
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    */
+    public function exec($command)
 	{
 		$type = self::CheckType(igk_getv($command->options, "--type", '')) ?? self::GetType($command);
 		if ($type=='png'){
@@ -73,14 +103,28 @@ class FaviconCommand extends AppExecCommand
 		igk_exit();
 	}
 }
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ImageHtmlTemplate
 {
-	public function treat(array $data){
+
+    /**
+    * auto generate doc.
+    * @param array $data
+    */
+    public function treat(array $data){
 		return preg_replace_callback(RegexConstant::TEMPLATE_ARG_PLACEHOLDER_REGEX, function($m)use($data){
 			return igk_getv($data, $m['name']);
 		}, $this->render()); 
 	}
-	public function render()
+
+    /**
+    * auto generate doc.
+    */
+    public function render()
 	{
 		$sb = new StringBuilder;
 		$sb->appendLine(<<<HTML

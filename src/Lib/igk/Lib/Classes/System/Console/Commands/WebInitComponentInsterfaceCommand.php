@@ -9,6 +9,11 @@ use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 use ReflectionFunction;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class WebInitComponentInsterfaceCommand extends AppExecCommand
 {
     var $command = "--web:init-component";

@@ -10,6 +10,11 @@
 namespace IGK\System\Html;
 use IGK\System\Html\Css\CssStyle;
 use IGK\System\Html\Dom\HtmlCssValueAttribute;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 final class HtmlStyleValueAttribute extends HtmlAttributeValue
 {
     private $m_o;

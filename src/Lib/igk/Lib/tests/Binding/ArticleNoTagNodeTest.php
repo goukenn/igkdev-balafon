@@ -12,9 +12,17 @@ use IGK\Controllers\SysDbController;
 use PHPUnit\Framework\TestCase;
 
 require_once(__DIR__.'/bak.pinc');
+
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class ArticleNoTagNodeTest extends BaseTestCase
 {
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_in_template_file()
     {
        
@@ -40,6 +48,9 @@ HTML;
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_in_content()
     {
         $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
@@ -64,6 +75,9 @@ HTML;
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_script_template()
     {
         $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
@@ -90,6 +104,10 @@ HTML
             $s
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_script_template_2()
     {
         $ctrl = igk_getctrl(\IGK\Controllers\SysDbController::class);
@@ -173,6 +191,9 @@ HTML
     //  $n->render((object)["Indent"=>true]));
     //     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_with_object_expression()
     {
 

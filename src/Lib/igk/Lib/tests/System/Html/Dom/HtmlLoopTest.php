@@ -10,9 +10,16 @@ namespace IGK\Tests\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Dom
+*/
 class HtmlLoopTest extends BaseTestCase
 {
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_class_attribute()
     {
         $t = new HtmlNode("div");
@@ -31,6 +38,9 @@ class HtmlLoopTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_class1()
     {
         $t = new HtmlNode("div");
@@ -41,6 +51,10 @@ class HtmlLoopTest extends BaseTestCase
             $t->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_loop_class_expression()
     {
         $t = new HtmlNode("div");
@@ -55,6 +69,9 @@ class HtmlLoopTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_class_href()
     {
         $t = new HtmlNode("p");
@@ -73,6 +90,9 @@ class HtmlLoopTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_class_key()
     {
         $t = new HtmlNode("div");
@@ -87,6 +107,9 @@ class HtmlLoopTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loop_with_class_array_off_expression_1()
     {
         $t = new HtmlNode("div");

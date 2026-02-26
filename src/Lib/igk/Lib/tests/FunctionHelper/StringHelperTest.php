@@ -11,14 +11,26 @@ use IGK\System\IO\CSV\Helper\CSVHelper;
 use IGK\Tests\BaseTestCase;
 use IGKCSVDataAdapter;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\FunctionHelper
+*/
 class StringHelperTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_igk_str_transform_linefeed()
     {
         $v = 'information,\ndata';
         $b = igk_str_transform_linefeed($v);
         $this->assertEquals("information,\ndata", $b);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_igk_addslashes()
     {
         $v = "information,\ndata";
@@ -26,6 +38,9 @@ class StringHelperTest extends BaseTestCase
         $this->assertEquals('information,\ndata', $b);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_read_csv_json()
     {
         $v = 'information,"{\"data\":5,\"m\":8}"';
@@ -42,6 +57,10 @@ class StringHelperTest extends BaseTestCase
         $r = json_decode($c);
         $this->assertEquals((object)['data' => 5, "m" => 8], $r);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_read_csv_json_hello()
     {
         $v = 'information,"{\"data\":\"hello\\\\nm\"}"';
@@ -59,6 +78,10 @@ class StringHelperTest extends BaseTestCase
         $r = json_decode($c);
         $this->assertEquals((object)['data' => "hello\nm"], $r);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_read_csv_serie_data()
     {
         // $m = serialize([1=>"title"]);
@@ -97,6 +120,9 @@ class StringHelperTest extends BaseTestCase
 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_csv_line_data()
     {
         

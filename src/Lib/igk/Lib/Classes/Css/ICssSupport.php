@@ -4,6 +4,11 @@
 // @date: 20220423 09:18:43
 // @desc: css support rule capture
 namespace IGK\Css;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 interface ICssSupport{
     /**
      * Check whether a given CSS rule is supported.

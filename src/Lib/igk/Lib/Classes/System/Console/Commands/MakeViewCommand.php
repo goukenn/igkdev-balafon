@@ -14,6 +14,10 @@ use IGK\System\IO\FileHandler;
 use IGK\System\IO\Path;
 use IGK\System\IO\StringBuilder;
 
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeViewCommand extends AppExecCommand
 {
     var $command = "--make:view";
@@ -131,6 +135,10 @@ class MakeViewCommand extends AppExecCommand
         }
         Logger::success("done\n");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function help()
     {
         Logger::print("-");
@@ -138,6 +146,13 @@ class MakeViewCommand extends AppExecCommand
         Logger::print("-\n");
         parent::help();
     }
+
+    /**
+    * auto generate doc.
+    * @param string $viewname
+    * @param null|string $type
+    * @return string
+    */
     public function getInitViewContent(string $viewname, ?string $type = null): string
     {
         if ($type) {
@@ -153,6 +168,12 @@ class MakeViewCommand extends AppExecCommand
         }
         return  "\$t->div()->Content = 'View : $viewname';";
     }
+
+    /**
+    * auto generate doc.
+    * @param string $ext
+    * @return string
+    */
     public static function GetStyledDefData(string $ext): string
     {
         $s = '';

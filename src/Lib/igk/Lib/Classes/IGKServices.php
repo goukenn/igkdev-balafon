@@ -14,6 +14,10 @@ use IGK\System\DependencyInjection\LifeTime;
 use function igk_resources_gets as __;
 
 require_once __DIR__ . "/IService.php";
+
+/**
+* auto generate doc.
+*/
 class IGKServices extends ListOfCoreServices
 {
     private static $sm_instance;
@@ -31,6 +35,10 @@ class IGKServices extends ListOfCoreServices
 
     private static $sm_initDef;
 
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public static function SetDefinition($n)
     {
         self::$sm_initDef = $n;
@@ -47,10 +55,21 @@ class IGKServices extends ListOfCoreServices
     // public static function FileCache(){
     //     return igk_io_cachedir()."/.services.cache";
     // }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function __get($name)
     {
         return igk_getv($this->m_services, $name);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|IAppService $service
+    */
     public function __set($name, ?IAppService $service = null)
     {
         if ($service == null) {

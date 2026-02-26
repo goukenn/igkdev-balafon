@@ -13,16 +13,29 @@ use IGK\System\Html\Dom\HtmlNode;
 /*
 represent a canva zone controller type
 */
+
+/**
+* auto generate doc.
+*/
 abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_canva;
 	public function __construct(){
 		parent::__construct();
-	} 
-	public function getCanAddChild(){
+	}
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild(){
 		return false;
 	}
-	protected function initTargetNode():?HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @return ?HtmlNode
+    */
+    protected function initTargetNode():?HtmlNode{
 		$n = parent::initTargetNode();
 		$this->m_canva = new CanvaZoneNode($this);
 		$_id = igk_css_str2class_name( strtolower($this->getName()."_canva"));
@@ -31,7 +44,12 @@ abstract class IGKCanvaZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		$n->add($this->m_canva);
 		return $n;
 	}
-	public function View():BaseController{
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController{
 		if (!$this->IsVisible)
 		{
 			igk_html_rm($this->TargetNode);

@@ -10,7 +10,12 @@
 namespace IGK\Controllers;
 use IGK\Server;
 use IGK\System\Html\Dom\HtmlDebuggerViewNode; 
-use IGK\System\Html\HtmlUtils; 
+use IGK\System\Html\HtmlUtils;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 final class DebugController extends BaseController{
     /**
      * Returns the name identifier for the debug controller.

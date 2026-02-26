@@ -16,7 +16,15 @@ use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlUtils;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html
+*/
 class AttributeTemplateTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_html_utils_get_value1(){
         
         
@@ -25,6 +33,10 @@ class AttributeTemplateTest extends BaseTestCase{
             HtmlUtils::GetAttributeValue("'welcome'", null, true)
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_pipe_expression(){
       
         $s = '<a *title="\'data\'">value</a>';
@@ -37,6 +49,10 @@ class AttributeTemplateTest extends BaseTestCase{
             "pipe expression not bind properly"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_simple_loop(){
         $n = igk_create_notagnode();
         $n->div()->loop(3)->p()->Content = 'index : {{ $raw }}';
@@ -45,7 +61,11 @@ class AttributeTemplateTest extends BaseTestCase{
             $n->render(),
             "attribute bind"
         );
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function test_simple_loop_with_attribute(){
         $n = igk_create_notagnode();
         $n->div()->setAttribute('*for', '$raw')->Content = 'index : {{ $raw }}';
@@ -58,7 +78,11 @@ class AttributeTemplateTest extends BaseTestCase{
             $s->render(),
             "attribute bind"
         );
-    }    
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function test_binding_attribute_expression_in_loop(){
         $s = '<a *title="\'data\'" *for="$raw">data : {{ $raw }} - {{ $ctrl->getName() }} </a>';
         $n = igk_create_notagnode();
@@ -75,6 +99,9 @@ class AttributeTemplateTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_binding_attribute_expression(){
         // passing custom controller 
         // $s = '<a *title="\'data\'"><igk:attr-expression *igk:uri="$ctrl->getAppUri(\'dashboard/edit_picture.form/\'.$raw->clId)" /></a>';

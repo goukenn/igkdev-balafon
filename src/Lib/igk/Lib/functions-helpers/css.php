@@ -50,6 +50,10 @@ function igk_css_treat_value(string $v, \IGK\Css\ICssStyleContainer $theme, ?\IG
     return $v;
 }
 
+/**
+* auto generate doc.
+* @param string $source
+*/
 function igk_css_minify(string $source){
     $o = "";
     $ln = strlen($source);
@@ -131,7 +135,12 @@ function igk_css_rm_comment(string $src){
 }
 
 if (!function_exists('igk_css_array_key_map_implode')){
-    function igk_css_array_key_map_implode($value){
+
+/**
+* auto generate doc.
+* @param mixed $value
+*/
+function igk_css_array_key_map_implode($value){
         return igk_array_key_map_implode(
             $value,
             $delimiter = ':', 

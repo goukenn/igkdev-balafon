@@ -5,8 +5,18 @@
 // @desc: code node
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\HtmlRenderer;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlCodeNode extends HtmlNode{
     protected $tagname = "code";
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setContent($v){
         if (is_string($v)){
             $v = self::TreatContent($v);
@@ -25,6 +35,11 @@ class HtmlCodeNode extends HtmlNode{
         $sb = preg_replace('/</', '&lt;', $sb);
         return $sb;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getRenderedChilds($options = null)
     {
         $childs = parent::getRenderedChilds($options);

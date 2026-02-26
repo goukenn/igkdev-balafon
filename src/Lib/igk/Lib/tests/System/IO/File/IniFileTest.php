@@ -10,7 +10,15 @@ namespace IGK\Tests\System\IO\File;
 use IGK\System\IO\File\IniFile;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\IO\File
+*/
 class IniFileTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_create_file(){
         $temp = sys_get_temp_dir()."/tempfile.ini";
         igk_io_w2file($temp, "info=12");
@@ -24,7 +32,9 @@ class IniFileTest extends BaseTestCase{
         unlink($temp); 
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_comment_out_file(){
         $temp = sys_get_temp_dir()."/tempfile.ini";
         igk_io_w2file($temp, "info=12");

@@ -9,7 +9,13 @@ use IGK\System\Regex\Replacement;
 
 
 if (!function_exists("igk_array_find_first")) {
-    function igk_array_find_first(array $tab, callable $callback)
+
+/**
+* auto generate doc.
+* @param array $tab
+* @param callable $callback
+*/
+function igk_array_find_first(array $tab, callable $callback)
     {
         foreach ($tab as $value) {
             if (($p = $callback($value)) !== null) {
@@ -653,7 +659,14 @@ if (!function_exists("igk_array_key_map_implode")) {
     }
 }
 if (!function_exists("igk_array_unique_string")) {
-    function igk_array_unique_string($sep, $source, $add)
+
+/**
+* auto generate doc.
+* @param mixed $sep
+* @param mixed $source
+* @param mixed $add
+*/
+function igk_array_unique_string($sep, $source, $add)
     {
         return implode(",", array_unique(array_merge(
             explode($sep, $source),

@@ -6,6 +6,11 @@
 namespace IGK\System\Exceptions;
 use IGKException;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\Exceptions
+*/
 class ArgumentNotValidException extends IGKException{
     /**
      * 

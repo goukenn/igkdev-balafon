@@ -7,6 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
+/**
+* auto generate doc.
+*/
 final class IGKCSVQueryResult extends IGKQueryResult{
     private $m_columns, $m_rowcount, $m_rows;
     /**

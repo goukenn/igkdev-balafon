@@ -8,7 +8,10 @@
 
 namespace IGK\Core\Ext\Google;
 
-
+/**
+* auto generate doc.
+* @package IGK\Core\Ext\Google
+*/
 class GoogleEvents{
     const init_component = 'google_init_component';
 }

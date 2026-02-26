@@ -8,6 +8,9 @@
 use function igk_resources_gets as __;
 use IGK\System\Html\Dom\HtmlNode;
 
+/**
+* auto generate doc.
+*/
 class IGKHtmlFormSelectGenderItem extends HtmlNode{
 	/**
 	 * Constructor.

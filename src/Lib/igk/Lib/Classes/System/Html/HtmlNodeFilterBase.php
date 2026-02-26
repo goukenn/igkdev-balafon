@@ -6,11 +6,32 @@
 namespace IGK\System\Html;
 use IGK\Helper\StringUtility;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 abstract class HtmlNodeFilterBase{
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    */
     public abstract function bind($node);
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $args
+    */
     public function prefilter($name, $args){
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tag
+    */
     public static function CreateFilter($tag){
         static $filters;
         if ($filters === null)
@@ -47,6 +68,11 @@ abstract class HtmlNodeFilterBase{
             $filter->bind($e->args["node"]);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $e
+    */
     public static function PrefilterNodeHookCallback($e){
         $tag = $e->args["name"]; 
         if ($filter = self::CreateFilter($tag)){          
@@ -63,6 +89,10 @@ abstract class HtmlNodeFilterBase{
     protected static function FilterDir(){
         return __DIR__;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected static function GetEntryNameSpace(){
         return null;
     }

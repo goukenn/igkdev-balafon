@@ -7,6 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
+/**
+* auto generate doc.
+*/
 final class IGKObjectStrict{
     private $m_ins;
     /**

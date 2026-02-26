@@ -8,6 +8,11 @@ use IGK\System\IO\File\PHPScriptBuilderUtility;
 use IGK\System\Regex\Replacement;
 use IGKException;
 use ReflectionException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands\Sync
+*/
 class SyncComposerCommand extends SyncAppExecCommandBase{
     var $command = "--sync:composer";
     var $desc = 'sync:ftp use global shared composer';

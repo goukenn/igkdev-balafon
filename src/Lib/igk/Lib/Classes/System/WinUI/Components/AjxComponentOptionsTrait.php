@@ -4,6 +4,11 @@
 // @date: 20220524 08:24:45
 // @desc: ajx component options trait 
 namespace IGK\System\WinUI\Components;
+
+/**
+* auto generate doc.
+* @package IGK\System\WinUI\Components
+*/
 trait AjxComponentOptionsTrait{
     /**
      * must implement ajx construction

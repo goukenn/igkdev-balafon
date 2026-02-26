@@ -15,8 +15,16 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\WinUI\Menus\MenuItem;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Helper
+*/
 class StringUtilityTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     public function test_stringutility_uri_start()
     {   
         $buri = "https://local.com/Configs";
@@ -44,6 +52,10 @@ class StringUtilityTest extends BaseTestCase
             )
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_identifier()
     {
 
@@ -71,6 +83,9 @@ class StringUtilityTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_get_uri_value()
     {
         $c = \IGK\System\Configuration\Controllers\AuthorisationController::ctrl();
@@ -88,6 +103,9 @@ class StringUtilityTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_get_constant_name()
     {
         $prefix = Constants::DB_MODEL_FIELD_PREFIX;
@@ -130,6 +148,9 @@ class StringUtilityTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_read_array_expression()
     {
         $src = "security=\"sample\", action=[\"one\", \"info\"]";
@@ -140,33 +161,51 @@ class StringUtilityTest extends BaseTestCase
 
         $this->assertTrue($g == $s);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_stringutility_read_arg_array(){
         $src = "[\"BearerAuth\"]";
         $g = StringUtility::ReadArgs($src);
         $s = [['BearerAuth']];
         $this->assertEquals(json_encode($g), json_encode($s)); 
     }
-     public function test_stringutility_read_arg_array_2(){
+
+    /**
+    * auto generate doc.
+    */
+    public function test_stringutility_read_arg_array_2(){
         $src = "['BearerAuth', \"basic'sample\"]"; 
         $g = StringUtility::ReadArgs($src);
         $s = [['BearerAuth', 'basic\'sample']];
         $this->assertEquals(json_encode($g), json_encode($s)); 
     }
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_stringutility_read_arg_constant(){
         $src = "[BearerAuth]"; 
         $g = StringUtility::ReadArgs($src);
         $s = [['BearerAuth']];
         $this->assertEquals(json_encode($g), json_encode($s)); 
     }
-     public function test_stringutility_read_arg_constant_multiple(){
+
+    /**
+    * auto generate doc.
+    */
+    public function test_stringutility_read_arg_constant_multiple(){
         $src = "[BearerAuth, BasicAuth]"; 
         $g = StringUtility::ReadArgs($src);
         $s = [['BearerAuth', 'BasicAuth']];
         $this->assertEquals(json_encode($g), json_encode($s)); 
     }
-     public function test_stringutility_read_arg_constant_multiple_3(){
+
+    /**
+    * auto generate doc.
+    */
+    public function test_stringutility_read_arg_constant_multiple_3(){
         $src = "[BearerAuth . BasicAuth]"; 
         $g = StringUtility::ReadArgs($src);
         $s = [['BearerAuthBasicAuth']];

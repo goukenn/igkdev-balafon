@@ -8,6 +8,11 @@ require_once( IGK_LIB_CLASSES_DIR. "/System/Html/Dom/HtmlPoweredByNode.php");
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlBodyNode extends HtmlNode{
     protected $tagname = "body";
     private $m_bodybox;
@@ -26,6 +31,11 @@ class HtmlBodyNode extends HtmlNode{
     // // // // public function addScriptNode($id, $n){
     //     return $this->m_bodyMainScript->addScriptNode($id, $n);
     // }
+
+    /**
+    * auto generate doc.
+    * @param mixed $scriptFile
+    */
     public function removeScript($scriptFile){
         return $this->m_bodyMainScript->removeScript($scriptFile);
     }
@@ -38,6 +48,10 @@ class HtmlBodyNode extends HtmlNode{
     public function appendScript($id, $scriptFile){ 
         return $this->m_bodyMainScript->addScript($id, $scriptFile);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getAppendContent(){
         if($this->m_appendContent === null){
             $this->m_appendContent = new HtmlNoTagNode();
@@ -60,9 +74,18 @@ class HtmlBodyNode extends HtmlNode{
         }
         return $this->m_bodybox;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function addBodyBox(){
         return $this->getBodyBox();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     protected function _getRenderingChildren($options = null)
     { 
         $doc = igk_getv($options, RenderOptionProperties::DOCUMENT);

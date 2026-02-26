@@ -8,7 +8,17 @@ use IGK\Helper\IO;
 use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Installers
+*/
 class OsWindowCommand extends OsShell{
+
+    /**
+    * auto generate doc.
+    * @param mixed $cmd
+    */
     public static function Where($cmd){ 
         return exec("where ".$cmd);
     }

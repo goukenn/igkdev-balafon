@@ -5,6 +5,11 @@
 // @desc: layout loader interface
 namespace IGK\System\WinUI;
 use IGK\Controllers\BaseController;
+
+/**
+* auto generate doc.
+* @package IGK\System\WinUI
+*/
 interface IViewLayoutLoader{
     /**
      * get the current controller

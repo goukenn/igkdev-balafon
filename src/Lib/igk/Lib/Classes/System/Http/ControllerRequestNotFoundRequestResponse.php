@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Http;
 use IGK\Controllers\BaseController;
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class ControllerRequestNotFoundRequestResponse extends ControllerRequestResponse{
     var $message;
     /**

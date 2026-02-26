@@ -9,7 +9,15 @@ namespace IGK\Test\System\Console\Commands;
 use IGK\System\Database\SchemaBuilder;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Test\System\Console\Commands
+*/
 class MakeProjectTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     function test_make_comment(){
         $build=new SchemaBuilder();
         $build["version"] = "1.0";

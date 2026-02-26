@@ -6,6 +6,11 @@
 namespace IGK\Database;
 use IGKException;
 use Exception;
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class DbLinkExpression extends DbExpression{
     public $linkTable;
     public $columnName;

@@ -8,6 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+*/
 final class IGKSorter{
     var $asc, $key;
     /**

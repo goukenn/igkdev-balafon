@@ -21,17 +21,40 @@ use IGK\System\WinUI\Menus\MenuItem;
 use IGK\System\WinUI\Views;
 use IGKSysUtil;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\Configuration\Controllers
+*/
 class AuthorisationController extends ConfigControllerBase{
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return  IGK_AUTH_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsAvailable(){
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getIsVisible():bool
     {
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsConfigPageAvailable()
     {
         return true;
@@ -48,6 +71,10 @@ class AuthorisationController extends ConfigControllerBase{
     public function getConfigPage(){
         return "auth";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function initConfigMenu()
     { 
         return array(
@@ -129,6 +156,10 @@ class AuthorisationController extends ConfigControllerBase{
         }  
         return $r;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function auth_level_ajx(){
         $this->auth()->renderAJX();
         igk_exit();
@@ -426,6 +457,10 @@ class AuthorisationController extends ConfigControllerBase{
         });
         return $this;		 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function auth_management_ajx(){
         $g = igk_get_robj('user|group|owner');
         $buri=igk_register_temp_uri(__CLASS__);
@@ -503,6 +538,10 @@ class AuthorisationController extends ConfigControllerBase{
 JS;
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function list_group_ajx(){
         $g = igk_getr("v");
         $g = Groups::prepare()

@@ -4,6 +4,11 @@
 // @date: 20220628 08:19:20
 // @desc: result response
 namespace IGK\Database;
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 interface IDbFetchResult{
     /**
      * fetch result

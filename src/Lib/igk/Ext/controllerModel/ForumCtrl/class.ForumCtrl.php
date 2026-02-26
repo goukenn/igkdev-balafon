@@ -8,6 +8,10 @@
 USED TO ADD A FORUM ON A plateform CONTROLLER
 
 */
+
+/**
+* auto generate doc.
+*/
 abstract class IGKForumCtrl  extends \IGK\Controllers\ControllerTypeBase
 {
 	/**

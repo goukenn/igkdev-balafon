@@ -17,6 +17,10 @@ use IGK\IUriActionRegistrableController;
 use IGK\IWebPageController;
 use IGK\System\Http\RequestResponseCode;
 
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 abstract class DefaultPageController extends PageControllerBase implements IUriActionRegistrableController, IWebPageController{    
     /**
      * default handle uri global uri
@@ -30,7 +34,15 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
             return false;
         return 1;
     }
-    public final function evaluateUri($patterninfo=null, $xml=true, $nav=null){
+    public final
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $patterninfo
+    * @param mixed $xml
+    * @param null|mixed $nav
+    */
+    function evaluateUri($patterninfo=null, $xml=true, $nav=null){
         $this->setEnvParam("from", __FUNCTION__);
         $t=$this->TargetNode;
         igk_html_rm($t);
@@ -153,6 +165,10 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $do_rendering($t, $doc, $nav);
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function GetAdditionalConfigInfo(){
         return array(
             "clDefaultPage"=>igk_create_additional_config_info(array("clRequire"=>1, "clDefaultValue"=>"default")),
@@ -160,14 +176,27 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         );
     }
     ///get the name of the page that control this controller
+
+    /**
+    * auto generate doc.
+    */
     public function getBasicUriPattern(){
         return $this->getConfig(IGK_CTRL_CNF_BASEURIPATTERN);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getExtraTitle(){
         if(igk_web_defaultpage() != $this->CurrentPage)
             return " - ".__("title.".$this->CurrentPage.".webpage");
         return IGK_STR_EMPTY;
     }
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getIsVisible():bool{
         if(igk_sys_is_subdomain() && igk_sys_domain_control($this)){
             return true;
@@ -177,15 +206,29 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $v=($cp != IGK_CONFIG_MODE) && (strtolower($cnf->default_controller) == strtolower($this->Name));
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getRegInvokeUri(){
         return $this->getUri(IGK_EVALUATE_URI_FUNC);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getRegUriAction(){
         $primary=$this->getBasicUriPattern();
         if(empty($primary))
             return null;
         return "".$primary.IGK_REG_ACTION_METH;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $uri
+    * @param mixed $forcehandleuri
+    */
     public function handle_redirection_uri($uri, $forcehandleuri=1){
         igk_sys_handle_uri();
         $k=IGK_REG_ROUTE_PATTERN;
@@ -205,10 +248,20 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $this->evaluateUri($e);
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
     protected function initComplete($context=null){
         parent::initComplete();
         igk_app()->session->addUserChangedEvent($this, "View");
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $doc
+    */
     protected function initDocument($doc){
         $f=$this->getDataDir()."/".IGK_RES_FOLDER."/Img/favicon.ico";
         if(igk_io_file_exists($f)){
@@ -216,6 +269,11 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
             $doc->Favicon=new IGKHtmlRelativeUriValueAttribute($p);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $t=parent::initTargetNode();
         $k=IGK_CSS_DEFAULT_STYLE_FUNC_KEY;
@@ -223,6 +281,11 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $t->setClass("+".$t->$k());
         return $t;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $uri
+    */
     public function is_handle_uri($uri=null){
         if(igk_const('IGK_REDIRECTION') == 1){
             if(preg_match("#^/!@#", igk_io_request_uri()))
@@ -238,6 +301,11 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         $c=igk_getv($p, "function");
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $m
+    */
     public function IsFuncUriAvailable(& $m){
         $k=$m;
         if(!method_exists($this, $k)){
@@ -251,20 +319,46 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function LoadTemplate(){
         $tempfile=igk_getr("tempfile");
         $this->saveCtrl();
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    */
     public function loadWebTheme($file){    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $uri
+    */
     public function manageErrorUriRequest($uri){    }
+
+    /**
+    * auto generate doc.
+    */
     protected function OnMenuPageChanged(){
         $this->View();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function pageFolderChanged(){
         if($this->IsVisible)
             $this->View();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function restoreCtrl(){
         $f=$this->getDeclaredDir()."/.".$this->Name.".bck.zip";
         if(igk_io_file_exists($f)){
@@ -273,16 +367,35 @@ abstract class DefaultPageController extends PageControllerBase implements IUriA
             unlink($f);
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function saveCtrl(){
         igk_zip_create_file($this->getDeclaredDir()."/.".$this->Name.".bck.zip", $this->getDeclaredDir());
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $t
+    */
     public static function SetAdditionalConfigInfo(& $t){
         $t["clDefaultPage"]=igk_getr("clDefaultPage");
         return 1;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function setPageName($value){
         $this->m_pageview=$value;
     }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View():BaseController{
         $t=$this->TargetNode;
         $doc=igk_app()->getDoc();

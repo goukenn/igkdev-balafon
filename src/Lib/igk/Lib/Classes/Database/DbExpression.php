@@ -12,6 +12,11 @@ use IGK\Helper\Activator;
 use IGK\System\Html\IHtmlGetValue;
 use IGKObject;
 use ModelBase;
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class DbExpression extends IGKObject implements IHtmlGetValue{
     protected $m_v;
     public function __construct($value=null){
@@ -28,10 +33,20 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
         }
         return $now;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $expression
+    */
     public static function Create($expression){
         $g=new static($expression); 
         return $g;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $o
+    */
     public function getValue($o=null){
         if (!is_string($this->m_v)){
             if ($this->m_v instanceof static){
@@ -41,6 +56,14 @@ class DbExpression extends IGKObject implements IHtmlGetValue{
         }
         return $this->m_v;
     }
+
+    /**
+    * auto generate doc.
+    * @param \IGK\System\Models\ModelBase $source_model
+    * @param \IGK\System\Models\ModelBase $target_model
+    * @param string $column_in_source_model
+    * @param string $column_in_target_model
+    */
     public static function NotInSelectedField(\IGK\System\Models\ModelBase  $source_model, \IGK\System\Models\ModelBase $target_model, 
         string $column_in_source_model, 
         string $column_in_target_model){

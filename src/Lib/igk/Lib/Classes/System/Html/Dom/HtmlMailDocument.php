@@ -11,8 +11,18 @@ namespace IGK\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlDocTheme;
 use IGK\System\Html\HtmlRenderer;
 use IGK\System\Net\MailAttachementContainer;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class IGKHtmlMailDoc extends HtmlNode{
     private $_attachement, $m_app, $m_message, $m_theme;
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function _acceptRender($options=null){
         return true;
     }
@@ -50,6 +60,11 @@ final class IGKHtmlMailDoc extends HtmlNode{
         }
     }
     private function _initTheme(){    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $doc
+    */
     public static function CreateFromDocument($doc){
         if($doc == null)
             return null;
@@ -57,15 +72,32 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $c->m_doc=$doc;
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getAttachement(){
         return $this->_attachement;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getMessage(){
         return $this->m_message;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getTheme(){
         return $this->m_theme;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed & $options
+    */
     protected function innerHTML(& $options=null){
         $out="";
         $s=new HtmlStyleNode();        
@@ -95,9 +127,18 @@ final class IGKHtmlMailDoc extends HtmlNode{
                 $this->_copyAddBuildDefinition($r, $m);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $o
+    */
     public function render($o=null){
         return $this->renderDoc();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function renderDoc(){
         $this->_attachement=new MailAttachementContainer();
         $p= HtmlRenderer::CreateRenderOptions();
@@ -111,6 +152,13 @@ final class IGKHtmlMailDoc extends HtmlNode{
         $s .= "</html>";
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $to
+    * @param mixed $from
+    * @param mixed $subject
+    */
     public function sendMail($to, $from, $subject){
         $src=$this->render();
         $g=igk_mail_sendmail($to, $from, $subject, $src, null, $this->_attachement ? $this->_attachement->getList(): null, "text/html");

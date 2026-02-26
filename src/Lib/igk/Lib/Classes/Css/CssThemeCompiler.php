@@ -13,6 +13,11 @@ use IGKCaches;
 use IGKCssDefaultStyle;
 use IGKException;
 use ReflectionException;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 class CssThemeCompiler
 {
     /**
@@ -140,6 +145,16 @@ class CssThemeCompiler
         }
         return $no_systheme;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $express_cf
+    * @param mixed $cf
+    * @param mixed $theme
+    * @param mixed $minfile
+    * @param mixed $theme_export
+    * @param mixed $resolver
+    */
     static function CacheCssStoreAndExport($express_cf, $cf, $theme, $minfile, $theme_export, $resolver){
         igk_css_bind_sys_global_files($theme);
         igk_css_load_theme($theme);

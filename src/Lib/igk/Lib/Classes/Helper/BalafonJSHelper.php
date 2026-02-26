@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\Helper;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class BalafonJSHelper{
     /**
      * get post data js expression

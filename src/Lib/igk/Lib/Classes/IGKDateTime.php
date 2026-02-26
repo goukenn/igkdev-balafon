@@ -7,6 +7,10 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
+/**
+* auto generate doc.
+*/
 class IGKDateTime extends IGKObject{
     private $m_day, $m_hour, $m_min, $m_month, $m_sec, $m_year;
     /**
@@ -60,9 +64,19 @@ class IGKDateTime extends IGKObject{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $birthdate
+    */
     public static function GetAge($birthdate){
         return (new DateTime())->diff(new DateTime($birthdate))->y;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $format
+    */
     public function getDate($format){
         $s=$format;
         $s=str_replace("Y", $this->year, $s);
@@ -73,30 +87,72 @@ class IGKDateTime extends IGKObject{
         $s=str_replace("s", $this->sec, $s);
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getday(){
         return $this->m_day;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function gethour(){
         return $this->m_hour;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getmin(){
         return $this->m_min;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getmonth(){
         return $this->m_month;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getsec(){
         return $this->m_sec;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getyear(){
         return $this->m_year;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $date1
+    * @param mixed $date2
+    */
     public static function isDateEqual($date1, $date2){
         return self::compareDate($date1, $date2) == 0;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $date1
+    * @param mixed $date2
+    */
     public static function isDateMonthEqual($date1, $date2){
         return (self::IsDateYearEqual($date1, $date2) === true) && ($date1->month == $date2->month);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $date1
+    * @param mixed $date2
+    */
     public static function isDateYearEqual($date1, $date2){
         if(!$date1 || !$date2)
             return -2;

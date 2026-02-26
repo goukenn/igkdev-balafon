@@ -10,8 +10,16 @@ namespace IGK\Tests;
 use IGK\Controllers\BaseController;
 use IGKSysUtil;
 
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class IGKSysUtilsTest extends BaseTestCase  {
-   public function test_resolv_type_name(){
+
+    /**
+    * auto generate doc.
+    */
+    public function test_resolv_type_name(){
        $t= IGKSysUtil::GetModelTypeName( "%prefix%_dummy", DummySysUtilController::ctrl());
        $this->assertEquals(
             $t,
@@ -30,7 +38,11 @@ class IGKSysUtilsTest extends BaseTestCase  {
        );
        igk_configs()->db_prefix = $bck;
    }
-   public function test_resolveTableName(){
+
+    /**
+    * auto generate doc.
+    */
+    public function test_resolveTableName(){
     $t= IGKSysUtil::DBGetTableName(
         "%prefix%_dummy_%year%", DummySysUtilController::ctrl());
     $this->assertEquals(
@@ -41,7 +53,15 @@ class IGKSysUtilsTest extends BaseTestCase  {
    }
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class DummySysUtilController extends BaseController{
+
+    /**
+    * auto generate doc.
+    */
     protected function getEntryNameSpace(){
         return __NAMESPACE__;
     }

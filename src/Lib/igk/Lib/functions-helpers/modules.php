@@ -319,7 +319,13 @@ function igk_init_module(string $path,  ?callable $init = null, $initialize = tr
 }
 
 
-// because initDoc only need to be call on view loading only once to initialize the document 
+// because initDoc only need to be call on view loading only once to initialize the document
+
+/**
+* auto generate doc.
+* @param ApplicationModuleController $module
+* @param mixed $doc
+*/
 function igk_module_init_doc(ApplicationModuleController $module, $doc)
 {
     $mod = &igk_environment()->require_modules();

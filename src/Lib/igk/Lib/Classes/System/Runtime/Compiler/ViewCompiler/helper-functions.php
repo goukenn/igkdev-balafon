@@ -7,7 +7,12 @@ use IGK\System\ViewVarExpression;
 use IGK\System\ViewEnvironmentArgs; 
 use IGK\System\ViewExtractArgHelper;
 if (!function_exists('igk_express_var')){
-    function igk_express_var($name){
+
+/**
+* auto generate doc.
+* @param mixed $name
+*/
+function igk_express_var($name){
         $c = igk_environment()->peek(ViewEnvironmentArgs::class."/compiler_args");  
         if ( $c && isset($c->$name)){            
             if ($p = igk_getv($c, $name))
@@ -27,7 +32,12 @@ if (!function_exists('igk_express_var')){
     }
 }
 if (!function_exists('igk_php_expression')){
-    function igk_php_expression($expression){
+
+/**
+* auto generate doc.
+* @param mixed $expression
+*/
+function igk_php_expression($expression){
         return '<?= '.$expression.' ?>';
     }
 }

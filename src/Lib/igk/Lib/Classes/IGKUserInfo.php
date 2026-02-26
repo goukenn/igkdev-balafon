@@ -15,6 +15,10 @@ use IGK\Models\Users;
 use IGK\System\Database\IUserProfile;
 use IGK\System\IToArray;
 use IGK\System\Traits\StoredPropertiesTrait;
+
+/**
+* auto generate doc.
+*/
 class IGKUserInfo extends IGKObject implements IToArray{ 
     const DB_INFO_KEY="sys://db/info";
     var $clId;
@@ -24,10 +28,21 @@ class IGKUserInfo extends IGKObject implements IToArray{
     var $csrf;
     use StoredPropertiesTrait;
     public function __construct(){    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $value
+    */
     public function __set($name, $value){
         if(!$this->_setIn($name, $value))
             $this->setProperty($name, $value);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    */
     public function __get($key){
         if(method_exists($this, $fc = "get".ucfirst($key))){ 
             return call_user_func(array($this, $fc), array_slice(func_get_args(), 1));
@@ -45,6 +60,10 @@ class IGKUserInfo extends IGKObject implements IToArray{
         $name = AuthorizationHelper::Map($name, $ctrl);
         return $this->model()->auth($name, $strict);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function fullname(){
         return igk_user_fullname($this);
     }
@@ -60,6 +79,10 @@ class IGKUserInfo extends IGKObject implements IToArray{
         return $s;
     }
     ///get all available authorisation for this user
+
+    /**
+    * auto generate doc.
+    */
     public function getAuths(){ 
         if($this->clId){
             $tab=array();
@@ -82,6 +105,10 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getGroups(){
         if($this->clId){
             $tab=array();
@@ -96,6 +123,15 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $uinfo
+    * @param mixed $authname
+    * @param mixed $strict
+    * @param null|mixed $authCtrl
+    * @param mixed $adapter
+    */
     public static function GetIsAuthorize($uinfo, $authname, $strict=false, $authCtrl=null, $adapter=IGK_MYSQL_DATAADAPTER){
         $s=$uinfo;
         $k=self::DB_INFO_KEY;
@@ -111,10 +147,23 @@ class IGKUserInfo extends IGKObject implements IToArray{
         }
         return igk_db_is_user_authorized($uinfo, $authname, $strict, $v_authtable, $v_usergrouptable, $v_groupauthtable);
     }
-    public final function IsAuthorize($authname, $authCtrl=null, $adapter=IGK_MYSQL_DATAADAPTER){
+    public final
+
+    /**
+    * auto generate doc.
+    * @param mixed $authname
+    * @param null|mixed $authCtrl
+    * @param mixed $adapter
+    */
+    function IsAuthorize($authname, $authCtrl=null, $adapter=IGK_MYSQL_DATAADAPTER){
         $s=$this;
         return self::GetIsAuthorize($s, $authname, $authCtrl, $adapter);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $userTableData
+    */
     public function loadData($userTableData){
         if($userTableData){
             foreach($userTableData as $k=>$v){
@@ -122,12 +171,25 @@ class IGKUserInfo extends IGKObject implements IToArray{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function to_json(){
         return json_encode($this);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function toString(){
         return get_class($this);
     }
+
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     public function to_array():?array{
         return (array)$this;
     }

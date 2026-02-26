@@ -7,9 +7,18 @@ namespace IGK\System\Html\Forms;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlNoTagNode;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms
+*/
 class FormAddressField extends HtmlNode implements IFormValidationNode{
     private $m_fields;
     protected $tagname = "igk:form-address-field";
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag(){
         return false;
     }
@@ -26,6 +35,12 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
         ];
         parent::__construct();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed & $outputdata
+    * @param mixed & $errors
+    */
     public function validateRequest(& $outputdata, & $errors){
         $outputdata[$this->fieldname] = (object)[
             "street"=>igk_getr("address_street"),
@@ -37,10 +52,20 @@ class FormAddressField extends HtmlNode implements IFormValidationNode{
         ];
         return true;
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function initialize()
     {
         parent::initialize();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool
     {
         if (!parent::_acceptRender($options))

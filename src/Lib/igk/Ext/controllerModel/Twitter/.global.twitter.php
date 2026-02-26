@@ -2,9 +2,13 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: .global.twitter.php
 // @date: 20220803 13:48:58
-// @desc: 
+// @desc:
 
-
+/**
+* auto generate doc.
+* @param mixed $id
+* @param mixed $showcount
+*/
 function igk_html_node_twitterFollowUs($id, $showcount=0){
 	//followus
 	igk_trace();
@@ -31,6 +35,13 @@ EOF
 
 
 ///<summary>twitter time line zone</summary>
+
+/**
+* auto generate doc.
+* @param mixed $id
+* @param null|mixed $theme
+* @param null|mixed $color
+*/
 function igk_html_node_twitterTimeLine($id, $theme=null, $color=null){
 	igk_trace();
 	igk_exit();

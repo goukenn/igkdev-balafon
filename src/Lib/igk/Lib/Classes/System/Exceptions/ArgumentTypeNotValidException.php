@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Exceptions;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Exceptions
+*/
 class ArgumentTypeNotValidException extends IGKException{
     public function __construct($index){
         parent::__construct( sprintf("Parameter not valid %s", $index));

@@ -14,6 +14,11 @@ use IGKException;
 use IGKNotifyStorage;
 use IGK\INotifyMessage;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 final class NotificationController extends BaseController implements INotifyMessage {
     private static $NotifyType=["success"=>"addSuccess", "danger"=>'addError'];
     private $m_marks;
@@ -25,15 +30,31 @@ final class NotificationController extends BaseController implements INotifyMess
     public function getTab():array{
         return [];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $c
+    */
     public function __call($name, $c){
         if(method_exists($this, $fc="add".$name)){
             return $this->$fc(...$c);
         }
         return parent::__call($name, $c);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addError($msg){
         $this->TargetNode->add("div", array("class"=>"igk-notify igk-notify-danger"))->Content=$msg;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msgcode
+    */
     public function addErrori($msgcode){
         $c=igk_error($msgcode);
         if($c){
@@ -43,45 +64,104 @@ final class NotificationController extends BaseController implements INotifyMess
             $this->addError($li->render(null));
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    */
     public function addErrorr($key){
         $this->addError(__($key, array_slice(func_get_args(), 1)));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addInfo($msg){
         $this->TargetNode->add("div", array("class"=>"igk-notify igk-notify-info"))->Content=$msg;
         $this->m_hasmsg=true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msgKeys
+    */
     public function addInfor($msgKeys){
         $this->addInfo(__($msgKeys, array_slice(func_get_args(), 1)));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addMsg($msg){
         $mg=$this->getGlobalStorage();
         $mg->addMsg($msg);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addMsgr($msg){
         $this->addMsg(__($msg, array_slice(func_get_args(), 1)));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     function addSuccess($msg){
         $mg=$this->getGlobalStorage();
         $mg->addSuccess($msg);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     function addSuccessr($msg){
         $mg=$this->getGlobalStorage();
         $mg->addSuccessr($msg);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addWarning($msg){
         $mg=$this->getGlobalStorage();
         $mg->addWarning($msg);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     public function addWarningr($msg){
         $this->addWarning(__($msg, array_slice(func_get_args(), 1)));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    * @param mixed $t
+    */
     public function bind($msg, $t='success'){
         $fc=igk_getv(self::$NotifyType, $t, "addMsg");
         call_user_func_array([$this, $fc], [$msg]);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getAutoHided(){
         return $this->getGlobalStorage()->getAutoHided();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getGlobalStorage(){
         static $storage=null;
         if($storage === null){
@@ -89,16 +169,34 @@ final class NotificationController extends BaseController implements INotifyMess
         }
         return $storage;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getHasMsg(){
         $mg=$this->getGlobalStorage();
         return $mg->tab && count($mg->tab) > 0;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getMsError(){
         return $this->m_hasmsg;
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return IGK_NOTIFICATION_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function getNotification($name="::global"){
         static $storage;
         if(empty($name)){
@@ -129,24 +227,50 @@ final class NotificationController extends BaseController implements INotifyMess
         }
         return;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function getNotificationEvent($name){
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getNotifyHost(){
         if($this->m_notifyhost === null)
             $this->m_notifyhost=$this->app->Doc->body;
         return $this->m_notifyhost;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $v=new HtmlNotificationItemNode($this, "global");
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $tagid
+    */
     public function mark($tagid){
         if($this->m_marks == null){
             $this->m_marks=array();
         }
         $this->m_marks[$tagid]=1;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    * @param mixed $host
+    * @param mixed $name
+    */
     public function NotificationIsVisible($target, $host, $name){
         $c=null;
         if(empty($name)){
@@ -171,6 +295,10 @@ final class NotificationController extends BaseController implements INotifyMess
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function notify_ajx(){
         $view=igk_getr("rv");
         $render=false;
@@ -203,6 +331,12 @@ EOF;
     ///<summary></summary>
     ///<param name="sender" default="null"></param>
     ///<param name="args" default="null"></param>
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $sender
+    * @param null|mixed $args
+    */
     public function pageFolderChanged($sender=null, $args=null){
         if($this->HasMsg){
             $this->TargetNode->clearChilds();
@@ -211,19 +345,40 @@ EOF;
     }
     ///<summary></summary>
     ///<param name="name"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $callable
+    */
     public function registerNotification($name, $callable){
         igk_die(__METHOD__." registerNotification ");
     }
     ///<summary></summary>
     ///<param name="name"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function resetNotification($name){    }
     ///<summary></summary>
     ///<param name="v"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setAutohide($v){
         $this->TargetNode->setAutohide($v);
     }
     ///<summary></summary>
     ///<param name="v"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setMsError($v){
         $this->m_hasmsg=$v;
     }
@@ -255,6 +410,13 @@ EOF;
     }
     ///<summary>unregister notification</summary>
     ///<remark>if obj is null will clear the notification event list</remark>
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|mixed $obj
+    * @param null|mixed $method
+    */
     public function unregisterNotification($name, $obj=null, $method=null){
         if(($obj == null) && ($method == null)){
             $this->resetNotification($name);
@@ -272,12 +434,22 @@ EOF;
         return 0;
     }
     ///<summary>free notification item</summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    */
     public function unsetNotication($name){
         if(isset($this->m_notificationChilds[$name])){
             unset($this->m_notificationChilds[$name]);
         }
     }
     ///<summary>Render notification controller</summary>
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View():BaseController{
         $t = $this->getTargetNode();
         if(!$this->HasMsg){
@@ -292,10 +464,18 @@ EOF;
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getMessages(){
         $store = $this->getGlobalStorage();
         return $store->getMessages(); 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function clear(){
         $store = $this->getGlobalStorage();
         return $store->clear(); 

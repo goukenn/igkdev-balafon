@@ -5,6 +5,11 @@
 // @desc: php interface document 
 namespace IGK\System\IO\File\Php;
 use IGK\System\IO\File\PHPScriptBuilder;
+
+/**
+* auto generate doc.
+* @package IGK\System\IO\File\Php
+*/
 class PhpInterfaceDocument{
     public $type = "interface";
     public $name;
@@ -21,6 +26,10 @@ class PhpInterfaceDocument{
     {
         $this->m_listener = $phpDocListener;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function generate(){
         $o = $this->_getPhpDoc();
         $builder = new PHPScriptBuilder();        

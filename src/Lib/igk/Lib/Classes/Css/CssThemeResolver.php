@@ -10,6 +10,11 @@ use IGK\System\Html\Css\CssParser;
 use IGK\System\Html\SVG\SvgRenderer;
 use IGKException;
 use IGKResourceUriResolver;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 class CssThemeResolver
 {
     /**
@@ -640,6 +645,12 @@ class CssThemeResolver
     protected function _get_bgcl($ncl, bool $themeexport){        
         return igk_css_get_bgcl($ncl, $themeexport, $this->theme, $this->parent);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param mixed $resolved
+    */
     protected function _get_fcl($value, $resolved=false){   
         if ($resolved){
             return sprintf("color: %s;", $value);

@@ -26,7 +26,9 @@ if (defined("IGK_WINUI_NAVIGATIONBAR"))
 
 define("IGK_WINUI_NAVIGATIONBAR",1);
 
-
+/**
+* auto generate doc.
+*/
 class IGKWinUINavigationBar extends  IGKWinUIControl
 {
 	private $m_target; //target that will host navigation bar
@@ -34,11 +36,27 @@ class IGKWinUINavigationBar extends  IGKWinUIControl
 	private $m_pages;
 	private $m_ciblingCtrl;
 
-	public function getTarget(){return $this->m_target;}
-	public function setTarget($target) { $this->m_target  = $target;}
+    /**
+    * auto generate doc.
+    */
+    public function getTarget(){return $this->m_target;}
 
-	public function getCiblingCtrl(){return $this->m_ciblingCtrl;}
-	public function setCiblingCtrl($value){ $this->m_ciblingCtrl = $value; }
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    */
+    public function setTarget($target) { $this->m_target  = $target;}
+
+    /**
+    * auto generate doc.
+    */
+    public function getCiblingCtrl(){return $this->m_ciblingCtrl;}
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
+    public function setCiblingCtrl($value){ $this->m_ciblingCtrl = $value; }
 
 	public function __construct()
 	{
@@ -50,7 +68,11 @@ class IGKWinUINavigationBar extends  IGKWinUIControl
 
 	}
 
-	protected function innerHTML(& $xmloptions=null)
+    /**
+    * auto generate doc.
+    * @param null|mixed & $xmloptions
+    */
+    protected function innerHTML(& $xmloptions=null)
 	{
 		$o =  parent::innerHtml($xmloptions);
 		if($this->m_ciblingCtrl){
@@ -66,7 +88,13 @@ EOF;
 	///<summary>add item buttuon</summary>
 	///@@ $page: the page name
 	///@@ $target : the controller target name
-	public function addPage($page, $target)
+
+    /**
+    * auto generate doc.
+    * @param mixed $page
+    * @param mixed $target
+    */
+    public function addPage($page, $target)
 	{
 		$t = $this->add("a", array(
 		   "href"=>"#".strtolower($page),
@@ -75,7 +103,11 @@ EOF;
 		$t->Content = R::ngets("btn.".strtolower($page));
 		$this->m_pages[] = $t;
 	}
-	public function init()
+
+    /**
+    * auto generate doc.
+    */
+    public function init()
 	{
 
 $p_content = $this->TargetNode->div()->setAttributes(array("class"=>"kms-page-content" ));

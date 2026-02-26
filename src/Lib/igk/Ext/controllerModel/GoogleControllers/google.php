@@ -87,7 +87,14 @@ if (defined('IGK_GOOGLE_MODULE')) {
             igk_google_css_setfont($theme->def, $family, $extra);
         IGKEvents::hook(GoogleEvents::init_component, "font");
     }
-    function igk_google_bindfont($theme, $family, $size = null)
+
+/**
+* auto generate doc.
+* @param mixed $theme
+* @param mixed $family
+* @param null|mixed $size
+*/
+function igk_google_bindfont($theme, $family, $size = null)
     {
         $g = trim($family);
         if (empty($g)) {
@@ -191,7 +198,11 @@ if (defined('IGK_GOOGLE_MODULE')) {
     {
         return igk_dir(igk_io_basedir() . "/" . IGK_RES_FOLDER . "/fonts/google");
     }
-    function igk_google_data_dir()
+
+/**
+* auto generate doc.
+*/
+function igk_google_data_dir()
     {
         return implode(DIRECTORY_SEPARATOR, [dirname(__FILE__), IGK_DATA_FOLDER]);
     }
@@ -342,14 +353,25 @@ EOF
     }
 
     if (!function_exists('igk_html_node_google_icon_outlined')) {
-        function igk_html_node_google_icon_outlined($name, $title = "", $type = "span")
+
+/**
+* auto generate doc.
+* @param mixed $name
+* @param mixed $title
+* @param mixed $type
+*/
+function igk_html_node_google_icon_outlined($name, $title = "", $type = "span")
         {
             return igk_html_node_google_icon($name, $title, $type, 'material-icons-outlined');
         }
     }
 
     if (!function_exists('igk_html_node_hamburger_button_menu')) {
-        function igk_html_node_hamburger_button_menu()
+
+/**
+* auto generate doc.
+*/
+function igk_html_node_hamburger_button_menu()
         {
             $n = igk_create_node('div');
             $n->google_icon('menu');
@@ -433,7 +455,10 @@ EOF;
         return $n;
     }
 
-    function igk_google_init_css()
+/**
+* auto generate doc.
+*/
+function igk_google_init_css()
     {
         //google - bind local style
         if (!igk_get_env("google::init_global_style")) {
@@ -710,7 +735,11 @@ EOF;
     // components
     if (!function_exists('igk_html_node_google_oauth_link')) {
 
-        function igk_html_node_google_oauth_link($tab)
+/**
+* auto generate doc.
+* @param mixed $tab
+*/
+function igk_html_node_google_oauth_link($tab)
         {
             $n = igk_create_node("a");
             $list = [
@@ -739,7 +768,13 @@ EOF;
     }
 
     if (!function_exists('igk_html_node_google_oth2_button')) {
-        function igk_html_node_google_oth2_button($url, $gclient)
+
+/**
+* auto generate doc.
+* @param mixed $url
+* @param mixed $gclient
+*/
+function igk_html_node_google_oth2_button($url, $gclient)
         {
             $n = igk_create_node("a");
             $q = http_build_query([

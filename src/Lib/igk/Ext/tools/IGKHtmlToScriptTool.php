@@ -11,6 +11,9 @@ use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
 use IGK\XML\XMLNodeType;
 
+/**
+* auto generate doc.
+*/
 class IGKHtmlToScriptTool extends ToolControllerBase
 {
 	/**

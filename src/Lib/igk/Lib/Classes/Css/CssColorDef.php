@@ -7,6 +7,11 @@ namespace IGK\Css;
 use ArrayAccess;
 use Exception;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 class CssColorDef implements ArrayAccess{
     use ArrayAccessSelfTrait;
     private $m_data;

@@ -7,6 +7,9 @@
 use igk\js\common\JSExpression;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+*/
 class JSStringifyTest extends BaseTestCase{
     /**
      * Set up the test environment by loading the JS common module.
@@ -51,6 +54,9 @@ class JSStringifyTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_template_no_escapse(){
         $data = [
             "template"=>"<div>the template</div>", 
@@ -62,6 +68,10 @@ class JSStringifyTest extends BaseTestCase{
         "rule: use expression"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_expression_use(){
         /// unique name definie the proprieries
         $data = [

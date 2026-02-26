@@ -12,6 +12,11 @@ use IGK\Helper\Database;
 use IGK\System\Caches\DBCaches;
 use IGK\System\Console\App;
 use IGK\System\Console\Logger;
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class SchemaChangeColumnMigration extends SchemaMigrationItemBase
 {
     protected $fill_properties = ["table", "column", 'tag'];

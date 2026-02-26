@@ -10,11 +10,23 @@ namespace IGK\Tests;
 use IGK\System\Html\Dom\HtmlDocTheme; 
 use IGKHtmlDoc;
 
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class CssBuilderTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     protected static function _CreateTheme(){
         return new HtmlDocTheme(  IGKHtmlDoc::CreateDocument("test"), "test", false);
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_render_transform(){
         $theme = self::_CreateTheme();
 
@@ -43,6 +55,10 @@ class CssBuilderTest extends BaseTestCase
             "render rotate not resolved"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_rendergin()
     { 
         $theme = self::_CreateTheme();
@@ -58,6 +74,9 @@ class CssBuilderTest extends BaseTestCase
         $this->assertTrue(true);
     }
 
+    /**
+    * auto generate doc.
+    */
     function test_css_theme_definition(){
 
         $theme = self::_CreateTheme();
@@ -74,6 +93,9 @@ class CssBuilderTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     function test_css_sysfcolor(){
         $theme = self::_CreateTheme();
         $systheme = igk_app()->getDoc()->getSysTheme();
@@ -107,6 +129,10 @@ class CssBuilderTest extends BaseTestCase
             "sysfcl: no default color provided must be empty removed"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_css_syscl(){
         $theme = self::_CreateTheme();
         $systheme = igk_app()->getDoc()->getSysTheme();
@@ -131,6 +157,9 @@ class CssBuilderTest extends BaseTestCase
         ); 
     }
 
+    /**
+    * auto generate doc.
+    */
     function test_joining(){
         $theme = self::_CreateTheme();
         $systheme = igk_app()->getDoc()->getSysTheme();

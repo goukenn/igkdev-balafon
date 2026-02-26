@@ -10,11 +10,20 @@
 namespace IGK\Controllers;
 use IGK\System\Html\Dom\HtmlDialogFrameNode;
 use IGK\IFrameController;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 final class FrameDialogController extends NonVisibleControllerBase implements IFrameController{
     const FRAME_KEYS="FRAMES";
     public function __construct(){
         parent::__construct();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function close_frame_ajx(){
         $href=base64_decode(igk_getr("href"));
         $tag=igk_getquery_args($href);
@@ -22,6 +31,10 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
         igk_wl(igk_app()->Doc->body->render());
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function closeAllFrame(){
         $frame=$this->getFrames();
         $c=array_keys($frame);
@@ -32,6 +45,12 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
         }
         igk_navtocurrent();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $id
+    * @param null|mixed $navigate
+    */
     public function closeFrame($id=null, $navigate=null){
         $v_id=($id != null) ? $id: igk_getr("id", 0);
         $closeuri=null;
@@ -69,10 +88,21 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function closeFrame_ajx(){
         $id=igk_getr("id");
         igk_frame_close($id);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param mixed $frame
+    * @param mixed $remove
+    */
     public function ContainFrame($id, $frame, $remove=true){
         $frames=$this->getFrames();
         if(isset($frames[$id])){
@@ -89,6 +119,14 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
         else{        }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param mixed $owner
+    * @param null|mixed $closeuri
+    * @param null|mixed $reloadcallback
+    */
     public function createFrame($id, $owner, $closeuri=null, $reloadcallback=null){
         if(($id == null) || !is_string($id))
             return null;
@@ -117,6 +155,11 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
         $this->setParam(self::FRAME_KEYS, $frames);
         return $v_dial;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    */
     public function getFrame($id){
         $frames=$this->getFrames();
         if(isset($frames[$id])){
@@ -124,18 +167,36 @@ final class FrameDialogController extends NonVisibleControllerBase implements IF
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFrameIds(){
         if($frames=$this->getFrames()){
             return array_keys($frames);
         }
         return array();
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getFrames(){
         return $this->getParam(self::FRAME_KEYS);
     }
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
     public function getName(): string{
         return IGK_FRAME_CTRL;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    */
     public function IsFrameAvailable($id){
         return $this->getFrame($id) != null;
     }

@@ -7,6 +7,11 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\System\Configuration\Controllers\SystemUriActionController;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 abstract class UriHelper{
     const URI_SYS_REPLACE = "base|base_config";
     /**
@@ -22,7 +27,12 @@ abstract class UriHelper{
             $port = ":" . $port;
         return igk_io_baseuri() . $port . "/!@{$type}//{$ctrl->getName()}/{$u}";
         //return igk_io_baseuri() . $port . "/{$ctrl->getName()}/{$u}";
-    }   
+    }
+
+    /**
+    * auto generate doc.
+    * @param string $uri
+    */
     public static function UriSysReplace(string $uri){
         $v_regex = "/%(?P<name>(".self::URI_SYS_REPLACE."))%/i";
         return preg_replace_callback( $v_regex, function($m){

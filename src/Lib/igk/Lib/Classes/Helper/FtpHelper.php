@@ -5,8 +5,19 @@
 // @desc: 
 namespace IGK\Helper;
 use IGK\System\Console\Logger;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class FtpHelper
 {
+
+    /**
+    * auto generate doc.
+    * @param mixed $res
+    * @param mixed $path
+    */
     public static function FileExists($res, $path){
         $dir = dirname($path);
         $g = ftp_nlist($res, $dir);
@@ -36,6 +47,12 @@ class FtpHelper
         @ftp_chdir($ftpresourse, $bckdir);        
         return $r;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ftpresourse
+    * @param string $directory
+    */
     public static function RmDir($ftpresourse, string $directory){
         $cwd = ftp_pwd($ftpresourse);
         if (!@ftp_chdir($ftpresourse, $directory))
@@ -79,6 +96,13 @@ class FtpHelper
     public static function RmFile($res, $path){        
         return @ftp_delete($res, $path);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $res
+    * @param mixed $source
+    * @param mixed $dest
+    */
     public static function RenameFile($res, $source, $dest){
         return @ftp_rename($res, $source, $dest);
     }

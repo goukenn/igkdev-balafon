@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Database;
 use IGK\Database\DbColumnInfo;
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class SchemaCreateTableMigration extends SchemaMigrationItemBase{
     protected $fill_properties = ["table", "description" ];
     // source column to restore

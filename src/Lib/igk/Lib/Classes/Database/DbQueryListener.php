@@ -7,12 +7,21 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
+/**
+* auto generate doc.
+*/
 final class DbQueryListener{
     var $squery;
     ///query list
     public function __construct(){
         $this->squery="";
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $s
+    */
     function sendQuery($s){
         if(preg_match("/^SELECT Count\(\*\) FROM/i", $s)){
             return null;

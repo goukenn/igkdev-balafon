@@ -11,6 +11,11 @@ use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder; 
 
 use IGKDbModelUtility;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeModelUtilityCommand extends AppExecCommand
 {
     var $command = "--make:model-utility";

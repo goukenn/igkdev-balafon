@@ -10,6 +10,9 @@ use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
 
+/**
+* auto generate doc.
+*/
 final class IGKHtmlObjectNode extends HtmlNode
 {
 	public function __construct()
@@ -17,21 +20,43 @@ final class IGKHtmlObjectNode extends HtmlNode
 		parent::__construct("object");
 	}
 }
+
+/**
+* auto generate doc.
+*/
 class IGKHtmlVideoSourceNode extends HtmlNode
 {
-	public 	function getSrc()
+
+    /**
+    * auto generate doc.
+    */
+    public 	function getSrc()
 	{
 		return $this["src"];
 	}
-	public 	function setSrc($value)
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
+    public 	function setSrc($value)
 	{
 		$this["src"] = $value;
 	}
-	public 	function getType()
+
+    /**
+    * auto generate doc.
+    */
+    public 	function getType()
 	{
 		return $this["type"];
 	}
-	public 	function setType($value)
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
+    public 	function setType($value)
 	{
 		$this["type"] = $value;
 	}
@@ -42,16 +67,30 @@ class IGKHtmlVideoSourceNode extends HtmlNode
 		$this["src"] = $src;
 		$this["type"] = $type;
 	}
-	public function ClearChilds()
+
+    /**
+    * auto generate doc.
+    */
+    public function ClearChilds()
 	{
 		//no clear childs
 	}
 }
+
+/**
+* auto generate doc.
+*/
 final class IGKHtmlVideoNode extends HtmlNode
 {
 	private $m_ObjectNode;
 	private $m_sources;
-	public function addSource($src, $type)
+
+    /**
+    * auto generate doc.
+    * @param mixed $src
+    * @param mixed $type
+    */
+    public function addSource($src, $type)
 	{
 		$h = new IGKHtmlVideoSourceNode($src, $type);
 
@@ -64,15 +103,28 @@ final class IGKHtmlVideoNode extends HtmlNode
 		}
 		return $h;
 	}
-	public  function clearSource()
+
+    /**
+    * auto generate doc.
+    */
+    public  function clearSource()
 	{
 		$this->m_sources = array();
 	}
-	public function getAllowControl()
+
+    /**
+    * auto generate doc.
+    */
+    public function getAllowControl()
 	{
 		return ($this["controls"] != null);
 	}
-	public function setAllowControl($value)
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
+    public function setAllowControl($value)
 	{
 		if ($value == null) {
 			$this["controls"] = null;
@@ -90,7 +142,12 @@ final class IGKHtmlVideoNode extends HtmlNode
 		$this["height"] = "300px";
 		$this["width"] = "400px";
 	}
-	protected function _getRenderingChildren($options = null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
+    protected function _getRenderingChildren($options = null)
 	{
 		$this->_buildObject();
 		$c = parent::_getRenderingChildren($options);
@@ -114,11 +171,18 @@ final class IGKHtmlVideoNode extends HtmlNode
 		$this->m_ObjectNode = $t;
 	}
 }
+
+/**
+* auto generate doc.
+*/
 abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_vidNode;
 
-	public static function GetAdditionalConfigInfo()
+    /**
+    * auto generate doc.
+    */
+    public static function GetAdditionalConfigInfo()
 	{
 		return array(
 			"clPrimaryMovie" => new ExtraControllerProperty("text", ""),
@@ -131,7 +195,12 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 	{ //vid player construct
 		parent::__construct();
 	}
-	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode
 	{
 		$t  = parent::initTargetNode();
 
@@ -141,7 +210,10 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 		return $t;
 	}
 
-	protected function setupCtrlConfigonfigSettings()
+    /**
+    * auto generate doc.
+    */
+    protected function setupCtrlConfigonfigSettings()
 	{
 		parent::setupCtrlConfigonfigSettings();
 		//init basics source
@@ -160,10 +232,17 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 		}
 	}
 
-	public function vidplayer_editsource_ajx()
+    /**
+    * auto generate doc.
+    */
+    public function vidplayer_editsource_ajx()
 	{
 	}
-	public function getControllerConfigOptions()
+
+    /**
+    * auto generate doc.
+    */
+    public function getControllerConfigOptions()
 	{
 		/** @var HtmlNode$t*/
 		$t = parent::getControllerConfigOptions();
@@ -175,36 +254,68 @@ abstract class IGKVideoPlayerCtrl extends \IGK\Controllers\ControllerTypeBase
 		$this->m_vidNode->clearSource();
 		$this->addSource($src, $type);
 	}
-	public function addSource($src = null, $type = "video/mp4")
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $src
+    * @param mixed $type
+    */
+    public function addSource($src = null, $type = "video/mp4")
 	{
 		$src = $src == null ? igk_getr("src") : $src;
 		$type = $type == null ? igk_getr("type") : $type;
 		$this->m_vidNode->addSource(igk_io_baseuri() . "/R/Videos/" . $src, $type);
 	}
-	public function noControl()
+
+    /**
+    * auto generate doc.
+    */
+    public function noControl()
 	{
 		$this->m_vidNode->setAllowControl(false);
 	}
-	public function allowControl()
+
+    /**
+    * auto generate doc.
+    */
+    public function allowControl()
 	{
 		$this->m_vidNode->setAllowControl(true);
 	}
-	public function  View(): BaseController
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function  View(): BaseController
 	{
 		//no view. rendering
 		if (!$this->getIsVisible())
 			igk_html_rm($this->TargetNode);
 		return $this;
 	}
-	protected function _showViewFile()
+
+    /**
+    * auto generate doc.
+    */
+    protected function _showViewFile()
 	{
 		//not visible by default
 	}
-	public function getCanAddChild()
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild()
 	{
 		return false;
 	}
-	protected function _showChild($targetnode = null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $targetnode
+    */
+    protected function _showChild($targetnode = null)
 	{
 		//no childs
 	}

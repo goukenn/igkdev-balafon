@@ -13,6 +13,10 @@ use IGK\System\WinUI\Menus\MenuItem;
 
 use function igk_resources_gets as __;
 
+/**
+* auto generate doc.
+* @package IGK\Ext\Controllers\Google
+*/
 final class IGKGoogleConfigurationSetting extends ConfigControllerBase{
 	use NoDbActiveControllerTrait;
 	use ControllerLocationTrait;

@@ -9,9 +9,20 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html;
 use IGK\IFormBuilderEngine;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class FormBuilderEngine implements IFormBuilderEngine{
     protected $frm;
     var $group;
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $arguments
+    */
     public function __call($n, $arguments){
         if((strlen($n) > 3) && (substr($n, 0, 3) == "add")){
             $view=$this->getView();
@@ -23,17 +34,36 @@ class FormBuilderEngine implements IFormBuilderEngine{
     public function __construct($frm){
         $this->setView($frm);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function __get($n){
         if(strtolower($n) == "frm"){
             return $this->frm;
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function __set($n, $v){
         if((strtolower($n) == "frm") && ($v != null)){
             $this->frm=$v;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $c
+    * @param mixed $entries
+    * @param null|mixed $filter
+    * @param null|mixed $id
+    */
     protected function _initEntries($c, $entries, $filter=null, $id=null){
         $fobj=["selected"=>0, "value"=>IGK_FD_ID, "key"=>"clName"];
         $callback=null;
@@ -78,10 +108,24 @@ class FormBuilderEngine implements IFormBuilderEngine{
             }
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param mixed $type
+    * @param null|mixed $text
+    */
     public function addButton($id, $type='submit', $text=null){
         $this->getView()->addButton($id, $type)->Content=$text ?? __('btn.'.$id);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param null|mixed $value
+    * @param null|mixed $attribs
+    */
     public function addCheckbox($id, $value=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $i=$this->addControl($id, "checkbox", null, array("value"=>$value));
@@ -91,6 +135,14 @@ class FormBuilderEngine implements IFormBuilderEngine{
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param mixed $type
+    * @param null|mixed $style
+    * @param null|mixed $attribs
+    */
     public function addControl($id, $type='text', $style=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $view=$this->getView();
@@ -104,12 +156,23 @@ class FormBuilderEngine implements IFormBuilderEngine{
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function addGroup(){
         $g=$this->frm->div();
         $g["class"]="igk-form-group";
         $this->group=$g;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param null|mixed $class
+    * @param null|mixed $text
+    */
     public function addLabel($id, $class=null, $text=null){
         extract(igk_html_extract_id($id));
         $view=$this->getView();
@@ -118,6 +181,14 @@ class FormBuilderEngine implements IFormBuilderEngine{
         $lb->Content=isset($text) ? $text: (isset($label) ? $label: __("lb.".$id));
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param null|mixed $value
+    * @param mixed $type
+    * @param null|mixed $style
+    */
     public function addLabelControl($id, $value=null, $type='text', $style=null){
         extract(igk_html_extract_id($id));
         $__rv=get_defined_vars();
@@ -125,22 +196,48 @@ class FormBuilderEngine implements IFormBuilderEngine{
         $this->addControl($__rv, $type, $value, $style);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param mixed $entries
+    * @param null|mixed $filter
+    */
     public function addLabelSelect($id, $entries, $filter=null){
         extract(igk_html_extract_id($id));
         $this->addLabel(get_defined_vars());
         $this->addSelect($id, $entries, $filter);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param null|mixed $value
+    */
     public function addLabelTextarea($id, $value=null){
         extract(igk_html_extract_id($id));
         $this->addLabel(get_defined_vars());
         $this->addTextarea($id, $value);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $callback
+    * @param mixed $tag
+    */
     public function addObData($callback, $tag='div'){
         $this->getView()->addObData($callback, $tag);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param null|mixed $value
+    * @param null|mixed $attribs
+    */
     public function addRadioButton($id, $value=null, $attribs=null){
         extract(igk_html_extract_id($id));
         $this->addControl($id, "checkbox", null, array("value"=>$value));
@@ -150,6 +247,13 @@ class FormBuilderEngine implements IFormBuilderEngine{
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param mixed $entries
+    * @param null|mixed $filter
+    */
     public function addSelect($id, $entries, $filter=null){
         extract(igk_html_extract_id($id));
         $c=$this->getView()->addSelect($id);
@@ -159,15 +263,32 @@ class FormBuilderEngine implements IFormBuilderEngine{
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param null|mixed $value
+    */
     public function addTextarea($id, $value=null){
         extract(igk_html_extract_id($id));
         $a=$this->getView()->addTextarea($id);
         $a->setClass("igk-form-control textarea")->Content=$value == null ? igk_getr($id, $value): $value;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $id
+    * @param null|mixed $value
+    * @param null|mixed $attribs
+    */
     public function addTextfield($id, $value=null, $attribs=null){
         $this->addLabelControl($id);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getLastChild(){
         $view=$this->getView();
         if($view && $view->ChildCount > 0){
@@ -176,6 +297,10 @@ class FormBuilderEngine implements IFormBuilderEngine{
         igk_die("failed");
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getView(){
         $c=null;
         if($this->group){
@@ -185,6 +310,11 @@ class FormBuilderEngine implements IFormBuilderEngine{
             $c=$this->frm;
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $frm
+    */
     public function setView($frm){
         if(!is_object($frm))
             igk_die("engine host required");

@@ -7,21 +7,38 @@
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Resources\R;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	public function __construct(){
 		parent::__construct();
 	}
 	//
-	public function getDataTableInfo(): ?IModelDefinitionInfo{
+
+    /**
+    * auto generate doc.
+    * @return ?IModelDefinitionInfo
+    */
+    public function getDataTableInfo(): ?IModelDefinitionInfo{
 		return null;
 	}
-	protected function initComplete($context=null){
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
+    protected function initComplete($context=null){
 		parent::initComplete();
 		$k = "^/blog(/:function(/:params+)?)?";
 		igk_sys_ac_register($k, $this->getUri("evaluateUri"));
 	}
-	public function evaluateUri(){
+
+    /**
+    * auto generate doc.
+    */
+    public function evaluateUri(){
 		$inf = igk_sys_ac_getpatterninfo();
 		$p = $inf->getParams();
 		$c = igk_getv($p, "function");
@@ -43,10 +60,19 @@ abstract class IGKBlogCtrl extends \IGK\Controllers\ControllerTypeBase
 		}
 		igk_exit();
 	}
-	public function getcanAddChild(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getcanAddChild(){
 		return false;
 	}
-	public function renderError($c){
+
+    /**
+    * auto generate doc.
+    * @param mixed $c
+    */
+    public function renderError($c){
 			//render error
 			$d = new IGKHtmlDoc($this->App, true);
 			$d->Title = "Blog Error";

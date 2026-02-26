@@ -4,8 +4,9 @@
 // @date: 20220803 13:48:59
 // @desc:
 
-
-
+/**
+* auto generate doc.
+*/
 final class IGKBillingDetailsEntry
 {
 	var $clId;

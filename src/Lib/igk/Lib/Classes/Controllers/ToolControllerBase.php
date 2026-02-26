@@ -11,32 +11,72 @@ namespace IGK\Controllers;
 use IGK\Controllers\BaseController;
 use IGKResourceUriResolver;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 abstract class ToolControllerBase extends BaseController{
     static $sm_tools = [];
+
+    /**
+    * auto generate doc.
+    */
     public function doAction(){    }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanInitDb(){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getImageUri(){
         return IGK_STR_EMPTY;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getIsAvailable(){
         return true;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ownernode
+    */
     public function hideTool($ownernode){
         igk_html_rm($this->TargetNode);
         $t=$this->TargetNode;
         $t->clearChilds();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
     protected function initComplete($context=null){
         parent::initComplete();
         if($this->getIsAvailable()){
             self::$sm_tools[get_class($this)] = $this;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function refreshToolView(){
         igk_getctrl(self::class)->View();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $ownernode
+    */
     public function showTool($ownernode){
         $t=$this->getTargetNode();
         $ownernode->add($t);
@@ -56,6 +96,11 @@ abstract class ToolControllerBase extends BaseController{
         }
         $a->div()->Content=__("tool.".$this->Name);
     }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View():BaseController{ 
         return $this;
     }

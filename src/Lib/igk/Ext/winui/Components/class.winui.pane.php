@@ -6,11 +6,19 @@
 
 use IGK\System\Html\Dom\HtmlNode;
 
+/**
+* auto generate doc.
+*/
 class IGKWinUI_paneView extends IGKWinUIControl
 {
 	private $m_script;
 	private $m_loadUri;
-	public function addGroup($name = null){
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $name
+    */
+    public function addGroup($name = null){
 		$g = new IGKWinUI_paneViewgroup();
 		$g->Name = $name;
 		$this->Add($g);
@@ -24,7 +32,11 @@ class IGKWinUI_paneView extends IGKWinUIControl
 		$this->m_script->Content = "igk.winui.paneview.init();";
 	}
 
-	protected function _getRenderingChildren($options = null)
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
+    protected function _getRenderingChildren($options = null)
 	{
 		$this->m_script->Content = <<<EOF
 igk.gui.paneview.loadfromUri( igk.getParentScript(),"{$this->m_loadUri}");
@@ -34,18 +46,37 @@ EOF;
 		];
 	}
 
-	 
-	public function getloadUri(){return $this->m_loadUri;}
-	public function setloadUri($value){$this->m_loadUri = $value; }
+    /**
+    * auto generate doc.
+    */
+    public function getloadUri(){return $this->m_loadUri;}
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
+    public function setloadUri($value){$this->m_loadUri = $value; }
 
 }
 
+/**
+* auto generate doc.
+*/
 class IGKWinUI_paneViewitem extends HtmlNode
 {
 	/** @var HtmlNode*/
 	private $m_link;
-	public function gethref(){return $this->m_link["href"]; }
-	public function sethref($value){$this->m_link["href"] = $value;}
+
+    /**
+    * auto generate doc.
+    */
+    public function gethref(){return $this->m_link["href"]; }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
+    public function sethref($value){$this->m_link["href"] = $value;}
 
 	public function __construct($link=null)
 	{
@@ -55,17 +86,33 @@ class IGKWinUI_paneViewitem extends HtmlNode
 		$this->m_link["href"] = $link;
 		parent::_AddChild($this->m_link,null);
 	}
-	public function addBlock($attributes=null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $attributes
+    */
+    public function addBlock($attributes=null)
 	{
 		$t = $this->m_link->Add("div", array("class"=>"pane-view-block"));
 		$t->setAttributes($attributes);
 		return $t;
 	}
-	protected function _addChild($item,$index=null)
+
+    /**
+    * auto generate doc.
+    * @param mixed $item
+    * @param null|mixed $index
+    */
+    protected function _addChild($item,$index=null)
 	{//remove access to add list
 		return false;
 	}
-	public function setBlockClass($class)
+
+    /**
+    * auto generate doc.
+    * @param mixed $class
+    */
+    public function setBlockClass($class)
 	{
 		$t = $this->m_link->getElementsByTagName("div");
 		if (is_array($t))
@@ -76,12 +123,24 @@ class IGKWinUI_paneViewitem extends HtmlNode
 		}
 	}
 }
+
+/**
+* auto generate doc.
+*/
 class IGKWinUI_paneViewgroup extends HtmlNode
 {
 	private $m_title; //group name
 
-	public function getName(){return $this->m_title->Content;}
-	public function setName($value){return $this->m_title->Content = $value; }
+    /**
+    * auto generate doc.
+    */
+    public function getName(){return $this->m_title->Content;}
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
+    public function setName($value){return $this->m_title->Content = $value; }
 	public function __construct()
 	{
 		parent::__construct("div");
@@ -89,7 +148,13 @@ class IGKWinUI_paneViewgroup extends HtmlNode
 		$this->m_title =  HtmlNode::CreateWebNode("div");
 		parent::_AddChild($this->m_title);
 	}
-	protected function _addChild($item, $index=null){
+
+    /**
+    * auto generate doc.
+    * @param mixed $item
+    * @param null|mixed $index
+    */
+    protected function _addChild($item, $index=null){
 		if (get_class($item) == "IGKWinUI_paneViewitem")
 		{
 			$t =  parent::_AddChild($item,$index);
@@ -97,7 +162,12 @@ class IGKWinUI_paneViewgroup extends HtmlNode
 		}
 		return false;
 	}
-	public function addItem($link=null){
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $link
+    */
+    public function addItem($link=null){
 		$p = new IGKWinUI_paneViewitem($link);
 		return $this->Add($p);
 	}

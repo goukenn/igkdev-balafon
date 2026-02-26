@@ -10,6 +10,11 @@ use IGK\Resources\R;
 use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Templates
+*/
 class BindingPipeExpressionInfo{
     /**
      * create default pipe definition

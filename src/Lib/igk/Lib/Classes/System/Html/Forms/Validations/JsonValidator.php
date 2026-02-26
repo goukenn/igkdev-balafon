@@ -4,7 +4,18 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Forms\Validations;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms\Validations
+*/
 class JsonValidator extends FormFieldValidatorBase implements IFormValidator{
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     public function assertValidate($value): bool { 
         return json_decode($value)!==false;
     }

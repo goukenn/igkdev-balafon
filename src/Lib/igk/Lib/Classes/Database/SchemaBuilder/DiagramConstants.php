@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\Database\SchemaBuilder;
 use IGK\Constants;
+
+/**
+* auto generate doc.
+* @package IGK\Database\SchemaBuilder
+*/
 class DiagramConstants{
     const GUID_LENGTH =  Constants::GUID_LENGTH;
     const NAME_LENGTH = 30;

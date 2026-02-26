@@ -9,7 +9,11 @@
 //Author: C.A.D. BONDJE DOUE
 //copyright: see balafon.copyright
 
-
+/**
+* auto generate doc.
+* @param mixed $lie
+* @param mixed $s
+*/
 function igk_srv_bind_cookie($lie, $s){
 	preg_replace_callback("/(?P<name>([^;=])+)=(?P<value>([^;])+)/i", function($m)use($lie){
 		$n= igk_getv($m, "name");
@@ -17,6 +21,13 @@ function igk_srv_bind_cookie($lie, $s){
 		$lie->__setCookie($n,$v);
 	}, $s);
 }
+
+/**
+* auto generate doc.
+* @param mixed $u
+* @param mixed $name
+* @param mixed $args
+*/
 function igk_srv_soap_call($u, $name, $args){
 	$lie = new SoapClient(null, array(
 	"uri"=>$u,
@@ -42,9 +53,17 @@ function igk_srv_soap_call($u, $name, $args){
 	igk_set_env(__FUNCTION__, $lie);
 	return $e;
 }
+
+/**
+* auto generate doc.
+*/
 function igk_srv_soap_session(){
 	igk_set_env("igk_srv_soap_call://prevent_session", 1);
 }
+
+/**
+* auto generate doc.
+*/
 function igk_srv_soap_LastHeader(){
 	$e = igk_get_env("igk_srv_soap_call");
 	if (!$e)
@@ -71,7 +90,11 @@ function igk_srv_soap_LastHeader(){
 	return $tab;
 }
 
-
+/**
+* auto generate doc.
+* @param mixed $classname
+* @param mixed $method
+*/
 function igk_srv_notexposed_attr($classname, $method){
 
 		$key = IGK_SERVICE_PREFIX_PATH.$classname."/notexposed";

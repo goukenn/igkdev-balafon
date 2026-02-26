@@ -12,53 +12,98 @@ use IGK\Helper\Activator;
 use IGK\Models\Community;
 use IGK\System\Models\IModelDefinitionInfo;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getName(): string
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
+    public function getName(): string
 	{
 		return get_class($this);
 	}
-	protected function initComplete($context = null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
+    protected function initComplete($context = null)
 	{
 		parent::initComplete();
 		igk_db_reg_sys_ctrl("community", $this);
 		//only one instance is allowed.
 		igk_reg_hook("sys://events/community", "igk_community_init_node_callback");
 	}
-	public function dropController()
+
+    /**
+    * auto generate doc.
+    */
+    public function dropController()
 	{
 		parent::dropController();
 		igk_notification_unreg_event("sys://events/community", "igk_community_init_node_callback");
 		igk_db_unreg_sys_ctrl("community");
 	}
-	 
-	public function getCanAddChild()
-	{
-		return false;
-	}
-	public static function CanDbEditDataType()
-	{
-		return false;
-	}
-	public static function CanDbChangeDataSchema()
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild()
 	{
 		return false;
 	}
 
-	public function getUseDataSchema():bool
+    /**
+    * auto generate doc.
+    */
+    public static function CanDbEditDataType()
 	{
 		return false;
 	}
 
-	public function getCanEditDataTableInfo()
+    /**
+    * auto generate doc.
+    */
+    public static function CanDbChangeDataSchema()
 	{
 		return false;
 	}
-	public function getDataTableName(): ?string
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
+    public function getUseDataSchema():bool
+	{
+		return false;
+	}
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanEditDataTableInfo()
+	{
+		return false;
+	}
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
+    public function getDataTableName(): ?string
 	{
 		return "%prefix%site_community";
 	}
-	public function getDataTableInfo(): ?IModelDefinitionInfo
+
+    /**
+    * auto generate doc.
+    * @return ?IModelDefinitionInfo
+    */
+    public function getDataTableInfo(): ?IModelDefinitionInfo
 	{
 		return Activator::CreateNewInstance(DbModelDefinitionInfo::class, array(
 			new DbColumnInfo(array(IGK_FD_NAME => IGK_FD_ID, IGK_FD_TYPE => "Int", "clAutoIncrement" => true, IGK_FD_TYPELEN => 10, "clIsUnique" => true, "clIsPrimary" => true)),
@@ -68,7 +113,13 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 			new DbColumnInfo(array(IGK_FD_NAME => "clAvailable", IGK_FD_TYPE => "Int", "clNotNull" => 1))
 		));
 	}
-	public static function initDb($force = false, bool $clean=false)
+
+    /**
+    * auto generate doc.
+    * @param mixed $force
+    * @param bool $clean
+    */
+    public static function initDb($force = false, bool $clean=false)
 	{
 		igk_set_env("sys://db/constraint_key", "igk_com");
 		if (igk_is_conf_connected())
@@ -77,12 +128,22 @@ abstract class IGKCommunityCtrl extends \IGK\Controllers\ControllerTypeBase
 
 
 	//@@@ parent view control
-	public function View():BaseController
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController
 	{	
 		// do nothing
 		return $this;
 	}
-	public function loadCommunityNode($n)
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
+    public function loadCommunityNode($n)
 	{
 		$e = Community::select_all();
 		if ($e) {

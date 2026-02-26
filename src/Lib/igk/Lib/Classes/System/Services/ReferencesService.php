@@ -5,5 +5,9 @@
 // @desc: reference service help to auto documenent library
 namespace IGK\System\Services;
 
+/**
+* auto generate doc.
+* @package IGK\System\Services
+*/
 class ReferencesService{
 }

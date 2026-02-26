@@ -16,12 +16,38 @@ use IGK\System\Database\MigrationHandler;
 * @package IGK\System\Console\Commands\Projects
 */
 class RemoveProjectCommand extends AppExecCommand{
-	var $command='--project:remove';
-	var $desc='remove install project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $command='--project:remove';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $desc='remove install project';
 	/* var $options=[]; */
-	var $category = 'project';
-	var $usage = 'controller [options]';
-	public function exec($command, ?string $controller = null) { 
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $category = 'project';
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
+    var $usage = 'controller [options]';
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|string $controller
+    */
+    public function exec($command, ?string $controller = null) { 
 		$ctrl = self::GetController($controller);
 		DbCommandHelper::Init($command);
 		$sm = new RemoveProjectMiddleWare;
@@ -41,17 +67,4 @@ class RemoveProjectCommand extends AppExecCommand{
 		Logger::info('clear cache');
 		SysUtils::ClearCache();
 	}	
-}
-class RemoveProjectMiddleWare{
-	private $m_chain;
-	public function add(){
-	}
-	public function next(){
-	}
-	public function run(){
-		$q = $this->m_chain; 
-		while($q){
-			$q = $q->next(); 
-		}
-	}
 }

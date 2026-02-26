@@ -4,10 +4,21 @@
 // @date: 20220803 13:48:54
 // @desc: 
 use IGK\System\Http\Request;
+
+/**
+* auto generate doc.
+*/
 class IGKRoutes
 {
     const REG_KEY = "sys://reg/systemuri";
     static $request_entry;
+
+    /**
+    * auto generate doc.
+    * @param mixed $u
+    * @param mixed $callback
+    * @param mixed $prehandle
+    */
     public static function Register($u, $callback, $prehandle = 1)
     {
         // TODO : remove register

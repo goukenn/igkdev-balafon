@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:55
 // @desc:
 namespace IGK\System\IO;
+
+/**
+* auto generate doc.
+* @package IGK\System\IO
+*/
 class MimeType{
     /**
      * Returns the MIME type corresponding to the given file extension.

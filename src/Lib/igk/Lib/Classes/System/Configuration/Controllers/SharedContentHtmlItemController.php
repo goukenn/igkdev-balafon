@@ -10,6 +10,11 @@
 namespace IGK\Controllers;
 use IGK\System\Html\Dom\HtmlSharedContentNode;
 use IGKHtmlSharedNotifyDialog;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 final class SharedContentHtmlItemController extends BaseController{
     const notifybox="notifybox";
     /**
@@ -65,10 +70,21 @@ final class SharedContentHtmlItemController extends BaseController{
     protected function initComplete($context=null){
         parent::initComplete();
     }
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
     protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
         $c=new HtmlSharedContentNode($this);
         return $c;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $node
+    */
     public function regEntity($name, $node){
         $this->m_entity[$name]=$node;
     }

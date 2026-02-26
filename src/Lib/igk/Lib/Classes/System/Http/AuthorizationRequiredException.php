@@ -6,6 +6,11 @@
 namespace IGK\System\Http;
 use IGKException;
 use Throwable;
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class AuthorizationRequiredException extends NotAllowedRequestException{
     /**
      * Constructor.

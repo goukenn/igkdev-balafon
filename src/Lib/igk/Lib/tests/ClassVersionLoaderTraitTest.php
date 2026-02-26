@@ -9,8 +9,15 @@ namespace IGK\Test;
 use IGK\System\Traits\ClassFileVersionLoaderTrait;
 use IGK\Tests\BaseTestCase;
 
-
+/**
+* auto generate doc.
+* @package IGK\Test
+*/
 class ClassVersionLoaderTraitTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_load_diff_version(){
         $loader = new DummyClassVersionLoader;
         $loader->registerClass("/temp/dummy.7.3.php", "dummy", "7");
@@ -35,6 +42,10 @@ class ClassVersionLoaderTraitTest extends BaseTestCase{
     }
 }
 
+/**
+* auto generate doc.
+* @package IGK\Test
+*/
 class DummyClassVersionLoader{
     use ClassFileVersionLoaderTrait;
 }

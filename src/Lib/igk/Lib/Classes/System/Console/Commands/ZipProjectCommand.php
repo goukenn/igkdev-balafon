@@ -7,6 +7,11 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;  
 use IGK\System\Number;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ZipProjectCommand extends AppExecCommand{
     var $command = "--project:zip";
     var $desc = "zip balafon project";

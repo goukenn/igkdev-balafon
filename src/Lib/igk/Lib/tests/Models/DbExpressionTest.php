@@ -14,17 +14,38 @@ use IGK\Tests\BaseTestCase;
 use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Models
+*/
 class DbExpressionTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function setUp(): void {
         require_once dirname(__FILE__)."/dbMocTable.pinc";
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function getControllerClass() {
         return DbTestController::class;
      }
+
+    /**
+    * auto generate doc.
+    */
     public function test_create_user(){   
         $g = new \IGK\Models\Users();
         $this->assertIsArray($g->to_array(), "user not an array"); 
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_query_expression(){
         $query = "";
 
@@ -49,6 +70,9 @@ class DbExpressionTest extends BaseTestCase{
         $query); 
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_update_query(){
         $gram = Table1Test::driver()->getGrammar(); 
         $this->assertEquals(
@@ -59,6 +83,10 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_update_query_2(){
         $gram = Table1Test::driver()->getGrammar(); 
         $this->assertEquals(
@@ -92,6 +120,10 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_json_empty_json_query(){
         $gram = Table1Test::driver()->getGrammar(); 
         
@@ -104,6 +136,10 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_date_query(){
         $gram = Table1Test::driver()->getGrammar();  
         $this->assertEquals(
@@ -115,6 +151,10 @@ class DbExpressionTest extends BaseTestCase{
             )
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_create_table_query(){
  
         $ad = Table1Test::model()->getDataAdapter();
@@ -131,6 +171,9 @@ class DbExpressionTest extends BaseTestCase{
            $q);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_query_fetch_prepare(){
        
         Table1Test::createTable();
@@ -146,6 +189,9 @@ class DbExpressionTest extends BaseTestCase{
         Table2Test::drop();
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_column_definition(){
         $gram = Users::driver()->getGrammar();         
         $table = Users::table();
@@ -187,6 +233,9 @@ class DbExpressionTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_with_query(){
         // $gram = Table6Test::driver()->getGrammar();  
         $s = Table6Test::with(Table7Test::table())
@@ -199,6 +248,10 @@ class DbExpressionTest extends BaseTestCase{
     }
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Models
+*/
 class DbTestController extends BaseController{
 
 }

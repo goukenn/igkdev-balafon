@@ -12,6 +12,11 @@ use Exception;
 use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
+
+/**
+* auto generate doc.
+* @package IGK\System\Drawing
+*/
 final class Rectanglef extends IGKObject{
     private $m_h, $m_w, $m_x, $m_y;
     /**

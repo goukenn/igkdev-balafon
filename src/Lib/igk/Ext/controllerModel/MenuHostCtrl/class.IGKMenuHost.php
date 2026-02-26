@@ -10,21 +10,42 @@
 use IGK\Controllers\BaseController;
 use IGK\Controllers\ExtraControllerProperty;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKMenuHostCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getName(): string{return get_class($this);}
 
-	public static function GetAdditionalConfigInfo()
+    /**
+    * auto generate doc.
+    * @return string
+    */
+    public function getName(): string{return get_class($this);}
+
+    /**
+    * auto generate doc.
+    */
+    public static function GetAdditionalConfigInfo()
 	{
 		return array("clAllowMenuNavigation"=>new ExtraControllerProperty("bool", true));
 	}
-	public static function SetAdditionalConfigInfo(& $tab)
+
+    /**
+    * auto generate doc.
+    * @param mixed & $tab
+    */
+    public static function SetAdditionalConfigInfo(& $tab)
 	{
 		$tab["clAllowMenuNavigation"] = igk_getr("clAllowMenuNavigation");
 	}
  
 	//@@@ parent view control
-	public function View():BaseController{ 
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController{ 
 		$controllers = igk_app()->getControllerManager()->getControllers();
 		$t = $this->getTargetNode();
 		$t->clearChilds();

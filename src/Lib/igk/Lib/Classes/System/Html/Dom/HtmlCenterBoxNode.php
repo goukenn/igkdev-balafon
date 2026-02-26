@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlCenterBoxNode extends HtmlNode
 {
     private $content_node;
@@ -24,12 +29,24 @@ class HtmlCenterBoxNode extends HtmlNode
         $this->content_node["class"] = "content";
         parent::_Add($this->content_node);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     protected function _getRenderingChildren($options = null)
     {
         return [
             $this->content_node
         ];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $force
+    * @return bool
+    */
     protected function _add($n, $force=false):bool {
         return $this->content_node->_add($n, $force);
     }

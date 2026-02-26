@@ -5,6 +5,11 @@
 // @desc: resource inline
 namespace IGK\System\Html\Css;
 use IGK\Css\ICssResourceResolver;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 class EmbedResourceResolver implements ICssResourceResolver{
     /**
      * Resolve a file path to a base64-encoded inline data URI.

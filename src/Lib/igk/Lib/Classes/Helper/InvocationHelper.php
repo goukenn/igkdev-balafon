@@ -1,6 +1,11 @@
 <?php
 namespace IGK\Helper;
 use Closure;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class InvocationHelper{
     /**
      * create inclusion helper 

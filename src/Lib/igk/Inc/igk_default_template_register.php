@@ -57,6 +57,15 @@ if (!function_exists('igk_template_if_attrib_expression')) {
         return null;
     }
 }
+
+/**
+* auto generate doc.
+* @param mixed $n
+* @param mixed $attr
+* @param mixed $v
+* @param mixed $context
+* @param mixed $setattrib
+*/
 function igk_template_update_attrib_expression($n, $attr, $v, $context, $setattrib)
 {
     $attrname = $attr;

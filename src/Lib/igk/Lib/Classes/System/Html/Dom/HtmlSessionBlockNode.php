@@ -14,6 +14,11 @@ use IGK\Server;
 use IGKHtmlRelativeUriValueAttribute;
 use IGKViewMode;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class HtmlSessionBlockNode extends HtmlCtrlNode{
     /**
      * Returns true when the server is local or running in a development environment.

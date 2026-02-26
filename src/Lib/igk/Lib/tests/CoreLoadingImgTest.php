@@ -9,7 +9,15 @@ namespace IGK\Tests;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class CoreLoadingImgTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_load_img(){
 
         //image tag is a special tag must be auto closed
@@ -25,6 +33,9 @@ EOF
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_load_img_closed(){
 
         //image tag is a special tag 

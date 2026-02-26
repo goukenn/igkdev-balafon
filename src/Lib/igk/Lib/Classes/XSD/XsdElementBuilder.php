@@ -6,6 +6,11 @@
 namespace IGK\XSD;
 use ArrayAccess;
 use IGKXmlNode;
+
+/**
+* auto generate doc.
+* @package IGK\XSD
+*/
 class XsdElementBuilder extends XsdElement 
 { 
     private $m_builder;
@@ -25,10 +30,21 @@ class XsdElementBuilder extends XsdElement
         $n->m_builder = $builder;
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $value
+    */
     public function setAttribute($name, $value){
         $this->m_node->setAttribute($name, $value);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $defaultvalue
+    */
     public function setDefault($defaultvalue){
         if ($this->_defining) {
             throw new XsdBuilderException("type already defined");
@@ -39,6 +55,11 @@ class XsdElementBuilder extends XsdElement
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $defaultvalue
+    */
     public function setFixed($defaultvalue){
         if ($this->_defining) {
             throw new XsdBuilderException("type already defined");

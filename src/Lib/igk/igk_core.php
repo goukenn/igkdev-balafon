@@ -153,6 +153,12 @@ function igk_zip_output(string $c, int $forcegzip = 0, $header = 1, &$type = nul
         igk_wl($c);
     }
 }
+
+/**
+* auto generate doc.
+* @param string $msg
+* @param mixed ...$params
+*/
 function igk_die_s(string $msg, ...$params)
 {
     igk_die(sprintf(__($msg), ...$params));
@@ -196,7 +202,15 @@ function igk_die($msg = IGK_DIE_DEFAULT_MSG, $throwex = 1, $code = 500)
     }
 }
 if (!function_exists('igk_die_exception')) {
-    function igk_die_exception(string $exception_class_name, ?string $msg, $throwex = 1, $code = 500)
+
+/**
+* auto generate doc.
+* @param string $exception_class_name
+* @param null|string $msg
+* @param mixed $throwex
+* @param mixed $code
+*/
+function igk_die_exception(string $exception_class_name, ?string $msg, $throwex = 1, $code = 500)
     {
         if (class_exists($exception_class_name)) {
             throw new $exception_class_name($msg, $code);
@@ -331,7 +345,13 @@ if (!function_exists('igk_getv_nil')) {
     }
 }
 if (!function_exists('igk_unset')) {
-    function igk_unset(&$o, $k)
+
+/**
+* auto generate doc.
+* @param mixed & $o
+* @param mixed $k
+*/
+function igk_unset(&$o, $k)
     {
         if (is_array($o)) unset($o[$k]);
         else if (is_object($o)) {
@@ -447,6 +467,13 @@ function igk_getpv($array, $key, $default = null)
     }
     return $o;
 }
+
+/**
+* auto generate doc.
+* @param mixed $k
+* @param array $list
+* @param null|mixed $default
+*/
 function igk_getvfirst_found($k, array $list, $default = null)
 {
     if (!$list) {
@@ -592,6 +619,13 @@ function igk_io_remove_ext($name)
     }
     return $name;
 }
+
+/**
+* auto generate doc.
+* @param mixed $uri
+* @param mixed $name
+* @param null|mixed & $fragment
+*/
 function igk_io_inject_uri_arg($uri, $name, &$fragment = null)
 {
     $g = parse_url($uri);
@@ -683,6 +717,11 @@ function igk_is_cmd()
     }
     return ((isset($_SERVER["argv"]) && !isset($_SERVER["SERVER_PROTOCOL"]))) || igk_environment()->get("sys://func/" . __FUNCTION__);
 }
+
+/**
+* auto generate doc.
+* @param mixed $v
+*/
 function igk_set_cmd($v = 1)
 {
     igk_environment()->set("sys://func/igk_is_cmd", $v);
@@ -727,6 +766,11 @@ function igk_load_library($name)
     }
     return 0;
 }
+
+/**
+* auto generate doc.
+* @param mixed $tag
+*/
 function igk_wl_tag($tag)
 {
     echo "<$tag>";
@@ -818,12 +862,20 @@ function igk_dump_pre($p)
     var_dump($p);
     echo "</pre>";
 }
+
+/**
+* auto generate doc.
+*/
 function igk_dev_wln()
 {
     if (igk_environment()->isDev()) {
         call_user_func_array("igk_wln", func_get_args());
     }
 }
+
+/**
+* auto generate doc.
+*/
 function igk_dev_ilog()
 {
     if (igk_environment()->isDev()) {
@@ -842,6 +894,10 @@ function igk_dev_wln_e()
         call_user_func_array($fc, func_get_args());
     }
 }
+
+/**
+* auto generate doc.
+*/
 function igk_bind_trace()
 {
     if ((igk_const_defined('IGK_ENV_NO_TRACE_KEY') && igk_environment()->get(IGK_ENV_NO_TRACE_KEY) != 1) && igk_const_defined("IGK_TRACE", 1)) {
@@ -993,6 +1049,12 @@ function igk_wln_e($msg = "", ...$extra)
     igk_exit();
 }
 ///<param name="args"> mixed| 1 array is attribute or next is considered as content to render </summary>
+
+/**
+* auto generate doc.
+* @param mixed $tag
+* @param mixed ...$args
+*/
 function igk_tag_wln($tag, ...$args)
 {
     $attr = "";
@@ -1224,6 +1286,11 @@ function igk_hook($name, $args = array(), $options = null)
 {
     return IGKEvents::hook($name, $args, $options);
 }
+
+/**
+* auto generate doc.
+* @param mixed $name
+*/
 function igk_hook_clear($name)
 {
     IGKEvents::unreg_hook($name, null, true);
@@ -1915,6 +1982,11 @@ function igk_sys_reflect_class($cl, &$reference = null)
     igk_trace();
     igk_dev_wln_e(__FILE__ . ":" . __LINE__, "core: missing class ::: " . $cl);
 }
+
+/**
+* auto generate doc.
+* @param mixed $cl
+*/
 function igk_sys_reflect_class_unset($cl)
 {
     igk_sys_reflect_class(null, $reference);
@@ -2385,7 +2457,12 @@ if (!function_exists('igk_get_object_public_vars')) {
     }
 }
 if (!function_exists('igk_sys_detect_project_controller')) {
-    function igk_sys_detect_project_controller(string $project_dir)
+
+/**
+* auto generate doc.
+* @param string $project_dir
+*/
+function igk_sys_detect_project_controller(string $project_dir)
     {
         $dir = $project_dir;
         $s = [];

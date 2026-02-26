@@ -8,6 +8,11 @@ use IGKException;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use ReflectionMethod;
+
+/**
+* auto generate doc.
+* @package IGK\System
+*/
 class ExtensionUtils{
     /**
      * retrieve extension method for 

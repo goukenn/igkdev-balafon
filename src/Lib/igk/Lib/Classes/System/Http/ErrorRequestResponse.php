@@ -7,6 +7,11 @@ namespace IGK\System\Http;
 use IGK\Helper\JSon as HelperJSon;
 use IGK\System\Html\Dom\HtmlDocTheme; 
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class ErrorRequestResponse extends RequestResponse{
     var $type = "json";
     var $code = RequestResponseCode::BadRequest;

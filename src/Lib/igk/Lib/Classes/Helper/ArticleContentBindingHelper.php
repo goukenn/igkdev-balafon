@@ -7,6 +7,11 @@ namespace IGK\Helper;
 use IGK\Controllers\BaseController;
 use IGK\Controllers\SysDbController;
 use IGK\Models\ModelBase;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class ArticleContentBindingHelper{
     const PIPE_ARG_FORMAT = "#\{\{\s*(?P<property>%s)\s*((\|(?P<pipe>[^\}]+))?\s*)?\}\}#";
     /**

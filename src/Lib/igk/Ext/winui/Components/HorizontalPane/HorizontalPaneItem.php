@@ -26,9 +26,12 @@ require_once __DIR__. "/HorizontalPaneManager.pinc";
 require_once __DIR__. "/HorizontalAnimType.pinc"; 
 require_once __DIR__. "/JSHorizontalPane.pinc"; 
 require_once __DIR__. "/HorizontalPage.pinc"; 
-require_once __DIR__. "/IHorizontalPaneListener.php"; 
- 
+require_once __DIR__. "/IHorizontalPaneListener.php";
 
+/**
+* auto generate doc.
+* @package IGK\Ext\WinUI\Components\HorizontalPane
+*/
 final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 {
 	private $m_pane;
@@ -49,53 +52,97 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 	public function getCtrl(){
 		return $this->m_ctrl;
 	}
-	public function getFolder()
+
+    /**
+    * auto generate doc.
+    */
+    public function getFolder()
 	{
 		return $this->m_folder;
 	}
-	public function setFolder($v)
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
+    public function setFolder($v)
 	{
 		$this->m_folder = IO::GetDir($v);
 	}
 
-	public function getConfigFileName()
+    /**
+    * auto generate doc.
+    */
+    public function getConfigFileName()
 	{
 		return $this->m_ConfigFileName;
 	}
-	public function setConfigFileName($v)
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
+    public function setConfigFileName($v)
 	{
 		$this->m_ConfigFileName = $v;
 	}
 
-	public function getPattern()
+    /**
+    * auto generate doc.
+    */
+    public function getPattern()
 	{
 		return $this->m_pattern;
 	}
-	public function setPattern($v)
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
+    public function setPattern($v)
 	{
 		$this->m_pattern = $v;
 	}
 
-	public function getPane()
+    /**
+    * auto generate doc.
+    */
+    public function getPane()
 	{
 		return $this->m_pane;
 	}
-	public function __toString()
+
+    /**
+    * auto generate doc.
+    */
+    public function __toString()
 	{
 		return __CLASS__;
 	}
 
-	public function getHasPage()
+    /**
+    * auto generate doc.
+    */
+    public function getHasPage()
 	{
 		return $this->m_pane->pageNode->HasChilds;
 	}
 
-	public function loadingComplete()
+    /**
+    * auto generate doc.
+    */
+    public function loadingComplete()
 	{
 		$this->configure();
 		$this->flush();
 	}
-	public function setCtrl($ctrl, $folder = null)
+
+    /**
+    * auto generate doc.
+    * @param mixed $ctrl
+    * @param null|mixed $folder
+    */
+    public function setCtrl($ctrl, $folder = null)
 	{
 		$this->clearPages();
 		$this->Folder = $folder == null ? $ctrl->getDataDir() . "/R/barner" : $folder;
@@ -123,7 +170,10 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 		}
 	}
 
-	public function storeDBConfigsSetting()
+    /**
+    * auto generate doc.
+    */
+    public function storeDBConfigsSetting()
 	{
 		$f = $this->Folder . "/" . $this->ConfigFileName;
 		$d = HtmlNode::CreateWebNode("config");
@@ -135,7 +185,12 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 		$d->add("AnimDuration")->Content = $this->m_pane->AnimDuration;
 		$d->SaveToFile($f);
 	}
-	public function getOptionsXML($uri)
+
+    /**
+    * auto generate doc.
+    * @param mixed $uri
+    */
+    public function getOptionsXML($uri)
 	{
 		$d = HtmlNode::CreateWebNode("div");
 		$d->add("li")->setAttributes(array("uri" => $uri . "&menu=option", "ajx" => 1, "complete" => "ns_igk.winui.horizontalScrollPane.append_to_body_from(this)"))->Content = "options";
@@ -147,7 +202,12 @@ final class HorizontalPaneItem extends HtmlRegistrableComponentBase
 		}
 		return $d->getinnerHTML();
 	}
-	public function EditPaneOptions($target)
+
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    */
+    public function EditPaneOptions($target)
 	{
 		if ($target == null)
 			return;
@@ -166,7 +226,11 @@ EOF;
 	{
 		parent::__construct("div");		
 	}
-	protected function initialize()
+
+    /**
+    * auto generate doc.
+    */
+    protected function initialize()
 	{
 		$this["class"] = "igk-hpane-container";
 		$this->m_pane = new JSHorizontalPane($this);
@@ -183,7 +247,13 @@ EOF;
 		$this->m_ConfigFileName = "config.xml";
 	}
 	///mage all visibility
-	public function isVisible($n, $t)
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $t
+    */
+    public function isVisible($n, $t)
 	{
 
 		$u = igk_app()->session->User;
@@ -196,7 +266,12 @@ EOF;
 		}
 		return false;
 	}
-	public function loadData($data)
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    */
+    public function loadData($data)
 	{
 		// igk_ilog("load data");
 		// $data->renderAJX();
@@ -218,7 +293,13 @@ EOF;
 			}
 		}
 	}
-	protected function _acceptRender($options = null):bool
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
+    protected function _acceptRender($options = null):bool
 	{
 		if (!$this->IsVisible)
 			return false;
@@ -245,29 +326,60 @@ EOF;
 			$this->m_infoboxScript->setIsVisible(false);
 		}
 		return true;
-	} 
-	public function setPageViewListener($listener)
+	}
+
+    /**
+    * auto generate doc.
+    * @param mixed $listener
+    */
+    public function setPageViewListener($listener)
 	{
 		if (($listener == null) || !igk_reflection_class_implement($listener, IHorizontalPaneListener::class))
 			igk_die("listener is not a valid value ");
 		$this->m_pagelistener = $listener;
 	}
-	public function getPageViewListener()
+
+    /**
+    * auto generate doc.
+    */
+    public function getPageViewListener()
 	{
 		return $this->m_pagelistener;
 	}
-	public function flush(){
+
+    /**
+    * auto generate doc.
+    */
+    public function flush(){
 		$this->m_pane->flush(); 
 	}
-	public function addPage($attributes = null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $attributes
+    */
+    public function addPage($attributes = null)
 	{
 		return $this->m_pane->addPage($attributes);
 	}
-	public function clearPages()
+
+    /**
+    * auto generate doc.
+    */
+    public function clearPages()
 	{
 		$this->m_pane->Clear();
 	}
-	public function configure(
+
+    /**
+    * auto generate doc.
+    * @param mixed $AnimDuration
+    * @param mixed $AnimInterval
+    * @param mixed $AnimPeriod
+    * @param mixed $IsAutoAnimate
+    * @param mixed $AnimType
+    */
+    public function configure(
 		$AnimDuration = 500,
 		$AnimInterval = 20,
 		$AnimPeriod = 25000,

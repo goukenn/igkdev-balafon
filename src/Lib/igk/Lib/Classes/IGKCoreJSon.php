@@ -8,6 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\System\Html\HtmlUtils;
+
+/**
+* auto generate doc.
+*/
 final class IGKCoreJSon extends IGKObject
 {
     const ExpressionRegex = "\\{(?<expression>(.)+)\\}";
@@ -17,12 +21,24 @@ final class IGKCoreJSon extends IGKObject
     //     }
     //     return $n;
     // }
+
+    /**
+    * auto generate doc.
+    * @param mixed $expression
+    * @param mixed $strict
+    */
     public function ToDictionary($expression, $strict = true){
         $h = self::GetExpression($expression, $strict);
         if (is_int($h) && ($h <= 0))
             return null;
         return (igk_count($h) == 1) && is_object($m = igk_getv($h, 0)) ? $m : $h;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $exp
+    * @param mixed $strict
+    */
     public static function GetExpression($exp, $strict = true)
     {
         if (is_string($exp) == false)

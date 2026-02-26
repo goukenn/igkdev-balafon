@@ -29,6 +29,10 @@ use ReflectionException;
 use ReflectionMethod;
 use function igk_resources_gets as __;
 
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 abstract class ApplicationController extends  PageControllerBase
 implements IDatabaseHost
 {
@@ -545,6 +549,10 @@ EOF;
         // return $g;
     }
     ///<summary> application by default not allowed global action</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getNoGlobalAction()
     {
         return true;
@@ -764,6 +772,10 @@ EOF;
             });
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function _registerApp()
     {
         if ($n = get_class($this)) {

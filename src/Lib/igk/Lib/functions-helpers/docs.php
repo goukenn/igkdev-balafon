@@ -7,7 +7,12 @@
 
 
 if (!function_exists('igk_doc_interface')){
-    function igk_doc_interface($obj){
+
+/**
+* auto generate doc.
+* @param mixed $obj
+*/
+function igk_doc_interface($obj){
         $r = is_array($obj) ? $obj : array_keys((array)$obj);
         sort($r);
         $sb = [];

@@ -11,6 +11,11 @@ use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKException;
 use ReflectionException;
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlActiveAttrib.php";
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class HtmlAttributeArray extends ArrayList implements ArrayAccess
 {
     use ArrayAccessSelfTrait;
@@ -31,10 +36,19 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
         }
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function keyExists($n)
     {
         return key_exists($n, $this->m_data);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function sortKeys(){
         if($this->m_data){
             ksort($this->m_data);
@@ -58,6 +72,10 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
     {
         return isset($this->m_data[$n]) && ($this->m_data[$n] instanceof HtmlActiveAttrib);
     }
+
+    /**
+    * auto generate doc.
+    */
     function __debugInfo()
     {
         return ["attribCount" => $this->count()];
@@ -74,6 +92,11 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
             $this->m_data += $protectedlist;
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetGet($n)
     {
         if ($this->m_protectedList && isset($this->m_protectedList[$n])) {
@@ -102,6 +125,11 @@ class HtmlAttributeArray extends ArrayList implements ArrayAccess
         }
         return parent::_access_OffsetSet($n, $v);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     protected function _access_OffsetUnset($n)
     {
         if ($this->m_protectedList && isset($this->m_protectedList[$n])) {

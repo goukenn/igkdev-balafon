@@ -5,6 +5,10 @@ namespace IGK\Ext\Adapters\SQLite3;
 use Exception;
 use IGK\Database\DbQueryResult;
 
+/**
+* auto generate doc.
+* @package IGK\Ext\Adapters\SQLite3
+*/
 class SQLite3Result extends DbQueryResult
 {
     private $m_result;
@@ -15,11 +19,20 @@ class SQLite3Result extends DbQueryResult
     private $m_rows = [];
     private function __construct() {}
 
+    /**
+    * auto generate doc.
+    * @param null|mixed $option
+    * @param int $flag
+    */
     public function to_json($option = null, int $flag = 0)
     {
         igk_die('not implement ' . __METHOD__);
     }
 
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function success(): bool
     {
         return true;
@@ -33,10 +46,21 @@ class SQLite3Result extends DbQueryResult
         return $this->m_rows;
     }
 
+    /**
+    * auto generate doc.
+    * @return ?array
+    */
     public function to_array(): ?array
     {
         return $this->getRows();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $result
+    * @param mixed $query
+    * @param mixed $info
+    */
     public static function CreateResult($result, $query, $info)
     {
         $ri = new self;
@@ -47,6 +71,10 @@ class SQLite3Result extends DbQueryResult
         return $ri;
     }
 
+    /**
+    * auto generate doc.
+    * @param int $index
+    */
     public function getRowAtIndex(int $index)
     {
         if (!$this->m_fetch) {
@@ -73,6 +101,10 @@ class SQLite3Result extends DbQueryResult
 
         return $this->m_rows;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function fetch()
     {
         $this->m_fetch = true;
@@ -86,6 +118,10 @@ class SQLite3Result extends DbQueryResult
         }
         return $b;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getColumns()
     {
         $res = $this->m_result; //->res;

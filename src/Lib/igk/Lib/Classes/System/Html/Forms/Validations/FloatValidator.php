@@ -4,12 +4,31 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Forms\Validations;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms\Validations
+*/
 class FloatValidator extends FormFieldValidatorBase implements IFormValidator
 {
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     public function assertValidate($value): bool
     {
         return is_numeric($value);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @param null|mixed $default
+    * @param mixed & $error
+    * @param null|object $options
+    */
     protected function _validate($value, $default = null, &$error = [], ?object $options = null)
     {
         if (is_numeric($value)) {

@@ -8,13 +8,27 @@ use IGK\System\EntryClassResolution;
 use IGK\System\Html\Dom\HtmlItemBase;
 use IGK\System\IInjectable;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 abstract class Response implements IResponse, IInjectable{
     /**
      * response body
      * @var mixed
      */
     private $body;
+
+    /**
+    * auto generate doc.
+    */
     public function getBody(){return $this->body; }
+
+    /**
+    * auto generate doc.
+    * @param mixed $body
+    */
     public function setBody($body){
         $this->body = $body;
     }

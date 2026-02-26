@@ -7,6 +7,11 @@ namespace IGK\Css;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
 use IGKMedia;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 class CssSupport implements ArrayAccess{
     var $rule;
     var $media; 
@@ -21,6 +26,10 @@ class CssSupport implements ArrayAccess{
         $this->rule = $rule;
         $this->media = new IGKMedia("@support", $rule);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function __toString()
     {  
         return "@support(".$this->rule."){".$this->media . "}";
@@ -35,12 +44,30 @@ class CssSupport implements ArrayAccess{
         $this[$key] = $value;
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    * @param mixed $v
+    */
     public function _access_OffsetSet($n, $v){
         $this->media[$n] = $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
     public function _access_OffsetGet($n){
         return $this->media[$n];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $theme
+    * @param mixed $systheme
+    * @param mixed $minfile
+    */
     public function getCssDef($theme, $systheme, $minfile=true){
         return $this->media->getCssDef($theme, $systheme, $minfile);
     }

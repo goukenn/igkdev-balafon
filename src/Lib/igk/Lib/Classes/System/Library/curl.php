@@ -6,6 +6,11 @@
 // @file: curl.php
 // @desc: curl library
 namespace IGK\System\Library;
+
+/**
+* auto generate doc.
+* @package IGK\System\Library
+*/
 class curl extends \IGKLibraryBase{
     /**
      * Initializes the cURL library extension.

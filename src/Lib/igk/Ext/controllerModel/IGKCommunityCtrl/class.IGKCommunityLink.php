@@ -16,6 +16,10 @@ use IGK\System\Html\HtmlUtils;
 //-------------------------------------------------
 ///community default manager
 //-------------------------------------------------
+
+/**
+* auto generate doc.
+*/
 final class IGKCommunityLink extends ConfigControllerBase
 { 
 
@@ -69,7 +73,11 @@ final class IGKCommunityLink extends ConfigControllerBase
 		}
 		return -1;
 	}
-	public function comm_addComm(){
+
+    /**
+    * auto generate doc.
+    */
+    public function comm_addComm(){
 
 		$tb  = $this->getCommunityTable();
 		$e = 0;
@@ -117,8 +125,10 @@ final class IGKCommunityLink extends ConfigControllerBase
 		igk_exit(); 
 	}
 
-
-	public function comm_addCommunityFrame_ajx(){
+    /**
+    * auto generate doc.
+    */
+    public function comm_addCommunityFrame_ajx(){
 		if (!igk_is_ajx_demand())
 			igk_navto(igk_io_baseUri());
 
@@ -162,21 +172,33 @@ final class IGKCommunityLink extends ConfigControllerBase
 			);
 	}
 
-	public function comm_block()
+    /**
+    * auto generate doc.
+    */
+    public function comm_block()
 	{
 		$t = igk_getr("t");
 		$id = igk_getr("clId");
 		igk_db_update(IGK_MYSQL_DATAADAPTER, $this->getCommunityTable() ,array("clAvailable"=>$t), array("clId"=>$id));
 		$this->View();
 	}
-	public function getCommunityTable()
+
+    /**
+    * auto generate doc.
+    */
+    public function getCommunityTable()
 	{
 		$ctrl = igk_db_sys_ctrl("community");
 		if ($ctrl)
 			return $ctrl->getDataTableName();
 		return null;
 	}
-	public function View():BaseController{
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController{
 		$c = $this->TargetNode;
 		if (!$this->IsVisible)
 		{
@@ -263,8 +285,10 @@ final class IGKCommunityLink extends ConfigControllerBase
 		return $this;
 	}
 
-
-	public function update_community()
+    /**
+    * auto generate doc.
+    */
+    public function update_community()
 	{
 		$table = $this->getCommunityTable();
 		if ($table==null) return;
@@ -294,7 +318,11 @@ final class IGKCommunityLink extends ConfigControllerBase
 		//igk_navtocurrent();
 	}
 
-	public function addGooglePlus($target){
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    */
+    public function addGooglePlus($target){
 		$lnk = $this->App->Doc->addLink("googleplus:uri");
 		$lnk["rel"] = "canonical";
 		$lnk["href"] = $this->App->Configs->community_googleplus_uri;

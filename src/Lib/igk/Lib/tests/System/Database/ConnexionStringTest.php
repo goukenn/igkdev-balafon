@@ -10,9 +10,17 @@ namespace IGK\Tests\BaseTestCase;
 use IGK\Helper\Activator;
 use IGK\System\Html\Css\CssParser;
 use IGK\System\Database\MySQL\MySQLConnexionString;
-use IGK\Tests\BaseTestCase; 
+use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\BaseTestCase
+*/
 class ConnexionStringTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_mysql_connexion_string(){
 
         $g = Activator::CreateNewInstance(MySQLConnexionString::class, CssParser::Parse("dbserver: 'localhost'; dbuser: 'root'; dbpasswd:'admin'; dbname:'igkdev'")->to_array());

@@ -6,6 +6,11 @@
 namespace IGK\Helper;
 use Closure;
 use IGK\System\Console\Logger;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 abstract class FileBuilderHelper
 {
     /**

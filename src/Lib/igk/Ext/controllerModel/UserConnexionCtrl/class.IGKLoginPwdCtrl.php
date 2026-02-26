@@ -9,27 +9,58 @@
 
 use IGK\Controllers\BaseController;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getName(): string{return get_class($this);}
-	protected function initComplete($context=null){
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
+    public function getName(): string{return get_class($this);}
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
+    protected function initComplete($context=null){
 		parent::initComplete();
 		//please enter your controller declaration complete here
 
 	}
-	public static function GetInfo()
+
+    /**
+    * auto generate doc.
+    */
+    public static function GetInfo()
 	{
 
 	}
 	//@@@ init target node
-	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		return $node;
 	}
-	public function getCanAddChild(){return false; }
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild(){return false; }
  
 	//@@@ parent view control
-	public function View():BaseController{
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController{
 		$t = $this->TargetNode;
 		$t->clearChilds();
 		$frm = $t->addForm();
@@ -39,6 +70,10 @@ abstract class IGKUserConnexionCtrl extends \IGK\Controllers\ControllerTypeBase
 		$frm->addInput("btn_connect" , "submit");
 		return $this;
 	}
-	public abstract function connect();
+
+    /**
+    * auto generate doc.
+    */
+    public abstract function connect();
 	public abstract function logout();
 } 

@@ -7,6 +7,11 @@ namespace IGK\System\Net;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlContext;
 use IGK\System\Html\HtmlRenderer;
+
+/**
+* auto generate doc.
+* @package IGK\System\Net
+*/
 class MailDocument extends HtmlNode{
     protected $tagname = "div";
     /**

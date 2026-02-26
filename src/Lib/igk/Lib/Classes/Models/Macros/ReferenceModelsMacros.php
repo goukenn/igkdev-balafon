@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\Models\Macros;
 use IGK\System\Number;
+
+/**
+* auto generate doc.
+* @package IGK\Models\Macros
+*/
 class ReferenceModelsMacros {
     /**
 	 * update object reference

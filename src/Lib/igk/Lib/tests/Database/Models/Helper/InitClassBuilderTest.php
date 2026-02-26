@@ -31,6 +31,10 @@ class InitClassBuilderTest extends BaseTestCase{
         ];
         return $o;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_dbmodel_initclass_builder(){ 
         $migrationInfo = $this->_getMigrationInfo(); 
         $g = InitClassBuilder::BuildInitialModelClass("Dummy", "Dummy", $migrationInfo, DummyClassBuildController::ctrl());
@@ -40,6 +44,10 @@ class InitClassBuilderTest extends BaseTestCase{
    
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Database\Models\Helper
+*/
 class DummyClassBuildController extends BaseController{
 
 }

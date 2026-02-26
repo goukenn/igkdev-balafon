@@ -11,7 +11,15 @@ use IGK\System\Text\RegexMatcherContainer;
 use IGK\System\Text\RegexMatcherUtility;
 
 if (!function_exists('igk_str_add_suffix')){
-    function igk_str_add_suffix(string $content, string $suffix, bool $check=true):string{
+
+/**
+* auto generate doc.
+* @param string $content
+* @param string $suffix
+* @param bool $check
+* @return string
+*/
+function igk_str_add_suffix(string $content, string $suffix, bool $check=true):string{
         if ($check && igk_str_endwith($content, $suffix) ){
             return $content;
         }
@@ -64,8 +72,14 @@ function igk_str_format(string $data, ...$params):string
     return stringUtility::Format(...func_get_args());
 }
 
-if (!function_exists('igk_str_assert_prepend')){    
-    function igk_str_assert_prepend(?string $data, string $prepend){
+if (!function_exists('igk_str_assert_prepend')){
+
+/**
+* auto generate doc.
+* @param null|string $data
+* @param string $prepend
+*/
+function igk_str_assert_prepend(?string $data, string $prepend){
         if ($data){
             $data = $prepend.$data;
         }
@@ -105,7 +119,14 @@ if (!function_exists('igk_str_escape')) {
     }
 }
 if (!function_exists('igk_str_rm')) {
-    function igk_str_rm(string $str, int $start_index, ?int $length = null)
+
+/**
+* auto generate doc.
+* @param string $str
+* @param int $start_index
+* @param null|int $length
+*/
+function igk_str_rm(string $str, int $start_index, ?int $length = null)
     {
         if (!is_null($length)) {
             return substr($str, 0, $start_index) . substr($str, $start_index + $length);
@@ -228,6 +249,11 @@ if (!function_exists('igk_str_repeat_callback')){
 
 
 if (!function_exists('igk_str_rm_php_csharp_summary')){
+
+/**
+* auto generate doc.
+* @param string $src
+*/
 function igk_str_rm_php_csharp_summary(string $src){
  
 $regex = new RegexMatcherContainer;

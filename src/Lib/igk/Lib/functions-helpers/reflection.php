@@ -117,7 +117,15 @@ function igk_reflection_get_constants($cl)
     return $r->getConstants();
 }
 if (!function_exists('igk_reflection_get_private_member')) {
-    function igk_reflection_get_private_member($cl, $modifier = ReflectionProperty::IS_PRIVATE, $non_static = true): array
+
+/**
+* auto generate doc.
+* @param mixed $cl
+* @param mixed $modifier
+* @param mixed $non_static
+* @return array
+*/
+function igk_reflection_get_private_member($cl, $modifier = ReflectionProperty::IS_PRIVATE, $non_static = true): array
     {
         $cl = is_object($cl) ? get_class($cl) : $cl;
         $r = igk_sys_reflect_class($cl);

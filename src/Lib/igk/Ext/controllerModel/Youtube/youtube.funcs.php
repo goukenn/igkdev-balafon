@@ -34,6 +34,11 @@ function igk_html_node_youtubevideo(string $uri, ?array $param=null){
 }
 
 //<summary>demonstration of you tube video</summary>
+
+/**
+* auto generate doc.
+* @param mixed $tg
+*/
 function igk_html_demo_youtubevideo($tg){
 	$n = igk_create_node();
 	//major lazer
@@ -42,6 +47,11 @@ function igk_html_demo_youtubevideo($tg){
 	$tg->add($n); 
 }
 //<summary>description of you tube video</summary>
+
+/**
+* auto generate doc.
+* @param mixed $tg
+*/
 function igk_html_desc_youtubeVideo($tg){
 	$n = igk_create_node();
 	//major lazer

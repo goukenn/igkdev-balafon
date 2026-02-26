@@ -10,6 +10,11 @@
 namespace IGK\System\Net;
 use IGKObject;
 use IGK\IMailAttachmentContainer;
+
+/**
+* auto generate doc.
+* @package IGK\System\Net
+*/
 final class MailAttachementContainer extends IGKObject implements IMailAttachmentContainer{
     private $m_files, $m_ids;
     /**

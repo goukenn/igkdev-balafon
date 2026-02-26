@@ -13,6 +13,10 @@ use IGK\System\Html\Dom\HtmlDoc;
 use IGK\System\Html\Dom\HtmlDocThemeMediaType;
 use IGKHtmlDoc;
 
+/**
+* auto generate doc.
+* @package IGK\Tests
+*/
 class ThemeBuilderTest extends BaseTestCase
 {
     private static function _CreateTheme($id){
@@ -31,6 +35,10 @@ class ThemeBuilderTest extends BaseTestCase
         $xsm_screen[".info"] = "background-color: red;";
         return $theme;
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_theme_to_array()
     {
         $theme = self::_CreateTheme('test');
@@ -67,6 +75,10 @@ EOF,
             "style definition not matching"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_serialize_unserialize_theme(){
 
         $theme = $this->_get_primary_theme();

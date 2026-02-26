@@ -5,6 +5,16 @@
 // @desc: db array result
 namespace IGK\Database;
 use IGK\System\IToArrayResolver;
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 interface IDbArrayResult extends IToArrayResolver{
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function to_array():array;
 }

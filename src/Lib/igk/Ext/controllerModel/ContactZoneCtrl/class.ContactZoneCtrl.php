@@ -12,33 +12,65 @@ use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\Dom\HtmlNotificationItemNode;
 
+/**
+* auto generate doc.
+*/
 abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_viewZone;
 	private $m_error;
 
-	public function getError(){return $this->m_error; }
-	public function getName(): string{return get_class($this);}
+    /**
+    * auto generate doc.
+    */
+    public function getError(){return $this->m_error; }
 
-	protected function initComplete($context=null){
+    /**
+    * auto generate doc.
+    * @return string
+    */
+    public function getName(): string{return get_class($this);}
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
+    protected function initComplete($context=null){
 		parent::initComplete();
 		//please enter your controller declaration complete here
 
 	}
-	public static function GetAdditionalConfigInfo()
+
+    /**
+    * auto generate doc.
+    */
+    public static function GetAdditionalConfigInfo()
 	{
 		return null;
 	}
 	//@@@ init target node
-	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		$this->m_viewZone = $node->div();
 		return $node;
 	}
-	public function getCanAddChild(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild(){
 		return false;
 	}
-	protected function validate_form()
+
+    /**
+    * auto generate doc.
+    */
+    protected function validate_form()
 	{
 		$obj = igk_get_robj();
 		$enode =  HtmlNode::CreateWebNode("div");
@@ -49,7 +81,11 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 
 		return $enode;
 	}
-	public function send_mail()
+
+    /**
+    * auto generate doc.
+    */
+    public function send_mail()
 	{
 		$obj = igk_get_robj();
 		$enode = $this->validate_form();
@@ -85,7 +121,12 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 		//igk_navtocurrent("./#".strtolower($this->Name));
 
 	}
-	protected function buildContactForm ($target)
+
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    */
+    protected function buildContactForm ($target)
 	{
 
 		$ul  = $target->add("ul");
@@ -105,7 +146,11 @@ abstract class ContactZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 
 	}
 
-	public function View(): BaseController{		
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View(): BaseController{		
 		$t = $this->getTargetNode();
 		$t->clearChilds();
 		$this->_showViewFile();

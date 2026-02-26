@@ -21,6 +21,11 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use ReflectionException;
 use TypeError;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class SysUtils{
     /**
      * helper to secure web port 
@@ -186,6 +191,11 @@ class SysUtils{
         }
         return $projects_ctrl;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $class
+    */
     public static function GetDeclaredMethods($class){
         $ref = igk_sys_reflect_class($class);
         return  array_filter(array_map(function($m) use ($class){
@@ -210,8 +220,14 @@ class SysUtils{
         if (is_array($n))
             return $n;
         return $n->to_array();
-    } 
-     public static function Notify($message, $type="default"){
+    }
+
+    /**
+    * auto generate doc.
+    * @param mixed $message
+    * @param mixed $type
+    */
+    public static function Notify($message, $type="default"){
         if (igk_is_ajx_demand()){
             igk_ajx_toast($message, $type);
         }else {
@@ -230,6 +246,12 @@ class SysUtils{
         } 
         igk_exit();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $c
+    * @param mixed $object
+    */
     public static function InitClassFields($c, $object){
         $properties = igk_relection_get_properties_keys(get_class($c)); 
         foreach($object as $k=>$v){
@@ -247,6 +269,14 @@ class SysUtils{
             $n->$k = igk_getv($tag, $k, $c);
         } 
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $condition
+    * @param mixed $successmsg
+    * @param mixed $errormessage
+    * @param null|mixed $name
+    */
     public static function assert_notify($condition, $successmsg, $errormessage, $name=null){
         $check = igk_check($condition);
         $notify = igk_notifyctrl($name);

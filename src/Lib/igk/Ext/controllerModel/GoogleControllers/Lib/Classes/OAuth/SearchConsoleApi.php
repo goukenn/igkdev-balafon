@@ -7,6 +7,10 @@
 
 namespace IGK\Core\Ext\Google\OAuth;
 
+/**
+* auto generate doc.
+* @package IGK\Core\Ext\Google\OAuth
+*/
 class SearchConsoleApi{
     const ENTRY_URI = "https://www.googleapis.com/webmasters/v3";
 

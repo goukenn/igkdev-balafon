@@ -4,10 +4,25 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace  IGK\System\Html\Dom\Traits;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom\Traits
+*/
 trait ScopedAttributeTrait{
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
     public function getScoped():bool{
         return $this->isActive("scoped");
     }
+
+    /**
+    * auto generate doc.
+    * @param bool $scope
+    */
     public function setScoped(bool $scope){
         $scope ? $this->activate("scoped"): $this->deactivate("scoped");
         return $this;

@@ -11,6 +11,11 @@ use stdClass;
 // // /**
 // * component manager controller
 // */
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 final class ComponentManagerController extends NonVisibleControllerBase{
     /**
     *  Dispose all component

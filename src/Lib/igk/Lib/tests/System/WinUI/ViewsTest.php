@@ -9,9 +9,15 @@ namespace IGK\Tests\System\WinUI;
 use IGK\System\WinUI\Pagination;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\WinUI
+*/
 class ViewsTest extends BaseTestCase{
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_pagination_query() { 
         $q = "";
         $gramm = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)->getGrammar();
@@ -26,6 +32,9 @@ class ViewsTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_pagination_list() { 
         $q = "";
         $gramm = igk_get_data_adapter(IGK_MYSQL_DATAADAPTER)->getGrammar();

@@ -17,17 +17,33 @@ use IGK\System\Html\Forms\Validations\FormValidation;
 use IGK\Tests\BaseTestCase;
 use Symfony\Component\Serializer\Encoder\JsonEncode;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Forms
+*/
 class ValidationTest extends BaseTestCase
 {
+
+    /**
+    * auto generate doc.
+    */
     function test_validation_class_exist()
     {
         $this->assertTrue(class_exists(FormValidation::class));
         $validation = new FormValidation();
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_empty_validation()
     {
         $this->assertFalse((new FormValidation())->validate([]));
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_validation_request_with_html_content()
     { 
         $validation = new FormValidation();
@@ -100,6 +116,9 @@ class ValidationTest extends BaseTestCase
         */
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_custom_validator()
     {
         //custom type validate
@@ -116,7 +135,11 @@ class ValidationTest extends BaseTestCase
         ])->validate(["x" => "basic", "default" => true]), [
             "x" => "handle-custom:basic",
         ], "bool validation failed");
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    */
     public function test_pattern_validator()
     {
         //custom type validate
@@ -139,6 +162,10 @@ class ValidationTest extends BaseTestCase
             "pattern validation "
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_url_validator()
     {
         //custom type validate
@@ -196,6 +223,9 @@ class ValidationTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_json_validator()
     {
         //custom type validate
@@ -218,6 +248,9 @@ class ValidationTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_file_validation(){
         $validation = new FormValidation();
         $validation->storage = false;
@@ -232,6 +265,10 @@ class ValidationTest extends BaseTestCase
             "test file validation "
         );  
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_validation_convert_to_type()
     {
         $validation = new FormValidation;
@@ -254,6 +291,9 @@ class ValidationTest extends BaseTestCase
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_validation_convert_with_validator()
     {
         $validation = new FormValidation;
@@ -277,13 +317,25 @@ class ValidationTest extends BaseTestCase
     }
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Forms
+*/
 class ValidationConvert{
     var $x;
     var $y;
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Forms
+*/
 class ValidationConvertValidator extends ConvertTypeValidatorBase{
-   
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function getFields():array{
         return [
             'x'=>['type'=>'int', 'required'=>1],

@@ -8,6 +8,9 @@
 
 use IGK\Controllers\NonVisibleControllerBase;
 
+/**
+* auto generate doc.
+*/
 final class HtmlNodeController extends NonVisibleControllerBase{
     /**
      * Returns the database table name associated with this controller.

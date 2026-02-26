@@ -9,13 +9,24 @@
 
 use IGK\System\Html\Dom\HtmlNode;
 
+/**
+* auto generate doc.
+*/
 abstract class DragDropZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 {
-	public function getCanAddChild(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild(){
 		return false;
 	}
- 
-	protected function initTargetNode():?HtmlNode
+
+    /**
+    * auto generate doc.
+    * @return ?HtmlNode
+    */
+    protected function initTargetNode():?HtmlNode
 	{
 		$t = new DragDropZoneItem();
 		$t["id"]="dropzone";
@@ -23,6 +34,9 @@ abstract class DragDropZoneCtrl extends \IGK\Controllers\ControllerTypeBase
 	}
 }
 
+/**
+* auto generate doc.
+*/
 class DragDropZoneItem extends HtmlNode
 {
 	private $m_scriptNode;

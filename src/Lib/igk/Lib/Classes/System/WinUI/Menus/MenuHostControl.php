@@ -9,18 +9,41 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\WinUI\Menus;
 use IGKObject;
+
+/**
+* auto generate doc.
+* @package IGK\System\WinUI\Menus
+*/
 final class MenuHostControl extends IGKObject{
     private $m_active, $m_diseable;
     public function __construct(){    }
+
+    /**
+    * auto generate doc.
+    */
     public function getActive(){
         return $this->m_active;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getDiseable(){
         return $this->m_diseable;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setActive($v){
         $this->m_active=$v;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setDiseable($v){
         $this->m_diseable=$v;
     }

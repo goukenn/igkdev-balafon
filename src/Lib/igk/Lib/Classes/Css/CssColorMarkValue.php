@@ -6,6 +6,11 @@
 namespace IGK\Css;
 use ArrayAccess;
 use IGK\System\Polyfill\ArrayAccessSelfTrait;
+
+/**
+* auto generate doc.
+* @package IGK\Css
+*/
 class CssColorMarkValue{
     var $key;
     var $color;

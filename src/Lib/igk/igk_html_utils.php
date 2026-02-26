@@ -80,7 +80,11 @@ function igk_html_tag($tag, $content, ?array $attributes = null)
     return $n->render();
 }
 
-
+/**
+* auto generate doc.
+* @param mixed $name
+* @param mixed $class
+*/
 function igk_html_reg_class($name, $class)
 {
     $B = igk_environment()->get("html://class");
@@ -124,6 +128,12 @@ function igk_html_get_method($name, $method)
     }
     return null;
 }
+
+/**
+* auto generate doc.
+* @param mixed $name
+* @param mixed $method
+*/
 function igk_html_get_class_callable($name, $method)
 {
 
@@ -142,8 +152,10 @@ function igk_html_get_class_callable($name, $method)
     return null;
 }
 
-
-
+/**
+* auto generate doc.
+* @param mixed $args
+*/
 function igk_html_print_r($args)
 {
     igk_wl_pre($args);
@@ -790,12 +802,21 @@ function igk_html_extract_id($id)
     return array();
 }
 
+/**
+* auto generate doc.
+* @param mixed $node
+* @param mixed $callback
+*/
 function igk_html_bind($node, $callback)
 {
     $callback($node);
     return $node;
 }
 
+/**
+* auto generate doc.
+* @param mixed $type
+*/
 function igk_html_select_constants($type)
 {
     $types = [];
@@ -860,7 +881,13 @@ function igk_html_form_fields($formFields, $datasource = null, $render = 0, $eng
 
 
 if (!function_exists("igk_get_unique_identifier")) {
-    function igk_get_unique_identifier($length = 3, &$identifers = null)
+
+/**
+* auto generate doc.
+* @param mixed $length
+* @param null|mixed & $identifers
+*/
+function igk_get_unique_identifier($length = 3, &$identifers = null)
     {
         if (is_null($identifers)) {
             $identifers = [];
@@ -1296,6 +1323,11 @@ function igk_html_wdump()
     return igk_html_wtag("pre", igk_ob_get_func("var_dump", func_get_args()), ["class" => "igk-wdump"]);
 }
 ///<summary>dump a table</summary>
+
+/**
+* auto generate doc.
+* @param mixed $tab
+*/
 function igk_html_dump_table($tab)
 {
     $td = igk_create_node("table");
@@ -1361,12 +1393,24 @@ function igk_html_wtag(?string $tag, string $content, $attribs = null, $forcexml
 
     return $o;
 }
+
+/**
+* auto generate doc.
+* @param mixed $attribs
+*/
 function igk_html_render_attribs($attribs)
 {
     return HtmlUtils::GetAttributeArrayToString($attribs);
 }
 
-
+/**
+* auto generate doc.
+* @param mixed $node
+* @param mixed $class
+* @param mixed $text
+* @param mixed $update
+* @param mixed $update_target
+*/
 function igk_html_installer_button($node, $class, $text, $update = "/update", $update_target = "#update_target")
 {
     $c_uri = igk_register_temp_uri($class);
@@ -1385,6 +1429,10 @@ function igk_html_installer_button($node, $class, $text, $update = "/update", $u
     return $n;
 }
 
+/**
+* auto generate doc.
+* @param mixed $node
+*/
 function igk_html_render_template($node)
 {
     // engine is
@@ -1396,7 +1444,9 @@ function igk_html_render_template($node)
     echo igk_html_render_node($node, $option);
 }
 
-
+/**
+* auto generate doc.
+*/
 function igk_html_form_login_fields()
 {
     $fields = [
@@ -1552,7 +1602,13 @@ if (!function_exists('igk_html_host')) {
 }
 
 if (!function_exists('igk_html_title_domain')) {
-    function igk_html_title_domain(string $s, ?string $domain = null)
+
+/**
+* auto generate doc.
+* @param string $s
+* @param null|string $domain
+*/
+function igk_html_title_domain(string $s, ?string $domain = null)
     {
         return sprintf('%s [ %s ]', $s, $domain ?? igk_configs()->website_domain);
     }

@@ -11,13 +11,32 @@ namespace IGK\Controllers;
 use IGK\System\Models\IModelDefinitionInfo;
 use IGK\Models\Usergroups;
 use IGKEvents;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 final class UserGroupController extends NonVisibleControllerBase{
+
+    /**
+    * auto generate doc.
+    * @return ?IModelDefinitionInfo
+    */
     public function getDataTableInfo(): ?IModelDefinitionInfo{
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function getDataTableName(): ?string{
         return Usergroups::table();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function registerHook(){
         $tb=$this->getDataTableName();
         igk_reg_hook(IGKEvents::HOOK_DB_DATA_ENTRY, function($hook) use ($tb){

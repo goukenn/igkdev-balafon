@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Exceptions;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Exceptions
+*/
 class LoadArticleException extends IGKException{
     public function __construct($key){
         $file = igk_environment()->last("FileLoader");

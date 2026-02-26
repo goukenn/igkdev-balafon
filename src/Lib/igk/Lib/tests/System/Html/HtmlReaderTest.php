@@ -18,10 +18,16 @@ use SebastianBergmann\RecursionContext\InvalidArgumentException;
 use PHPUnit\Framework\ExpectationFailedException;
 use ReflectionException;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html
+*/
 class HtmlReaderTest extends BaseTestCase
 {
 
-
+    /**
+    * auto generate doc.
+    */
     public function test_html_missing_p_close()
     {
         // + | --------------------------------------------------------------------
@@ -64,6 +70,10 @@ HTML);
             "read comment style not ok"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_html_reading_style_comment()
     {
         $n = igk_create_notagnode();
@@ -75,6 +85,9 @@ HTML);
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     function test_read_php_processor()
     {
         // + | T  
@@ -86,6 +99,10 @@ HTML);
             "read content"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     function test_read_php_processor_with_comment()
     {
         // + | T  
@@ -121,6 +138,9 @@ HTML);
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_loading_attr_expression()
     {
         $n = igk_create_node("div");
@@ -132,6 +152,9 @@ HTML);
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_bind_expression()
     {
         $n = igk_create_node("div");
@@ -144,6 +167,10 @@ HTML);
             "not resolved"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_bind_expression_block()
     {
         $n = igk_create_node("div");
@@ -156,6 +183,10 @@ HTML);
             "not resolved"
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_bind_expression_block_middle()
     {
         $n = igk_create_node("div");
@@ -169,6 +200,9 @@ HTML);
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_read_encapsed_branck()
     {
         $pos = 0;
@@ -181,6 +215,10 @@ EOF;
             igk_str_read_brank($str, $pos, "'", "'", null, true, true, '"')
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_read_encapsed_string()
     {
         $n = igk_create_notagnode();
@@ -193,6 +231,9 @@ EOF);
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_read_empty_ignore()
     {
         $n = igk_create_notagnode();
@@ -219,6 +260,10 @@ EOF);
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_load_activate_attribute()
     {
         $n = igk_create_notagnode();
@@ -230,6 +275,10 @@ EOF);
             count($r->getAttributes()->to_array())
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_load_activate_attribute_2()
     {
         $n = igk_create_notagnode();
@@ -263,6 +312,10 @@ EOF);
             $n->render()
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_read_comment_with_single_cote_2()
     {
         $t = implode(
@@ -281,6 +334,9 @@ EOF);
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_load_activate_attribute_list()
     {
         $src =
@@ -298,6 +354,9 @@ EOF);
         $this->assertEquals('<p><div X="true" sample="44" y="true"> x</div></p>', $d->render());
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_reading_data()
     {
         $src = implode("\n", [

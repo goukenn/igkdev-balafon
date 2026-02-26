@@ -8,6 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\System\Html\IHtmlGetValue;
+
+/**
+* auto generate doc.
+*/
 class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
     private $m_global, $m_obj, $m_t;
     public function __construct($obj, $t, $global=false){
@@ -17,6 +21,11 @@ class IGKJSPostFrameCmd extends IGKObject implements IHtmlGetValue{
         $this->m_t=$t;
         $this->m_global=$global;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options=null){
         $s=$this->m_obj->getValue($options);
         if(preg_match("/^javascript:/", $s)){

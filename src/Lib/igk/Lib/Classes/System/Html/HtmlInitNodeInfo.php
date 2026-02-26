@@ -7,6 +7,11 @@ namespace IGK\System\Html;
 use IGK\Helper\SysUtils;
 use IGKException;
 use IGKObject;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class HtmlInitNodeInfo extends IGKObject{
     /**
      * 

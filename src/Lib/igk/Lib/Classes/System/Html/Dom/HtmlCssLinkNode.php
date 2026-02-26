@@ -8,6 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlCssLinkNode extends HtmlNode{
     /**
      * Determines whether this CSS link node should be included in the render output.

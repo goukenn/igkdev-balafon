@@ -11,6 +11,11 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\Shell\OsShell;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ZipCoreCommand extends AppExecCommand{
     var $command = "--zipcore";
     var $desc = "zip balafon core";
@@ -22,6 +27,12 @@ class ZipCoreCommand extends AppExecCommand{
         "--core-test-suite"=>"suite test to run",
         '--verbose'=>'flag: display actions'
     ];
+
+    /**
+    * auto generate doc.
+    * @param mixed $command
+    * @param null|mixed $path
+    */
     public function exec($command, $path=null){
         if (!extension_loaded("zip") && !function_exists('zip_open')){
             Logger::danger("zip utility function not found");

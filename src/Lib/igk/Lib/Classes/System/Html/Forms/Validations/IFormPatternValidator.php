@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc:
 namespace IGK\System\Html\Forms\Validations;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Forms\Validations
+*/
 interface IFormPatternValidator{
     /**
      * Set the validation pattern.

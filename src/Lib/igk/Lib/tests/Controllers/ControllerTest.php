@@ -12,7 +12,15 @@ use IGK\Controllers\RootControllerBase;
 use IGK\Tests\Controllers\TestApplicationController;
 use PHPUnit\Framework\TestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Test\Lib\Classes\System\Html
+*/
 class ControllerTest extends TestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_css_sys(){
 
         $p = TestApplicationController::ctrl()->getPrimaryCssFile();
@@ -20,6 +28,10 @@ class ControllerTest extends TestCase{
         ".__/Styles/default.pcss", 
         "test file not found");        
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_is_include_controller(){
         $def = igk_getctrl(igk_configs()->default_controller, false);
         if ($def){

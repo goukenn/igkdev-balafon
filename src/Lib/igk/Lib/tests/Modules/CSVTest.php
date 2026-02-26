@@ -7,7 +7,14 @@
 
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+*/
 class CSVTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_csv_date_time(){
         $g = IGKCSVDataAdapter::ToDateTimeStr("Y-m-d", "04/08/1983"); 
         $this->expectOutputString("1983-08-04");

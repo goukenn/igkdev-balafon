@@ -158,6 +158,11 @@ class SchemaDiagramVisitor extends DiagramVisitor
         return null;
     }
 }
+
+/**
+* auto generate doc.
+* @package IGK\Database\SchemaBuilder
+*/
 class funcHandler
 {
     var $callback;

@@ -8,8 +8,18 @@ use IGK\Models\PhoneBookTypes;
 use IGK\System\Constants\PhonebookTypeNames; 
 use IGK\System\Database\InitBase;
 use IGK\System\WinUI\LayoutRules;
+
+/**
+* auto generate doc.
+* @package IGK\Database
+*/
 class InitData extends InitBase{
-	public static function Init(ControllersSysDbController $controller){ 
+
+    /**
+    * auto generate doc.
+    * @param ControllersSysDbController $controller
+    */
+    public static function Init(ControllersSysDbController $controller){ 
 		// + | init phone books type 
 		foreach(PhonebookTypeNames::GetConstants() as $v){
 			PhoneBookTypes::insertIfNotExists([

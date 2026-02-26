@@ -19,6 +19,10 @@ use Symfony\Component\Form\Extension\Validator\Constraints\FormValidator;
 * @package IGK\Tests\System\Html\Forms\Validations
 */
 class FormValidationTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_form_validation(){
         $d = ['name'=>'Hello'];
 
@@ -49,6 +53,9 @@ class FormValidationTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_form_complex_validation(){
         $d = ['name'=>'Hello'];
 
@@ -89,9 +96,19 @@ class FormValidationTest extends BaseTestCase{
     }
 }
 
- 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Forms\Validations
+*/
 class BalafonObjectValidator extends FormFieldValidatorContainerBase{
 
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    * @param null|mixed $default
+    * @param array & $error
+    * @param null|object $options
+    */
     protected function _validate($data, $default=null, array &$error=[], ?object $options = null) { 
         // parent::_validate()
         if ($this->assertValidate($data)){
@@ -99,6 +116,11 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
         }
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     public function assertValidate($value): bool { 
         $inspector = new ObjectInspector;
         $inspector->source = BalafonScriptDefinitionForm::class;
@@ -109,17 +131,40 @@ class BalafonObjectValidator extends FormFieldValidatorContainerBase{
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @return array
+    */
     public function getFields():array{  
         $r = new BalafonScriptDefinitionForm;
         return $r->getFields();
     }
 }
 
-
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Forms\Validations
+*/
 class BalafonScriptDefinitionForm extends InspectorFormFieldValidationBase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $version;
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $name;
 
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    * @return array
+    */
     public function getFields($context=null): array {
         return [
             'version'=>['validator'=>'StrictVersion'],
@@ -128,8 +173,24 @@ class BalafonScriptDefinitionForm extends InspectorFormFieldValidationBase{
         ];
     }
 }
+
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Forms\Validations
+*/
 class ObjectInspector{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $source;
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    * @param mixed & $error
+    */
     public function validate($data, & $error=[]){
         $g = new BalafonScriptDefinitionForm;
         return $g->validate($data, $error);

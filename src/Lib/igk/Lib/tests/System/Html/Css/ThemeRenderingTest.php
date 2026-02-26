@@ -23,10 +23,20 @@ use PHPUnit\Framework\ExpectationFailedException;
 * @author C.A.D. BONDJE DOUE
 */
 class ThemeRenderingTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private $m_root;
     private static function _CreateTheme($id){
         return new HtmlDocTheme( null, $id , false);
     }
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function setUp():void{ 
     
     }
@@ -41,11 +51,16 @@ class ThemeRenderingTest extends BaseTestCase{
      * @throws InvalidArgumentException 
      * @throws ExpectationFailedException 
      */
+
     public function test_empty_render(){
         $theme = self::_CreateTheme('test');
         $s = $theme->get_css_def();
         $this->assertEquals('', $s);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_empty_render_no_semicolumn(){
         $theme = self::_CreateTheme('test');
         $def = $theme->getDef();
@@ -55,6 +70,10 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('.igk-fsl-4{font-size:2.8em;}.igk-fsl-5{font-size:4.8em;}', $s);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_empty_render_replace(){
         $theme = self::_CreateTheme('test');
         $def = $theme->getDef();
@@ -65,12 +84,19 @@ class ThemeRenderingTest extends BaseTestCase{
         $this->assertEquals('.igk-fsl-4{font-size:4.8em;}', $s);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_cssrendering_treatbranket(){
         $theme = self::_CreateTheme('test');
         $theme->def[".igk-progressbar"] = "{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444]; height:16px;";
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('.igk-progressbar{background-color:progressBarBackgroundColor;height:16px;}', $s);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssrendering_maptheme(){
         $theme = self::_CreateTheme('test');
         $theme['.igk-progressbar'] = '{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444] height:16px;';
@@ -80,6 +106,10 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('html[data-theme=\'dark\'] .igk-progressbar{background-color:progressBarBackgroundColor;}', $s);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssrendering_maptheme_include(){
         $theme = self::_CreateTheme('test');
         
@@ -92,6 +122,10 @@ class ThemeRenderingTest extends BaseTestCase{
         $s = $theme->get_css_def(true, true);
         $this->assertEquals('', $s);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_cssrendering_maptheme_bar(){ 
         $theme = self::_CreateTheme('test');
         $tab = [];
@@ -107,6 +141,9 @@ class ThemeRenderingTest extends BaseTestCase{
         $this->assertEquals('html[data-theme=\'dark\'] .basic{color:igk-required-mark-fcl;}', $s);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_cssrendering_maptheme_3(){
         $theme = self::_CreateTheme('test');
         $theme['.igk-progressbar'] = '{sys:dispib, alignc}; [bgcl: progressBarBackgroundColor, #444] {sys:fitw} height:16px; color: [cl:red]';
@@ -123,6 +160,7 @@ class ThemeRenderingTest extends BaseTestCase{
     /**
      * test rendering body 
      */
+
     public function test_theme_render_body(){
         // + | --------------------------------------------------------------------
         // + | theme createion
@@ -151,6 +189,9 @@ class ThemeRenderingTest extends BaseTestCase{
         $s, 'missing replace and append style property property');
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_theme_render(){
         $theme = self::_CreateTheme('test');
         $theme->setColors(
@@ -163,6 +204,9 @@ class ThemeRenderingTest extends BaseTestCase{
         $this->assertEquals('body{background-color:#cf3232;}:root{--igk-red:#cf3232}', $s);
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_controller_theme_render(){
         require_once IGK_LIB_DIR.'/Styles/igk_css_colors.phtml';
         $theme = self::_CreateTheme('test');
@@ -194,7 +238,9 @@ class ThemeRenderingTest extends BaseTestCase{
         );
     }
 
-
+    /**
+    * auto generate doc.
+    */
     function test_csstreatment_treatglobal_theme(){
         $th = new HtmlDocTheme(null);
         $sth = new HtmlDocTheme(null);
@@ -214,6 +260,9 @@ class ThemeRenderingTest extends BaseTestCase{
     }
 }
 
-
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Css
+*/
 class MockThemeRenderer extends BaseController{ 
 }

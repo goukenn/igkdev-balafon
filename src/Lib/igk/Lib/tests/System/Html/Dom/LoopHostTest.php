@@ -11,6 +11,10 @@ use IGK\Tests\BaseTestCase;
 use IGK\System\Html\Templates\Engine\Helpers\Utility;
 use IGK\System\Html\Templates\Engine\Traits\ExpressionEvalEngineTrait;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Dom
+*/
 class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
 {
     use ExpressionEvalEngineTrait;
@@ -20,11 +24,21 @@ class HtmlEvalExpression implements IHtmlNodeEvaluableExpression
     {
         $this->m_value = $content;
     }
+
+    /**
+    * auto generate doc.
+    * @return ?string
+    */
     public function getValue(): ?string
     {
         return $this->m_value;
     }
 
+    /**
+    * auto generate doc.
+    * @param mixed $context
+    * @return mixed
+    */
     public function evaluate($context): mixed
     {
         return self::EvalBindingExpression($this->m_value, (array)$context); // "data";

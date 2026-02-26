@@ -16,20 +16,37 @@ use IGKServices;
 * @author C.A.D. BONDJE DOUE
 */
 class AppServiceTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     private static $sm_baseServices;
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         $i = IGKServices::getInstance();
         self::$sm_baseServices = $i->services();
     }
-    
+
+    /**
+    * auto generate doc.
+    */
     public function test_services_clear(){
         
         $i = IGKServices::getInstance();
         $i->clear();
         $this->assertTrue(count($i->services()) == 0);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_services_register_service(){
         $i = IGKServices::getInstance();
         $i->clear();
@@ -45,7 +62,11 @@ class AppServiceTest extends BaseTestCase{
 
         $this->assertTrue($p === $g, 'sample not a singleton');  
     }
-      public function test_services_register_transient_service(){
+
+    /**
+    * auto generate doc.
+    */
+    public function test_services_register_transient_service(){
         $i = IGKServices::getInstance();
         $i->clear();
         $c = IGKServices::Register(IFooServiceTest::class, DummyFooServiceTest::class,null, LifeTime::TRANSIENT);
@@ -61,10 +82,23 @@ class AppServiceTest extends BaseTestCase{
     }
 }
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Core
+*/
 interface IFooServiceTest extends IAppService{
 }
+
+/**
+* auto generate doc.
+* @package IGK\Tests\Core
+*/
 class DummyFooServiceTest implements IFooServiceTest{
     use ServicePropertyTrait;
 
+    /**
+    * auto generate doc.
+    * @var mixed
+    */
     var $x = 'value';
 }

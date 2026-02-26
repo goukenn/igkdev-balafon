@@ -47,17 +47,34 @@ class BalafonProjectInstaller extends BalafonInstaller{
         $service->add(new SuccessProjectInstallMiddleWare());
     }
 }
+
+/**
+* auto generate doc.
+* @package IGK\System\Installers
+*/
 class BackupProjectMiddleWare extends InstallerActionMiddleWare{
     private $controller;
     public function __construct(BaseController $controller)
     { 
         $this->controller = $controller;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getMessage(){
         return __("Backup project ... {0}", get_class($this->controller));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function abort(){
     }
+
+    /**
+    * auto generate doc.
+    */
     public function invoke(){
         $dir = $this->controller->getDeclaredDir();
         $fname = igk_str_ns(get_class($this->controller))."_".date("Ymd");
@@ -72,12 +89,29 @@ class BackupProjectMiddleWare extends InstallerActionMiddleWare{
         $this->next();
     }
 }
+
+/**
+* auto generate doc.
+* @package IGK\System\Installers
+*/
 class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
+
+    /**
+    * auto generate doc.
+    */
     public function getMessage(){
         return __("Extract project library cache ...");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function abort(){
     }
+
+    /**
+    * auto generate doc.
+    */
     public function invoke(){
         $ctrl = $this->getServiceInfo()->Listener->controller;
         $project_name  = $this->getServiceInfo()->Listener->project_name;
@@ -101,12 +135,29 @@ class ExtractProjectLibaryMiddleWare extends InstallerActionMiddleWare{
         $this->next();
     }
 }
+
+/**
+* auto generate doc.
+* @package IGK\System\Installers
+*/
 class SuccessProjectInstallMiddleWare extends InstallerActionMiddleWare{
+
+    /**
+    * auto generate doc.
+    */
     public function getMessage(){ 
         return __("project update well done");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function abort(){
     }
+
+    /**
+    * auto generate doc.
+    */
     public function invoke(){
         // igk_ilog("installer complete");
         $srv=$this->getServiceInfo();       

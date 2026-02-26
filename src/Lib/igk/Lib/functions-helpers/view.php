@@ -9,13 +9,24 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGK\System\IO\Path;
 
 if (!function_exists('igk_article')) {
-   function igk_article(string $file, $params = null)
+
+/**
+* auto generate doc.
+* @param string $file
+* @param null|mixed $params
+*/
+function igk_article(string $file, $params = null)
    {
       return ViewHelper::Article($file, $params);
    }
 }
 if (!function_exists('igk_asset')) {
-   function igk_asset(string $file)
+
+/**
+* auto generate doc.
+* @param string $file
+*/
+function igk_asset(string $file)
    {
       return ViewHelper::CurrentCtrl()->asset($file);
    }

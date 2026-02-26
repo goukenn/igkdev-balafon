@@ -7,7 +7,19 @@ namespace IGK\Helper;
 use Exception; 
 use IGK\System\Http\RequestUtility;
 use stdClass;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 abstract class Utility {
+
+    /**
+    * auto generate doc.
+    * @param callable $callback
+    * @param mixed $valid
+    * @param mixed $method
+    */
     public static function PostCref(callable $callback, $valid=1, $method="POST"){
         if (igk_server()->method($method) && igk_valid_cref($valid)){
             return $callback();

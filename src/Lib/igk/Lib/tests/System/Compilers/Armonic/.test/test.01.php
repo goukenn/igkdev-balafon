@@ -3,9 +3,12 @@ namespace IGK\Tests\Systems\Compilers\Armonic\Demo;
 // @author: C.A.D. BONDJE DOUE
 // @filename: test.01.php
 // @date: 20221020 11:25:10
-// @desc: 
+// @desc:
 
-
+/**
+* auto generate doc.
+* @package IGK\Tests\Systems\Compilers\Armonic\Demo
+*/
 abstract class MyTrait{
     const data = "dsdf"; 
     protected $jump = "info";

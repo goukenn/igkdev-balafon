@@ -9,7 +9,15 @@ namespace IGK\Tests\System\Http;
 use IGK\System\Http\RouteHandler;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Http
+*/
 class RouteHandlerTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_route_handler(){
         $route = "/demo/";
         $this->assertEquals(
@@ -17,12 +25,20 @@ class RouteHandlerTest extends BaseTestCase{
             RouteHandler::GetRouteRegex("/demo/", ["id"=>".*"])
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_route_handler_options(){         
         $this->assertEquals(
             "#^/demo(/(?P<id>[^/]+))$#",
             RouteHandler::GetRouteRegex("/demo/{id}", ["id"=>".*"])
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_route_handler_options_optional(){
       
         $this->assertEquals(
@@ -30,6 +46,10 @@ class RouteHandlerTest extends BaseTestCase{
             RouteHandler::GetRouteRegex("/demo/{id*}", ["id"=>".*"])
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_route_handler_post(){ 
         $regex = RouteHandler::GetRouteRegex("/demo/post-{id*}/", ["id"=>".*"], false); 
         // var_dump($tab);
@@ -38,6 +58,10 @@ class RouteHandlerTest extends BaseTestCase{
             $regex            
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_get_route_uri(){ 
         $regex = RouteHandler::GetResolveURI("/demo/post-{id*}/", ["id"=>"25"]); 
         // var_dump($tab);
@@ -55,6 +79,9 @@ class RouteHandlerTest extends BaseTestCase{
         );
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_dash_uri(){
         $s = "/l81/dashboard/get-calendars";
         $regex = RouteHandler::GetRouteRegex("l81/dashboard/get-calendars", ["id"=>".*"], false); 

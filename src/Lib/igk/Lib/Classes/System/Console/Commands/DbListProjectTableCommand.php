@@ -8,6 +8,11 @@ use IGK\Helper\SysUtils;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class DbListProjectTableCommand extends AppExecCommand{
     public $command = "--db:list-project-tables";
     public $category = "db";

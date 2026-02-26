@@ -134,7 +134,13 @@ class CsvFile
             return $a;
         }, $data));
     }
-    private function _parseLine($line)
+    private
+
+/**
+* auto generate doc.
+* @param mixed $line
+*/
+function _parseLine($line)
     {
         $ch = $line;
         $sep = $this->separator;

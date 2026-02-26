@@ -5,9 +5,20 @@
 // @desc: 
 namespace IGK\XSD;
 use IGK\System\Html\Dom\HtmlItemBase;
+
+/**
+* auto generate doc.
+* @package IGK\XSD
+*/
 abstract class XsdBuilderUtility
 {
     const SEQUENCE = "xs:sequence";
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param mixed $defs
+    */
     public static function BuildDef($node, $defs)
     {
         $s = $node;
@@ -39,12 +50,27 @@ abstract class XsdBuilderUtility
         }
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param mixed $defs
+    * @param mixed $ctype
+    */
     public static function BuildSequence($node, $defs, $ctype = self::SEQUENCE)
     {
         $s = $node->add($ctype);
         self::BuildDef($s, $defs);       
         return $s;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param mixed $defs
+    * @param mixed $ctype
+    * @param null|mixed $tattributes
+    */
     public static function BuildComplexType($node, $defs, $ctype = "xs:sequence", $tattributes = null)
     {
         $b = $node->add("xs:complexType");
@@ -78,6 +104,12 @@ abstract class XsdBuilderUtility
         }
         return $b;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param mixed $attributes
+    */
     public static function BindAnyAttribute($node, $attributes)
     {
         if (is_integer($attributes)) {
@@ -99,6 +131,14 @@ abstract class XsdBuilderUtility
         }
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $node
+    * @param mixed $name
+    * @param mixed $value
+    * @param mixed $tag
+    */
     public static function AddSequenceElement($node, $name, $value, $tag = "xs:element")
     {
         $e = $node->add($tag);

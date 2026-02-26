@@ -7,6 +7,10 @@ use IGK\Cache\CommonCache;
 use Phar;
 use function igk_resources_gets as __;
 
+/**
+* auto generate doc.
+* @package IGK\Cache
+*/
 class SystemFileCache extends CommonCache
 {
     static $LibFiles;
@@ -18,6 +22,11 @@ class SystemFileCache extends CommonCache
     {
         return igk_io_syspath(IGK_FILE_LIB_CACHE);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $force
+    */
     public static function CacheLibFiles($force = false)
     {
         $f = self::CacheFile();
@@ -72,6 +81,10 @@ class SystemFileCache extends CommonCache
         igk_io_w2file(dirname($f) . "/.lib.version.cache", IGK_VERSION);
         self::Init_CachedHook();
     }
+
+    /**
+    * auto generate doc.
+    */
     public static function CheckLibVersion()
     {
         return (!file_exists($ver_file = igk_io_cachedir() . "/.lib.version.cache")) || (IGK_VERSION != trim(file_get_contents($ver_file)));
@@ -101,6 +114,11 @@ class SystemFileCache extends CommonCache
         }
         return $v;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $e
+    */
     public static function Init_CachedHook($e = null)
     {
         $f = igk_io_cachedir() . "/.htaccess";

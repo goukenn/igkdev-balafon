@@ -8,6 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Exceptions;
+
+/**
+* auto generate doc.
+* @package IGK\System\Exceptions
+*/
 final class CssParserException extends \IGKException{
     public function __construct($msg){
         parent::__construct($msg);

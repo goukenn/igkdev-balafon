@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\Controllers;
 use IGK\IController;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 interface IRegisterOnInitController extends IController{
     /**
      * get if the controller 

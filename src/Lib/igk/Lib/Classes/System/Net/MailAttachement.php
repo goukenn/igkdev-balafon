@@ -9,6 +9,11 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Net;
 use IGKObject;
+
+/**
+* auto generate doc.
+* @package IGK\System\Net
+*/
 class MailAttachement extends IGKObject{
     private $m_content;
     var $CID, $ContentType, $Link, $Name, $Type, $Visible;

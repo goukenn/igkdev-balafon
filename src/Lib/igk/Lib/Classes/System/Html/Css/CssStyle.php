@@ -11,6 +11,11 @@ namespace IGK\System\Html\Css;
 use IGK\Controllers\BaseController;
 use IGKEvents;
 use IGKObject;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Css
+*/
 final class CssStyle extends IGKObject{
     private $m_properties;
     /**

@@ -9,6 +9,11 @@
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\XML;
 use IGK\System\Html\HtmlRenderer;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\XML
+*/
 final class XmlProcessor extends XmlNode{
     /**
      * 
@@ -18,12 +23,25 @@ final class XmlProcessor extends XmlNode{
     public function __construct(string $type="xml"){
         parent::__construct($type);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanAddChilds(){        
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag(){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options=null){
         $c="<?".$this->TagName." ";
         $c .= HtmlRenderer::GetAttributeString($this, $options);

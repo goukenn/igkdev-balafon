@@ -7,7 +7,11 @@
 use IGK\System\Text\RegexMatcherContainer;
 
 if (!function_exists('igk_sys_request_time')){
-    function igk_sys_request_time(){
+
+/**
+* auto generate doc.
+*/
+function igk_sys_request_time(){
         $time = $_SERVER["REQUEST_TIME_FLOAT"];
         return (microtime(true) - $time);
     }
@@ -33,7 +37,12 @@ if (!function_exists('igk_sys_reflect_filter_public_properties')) {
 }
 
 if (!function_exists('igk_sys_get_html_components')){
-    function igk_sys_get_html_components(?string $pattern=null){
+
+/**
+* auto generate doc.
+* @param null|string $pattern
+*/
+function igk_sys_get_html_components(?string $pattern=null){
 
         $g = array_filter(array_map(function ($g) use($pattern) {
             if (preg_match("/^" . IGK_FUNC_NODE_PREFIX . "(?P<name>.+)/", $g, $tab) && (!is_string($pattern) || preg_match($pattern, $tab[1]) )) {
@@ -77,15 +86,24 @@ if (!function_exists('igk_sys_cookies_read_value')) {
     }
 }
 
-if (!function_exists('igk_sys_cookies_build')){ 
-    function igk_sys_cookies_build(array $cookies_entries){
+if (!function_exists('igk_sys_cookies_build')){
+
+/**
+* auto generate doc.
+* @param array $cookies_entries
+*/
+function igk_sys_cookies_build(array $cookies_entries){
         return implode(";", array_map(function($a,$b){ return $b.'='.$a; }, $cookies_entries, array_keys($cookies_entries)));
     }
 }
 
 // use function \preg_last_error_msg;
 if (!function_exists('preg_last_error_msg')){
-    function preg_last_error_msg(){ 
+
+/**
+* auto generate doc.
+*/
+function preg_last_error_msg(){ 
 
         if ($c = preg_last_error()){
             return 'preg_last_error: '.$c;

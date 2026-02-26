@@ -7,7 +7,15 @@ namespace IGK\Tests\System\Html\Dom;
 
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Html\Dom
+*/
 class HtmlXmlViewerTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_load_expression(){
         $n = igk_create_node("div");
         $n->xmlviewer()->Content = "<a *title=\"\$raw->title\">title</a>";

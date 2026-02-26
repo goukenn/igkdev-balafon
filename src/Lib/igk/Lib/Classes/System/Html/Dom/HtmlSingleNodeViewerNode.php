@@ -8,6 +8,11 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 namespace IGK\System\Html\Dom;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class HtmlSingleNodeViewerNode extends HtmlNode{
     private $m_callback;
     var $targetNode;
@@ -20,6 +25,12 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         $this->targetNode->setContent(...func_get_args());
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool{
         if($this->targetNode)
             return $this->IsVisible;
@@ -33,9 +44,19 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         $this->targetNode=$node;
         $this->m_callback=$callback;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $option
+    */
     protected function _getRenderingChildren($option=null){
         return [$this->targetNode];
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     protected function __RenderComplete($options=null){ 
         igk_html_rm($this);
         if($this->m_callback){
@@ -45,9 +66,19 @@ final class HtmlSingleNodeViewerNode extends HtmlNode{
         }
         unset($this->targetNode);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $item
+    * @param null|mixed $index
+    */
     protected function _addChild($item, $index=null){
         return false;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getCanRenderTag(){
         return false;
     }

@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Console;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console
+*/
 abstract class AppCommandConstant{
     const COMMAND_LIST= '.command.list.pinc'; 
     const ENV = '.balafon';

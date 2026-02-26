@@ -11,8 +11,15 @@ use IGK\System\Compilers\BalafonCacheViewCompiler;
 use IGK\Tests\BaseTestCase;
 use IGK\Tests\Controllers\TestController;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Compilers
+*/
 class BalafonCacheViewCompilerTest extends BaseTestCase{
 
+    /**
+    * auto generate doc.
+    */
     public function test_compile_empty_string(){
         $temp = @tempnam( "tutest","test");
 $g_src = <<<EOF
@@ -31,6 +38,9 @@ EOF;
         error_clear_last();
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_compile_with_litteral_quote(){
         $temp = @tempnam( "tutest","test");
         // $t->section()->article($ctrl, "styles/corecss.template", [(object)[ 
@@ -55,6 +65,9 @@ HTML;
 EDF, rtrim($out), "failed");
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_compile_with_litteral_nowdoc(){
         $temp = @tempnam( "tutest","test");
         error_clear_last();
@@ -81,7 +94,10 @@ EDF, rtrim($out), "failed");
 
 }
 
-
+/**
+* auto generate doc.
+* @package IGK\Tests\System\Compilers
+*/
 class Dummy extends TestController{
 
 }

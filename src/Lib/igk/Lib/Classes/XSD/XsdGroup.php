@@ -4,12 +4,25 @@
 // @date: 20220803 13:48:54
 // @desc: 
 namespace IGK\XSD;
+
+/**
+* auto generate doc.
+* @package IGK\XSD
+*/
 class XsdGroup implements IXsdReference{
     var $name;
     var $attributes;
+
+    /**
+    * auto generate doc.
+    */
     public function getRefType(){
         return "xs:group";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getRef() { 
         return $this->name;
     }

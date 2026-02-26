@@ -8,6 +8,10 @@
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
 use IGK\System\Html\IHtmlGetValue;
+
+/**
+* auto generate doc.
+*/
 final class IGKFrameScript implements IHtmlGetValue{
     private $m_type;
     var $owner;

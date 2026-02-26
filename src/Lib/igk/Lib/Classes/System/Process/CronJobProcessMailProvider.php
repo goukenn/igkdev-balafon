@@ -8,6 +8,11 @@ use IGK\Controllers\BaseController;
 use IGK\Models\Mails;
 use IGK\System\Net\Mail;
 use IGKObjStorage;
+
+/**
+* auto generate doc.
+* @package IGK\System\Process
+*/
 class CronJobProcessMailProvider extends CronJobProcessProviderBase
 {
     /**

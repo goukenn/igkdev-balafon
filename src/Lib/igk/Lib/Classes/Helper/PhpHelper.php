@@ -10,6 +10,11 @@ use IGKType;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionParameter;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class PhpHelper{
     /**
      * get callable from string
@@ -24,6 +29,11 @@ class PhpHelper{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    * @param string $data
+    */
     public static function StringToClassConstants(string $data){
         return implode("\n", array_map(
             function($n){

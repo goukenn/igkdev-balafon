@@ -10,6 +10,11 @@ use IGK\System\Database\IUserProfile;
 use IGK\System\Http\Traits\DieRequestTrait;
 use IGKActionBase;
 use IGKUserInfo;
+
+/**
+* auto generate doc.
+* @package IGK\Actions
+*/
 abstract class ActionBase extends IGKActionBase{
     use DieRequestTrait;
     /**
@@ -32,6 +37,10 @@ abstract class ActionBase extends IGKActionBase{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function __debugInfo()
     {
         return [];

@@ -9,19 +9,36 @@ use IGK\Controllers\NonVisibleControllerBase;
 use IGK\Helper\IO;
 use IGK\System\Html\Dom\HtmlNode;
 
+/**
+* auto generate doc.
+*/
 class IGKProcessDocument extends NonVisibleControllerBase
 {
- 
-	public function getName(): string{
+
+    /**
+    * auto generate doc.
+    * @return string
+    */
+    public function getName(): string{
 		return "process_script";
 	}
-	protected function initComplete($context=null){
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
+    protected function initComplete($context=null){
 		parent::initComplete();
 	}
 	public function __construct(){
 		parent::__construct();
 	}
-	public function processFile($file=null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $file
+    */
+    public function processFile($file=null)
 	{
 		$file = $file == null? base64_decode(igk_getr("file")): $file;
 		if (igk_io_file_exists($file))
@@ -38,7 +55,12 @@ class IGKProcessDocument extends NonVisibleControllerBase
 		}
 		igk_exit();
 	}
-	public function processDoc($text){
+
+    /**
+    * auto generate doc.
+    * @param mixed $text
+    */
+    public function processDoc($text){
 
 		$v_tab = array();
 		//$v_c = preg_match_all("/\s*\/\/\/\<summary\>(?P<value>(.)+)\<\/summary\>/im", $text, $v_tab);

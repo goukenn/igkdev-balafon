@@ -12,6 +12,10 @@ use IGK\System\WinUI\Paginator;
 
 use function igk_resources_gets as __;
 
+/**
+* auto generate doc.
+* @package IGK\Ext\Controllers
+*/
 class ModuleConfigurationController extends ConfigControllerBase{
     /**
      * Returns the unique name identifier for this controller.
@@ -45,9 +49,18 @@ class ModuleConfigurationController extends ConfigControllerBase{
     public function getConfigPage(){
         return "Module";
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getConfigGroup(){
         return "controller";
-    }    
+    }
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
     public function View():BaseController{
         if (!$this->getIsVisible())
 		{
@@ -60,6 +73,10 @@ class ModuleConfigurationController extends ConfigControllerBase{
         $box->div()->ajxuriloader($this->getUri("module_view"));
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function module_view(){
         
         $t = igk_create_node("notagnode");

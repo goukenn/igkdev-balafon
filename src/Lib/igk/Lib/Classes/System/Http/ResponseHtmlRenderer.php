@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:55
 // @desc: 
 namespace IGK\System\Http;
+
+/**
+* auto generate doc.
+* @package IGK\System\Http
+*/
 class ResponseHtmlRenderer{
     private $m_node;
     private $m_obj;
@@ -12,6 +17,10 @@ class ResponseHtmlRenderer{
         $this->m_node = $node;
         $this->m_obj = $object;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function render(){
         $this->m_refs = [];
         $this->m_node->clearChilds();
@@ -23,6 +32,12 @@ class ResponseHtmlRenderer{
         // $this->m_node->addObData($this->m_obj);
         return $this->m_node->render();
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $c
+    * @param mixed $m
+    */
     public function visitDd($c, $m){
         $cp = [[$c, $m]];
         while($q = array_pop($cp)){

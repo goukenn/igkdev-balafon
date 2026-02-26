@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\Helper;
 use IGK\System\IO\StringBuilder;
+
+/**
+* auto generate doc.
+* @package IGK\Helper
+*/
 class ArrayUtils{
     /**
      * self check array
@@ -35,6 +40,12 @@ class ArrayUtils{
             array_unshift($array, $search);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param array & $table
+    * @param mixed $property
+    */
     public static function FillKeyWithProperty(array & $table, $property){
         $t = [];
         foreach($table as $ak){
@@ -44,6 +55,11 @@ class ArrayUtils{
         $table =  $t;
     }
     ///<sumamry> clear table</summary>
+
+    /**
+    * auto generate doc.
+    * @param array & $table
+    */
     public static function Clean (array & $table){
         $table = [];  
     }

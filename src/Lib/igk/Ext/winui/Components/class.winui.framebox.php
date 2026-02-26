@@ -7,6 +7,9 @@
 
 use IGK\System\Html\Dom\HtmlNode;
 
+/**
+* auto generate doc.
+*/
 class IGKWinUI_framebox extends HtmlNode
 {
 	private $m_script;
@@ -20,7 +23,11 @@ class IGKWinUI_framebox extends HtmlNode
 
 	}
 
-	public function render($options =null)
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
+    public function render($options =null)
 	{
 		$out ="";
 		$out .="<div ";

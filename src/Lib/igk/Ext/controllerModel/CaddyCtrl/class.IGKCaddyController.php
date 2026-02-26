@@ -9,6 +9,9 @@ use IGK\Resources\R;
 use IGK\System\Html\Dom\HtmlNode;
 use IGK\System\Html\HtmlUtils;
 
+/**
+* auto generate doc.
+*/
 final class IGKCaddyInfo
 {
 	var $clId; //current id of the caddy
@@ -63,7 +66,9 @@ final class IGKCaddyInfo
 	}
 }
 
-
+/**
+* auto generate doc.
+*/
 abstract class IGKCaddyCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_cadid; //caddy id

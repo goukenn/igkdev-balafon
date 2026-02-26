@@ -5,10 +5,21 @@
 // @desc: 
 namespace IGK\XSD;
 use IGKXmlNode;
+
+/**
+* auto generate doc.
+* @package IGK\XSD
+*/
 class XsdAttributeBuilder extends XsdElement{
     private function __construct()
     {
     }
+
+    /**
+    * auto generate doc.
+    * @param IGKXmlNode $node
+    * @param XsdBuilder $builder
+    */
     public static function Create(IGKXmlNode $node, XsdBuilder $builder)
     {
         $n = new self;
@@ -16,6 +27,11 @@ class XsdAttributeBuilder extends XsdElement{
         $n->m_builder = $builder;
         return $n;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $b
+    */
     public function setRequire($b){
         if ($b)
             $this->m_node["use"] = "require";

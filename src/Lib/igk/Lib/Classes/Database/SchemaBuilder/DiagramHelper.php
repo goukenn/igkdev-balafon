@@ -7,6 +7,11 @@ namespace IGK\Database\SchemaBuilder;
 use IGK\Helper\Database;
 use IGK\System\Html\XML\XmlNode;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\Database\SchemaBuilder
+*/
 abstract class DiagramHelper{
     /**
      * resolve loaded links

@@ -5,6 +5,11 @@
 // @desc: 
 namespace IGK\System\Html\Dom;
 use IGK\System\Html\Dom\HtmlNoTagNode;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class HtmlHeadPreloadNode extends HtmlNoTagNode{
     private static $sm_instance;
     /**

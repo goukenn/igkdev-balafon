@@ -5,6 +5,10 @@
 // @desc: 
 
 use IGK\Controllers\ToolControllerBase;
+
+/**
+* auto generate doc.
+*/
 final class IGKTestTools extends ToolControllerBase
 {
 

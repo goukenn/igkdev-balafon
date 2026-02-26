@@ -39,6 +39,10 @@ use IGKObject;
 use ReflectionException;
 use function igk_resources_gets as __;
 
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 final class HtmlReader extends IGKObject
 {
     const EXPRESSION_ARGS = "[[:@raw]], [[:@ctrl]]";
@@ -1457,6 +1461,11 @@ final class HtmlReader extends IGKObject
     }
     ///<summary></summary>
     ///<param name="file"></param>
+
+    /**
+    * auto generate doc.
+    * @param string $file
+    */
     public static function Create(string $file)
     {
         if (is_file($file)) {
@@ -1472,6 +1481,12 @@ final class HtmlReader extends IGKObject
         return null;
     }
     ///<summary>create Element</summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $nodetype
+    * @param mixed $value
+    */
     public static function CreateElement($nodetype, $value = IGK_STR_EMPTY)
     {
         $v = null;
@@ -1487,6 +1502,13 @@ final class HtmlReader extends IGKObject
         return $v;
     }
     ///<summary>createnode </summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param null|mixed $args
+    * @param null|HtmlItemBase $currentNode
+    */
     public static function CreateNode($name, $args = null, ?HtmlItemBase $currentNode = null)
     {
         if (is_callable(self::$sm_ItemCreatorListener)) {
@@ -1502,6 +1524,10 @@ final class HtmlReader extends IGKObject
         return HtmlNode::CreateWebNode($name, $args);
     }
     ///<summary>Represente GetAttributeRegex function</summary>
+
+    /**
+    * auto generate doc.
+    */
     public static function GetAttributeRegex()
     {
         $machv = "(?P<value>";
@@ -1535,21 +1561,37 @@ final class HtmlReader extends IGKObject
         return $this->m_context;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getNodeType()
     {
         return $this->m_nodetype;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getSource()
     {
         return $this->m_text;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getValue()
     {
         return $this->m_v;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function HasAttrib()
     {
         return $this->m_hasAttrib;
@@ -1626,6 +1668,12 @@ final class HtmlReader extends IGKObject
     ///<summary></summary>
     ///<param name="text"></param>
     ///<param name="context" default="null"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $text
+    * @param null|mixed $context
+    */
     public static function LoadExpression($text, $context = null)
     {
         $tab_doc = null;
@@ -1638,6 +1686,11 @@ final class HtmlReader extends IGKObject
         return $tab_doc;
     }
     ///<summary>load the html file</summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    */
     public static function LoadFile($file)
     {
         if (is_file($file)) {
@@ -1660,6 +1713,11 @@ final class HtmlReader extends IGKObject
         igk_die("file : " . $file . " doesn't exist");
     }
     ///<summary> load in xml opening context</summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $content
+    */
     public static function LoadXML($content)
     {
         self::_PushContext(self::READ_XML);
@@ -1677,6 +1735,11 @@ final class HtmlReader extends IGKObject
     }
     ///<summary></summary>
     ///<param name="file"></param>
+
+    /**
+    * auto generate doc.
+    * @param mixed $file
+    */
     public static function LoadXMLFile($file)
     {
         self::_PushContext(self::READ_XML);
@@ -1685,11 +1748,19 @@ final class HtmlReader extends IGKObject
         return $d;
     }
     ///<summary>get name</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function getName()
     {
         return $this->m_name;
     }
     ///<summary>loading context</summary>
+
+    /**
+    * auto generate doc.
+    */
     public function procTagClose()
     {
         return $this->m_procTagClose;
@@ -2007,6 +2078,10 @@ final class HtmlReader extends IGKObject
         die("not implement" . __METHOD__);
     }
     ///read tag name
+
+    /**
+    * auto generate doc.
+    */
     public function ReadName()
     {
         $v_evaltransform = is_object($this->m_context) ? igk_getv($this->m_context, "transformToEval", false) : false;
@@ -2129,11 +2204,20 @@ final class HtmlReader extends IGKObject
         $this->m_context = $context;
     }
     ///<summary>set root node creator</summary>
+
+    /**
+    * auto generate doc.
+    * @param mixed $listener
+    */
     public static function SetCreator($listener)
     {
         self::$sm_ItemCreatorListener = $listener;
     }
     ///<summary></summary>
+
+    /**
+    * auto generate doc.
+    */
     public function Skip()
     {
         if ($this->m_nodetype == XMLNodeType::ELEMENT) {

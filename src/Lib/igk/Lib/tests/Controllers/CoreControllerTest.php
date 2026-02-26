@@ -9,22 +9,39 @@ namespace IGK\Tests\Controllers;
 
 use IGK\Helper\IO;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Controllers
+*/
 class CoreControllerTest extends ControllerBaseTestCase
 {
     static $sm_dir;
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public function setUp() : void{
         $this->controller =  TestController::ctrl();
         parent::setUp();
         $this->controller::setEnvParam("DeclaredDir", self::$sm_dir); 
     }
- 
-   
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function setUpBeforeClass(): void
     {
         $sdir = sys_get_temp_dir()."/testController";     
         IO::CreateDir($sdir."/Views");
         self::$sm_dir = $sdir;
     }
+
+    /**
+    * auto generate doc.
+    * @return void
+    */
     public static function tearDownAfterClass(): void
     {
         if (self::$sm_dir){
@@ -32,6 +49,10 @@ class CoreControllerTest extends ControllerBaseTestCase
             self::$sm_dir = null;
         }
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_get_view_file_name()
     {
 
@@ -50,6 +71,10 @@ class CoreControllerTest extends ControllerBaseTestCase
         );
        
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_view_args(){    
         $p = [];
         $def = $this->controller->declaredDir . "/Views/default.phtml";
@@ -64,6 +89,10 @@ class CoreControllerTest extends ControllerBaseTestCase
             $p
         );
     }
+
+    /**
+    * auto generate doc.
+    */
     public function test_default_view_args(){    
         $p = [];
         $def = $this->controller->declaredDir . "/Views/default.phtml";
@@ -79,6 +108,9 @@ class CoreControllerTest extends ControllerBaseTestCase
         @unlink($def);  
     }
 
+    /**
+    * auto generate doc.
+    */
     public function test_request_action(){
         $c = TestApplicationController::ctrl();
         $sdir = sys_get_temp_dir()."/appController";

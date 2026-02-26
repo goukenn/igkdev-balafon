@@ -8,7 +8,10 @@
 
 namespace IGK\Core\Ext\Google;
 
-
+/**
+* auto generate doc.
+* @package IGK\Core\Ext\Google
+*/
 class GoogleAPIEndPoints{
     const CssEndPoint = 'https://fonts.googleapis.com/css';
 }

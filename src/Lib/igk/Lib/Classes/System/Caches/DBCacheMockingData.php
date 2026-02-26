@@ -5,6 +5,11 @@
 // @desc: help mock data on loading system db cache structure
 namespace IGK\System\Caches;
 use IGK\Controllers\BaseController;
+
+/**
+* auto generate doc.
+* @package IGK\System\Caches
+*/
 class DBCacheMockingData {
     var $table;
     var $controller;

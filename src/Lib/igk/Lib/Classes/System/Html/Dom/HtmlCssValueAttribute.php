@@ -7,12 +7,22 @@ namespace IGK\System\Html\Dom;
 use IGK\Css\CssThemeCompiler;
 use IGK\System\Html\IHtmlGetValue;
 use IGK\System\Html\IHtmlStyleAtribute;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlCssValueAttribute implements IHtmlStyleAtribute{
     var $value;
     public function __construct(string $value)
     {
         $this->value = $value;
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function getValue($options = null) { 
         if (isset($options->Document) && CssThemeCompiler::CanCompile($this->value)){
             $systheme = $options->Document->getSysTheme();

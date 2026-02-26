@@ -8,6 +8,11 @@ use IGK\System\Html\IHtmlGetValue;
 use IGK\System\IO\SystemPath;
 use IGKResourceUriResolver;
 use IGKValidator;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 class HtmlResolvLinkValue extends HtmlAttributeValue implements IHtmlGetValue {
  
     /**

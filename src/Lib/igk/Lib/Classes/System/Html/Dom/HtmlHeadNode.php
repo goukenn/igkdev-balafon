@@ -9,6 +9,11 @@ use IGKException;
 // @author: C.A.D. BONDJE DOUE
 // @description: 
 // @copyright: igkdev © 2021
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlHeadNode extends HtmlNode{
     protected $tagname = "head";
     private $m_title; 
@@ -42,9 +47,19 @@ class HtmlHeadNode extends HtmlNode{
         }
         return null;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getPreload(){
         return HtmlHeadPreloadNode::getItem();
     }
+
+    /**
+    * auto generate doc.
+    * @param null|array $list
+    * @param bool $temp
+    */
     public function load_scripts(?array  $list, bool $temp = false){
         $this->m_scripts = $list;
         return $this;

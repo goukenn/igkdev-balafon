@@ -9,10 +9,9 @@
 
 use IGK\System\Html\Dom\HtmlComponentNode;
 
-
-
-
-
+/**
+* auto generate doc.
+*/
 class IGKHtmlMailboxNodeItem extends HtmlComponentNode{
 	private $m_users; //list of user attached to this mail box
 

@@ -37,6 +37,12 @@ function igk_zip_content(string $temp_file, string $name, string $content, $clos
     }
     return $zip;
 }
+
+/**
+* auto generate doc.
+* @param mixed $outdir
+* @param mixed $name
+*/
 function igk_zip_create_dir($outdir, $name){
     $t=explode('/', $name);
     if(is_dir($outdir)){
@@ -50,6 +56,14 @@ function igk_zip_create_dir($outdir, $name){
         }
     }
 }
+
+/**
+* auto generate doc.
+* @param mixed $file
+* @param mixed $dir
+* @param null|mixed $folder
+* @param null|mixed $regex
+*/
 function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
     if(!is_dir($dir))
         return false;
@@ -60,6 +74,13 @@ function igk_zip_create_file($file, $dir, $folder=null, $regex=null){
     }
     return true;
 }
+
+/**
+* auto generate doc.
+* @param mixed $file
+* @param mixed $entry
+* @param mixed $close
+*/
 function igk_zip_delete($file, $entry, $close=1){
     if(!igk_io_file_exists($file))
         return 0;
@@ -163,6 +184,13 @@ function igk_zip_excludedir(string $dir, string $outf,string $exclude_pattern){
     return array("count"=>$count, "files"=>$files);
 }
 
+/**
+* auto generate doc.
+* @param mixed $outfile
+* @param mixed $dir
+* @param null|mixed $folder
+* @param null|mixed $regex
+*/
 function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
     if(is_String($dir) && (is_dir($dir) == false))
         return false;
@@ -189,7 +217,11 @@ function igk_zip_folder($outfile, $dir, $folder=null, $regex=null){
     }
     return false;
 }
- 
+
+/**
+* auto generate doc.
+* @param mixed $outf
+*/
 function igk_zip_module($outf){  
     return igk_zip_excludedir(igk_io_basedir()."/Mods", $outf, "/\.(avi|(mp|(3|4))|gkds|zip|rar)/i");
 } 
@@ -233,9 +265,21 @@ function igk_zip_unzip($file, $outdir, $entry=null){
     }
     return false; 
 }
+
+/**
+* auto generate doc.
+* @param mixed $zipfile
+* @param mixed $callback
+*/
 function igk_zip_unzip_callback($zipfile, $callback){
     igk_die('not implement');
 }
+
+/**
+* auto generate doc.
+* @param mixed $f
+* @param mixed $entry
+*/
 function igk_zip_unzip_entry($f, $entry){
     $c="zip://".igk_uri($f)."#".$entry;
     $h=fopen($c, 'r');

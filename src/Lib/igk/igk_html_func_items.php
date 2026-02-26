@@ -744,7 +744,12 @@ if (!function_exists("igk_html_node_ajxuriloader")) {
 	///<param name="uri">uri to load async</param>
 	///<param name="append">append result to parent node</param>
 
-	function igk_html_node_ajxuriloader($uri, $append = 0)
+/**
+* auto generate doc.
+* @param mixed $uri
+* @param mixed $append
+*/
+function igk_html_node_ajxuriloader($uri, $append = 0)
 	{
 		$n = igk_create_node("div");
 		$n->setAttribute("igk:href", $uri);
@@ -882,7 +887,15 @@ if (!function_exists("igk_html_node_article")) {
 	}
 }
 if (!function_exists("igk_html_node_loadArticle")) {
-	function igk_html_node_loadArticle(BaseController $controller, string $article_path, $raw = [], bool $show_admin_option = true)
+
+/**
+* auto generate doc.
+* @param BaseController $controller
+* @param string $article_path
+* @param mixed $raw
+* @param bool $show_admin_option
+*/
+function igk_html_node_loadArticle(BaseController $controller, string $article_path, $raw = [], bool $show_admin_option = true)
 	{
 		$n = igk_html_node_notagnode();
 		if (is_object($raw)) {
@@ -912,7 +925,11 @@ if (!function_exists("igk_html_node_attr_expression")) {
 	// + attribute expression only use for child node
 	// engine use
 
-	function igk_html_node_attr_expression($p = null)
+/**
+* auto generate doc.
+* @param null|mixed $p
+*/
+function igk_html_node_attr_expression($p = null)
 	{
 		if ($p == null) {
 			$p = igk_html_parent_node();
@@ -3861,7 +3878,11 @@ if (!function_exists("igk_html_node_page")) {
 if (!function_exists("igk_html_node_pageCenterBox")) {
 	///<summary> center page document</summary>
 
-	function igk_html_node_pageCenterBox(?callable $host = null)
+/**
+* auto generate doc.
+* @param null|callable $host
+*/
+function igk_html_node_pageCenterBox(?callable $host = null)
 	{
 		$box = null;
 		$_o = null;
@@ -5838,8 +5859,13 @@ if (!function_exists("igk_site_map_add_uri")) {
 }
 
 if (!function_exists('igk_html_node_logo')) {
-	// create a logo node 
-	function igk_html_node_logo(?BaseController $ctrl = null)
+	// create a logo node
+
+/**
+* auto generate doc.
+* @param null|BaseController $ctrl
+*/
+function igk_html_node_logo(?BaseController $ctrl = null)
 	{
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl() ?? igk_die("require controller.");
 		$n = igk_create_node('div');
@@ -5864,7 +5890,14 @@ if (!function_exists('igk_html_node_button_group')) {
 }
 
 if (!function_exists('igk_html_node_connection_community')) {
-	function igk_html_node_connection_community(?string $appName = null, ?string $redirectUri = null, ?BaseController $ctrl = null)
+
+/**
+* auto generate doc.
+* @param null|string $appName
+* @param null|string $redirectUri
+* @param null|BaseController $ctrl
+*/
+function igk_html_node_connection_community(?string $appName = null, ?string $redirectUri = null, ?BaseController $ctrl = null)
 	{
 		$n = igk_create_node('div');
 		$ctrl = $ctrl ?? ViewHelper::CurrentCtrl();
@@ -5956,7 +5989,12 @@ if (!function_exists('igk_html_node_listitem')) {
 }
 
 if (!function_exists('igk_html_node_flex')) {
-	function igk_html_node_flex($tag = 'div')
+
+/**
+* auto generate doc.
+* @param mixed $tag
+*/
+function igk_html_node_flex($tag = 'div')
 	{
 		$n = igk_create_node($tag);
 		$n['class'] = 'dispflex';
@@ -5965,7 +6003,12 @@ if (!function_exists('igk_html_node_flex')) {
 }
 
 if (!function_exists('igk_html_node_grid')) {
-	function igk_html_node_flex($tag = 'div')
+
+/**
+* auto generate doc.
+* @param mixed $tag
+*/
+function igk_html_node_flex($tag = 'div')
 	{
 		$n = igk_create_node($tag);
 		$n['class'] = 'dispgrid';
@@ -6029,7 +6072,11 @@ if (!function_exists('igk_html_node_mailpreview')) {
 
 
 if (!function_exists('igk_html_node_dotwaiter')) {
-	function igk_html_node_dotwaiter()
+
+/**
+* auto generate doc.
+*/
+function igk_html_node_dotwaiter()
 	{
 		$n = igk_create_node('div');
 		$n['class'] = 'igk-dotwaiter';
@@ -6090,7 +6137,13 @@ if (!function_exists('igk_html_node_breadcrumbs')) {
 // 20251007 - components
 
 if (!function_exists('igk_html_node_markdown')) {
-	function igk_html_node_markdown(string $content, $options = null)
+
+/**
+* auto generate doc.
+* @param string $content
+* @param null|mixed $options
+*/
+function igk_html_node_markdown(string $content, $options = null)
 	{
 		list($allowlinks, $allowBreakLine, $formatCodeBlock) = igk_extract($options, 'allowLinkDocument|allowBreakLine|formatCodeBlock');
 		$conv = new \IGK\System\IO\Markdown\MarkdownConverter;
@@ -6105,7 +6158,11 @@ if (!function_exists('igk_html_node_markdown')) {
 	}
 }
 if (!function_exists('igk_html_node_x_template')) {
-	function igk_html_node_x_template()
+
+/**
+* auto generate doc.
+*/
+function igk_html_node_x_template()
 	{
 		$n = new HtmlNode('template');
 		return $n;

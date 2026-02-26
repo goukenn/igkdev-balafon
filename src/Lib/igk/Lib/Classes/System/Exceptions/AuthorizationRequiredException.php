@@ -6,6 +6,11 @@
 namespace IGK\Exceptions;
 use IGKException;
 use Throwable;
+
+/**
+* auto generate doc.
+* @package IGK\Exceptions
+*/
 class AuthorizationRequiredException extends IGKException{
     public function __construct($msg, $code=500, ?Throwable $throwable = null)
     {

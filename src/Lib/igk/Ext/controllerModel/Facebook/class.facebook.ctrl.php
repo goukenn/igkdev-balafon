@@ -8,13 +8,25 @@
 use IGK\Controllers\NonVisibleControllerBase;
 use IGK\System\Controllers\Traits\NoDbActiveControllerTrait;
 
+/**
+* auto generate doc.
+*/
 class IGKfacebookCtrl extends NonVisibleControllerBase{
 	use NoDbActiveControllerTrait;
-	
-	public function getcanAddChild(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getcanAddChild(){
 		return false;
 	}
-	public function initDataEntry($db, $tbname=null){
+
+    /**
+    * auto generate doc.
+    * @param mixed $db
+    * @param null|mixed $tbname
+    */
+    public function initDataEntry($db, $tbname=null){
 		$c = igk_getctrl("IGKDataInfoTypesCtrl");
 		$n = $c->getDataTableName();
 		$db->insert($n, array(IGK_FD_NAME=>"facebooklink"));

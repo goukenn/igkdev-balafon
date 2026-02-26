@@ -2,9 +2,11 @@
 // @author: C.A.D. BONDJE DOUE
 // @filename: AccordeonCookiePanel.php
 // @date: 20220803 13:48:58
-// @desc: 
+// @desc:
 
-
+/**
+* auto generate doc.
+*/
 final class AccordeonCookiePanel extends IGKObject{
 	private $m_pindex;
 	private $m_o;

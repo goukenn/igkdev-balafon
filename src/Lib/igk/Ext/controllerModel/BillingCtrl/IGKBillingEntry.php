@@ -7,6 +7,9 @@
 
 use IGK\Controllers\NonAtomicTypeBase;
 
+/**
+* auto generate doc.
+*/
 final class IGKBillingEntry
 {
 	var $clId;

@@ -9,6 +9,10 @@ namespace IGK\Tests\Rendereging;
 use IGK\System\Html\HtmlReader;
 use IGK\Tests\BaseTestCase;
 
+/**
+* auto generate doc.
+* @package IGK\Tests\Rendereging
+*/
 class testTemplateRendering extends BaseTestCase{
     /**
      * Test rendering of a *for template directive on an HTML element.

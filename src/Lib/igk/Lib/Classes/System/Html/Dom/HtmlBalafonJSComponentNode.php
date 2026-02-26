@@ -4,6 +4,11 @@
 // @date: 20220803 13:48:56
 // @desc: 
 namespace IGK\System\Html\Dom;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlBalafonJSComponentNode extends HtmlScriptNode{    
     /**
      * Constructor.
@@ -15,7 +20,13 @@ class HtmlBalafonJSComponentNode extends HtmlScriptNode{
         $this["type"] =  "text/balafon-component";;
         $this["autoremove"] = $autoremove;
         $this->setCallback("handleRender", "igk_html_callback_production_minifycontent");
-    } 
+    }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    * @return bool
+    */
     protected function _acceptRender($options = null):bool
     {
         return parent::_acceptRender($options);

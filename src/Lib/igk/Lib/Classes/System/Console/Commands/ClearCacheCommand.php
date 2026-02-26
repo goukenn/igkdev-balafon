@@ -7,6 +7,11 @@ namespace IGK\System\Console\Commands;
 use IGK\System\Console\AppExecCommand;
 use IGK\System\Console\Logger;
 use IGK\System\IO\File\PHPScriptBuilder;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class ClearCacheCommand extends AppExecCommand{
     var $command = "--clearcache";
     var $desc = "clear cache command";

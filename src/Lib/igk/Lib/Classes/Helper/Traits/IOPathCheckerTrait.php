@@ -1,5 +1,10 @@
 <?php
 namespace IGK\Helper\Traits;
+
+/**
+* auto generate doc.
+* @package IGK\Helper\Traits
+*/
 trait IOPathCheckerTrait{
      /**
      * check if path is root path 

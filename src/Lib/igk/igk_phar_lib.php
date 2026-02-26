@@ -10,6 +10,10 @@
 $web = "/index.php";
 
 //present cache out lib
+
+/**
+* auto generate doc.
+*/
 final class IGKPhar
 {
 	/**

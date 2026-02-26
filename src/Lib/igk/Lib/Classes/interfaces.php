@@ -20,8 +20,22 @@ use IGK\System\Html\Dom\HtmlNode;
  interface IComponentInfo{
  }
 
- interface IDbGetTableReferenceHandler{
+/**
+* auto generate doc.
+* @package IGK
+*/
+interface IDbGetTableReferenceHandler{
+
+    /**
+    * auto generate doc.
+    * @param mixed & $table
+    */
     public function getDataTablesReference(& $table);
+
+    /**
+    * auto generate doc.
+    * @param string $table
+    */
     public function resolvTableDefinition(string $table);
 }
 
@@ -45,6 +59,11 @@ interface IController{
     */
     function getName():string;
 }
+
+/**
+* auto generate doc.
+* @package IGK
+*/
 interface INodeController extends IController{
     /**
     * retriev e the target node  
@@ -55,7 +74,16 @@ interface INodeController extends IController{
     */
     function getTargetNodeId();
 }
-interface IViewController{    
+
+/**
+* auto generate doc.
+* @package IGK
+*/
+interface IViewController{
+
+    /**
+    * auto generate doc.
+    */
     function View();
 }
 /**
@@ -146,8 +174,17 @@ interface IDbUtility{
     */
     function insertIfNotExists(string $table, $obj, $leaveopen=false);
 }
+
+/**
+* auto generate doc.
+* @package IGK
+*/
 interface IDbModel{
-	function getTable();
+
+    /**
+    * auto generate doc.
+    */
+    function getTable();
 }
 ///<note>all id are mixed of string or array properties</summary>
 /**
@@ -322,7 +359,18 @@ interface IHtmlUriItem{
     */
     function setUri($v);
 }
+
+/**
+* auto generate doc.
+* @package IGK
+*/
 interface IListener{
+
+    /**
+    * auto generate doc.
+    * @param mixed $name
+    * @param mixed $callback
+    */
     function register($name, $callback);
 }
 /**
@@ -547,6 +595,11 @@ interface IDbManager {
     function connect();
 
 }
+
+/**
+* auto generate doc.
+* @package IGK
+*/
 interface IDbSQLManager extends IDbManager{
     /**
     * 
@@ -611,6 +664,11 @@ interface IWebController extends IController {
     */
     function unregChildController($ctrl);
 }
+
+/**
+* auto generate doc.
+* @package IGK
+*/
 interface IGetValue{
     /**
      * return a value

@@ -18,6 +18,11 @@ use IGK\System\IO\Path;
 use IGK\System\Regex\Replacement;
 use IGK\Tests\BaseTestCase;
 use IGKException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Console\Commands
+*/
 class MakeClassCommand extends AppExecCommand
 {
     use ClassBuilderTrait;
@@ -140,6 +145,10 @@ class MakeClassCommand extends AppExecCommand
         }
         return $type;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function showlistOfScaffold(){
         $list = [];
         $docs = [
@@ -318,10 +327,18 @@ class MakeClassCommand extends AppExecCommand
         }
         return 400;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function help()
     {
         parent::help();
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function showUsage()
     {
         Logger::print("Usage : balafon --make:class [options] classname");

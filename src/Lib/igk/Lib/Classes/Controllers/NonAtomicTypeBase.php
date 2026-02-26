@@ -7,6 +7,11 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-namespace IGK\Controllers; 
+namespace IGK\Controllers;
+
+/**
+* auto generate doc.
+* @package IGK\Controllers
+*/
 abstract class NonAtomicTypeBase extends ControllerTypeBase{
 }

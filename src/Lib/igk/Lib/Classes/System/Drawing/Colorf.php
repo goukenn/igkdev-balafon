@@ -13,6 +13,11 @@ use IGKObject;
 use IGK\Helper\StringUtility as IGKString;
 use IGK\System\Number;
 use function igk_clamp as clamp;
+
+/**
+* auto generate doc.
+* @package IGK\System\Drawing
+*/
 class Colorf extends IGKObject
 {
     private $m_A, $m_B, $m_G, $m_R;
@@ -70,6 +75,11 @@ class Colorf extends IGKObject
         }
         return [$r, $g, $b, $a];
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public static function FromString($v)
     {
         $t = igk_css_get_color_value($v);
@@ -84,41 +94,82 @@ class Colorf extends IGKObject
         self::__bindStringData($cl, $t);
         return $cl;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getA()
     {
         return $this->m_A;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getB()
     {
         return $this->m_B;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getG()
     {
         return $this->m_G;
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getR()
     {
         return $this->m_R;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function loadw($v)
     {
         self::__bindStringData($this, $v);
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function setA($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_A = $value;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function setB($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_B = $value;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function setG($value)
     {
         if (($value >= 0) && ($value <= 1.0))
             $this->m_G = $value;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    */
     public function setR($value)
     {
         if (($value >= 0) && ($value <= 1.0))

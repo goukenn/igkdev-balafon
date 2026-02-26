@@ -3,18 +3,20 @@
 // @file: RefColumnMappingTest.php
 // @date: 20240921 07:59:17
 namespace IGK\Tests\Database;
-
-use IGK\Database\DbColumnInfo;
+ 
 use IGK\Database\RefColumnMapping;
-use IGK\Models\ModelBase;
 use IGK\Tests\BaseTestCase;
 
 /**
-* 
+* test reference column mapping 
 * @package IGK\Tests\Database
 * @author C.A.D. BONDJE DOUE
 */
 class RefColumnMappingTest extends BaseTestCase{
+
+    /**
+    * auto generate doc.
+    */
     public function test_refcolumnmapping_check_load(){
 
 
@@ -36,20 +38,5 @@ class RefColumnMappingTest extends BaseTestCase{
         $this->assertEquals('{"id":null,"name":"in_name","test":"sample"}', $raw->to_json());
 
     }
-}   
-
-class RefColumnMappingMockingModel extends ModelBase{
-    public function getDataTableDefinition(){
-        return [];
-    }
-    protected function _getTableColumnInfo() : ?array{
-        return [
-            'id'=>new DbColumnInfo(['clName'=>'id','clAutoIncrement'=>true]),
-            'name'=>new DbColumnInfo(['clName'=>'name', 'clType'=>'varchar(30)']),
-            'test'=>new DbColumnInfo(['clName'=>'test', 'clType'=>'varchar(30)']),
-        ];
-    }
-    public function getTable(){
-        return 'mocking';
-    }
 }
+

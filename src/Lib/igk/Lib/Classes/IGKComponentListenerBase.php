@@ -7,11 +7,21 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
+
+/**
+* auto generate doc.
+*/
 abstract class IGKComponentListenerBase extends IGKParamStorage implements IParamHostService{
     public function __construct(){
         parent::__construct();
     }
-    final function getUri($n){
+    final
+
+    /**
+    * auto generate doc.
+    * @param mixed $n
+    */
+    function getUri($n){
         return igk_get_component_uri($this, $n);
     }
 }

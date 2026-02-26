@@ -9,6 +9,11 @@ use IGK\System\Html\HtmlResolvLinkValue;
 use IGKValidator;
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/Dom/IHtmlScript.php";
 require_once IGK_LIB_CLASSES_DIR . "/System/Html/HtmlResolvLinkValue.php";
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 class HtmlScriptNode extends HtmlNode implements IHtmlScript{
     /**
      * script tag
@@ -75,11 +80,20 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->canBeMerged=true;
         $this->_iaccept(); 
     }
+
+    /**
+    * auto generate doc.
+    */
     protected function createAttributeArray(){ 
         return new HtmlAttributeArray([
             "src"=>new HtmlResolvLinkValue()
         ]);
     }
+
+    /**
+    * auto generate doc.
+    * @param string $content
+    */
     public function text(string $content){
         return $this->setContent($content);
     }
@@ -132,6 +146,12 @@ class HtmlScriptNode extends HtmlNode implements IHtmlScript{
         $this->setFlag(self::SCRIPT_TAG, $v);
         return $this;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $value
+    * @return bool
+    */
     protected function getcanLoadContent($value):bool{        
         return false;
     }

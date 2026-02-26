@@ -18,6 +18,11 @@ use IGK\System\Exceptions\ArgumentTypeNotValidException;
 use IGKException;
 use ReflectionClass;
 use ReflectionException;
+
+/**
+* auto generate doc.
+* @package IGK\System\Database
+*/
 class DbUtils
 {
     /**
@@ -199,6 +204,11 @@ class DbUtils
         // }
         return $tp;
     }
+
+    /**
+    * auto generate doc.
+    * @param ModelBase $model
+    */
     public static function GetDeclaredColumnConstants(ModelBase $model){
         $consts = igk_sys_reflect_class ($model)->getConstants();
         $l = [];

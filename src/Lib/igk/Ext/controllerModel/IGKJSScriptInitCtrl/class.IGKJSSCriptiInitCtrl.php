@@ -11,36 +11,74 @@ controller to load inistialization script on document
 use IGK\Controllers\BaseController;
 use IGK\System\Html\Dom\HtmlNode;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKJSScriptInitCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 	private $m_script;
-	public static function SupportMultiple(){//return false to indicate that an element of this type must be unique
+
+    /**
+    * auto generate doc.
+    */
+    public static function SupportMultiple(){//return false to indicate that an element of this type must be unique
 		return false;
 	}
-	public function getCanAddChild(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild(){
 		return false;
 	}
-	public function getCanEditDataBase()
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanEditDataBase()
 	{
 		return false;
 	}
-	public function getCanEditDataTableInfo(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanEditDataTableInfo(){
 		return false;
 	}
-	protected function initTargetNode(): ?HtmlNode
+
+    /**
+    * auto generate doc.
+    * @return ?HtmlNode
+    */
+    protected function initTargetNode(): ?HtmlNode
 	{
 		$n =  HtmlNode::CreateWebNode("script");
 		$this->m_script = $n;
 		return null;
 	}
-	public function getIsVisible():bool{
+
+    /**
+    * auto generate doc.
+    * @return bool
+    */
+    public function getIsVisible():bool{
 		return !igk_is_confpagefolder();
 	}
-	public function pageFolderChanged()
+
+    /**
+    * auto generate doc.
+    */
+    public function pageFolderChanged()
 	{
 		$this->View();
 	}
-	public function View():BaseController
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController
 	{
 		if ($this->IsVisible)
 		{

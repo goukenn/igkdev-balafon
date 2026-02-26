@@ -6,35 +6,69 @@
 
 use IGK\Controllers\BaseController;
 
+/**
+* auto generate doc.
+*/
 abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 {
 
 	/** @var HtmlNode$m_viewZone */
 	private $m_viewZone;
-	public function getName(): string{return get_class($this);}
-	public function getViewZone(){return $this->m_viewZone;}
 
-	protected function initComplete($context=null){
+    /**
+    * auto generate doc.
+    * @return string
+    */
+    public function getName(): string{return get_class($this);}
+
+    /**
+    * auto generate doc.
+    */
+    public function getViewZone(){return $this->m_viewZone;}
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $context
+    */
+    protected function initComplete($context=null){
 		parent::initComplete();
 		//please enter your controller declaration complete here
 
 	}
-	public static function GetAdditionalConfigInfo()
+
+    /**
+    * auto generate doc.
+    */
+    public static function GetAdditionalConfigInfo()
 	{
 		return null;
 	}
 	//@@@ init target node
-	protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
+
+    /**
+    * auto generate doc.
+    * @return ?\IGK\System\Html\Dom\HtmlNode
+    */
+    protected function initTargetNode(): ?\IGK\System\Html\Dom\HtmlNode{
 		$node =  parent::initTargetNode();
 		$this->m_viewZone = $node->div();
 		igk_css_regclass(".pageview", "{sys:dispib,alignl,alignt,fitw} max-width:1024px; padding:4px;");
 		$this->m_viewZone["class"]="pageview";
 		return $node;
 	}
-	public function getCanAddChild(){
+
+    /**
+    * auto generate doc.
+    */
+    public function getCanAddChild(){
 		return true;
 	}
-	public function View():BaseController
+
+    /**
+    * auto generate doc.
+    * @return BaseController
+    */
+    public function View():BaseController
 	{
 		if ($this->IsVisible)
 		{
@@ -57,7 +91,12 @@ abstract class IGKPageViewCtrl extends \IGK\Controllers\ControllerTypeBase
 		}
 		return $this;
 	}
-	protected function _showChild($targetnode=null)
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $targetnode
+    */
+    protected function _showChild($targetnode=null)
 	{
 		//maintain the view
 		$t = $targetnode? $targetnode: $this->TargetNode;

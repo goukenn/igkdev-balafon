@@ -9,6 +9,11 @@ namespace IGK\System\Html\Metadatas;
 * <meta name="twitter:image" content="https://example.com/og.png" />
 * ```
 */
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Metadatas
+*/
 class TwitterMetadata extends MetadataGroupEntryBase{
     var $twitterCard;
     var $twitterSite;

@@ -4,6 +4,16 @@
 // @date: 20220712 10:19:04
 // @desc: 
 namespace IGK\Mapping;
+
+/**
+* auto generate doc.
+* @package IGK\Mapping
+*/
 abstract class SingleMapBase{
+
+    /**
+    * auto generate doc.
+    * @param mixed $data
+    */
     abstract function map($data);
 }

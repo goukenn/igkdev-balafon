@@ -4,7 +4,12 @@
 // @date: 20220803 13:48:57
 // @desc: 
 namespace IGK\System\Configuration\Controllers;
-use function igk_resources_gets as __; 
+use function igk_resources_gets as __;
+
+/**
+* auto generate doc.
+* @package IGK\System\Configuration\Controllers
+*/
 class ConfigureLayout{
     var $controller;
     public function __construct($controller)
@@ -22,6 +27,10 @@ class ConfigureLayout{
         $n->h1()->setClass('flex-grow-1')->Content = __("BALAFON &gt; CPANEL");
         $n->div()->setClass('flex-grow-1')->setStyle("margin-right:10px")->Content= __("Welcome, {0}", igk_configs()->admin_login);
     }
+
+    /**
+    * auto generate doc.
+    */
     public function __toString(){
         return 'layout';
     }

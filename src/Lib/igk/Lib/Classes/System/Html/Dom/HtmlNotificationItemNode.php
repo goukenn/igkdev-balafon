@@ -7,7 +7,12 @@
 // @company: IGKDEV
 // @mail: c.bondje.doue@igkdev.com
 // @url: https://www.igkdev.com
-namespace IGK\System\Html\Dom; 
+namespace IGK\System\Html\Dom;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html\Dom
+*/
 final class HtmlNotificationItemNode extends HtmlNode{
     private $m_autohided, $m_owner, $m_script;
     /**
@@ -123,15 +128,34 @@ final class HtmlNotificationItemNode extends HtmlNode{
     function addSuccessr($key){
         $this->addSuccess(__($key, array_slice(func_get_args(), 1)));
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $msg
+    */
     function addWarning($msg){
         $this->add("div", array("class"=>"igk-notify igk-notify-warning"))->Content=$msg;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $key
+    */
     function addWarningr($key){
         $this->addWarning(__($key, array_slice(func_get_args(), 1)));
     }
+
+    /**
+    * auto generate doc.
+    */
     public function getAutoHide(){
         return $this->m_autohided;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $v
+    */
     public function setAutohide($v){
         $this->m_autohided=$v;
     }

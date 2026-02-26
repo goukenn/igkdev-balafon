@@ -8,6 +8,11 @@
 use IGK\Helper\IO;
 use IGK\System\IO\Cache\FS;
 
+/**
+* auto generate doc.
+* @param mixed $type
+* @param mixed $default
+*/
 function igk_io_mimetype_ext($type, $default = '.dat')
 {
     return igk_getv([
@@ -169,6 +174,11 @@ if (!function_exists('igk_io_file_exists')) {
     }
 }
 
+/**
+* auto generate doc.
+* @param string $file
+* @return bool
+*/
 function igk_io_cache_file_exists(string $file):bool{
     return igk_io_file_exists($file, true);
 }

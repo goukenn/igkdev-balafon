@@ -10,17 +10,31 @@
 namespace IGK\System\Html;
 use IGK\Helper\SysUtils;
 use IGK\System\Html\XML\XmlNode;
+
+/**
+* auto generate doc.
+* @package IGK\System\Html
+*/
 final class HtmlReaderDocument extends XmlNode
 {
     public function __construct()
     {
         parent::__construct("DocumentToRender");
     }
+
+    /**
+    * auto generate doc.
+    */
     public function __sleep()
     {
         $t = [];
         return $t;
     }
+
+    /**
+    * auto generate doc.
+    * @param mixed $target
+    */
     public function CopyTo($target)
     {
         $t = ($c = $this->getChilds()) ? SysUtils::ToArray($c) : null;
@@ -31,10 +45,20 @@ final class HtmlReaderDocument extends XmlNode
             $target->add($k);
         }
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $o
+    */
     public function RendeAJX($o = null)
     {
         parent::renderAJX($o);
     }
+
+    /**
+    * auto generate doc.
+    * @param null|mixed $options
+    */
     public function render($options = null)
     {
         $out = IGK_STR_EMPTY;
