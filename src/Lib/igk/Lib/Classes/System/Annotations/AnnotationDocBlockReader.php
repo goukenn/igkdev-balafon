@@ -55,21 +55,52 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
     var $params;
 
     /**
+     * to view parameter 
+     * @var mixed
+     */
+    var $param;
+    /**
     * Property: package.
     * @var mixed
     */
     var $package;
 
     /**
+     * 
+     * @var mixed
+     */
+    var $author;
+
+    /**
+     * 
+     * @var mixed
+     */
+    var $deprecated;
+
+    /**
+     * 
+     * @var mixed
+     */
+    var $since;
+
+    /**
     * Property: var.
     * @var mixed
     */
     var $var;
+
+    var $property;
     /**
      * annotation in uses
      * @var array
      */
     private $m_annotations = [];
+
+    /**
+     * 
+     * @var mixed
+     */
+    private $m_extraProperties;
 
     /**
     * Property: filter.
@@ -163,16 +194,23 @@ class AnnotationDocBlockReader extends PhpDocBlockBase
                 if (method_exists($cl, $fc = self::BEFORE_CREATE_INSTANCE_METHOD)){
                     call_user_func_array([$cl, $fc], [ $this, & $tcontent]);
                 }
-                $ocl = Activator::CreateNewInstance($cl, $tcontent);
-                if ($ocl instanceof IAnnotation)
-                    $ocl->setParams($tcontent);
-                if ($sp){
-                   $this->m_annotations[$name] = $ocl;  
-                } else{
-                   $this->m_annotations[] = $ocl;
+                try{
+                    $ocl = Activator::CreateNewInstance($cl, $tcontent);
+                    if ($ocl instanceof IAnnotation)
+                        $ocl->setParams($tcontent);
+                    if ($sp){
+                    $this->m_annotations[$name] = $ocl;  
+                    } else{
+                    $this->m_annotations[] = $ocl;
+                    }
+                } catch (\TypeError $ex){
+                    $this->m_extraProperties[$name] = implode(' ', $arguments);
                 }
             }
         }
+    }
+    public function getExtraProperties(){
+        return  $this->m_extraProperties;
     }
     /**
      * get existing class of block reader

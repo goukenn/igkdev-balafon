@@ -3,6 +3,9 @@
 // @file: PHPDocCommentParseTrait.php
 // @date: 20230731 10:21:35
 namespace IGK\System\IO\File\Php\Traits;
+
+use IGK\System\IO\StringBuilder;
+
 /**
 * 
 * @package IGK\System\IO\File\Php\Traits
@@ -68,4 +71,34 @@ trait PHPDocCommentParseTrait{
         }
         return $g;
     } 
+
+    /**
+     * 
+     * @return string 
+     */
+    public function render(): string{
+        $sb = new StringBuilder;
+        $p = [];
+        if ($sum = $this->summary){
+            $p[] = $sum;
+        }
+        $ref = igk_sys_reflect_class(static::class);
+        $props = get_object_vars($this);
+        foreach($props as $k=>$v){
+            if (!$v || ($k=='summary') || !$ref->getProperty($k)->isPublic()) continue;
+            if (!is_string($v)){
+                $v = implode(' ', (array)$v);
+            }
+            $p[] = ' @'.$k.' '.trim($v);
+        }
+        if ($extra = $this->getExtraProperties()){
+            foreach($extra as $k=>$v){
+                $p[] = ' @'.$k.' '.trim($v);
+            }
+        }
+        $sb->appendLine('/**');
+        $sb->appendLine('* '.implode("\n*", $p));
+        $sb->append('*/');
+        return ''.$sb;
+    }
 }
